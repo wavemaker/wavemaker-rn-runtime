@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Button component Check validity of sample component 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "backgroundColor": "blue",
+      "margin": 5,
+      "opacity": 1,
+      "paddingBottom": 5,
+      "paddingLeft": 10,
+      "paddingRight": 10,
+      "paddingTop": 5,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#ffffff",
+        "textAlign": "center",
+      }
+    }
+  >
+    test_label
+  </Text>
+</View>
+`;
