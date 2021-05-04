@@ -1,0 +1,21 @@
+import React from 'react';
+import { Text } from 'react-native';
+import { BaseComponent } from '@wavemaker/rn-runtime/core/base.component';
+
+import Wm{{widget.name.camelcase}}Props from './{{widget.name.hyphenated}}.props';
+import { DEFAULT_CLASS, DEFAULT_STYLES } from './{{widget.name.hyphenated}}.styles';
+
+export default class Wm{{widget.name.camelcase}} extends BaseComponent<Wm{{widget.name.camelcase}}Props> {
+
+  constructor(props: Wm{{widget.name.camelcase}}Props) {
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES);
+  }
+
+  render() {
+    super.render();
+    const props = this.state.props;
+    return (
+    <Text></Text>
+    ); 
+  }
+}

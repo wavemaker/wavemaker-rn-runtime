@@ -1,0 +1,13 @@
+import { HTMLElement } from 'node-html-parser';
+
+import { Import, transformAttrs, Transformer } from '../../../transpile';
+
+export const imports: Import[] = [
+  { name: 'Wm{{widget.name.camelcase}}', from: '@wavemaker/rn-runtime/components/{{widget.group}}/{{widget.name.hyphenated}}.component'}
+];
+
+export default {
+  pre: (element: HTMLElement) => `<{{widget.name.hyphenated}} ${transformAttrs(element)}>`,
+  post: (element: HTMLElement) => '</{{widget.name.hyphenated}}>',
+  imports: (element: HTMLElement) => imports
+} as Transformer;
