@@ -48,10 +48,17 @@ yargs(hideBin(process.argv)).command('generate',
         };
         var folder = `${__dirname}/../src/components/${argv.group}/${argv.name}`;
         var specFolder = `${__dirname}/../test/components/${argv.group}`;
-        var codegen = `${__dirname}/../../wavemaker-rn-codegen//src/transpile/components/${argv.group}`;
+        var codegen = `${__dirname}/../../wavemaker-rn-codegen/src/transpile/components/${argv.group}`;
+        var registerFile = `${__dirname}/../../wavemaker-rn-codegen/src/transpile/components/transform-register.ts`;
         writeFile(`${folder}/${argv.name}.component.tsx`, WIDGET_COMPONENT_TEMPLATE(info));
         writeFile(`${folder}/${argv.name}.props.ts`,WIDGET_PROPS_TEMPLATE(info));
         writeFile(`${folder}/${argv.name}.styles.ts`,WIDGET_STYLES_TEMPLATE(info));
         writeFile(`${codegen}/${argv.name}.transformer.ts`,WIDGET_TRANSFORMER_TEMPLATE(info));
         writeFile(`${specFolder}/${argv.name}.component.spec.tsx`,WIDGET_SPEC_TEMPLATE(info));
+        var content = fs.readFileSync(registerFile, 'utf-8')
+            .replace('//#IMPORT_STATEMENT', 
+                `import ${info.widget.name.camelcase}Transformer from './${info.widget.group}/${info.widget.name.hyphenated}.transformer';\n//#IMPORT_STATEMENT`)
+            .replace('//#REGISTER_COMPONENT', 
+                `registerTransformer('wm-${info.widget.name.hyphenated}', ${info.widget.name.camelcase}Transformer);\n\t//#REGISTER_COMPONENT`);
+        writeFile(registerFile, content);
     }).showHelpOnFail().argv;
