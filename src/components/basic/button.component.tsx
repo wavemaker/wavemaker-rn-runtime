@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity} from 'react-native';
 
-import { BaseComponent, BaseProps } from '../../core/base.component';
-import BASE_THEME from '../../styles/theme';
+import { BaseComponent, BaseProps } from '@wavemaker/rn-runtime/core/base.component';
+import BASE_THEME from '@wavemaker/rn-runtime/styles/theme';
 
 const DEFAULT_CLASS = 'app-button';
 

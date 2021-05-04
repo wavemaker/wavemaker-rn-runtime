@@ -1,4 +1,4 @@
-import { deepCopy } from '@source/core/utils';
+import { deepCopy } from '@wavemaker/rn-runtime/core/utils';
 
 describe('test deepCopy', () => {
     test('replace values in the simple source object with destination', () => {

@@ -1,5 +1,5 @@
-import { BaseProps } from '@source/core/base.component';
-import { PropsProvider } from '@source/core/props.provider';
+import { BaseProps } from '@wavemaker/rn-runtime/core/base.component';
+import { PropsProvider } from '@wavemaker/rn-runtime/core/props.provider';
 
 describe('Test PropsProvider', () => {
     interface TestProps extends BaseProps {

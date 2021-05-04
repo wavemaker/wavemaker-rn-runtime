@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { Header } from 'react-native-elements';
-import { BaseComponent, BaseProps } from '../../core/base.component';
+import { BaseComponent, BaseProps } from '@wavemaker/rn-runtime/core/base.component';
 
 export interface WmNavBarProps extends BaseProps {
   title: string;

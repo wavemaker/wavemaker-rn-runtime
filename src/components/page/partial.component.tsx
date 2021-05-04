@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { BaseComponent, BaseProps } from '../../core/base.component';
+import { BaseComponent, BaseProps } from '@wavemaker/rn-runtime/core/base.component';
 
 interface WmPartialProps extends BaseProps {
   children: any[];

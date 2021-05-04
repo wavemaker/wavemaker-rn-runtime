@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { BaseComponent, BaseProps } from '../../core/base.component';
+import { BaseComponent, BaseProps } from '@wavemaker/rn-runtime/core/base.component';
 
 interface WmListTemplateProps extends BaseProps {
   $index: number;

@@ -1,4 +1,4 @@
-import BaseTheme, { Theme } from '@source/styles/theme';
+import BaseTheme, { Theme } from '@wavemaker/rn-runtime/styles/theme';
 
 describe('Test theme functionality', () => {
     test('Check Base Theme', () => {

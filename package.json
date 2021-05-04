@@ -118,7 +118,7 @@
     },
     "moduleNameMapper": {
       "^lodash-es$": "lodash",
-      "^@source/(.*)$": "<rootDir>/src/$1"
+      "^@wavemaker/rn-runtime/(.*)$": "<rootDir>/src/$1"
     },
     "modulePathIgnorePatterns": [
       "<rootDir>/node_modules/(?!lodash-es)",

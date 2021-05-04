@@ -1,4 +1,4 @@
-import { BaseVariable, VariableConfig } from "../variables/base-variable";
+import { BaseVariable, VariableConfig } from "@wavemaker/rn-runtime/variables/base-variable";
 
 export interface ActionConfig extends VariableConfig {
     

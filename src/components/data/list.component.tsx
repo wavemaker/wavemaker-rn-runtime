@@ -1,7 +1,7 @@
 import React, { Children } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { BaseComponent, BaseProps } from '../../core/base.component';
+import { BaseComponent, BaseProps } from '@wavemaker/rn-runtime/core/base.component';
 
 interface WmListProps extends BaseProps {
   repeat: string;

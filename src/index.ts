@@ -1,3 +1,3 @@
-export * from './actions/index';
+export * from '@wavemaker/rn-runtime/actions/index';
 
-export * from './components/basic/button.component';
+export * from '@wavemaker/rn-runtime/components/basic/button.component';

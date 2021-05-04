@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, Image } from 'react-native';
-import { BaseComponent, BaseProps } from '../../core/base.component';
+import { BaseComponent, BaseProps } from '@wavemaker/rn-runtime/core/base.component';
 
 interface WmPictureProps extends BaseProps {
   picturesource: string;

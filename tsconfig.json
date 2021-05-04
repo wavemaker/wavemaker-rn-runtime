@@ -3,7 +3,7 @@
     "baseUrl": "./",
     "paths": {
       "@wavemaker/rn-runtime": ["./src/index"],
-      "@source/*": ["./src/*"],
+      "@wavemaker/rn-runtime/*": ["./src/*"],
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
