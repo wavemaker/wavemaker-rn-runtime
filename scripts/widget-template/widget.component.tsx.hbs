@@ -14,8 +14,8 @@ export default class Wm{{widget.name.camelcase}} extends BaseComponent<Wm{{widge
   render() {
     super.render();
     const props = this.state.props;
-    return (
-    <Text></Text>
-    ); 
+    return props.show ? (
+      <Text></Text>
+    ): null; 
   }
 }

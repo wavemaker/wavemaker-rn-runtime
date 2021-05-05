@@ -7,11 +7,12 @@ export interface ComponentState<T extends BaseProps> {
     props: T;
 }
 
-export interface BaseProps {
-    name: string;
-    styles?: any
-    onInit?: Function;
-    onDestroy?: Function;
+export class BaseProps {
+    name: string = null as any;
+    show = true;
+    styles: any = null;
+    onInit: Function = null as any;
+    onDestroy: Function = null as  any;
 }
 
 export abstract class BaseComponent<T extends BaseProps> extends React.Component<T, ComponentState<T>> {
@@ -19,11 +20,13 @@ export abstract class BaseComponent<T extends BaseProps> extends React.Component
     private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T>;
 
-    constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles = DEFAULT_STYLE) {
+    constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles = DEFAULT_STYLE, private defaultProps?: T) {
         super(markupProps);
-        this.propertyProvider = new PropsProvider<T>(markupProps, (name: string, $new: any, $old: any) => {
-            this.onPropertyChange(name, $new, $old);
-        });
+        this.propertyProvider = new PropsProvider<T>(
+            Object.assign(defaultProps || {}, markupProps), 
+            (name: string, $new: any, $old: any) => {
+                this.onPropertyChange(name, $new, $old);
+            });
         this.state = {
             props: this.propertyProvider.get()
         };
