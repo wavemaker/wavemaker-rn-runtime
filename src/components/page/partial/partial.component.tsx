@@ -2,12 +2,12 @@ import React from 'react';
 import { View } from 'react-native';
 import { BaseComponent } from '@wavemaker/rn-runtime/core/base.component';
 
-import WmPageProps from './page.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './page.styles';
+import WmPartialProps from './partial.props';
+import { DEFAULT_CLASS, DEFAULT_STYLES } from './partial.styles';
 
-export default class WmPage extends BaseComponent<WmPageProps> {
+export default class WmPartial extends BaseComponent<WmPartialProps> {
 
-  constructor(props: WmPageProps) {
+  constructor(props: WmPartialProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES);
   }
 

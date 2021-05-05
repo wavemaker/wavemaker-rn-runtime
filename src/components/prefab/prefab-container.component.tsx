@@ -2,12 +2,12 @@ import React from 'react';
 import { View } from 'react-native';
 import { BaseComponent } from '@wavemaker/rn-runtime/core/base.component';
 
-import WmPageProps from './page.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './page.styles';
+import WmPrefabContainerProps from './prefab-container.props';
+import { DEFAULT_CLASS, DEFAULT_STYLES } from './prefab-container.styles';
 
-export default class WmPage extends BaseComponent<WmPageProps> {
+export default class WmPrefabContainer extends BaseComponent<WmPrefabContainerProps> {
 
-  constructor(props: WmPageProps) {
+  constructor(props: WmPrefabContainerProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES);
   }
 
