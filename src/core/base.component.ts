@@ -20,7 +20,7 @@ export abstract class BaseComponent<T extends BaseProps> extends React.Component
     private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T>;
 
-    constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles = DEFAULT_STYLE, private defaultProps?: T) {
+    constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles = DEFAULT_STYLE, defaultProps?: T) {
         super(markupProps);
         this.propertyProvider = new PropsProvider<T>(
             Object.assign(defaultProps || {}, markupProps), 

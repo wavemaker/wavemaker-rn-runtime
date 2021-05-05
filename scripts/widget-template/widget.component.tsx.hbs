@@ -8,7 +8,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES } from './{{widget.name.hyphenated}}.styl
 export default class Wm{{widget.name.camelcase}} extends BaseComponent<Wm{{widget.name.camelcase}}Props> {
 
   constructor(props: Wm{{widget.name.camelcase}}Props) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES);
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new Wm{{widget.name.camelcase}}Props());
   }
 
   render() {

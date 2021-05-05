@@ -5,6 +5,7 @@ interface TappableProps {
     onTap: Function;
     onDoubleTap: Function;
     children?: any
+    styles?: any;
 }
 
 export class Tappable extends React.Component<TappableProps, any> {
@@ -28,6 +29,7 @@ export class Tappable extends React.Component<TappableProps, any> {
     render() {
         return (
             <TouchableOpacity
+                style={this.props.styles}
                 onPress={() => this.onPress()}>
                 {this.props.children}
             </TouchableOpacity>
