@@ -4,13 +4,10 @@ export const DEFAULT_CLASS = 'app-webview';
 export const DEFAULT_STYLES = {
     container : {
         flex: 1,
-        minHeight: 100,
-        backgroundColor: '#000000',
-        alignContent: 'stretch'
+        minHeight: 100
     },
     webview: {
-      flex: 1,
-      alignSelf: 'stretch'
+      flex: 1
     }
 };
 
