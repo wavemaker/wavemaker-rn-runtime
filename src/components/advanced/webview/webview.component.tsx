@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput } from 'react-native';
+import { View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { BaseComponent } from '@wavemaker/rn-runtime/core/base.component';
 
@@ -17,15 +17,12 @@ export default class WmWebview extends BaseComponent<WmWebviewProps> {
     const props = this.state.props;
     return props.show ? (
       <View style={this.styles.container}>
-        <TextInput
-          style={this.styles.input}
-          //@ts-ignore
-          //onChange= {e => (this.proxy.src = e.nativeEvent.text)}
-          value={props.src}
-        />
-        <WebView style={this.styles.webview} source={{
-          uri: props.src
-        }}></WebView>
+        <WebView 
+          style={this.styles.webview}
+          source={{
+            uri: props.src
+          }}>
+        </WebView>
       </View>
     ): null;
   }

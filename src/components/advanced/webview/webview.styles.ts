@@ -3,15 +3,14 @@ import BASE_THEME from '@wavemaker/rn-runtime/styles/theme';
 export const DEFAULT_CLASS = 'app-webview';
 export const DEFAULT_STYLES = {
     container : {
-        flex: 1
-    },
-    input: {
-        height: 64,
-        fontSize: 16
+        flex: 1,
+        minHeight: 100,
+        backgroundColor: '#000000',
+        alignContent: 'stretch'
     },
     webview: {
-      height: 600,
-      flex: 1
+      flex: 1,
+      alignSelf: 'stretch'
     }
 };
 
