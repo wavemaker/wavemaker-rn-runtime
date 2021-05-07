@@ -2,6 +2,8 @@ const fs = require('fs-extra');
 const projectDir = '.';
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
+const tar = require('tar');
+const execa = require('execa');
 
 async function updatePackageVersion(packagePath, key, version) {
     let content = fs.readFileSync(packagePath, 'utf8');
@@ -16,6 +18,13 @@ async function postBuild(runtimeVersion) {
     console.log('Post Build successful!!!');
 }
 
+async function prepareNpmPackages() {
+    fs.copySync(`${projectDir}/dist/module`, `${projectDir}/dist/npm-packages/app-rn-runtime`, {
+        filter: p => !p.startsWith('/node_modules/')
+    });
+    await execa('tar', ['-cf', 'dist/npm-packages/app-rn-runtime.tar.gz', '-C', 'dist/npm-packages', 'app-rn-runtime']);
+}
+
 yargs(hideBin(process.argv)).command('post-build',
     'to run post processing after project build',
     (yargs) => {
@@ -23,7 +32,15 @@ yargs(hideBin(process.argv)).command('post-build',
             describe: 'version number',
             type: 'string',
             default: '1.0.0-dev'
+        }).option('production', {
+            describe: 'to perform a production build',
+            type: 'boolean',
+            default: false
         });
     }, (argv) => {
-        postBuild(argv.runtimeVersion);
+        postBuild(argv.runtimeVersion).then(() => {
+            if (argv.production) {
+                prepareNpmPackages();
+            }
+        });
     }).showHelpOnFail().argv;
