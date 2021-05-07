@@ -22,7 +22,7 @@ async function prepareNpmPackages() {
     fs.copySync(`${projectDir}/dist/module`, `${projectDir}/dist/npm-packages/app-rn-runtime`, {
         filter: p => !p.startsWith('/node_modules/')
     });
-    await execa('tar', ['-cf', 'dist/npm-packages/app-rn-runtime.tar.gz', '-C', 'dist/npm-packages', 'app-rn-runtime']);
+    await execa('tar', ['-czf', 'dist/npm-packages/app-rn-runtime.tar.gz', '-C', 'dist/npm-packages', 'app-rn-runtime']);
 }
 
 yargs(hideBin(process.argv)).command('post-build',
