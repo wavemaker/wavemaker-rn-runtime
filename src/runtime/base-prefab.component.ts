@@ -3,11 +3,11 @@ import BaseFragment, { FragmentProps } from './base-fragment.component';
 export interface PrefabProps extends FragmentProps {
 }
 
-export default class BasePage extends BaseFragment {
+export default class BasePrefab extends BaseFragment {
     private prefabParams: any = {};
     
-    constructor(props: PrefabProps) {
-        super(props);
+    constructor(props: PrefabProps, defualtProps: PrefabProps) {
+        super(props, defualtProps);
         this.App = this.appConfig.app;
         this.appConfig.currentPage = this;
         this.Actions = Object.assign({}, this.App.Actions);

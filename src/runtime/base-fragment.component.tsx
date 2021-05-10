@@ -23,8 +23,8 @@ export default class BaseFragment extends BaseComponent<FragmentProps> {
     public appConfig = injector.get<AppConfig>('APP_CONFIG');
     public cleanup: Function[] = [];
 
-    constructor(props: FragmentProps) {
-        super(props);
+    constructor(props: FragmentProps, defaultProps?: FragmentProps) {
+        super(props, undefined, undefined, defaultProps);
         this.App = this.appConfig.app;
         this.Actions = Object.assign({}, this.App.Actions);
         this.Variables = Object.assign({}, this.App.Variables);
