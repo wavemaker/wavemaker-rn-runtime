@@ -1,22 +1,17 @@
-import React, { Children } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { BaseComponent, BaseProps } from '@wavemaker/rn-runtime/core/base.component';
+import { BaseComponent } from '@wavemaker/rn-runtime/core/base.component';
 
-interface WmListProps extends BaseProps {
-  repeat: string;
-  children: any[];
-  dataset: any[];
-  onSelect: Function;
-  renderItem:  Function;
-}
+import WmListProps from './list.props';
+import { DEFAULT_CLASS, DEFAULT_STYLES } from './list.styles';
 
 export default class WmList extends BaseComponent<WmListProps> {
 
-  selecteditem: any;
+  public selecteditem: any;
 
   constructor(props: WmListProps) {
-    super(props);
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmListProps());
   }
 
   private onSelect($event: any, $item: any) {
@@ -27,7 +22,7 @@ export default class WmList extends BaseComponent<WmListProps> {
   render() {
     super.render();
     const props = this.state.props;
-    return (
+    return props.show ? (
       <FlatList keyExtractor={(item, i) => 'list_item_' +  i} data={props.dataset} renderItem={(itemInfo) => (
         <TouchableOpacity onPress={(e) => this.onSelect(e, itemInfo.item)}>
           <View>
@@ -35,9 +30,6 @@ export default class WmList extends BaseComponent<WmListProps> {
           </View>
         </TouchableOpacity>
       )}></FlatList>
-    );
+    ): null; 
   }
 }
-
-const styles = StyleSheet.create({
-});
