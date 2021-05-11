@@ -20,7 +20,6 @@ export default class WmNavBar  extends BaseComponent<WmNavBarProps> {
     return (
       <View style={styles.container}>
         <Header
-          leftComponent={<Button title="Back" onPress={() => this.invokeEventCallback('onBackbuttonpress', [null, this])}></Button>}
           centerComponent={{ text: props.title, style: { color: '#fff' } }}
         />
       </View>

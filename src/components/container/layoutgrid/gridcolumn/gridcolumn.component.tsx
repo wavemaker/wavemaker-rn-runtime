@@ -15,7 +15,7 @@ export default class WmGridcolumn extends BaseComponent<WmGridcolumnProps> {
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <View>{props.children}</View>
+      <View style={this.styles.container}>{props.children}</View>
     ): null; 
   }
 }

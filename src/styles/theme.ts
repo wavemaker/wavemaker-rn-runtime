@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { deepCopy } from '@wavemaker/rn-runtime/core/utils';
 import { merge } from 'lodash';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
-export const DEFAULT_STYLE = StyleSheet.create({});
+export const DEFAULT_STYLE: any = {};
 
 export class Theme {
     private styles: any = {};
@@ -15,7 +15,7 @@ export class Theme {
     }
 
     addStyle(name: string, extend: string, style = DEFAULT_STYLE) {
-        this.styles[name] = merge({}, this.styles[extend], this.styles[name], style);
+        this.styles[name] = deepCopy({}, this.styles[extend], this.styles[name], style);
     }
     
     getStyle(name: string) {
@@ -37,7 +37,9 @@ export class Theme {
 
     $new(styles = DEFAULT_STYLE) {
         const newTheme = new Theme(this);
-        newTheme.styles = styles;
+        Object.keys(styles).forEach(k => {
+            newTheme.addStyle(k, '', styles[k] as any);
+        });
         return newTheme;
     }
 }

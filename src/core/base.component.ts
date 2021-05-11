@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 import React, { ReactNode } from 'react';
-import { DEFAULT_CLASS, DEFAULT_STYLE } from '../styles/theme';
+import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE } from '../styles/theme';
 import { PropsProvider } from './props.provider';
 
 export interface ComponentState<T extends BaseProps> {
@@ -9,6 +9,7 @@ export interface ComponentState<T extends BaseProps> {
 
 export class BaseProps {
     name: string = null as any;
+    themeToUse = BASE_THEME;
     show = true;
     styles: any = null;
     onInit: Function = null as any;
@@ -90,7 +91,7 @@ export abstract class BaseComponent<T extends BaseProps> extends React.Component
     }
 
     public render(): ReactNode {
-        this.styles = merge({}, this.defaultStyles, this.props.styles);
+        this.styles = merge({}, this.props.themeToUse.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
         return null;
     }
 }

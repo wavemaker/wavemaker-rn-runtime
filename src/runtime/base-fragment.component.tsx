@@ -16,7 +16,7 @@ export default class BaseFragment extends BaseComponent<FragmentProps> {
 
     public Widgets: any = {};
     public Variables: any = {};
-    private theme: Theme = BASE_THEME;
+    public theme: Theme = BASE_THEME;
     private startUpVariables: string[] = [];
     private autoUpdateVariables: string[] = [];
     public Actions: any = {};
@@ -36,6 +36,13 @@ export default class BaseFragment extends BaseComponent<FragmentProps> {
 
     onWidgetDestroy(w: BaseComponent<any>) {
       delete this.Widgets[w.props.name];
+    }
+
+    handleUrl(url: string) {
+      if (!url.startsWith('http')) {
+        return this.appConfig.url + (url.startsWith('/') ? '' : '/') + url;
+      }
+      return url;
     }
 
     getStyle(classes: string) {

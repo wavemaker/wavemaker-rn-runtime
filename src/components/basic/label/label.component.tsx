@@ -19,7 +19,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps> {
       <Tappable 
         onTap={() => this.invokeEventCallback('onTap', [null, this.proxy])}
         onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
-          <Text style={this.styles.text}>{props.caption}</Text>
+          <Text style={this.styles.label}>{props.caption}</Text>
       </Tappable>
     ): null;
   }
