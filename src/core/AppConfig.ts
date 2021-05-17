@@ -6,5 +6,6 @@ export default interface AppConfig {
     refresh: () => void,
     currentPage?: any,
     pages?: any[],
-    app: any
+    app: any,
+    drawerContent: any;
 }

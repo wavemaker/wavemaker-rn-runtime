@@ -1,3 +1,4 @@
+import React from 'react';
 import BaseFragment, { FragmentProps } from './base-fragment.component';
 
 export interface PageProps extends FragmentProps {
@@ -8,6 +9,8 @@ export interface PageProps extends FragmentProps {
 export default class BasePage extends BaseFragment {
     private pageName;
     private pageParams: any = {};
+    private drawerContent: any;
+    private drawerType: string = 'back';
     
     constructor(props: PageProps) {
         super(props);
@@ -18,6 +21,15 @@ export default class BasePage extends BaseFragment {
           this.appConfig.currentPage = this;
           this.refresh();
         }));
+    }
+
+    toggleDrawer() {
+      (this.props as PageProps).navigation.toggleDrawer();
+    }
+
+    setDrawerContent(content: React.ReactNode, drawerType: string) {
+      this.drawerContent = content;
+      this.drawerType = drawerType;
     }
 
     goToPage(pageName: string, params: any) {

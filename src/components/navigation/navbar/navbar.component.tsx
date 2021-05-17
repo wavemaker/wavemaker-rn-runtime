@@ -16,6 +16,9 @@ export default class WmNavbar extends BaseComponent<WmNavbarProps> {
     const props = this.state.props;
     return props.show ? (
       <Appbar.Header>
+        {props.showDrawerButton && (<Appbar.Action  
+          touchSoundDisabled={false} 
+          icon="menu" onPress={() => this.invokeEventCallback('onDrawerbuttonpress', [null, this])} /> )}
         {props.backbutton && 
           (<Appbar.BackAction 
             touchSoundDisabled={false} 
