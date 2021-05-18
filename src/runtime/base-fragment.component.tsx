@@ -3,8 +3,9 @@ import { Text, View } from 'react-native';
 import AppConfig from '../core/AppConfig';
 import injector from './injector';
 import App from './App';
-import { BaseComponent, BaseProps } from '../core/base.component';
-import BASE_THEME, { Theme } from '../styles/theme';
+import { BaseComponent, BaseProps } from '@wavemaker/rn-runtime/core/base.component';
+import BASE_THEME, { Theme } from '@wavemaker/rn-runtime/styles/theme';
+import { deepCopy } from '@wavemaker/rn-runtime/core/utils';
 
 export interface FragmentProps extends BaseProps {
   
@@ -45,8 +46,8 @@ export default class BaseFragment extends BaseComponent<FragmentProps> {
       return url;
     }
 
-    getStyle(classes: string) {
-      return this.theme.getStyle(classes);
+    getStyle(classes: string, inlineStyles:any = {}) {
+      return deepCopy({}, this.theme.getStyle(classes), inlineStyles);
     }
 
     eval(fn: Function, failOnError = false) {

@@ -15,7 +15,7 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps> {
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <ScrollView contentContainerStyle={this.styles.container}>
+      <ScrollView contentContainerStyle={this.styles.root}>
         {props.children}
       </ScrollView>
     ): null; 

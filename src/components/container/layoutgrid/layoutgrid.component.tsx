@@ -15,7 +15,7 @@ export default class WmLayoutgrid extends BaseComponent<WmLayoutgridProps> {
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <View>{props.children}</View>
+      <View style={this.styles.root}>{props.children}</View>
     ): null; 
   }
 }

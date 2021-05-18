@@ -17,7 +17,7 @@ export default class WmButton extends BaseComponent<WmButtonProps> {
     const props = this.state.props;
     return props.show ? (
       <Tappable 
-        styles={this.styles.button}
+        styles={this.styles.root}
         onTap={() => this.invokeEventCallback('onTap', [null, this.proxy])}
         onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
           <Text style={this.styles.text}>{props.caption}</Text>

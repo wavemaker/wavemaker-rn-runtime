@@ -23,7 +23,7 @@ export default class WmList extends BaseComponent<WmListProps> {
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <FlatList keyExtractor={(item, i) => 'list_item_' +  i} data={props.dataset} renderItem={(itemInfo) => (
+      <FlatList style={this.styles.root} keyExtractor={(item, i) => 'list_item_' +  i} data={props.dataset} renderItem={(itemInfo) => (
         <TouchableOpacity onPress={(e) => this.onSelect(e, itemInfo.item)}>
           <View>
             {props.renderItem(itemInfo.item, itemInfo.index)}

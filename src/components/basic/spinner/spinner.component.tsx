@@ -15,7 +15,7 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps> {
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <ActivityIndicator style={this.styles.spinner}>
+      <ActivityIndicator style={this.styles.root}>
       </ActivityIndicator>
     ): null; 
   }

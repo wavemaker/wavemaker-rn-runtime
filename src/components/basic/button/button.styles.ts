@@ -2,7 +2,7 @@ import BASE_THEME from '@wavemaker/rn-runtime/styles/theme';
 
 export const DEFAULT_CLASS = 'app-button';
 export const DEFAULT_STYLES = {
-    button: {
+    root: {
         backgroundColor: 'blue',
         paddingTop: 5,
         paddingBottom: 5,

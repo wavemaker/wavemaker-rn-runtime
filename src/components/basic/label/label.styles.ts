@@ -2,7 +2,7 @@ import BASE_THEME from '@wavemaker/rn-runtime/styles/theme';
 
 export const DEFAULT_CLASS = 'app-label';
 export const DEFAULT_STYLES = {
-    label: {
+    root: {
         fontSize: 20
     }
 };

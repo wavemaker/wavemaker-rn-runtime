@@ -15,7 +15,7 @@ export default class WmListTemplate extends BaseComponent<WmListTemplateProps> {
     super.render();
     const props = this.state.props;
     return props.show ? (
-      (<View>{props.children}</View>)
+      (<View style={this.styles.root}>{props.children}</View>)
     ): null; 
   }
 }

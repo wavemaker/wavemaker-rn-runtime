@@ -28,7 +28,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps> {
       <Tappable 
         onTap={() => this.onTap()}
         onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
-          <Text style={this.styles.text}>{props.caption}</Text>
+          <Text style={this.styles.root}>{props.caption}</Text>
       </Tappable>
     ): null; 
   }

@@ -15,7 +15,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps> {
     super.render();
     const props = this.state.props;
     return (
-      <ScrollView contentContainerStyle={this.styles.container}>
+      <ScrollView contentContainerStyle={this.styles.root}>
         {props.children}
       </ScrollView>
     ); 

@@ -15,7 +15,7 @@ export default class WmPage extends BaseComponent<WmPageProps> {
     super.render();
     const props = this.state.props;
     return (
-      <View style={this.styles.container}>
+      <View style={this.styles.root}>
         {props.children}
       </View>
     ); 

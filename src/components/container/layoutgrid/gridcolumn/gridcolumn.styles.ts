@@ -2,7 +2,7 @@ import BASE_THEME from '@wavemaker/rn-runtime/styles/theme';
 
 export const DEFAULT_CLASS = 'app-gridcolumn';
 export const DEFAULT_STYLES = {
-    container: {
+    root: {
         flex: 1
     }
 };

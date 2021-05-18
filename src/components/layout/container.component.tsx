@@ -24,7 +24,7 @@ export default class WmContainer extends BaseComponent<WmContainerProps> {
     const props = this.state.props;
     return (
       <TouchableWithoutFeedback onPress={() => this.invokeEventCallback('onTap', [null, this])}>
-        <View style={this.styles.container}>
+        <View style={this.styles.root}>
           {props.children}
         </View>
       </TouchableWithoutFeedback>

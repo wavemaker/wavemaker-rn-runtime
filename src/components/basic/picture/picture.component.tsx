@@ -15,7 +15,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps> {
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <Image style={this.styles.picture} source={{
+      <Image style={this.styles.root} source={{
         uri: props.picturesource,
       }}/>
     ): null; 
