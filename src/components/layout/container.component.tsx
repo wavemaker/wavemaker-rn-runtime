@@ -10,9 +10,9 @@ interface WmContainerProps extends BaseProps {
 
 const DEFAULT_CLASS = 'app-container';
 
-const DEFAULT_STYLES = StyleSheet.create({
+const DEFAULT_STYLES = {
   container: {}
-});
+};
 
 export default class WmContainer extends BaseComponent<WmContainerProps> {
   constructor(props: WmContainerProps) {

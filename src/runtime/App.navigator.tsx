@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -13,14 +14,49 @@ interface AppDrawerNavigatorProps {
   type: any;
   rootComponent: React.ReactNode;
 }
+class AppDrawerContainer extends React.Component<any, any, any> {
 
-const AppDrawerNavigator = (props: AppDrawerNavigatorProps) => {
-  return (<Drawer.Navigator drawerContent={(_props) => props.content} drawerType={props.type}>
-    <Drawer.Screen name="Stack">
-      {(_props) => props.rootComponent}
-    </Drawer.Screen>
-  </Drawer.Navigator>);
-};
+  constructor(props: any) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount() {
+    const appConfig = injector.get<AppConfig>('APP_CONFIG');
+    appConfig.setDrawerContent = (content: React.ReactNode) => {
+      this.setState({content: content});
+    };
+  }
+
+  componentDidUnMount() {
+    const appConfig = injector.get<AppConfig>('APP_CONFIG');
+    this.setState({
+      content: null
+    });
+    appConfig.setDrawerContent = () => {};
+  }
+
+  render(){
+    return (this.state && this.state.content) || <View/>;
+  }
+
+}
+class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, any> {
+
+  constructor(props: AppDrawerNavigatorProps) {
+    super(props);
+  }
+
+  render(){
+    return (<Drawer.Navigator 
+      drawerContent={(_props) => this.props.content} 
+      drawerType={this.props.type} >
+      <Drawer.Screen name="leftDrawer">
+        {(_props) => this.props.rootComponent}
+      </Drawer.Screen>
+    </Drawer.Navigator>);
+  }
+}
 
 interface AppStackNavigatorProps {
   pages: any[];
@@ -45,15 +81,13 @@ const AppStackNavigator = (props: AppStackNavigatorProps) => {
 
 export const AppNavigator = (props: any) => {
   const appConfig = injector.get<AppConfig>('APP_CONFIG');
-  const drawerContent = appConfig.currentPage && appConfig.currentPage.drawerContent;
-  const drawerType = appConfig.currentPage && appConfig.currentPage.drawerType;
-  const stackNavigator = (<AppStackNavigator pages={appConfig.pages || []}></AppStackNavigator>);
   return (
     <NavigationContainer>
-      {drawerContent ? (<AppDrawerNavigator 
-        type={drawerType}
-        content={drawerContent}
-        rootComponent={stackNavigator}></AppDrawerNavigator>): stackNavigator}
+      <AppDrawerNavigator 
+        type='slide'
+        content={(<AppDrawerContainer/>)}
+        rootComponent={<AppStackNavigator pages={appConfig.pages || []}></AppStackNavigator>}>
+      </AppDrawerNavigator>
     </NavigationContainer>
   );
 };

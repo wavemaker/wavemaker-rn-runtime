@@ -9,14 +9,14 @@ export interface PageProps extends FragmentProps {
 export default class BasePage extends BaseFragment {
     private pageName;
     private pageParams: any = {};
-    private drawerContent: any;
-    private drawerType: string = 'back';
+    private requiresDrawer = false;
     
     constructor(props: PageProps) {
         super(props);
         this.pageName = props.route.params.pageName;
         this.pageParams = props.route.params;
         this.appConfig.currentPage = this;
+        this.appConfig.setDrawerContent && this.appConfig.setDrawerContent(null);
         this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
           this.appConfig.currentPage = this;
           this.refresh();
@@ -28,8 +28,18 @@ export default class BasePage extends BaseFragment {
     }
 
     setDrawerContent(content: React.ReactNode, drawerType: string) {
-      this.drawerContent = content;
-      this.drawerType = drawerType;
+      this.requiresDrawer = true;
+      setTimeout(() => {
+        if (this.appConfig.currentPage === this) {
+          this.appConfig.setDrawerContent && this.appConfig.setDrawerContent(content);
+          this.appConfig.drawerType = drawerType;
+        }
+      }, 10);
+    }
+
+    componentWillUnmount() {
+      super.componentWillUnmount();
+      this.appConfig.setDrawerContent && this.appConfig.setDrawerContent(null);
     }
 
     goToPage(pageName: string, params: any) {

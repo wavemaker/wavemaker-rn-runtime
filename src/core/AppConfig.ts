@@ -7,5 +7,6 @@ export default interface AppConfig {
     currentPage?: any,
     pages?: any[],
     app: any,
-    drawerContent: any;
+    setDrawerContent: any;
+    drawerType: any;
 }
