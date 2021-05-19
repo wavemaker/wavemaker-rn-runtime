@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
-import WmAnchor from '@wavemaker/rn-runtime/components/basic/anchor/anchor.component';
+import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.component';
 
 describe('Test Anchor component', () => {
     test('Check validity of sample component', () => {

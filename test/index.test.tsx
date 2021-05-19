@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import WMButton from '@wavemaker/rn-runtime/components/basic/button.component';
+import WMButton from '@wavemaker/app-rn-runtime/components/basic/button.component';
 
 
 describe('Check Button', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { BaseComponent, BaseProps } from '@wavemaker/rn-runtime/core/base.component';
+import { BaseComponent, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 interface WmContainerProps extends BaseProps {
   children: any[],

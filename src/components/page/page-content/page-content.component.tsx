@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { BaseComponent } from '@wavemaker/rn-runtime/core/base.component';
+import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPageContentProps from './page-content.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './page-content.styles';

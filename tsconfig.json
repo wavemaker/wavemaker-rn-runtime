@@ -2,8 +2,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@wavemaker/rn-runtime": ["./src/index"],
-      "@wavemaker/rn-runtime/*": ["./src/*"],
+      "@wavemaker/app-rn-runtime": ["./src/index"],
+      "@wavemaker/app-rn-runtime/*": ["./src/*"],
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

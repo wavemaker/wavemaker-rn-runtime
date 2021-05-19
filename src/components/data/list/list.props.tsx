@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseProps } from '@wavemaker/rn-runtime/core/base.component';
+import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 import { View } from 'react-native';
 
 export default class WmListProps extends BaseProps {

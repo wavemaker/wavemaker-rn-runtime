@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image } from 'react-native';
-import { BaseComponent } from '@wavemaker/rn-runtime/core/base.component';
+import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPictureProps from './picture.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './picture.styles';

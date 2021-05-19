@@ -124,7 +124,7 @@
     },
     "moduleNameMapper": {
       "^lodash-es$": "lodash",
-      "^@wavemaker/rn-runtime/(.*)$": "<rootDir>/src/$1"
+      "^@wavemaker/app-rn-runtime/(.*)$": "<rootDir>/src/$1"
     },
     "modulePathIgnorePatterns": [
       "<rootDir>/node_modules/(?!lodash-es)",
@@ -136,7 +136,7 @@
       [
         "<rootDir>/node_modules/jest-html-reporter",
         {
-          "pageTitle": "@wavemaker/rn-runtime Test Report",
+          "pageTitle": "@wavemaker/app-rn-runtime Test Report",
           "outputPath": "<rootDir>/dist/reports/all-tests.html"
         }
       ]

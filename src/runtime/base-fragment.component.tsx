@@ -3,9 +3,9 @@ import { Text, View } from 'react-native';
 import AppConfig from '../core/AppConfig';
 import injector from './injector';
 import App from './App';
-import { BaseComponent, BaseProps } from '@wavemaker/rn-runtime/core/base.component';
-import BASE_THEME, { Theme } from '@wavemaker/rn-runtime/styles/theme';
-import { deepCopy } from '@wavemaker/rn-runtime/core/utils';
+import { BaseComponent, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import BASE_THEME, { Theme } from '@wavemaker/app-rn-runtime/styles/theme';
+import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 
 export interface FragmentProps extends BaseProps {
   

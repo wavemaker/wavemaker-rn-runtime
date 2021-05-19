@@ -1,4 +1,4 @@
-import { deepCopy } from '@wavemaker/rn-runtime/core/utils';
+import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { merge } from 'lodash';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
 export const DEFAULT_STYLE: any = {};

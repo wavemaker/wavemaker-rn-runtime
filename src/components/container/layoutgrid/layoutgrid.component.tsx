@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { BaseComponent } from '@wavemaker/rn-runtime/core/base.component';
+import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmLayoutgridProps from './layoutgrid.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './layoutgrid.styles';

@@ -1,1 +1,1 @@
-export * from '@wavemaker/rn-runtime/actions/index';
+export * from '@wavemaker/app-rn-runtime/actions/index';
