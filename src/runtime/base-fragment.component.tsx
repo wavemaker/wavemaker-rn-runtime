@@ -47,7 +47,10 @@ export default class BaseFragment extends BaseComponent<FragmentProps> {
     }
 
     getStyle(classes: string, inlineStyles:any = {}) {
-      return deepCopy({}, this.theme.getStyle(classes), inlineStyles);
+      if (classes && classes.trim().length > 0) {
+        return deepCopy({}, this.theme.getStyle(classes), inlineStyles);
+      }
+      return inlineStyles;
     }
 
     eval(fn: Function, failOnError = false) {
