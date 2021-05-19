@@ -9,7 +9,6 @@ export default class BasePrefab extends BaseFragment {
     constructor(props: PrefabProps, defualtProps: PrefabProps) {
         super(props, defualtProps);
         this.App = this.appConfig.app;
-        this.appConfig.currentPage = this;
         this.Actions = Object.assign({}, this.App.Actions);
         this.Variables = Object.assign({}, this.App.Variables);
     }
