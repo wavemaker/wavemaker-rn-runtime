@@ -9,7 +9,8 @@ export interface PageProps extends FragmentProps {
 export default class BasePage extends BaseFragment {
     private pageName;
     private pageParams: any = {};
-    private requiresDrawer = false;
+    private hasDrawer = false;
+    private hasTabbar = false;
     
     constructor(props: PageProps) {
         super(props);
@@ -28,11 +29,20 @@ export default class BasePage extends BaseFragment {
     }
 
     setDrawerContent(content: React.ReactNode, drawerType: string) {
-      this.requiresDrawer = true;
+      this.hasDrawer = true;
       setTimeout(() => {
         if (this.appConfig.currentPage === this) {
           this.appConfig.setDrawerContent && this.appConfig.setDrawerContent(content);
           this.appConfig.drawerType = drawerType;
+        }
+      }, 10);
+    }
+
+    setTabbarContent(content: React.ReactNode) {
+      this.hasTabbar = true;
+      setTimeout(() => {
+        if (this.appConfig.currentPage === this) {
+          this.appConfig.setTabbarContent && this.appConfig.setTabbarContent(content);
         }
       }, 10);
     }

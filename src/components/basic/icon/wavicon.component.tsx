@@ -1160,4 +1160,4 @@ const glyphMap: any = {
     "zoom-out": ""
 };
 
-export default createIconSet(glyphMap, 'wavicon', 'wavicon.ttf');
+export default createIconSet(glyphMap, 'wavicon', './fonts/wavicon.ttf');

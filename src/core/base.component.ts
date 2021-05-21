@@ -22,9 +22,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public proxy: BaseComponent<T, S>;
     private initialized = false;
 
-    constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles = DEFAULT_STYLE, defaultProps?: T) {
+    constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles = DEFAULT_STYLE, defaultProps?: T, defaultState?: S) {
         super(markupProps);
-        this.state = {} as S;
+        this.state = (defaultState || {} as S);
         this.propertyProvider = new PropsProvider<T>(
             Object.assign(defaultProps || {}, markupProps), 
             (name: string, $new: any, $old: any) => {
@@ -62,11 +62,15 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     }
 
-    setState(state: S) {
+    updateState(key: string, value: any) {
         if (!this.initialized) {
-            Object.assign(this.state, state);
+            //@ts-ignore
+            this.state[key] = value;
         } else {
-            super.setState(state);
+            const state = {};
+            //@ts-ignore
+            state[key] = value;
+            this.setState(state);
         }
     }
 

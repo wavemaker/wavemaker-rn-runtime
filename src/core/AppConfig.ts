@@ -8,5 +8,6 @@ export default interface AppConfig {
     pages?: any[],
     app: any,
     setDrawerContent: any;
+    setTabbarContent: any;
     drawerType: any;
 }

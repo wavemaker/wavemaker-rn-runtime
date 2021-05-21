@@ -14,7 +14,7 @@ import { createIconSet } from '@expo/vector-icons';
 
 const glyphMap: any = {{{iconset}}};
 
-export default createIconSet(glyphMap, 'wavicon', 'wavicon.ttf');
+export default createIconSet(glyphMap, 'wavicon', './fonts/wavicon.ttf');
 `);
 
 function generate() {
