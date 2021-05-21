@@ -60,6 +60,7 @@
     "@types/lodash-es": "^4.17.4",
     "axios": "^0.21.1",
     "cross-env": "^5.2.0",
+    "expo-font": "^9.1.0",
     "expression-eval": "^4.0.0",
     "fast-xml-parser": "^3.17.6",
     "lodash-es": "^4.17.21",

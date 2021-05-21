@@ -5,9 +5,11 @@ import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmIconProps from './icon.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './icon.styles';
+import WavIcon from './wavicon.component';
 
 interface IconDef {
   isFontAwesome: boolean;
+  isWavIcon: boolean;
   type: string;
   rotate: string,
   size: number
@@ -43,7 +45,12 @@ export default class WmIcon extends BaseComponent<WmIconProps> {
     } as IconDef;
     const splits = iconClass.split(' ');
     iconDef.isFontAwesome = !!splits.find(v => v === 'fa');
-    iconDef.type = splits.find(v => v.startsWith('fa-'))?.substr(3) || '';
+    if (iconDef.isFontAwesome) {
+      iconDef.type = splits.find(v => v.startsWith('fa-'))?.substr(3) || '';
+    } else {
+      iconDef.isWavIcon = !iconDef.isFontAwesome && !!splits.find(v => v === 'wi');
+      iconDef.type = (iconDef.isWavIcon && splits.find(v => v.startsWith('wi-'))?.substr(3)) || '';
+    }
     iconDef.size = splits.map(v => ICON_SIZES.get(v)).find(v => !!v) || 12;
     iconDef.rotate = splits.map(v => ICON_ROTATTION.get(v)).find(v => !!v) || '0deg';
     this.cache.set(iconClass, iconDef);
@@ -58,6 +65,12 @@ export default class WmIcon extends BaseComponent<WmIconProps> {
     if (props.show && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
       icon = (<FontAwesome name={iconDef.type} 
+        style={{transform: [{rotate: iconDef.rotate}]}} 
+        size={props.iconsize || iconDef.size}/>);
+    }
+    if (props.show && iconDef.isWavIcon) {
+      //@ts-ignore type information is not matching
+      icon = (<WavIcon name={iconDef.type} 
         style={{transform: [{rotate: iconDef.rotate}]}} 
         size={props.iconsize || iconDef.size}/>);
     }
