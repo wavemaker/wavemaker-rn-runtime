@@ -1,12 +1,12 @@
 import React from 'react';
 import { Appbar } from 'react-native-paper';
-import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 import WmNavbarProps from './navbar.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './navbar.styles';
 
-export default class WmNavbar extends BaseComponent<WmNavbarProps> {
+export default class WmNavbar extends BaseComponent<WmNavbarProps, BaseComponentState<WmNavbarProps>> {
 
   constructor(props: WmNavbarProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmNavbarProps());

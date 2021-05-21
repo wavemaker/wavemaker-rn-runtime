@@ -3,8 +3,8 @@ import React, { ReactNode } from 'react';
 import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE } from '../styles/theme';
 import { PropsProvider } from './props.provider';
 
-export interface ComponentState<T extends BaseProps> {
-    props: T;
+export class BaseComponentState<T extends BaseProps> {
+    public props = {} as T;
 }
 
 export class BaseProps {
@@ -16,21 +16,22 @@ export class BaseProps {
     onDestroy?: Function = null as  any;
 }
 
-export abstract class BaseComponent<T extends BaseProps> extends React.Component<T, ComponentState<T>> {
+export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>> extends React.Component<T, S> {
     public styles: any = DEFAULT_STYLE;
     private propertyProvider: PropsProvider<T>;
-    public proxy: BaseComponent<T>;
+    public proxy: BaseComponent<T, S>;
+    private initialized = false;
 
     constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles = DEFAULT_STYLE, defaultProps?: T) {
         super(markupProps);
+        this.state = {} as S;
         this.propertyProvider = new PropsProvider<T>(
             Object.assign(defaultProps || {}, markupProps), 
             (name: string, $new: any, $old: any) => {
                 this.onPropertyChange(name, $new, $old);
             });
-        this.state = {
-            props: this.propertyProvider.get()
-        };
+        //@ts-ignore
+        this.state.props =this.propertyProvider.get();
         //@ts-ignore
         this.proxy = (new Proxy(this, {
             get: (target, prop, receiver): any => {
@@ -48,7 +49,7 @@ export abstract class BaseComponent<T extends BaseProps> extends React.Component
                     this.state.props[propName] = value;
                     this.setState({
                         props: this.propertyProvider.get()
-                    })
+                    } as S)
                     return true;
                 } else {
                     return Reflect.set(target, prop, value);
@@ -61,11 +62,19 @@ export abstract class BaseComponent<T extends BaseProps> extends React.Component
 
     }
 
-    shouldComponentUpdate(nextProps: T, nextState: ComponentState<T>, nextContext: any) {
+    setState(state: S) {
+        if (!this.initialized) {
+            Object.assign(this.state, state);
+        } else {
+            super.setState(state);
+        }
+    }
+
+    shouldComponentUpdate(nextProps: T, nextState: S, nextContext: any) {
         if (this.propertyProvider.check(nextProps)) {
             this.setState({
                 props: this.propertyProvider.get()
-            });
+            } as S);
             return true;
         }
         return !!(super.shouldComponentUpdate && super.shouldComponentUpdate(nextProps, nextState, nextContext));
@@ -73,6 +82,7 @@ export abstract class BaseComponent<T extends BaseProps> extends React.Component
 
     componentDidMount() {
         this.props.onInit && this.props.onInit(this.proxy);
+        this.initialized = true;
     }
 
     componentWillUnmount() {

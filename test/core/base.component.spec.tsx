@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
-import { BaseComponent, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 interface SampleProps extends BaseProps {
     caption: string;
@@ -17,7 +17,7 @@ const DEFAULT_STYLES = {
   }
 };
 
-class SampleComponent extends BaseComponent<SampleProps> {
+class SampleComponent extends BaseComponent<SampleProps, BaseComponentState<SampleProps>> {
     insProperty = true;
     constructor(props: SampleProps) {
         super(props, DEFAULT_CLASS, DEFAULT_STYLES);

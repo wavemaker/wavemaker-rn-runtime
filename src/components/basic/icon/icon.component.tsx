@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmIconProps from './icon.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './icon.styles';
@@ -29,17 +29,17 @@ const ICON_ROTATTION = new Map([
   ['fa-rotate-270', '270deg']
 ]);
 
-export default class WmIcon extends BaseComponent<WmIconProps> {
-  private cache = new Map<string, IconDef>();
+export class WmIconState extends BaseComponentState<WmIconProps> {
+  public iconDef = {} as IconDef;
+}
+
+export default class WmIcon extends BaseComponent<WmIconProps, WmIconState> {
 
   constructor(props: WmIconProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmIconProps());
   }
 
   getIconDef(iconClass: string): IconDef {
-    if (this.cache.has(iconClass)) {
-      return this.cache.get(iconClass) || {} as IconDef;
-    }
     const iconDef = {
       rotate: '0'
     } as IconDef;
@@ -53,22 +53,30 @@ export default class WmIcon extends BaseComponent<WmIconProps> {
     }
     iconDef.size = splits.map(v => ICON_SIZES.get(v)).find(v => !!v) || 12;
     iconDef.rotate = splits.map(v => ICON_ROTATTION.get(v)).find(v => !!v) || '0deg';
-    this.cache.set(iconClass, iconDef);
     return iconDef;
+  }
+
+  onPropertyChange(name: string, $new: any, $old: any) {
+    super.onPropertyChange(name, $new, $old);
+    switch(name) {
+      case 'iconclass': 
+        this.setState({ iconDef : this.getIconDef($new)} as WmIconState);
+        break;
+    }
   }
 
   render() {
     super.render();
     const props = this.state.props;
-    const iconDef = this.getIconDef(props.iconclass);
+    const iconDef = this.state.iconDef;
     let icon = null;
-    if (props.show && iconDef.isFontAwesome) {
+    if (props.show && iconDef && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
       icon = (<FontAwesome name={iconDef.type} 
         style={[this.styles.text, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}]} 
         size={props.iconsize || iconDef.size}/>);
     }
-    if (props.show && iconDef.isWavIcon) {
+    if (props.show && iconDef && iconDef.isWavIcon) {
       //@ts-ignore type information is not matching
       icon = (<WavIcon name={iconDef.type} 
         style={[this.styles.text, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}]} 

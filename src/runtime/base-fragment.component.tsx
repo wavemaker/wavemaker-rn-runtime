@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import AppConfig from '../core/AppConfig';
 import injector from './injector';
 import App from './App';
-import { BaseComponent, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme } from '@wavemaker/app-rn-runtime/styles/theme';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 
@@ -11,7 +11,7 @@ export interface FragmentProps extends BaseProps {
   
 }
 
-export default class BaseFragment extends BaseComponent<FragmentProps> {
+export default class BaseFragment extends BaseComponent<FragmentProps, BaseComponentState<FragmentProps>> {
     public App: App;
     public onReady: Function = () => {};
 
@@ -31,11 +31,11 @@ export default class BaseFragment extends BaseComponent<FragmentProps> {
         this.Variables = Object.assign({}, this.App.Variables);
     }
 
-    onWidgetInit(w: BaseComponent<any>) {
+    onWidgetInit(w: BaseComponent<any, any>) {
       this.Widgets[w.props.name] = w;
     }
 
-    onWidgetDestroy(w: BaseComponent<any>) {
+    onWidgetDestroy(w: BaseComponent<any, any>) {
       delete this.Widgets[w.props.name];
     }
 

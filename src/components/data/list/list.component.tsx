@@ -1,12 +1,12 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './list.styles';
 
-export default class WmList extends BaseComponent<WmListProps> {
+export default class WmList extends BaseComponent<WmListProps, BaseComponentState<WmListProps>> {
 
   public selecteditem: any;
 

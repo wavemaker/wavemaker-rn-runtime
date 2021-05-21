@@ -1,11 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
-import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmGridrowProps from './gridrow.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './gridrow.styles';
 
-export default class WmGridrow extends BaseComponent<WmGridrowProps> {
+export default class WmGridrow extends BaseComponent<WmGridrowProps, BaseComponentState<WmGridrowProps>> {
 
   constructor(props: WmGridrowProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmGridrowProps());

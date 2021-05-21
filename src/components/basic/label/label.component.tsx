@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmLabelProps from './label.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './label.styles';
 
-export default class WmLabel extends BaseComponent<WmLabelProps> {
+export default class WmLabel extends BaseComponent<WmLabelProps, BaseComponentState<WmLabelProps>> {
 
   constructor(props: WmLabelProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLabelProps());

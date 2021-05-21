@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmButtonProps from './button.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './button.styles';
 
-export default class WmButton extends BaseComponent<WmButtonProps> {
+export default class WmButton extends BaseComponent<WmButtonProps, BaseComponentState<WmButtonProps>> {
 
   constructor(props: WmButtonProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmButtonProps());

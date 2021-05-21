@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { BaseComponent, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 interface WmContainerProps extends BaseProps {
   children: any[],
@@ -14,7 +14,7 @@ const DEFAULT_STYLES = {
   container: {}
 };
 
-export default class WmContainer extends BaseComponent<WmContainerProps> {
+export default class WmContainer extends BaseComponent<WmContainerProps, BaseComponentState<WmContainerProps>> {
   constructor(props: WmContainerProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES);
   }

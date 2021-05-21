@@ -1,11 +1,11 @@
 import React from 'react';
 import { Image } from 'react-native';
-import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPictureProps from './picture.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './picture.styles';
 
-export default class WmPicture extends BaseComponent<WmPictureProps> {
+export default class WmPicture extends BaseComponent<WmPictureProps, BaseComponentState<WmPictureProps>> {
 
   constructor(props: WmPictureProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPictureProps());
