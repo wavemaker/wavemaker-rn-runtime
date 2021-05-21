@@ -65,13 +65,13 @@ export default class WmIcon extends BaseComponent<WmIconProps> {
     if (props.show && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
       icon = (<FontAwesome name={iconDef.type} 
-        style={{transform: [{rotate: iconDef.rotate}]}} 
+        style={[this.styles.text, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}]} 
         size={props.iconsize || iconDef.size}/>);
     }
     if (props.show && iconDef.isWavIcon) {
       //@ts-ignore type information is not matching
       icon = (<WavIcon name={iconDef.type} 
-        style={{transform: [{rotate: iconDef.rotate}]}} 
+        style={[this.styles.text, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}]} 
         size={props.iconsize || iconDef.size}/>);
     }
     return props.show ? (

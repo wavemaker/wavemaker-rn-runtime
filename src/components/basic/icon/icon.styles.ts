@@ -7,6 +7,7 @@ export const DEFAULT_STYLES = {
         alignSelf: 'flex-start',
         alignItems: 'center'
     },
+    icon: {},
     text: {}
 };
 

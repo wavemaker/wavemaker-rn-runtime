@@ -8,12 +8,12 @@ export interface ComponentState<T extends BaseProps> {
 }
 
 export class BaseProps {
-    name: string = null as any;
+    name?: string = null as any;
     themeToUse = BASE_THEME;
-    show = true;
-    styles: any = null;
-    onInit: Function = null as any;
-    onDestroy: Function = null as  any;
+    show? = true;
+    styles?: any = null;
+    onInit?: Function = null as any;
+    onDestroy?: Function = null as  any;
 }
 
 export abstract class BaseComponent<T extends BaseProps> extends React.Component<T, ComponentState<T>> {

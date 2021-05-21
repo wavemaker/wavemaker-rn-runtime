@@ -4,4 +4,6 @@ export default class WmNavbarProps extends BaseProps {
     title: string = '';
     backbutton = true;
     showDrawerButton = false;
+    leftnavpaneliconclass = 'wi wi-menu';
+    backbuttoniconclass = 'wi wi-back';
 }
