@@ -3,7 +3,7 @@ import BaseFragment, { FragmentProps } from './base-fragment.component';
 export interface PartialProps extends FragmentProps {
 }
 
-export default class BasePartial extends BaseFragment {
+export default class BasePartial extends BaseFragment<PartialProps> {
     private partialParams: any = {};
     
     constructor(props: PartialProps) {

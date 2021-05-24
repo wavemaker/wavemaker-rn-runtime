@@ -21,6 +21,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T, S>;
     private initialized = false;
+    public cleanup = [] as Function[];
 
     constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles = DEFAULT_STYLE, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -85,12 +86,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     componentDidMount() {
-        this.props.onInit && this.props.onInit(this.proxy);
+        this.props.onInit && this.props.onInit(null, this.proxy);
         this.initialized = true;
     }
 
     componentWillUnmount() {
-        this.props.onDestroy && this.props.onDestroy(this);
+        this.props.onDestroy && this.props.onDestroy(null, this);
+        this.cleanup.forEach(f => f && f());
     }
 
     invokeEventCallback(eventName: string, args: any[]) {

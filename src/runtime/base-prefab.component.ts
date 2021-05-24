@@ -3,7 +3,7 @@ import BaseFragment, { FragmentProps } from './base-fragment.component';
 export interface PrefabProps extends FragmentProps {
 }
 
-export default class BasePrefab extends BaseFragment {
+export default class BasePrefab extends BaseFragment<PrefabProps> {
     private prefabParams: any = {};
     
     constructor(props: PrefabProps, defualtProps: PrefabProps) {
