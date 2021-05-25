@@ -86,7 +86,11 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
     }
 
     componentDidMount() {
-      Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()))
+      this.onFragmentReady();
+    }
+
+    onFragmentReady() {
+      return Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()))
       .then(() => {
         this.appConfig.refresh();
         this.onReady();
@@ -101,6 +105,9 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
     onAttach() {
       this.fragments.forEach(f => f.onAttach());
       this.targetWidget.invokeEventCallback('onAttach', [null, this.proxy]);
+      if (this.refreshdataonattach) {
+        Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()));
+      }
     }
 
     onDetach() {

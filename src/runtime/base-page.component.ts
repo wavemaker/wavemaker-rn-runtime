@@ -21,11 +21,6 @@ export default class BasePage extends BaseFragment<PageProps> {
       this.pageParams = props.route.params;
       this.appConfig.currentPage = this;
       this.appConfig.setDrawerContent && this.appConfig.setDrawerContent(null);
-      this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
-        this.appConfig.currentPage = this;
-        this.refresh();
-        this.onAttach();
-      }));
     }
 
     onWidgetInit(event: any, w: BaseComponent<any, any>) {
@@ -59,6 +54,16 @@ export default class BasePage extends BaseFragment<PageProps> {
           this.appConfig.setTabbarContent && this.appConfig.setTabbarContent(content);
         }
       }, 10);
+    }
+
+    componentDidMount() {
+      this.onFragmentReady().then(() => {
+        this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
+          this.appConfig.currentPage = this;
+          this.refresh();
+          this.onAttach();
+        }));
+      });
     }
 
     componentWillUnmount() {
