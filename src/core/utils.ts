@@ -16,3 +16,20 @@ export function deepCopy(o1: any, ...o2: any) {
     });
     return o1;
 }
+
+/**
+ * this method encodes the url and returns the encoded string
+ */
+ export const encodeUrl = (url: string): string => {
+    let splits = url.split('#');
+    const hash = splits[1];
+    splits = splits[0].split('?');
+    let params = '';
+    if (splits.length > 1) {
+        params = splits[1].split('&')
+            .map(p => p.split('='))
+            .map(p => p[0] +'=' + encodeURIComponent(p[1]))
+            .join('&');
+    }
+    return encodeURI(splits[0]) + (params ? '?' + params: '') + (hash ? '#'+ hash : '');
+};

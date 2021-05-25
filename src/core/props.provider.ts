@@ -30,7 +30,6 @@ export class PropsProvider<T extends BaseProps> {
                 return true;
             }
         }));
-        this.check();
     }
 
     check(nextProps: T = this.initprops) {

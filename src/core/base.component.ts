@@ -33,6 +33,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             });
         //@ts-ignore
         this.state.props =this.propertyProvider.get();
+        this.propertyProvider.check();
         //@ts-ignore
         this.proxy = (new Proxy(this, {
             get: (target, prop, receiver): any => {
