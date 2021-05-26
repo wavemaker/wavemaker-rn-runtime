@@ -1,7 +1,12 @@
 import React from 'react';
+import { Linking } from 'react-native';
 import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmPage from '@wavemaker/app-rn-runtime/components/page/page.component';
 import BaseFragment, { FragmentProps } from './base-fragment.component';
+import { isPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import NavigationService from '@wavemaker/app-rn-runtime/core/navigation.service';
+
+declare const window: any;
 
 export interface PageProps extends FragmentProps {
   route: any;
@@ -9,7 +14,7 @@ export interface PageProps extends FragmentProps {
   destroyMe: Function;
 }
 
-export default class BasePage extends BaseFragment<PageProps> {
+export default class BasePage extends BaseFragment<PageProps> implements NavigationService {
     private pageName = null as unknown as string;
     private pageParams: any = {};
     private hasDrawer = false;
@@ -80,9 +85,38 @@ export default class BasePage extends BaseFragment<PageProps> {
       } else {
         this.props.destroyMe();
       }
+      return Promise.resolve();
     }
 
     goBack() {
       (this.props as PageProps).navigation.goBack();
+      return Promise.resolve();
+    }
+
+    openUrl(url: string) {
+      if (url) {
+        if (url.startsWith('#')) {
+          url = url.substring(1);
+          url = url.startsWith('/') ? url.substring(1) : url;
+          const splits = url.split('?');
+          const pageName = splits[0];
+          let params = {} as any;
+          if (splits.length > 1) {
+            params = splits[1].split('&')
+              .map(p => p.split('='))
+              .map(p => {
+                const o: any = {};
+                o[p[0]] = p[1];
+                return o;
+              });
+          }
+          return this.goToPage(pageName, params);
+        } else if (isPreviewMode()) {
+          window.open(url, '_blank');
+        } else {
+          return Linking.openURL(url);
+        }
+      }
+      return Promise.resolve();
     }
 }
