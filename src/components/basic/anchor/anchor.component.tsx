@@ -7,7 +7,9 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 
 import WmAnchorProps from './anchor.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './anchor.styles';
-import { encodeUrl } from '@wavemaker/app-rn-runtime/core/utils';
+import { encodeUrl, isPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+
+declare const window: any;
 
 export default class WmAnchor extends BaseComponent<WmAnchorProps, BaseComponentState<WmAnchorProps>> {
 
@@ -19,10 +21,13 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, BaseComponent
     const props = this.state.props;
     if (props.hyperlink) {
       const link = props.encodeurl ? encodeUrl(props.hyperlink) : props.hyperlink;
-      Linking.openURL(link);
-    } else {
-      this.invokeEventCallback('onTap', [null, this.proxy]);
+      if (isPreviewMode()) {
+        window.open(link, '_blank')
+      } else {
+        Linking.openURL(link);
+      }
     }
+    this.invokeEventCallback('onTap', [null, this.proxy]);
   }
 
   render() {

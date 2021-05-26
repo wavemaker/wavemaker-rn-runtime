@@ -1,3 +1,4 @@
+declare const window: any;
 export function deepCopy(o1: any, ...o2: any) {
     if (typeof o1 !== 'object') {
         o1 = {};
@@ -33,3 +34,5 @@ export function deepCopy(o1: any, ...o2: any) {
     }
     return encodeURI(splits[0]) + (params ? '?' + params: '') + (hash ? '#'+ hash : '');
 };
+
+export const isPreviewMode = () => !!(window && window.navigator);
