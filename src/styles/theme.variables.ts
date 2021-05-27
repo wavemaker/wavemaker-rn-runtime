@@ -10,6 +10,13 @@ export class ThemeVariables {
     darkColor = '#343a40';
     borderColor = '#0003';
 
+    // Navbar variables
+    navbarBackgroundColor = this.primaryColor;
+    navbarTextColor = '#ffffff';
+    navbarIconSize = 24;
+    navbarFontSize = 15;
+    navbarImageSize = 24;
+
     //Anchor variables
     linkPrimaryColor = this.primaryColor;
     linkSecondaryColor = this.secondaryColor;
@@ -21,6 +28,7 @@ export class ThemeVariables {
     linkDarkColor = this.darkColor;
     linkBadgeBackgroundColor = '#f50057';
     linkBadgeTextColor = '#ff0000';
+    anchorTextPadding = 2;
 
     //Grid Layout variables
     layoutGridBorderColor = this.borderColor;
@@ -28,7 +36,7 @@ export class ThemeVariables {
 
     //Spinner Variables
     spinnerIconColor = this.primaryColor;
-    
+
     //tabbar variables
     tabbarBackgroundColor = this.primaryColor;
     tabbarTextColor =  this.primaryContrastColor;

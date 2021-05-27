@@ -7,7 +7,8 @@ export const DEFAULT_STYLES = {
     root: {
         color: ThemeVariables.linkPrimaryColor,
         flexDirection: 'row',
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
+        alignItems: 'center'
     },
     text: {
         color: ThemeVariables.linkPrimaryColor,
@@ -24,6 +25,7 @@ export const DEFAULT_STYLES = {
     },
     icon: {
         text: {
+            paddingRight: ThemeVariables.anchorTextPadding,
             color: ThemeVariables.linkPrimaryColor,
             fontSize: 14
         }
