@@ -17,9 +17,8 @@ export default class WmGridcolumn extends BaseComponent<WmGridcolumnProps, BaseC
     if (this.styles.root.height) {
       this.styles.root.overflow = 'auto';
     }
-    const flexValue = props.xscolumnwidth ? parseInt(props.xscolumnwidth) : parseInt(props.columnwidth);
     return props.show ? (
-      <View style={[this.styles.root, {flex: flexValue}]}>{props.children}</View>
+      <View style={[this.styles.root, {flex: props.xscolumnwidth || props.columnwidth}]}>{props.children}</View>
     ): null;
   }
 }
