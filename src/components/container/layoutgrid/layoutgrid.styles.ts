@@ -1,4 +1,5 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export const DEFAULT_CLASS = 'app-layoutgrid';
 export const DEFAULT_STYLES = {
@@ -15,4 +16,4 @@ const getGridStyles = (border: string) => {
   };
 };
 
-BASE_THEME.addStyle('bordered', DEFAULT_CLASS, getGridStyles('1px solid #0003'));
+BASE_THEME.addStyle('bordered', DEFAULT_CLASS, getGridStyles(`1px solid ${ThemeVariables.gridBorderColor}`));
