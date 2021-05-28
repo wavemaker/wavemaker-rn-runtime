@@ -37,7 +37,8 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, BaseCompone
     const icon = (<WmIcon
       styles={this.styles.icon} name={props.name + '_icon'}
       themeToUse={props.themeToUse} iconclass={props.iconclass + ' fa-spin'} iconsize={props.iconsize}></WmIcon>);
-    const image = (<WmPicture styles={{height:props.imageheight, width:props.imagewidth}}
+    const image = (<WmPicture
+      styles={{height:props.imageheight, width:props.imagewidth}} name={props.name + '_image'}
       themeToUse={props.themeToUse} picturesource={props.image}></WmPicture>);
     const rotate = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg']});
 
