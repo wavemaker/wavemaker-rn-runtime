@@ -7,5 +7,5 @@ export default class WmSpinnerProps extends BaseProps {
   type: string = 'icon';
   image: string = null as any;
   imageheight: string = null as any;
-  imagewidth: string = '20px';
+  imagewidth: number = 20;
 }

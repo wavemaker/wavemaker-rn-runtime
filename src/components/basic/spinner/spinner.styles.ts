@@ -8,7 +8,7 @@ export const DEFAULT_STYLES = {
   },
   text: {
     fontSize: 14,
-    paddingLeft: '0.5em'
+    paddingLeft: 8
   },
   icon: {
     text: {
