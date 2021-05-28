@@ -7,6 +7,7 @@ export class ThemeVariables {
     dangerColor = '#dc3545';
     lightColor = '#f8f9fa';
     darkColor = '##343a40';
+    borderColor = '#0003';
 
     //Anchor variables
     linkPrimaryColor = this.primaryColor;
@@ -20,7 +21,9 @@ export class ThemeVariables {
     linkBadgeBackgroundColor = '#f50057';
     linkBadgeTextColor = '#ff0000';
 
-    borderColor = '#0003';
+    //Grid Layout variables
+    layoutGridBorderColor = this.borderColor;
+    gridColumnBorderColor = this.borderColor;
 }
 
 export default new ThemeVariables();
