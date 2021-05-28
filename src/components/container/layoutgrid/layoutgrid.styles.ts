@@ -16,4 +16,4 @@ const getGridStyles = (border: string) => {
   };
 };
 
-BASE_THEME.addStyle('bordered', DEFAULT_CLASS, getGridStyles(`1px solid ${ThemeVariables.gridBorderColor}`));
+BASE_THEME.addStyle('bordered', DEFAULT_CLASS, getGridStyles(`1px solid ${ThemeVariables.bordercolor}`));
