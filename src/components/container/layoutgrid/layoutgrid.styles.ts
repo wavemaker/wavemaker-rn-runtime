@@ -6,3 +6,13 @@ export const DEFAULT_STYLES = {
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+
+const getGridStyles = (border: string) => {
+  return {
+    root: {
+      border: border
+    }
+  };
+};
+
+BASE_THEME.addStyle('bordered', DEFAULT_CLASS, getGridStyles('1px solid #0003'));
