@@ -17,7 +17,9 @@ export default class WmPicture extends BaseComponent<WmPictureProps, BaseCompone
     return props.show ? (
       <Image style={this.styles.root} source={{
         uri: props.picturesource,
+        height: this.styles.height,
+        width: this.styles.width,
       }}/>
-    ): null; 
+    ): null;
   }
 }
