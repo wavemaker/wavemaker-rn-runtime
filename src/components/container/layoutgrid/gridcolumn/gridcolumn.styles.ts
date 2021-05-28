@@ -8,3 +8,13 @@ export const DEFAULT_STYLES = {
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+
+const getGridColumnStyles = (border: string) => {
+  return {
+    root: {
+      border: border
+    }
+  };
+};
+
+BASE_THEME.addStyle('column-bordered', DEFAULT_CLASS, getGridColumnStyles('1px solid #0003'));
