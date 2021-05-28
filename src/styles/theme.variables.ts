@@ -24,6 +24,9 @@ export class ThemeVariables {
     //Grid Layout variables
     layoutGridBorderColor = this.borderColor;
     gridColumnBorderColor = this.borderColor;
+
+    //Spinner Variables
+    spinnerIconColor = this.primaryColor;
 }
 
 export default new ThemeVariables();

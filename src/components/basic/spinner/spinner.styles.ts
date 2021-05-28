@@ -12,7 +12,7 @@ export const DEFAULT_STYLES = {
   },
   icon: {
     text: {
-      color: ThemeVariables.primaryColor
+      color: ThemeVariables.spinnerIconColor
     }
   }
 };
