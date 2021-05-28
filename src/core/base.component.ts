@@ -9,7 +9,7 @@ export class BaseComponentState<T extends BaseProps> {
 
 export class BaseProps {
     name?: string = null as any;
-    themeToUse = BASE_THEME;
+    themeToUse? = BASE_THEME;
     show? = true;
     styles?: any = null;
     onInit?: Function = null as any;
@@ -108,7 +108,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     public render(): ReactNode {
-        this.styles = merge({}, this.props.themeToUse.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
+        this.styles = merge({}, this.props.themeToUse?.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
         return null;
     }
 }

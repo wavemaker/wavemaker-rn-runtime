@@ -38,8 +38,9 @@ export class PropsProvider<T extends BaseProps> {
             const value = nextProps[k];
             //TODO: comparison has to be improved
             if (!this.overriddenProps[k] && this.oldProps[k] !== value) {
-                this.onChange(k, value, this.oldProps[k]);
+                const oldValue = this.oldProps[k];
                 this.oldProps[k] = value;
+                this.onChange(k, value, oldValue);
                 b = b || !(value instanceof Function);
             }
             return b;

@@ -1,12 +1,13 @@
 export class ThemeVariables {
     primaryColor = '#007bff';
+    primaryContrastColor = '#ffffff';
     secondaryColor = '#6c757d';
     successColor = '#28a745';
     infoColor = '#17a2b8';
     warningColor = '#ffc107';
     dangerColor = '#dc3545';
     lightColor = '#f8f9fa';
-    darkColor = '##343a40';
+    darkColor = '#343a40';
     borderColor = '#0003';
 
     //Anchor variables
@@ -27,6 +28,11 @@ export class ThemeVariables {
 
     //Spinner Variables
     spinnerIconColor = this.primaryColor;
+    
+    //tabbar variables
+    tabbarBackgroundColor = this.primaryColor;
+    tabbarTextColor =  this.primaryContrastColor;
+    tabbarIconColor = this.primaryContrastColor;
 }
 
 export default new ThemeVariables();
