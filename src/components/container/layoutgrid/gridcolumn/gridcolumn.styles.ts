@@ -18,4 +18,4 @@ const getGridColumnStyles = (border: string) => {
   };
 };
 
-BASE_THEME.addStyle('column-bordered', DEFAULT_CLASS, getGridColumnStyles(`1px solid ${ThemeVariables.gridBorderColor}`));
+BASE_THEME.addStyle('column-bordered', DEFAULT_CLASS, getGridColumnStyles(`1px solid ${ThemeVariables.borderColor}`));
