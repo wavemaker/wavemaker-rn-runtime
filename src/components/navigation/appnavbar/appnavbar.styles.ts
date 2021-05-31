@@ -4,8 +4,7 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 export const DEFAULT_CLASS = 'app-navbar';
 export const DEFAULT_STYLES = {
     root: {
-      textColor: ThemeVariables.navbarTextColor,
-      fontSize: ThemeVariables.navbarFontSize
+      backgroundColor: ThemeVariables.navbarBackgroundColor,
     },
     leftnavIcon: {
         borderRadius: 0,

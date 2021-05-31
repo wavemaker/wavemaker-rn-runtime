@@ -4,13 +4,13 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 
-import WmNavbarProps from './navbar.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './navbar.styles';
+import WmAppNavbarProps from './appnavbar.props';
+import { DEFAULT_CLASS, DEFAULT_STYLES } from './appnavbar.styles';
 
-export default class WmNavbar extends BaseComponent<WmNavbarProps, BaseComponentState<WmNavbarProps>> {
+export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, BaseComponentState<WmAppNavbarProps>> {
 
-  constructor(props: WmNavbarProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmNavbarProps());
+  constructor(props: WmAppNavbarProps) {
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAppNavbarProps());
   }
 
   render() {
@@ -26,7 +26,7 @@ export default class WmNavbar extends BaseComponent<WmNavbarProps, BaseComponent
       })
     }
     return props.show ? (
-      <Appbar.Header>
+      <Appbar.Header style={this.styles.root}>
         {props.showDrawerButton && (<Appbar.Action
           touchSoundDisabled={false}
           style={this.styles.leftnavIcon}
