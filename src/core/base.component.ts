@@ -102,6 +102,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (callBack) {
             callBack.apply(this.proxy, args);
         }
+        args && args.map(a => (a === this) ? this.proxy : a)
         if (eventName === 'onTap') {
             this.invokeEventCallback('onClick', args);
         }
