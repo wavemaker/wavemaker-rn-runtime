@@ -63,15 +63,7 @@ export default abstract class BaseApp extends React.Component {
             {AppModalService.modalOptions.content && 
               (<WmModal 
                 styles={{
-                  root : merge({
-                    position: 'absolute',
-                    top: 0,
-                    flex: 1,
-                    width: '100%',
-                    height: '100%',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }, AppModalService.modalOptions.modalStyle),
+                  root : merge(styles.appModal, AppModalService.modalOptions.modalStyle),
                   content: AppModalService.modalOptions.contentStyle,
                 }}>
                   {AppModalService.modalOptions.content}
@@ -87,4 +79,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  appModal: {
+    position: 'absolute',
+    top: 0,
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
