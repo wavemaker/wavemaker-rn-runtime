@@ -15,10 +15,10 @@ export default class BasePartial extends BaseFragment<PartialProps> {
         this.Variables = Object.assign({}, this.App.Variables);
     }
 
-    onWidgetInit(event: any, w: BaseComponent<any, any>) {
-        super.onWidgetInit(event, w);
-        if (w instanceof WmPartial) {
-          this.targetWidget = w;
-        }
+    onComponentInit(w: BaseComponent<any, any>) {
+      super.onComponentInit(w);
+      if (w instanceof WmPartial) {
+        this.targetWidget = w;
       }
+    }
 }

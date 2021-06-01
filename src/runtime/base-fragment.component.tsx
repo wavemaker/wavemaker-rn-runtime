@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import AppConfig from '../core/AppConfig';
 import injector from './injector';
 import App from './App';
-import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme } from '@wavemaker/app-rn-runtime/styles/theme';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core/viewport';
@@ -12,7 +12,7 @@ export interface FragmentProps extends BaseProps {
   
 }
 
-export default class BaseFragment<T extends FragmentProps> extends BaseComponent<T, BaseComponentState<T>> {
+export default class BaseFragment<T extends FragmentProps> extends BaseComponent<T, BaseComponentState<T>> implements LifecycleListener {
     public App: App;
     public onReady: Function = () => {};
     public targetWidget = null as unknown as BaseComponent<any, any>;
@@ -25,7 +25,8 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
     public appConfig = injector.get<AppConfig>('APP_CONFIG');
     public cache = false;
     public refreshdataonattach= true;
-    public fragments = [] as BaseFragment<any>[];
+    public fragments: any = {};
+    public isDetached = false;
 
     constructor(props: T, defaultProps?: T) {
         super(props, undefined, undefined, defaultProps);
@@ -33,29 +34,28 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
         this.Actions = Object.assign({}, this.App.Actions);
         this.Variables = Object.assign({}, this.App.Variables);
         this.cleanup.push(Viewport.subscribe(viewportEvents.ORIENTATION_CHANGE, ($new: any, $old: any) => {
-          this.targetWidget && this.targetWidget.invokeEventCallback('onOrientationchange', [null, this.proxy, 
+          !this.isDetached && this.targetWidget && this.targetWidget.invokeEventCallback('onOrientationchange', [null, this.proxy, 
             {screenWidth: Viewport.width, 
               screenHeight: Viewport.height}]);
         }));
         this.cleanup.push(Viewport.subscribe(viewportEvents.SIZE_CHANGE, ($new: any, $old: any) => {
-          this.targetWidget && this.targetWidget.invokeEventCallback('onResize', [null, this.proxy,
+          !this.isDetached && this.targetWidget && this.targetWidget.invokeEventCallback('onResize', [null, this.proxy,
             {screenWidth: $new.width,
               screenHeight: $new.height}]);
         }));
     }
 
-    onWidgetInit($event: any, w: BaseComponent<any, any>) {
+    onComponentInit(w: BaseComponent<any, any>) {
       this.Widgets[w.props.name] = w;
       if (w instanceof BaseFragment && w !== this) {
-        this.fragments.push(w as BaseFragment<any>);
+        this.fragments[w.props.name] = w;
       }
     }
 
-    onWidgetDestroy($event: any, w: BaseComponent<any, any>) {
+    onComponentDestroy(w: BaseComponent<any, any>) {
       delete this.Widgets[w.props.name];
       if (w instanceof BaseFragment) {
-        const i = this.fragments.findIndex(v => v === w);
-        this.fragments.splice(i, 1);
+        delete this.fragments[w.props.name];
       }
     }
 
@@ -90,17 +90,24 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
       this.onFragmentReady();
     }
 
+    componentWillUnmount() {
+      super.componentWillUnmount();
+      this.targetWidget && this.targetWidget.invokeEventCallback('onDestroy', [null, this.proxy]);
+    }
+
     onFragmentReady() {
       return Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()))
       .then(() => {
         this.appConfig.refresh();
         this.onReady();
         this.forceUpdate();
+        this.targetWidget && this.targetWidget.invokeEventCallback('onLoad', [null, this.proxy]);
       });
     }
 
     onAttach() {
-      this.fragments.forEach(f => f.onAttach());
+      this.isDetached = false;
+      Object.values(this.fragments).forEach((f: any) => f.onAttach());
       this.targetWidget.invokeEventCallback('onAttach', [null, this.proxy]);
       if (this.refreshdataonattach) {
         Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()));
@@ -108,7 +115,8 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
     }
 
     onDetach() {
-      this.fragments.forEach(f => f.onDetach());
+      this.isDetached = true;
+      Object.values(this.fragments).forEach((f: any) => f.onDetach());
       this.targetWidget.invokeEventCallback('onDetach', [null, this.proxy]);
     }
 

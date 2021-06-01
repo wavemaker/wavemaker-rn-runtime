@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { merge } from 'lodash';
+import { debounce, merge } from 'lodash';
 import WmModal from '@wavemaker/app-rn-runtime/components/basic/modal/modal.component';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
@@ -25,8 +25,12 @@ export default abstract class BaseApp extends React.Component {
     super(props);
     this.appConfig.app = this;
     this.appConfig.refresh = () => {
-      this.forceUpdate();
-      this.appConfig.currentPage && this.appConfig.currentPage.forceUpdate();
+      debounce(() => {
+        this.forceUpdate();
+        this.appConfig.currentPage && this.appConfig.currentPage.forceUpdate();
+      }, 100, {
+        trailing: true
+      });
     }
   }
 

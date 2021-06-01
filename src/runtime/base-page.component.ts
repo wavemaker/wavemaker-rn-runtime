@@ -31,8 +31,8 @@ export default class BasePage extends BaseFragment<PageProps> implements Navigat
       this.appConfig.setDrawerContent && this.appConfig.setDrawerContent(null);
     }
 
-    onWidgetInit(event: any, w: BaseComponent<any, any>) {
-      super.onWidgetInit(event, w);
+    onComponentInit(w: BaseComponent<any, any>) {
+      super.onComponentInit(w);
       if (w instanceof WmPage) {
         this.targetWidget = w;
         const props = w.props as any;

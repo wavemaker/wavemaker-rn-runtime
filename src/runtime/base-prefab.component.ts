@@ -1,3 +1,5 @@
+import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
+import WmPrefabContainer from '@wavemaker/app-rn-runtime/components/prefab/prefab-container.component';
 import BaseFragment, { FragmentProps } from './base-fragment.component';
 
 export interface PrefabProps extends FragmentProps {
@@ -11,6 +13,23 @@ export default class BasePrefab extends BaseFragment<PrefabProps> {
         this.App = this.appConfig.app;
         this.Actions = Object.assign({}, this.App.Actions);
         this.Variables = Object.assign({}, this.App.Variables);
+    }
+
+    onComponentInit(w: BaseComponent<any, any>) {
+      super.onComponentInit(w);
+      if (w instanceof WmPrefabContainer) {
+        this.targetWidget = w;
+      }
+    }
+
+    componentDidMount() {
+      super.componentDidMount();
+      this.invokeEventCallback('onLoad', [null, this]);
+    }
+
+    componentWillUnmount() {
+      super.componentWillUnmount();
+      this.invokeEventCallback('onDestroy', [null, this]);
     }
 
     render() {
