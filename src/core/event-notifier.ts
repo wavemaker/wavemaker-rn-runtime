@@ -14,7 +14,7 @@ export default class EventNotifier {
         this.listeners[event].push(fn);
         return () => {
             const eventListeners = this.listeners[event];
-            const i = eventListeners.findIndex(fn);
+            const i = eventListeners.findIndex((fni: Function) => fni === fn);
             eventListeners.splice(i, 1);
         };
     }

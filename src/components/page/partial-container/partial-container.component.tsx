@@ -19,6 +19,8 @@ export default class WmPartialContainer extends BaseComponent<WmPartialContainer
       //@ts-ignore
       params[k] = props[k];
     });
+    params['name'] = params['partial_name'];
+    delete params['partial_name'];
     return props.show ? (
       <PartialConsumer>
         {(partialService: PartialService) => {
