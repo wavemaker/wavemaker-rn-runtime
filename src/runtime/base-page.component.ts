@@ -59,8 +59,8 @@ export default class BasePage extends BaseFragment<PageProps> implements Navigat
       this.onFragmentReady().then(() => {
         this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
           this.appConfig.currentPage = this;
-          this.refresh();
           this.onAttach();
+          this.forceUpdate();
         }));
       });
     }
