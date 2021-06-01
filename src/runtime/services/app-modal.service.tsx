@@ -1,4 +1,4 @@
-import injector from './injector';
+import injector from '../injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 

@@ -4,8 +4,10 @@ import { merge } from 'lodash';
 import WmModal from '@wavemaker/app-rn-runtime/components/basic/modal/modal.component';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
 
-import AppModalService from './app-modal.service';
+import AppModalService from './services/app-modal.service';
+import AppPartialService from './services/partial.service';
 import { AppNavigator } from './App.navigator';
 import injector from './injector';
 
@@ -55,22 +57,25 @@ export default abstract class BaseApp extends React.Component {
   
   render() {
     return (
-      <ModalProvider value={AppModalService}>
-        <View  style={styles.container}>
-          { this.appConfig.loadApp && this.appStarted && (
-          <View style={styles.container}>
-            <AppNavigator app={this}></AppNavigator>
-            {AppModalService.modalOptions.content && 
-              (<WmModal 
-                styles={{
-                  root : merge(styles.appModal, AppModalService.modalOptions.modalStyle),
-                  content: AppModalService.modalOptions.contentStyle,
-                }}>
-                  {AppModalService.modalOptions.content}
-              </WmModal>)}
-          </View>)}
-        </View>
-      </ModalProvider>
+      <View  style={styles.container}>
+        { this.appConfig.loadApp && this.appStarted && (
+          <PartialProvider value={AppPartialService}>
+            <ModalProvider value={AppModalService}>
+              <View style={styles.container}>
+                <AppNavigator app={this}></AppNavigator>
+                {AppModalService.modalOptions.content && 
+                  (<WmModal 
+                    styles={{
+                      root : merge(styles.appModal, AppModalService.modalOptions.modalStyle),
+                      content: AppModalService.modalOptions.contentStyle,
+                    }}>
+                      {AppModalService.modalOptions.content}
+                  </WmModal>)}
+              </View>
+            </ModalProvider>
+          </PartialProvider>)
+        }
+      </View>
     );
   }
 }

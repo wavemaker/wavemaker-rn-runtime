@@ -4,6 +4,7 @@ export default interface AppConfig {
     refresh: () => void,
     currentPage?: any;
     pages?: any[];
+    partials?: any[];
     app: any;
     setDrawerContent: any;
     drawerType: any;
