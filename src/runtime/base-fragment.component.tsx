@@ -26,7 +26,6 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
     public cache = false;
     public refreshdataonattach= true;
     public fragments = [] as BaseFragment<any>[];
-    public isDetached = false;
 
     constructor(props: T, defaultProps?: T) {
         super(props, undefined, undefined, defaultProps);
@@ -100,13 +99,6 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
       });
     }
 
-    componentWillUnmount() {
-      super.componentWillUnmount();
-      if (this.isDetached) {
-        this.cleanup.forEach(c => c());
-      }
-    }
-
     onAttach() {
       this.fragments.forEach(f => f.onAttach());
       this.targetWidget.invokeEventCallback('onAttach', [null, this.proxy]);
@@ -116,7 +108,6 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
     }
 
     onDetach() {
-      this.isDetached = true;
       this.fragments.forEach(f => f.onDetach());
       this.targetWidget.invokeEventCallback('onDetach', [null, this.proxy]);
     }
