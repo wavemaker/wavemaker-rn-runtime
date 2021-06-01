@@ -9,6 +9,7 @@ export class ThemeVariables {
     lightColor = '#f8f9fa';
     darkColor = '#343a40';
     borderColor = '#0003';
+    defaultColor = '#777';
 
     // Navbar variables
     navbarBackgroundColor = this.primaryColor;
@@ -41,6 +42,19 @@ export class ThemeVariables {
     tabbarBackgroundColor = this.primaryColor;
     tabbarTextColor =  this.primaryContrastColor;
     tabbarIconColor = this.primaryContrastColor;
+
+    //label Variables
+    labelDefaultColor = this.defaultColor;
+    labelDangerColor = this.dangerColor;
+    labelInfoColor = this.infoColor;
+    labelPrimaryColor = this.primaryColor;
+    labelSuccessColor = this.successColor;
+    labelWarningColor = this.warningColor;
+    labelTextSuccessColor = this.successColor;
+    labelTextDangerColor = this.dangerColor;
+    labelTextInfoColor = this.infoColor;
+    labelTextPrimaryColor = this.primaryColor;
+    labelTextWarningColor = this.warningColor;
 }
 
 export default new ThemeVariables();
