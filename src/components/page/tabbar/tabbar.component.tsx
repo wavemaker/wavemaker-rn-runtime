@@ -107,7 +107,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
       for (let i = max-1; i < moreItemsCount;) {
         const row = [];
         for (let j = 0; j < max; j++) {
-          row[j] = tabItems[i++] || {} as TabItem;
+          row[j] = tabItems[i++] || {key: 'tabItem' + i} as TabItem;
         }
         moreItems.push(row);
       }
@@ -123,7 +123,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
                 modalService.showModal(this.prepareModalOptions((
                 <View style={this.styles.moreMenu}>
                   {moreItems.map((a, i) =>  
-                    (<View style={this.styles.moreMenuRow}>
+                    (<View key={i} style={this.styles.moreMenuRow}>
                       {a.map(item => this.renderTabItem(item, props,  () => this.onItemSelect(item, navigationService)))}
                     </View>)
                   )}

@@ -9,9 +9,7 @@ class AppModalService implements ModalService {
 
     private showLastModal() {
         this.modalOptions = this.modalsOpened.length ? this.modalsOpened[this.modalsOpened.length - 1] : {} as ModalOptions;
-        setTimeout(() => {
-            injector.get<AppConfig>('APP_CONFIG').refresh();
-        });
+        injector.get<AppConfig>('APP_CONFIG').refresh();
     }
 
     public showModal(options: ModalOptions) {

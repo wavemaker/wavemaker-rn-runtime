@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { debounce, merge } from 'lodash';
+import { View } from 'react-native';
+import { merge } from 'lodash';
 import WmModal from '@wavemaker/app-rn-runtime/components/basic/modal/modal.component';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
@@ -10,6 +10,8 @@ import AppModalService from './services/app-modal.service';
 import AppPartialService from './services/partial.service';
 import { AppNavigator } from './App.navigator';
 import injector from './injector';
+
+const MAX_TIME_BETWEEN_REFRESH_CYCLES = 200;
 
 export default abstract class BaseApp extends React.Component {
 
@@ -24,13 +26,22 @@ export default abstract class BaseApp extends React.Component {
   constructor(props: any) {
     super(props);
     this.appConfig.app = this;
+    let refreshAfterWait = false;
+    let wait = 0;
     this.appConfig.refresh = () => {
-      debounce(() => {
-        this.forceUpdate();
-        this.appConfig.currentPage && this.appConfig.currentPage.forceUpdate();
-      }, 100, {
-        trailing: true
-      });
+      if (!wait) {
+        wait = MAX_TIME_BETWEEN_REFRESH_CYCLES;
+        refreshAfterWait = false;
+        setTimeout(() => {
+          this.forceUpdate();
+        });
+        setTimeout(() => {
+          wait = 0;
+          refreshAfterWait && this.appConfig.refresh();
+        }, wait);
+      } else {
+        refreshAfterWait = true;
+      }
     }
   }
 
@@ -84,7 +95,7 @@ export default abstract class BaseApp extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     flex: 1
   },
@@ -97,4 +108,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   }
-});
+};
