@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -18,9 +18,12 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
+    let imageSrc = '';
     switch(name) {
       case 'picturesource':
-        Image.getSize($new, (width: number, height: number) => {
+      case 'pictureplaceholder':
+        imageSrc = this.state.props.picturesource || $new;
+        Image.getSize(imageSrc, (width: number, height: number) => {
           setTimeout(() => {
             this.updateState('naturalImageWidth', width);
             this.updateState('naturalImageHeight', height);
@@ -58,11 +61,10 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     return props.show ? (
       <Tappable onTap={() => this.invokeEventCallback('onTap', [null, this.proxy])}
         onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
-        <Image style={this.styles.root} resizeMode={'stretch'} source={{
-          uri: props.picturesource,
-          height: imageHeight,
-          width: imageWidth,
-        }}/>
+        <View style={[this.styles.root, {height: imageHeight, width: imageWidth}]}>
+          <Image style={this.styles.picture} resizeMode={'stretch'} source={{
+            uri: props.picturesource || props.pictureplaceholder}}/>
+        </View>
       </Tappable>
     ): null;
   }
