@@ -85,6 +85,10 @@ export class ThemeVariables {
     buttonDarkTextColor = '#ffffff';
     buttonLightColor = this.lightColor;
     buttonLightTextColor = '#212529';
+    
+    //picture variables
+    pictureThumbBgColor = '#ffffff';
+    pictureThumbBorderColor = '#dddddd';
 }
 
 export default new ThemeVariables();
