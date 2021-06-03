@@ -33,8 +33,8 @@ export class ThemeVariables {
     linkDangerColor = this.dangerColor;
     linkLightColor = this.lightColor;
     linkDarkColor = this.darkColor;
-    linkBadgeBackgroundColor = '#f50057';
-    linkBadgeTextColor = '#ff0000';
+    linkBadgeBackgroundColor = '#6c757d';
+    linkBadgeTextColor = '#ffffff';
     anchorTextPadding = 2;
 
     //Grid Layout variables
@@ -62,6 +62,29 @@ export class ThemeVariables {
     labelTextPrimaryColor = this.primaryColor;
     labelTextWarningColor = this.warningColor;
     labelAsteriskColor = this.dangerColor;
+
+    //button Variables
+    buttonBadgeTextColor = '#ffffff';
+    buttonBadgeBackgroundColor = '#6c757d';
+    buttonTextPadding = 2;
+    buttonSuccessColor = this.successColor;
+    buttonDefaultColor = 'transparent';
+    buttonPrimaryColor = this.primaryColor;
+    buttonDangerColor = this.dangerColor;
+    buttonWarningColor = this.warningColor;
+    buttonInfoColor = this.infoColor;
+    buttonSuccessTextColor ='#ffffff';
+    buttonDefaultTextColor = '#5e5e5e';
+    buttonPrimaryTextColor ='#ffffff';
+    buttonDangerTextColor ='#ffffff';
+    buttonWarningTextColor = '#212529';
+    buttonInfoTextColor ='#ffffff';
+    buttonLinkColor = 'transparent';
+    buttonLinkTextColor = this.primaryColor;
+    buttonDarkColor = this.darkColor;
+    buttonDarkTextColor = '#ffffff';
+    buttonLightColor = this.lightColor;
+    buttonLightTextColor = '#212529';
 }
 
 export default new ThemeVariables();
