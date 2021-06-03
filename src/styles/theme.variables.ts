@@ -61,6 +61,7 @@ export class ThemeVariables {
     labelTextInfoColor = this.infoColor;
     labelTextPrimaryColor = this.primaryColor;
     labelTextWarningColor = this.warningColor;
+    labelAsteriskColor = this.dangerColor;
 }
 
 export default new ThemeVariables();

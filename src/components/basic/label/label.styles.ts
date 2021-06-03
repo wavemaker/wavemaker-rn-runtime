@@ -6,7 +6,7 @@ export const DEFAULT_STYLES = {
     root: {
     },
     asterisk: {
-      color: 'red',
+      color: ThemeVariables.labelAsteriskColor,
       marginLeft: 2
     }
 };
