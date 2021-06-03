@@ -41,3 +41,33 @@ BASE_THEME.addStyle('text-info', DEFAULT_CLASS, getTextStyles(ThemeVariables.lab
 BASE_THEME.addStyle('text-primary', DEFAULT_CLASS, getTextStyles(ThemeVariables.labelTextPrimaryColor));
 BASE_THEME.addStyle('text-success', DEFAULT_CLASS, getTextStyles(ThemeVariables.labelTextSuccessColor));
 BASE_THEME.addStyle('text-warning', DEFAULT_CLASS, getTextStyles(ThemeVariables.labelTextWarningColor));
+BASE_THEME.addStyle('text-center', DEFAULT_CLASS, {
+  root: {
+    textAlign: 'center'
+  }
+});
+BASE_THEME.addStyle('text-left', DEFAULT_CLASS, {
+  root: {
+    textAlign: 'left'
+  }
+});
+BASE_THEME.addStyle('text-right', DEFAULT_CLASS, {
+  root: {
+    textAlign: 'right'
+  }
+});
+
+
+const getHeadingStyles = (fontSize: number) => {
+  return {
+    root: {
+      fontSize: fontSize
+    }
+  };
+};
+BASE_THEME.addStyle('h1', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading1FontSize));
+BASE_THEME.addStyle('h2', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading2FontSize));
+BASE_THEME.addStyle('h3', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading3FontSize));
+BASE_THEME.addStyle('h4', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading4FontSize));
+BASE_THEME.addStyle('h5', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading5FontSize));
+BASE_THEME.addStyle('h6', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading6FontSize));

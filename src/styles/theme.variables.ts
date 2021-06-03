@@ -10,6 +10,12 @@ export class ThemeVariables {
     darkColor = '#343a40';
     borderColor = '#0003';
     defaultColor = '#777';
+    heading1FontSize = 36;
+    heading2FontSize = 30;
+    heading3FontSize = 24;
+    heading4FontSize = 18;
+    heading5FontSize = 14;
+    heading6FontSize = 12;
 
     // Navbar variables
     navbarBackgroundColor = this.primaryColor;
