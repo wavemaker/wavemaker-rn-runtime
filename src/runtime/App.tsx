@@ -66,18 +66,6 @@ export default abstract class BaseApp extends React.Component {
     });
   }
 
-  eval(fn: Function, failOnError = false) {
-    try {
-      return fn.call(this);
-    } catch (e) {
-      if (failOnError) {
-        throw e;
-      } else {
-        return null;
-      }
-    }
-  }
-
   refresh() {
     this.appConfig.refresh();
   }
