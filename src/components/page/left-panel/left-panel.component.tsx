@@ -11,12 +11,25 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, BaseCom
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLeftPanelProps());
   }
 
+  renderContent(props: WmLeftPanelProps) {
+    if (props.renderPartial) {
+      if (!this.state.props.isPartialLoaded) {
+        this.state.props.isPartialLoaded = true;
+        setTimeout(() => {
+          this.invokeEventCallback('onLoad', [null, this]);
+        });
+      }
+      return props.renderPartial();
+    }
+    return props.children;
+  }
+
   render() {
     super.render();
     const props = this.state.props;
     return props.show ? (
       <ScrollView contentContainerStyle={this.styles.root}>
-        {props.children}
+        {this.renderContent(props)}
       </ScrollView>
     ): null; 
   }

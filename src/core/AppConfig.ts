@@ -1,13 +1,11 @@
-import React from 'react';
-
 export default interface AppConfig {
-    url: string,
-    loadApp: boolean,
+    url: string;
+    loadApp: boolean;
     refresh: () => void,
-    currentPage?: any,
-    pages?: any[],
-    app: any,
+    currentPage?: any;
+    pages?: any[];
+    partials?: any[];
+    app: any;
     setDrawerContent: any;
-    setTabbarContent: any;
     drawerType: any;
 }

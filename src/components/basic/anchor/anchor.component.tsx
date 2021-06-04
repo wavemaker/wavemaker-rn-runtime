@@ -30,18 +30,19 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, BaseComponent
   render() {
     super.render();
     const props = this.state.props;
-    const icon = (<WmIcon 
-      styles={this.styles.icon} name={props.name + '_icon'} 
+    const icon = (<WmIcon
+      styles={this.styles.icon} name={props.name + '_icon'}
       themeToUse={props.themeToUse} iconclass={props.iconclass}></WmIcon>);
-    //@ts-ignore 
+    //@ts-ignore
     const badge = (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>);
     return props.show ? (
       <NavigationServiceConsumer>
-        {(navigationService: NavigationService) => 
-          (<Tappable 
+        {(navigationService: NavigationService) =>
+          (<Tappable
             onTap={() => this.onTap(navigationService)}
             onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
-              <View style={this.styles.root}>
+              <View style={[this.styles.root, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
+                {props.iconposition === 'top' && icon}
                 {props.iconposition === 'left' && icon}
                 <Text style={this.styles.text}>{props.caption}</Text>
                 {props.iconposition === 'right' && icon}
@@ -49,7 +50,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, BaseComponent
               </View>
           </Tappable>)
       }
-      </NavigationServiceConsumer> 
-    ): null; 
+      </NavigationServiceConsumer>
+    ): null;
   }
 }

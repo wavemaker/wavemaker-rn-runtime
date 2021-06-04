@@ -1,3 +1,5 @@
+import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
+import WmPartial from '@wavemaker/app-rn-runtime/components/page/partial/partial.component';
 import BaseFragment, { FragmentProps } from './base-fragment.component';
 
 export interface PartialProps extends FragmentProps {
@@ -11,5 +13,12 @@ export default class BasePartial extends BaseFragment<PartialProps> {
         this.App = this.appConfig.app;
         this.Actions = Object.assign({}, this.App.Actions);
         this.Variables = Object.assign({}, this.App.Variables);
+    }
+
+    onComponentInit(w: BaseComponent<any, any>) {
+      super.onComponentInit(w);
+      if (w instanceof WmPartial) {
+        this.targetWidget = w;
+      }
     }
 }

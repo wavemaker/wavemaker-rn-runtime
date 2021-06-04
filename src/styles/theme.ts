@@ -29,7 +29,7 @@ export class Theme {
         if (name.indexOf(' ') > 0) {
             style = merge({}, ...(name.split(' ').map(c => this.getStyle(c))));            
         } else {
-            style = merge({}, this.styles[name], this.parent && this.parent.getStyle(name));
+            style = merge({}, this.parent && this.parent.getStyle(name), this.styles[name]);
         }
         this.cache[name] = style;
         return style;

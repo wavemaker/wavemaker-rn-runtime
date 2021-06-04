@@ -2,11 +2,11 @@ import React, { ReactNode } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
-import WmNavbar from '@wavemaker/app-rn-runtime/components/navigation/navbar/navbar.component';
+import WmPartialContainer from '@wavemaker/app-rn-runtime/components/page/partial-container/partial-container.component';
 
-describe('Test Navbar component', () => {
+describe('Test PartialContainer component', () => {
     test('Check validity of sample component', () => {
-      const tree = renderer.create(<WmNavbar name="test_Navbar"/>).toJSON();
+      const tree = renderer.create(<WmPartialContainer name="test_PartialContainer"/>).toJSON();
       expect(tree).toMatchSnapshot();
     });
 });

@@ -1,8 +1,17 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import AppConfig from '../core/AppConfig';
+import { View } from 'react-native';
+import { merge } from 'lodash';
+import WmModal from '@wavemaker/app-rn-runtime/components/basic/modal/modal.component';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
+
+import AppModalService from './services/app-modal.service';
+import AppPartialService from './services/partial.service';
 import { AppNavigator } from './App.navigator';
 import injector from './injector';
+
+const MAX_TIME_BETWEEN_REFRESH_CYCLES = 200;
 
 export default abstract class BaseApp extends React.Component {
 
@@ -17,9 +26,22 @@ export default abstract class BaseApp extends React.Component {
   constructor(props: any) {
     super(props);
     this.appConfig.app = this;
+    let refreshAfterWait = false;
+    let wait = 0;
     this.appConfig.refresh = () => {
-      this.forceUpdate();
-      this.appConfig.currentPage && this.appConfig.currentPage.forceUpdate();
+      if (!wait) {
+        wait = MAX_TIME_BETWEEN_REFRESH_CYCLES;
+        refreshAfterWait = false;
+        setTimeout(() => {
+          this.forceUpdate();
+        });
+        setTimeout(() => {
+          wait = 0;
+          refreshAfterWait && this.appConfig.refresh();
+        }, wait);
+      } else {
+        refreshAfterWait = true;
+      }
     }
   }
 
@@ -44,6 +66,18 @@ export default abstract class BaseApp extends React.Component {
     });
   }
 
+  eval(fn: Function, failOnError = false) {
+    try {
+      return fn.call(this);
+    } catch (e) {
+      if (failOnError) {
+        throw e;
+      } else {
+        return null;
+      }
+    }
+  }
+
   refresh() {
     this.appConfig.refresh();
   }
@@ -51,14 +85,39 @@ export default abstract class BaseApp extends React.Component {
   render() {
     return (
       <View  style={styles.container}>
-        { this.appConfig.loadApp && this.appStarted && <AppNavigator app={this}></AppNavigator>}
+        { this.appConfig.loadApp && this.appStarted && (
+          <PartialProvider value={AppPartialService}>
+            <ModalProvider value={AppModalService}>
+              <View style={styles.container}>
+                <AppNavigator app={this}></AppNavigator>
+                {AppModalService.modalOptions.content && 
+                  (<WmModal 
+                    styles={{
+                      root : merge(styles.appModal, AppModalService.modalOptions.modalStyle),
+                      content: AppModalService.modalOptions.contentStyle,
+                    }}>
+                      {AppModalService.modalOptions.content}
+                  </WmModal>)}
+              </View>
+            </ModalProvider>
+          </PartialProvider>)
+        }
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     flex: 1
   },
-});
+  appModal: {
+    position: 'absolute',
+    top: 0,
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+};

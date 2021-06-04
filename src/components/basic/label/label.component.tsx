@@ -12,14 +12,20 @@ export default class WmLabel extends BaseComponent<WmLabelProps, BaseComponentSt
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLabelProps());
   }
 
+  private getAsterisk () {
+    return <Text style={this.styles.asterisk}>*</Text>;
+  }
+
   render() {
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <Tappable 
+      <Tappable
         onTap={() => this.invokeEventCallback('onTap', [null, this.proxy])}
         onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
-          <Text style={this.styles.root}>{props.caption}</Text>
+          <Text style={this.styles.root}>{props.caption}
+            {props.required && this.getAsterisk()}
+          </Text>
       </Tappable>
     ): null;
   }

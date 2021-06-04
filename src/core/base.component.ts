@@ -7,13 +7,17 @@ export class BaseComponentState<T extends BaseProps> {
     public props = {} as T;
 }
 
+export interface LifecycleListener {
+    onComponentInit: (c: BaseComponent<any, any>) => void;
+    onComponentDestroy: (c: BaseComponent<any, any>) => void;
+}
+
 export class BaseProps {
     name?: string = null as any;
-    themeToUse = BASE_THEME;
+    themeToUse? = BASE_THEME;
     show? = true;
     styles?: any = null;
-    onInit?: Function = null as any;
-    onDestroy?: Function = null as  any;
+    listener?: LifecycleListener = null as any;
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>> extends React.Component<T, S> {
@@ -87,12 +91,16 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     componentDidMount() {
-        this.props.onInit && this.props.onInit(null, this.proxy);
+        if (this.props.listener) {
+            this.props.listener.onComponentInit(this.proxy);
+        }
         this.initialized = true;
     }
 
     componentWillUnmount() {
-        this.props.onDestroy && this.props.onDestroy(null, this);
+        if (this.props.listener) {
+            this.props.listener.onComponentDestroy(this.proxy);
+        }
         this.cleanup.forEach(f => f && f());
     }
 
@@ -102,13 +110,14 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (callBack) {
             callBack.apply(this.proxy, args);
         }
+        args && args.map(a => (a === this) ? this.proxy : a)
         if (eventName === 'onTap') {
             this.invokeEventCallback('onClick', args);
         }
     }
 
     public render(): ReactNode {
-        this.styles = merge({}, this.props.themeToUse.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
+        this.styles = merge({}, this.props.themeToUse?.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
         return null;
     }
 }

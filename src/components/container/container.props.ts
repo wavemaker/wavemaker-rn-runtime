@@ -1,7 +1,7 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
-export default class WmLeftPanelProps extends BaseProps {
+export default class WmContainerProps extends BaseProps {
   children?: any;
-  isPartialLoaded = false;
   renderPartial?: Function;
+  isPartialLoaded = false;
 }
