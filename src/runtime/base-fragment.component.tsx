@@ -9,7 +9,7 @@ import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 
 export interface FragmentProps extends BaseProps {
-  
+
 }
 
 export default class BaseFragment<T extends FragmentProps> extends BaseComponent<T, BaseComponentState<T>> {
@@ -33,8 +33,8 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
         this.Actions = Object.assign({}, this.App.Actions);
         this.Variables = Object.assign({}, this.App.Variables);
         this.cleanup.push(Viewport.subscribe(viewportEvents.ORIENTATION_CHANGE, ($new: any, $old: any) => {
-          this.targetWidget && this.targetWidget.invokeEventCallback('onOrientationchange', [null, this.proxy, 
-            {screenWidth: Viewport.width, 
+          this.targetWidget && this.targetWidget.invokeEventCallback('onOrientationchange', [null, this.proxy,
+            {screenWidth: Viewport.width,
               screenHeight: Viewport.height}]);
         }));
         this.cleanup.push(Viewport.subscribe(viewportEvents.SIZE_CHANGE, ($new: any, $old: any) => {
@@ -118,8 +118,9 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
     refresh() {
       (injector.get('AppConfig') as AppConfig).refresh();
     }
-      
+
     render() {
+      this.autoUpdateVariables.forEach(value => this.Variables[value].invokeOnParamChange())
       return (<View><Text>Loading...</Text></View>);
     }
 }

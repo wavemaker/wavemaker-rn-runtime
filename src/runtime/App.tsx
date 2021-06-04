@@ -23,6 +23,18 @@ export default abstract class BaseApp extends React.Component {
     }
   }
 
+  eval(fn: Function, failOnError = false) {
+    try {
+      return fn.call(this);
+    } catch (e) {
+      if (failOnError) {
+        throw e;
+      } else {
+        return null;
+      }
+    }
+  }
+
   componentDidMount() {
     Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
       .then(() => {
@@ -35,7 +47,7 @@ export default abstract class BaseApp extends React.Component {
   refresh() {
     this.appConfig.refresh();
   }
-  
+
   render() {
     return (
       <View  style={styles.container}>

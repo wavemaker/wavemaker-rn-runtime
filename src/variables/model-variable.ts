@@ -9,6 +9,8 @@ export class ModelVariable extends BaseVariable {
     invoke(params?: {}, onSuccess?: Function, onError?: Function): Promise<BaseVariable>  {
         return super.invoke(params, onSuccess, onError).then(() => {
             this.dataSet = this.params;
+            this.config.onSuccess && this.config.onSuccess(this, this.dataSet);
+            onSuccess && onSuccess(this, this.dataSet);
             return this;
         });
     }
