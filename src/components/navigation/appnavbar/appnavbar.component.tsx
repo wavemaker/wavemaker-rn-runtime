@@ -16,15 +16,6 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, BaseCom
   render() {
     super.render();
     const props = this.state.props;
-    let childElements;
-    if (this.props.children) {
-      childElements = React.Children.toArray(this.props.children).map((child, i) => {
-        if (React.isValidElement(child)) {
-          return React.cloneElement(child, child.props);
-        }
-        return false;
-      })
-    }
     return props.show ? (
       <Appbar.Header style={this.styles.root}>
         {props.showDrawerButton && (<Appbar.Action
@@ -48,7 +39,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, BaseCom
           icon={() => {
             return (<WmIcon styles={this.styles.leftnavIcon} themeToUse={props.themeToUse} iconclass={props.searchbuttoniconclass}/>);
           }} onPress={() => this.invokeEventCallback('onSearchbuttonpress', [null, this])} /> )}
-        {childElements}
+        {props.children}
       </Appbar.Header>
     ): null;
   }
