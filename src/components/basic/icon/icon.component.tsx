@@ -60,7 +60,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState> {
     super.onPropertyChange(name, $new, $old);
     switch(name) {
       case 'iconclass': 
-        $new && this.updateState('iconDef', this.getIconDef($new));
+        $new && this.updateState({iconDef: this.getIconDef($new)} as WmIconState);
         break;
     }
   }

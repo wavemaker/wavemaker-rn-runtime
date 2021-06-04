@@ -16,15 +16,13 @@ class AppDrawerContainer extends React.Component<any, any, any> {
   componentDidMount() {
     const appConfig = injector.get<AppConfig>('APP_CONFIG');
     appConfig.setDrawerContent = (content: React.ReactNode) => {
-      this.setState({content: content});
+      this.setState(() => ({content: content}));
     };
   }
 
   componentDidUnMount() {
     const appConfig = injector.get<AppConfig>('APP_CONFIG');
-    this.setState({
-      content: null
-    });
+    this.setState(() => ({content: null}));
   }
 
   render(){

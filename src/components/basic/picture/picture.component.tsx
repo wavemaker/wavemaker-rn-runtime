@@ -24,11 +24,10 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       case 'pictureplaceholder':
         imageSrc = this.state.props.picturesource || $new;
         Image.getSize(imageSrc, (width: number, height: number) => {
-          setTimeout(() => {
-            this.updateState('naturalImageWidth', width);
-            this.updateState('naturalImageHeight', height);
-            this.forceUpdate();
-          }, 10);
+          this.updateState({
+            naturalImageWidth: width, 
+            naturalImageHeight: height
+          } as WmPictureState);
         }, () => {});
         break;
     }
@@ -38,14 +37,14 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     let imageWidth = this.styles.root.width;
     let imageHeight = this.styles.root.height;
     if (!imageWidth) {
-      if (imageHeight) {
+      if (imageHeight && this.state.naturalImageHeight) {
         imageWidth = imageHeight * this.state.naturalImageWidth / this.state.naturalImageHeight;
       } else {
         imageWidth = this.state.naturalImageWidth;
       }
     }
     if (!imageHeight) {
-      if (imageWidth) {
+      if (imageWidth && this.state.naturalImageWidth) {
         imageHeight = imageWidth * this.state.naturalImageHeight / this.state.naturalImageWidth;
       } else {
         imageHeight = this.state.naturalImageHeight;

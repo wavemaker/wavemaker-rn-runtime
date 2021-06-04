@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import { isEqual, merge } from 'lodash';
 import React, { ReactNode } from 'react';
 import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE } from '../styles/theme';
 import { PropsProvider } from './props.provider';
@@ -53,9 +53,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 if (this.propertyProvider.has(propName)) {
                     // @ts-ignore
                     this.state.props[propName] = value;
-                    this.setState({
+                    this.setState(() => ({
                         props: this.propertyProvider.get()
-                    } as S)
+                    }))
                     return true;
                 } else {
                     return Reflect.set(target, prop, value);
@@ -68,26 +68,28 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     }
 
-    updateState(key: string, value: any) {
+    updateState(state: S) {
         if (!this.initialized) {
-            //@ts-ignore
-            this.state[key] = value;
+            Object.keys(state).forEach((key) => {
+                //@ts-ignore
+                this.state[key] = state[key];
+            });
         } else {
-            const state = {};
-            //@ts-ignore
-            state[key] = value;
-            this.setState(state);
+            this.setState(() => state);
         }
     }
 
     shouldComponentUpdate(nextProps: T, nextState: S, nextContext: any) {
         if (this.propertyProvider.check(nextProps)) {
-            this.setState({
+            this.setState(() => ({
                 props: this.propertyProvider.get()
-            } as S);
+            }));
             return true;
         }
-        return !!(super.shouldComponentUpdate && super.shouldComponentUpdate(nextProps, nextState, nextContext));
+        if (!isEqual(nextState, this.state)) {
+            return true;
+        }
+        return false;
     }
 
     componentDidMount() {

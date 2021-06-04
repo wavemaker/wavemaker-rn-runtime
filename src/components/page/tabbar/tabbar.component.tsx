@@ -51,7 +51,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
         }
       });
     }
-    this.updateState('tabItems', tabItems);
+    this.updateState({tabItems: tabItems} as WmTabbarState);
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
@@ -143,8 +143,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
                 label: props.morebuttonlabel,
                 icon: props.morebuttoniconclass
               } as TabItem, props,  () => {
-                this.updateState('showMore', !this.state.showMore);
-                this.forceUpdate();
+                this.updateState({showMore: !this.state.showMore} as WmTabbarState);
               })
             )}
           </View>

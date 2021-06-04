@@ -34,6 +34,7 @@ export default abstract class BaseApp extends React.Component {
         refreshAfterWait = false;
         setTimeout(() => {
           this.forceUpdate();
+          this.appConfig.currentPage?.forceUpdate();
         });
         setTimeout(() => {
           wait = 0;
@@ -62,7 +63,7 @@ export default abstract class BaseApp extends React.Component {
       .then(() => {
       this.onAppVariablesReady();
       this.appStarted = true;
-      this.forceUpdate();
+      this.appConfig.refresh();
     });
   }
 

@@ -25,11 +25,10 @@ class Screen extends React.Component {
       const state = (this.state as any);
       if (state.renew) {
         state.page = this.createPage();
-        this.setState({
+        this.setState(() => ({
           renew: false,
           page: state.page
-        });
-        this.forceUpdate();
+        }));
       }
     }));
   }
@@ -38,7 +37,7 @@ class Screen extends React.Component {
     const props = this.props as any;
     return React.createElement(pages[props.route.params.pageName].component, {...props, destroyMe: () => {
       setTimeout(() => {
-        this.setState({renew: true, page: null});
+        this.setState(() => ({renew: true, page: null}));
       }, 100);
     }})
   }

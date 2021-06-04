@@ -98,9 +98,8 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
     onFragmentReady() {
       return Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()))
       .then(() => {
-        this.appConfig.refresh();
         this.onReady();
-        this.forceUpdate();
+        this.appConfig.refresh();
         this.targetWidget && this.targetWidget.invokeEventCallback('onLoad', [null, this.proxy]);
       });
     }
@@ -122,6 +121,11 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
 
     refresh() {
       (injector.get('AppConfig') as AppConfig).refresh();
+    }
+
+    forceUpdate() {
+      super.forceUpdate();
+      Object.values(this.fragments).forEach((f: any) => (f as BaseFragment<any>).forceUpdate());
     }
 
     render() {
