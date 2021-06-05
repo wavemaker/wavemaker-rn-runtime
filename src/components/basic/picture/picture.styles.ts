@@ -20,12 +20,12 @@ export const DEFAULT_STYLES: WmPictureStyles = {
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('rounded', DEFAULT_CLASS, {
+BASE_THEME.addStyle('rounded-image', DEFAULT_CLASS, {
   picture: {
     borderRadius: 6
   }
 } as WmPictureStyles);
-BASE_THEME.addStyle('thumbnail', DEFAULT_CLASS, {
+BASE_THEME.addStyle('thumbnail-image', DEFAULT_CLASS, {
   root: {
     backgroundColor: ThemeVariables.pictureThumbBgColor,
     borderWidth: 1,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, View } from 'react-native';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPictureProps from './picture.props';
@@ -33,7 +34,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     }
   }
 
-  compuateImageSize() {
+  computeImageSize() {
     let imageWidth = this.styles.root.width as number;
     let imageHeight = this.styles.root.height as number;
     if (!imageWidth) {
@@ -52,16 +53,35 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     }
     return [imageWidth, imageHeight];
   }
+  
+  createShape(shape: string | undefined, imageWidth: number): WmPictureStyles {
+    if (shape) {
+      switch(shape) {
+        case 'circle': 
+          return {
+            picture: {
+              borderRadius: imageWidth / 2
+            }
+          } as WmPictureStyles;
+        case 'rounded' : 
+          return (this.props.themeToUse?.getStyle('rounded-image') as WmPictureStyles);
+        case 'thumbnail' : 
+          return (this.props.themeToUse?.getStyle('thumbnail-image') as WmPictureStyles);
+      }
+    }
+    return {} as WmPictureStyles;
+  }
 
   render() {
     super.render();
     const props = this.state.props;
-    const [imageWidth, imageHeight] = this.compuateImageSize();
+    const [imageWidth, imageHeight] = this.computeImageSize();
+    const shapeStyles = this.createShape(props.shape, imageWidth);
     return props.show ? (
       <Tappable onTap={() => this.invokeEventCallback('onTap', [null, this.proxy])}
         onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
-        <View style={[this.styles.root, {height: imageHeight, width: imageWidth}]}>
-          <Image style={this.styles.picture} resizeMode={'stretch'} source={{
+        <View style={[this.styles.root, {height: imageHeight, width: imageWidth}, shapeStyles.root]}>
+          <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={'stretch'} source={{
             uri: props.picturesource || props.pictureplaceholder}}/>
         </View>
       </Tappable>
