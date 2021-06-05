@@ -1,12 +1,16 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmContainerProps from './container.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './container.styles';
+import { DEFAULT_CLASS, DEFAULT_STYLES, WmContainerStyles } from './container.styles';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
-export default class WmContainer extends BaseComponent<WmContainerProps, BaseComponentState<WmContainerProps>> {
+export class WmContainerState extends BaseComponentState<WmContainerProps> {
+
+}
+
+export default class WmContainer extends BaseComponent<WmContainerProps, BaseComponentState<WmContainerProps>, WmContainerStyles> {
 
   constructor(props: WmContainerProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmContainerProps());

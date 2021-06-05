@@ -1,13 +1,17 @@
-import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
+import BASE_THEME, { AllStyle, NamedStyles } from '@wavemaker/app-rn-runtime/styles/theme';
+import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+
+export type WmNavbarStyles = BaseStyles & {
+  nav: AllStyle,
+  navitem: AllStyle
+};
 
 export const DEFAULT_CLASS = 'app-navbar';
-export const DEFAULT_STYLES = {
+export const DEFAULT_STYLES: WmNavbarStyles = {
     root: {},
-    nav: {
-      flexDirection: 'row'
-    },
-    navitem: {
-    }
+    text: {},
+    nav: {flexDirection: 'row'},
+    navitem: {}
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
@@ -17,14 +21,13 @@ BASE_THEME.addStyle('stackedNav', '', {
     flexDirection: 'column'
   },
   navitem: {}
-});
+} as WmNavbarStyles);
 BASE_THEME.addStyle('justifiedNav', '', {
   root: {},
   nav: {},
   navitem: {
-    flex: 'auto',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around'
   }
-});
+} as WmNavbarStyles);

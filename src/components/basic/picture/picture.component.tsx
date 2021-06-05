@@ -4,14 +4,14 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPictureProps from './picture.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './picture.styles';
+import { DEFAULT_CLASS, DEFAULT_STYLES, WmPictureStyles } from './picture.styles';
 
 export class WmPictureState extends BaseComponentState<WmPictureProps> {
   naturalImageWidth: number = 0;
   naturalImageHeight: number = 0;
 }
 
-export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureState> {
+export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureState, WmPictureStyles> {
 
   constructor(props: WmPictureProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPictureProps());
@@ -34,8 +34,8 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
   }
 
   compuateImageSize() {
-    let imageWidth = this.styles.root.width;
-    let imageHeight = this.styles.root.height;
+    let imageWidth = this.styles.root.width as number;
+    let imageHeight = this.styles.root.height as number;
     if (!imageWidth) {
       if (imageHeight && this.state.naturalImageHeight) {
         imageWidth = imageHeight * this.state.naturalImageWidth / this.state.naturalImageHeight;

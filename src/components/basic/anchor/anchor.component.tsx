@@ -8,11 +8,13 @@ import { encodeUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
 import WmAnchorProps from './anchor.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './anchor.styles';
+import { DEFAULT_CLASS, DEFAULT_STYLES, WmAnchorStyles } from './anchor.styles';
 
-declare const window: any;
+export class WmAnchorState extends BaseComponentState<WmAnchorProps> {
 
-export default class WmAnchor extends BaseComponent<WmAnchorProps, BaseComponentState<WmAnchorProps>> {
+}
+
+export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState, WmAnchorStyles> {
 
   constructor(props: WmAnchorProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAnchorProps());

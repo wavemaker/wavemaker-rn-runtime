@@ -1,15 +1,20 @@
 import { isEqual, merge } from 'lodash';
 import React, { ReactNode } from 'react';
-import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE } from '../styles/theme';
+import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE, NamedStyles, AllStyle } from '../styles/theme';
 import { PropsProvider } from './props.provider';
 
 export class BaseComponentState<T extends BaseProps> {
     public props = {} as T;
 }
 
+export type BaseStyles = NamedStyles<any> & {
+    root: AllStyle,
+    text: AllStyle
+}
+
 export interface LifecycleListener {
-    onComponentInit: (c: BaseComponent<any, any>) => void;
-    onComponentDestroy: (c: BaseComponent<any, any>) => void;
+    onComponentInit: (c: BaseComponent<any, any, any>) => void;
+    onComponentDestroy: (c: BaseComponent<any, any, any>) => void;
 }
 
 export class BaseProps {
@@ -20,14 +25,17 @@ export class BaseProps {
     listener?: LifecycleListener = null as any;
 }
 
-export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>> extends React.Component<T, S> {
-    public styles: any = DEFAULT_STYLE;
+export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
+    public styles: L = {
+        root: {},
+        text: {}
+    } as L;
     private propertyProvider: PropsProvider<T>;
-    public proxy: BaseComponent<T, S>;
+    public proxy: BaseComponent<T, S, L>;
     private initialized = false;
     public cleanup = [] as Function[];
 
-    constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles = DEFAULT_STYLE, defaultProps?: T, defaultState?: S) {
+    constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles?: L, defaultProps?: T, defaultState?: S) {
         super(markupProps);
         this.state = (defaultState || {} as S);
         this.propertyProvider = new PropsProvider<T>(

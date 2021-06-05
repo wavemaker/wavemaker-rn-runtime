@@ -1,8 +1,14 @@
-import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
+import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import BASE_THEME, { NamedStyles }  from '@wavemaker/app-rn-runtime/styles/theme';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
+
+export type WmSpinnerStyles = BaseStyles & {
+  icon: WmIconStyles
+};
 
 export const DEFAULT_CLASS = 'app-spinner';
-export const DEFAULT_STYLES = {
+export const DEFAULT_STYLES: WmSpinnerStyles = {
   root: {
     textAlign: 'center'
   },
@@ -14,7 +20,7 @@ export const DEFAULT_STYLES = {
     text: {
       color: ThemeVariables.spinnerIconColor
     }
-  }
+  } as WmIconStyles
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

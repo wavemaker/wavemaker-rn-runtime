@@ -1,9 +1,16 @@
-import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
+import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
+import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+
+export type WmAnchorStyles = BaseStyles & {
+    badge: AllStyle,
+    icon: WmIconStyles
+};
 
 export const DEFAULT_CLASS = 'app-anchor';
 
-export const DEFAULT_STYLES = {
+export const DEFAULT_STYLES: WmAnchorStyles = {
     root: {
         color: ThemeVariables.linkPrimaryColor,
         flexDirection: 'row',
@@ -13,12 +20,12 @@ export const DEFAULT_STYLES = {
     text: {
         color: ThemeVariables.linkPrimaryColor,
         fontSize: 12,
-        textDecoration: 'underline'
+        textDecorationLine: 'underline'
     },
     badge: {
         backgroundColor: ThemeVariables.linkBadgeBackgroundColor,
         color: ThemeVariables.linkBadgeTextColor,
-        alignSelf: 'flexStart',
+        alignSelf: 'flex-start',
         position: 'relative',
         top: -12,
         left: -6
@@ -29,7 +36,7 @@ export const DEFAULT_STYLES = {
             color: ThemeVariables.linkPrimaryColor,
             fontSize: 14
         }
-    }
+    } as WmIconStyles
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
@@ -47,7 +54,7 @@ const getLinkStyles = (color: string) => {
                 color: color
             }
         }
-    };
+    } as WmAnchorStyles;
 };
 
 BASE_THEME.addStyle('link-primary', DEFAULT_CLASS, getLinkStyles(ThemeVariables.linkPrimaryColor));

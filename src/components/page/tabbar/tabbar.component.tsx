@@ -7,7 +7,7 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
 import WmTabbarProps from './tabbar.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './tabbar.styles';
+import { DEFAULT_CLASS, DEFAULT_STYLES, WmTabbarStyles } from './tabbar.styles';
 
 interface TabItem {
   key: string;
@@ -22,7 +22,7 @@ class WmTabbarState extends BaseComponentState<WmTabbarProps>{
   modalOptions = {} as ModalOptions;
 }
 
-export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState> {
+export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState, WmTabbarStyles> {
   
   private tabbarHeight = 0;
 

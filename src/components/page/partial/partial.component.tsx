@@ -3,9 +3,13 @@ import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPartialProps from './partial.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './partial.styles';
+import { DEFAULT_CLASS, DEFAULT_STYLES, WmPartialStyles } from './partial.styles';
 
-export default class WmPartial extends BaseComponent<WmPartialProps, BaseComponentState<WmPartialProps>> {
+export class WmPartialState extends BaseComponentState<WmPartialProps> {
+
+}
+
+export default class WmPartial extends BaseComponent<WmPartialProps, WmPartialState, WmPartialStyles> {
 
   constructor(props: WmPartialProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES);

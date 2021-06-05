@@ -3,9 +3,13 @@ import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmGridcolumnProps from './gridcolumn.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './gridcolumn.styles';
+import { DEFAULT_CLASS, DEFAULT_STYLES, WmGridColumnStyles } from './gridcolumn.styles';
 
-export default class WmGridcolumn extends BaseComponent<WmGridcolumnProps, BaseComponentState<WmGridcolumnProps>> {
+export class WmGridcolumnState extends BaseComponentState<WmGridcolumnProps> {
+
+}
+
+export default class WmGridcolumn extends BaseComponent<WmGridcolumnProps, WmGridcolumnState, WmGridColumnStyles> {
 
   constructor(props: WmGridcolumnProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmGridcolumnProps());
@@ -15,7 +19,7 @@ export default class WmGridcolumn extends BaseComponent<WmGridcolumnProps, BaseC
     super.render();
     const props = this.state.props;
     if (this.styles.root.height) {
-      this.styles.root.overflow = 'auto';
+      this.styles.root.overflow = undefined;
     }
     return props.show ? (
       <View style={[this.styles.root, {flex: props.xscolumnwidth || props.columnwidth}]}>{props.children}</View>

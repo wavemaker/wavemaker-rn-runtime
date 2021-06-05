@@ -1,8 +1,15 @@
-import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
+import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { WmIconStyles } from '../icon/icon.styles';
+
+export type WmButtonStyles = BaseStyles & {
+  badge: AllStyle,
+  icon: WmIconStyles
+};
 
 export const DEFAULT_CLASS = 'app-button';
-export const DEFAULT_STYLES = {
+export const DEFAULT_STYLES: WmButtonStyles = {
     root: {
         paddingTop: 5,
         paddingBottom: 5,
@@ -20,7 +27,7 @@ export const DEFAULT_STYLES = {
     badge: {
       backgroundColor: ThemeVariables.buttonBadgeBackgroundColor,
       color: ThemeVariables.buttonBadgeTextColor,
-      alignSelf: 'flexStart',
+      alignSelf: 'flex-start',
       position: 'relative',
       top: -16,
       right: -16
@@ -30,7 +37,7 @@ export const DEFAULT_STYLES = {
         paddingRight: ThemeVariables.buttonTextPadding,
         fontSize: 14
       }
-    }
+    } as WmIconStyles
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
@@ -48,8 +55,8 @@ const getButtonStyles = (bgColor: string, color: string) => {
         color: color
       }
     }
-  };
-};
+  } as WmButtonStyles;
+}
 
 BASE_THEME.addStyle('btn-default', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonDefaultColor, ThemeVariables.buttonDefaultTextColor));
 BASE_THEME.addStyle('btn-info', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonInfoColor, ThemeVariables.buttonInfoTextColor));

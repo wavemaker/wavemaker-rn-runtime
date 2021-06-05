@@ -1,8 +1,12 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
+import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+
+export type Wm{{widget.name.camelcase}}Styles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-{{widget.name.hyphenated}}';
-export const DEFAULT_STYLES = {
-    root: {}
+export const DEFAULT_STYLES: Wm{{widget.name.camelcase}}Styles = {
+    root: {},
+    text: {}
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

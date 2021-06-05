@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import AppConfig from '../core/AppConfig';
 import injector from './injector';
 import App from './App';
-import { BaseComponent, BaseComponentState, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme } from '@wavemaker/app-rn-runtime/styles/theme';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core/viewport';
@@ -12,10 +12,14 @@ export interface FragmentProps extends BaseProps {
 
 }
 
-export default class BaseFragment<T extends FragmentProps> extends BaseComponent<T, BaseComponentState<T>> implements LifecycleListener {
+export interface FragmentState<T extends FragmentProps> extends BaseComponentState<T> {}
+
+export type FragmentStyles = BaseStyles & {};
+
+export default class BaseFragment<P extends FragmentProps, S extends FragmentState<P>> extends BaseComponent<P, S, FragmentStyles> implements LifecycleListener {
     public App: App;
     public onReady: Function = () => {};
-    public targetWidget = null as unknown as BaseComponent<any, any>;
+    public targetWidget = null as unknown as BaseComponent<any, any, any>;
     public Widgets: any = {};
     public Variables: any = {};
     public theme: Theme = BASE_THEME;
@@ -28,7 +32,7 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
     public fragments: any = {};
     public isDetached = false;
 
-    constructor(props: T, defaultProps?: T) {
+    constructor(props: P, defaultProps?: P) {
         super(props, undefined, undefined, defaultProps);
         this.App = this.appConfig.app;
         this.Actions = Object.assign({}, this.App.Actions);
@@ -45,14 +49,14 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
         }));
     }
 
-    onComponentInit(w: BaseComponent<any, any>) {
+    onComponentInit(w: BaseComponent<any, any, any>) {
       this.Widgets[w.props.name] = w;
       if (w instanceof BaseFragment && w !== this) {
         this.fragments[w.props.name] = w;
       }
     }
 
-    onComponentDestroy(w: BaseComponent<any, any>) {
+    onComponentDestroy(w: BaseComponent<any, any, any>) {
       delete this.Widgets[w.props.name];
       if (w instanceof BaseFragment) {
         delete this.fragments[w.props.name];
@@ -125,7 +129,7 @@ export default class BaseFragment<T extends FragmentProps> extends BaseComponent
 
     forceUpdate() {
       super.forceUpdate();
-      Object.values(this.fragments).forEach((f: any) => (f as BaseFragment<any>).forceUpdate());
+      Object.values(this.fragments).forEach((f: any) => (f as BaseFragment<any, any>).forceUpdate());
     }
 
     render() {

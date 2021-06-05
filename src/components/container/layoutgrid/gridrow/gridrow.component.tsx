@@ -3,9 +3,13 @@ import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmGridrowProps from './gridrow.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './gridrow.styles';
+import { DEFAULT_CLASS, DEFAULT_STYLES, WmGridRowStyles } from './gridrow.styles';
 
-export default class WmGridrow extends BaseComponent<WmGridrowProps, BaseComponentState<WmGridrowProps>> {
+export class WmGridrowState extends BaseComponentState<WmGridrowProps> {
+
+}
+
+export default class WmGridrow extends BaseComponent<WmGridrowProps, WmGridrowState, WmGridRowStyles> {
 
   constructor(props: WmGridrowProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmGridrowProps());

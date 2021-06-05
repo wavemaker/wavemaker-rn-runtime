@@ -4,9 +4,13 @@ import { FlatList } from 'react-native-gesture-handler';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmListProps from './list.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './list.styles';
+import { DEFAULT_CLASS, DEFAULT_STYLES, WmListStyles } from './list.styles';
 
-export default class WmList extends BaseComponent<WmListProps, BaseComponentState<WmListProps>> {
+export class WmListState extends BaseComponentState<WmListProps> {
+
+}
+
+export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
 
   public selecteditem: any;
 

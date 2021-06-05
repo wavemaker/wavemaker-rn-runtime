@@ -4,9 +4,9 @@ import { WebView } from 'react-native-webview';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmWebviewProps from './webview.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './webview.styles';
+import { DEFAULT_CLASS, DEFAULT_STYLES, WebviewStyles } from './webview.styles';
 
-export default class WmWebview extends BaseComponent<WmWebviewProps, BaseComponentState<WmWebviewProps>> {
+export default class WmWebview extends BaseComponent<WmWebviewProps, BaseComponentState<WmWebviewProps>, WebviewStyles> {
 
   constructor(props: WmWebviewProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmWebviewProps());

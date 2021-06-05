@@ -7,7 +7,7 @@ import WmPage from '@wavemaker/app-rn-runtime/components/page/page.component';
 import { isPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import NavigationService from '@wavemaker/app-rn-runtime/core/navigation.service';
 
-import BaseFragment, { FragmentProps } from './base-fragment.component';
+import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
 
 declare const window: any;
 
@@ -17,7 +17,9 @@ export interface PageProps extends FragmentProps {
   destroyMe: Function;
 }
 
-export default class BasePage extends BaseFragment<PageProps> implements NavigationService {
+export interface PageState extends FragmentState<PageProps> {}
+
+export default class BasePage extends BaseFragment<PageProps, PageState> implements NavigationService {
     private pageName = null as unknown as string;
     private pageParams: any = {};
     private hasDrawer = false;
@@ -31,7 +33,7 @@ export default class BasePage extends BaseFragment<PageProps> implements Navigat
       this.appConfig.setDrawerContent && this.appConfig.setDrawerContent(null);
     }
 
-    onComponentInit(w: BaseComponent<any, any>) {
+    onComponentInit(w: BaseComponent<any, any, any>) {
       super.onComponentInit(w);
       if (w instanceof WmPage) {
         this.targetWidget = w;

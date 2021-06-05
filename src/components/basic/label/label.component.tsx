@@ -4,9 +4,13 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmLabelProps from './label.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './label.styles';
+import { DEFAULT_CLASS, DEFAULT_STYLES, WmLabelStyles } from './label.styles';
 
-export default class WmLabel extends BaseComponent<WmLabelProps, BaseComponentState<WmLabelProps>> {
+export class WmLabelState extends BaseComponentState<WmLabelProps> {
+
+}
+
+export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, WmLabelStyles> {
 
   constructor(props: WmLabelProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLabelProps());

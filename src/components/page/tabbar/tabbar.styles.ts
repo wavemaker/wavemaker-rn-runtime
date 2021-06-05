@@ -1,9 +1,22 @@
-import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
+import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { WmIconStyles } from '../../basic/icon/icon.styles';
+
+export type WmTabbarStyles = BaseStyles & {
+    menu: AllStyle,
+    modalContent: AllStyle,
+    moreMenu: AllStyle,
+    moreMenuRow: AllStyle,
+    tabItem: AllStyle,
+    tabIcon: WmIconStyles,
+    tabLabel: AllStyle,
+};
 
 export const DEFAULT_CLASS = 'app-tabbar';
-export const DEFAULT_STYLES = {
+export const DEFAULT_STYLES: WmTabbarStyles = {
     root: {},
+    text: {},
     menu: {
         flexDirection: 'row',
         backgroundColor: ThemeVariables.tabbarBackgroundColor,
@@ -16,7 +29,7 @@ export const DEFAULT_STYLES = {
     },
     moreMenu: {
         flexDirection: 'column-reverse',
-        justifyContent: 'flexEnd',
+        justifyContent: 'flex-end',
         backgroundColor: ThemeVariables.tabbarBackgroundColor,
         shadowColor: '#000000',
         shadowOffset: {
@@ -46,7 +59,7 @@ export const DEFAULT_STYLES = {
             fontSize: 24,
             color:  ThemeVariables.tabbarIconColor
         }
-    },
+    } as WmIconStyles,
     tabLabel: {
         fontSize: 12,
         color:  ThemeVariables.tabbarIconColor

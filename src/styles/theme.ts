@@ -1,7 +1,8 @@
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { merge } from 'lodash';
+import { TextStyle, ViewStyle, ImageStyle } from 'react-native';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
-export const DEFAULT_STYLE: any = {};
+export const DEFAULT_STYLE: NamedStyles<any> = {};
 
 export class Theme {
     private styles: any = {};
@@ -14,7 +15,7 @@ export class Theme {
 
     }
 
-    addStyle(name: string, extend: string, style = DEFAULT_STYLE) {
+    addStyle<T extends NamedStyles<any>>(name: string, extend: string, style: T) {
         this.styles[name] = deepCopy({}, this.styles[extend], this.styles[name], style);
     }
     
@@ -43,5 +44,6 @@ export class Theme {
         return newTheme;
     }
 }
-
 export default Theme.BASE;
+export type NamedStyles<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle | NamedStyles<T>};
+export type AllStyle = ViewStyle | TextStyle | ImageStyle;
