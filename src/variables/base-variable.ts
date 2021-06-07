@@ -1,5 +1,5 @@
 import DatasetUtil from './utils/dataset-util';
-import { isNumber, isObject, isBoolean, get, isEqual } from 'lodash';
+import { isNumber, isObject, isBoolean, get, isEqual, merge } from 'lodash';
 export interface VariableConfig {
     paramProvider: Function;
     onSuccess: Function;
@@ -20,7 +20,12 @@ export abstract class BaseVariable {
         if (!params) {
             this.params = this.config.paramProvider();
         } else {
-          this.params = params;
+            this.params = params;
+        }
+        // @ts-ignore
+        if (this.category === 'wm.NavigationVariable') {
+          // @ts-ignore
+          this.params = params?.data ? merge(this.config.paramProvider(), params.data) : merge(this.config.paramProvider(), this.dataSet);
         }
         return Promise.resolve(this);
     }
