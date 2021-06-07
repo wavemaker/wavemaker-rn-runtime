@@ -1,11 +1,11 @@
+import { BaseComponent } from "@wavemaker/app-rn-runtime/core/base.component";
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 
 interface TappableProps {
-    onTap: Function;
-    onDoubleTap: Function;
     children?: any
     styles?: any;
+    target: BaseComponent<any, any, any>
 }
 
 export class Tappable extends React.Component<TappableProps, any> {
@@ -18,21 +18,24 @@ export class Tappable extends React.Component<TappableProps, any> {
     onPress() {
         const delta = new Date().getTime() - this.lastPress;
         this.lastPress = this.lastPress > 0 ? 0: new Date().getTime();
+        const target = this.props.target;
         if(delta < 200) {
-            //@ts-ignore
-            this.props.onDoubleTap && this.props.onDoubleTap();
+            target.invokeEventCallback('onDoubletap', [null, target]);
         }
-        //@ts-ignore
-        this.props.onTap && this.props.onTap();
+        target.invokeEventCallback('onTap', [null, target]);
     }
 
     render() {
-        return (
-            <TouchableOpacity
-                style={this.props.styles}
-                onPress={() => this.onPress()}>
-                {this.props.children}
-            </TouchableOpacity>
-        );
+        const target = this.props.target;
+        if (target.props.onTap || target.props.onDoubleTap) {
+            return (
+                <TouchableOpacity
+                    style={this.props.styles}
+                    onPress={() => this.onPress()}>
+                    {this.props.children}
+                </TouchableOpacity>
+            );
+        }
+        return (<View>{this.props.children}</View>);
     }
 }

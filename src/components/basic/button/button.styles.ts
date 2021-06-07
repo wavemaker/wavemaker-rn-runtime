@@ -18,7 +18,8 @@ export const DEFAULT_STYLES: WmButtonStyles = {
         margin: 5,
         flexDirection: 'row',
         alignSelf: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     text: {
       fontSize: 12,

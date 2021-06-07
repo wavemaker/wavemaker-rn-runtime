@@ -40,9 +40,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     return props.show ? (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
-          (<Tappable
-            onTap={() => this.onTap(navigationService)}
-            onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
+          (<Tappable target={this}>
               <View style={[this.styles.root, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
                 {props.iconposition === 'top' && icon}
                 {props.iconposition === 'left' && icon}

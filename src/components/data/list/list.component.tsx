@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmListStyles } from './list.styles';
@@ -27,7 +28,18 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <FlatList style={this.styles.root} keyExtractor={(item, i) => 'list_item_' +  i} data={props.dataset} renderItem={(itemInfo) => (
+      <FlatList
+        style={this.styles.root}
+        keyExtractor={(item, i) => 'list_item_' +  i}
+        ListHeaderComponent={() => {
+          return (props.title || props.subheading) ? (
+            <View style={this.styles.heading}>
+              { props.title && (<WmLabel themeToUse={props.themeToUse} styles={this.styles.title} caption={props.title}></WmLabel>)}
+              { props.subheading && <WmLabel themeToUse={props.themeToUse} styles={this.styles.subheading} caption={props.subheading}></WmLabel>}
+            </View>
+          ): null;
+        }}
+        data={props.dataset} renderItem={(itemInfo) => (
         <TouchableOpacity onPress={(e) => this.onSelect(e, itemInfo.item)}>
           <View>
             {props.renderItem(itemInfo.item, itemInfo.index)}

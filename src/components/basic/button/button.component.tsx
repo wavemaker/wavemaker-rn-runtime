@@ -33,9 +33,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <Tappable
-        onTap={() => this.invokeEventCallback('onTap', [null, this.proxy])}
-        onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
+      <Tappable target={this}>
         <View style={[this.styles.root, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
           {props.iconposition === 'top' && this.prepareIcon(props)}
           {props.iconposition === 'left' && this.prepareIcon(props)}

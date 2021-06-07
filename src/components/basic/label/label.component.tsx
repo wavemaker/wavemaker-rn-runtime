@@ -24,9 +24,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <Tappable
-        onTap={() => this.invokeEventCallback('onTap', [null, this.proxy])}
-        onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
+      <Tappable target={this}>
           <Text style={this.styles.root}>{props.caption}
             {props.required && this.getAsterisk()}
           </Text>

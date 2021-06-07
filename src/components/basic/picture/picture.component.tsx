@@ -78,8 +78,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     const [imageWidth, imageHeight] = this.computeImageSize();
     const shapeStyles = this.createShape(props.shape, imageWidth);
     return props.show ? (
-      <Tappable onTap={() => this.invokeEventCallback('onTap', [null, this.proxy])}
-        onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
+      <Tappable target={this}>
         <View style={[this.styles.root, {height: imageHeight, width: imageWidth}, shapeStyles.root]}>
           <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={'stretch'} source={{
             uri: props.picturesource || props.pictureplaceholder}}/>
