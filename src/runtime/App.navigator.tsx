@@ -1,43 +1,27 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { ReactNode } from 'react';
+import { View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppDrawerNavigator from './navigator/drawer.navigator';
 import AppStackNavigator from './navigator/stack.navigator';
-import injector from './injector';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-class AppDrawerContainer extends React.Component<any, any, any> {
-
-  constructor(props: any) {
-    super(props);
-    this.state = {};
-  }
-
-  componentDidMount() {
-    const appConfig = injector.get<AppConfig>('APP_CONFIG');
-    appConfig.setDrawerContent = (content: React.ReactNode) => {
-      this.setState(() => ({content: content}));
-    };
-  }
-
-  componentDidUnMount() {
-    const appConfig = injector.get<AppConfig>('APP_CONFIG');
-    this.setState(() => ({content: null}));
-  }
-
-  render(){
-    return (this.state && this.state.content) || <View/>;
-  }
-
+export interface AppNavigatorProps {
+  drawerContent: ReactNode;
+  drawerAnimation: string;
+  app: any;
 }
 
-export const AppNavigator = (props: any) => {
+export const AppNavigator = (props: AppNavigatorProps) => {
   const appConfig = injector.get<AppConfig>('APP_CONFIG');
   const stack = (<AppStackNavigator pages={appConfig.pages || []}></AppStackNavigator>);
-  const leftNav = (
-    <AppDrawerNavigator 
-      type='slide'
-      content={(<AppDrawerContainer/>)}
+  const leftNav = (<AppDrawerNavigator 
+      type={props.drawerAnimation === 'slide-over' ? 'front' : 'slide'}
+      content={<SafeAreaView style={{flex: 1}}>
+        <StatusBar barStyle="light-content" backgroundColor="#000000" />
+        {props.drawerContent  || (<View/>)}
+      </SafeAreaView>}
       rootComponent={stack}/>);
-  return (<NavigationContainer> {leftNav}</NavigationContainer>);
+  return (<NavigationContainer>{leftNav}</NavigationContainer>);
 };

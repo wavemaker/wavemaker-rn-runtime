@@ -1,5 +1,4 @@
-import injector from '../injector';
-
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 import PartialService from '@wavemaker/app-rn-runtime/core/partial.service';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 

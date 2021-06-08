@@ -9,12 +9,22 @@ const TEMPLATE = handlebars.compile(`
  * See wavicon.generator.js
  ********************************************************/
 
-import { createIconSet } from '@expo/vector-icons';
+ import injector from '@wavemaker/app-rn-runtime/core/injector';
+ import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+ import { Icon } from '@expo/vector-icons/build/createIconSet';
 
 
-const glyphMap: any = {{{iconset}}};
+export const glyphMap: any = {{{iconset}}};
 
-export default createIconSet(glyphMap, 'wavicon', './fonts/wavicon.ttf');
+let fontSet: Icon<any, any> = null as any;
+
+export default () => {
+    if (!fontSet) {
+        const appConfig = injector.get<AppConfig>('APP_CONFIG');
+        fontSet = appConfig.wavIconAsset;
+    }
+    return fontSet
+};
 `);
 
 function generate() {
