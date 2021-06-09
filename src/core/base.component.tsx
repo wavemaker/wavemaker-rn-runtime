@@ -40,7 +40,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         super(markupProps);
         this.state = (defaultState || {} as S);
         this.propertyProvider = new PropsProvider<T>(
-            Object.assign(defaultProps || {}, markupProps), 
+            Object.assign(defaultProps || {}, markupProps),
             (name: string, $new: any, $old: any) => {
                 this.onPropertyChange(name, $new, $old);
             });
@@ -123,7 +123,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
         args && args.map(a => (a === this) ? this.proxy : a)
         if (eventName === 'onTap') {
-            this.invokeEventCallback('onClick', args);
+          this.invokeEventCallback && this.invokeEventCallback('onClick', args);
         }
     }
 

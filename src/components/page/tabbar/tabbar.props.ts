@@ -1,10 +1,6 @@
-import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseNavProps } from '../../navigation/basenav/basenav.props';
 
-export default class WmTabbarProps extends BaseProps {
-  dataset: any;
-  itemlabel: string = null as any;
-  itemicon: string = null as any;
-  itemlink: string = null as any;
+export default class WmTabbarProps extends BaseNavProps {
   morebuttoniconclass = 'wi wi-more-horiz';
   morebuttonlabel = 'more';
 }
