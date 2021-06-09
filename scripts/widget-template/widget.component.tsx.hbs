@@ -13,11 +13,7 @@ export default class Wm{{widget.name.camelcase}} extends BaseComponent<Wm{{widge
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new Wm{{widget.name.camelcase}}Props());
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
-      <Text></Text>
-    ): null; 
+  renderWidget(props: Wm{{widget.name.camelcase}}Props) {
+    return (<Text></Text>); 
   }
 }
