@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image, View } from 'react-native';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
-import { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPictureProps from './picture.props';
@@ -64,9 +63,9 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
             }
           } as WmPictureStyles;
         case 'rounded' : 
-          return (this.props.themeToUse?.getStyle('rounded-image') as WmPictureStyles);
+          return (this.theme.getStyle('rounded-image') as WmPictureStyles);
         case 'thumbnail' : 
-          return (this.props.themeToUse?.getStyle('thumbnail-image') as WmPictureStyles);
+          return (this.theme.getStyle('thumbnail-image') as WmPictureStyles);
       }
     }
     return {} as WmPictureStyles;

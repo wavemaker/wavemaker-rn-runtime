@@ -38,13 +38,13 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
   private prepareIcon(props: any) {
     return (<WmIcon
       styles={this.styles.icon} name={props.name + '_icon'}
-      themeToUse={props.themeToUse} iconclass={props.iconclass + ' fa-spin'} iconsize={props.iconsize}></WmIcon>);
+      iconclass={props.iconclass + ' fa-spin'} iconsize={props.iconsize}></WmIcon>);
   }
 
   private prepareImage(props: any) {
     return (<WmPicture
       styles={{height:props.imageheight, width:props.imagewidth}} name={props.name + '_image'}
-      themeToUse={props.themeToUse} picturesource={props.image}></WmPicture>);
+      picturesource={props.image}></WmPicture>);
   }
 
   renderWidget(props: WmSpinnerProps) {

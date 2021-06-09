@@ -24,23 +24,23 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           touchSoundDisabled={false}
           style={this.styles.action}
           icon={() => {
-            return (<WmIcon styles={this.styles.leftnavIcon} themeToUse={props.themeToUse} iconclass={props.leftnavpaneliconclass}/>);
+            return (<WmIcon styles={this.styles.leftnavIcon} iconclass={props.leftnavpaneliconclass}/>);
           }} onPress={() => this.invokeEventCallback('onDrawerbuttonpress', [null, this])} /> )}
         {props.backbutton && (<Appbar.Action
           touchSoundDisabled={false}
           animated={false}
           style={this.styles.action}
           icon={() => {
-            return (<WmIcon styles={this.styles.leftnavIcon} themeToUse={props.themeToUse} iconclass={props.backbuttoniconclass} caption={props.backbuttonlabel}/>);
+            return (<WmIcon styles={this.styles.leftnavIcon} iconclass={props.backbuttoniconclass} caption={props.backbuttonlabel}/>);
           }} onPress={() => this.invokeEventCallback('onBackbtnclick', [null, this])} /> )}
-         {props.imgsrc && (<WmPicture themeToUse={props.themeToUse}  picturesource={props.imgsrc} />)}
+         {props.imgsrc && (<WmPicture  picturesource={props.imgsrc} />)}
 
           <Appbar.Content title={props.title} titleStyle={this.styles.content}></Appbar.Content>
         {props.searchbutton && (<Appbar.Action
           touchSoundDisabled={false}
           style={this.styles.action}
           icon={() => {
-            return (<WmIcon styles={this.styles.leftnavIcon} themeToUse={props.themeToUse} iconclass={props.searchbuttoniconclass}/>);
+            return (<WmIcon styles={this.styles.leftnavIcon} iconclass={props.searchbuttoniconclass}/>);
           }} onPress={() => this.invokeEventCallback('onSearchbuttonpress', [null, this])} /> )}
         {props.children}
       </Appbar.Header>

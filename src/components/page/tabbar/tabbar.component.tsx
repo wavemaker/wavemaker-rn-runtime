@@ -71,7 +71,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
     return (
       <View style={this.styles.tabItem} key={item.key} >
         <TouchableOpacity onPress={() => onSelect && onSelect()}>
-          <WmIcon name="" styles={this.styles.tabIcon} themeToUse={props.themeToUse} iconclass={item.icon}></WmIcon>
+          <WmIcon styles={this.styles.tabIcon} iconclass={item.icon}></WmIcon>
           <Text style={this.styles.tabLabel}>{item.label}</Text>
         </TouchableOpacity>
       </View>

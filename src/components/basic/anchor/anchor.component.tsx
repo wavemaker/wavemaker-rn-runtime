@@ -31,8 +31,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
 
   renderWidget(props: WmAnchorProps) {
     const icon = (<WmIcon
-      styles={this.styles.icon} name={props.name + '_icon'}
-      themeToUse={props.themeToUse} iconclass={props.iconclass}></WmIcon>);
+      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>);
     //@ts-ignore
     const badge = (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>);
     return (

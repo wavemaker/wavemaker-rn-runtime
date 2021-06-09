@@ -35,10 +35,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           return (props.iconclass || props.title || props.subheading) ? (
             <View style={this.styles.heading}>
               <View style={{flex: 1, flexDirection: 'row'}}>
-                <WmIcon themeToUse={props.themeToUse} styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
+                <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
                 <View>
-                  <WmLabel themeToUse={props.themeToUse} styles={this.styles.title} caption={props.title}></WmLabel>
-                  <WmLabel themeToUse={props.themeToUse} styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+                  <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
+                  <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
                 </View>
               </View>
             </View>) : null

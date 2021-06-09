@@ -1,8 +1,9 @@
+import React from 'react';
 import AppConfig from '../core/AppConfig';
 import injector from '../core/injector';
 import App from './App';
 import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
-import BASE_THEME, { Theme } from '@wavemaker/app-rn-runtime/styles/theme';
+import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 
@@ -132,7 +133,9 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     render() {
       this.autoUpdateVariables.forEach(value => this.Variables[value].invokeOnParamChange());
-      return this.renderWidget(this.props);
+      return (<ThemeProvider value={this.theme}>
+        {this.renderWidget(this.props)}
+      </ThemeProvider>);
     }
 }
 

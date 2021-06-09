@@ -1,6 +1,6 @@
 import { isEqual, merge } from 'lodash';
 import React, { ReactNode } from 'react';
-import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE, NamedStyles, AllStyle } from '../styles/theme';
+import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE, NamedStyles, AllStyle, ThemeConsumer } from '../styles/theme';
 import { PropsProvider } from './props.provider';
 
 export class BaseComponentState<T extends BaseProps> {
@@ -19,7 +19,6 @@ export interface LifecycleListener {
 
 export class BaseProps {
     name?: string = null as any;
-    themeToUse? = BASE_THEME;
     show? = true;
     styles?: any = null;
     listener?: LifecycleListener = null as any;
@@ -34,6 +33,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public proxy: BaseComponent<T, S, L>;
     private initialized = false;
     public cleanup = [] as Function[];
+    public theme = BASE_THEME;
 
     constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles?: L, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -129,8 +129,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     protected abstract renderWidget(props: T): ReactNode;
 
     public render(): ReactNode {
-        this.styles = merge({}, this.props.themeToUse?.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
         const props = this.state.props;
-        return props.show !== false ? this.renderWidget(this.state.props) : null;
+        return props.show !== false ?
+            (<ThemeConsumer>{(theme) => {
+                this.theme = theme;
+                this.styles = merge({}, this.theme.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
+                return this.renderWidget(this.state.props);
+            }}</ThemeConsumer>) : null;
     }
 }
