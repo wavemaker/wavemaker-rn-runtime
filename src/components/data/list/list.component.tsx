@@ -26,10 +26,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     this.invokeEventCallback('onSelect', [$event, this.proxy, $item]);
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
+  renderWidget(props: WmListProps) {
+    return (
       <FlatList
         style={this.styles.root}
         keyExtractor={(item, i) => 'list_item_' +  i}
@@ -52,6 +50,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           </View>
         </TouchableOpacity>
       )}></FlatList>
-    ): null; 
+    ); 
   }
 }

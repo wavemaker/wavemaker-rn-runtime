@@ -126,8 +126,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
     }
 
+    protected abstract renderWidget(props: T): ReactNode;
+
     public render(): ReactNode {
         this.styles = merge({}, this.props.themeToUse?.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
-        return null;
+        const props = this.state.props;
+        return props.show !== false ? this.renderWidget(this.state.props) : null;
     }
 }

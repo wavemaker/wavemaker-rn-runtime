@@ -13,9 +13,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
     super(props, DEFAULT_CLASS, DEFAULT_STYLES);
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
+  renderWidget(props: WmPageProps) {
     return (
       <View style={this.styles.root}>
         {props.children}

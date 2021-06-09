@@ -29,15 +29,13 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     this.invokeEventCallback('onTap', [null, this.proxy]);
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
+  renderWidget(props: WmAnchorProps) {
     const icon = (<WmIcon
       styles={this.styles.icon} name={props.name + '_icon'}
       themeToUse={props.themeToUse} iconclass={props.iconclass}></WmIcon>);
     //@ts-ignore
     const badge = (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>);
-    return props.show ? (
+    return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
           (<Tappable target={this}>
@@ -51,6 +49,6 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
           </Tappable>)
       }
       </NavigationServiceConsumer>
-    ): null;
+    );
   }
 }

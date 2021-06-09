@@ -1,13 +1,14 @@
 import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmPartial from '@wavemaker/app-rn-runtime/components/page/partial/partial.component';
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
+import { ReactNode } from 'react';
 
 export interface PartialProps extends FragmentProps {
 }
 
 export interface PartialState extends FragmentState<PartialProps> {}
 
-export default class BasePartial extends BaseFragment<PartialProps, PartialState> {
+export default abstract class BasePartial extends BaseFragment<PartialProps, PartialState> {
     private partialParams: any = {};
     
     constructor(props: PartialProps) {
@@ -22,5 +23,11 @@ export default class BasePartial extends BaseFragment<PartialProps, PartialState
       if (w instanceof WmPartial) {
         this.targetWidget = w;
       }
+    }
+
+    abstract renderPartial(): ReactNode;
+
+    renderWidget(props: PartialProps) {
+      return this.renderPartial();
     }
 }

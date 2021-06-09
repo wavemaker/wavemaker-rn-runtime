@@ -13,13 +13,11 @@ export default class WmButtongroup extends BaseComponent<WmButtongroupProps, WmB
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmButtongroupProps());
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
+  renderWidget(props: WmButtongroupProps) {
+    return (
       <View style={[this.styles.root, {flexDirection: props.vertical ? 'column': 'row'}]}>
         {props.children}
       </View>
-    ): null;
+    );
   }
 }

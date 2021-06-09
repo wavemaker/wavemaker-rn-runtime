@@ -15,9 +15,7 @@ export default class WmPrefabContainer extends BaseComponent<WmPrefabContainerPr
     super(props, DEFAULT_CLASS, DEFAULT_STYLES);
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
+  renderWidget(props: WmPrefabContainerProps) {
     return (
       <View style={this.styles.root}>
         {props.children}

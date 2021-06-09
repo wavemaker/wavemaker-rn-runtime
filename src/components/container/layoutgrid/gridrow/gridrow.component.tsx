@@ -15,11 +15,9 @@ export default class WmGridrow extends BaseComponent<WmGridrowProps, WmGridrowSt
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmGridrowProps());
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
+  renderWidget(props: WmGridrowProps) {
+    return (
       <View style={this.styles.root}>{props.children}</View>
-    ): null; 
+    ); 
   }
 }

@@ -17,13 +17,11 @@ export default class WmNavbar extends BaseComponent<WmNavbarProps, WmNavbarState
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmNavbarProps());
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
+  renderWidget(props: WmNavbarProps) {
+    return (
       <Drawer.Section style={this.styles.nav}>
         {props.children}
       </Drawer.Section>
-    ): null;
+    );
   }
 }

@@ -17,10 +17,8 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAppNavbarProps());
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
+  renderWidget(props: WmAppNavbarProps) {
+    return (
       <Appbar.Header statusBarHeight={0} style={this.styles.root}>
         {props.showDrawerButton && (<Appbar.Action
           touchSoundDisabled={false}
@@ -30,6 +28,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           }} onPress={() => this.invokeEventCallback('onDrawerbuttonpress', [null, this])} /> )}
         {props.backbutton && (<Appbar.Action
           touchSoundDisabled={false}
+          animated={false}
           style={this.styles.action}
           icon={() => {
             return (<WmIcon styles={this.styles.leftnavIcon} themeToUse={props.themeToUse} iconclass={props.backbuttoniconclass} caption={props.backbuttonlabel}/>);
@@ -45,6 +44,6 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           }} onPress={() => this.invokeEventCallback('onSearchbuttonpress', [null, this])} /> )}
         {props.children}
       </Appbar.Header>
-    ): null;
+    );
   }
 }

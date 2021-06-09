@@ -72,13 +72,11 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     return {} as WmPictureStyles;
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
+  renderWidget(props: WmPictureProps) {
     const [imageWidth, imageHeight] = this.computeImageSize();
     const shapeStyles = this.createShape(props.shape, imageWidth);
     const src = props.picturesource || props.pictureplaceholder;
-    return props.show &&  src? (
+    return src ? (
       <Tappable target={this}>
         <View style={[this.styles.root, {height: imageHeight, width: imageWidth}, shapeStyles.root]}>
           <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={'stretch'} source={{

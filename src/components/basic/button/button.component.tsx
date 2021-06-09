@@ -29,10 +29,8 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
     return (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>);
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
+  renderWidget(props: WmButtonProps) {
+    return (
       <Tappable target={this}>
         <View style={[this.styles.root, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
           {props.iconposition === 'top' && this.prepareIcon(props)}
@@ -42,6 +40,6 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
           {props.badgevalue && this.prepareBadge(props)}
         </View>
       </Tappable>
-    ): null;
+    );
   }
 }

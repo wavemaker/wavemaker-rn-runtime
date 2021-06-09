@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Linking } from 'react-native';
 import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -19,7 +19,7 @@ export interface PageProps extends FragmentProps {
 
 export interface PageState extends FragmentState<PageProps> {}
 
-export default class BasePage extends BaseFragment<PageProps, PageState> implements NavigationService {
+export default abstract class BasePage extends BaseFragment<PageProps, PageState> implements NavigationService {
     private pageName = null as unknown as string;
     private pageParams: any = {};
     private hasDrawer = false;
@@ -113,5 +113,11 @@ export default class BasePage extends BaseFragment<PageProps, PageState> impleme
         }
       }
       return Promise.resolve();
+    }
+
+    abstract renderPage(): ReactNode;
+
+    renderWidget(props: PageProps) {
+      return this.renderPage();
     }
 }

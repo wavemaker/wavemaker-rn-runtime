@@ -47,12 +47,10 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
       themeToUse={props.themeToUse} picturesource={props.image}></WmPicture>);
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
+  renderWidget(props: WmSpinnerProps) {
     const rotate = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg']});
 
-    return props.show ? (
+    return (
       <Text style={this.styles.root}>
         <Animated.View style={{ transform: [{ rotate }] }}>
           {props.type === 'icon' && this.prepareIcon(props)}
@@ -60,6 +58,6 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
         </Animated.View>
         <Text style={this.styles.text}>{props.caption}</Text>
       </Text>
-    ): null;
+    );
   }
 }

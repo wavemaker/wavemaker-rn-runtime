@@ -1,5 +1,3 @@
-import React, { Fragment } from 'react';
-import { Text, View } from 'react-native';
 import AppConfig from '../core/AppConfig';
 import injector from '../core/injector';
 import App from './App';
@@ -16,7 +14,7 @@ export interface FragmentState<T extends FragmentProps> extends BaseComponentSta
 
 export type FragmentStyles = BaseStyles & {};
 
-export default class BaseFragment<P extends FragmentProps, S extends FragmentState<P>> extends BaseComponent<P, S, FragmentStyles> implements LifecycleListener {
+export default abstract class BaseFragment<P extends FragmentProps, S extends FragmentState<P>> extends BaseComponent<P, S, FragmentStyles> implements LifecycleListener {
     public App: App;
     public onReady: Function = () => {};
     public targetWidget = null as unknown as BaseComponent<any, any, any>;
@@ -134,7 +132,7 @@ export default class BaseFragment<P extends FragmentProps, S extends FragmentSta
 
     render() {
       this.autoUpdateVariables.forEach(value => this.Variables[value].invokeOnParamChange());
-      return (<View><Text>Loading...</Text></View>);
+      return this.renderWidget(this.props);
     }
 }
 

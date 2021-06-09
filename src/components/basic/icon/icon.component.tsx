@@ -65,9 +65,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     }
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
+  renderWidget(props: WmIconProps) {
     const iconDef = this.state.iconDef;
     let icon = null;
     if (props.show && iconDef && iconDef.isFontAwesome) {
@@ -83,12 +81,12 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
         style={[this.styles.text, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}]} 
         size={props.iconsize || iconDef.size}/>);
     }
-    return props.show ? (
+    return (
       <View style={this.styles.root}>
         {(props.iconposition === 'left' && icon) || null}
         <Text style={this.styles.text}>{props.caption}</Text>
         {(props.iconposition === 'right' && icon) || null}
       </View>
-    ): null; 
+    ); 
   }
 }

@@ -28,13 +28,11 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftP
     return props.children;
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
+  renderWidget(props: WmLeftPanelProps) {
+    return (
       <ScrollView contentContainerStyle={this.styles.root}>
         {this.renderContent(props)}
       </ScrollView>
-    ): null; 
+    ); 
   }
 }

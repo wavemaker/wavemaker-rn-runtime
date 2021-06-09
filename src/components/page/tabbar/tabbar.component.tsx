@@ -95,10 +95,8 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
     return o;
   }
 
-  render() {
-    super.render();
+  renderWidget(props: WmTabbarProps) {
     let max = 4;
-    const props = this.state.props;
     const tabItems = this.state.tabItems;
     const moreItems = [] as any[][];
     if (tabItems.length > max) {
@@ -113,7 +111,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
       }
       max = max - 1;
     }
-    return props.show ? (
+    return (
       <NavigationServiceConsumer>
         {(navigationService) => 
         (<View style={this.styles.root}>
@@ -149,6 +147,6 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
           </View>
         </View>)}
       </NavigationServiceConsumer>
-    ): null;
+    );
   }
 }

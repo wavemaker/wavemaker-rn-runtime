@@ -54,7 +54,7 @@ export default abstract class BaseApp extends React.Component {
   constructor(props: any) {
     super(props);
     this.appConfig.app = this;
-    this.appConfig.drawer = new DrawerImpl(() => this.refresh());
+    this.appConfig.drawer = new DrawerImpl(() => this.setState({'t': Date.now()}));
     let refreshAfterWait = false;
     let wait = 0;
     this.appConfig.refresh = () => {
@@ -110,7 +110,7 @@ export default abstract class BaseApp extends React.Component {
                 <View style={styles.container}>
                   <AppNavigator 
                     app={this} 
-                    drawerContent={this.appConfig.drawer?.getContent()}
+                    drawerContent={() => this.appConfig.drawer?.getContent()}
                     drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
                   {AppModalService.modalOptions.content && 
                     (<WmModal 
