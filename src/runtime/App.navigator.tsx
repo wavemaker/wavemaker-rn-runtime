@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export interface AppNavigatorProps {
   drawerContent: () => ReactNode;
   drawerAnimation: string;
+  hideDrawer: boolean;
   app: any;
 }
 
@@ -18,10 +19,11 @@ export const AppNavigator = (props: AppNavigatorProps) => {
   const stack = (<AppStackNavigator pages={appConfig.pages || []}></AppStackNavigator>);
   const leftNav = (<AppDrawerNavigator 
       type={props.drawerAnimation === 'slide-over' ? 'front' : 'slide'}
-      content={<SafeAreaView style={{flex: 1}}>
+      hide={props.hideDrawer}
+      content={() => (<SafeAreaView style={{flex: 1}}>
         <StatusBar barStyle="light-content" backgroundColor="#000000" />
         {(props.drawerContent && props.drawerContent())  || (<View/>)}
-      </SafeAreaView>}
+      </SafeAreaView>)}
       rootComponent={stack}/>);
   return (<NavigationContainer>{leftNav}</NavigationContainer>);
 };

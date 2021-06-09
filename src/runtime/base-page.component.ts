@@ -30,7 +30,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       this.pageName = props.route.params.pageName;
       this.pageParams = props.route.params;
       this.appConfig.currentPage = this;
-      this.appConfig.setDrawerContent && this.appConfig.setDrawerContent(null);
+      this.appConfig.drawer?.setContent(null);
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {
@@ -71,7 +71,6 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      this.appConfig.drawer?.setContent(null);
     }
 
     goToPage(pageName: string, params: any) {

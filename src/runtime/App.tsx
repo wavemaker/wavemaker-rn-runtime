@@ -109,7 +109,8 @@ export default abstract class BaseApp extends React.Component {
               <ModalProvider value={AppModalService}>
                 <View style={styles.container}>
                   <AppNavigator 
-                    app={this} 
+                    app={this}
+                    hideDrawer={this.appConfig.drawer?.getContent() === null}
                     drawerContent={() => this.appConfig.drawer?.getContent()}
                     drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
                   {AppModalService.modalOptions.content && 

@@ -19,7 +19,7 @@ class ViewPort extends EventNotifier {
 
     constructor() {
         super();
-        const dim = Dimensions.get('screen');
+        const dim = Dimensions.get('window');
         this.width = dim.width;
         this.height = dim.height;
         this.orientation = this.width > this.height ? SCREEN_ORIENTATION.LANDSCAPE: SCREEN_ORIENTATION.PORTRAIT;
