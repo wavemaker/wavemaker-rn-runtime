@@ -59,9 +59,15 @@ export class ThemeVariables {
     labelTextSuccessColor = this.successColor;
     labelTextDangerColor = this.dangerColor;
     labelTextInfoColor = this.infoColor;
+    labelTextMutedColor = '#aaaaaa';
     labelTextPrimaryColor = this.primaryColor;
     labelTextWarningColor = this.warningColor;
     labelAsteriskColor = this.dangerColor;
+
+    //List
+    listTitleColor = '#5e5e5e';
+    listSubTitleColor = this.listTitleColor;
+    listDividerColor = '#ddd';
 
     //button Variables
     buttonBadgeTextColor = '#ffffff';

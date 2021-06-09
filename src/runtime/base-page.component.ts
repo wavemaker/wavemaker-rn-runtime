@@ -51,8 +51,8 @@ export default class BasePage extends BaseFragment<PageProps, PageState> impleme
       this.hasDrawer = true;
       setTimeout(() => {
         if (this.appConfig.currentPage === this) {
-          this.appConfig.setDrawerContent && this.appConfig.setDrawerContent(content);
-          this.appConfig.drawerType = drawerType;
+          this.appConfig.drawer?.setContent(content);
+          this.appConfig.drawer?.setAnimation(drawerType);
         }
       }, 10);
     }
@@ -69,7 +69,7 @@ export default class BasePage extends BaseFragment<PageProps, PageState> impleme
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      this.appConfig.setDrawerContent && this.appConfig.setDrawerContent(null);
+      this.appConfig.drawer?.setContent(null);
     }
 
     goToPage(pageName: string, params: any) {

@@ -21,7 +21,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <Appbar.Header style={this.styles.root}>
+      <Appbar.Header statusBarHeight={0} style={this.styles.root}>
         {props.showDrawerButton && (<Appbar.Action
           touchSoundDisabled={false}
           style={this.styles.action}

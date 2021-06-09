@@ -4,6 +4,7 @@ export class PropsProvider<T extends BaseProps> {
     private oldProps: any = {};
     private overriddenProps: any = {};
     private propsProxy: T;
+    private isDirty = false;
 
     constructor(private initprops: T, private onChange = (name: string, $new: any, $old: any) => {}) {
         this.initprops = this.initprops || {};
@@ -22,6 +23,7 @@ export class PropsProvider<T extends BaseProps> {
                 if (!this.has(propName)) {
                     return false;
                 }
+                this.isDirty = this.overriddenProps[propName] !== value;
                 this.overriddenProps[propName] = value;
                 if (this.oldProps[propName] !== value) {
                     this.onChange(propName, value, this.oldProps[propName]);
@@ -33,6 +35,10 @@ export class PropsProvider<T extends BaseProps> {
     }
 
     check(nextProps: T = this.initprops) {
+        if (this.isDirty) {
+            this.isDirty = false;
+            return true;
+        }
         return Object.keys(nextProps).reduce((b, k) => {
             //@ts-ignore
             const value = nextProps[k];

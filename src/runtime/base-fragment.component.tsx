@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Text, View } from 'react-native';
 import AppConfig from '../core/AppConfig';
-import injector from './injector';
+import injector from '../core/injector';
 import App from './App';
 import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme } from '@wavemaker/app-rn-runtime/styles/theme';

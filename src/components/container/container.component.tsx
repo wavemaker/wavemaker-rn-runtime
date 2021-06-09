@@ -33,11 +33,14 @@ export default class WmContainer extends BaseComponent<WmContainerProps, BaseCom
     super.render();
     const props = this.state.props;
     return props.show ? (
-      <Tappable 
-        onTap={(e: any) => this.invokeEventCallback('onTap', [e, this.proxy])}
-        onDoubleTap={(e: any) => this.invokeEventCallback('onDoubletap', [e, this.proxy])}>
-        <View style={this.styles.root}>{this.renderContent(props)}</View>
-      </Tappable>
+      <View style={this.styles.root}>
+        <Tappable target={this}>
+            <View style={[{
+              justifyContent: this.styles.root.justifyContent,
+              alignItems: this.styles.root.alignItems
+            },  this.styles.content]}>{this.renderContent(props)}</View>
+        </Tappable>
+      </View>
     ): null;
   }
 }

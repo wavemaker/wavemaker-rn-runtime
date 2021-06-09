@@ -5,7 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmIconProps from './icon.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmIconStyles } from './icon.styles';
-import WavIcon from './wavicon.component';
+import getWavIcon from './wavicon.component';
 
 interface IconDef {
   isFontAwesome: boolean;
@@ -77,6 +77,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
         size={props.iconsize || iconDef.size}/>);
     }
     if (props.show && iconDef && iconDef.isWavIcon) {
+      const WavIcon = getWavIcon();
       //@ts-ignore type information is not matching
       icon = (<WavIcon name={iconDef.type} 
         style={[this.styles.text, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}]} 
@@ -84,9 +85,9 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     }
     return props.show ? (
       <View style={this.styles.root}>
-        {props.iconposition === 'left' && icon}
+        {(props.iconposition === 'left' && icon) || null}
         <Text style={this.styles.text}>{props.caption}</Text>
-        {props.iconposition === 'right' && icon}
+        {(props.iconposition === 'right' && icon) || null}
       </View>
     ): null; 
   }

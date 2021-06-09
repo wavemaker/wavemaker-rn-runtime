@@ -5,10 +5,12 @@
  * See wavicon.generator.js
  ********************************************************/
 
-import { createIconSet } from '@expo/vector-icons';
+ import injector from '@wavemaker/app-rn-runtime/core/injector';
+ import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+ import { Icon } from '@expo/vector-icons/build/createIconSet';
 
 
-const glyphMap: any = {
+export const glyphMap: any = {
     "3d-rotation": "",
     "ac-unit": "",
     "access-alarm": "",
@@ -1160,4 +1162,12 @@ const glyphMap: any = {
     "zoom-out": ""
 };
 
-export default createIconSet(glyphMap, 'wavicon', './fonts/wavicon.ttf');
+let fontSet: Icon<any, any> = null as any;
+
+export default () => {
+    if (!fontSet) {
+        const appConfig = injector.get<AppConfig>('APP_CONFIG');
+        fontSet = appConfig.wavIconAsset;
+    }
+    return fontSet
+};

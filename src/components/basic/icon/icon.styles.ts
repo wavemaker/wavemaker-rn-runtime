@@ -11,7 +11,9 @@ export const DEFAULT_STYLES: WmIconStyles = {
         alignSelf: 'flex-start',
         alignItems: 'center'
     },
-    icon: {},
+    icon: {
+        paddingRight: 8
+    },
     text: {}
 };
 
