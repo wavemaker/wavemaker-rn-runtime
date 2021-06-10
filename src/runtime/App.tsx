@@ -113,19 +113,15 @@ export default abstract class BaseApp extends React.Component {
                     hideDrawer={this.appConfig.drawer?.getContent() === null}
                     drawerContent={() => this.appConfig.drawer?.getContent()}
                     drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                  {AppModalService.modalOptions.content && 
-                    (<WmModal 
-                      styles={{
-                        root : merge(styles.appModal, AppModalService.modalOptions.modalStyle),
-                        content: AppModalService.modalOptions.contentStyle,
-                      }}>
-                        {AppModalService.modalOptions.content}
-                    </WmModal>)}
                 </View>
               </ModalProvider>
             </PartialProvider>)
           }
         </View>
+        {AppModalService.modalOptions.content && 
+          (<View style={merge(styles.appModal, AppModalService.modalOptions.modalStyle)}>
+              {AppModalService.modalOptions.content}
+          </View>)}
       </SafeAreaProvider>
     );
   }
@@ -137,11 +133,6 @@ const styles = {
   },
   appModal: {
     position: 'absolute',
-    top: 0,
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '100%'
   }
 };

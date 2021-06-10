@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
@@ -87,8 +88,6 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
     const o = this.state.modalOptions;
     o.content = content;
     o.modalStyle = {
-      top: 'auto',
-      height: 'auto',
       bottom: this.tabbarHeight
     };
     o.contentStyle = this.styles.modalContent;
@@ -119,13 +118,15 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
             {(modalService: ModalService) => {
               if (this.state.showMore) {
                 modalService.showModal(this.prepareModalOptions((
-                <View style={this.styles.moreMenu}>
-                  {moreItems.map((a, i) =>  
-                    (<View key={i} style={this.styles.moreMenuRow}>
-                      {a.map(item => this.renderTabItem(item, props,  () => this.onItemSelect(item, navigationService)))}
-                    </View>)
-                  )}
-                </View>)));
+                <ThemeProvider value={this.theme} >
+                  <View style={this.styles.moreMenu}>
+                    {moreItems.map((a, i) =>  
+                      (<View key={i} style={this.styles.moreMenuRow}>
+                        {a.map(item => this.renderTabItem(item, props,  () => this.onItemSelect(item, navigationService)))}
+                      </View>)
+                    )}
+                  </View>
+                </ThemeProvider>)));
               } else {
                 modalService.hideModal(this.state.modalOptions);
               }

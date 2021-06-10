@@ -132,7 +132,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         const props = this.state.props;
         return props.show !== false ?
             (<ThemeConsumer>{(theme) => {
-                this.theme = theme;
+                this.theme = theme || BASE_THEME;
                 this.styles = merge({}, this.theme.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
                 return this.renderWidget(this.state.props);
             }}</ThemeConsumer>) : null;
