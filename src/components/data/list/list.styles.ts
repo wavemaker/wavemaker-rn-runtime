@@ -7,8 +7,10 @@ import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/ic
 export type WmListStyles = BaseStyles & {
     heading: AllStyle,
     listIcon: WmIconStyles,
+    loadingIcon: WmIconStyles,
     title: WmLabelStyles,
-    subheading: WmLabelStyles
+    subheading: WmLabelStyles,
+    emptyMessage: WmLabelStyles
 };
 
 export const DEFAULT_CLASS = 'app-list';
@@ -19,6 +21,17 @@ export const DEFAULT_STYLES: WmListStyles = {
         root: {
             marginTop: 4,
             marginRight: 8
+        }
+    } as WmIconStyles,
+    loadingIcon: {
+        root: {
+            flex: 1,
+            alignSelf: 'center',
+            justifyContent: 'center',
+            fontSize: 16
+        },
+        text: {
+            color: ThemeVariables.listSubTitleColor
         }
     } as WmIconStyles,
     heading : {
@@ -37,6 +50,15 @@ export const DEFAULT_STYLES: WmListStyles = {
     subheading: {
         root: {
             fontSize: 12,
+            lineHeight: 18,
+            color: ThemeVariables.listSubTitleColor
+        }
+    } as WmLabelStyles,
+    emptyMessage: {
+        root: {
+            flex: 1,
+            alignSelf: 'center',
+            fontSize: 16,
             lineHeight: 18,
             color: ThemeVariables.listSubTitleColor
         }

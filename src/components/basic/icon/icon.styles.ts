@@ -12,9 +12,11 @@ export const DEFAULT_STYLES: WmIconStyles = {
         alignItems: 'center'
     },
     icon: {
-        paddingRight: 8
+        paddingLeft: 0
     },
-    text: {}
+    text: {
+        paddingLeft: 8
+    }
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

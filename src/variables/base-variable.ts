@@ -21,10 +21,13 @@ export abstract class BaseVariable extends EventNotifier {
     params: any = {};
     dataSet: any = {};
     isList: boolean;
+    isExecuting = false;
 
     constructor(public config: VariableConfig) {
       super();
       this.isList = config.isList;
+      this.subscribe(VariableEvents.BEFORE_INVOKE, () => (this.isExecuting = true));
+      this.subscribe(VariableEvents.AFTER_INVOKE, () => (this.isExecuting = false));
     }
 
     public invoke(params?: {}, onSuccess?: Function, onError?: Function): Promise<BaseVariable> {

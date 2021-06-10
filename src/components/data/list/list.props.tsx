@@ -8,4 +8,8 @@ export default class WmListProps extends BaseProps {
     subheading: string = null as any;
     dataset = [] as any;
     renderItem: any = () => (<View/>);
+    loadingicon='fa fa-circle-o-notch fa-pulse';
+    loadingdatamsg = 'Loading...';
+    nodatamessage = 'No data found';
+    loadingdata = false;
 }

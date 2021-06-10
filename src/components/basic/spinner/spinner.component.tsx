@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, Easing, Text } from 'react-native';
+import { Animated, Easing, Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmSpinnerProps from './spinner.props';
@@ -49,15 +49,16 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
 
   renderWidget(props: WmSpinnerProps) {
     const rotate = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg']});
-
     return (
-      <Text style={this.styles.root}>
-        <Animated.View style={{ transform: [{ rotate }] }}>
+      <View style={this.styles.root}>
           {props.type === 'icon' && this.prepareIcon(props)}
-          {props.type === 'image' && this.prepareImage(props)}
-        </Animated.View>
+          {props.type === 'image' && 
+            (<Animated.View style={{ transform: [{ rotate }] }}>
+              {this.prepareImage(props)}
+            </Animated.View>)}
+        
         <Text style={this.styles.text}>{props.caption}</Text>
-      </Text>
+      </View>
     );
   }
 }

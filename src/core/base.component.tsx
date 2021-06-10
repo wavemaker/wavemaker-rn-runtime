@@ -1,5 +1,6 @@
 import { isEqual, merge } from 'lodash';
 import React, { ReactNode } from 'react';
+import { TextStyle } from 'react-native';
 import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE, NamedStyles, AllStyle, ThemeConsumer } from '../styles/theme';
 import { PropsProvider } from './props.provider';
 
@@ -9,7 +10,7 @@ export class BaseComponentState<T extends BaseProps> {
 
 export type BaseStyles = NamedStyles<any> & {
     root: AllStyle,
-    text: AllStyle
+    text: TextStyle
 }
 
 export interface LifecycleListener {
