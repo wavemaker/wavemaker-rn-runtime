@@ -1,11 +1,12 @@
 import React from 'react';
-import AppConfig from '../core/AppConfig';
-import injector from '../core/injector';
-import App from './App';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
+import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable'
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core/viewport';
+import App from './App';
 
 export interface FragmentProps extends BaseProps {
 
@@ -45,6 +46,10 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
           !this.isDetached && this.targetWidget && this.targetWidget.invokeEventCallback('onResize', [null, this.proxy,
             {screenWidth: $new.width,
               screenHeight: $new.height}]);
+        }));
+        this.cleanup.push(...Object.values({...this.Variables, ...this.Actions}).map(v => {
+          return ((v as BaseVariable)
+            .subscribe(VariableEvents.AFTER_INVOKE, () => this.App.refresh()));
         }));
     }
 

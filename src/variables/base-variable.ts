@@ -1,18 +1,29 @@
 import DatasetUtil from './utils/dataset-util';
+import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import { isNumber, isObject, isBoolean, get, isEqual } from 'lodash';
 export interface VariableConfig {
     paramProvider: Function;
+    onBefore: Function;
+    onComplete: Function;
     onSuccess: Function;
     onError: Function;
     isList: boolean;
 }
 
-export abstract class BaseVariable {
+export enum VariableEvents {
+  BEFORE_INVOKE = 'beforeInvoke',
+  SUCCESS = 'success',
+  ERROR = 'error',
+  AFTER_INVOKE = 'afterInvoke'
+};
+
+export abstract class BaseVariable extends EventNotifier {
     params: any = {};
     dataSet: any = {};
     isList: boolean;
 
     constructor(public config: VariableConfig) {
+      super();
       this.isList = config.isList;
     }
 
