@@ -1,8 +1,16 @@
 import axios from "axios";
 import { BaseVariable, VariableConfig, VariableEvents } from "./base-variable";
+import { isObject, isNumber, forEach, get, isArray, toLower, merge, includes, toUpper } from "lodash";
+import AppConfig from "@wavemaker/app-rn-runtime/core/AppConfig";
+import { WS_CONSTANTS } from "./utils/variable.constants";
 
 export interface ServiceVariableConfig extends VariableConfig {
     serviceInfo: any;
+    appConfig: AppConfig;
+    onCanUpdate: any;
+    onBeforeUpdate: any;
+    onResult: any;
+    onBeforeDatasetReady: any;
 }
 
 enum _ServiceVariableEvents {
@@ -17,26 +25,254 @@ export class ServiceVariable extends BaseVariable {
         super(config);
     }
 
-    invoke() {
-        super.invoke();
+    invoke(options? : any) {
+        let params = options ? (options.inputFields ? options.inputFields : options) : undefined;
+        if (!params) {
+          params = Object.keys(this.params).length ? this.params : undefined;
+        }
         const config = (this.config as ServiceVariableConfig);
-        const queryParams = config.serviceInfo.parameters
-            .filter((p:any) => p.parameterType === 'query')
-            .map((p: any) => {
-                return `${p.name}=${this.params[p.name]}`
-            }).join('&');
-        this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
-        return axios.get(config.serviceInfo.directPath + '?'+ queryParams).then(result => {
-            this.dataSet = result.data;
-        }).then(() => {
-            config.onSuccess && config.onSuccess(this, this.dataSet);
-            this.notify(VariableEvents.SUCCESS, [this, this.dataSet]);
-        }, () => {
-            config.onError && config.onError(this, null);
-            this.notify(VariableEvents.ERROR, [this, this.dataSet]);
-        }).then(() => {
-            this.notify(VariableEvents.AFTER_INVOKE, [this, this.dataSet]);
-            return this;
+
+        const onBeforeCallback = config.onBeforeUpdate && config.onBeforeUpdate(this, params);
+        if (onBeforeCallback) {
+          params = onBeforeCallback;
+        }
+        super.invoke(params);
+        const proxyURL = config.appConfig?.url ? config.appConfig?.url + '/services' : '';
+        let queryParams = '',
+          headers: any = {},
+          requestBody,
+          url = get(config.serviceInfo, 'proxySettings.mobile') === true ? proxyURL + config.serviceInfo.relativePath : config.serviceInfo.directPath,
+          requiredParamMissing: any = [],
+          pathParamRex;
+
+        forEach(config.serviceInfo.parameters, (param) => {
+            let paramValue = this.params[param.name];
+            if (paramValue) {
+              switch (param.parameterType.toUpperCase()) {
+                  case 'QUERY':
+                      if (!queryParams) {
+                          queryParams = '?' + param.name + '=' + encodeURIComponent(paramValue);
+                      } else {
+                          queryParams += '&' + param.name + '=' + encodeURIComponent(paramValue);
+                      }
+                      break;
+                    case 'PATH':
+                      /* replacing the path param based on the regular expression in the relative path */
+                      pathParamRex = new RegExp('\\s*\\{\\s*' + param.name + '(:\\.\\+)?\\s*\\}\\s*');
+                      url = url.replace(pathParamRex, paramValue);
+                      break;
+                    case 'HEADER':
+                      // @ts-ignore
+                      headers[param.name] = paramValue;
+                      break;
+                    case 'BODY':
+                      requestBody = paramValue;
+                      break;
+                    case 'FORMDATA':
+                      break;
+                  }
+            } else if (param.required) {
+              requiredParamMissing.push(param.name || param.id);
+            }
         });
+
+        if (requiredParamMissing.length) {
+          console.error({
+              'error': {
+                'type': 'Required field(s) missing',
+                  'field': requiredParamMissing.join(',')
+              }
+          });
+          return;
+        }
+
+        // Setting appropriate content-Type for request accepting request body like POST, PUT, etc
+        if (!includes(WS_CONSTANTS.NON_BODY_HTTP_METHODS, toUpper(config.serviceInfo.methodType))) {
+          /*Based on the formData browser will automatically set the content type to 'multipart/form-data' and webkit boundary*/
+          if (!(config.serviceInfo.methodType.consumes && (config.serviceInfo.methodType.consumes[0] === WS_CONSTANTS.CONTENT_TYPES.MULTIPART_FORMDATA))) {
+            headers['Content-Type'] = (config.serviceInfo.methodType.consumes && config.serviceInfo.methodType.consumes[0]) || 'application/json';
+          }
+        }
+
+        // if the consumes has application/x-www-form-urlencoded and
+        // if the http request of given method type can have body send the queryParams as Form Data
+        if (includes(config.serviceInfo.methodType.consumes, WS_CONSTANTS.CONTENT_TYPES.FORM_URL_ENCODED) && !includes(WS_CONSTANTS.NON_BODY_HTTP_METHODS, (config.serviceInfo.methodType || '').toUpperCase())) {
+          // remove the '?' at the start of the queryParams
+          if (queryParams) {
+            requestBody = (requestBody ? requestBody + '&' : '') + queryParams.substring(1);
+          }
+          headers['Content-Type'] = WS_CONSTANTS.CONTENT_TYPES.FORM_URL_ENCODED;
+        } else {
+          url += queryParams;
+        }
+
+        this.params = this.config.paramProvider();
+        this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
+        // @ts-ignore
+        return axios[config.serviceInfo.methodType](url, requestBody, {headers: headers}).then(result => {
+          config.onResult && config.onResult(this, result.data, result);
+          this.dataSet = (!isObject(result.data)) ? {'value': result.data} : result.data;
+          // EVENT: ON_PREPARE_SETDATA
+          const newDataSet = config.onBeforeDatasetReady && config.onBeforeDatasetReady(this, this.dataSet);
+          if (newDataSet) {
+            // setting returned value to the dataSet
+            this.dataSet = newDataSet;
+          }
+        }).then(() => {
+          config.onSuccess && config.onSuccess(this, this.dataSet);
+          this.notify(VariableEvents.SUCCESS, [this, this.dataSet]);
+        }, () => {
+          config.onError && config.onError(this, null);
+          this.notify(VariableEvents.ERROR, [this, this.dataSet]);
+        }).then(() => {
+          this.notify(VariableEvents.AFTER_INVOKE, [this, this.dataSet]);
+          return this;
+        });
+    }
+    setInput(key: any, val?: any, options?: any) {
+      this.params = merge(this.config.paramProvider(), this._setInput(this.params, key, val, options));
+      return this.params;
+    }
+
+    /**
+     * sets the value against passed key on the "inputFields" object in the variable
+     * @param targetObj: the object in which the key, value is to be set
+     * @param variable
+     * @param key: can be:
+     *  - a string e.g. "username"
+     *  - an object, e.g. {"username": "john", "ssn": "11111"}
+     * @param val
+     * - if key is string, the value against it (for that data type)
+     * - if key is object, not required
+     * @param options
+     * @returns {any}
+     */
+    private _setInput(targetObj: any, key: any, val: any, options?: any) {
+      targetObj = targetObj || {};
+      let keys,
+        lastKey,
+        paramObj: any = {};
+
+      // content type check
+      if (isObject(options)) {
+        // @ts-ignore
+        switch (options.type) {
+          case 'file':
+            //val = getBlob(val, options.contentType);
+            break;
+          case 'number':
+            val = isNumber(val) ? val : parseInt(val, 10);
+            break;
+        }
+      }
+
+      if (isObject(key)) {
+        // check if the passed parameter is an object itself
+        paramObj = key;
+      } else if (key.indexOf('.') > -1) {
+        // check for '.' in key e.g. 'employee.department'
+        keys = key.split('.');
+        lastKey = keys.pop();
+        // Finding the object based on the key
+        targetObj = this.findValueOf(targetObj, keys.join('.'), true);
+        key = lastKey;
+        paramObj[key] = val;
+      } else {
+        paramObj[key] = val;
+      }
+
+      forEach(paramObj, function (paramVal, paramKey) {
+        targetObj[paramKey] = paramVal;
+      });
+      return targetObj;
+    }
+
+    /*
+  * Util method to find the value of a key in the object
+  * if key not found and create is true, an object is created against that node
+  * Examples:
+  * var a = {
+  *  b: {
+  *      c : {
+  *          d: 'test'
+  *      }
+  *  }
+  * }
+  * Utils.findValue(a, 'b.c.d') --> 'test'
+  * Utils.findValue(a, 'b.c') --> {d: 'test'}
+  * Utils.findValue(a, 'e') --> undefined
+  * Utils.findValue(a, 'e', true) --> {} and a will become:
+  * {
+  *   b: {
+  *      c : {
+  *          d: 'test'
+  *      }
+  *  },
+  *  e: {
+  *  }
+  * }
+  */
+    private findValueOf(obj: any, key: any, create?: any) {
+
+      if (!obj || !key) {
+        return;
+      }
+
+      if (!create) {
+        return get(obj, key);
+      }
+
+      const parts = key.split('.'),
+        keys: any = [];
+
+      let skipProcessing;
+
+      // @ts-ignore
+      parts.forEach((part: any) => {
+        if (!parts.length) { // if the part of a key is not valid, skip the processing.
+          skipProcessing = true;
+          return false;
+        }
+
+        const subParts = part.match(/\w+/g);
+        let subPart;
+
+        while (subParts.length) {
+          subPart = subParts.shift();
+          keys.push({ 'key': subPart, 'value': subParts.length ? [] : {} }); // determine whether to create an array or an object
+        }
+      });
+
+      if (skipProcessing) {
+        return undefined;
+      }
+
+      keys.forEach((_key: any) => {
+        let tempObj = obj[_key.key];
+        if (!isObject(tempObj)) {
+          tempObj = this.getValidJSON(tempObj);
+          if (!tempObj) {
+            tempObj = _key.value;
+          }
+        }
+        obj[_key.key] = tempObj;
+        obj = tempObj;
+      });
+
+      return obj;
+    };
+
+    private getValidJSON(content: any) {
+      if (!content) {
+        return undefined;
+      }
+      try {
+        const parsedIntValue = parseInt(content, 10);
+        /*obtaining json from editor content string*/
+        return isObject(content) || !isNaN(parsedIntValue) ? content : JSON.parse(content);
+      } catch (e) {
+        /*terminating execution if new variable object is not valid json.*/
+        return undefined;
+      }
     }
 }
