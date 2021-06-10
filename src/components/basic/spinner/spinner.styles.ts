@@ -10,7 +10,9 @@ export type WmSpinnerStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-spinner';
 export const DEFAULT_STYLES: WmSpinnerStyles = {
   root: {
-    textAlign: 'center'
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   text: {
     fontSize: 14,
@@ -18,6 +20,7 @@ export const DEFAULT_STYLES: WmSpinnerStyles = {
   },
   icon: {
     text: {
+      fontSize: 48,
       color: ThemeVariables.spinnerIconColor
     }
   } as WmIconStyles

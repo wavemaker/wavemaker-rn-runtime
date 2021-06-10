@@ -26,32 +26,37 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     this.invokeEventCallback('onSelect', [$event, this.proxy, $item]);
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
-      <FlatList
-        style={this.styles.root}
-        keyExtractor={(item, i) => 'list_item_' +  i}
-        ListHeaderComponent={() => {
-          return (props.iconclass || props.title || props.subheading) ? (
-            <View style={this.styles.heading}>
-              <View style={{flex: 1, flexDirection: 'row'}}>
-                <WmIcon themeToUse={props.themeToUse} styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
-                <View>
-                  <WmLabel themeToUse={props.themeToUse} styles={this.styles.title} caption={props.title}></WmLabel>
-                  <WmLabel themeToUse={props.themeToUse} styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+  renderWidget(props: WmListProps) {
+    return (
+      <View style={this.styles.root}>
+        <FlatList
+          keyExtractor={(item, i) => 'list_item_' +  i}
+          ListHeaderComponent={() => {
+            return (props.iconclass || props.title || props.subheading) ? (
+              <View style={this.styles.heading}>
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                  <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
+                  <View>
+                    <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
+                    <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+                  </View>
                 </View>
-              </View>
-            </View>) : null
-        }}
-        data={props.dataset} renderItem={(itemInfo) => (
-        <TouchableOpacity onPress={(e) => this.onSelect(e, itemInfo.item)}>
-          <View>
-            {props.renderItem(itemInfo.item, itemInfo.index)}
-          </View>
-        </TouchableOpacity>
-      )}></FlatList>
-    ): null; 
+              </View>) : null
+          }}
+          data={props.dataset}
+          ListEmptyComponent = {() => <WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>}
+          renderItem={(itemInfo) => (
+          <TouchableOpacity onPress={(e) => this.onSelect(e, itemInfo.item)}>
+            <View>
+              {props.renderItem(itemInfo.item, itemInfo.index)}
+            </View>
+          </TouchableOpacity>
+        )}></FlatList>
+        {props.loadingdata ? 
+          (<WmIcon styles={this.styles.loadingIcon}
+            iconclass={props.loadingicon}
+            caption={props.loadingdatamsg}></WmIcon>) : null}
+      </View>
+    ); 
   }
 }

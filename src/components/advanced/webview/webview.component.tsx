@@ -12,10 +12,8 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, BaseCompone
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmWebviewProps());
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
+  protected renderWidget(props: WmWebviewProps) {
+    return (
       <View style={this.styles.container}>
         <WebView 
           style={this.styles.webview}
@@ -24,6 +22,6 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, BaseCompone
           }}>
         </WebView>
       </View>
-    ): null;
+    );
   }
 }

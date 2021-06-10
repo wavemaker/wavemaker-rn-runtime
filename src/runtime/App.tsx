@@ -54,7 +54,7 @@ export default abstract class BaseApp extends React.Component {
   constructor(props: any) {
     super(props);
     this.appConfig.app = this;
-    this.appConfig.drawer = new DrawerImpl(() => this.refresh());
+    this.appConfig.drawer = new DrawerImpl(() => this.setState({'t': Date.now()}));
     let refreshAfterWait = false;
     let wait = 0;
     this.appConfig.refresh = () => {
@@ -109,22 +109,19 @@ export default abstract class BaseApp extends React.Component {
               <ModalProvider value={AppModalService}>
                 <View style={styles.container}>
                   <AppNavigator 
-                    app={this} 
-                    drawerContent={this.appConfig.drawer?.getContent()}
+                    app={this}
+                    hideDrawer={this.appConfig.drawer?.getContent() === null}
+                    drawerContent={() => this.appConfig.drawer?.getContent()}
                     drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                  {AppModalService.modalOptions.content && 
-                    (<WmModal 
-                      styles={{
-                        root : merge(styles.appModal, AppModalService.modalOptions.modalStyle),
-                        content: AppModalService.modalOptions.contentStyle,
-                      }}>
-                        {AppModalService.modalOptions.content}
-                    </WmModal>)}
                 </View>
               </ModalProvider>
             </PartialProvider>)
           }
         </View>
+        {AppModalService.modalOptions.content && 
+          (<View style={merge(styles.appModal, AppModalService.modalOptions.modalStyle)}>
+              {AppModalService.modalOptions.content}
+          </View>)}
       </SafeAreaProvider>
     );
   }
@@ -136,11 +133,6 @@ const styles = {
   },
   appModal: {
     position: 'absolute',
-    top: 0,
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '100%'
   }
 };

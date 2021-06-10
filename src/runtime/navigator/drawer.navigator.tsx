@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 const Drawer = createDrawerNavigator();
 
 interface AppDrawerNavigatorProps {
-  content: any;
+  content: (props: any) => ReactNode;
+  hide: boolean,
   type: any;
   rootComponent: React.ReactNode;
 }
@@ -16,7 +17,8 @@ class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, a
 
   render(){
     return (<Drawer.Navigator 
-      drawerContent={(_props) => this.props.content} 
+      drawerContent={this.props.content}
+      gestureHandlerProps = {{enabled: !this.props.hide}} 
       drawerType={this.props.type} >
       <Drawer.Screen name="leftDrawer">
         {(_props) => this.props.rootComponent}

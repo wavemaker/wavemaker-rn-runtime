@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
-import { Text, View } from 'react-native';
-import AppConfig from '../core/AppConfig';
-import injector from '../core/injector';
-import App from './App';
+import React from 'react';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
-import BASE_THEME, { Theme } from '@wavemaker/app-rn-runtime/styles/theme';
+import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
+import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable'
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core/viewport';
+import App from './App';
 
 export interface FragmentProps extends BaseProps {
 
@@ -16,7 +16,7 @@ export interface FragmentState<T extends FragmentProps> extends BaseComponentSta
 
 export type FragmentStyles = BaseStyles & {};
 
-export default class BaseFragment<P extends FragmentProps, S extends FragmentState<P>> extends BaseComponent<P, S, FragmentStyles> implements LifecycleListener {
+export default abstract class BaseFragment<P extends FragmentProps, S extends FragmentState<P>> extends BaseComponent<P, S, FragmentStyles> implements LifecycleListener {
     public App: App;
     public onReady: Function = () => {};
     public targetWidget = null as unknown as BaseComponent<any, any, any>;
@@ -46,6 +46,10 @@ export default class BaseFragment<P extends FragmentProps, S extends FragmentSta
           !this.isDetached && this.targetWidget && this.targetWidget.invokeEventCallback('onResize', [null, this.proxy,
             {screenWidth: $new.width,
               screenHeight: $new.height}]);
+        }));
+        this.cleanup.push(...Object.values({...this.Variables, ...this.Actions}).map(v => {
+          return ((v as BaseVariable)
+            .subscribe(VariableEvents.AFTER_INVOKE, () => this.App.refresh()));
         }));
     }
 
@@ -134,7 +138,9 @@ export default class BaseFragment<P extends FragmentProps, S extends FragmentSta
 
     render() {
       this.autoUpdateVariables.forEach(value => this.Variables[value].invokeOnParamChange());
-      return (<View><Text>Loading...</Text></View>);
+      return (<ThemeProvider value={this.theme}>
+        {this.renderWidget(this.props)}
+      </ThemeProvider>);
     }
 }
 

@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
@@ -71,7 +72,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
     return (
       <View style={this.styles.tabItem} key={item.key} >
         <TouchableOpacity onPress={() => onSelect && onSelect()}>
-          <WmIcon name="" styles={this.styles.tabIcon} themeToUse={props.themeToUse} iconclass={item.icon}></WmIcon>
+          <WmIcon styles={this.styles.tabIcon} iconclass={item.icon}></WmIcon>
           <Text style={this.styles.tabLabel}>{item.label}</Text>
         </TouchableOpacity>
       </View>
@@ -87,18 +88,14 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
     const o = this.state.modalOptions;
     o.content = content;
     o.modalStyle = {
-      top: 'auto',
-      height: 'auto',
       bottom: this.tabbarHeight
     };
     o.contentStyle = this.styles.modalContent;
     return o;
   }
 
-  render() {
-    super.render();
+  renderWidget(props: WmTabbarProps) {
     let max = 4;
-    const props = this.state.props;
     const tabItems = this.state.tabItems;
     const moreItems = [] as any[][];
     if (tabItems.length > max) {
@@ -113,7 +110,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
       }
       max = max - 1;
     }
-    return props.show ? (
+    return (
       <NavigationServiceConsumer>
         {(navigationService) => 
         (<View style={this.styles.root}>
@@ -121,13 +118,15 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
             {(modalService: ModalService) => {
               if (this.state.showMore) {
                 modalService.showModal(this.prepareModalOptions((
-                <View style={this.styles.moreMenu}>
-                  {moreItems.map((a, i) =>  
-                    (<View key={i} style={this.styles.moreMenuRow}>
-                      {a.map(item => this.renderTabItem(item, props,  () => this.onItemSelect(item, navigationService)))}
-                    </View>)
-                  )}
-                </View>)));
+                <ThemeProvider value={this.theme} >
+                  <View style={this.styles.moreMenu}>
+                    {moreItems.map((a, i) =>  
+                      (<View key={i} style={this.styles.moreMenuRow}>
+                        {a.map(item => this.renderTabItem(item, props,  () => this.onItemSelect(item, navigationService)))}
+                      </View>)
+                    )}
+                  </View>
+                </ThemeProvider>)));
               } else {
                 modalService.hideModal(this.state.modalOptions);
               }
@@ -149,6 +148,6 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
           </View>
         </View>)}
       </NavigationServiceConsumer>
-    ): null;
+    );
   }
 }

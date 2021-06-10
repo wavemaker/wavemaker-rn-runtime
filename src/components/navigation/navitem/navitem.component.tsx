@@ -16,12 +16,9 @@ export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemSt
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmNavItemProps());
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-
-    return props.show ? (
+  renderWidget(props: WmNavItemProps) {
+    return (
       <View style={this.styles.nav}>{props.children}</View>
-    ): null;
+    );
   }
 }

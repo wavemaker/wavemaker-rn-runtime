@@ -1,13 +1,14 @@
 import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmPrefabContainer from '@wavemaker/app-rn-runtime/components/prefab/prefab-container.component';
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
+import { ReactNode } from 'react';
 
 export interface PrefabProps extends FragmentProps {
 }
 
 export interface PrefabState extends FragmentState<PrefabProps> {}
 
-export default class BasePrefab extends BaseFragment<PrefabProps, PrefabState> {
+export default abstract class BasePrefab extends BaseFragment<PrefabProps, PrefabState> {
     private prefabParams: any = {};
     
     constructor(props: PrefabProps, defualtProps: PrefabProps) {
@@ -34,12 +35,13 @@ export default class BasePrefab extends BaseFragment<PrefabProps, PrefabState> {
       this.invokeEventCallback('onDestroy', [null, this]);
     }
 
-    render() {
-      const markup = super.render();
+    abstract renderPrefab(): ReactNode;
+
+    renderWidget(props: PrefabProps) {
       Object.keys(this.props).forEach(k => {
         //@ts-ignore
         this[k] = this.state.props[k] || this.props[k];
       });
-      return markup;
+      return this.renderPrefab();
     }
 }

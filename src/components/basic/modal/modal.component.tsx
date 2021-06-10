@@ -15,9 +15,7 @@ export default class WmModal extends BaseComponent<WmModalProps, WmModalState, W
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmModalProps());
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
+  renderWidget(props: WmModalProps) {
     return React.createElement(View, {
       style: this.styles.root
     }, React.createElement(ReactModal, {

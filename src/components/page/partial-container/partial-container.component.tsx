@@ -13,9 +13,7 @@ export default class WmPartialContainer extends BaseComponent<WmPartialContainer
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPartialContainerProps());
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
+  renderWidget(props: WmPartialContainerProps) {
     const params = {} as any;
     Object.keys(this.props).forEach((k: string) => {
       //@ts-ignore
@@ -23,12 +21,12 @@ export default class WmPartialContainer extends BaseComponent<WmPartialContainer
     });
     params['name'] = params['partial_name'];
     delete params['partial_name'];
-    return props.show ? (
+    return (
       <PartialConsumer>
         {(partialService: PartialService) => {
           return React.createElement(partialService.get(props.content), params);
         }}
       </PartialConsumer>
-    ): null; 
+    ); 
   }
 }

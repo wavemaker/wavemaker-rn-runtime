@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Linking } from 'react-native';
 import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -19,7 +19,7 @@ export interface PageProps extends FragmentProps {
 
 export interface PageState extends FragmentState<PageProps> {}
 
-export default class BasePage extends BaseFragment<PageProps, PageState> implements NavigationService {
+export default abstract class BasePage extends BaseFragment<PageProps, PageState> implements NavigationService {
     private pageName = null as unknown as string;
     private pageParams: any = {};
     private hasDrawer = false;
@@ -30,7 +30,7 @@ export default class BasePage extends BaseFragment<PageProps, PageState> impleme
       this.pageName = props.route.params.pageName;
       this.pageParams = props.route.params;
       this.appConfig.currentPage = this;
-      this.appConfig.setDrawerContent && this.appConfig.setDrawerContent(null);
+      this.appConfig.drawer?.setContent(null);
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {
@@ -60,16 +60,17 @@ export default class BasePage extends BaseFragment<PageProps, PageState> impleme
     componentDidMount() {
       this.onFragmentReady().then(() => {
         this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
-          this.appConfig.currentPage = this;
-          this.onAttach();
-          this.appConfig.refresh();
+          if (this.appConfig.currentPage !== this) {
+            this.appConfig.currentPage = this;
+            this.onAttach();
+            this.appConfig.refresh();
+          }
         }));
       });
     }
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      this.appConfig.drawer?.setContent(null);
     }
 
     goToPage(pageName: string, params: any) {
@@ -111,5 +112,11 @@ export default class BasePage extends BaseFragment<PageProps, PageState> impleme
         }
       }
       return Promise.resolve();
+    }
+
+    abstract renderPage(): ReactNode;
+
+    renderWidget(props: PageProps) {
+      return this.renderPage();
     }
 }

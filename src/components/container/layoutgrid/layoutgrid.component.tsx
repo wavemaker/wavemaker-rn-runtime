@@ -15,11 +15,9 @@ export default class WmLayoutgrid extends BaseComponent<WmLayoutgridProps, WmLay
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLayoutgridProps());
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
+  renderWidget(props: WmLayoutgridProps) {
+    return (
       <View style={this.styles.root}>{props.children}</View>
-    ): null; 
+    ); 
   }
 }

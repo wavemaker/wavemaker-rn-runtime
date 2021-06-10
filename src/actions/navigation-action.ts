@@ -1,4 +1,5 @@
-import AppConfig from "../core/AppConfig";
+import AppConfig from "@wavemaker/app-rn-runtime/core/AppConfig";
+import { VariableEvents } from "@wavemaker/app-rn-runtime/variables/base-variable";
 import { ActionConfig, BaseAction } from "./base-action";
 import {merge} from "lodash";
 
@@ -16,14 +17,18 @@ export class NavigationAction extends BaseAction {
         const config = this.config as NavigationActionConfig;
         // @ts-ignore
         params = params?.data ? merge(this.config.paramProvider(), params.data) : merge(this.config.paramProvider(), this.dataSet);
+        this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
         return super.invoke(params, onSuccess, onError).then(() => {
             config.operation === 'goToPreviousPage' ? config.appConfig.currentPage?.goBack() : config.appConfig.currentPage?.goToPage(this.params.pageName, this.params);
         }).then(() => {
             config.onSuccess && config.onSuccess(this, this.dataSet);
-            return this;
+            this.notify(VariableEvents.SUCCESS, [this, this.dataSet]);
         }, () => {
             config.onError && config.onError(this, null);
+            this.notify(VariableEvents.ERROR, [this, this.dataSet]);
+        }).then(() => {
+            this.notify(VariableEvents.AFTER_INVOKE, [this, this.dataSet]);
             return this;
-        });;
+        });
     }
 }

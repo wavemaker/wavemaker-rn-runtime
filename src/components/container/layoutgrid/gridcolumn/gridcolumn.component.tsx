@@ -15,14 +15,12 @@ export default class WmGridcolumn extends BaseComponent<WmGridcolumnProps, WmGri
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmGridcolumnProps());
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
+  renderWidget(props: WmGridcolumnProps) {
     if (this.styles.root.height) {
       this.styles.root.overflow = undefined;
     }
-    return props.show ? (
+    return (
       <View style={[this.styles.root, {flex: props.xscolumnwidth || props.columnwidth}]}>{props.children}</View>
-    ): null;
+    );
   }
 }

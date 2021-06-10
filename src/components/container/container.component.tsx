@@ -29,10 +29,8 @@ export default class WmContainer extends BaseComponent<WmContainerProps, BaseCom
     return props.children;
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
-    return props.show ? (
+  renderWidget(props: WmContainerProps) {
+    return (
       <View style={this.styles.root}>
         <Tappable target={this}>
             <View style={[{
@@ -41,6 +39,6 @@ export default class WmContainer extends BaseComponent<WmContainerProps, BaseCom
             },  this.styles.content]}>{this.renderContent(props)}</View>
         </Tappable>
       </View>
-    ): null;
+    );
   }
 }

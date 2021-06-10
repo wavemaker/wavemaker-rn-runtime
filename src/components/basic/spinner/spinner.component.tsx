@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, Easing, Text } from 'react-native';
+import { Animated, Easing, Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmSpinnerProps from './spinner.props';
@@ -38,28 +38,27 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
   private prepareIcon(props: any) {
     return (<WmIcon
       styles={this.styles.icon} name={props.name + '_icon'}
-      themeToUse={props.themeToUse} iconclass={props.iconclass + ' fa-spin'} iconsize={props.iconsize}></WmIcon>);
+      iconclass={props.iconclass + ' fa-spin'} iconsize={props.iconsize}></WmIcon>);
   }
 
   private prepareImage(props: any) {
     return (<WmPicture
       styles={{height:props.imageheight, width:props.imagewidth}} name={props.name + '_image'}
-      themeToUse={props.themeToUse} picturesource={props.image}></WmPicture>);
+      picturesource={props.image}></WmPicture>);
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
+  renderWidget(props: WmSpinnerProps) {
     const rotate = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg']});
-
-    return props.show ? (
-      <Text style={this.styles.root}>
-        <Animated.View style={{ transform: [{ rotate }] }}>
+    return (
+      <View style={this.styles.root}>
           {props.type === 'icon' && this.prepareIcon(props)}
-          {props.type === 'image' && this.prepareImage(props)}
-        </Animated.View>
+          {props.type === 'image' && 
+            (<Animated.View style={{ transform: [{ rotate }] }}>
+              {this.prepareImage(props)}
+            </Animated.View>)}
+        
         <Text style={this.styles.text}>{props.caption}</Text>
-      </Text>
-    ): null;
+      </View>
+    );
   }
 }

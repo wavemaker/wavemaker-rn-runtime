@@ -15,9 +15,7 @@ export default class WmContent extends BaseComponent<WmContentProps, WmContentSt
     super(props, DEFAULT_CLASS, DEFAULT_STYLES);
   }
 
-  render() {
-    super.render();
-    const props = this.state.props;
+  renderWidget(props: WmContentProps) {
     return (
       <View style={this.styles.root}>
         {props.children}
