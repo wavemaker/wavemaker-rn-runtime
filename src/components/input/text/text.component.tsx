@@ -19,11 +19,6 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
 
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
-      case 'datavalue':
-        this.updateState({
-          datavalue: $new,
-        } as WmTextState);
-        break;
       case 'type':
         let keyboardType;
         if (this.props.type === 'number') {
@@ -71,7 +66,9 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
     }
 
     this.updateState({
-      datavalue: value,
+      props: {
+        datavalue: value,
+      },
     } as WmTextState);
     this.invokeEventCallback('onChange', [ event, this.proxy, value, oldValue ]);
   }
@@ -97,7 +94,7 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
         <TextInput
           style={this.styles.root}
           keyboardType={this.state.keyboardType}
-          defaultValue={this.state.datavalue}
+          defaultValue={props.datavalue}
           autoCompleteType={props.autocomplete ? 'username' : 'off'}
           autoFocus={props.autofocus}
           editable={props.disabled || props.readonly ? false : true}
@@ -109,6 +106,6 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
           onKeyPress={this.onKeyPress.bind(this)}
           onChange={this.onChange.bind(this)}
         />
-    )
+    );
   }
 }

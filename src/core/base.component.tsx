@@ -78,6 +78,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     updateState(state: S) {
+      if (state.props) {
+        Object.keys(state.props).forEach((k) => {
+          //@ts-ignore
+          this.state.props[k] = state.props[k];
+        });
+        state.props = this.state.props
+      }
         if (!this.initialized) {
             Object.keys(state).forEach((key) => {
                 //@ts-ignore
