@@ -1,14 +1,13 @@
 import { BaseComponent } from "@wavemaker/app-rn-runtime/core/base.component";
 import React from "react";
 import { View, TouchableOpacity } from "react-native";
-import NavigationService from "@wavemaker/app-rn-runtime/core/navigation.service";
 
 interface TappableProps {
     children?: any
     styles?: any;
-    target: BaseComponent<any, any, any>;
-    onTap?: (navigationService: NavigationService) => void;
-    onDoubleTap?: (navigationService: NavigationService) => void;
+    target?: BaseComponent<any, any, any>;
+    onTap?: (e: any) => void;
+    onDoubleTap?: (e: any) => void;
 }
 
 export class Tappable extends React.Component<TappableProps, any> {
@@ -18,23 +17,26 @@ export class Tappable extends React.Component<TappableProps, any> {
         super(props);
     }
 
-    onPress() {
+    onPress(e: any) {
         const delta = new Date().getTime() - this.lastPress;
         this.lastPress = this.lastPress > 0 ? 0: new Date().getTime();
         const target = this.props.target;
         // Object.assign(target.props, this.props);
         if(delta < 200) {
-            target.invokeEventCallback('onDoubletap', [null, target]);
+            this.props.onDoubleTap && this.props.onDoubleTap(e);
+            target?.invokeEventCallback('onDoubletap', [null, target]);
         }
-        target.invokeEventCallback.call(this,'onTap', [null, target]);
+        this.props.onTap && this.props.onTap(e);
+        target?.invokeEventCallback.call(this,'onTap', [null, target]);
     }
 
     render() {
-        if (this.props?.onTap || this.props?.onDoubleTap) {
+        const target = this.props.target;
+        if (target?.props.onTap || target?.props.onDoubleTap || this.props.onTap || this.props.onDoubleTap) {
             return (
                 <TouchableOpacity
                     style={this.props.styles}
-                    onPress={() => this.onPress()}>
+                    onPress={(e: any) => this.onPress(e)}>
                     {this.props.children}
                 </TouchableOpacity>
             );
