@@ -3,6 +3,7 @@ import { BaseVariable, VariableConfig, VariableEvents } from "./base-variable";
 import { isObject, isNumber, forEach, get, isArray, toLower, merge, includes, toUpper } from "lodash";
 import AppConfig from "@wavemaker/app-rn-runtime/core/AppConfig";
 import { WS_CONSTANTS } from "./utils/variable.constants";
+import {$queue} from "./utils/inflight-queue";
 
 export interface ServiceVariableConfig extends VariableConfig {
     serviceInfo: any;
@@ -11,6 +12,7 @@ export interface ServiceVariableConfig extends VariableConfig {
     onBeforeUpdate: any;
     onResult: any;
     onBeforeDatasetReady: any;
+    inFlightBehavior: string;
 }
 
 enum _ServiceVariableEvents {
@@ -20,12 +22,17 @@ enum _ServiceVariableEvents {
 export type ServiceVariableEvents = _ServiceVariableEvents | VariableEvents
 
 export class ServiceVariable extends BaseVariable {
+  private cancelTokenSource: any;
 
     constructor(config: ServiceVariableConfig) {
         super(config);
     }
 
     invoke(options? : any) {
+      return $queue.submit(this).then(this._invoke.bind(this, options));
+    }
+
+    _invoke(options? : any) {
         let params = options ? (options.inputFields ? options.inputFields : options) : undefined;
         if (!params) {
           params = Object.keys(this.params).length ? this.params : undefined;
@@ -33,6 +40,10 @@ export class ServiceVariable extends BaseVariable {
         const config = (this.config as ServiceVariableConfig);
 
         const onBeforeCallback = config.onBeforeUpdate && config.onBeforeUpdate(this, params);
+        if (onBeforeCallback === false) {
+          $queue.process(this);
+          return;
+        }
         if (onBeforeCallback) {
           params = onBeforeCallback;
         }
@@ -108,8 +119,10 @@ export class ServiceVariable extends BaseVariable {
 
         this.params = this.config.paramProvider();
         this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
+        // to cancel variable xhr calls
+        this.cancelTokenSource = axios.CancelToken.source();
         // @ts-ignore
-        return axios[config.serviceInfo.methodType](url, requestBody, {headers: headers}).then(result => {
+        return axios[config.serviceInfo.methodType].apply(this, (WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(config.serviceInfo.methodType.toUpperCase()) > -1 ? [url, {headers: headers, cancelToken: this.cancelTokenSource.token}] : [url, requestBody, {headers: headers, cancelToken: this.cancelTokenSource.token}])).then(result => {
           config.onResult && config.onResult(this, result.data, result);
           this.dataSet = (!isObject(result.data)) ? {'value': result.data} : result.data;
           // EVENT: ON_PREPARE_SETDATA
@@ -126,9 +139,37 @@ export class ServiceVariable extends BaseVariable {
           this.notify(VariableEvents.ERROR, [this, this.dataSet]);
         }).then(() => {
           this.notify(VariableEvents.AFTER_INVOKE, [this, this.dataSet]);
+          $queue.process(this);
           return this;
         });
     }
+
+    cancel($file?: any) {
+      // CHecks if there is any pending requests in the queue
+      if ($queue.requestsQueue.has(this)) {
+        // If the request is a File upload request then modify the elements associated with file upload
+        // else unsubscribe from the observable on the variable.
+        if (false) {
+          // $file._uploadProgress.unsubscribe();
+          // $file.status = 'abort';
+          // this.totalFilesCount--;
+          // initiateCallback(VARIABLE_CONSTANTS.EVENT.ABORT, variable, $file);
+          // if (!this.isFileUploadInProgress(variable.dataBinding) && this.totalFilesCount === 0) {
+          //   $queue.process(variable);
+          //   // notify inflight variable
+          //   this.notifyInflight(variable, false);
+          // }
+        } else {
+          if (true) {
+            this.cancelTokenSource.cancel();
+            $queue.process(this);
+            // notify inflight variable
+            //this.notifyInflight(variable, false);
+          }
+        }
+      }
+    }
+
     setInput(key: any, val?: any, options?: any) {
       this.params = merge(this.config.paramProvider(), this._setInput(this.params, key, val, options));
       return this.params;
