@@ -7,7 +7,6 @@ import WmTextProps from './text.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmTextStyles } from './text.styles';
 
 export class WmTextState extends BaseComponentState<WmTextProps> {
-  datavalue: any;
   keyboardType: any = 'default';
 }
 
@@ -51,10 +50,11 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
   }
 
   updateDatavalue(value: any, event?: any) {
-    const oldValue = this.state.datavalue;
+    const props = this.state.props;
+    const oldValue = props.datavalue;
 
     // autotrim
-    if (this.props.autotrim && this.state.datavalue && isString(this.state.datavalue)) {
+    if (props.autotrim && props.datavalue && isString(props.datavalue)) {
       value = value.trim();
     }
 
@@ -65,12 +65,12 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
       return;
     }
 
-    this.updateState({
-      props: {
-        datavalue: value,
-      },
-    } as WmTextState);
-    this.invokeEventCallback('onChange', [ event, this.proxy, value, oldValue ]);
+    // @ts-ignore
+    this.updateState((s) => {
+      s.props.datavalue = value;
+      return s;
+    }, () => this.invokeEventCallback('onChange', [ event, this.proxy, value, oldValue ]));
+
   }
 
   onBlur(event: any) {
@@ -86,7 +86,7 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
   }
 
   onKeyPress(event: any) {
-    this.invokeEventCallback('onKeyPress', [ event, this.proxy]);
+    this.invokeEventCallback('onKeypress', [ event, this.proxy]);
   }
 
   renderWidget(props: WmTextProps) {
