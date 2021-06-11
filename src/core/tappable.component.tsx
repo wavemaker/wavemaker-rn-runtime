@@ -27,7 +27,7 @@ export class Tappable extends React.Component<TappableProps, any> {
             target?.invokeEventCallback('onDoubletap', [null, target]);
         }
         this.props.onTap && this.props.onTap(e);
-        target?.invokeEventCallback.call(this,'onTap', [null, target]);
+        target?.invokeEventCallback('onTap', [null, target]);
     }
 
     render() {
