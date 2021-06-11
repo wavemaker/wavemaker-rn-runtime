@@ -40,7 +40,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         super(markupProps);
         this.state = (defaultState || {} as S);
         this.propertyProvider = new PropsProvider<T>(
-            Object.assign(defaultProps || {}, markupProps), 
+            Object.assign(defaultProps || {}, markupProps),
             (name: string, $new: any, $old: any) => {
                 this.onPropertyChange(name, $new, $old);
             });
@@ -78,6 +78,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     updateState(state: S) {
+      if (state.props) {
+        Object.keys(state.props).forEach((k) => {
+          //@ts-ignore
+          this.state.props[k] = state.props[k];
+        });
+        state.props = this.state.props
+      }
         if (!this.initialized) {
             Object.keys(state).forEach((key) => {
                 //@ts-ignore
@@ -123,7 +130,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
         args && args.map(a => (a === this) ? this.proxy : a)
         if (eventName === 'onTap') {
-            this.invokeEventCallback('onClick', args);
+          this.invokeEventCallback && this.invokeEventCallback('onClick', args);
         }
     }
 

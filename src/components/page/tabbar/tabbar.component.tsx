@@ -1,74 +1,31 @@
 import React, { ReactNode } from 'react';
 import { Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
+import { BaseNavProps } from '@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.props';
+import { BaseNavComponent, BaseNavState, NavigationDataItem } from '@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.component';
 
 import WmTabbarProps from './tabbar.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmTabbarStyles } from './tabbar.styles';
 
-interface TabItem {
-  key: string;
-  label: string;
-  icon: string;
-  link: string;
-}
-
-class WmTabbarState extends BaseComponentState<WmTabbarProps>{
-  tabItems = [] as TabItem[];
+class WmTabbarState<T extends BaseNavProps> extends BaseNavState<T>{
   showMore = false;
   modalOptions = {} as ModalOptions;
 }
 
-export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState, WmTabbarStyles> {
-  
+export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarState<WmTabbarProps>, WmTabbarStyles> {
+
   private tabbarHeight = 0;
 
   constructor(props: WmTabbarProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTabbarProps(), new WmTabbarState());
   }
 
-  setTabItems(dataset: any = this.state.props.dataset) {
-    const name = this.props.name;
-    let tabItems = [] as TabItem[];
-    if (typeof dataset === 'string') {
-      tabItems = dataset.split(',').map((s, i) => {
-        return {
-          key: `${name}_tabitem${i}`,
-          label: s,
-          icon: 'wi wi-' + s
-        } as TabItem;
-      });
-    } else if(dataset) {
-      tabItems = (dataset as any[]).map((d, i) => {
-        return {
-          key: `${name}_tabitem${i}`,
-          label: d[this.state.props.itemlabel],
-          icon: d[this.state.props.itemicon],
-          link: d[this.state.props.itemlink]
-        }
-      });
-    }
-    this.updateState({tabItems: tabItems} as WmTabbarState);
-  }
-
-  onPropertyChange(name: string, $new: any, $old: any) {
-    switch(name) {
-      case 'dataset':
-        this.setTabItems($new);
-        break;
-      case 'itemlabel':
-      case 'itemlabel':
-      case 'itemlink':
-        this.setTabItems();
-        break;
-    }
-  }
-
-  renderTabItem(item: TabItem, props: WmTabbarProps, onSelect: Function) {
+  renderTabItem(item: NavigationDataItem, props: WmTabbarProps, onSelect: Function) {
     return (
       <View style={this.styles.tabItem} key={item.key} >
         <TouchableOpacity onPress={() => onSelect && onSelect()}>
@@ -79,7 +36,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
     );
   }
 
-  onItemSelect(item: TabItem, navigationService: NavigationService) {
+  onItemSelect(item: NavigationDataItem, navigationService: NavigationService) {
     item.link && navigationService.openUrl(item.link);
     this.invokeEventCallback('onSelect', [null, this.proxy, item]);
   }
@@ -96,7 +53,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
 
   renderWidget(props: WmTabbarProps) {
     let max = 4;
-    const tabItems = this.state.tabItems;
+    const tabItems = this.state.dataItems;
     const moreItems = [] as any[][];
     if (tabItems.length > max) {
       const moreItemsCount = Math.ceil((tabItems.length + 1 - max)/ max) * max;
@@ -104,7 +61,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
       for (let i = max-1; i < moreItemsCount;) {
         const row = [];
         for (let j = 0; j < max; j++) {
-          row[j] = tabItems[i++] || {key: 'tabItem' + i} as TabItem;
+          row[j] = tabItems[i++] || {key: 'tabItem' + i} as NavigationDataItem;
         }
         moreItems.push(row);
       }
@@ -112,7 +69,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
     }
     return (
       <NavigationServiceConsumer>
-        {(navigationService) => 
+        {(navigationService) =>
         (<View style={this.styles.root}>
           <ModalConsumer>
             {(modalService: ModalService) => {
@@ -120,7 +77,7 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
                 modalService.showModal(this.prepareModalOptions((
                 <ThemeProvider value={this.theme} >
                   <View style={this.styles.moreMenu}>
-                    {moreItems.map((a, i) =>  
+                    {moreItems.map((a, i) =>
                       (<View key={i} style={this.styles.moreMenuRow}>
                         {a.map(item => this.renderTabItem(item, props,  () => this.onItemSelect(item, navigationService)))}
                       </View>)
@@ -141,8 +98,8 @@ export default class WmTabbar extends BaseComponent<WmTabbarProps, WmTabbarState
               this.renderTabItem({
                 label: props.morebuttonlabel,
                 icon: props.morebuttoniconclass
-              } as TabItem, props,  () => {
-                this.updateState({showMore: !this.state.showMore} as WmTabbarState);
+              } as NavigationDataItem, props,  () => {
+                this.updateState({showMore: !this.state.showMore} as WmTabbarState<WmTabbarProps>);
               })
             )}
           </View>

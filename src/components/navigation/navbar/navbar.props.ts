@@ -1,6 +1,6 @@
-import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseNavProps } from '@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.props';
 
-export default class WmNavbarProps extends BaseProps {
+export default class WmNavbarProps extends BaseNavProps {
   type: string = 'pills';
   layout: string = '';
   children?: any;
