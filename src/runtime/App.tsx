@@ -2,7 +2,7 @@ import React, { ReactNode }  from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { merge } from 'lodash';
-import WmModal from '@wavemaker/app-rn-runtime/components/basic/modal/modal.component';
+import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
@@ -59,6 +59,7 @@ export default abstract class BaseApp extends React.Component {
     let wait = 0;
     this.appConfig.refresh = () => {
       if (!wait) {
+        RENDER_LOGGER.debug('refreshing the app...');
         wait = MAX_TIME_BETWEEN_REFRESH_CYCLES;
         refreshAfterWait = false;
         setTimeout(() => {
@@ -70,6 +71,7 @@ export default abstract class BaseApp extends React.Component {
           refreshAfterWait && this.appConfig.refresh();
         }, wait);
       } else {
+        RENDER_LOGGER.debug('will refresh the app in the next cycle.');
         refreshAfterWait = true;
       }
     }

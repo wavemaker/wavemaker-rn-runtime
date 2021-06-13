@@ -1,8 +1,11 @@
 import { isEqual, merge } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle } from 'react-native';
+import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger'
 import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE, NamedStyles, AllStyle, ThemeConsumer } from '../styles/theme';
 import { PropsProvider } from './props.provider';
+
+export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
 export class BaseComponentState<T extends BaseProps> {
     public props = {} as T;
@@ -19,7 +22,9 @@ export interface LifecycleListener {
 }
 
 export class BaseProps {
+    id?: string = null as any;
     name?: string = null as any;
+    key?: string = null as any;
     show? = true;
     styles?: any = null;
     listener?: LifecycleListener = null as any;
@@ -42,7 +47,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.propertyProvider = new PropsProvider<T>(
             Object.assign(defaultProps || {}, markupProps),
             (name: string, $new: any, $old: any) => {
+                WIDGET_LOGGER.debug(() => `${this.props.name ?? this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
                 this.onPropertyChange(name, $new, $old);
+                if (name === 'styles') {
+                    this.styles = null as any;
+                }
             });
         //@ts-ignore
         this.state.props =this.propertyProvider.get();
@@ -96,16 +105,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     shouldComponentUpdate(nextProps: T, nextState: S, nextContext: any) {
-        if (this.propertyProvider.check(nextProps)) {
-            this.setState(() => ({
-                props: this.propertyProvider.get()
-            }));
-            return true;
-        }
-        if (!isEqual(nextState, this.state)) {
-            return true;
-        }
-        return false;
+        return this.propertyProvider.check(nextProps) || !isEqual(nextState, this.state);
     }
 
     componentDidMount() {
@@ -137,11 +137,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     protected abstract renderWidget(props: T): ReactNode;
 
     public render(): ReactNode {
+        WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
         const props = this.state.props;
         return props.show !== false ?
             (<ThemeConsumer>{(theme) => {
                 this.theme = theme || BASE_THEME;
-                this.styles = merge({}, this.theme.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
+                this.styles = this.styles || merge({}, this.theme.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
                 return this.renderWidget(this.state.props);
             }}</ThemeConsumer>) : null;
     }

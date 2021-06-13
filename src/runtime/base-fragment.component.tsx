@@ -31,6 +31,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public refreshdataonattach= true;
     public fragments: any = {};
     public isDetached = false;
+    public _memoize = {} as any;
 
     constructor(props: P, defaultProps?: P) {
         super(props, undefined, undefined, defaultProps);
@@ -54,16 +55,18 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {
-      this.Widgets[w.props.name] = w;
+      const id = w.props.id;
+      this.Widgets[id] = w;
       if (w instanceof BaseFragment && w !== this) {
-        this.fragments[w.props.name] = w;
+        this.fragments[id] = w;
       }
     }
 
     onComponentDestroy(w: BaseComponent<any, any, any>) {
-      delete this.Widgets[w.props.name];
+      const id = w.props.id;
+      delete this.Widgets[id];
       if (w instanceof BaseFragment) {
-        delete this.fragments[w.props.name];
+        delete this.fragments[id];
       }
     }
 
@@ -101,6 +104,13 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     componentWillUnmount() {
       super.componentWillUnmount();
       this.targetWidget && this.targetWidget.invokeEventCallback('onDestroy', [null, this.proxy]);
+    }
+
+    memoize(key: string, o: any) {
+      if (!this._memoize[key])  {
+        this._memoize[key] = o;
+      }
+      return this._memoize[key];
     }
 
     onFragmentReady() {

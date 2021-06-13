@@ -40,16 +40,16 @@ export class PropsProvider<T extends BaseProps> {
             return true;
         }
         return Object.keys(nextProps).reduce((b, k) => {
+            let flag = false;
             //@ts-ignore
             const value = nextProps[k];
-            //TODO: comparison has to be improved
+            const oldValue = this.oldProps[k];
             if (!this.overriddenProps[k] && this.oldProps[k] !== value) {
-                const oldValue = this.oldProps[k];
                 this.oldProps[k] = value;
                 this.onChange(k, value, oldValue);
-                b = b || !(value instanceof Function);
+                flag = true;
             }
-            return b;
+            return b || flag;
         }, false);
     }    
 
