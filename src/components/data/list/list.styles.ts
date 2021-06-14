@@ -10,7 +10,8 @@ export type WmListStyles = BaseStyles & {
     loadingIcon: WmIconStyles,
     title: WmLabelStyles,
     subheading: WmLabelStyles,
-    emptyMessage: WmLabelStyles
+    emptyMessage: WmLabelStyles,
+    selectedItem: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-list';
@@ -62,7 +63,12 @@ export const DEFAULT_STYLES: WmListStyles = {
             lineHeight: 18,
             color: ThemeVariables.listSubTitleColor
         }
-    } as WmLabelStyles
+    } as WmLabelStyles,
+    selectedItem : {
+        borderColor: ThemeVariables.selectedItemBorderColor,
+        borderWidth: 1,
+        borderStyle: 'solid'
+    } as AllStyle
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

@@ -125,10 +125,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     invokeEventCallback(eventName: string, args: any[]) {
         //@ts-ignore
         const callBack: Function = this.props[eventName];
+        args = args && args.map(a => (a === this) ? this.proxy : a)
         if (callBack) {
             callBack.apply(this.proxy, args);
         }
-        args && args.map(a => (a === this) ? this.proxy : a)
         if (eventName === 'onTap') {
           this.invokeEventCallback && this.invokeEventCallback('onClick', args);
         }

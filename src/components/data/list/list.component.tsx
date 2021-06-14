@@ -1,16 +1,17 @@
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmListStyles } from './list.styles';
 
 
 export class WmListState extends BaseComponentState<WmListProps> {
-
+  public selectedindex: any;
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -21,16 +22,40 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmListProps());
   }
 
-  private onSelect($event: any, $item: any) {
-    this.selecteditem = $item;
-    this.invokeEventCallback('onSelect', [$event, this.proxy, $item]);
+  private onSelect($item: any, $index: number) {
+    if (!this.state.props.disableitem) {
+      this.selecteditem = $item;
+      this.updateState({
+        selectedindex: $index
+      } as WmListState);
+      this.invokeEventCallback('onSelect', [this.proxy, $item]);
+    }
+  }
+
+  public onPropertyChange(name: string, $new: any, $old: any) {
+    const props = this.state.props;
+    switch(name) {
+      case 'selectfirstitem':
+        $new && props.dataset 
+          && props.dataset.length
+          && this.onSelect(props.dataset[0], 0);
+      break;
+      case 'dataset':
+        props.selectfirstitem && this.onSelect(props.dataset[0], 0);
+      break;
+    }
   }
 
   renderWidget(props: WmListProps) {
-    return (
-      <View style={this.styles.root}>
+    this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
+    const list = (
         <FlatList
+          style={this.styles.root}
           keyExtractor={(item, i) => 'list_item_' +  i}
+          onEndReached={({distanceFromEnd}) => {
+            this.invokeEventCallback('onEndReached', [null, this]);
+          }}
+          onEndReachedThreshold={0.3}
           ListHeaderComponent={() => {
             return (props.iconclass || props.title || props.subheading) ? (
               <View style={this.styles.heading}>
@@ -43,20 +68,21 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                 </View>
               </View>) : null
           }}
+          ListFooterComponent={() => props.loadingdata ? 
+              (<WmIcon styles={this.styles.loadingIcon}
+                iconclass={props.loadingicon}
+                caption={props.loadingdatamsg}></WmIcon>) : null}
           data={props.dataset}
           ListEmptyComponent = {() => <WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>}
           renderItem={(itemInfo) => (
-          <TouchableOpacity onPress={(e) => this.onSelect(e, itemInfo.item)}>
-            <View>
+          <Tappable onTap={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
+            <View style={this.state.selectedindex === itemInfo.index ? this.styles.selectedItem : {}}>
               {props.renderItem(itemInfo.item, itemInfo.index)}
             </View>
-          </TouchableOpacity>
+          </Tappable>
         )}></FlatList>
-        {props.loadingdata ? 
-          (<WmIcon styles={this.styles.loadingIcon}
-            iconclass={props.loadingicon}
-            caption={props.loadingdatamsg}></WmIcon>) : null}
-      </View>
-    ); 
+    );
+    setTimeout(() => this.invokeEventCallback('onRender', [this, this.state.props.dataset]));
+    return list;
   }
 }
