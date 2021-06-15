@@ -39,6 +39,10 @@ export abstract class BaseVariable extends EventNotifier {
         return Promise.resolve(this);
     }
 
+    public doNext(): Promise<BaseVariable> {
+      return Promise.reject(this);
+    }
+
     public invokeOnParamChange(): Promise<BaseVariable> {
         const last = this.params;
         const latest = this.config.paramProvider();

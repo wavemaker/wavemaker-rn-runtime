@@ -68,6 +68,7 @@ export class ThemeVariables {
     listTitleColor = '#5e5e5e';
     listSubTitleColor = this.listTitleColor;
     listDividerColor = '#ddd';
+    selectedItemBorderColor = this.primaryColor;
 
     //button Variables
     buttonBadgeTextColor = '#ffffff';

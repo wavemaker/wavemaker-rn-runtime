@@ -12,4 +12,6 @@ export default class WmListProps extends BaseProps {
     loadingdatamsg = 'Loading...';
     nodatamessage = 'No data found';
     loadingdata = false;
+    selectfirstitem = false;
+    disableitem = false;
 }

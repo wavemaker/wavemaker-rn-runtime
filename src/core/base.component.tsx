@@ -37,7 +37,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     } as L;
     private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T, S, L>;
-    private initialized = false;
+    public initialized = false;
     public cleanup = [] as Function[];
     public theme = BASE_THEME;
 
@@ -86,21 +86,23 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     }
 
-    updateState(state: S) {
+    updateState(state: S, callback?: ()=>void) {
       if (state.props) {
-        Object.keys(state.props).forEach((k) => {
-          //@ts-ignore
-          this.state.props[k] = state.props[k];
-        });
-        state.props = this.state.props
+          Object.keys(state.props).forEach((k) => {
+            //@ts-ignore
+            this.state.props[k] = state.props[k];
+          });
+          state.props = this.state.props
       }
-        if (!this.initialized) {
-            Object.keys(state).forEach((key) => {
-                //@ts-ignore
-                this.state[key] = state[key];
-            });
+      if (!this.initialized) {
+          Object.keys(state).forEach((key) => {
+              //@ts-ignore
+              this.state[key] = state[key];
+          });
+          callback && callback();
         } else {
-            this.setState(() => state);
+              this.setState(state instanceof Function ? state : () => state, callback);
+
         }
     }
 
@@ -125,10 +127,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     invokeEventCallback(eventName: string, args: any[]) {
         //@ts-ignore
         const callBack: Function = this.props[eventName];
+        args = args && args.map(a => (a === this) ? this.proxy : a)
         if (callBack) {
             callBack.apply(this.proxy, args);
         }
-        args && args.map(a => (a === this) ? this.proxy : a)
         if (eventName === 'onTap') {
           this.invokeEventCallback && this.invokeEventCallback('onClick', args);
         }
