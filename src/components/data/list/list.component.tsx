@@ -32,55 +32,75 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   }
 
+  private deselect() {
+    this.selecteditem = null;
+    this.updateState({
+      selectedindex: -1
+    } as WmListState);
+  }
+
   public onPropertyChange(name: string, $new: any, $old: any) {
+    super.onPropertyChange(name, $new, $old);
     const props = this.state.props;
     switch(name) {
       case 'selectfirstitem':
-        $new && props.dataset 
+        $new && this.initialized && props.dataset 
           && props.dataset.length
           && this.onSelect(props.dataset[0], 0);
       break;
       case 'dataset':
-        props.selectfirstitem && this.onSelect(props.dataset[0], 0);
+        props.selectfirstitem && this.initialized && this.onSelect(props.dataset[0], 0);
+      break;
+      case 'disableitem':
+        this.deselect();
       break;
     }
+  }
+
+  componentDidMount() {
+    const props = this.state.props;
+    if (this.state.props.selectfirstitem && props.dataset?.length) {
+      this.onSelect(props.dataset[0], 0);
+    }
+    super.componentDidMount();
   }
 
   renderWidget(props: WmListProps) {
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
     const list = (
-        <FlatList
-          style={this.styles.root}
-          keyExtractor={(item, i) => 'list_item_' +  i}
-          onEndReached={({distanceFromEnd}) => {
-            this.invokeEventCallback('onEndReached', [null, this]);
-          }}
-          onEndReachedThreshold={0.3}
-          ListHeaderComponent={() => {
-            return (props.iconclass || props.title || props.subheading) ? (
-              <View style={this.styles.heading}>
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
-                  <View>
-                    <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
-                    <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+        <View style={this.styles.root}>
+          <FlatList
+            keyExtractor={(item, i) => 'list_item_' +  i}
+            onEndReached={({distanceFromEnd}) => {
+              this.invokeEventCallback('onEndReached', [null, this]);
+            }}
+            onEndReachedThreshold={0.3}
+            ListHeaderComponent={() => {
+              return (props.iconclass || props.title || props.subheading) ? (
+                <View style={this.styles.heading}>
+                  <View style={{flex: 1, flexDirection: 'row'}}>
+                    <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
+                    <View>
+                      <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
+                      <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+                    </View>
                   </View>
-                </View>
-              </View>) : null
-          }}
-          ListFooterComponent={() => props.loadingdata ? 
-              (<WmIcon styles={this.styles.loadingIcon}
-                iconclass={props.loadingicon}
-                caption={props.loadingdatamsg}></WmIcon>) : null}
-          data={props.dataset}
-          ListEmptyComponent = {() => <WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>}
-          renderItem={(itemInfo) => (
-          <Tappable onTap={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
-            <View style={this.state.selectedindex === itemInfo.index ? this.styles.selectedItem : {}}>
-              {props.renderItem(itemInfo.item, itemInfo.index)}
-            </View>
-          </Tappable>
-        )}></FlatList>
+                </View>) : null
+            }}
+            ListFooterComponent={() => props.loadingdata ? 
+                (<WmIcon styles={this.styles.loadingIcon}
+                  iconclass={props.loadingicon}
+                  caption={props.loadingdatamsg}></WmIcon>) : null}
+            data={props.dataset}
+            ListEmptyComponent = {() => <WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>}
+            renderItem={(itemInfo) => (
+            <Tappable onTap={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
+              <View style={this.state.selectedindex === itemInfo.index ? this.styles.selectedItem : {}}>
+                {props.renderItem(itemInfo.item, itemInfo.index)}
+              </View>
+            </Tappable>
+          )}></FlatList>
+        </View>
     );
     setTimeout(() => this.invokeEventCallback('onRender', [this, this.state.props.dataset]));
     return list;

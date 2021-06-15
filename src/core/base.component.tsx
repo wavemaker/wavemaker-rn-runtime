@@ -37,7 +37,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     } as L;
     private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T, S, L>;
-    private initialized = false;
+    public initialized = false;
     public cleanup = [] as Function[];
     public theme = BASE_THEME;
 
