@@ -86,21 +86,23 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     }
 
-    updateState(state: S) {
+    updateState(state: S, callback?: ()=>void) {
       if (state.props) {
-        Object.keys(state.props).forEach((k) => {
-          //@ts-ignore
-          this.state.props[k] = state.props[k];
-        });
-        state.props = this.state.props
+          Object.keys(state.props).forEach((k) => {
+            //@ts-ignore
+            this.state.props[k] = state.props[k];
+          });
+          state.props = this.state.props
       }
-        if (!this.initialized) {
-            Object.keys(state).forEach((key) => {
-                //@ts-ignore
-                this.state[key] = state[key];
-            });
+      if (!this.initialized) {
+          Object.keys(state).forEach((key) => {
+              //@ts-ignore
+              this.state[key] = state[key];
+          });
+          callback && callback();
         } else {
-            this.setState(() => state);
+              this.setState(state instanceof Function ? state : () => state, callback);
+
         }
     }
 
