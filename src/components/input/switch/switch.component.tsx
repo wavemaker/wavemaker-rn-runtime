@@ -62,19 +62,20 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
     this.invokeEventCallback('onTap', [ event, this.proxy ]);
   }
 
-  renderChild(item: any) {
+  renderChild(item: any, index: any) {
+    const btnClass = index === 0 ? 'firstButtonStyles' : (index+1 === this.state.dataItems.length ? 'lastButtonStyles' : 'buttonStyles');
     const switchWidth: any = this.styles.root.width;
     let childWidth: any;
     if (switchWidth?.toString().indexOf('%') > -1) {
       childWidth = parseInt(switchWidth.toString().split('%')[0])/this.state.dataItems.length + '%';
     } else if (switchWidth?.toString().indexOf('px') > -1) {
-      childWidth = parseInt(switchWidth.toString().split('px')[0])/this.state.dataItems.length + 'px';
+      childWidth = parseInt(switchWidth.toString().split('px')[0])/this.state.dataItems.length;
     } else {
-      childWidth = parseInt(switchWidth)/this.state.dataItems.length + 'px';
+      childWidth = parseInt(switchWidth)/this.state.dataItems.length;
     }
     const displayText = item.displayexp || item.displayfield;
     return (
-      <ToggleButton onPress={this.onTap.bind(this)} disabled={this.state.props.disabled} style={[this.styles.buttonStyles, {width: childWidth, backgroundColor: this.state.props.datavalue === item.datafield ? this.styles.selectedButtonStyles.backgroundColor : this.styles.buttonStyles.backgroundColor}]} icon={()=>this.state.props.iconclass ?
+      <ToggleButton onPress={this.onTap.bind(this)} disabled={this.state.props.disabled} style={[this.styles[btnClass], {width: childWidth, backgroundColor: this.state.props.datavalue === item.datafield ? this.styles.selectedButtonStyles.backgroundColor : this.styles.buttonStyles.backgroundColor}]} icon={()=>this.state.props.iconclass ?
         (<WmIcon styles={this.styles.loadingIcon} iconclass={item.icon} caption={displayText}></WmIcon>) : (<View><Text>{displayText}</Text></View>)} key={item.key} value={item.datafield} />
     );
   };
@@ -83,7 +84,7 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
     const items = this.state.dataItems;
     return (<ToggleButton.Row style={this.styles.root} onValueChange={this.onChange.bind(this)} value={props.datavalue}>
       {items && items.length ?
-        items.map((item: any) => this.renderChild(item)): null}
+        items.map((item: any, index: any) => this.renderChild(item, index)): null}
     </ToggleButton.Row>);
   }
 }

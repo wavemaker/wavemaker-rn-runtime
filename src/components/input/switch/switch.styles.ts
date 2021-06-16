@@ -30,12 +30,28 @@ export const DEFAULT_STYLES: WmSwitchStyles = {
   } as WmIconStyles,
   buttonStyles: {
     height: 'auto',
-    borderRadius: 500,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    borderRadius: 0
   } as AllStyle,
   selectedButtonStyles: {
-      backgroundColor: ThemeVariables.buttonPrimaryColor
-  } as AllStyle
+    backgroundColor: ThemeVariables.buttonPrimaryColor
+  } as AllStyle,
+  firstButtonStyles: {
+    height: 'auto',
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 500,
+    borderBottomLeftRadius: 500,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0
+  },
+  lastButtonStyles: {
+    height: 'auto',
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderTopRightRadius: 500,
+    borderBottomRightRadius: 500
+  }
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
