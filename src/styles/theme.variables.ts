@@ -96,6 +96,11 @@ export class ThemeVariables {
     //picture variables
     pictureThumbBgColor = '#ffffff';
     pictureThumbBorderColor = '#dddddd';
+
+    //input variables
+    inputTextColor = '#666666';
+    inputBorderColor = '#aaaaaa';
+    inputFocusBorderColor = this.primaryColor;
 }
 
 export default new ThemeVariables();

@@ -6,6 +6,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmIconProps from './icon.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmIconStyles } from './icon.styles';
 import getWavIcon from './wavicon.component';
+import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 interface IconDef {
   isFontAwesome: boolean;
@@ -128,11 +129,13 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   renderWidget(props: WmIconProps) {
     let icon = this.renderIcon(props);
     return (
-      <View style={this.styles.root}>
-        {(props.iconposition === 'left' && icon) || null}
-        <Text style={this.styles.text}>{props.caption}</Text>
-        {(props.iconposition === 'right' && icon) || null}
-      </View>
+      <Tappable target={this}>
+        <View style={this.styles.root}>
+          {(props.iconposition === 'left' && icon) || null}
+          <Text style={this.styles.text}>{props.caption}</Text>
+          {(props.iconposition === 'right' && icon) || null}
+        </View>
+      </Tappable>
     ); 
   }
 }

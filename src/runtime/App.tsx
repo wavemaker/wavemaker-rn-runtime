@@ -2,11 +2,13 @@ import React, { ReactNode }  from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { merge } from 'lodash';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 import AppModalService from './services/app-modal.service';
 import AppPartialService from './services/partial.service';
@@ -105,25 +107,35 @@ export default abstract class BaseApp extends React.Component {
   render() {
     return (
       <SafeAreaProvider>
-        <View  style={styles.container}>
-          { this.appConfig.loadApp && this.appStarted && (
-            <PartialProvider value={AppPartialService}>
-              <ModalProvider value={AppModalService}>
-                <View style={styles.container}>
-                  <AppNavigator 
-                    app={this}
-                    hideDrawer={this.appConfig.drawer?.getContent() === null}
-                    drawerContent={() => this.appConfig.drawer?.getContent()}
-                    drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                </View>
-              </ModalProvider>
-            </PartialProvider>)
-          }
-        </View>
-        {AppModalService.modalOptions.content && 
-          (<View style={merge(styles.appModal, AppModalService.modalOptions.modalStyle)}>
-              {AppModalService.modalOptions.content}
-          </View>)}
+        <PaperProvider theme={{
+          ...DefaultTheme,
+          colors: {
+            ...DefaultTheme.colors, 
+            primary: ThemeVariables.primaryColor
+          }}}>
+          <View  style={styles.container}>
+            { this.appConfig.loadApp && this.appStarted && (
+              <PartialProvider value={AppPartialService}>
+                <ModalProvider value={AppModalService}>
+                  <View style={styles.container}>
+                    <AppNavigator 
+                      app={this}
+                      hideDrawer={this.appConfig.drawer?.getContent() === null}
+                      drawerContent={() => this.appConfig.drawer?.getContent()}
+                      drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                  </View>
+                </ModalProvider>
+              </PartialProvider>)
+            }
+          </View>
+          {AppModalService.modalOptions.content && (
+            <View style={merge(styles.appModal, 
+              AppModalService.modalOptions.modalStyle,
+              AppModalService.modalOptions.centered? styles.centeredModal: null)}>
+                {AppModalService.modalOptions.content}
+            </View>
+          )}
+        </PaperProvider>
       </SafeAreaProvider>
     );
   }
@@ -136,5 +148,12 @@ const styles = {
   appModal: {
     position: 'absolute',
     width: '100%'
-  }
+  },
+  centeredModal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    height: '100%'
+  },
 };
