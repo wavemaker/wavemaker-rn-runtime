@@ -5,6 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmSwitchProps from './switch.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmSwitchStyles } from './switch.styles';
+import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
 
 export class WmSwitchState extends BaseComponentState<WmSwitchProps> {
   dataItems: any;
@@ -19,10 +20,6 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
     switch (name) {
       case 'dataset':
         this.setDataItems($new);
-        break;
-      case 'datavalue':
-        //this.updateState({datavalue: $new} as WmSwitchState);
-        //this.state.props.datavalue = $new;
         break;
     }
   }
@@ -43,7 +40,9 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
         return {
           key: `${name}_item${i}`,
           displayfield: d[this.state.props.displayfield],
-          datafield: d[this.state.props.datafield]
+          datafield: d[this.state.props.datafield],
+          displayexp: this.state.props.displayexpression ? eval(this.state.props.displayexpression.replace(/\$/g, 'd')) : d[this.state.props.displayfield],
+          icon: d[this.state.props.iconclass]
         };
       });
     }
@@ -51,34 +50,34 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
   }
 
   onChange(value: any) {
-    //this.updateState({datavalue: value} as WmSwitchState);
-    //this.state.props.datavalue = value;
+    if (!value) {
+      return;
+    }
     // @ts-ignore
     this.updateState((S)=> {S.props.datavalue = value;return S;},
       ()=>this.invokeEventCallback('onChange', [ undefined, this.proxy, value, this.state.props.datavalue ]));
+  }
 
+  onTap(event: any) {
+    this.invokeEventCallback('onTap', [ event, this.proxy ]);
   }
 
   renderChild(item: any) {
-    const switchWidth = this.styles.root.width;
+    const switchWidth: any = this.styles.root.width;
     let childWidth: any;
-    // @ts-ignore
     if (switchWidth?.toString().indexOf('%') > -1) {
-      // @ts-ignore
       childWidth = parseInt(switchWidth.toString().split('%')[0])/this.state.dataItems.length + '%';
-    } else { // @ts-ignore
-      if (switchWidth?.toString().indexOf('px') > -1) {
-        // @ts-ignore
-        childWidth = parseInt(switchWidth.toString().split('px')[0])/this.state.dataItems.length + 'px';
-      } else {
-        // @ts-ignore
-        childWidth = parseInt(switchWidth)/this.state.dataItems.length + 'px';
-      }
+    } else if (switchWidth?.toString().indexOf('px') > -1) {
+      childWidth = parseInt(switchWidth.toString().split('px')[0])/this.state.dataItems.length + 'px';
+    } else {
+      childWidth = parseInt(switchWidth)/this.state.dataItems.length + 'px';
     }
+    const displayText = item.displayexp || item.displayfield;
     return (
-      <ToggleButton style={[this.styles.root, {width: childWidth}]} icon={()=><View><Text>{item.displayfield}</Text></View>} key={item.key} value={item.datafield} />
+      <ToggleButton onPress={this.onTap.bind(this)} disabled={this.state.props.disabled} style={[this.styles.buttonStyles, {width: childWidth, backgroundColor: this.state.props.datavalue === item.datafield ? this.styles.selectedButtonStyles.backgroundColor : this.styles.buttonStyles.backgroundColor}]} icon={()=>this.state.props.iconclass ?
+        (<WmIcon styles={this.styles.loadingIcon} iconclass={item.icon} caption={displayText}></WmIcon>) : (<View><Text>{displayText}</Text></View>)} key={item.key} value={item.datafield} />
     );
-  }
+  };
 
   renderWidget(props: WmSwitchProps) {
     const items = this.state.dataItems;
