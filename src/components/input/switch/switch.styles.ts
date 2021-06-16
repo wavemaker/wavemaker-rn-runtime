@@ -7,7 +7,9 @@ import ThemeVariables from "@wavemaker/app-rn-runtime/styles/theme.variables";
 export type WmSwitchStyles = BaseStyles & {
   loadingIcon: WmIconStyles,
   buttonStyles: AllStyle,
-  selectedButtonStyles: AllStyle
+  selectedButtonStyles: AllStyle,
+  firstButtonStyles: AllStyle,
+  lastButtonStyles: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-switch';
@@ -43,7 +45,7 @@ export const DEFAULT_STYLES: WmSwitchStyles = {
     borderBottomLeftRadius: 500,
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0
-  },
+  } as AllStyle,
   lastButtonStyles: {
     height: 'auto',
     backgroundColor: '#fff',
@@ -51,7 +53,7 @@ export const DEFAULT_STYLES: WmSwitchStyles = {
     borderBottomLeftRadius: 0,
     borderTopRightRadius: 500,
     borderBottomRightRadius: 500
-  }
+  } as AllStyle
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
