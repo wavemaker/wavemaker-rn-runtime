@@ -31,10 +31,7 @@ export class BaseProps {
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
-    public styles: L = {
-        root: {},
-        text: {}
-    } as L;
+    public styles: L = null as any;
     private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T, S, L>;
     public initialized = false;
