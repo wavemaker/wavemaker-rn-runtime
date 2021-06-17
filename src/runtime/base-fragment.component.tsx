@@ -54,6 +54,10 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         }));
     }
 
+    onComponentChange(w: BaseComponent<any, any, any>) {
+      this.refresh();
+    }
+
     onComponentInit(w: BaseComponent<any, any, any>) {
       const id = w.props.id;
       this.Widgets[id] = w;

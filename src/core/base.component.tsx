@@ -4,6 +4,7 @@ import { TextStyle } from 'react-native';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger'
 import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE, NamedStyles, AllStyle, ThemeConsumer } from '../styles/theme';
 import { PropsProvider } from './props.provider';
+import { assignIn } from 'lodash-es';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -17,6 +18,7 @@ export type BaseStyles = NamedStyles<any> & {
 }
 
 export interface LifecycleListener {
+    onComponentChange: (c: BaseComponent<any, any, any>) => void;
     onComponentInit: (c: BaseComponent<any, any, any>) => void;
     onComponentDestroy: (c: BaseComponent<any, any, any>) => void;
 }
@@ -68,9 +70,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 if (this.propertyProvider.has(propName)) {
                     // @ts-ignore
                     this.state.props[propName] = value;
-                    this.setState(() => ({
-                        props: this.propertyProvider.get()
-                    }))
                     return true;
                 } else {
                     return Reflect.set(target, prop, value);
@@ -83,23 +82,28 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     }
 
-    updateState(state: S, callback?: ()=>void) {
-      if (state.props) {
-          Object.keys(state.props).forEach((k) => {
-            //@ts-ignore
-            this.state.props[k] = state.props[k];
-          });
-          state.props = this.state.props
-      }
-      if (!this.initialized) {
-          Object.keys(state).forEach((key) => {
-              //@ts-ignore
-              this.state[key] = state[key];
-          });
-          callback && callback();
+    updateState(newPartialState: S, callback?: ()=>void) {
+        const propsUpdated = !!newPartialState.props;
+        const stateFn = (oldState: S) => {
+            const newState = assignIn({} as S, oldState, newPartialState);
+            if (newPartialState.props) {
+                Object.keys(newPartialState.props).forEach((k) => {
+                    //@ts-ignore
+                    oldState.props[k] = newState.props[k];
+                });
+                newState.props = oldState.props;
+            }
+            return newState;
+        };
+        const onUpdateState = () => {
+            callback && callback();
+            propsUpdated && this.props.listener?.onComponentChange(this);
+        }
+        if (!this.initialized) {
+            this.state = stateFn(this.state);
+            onUpdateState();
         } else {
-              this.setState(state instanceof Function ? state : () => state, callback);
-
+            setTimeout(() => this.setState(stateFn, onUpdateState));
         }
     }
 

@@ -33,7 +33,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     const icon = (<WmIcon
       styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>);
     //@ts-ignore
-    const badge = (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>);
+    const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>): null;
     return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
@@ -43,7 +43,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
                 {props.iconposition === 'left' && icon}
                 <Text style={this.styles.text}>{props.caption}</Text>
                 {props.iconposition === 'right' && icon}
-                {props.badgevalue && badge}
+                {badge}
               </View>
           </Tappable>)
       }

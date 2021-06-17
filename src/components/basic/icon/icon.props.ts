@@ -4,5 +4,6 @@ export default class WmIconProps extends BaseProps {
   iconclass?: string = '';
   iconposition? = 'left';
   caption? = '';
-  iconsize? = 0
+  iconsize? = 0;
+  onTap?: Function;
 }
