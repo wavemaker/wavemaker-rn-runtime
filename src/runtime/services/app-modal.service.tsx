@@ -16,8 +16,10 @@ class AppModalService implements ModalService {
         const i = this.modalsOpened.findIndex(o => o === options);
         if (i < 0) {
             this.modalsOpened.push(options);
-            this.showLastModal();
+        } else {
+            this.modalsOpened = this.modalsOpened.slice(0, i + 1);
         }
+        this.showLastModal();
     }
     
     public hideModal(options?: ModalOptions) {

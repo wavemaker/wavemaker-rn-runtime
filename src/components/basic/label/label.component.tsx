@@ -5,6 +5,7 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmLabelProps from './label.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmLabelStyles } from './label.styles';
+import { toString } from 'lodash-es';
 
 export class WmLabelState extends BaseComponentState<WmLabelProps> {
 
@@ -23,7 +24,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   renderWidget(props: WmLabelProps) {
     return props.caption ? (
       <Tappable target={this}>
-          <Text style={this.styles.root}>{props.caption}
+          <Text style={this.styles.root}>{toString(props.caption)}
             {props.required && this.getAsterisk()}
           </Text>
       </Tappable>

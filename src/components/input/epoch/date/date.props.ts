@@ -1,12 +1,11 @@
-import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import WmDatetimeProps from '../datetime/datetime.props';
 
-export default class WmDateProps extends BaseProps {
-  datavalue?: string = null as any;
-  defaultvalue?: string = null as any;
-  datepattern?: string = 'MMM DD, YYYY';
-  outputpattern?: string = 'YYYY-MM-DD';
-  mindate?: string | Date = null as any;
-  maxdate?: string | Date = null as any;
-  placeholder? = 'Select date';
-  readonly? = false;
+export default class WmDateProps extends WmDatetimeProps {
+  constructor() {
+    super();
+    this.mode = 'date';
+    this.placeholder = 'Select date';
+    this.datepattern = 'MMM DD, YYYY';
+    this.outputformat = 'YYYY-MM-DD';
+  }
 }
