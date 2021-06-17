@@ -9,4 +9,5 @@ export default class WmSwitchProps extends BaseProps {
   disabled: any;
   displayexpression: any;
   iconclass: any;
+  getDisplayExpression: any;
 }

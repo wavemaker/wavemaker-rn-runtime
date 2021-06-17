@@ -16,7 +16,9 @@ export const DEFAULT_CLASS = 'app-switch';
 export const DEFAULT_STYLES: WmSwitchStyles = {
     root: {
       height: 38,
-      width: '100%'
+      width: '100%',
+      flex: 1,
+      flexDirection: 'row'
     },
     text: {},
   loadingIcon: {
@@ -31,24 +33,27 @@ export const DEFAULT_STYLES: WmSwitchStyles = {
     }
   } as WmIconStyles,
   buttonStyles: {
-    height: 'auto',
+    height: 'inherit',
     backgroundColor: '#fff',
+    flex: 1,
     borderRadius: 0
   } as AllStyle,
   selectedButtonStyles: {
     backgroundColor: ThemeVariables.buttonPrimaryColor
   } as AllStyle,
   firstButtonStyles: {
-    height: 'auto',
+    height: 'inherit',
     backgroundColor: '#fff',
+    flex: 1,
     borderTopLeftRadius: 500,
     borderBottomLeftRadius: 500,
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0
   } as AllStyle,
   lastButtonStyles: {
-    height: 'auto',
+    height: 'inherit',
     backgroundColor: '#fff',
+    flex: 1,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
     borderTopRightRadius: 500,
