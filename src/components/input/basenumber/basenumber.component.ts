@@ -79,11 +79,12 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
       return;
     }
 
-    // @ts-ignore
-    this.updateState((s) => {
-      s.props.datavalue = model;
-      return s;
-    }, () => this.invokeEventCallback('onChange', [ event, this.proxy, model, oldValue ]));
+    this.updateState({
+      props: {
+        datavalue: model
+      }
+    } as S, () => this.invokeEventCallback('onChange', [ event, this.proxy, model, oldValue ]))
+
   }
 
   onBlur(event: any) {
@@ -171,19 +172,15 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     // id number is infinite then consider it as invalid value
     if (isNaN(val) || !isFinite(val) || (!Number.isInteger(props.step) &&
       this.countDecimals(val) > this.countDecimals(props.step))) {
-      // @ts-ignore
-      this.updateState((state) => {
-        state.isInvalidNumber = true;
-        return state;
-      });
+      this.updateState({
+        isInvalidNumber: true,
+      } as S);
       return false;
     }
     if (val !== this.getValueInRange(val)) {
-      // @ts-ignore
-      this.updateState((state) => {
-        state.isInvalidNumber = true;
-        return state;
-      });
+      this.updateState({
+        isInvalidNumber: true,
+      } as S);
       return true;
     }
     this.resetValidations();
@@ -192,11 +189,9 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
 
   // resets all the flags related to the widget's validation.
   protected resetValidations() {
-    // @ts-ignore
-    this.updateState((state) => {
-      state.isInvalidNumber = false;
-      return state
-    });
+    this.updateState({
+      isInvalidNumber: false,
+    } as S);
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {

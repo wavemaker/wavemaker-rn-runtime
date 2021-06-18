@@ -65,11 +65,11 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
       return;
     }
 
-    // @ts-ignore
-    this.updateState((s) => {
-      s.props.datavalue = value;
-      return s;
-    }, () => this.invokeEventCallback('onChange', [ event, this.proxy, value, oldValue ]));
+    this.updateState({
+      props: {
+        datavalue: value
+      }
+    } as WmTextState, () => this.invokeEventCallback('onChange', [ event, this.proxy, value, oldValue ]))
 
   }
 
