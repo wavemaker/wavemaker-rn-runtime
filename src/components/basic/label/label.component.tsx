@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
@@ -23,11 +23,13 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
 
   renderWidget(props: WmLabelProps) {
     return props.caption ? (
-      <Tappable target={this}>
-          <Text style={this.styles.root}>{toString(props.caption)}
-            {props.required && this.getAsterisk()}
-          </Text>
-      </Tappable>
+      <View style={this.styles.root}>
+        <Tappable target={this}>
+            <Text style={this.styles.root}>{toString(props.caption)}
+              {props.required && this.getAsterisk()}
+            </Text>
+        </Tappable>
+      </View>
     ): null;
   }
 }

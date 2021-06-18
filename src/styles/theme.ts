@@ -53,3 +53,22 @@ const ThemeContext = React.createContext<Theme>(null as any);
 
 export const ThemeProvider = ThemeContext.Provider;
 export const ThemeConsumer = ThemeContext.Consumer;
+
+/**
+ * Common styles
+ */
+(() => {
+    const addColStyles = (device: string) => {
+        for(let i = 1; i <= 12; i++) {
+            Theme.BASE.addStyle(`col-${device}-${i}`, '', {
+                root: {
+                    flex: i
+                }
+            })
+        }
+    };
+    addColStyles('xs');
+    addColStyles('sm');
+    addColStyles('md');
+    addColStyles('lg');
+})()
