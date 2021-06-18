@@ -15,7 +15,7 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
   constructor(props: WmSliderProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSliderProps());
     if (!this.state.props.datavalue) {
-      this.state.props.datavalue = (this.state.props.maxvalue - this.state.props.minvalue)/2;
+      this.state.props.datavalue = this.state.props.minvalue + (this.state.props.maxvalue - this.state.props.minvalue)/2;
     }
   }
 
