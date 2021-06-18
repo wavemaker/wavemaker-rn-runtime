@@ -25,7 +25,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     return props.caption ? (
       <View style={this.styles.root}>
         <Tappable target={this}>
-            <Text style={this.styles.root}>{toString(props.caption)}
+            <Text style={this.styles.text}>{toString(props.caption)}
               {props.required && this.getAsterisk()}
             </Text>
         </Tappable>

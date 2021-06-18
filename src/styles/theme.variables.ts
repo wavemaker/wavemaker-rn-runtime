@@ -101,6 +101,11 @@ export class ThemeVariables {
     inputTextColor = '#666666';
     inputBorderColor = '#aaaaaa';
     inputFocusBorderColor = this.primaryColor;
+
+    //slider variables
+    minimumTrackTintColor = '#aaa';
+    maximumTrackTintColor = '#aaa';
+    thumbTintColor = this.primaryColor;
 }
 
 export default new ThemeVariables();
