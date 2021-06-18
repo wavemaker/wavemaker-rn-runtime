@@ -1,6 +1,6 @@
 import WmTimeProps from './time.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from './time.styles';
-import BaseDatetime from '../base-datetime.componnent';
+import BaseDatetime from '../base-datetime.component';
 
 export default class WmTime extends BaseDatetime {
 

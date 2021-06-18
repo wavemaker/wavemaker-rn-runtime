@@ -9,7 +9,7 @@ import WmDatetimeProps from './datetime/datetime.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmDatetimeStyles } from './datetime/datetime.styles';
 import WebDatePicker from './date-picker.component';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { isString } from 'lodash-es';
+import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 
 export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
@@ -31,6 +31,25 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     this.state.props.outputformat = this.state.props.outputformat?.replace(/d/g, 'D');
   }
 
+  format(date: Date | number | undefined, format: string) {
+    if (format === 'timestamp') {
+      return date instanceof Date ? '' + date.getTime() : date;
+    }
+    return date && moment(date).format(format);
+  }
+
+  parse(date: string | number, format: string) {
+    if (format === 'timestamp') {
+      if (isString(date)) {
+        return new Date(parseInt(date));
+      }
+      if (isNumber(date)) {
+        return new Date(date);
+      }
+    }
+    return date && moment(date, format).toDate();
+  }
+
   onPropertyChange(name: string, $new: any, $old: any) {
     super.onPropertyChange(name, $new, $old);
     const props = this.state.props;
@@ -41,18 +60,13 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       case 'datepattern':
       case 'outputformat':
         if (props.datavalue && props.outputformat && props.datepattern) {
-          let date = new Date();
           if (props.datavalue === 'CURRENT_DATE' || props.datavalue === 'CURRENT_TIME') {
-            if (props.outputformat === 'timestamp') {
-              props.datavalue = new Date();
-            } else {
-              props.datavalue = moment(Date.now()).format(props.outputformat);
-            }
+            props.datavalue = this.format(new Date(), props.outputformat);
           }
-          date = isString(props.datavalue) ? moment(props.datavalue, props.outputformat).toDate() : props.datavalue;
+          const date = this.parse(props.datavalue as string, props.outputformat);
           this.updateState({
             dateValue : date,
-            displayValue: moment(date).format(props.datepattern)
+            displayValue: this.format(date as any, props.datepattern)
           } as BaseDatetimeState);
         } else {
           this.updateState({
@@ -88,7 +102,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       isFocused: false,
       showDatePicker: !!this.modes.length,
       props: {
-        datavalue: date && moment(date).format(this.state.props.outputformat)
+        datavalue: this.format(date, this.state.props.outputformat as string)
       }
     } as BaseDatetimeState);
   }
