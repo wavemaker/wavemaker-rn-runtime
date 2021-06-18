@@ -9,10 +9,11 @@ export type WmLabelStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-label';
 export const DEFAULT_STYLES: WmLabelStyles = {
     root: {
+    },
+    text: {
       fontSize: 12,
       color: ThemeVariables.labelDefaultColor
     },
-    text: {},
     asterisk: {
       color: ThemeVariables.labelAsteriskColor,
       marginLeft: 2
@@ -38,7 +39,7 @@ BASE_THEME.addStyle('label-warning', DEFAULT_CLASS, getLabelStyles(ThemeVariable
 
 const getTextStyles = (color: string) => {
   return {
-    root: {
+    text: {
       color: color
     }
   } as WmLabelStyles;
@@ -68,7 +69,7 @@ BASE_THEME.addStyle('text-right', DEFAULT_CLASS, {
 
 const getHeadingStyles = (fontSize: number) => {
   return {
-    root: {
+    text: {
       fontSize: fontSize
     }
   } as WmLabelStyles;
@@ -80,18 +81,18 @@ BASE_THEME.addStyle('h4', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading
 BASE_THEME.addStyle('h5', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading5FontSize));
 BASE_THEME.addStyle('h6', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading6FontSize));
 BASE_THEME.addStyle('media-heading', DEFAULT_CLASS, {
-  root : {
+  text : {
     fontSize: 16
   }
 } as WmLabelStyles);
 BASE_THEME.addStyle('text-muted', DEFAULT_CLASS, {
-  root : {
+  text : {
     fontSize: 12,
     color: ThemeVariables.labelTextMutedColor
   }
 } as WmLabelStyles);
 BASE_THEME.addStyle('p', DEFAULT_CLASS, {
-  root : {
+  text : {
     fontSize: 12
   }
 } as WmLabelStyles);
