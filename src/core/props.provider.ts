@@ -26,7 +26,8 @@ export class PropsProvider<T extends BaseProps> {
                 this.isDirty = this.overriddenProps[propName] !== value;
                 this.overriddenProps[propName] = value;
                 if (this.oldProps[propName] !== value) {
-                    this.onChange(propName, value, this.oldProps[propName]);
+                    const oldValue = this.oldProps[propName];
+                    this.onChange(propName, value, oldValue);
                     this.oldProps[propName] = value;
                 }
                 return true;

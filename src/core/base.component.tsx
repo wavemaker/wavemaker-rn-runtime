@@ -26,7 +26,7 @@ export interface LifecycleListener {
 export class BaseProps {
     id?: string = null as any;
     name?: string = null as any;
-    key?: string = null as any;
+    key?: any = null as any;
     show? = true;
     styles?: any = null;
     listener?: LifecycleListener = null as any;

@@ -106,6 +106,10 @@ export class ThemeVariables {
     minimumTrackTintColor = '#aaa';
     maximumTrackTintColor = '#aaa';
     thumbTintColor = this.primaryColor;
+
+    //rating color
+    ratingIconColor = '#aaa';
+    ratingSelectedIconColor = '#f7dc6f';
 }
 
 export default new ThemeVariables();
