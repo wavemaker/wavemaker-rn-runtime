@@ -92,7 +92,7 @@ export class ThemeVariables {
     buttonDarkTextColor = '#ffffff';
     buttonLightColor = this.lightColor;
     buttonLightTextColor = '#212529';
-    
+
     //picture variables
     pictureThumbBgColor = '#ffffff';
     pictureThumbBorderColor = '#dddddd';
@@ -110,6 +110,9 @@ export class ThemeVariables {
     //rating color
     ratingIconColor = '#aaa';
     ratingSelectedIconColor = '#f7dc6f';
+
+    //toggle variables
+    toggleColor = '#2196f3';
 }
 
 export default new ThemeVariables();
