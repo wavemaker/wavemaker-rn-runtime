@@ -54,7 +54,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
 
   renderRadioButtons(items: any) {
     const props = this.state.props;
-    return(<RadioButton.Group onValueChange={this.onChange.bind(this)} value={props.datavalue.toString()}>
+    return(<RadioButton.Group onValueChange={this.onChange.bind(this)} value={props.datavalue}>
       {items && items.length ?
         items.map((item: any, index: any) => this.renderChild(item, index)): null}
     </RadioButton.Group>)
