@@ -37,7 +37,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }
     return date && moment(date).format(format);
   }
-
   parse(date: string | number, format: string) {
     if (format === 'timestamp') {
       if (isString(date)) {
@@ -122,17 +121,17 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   renderWebWidget(props: WmDatetimeProps)  {
-    return (<WebDatePicker 
+    return (<WebDatePicker
       mode={this.state.props.mode}
       value={this.state.dateValue || new Date()}
       onDateChange={(date: Date) => this.onDateChange(null as any, date)}
-      onDismiss={() => 
+      onDismiss={() =>
         this.updateState({
           isFocused: false,
           showDatePicker: false
         } as BaseDatetimeState, () => this.onBlur())}
       minimumDate={props.mindate as Date}
-      maximumDate={props.maxdate as Date}/>); 
+      maximumDate={props.maxdate as Date}/>);
   }
 
   renderNativeWidget(props: WmDatetimeProps, onDismiss?: Function) {
@@ -178,7 +177,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       <View style={[this.styles.root, this.state.isFocused ? this.styles.focused : null]}>
         <TouchableOpacity onPress={() => {
           if (!props.readonly && !this.clearBtnClicked) {
-            this.onFocus(); 
+            this.onFocus();
           }
           this.clearBtnClicked = false;
           this.invokeEventCallback('onTap', [null, this]);
@@ -186,7 +185,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           <View style={this.styles.container}>
             <Text style={this.styles.text}>{this.state.displayValue || this.state.props.placeholder}</Text>
             {!props.readonly && props.datavalue &&
-              (<WmIcon iconclass="wi wi-clear" 
+              (<WmIcon iconclass="wi wi-clear"
               styles={{color: this.styles.text.color, ...this.styles.clearIcon}}
               onTap={() => {
                 this.onDateChange(null as any, null as any);
@@ -196,13 +195,13 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           </View>
         </TouchableOpacity>
         {
-          this.state.showDatePicker 
+          this.state.showDatePicker
           && ((Platform.OS === 'web' && this.renderWebWidget(props))
             || (Platform.OS === 'android' && this.renderNativeWidget(props))
             || (Platform.OS === 'ios' && this.renderNativeWidget(props)))
         }
       </View>
-    ); 
+    );
   }
 }
 

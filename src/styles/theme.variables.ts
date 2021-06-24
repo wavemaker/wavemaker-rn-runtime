@@ -113,6 +113,9 @@ export class ThemeVariables {
 
     //toggle variables
     toggleColor = '#2196f3';
+
+  // radioset, checkboxset variables
+  groupHeaderBackgroundColor = '#D3D3D3';
 }
 
 export default new ThemeVariables();
