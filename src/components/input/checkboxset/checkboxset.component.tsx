@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { forEach } from 'lodash';
 import { Checkbox } from 'react-native-paper';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import WmCheckboxsetProps from './checkboxset.props';
 import {
@@ -22,6 +23,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
   }
 
   onPress(item: any) {
+    this.invokeEventCallback('onTap', [null, this.proxy]);
     item.selected = !item.selected;
     const selectedValue: any = [];
     forEach(this.state.dataItems, (item) => {
@@ -31,23 +33,17 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     });
 
     this.updateState({ props: { datavalue: selectedValue }} as WmCheckboxsetState,
-      ()=>this.invokeEventCallback('onChange', [ undefined, this.proxy, selectedValue, this.state.props.datavalue ]));
+      () => this.invokeEventCallback('onChange', [ undefined, this.proxy, selectedValue, this.state.props.datavalue ]));
   }
 
   renderChild(item: any, index: any) {
+    const props = this.state.props;
     const displayText = item.displayexp || item.displayfield;
     return (
-      <View style={this.styles.checkboxHead} key={item.key}>
-        <View style={this.styles.checkbox}>
-          <Checkbox status={item.selected ? 'checked' : 'unchecked'} color={'blue'} onPress={() => {
-            this.onPress(item);
-          }} />
-        </View>
-        <View style={this.styles.checkboxLabel}>
-          <Text>{displayText}</Text>
-        </View>
-      </View>
-    );
+      <TouchableOpacity style={this.styles.checkboxHead} onPress={this.onPress.bind(this, item)} key={item.key}>
+        <Checkbox status={item.selected  ? 'checked' : 'unchecked'} color={this.styles.text.color} disabled={props.readonly || props.disabled}/>
+        <Text style={this.styles.checkboxLabel}>{displayText}</Text>
+      </TouchableOpacity>)
   }
 
   renderGroupby() {

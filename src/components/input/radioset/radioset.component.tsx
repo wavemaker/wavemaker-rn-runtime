@@ -22,16 +22,12 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     const displayText = item.displayexp || item.displayfield;
     return (
       <View style={this.styles.radioHead} key={item.key}>
-        <View style={this.styles.radio}>
           <RadioButton
             value={item.datafield}
-            color={'blue'}
+            color={this.styles.text.color}
             disabled={this.state.props.readonly || this.state.props.disabled}
           />
-        </View>
-        <View style={this.styles.radioLabel}>
-          <Text>{displayText}</Text>
-        </View>
+          <Text style={this.styles.radioLabel}>{displayText}</Text>
     </View>)
   }
 

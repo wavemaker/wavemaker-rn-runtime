@@ -116,6 +116,7 @@ export class ThemeVariables {
 
   // radioset, checkboxset variables
   groupHeaderBackgroundColor = '#D3D3D3';
+  checkedColor = '#2196f3';
 }
 
 export default new ThemeVariables();
