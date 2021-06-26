@@ -9,6 +9,7 @@ export interface NavigationDataItem {
   link?: string;
   badge?: string;
   isactive?: string;
+  childnavigation?: any;
 }
 
 export class BaseNavState <T extends BaseNavProps> extends BaseComponentState<T> {
@@ -40,7 +41,8 @@ export abstract class BaseNavComponent< T extends BaseNavProps, S extends BaseNa
           icon: d[this.state.props.itemicon],
           link: d[this.state.props.itemlink],
           badge: d[this.state.props.itembadge],
-          isactive: d[this.state.props.isactive]
+          isactive: d[this.state.props.isactive],
+          childnavigation: d[this.state.props.itemchildren]
         } as NavigationDataItem;
       });
     }

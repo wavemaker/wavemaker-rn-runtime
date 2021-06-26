@@ -23,6 +23,13 @@ export class ThemeVariables {
     navbarIconSize = 24;
     navbarFontSize = 15;
     navbarImageSize = 24;
+    navbarCaretColor = this.primaryColor;
+    navitemChildBackgroundColor = '#ffffff';
+    navitemChildTextColor = '#666666';
+    navitemChildIconColor = '#666666';
+    navitemActiveBackgroundColor = this.primaryColor;
+    navitemActiveTextColor = '#ffffff';
+    navitemActiveIconColor = this.navitemActiveTextColor;
 
     //Anchor variables
     linkPrimaryColor = this.primaryColor;

@@ -5,7 +5,7 @@ import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPage from '@wavemaker/app-rn-runtime/components/page/page.component';
 import { isPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
-import NavigationService from '@wavemaker/app-rn-runtime/core/navigation.service';
+import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
 
@@ -51,7 +51,10 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       this.hasDrawer = true;
       setTimeout(() => {
         if (this.appConfig.currentPage === this) {
-          this.appConfig.drawer?.setContent(content);
+          this.appConfig.drawer?.setContent((
+            <NavigationServiceProvider value={this}>
+             {content}
+            </NavigationServiceProvider>));
           this.appConfig.drawer?.setAnimation(drawerType);
         }
       }, 10);

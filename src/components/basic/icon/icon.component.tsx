@@ -79,6 +79,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   }
 
   componentDidMount() {
+    super.componentDidMount();
     this.spin();
   }
 
