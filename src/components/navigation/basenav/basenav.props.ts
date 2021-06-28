@@ -7,4 +7,5 @@ export class BaseNavProps extends BaseProps {
   itemicon: string = null as any;
   itembadge: string = null as any;
   isactive: string = null as any;
+  itemchildren: string = null as any;
 }

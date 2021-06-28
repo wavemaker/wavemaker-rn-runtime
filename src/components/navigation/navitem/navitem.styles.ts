@@ -1,20 +1,71 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.styles';
+import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
+import { ViewStyle } from 'react-native';
 
-export type WmNavItemStyles = BaseStyles & {};
+export type WmNavItemStyles = BaseStyles & {
+  navAnchorItem: WmAnchorStyles,
+  dropdownNav: ViewStyle,
+  caretIcon: WmIconStyles
+};
 
-export const DEFAULT_CLASS = 'app-nav';
+export const DEFAULT_CLASS = 'app-navitem';
 export const DEFAULT_STYLES: WmNavItemStyles = {
     root: {},
-    text: {}
+    text: {},
+    dropdownNav: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    },
+    navAnchorItem: {
+      root: {
+        padding: 12
+      },
+      text: {
+        textDecorationLine: 'none'
+      }
+    } as WmAnchorStyles,
+    caretIcon: {
+      text: {
+        color: ThemeVariables.navbarCaretColor
+      }
+    } as WmIconStyles
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('navAnchorItem', '', {
-  root: {
-    padding: 12
+BASE_THEME.addStyle(DEFAULT_CLASS + '-active', DEFAULT_CLASS, {
+  root : {
+    backgroundColor: ThemeVariables.navitemActiveBackgroundColor
   },
-  text: {
-    textDecorationLine: 'none'
+  navAnchorItem: {
+    text: {
+      color: ThemeVariables.navitemActiveTextColor
+    },
+    icon: {
+      text: {
+        color: ThemeVariables.navitemActiveIconColor
+      }
+    }
   }
 } as WmNavItemStyles);
+
+BASE_THEME.addStyle(DEFAULT_CLASS + '-child', DEFAULT_CLASS, {
+  root : {
+    backgroundColor: ThemeVariables.navitemChildBackgroundColor
+  },
+  navAnchorItem: {
+    text: {
+      color: ThemeVariables.navitemChildTextColor
+    },
+    icon: {
+      text: {
+        color: ThemeVariables.navitemChildIconColor
+      }
+    }
+  }
+} as WmNavItemStyles);
+BASE_THEME.addStyle('navAnchorItem', '',  DEFAULT_STYLES.navAnchorItem);

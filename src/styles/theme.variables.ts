@@ -23,6 +23,13 @@ export class ThemeVariables {
     navbarIconSize = 24;
     navbarFontSize = 15;
     navbarImageSize = 24;
+    navbarCaretColor = this.primaryColor;
+    navitemChildBackgroundColor = '#ffffff';
+    navitemChildTextColor = '#666666';
+    navitemChildIconColor = '#666666';
+    navitemActiveBackgroundColor = this.primaryColor;
+    navitemActiveTextColor = '#ffffff';
+    navitemActiveIconColor = this.navitemActiveTextColor;
 
     //Anchor variables
     linkPrimaryColor = this.primaryColor;
@@ -92,7 +99,7 @@ export class ThemeVariables {
     buttonDarkTextColor = '#ffffff';
     buttonLightColor = this.lightColor;
     buttonLightTextColor = '#212529';
-    
+
     //picture variables
     pictureThumbBgColor = '#ffffff';
     pictureThumbBorderColor = '#dddddd';
@@ -110,6 +117,13 @@ export class ThemeVariables {
     //rating color
     ratingIconColor = '#aaa';
     ratingSelectedIconColor = '#f7dc6f';
+
+    //toggle variables
+    toggleColor = '#2196f3';
+
+  // radioset, checkboxset variables
+  groupHeaderBackgroundColor = '#D3D3D3';
+  checkedColor = '#2196f3';
 }
 
 export default new ThemeVariables();

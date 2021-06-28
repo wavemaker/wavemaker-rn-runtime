@@ -4,5 +4,5 @@ export default class WmNavItemProps extends BaseProps {
   children?: any;
   caption?: string;
   item: any = [];
-  defaultview?: boolean = true;
+  view: 'default' | 'dropdown' | 'anchor' = 'default';
 }
