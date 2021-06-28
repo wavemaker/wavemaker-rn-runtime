@@ -33,8 +33,7 @@ export const DEFAULT_STYLES: WmAnchorStyles = {
     icon: {
         text: {
             paddingRight: ThemeVariables.anchorTextPadding,
-            color: ThemeVariables.linkPrimaryColor,
-            fontSize: 14
+            color: ThemeVariables.linkPrimaryColor
         }
     } as WmIconStyles
 };

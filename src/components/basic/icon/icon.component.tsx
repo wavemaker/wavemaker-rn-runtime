@@ -18,10 +18,10 @@ interface IconDef {
 }
 
 const ICON_SIZES = new Map([
-  ['fa-lg', 16],
-  ['fa-2x', 32],
+  ['fa-lg', 24],
+  ['fa-2x', 36],
   ['fa-3x', 48],
-  ['fa-4x', 64],
+  ['fa-4x', 60],
   ['fa-5x', 72]
 ]);
 
@@ -99,21 +99,20 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     }
     let icon = null;
     const style = [{
-      fontSize: this.styles.text.fontSize,
       color: this.styles.text.color
     }, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}];
     if (props.show && iconDef && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
       icon = (<FontAwesome name={iconDef.type}
         style={style} 
-        size={props.iconsize || iconDef.size}/>);
+        size={props.iconsize || this.styles.text.fontSize || iconDef.size}/>);
     }
     if (props.show && iconDef && iconDef.isWavIcon) {
       const WavIcon = getWavIcon();
       //@ts-ignore type information is not matching
       icon = (<WavIcon name={iconDef.type} 
         style={style} 
-        size={props.iconsize || iconDef.size}/>);
+        size={props.iconsize || this.styles.text.fontSize || iconDef.size}/>);
     }
     if (icon && iconDef.animation === 'spin') {
       const rotate = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg']});

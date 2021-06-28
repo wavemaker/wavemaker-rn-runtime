@@ -77,7 +77,11 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     const src = props.picturesource || props.pictureplaceholder;
     return src ? (
       <Tappable target={this}>
-        <View style={[this.styles.root, {height: imageHeight, width: imageWidth}, shapeStyles.root]}>
+        <View style={[this.styles.root, {
+            height: imageHeight,
+            width: imageWidth,
+            borderRadius: shapeStyles.picture.borderRadius
+          }, shapeStyles.root]}>
           <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={'stretch'} source={{
             uri: src}}/>
         </View>
