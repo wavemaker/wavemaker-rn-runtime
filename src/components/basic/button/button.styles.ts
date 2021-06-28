@@ -15,7 +15,6 @@ export const DEFAULT_STYLES: WmButtonStyles = {
         paddingBottom: 5,
         paddingLeft: 10,
         paddingRight: 10,
-        margin: 5,
         flexDirection: 'row',
         alignSelf: 'flex-start',
         alignItems: 'center',

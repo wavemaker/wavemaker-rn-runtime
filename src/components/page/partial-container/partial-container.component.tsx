@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPartialContainerProps from './partial-container.props';
@@ -22,11 +23,13 @@ export default class WmPartialContainer extends BaseComponent<WmPartialContainer
     params['name'] = params['partial_name'];
     delete params['partial_name'];
     return (
-      <PartialConsumer>
-        {(partialService: PartialService) => {
-          return React.createElement(partialService.get(props.content), params);
-        }}
-      </PartialConsumer>
+      <View style={this.styles.root}>
+        <PartialConsumer>
+          {(partialService: PartialService) => {
+            return React.createElement(partialService.get(props.content), params);
+          }}
+        </PartialConsumer>
+      </View>
     ); 
   }
 }
