@@ -1,0 +1,46 @@
+import React from 'react';
+import { Picker } from '@react-native-picker/picker';
+
+import WmSelectProps from './select.props';
+import { DEFAULT_CLASS, DEFAULT_STYLES, WmSelectStyles } from './select.styles';
+import {
+  BaseDatasetComponent,
+  BaseDatasetState
+} from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
+
+export class WmSelectState extends BaseDatasetState<WmSelectProps> {}
+
+export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSelectState, WmSelectStyles> {
+
+  constructor(props: WmSelectProps) {
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSelectProps());
+  }
+
+  onFocus(event: any) {
+    this.invokeEventCallback('onFocus', [ event, this.proxy]);
+  }
+
+  onBlur(event: any) {
+    this.invokeEventCallback('onBlur', [ event, this.proxy]);
+  }
+
+  renderChild(item: any, index: any) {
+    const displayText = item.displayexp || item.displayfield;
+    return (
+      <Picker.Item label={displayText} value={item.datafield} key={item.key} />
+      )
+  }
+
+  renderWidget(props: WmSelectProps) {
+    const items = this.state.dataItems;
+    return (<Picker
+      selectedValue={props.datavalue}
+      onValueChange={this.onChange.bind(this)}
+      enabled={!props.disabled}
+      onFocus={this.onFocus.bind(this)}
+      onBlur={this.onBlur.bind(this)}>
+      {items && items.length ?
+        items.map((item: any, index: any) => this.renderChild(item, index)): null}
+    </Picker>);
+  }
+}

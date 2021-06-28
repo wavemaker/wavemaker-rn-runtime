@@ -139,12 +139,13 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
   }
 
   onChange(value: any) {
+    const oldValue = this.state.props.datavalue;
     if (!value) {
       return;
     }
 
     this.updateState({ props: { datavalue: value } } as S,
-      ()=>this.invokeEventCallback('onChange', [ undefined, this.proxy, value, this.state.props.datavalue ]));
+      ()=>this.invokeEventCallback('onChange', [ undefined, this.proxy, value, oldValue]));
   }
   setDataItems(dataset: any) {
     const name = this.props.name;
