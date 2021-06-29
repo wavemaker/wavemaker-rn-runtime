@@ -132,7 +132,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
       <Tappable target={this}>
         <View style={this.styles.root}>
           {(props.iconposition === 'left' && icon) || null}
-          <Text style={this.styles.text}>{props.caption}</Text>
+          {(props.caption && (<Text style={this.styles.text}>{props.caption}</Text>)) || null}
           {(props.iconposition === 'right' && icon) || null}
         </View>
       </Tappable>
