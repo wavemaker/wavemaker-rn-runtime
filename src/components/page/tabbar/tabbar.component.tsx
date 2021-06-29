@@ -52,7 +52,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   }
 
   renderWidget(props: WmTabbarProps) {
-    let max = 4;
+    let max = 5;
     const tabItems = this.state.dataItems;
     const moreItems = [] as any[][];
     if (tabItems.length > max) {

@@ -8,7 +8,7 @@ import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 import App from './App';
 
-export interface FragmentProps extends BaseProps {
+export class FragmentProps extends BaseProps {
 
 }
 
