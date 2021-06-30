@@ -74,7 +74,7 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
   }
 
   onBlur(event: any) {
-    if (this.props.updateon === 'blur') {
+    if (this.state.props.updateon === 'blur') {
       this.updateDatavalue(event.target.value, event);
     }
 

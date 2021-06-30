@@ -184,13 +184,13 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
         }}>
           <View style={this.styles.container}>
             <Text style={this.styles.text}>{this.state.displayValue || this.state.props.placeholder}</Text>
-            {!props.readonly && props.datavalue &&
+            {(!props.readonly && props.datavalue &&
               (<WmIcon iconclass="wi wi-clear"
               styles={{color: this.styles.text.color, ...this.styles.clearIcon}}
               onTap={() => {
                 this.onDateChange(null as any, null as any);
                 this.clearBtnClicked = true;
-              }}/>)}
+              }}/>)) || null}
             <WmIcon iconclass="wi wi-calendar" styles={{color: this.styles.text.color, ...this.styles.calendarIcon}}/>
           </View>
         </TouchableOpacity>

@@ -1,7 +1,7 @@
 import { isEqual, merge } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle } from 'react-native';
-import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger'
+import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE, NamedStyles, AllStyle, ThemeConsumer } from '../styles/theme';
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';

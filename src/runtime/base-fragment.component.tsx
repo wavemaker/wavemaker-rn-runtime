@@ -48,10 +48,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
             {screenWidth: $new.width,
               screenHeight: $new.height}]);
         }));
-        this.cleanup.push(...Object.values({...this.Variables, ...this.Actions}).map(v => {
-          return ((v as BaseVariable)
-            .subscribe(VariableEvents.AFTER_INVOKE, () => this.App.refresh()));
-        }));
     }
 
     onComponentChange(w: BaseComponent<any, any, any>) {
@@ -59,7 +55,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {
-      const id = w.props.id;
+      const id = w.props.id || w.props.name;
       this.Widgets[id] = w;
       if (w instanceof BaseFragment && w !== this) {
         this.fragments[id] = w;
@@ -67,7 +63,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     onComponentDestroy(w: BaseComponent<any, any, any>) {
-      const id = w.props.id;
+      const id = w.props.id || w.props.name;
       delete this.Widgets[id];
       if (w instanceof BaseFragment) {
         delete this.fragments[id];
@@ -118,6 +114,10 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     onFragmentReady() {
+      this.cleanup.push(...Object.values({...this.Variables, ...this.Actions}).map(v => {
+        return ((v as BaseVariable)
+          .subscribe(VariableEvents.AFTER_INVOKE, () => this.App.refresh()));
+      }));
       return Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()))
       .then(() => {
         this.onReady();
