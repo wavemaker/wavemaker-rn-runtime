@@ -34,6 +34,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   renderWidget(props: WmSelectProps) {
     const items = this.state.dataItems;
     return (<Picker
+      style={this.styles.root}
       selectedValue={props.datavalue}
       onValueChange={this.onChange.bind(this)}
       enabled={!props.disabled}
