@@ -1,6 +1,5 @@
 import React from 'react';
-import { Picker } from '@react-native-picker/picker';
-
+import { Text } from 'react-native';
 import WmSelectProps from './select.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmSelectStyles } from './select.styles';
 import {
@@ -26,22 +25,11 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
 
   renderChild(item: any, index: any) {
     const displayText = item.displayexp || item.displayfield;
-    return (
-      <Picker.Item label={displayText} value={item.datafield} key={item.key} />
-      )
+    return null;
   }
 
   renderWidget(props: WmSelectProps) {
     const items = this.state.dataItems;
-    return (<Picker
-      style={this.styles.root}
-      selectedValue={props.datavalue}
-      onValueChange={this.onChange.bind(this)}
-      enabled={!props.disabled}
-      onFocus={this.onFocus.bind(this)}
-      onBlur={this.onBlur.bind(this)}>
-      {items && items.length ?
-        items.map((item: any, index: any) => this.renderChild(item, index)): null}
-    </Picker>);
+    return <Text>Select component is coming soon </Text>;
   }
 }
