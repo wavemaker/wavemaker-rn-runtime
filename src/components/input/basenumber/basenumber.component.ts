@@ -24,8 +24,9 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   }
 
   handleValidation(value: any) {
-    if (this.props.regexp) {
-      const condition = new RegExp(this.props.regexp, 'g');
+    const props = this.state.props;
+    if (props.regexp) {
+      const condition = new RegExp(props.regexp, 'g');
       return condition.test(value);
     }
     return true;
@@ -151,6 +152,9 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
    */
   private getValueInRange(value: number): number {
     const props = this.state.props;
+    if (!props.minvalue || !props.maxvalue) {
+      return value;
+    }
     if (!isNaN(props.minvalue) && value < props.minvalue) {
       return props.minvalue;
 
@@ -167,7 +171,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
    * @returns {number}
    */
   private isValid(val: number): boolean {
-    const props = this.props;
+    const props = this.state.props;
 
     // id number is infinite then consider it as invalid value
     if (isNaN(val) || !isFinite(val) || (!Number.isInteger(props.step) &&

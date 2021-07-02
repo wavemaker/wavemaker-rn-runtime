@@ -36,14 +36,15 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
   }
 
   onChange(event: any) {
-    if (this.props.updateon === 'default') {
+    if (this.state.props.updateon === 'default') {
       this.updateDatavalue(event.target.value, event);
     }
   }
 
   handleValidation(value: any) {
-    if (this.props.regexp) {
-      const condition = new RegExp(this.props.regexp, 'g');
+    const props = this.state.props;
+    if (props.regexp) {
+      const condition = new RegExp(props.regexp, 'g');
       return condition.test(value);
     }
     return true;
