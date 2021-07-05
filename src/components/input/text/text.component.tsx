@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import { TextInput, View } from 'react-native';
 import { isString } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -8,10 +8,12 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmTextStyles } from './text.styles';
 
 export class WmTextState extends BaseComponentState<WmTextProps> {
   keyboardType: any = 'default';
+  datavalue: any;
+  isValid: boolean = true;
 }
 
 export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTextStyles> {
-
+  isTouched: boolean = false;
   constructor(props: WmTextProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTextProps());
   }
@@ -31,7 +33,6 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
           keyboardType: keyboardType,
         } as WmTextState);
         break;
-
     }
   }
 
@@ -49,7 +50,7 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
     return true;
   }
 
-  updateDatavalue(value: any, event?: any) {
+  updateDatavalue(value: any, event?: any, source?: any) {
     const props = this.state.props;
     const oldValue = props.datavalue;
 
@@ -60,6 +61,10 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
 
     // regex validation
     const valid = this.handleValidation(value);
+    const isValid = this.props.required && source && !value ? false : true;
+    this.updateState({
+      isValid: isValid
+    } as WmTextState);
     if (!valid) {
       this.invokeEventCallback('onError', [ event, this.proxy, value, oldValue ]);
       return;
@@ -74,11 +79,21 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
   }
 
   onBlur(event: any) {
+    this.isTouched = true;
     if (this.props.updateon === 'blur') {
-      this.updateDatavalue(event.target.value, event);
+      this.updateDatavalue(event.target.value, event, 'blur');
     }
 
     this.invokeEventCallback('onBlur', [ event, this.proxy]);
+  }
+
+  check() {
+    console.log("check called");
+    this.isTouched = true;
+    const isValid = this.props.required && !this.state.props.datavalue ? false : true;
+    this.updateState({
+      isValid: isValid
+    } as WmTextState);
   }
 
   onFocus(event: any) {
@@ -91,8 +106,9 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
 
   renderWidget(props: WmTextProps) {
     return (
+      <View>
         <TextInput
-          style={this.styles.root}
+          style={[this.styles.root, {borderBottomWidth: this.state.isValid === false ? 1 : 0, borderBottomColor: this.state.isValid === false ? 'red' : 'green'}]}
           keyboardType={this.state.keyboardType}
           defaultValue={props.datavalue}
           autoCompleteType={props.autocomplete ? 'username' : 'off'}
@@ -106,6 +122,8 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
           onKeyPress={this.onKeyPress.bind(this)}
           onChange={this.onChange.bind(this)}
         />
+      </View>
+
     );
   }
 }

@@ -12,4 +12,6 @@ export default class WmTextProps extends BaseProps {
   regexp: string = null as any;
   type: string = 'text';
   updateon: string = 'blur' as any;
+  required: boolean = false as any;
+  checkFormField: any;
 }

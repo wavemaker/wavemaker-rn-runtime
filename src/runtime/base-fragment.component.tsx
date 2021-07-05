@@ -7,6 +7,8 @@ import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variable
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 import App from './App';
+import WmFormField from "@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component";
+import WmForm from "@wavemaker/app-rn-runtime/components/data/form/form.component";
 
 export interface FragmentProps extends BaseProps {
 
@@ -32,6 +34,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public fragments: any = {};
     public isDetached = false;
     public _memoize = {} as any;
+    private formWidgets: any = {};
 
     constructor(props: P, defaultProps?: P) {
         super(props, undefined, undefined, defaultProps);
@@ -61,6 +64,26 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     onComponentInit(w: BaseComponent<any, any, any>) {
       const id = w.props.id;
       this.Widgets[id] = w;
+      if (w instanceof WmForm) {
+        this.Widgets[id].formWidgets = this.Widgets[id].formWidgets || {};
+        // @ts-ignore
+        var arr = this.formWidgets[w.props.id];
+        if (arr) {
+          for(var i = 0;i<arr.length;i++) {
+            this.Widgets[id].formWidgets[arr[i].props.id] = arr[i];
+          }
+        }
+      }
+      if (w instanceof WmFormField) {
+        if (this.Widgets[w.props.formRef]) {
+          this.Widgets[w.props.formRef].formWidgets = this.Widgets[w.props.formRef].formWidgets || {};
+          // @ts-ignore
+          this.Widgets[w.props.formRef].formWidgets[w.props.id] = w;
+        } else {
+          this.formWidgets[w.props.formRef] = this.formWidgets[w.props.formRef] || [];
+          this.formWidgets[w.props.formRef].push(w);
+        }
+      }
       if (w instanceof BaseFragment && w !== this) {
         this.fragments[id] = w;
       }
@@ -87,6 +110,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       }
       return inlineStyles;
     }
+
 
     eval(fn: Function, failOnError = false) {
       try {
