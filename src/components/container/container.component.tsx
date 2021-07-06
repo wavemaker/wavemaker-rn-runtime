@@ -34,8 +34,7 @@ export default class WmContainer extends BaseComponent<WmContainerProps, BaseCom
       <View style={this.styles.root}>
         <Tappable target={this}>
             <View style={[{
-              justifyContent: this.styles.root.justifyContent,
-              alignItems: this.styles.root.alignItems
+              alignItems: (this.styles.root as any)['alignContentItems']
             },  this.styles.content]}>{this.renderContent(props)}</View>
         </Tappable>
       </View>

@@ -1,7 +1,8 @@
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { merge } from 'lodash';
-import React from 'react';
-import { TextStyle, ViewStyle, ImageStyle } from 'react-native';
+import { camelCase } from 'lodash-es';
+import React, { ReactNode } from 'react';
+import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
 export const DEFAULT_STYLE: NamedStyles<any> = {};
 
@@ -47,13 +48,27 @@ export class Theme {
 }
 export default Theme.BASE;
 export type NamedStyles<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle | NamedStyles<T>};
+export type BackgroundImageStyle = {
+    backgroundImage: string,
+    backgroundPosition: string,
+    backgroundRepeat: string,
+    backgroundSize: string | number
+};
+export const attachBackground = (c: ReactNode, style: ViewStyle) => {
+    const background = (style as any).background;
+    if (background) {
+        return <ImageBackground source={{
+            uri: background.uri
+        }} style={background}>{c}</ImageBackground>;
+    }
+    return c;
+}; 
 export type AllStyle = ViewStyle | TextStyle | ImageStyle;
 
 const ThemeContext = React.createContext<Theme>(null as any);
 
 export const ThemeProvider = ThemeContext.Provider;
 export const ThemeConsumer = ThemeContext.Consumer;
-
 /**
  * Common styles
  */
