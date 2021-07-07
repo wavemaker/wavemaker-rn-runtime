@@ -1,15 +1,5 @@
-import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import BaseInputProps from "@wavemaker/app-rn-runtime/components/input/baseinput/baseinput.props";
 
-export default class WmTextProps extends BaseProps {
-  autofocus: boolean = null as any;
-  autocomplete: boolean = true;
-  autotrim: boolean = true;
-  datavalue: any;
-  disabled: boolean = null as any;
-  maxchars: number = null as any;
+export default class WmTextProps extends BaseInputProps {
   placeholder: string = 'Enter text';
-  readonly: boolean = null as any;
-  regexp: string = null as any;
-  type: string = 'text';
-  updateon: string = 'blur' as any;
 }
