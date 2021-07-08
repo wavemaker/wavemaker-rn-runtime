@@ -9,4 +9,5 @@ export default class WmDatetimeProps extends BaseProps {
   maxdate?: string | Date = null as any;
   placeholder? = 'Select date time';
   readonly? = false;
+  onFieldChange?: any;
 }

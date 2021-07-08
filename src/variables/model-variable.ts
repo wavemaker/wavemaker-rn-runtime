@@ -5,6 +5,7 @@ export class ModelVariable extends BaseVariable {
     constructor(config: VariableConfig) {
         super(config);
         this.dataSet = this.isList ? []: {};
+        this.invoke();
     }
 
     invoke(params?: {}, onSuccess?: Function, onError?: Function): Promise<BaseVariable>  {

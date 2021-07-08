@@ -1,7 +1,9 @@
 import DatasetUtil from './utils/dataset-util';
 import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
+import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { isNumber, isObject, isBoolean, get, isEqual } from 'lodash';
 export interface VariableConfig {
+    name: string;
     paramProvider: Function;
     onBefore: Function;
     onComplete: Function;
@@ -17,7 +19,10 @@ export enum VariableEvents {
   AFTER_INVOKE = 'afterInvoke'
 };
 
+export const VARIABLE_LOGGER = ROOT_LOGGER.extend('variable');
+
 export abstract class BaseVariable extends EventNotifier {
+    name: string = '';
     params: any = {};
     dataSet: any = {};
     isList: boolean;
@@ -25,9 +30,16 @@ export abstract class BaseVariable extends EventNotifier {
 
     constructor(public config: VariableConfig) {
       super();
+      this.name = config.name;
       this.isList = config.isList;
-      this.subscribe(VariableEvents.BEFORE_INVOKE, () => (this.isExecuting = true));
-      this.subscribe(VariableEvents.AFTER_INVOKE, () => (this.isExecuting = false));
+      this.subscribe(VariableEvents.BEFORE_INVOKE, () => {
+        this.isExecuting = true;
+        VARIABLE_LOGGER.info(`Before Invoking variable ${this.name}`);
+      });
+      this.subscribe(VariableEvents.AFTER_INVOKE, () => {
+        this.isExecuting = false;
+        VARIABLE_LOGGER.info(`After Invoking variable ${this.name}`);
+      });
     }
 
     public invoke(params?: {}, onSuccess?: Function, onError?: Function): Promise<BaseVariable> {

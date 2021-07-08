@@ -8,7 +8,6 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmTextStyles } from './text.styles';
 
 export class WmTextState extends BaseComponentState<WmTextProps> {
   keyboardType: any = 'default';
-  datavalue: any;
   isValid: boolean = true;
 }
 
@@ -33,18 +32,23 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
           keyboardType: keyboardType,
         } as WmTextState);
         break;
+      case 'datavalue':
+        console.log("datavalue changeddddddddd", $new);
+        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
+
     }
   }
 
   onChange(event: any) {
-    if (this.props.updateon === 'default') {
+    if (this.state.props.updateon === 'default') {
       this.updateDatavalue(event.target.value, event);
     }
   }
 
   handleValidation(value: any) {
-    if (this.props.regexp) {
-      const condition = new RegExp(this.props.regexp, 'g');
+    const props = this.state.props;
+    if (props.regexp) {
+      const condition = new RegExp(props.regexp, 'g');
       return condition.test(value);
     }
     return true;
@@ -80,7 +84,7 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
 
   onBlur(event: any) {
     this.isTouched = true;
-    if (this.props.updateon === 'blur') {
+    if (this.state.props.updateon === 'blur') {
       this.updateDatavalue(event.target.value, event, 'blur');
     }
 
@@ -106,11 +110,10 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
 
   renderWidget(props: WmTextProps) {
     return (
-      <View>
         <TextInput
           style={[this.styles.root, {borderBottomWidth: this.state.isValid === false ? 1 : 0, borderBottomColor: this.state.isValid === false ? 'red' : 'green'}]}
           keyboardType={this.state.keyboardType}
-          defaultValue={props.datavalue}
+          defaultValue={this.state.props.datavalue}
           autoCompleteType={props.autocomplete ? 'username' : 'off'}
           autoFocus={props.autofocus}
           editable={props.disabled || props.readonly ? false : true}
@@ -122,7 +125,6 @@ export default class WmText extends BaseComponent<WmTextProps, WmTextState, WmTe
           onKeyPress={this.onKeyPress.bind(this)}
           onChange={this.onChange.bind(this)}
         />
-      </View>
 
     );
   }

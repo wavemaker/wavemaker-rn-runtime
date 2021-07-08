@@ -24,9 +24,15 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
         if ($new === this.props.checkedvalue) {
           value = true;
         }
+        console.log("datavalue prop changed in checkbox", $new);
         this.updateState({ isChecked: value } as WmCheckboxState);
+        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
         break;
     }
+  }
+
+  updateDatavalue(value: any) {
+    this.updateState({ props: { datavalue: value }} as WmCheckboxState);
   }
 
   onPress() {

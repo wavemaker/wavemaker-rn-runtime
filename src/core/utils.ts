@@ -36,3 +36,5 @@ export function deepCopy(o1: any, ...o2: any) {
 };
 
 export const isPreviewMode = () => !!(window && window.navigator);
+
+export const widgetsWithUndefinedValue = ['checkbox', 'toggle'];

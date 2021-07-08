@@ -4,6 +4,7 @@ export default class WmFormProps extends BaseProps {
   children: any;
   formWidgets: any;
   dataoutput: any;
-  dataout: any;
+  gendataoutput: any;
   onBeforesubmit: any;
+  formdata: any;
 }

@@ -95,7 +95,7 @@ export class ServiceVariable extends BaseVariable {
                   'field': requiredParamMissing.join(',')
               }
           });
-          return;
+          return Promise.reject('Required field(s) missing');
         }
 
         // Setting appropriate content-Type for request accepting request body like POST, PUT, etc

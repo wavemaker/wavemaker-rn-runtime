@@ -14,4 +14,5 @@ export default class WmListProps extends BaseProps {
     loadingdata = false;
     selectfirstitem = false;
     disableitem = false;
+    direction: 'row' | 'column' = 'column';
 }

@@ -7,4 +7,5 @@ export default class WmCheckboxProps extends BaseProps {
   checkedvalue: any;
   uncheckedvalue: any = false;
   readonly: boolean = null as any;
+  onFieldChange: any;
 }

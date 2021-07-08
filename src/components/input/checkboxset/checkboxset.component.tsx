@@ -15,7 +15,9 @@ import {
   BaseDatasetState,
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 
-export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {}
+export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {
+  isValid: boolean = true;
+}
 
 export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetProps, WmCheckboxsetState, WmCheckboxsetStyles> {
   constructor(props: WmCheckboxsetProps) {
@@ -31,8 +33,11 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
           selectedValue.push(item.datafield);
         }
     });
-
-    this.updateState({ props: { datavalue: selectedValue }} as WmCheckboxsetState,
+    let isValid = true;
+    if (this.props.required && !selectedValue.length) {
+      isValid = false;
+    }
+    this.updateState({ props: { datavalue: selectedValue }, isValid: isValid} as WmCheckboxsetState,
       () => this.invokeEventCallback('onChange', [ undefined, this.proxy, selectedValue, this.state.props.datavalue ]));
   }
 
@@ -44,6 +49,18 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
         <Checkbox status={item.selected  ? 'checked' : 'unchecked'} color={this.styles.text.color} disabled={props.readonly || props.disabled}/>
         <Text style={this.styles.checkboxLabel}>{displayText}</Text>
       </TouchableOpacity>)
+  }
+
+  updateDatavalue(value: any) {
+    this.updateState({ props: { datavalue: value }} as WmCheckboxsetState);
+  }
+
+  check() {
+    console.log("check called");
+    const isValid = this.props.required && !this.state.props.datavalue ? false : true;
+    this.updateState({
+      isValid: isValid
+    } as WmCheckboxsetState);
   }
 
   renderGroupby() {

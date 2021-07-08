@@ -21,6 +21,10 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
       case 'dataset':
         this.setDataItems($new);
         break;
+      case 'datavalue':
+        console.info("swithc datavalue", $new);
+        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
+        break;
     }
   }
 
@@ -56,6 +60,10 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
     // @ts-ignore
     this.updateState({props: {datavalue: value}},
       ()=>this.invokeEventCallback('onChange', [ undefined, this.proxy, value, this.state.props.datavalue ]));
+  }
+
+  updateDatavalue(value: any) {
+    this.updateState({ props: { datavalue: value }} as WmSwitchState);
   }
 
   onTap(event: any) {

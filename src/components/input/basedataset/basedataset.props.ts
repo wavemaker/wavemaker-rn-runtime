@@ -12,4 +12,5 @@ export default class BaseDatasetProps extends BaseProps {
   orderby: any;
   readonly: boolean = null as any;
   dateformat: any;
+  onFieldChange: any;
 }

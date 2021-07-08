@@ -10,4 +10,5 @@ export default class WmSwitchProps extends BaseProps {
   displayexpression: any;
   iconclass: any;
   getDisplayExpression: any;
+  onFieldChange: any;
 }

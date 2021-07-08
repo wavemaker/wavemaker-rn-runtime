@@ -14,4 +14,5 @@ export default class WmTextProps extends BaseProps {
   updateon: string = 'blur' as any;
   required: boolean = false as any;
   checkFormField: any;
+  onFieldChange: any;
 }

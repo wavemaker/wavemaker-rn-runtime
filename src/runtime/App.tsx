@@ -61,6 +61,7 @@ export default abstract class BaseApp extends React.Component {
     let wait = 0;
     this.appConfig.refresh = () => {
       if (!wait) {
+        //console.trace('tracing app refresh');
         RENDER_LOGGER.debug('refreshing the app...');
         wait = MAX_TIME_BETWEEN_REFRESH_CYCLES;
         refreshAfterWait = false;
@@ -110,7 +111,7 @@ export default abstract class BaseApp extends React.Component {
         <PaperProvider theme={{
           ...DefaultTheme,
           colors: {
-            ...DefaultTheme.colors, 
+            ...DefaultTheme.colors,
             primary: ThemeVariables.primaryColor
           }}}>
           <View  style={styles.container}>
@@ -118,7 +119,7 @@ export default abstract class BaseApp extends React.Component {
               <PartialProvider value={AppPartialService}>
                 <ModalProvider value={AppModalService}>
                   <View style={styles.container}>
-                    <AppNavigator 
+                    <AppNavigator
                       app={this}
                       hideDrawer={this.appConfig.drawer?.getContent() === null}
                       drawerContent={() => this.appConfig.drawer?.getContent()}
@@ -129,7 +130,7 @@ export default abstract class BaseApp extends React.Component {
             }
           </View>
           {AppModalService.modalOptions.content && (
-            <View style={merge(styles.appModal, 
+            <View style={merge(styles.appModal,
               AppModalService.modalOptions.modalStyle,
               AppModalService.modalOptions.centered? styles.centeredModal: null)}>
                 {AppModalService.modalOptions.content}

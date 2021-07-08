@@ -9,4 +9,5 @@ export default class BaseNumberProps extends BaseProps {
   updateon: string = 'blur' as any;
   readonly: boolean = null as any;
   regexp: string = null as any;
+  onFieldChange: any;
 }

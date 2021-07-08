@@ -25,8 +25,13 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
           value = true;
         }
         this.updateState({isSwitchOn: value} as WmToggleState);
+        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
         break;
     }
+  }
+
+  updateDatavalue(value: any) {
+    this.updateState({ props: { datavalue: value }} as WmToggleState);
   }
 
   onToggleSwitch(value: any) {

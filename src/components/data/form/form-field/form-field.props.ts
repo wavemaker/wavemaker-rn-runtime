@@ -4,6 +4,10 @@ export default class WmFormFieldProps extends BaseProps {
   children: any;
   formRef: any;
   datavalue: any;
-  onFieldChange: any;
+  onChange: any;
   renderFormFields: any;
+  validationmessage: any;
+  required: Boolean = false;
+  widget: any;
+  onFieldChange: any;
 }

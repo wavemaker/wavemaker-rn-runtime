@@ -50,6 +50,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       break;
       case 'dataset':
         props.selectfirstitem && this.initialized && this.onSelect(props.dataset[0], 0);
+        this.deselect();
       break;
       case 'disableitem':
         this.deselect();
@@ -71,6 +72,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         <View style={this.styles.root}>
           <FlatList
             keyExtractor={(item, i) => 'list_item_' +  i}
+            horizontal = {props.direction === 'row'}
             onEndReached={({distanceFromEnd}) => {
               this.invokeEventCallback('onEndReached', [null, this]);
             }}

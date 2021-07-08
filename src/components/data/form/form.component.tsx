@@ -1,7 +1,8 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import {isArray, forEach} from 'lodash';
+import { widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
+import {isArray, forEach, isEqual} from 'lodash';
 
 import WmFormProps from './form.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormStyles } from './form.styles';
@@ -16,7 +17,6 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   constructor(props: WmFormProps) {
     console.log("form children", props.children);
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormProps());
-    this.processFormFields(props.children);
   }
 
   processFormFields(children: any) {
@@ -24,6 +24,9 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     const traverse = (currentNode: any) => {
       if (currentNode.props?.formRef) {
         this.formWidgets[currentNode.key] = currentNode;
+        if (this.state.props.formdata) {
+          currentNode.props.onFieldChange(null, null, this.state.props.formdata[currentNode.key]);
+        }
       }
       if(currentNode.props?.children) {
         if(isArray(currentNode.props.children)) {
@@ -40,7 +43,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   componentDidMount() {
     console.log("mount");
-    this.props.dataoutput();
+    this.props.gendataoutput();
+    this.processFormFields(this.props.children);
     super.componentDidMount();
   }
 
@@ -48,14 +52,13 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   handleSubmit(event: any) {
     event.preventDefault();
     console.log("submit fields", this.formWidgets);
-    const formData = this.props.dataoutput();
+    const formData = this.props.gendataoutput();
     let isValid = true;
     forEach(formData, (val, key) => {
-      console.log("required", this.formWidgets[key]?.props.required);
-      if(!val && this.formWidgets[key]?.props.required) {
+      if(!val && this.formWidgets[key]?.props.required && widgetsWithUndefinedValue.indexOf(this.formWidgets[key]?.props.widget) < 0) {
         isValid = false;
-        this.formWidgets[key].props.validate();
       }
+      this.formWidgets[key].props.validate();
     });
     if(!isValid) {
       return false;
@@ -68,12 +71,18 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
-      case 'dataoutput':
-        console.info("newVal", $new);
-        this.updateState({
-          dataout: $new(),
-        } as WmFormState);
+      case 'gendataoutput':
+        if (!this.state.props.dataoutput || !isEqual($new(), this.state.props.dataoutput)) {
+          this.updateState({ props: { dataoutput: $new() }} as WmFormState);
+        }
         break;
+      case 'formdata':
+        console.log("formdata", $new);
+        if($new && this.formWidgets) {
+          forEach(this.formWidgets, (widget) => {
+            widget.props.onFieldChange(null, null, $new[widget.key]);
+          });
+        }
     }
   }
 
@@ -82,7 +91,6 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       <form onSubmit={this.handleSubmit.bind(this)}>
         <View style={this.styles.root}>{props.children}</View>
         <input type="submit" value="Submit" />
-        {JSON.stringify(props.dataoutput())}
       </form>
     );
   }
