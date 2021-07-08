@@ -7,6 +7,7 @@ import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variable
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 import App from './App';
+import { isArray } from 'lodash-es';
 
 export class FragmentProps extends BaseProps {
 
@@ -111,6 +112,14 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         this._memoize[key] = o;
       }
       return this._memoize[key];
+    }
+
+    getConditionalClass(widgetName: string) {
+      const classes = this._memoize[widgetName]?.props.conditionalclass();
+      if (isArray(classes)) {
+        return classes.join(' ');
+      }
+      return classes || '';
     }
 
     onFragmentReady() {
