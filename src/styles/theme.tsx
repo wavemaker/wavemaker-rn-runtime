@@ -55,7 +55,7 @@ export type BackgroundImageStyle = {
     backgroundSize: string | number
 };
 export const attachBackground = (c: ReactNode, style: ViewStyle) => {
-    const background = (style as any).background;
+    const background = (style as any)._background;
     if (background) {
         return <ImageBackground source={{
             uri: background.uri
