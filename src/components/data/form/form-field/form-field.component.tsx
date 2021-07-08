@@ -20,8 +20,8 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
       case 'datavalue':
-        if ($new !== this.state.props.datavalue) {
-          this.props.onFieldChange(undefined, undefined, $new);
+        if ($old || $new) {
+          this.props.onChange(undefined, undefined, $new);
         }
         break;
       case 'defaultvalue':

@@ -25,7 +25,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       if (currentNode.props?.formRef) {
         this.formWidgets[currentNode.key] = currentNode;
         if (this.state.props.formdata) {
-          currentNode.props.onFieldChange(null, null, this.state.props.formdata[currentNode.key]);
+          currentNode.props.onChange(null, null, this.state.props.formdata[currentNode.key]);
         }
       }
       if(currentNode.props?.children) {
@@ -73,6 +73,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     switch (name) {
       case 'gendataoutput':
         if (!this.state.props.dataoutput || !isEqual($new(), this.state.props.dataoutput)) {
+          console.log("gendataoutput onpropertychange");
           this.updateState({ props: { dataoutput: $new() }} as WmFormState);
         }
         break;
@@ -80,7 +81,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         console.log("formdata", $new);
         if($new && this.formWidgets) {
           forEach(this.formWidgets, (widget) => {
-            widget.props.onFieldChange(null, null, $new[widget.key]);
+            widget.props.onChange(null, null, $new[widget.key]);
           });
         }
     }
