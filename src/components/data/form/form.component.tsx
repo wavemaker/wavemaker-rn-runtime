@@ -25,7 +25,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       if (currentNode.props?.formRef) {
         this.formWidgets[currentNode.key] = currentNode;
         if (this.state.props.formdata) {
-          currentNode.props.onChange(null, null, this.state.props.formdata[currentNode.key]);
+          currentNode.props.onChange(null, currentNode, this.state.props.formdata[currentNode.key]);
         }
       }
       if(currentNode.props?.children) {
@@ -58,7 +58,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       if(!val && this.formWidgets[key]?.props.required && widgetsWithUndefinedValue.indexOf(this.formWidgets[key]?.props.widget) < 0) {
         isValid = false;
       }
-      this.formWidgets[key].props.validate();
+      this.formWidgets[key].props.onValidate();
     });
     if(!isValid) {
       return false;
@@ -81,7 +81,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         console.log("formdata", $new);
         if($new && this.formWidgets) {
           forEach(this.formWidgets, (widget) => {
-            widget.props.onChange(null, null, $new[widget.key]);
+            widget.props.onChange(null, widget, $new[widget.key]);
           });
         }
     }
