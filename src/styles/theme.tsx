@@ -1,6 +1,5 @@
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { merge } from 'lodash';
-import { camelCase } from 'lodash-es';
 import React, { ReactNode } from 'react';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
@@ -57,9 +56,23 @@ export type BackgroundImageStyle = {
 export const attachBackground = (c: ReactNode, style: ViewStyle) => {
     const background = (style as any)._background;
     if (background) {
-        return <ImageBackground source={{
-            uri: background.uri
-        }} style={background}>{c}</ImageBackground>;
+        const backgroundStyle = {
+            width: style.width,
+            height: style.height
+        } as any;
+        Object.keys(background).forEach(k => {
+            if (k !== 'imageStyle') {
+                backgroundStyle[k] = background[k];
+            }
+        });
+        return (
+            <ImageBackground 
+                source={{uri: background.uri}}
+                resizeMode={background.resizeMode || 'repeat'}
+                imageStyle={background.imageStyle}
+                style={backgroundStyle}>
+                    {c}
+            </ImageBackground>);
     }
     return c;
 }; 
