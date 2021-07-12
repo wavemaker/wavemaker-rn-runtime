@@ -37,7 +37,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     return (
       <Tabs
         defaultIndex={props.defaultpaneindex}
-        style={{ backgroundColor: 'transparent' }}
+        style={this.styles.root}
         mode="scrollable"
         onChangeIndex={this.onChange.bind(this)}
         showLeadingSpace={false}>

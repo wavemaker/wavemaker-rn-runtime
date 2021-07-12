@@ -5,7 +5,9 @@ export type WmTabsStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-tabs';
 export const DEFAULT_STYLES: WmTabsStyles = {
-    root: {},
+    root: {
+      backgroundColor: 'transparent'
+    },
     text: {}
 };
 

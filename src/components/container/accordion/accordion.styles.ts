@@ -5,13 +5,19 @@ import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/ic
 
 export type WmAccordionStyles = BaseStyles & {
   icon: WmIconStyles,
-  badge: AllStyle
+  badge: AllStyle,
+  header: AllStyle,
+  subheading: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-accordion';
 export const DEFAULT_STYLES: WmAccordionStyles = {
     root: {},
     text: {},
+    header: {},
+    subheading: {
+
+    },
     icon: {
       root: {
         alignSelf: 'auto'

@@ -28,7 +28,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   renderAccordionpane(item: any, index: any) {
     const icon = (<WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>);
     return (
-      <List.Accordion title={item.props.title || 'Title'} description={item.props.subheading} id={index + 1} key={'accordionpane_' + index}
+      <List.Accordion title={item.props.title || 'Title'} style={this.styles.header} titleStyle={this.styles.text} descriptionStyle={this.styles.subheading} description={item.props.subheading} id={index + 1} key={'accordionpane_' + index}
                       right={props => this.expandCollapseIcon(props, item)} left={props => icon}>
         <View>{item}</View>
       </List.Accordion>
@@ -53,11 +53,13 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   renderWidget(props: WmAccordionProps) {
     const accordionpanes = props.children;
     return (
-      <List.AccordionGroup expandedId={this.state.expandedId || props.defaultpaneindex + 1} onAccordionPress={this.onAccordionPress.bind(this)} >
-        {accordionpanes && accordionpanes.length
-          ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index))
-          : null}
-      </List.AccordionGroup>
+        <View style={this.styles.root}>
+          <List.AccordionGroup expandedId={this.state.expandedId || props.defaultpaneindex + 1} onAccordionPress={this.onAccordionPress.bind(this)} >
+            {accordionpanes && accordionpanes.length
+              ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index))
+              : null}
+          </List.AccordionGroup>
+        </View>
     );
   }
 }
