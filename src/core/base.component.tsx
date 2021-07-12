@@ -2,9 +2,11 @@ import { isEqual, merge } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle } from 'react-native';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
+import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import BASE_THEME, { DEFAULT_CLASS, NamedStyles, AllStyle, ThemeConsumer, attachBackground } from '../styles/theme';
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
+import partialService from '../runtime/services/partial.service';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -18,9 +20,9 @@ export type BaseStyles = NamedStyles<any> & {
 }
 
 export interface LifecycleListener {
-    onComponentChange: (c: BaseComponent<any, any, any>) => void;
-    onComponentInit: (c: BaseComponent<any, any, any>) => void;
-    onComponentDestroy: (c: BaseComponent<any, any, any>) => void;
+    onComponentChange?: (c: BaseComponent<any, any, any>) => void;
+    onComponentInit?: (c: BaseComponent<any, any, any>) => void;
+    onComponentDestroy?: (c: BaseComponent<any, any, any>) => void;
 }
 
 export class BaseProps {
@@ -97,7 +99,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         };
         const onUpdateState = () => {
             callback && callback();
-            propsUpdated && this.props.listener?.onComponentChange(this);
+            propsUpdated 
+                && this.props.listener?.onComponentChange
+                && this.props.listener?.onComponentChange(this);
         }
         if (!this.initialized) {
             this.state = stateFn(this.state);
@@ -112,14 +116,14 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     componentDidMount() {
-        if (this.props.listener) {
+        if (this.props.listener && this.props.listener.onComponentInit) {
             this.props.listener.onComponentInit(this.proxy);
         }
         this.initialized = true;
     }
 
     componentWillUnmount() {
-        if (this.props.listener) {
+        if (this.props.listener && this.props.listener.onComponentDestroy) {
             this.props.listener.onComponentDestroy(this.proxy);
         }
         this.cleanup.forEach(f => f && f());
@@ -132,9 +136,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (callBack) {
             callBack.apply(this.proxy, args);
         }
-        if (eventName === 'onTap') {
-          this.invokeEventCallback && this.invokeEventCallback('onClick', args);
-        }
     }
 
     protected abstract renderWidget(props: T): ReactNode;
@@ -145,7 +146,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return props.show !== false ?
             (<ThemeConsumer>{(theme) => {
                 this.theme = theme || BASE_THEME;
-                this.styles = this.styles || merge({}, this.theme.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
+                this.styles =  this.styles || deepCopy({}, this.theme.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);    
                 return attachBackground(this.renderWidget(this.state.props), this.styles.root);
             }}</ThemeConsumer>) : null;
     }

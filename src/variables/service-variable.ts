@@ -172,7 +172,7 @@ export class ServiceVariable extends BaseVariable {
     }
 
     setInput(key: any, val?: any, options?: any) {
-      this.params = merge(this.config.paramProvider(), _setInput(this.params, key, val, options));
+      this.params = merge({}, this.config.paramProvider(), _setInput(this.params, key, val, options));
       return this.params;
     }
 }

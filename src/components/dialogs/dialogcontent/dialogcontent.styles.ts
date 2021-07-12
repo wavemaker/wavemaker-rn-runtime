@@ -1,12 +1,12 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 
-export type WmGridRowStyles = BaseStyles & {};
+export type WmDialogcontentStyles = BaseStyles & {};
 
-export const DEFAULT_CLASS = 'app-gridrow';
-export const DEFAULT_STYLES: WmGridRowStyles = {
+export const DEFAULT_CLASS = 'app-dialogcontent';
+export const DEFAULT_STYLES: WmDialogcontentStyles = {
     root: {
-        flexDirection: 'row'
+        padding: 16
     },
     text: {}
 };

@@ -17,7 +17,7 @@ export class Theme {
     }
 
     addStyle<T extends NamedStyles<any>>(name: string, extend: string, style: T) {
-        this.styles[name] = deepCopy({}, this.styles[extend], this.styles[name], style);
+        this.styles[name] = deepCopy(this.styles[extend], this.styles[name], style);
     }
     
     getStyle(name: string) {
@@ -29,9 +29,9 @@ export class Theme {
             return {};
         }
         if (name.indexOf(' ') > 0) {
-            style = merge({}, ...(name.split(' ').map(c => this.getStyle(c))));            
+            style = deepCopy(...(name.split(' ').map(c => this.getStyle(c))));            
         } else {
-            style = merge({}, this.parent && this.parent.getStyle(name), this.styles[name]);
+            style = deepCopy(this.parent && this.parent.getStyle(name), this.styles[name]);
         }
         this.cache[name] = style;
         return style;

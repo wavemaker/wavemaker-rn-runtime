@@ -53,7 +53,6 @@ export default class DatePickerComponnent extends React.Component<DatePickerProp
         o.content = content;
         o.modalStyle = styles.modal;
         o.centered = true;
-        o.contentStyle = styles.content;
         return o;
     }
 

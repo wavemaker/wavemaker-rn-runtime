@@ -1,11 +1,11 @@
 import React, { ReactNode }  from 'react';
 import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { merge } from 'lodash';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
+import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
@@ -128,13 +128,14 @@ export default abstract class BaseApp extends React.Component {
               </PartialProvider>)
             }
           </View>
-          {AppModalService.modalOptions.content && (
-            <View style={merge(styles.appModal,
-              AppModalService.modalOptions.modalStyle,
-              AppModalService.modalOptions.centered? styles.centeredModal: null)}>
-                {AppModalService.modalOptions.content}
-            </View>
-          )}
+          {AppModalService.modalOptions.content && 
+            AppModalService.modalsOpened.map((o, i) =>
+              (<View key={i} style={deepCopy(styles.appModal, 
+                o.centered ? styles.centeredModal: null,
+                o.modalStyle)}>
+                  {o.content}
+              </View>)
+            )}
         </PaperProvider>
       </SafeAreaProvider>
     );
@@ -151,6 +152,8 @@ const styles = {
   },
   centeredModal: {
     flex: 1,
+    position: 'absolute',
+    top: 0,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',

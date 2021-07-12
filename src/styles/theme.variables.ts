@@ -84,12 +84,14 @@ export class ThemeVariables {
     buttonSuccessColor = this.successColor;
     buttonDefaultColor = 'transparent';
     buttonPrimaryColor = this.primaryColor;
+    buttonSecondaryColor = '#ffffff';
     buttonDangerColor = this.dangerColor;
     buttonWarningColor = this.warningColor;
     buttonInfoColor = this.infoColor;
     buttonSuccessTextColor ='#ffffff';
     buttonDefaultTextColor = '#5e5e5e';
     buttonPrimaryTextColor ='#ffffff';
+    buttonSecondaryTextColor = this.primaryColor;
     buttonDangerTextColor ='#ffffff';
     buttonWarningTextColor = '#212529';
     buttonInfoTextColor ='#ffffff';
@@ -128,6 +130,10 @@ export class ThemeVariables {
     //form
     formTitleColor = '#5e5e5e';
     formSubTitleColor = this.formTitleColor;
+
+    //dialog
+    dialogBackgroundColor = '#ffffff';
+    dialogBorderColor = '#dddddd';
 }
 
 export default new ThemeVariables();

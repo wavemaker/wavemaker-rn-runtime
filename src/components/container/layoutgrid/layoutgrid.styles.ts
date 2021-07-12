@@ -6,7 +6,9 @@ export type WmLayoutGridStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-layoutgrid';
 export const DEFAULT_STYLES: WmLayoutGridStyles = {
-    root: {},
+    root: {
+      flexDirection: 'column'
+    },
     text: {}
 };
 

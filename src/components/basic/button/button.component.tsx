@@ -30,15 +30,17 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
 
   renderWidget(props: WmButtonProps) {
     return (
-      <Tappable target={this}>
-        <View style={[this.styles.root, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
-          {props.iconposition === 'top' && this.prepareIcon(props)}
-          {props.iconposition === 'left' && this.prepareIcon(props)}
-          <Text style={this.styles.text}>{props.caption}</Text>
-          {props.iconposition === 'right' && this.prepareIcon(props)}
-          {props.badgevalue && this.prepareBadge(props)}
-        </View>
-      </Tappable>
+      <View style={this.styles.root}>
+        <Tappable target={this}>
+          <View style={[this.styles.content, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
+            {props.iconposition === 'top' && this.prepareIcon(props)}
+            {props.iconposition === 'left' && this.prepareIcon(props)}
+            <Text style={this.styles.text}>{props.caption}</Text>
+            {props.iconposition === 'right' && this.prepareIcon(props)}
+            {props.badgevalue && this.prepareBadge(props)}
+          </View>
+        </Tappable>
+      </View>
     );
   }
 }

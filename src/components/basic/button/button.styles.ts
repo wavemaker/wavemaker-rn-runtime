@@ -4,6 +4,7 @@ import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '../icon/icon.styles';
 
 export type WmButtonStyles = BaseStyles & {
+  content: AllStyle,
   badge: AllStyle,
   icon: WmIconStyles
 };
@@ -11,14 +12,12 @@ export type WmButtonStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-button';
 export const DEFAULT_STYLES: WmButtonStyles = {
     root: {
-        paddingTop: 5,
-        paddingBottom: 5,
-        paddingLeft: 10,
-        paddingRight: 10,
-        flexDirection: 'row',
-        alignSelf: 'flex-start',
-        alignItems: 'center',
-        justifyContent: 'center'
+        padding: 8
+    },
+    content: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     text: {
       fontSize: 12,
@@ -61,6 +60,7 @@ const getButtonStyles = (bgColor: string, color: string) => {
 BASE_THEME.addStyle('btn-default', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonDefaultColor, ThemeVariables.buttonDefaultTextColor));
 BASE_THEME.addStyle('btn-info', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonInfoColor, ThemeVariables.buttonInfoTextColor));
 BASE_THEME.addStyle('btn-primary', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonPrimaryColor, ThemeVariables.buttonPrimaryTextColor));
+BASE_THEME.addStyle('btn-secondary', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonSecondaryColor, ThemeVariables.buttonSecondaryTextColor));
 BASE_THEME.addStyle('btn-danger', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonDangerColor, ThemeVariables.buttonDangerTextColor));
 BASE_THEME.addStyle('btn-success', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonSuccessColor, ThemeVariables.buttonSuccessTextColor));
 BASE_THEME.addStyle('btn-warning', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonWarningColor, ThemeVariables.buttonWarningTextColor));

@@ -164,10 +164,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       this.nativeModalOptions.onClose = () => {
         this.onBlur();
       };
-      this.nativeModalOptions.contentStyle = {
-        width: 400,
-        height: 300
-      }
       modalService.showModal(this.nativeModalOptions);
       return null;
     }}</ModalConsumer>);

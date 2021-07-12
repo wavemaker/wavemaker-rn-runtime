@@ -6,9 +6,7 @@ export type WmGridColumnStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-gridcolumn';
 export const DEFAULT_STYLES: WmGridColumnStyles = {
-    root: {
-        flex: 1
-    },
+    root: {},
     text: {}
 };
 

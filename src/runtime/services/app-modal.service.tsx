@@ -5,7 +5,7 @@ import { ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal
 class AppModalService implements ModalService {
     public modalOptions = {} as ModalOptions;
 
-    private modalsOpened = [] as ModalOptions[];
+    public modalsOpened = [] as ModalOptions[];
 
     private showLastModal() {
         this.modalOptions = this.modalsOpened.length ? this.modalsOpened[this.modalsOpened.length - 1] : {} as ModalOptions;
@@ -16,18 +16,20 @@ class AppModalService implements ModalService {
         const i = this.modalsOpened.findIndex(o => o === options);
         if (i < 0) {
             this.modalsOpened.push(options);
-        } else {
-            this.modalsOpened = this.modalsOpened.slice(0, i + 1);
+            this.showLastModal();
         }
-        this.showLastModal();
     }
     
     public hideModal(options?: ModalOptions) {
         const i = options ? this.modalsOpened.findIndex(o => o === options) : (this.modalsOpened.length - 1);
         if (i >= 0) {
             const o = this.modalsOpened.splice(i, 1)[0];
-            o.onClose && o.onClose();
-            this.showLastModal();
+            const p: any = o.onClose && o.onClose();
+            if (p && p instanceof Promise) {
+                p.then(() => this.showLastModal());
+            } else {
+                this.showLastModal();
+            }
         }
     }
 }

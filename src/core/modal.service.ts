@@ -3,7 +3,6 @@ import React from 'react';
 export interface ModalOptions {
     content: React.ReactNode;
     modalStyle?: any;
-    contentStyle?: any;
     centered?: boolean,
     onClose?: () => void;
 }
