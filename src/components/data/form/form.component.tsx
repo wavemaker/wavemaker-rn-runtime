@@ -8,12 +8,12 @@ import WmFormProps from './form.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormStyles } from './form.styles';
 
 export class WmFormState extends BaseComponentState<WmFormProps> {
-  dataout: any;
   isValid = false;
 }
 
 export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFormStyles> {
   private formWidgets: any;
+  private formdataoutput: any;
   constructor(props: WmFormProps) {
     console.log("form children", props.children);
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormProps());
@@ -43,7 +43,6 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   componentDidMount() {
     console.log("mount");
-    this.props.gendataoutput();
     this.processFormFields(this.props.children);
     super.componentDidMount();
   }
@@ -52,7 +51,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   handleSubmit(event: any) {
     event.preventDefault();
     console.log("submit fields", this.formWidgets);
-    const formData = this.props.gendataoutput();
+    const formData = this.props.dataoutput;
     let isValid = true;
     forEach(formData, (val, key) => {
       if(!val && this.formWidgets[key]?.props.required && widgetsWithUndefinedValue.indexOf(this.formWidgets[key]?.props.widget) < 0) {
@@ -67,6 +66,13 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       this.invokeEventCallback('onBeforesubmit', [ null, this.proxy, formData ]);
     }
     this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
+  }
+
+  updateDataOutput(key: string, val: any) {
+    var current = this.formdataoutput || {};
+    current[key] = val;
+    this.formdataoutput = current;
+    this.updateState({ props: { dataoutput: current }} as WmFormState);
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
