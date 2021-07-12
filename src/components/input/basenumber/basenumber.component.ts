@@ -205,7 +205,6 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         this.isValidNumber($new);
         break;
       case 'datavalue':
-        console.log("datavalue changeddddddddd", $new);
         this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
 
     }
