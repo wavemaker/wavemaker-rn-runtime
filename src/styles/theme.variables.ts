@@ -121,9 +121,13 @@ export class ThemeVariables {
     //toggle variables
     toggleColor = '#2196f3';
 
-  // radioset, checkboxset variables
-  groupHeaderBackgroundColor = '#D3D3D3';
-  checkedColor = '#2196f3';
+    // radioset, checkboxset variables
+    groupHeaderBackgroundColor = '#D3D3D3';
+    checkedColor = '#2196f3';
+
+    //form
+    formTitleColor = '#5e5e5e';
+    formSubTitleColor = this.formTitleColor;
 }
 
 export default new ThemeVariables();

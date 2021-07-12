@@ -8,6 +8,8 @@ import WmFormProps from './form.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormStyles } from './form.styles';
 import {PERFORMANCE_LOGGER} from "@wavemaker/app-rn-runtime/core/logger";
 import {VARIABLE_LOGGER} from "@wavemaker/app-rn-runtime/variables/base-variable";
+import WmLabel from "@wavemaker/app-rn-runtime/components/basic/label/label.component";
+import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
 
 export class WmFormState extends BaseComponentState<WmFormProps> {
   isValid = false;
@@ -88,10 +90,21 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   renderWidget(props: WmFormProps) {
     return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <View style={this.styles.root}>{props.children}</View>
-        <input type="submit" value="Submit" />
-      </form>
+      <View style={this.styles.root}>
+        <View style={this.styles.heading}>
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
+            <View>
+              <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
+              <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+            </View>
+          </View>
+        </View>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <View style={this.styles.root}>{props.children}</View>
+          <input type="submit" value="Submit" />
+        </form>
+      </View>
     );
   }
 }
