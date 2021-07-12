@@ -22,7 +22,6 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
         this.setDataItems($new);
         break;
       case 'datavalue':
-        console.info("swithc datavalue", $new);
         this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
         break;
     }

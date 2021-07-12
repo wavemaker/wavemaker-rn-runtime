@@ -6,6 +6,7 @@ import { forEach } from 'lodash';
 
 import WmFormFieldProps from './form-field.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormFieldStyles } from './form-field.styles';
+import {PERFORMANCE_LOGGER} from "@wavemaker/app-rn-runtime/core/logger";
 
 export class WmFormFieldState extends BaseComponentState<WmFormFieldProps> {
   datavalue: any;
@@ -21,6 +22,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
     switch (name) {
       case 'datavalue':
         if ($old || $new) {
+          PERFORMANCE_LOGGER.debug(`form field ${this.props.name} changed from ${$old} to ${$new}`);
           this.props.onChange(undefined, this.proxy, $new);
         }
         break;
@@ -31,7 +33,6 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   }
 
   validateFormField() {
-    console.log("validate me");
     if (this.state.props.required && !this.state.props.datavalue && widgetsWithUndefinedValue.indexOf(this.state.props.widget) < 0) {
       this.updateState({isValid: false} as WmFormFieldState);
     } else {

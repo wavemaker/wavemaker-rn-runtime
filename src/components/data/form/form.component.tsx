@@ -6,6 +6,8 @@ import {isArray, forEach, isEqual} from 'lodash';
 
 import WmFormProps from './form.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormStyles } from './form.styles';
+import {PERFORMANCE_LOGGER} from "@wavemaker/app-rn-runtime/core/logger";
+import {VARIABLE_LOGGER} from "@wavemaker/app-rn-runtime/variables/base-variable";
 
 export class WmFormState extends BaseComponentState<WmFormProps> {
   isValid = false;
@@ -15,7 +17,6 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   private formWidgets: any;
   private formdataoutput: any;
   constructor(props: WmFormProps) {
-    console.log("form children", props.children);
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormProps());
   }
 
@@ -42,7 +43,6 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   }
 
   componentDidMount() {
-    console.log("mount");
     this.processFormFields(this.props.children);
     super.componentDidMount();
   }
@@ -50,8 +50,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   // @ts-ignore
   handleSubmit(event: any) {
     event.preventDefault();
-    console.log("submit fields", this.formWidgets);
-    const formData = this.props.dataoutput;
+    const formData = this.state.props.dataoutput;
     let isValid = true;
     forEach(formData, (val, key) => {
       if(!val && this.formWidgets[key]?.props.required && widgetsWithUndefinedValue.indexOf(this.formWidgets[key]?.props.widget) < 0) {
@@ -77,15 +76,9 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
-      case 'gendataoutput':
-        if (!this.state.props.dataoutput || !isEqual($new(), this.state.props.dataoutput)) {
-          console.log("gendataoutput onpropertychange");
-          this.updateState({ props: { dataoutput: $new() }} as WmFormState);
-        }
-        break;
       case 'formdata':
-        console.log("formdata", $new);
         if($new && this.formWidgets) {
+          PERFORMANCE_LOGGER.debug(`form data for ${this.props.name} changed from ${JSON.stringify($old)} to ${JSON.stringify($new)}`);
           forEach(this.formWidgets, (widget) => {
             widget.props.onChange(null, widget, $new[widget.key]);
           });

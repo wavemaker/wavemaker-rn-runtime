@@ -9,6 +9,7 @@ import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core
 import App from './App';
 import WmFormField from "@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component";
 import WmForm from "@wavemaker/app-rn-runtime/components/data/form/form.component";
+import { isArray } from 'lodash-es';
 
 export class FragmentProps extends BaseProps {
 
@@ -110,7 +111,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       return inlineStyles;
     }
 
-
     eval(fn: Function, failOnError = false) {
       try {
         return fn.call(this);
@@ -138,6 +138,14 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         this._memoize[key] = o;
       }
       return this._memoize[key];
+    }
+
+    getConditionalClass(widgetName: string) {
+      const classes = this._memoize[widgetName]?.props.conditionalclass();
+      if (isArray(classes)) {
+        return classes.join(' ');
+      }
+      return classes || '';
     }
 
     onFragmentReady() {

@@ -61,7 +61,6 @@ export default abstract class BaseApp extends React.Component {
     let wait = 0;
     this.appConfig.refresh = () => {
       if (!wait) {
-        //console.trace('tracing app refresh');
         RENDER_LOGGER.debug('refreshing the app...');
         wait = MAX_TIME_BETWEEN_REFRESH_CYCLES;
         refreshAfterWait = false;

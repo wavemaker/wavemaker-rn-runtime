@@ -56,7 +56,6 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
   }
 
   check() {
-    console.log("check called");
     const isValid = this.props.required && !this.state.props.datavalue ? false : true;
     this.updateState({
       isValid: isValid

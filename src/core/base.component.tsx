@@ -2,7 +2,7 @@ import { isEqual, merge } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle } from 'react-native';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
-import BASE_THEME, { DEFAULT_CLASS, DEFAULT_STYLE, NamedStyles, AllStyle, ThemeConsumer } from '../styles/theme';
+import BASE_THEME, { DEFAULT_CLASS, NamedStyles, AllStyle, ThemeConsumer, attachBackground } from '../styles/theme';
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 
@@ -146,7 +146,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             (<ThemeConsumer>{(theme) => {
                 this.theme = theme || BASE_THEME;
                 this.styles = this.styles || merge({}, this.theme.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
-                return this.renderWidget(this.state.props);
+                return attachBackground(this.renderWidget(this.state.props), this.styles.root);
             }}</ThemeConsumer>) : null;
     }
 }
