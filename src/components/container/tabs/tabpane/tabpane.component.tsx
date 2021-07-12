@@ -1,10 +1,9 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTabpaneProps from './tabpane.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmTabpaneStyles } from './tabpane.styles';
-import WmContainerProps from "@wavemaker/app-rn-runtime/components/container/container.props";
 
 export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {}
 
@@ -14,7 +13,7 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTabpaneProps());
   }
 
-  renderContent(props: WmContainerProps) {
+  renderContent(props: WmTabpaneProps) {
     if (props.renderPartial) {
       if (!this.state.props.isPartialLoaded) {
         this.state.props.isPartialLoaded = true;

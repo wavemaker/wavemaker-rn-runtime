@@ -134,6 +134,8 @@ export class ThemeVariables {
     //dialog
     dialogBackgroundColor = '#ffffff';
     dialogBorderColor = '#dddddd';
+
+  badgeTextColor = '#ffffff';
 }
 
 export default new ThemeVariables();
