@@ -48,6 +48,7 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
     const o = this.state.modalOptions;
     o.modalStyle = this.styles.modal;
     o.content = content;
+    o.isModal = !!this.state.props.modal;
     o.centered = true;
     this._close = () => modalService.hideModal(this.state.modalOptions);
     return o;
@@ -58,12 +59,12 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
       {(modalService: ModalService) => {
         modalService.showModal(this.prepareModalOptions((
           <View style={this.styles.root}>
-            <View style={this.styles.header}>
+            {props.showheader ? (<View style={this.styles.header}>
               <View style={this.styles.headerLabel}>
                 <WmIcon caption={props.title} iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>
               </View>
               {props.closable && <WmButton show={props.closable} iconclass="fa fa-close" onTap={() => this.close()} styles={this.styles.closeBtn}></WmButton>}
-            </View>
+            </View>) : null}
             {props.children}
           </View>
         ), modalService));

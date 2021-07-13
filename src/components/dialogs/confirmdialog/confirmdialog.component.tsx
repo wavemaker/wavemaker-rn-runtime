@@ -48,6 +48,7 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
       <WmDialog
         iconclass={props.iconclass}
         closable={props.closable}
+        modal={props.modal}
         styles={this.styles.dialog}
         title={props.title}
         listener={this.listener} onOpened={() => {
@@ -55,7 +56,7 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
       }}>
         <WmDialogcontent styles={this.styles.dialogContent}>
           <WmLabel
-            caption={props.message}
+            caption={props.message || ''}
             styles={this.styles.message}>
           </WmLabel>
         </WmDialogcontent>

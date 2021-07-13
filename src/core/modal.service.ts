@@ -5,6 +5,7 @@ export interface ModalOptions {
     modalStyle?: any;
     centered?: boolean,
     onClose?: () => void;
+    isModal?: boolean;
 }
 
 export interface ModalService {

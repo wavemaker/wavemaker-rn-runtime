@@ -50,11 +50,12 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
   }
 
   renderWidget(props: WmAlertdialogProps) {
-    const messageStyle = this.theme.getStyle(MESSAGE_STYLES.get(props.alerttype) as string);
+    const messageStyle = this.theme.getStyle(MESSAGE_STYLES.get(props.alerttype || 'error') as string);
     return (
       <WmDialog
         iconclass={props.iconclass}
         closable={props.closable}
+        modal={props.modal}
         styles={this.styles.dialog}
         title={props.title}
         listener={this.listener} onOpened={() => {
@@ -62,7 +63,7 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
       }}>
         <WmDialogcontent styles={this.styles.dialogContent}>
           <WmLabel
-            caption={props.message}
+            caption={props.message || ''}
             styles={deepCopy({}, messageStyle, this.styles.message)}>
           </WmLabel>
         </WmDialogcontent>

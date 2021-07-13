@@ -1,5 +1,5 @@
 import React, { ReactNode }  from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
@@ -130,11 +130,15 @@ export default abstract class BaseApp extends React.Component {
           </View>
           {AppModalService.modalOptions.content && 
             AppModalService.modalsOpened.map((o, i) =>
-              (<View key={i} style={deepCopy(styles.appModal, 
-                o.centered ? styles.centeredModal: null,
-                o.modalStyle)}>
-                  {o.content}
-              </View>)
+              (
+              <TouchableOpacity activeOpacity={1} key={i} 
+                onPress={() => o.isModal && AppModalService.hideModal(o)}
+                style={deepCopy(styles.appModal, 
+                  o.centered ? styles.centeredModal: null,
+                  o.modalStyle)}>
+                    {o.content}
+              </TouchableOpacity>
+              )
             )}
         </PaperProvider>
       </SafeAreaProvider>
