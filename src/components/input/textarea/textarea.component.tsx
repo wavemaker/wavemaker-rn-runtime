@@ -17,7 +17,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
 
   renderWidget(props: WmTextareaProps) {
     return ( <TextInput
-      style={this.styles.root}
+      style={[this.styles.root, {borderBottomWidth: this.state.isValid === false ? 1 : 0, borderBottomColor: this.state.isValid === false ? 'red' : 'green'}]}
       multiline={true}
       numberOfLines={3}
       keyboardType={this.state.keyboardType}
