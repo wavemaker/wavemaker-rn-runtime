@@ -3,7 +3,9 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { ImageStyle } from 'react-native';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
-import { WmAnchorStyles } from '../../basic/anchor/anchor.styles';
+import { WmMenuStyles } from '@wavemaker/app-rn-runtime/components/navigation/menu/menu.styles';
+import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.styles';
+import { WmPopoverStyles } from '@wavemaker/app-rn-runtime/components/navigation/popover/popover.styles';
 
 export type WmAppNavbarStyles = BaseStyles & {
   action: AllStyle,
@@ -43,7 +45,10 @@ BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('navbarAnchorItem', '', {
   root: {
     paddingRight: 8,
-    height: '100%'
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   text: {
     color: ThemeVariables.navbarTextColor,
@@ -60,15 +65,42 @@ BASE_THEME.addStyle('navbarAnchorItem', '', {
 BASE_THEME.addStyle('navbarMenu', '', {
   root: {
     paddingRight: 8,
-    height: '100%'
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  icon: {
-    root: {
-      fontSize: ThemeVariables.navbarIconSize
+  link: {
+    icon: {
+      root: {
+        fontSize: ThemeVariables.navbarIconSize,
+        color: ThemeVariables.navbarTextColor
+      }
     },
     text: {
       color: ThemeVariables.navbarTextColor,
       fontSize: ThemeVariables.navbarFontSize
     }
   }
-} as WmAnchorStyles);
+} as WmMenuStyles);
+BASE_THEME.addStyle('navbarPopover', '', {
+  root: {
+    paddingRight: 8,
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  link: {
+    icon: {
+      root: {
+        fontSize: ThemeVariables.navbarIconSize,
+        color: ThemeVariables.navbarTextColor
+      }
+    },
+    text: {
+      color: ThemeVariables.navbarTextColor,
+      fontSize: ThemeVariables.navbarFontSize
+    }
+  }
+} as WmPopoverStyles);

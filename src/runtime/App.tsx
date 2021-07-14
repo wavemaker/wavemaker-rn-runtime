@@ -7,6 +7,7 @@ import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
@@ -113,33 +114,41 @@ export default abstract class BaseApp extends React.Component {
             ...DefaultTheme.colors,
             primary: ThemeVariables.primaryColor
           }}}>
-          <View  style={styles.container}>
-            { this.appConfig.loadApp && this.appStarted && (
+          <NavigationServiceProvider value={this.appConfig.currentPage}>
               <PartialProvider value={AppPartialService}>
-                <ModalProvider value={AppModalService}>
-                  <View style={styles.container}>
-                    <AppNavigator
-                      app={this}
-                      hideDrawer={this.appConfig.drawer?.getContent() === null}
-                      drawerContent={() => this.appConfig.drawer?.getContent()}
-                      drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                  </View>
-                </ModalProvider>
-              </PartialProvider>)
-            }
-          </View>
-          {AppModalService.modalOptions.content && 
-            AppModalService.modalsOpened.map((o, i) =>
-              (
-              <TouchableOpacity activeOpacity={1} key={i} 
-                onPress={() => o.isModal && AppModalService.hideModal(o)}
-                style={deepCopy(styles.appModal, 
-                  o.centered ? styles.centeredModal: null,
-                  o.modalStyle)}>
-                    <View style={o.contentStyle}>{o.content}</View>
-              </TouchableOpacity>
-              )
-            )}
+                <View  style={styles.container}>
+                  { this.appConfig.loadApp && this.appStarted && (
+                      <ModalProvider value={AppModalService}>
+                        <View style={styles.container}>
+                          <AppNavigator
+                            app={this}
+                            hideDrawer={this.appConfig.drawer?.getContent() === null}
+                            drawerContent={() => this.appConfig.drawer?.getContent()}
+                            drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                        </View>
+                      </ModalProvider>)
+                  }
+                </View>
+                {AppModalService.modalOptions.content && 
+                  AppModalService.modalsOpened.map((o, i) =>
+                    (
+                    <TouchableOpacity activeOpacity={1} key={i} 
+                      onPress={() => o.isModal && AppModalService.hideModal(o)}
+                      style={deepCopy(styles.appModal, 
+                        o.centered ? styles.centeredModal: null,
+                        o.modalStyle)}>
+                          <TouchableOpacity
+                            activeOpacity={1}
+                            onPress={() => {}}
+                            style={[styles.appModalContent, o.contentStyle]}>
+                              {o.content}
+                          </TouchableOpacity>
+                    </TouchableOpacity>
+                    )
+                  )
+                }
+            </PartialProvider>
+          </NavigationServiceProvider>
         </PaperProvider>
       </SafeAreaProvider>
     );
@@ -153,6 +162,11 @@ const styles = {
   appModal: {
     position: 'absolute',
     width: '100%'
+  },
+  appModalContent : {
+    width: '100%',
+    alignItems: 'center',
+    flexDirection: 'column'
   },
   centeredModal: {
     flex: 1,

@@ -1,6 +1,7 @@
 import { BaseComponent } from "@wavemaker/app-rn-runtime/core/base.component";
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { GestureResponderEvent, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface TappableProps {
     children?: any
@@ -17,7 +18,7 @@ export class Tappable extends React.Component<TappableProps, any> {
         super(props);
     }
 
-    onPress(e: any) {
+    onPress(e?: GestureResponderEvent): void {
         const delta = new Date().getTime() - this.lastPress;
         this.lastPress = this.lastPress > 0 ? 0: new Date().getTime();
         const target = this.props.target;
@@ -36,7 +37,7 @@ export class Tappable extends React.Component<TappableProps, any> {
             return (
                 <TouchableOpacity
                     style={this.props.styles}
-                    onPress={(e: any) => this.onPress(e)}>
+                    onPress={() => this.onPress()}>
                     {this.props.children}
                 </TouchableOpacity>
             );

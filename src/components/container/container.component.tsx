@@ -7,10 +7,10 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmContainerStyles } from './container.st
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 export class WmContainerState extends BaseComponentState<WmContainerProps> {
-
+  isPartialLoaded = false;
 }
 
-export default class WmContainer extends BaseComponent<WmContainerProps, BaseComponentState<WmContainerProps>, WmContainerStyles> {
+export default class WmContainer extends BaseComponent<WmContainerProps, WmContainerState, WmContainerStyles> {
 
   constructor(props: WmContainerProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmContainerProps());
@@ -18,10 +18,12 @@ export default class WmContainer extends BaseComponent<WmContainerProps, BaseCom
 
   renderContent(props: WmContainerProps) {
     if (props.renderPartial) {
-      if (!this.state.props.isPartialLoaded) {
-        this.state.props.isPartialLoaded = true;
+      if (!this.state.isPartialLoaded) {
         setTimeout(() => {
-          this.invokeEventCallback('onLoad', [null, this]);
+          this.updateState({
+            isPartialLoaded: true
+          } as WmContainerState,
+          () => this.invokeEventCallback('onLoad', [null, this]));
         });
       }
       return props.renderPartial();

@@ -99,7 +99,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     }
     let icon = null;
     const style = [{
-      color: this.styles.text.color
+      color: this.styles.root.color || this.styles.text.color
     }, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}];
     const iconSize = props.iconsize || this.styles.root.fontSize || this.styles.text.fontSize || iconDef.size;
     if (props.show && iconDef && iconDef.isFontAwesome) {

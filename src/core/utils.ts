@@ -1,3 +1,5 @@
+import { isString } from "lodash-es";
+
 declare const window: any;
 
 const _deepCopy = (o1: any, ...o2: any) => {
@@ -5,7 +7,7 @@ const _deepCopy = (o1: any, ...o2: any) => {
         if (o) {
             Object.keys(o).forEach(k => {
                 const v = o[k];
-                if (v && typeof v === 'object') {
+                if (v && !isString(v) && typeof v === 'object') {
                     o1[k] = _deepCopy(o1[k] || {}, o[k]);
                 } else {
                     o1[k] = _deepCopy(v);
@@ -35,6 +37,6 @@ export const deepCopy = (...objects: any) => _deepCopy({}, ...objects);
     return encodeURI(splits[0]) + (params ? '?' + params: '') + (hash ? '#'+ hash : '');
 };
 
-export const isPreviewMode = () => !!(window && window.navigator);
+export const isWebPreviewMode = () => !!(window && window.navigator && window.document);
 
 export const widgetsWithUndefinedValue = ['checkbox', 'toggle'];

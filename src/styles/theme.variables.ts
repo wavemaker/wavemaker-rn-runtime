@@ -137,8 +137,13 @@ export class ThemeVariables {
 
     badgeTextColor = '#ffffff';
 
+    //popover
+    popoverBackgroundColor = '#ffffff';
+    popoverTitleBackgroundColor = '#dddddd';
+    popoverTitleColor = '#111111';
+
     //menu
-    menuBackgroundColor = '#ffffff';
+    menuBackgroundColor = this.popoverBackgroundColor;
     menuItemBorderColor = '#dddddd';
     menuItemIconColor = '#666666';
     menuItemTextColor = '#666666';
