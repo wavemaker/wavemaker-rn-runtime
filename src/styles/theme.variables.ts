@@ -135,7 +135,14 @@ export class ThemeVariables {
     dialogBackgroundColor = '#ffffff';
     dialogBorderColor = '#dddddd';
 
-  badgeTextColor = '#ffffff';
+    badgeTextColor = '#ffffff';
+
+    //menu
+    menuBackgroundColor = '#ffffff';
+    menuItemBorderColor = '#dddddd';
+    menuItemIconColor = '#666666';
+    menuItemTextColor = '#666666';
+
 }
 
 export default new ThemeVariables();
