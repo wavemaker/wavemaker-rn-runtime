@@ -136,7 +136,7 @@ export default abstract class BaseApp extends React.Component {
                 style={deepCopy(styles.appModal, 
                   o.centered ? styles.centeredModal: null,
                   o.modalStyle)}>
-                    {o.content}
+                    <View style={o.contentStyle}>{o.content}</View>
               </TouchableOpacity>
               )
             )}

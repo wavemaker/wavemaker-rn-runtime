@@ -18,6 +18,7 @@ export const DEFAULT_STYLES: WmAnchorStyles = {
         alignItems: 'center'
     },
     text: {
+        paddingLeft: 8,
         color: ThemeVariables.linkPrimaryColor,
         fontSize: 12,
         textDecorationLine: 'underline'

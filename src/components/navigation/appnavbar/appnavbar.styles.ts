@@ -6,6 +6,7 @@ import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/ic
 import { WmAnchorStyles } from '../../basic/anchor/anchor.styles';
 
 export type WmAppNavbarStyles = BaseStyles & {
+  action: AllStyle,
    image: ImageStyle,
    leftnavIcon: WmIconStyles,
    content: AllStyle
@@ -41,7 +42,8 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = {
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('navbarAnchorItem', '', {
   root: {
-    paddingRight: ThemeVariables.anchorTextPadding
+    paddingRight: 8,
+    height: '100%'
   },
   text: {
     color: ThemeVariables.navbarTextColor,
@@ -52,6 +54,21 @@ BASE_THEME.addStyle('navbarAnchorItem', '', {
     text: {
       color: ThemeVariables.navbarTextColor,
       fontSize: ThemeVariables.navbarIconSize
+    }
+  }
+} as WmAnchorStyles);
+BASE_THEME.addStyle('navbarMenu', '', {
+  root: {
+    paddingRight: 8,
+    height: '100%'
+  },
+  icon: {
+    root: {
+      fontSize: ThemeVariables.navbarIconSize
+    },
+    text: {
+      color: ThemeVariables.navbarTextColor,
+      fontSize: ThemeVariables.navbarFontSize
     }
   }
 } as WmAnchorStyles);

@@ -76,7 +76,7 @@ export const attachBackground = (c: ReactNode, style: ViewStyle) => {
     }
     return c;
 }; 
-export type AllStyle = ViewStyle | TextStyle | ImageStyle;
+export type AllStyle = (ViewStyle & TextStyle & ImageStyle);
 
 const ThemeContext = React.createContext<Theme>(null as any);
 

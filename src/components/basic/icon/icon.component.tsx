@@ -101,18 +101,19 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     const style = [{
       color: this.styles.text.color
     }, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}];
+    const iconSize = props.iconsize || this.styles.root.fontSize || this.styles.text.fontSize || iconDef.size;
     if (props.show && iconDef && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
       icon = (<FontAwesome name={iconDef.type}
         style={style} 
-        size={props.iconsize || this.styles.text.fontSize || iconDef.size}/>);
+        size={iconSize}/>);
     }
     if (props.show && iconDef && iconDef.isWavIcon) {
       const WavIcon = getWavIcon();
       //@ts-ignore type information is not matching
       icon = (<WavIcon name={iconDef.type} 
         style={style} 
-        size={props.iconsize || this.styles.text.fontSize || iconDef.size}/>);
+        size={iconSize}/>);
     }
     if (icon && iconDef.animation === 'spin') {
       const rotate = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg']});
