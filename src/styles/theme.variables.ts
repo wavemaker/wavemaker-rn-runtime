@@ -148,6 +148,14 @@ export class ThemeVariables {
     menuItemIconColor = '#666666';
     menuItemTextColor = '#666666';
 
+  //tile Variables
+  tileDangerColor = this.dangerColor;
+  tileInfoColor = this.infoColor;
+  tilePrimaryColor = this.primaryColor;
+  tileSuccessColor = this.successColor;
+  tileWarningColor = this.warningColor;
+  tileWellbgColor = '#ffffff';
+  tileWellBorderColor = '#ededed'
 }
 
 export default new ThemeVariables();
