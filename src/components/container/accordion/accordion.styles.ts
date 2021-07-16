@@ -14,7 +14,9 @@ export const DEFAULT_CLASS = 'app-accordion';
 export const DEFAULT_STYLES: WmAccordionStyles = {
     root: {},
     text: {},
-    header: {},
+    header: {
+      marginLeft: -64
+    },
     subheading: {
 
     },

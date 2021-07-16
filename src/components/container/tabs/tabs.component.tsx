@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { isArray } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTabsProps from './tabs.props';
@@ -41,8 +42,10 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         mode="scrollable"
         onChangeIndex={this.onChange.bind(this)}
         showLeadingSpace={false}>
-        {tabpanes && tabpanes.length
-          ? tabpanes.map((item: any, index: any) => this.renderTabpane(item, index))
+        {tabpanes
+          ? isArray(tabpanes) && tabpanes.length
+            ? tabpanes.map((item: any, index: any) => this.renderTabpane(item, index))
+            : this.renderTabpane(tabpanes, 0)
           : null}
       </Tabs>
     );
