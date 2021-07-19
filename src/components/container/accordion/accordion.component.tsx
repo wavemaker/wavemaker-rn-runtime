@@ -26,7 +26,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     //@ts-ignore
     const badge = widgetProps.badgevalue != undefined ? (<Badge style={[this.styles.badge, this.styles[widgetProps.badgetype || 'default']]}>{widgetProps.badgevalue}</Badge>): null;
     const iconclass = props.isExpanded ? 'wi wi-minus' : 'wi wi-plus';
-    return (<Text>{badge}<WmIcon name={'expand_collapse_icon'} iconclass={iconclass}></WmIcon></Text>);
+    return (<Text>{badge}<WmIcon name={'expand_collapse_icon'} styles={this.styles.icon} iconclass={iconclass}></WmIcon></Text>);
   }
 
   renderAccordionpane(item: any, index: any) {
