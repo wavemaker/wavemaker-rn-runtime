@@ -143,6 +143,8 @@ export class ThemeVariables {
     popoverTitleColor = '#111111';
 
     //menu
+    menuIconColor = '#666666';
+    menuTextColor = '#666666';
     menuBackgroundColor = this.popoverBackgroundColor;
     menuItemBorderColor = '#dddddd';
     menuItemIconColor = '#666666';
@@ -183,14 +185,20 @@ export class ThemeVariables {
     messageLoadingTextColor = this.messageDefaultTextColor;
 
     //panel
-  panelDangerColor = this.dangerColor;
-  panelDefaultColor = this.defaultColor;
-  panelInfoColor = this.infoColor;
-  panelPrimaryColor = this.primaryColor;
-  panelSuccessColor = this.successColor;
-  panelWarningColor = this.warningColor;
-  panelTextColor = '#ffffff';
+    panelDangerColor = this.dangerColor;
+    panelDefaultColor = this.defaultColor;
+    panelInfoColor = this.infoColor;
+    panelPrimaryColor = this.primaryColor;
+    panelSuccessColor = this.successColor;
+    panelWarningColor = this.warningColor;
+    panelTextColor = '#ffffff';
 
+    //card
+    cardHeaderBgColor = '#ddd';
+    cardTitleColor = this.listTitleColor;
+    cardSubTitleColor = this.listSubTitleColor;
+    cardContentBgColor = '#ffffff';
+    cardFooterBgColor = '#ffffff';
 }
 
 export default new ThemeVariables();

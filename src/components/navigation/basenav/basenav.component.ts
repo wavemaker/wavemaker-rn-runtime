@@ -37,12 +37,12 @@ export abstract class BaseNavComponent< T extends BaseNavProps, S extends BaseNa
       dataItems = (dataset as any[]).map((d, i) => {
         return {
           key: `${name}_item${i}`,
-          label: d[this.state.props.itemlabel],
-          icon: d[this.state.props.itemicon],
-          link: d[this.state.props.itemlink],
-          badge: d[this.state.props.itembadge],
-          isactive: d[this.state.props.isactive],
-          childnavigation: d[this.state.props.itemchildren]
+          label: this.state.props.itemlabel ? d[this.state.props.itemlabel]: null,
+          icon: this.state.props.itemicon ? d[this.state.props.itemicon]: null,
+          link: this.state.props.itemlink ? d[this.state.props.itemlink] : null,
+          badge: this.state.props.itembadge ? d[this.state.props.itembadge] : null,
+          isactive: this.state.props.isactive ? d[this.state.props.isactive] : null,
+          childnavigation: this.state.props.itemchildren ? d[this.state.props.itemchildren] : null
         } as NavigationDataItem;
       });
     }
