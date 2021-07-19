@@ -6,7 +6,7 @@ export default class WmAccordionpaneProps extends BaseProps {
   title: string = 'Title';
   renderPartial?: Function;
   isPartialLoaded = false;
-  subheading: any;
-  badgevalue: any;
-  badgetype: any;
+  subheading: string = null as any;
+  badgevalue: string = null as any;
+  badgetype: string = null as any;
 }

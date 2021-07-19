@@ -49,7 +49,7 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
     //@ts-ignore
     const badge = widgetProps.badgevalue != undefined ? (<Badge style={[this.styles.badge, this.styles[widgetProps.badgetype || 'default']]}>{widgetProps.badgevalue}</Badge>): null;
     const iconclass = props.isExpanded ? 'wi wi-minus' : 'wi wi-plus';
-    const expandCollapseIcon = widgetProps.collapsible ? (<WmIcon name={'expand_collapse_icon'} iconclass={iconclass}></WmIcon>) : null;
+    const expandCollapseIcon = widgetProps.collapsible ? (<WmIcon name={'expand_collapse_icon'} styles={this.styles.icon} iconclass={iconclass}></WmIcon>) : null;
     return (<Text>{badge}{expandCollapseIcon}</Text>);
   }
 
