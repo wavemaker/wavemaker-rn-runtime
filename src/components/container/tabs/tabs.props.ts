@@ -2,5 +2,5 @@ import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export default class WmTabsProps extends BaseProps {
   children: any;
-  defaultpaneindex: any = 0;
+  defaultpaneindex: number = 0;
 }

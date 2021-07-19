@@ -47,3 +47,29 @@ export const DEFAULT_STYLES: WmPanelStyles = {
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+
+const getPanelBgStyles = (color: string) => {
+  return {
+    header: {
+      backgroundColor: color
+    },
+    text: {
+      color: ThemeVariables.panelTextColor
+    },
+    subheading: {
+      color: ThemeVariables.panelTextColor
+    },
+    icon: {
+      text: {
+        color: ThemeVariables.panelTextColor
+      }
+    } as WmIconStyles
+  } as WmPanelStyles;
+};
+
+BASE_THEME.addStyle('panel-danger', DEFAULT_CLASS, getPanelBgStyles(ThemeVariables.panelDangerColor));
+BASE_THEME.addStyle('panel-default', DEFAULT_CLASS, getPanelBgStyles(ThemeVariables.panelDefaultColor));
+BASE_THEME.addStyle('panel-info', DEFAULT_CLASS, getPanelBgStyles(ThemeVariables.panelInfoColor));
+BASE_THEME.addStyle('panel-primary', DEFAULT_CLASS, getPanelBgStyles(ThemeVariables.panelPrimaryColor));
+BASE_THEME.addStyle('panel-success', DEFAULT_CLASS, getPanelBgStyles(ThemeVariables.panelSuccessColor));
+BASE_THEME.addStyle('panel-warning', DEFAULT_CLASS, getPanelBgStyles(ThemeVariables.panelWarningColor));

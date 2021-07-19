@@ -156,7 +156,7 @@ export class ThemeVariables {
     tileWarningColor = this.warningColor;
     tileWellbgColor = '#ffffff';
     tileWellBorderColor = '#ededed';
-    
+
     //message
     messageDefaultTextColor  = '#ffffff';
     messageDefaultIconColor = '#ffffff';
@@ -181,6 +181,16 @@ export class ThemeVariables {
     messageLoadingIconColor = this.messageDefaultIconColor;
     messageLoadingCloseBtnColor = this.messageDefaultCloseBtnColor;
     messageLoadingTextColor = this.messageDefaultTextColor;
+
+    //panel
+  panelDangerColor = this.dangerColor;
+  panelDefaultColor = this.defaultColor;
+  panelInfoColor = this.infoColor;
+  panelPrimaryColor = this.primaryColor;
+  panelSuccessColor = this.successColor;
+  panelWarningColor = this.warningColor;
+  panelTextColor = '#ffffff';
+
 }
 
 export default new ThemeVariables();
