@@ -49,9 +49,13 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     super.componentDidMount();
   }
 
+  submit() {
+    this.handleSubmit();
+  }
+
   // @ts-ignore
-  handleSubmit(event: any) {
-    event.preventDefault();
+  handleSubmit(event?: any) {
+    event?.preventDefault();
     const formData = this.state.props.dataoutput;
     let isValid = true;
     forEach(formData, (val, key) => {

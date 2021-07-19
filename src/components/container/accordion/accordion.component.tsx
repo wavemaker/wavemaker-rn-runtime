@@ -26,11 +26,15 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   }
 
   renderAccordionpane(item: any, index: any) {
-    const icon = (<WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>);
+    const icon = (<WmIcon styles={this.styles.icon} name={item.props.name + '_icon'}
+                          iconclass={item.props.iconclass}></WmIcon>);
     return (
-      <List.Accordion title={item.props.title || 'Title'} style={this.styles.header} titleStyle={this.styles.text} descriptionStyle={this.styles.subheading} description={item.props.subheading} id={index + 1} key={'accordionpane_' + index}
+      <List.Accordion title={item.props.title || 'Title'} style={[this.styles.header, {marginLeft: -6, marginRight: -6}]}
+                      titleStyle={this.styles.text}
+                      descriptionStyle={this.styles.subheading}
+                      description={item.props.subheading} id={index + 1} key={'accordionpane_' + index}
                       right={props => this.expandCollapseIcon(props, item)} left={props => icon}>
-        <View>{item}</View>
+        <View style={{marginLeft: -64}}>{item}</View>
       </List.Accordion>
     );
   }

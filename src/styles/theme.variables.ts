@@ -148,6 +148,9 @@ export class ThemeVariables {
     menuItemIconColor = '#666666';
     menuItemTextColor = '#666666';
 
+    //accordion
+    accordionTitleColor = '#000';
+
 }
 
 export default new ThemeVariables();

@@ -12,8 +12,12 @@ export type WmAccordionStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-accordion';
 export const DEFAULT_STYLES: WmAccordionStyles = {
-    root: {},
-    text: {},
+    root: {
+      width: '100%'
+    },
+    text: {
+      color: ThemeVariables.accordionTitleColor
+    },
     header: {},
     subheading: {
 

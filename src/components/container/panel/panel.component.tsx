@@ -56,8 +56,10 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
   renderPanel(props: any) {
     const icon = (<WmIcon styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>);
     return (
-      <List.Accordion title={props.title || 'Title'} style={this.styles.header} id={1} titleStyle={this.styles.text} descriptionStyle={this.styles.subheading}
-                      description={props.subheading} right={props => this.expandCollapseIcon(props)} left={props => icon}>
+      <List.Accordion title={props.title || 'Title'} style={this.styles.header} id={1}
+                      titleStyle={this.styles.text} descriptionStyle={this.styles.subheading}
+                      description={props.subheading}
+                      right={props => this.expandCollapseIcon(props)} left={props => icon}>
         <View>{this.renderContent(props)}</View>
         <View>{props.children}</View>
       </List.Accordion>

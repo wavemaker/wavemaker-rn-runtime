@@ -140,14 +140,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       return this._memoize[key];
     }
 
-    getConditionalClass(widgetName: string) {
-      const classes = this._memoize[widgetName]?.props.conditionalclass();
-      if (isArray(classes)) {
-        return classes.join(' ');
-      }
-      return classes || '';
-    }
-
     onFragmentReady() {
       this.cleanup.push(...Object.values({...this.Variables, ...this.Actions}).map(v => {
         return ((v as BaseVariable)

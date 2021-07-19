@@ -40,7 +40,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
     this.updateState({position: position} as WmPopoverState);
   };
 
-  public show = () => {
+  public showPopover = () => {
     this.setState({ isOpened: true });
     this.invokeEventCallback('onShow', [null, this]);
   };
@@ -83,7 +83,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
           iconclass={props.iconclass}
           iconposition={props.iconposition}
           styles={styles.link}
-          onTap={this.show}></WmAnchor>
+          onTap={this.showPopover}></WmAnchor>
         {this.state.isOpened ? (
           <ModalConsumer>
             {(modalService: ModalService) => {
