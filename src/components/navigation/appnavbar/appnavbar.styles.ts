@@ -45,7 +45,6 @@ BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('navbarAnchorItem', '', {
   root: {
     paddingRight: 8,
-    height: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'

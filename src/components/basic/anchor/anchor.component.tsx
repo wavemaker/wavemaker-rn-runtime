@@ -41,7 +41,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
               <View style={[this.styles.root, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
                 {props.iconposition === 'top' && icon}
                 {props.iconposition === 'left' && icon}
-                <Text style={this.styles.text}>{props.caption}</Text>
+                {props.caption && (<Text style={this.styles.text}>{props.caption}</Text>)}
                 {props.iconposition === 'right' && icon}
                 {badge}
               </View>

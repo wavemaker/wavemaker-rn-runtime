@@ -14,7 +14,6 @@ export const DEFAULT_STYLES: WmAnchorStyles = {
     root: {
         color: ThemeVariables.linkPrimaryColor,
         flexDirection: 'row',
-        alignSelf: 'flex-start',
         alignItems: 'center'
     },
     text: {
@@ -32,6 +31,9 @@ export const DEFAULT_STYLES: WmAnchorStyles = {
         left: -6
     },
     icon: {
+        root : {
+            alignSelf: 'center'
+        },
         text: {
             paddingRight: ThemeVariables.anchorTextPadding,
             color: ThemeVariables.linkPrimaryColor
