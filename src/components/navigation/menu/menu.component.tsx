@@ -50,6 +50,7 @@ export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<Wm
         listener={this.listener}
         popoverheight={this.styles.menu.height || null}
         popoverwidth={this.styles.menu.width || null}
+        iconposition="right"
         type='dropdown'>
           <View style={this.styles.menu}>
             {menuItems.map(item => (

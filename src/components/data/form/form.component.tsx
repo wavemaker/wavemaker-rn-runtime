@@ -106,7 +106,6 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         </View>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <View style={this.styles.root}>{props.children}</View>
-          <input type="submit" value="Submit" />
         </form>
       </View>
     );

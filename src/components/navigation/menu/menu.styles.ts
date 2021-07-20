@@ -12,8 +12,16 @@ export type WmMenuStyles = WmPopoverStyles & {
 export const DEFAULT_CLASS = 'app-menu';
 export const DEFAULT_STYLES: WmMenuStyles = deepCopy(POPOVER_STYLES, { 
     link: {
+        icon: {
+            root: {
+                color: ThemeVariables.menuIconColor
+            }
+        },
         text: {
-            textDecorationLine: 'none'
+            textDecorationLine: 'none',
+            paddingRight: 12,
+            fontWeight: 'bold',
+            color: ThemeVariables.menuTextColor
         }
     } as WmAnchorStyles,
     popoverContent: {

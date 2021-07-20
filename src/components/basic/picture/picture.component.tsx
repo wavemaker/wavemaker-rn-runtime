@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, View } from 'react-native';
+import { isNumber } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -37,14 +38,14 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     let imageWidth = this.styles.root.width as number;
     let imageHeight = this.styles.root.height as number;
     if (!imageWidth) {
-      if (imageHeight && this.state.naturalImageHeight) {
+      if (isNumber(imageWidth) && imageHeight && this.state.naturalImageHeight) {
         imageWidth = imageHeight * this.state.naturalImageWidth / this.state.naturalImageHeight;
       } else {
         imageWidth = this.state.naturalImageWidth;
       }
     }
     if (!imageHeight) {
-      if (imageWidth && this.state.naturalImageWidth) {
+      if (isNumber(imageWidth) && this.state.naturalImageWidth) {
         imageHeight = imageWidth * this.state.naturalImageHeight / this.state.naturalImageWidth;
       } else {
         imageHeight = this.state.naturalImageHeight;
@@ -80,7 +81,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         <View style={[this.styles.root, {
             height: imageHeight,
             width: imageWidth,
-            borderRadius: shapeStyles.picture.borderRadius
+            borderRadius: shapeStyles.picture?.borderRadius
           }, shapeStyles.root]}>
           <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={'stretch'} source={{
             uri: src}}/>

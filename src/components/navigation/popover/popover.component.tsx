@@ -26,6 +26,8 @@ export interface PopoverPosition {
 
 export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverState, WmPopoverStyles> {
 
+  view: View = null as any;
+
   constructor(props: WmPopoverProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPopoverProps(), new WmPopoverState());
   }
@@ -33,11 +35,12 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
   private computePosition = (e: LayoutChangeEvent) => {
     const position = {} as PopoverPosition;
     if (this.state.props.type === 'dropdown') {
-      const layout = e.nativeEvent.layout;
-      position.left = layout.x + layout.width - (this.state.props.popoverwidth as number || 0);
-      position.top = layout.y + layout.height;
+      this.view.measure((x, y, width, height, px, py) => {
+        position.left = px + width - (this.state.props.popoverwidth as number || 0);
+        position.top = py + height;
+        this.updateState({position: position} as WmPopoverState);
+      });
     }
-    this.updateState({position: position} as WmPopoverState);
   };
 
   public showPopover = () => {
@@ -76,7 +79,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
       }
     }
     return (
-      <View style={styles.root} onLayout={this.computePosition}>
+      <View style={styles.root} onLayout={this.computePosition} ref={ref => {this.view = ref as View}}>
         <WmAnchor
           caption={props.caption}
           badgevalue={props.badgevalue}
