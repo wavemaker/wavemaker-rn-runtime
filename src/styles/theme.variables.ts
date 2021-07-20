@@ -148,9 +148,42 @@ export class ThemeVariables {
     menuItemIconColor = '#666666';
     menuItemTextColor = '#666666';
 
+    //tile Variables
+    tileDangerColor = this.dangerColor;
+    tileInfoColor = this.infoColor;
+    tilePrimaryColor = this.primaryColor;
+    tileSuccessColor = this.successColor;
+    tileWarningColor = this.warningColor;
+    tileWellbgColor = '#ffffff';
+    tileWellBorderColor = '#ededed';
+
+    //message
+    messageDefaultTextColor  = '#ffffff';
+    messageDefaultIconColor = '#ffffff';
+    messageDefaultCloseBtnColor = 'rgba(0, 0, 0, 0.5)';
+    messageSuccessBackgroundColor = this.successColor;
+    messageSuccessIconColor = this.messageDefaultIconColor;
+    messageSuccessTextColor = this.messageDefaultTextColor;
+    messageSuccessCloseBtnColor = this.messageDefaultCloseBtnColor;
+    messageErrorBackgroundColor = this.dangerColor;
+    messageErrorIconColor = this.messageDefaultIconColor;
+    messageErrorCloseBtnColor = this.messageDefaultCloseBtnColor;
+    messageErrorTextColor = this.messageDefaultTextColor;
+    messageWarningBackgroundColor = this.warningColor;
+    messageWarningIconColor = this.messageDefaultIconColor;
+    messageWarningCloseBtnColor = this.messageDefaultCloseBtnColor;
+    messageWarningTextColor = this.messageDefaultTextColor;
+    messageInfoBackgroundColor = this.infoColor;
+    messageInfoIconColor = this.messageDefaultIconColor;
+    messageInfoCloseBtnColor = this.messageDefaultCloseBtnColor;
+    messageInfoTextColor = this.messageDefaultTextColor;
+    messageLoadingBackgroundColor = this.infoColor;
+    messageLoadingIconColor = this.messageDefaultIconColor;
+    messageLoadingCloseBtnColor = this.messageDefaultCloseBtnColor;
+    messageLoadingTextColor = this.messageDefaultTextColor;
+
     //accordion
     accordionTitleColor = '#000';
-
 }
 
 export default new ThemeVariables();

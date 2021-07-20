@@ -202,7 +202,9 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     switch (name) {
       case 'minvalue':
       case 'maxvalue':
-        this.isValidNumber($new);
+        if ($new|| $old) {
+          this.isValidNumber($new);
+        }
         break;
       case 'datavalue':
         this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
