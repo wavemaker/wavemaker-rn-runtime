@@ -199,6 +199,21 @@ export class ThemeVariables {
     cardSubTitleColor = this.listSubTitleColor;
     cardContentBgColor = '#ffffff';
     cardFooterBgColor = '#ffffff';
+
+    //progress bar
+    progressBarDefaultColor = this.primaryColor;
+    progressBarSuccessColor = this.successColor;
+    progressBarDangerColor = this.dangerColor;
+    progressBarInfoColor = this.infoColor;
+    progressBarWarningColor = this.warningColor;
+
+    //progress circle
+    progressCircleDefaultColor = this.primaryColor;
+    progressCircleSuccessColor = this.successColor;
+    progressCircleDangerColor = this.dangerColor;
+    progressCircleInfoColor = this.infoColor;
+    progressCircleWarningColor = this.warningColor;
+
 }
 
 export default new ThemeVariables();
