@@ -2,4 +2,5 @@ import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedat
 
 export default class WmSelectProps extends BaseDatasetProps {
   dataset: any;
+  placeholder: string = null as any;
 }
