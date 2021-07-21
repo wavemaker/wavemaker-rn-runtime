@@ -69,7 +69,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   }
 
   updateDatavalue(value: any, event?: any) {
-    const model = this.parseNumber(value.toString())
+    const model = value && this.parseNumber(value.toString());
     const props = this.state.props;
     const oldValue = props.datavalue;
     const validNumber = this.isValidNumber(model);
