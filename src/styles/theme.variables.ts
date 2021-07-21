@@ -217,6 +217,13 @@ export class ThemeVariables {
 
     //accordion
     accordionTitleColor = '#000';
+
+    //carousel
+    carouselPrevBtnColor='#ffffff';
+    carouselNextBtnColor='#ffffff';
+    carouselDotWrapperBgColor='transparent';
+    carouselDotColor='#ffffff';
+    carouselActiveDotColor=this.primaryColor;
 }
 
 export default new ThemeVariables();

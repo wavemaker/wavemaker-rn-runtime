@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image, View } from 'react-native';
-import { isNumber } from 'lodash-es';
+import { Image, LayoutChangeEvent, View } from 'react-native';
+import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -10,6 +10,8 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmPictureStyles } from './picture.styles
 export class WmPictureState extends BaseComponentState<WmPictureProps> {
   naturalImageWidth: number = 0;
   naturalImageHeight: number = 0;
+  imageWidth: number = 0;
+  imageHeight: number = 0;
 }
 
 export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureState, WmPictureStyles> {
@@ -27,40 +29,39 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         Image.getSize(imageSrc, (width: number, height: number) => {
           this.updateState({
             naturalImageWidth: width, 
-            naturalImageHeight: height
+            naturalImageHeight: height,
+            imageWidth: width,
+            imageHeight: height
           } as WmPictureState);
         }, () => {});
         break;
     }
   }
 
-  computeImageSize() {
-    let imageWidth = this.styles.root.width as number;
-    let imageHeight = this.styles.root.height as number;
-    if (!imageWidth) {
-      if (isNumber(imageWidth) && imageHeight && this.state.naturalImageHeight) {
-        imageWidth = imageHeight * this.state.naturalImageWidth / this.state.naturalImageHeight;
-      } else {
-        imageWidth = this.state.naturalImageWidth;
-      }
+  onImageLayoutChange = (e: LayoutChangeEvent) => {
+    let imageWidth = this.styles.root.width;
+    let imageHeight = this.styles.root.height;
+    if (imageWidth && !imageHeight && isString(imageWidth) && imageWidth.endsWith('%')) {
+      imageHeight = e.nativeEvent.layout.width * this.state.naturalImageHeight / this.state.naturalImageWidth;
+      this.updateState({
+        imageHeight: imageHeight
+      } as WmPictureState);
     }
-    if (!imageHeight) {
-      if (isNumber(imageWidth) && this.state.naturalImageWidth) {
-        imageHeight = imageWidth * this.state.naturalImageHeight / this.state.naturalImageWidth;
-      } else {
-        imageHeight = this.state.naturalImageHeight;
-      }
+    if (imageHeight && !imageWidth && isString(imageHeight) && imageHeight.endsWith('%')) {
+      imageWidth = e.nativeEvent.layout.width * this.state.naturalImageWidth / this.state.naturalImageHeight;
+      this.updateState({
+        imageWidth: imageWidth
+      } as WmPictureState);
     }
-    return [imageWidth, imageHeight];
-  }
+  };
   
-  createShape(shape: string | undefined, imageWidth: number): WmPictureStyles {
+  createShape(shape: string | undefined, imageWidth?: number | string): WmPictureStyles {
     if (shape) {
       switch(shape) {
         case 'circle': 
           return {
             picture: {
-              borderRadius: imageWidth / 2
+              borderRadius: isNumber(imageWidth) ? imageWidth / 2 : 4
             }
           } as WmPictureStyles;
         case 'rounded' : 
@@ -73,17 +74,22 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
   }
 
   renderWidget(props: WmPictureProps) {
-    const [imageWidth, imageHeight] = this.computeImageSize();
+    const imageWidth = this.state.imageWidth || this.styles.root.width;
+    const imageHeight = this.state.imageHeight || this.styles.root.height;
     const shapeStyles = this.createShape(props.shape, imageWidth);
     const src = props.picturesource || props.pictureplaceholder;
+    const opacity = this.state.imageWidth > 0 && this.state.imageHeight > 0 ? 1 : 0;
     return src ? (
       <Tappable target={this}>
         <View style={[this.styles.root, {
             height: imageHeight,
             width: imageWidth,
-            borderRadius: shapeStyles.picture?.borderRadius
+            borderRadius: shapeStyles.picture?.borderRadius,
+            opacity: opacity
           }, shapeStyles.root]}>
-          <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={'stretch'} source={{
+          <Image style={[this.styles.picture, shapeStyles.picture]}
+            onLayout={this.onImageLayoutChange}
+            resizeMode={'stretch'} source={{
             uri: src}}/>
         </View>
       </Tappable>
