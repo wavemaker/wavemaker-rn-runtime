@@ -29,9 +29,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         Image.getSize(imageSrc, (width: number, height: number) => {
           this.updateState({
             naturalImageWidth: width, 
-            naturalImageHeight: height,
-            imageWidth: width,
-            imageHeight: height
+            naturalImageHeight: height
           } as WmPictureState);
         }, () => {});
         break;
@@ -41,14 +39,23 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
   onImageLayoutChange = (e: LayoutChangeEvent) => {
     let imageWidth = this.styles.root.width;
     let imageHeight = this.styles.root.height;
-    if (imageWidth && !imageHeight && isString(imageWidth) && imageWidth.endsWith('%')) {
+    if (imageWidth && imageHeight) {
+      this.updateState({
+        imageWidth: imageWidth,
+        imageHeight: imageHeight
+      } as WmPictureState);
+    } else if (!imageWidth && !imageHeight) {
+      this.updateState({
+        imageWidth: this.state.naturalImageWidth,
+        imageHeight: this.state.naturalImageHeight
+      } as WmPictureState);
+    } else if (imageWidth && !imageHeight) {
       imageHeight = e.nativeEvent.layout.width * this.state.naturalImageHeight / this.state.naturalImageWidth;
       this.updateState({
         imageHeight: imageHeight
       } as WmPictureState);
-    }
-    if (imageHeight && !imageWidth && isString(imageHeight) && imageHeight.endsWith('%')) {
-      imageWidth = e.nativeEvent.layout.width * this.state.naturalImageWidth / this.state.naturalImageHeight;
+    } else if (imageHeight && !imageWidth) {
+      imageWidth = e.nativeEvent.layout.height * this.state.naturalImageWidth / this.state.naturalImageHeight;
       this.updateState({
         imageWidth: imageWidth
       } as WmPictureState);
@@ -78,14 +85,12 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     const imageHeight = this.state.imageHeight || this.styles.root.height;
     const shapeStyles = this.createShape(props.shape, imageWidth);
     const src = props.picturesource || props.pictureplaceholder;
-    const opacity = this.state.imageWidth > 0 && this.state.imageHeight > 0 ? 1 : 0;
-    return src ? (
+    return src && this.state.naturalImageWidth ? (
       <Tappable target={this}>
         <View style={[this.styles.root, {
             height: imageHeight,
             width: imageWidth,
-            borderRadius: shapeStyles.picture?.borderRadius,
-            opacity: opacity
+            borderRadius: shapeStyles.picture?.borderRadius
           }, shapeStyles.root]}>
           <Image style={[this.styles.picture, shapeStyles.picture]}
             onLayout={this.onImageLayoutChange}
