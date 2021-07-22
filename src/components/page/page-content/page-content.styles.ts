@@ -5,9 +5,7 @@ export type WmPageContentStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-page-content';
 export const DEFAULT_STYLES: WmPageContentStyles = {
-    root: {
-        flex: 1
-    },
+    root: {},
     text: {}
 };
 
