@@ -19,7 +19,6 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   }
 
   onChange(event: any) {
-    const datavalue = event.nativeEvent.text || event.target.value;
     if (this.state.props.updateon === 'default') {
       this.updateDatavalue(event.target.value, event);
     }
