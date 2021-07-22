@@ -49,7 +49,7 @@ export default abstract class BaseApp extends React.Component {
   Actions: any = {};
   Variables: any = {};
   onAppVariablesReady = () => {};
-  appStarted = false;
+  isStarted = false;
   appConfig = injector.get<AppConfig>('APP_CONFIG');
   private startUpVariables: string[] = [];
   private autoUpdateVariables: string[] = [];
@@ -94,9 +94,9 @@ export default abstract class BaseApp extends React.Component {
 
   componentDidMount() {
     Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
-      .then(() => {
+    .then(() => {
       this.onAppVariablesReady();
-      this.appStarted = true;
+      this.isStarted = true;
       this.appConfig.refresh();
     });
   }
@@ -117,17 +117,15 @@ export default abstract class BaseApp extends React.Component {
           <NavigationServiceProvider value={this.appConfig.currentPage}>
               <PartialProvider value={AppPartialService}>
                 <View  style={styles.container}>
-                  { this.appConfig.loadApp && this.appStarted && (
-                      <ModalProvider value={AppModalService}>
-                        <View style={styles.container}>
-                          <AppNavigator
-                            app={this}
-                            hideDrawer={this.appConfig.drawer?.getContent() === null}
-                            drawerContent={() => this.appConfig.drawer?.getContent()}
-                            drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                        </View>
-                      </ModalProvider>)
-                  }
+                  <ModalProvider value={AppModalService}>
+                    <View style={styles.container}>
+                      <AppNavigator
+                        app={this}
+                        hideDrawer={this.appConfig.drawer?.getContent() === null}
+                        drawerContent={() => this.appConfig.drawer?.getContent()}
+                        drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                    </View>
+                  </ModalProvider>
                 </View>
                 {AppModalService.modalOptions.content && 
                   AppModalService.modalsOpened.map((o, i) =>
