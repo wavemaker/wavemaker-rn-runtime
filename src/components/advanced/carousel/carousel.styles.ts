@@ -44,19 +44,19 @@ export const DEFAULT_STYLES: WmCarouselStyles = {
         }
     } as WmIconStyles,
     dotsWrapperStyle:{
-        marginTop: -24,
+        marginTop: -60,
         backgroundColor: ThemeVariables.carouselDotWrapperBgColor
     },
     activeDotStyle: {
         width: 10,
         height: 10,
         borderRadius: 5,
-        marginHorizontal: 8,
         backgroundColor: ThemeVariables.carouselActiveDotColor,
         opacity: 1
     },
     dotStyle: {
         opacity: 1,
+        marginHorizontal: 2,
         backgroundColor: ThemeVariables.carouselDotColor
     }
 };

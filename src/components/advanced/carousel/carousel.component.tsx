@@ -2,12 +2,10 @@ import React from 'react';
 import { View, Text, LayoutChangeEvent } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
-import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmCarouselProps from './carousel.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmCarouselStyles } from './carousel.styles';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmCarouselState extends BaseComponentState<WmCarouselProps> {
   activeIndex = 0;

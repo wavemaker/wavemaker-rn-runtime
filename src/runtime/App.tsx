@@ -1,5 +1,6 @@
 import React, { ReactNode }  from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import ProtoTypes from 'prop-types';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
@@ -14,6 +15,9 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import AppModalService from './services/app-modal.service';
 import AppPartialService from './services/partial.service';
 import { AppNavigator } from './App.navigator';
+
+//some old react libraries need this
+((View as any)['propTypes'] = { style: ProtoTypes.any})
 
 const MAX_TIME_BETWEEN_REFRESH_CYCLES = 200;
 
