@@ -35,6 +35,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     const items = this.state.dataItems;
     return (<Picker
       style={this.styles.root}
+      itemStyle={{height: this.styles.root.height}}
       selectedValue={props.datavalue}
       onValueChange={this.onChange.bind(this)}
       enabled={!props.disabled}
