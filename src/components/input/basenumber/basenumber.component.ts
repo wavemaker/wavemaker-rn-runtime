@@ -11,6 +11,7 @@ export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentSt
 export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends BaseNumberState<T>, L extends BaseNumberStyles> extends BaseComponent<T, S, L> {
   private DECIMAL;
   private GROUP;
+  textValue: any = '';
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles, defaultProps, defaultState);
     this.DECIMAL = '.';
@@ -18,8 +19,16 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   }
 
   onChange(event: any) {
+    const datavalue = event.nativeEvent.text || event.target.value;
     if (this.state.props.updateon === 'default') {
       this.updateDatavalue(event.target.value, event);
+    }
+  }
+
+  onChangeText(value: any) {
+    this.textValue = value;
+    if (this.state.props.updateon === 'default') {
+      this.updateDatavalue(value, null);
     }
   }
 
@@ -90,7 +99,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
 
   onBlur(event: any) {
     if (this.state.props.updateon === 'blur') {
-      this.updateDatavalue(event.target.value, event);
+      this.updateDatavalue(event.target.value || this.textValue, event);
     }
 
     this.invokeEventCallback('onBlur', [ event, this.proxy]);

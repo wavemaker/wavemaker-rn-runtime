@@ -13,6 +13,7 @@ export class BaseInputState <T extends BaseInputProps> extends BaseComponentStat
 export abstract class BaseInputComponent< T extends BaseInputProps, S extends BaseInputState<T>, L extends BaseInputStyles> extends BaseComponent<T, S, L> {
 
   isTouched: boolean = false;
+  textValue: any = '';
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles, defaultProps, defaultState);
   }
@@ -41,6 +42,13 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   onChange(event: any) {
     if (this.state.props.updateon === 'default') {
       this.updateDatavalue(event.target.value, event);
+    }
+  }
+
+  onChangeText(value: any) {
+    this.textValue = value;
+    if (this.state.props.updateon === 'default') {
+      this.updateDatavalue(value, null);
     }
   }
 
@@ -84,7 +92,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   onBlur(event: any) {
     this.isTouched = true;
     if (this.state.props.updateon === 'blur') {
-      this.updateDatavalue(event.target.value, event, 'blur');
+      this.updateDatavalue(event.target.value || this.textValue, event, 'blur');
     }
 
     this.invokeEventCallback('onBlur', [ event, this.proxy]);

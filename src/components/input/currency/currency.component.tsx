@@ -40,7 +40,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         onBlur={this.onBlur.bind(this)}
         onFocus={this.onFocus.bind(this)}
         onKeyPress={this.validateInputEntry.bind(this)}
-        onChange={this.onChange.bind(this)}
+        onChangeText={this.onChangeText.bind(this)}
       />
     </Text>);
   }

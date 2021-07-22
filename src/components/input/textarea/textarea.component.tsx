@@ -30,7 +30,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       onBlur={this.onBlur.bind(this)}
       onFocus={this.onFocus.bind(this)}
       onKeyPress={this.onKeyPress.bind(this)}
-      onChange={this.onChange.bind(this)}
+      onChangeText={this.onChangeText.bind(this)}
     />);
   }
 }
