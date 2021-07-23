@@ -20,8 +20,6 @@ const DEFAULT_DATE_FORMAT = 'DD-MM-YYYY';
 
 export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalendarState, WmCalendarStyles> {
 
-  private calendarPicker: CalendarPicker | null = null;
-
   constructor(props: WmCalendarProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCalendarProps(), new WmCalendarState());
   }
@@ -58,7 +56,7 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
       const dateWindow = state.calendar.get(startDate);
       dateWindow?.events.push(d);
     });
-    this.updateState(state, () => this.calendarPicker?.forceUpdate());
+    this.updateState(state);
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
@@ -119,7 +117,6 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
     return (
     <View style={this.styles.root}>
       <CalendarPicker
-          ref={(ref) => (this.calendarPicker = ref )}
           initialDate={(this.state.selectedDate || moment()) as any}
           previousComponent={(
             <WmIcon
