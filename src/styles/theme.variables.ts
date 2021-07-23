@@ -224,6 +224,19 @@ export class ThemeVariables {
     carouselDotWrapperBgColor='transparent';
     carouselDotColor='#ffffff';
     carouselActiveDotColor=this.primaryColor;
+
+    //calendar
+    calendarMonthTitleColor = this.primaryColor;
+    calendarDateColor = '#666';
+    calendarPrevIconColor = this.primaryColor;
+    calendarNextIconColor = this.primaryColor;
+    calendarDayBgColor = '#000000';
+    calendarSelectedDayBgColor = this.primaryColor;
+    calendarSelectedDayTextColor = '#ffffff';
+    calendarTodayBgColor = '#ddd';
+    calendarEventDay1Color = '#ffff00';
+    calendarEventDay2Color = '#ffa500';
+    calendarEventDay3Color = '#ff0000';
 }
 
 export default new ThemeVariables();
