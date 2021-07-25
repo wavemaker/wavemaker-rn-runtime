@@ -237,6 +237,14 @@ export class ThemeVariables {
     calendarEventDay1Color = '#ffff00';
     calendarEventDay2Color = '#ffa500';
     calendarEventDay3Color = '#ff0000';
+
+    //wizard
+    wizardBackgroundColor='#ffffff';
+    wizardStepActiveColor = '#21adf0';
+    wizardStepDoneColor = 'green';
+    wizardStepColor= '#aaaaaa';
+    wizardNextBtnColor= this.primaryColor;
+    wizardDoneBtnColor = this.successColor;
 }
 
 export default new ThemeVariables();
