@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import Color from 'color';
 import { isString } from 'lodash';
 import moment, { Moment } from 'moment';
-import CalendarPicker, { CustomDateStyle } from 'react-native-calendar-picker';
+//import CalendarPicker, { CustomDateStyle } from 'react-native-calendar-picker';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -73,7 +73,7 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
     }
   }
 
-  getDateStyles(date: Moment) {
+  /*getDateStyles(date: Moment) {
     const dateWindow = this.state.calendar.get(moment(date).format(DEFAULT_DATE_FORMAT));
     let styles = {} as CustomDateStyle;
     if (dateWindow) {
@@ -109,12 +109,12 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
   componentDidUpdate(prevProps: WmCalendarProps, prevState: WmCalendarState, snapshot: any) {
     super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, snapshot);
     this.invokeEventCallback('onViewrender', [this, null]);
-  }
+  }*/
 
   renderWidget(props: WmCalendarProps) {
 
     this.invokeEventCallback('onBeforerender', [null, this]);
-    return (
+    /*return (
     <View style={this.styles.root}>
       <CalendarPicker
           initialDate={(this.state.selectedDate || moment()) as any}
@@ -144,6 +144,7 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
           onDateChange={this.onDateChange}
         />
     </View>
-  ); 
+  ); */
+  return (<Text>Calendar</Text>);
   }
 }
