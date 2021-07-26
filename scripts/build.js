@@ -14,6 +14,16 @@ async function updatePackageVersion(packagePath, key, version) {
 async function postBuild(runtimeVersion) {
     fs.copySync(`${projectDir}/lib/module`, `${projectDir}/dist/module`);
     fs.copySync(`${projectDir}/package.json`, `${projectDir}/dist/module/package.json`);
+    const packageData = fs.readJSONSync(`${projectDir}/package.json`, {
+        encoding: "utf8"
+    });
+    packageData.main = 'index';
+    packageData.module = 'index';
+    packageData.exports = {
+      "./": "./"
+    };
+    delete packageData['files'];
+    fs.writeFileSync(`${projectDir}/dist/module/package.json`, JSON.stringify(packageData, null, 2))
     await updatePackageVersion(`${projectDir}/dist/module/package.json`, 'version', runtimeVersion);
     console.log('Post Build successful!!!');
 }
@@ -23,6 +33,12 @@ async function prepareNpmPackages() {
         filter: p => !p.startsWith('/node_modules/')
     });
     await execa('tar', ['-czf', 'dist/npm-packages/app-rn-runtime.tar.gz', '-C', 'dist/npm-packages', 'app-rn-runtime']);
+}
+
+async function pushToLocalRepo() {
+    await execa('yalc', ['publish' , '--no-sig', '--push', '--update' ], {
+        'cwd': `${projectDir}/dist/module`
+    });
 }
 
 yargs(hideBin(process.argv)).command('post-build',
@@ -40,7 +56,9 @@ yargs(hideBin(process.argv)).command('post-build',
     }, (argv) => {
         postBuild(argv.runtimeVersion).then(() => {
             if (argv.production) {
-                prepareNpmPackages();
+                return prepareNpmPackages();
+            } else {
+                return pushToLocalRepo();
             }
         });
     }).showHelpOnFail().argv;
