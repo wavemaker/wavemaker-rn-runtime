@@ -97,9 +97,9 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
   }
 
   getDatesStyles() {
-    let date = this.state.selectedDate.clone().subtract(7, 'day');
+    let date = this.state.selectedDate.clone().startOf('month').subtract(7, 'day');
     const customStyles = [];
-    for (let i = 0; i < 35; i++) {
+    for (let i = 0; i < 45; i++) {
       customStyles.push(this.getDateStyles(date));
       date = date.add(1, 'day');
     }
