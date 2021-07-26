@@ -245,6 +245,8 @@ export class ThemeVariables {
     wizardStepColor= '#aaaaaa';
     wizardNextBtnColor= this.primaryColor;
     wizardDoneBtnColor = this.successColor;
+    wizardStepConnectorColor = '#e2e2e2';
+    wizardStepCounerColor = '#999999'
 }
 
 export default new ThemeVariables();

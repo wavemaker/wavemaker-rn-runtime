@@ -15,13 +15,14 @@ export type WmWizardStyles = BaseStyles & {
   step: AllStyle,
   nextButton: WmButtonStyles,
   doneButton: WmButtonStyles,
-  doneIcon: WmIconStyles,
+  stepIcon: WmIconStyles,
   skipLink: WmAnchorStyles,
   activeStep: AllStyle,
   doneStep: AllStyle,
   headerWrapper: AllStyle,
   stepWrapper: AllStyle,
-  stepConnector: AllStyle
+  stepConnector: AllStyle,
+  stepCounter: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-wizard';
@@ -72,7 +73,7 @@ export const DEFAULT_STYLES: WmWizardStyles = {
       alignItems: 'center',
       justifyContent: 'center',
       width: 37,
-      backgroundColor: '#fff',
+      backgroundColor: ThemeVariables.wizardBackgroundColor,
       height: 37,
       borderWidth: 1,
       borderRadius: 18.5,
@@ -105,13 +106,12 @@ export const DEFAULT_STYLES: WmWizardStyles = {
         }
       }
     } as WmButtonStyles,
-    doneIcon: {
+    stepIcon: {
         root: {
           alignSelf: 'center',
           justifyContent: 'center'
         },
         text: {
-          color: ThemeVariables.wizardStepDoneColor,
           fontSize: 15
         }
     } as WmIconStyles,
@@ -121,11 +121,15 @@ export const DEFAULT_STYLES: WmWizardStyles = {
       },
     } as WmAnchorStyles,
     stepConnector: {
-      backgroundColor: '#e2e2e2',
+      backgroundColor: ThemeVariables.wizardStepConnectorColor,
       position: 'absolute',
       top: 17.5,
       zIndex: 10,
       height: 2
+    },
+    stepCounter: {
+      fontSize: 15,
+      color: ThemeVariables.wizardStepCounerColor
     }
 };
 

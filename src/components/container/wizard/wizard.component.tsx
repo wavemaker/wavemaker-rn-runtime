@@ -50,9 +50,9 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                           onPress={this.updateCurrentStep.bind(this, index)} disabled={index >= this.state.currentStep}>
             <View style={[this.styles.step, { borderColor: this.getColor(index) }]}>
               {index >= this.state.currentStep && !this.state.isDone &&
-                    <Text style={{fontSize: 15, color: '#999'}}>{index+1}</Text>}
+                    <Text style={this.styles.stepCounter}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&
-                    <WmIcon styles={this.styles.doneIcon}
+                    <WmIcon styles={merge({}, this.styles.stepIcon, {text: {color: isLastStep ? this.styles.activeStep.color : this.styles.doneStep.color}})}
                             iconclass={item.props.iconclass || 'wi wi-done'}></WmIcon>}
             </View>
            <Text style={[this.styles.stepTitle, {color: this.getColor(index) }]}>
