@@ -56,6 +56,7 @@ export default abstract class BaseApp extends React.Component {
   isStarted = false;
   appConfig = injector.get<AppConfig>('APP_CONFIG');
   private startUpVariables: string[] = [];
+  private startUpActions: string[] = [];
   private autoUpdateVariables: string[] = [];
 
   constructor(props: any) {
@@ -103,6 +104,7 @@ export default abstract class BaseApp extends React.Component {
       this.isStarted = true;
       this.appConfig.refresh();
     });
+    this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
   }
 
   refresh() {
