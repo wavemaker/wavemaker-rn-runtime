@@ -27,6 +27,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public Variables: any = {};
     public theme: Theme = BASE_THEME;
     private startUpVariables: string[] = [];
+    private startUpActions: string[] = [];
     private autoUpdateVariables: string[] = [];
     public Actions: any = {};
     public appConfig = injector.get<AppConfig>('APP_CONFIG');
@@ -145,6 +146,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         return ((v as BaseVariable)
           .subscribe(VariableEvents.AFTER_INVOKE, () => this.App.refresh()));
       }));
+      this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()))
       .then(() => {
         this.onReady();
