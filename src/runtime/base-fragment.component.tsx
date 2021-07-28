@@ -167,6 +167,9 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     onDetach() {
       this.isDetached = true;
       Object.values(this.fragments).forEach((f: any) => f.onDetach());
+      for(let action in this.Actions) {
+        this.Actions[action].config?.owner !== 'App' && this.Actions[action].cancel && this.Actions[action].cancel();
+      }
       this.targetWidget.invokeEventCallback('onDetach', [null, this.proxy]);
     }
 
