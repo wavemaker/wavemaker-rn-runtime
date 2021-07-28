@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, LayoutChangeEvent, View } from 'react-native';
-import { isNumber } from 'lodash-es';
+import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -26,12 +26,20 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       case 'picturesource':
       case 'pictureplaceholder':
         imageSrc = this.state.props.picturesource || $new;
-        Image.getSize(imageSrc, (width: number, height: number) => {
+        if (isNumber(imageSrc)) {
+          const {width, height} = Image.resolveAssetSource(imageSrc);
           this.updateState({
             naturalImageWidth: width, 
             naturalImageHeight: height
           } as WmPictureState);
-        }, () => {});
+        } else {
+          Image.getSize(imageSrc, (width: number, height: number) => {
+            this.updateState({
+              naturalImageWidth: width, 
+              naturalImageHeight: height
+            } as WmPictureState);
+          }, () => {});
+        }
         break;
     }
   }
@@ -87,7 +95,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     const imgSrc = props.picturesource || props.pictureplaceholder;
     let source = {};
     if (imgSrc) {
-      if (imgSrc.startsWith('http')) {
+      if (isString(imgSrc) && imgSrc.startsWith('http')) {
         source = {
           uri: imgSrc
         };
