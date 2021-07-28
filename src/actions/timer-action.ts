@@ -1,14 +1,14 @@
 import { ActionConfig, BaseAction } from "./base-action";
 export interface TimerActionConfig extends ActionConfig {
     repeating: Boolean;
-    delay: any;
+    delay: number;
     onSuccess: any;
 }
 export class TimerAction extends BaseAction {
     repeating: Boolean;
     _isFired = false;
-    _promise: any = null;
-    delay: any;
+    _schedulerID: any = -1;
+    delay: number;
     constructor(config: TimerActionConfig) {
         super(config);
         this.repeating = config.repeating;
@@ -16,22 +16,22 @@ export class TimerAction extends BaseAction {
     }
 
     invoke(options: any, success: any, error: any) {
-        return this.fire(options, success, error);
+        return this.fire(options, success, error) as any;
     }
 
     cancel() {
-        if (this._promise) {
+        if (this._schedulerID > -1) {
             if (this.repeating) {
-                clearInterval(this._promise);
+                clearInterval(this._schedulerID);
             } else {
-                clearTimeout(this._promise);
+                clearTimeout(this._schedulerID);
             }
-            this._promise = undefined;
+            this._schedulerID = -1;
         }
     }
 
     trigger(options: any, success: any, error: any) {
-        if (this._promise) {
+        if (this._schedulerID > -1) {
             return;
         }
         const repeatTimer = this.repeating,
@@ -40,12 +40,12 @@ export class TimerAction extends BaseAction {
                 this.config.onSuccess && this.config.onSuccess();
             };
 
-        this._promise = repeatTimer ? setInterval(exec, delay) : setTimeout( () => {
+        this._schedulerID = repeatTimer ? setInterval(exec, delay) : setTimeout( () => {
             exec();
-            this._promise = undefined;
+            this._schedulerID = -1;
         }, delay);
 
-        return this._promise;
+        return this._schedulerID;
     }
 
     fire(options: any, success: any, error: any) {
