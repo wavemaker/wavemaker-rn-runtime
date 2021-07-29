@@ -10,6 +10,7 @@ export interface VariableConfig {
     onSuccess: Function;
     onError: Function;
     isList: boolean;
+    owner?: string;
 }
 
 export enum VariableEvents {
@@ -132,5 +133,11 @@ export abstract class BaseVariable extends EventNotifier {
     getCount() {
       return DatasetUtil.getCount(this.dataSet, this.isList);
     }
+
+    pause() {}
+
+    continue() {}
+
+    destroy() {}
 
 }
