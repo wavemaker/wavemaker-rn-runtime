@@ -7,7 +7,12 @@ export type WmPageStyles = BaseStyles & {};
 export const DEFAULT_CLASS = 'app-page';
 export const DEFAULT_STYLES: WmPageStyles = {
     root: {
-        flexDirection: 'column'
+        flexDirection: 'column',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        position: 'absolute'
     },
     text: {}
 };
