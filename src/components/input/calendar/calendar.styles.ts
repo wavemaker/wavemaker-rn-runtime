@@ -2,19 +2,27 @@ import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { TextStyle } from 'react-native';
 
 export type WmCalendarStyles = BaseStyles & {
+    calendar: AllStyle,
+    calendarHeader: AllStyle,
+    day: AllStyle,
+    notDayOfCurrentMonth: AllStyle,
+    monthText: TextStyle,
+    yearText: TextStyle,
+    weekDay: AllStyle,
     today: AllStyle,
-    title: AllStyle,
-    prevBtn: WmIconStyles,
-    nextBtn: WmIconStyles,
-    week: AllStyle,
+    todayText: AllStyle,
+    prevMonthBtn: WmIconStyles,
+    nextMonthBtn: WmIconStyles,
+    prevYearBtn: WmIconStyles,
+    nextYearBtn: WmIconStyles,
     selectedDay: AllStyle,
-    selectedDayText: AllStyle,
-    todayCover: AllStyle,
-    eventDay1: {borderColor: string},
-    eventDay2: {borderColor: string},
-    eventDay3: {borderColor: string}
+    selectedDayText: AllStyle
+    eventDay1: AllStyle,
+    eventDay2: AllStyle,
+    eventDay3: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-calendar';
@@ -25,25 +33,68 @@ export const DEFAULT_STYLES: WmCalendarStyles = {
     text: {
         color: ThemeVariables.calendarDateColor
     },
-    title: {
-        fontWeight: 'bold',
-        color: ThemeVariables.calendarMonthTitleColor
+    calendar : {
+        backgroundColor: ThemeVariables.calendarBgColor,
+        borderColor: ThemeVariables.calendarHeaderBgColor,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        marginTop: 0,
+        paddingTop: 0,
+        paddingBottom: 0
     },
-    week: {
+    calendarHeader : {
+        backgroundColor: ThemeVariables.calendarHeaderBgColor,
+        borderColor: ThemeVariables.calendarHeaderBgColor,
+        borderBottomWidth: 1,
+        borderStyle: 'solid',
+        paddingTop: 8,
+        paddingBottom: 8
+    },
+    weekDay: {
+        backgroundColor: ThemeVariables.calendarBgColor,
+        borderColor: ThemeVariables.calendarHeaderBgColor,
+        borderBottomWidth: 1,
+        borderStyle: 'solid',
+        padding: 4
+    },
+    weekDayText: {
+        color: ThemeVariables.calendarWeekDayTextColor,
         fontWeight: 'bold'
     },
-    todayCover: {
-        backgroundColor: ThemeVariables.calendarTodayBgColor
+    day: {
+        backgroundColor: ThemeVariables.calendarBgColor,
+        borderColor: 'transparent',
+        borderTopWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderBottomWidth: 0,
+        borderRadius: 4,
+        color: ThemeVariables.calendarDateColor
     },
-    today: {},
+    notDayOfCurrentMonth: {
+        color: ThemeVariables.calendarNotCurrentMonthDateColor,
+        fontWeight: 'normal'
+    },
+    monthText: {
+        fontWeight: 'bold',
+        color: ThemeVariables.calendarHeaderTextColor
+    },
+    yearText: {
+        fontWeight: 'bold',
+        color: ThemeVariables.calendarHeaderTextColor
+    },
+    today: {
+        backgroundColor: ThemeVariables.calendarTodayBgColor,
+    },
+    todayText: {},
     eventDay1 : {
-        borderColor: ThemeVariables.calendarEventDay1Color
+        color: ThemeVariables.calendarEventDay1Color
     },
     eventDay2 : {
-        borderColor: ThemeVariables.calendarEventDay2Color
+        color: ThemeVariables.calendarEventDay2Color
     },
     eventDay3 : {
-        borderColor: ThemeVariables.calendarEventDay3Color
+        color: ThemeVariables.calendarEventDay3Color
     },
     selectedDay: {
         backgroundColor: ThemeVariables.calendarSelectedDayBgColor
@@ -52,14 +103,24 @@ export const DEFAULT_STYLES: WmCalendarStyles = {
         color: ThemeVariables.calendarSelectedDayTextColor,
         fontWeight: 'bold'
     },
-    prevBtn: {
+    prevMonthBtn: {
         root: {
-            color: ThemeVariables.calendarPrevIconColor
+            color: ThemeVariables.calendarPrevMonthIconColor
         }
     } as WmIconStyles,
-    nextBtn: {
+    nextMonthBtn: {
         root: {
-            color: ThemeVariables.calendarNextIconColor
+            color: ThemeVariables.calendarNextMonthIconColor
+        }
+    } as WmIconStyles,
+    prevYearBtn: {
+        root: {
+            color: ThemeVariables.calendarPrevYearIconColor
+        }
+    } as WmIconStyles,
+    nextYearBtn: {
+        root: {
+            color: ThemeVariables.calendarNextYearIconColor
         }
     } as WmIconStyles
 };

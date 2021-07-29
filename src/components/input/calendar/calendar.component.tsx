@@ -1,12 +1,10 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import Color from 'color';
+import { View } from 'react-native';
 import { isString } from 'lodash';
 import moment, { Moment } from 'moment';
-//import CalendarPicker, { CustomDateStyle } from 'react-native-calendar-picker';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
+import { MonthView } from './views/month-view';
 import WmCalendarProps from './calendar.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmCalendarStyles } from './calendar.styles';
 import WmIcon from '../../basic/icon/icon.component';
@@ -25,10 +23,10 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
   }
 
   onDateChange = (date: Moment) => {
-    const dateWindow = this.state.calendar.get(moment(date).format(DEFAULT_DATE_FORMAT));
-    const d = date.toDate();
+    const d = moment(date).format(DEFAULT_DATE_FORMAT);
+    const dateWindow = this.state.calendar.get(d);
     this.updateState({
-      props: {datavalue: moment(date).format(DEFAULT_DATE_FORMAT)},
+      props: {datavalue: d},
       selectedDate: date
     } as WmCalendarState);
     this.invokeEventCallback('onSelect', [d, d, this, dateWindow?.events]);
@@ -73,78 +71,59 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
     }
   }
 
-  /*getDateStyles(date: Moment) {
+  renderDay = (date: Moment) => {
     const dateWindow = this.state.calendar.get(moment(date).format(DEFAULT_DATE_FORMAT));
-    let styles = {} as CustomDateStyle;
     if (dateWindow) {
-      styles = {
-        date: date.toISOString(),
-        containerStyle: {
-          borderBottomWidth: 3,
-          borderColor: this.styles['eventDay' + Math.min(3, dateWindow.events.length)].borderColor,
-          borderStyle: 'solid'
-        }
-      } as CustomDateStyle;
+      return (
+        <WmIcon
+          iconclass="fa fa-circle"
+          iconsize={8} 
+          styles={{
+            root: {marginTop: -8, alignSelf: 'flexStart'},
+            icon: this.styles['eventDay' + Math.min(3, dateWindow.events.length)]}}>  
+        </WmIcon>
+      );
     }
-    if (date.isSame(this.state.selectedDate)) {
-      styles = deepCopy(styles, {
-        date: date.toISOString(),
-        containerStyle: this.styles.selectedDay,
-        textStyle: this.styles.selectedDayText
-      } as CustomDateStyle);
-    }
-    return styles;
-  }
-
-  getDatesStyles() {
-    let date = this.state.selectedDate.clone().startOf('month').subtract(7, 'day');
-    const customStyles = [];
-    for (let i = 0; i < 45; i++) {
-      customStyles.push(this.getDateStyles(date));
-      date = date.add(1, 'day');
-    }
-    return customStyles;
+    return (<></>);
   }
 
   componentDidUpdate(prevProps: WmCalendarProps, prevState: WmCalendarState, snapshot: any) {
     super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, snapshot);
     this.invokeEventCallback('onViewrender', [this, null]);
-  }*/
+  }
 
   renderWidget(props: WmCalendarProps) {
-
     this.invokeEventCallback('onBeforerender', [null, this]);
-    /*return (
-    <View style={this.styles.root}>
-      <CalendarPicker
-          initialDate={(this.state.selectedDate || moment()) as any}
-          previousComponent={(
-            <WmIcon
-              iconclass="wi wi-chevron-left fa-2x"
-              styles={this.styles.prevBtn}/>
-          )}
-          nextComponent={(
-            <WmIcon
-              iconclass="wi wi-chevron-right fa-2x"
-              styles={this.styles.nextBtn}/>
-          )}
-          customDatesStyles={this.getDatesStyles()}
-          customDayHeaderStyles={() => ({
-            style: this.styles.week,
-            textStyle: this.styles.week
-          })}
-          onMonthChange={this.onDateChange}
-          dayShape='square'
-          selectedDayColor="rgba(0, 0, 0, 0)"
-          todayBackgroundColor={Color(this.styles.selectedDay.backgroundColor).lighten(0.5).toString()}
-          todayTextStyle={this.styles.today}
-          monthTitleStyle={this.styles.title}
-          yearTitleStyle={this.styles.title}
-          showDayStragglers={true}
-          onDateChange={this.onDateChange}
-        />
-    </View>
-  ); */
-  return (<Text>Calendar</Text>);
+    return (
+      <View style={this.styles.root}>
+        <MonthView
+            date={this.state.selectedDate}
+            selectDate={this.onDateChange}
+            format={DEFAULT_DATE_FORMAT}
+            renderChildDay={this.renderDay}
+            containerStyle={this.styles.calendar}
+            dateSelectedWarpDayStyle={this.styles.selectedDay}
+            selectedDayTextStyle={this.styles.selectedDayText}
+            warpRowWeekdays={this.styles.weekDay}
+            warpRowControlMonthYear={this.styles.calendarHeader}
+            weekdayStyle={this.styles.weekDayText}
+            warpDayStyle={this.styles.day}
+            textDayStyle={this.styles.day}
+            yearTextStyle={this.styles.yearText}
+            monthTextStyle={this.styles.monthText}
+            currentDayStyle={this.styles.today}
+            currentDayTextStyle={this.styles.todayText}
+            notDayOfCurrentMonthStyle={this.styles.notDayOfCurrentMonth}
+            renderPrevYearButton={() =>
+              (<WmIcon iconclass="wi wi-angle-double-left" styles={this.styles.prevYearBtn}/>)}
+            renderPrevMonthButton={() =>
+              (<WmIcon iconclass="wi wi-chevron-left fa-2x" styles={this.styles.prevMonthBtn}/>)}
+            renderNextMonthButton={() =>
+                (<WmIcon iconclass="wi wi-chevron-right fa-2x" styles={this.styles.prevMonthBtn}/>)}
+            renderNextYearButton={() =>
+                (<WmIcon iconclass="wi wi-angle-double-right" styles={this.styles.nextYearBtn}/>)}
+          />
+      </View>
+    );
   }
 }

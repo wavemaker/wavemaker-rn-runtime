@@ -226,10 +226,17 @@ export class ThemeVariables {
     carouselActiveDotColor=this.primaryColor;
 
     //calendar
-    calendarMonthTitleColor = this.primaryColor;
-    calendarDateColor = '#666';
-    calendarPrevIconColor = this.primaryColor;
-    calendarNextIconColor = this.primaryColor;
+    calendarBgColor = 'transparent';
+    calendarHeaderBgColor = this.primaryColor;
+    calendarHeaderTextColor = '#ffffff';
+    calendarWeekDayTextColor = this.primaryColor;
+    calendarDateColor = '#000000';
+    calendarNotCurrentMonthDateColor = '#666666';
+    calendarHeaderColor = '#ffffff';
+    calendarPrevYearIconColor = this.calendarHeaderColor;
+    calendarNextYearIconColor = this.calendarHeaderColor;
+    calendarPrevMonthIconColor = this.calendarHeaderColor;
+    calendarNextMonthIconColor = this.calendarHeaderColor;
     calendarDayBgColor = '#000000';
     calendarSelectedDayBgColor = this.primaryColor;
     calendarSelectedDayTextColor = '#ffffff';
