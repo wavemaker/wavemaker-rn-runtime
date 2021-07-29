@@ -24,10 +24,9 @@ export const DEFAULT_STYLES: WmTabbarStyles = {
         paddingTop: 4,
         paddingBottom: 4
     },
-    modalContent: {
-        width: '100%'
-    },
+    modalContent: {},
     moreMenu: {
+        width: '100%',
         flexDirection: 'column-reverse',
         justifyContent: 'flex-end',
         backgroundColor: ThemeVariables.tabbarBackgroundColor,

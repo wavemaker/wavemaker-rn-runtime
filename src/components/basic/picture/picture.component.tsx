@@ -26,12 +26,20 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       case 'picturesource':
       case 'pictureplaceholder':
         imageSrc = this.state.props.picturesource || $new;
-        Image.getSize(imageSrc, (width: number, height: number) => {
+        if (isNumber(imageSrc)) {
+          const {width, height} = Image.resolveAssetSource(imageSrc);
           this.updateState({
             naturalImageWidth: width, 
             naturalImageHeight: height
           } as WmPictureState);
-        }, () => {});
+        } else {
+          Image.getSize(imageSrc, (width: number, height: number) => {
+            this.updateState({
+              naturalImageWidth: width, 
+              naturalImageHeight: height
+            } as WmPictureState);
+          }, () => {});
+        }
         break;
     }
   }
@@ -84,8 +92,18 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     const imageWidth = this.state.imageWidth || this.styles.root.width;
     const imageHeight = this.state.imageHeight || this.styles.root.height;
     const shapeStyles = this.createShape(props.shape, imageWidth);
-    const src = props.picturesource || props.pictureplaceholder;
-    return src && this.state.naturalImageWidth ? (
+    const imgSrc = props.picturesource || props.pictureplaceholder;
+    let source = {};
+    if (imgSrc) {
+      if (isString(imgSrc) && imgSrc.startsWith('http')) {
+        source = {
+          uri: imgSrc
+        };
+      } else {
+        source = imgSrc;
+      }
+    }
+    return imgSrc && this.state.naturalImageWidth ? (
       <Tappable target={this}>
         <View style={[this.styles.root, {
             height: imageHeight,
@@ -94,8 +112,8 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
           }, shapeStyles.root]}>
           <Image style={[this.styles.picture, shapeStyles.picture]}
             onLayout={this.onImageLayoutChange}
-            resizeMode={'stretch'} source={{
-            uri: src}}/>
+            resizeMode={'stretch'}
+            source={source}/>
         </View>
       </Tappable>
     ): null;
