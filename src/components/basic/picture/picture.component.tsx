@@ -29,13 +29,13 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         if (isNumber(imageSrc)) {
           const {width, height} = Image.resolveAssetSource(imageSrc);
           this.updateState({
-            naturalImageWidth: width, 
+            naturalImageWidth: width,
             naturalImageHeight: height
           } as WmPictureState);
         } else {
           Image.getSize(imageSrc, (width: number, height: number) => {
             this.updateState({
-              naturalImageWidth: width, 
+              naturalImageWidth: width,
               naturalImageHeight: height
             } as WmPictureState);
           }, () => {});
@@ -69,19 +69,19 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       } as WmPictureState);
     }
   };
-  
+
   createShape(shape: string | undefined, imageWidth?: number | string): WmPictureStyles {
     if (shape) {
       switch(shape) {
-        case 'circle': 
+        case 'circle':
           return {
             picture: {
               borderRadius: isNumber(imageWidth) ? imageWidth / 2 : 4
             }
           } as WmPictureStyles;
-        case 'rounded' : 
+        case 'rounded' :
           return (this.theme.getStyle('rounded-image') as WmPictureStyles);
-        case 'thumbnail' : 
+        case 'thumbnail' :
           return (this.theme.getStyle('thumbnail-image') as WmPictureStyles);
       }
     }
@@ -95,7 +95,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     const imgSrc = props.picturesource || props.pictureplaceholder;
     let source = {};
     if (imgSrc) {
-      if (isString(imgSrc) && imgSrc.startsWith('http')) {
+      if (isString(imgSrc) && (imgSrc.startsWith('http') || imgSrc.startsWith('file:'))) {
         source = {
           uri: imgSrc
         };

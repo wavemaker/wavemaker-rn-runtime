@@ -102,7 +102,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     handleUrl(url: string) {
-      if (!url.startsWith('http')) {
+      if (!url.startsWith('http') && !url.startsWith('file:')) {
         return this.appConfig.url + (url.startsWith('/') ? '' : '/') + url;
       }
       return url;
