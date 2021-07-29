@@ -30,6 +30,18 @@ export class TimerAction extends BaseAction {
         }
     }
 
+    destroy() {
+        if (this.config.owner !== 'App') {
+            this.cancel();
+        }
+    }
+
+    pause() {
+        if (this.config.owner !== 'App') {
+            this.cancel();
+        }
+    }
+
     trigger(options: any, success: any, error: any) {
         if (this._schedulerID > -1) {
             return;
