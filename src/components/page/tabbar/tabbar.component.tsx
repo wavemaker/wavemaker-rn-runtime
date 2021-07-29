@@ -47,6 +47,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
     o.modalStyle = {
       bottom: this.tabbarHeight
     };
+    o.contentStyle = this.styles.modalContent; 
     return o;
   }
 
