@@ -31,15 +31,11 @@ export class TimerAction extends BaseAction {
     }
 
     destroy() {
-        if (this.config.owner !== 'App') {
-            this.cancel();
-        }
+        this.cancel();
     }
 
     pause() {
-        if (this.config.owner !== 'App') {
-            this.cancel();
-        }
+        this.cancel();
     }
 
     trigger(options: any, success: any, error: any) {

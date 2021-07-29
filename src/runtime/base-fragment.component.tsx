@@ -30,6 +30,8 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     private startUpActions: string[] = [];
     private autoUpdateVariables: string[] = [];
     private cleanUpVariablesandActions: BaseVariable[] = [];
+    public fragmentVariables: any = {};
+    public fragmentActions: any = {};
     public Actions: any = {};
     public appConfig = injector.get<AppConfig>('APP_CONFIG');
     public cache = false;
@@ -147,7 +149,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         return ((v as BaseVariable)
           .subscribe(VariableEvents.AFTER_INVOKE, () => this.App.refresh()));
       }));
-      this.cleanUpVariablesandActions.push(...Object.values({...this.Variables, ...this.Actions} as BaseVariable));
+      this.cleanUpVariablesandActions.push(...Object.values({...this.fragmentVariables, ...this.fragmentActions} as BaseVariable));
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()))
       .then(() => {
@@ -160,7 +162,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     onAttach() {
       this.isDetached = false;
       Object.values(this.fragments).forEach((f: any) => f.onAttach());
-      this.cleanUpVariablesandActions.forEach((v: BaseVariable) => v.continue());
+      this.cleanUpVariablesandActions.forEach((v: BaseVariable) => v.resume());
       this.targetWidget.invokeEventCallback('onAttach', [null, this.proxy]);
       if (this.refreshdataonattach) {
         Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()));
