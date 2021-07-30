@@ -22,7 +22,7 @@ enum _ServiceVariableEvents {
 
 export type ServiceVariableEvents = _ServiceVariableEvents | VariableEvents
 
-export class ServiceVariable extends BaseVariable {
+export class ServiceVariable extends BaseVariable<VariableConfig> {
   private cancelTokenSource: any;
 
     constructor(config: ServiceVariableConfig) {

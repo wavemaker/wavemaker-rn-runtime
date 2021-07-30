@@ -5,9 +5,9 @@ export interface ActionConfig extends VariableConfig {
 
 }
 
-export class BaseAction extends BaseVariable {
+export class BaseAction<T extends ActionConfig> extends BaseVariable<T> {
 
-    constructor(config: VariableConfig) {
+    constructor(config: T) {
         super(config);
     }
 

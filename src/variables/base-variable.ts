@@ -21,14 +21,14 @@ export enum VariableEvents {
 
 export const VARIABLE_LOGGER = ROOT_LOGGER.extend('variable');
 
-export abstract class BaseVariable extends EventNotifier {
+export abstract class BaseVariable<T extends VariableConfig> extends EventNotifier {
     name: string = '';
     params: any = {};
     dataSet: any = {};
     isList: boolean;
     isExecuting = false;
 
-    constructor(public config: VariableConfig) {
+    constructor(public config: T) {
       super();
       this.name = config.name;
       this.isList = config.isList;
@@ -42,7 +42,7 @@ export abstract class BaseVariable extends EventNotifier {
       });
     }
 
-    public invoke(params?: {}, onSuccess?: Function, onError?: Function): Promise<BaseVariable> {
+    public invoke(params?: {}, onSuccess?: Function, onError?: Function): Promise<BaseVariable<T>> {
         if (!params) {
             this.params = this.config.paramProvider();
         } else {
@@ -51,11 +51,11 @@ export abstract class BaseVariable extends EventNotifier {
         return Promise.resolve(this);
     }
 
-    public doNext(): Promise<BaseVariable> {
+    public doNext(): Promise<BaseVariable<T>> {
       return Promise.reject(this);
     }
 
-    public invokeOnParamChange(): Promise<BaseVariable> {
+    public invokeOnParamChange(): Promise<BaseVariable<T>> {
         const last = this.params;
         const latest = this.config.paramProvider();
         if (!isEqual(last, latest)) {

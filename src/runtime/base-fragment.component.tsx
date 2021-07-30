@@ -29,7 +29,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     private startUpVariables: string[] = [];
     private startUpActions: string[] = [];
     private autoUpdateVariables: string[] = [];
-    private cleanUpVariablesandActions: BaseVariable[] = [];
+    private cleanUpVariablesandActions: BaseVariable<any>[] = [];
     public fragmentVariables: any = {};
     public fragmentActions: any = {};
     public Actions: any = {};
@@ -146,10 +146,10 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     onFragmentReady() {
       this.cleanup.push(...Object.values({...this.Variables, ...this.Actions}).map(v => {
-        return ((v as BaseVariable)
+        return ((v as BaseVariable<any>)
           .subscribe(VariableEvents.AFTER_INVOKE, () => this.App.refresh()));
       }));
-      this.cleanUpVariablesandActions.push(...Object.values({...this.fragmentVariables, ...this.fragmentActions} as BaseVariable));
+      this.cleanUpVariablesandActions.push(...Object.values({...this.fragmentVariables, ...this.fragmentActions} as BaseVariable<any>));
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()))
       .then(() => {
@@ -162,7 +162,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     onAttach() {
       this.isDetached = false;
       Object.values(this.fragments).forEach((f: any) => f.onAttach());
-      this.cleanUpVariablesandActions.forEach((v: BaseVariable) => v.resume());
+      this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.resume());
       this.targetWidget.invokeEventCallback('onAttach', [null, this.proxy]);
       if (this.refreshdataonattach) {
         Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()));
@@ -172,12 +172,12 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     onDetach() {
       this.isDetached = true;
       Object.values(this.fragments).forEach((f: any) => f.onDetach());
-      this.cleanUpVariablesandActions.forEach((v: BaseVariable) => v.pause());
+      this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.pause());
       this.targetWidget.invokeEventCallback('onDetach', [null, this.proxy]);
     }
 
     onDestroy() {
-      this.cleanUpVariablesandActions.forEach((v: BaseVariable) => v.destroy());
+      this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.destroy());
     }
  
     refresh() {

@@ -8,13 +8,13 @@ export interface NavigationActionConfig extends ActionConfig {
     operation: string;
 }
 
-export class NavigationAction extends BaseAction {
+export class NavigationAction extends BaseAction<NavigationActionConfig> {
     constructor(config: NavigationActionConfig) {
         super(config);
     }
 
     public invoke(params?: {}, onSuccess?: Function, onError?: Function): Promise<NavigationAction> {
-        const config = this.config as NavigationActionConfig;
+        const config = this.config;
         // @ts-ignore
         params = params?.data ? merge(this.config.paramProvider(), params.data) : merge(this.config.paramProvider(), this.dataSet);
         this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);

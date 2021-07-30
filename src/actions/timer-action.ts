@@ -4,7 +4,7 @@ export interface TimerActionConfig extends ActionConfig {
     delay: number;
     onSuccess: any;
 }
-export class TimerAction extends BaseAction {
+export class TimerAction extends BaseAction<TimerActionConfig> {
     repeating: Boolean;
     _isFired = false;
     _schedulerID: any = -1;
