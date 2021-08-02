@@ -8,7 +8,6 @@ import {
   BaseDatasetComponent,
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
-import { color } from 'react-native-reanimated';
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {}
 
