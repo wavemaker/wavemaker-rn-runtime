@@ -1,5 +1,6 @@
 import React from 'react';
 import { Picker } from '@react-native-picker/picker';
+import { View } from 'react-native';
 
 import WmSelectProps from './select.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmSelectStyles } from './select.styles';
@@ -7,6 +8,7 @@ import {
   BaseDatasetComponent,
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
+import { color } from 'react-native-reanimated';
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {}
 
@@ -33,7 +35,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
 
   renderWidget(props: WmSelectProps) {
     const items = this.state.dataItems;
-    return (<Picker
+    return (<View style={{height: this.styles.root.height}}>
+      <Picker
       style={this.styles.root}
       itemStyle={{height: this.styles.root.height}}
       selectedValue={props.datavalue}
@@ -45,6 +48,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
         <Picker.Item label={props.placeholder || ''} value={''} key={props.name + '_placeholder'}/> : null}
       {items && items.length ?
         items.map((item: any, index: any) => this.renderChild(item, index)): null}
-    </Picker>);
+      </Picker>
+    </View>);
   }
 }

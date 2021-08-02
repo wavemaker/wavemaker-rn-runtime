@@ -30,6 +30,9 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
   }
 
   renderWidget(props: WmAnchorProps) {
+    if (this.styles.icon && this.styles.icon.text) {
+      this.styles.icon.text.color = this.styles.text.color;
+    }
     const icon = (<WmIcon
       styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>);
     //@ts-ignore
