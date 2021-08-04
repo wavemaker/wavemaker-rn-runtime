@@ -1,5 +1,5 @@
 import React, { ReactNode }  from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import {TouchableOpacity, View, ViewStyle} from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -12,6 +12,7 @@ import { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/naviga
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
+import AppDisplayManagerService from './services/app-display-manager.service';
 import AppModalService from './services/app-modal.service';
 import AppPartialService from './services/partial.service';
 import { AppNavigator } from './App.navigator';
@@ -130,15 +131,18 @@ export default abstract class BaseApp extends React.Component {
                         hideDrawer={this.appConfig.drawer?.getContent() === null}
                         drawerContent={() => this.appConfig.drawer?.getContent()}
                         drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                      {AppDisplayManagerService.displayOptions.content !== null && <View style={styles.displayViewContainer}>
+                        {AppDisplayManagerService.displayOptions.content}
+                      </View>}
                     </View>
                   </ModalProvider>
                 </View>
-                {AppModalService.modalOptions.content && 
+                {AppModalService.modalOptions.content &&
                   AppModalService.modalsOpened.map((o, i) =>
                     (
-                    <TouchableOpacity activeOpacity={1} key={i} 
+                    <TouchableOpacity activeOpacity={1} key={i}
                       onPress={() => o.isModal && AppModalService.hideModal(o)}
-                      style={deepCopy(styles.appModal, 
+                      style={deepCopy(styles.appModal,
                         o.centered ? styles.centeredModal: null,
                         o.modalStyle)}>
                           <TouchableOpacity
@@ -181,4 +185,11 @@ const styles = {
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     height: '100%'
   },
+  displayViewContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom:0
+  } as ViewStyle
 };
