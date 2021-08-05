@@ -140,14 +140,17 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     }
   }
 
+  updateDatavalue(value: any) {
+    this.updateState({ props: { datavalue: value } } as S);
+  }
+
   onChange(value: any) {
     const oldValue = this.state.props.datavalue;
     if (!value) {
       return;
     }
-
-    this.updateState({ props: { datavalue: value } } as S,
-      ()=>this.invokeEventCallback('onChange', [ undefined, this.proxy, value, oldValue]));
+    this.updateDatavalue(value);
+    this.invokeEventCallback('onChange', [ undefined, this.proxy, value, oldValue]);
   }
   setDataItems(dataset: any) {
     const name = this.props.name;
@@ -157,6 +160,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     let datavalueItems: any = [];
     if (typeof datavalue === 'string') {
       datavalueItems = datavalue.split(',');
+      datavalueItems = datavalueItems.map((item: any) => item.trim());
     }
     if (typeof dataset === 'string') {
       dataItems = dataset.split(',').map((s, i) => {
@@ -173,10 +177,11 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
         return {
           key: `${name}_item${i}`,
           dataObject: d,
-          displayfield: d[this.state.props.displayfield],
+          displayfield: d[this.state.props.displayfield] ||  d[this.state.props.displaylabel],
           datafield: d[this.state.props.datafield],
           displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : d[this.state.props.displayfield],
           selected: includes(datavalueItems, d[this.state.props.datafield]) || datavalue === d[this.state.props.datafield] ? true : false,
+          imgSrc: d[this.state.props.displayimagesrc]
         };
       });
     }

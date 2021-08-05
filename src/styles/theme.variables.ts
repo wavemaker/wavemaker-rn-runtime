@@ -254,6 +254,13 @@ export class ThemeVariables {
     wizardDoneBtnColor = this.successColor;
     wizardStepConnectorColor = '#e2e2e2';
     wizardStepCounerColor = '#999999'
+
+    //Search
+    searchItemBorderColor = '#dddddd';
+    searchItemTextColor = '#666666';
+    searchDropdownBackgroundColor = '#ffffff';
+    searchDataCompleteItemBgColor = 'rgba(0,0,0,.05)';
+
 }
 
 export default new ThemeVariables();
