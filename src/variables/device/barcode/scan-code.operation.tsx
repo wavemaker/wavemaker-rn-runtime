@@ -1,7 +1,7 @@
 import { Camera } from 'expo-camera';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {DisplayManager} from '@wavemaker/app-rn-runtime/core/display.manager';
 import {Operation, Input, Output} from '../operation.provider';
 
@@ -38,6 +38,37 @@ export interface ScanOutput extends Output {
   cancelled : boolean;
 }
 
+const opacity = 'rgba(0, 0, 0, 0.6)';
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column'
+  },
+  topWrapper: {
+    flex: 2,
+    backgroundColor: opacity
+  },
+  centerWrapper: {
+    flex: 2,
+    flexDirection: 'row'
+  },
+  leftWrapper: {
+    flex: 2,
+    backgroundColor: opacity
+  },
+  focused: {
+    flex: 10
+  },
+  rightWrapper: {
+    flex: 2,
+    backgroundColor: opacity
+  },
+  bottomWrapper: {
+    flex: 2,
+    backgroundColor: opacity
+  },
+});
+
 export class ScanOperation implements Operation {
   private displayManager: DisplayManager;
 
@@ -55,7 +86,15 @@ export class ScanOperation implements Operation {
           }}
           onBarCodeScanned={(result) => { destroy.call(this.displayManager); resolve(result);}}
           style={StyleSheet.absoluteFillObject}
-        />)
+        >
+          <View style={styles.topWrapper} />
+          <View style={styles.centerWrapper}>
+            <View style={styles.leftWrapper} />
+            <View style={styles.focused} />
+            <View style={styles.rightWrapper} />
+          </View>
+          <View style={styles.bottomWrapper} />
+        </Camera>)
       });
     }).then((response: any) => {
         let format;

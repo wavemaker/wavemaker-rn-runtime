@@ -39,7 +39,8 @@ const styles = {
   wrapper: {
     flex: 0,
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    marginLeft: 10
   } as ViewStyle,
 };
 
