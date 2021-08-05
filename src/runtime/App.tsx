@@ -131,9 +131,10 @@ export default abstract class BaseApp extends React.Component {
                         hideDrawer={this.appConfig.drawer?.getContent() === null}
                         drawerContent={() => this.appConfig.drawer?.getContent()}
                         drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                      {AppDisplayManagerService.displayOptions.content !== null && <View style={styles.displayViewContainer}>
-                        {AppDisplayManagerService.displayOptions.content}
-                      </View>}
+                      {AppDisplayManagerService.displayOptions.content  
+                        ? (<View style={styles.displayViewContainer}>
+                            {AppDisplayManagerService.displayOptions.content}
+                          </View>) : null}
                     </View>
                   </ModalProvider>
                 </View>

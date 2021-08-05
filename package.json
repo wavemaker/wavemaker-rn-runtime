@@ -110,7 +110,6 @@
     "execa": "^5.0.0",
     "expo-image-picker": "^10.2.2",
     "handlebars": "^4.7.7",
-    "husky": "^4.2.5",
     "jest": "^26.0.1",
     "jest-html-reporter": "^3.3.0",
     "ncp": "^2.0.0",
@@ -156,12 +155,6 @@
         }
       ]
     ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn lint && yarn typescript"
-    }
   },
   "commitlint": {
     "extends": [
