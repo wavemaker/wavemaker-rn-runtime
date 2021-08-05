@@ -1,6 +1,8 @@
 import { BaseVariable, VariableConfig, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable';
 import { CaptureImageOperation } from './device/camera/capture-image.operation';
 import OperationProvider, { Input, Output } from './device/operation.provider';
+import { ScanOperation } from "@wavemaker/app-rn-runtime/variables/device/barcode/scan-code.operation";
+import { DisplayManager } from "@wavemaker/app-rn-runtime/core/display.manager";
 
 export interface DeviceVariableConfig extends VariableConfig {
   service: string;
@@ -37,6 +39,7 @@ export class DeviceVariable extends BaseVariable<DeviceVariableConfig> {
   }
 }
 
-export const initialize = ()=> {
-  OperationProvider.set('camera.captureImage', new CaptureImageOperation());
+export const initialize = (displayManager: DisplayManager) => {
+  OperationProvider.set('camera.captureImage', new CaptureImageOperation(displayManager));
+  OperationProvider.set('scan.scanBarCode', new ScanOperation(displayManager));
 };

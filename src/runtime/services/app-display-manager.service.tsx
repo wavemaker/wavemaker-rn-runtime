@@ -8,13 +8,18 @@ export class AppDisplayManagerService implements DisplayManager {
 
   show(options: DisplayOptions) {
     this.displayOptions = options;
-    (injector.get('AppConfig') as AppConfig).refresh();
+    this.refresh();
     return this.destroy;
   }
 
+  refresh() {
+    (injector.get('AppConfig') as AppConfig).refresh();
+  }
+
   destroy() {
-    this.displayOptions = {} as DisplayOptions;
     this.displayOptions.content = null;
+    this.displayOptions = {} as DisplayOptions;
+    this.refresh();
   }
 }
 
