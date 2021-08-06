@@ -12,7 +12,7 @@ import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
 import { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
-import WmMessage from "@wavemaker/app-rn-runtime/components/basic/message/message.component";
+import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/message.component';
 
 import AppDisplayManagerService from './services/app-display-manager.service';
 import AppModalService from './services/app-modal.service';

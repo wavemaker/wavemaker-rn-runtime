@@ -1,12 +1,12 @@
 import { ActionConfig, BaseAction } from "./base-action";
-import { ToastOptions } from '@wavemaker/app-rn-runtime/core/toast.service';
+import { ToastOptions, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
 export interface NotificationActionConfig extends ActionConfig {
     showDialog: Function;
     onOk: any;
     onCancel: any;
     onClose: any;
     operation: string;
-    toasterService: Function;
+    toasterService: () => ToastService;
 }
 export class NotificationAction extends BaseAction<NotificationActionConfig> {
     showDialog: Function;
@@ -41,6 +41,7 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
       }
 
     invoke(options: any, success: any, error: any) {
+        super.invoke();
         const params = this.config.paramProvider();
         if (this.config.operation === 'toast') {
             const toasterService = this.config.toasterService();

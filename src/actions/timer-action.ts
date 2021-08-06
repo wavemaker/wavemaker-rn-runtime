@@ -16,6 +16,7 @@ export class TimerAction extends BaseAction<TimerActionConfig> {
     }
 
     invoke(options: any, success: any, error: any) {
+        super.invoke();
         return this.fire(options, success, error) as any;
     }
 
