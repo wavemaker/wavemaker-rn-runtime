@@ -62,7 +62,7 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
         </WmDialogcontent>
         <WmDialogactions styles={this.styles.dialogActions}>
           <WmButton
-            caption={props.caneltext}
+            caption={props.canceltext}
             styles={deepCopy({}, this.theme.getStyle('btn-secondary'), this.styles.cancelButton)}
             onTap={() => {
               this.dialogRef.close();

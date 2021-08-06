@@ -1,5 +1,5 @@
 import React, { ReactNode }  from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -8,13 +8,19 @@ import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
 import { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import WmMessage from "@wavemaker/app-rn-runtime/components/basic/message/message.component";
 
 import AppModalService from './services/app-modal.service';
+import AppToastService from './services/app-toast.service';
 import AppPartialService from './services/partial.service';
 import { AppNavigator } from './App.navigator';
+
+import Toast from "react-native-toast-notifications";
+import { ToastContainer } from 'react-native-root-toast';
 
 //some old react libraries need this
 ((View as any)['propTypes'] = { style: ProtoTypes.any})
@@ -113,7 +119,10 @@ export default abstract class BaseApp extends React.Component {
 
   render() {
     return (
+
+      
       <SafeAreaProvider>
+        
         <PaperProvider theme={{
           ...DefaultTheme,
           colors: {
@@ -121,6 +130,7 @@ export default abstract class BaseApp extends React.Component {
             primary: ThemeVariables.primaryColor
           }}}>
           <NavigationServiceProvider value={this.appConfig.currentPage}>
+          <ToastProvider value={AppToastService}>
               <PartialProvider value={AppPartialService}>
                 <View  style={styles.container}>
                   <ModalProvider value={AppModalService}>
@@ -132,7 +142,20 @@ export default abstract class BaseApp extends React.Component {
                         drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
                     </View>
                   </ModalProvider>
+                  
                 </View>
+                {AppToastService.modalsOpened.map((o, i) =>
+                    (
+                      <View key={i} style={[{position: 'absolute', width: '100%'}, o.styles]}>
+                        <TouchableOpacity 
+                      onPress={() => o.onClick && o.onClick()}
+                        >
+                              <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>
+                          </TouchableOpacity>
+                      </View>
+                    )
+                  )}
+                
                 {AppModalService.modalOptions.content && 
                   AppModalService.modalsOpened.map((o, i) =>
                     (
@@ -152,6 +175,7 @@ export default abstract class BaseApp extends React.Component {
                   )
                 }
             </PartialProvider>
+            </ToastProvider>
           </NavigationServiceProvider>
         </PaperProvider>
       </SafeAreaProvider>

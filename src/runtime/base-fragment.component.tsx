@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -10,6 +11,7 @@ import App from './App';
 import WmFormField from "@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component";
 import WmForm from "@wavemaker/app-rn-runtime/components/data/form/form.component";
 import { isArray } from 'lodash-es';
+import { ToastConsumer, ToastOptions, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
 
 export class FragmentProps extends BaseProps {
 
@@ -40,6 +42,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public isDetached = false;
     public _memoize = {} as any;
     private formWidgets: any = {};
+    public toaster: any;
 
     constructor(props: P, defaultProps?: P) {
         super(props, undefined, undefined, defaultProps);
@@ -192,7 +195,13 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     render() {
       this.autoUpdateVariables.forEach(value => this.Variables[value].invokeOnParamChange());
       return (<ThemeProvider value={this.theme}>
-        {this.renderWidget(this.props)}
+        <ToastConsumer>
+            {(toastService: ToastService) => {
+              this.toaster = toastService;
+              return this.renderWidget(this.props);
+            }}
+          </ToastConsumer>
+        
       </ThemeProvider>);
     }
 }
