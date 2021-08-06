@@ -13,4 +13,6 @@ export default class BaseDatasetProps extends BaseProps {
   readonly: boolean = null as any;
   dateformat: any;
   onFieldChange: any;
+  displaylabel: any;
+  displayimagesrc: any;
 }

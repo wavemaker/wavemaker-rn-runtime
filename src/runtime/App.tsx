@@ -1,5 +1,5 @@
 import React, { ReactNode }  from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import {TouchableOpacity, View, ViewStyle} from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -14,13 +14,11 @@ import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service'
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import WmMessage from "@wavemaker/app-rn-runtime/components/basic/message/message.component";
 
+import AppDisplayManagerService from './services/app-display-manager.service';
 import AppModalService from './services/app-modal.service';
 import AppToastService from './services/app-toast.service';
 import AppPartialService from './services/partial.service';
 import { AppNavigator } from './App.navigator';
-
-import Toast from "react-native-toast-notifications";
-import { ToastContainer } from 'react-native-root-toast';
 
 //some old react libraries need this
 ((View as any)['propTypes'] = { style: ProtoTypes.any})
@@ -140,28 +138,33 @@ export default abstract class BaseApp extends React.Component {
                         hideDrawer={this.appConfig.drawer?.getContent() === null}
                         drawerContent={() => this.appConfig.drawer?.getContent()}
                         drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                      {AppDisplayManagerService.displayOptions.content  
+                        ? (<View style={styles.displayViewContainer}>
+                            {AppDisplayManagerService.displayOptions.content}
+                          </View>) : null}
                     </View>
                   </ModalProvider>
                   
                 </View>
-                {AppToastService.modalsOpened.map((o, i) =>
-                    (
-                      <View key={i} style={[{position: 'absolute', width: '100%'}, o.styles]}>
-                        <TouchableOpacity 
-                      onPress={() => o.onClick && o.onClick()}
-                        >
-                              <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>
-                          </TouchableOpacity>
-                      </View>
-                    )
-                  )}
-                
-                {AppModalService.modalOptions.content && 
+
+                {AppToastService.toastsOpened.map((o, i) =>
+                  (
+                    <View key={i} style={[{position: 'absolute', width: '100%'}, o.styles]}>
+                      <TouchableOpacity 
+                    onPress={() => o.onClick && o.onClick()}
+                      >
+                            <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>
+                        </TouchableOpacity>
+                    </View>
+                  )
+                )}
+
+                {AppModalService.modalOptions.content &&
                   AppModalService.modalsOpened.map((o, i) =>
                     (
-                    <TouchableOpacity activeOpacity={1} key={i} 
+                    <TouchableOpacity activeOpacity={1} key={i}
                       onPress={() => o.isModal && AppModalService.hideModal(o)}
-                      style={deepCopy(styles.appModal, 
+                      style={deepCopy(styles.appModal,
                         o.centered ? styles.centeredModal: null,
                         o.modalStyle)}>
                           <TouchableOpacity
@@ -205,4 +208,12 @@ const styles = {
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     height: '100%'
   },
+  displayViewContainer: {
+    position: 'absolute',
+    width: '100%',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom:0
+  } as ViewStyle
 };
