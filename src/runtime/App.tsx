@@ -153,6 +153,7 @@ export default abstract class BaseApp extends React.Component {
                       <TouchableOpacity 
                     onPress={() => o.onClick && o.onClick()}
                       >
+                            {o.content}
                             <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>
                         </TouchableOpacity>
                     </View>
