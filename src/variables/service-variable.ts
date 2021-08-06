@@ -30,7 +30,6 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
     }
 
     invoke(options? : any) {
-      super.invoke();
       return $queue.submit(this).then(this._invoke.bind(this, options));
     }
 
