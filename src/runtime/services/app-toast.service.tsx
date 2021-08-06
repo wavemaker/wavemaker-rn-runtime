@@ -4,12 +4,12 @@ import { ToastOptions, ToastService } from '@wavemaker/app-rn-runtime/core/toast
 
 class AppToastService implements ToastService {
 
-    public modalsOpened = [] as ToastOptions[];
+    public toastsOpened = [] as ToastOptions[];
 
     public showToast(options: ToastOptions) {
-        const i = this.modalsOpened.findIndex(o => o.name === options.name);
+        const i = this.toastsOpened.findIndex(o => o.name === options.name);
         if (i < 0) {
-            this.modalsOpened.push(options);
+            this.toastsOpened.push(options);
             injector.get<AppConfig>('APP_CONFIG').refresh();
             if (options.duration) {
                 setTimeout(() => {
@@ -24,9 +24,9 @@ class AppToastService implements ToastService {
     
     
     public hideToast(options?: ToastOptions) {
-        const i = options ? this.modalsOpened.findIndex(o => o.name === options.name) : (this.modalsOpened.length - 1);
+        const i = options ? this.toastsOpened.findIndex(o => o.name === options.name) : (this.toastsOpened.length - 1);
         if (i >= 0) {
-            const o = this.modalsOpened.splice(i, 1)[0];
+            const o = this.toastsOpened.splice(i, 1)[0];
             injector.get<AppConfig>('APP_CONFIG').refresh();
         }
     }

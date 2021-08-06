@@ -6,7 +6,6 @@ export interface TimerActionConfig extends ActionConfig {
 }
 export class TimerAction extends BaseAction<TimerActionConfig> {
     repeating: Boolean;
-    nonRepeating = false;
     _isFired = false;
     _schedulerID: any = -1;
     delay: number;
