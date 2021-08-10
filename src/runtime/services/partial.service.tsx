@@ -2,9 +2,11 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
 import PartialService from '@wavemaker/app-rn-runtime/core/partial.service';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 
-class PartialServiceImpl implements PartialService {
+export class PartialServiceImpl implements PartialService {
 
-    private partials = null as any;
+    public constructor(private partials = null as any) {
+
+    }
 
     get(partialName: string) {
         if (!this.partials) {

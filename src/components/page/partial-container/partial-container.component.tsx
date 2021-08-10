@@ -26,7 +26,8 @@ export default class WmPartialContainer extends BaseComponent<WmPartialContainer
       <View style={this.styles.root}>
         <PartialConsumer>
           {(partialService: PartialService) => {
-            return React.createElement(partialService.get(props.content), params);
+            const partial = partialService.get(props.content);
+            return partial ? React.createElement(partial, params) : null;
           }}
         </PartialConsumer>
       </View>
