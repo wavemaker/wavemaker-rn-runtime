@@ -11,7 +11,6 @@ export class ContactsService {
   public getContacts(params: ContactsInput): Promise<ContactsOutput> {
     return new Promise((resolve, reject) => {
       permissionManager.requestPermissions('contacts').then(() => {
-
         return Contacts.getContactsAsync({
           fields: [ Contacts.Fields.ID, Contacts.Fields.Name, Contacts.Fields.PhoneNumbers],
           name: params.contactFilter
