@@ -1,5 +1,6 @@
 import React from 'react';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import { Formatter } from '@wavemaker/app-rn-runtime/core/formatters';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
@@ -11,6 +12,7 @@ import WmFormField from "@wavemaker/app-rn-runtime/components/data/form/form-fie
 import WmForm from "@wavemaker/app-rn-runtime/components/data/form/form.component";
 import { isArray } from 'lodash-es';
 import { ToastConsumer, ToastOptions, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
+
 
 export class FragmentProps extends BaseProps {
 
@@ -42,10 +44,12 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public _memoize = {} as any;
     private formWidgets: any = {};
     public toaster: any;
+    public formatters: Map<string, Formatter>;
 
     constructor(props: P, defaultProps?: P) {
         super(props, undefined, undefined, defaultProps);
         this.App = this.appConfig.app;
+        this.formatters = this.App.formatters;
         this.Actions = Object.assign({}, this.App.Actions);
         this.Variables = Object.assign({}, this.App.Variables);
         this.cleanup.push(Viewport.subscribe(viewportEvents.ORIENTATION_CHANGE, ($new: any, $old: any) => {

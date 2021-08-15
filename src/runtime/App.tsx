@@ -6,6 +6,7 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
+import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
@@ -62,6 +63,7 @@ export default abstract class BaseApp extends React.Component {
   private startUpVariables: string[] = [];
   private startUpActions: string[] = [];
   private autoUpdateVariables: string[] = [];
+  public formatters = formatters;
 
   constructor(props: any) {
     super(props);
