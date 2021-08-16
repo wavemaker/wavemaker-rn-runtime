@@ -25,6 +25,7 @@ export type FragmentStyles = BaseStyles & {};
 export default abstract class BaseFragment<P extends FragmentProps, S extends FragmentState<P>> extends BaseComponent<P, S, FragmentStyles> implements LifecycleListener {
     public App: App;
     public onReady: Function = () => {};
+    public baseUrl = '';
     public targetWidget = null as unknown as BaseComponent<any, any, any>;
     public Widgets: any = {};
     public Variables: any = {};
@@ -62,6 +63,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
             {screenWidth: $new.width,
               screenHeight: $new.height}]);
         }));
+        this.baseUrl = this.appConfig.url;
     }
 
     onComponentChange(w: BaseComponent<any, any, any>) {

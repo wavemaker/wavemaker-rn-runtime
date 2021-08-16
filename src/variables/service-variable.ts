@@ -1,14 +1,13 @@
 import axios from "axios";
 import { BaseVariable, VariableConfig, VariableEvents } from "./base-variable";
-import { isObject, isNumber, forEach, get, isArray, toLower, merge, includes, toUpper } from "lodash";
-import AppConfig from "@wavemaker/app-rn-runtime/core/AppConfig";
+import { isObject, forEach, get, merge, includes, toUpper } from "lodash";
 import { WS_CONSTANTS } from "./utils/variable.constants";
 import {_setInput} from "./utils/variable.utils";
 import {$queue} from "./utils/inflight-queue";
 
 export interface ServiceVariableConfig extends VariableConfig {
     serviceInfo: any;
-    appConfig: AppConfig;
+    baseUrl: string;
     onCanUpdate: any;
     onBeforeUpdate: any;
     onResult: any;
@@ -49,7 +48,7 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
           params = onBeforeCallback;
         }
         super.invoke(params);
-        const proxyURL = config.appConfig?.url ? config.appConfig?.url + '/services' : '';
+        const proxyURL = config.baseUrl;
         let queryParams = '',
           headers: any = {},
           requestBody,

@@ -4,21 +4,49 @@ import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 import PartialService, { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
 import WmPrefabContainer from '@wavemaker/app-rn-runtime/components/prefab/prefab-container.component';
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
+import axios from 'axios';
 
 
 export interface PrefabProps extends FragmentProps {
+  name: string;
 }
 
 export interface PrefabState extends FragmentState<PrefabProps> {}
 
 export default abstract class BasePrefab extends BaseFragment<PrefabProps, PrefabState> {
+
+    private static SERVICE_DEFINITION_CACHE = {} as any;
+
+    public static getServiceDefinitions = (prefabName: string, url: string) => {
+      const defs = BasePrefab.SERVICE_DEFINITION_CACHE[prefabName];
+      if (defs) {
+        return Promise.resolve(defs);
+      } else {
+        return axios.get(url + '/servicedefs')
+          .catch(() => ({}))
+          .then((response: any) => {
+              const serviceDefinitions = response?.data?.serviceDefs || {};
+              BasePrefab.SERVICE_DEFINITION_CACHE[prefabName] = serviceDefinitions;
+              return Promise.resolve(serviceDefinitions);
+          });
+      }
+    };
+
+    private appUrl = '';
     private prefabParams: any = {};
+    private serviceDefinitions = {} as any;
     
     constructor(props: PrefabProps, defualtProps: PrefabProps, private partialService: PartialService) {
-        super(props, defualtProps);
-        this.App = this.appConfig.app;
-        this.Actions = Object.assign({}, this.App.Actions);
-        this.Variables = Object.assign({}, this.App.Variables);
+      super(props, defualtProps);
+      this.App = this.appConfig.app;
+      this.Actions = Object.assign({}, this.App.Actions);
+      this.Variables = Object.assign({}, this.App.Variables);
+      this.appUrl = this.appConfig.url;
+      this.baseUrl = this.baseUrl + '/prefabs/people_prefab';
+    }
+
+    getServiceDefinitions() {
+      return BasePrefab.getServiceDefinitions(this.props.name, `${this.appUrl}/services/prefabs/people_prefab`);
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {
