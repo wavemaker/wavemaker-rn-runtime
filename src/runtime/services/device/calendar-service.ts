@@ -9,7 +9,7 @@ import {
 import { DeleteEventOutput } from '@wavemaker/app-rn-runtime/variables/device/calendar/delete-event.operation';
 
 const DEFAULT_TIME = new Date().getTime();
-const DELTA_VALUE_DATE =  3 * 30 * 24 * 60 * 60 * 1000;
+const DELTA_VALUE_DATE = 3 * 30 * 24 * 60 * 60 * 1000;
 const DEFAULT_START_DATE = new Date(DEFAULT_TIME - DELTA_VALUE_DATE);
 const DEFAULT_END_DATE = new Date(DEFAULT_TIME + DELTA_VALUE_DATE);
 
@@ -45,7 +45,7 @@ export class CalendarService {
 
 
   public createEvent(params: CalendarInput): Promise<CreateEventOutput> {
-    const requiredParams = {
+    const eventMetadata = {
       title: params.eventTitle,
       location: params.eventLocation,
       notes: params.eventNotes,
@@ -63,16 +63,15 @@ export class CalendarService {
               }
             });
             // createEventAsync has calendarId as required parameter. Need to expose ownerAccount as filter field in studio. Right now passing calendar index as zero.
-            return Calendar.createEventAsync(calendarIds[0], requiredParams).then(res => {
+            return Calendar.createEventAsync(calendarIds[0], eventMetadata).then(res => {
               const event = {
                 dataValue: res
               };
               return resolve(event);
             })
-          })
-        })
-
-      })
+          }, reject);
+      });
+    });
   }
 
 
@@ -100,11 +99,8 @@ export class CalendarService {
                     return resolve(event);
                   })
               })
-          })
-      })
-    })
-
+          }, reject);
+      });
+    });
   }
-
-
 }
