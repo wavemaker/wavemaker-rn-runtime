@@ -1,5 +1,6 @@
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
+import * as Calendar from 'expo-calendar';
 
 const rejectionMsgMap = new Map<string, string>();
 
@@ -17,6 +18,8 @@ export default {
       query = Permissions.askAsync(Permissions.CAMERA);
     } else if (type === 'video') {
       query = Permissions.askAsync(Permissions.CAMERA, Permissions.AUDIO_RECORDING);
+    } else if(type === 'calendar') {
+      query = Calendar.requestCalendarPermissionsAsync();
     }
     if (!query) {
       return Promise.reject('no supported permission type.');
