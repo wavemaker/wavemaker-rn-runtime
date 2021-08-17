@@ -31,4 +31,8 @@ export class NavigationAction extends BaseAction<NavigationActionConfig> {
             return this;
         });
     }
+
+    public navigate(params?: {}, onSuccess?: Function, onError?: Function): Promise<NavigationAction> {
+        return this.invoke(params, onSuccess, onError);
+    }
 }
