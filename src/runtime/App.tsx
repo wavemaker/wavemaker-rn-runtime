@@ -60,6 +60,7 @@ export default abstract class BaseApp extends React.Component {
   onAppVariablesReady = () => {};
   isStarted = false;
   appConfig = injector.get<AppConfig>('APP_CONFIG');
+  public baseUrl = '';
   private startUpVariables: string[] = [];
   private startUpActions: string[] = [];
   private autoUpdateVariables: string[] = [];
@@ -70,6 +71,7 @@ export default abstract class BaseApp extends React.Component {
     this.appConfig.app = this;
     this.appConfig.drawer = new DrawerImpl(() => this.setState({'t': Date.now()}));
     let refreshAfterWait = false;
+    this.baseUrl = this.appConfig.url;
     let wait = 0;
     this.appConfig.refresh = () => {
       if (!wait) {
