@@ -6,6 +6,7 @@ const Stack = createStackNavigator();
 
 interface AppStackNavigatorProps {
   pages: any[];
+  landingPage: string; 
 }
 
 const pages = {} as any;
@@ -48,7 +49,7 @@ class Screen extends React.Component {
 }
 
 const AppStackNavigator = (props: AppStackNavigatorProps) => {
-  return (<Stack.Navigator initialRouteName="Main">
+  return (<Stack.Navigator initialRouteName={props.landingPage}>
     {props.pages.map(p => {
       pages[p.name] = p;
       return (
