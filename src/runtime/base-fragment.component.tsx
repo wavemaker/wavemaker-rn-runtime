@@ -46,6 +46,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     private formWidgets: any = {};
     public toaster: any;
     public formatters: Map<string, Formatter>;
+    public serviceDefinitions = {} as any;
 
     constructor(props: P, defaultProps?: P) {
         super(props, undefined, undefined, defaultProps);

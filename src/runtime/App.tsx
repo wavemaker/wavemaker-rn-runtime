@@ -66,6 +66,7 @@ export default abstract class BaseApp extends React.Component {
   private startUpActions: string[] = [];
   private autoUpdateVariables: string[] = [];
   public formatters = formatters;
+  public serviceDefinitions = {} as any;
 
   constructor(props: any) {
     super(props);

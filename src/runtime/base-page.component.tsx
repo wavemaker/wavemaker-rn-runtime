@@ -31,6 +31,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       this.pageParams = props.route.params;
       this.appConfig.currentPage = this;
       this.appConfig.drawer?.setContent(null);
+      this.serviceDefinitions = this.App.serviceDefinitions;
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {
