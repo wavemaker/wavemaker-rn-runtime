@@ -8,7 +8,7 @@ import axios from 'axios';
 
 
 export interface PrefabProps extends FragmentProps {
-  name: string;
+  prefabname: string;
 }
 
 export interface PrefabState extends FragmentState<PrefabProps> {}
@@ -34,19 +34,18 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
 
     private appUrl = '';
     private prefabParams: any = {};
-    private serviceDefinitions = {} as any;
     
     constructor(props: PrefabProps, defualtProps: PrefabProps, private partialService: PartialService) {
       super(props, defualtProps);
       this.App = this.appConfig.app;
-      this.Actions = Object.assign({}, this.App.Actions);
-      this.Variables = Object.assign({}, this.App.Variables);
+      this.Actions = {};
+      this.Variables = {};
       this.appUrl = this.appConfig.url;
-      this.baseUrl = this.baseUrl + '/prefabs/people_prefab';
+      this.baseUrl = `${this.baseUrl}/prefabs/${props.prefabname}`;
     }
 
     getServiceDefinitions() {
-      return BasePrefab.getServiceDefinitions(this.props.name, `${this.appUrl}/services/prefabs/people_prefab`);
+      return BasePrefab.getServiceDefinitions(this.props.prefabname, `${this.appUrl}/services/prefabs/${this.props.prefabname}`);
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {

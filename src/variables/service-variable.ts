@@ -28,11 +28,11 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         super(config);
     }
 
-    invoke(options? : any) {
-      return $queue.submit(this).then(this._invoke.bind(this, options));
+    invoke(options? : any, onSuccess?: Function, onError?: Function) {
+      return $queue.submit(this).then(this._invoke.bind(this, options, onSuccess, onError));
     }
 
-    _invoke(options? : any) {
+    _invoke(options? : any, onSuccess?: Function, onError?: Function) {
         let params = options ? (options.inputFields ? options.inputFields : options) : undefined;
         if (!params) {
           params = Object.keys(this.params).length ? this.params : undefined;
@@ -133,9 +133,11 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
           }
         }).then(() => {
           config.onSuccess && config.onSuccess(this, this.dataSet);
+          onSuccess && onSuccess(this, this.dataSet);
           this.notify(VariableEvents.SUCCESS, [this, this.dataSet]);
         }, () => {
           config.onError && config.onError(this, null);
+          onError && onError(this, null);
           this.notify(VariableEvents.ERROR, [this, this.dataSet]);
         }).then(() => {
           this.notify(VariableEvents.AFTER_INVOKE, [this, this.dataSet]);

@@ -16,7 +16,7 @@ export interface AppNavigatorProps {
 
 export const AppNavigator = (props: AppNavigatorProps) => {
   const appConfig = injector.get<AppConfig>('APP_CONFIG');
-  const stack = (<AppStackNavigator pages={appConfig.pages || []}></AppStackNavigator>);
+  const stack = (<AppStackNavigator pages={appConfig.pages || []} landingPage={appConfig.landingPage}></AppStackNavigator>);
   const leftNav = (<AppDrawerNavigator 
       type={props.drawerAnimation === 'slide-over' ? 'front' : 'slide'}
       hide={props.hideDrawer}

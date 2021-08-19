@@ -48,6 +48,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public toaster: any;
     public security: any;
     public formatters: Map<string, Formatter>;
+    public serviceDefinitions = {} as any;
 
     constructor(props: P, defaultProps?: P) {
         super(props, undefined, undefined, defaultProps);

@@ -1,4 +1,5 @@
 import React, { ReactNode }  from 'react';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import {TouchableOpacity, View, ViewStyle} from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -62,17 +63,21 @@ export default abstract class BaseApp extends React.Component {
   onAppVariablesReady = () => {};
   isStarted = false;
   appConfig = injector.get<AppConfig>('APP_CONFIG');
+  public baseUrl = '';
   private startUpVariables: string[] = [];
   private startUpActions: string[] = [];
   private autoUpdateVariables: string[] = [];
   public formatters = formatters;
+  public serviceDefinitions = {} as any;
 
   constructor(props: any) {
     super(props);
     this.appConfig.app = this;
     this.appConfig.drawer = new DrawerImpl(() => this.setState({'t': Date.now()}));
     let refreshAfterWait = false;
+    this.baseUrl = this.appConfig.url;
     let wait = 0;
+    this.bindServiceInterceptors();
     this.appConfig.refresh = () => {
       if (!wait) {
         RENDER_LOGGER.debug('refreshing the app...');
@@ -91,6 +96,30 @@ export default abstract class BaseApp extends React.Component {
         refreshAfterWait = true;
       }
     }
+  }
+
+  onBeforeServiceCall(config: AxiosRequestConfig) {
+    return config
+  }
+
+  onServiceSuccess(data: any, response: AxiosResponse) {
+
+  }
+
+  onServiceError(errorMsg: any, error: AxiosError<any>) {
+
+  }
+
+  bindServiceInterceptors() {
+    axios.interceptors.request.use((config: AxiosRequestConfig) => this.onBeforeServiceCall(config));
+    axios.interceptors.response.use(
+      (response: AxiosResponse) => {
+        this.onServiceSuccess(response.data, response);
+        return response;
+      },(error: AxiosError<any>) => {
+        this.onServiceError(error.message, error);
+        return Promise.reject(error)
+      });
   }
 
   eval(fn: Function, failOnError = false) {

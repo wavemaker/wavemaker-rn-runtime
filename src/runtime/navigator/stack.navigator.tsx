@@ -7,6 +7,7 @@ const Stack = createStackNavigator();
 
 interface AppStackNavigatorProps {
   pages: any[];
+  landingPage: string; 
 }
 
 const pages = {} as any;
@@ -49,10 +50,11 @@ class Screen extends React.Component {
 }
 
 const AppStackNavigator = (props: AppStackNavigatorProps) => {
-  return (<SecurityConsumer>
+  return (
+  <SecurityConsumer>
     {(securityService) => {
       console.log("isLoggedInvalue>>>>>>>>>>", securityService.isLoggedIn);
-      return <Stack.Navigator initialRouteName="Main">
+      return <Stack.Navigator initialRouteName={props.landingPage}>
       {props.pages.map(p => {
         if (p.securityNeeded && securityService && !securityService.isLoggedIn) {
           return;
@@ -72,7 +74,7 @@ const AppStackNavigator = (props: AppStackNavigatorProps) => {
         })}
     </Stack.Navigator>
     }}
-    </SecurityConsumer>);
+  </SecurityConsumer>);
 };
 
 export default AppStackNavigator;

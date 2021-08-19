@@ -6,12 +6,14 @@ export interface Drawer {
 }
 
 export default interface AppConfig {
+    appProperties: any;
     url: string;
     wavIconAsset: any,
     loadApp: boolean;
     refresh: () => void,
     currentPage?: any;
     pages?: any[];
+    landingPage: string;
     partials?: any[];
     drawer: Drawer;
     app: any;

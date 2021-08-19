@@ -1,4 +1,4 @@
-import { Input } from "@wavemaker/app-rn-runtime/variables/device/operation.provider";
+import { Input } from '@wavemaker/app-rn-runtime/variables/device/operation.provider';
 
 export interface CameraInput extends Input {
   allowImageEdit: boolean;
