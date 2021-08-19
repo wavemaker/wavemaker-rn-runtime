@@ -34,6 +34,7 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
 
     private appUrl = '';
     private prefabParams: any = {};
+    private showPrefab = false;
     
     constructor(props: PrefabProps, defualtProps: PrefabProps, private partialService: PartialService) {
       super(props, defualtProps);
@@ -57,6 +58,7 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
 
     componentDidMount() {
       super.componentDidMount();
+      this.showPrefab = true;
       this.invokeEventCallback('onLoad', [null, this]);
     }
 
@@ -74,7 +76,7 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       });
       return (
         <PartialProvider value={this.partialService}>
-          {this.renderPrefab()}
+          {this.showPrefab ? this.renderPrefab() : null}
         </PartialProvider>
       );
     }
