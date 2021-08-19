@@ -4,7 +4,6 @@ export class ModelVariable extends BaseVariable<VariableConfig> {
 
     constructor(config: VariableConfig) {
         super(config);
-        this.dataSet = this.isList ? []: {};
         this.invoke();
     }
 
