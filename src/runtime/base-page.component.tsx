@@ -61,8 +61,8 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       }, 10);
     }
 
-    componentDidMount() {
-      this.onFragmentReady().then(() => {
+    onFragmentReady() {
+      return super.onFragmentReady().then(() => {
         this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
           if (this.appConfig.currentPage !== this) {
             this.appConfig.currentPage = this;

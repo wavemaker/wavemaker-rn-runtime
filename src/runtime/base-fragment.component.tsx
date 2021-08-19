@@ -136,11 +136,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       }
     }
 
-    componentDidMount() {
-      super.componentDidMount();
-      this.onFragmentReady();
-    }
-
     componentWillUnmount() {
       super.componentWillUnmount();
       this.targetWidget && this.targetWidget.invokeEventCallback('onDestroy', [null, this.proxy]);
