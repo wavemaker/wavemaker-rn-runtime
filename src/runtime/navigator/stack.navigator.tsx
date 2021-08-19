@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { SecurityConsumer } from '@wavemaker/app-rn-runtime/core/security.service';
 
 const Stack = createStackNavigator();
 
@@ -48,22 +49,30 @@ class Screen extends React.Component {
 }
 
 const AppStackNavigator = (props: AppStackNavigatorProps) => {
-  return (<Stack.Navigator initialRouteName="Main">
-    {props.pages.map(p => {
-      pages[p.name] = p;
-      return (
-        <Stack.Screen key={p.name}
-          name={p.name}
-          initialParams={{
-            pageName: p.name
-          }}
-          component={Screen}
-          options={{
-            headerShown: false,
-          }}
-        />);
-      })}
-  </Stack.Navigator>);
+  return (<SecurityConsumer>
+    {(securityService) => {
+      console.log("isLoggedInvalue>>>>>>>>>>", securityService.isLoggedIn);
+      return <Stack.Navigator initialRouteName="Main">
+      {props.pages.map(p => {
+        if (p.securityNeeded && securityService && !securityService.isLoggedIn) {
+          return;
+        }
+        pages[p.name] = p;
+        return (
+          <Stack.Screen key={p.name}
+            name={p.name}
+            initialParams={{
+              pageName: p.name
+            }}
+            component={Screen}
+            options={{
+              headerShown: false,
+            }}
+          />);
+        })}
+    </Stack.Navigator>
+    }}
+    </SecurityConsumer>);
 };
 
 export default AppStackNavigator;

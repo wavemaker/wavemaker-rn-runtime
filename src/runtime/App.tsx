@@ -20,6 +20,8 @@ import AppModalService from './services/app-modal.service';
 import AppToastService from './services/app-toast.service';
 import AppPartialService from './services/partial.service';
 import { AppNavigator } from './App.navigator';
+import { SecurityProvider } from '../core/security.service';
+import AppSecurityService from './services/app-security.service';
 
 //some old react libraries need this
 ((View as any)['propTypes'] = { style: ProtoTypes.any})
@@ -133,19 +135,21 @@ export default abstract class BaseApp extends React.Component {
           <ToastProvider value={AppToastService}>
               <PartialProvider value={AppPartialService}>
                 <View  style={styles.container}>
-                  <ModalProvider value={AppModalService}>
-                    <View style={styles.container}>
-                      <AppNavigator
-                        app={this}
-                        hideDrawer={this.appConfig.drawer?.getContent() === null}
-                        drawerContent={() => this.appConfig.drawer?.getContent()}
-                        drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                      {AppDisplayManagerService.displayOptions.content  
-                        ? (<View style={styles.displayViewContainer}>
-                            {AppDisplayManagerService.displayOptions.content}
-                          </View>) : null}
-                    </View>
-                  </ModalProvider>
+                  <SecurityProvider value={AppSecurityService}>
+                    <ModalProvider value={AppModalService}>
+                      <View style={styles.container}>
+                        <AppNavigator
+                          app={this}
+                          hideDrawer={this.appConfig.drawer?.getContent() === null}
+                          drawerContent={() => this.appConfig.drawer?.getContent()}
+                          drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                        {AppDisplayManagerService.displayOptions.content  
+                          ? (<View style={styles.displayViewContainer}>
+                              {AppDisplayManagerService.displayOptions.content}
+                            </View>) : null}
+                      </View>
+                    </ModalProvider>
+                  </SecurityProvider>
                   
                 </View>
 

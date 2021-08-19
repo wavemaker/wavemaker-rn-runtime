@@ -12,6 +12,7 @@ import WmFormField from "@wavemaker/app-rn-runtime/components/data/form/form-fie
 import WmForm from "@wavemaker/app-rn-runtime/components/data/form/form.component";
 import { isArray } from 'lodash-es';
 import { ToastConsumer, ToastOptions, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
+import { SecurityConsumer, SecurityService } from '@wavemaker/app-rn-runtime/core/security.service';
 
 
 export class FragmentProps extends BaseProps {
@@ -45,6 +46,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public _memoize = {} as any;
     private formWidgets: any = {};
     public toaster: any;
+    public security: any;
     public formatters: Map<string, Formatter>;
 
     constructor(props: P, defaultProps?: P) {
@@ -200,12 +202,20 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     render() {
       this.autoUpdateVariables.forEach(value => this.Variables[value].invokeOnParamChange());
       return (<ThemeProvider value={this.theme}>
-        <ToastConsumer>
-            {(toastService: ToastService) => {
-              this.toaster = toastService;
-              return this.renderWidget(this.props);
+        <SecurityConsumer>
+        {(securityService: SecurityService) => {
+              this.security = securityService;
+              if (securityService) {
+                securityService.loggedInUser = this.Variables.loggedInUser;
+              }
+              return <ToastConsumer>
+              {(toastService: ToastService) => {
+                this.toaster = toastService;
+                return this.renderWidget(this.props);
+              }}
+            </ToastConsumer>;
             }}
-          </ToastConsumer>
+        </SecurityConsumer>
         
       </ThemeProvider>);
     }
