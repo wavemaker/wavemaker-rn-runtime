@@ -87,7 +87,7 @@ export class ScanService {
             <View style={styles.bottomWrapper}/>
           </Camera>)
         });
-      })
+      }, reject)
     }).then((response: any) => {
       let format;
       if (response.type) {

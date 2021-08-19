@@ -17,7 +17,7 @@ export class ContactsService {
           let contacts: any = [];
           value.data.forEach((c: Contacts.Contact) => {
             const numbers = [] as Array<PhoneNumber>;
-            c.phoneNumbers?.forEach(num => {
+            c.phoneNumbers?.forEach((num: Contacts.PhoneNumber) => {
               numbers.push({
                 value: num.number as string
               });
