@@ -1,6 +1,7 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export default class BaseDatasetProps extends BaseProps {
+  dataset: any;
   datavalue: any;
   displayfield: any;
   datafield: any;

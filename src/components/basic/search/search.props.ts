@@ -7,7 +7,6 @@ export default class WmSearchProps extends BaseDatasetProps {
   type: string = 'search';
   datacompletemsg: string = 'No more data to load';
   placeholder: string = 'Search';
-  dataset: any;
   limit: number = null as any;
   minchars: number = null as any;
   imagewidth: any = 16;

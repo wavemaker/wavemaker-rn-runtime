@@ -123,6 +123,11 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
       case 'dataset':
         this.setDataItems($new);
         break;
+      case 'displayexp':
+      case 'displayfield':
+      case 'datafield':
+        this.setDataItems(this.state.props.dataset);
+        break;
       case 'groupby':
       case 'match':
         this.setGroupData(this.state.dataItems);
