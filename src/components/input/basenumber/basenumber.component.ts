@@ -5,7 +5,7 @@ import { BaseNumberStyles } from '@wavemaker/app-rn-runtime/components/input/bas
 import { DEFAULT_CLASS, DEFAULT_STYLES } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles";
 
 export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentState<T> {
-  isInvalidNumber: any;
+  isInvalidNumber = false;
 }
 
 export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends BaseNumberState<T>, L extends BaseNumberStyles> extends BaseComponent<T, S, L> {

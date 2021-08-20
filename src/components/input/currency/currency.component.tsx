@@ -33,7 +33,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     return (<Text>
         <Text>{this.state.currencySymbol}</Text>
         <TextInput
-        style={[this.styles.root, this.state.isInvalidNumber ? {} : this.styles.invalid]}
+        style={[this.styles.root, this.state.isInvalidNumber ? this.styles.invalid : {}]}
         defaultValue={props.datavalue}
         editable={props.disabled || props.readonly ? false : true}
         placeholder={props.placeholder}
