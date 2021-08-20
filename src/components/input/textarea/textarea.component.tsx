@@ -12,12 +12,12 @@ export class WmTextareaState extends BaseInputState<WmTextareaProps> {}
 export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTextareaState, WmTextareaStyles> {
 
   constructor(props: WmTextareaProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTextareaProps());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTextareaProps(), new WmTextareaState());
   }
 
   renderWidget(props: WmTextareaProps) {
     return ( <TextInput
-      style={[this.styles.root, {borderBottomWidth: this.state.isValid === false ? 1 : 0, borderBottomColor: this.state.isValid === false ? 'red' : 'green'}]}
+      style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
       multiline={true}
       numberOfLines={3}
       keyboardType={this.state.keyboardType}
