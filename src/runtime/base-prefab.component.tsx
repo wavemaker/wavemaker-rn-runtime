@@ -60,7 +60,11 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       this.showPrefab = true;
       return new Promise((resolve) => setTimeout(resolve, 100))
       .then(() => super.onFragmentReady())
-      .then(() => this.invokeEventCallback('onLoad', [null, this]));
+      .then(() => {
+        this.setState({}, () => {
+          this.invokeEventCallback('onLoad', [null, this])
+        });
+      });
     }
 
     componentWillUnmount() {
