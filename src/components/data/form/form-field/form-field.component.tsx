@@ -15,7 +15,7 @@ export class WmFormFieldState extends BaseComponentState<WmFormFieldProps> {
 
 export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormFieldState, WmFormFieldStyles> {
   constructor(props: WmFormFieldProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormFieldProps());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormFieldProps(), new WmFormFieldState());
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {

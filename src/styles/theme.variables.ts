@@ -109,6 +109,7 @@ export class ThemeVariables {
     //input variables
     inputTextColor = '#666666';
     inputBorderColor = '#aaaaaa';
+    inputBackgroundColor = '#ffffff';
     inputFocusBorderColor = this.primaryColor;
 
     //slider variables

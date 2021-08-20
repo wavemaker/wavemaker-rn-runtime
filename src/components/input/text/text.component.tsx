@@ -11,13 +11,13 @@ export class WmTextState extends BaseInputState<WmTextProps> {
 export default class WmText extends BaseInputComponent<WmTextProps, WmTextState, WmTextStyles> {
 
   constructor(props: WmTextProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTextProps());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTextProps(), new WmTextState());
   }
 
   renderWidget(props: WmTextProps) {
     return (
         <TextInput
-          style={[this.styles.root, {borderBottomWidth: this.state.isValid === false ? 1 : 0, borderBottomColor: this.state.isValid === false ? 'red' : 'green'}]}
+          style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
           keyboardType={this.state.keyboardType}
           defaultValue={props.datavalue}
           autoCompleteType={props.autocomplete ? 'username' : 'off'}
