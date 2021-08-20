@@ -15,7 +15,7 @@ export class WmCurrencyState extends BaseNumberState<WmCurrencyProps> {
 export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmCurrencyState, WmCurrencyStyles> {
 
   constructor(props: WmCurrencyProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCurrencyProps());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCurrencyProps(), new WmCurrencyState());
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
@@ -33,7 +33,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     return (<Text>
         <Text>{this.state.currencySymbol}</Text>
         <TextInput
-        style={[this.styles.root, {borderBottomWidth: this.state.isInvalidNumber ? 1 : 0, borderBottomColor: this.state.isInvalidNumber ? 'red' : 'green'}]}
+        style={[this.styles.root, this.state.isInvalidNumber ? {} : this.styles.invalid]}
         defaultValue={props.datavalue}
         editable={props.disabled || props.readonly ? false : true}
         placeholder={props.placeholder}
