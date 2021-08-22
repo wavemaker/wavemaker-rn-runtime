@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { isArray } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -68,6 +69,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   renderWidget(props: WmListProps) {
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
+    const dataset = isArray(props.dataset) ? props.dataset : [];
     const list = (
         <View style={this.styles.root}>
           <FlatList
@@ -93,7 +95,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                 (<WmIcon styles={this.styles.loadingIcon}
                   iconclass={props.loadingicon}
                   caption={props.loadingdatamsg}></WmIcon>) : null}
-            data={props.dataset}
+            data={dataset}
             ListEmptyComponent = {() => <WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>}
             renderItem={(itemInfo) => (
             <Tappable onTap={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>

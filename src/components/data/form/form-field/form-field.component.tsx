@@ -15,7 +15,7 @@ export class WmFormFieldState extends BaseComponentState<WmFormFieldProps> {
 
 export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormFieldState, WmFormFieldStyles> {
   constructor(props: WmFormFieldProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormFieldProps());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormFieldProps(), new WmFormFieldState());
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
@@ -41,7 +41,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   }
 
   renderWidget(props: WmFormFieldProps) {
-    var childrenWithProps = React.Children.map(this.props.children, (child) => {
+    var childrenWithProps = React.Children.map(props.renderFormFields(this.proxy), (child) => {
       return React.cloneElement(child, { isValid: this.state.isValid, onFieldChange: this.onPropertyChange.bind(this) });
     });
     return (

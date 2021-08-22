@@ -34,6 +34,7 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
 
     private appUrl = '';
     private prefabParams: any = {};
+    private _renderPrefab:() => React.ReactNode = null as any;
     
     constructor(props: PrefabProps, defualtProps: PrefabProps, private partialService: PartialService) {
       super(props, defualtProps);
@@ -55,9 +56,16 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       }
     }
 
-    componentDidMount() {
-      super.componentDidMount();
-      this.invokeEventCallback('onLoad', [null, this]);
+    onFragmentReady(): Promise<void> {
+      this._renderPrefab = () => {
+        const component = this.renderPrefab();
+        super.onFragmentReady()
+        .then(() => this.invokeEventCallback('onLoad', [null, this]));
+        this._renderPrefab = () => this.renderPrefab();
+        return component;
+      };
+      this.refresh();
+      return Promise.resolve();
     }
 
     componentWillUnmount() {
@@ -74,7 +82,7 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       });
       return (
         <PartialProvider value={this.partialService}>
-          {this.renderPrefab()}
+          {this._renderPrefab ? this._renderPrefab(): null}
         </PartialProvider>
       );
     }

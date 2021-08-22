@@ -32,6 +32,7 @@ export abstract class BaseVariable<T extends VariableConfig> extends EventNotifi
       super();
       this.name = config.name;
       this.isList = config.isList;
+      this.dataSet = this.isList ? []: this.dataSet;
       this.subscribe(VariableEvents.BEFORE_INVOKE, () => {
         this.isExecuting = true;
         VARIABLE_LOGGER.info(`Before Invoking variable ${this.name}`);

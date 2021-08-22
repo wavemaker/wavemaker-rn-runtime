@@ -26,7 +26,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   }
 
   renderChild(item: any, index: any) {
-    const displayText = item.displayexp || item.displayfield;
+    const displayText = item.displayexp || item.displayfield || item.datafield;
     return (
       <Picker.Item label={displayText} value={item.datafield} key={item.key} />
       )
