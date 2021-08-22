@@ -79,8 +79,12 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
     goToPage(pageName: string, params: any) {
       const navigation = (this.props as PageProps).navigation;
-      if (pageName !== this.pageName && !isEqual(params, this.pageParams)) {
-        navigation.navigate(pageName, params);
+      if (pageName !== this.pageName || !isEqual(params, this.pageParams)) {
+        if (pageName === this.pageName) {
+          navigation.push(pageName, params);
+        } else {
+          navigation.navigate(pageName, params);
+        }
         if (this.cache) {
           this.onDetach();
         } else {
