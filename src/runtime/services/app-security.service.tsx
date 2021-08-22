@@ -9,7 +9,8 @@ declare const localStorage: any, window: any;
 class AppSecurityService implements SecurityService {
 
     isLoggedIn = false;
-    loggedInUser: any;
+    loggedInUser: any = {};
+    token: any;
     public appLogin(options: any) {
         // encode all parameters
         let payload = '';
@@ -24,12 +25,12 @@ class AppSecurityService implements SecurityService {
             'X-Requested-With': 'XMLHttpRequest'
         }}).then((response) => {
             const xsrfCookieValue = response.data ? response.data['wm_xsrf_token'] : '';
+            this.token = xsrfCookieValue;
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('wm_xsrf_token', xsrfCookieValue);
+            }
             this.isLoggedIn = true;
             this.getLoggedInUserDetails(options.baseURL);
-        }).then(() => {
-            console.log("inner then");
-        } , (error) => {
-            console.log("inner error", error);
         });
     }
 
@@ -46,6 +47,7 @@ class AppSecurityService implements SecurityService {
                     loggedInUser.id              = details.userInfo.userId;
                     loggedInUser.tenantId        = details.userInfo.tenantId;
                     loggedInUser.userAttributes  = details.userInfo.userAttributes;
+                    appConfig.loggedInUser = loggedInUser;
                     this.loggedInUser.dataSet = loggedInUser;   
                 }
                 return appConfig.getServiceDefinitions(appConfig.url)
@@ -54,7 +56,10 @@ class AppSecurityService implements SecurityService {
                 const myPromise = new Promise((resolve, reject) => {
                     setTimeout(() => {
                         console.info("navigate me", appConfig);
-                        appConfig.currentPage?.goToPage('Login');
+                        injector.get<AppConfig>('APP_CONFIG').landingPage = 'Login';
+                        appConfig.refresh();
+                        resolve('true');
+                        //appConfig.currentPage?.goToPage('Login');
                     }, 300);
                   });
                 return myPromise;
@@ -64,7 +69,13 @@ class AppSecurityService implements SecurityService {
     }
 
     public appLogout(options: any, successCallback: any, failureCallback: any) {
-        return axios.post(options.baseURL + '/j_spring_security_logout', null, {withCredentials: false}).then((response) => {
+        return axios.post(options.baseURL + '/j_spring_security_logout', null, {
+            withCredentials: true,
+            headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-WM-XSRF-TOKEN': typeof localStorage !== 'undefined' ? localStorage.getItem('wm_xsrf_token') : this.token
+            }
+        }).then((response) => {
             this.isLoggedIn = false;
             const appConfig = injector.get<AppConfig>('APP_CONFIG');
             appConfig.currentPage?.goToPage('Login');

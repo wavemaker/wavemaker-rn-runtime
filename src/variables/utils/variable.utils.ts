@@ -141,3 +141,41 @@ export const getValidJSON = (content: any) => {
     return undefined;
   }
 }
+
+export const parseErrors = (errors: any) => {
+  let errMsg = '';
+  if (errors && errors.error && errors.error.length) {
+      errors.error.forEach((errorDetails: any, i: Number) => {
+          errMsg += parseError(errorDetails) + (i > 0 ? '\n' : '');
+      });
+  }
+  return errMsg;
+}
+
+export const parseError = (errorObj: any) => {
+  let errMsg;
+  errMsg = errorObj.message ? replace(errorObj.message, errorObj.parameters, true) : ((errorObj.parameters && errorObj.parameters[0]) || '');
+  return errMsg;
+}
+
+/*
+ * Util method to replace patterns in string with object keys or array values
+ * Examples:
+ * Utils.replace('Hello, ${first} ${last} !', {first: 'wavemaker', last: 'ng'}) --> Hello, wavemaker ng
+ * Utils.replace('Hello, ${0} ${1} !', ['wavemaker','ng']) --> Hello, wavemaker ng
+ * Examples if parseError is true:
+ * Utils.replace('Hello, {0} {1} !', ['wavemaker','ng']) --> Hello, wavemaker ng
+ */
+export const replace = (template: any, map: any, parseError?: boolean) => {
+  let regEx = /\$\{([^\}]+)\}/g;
+  if (!template) {
+      return;
+  }
+  if (parseError) {
+      regEx = /\{([^\}]+)\}/g;
+  }
+
+  return template.replace(regEx, function (match: any, key: any) {
+      return get(map, key);
+  });
+};

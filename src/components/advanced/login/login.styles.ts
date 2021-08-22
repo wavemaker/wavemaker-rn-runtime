@@ -10,3 +10,17 @@ export const DEFAULT_STYLES: WmLoginStyles = {
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+
+
+const borderStyle = {
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#e0e0e0'
+};
+BASE_THEME.addStyle('app-login-username', DEFAULT_CLASS, {
+    root: borderStyle
+});
+
+BASE_THEME.addStyle('app-login-password', DEFAULT_CLASS, {
+    root: borderStyle
+});

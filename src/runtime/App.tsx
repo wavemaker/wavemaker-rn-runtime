@@ -23,6 +23,7 @@ import AppPartialService from './services/partial.service';
 import { AppNavigator } from './App.navigator';
 import { SecurityProvider } from '../core/security.service';
 import AppSecurityService from './services/app-security.service';
+import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/utils/variable.utils';
 
 //some old react libraries need this
 ((View as any)['propTypes'] = { style: ProtoTypes.any})
@@ -117,7 +118,18 @@ export default abstract class BaseApp extends React.Component {
         this.onServiceSuccess(response.data, response);
         return response;
       },(error: AxiosError<any>) => {
+        let errorDetails: any = error.response, errMsg;
+        errorDetails = getValidJSON(errorDetails?.data) || errorDetails?.data;
+        if (errorDetails && errorDetails.errors) {
+            errMsg = parseErrors(errorDetails.errors) || "Service Call Failed";
+        } else {
+            errMsg = errMsg || "Service Call Failed";
+        }
+        error.message = errMsg;
         this.onServiceError(error.message, error);
+        if (error.response?.config.url?.startsWith(this.appConfig.url) && error.response?.status === 401) {
+          this.appConfig.currentPage?.goToPage('Login');
+        }
         return Promise.reject(error)
       });
   }
