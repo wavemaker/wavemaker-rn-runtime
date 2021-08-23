@@ -128,7 +128,7 @@ export default abstract class BaseApp extends React.Component {
         error.message = errMsg;
         this.onServiceError(error.message, error);
         if (error.response?.config.url?.startsWith(this.appConfig.url) && error.response?.status === 401) {
-          this.appConfig.currentPage?.goToPage('Login');
+          this.appConfig.currentPage?.pageName !== 'Login' && this.appConfig.currentPage?.goToPage('Login');
         }
         return Promise.reject(error)
       });
