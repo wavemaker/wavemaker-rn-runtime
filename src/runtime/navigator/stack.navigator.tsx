@@ -49,8 +49,7 @@ class Screen extends React.Component {
 }
 
 const AppStackNavigator = (props: AppStackNavigatorProps) => {
-  return (
-    <Stack.Navigator initialRouteName={props.landingPage}>
+  return (<Stack.Navigator initialRouteName={props.landingPage}>
     {props.pages.map(p => {
       pages[p.name] = p;
       return (

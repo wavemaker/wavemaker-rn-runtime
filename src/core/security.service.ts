@@ -1,18 +1,11 @@
 import React from 'react';
 
-export interface SecurityOptions {
-    content: React.ReactNode;
-    onClick?: () => void;
-    onClose?: () => void;
-    name: string;
-    isLoggedIn: false;
-    baseURL: string;
-}
+export interface SecurityOptions {}
 
 export interface SecurityService {
     isLoggedIn: Boolean;
     loggedInUser: any;
-    appLogin: (options: SecurityOptions) => void;
+    appLogin: (options: SecurityOptions, success?: any, failure?: any) => any;
     appLogout: (options: any, success?: any, failure?: any) => any;
 }
 

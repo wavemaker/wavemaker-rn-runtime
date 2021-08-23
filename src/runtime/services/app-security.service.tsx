@@ -3,7 +3,6 @@ import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { SecurityOptions, SecurityService } from '@wavemaker/app-rn-runtime/core/security.service';
 import axios from 'axios';
 import { each } from "lodash";
-import { config } from 'yargs';
 declare const localStorage: any, window: any;
 
 class AppSecurityService implements SecurityService {
@@ -55,11 +54,9 @@ class AppSecurityService implements SecurityService {
             } else {
                 const myPromise = new Promise((resolve, reject) => {
                     setTimeout(() => {
-                        console.info("navigate me", appConfig);
                         injector.get<AppConfig>('APP_CONFIG').landingPage = 'Login';
                         appConfig.refresh();
                         resolve('true');
-                        //appConfig.currentPage?.goToPage('Login');
                     }, 300);
                   });
                 return myPromise;
@@ -79,10 +76,6 @@ class AppSecurityService implements SecurityService {
             this.isLoggedIn = false;
             const appConfig = injector.get<AppConfig>('APP_CONFIG');
             appConfig.currentPage?.goToPage('Login');
-        }).then(() => {
-            console.log("inner then");
-        } , (error) => {
-            console.log("inner error", error);
         });
     }
 
