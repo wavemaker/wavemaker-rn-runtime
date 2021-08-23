@@ -69,7 +69,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   renderWidget(props: WmListProps) {
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
-    const dataset = isArray(props.dataset) ? props.dataset : [];
+    const dataset = isArray(props.dataset) ? props.dataset : (props.dataset ? [props.dataset]: []);
     const list = (
         <View style={this.styles.root}>
           <FlatList
