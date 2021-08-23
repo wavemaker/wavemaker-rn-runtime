@@ -2,6 +2,7 @@ import React from 'react';
 import { LayoutChangeEvent, TouchableOpacity, Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
+import { TapEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.component';
 
@@ -43,9 +44,10 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
     }
   };
 
-  public showPopover = () => {
+  public showPopover = (e?: TapEvent) => {
     this.setState({ isOpened: true });
-    this.invokeEventCallback('onShow', [null, this]);
+    this.invokeEventCallback('onShow', [e, this]);
+    e?.stopPropagation();
   };
 
   public hide = () => {};

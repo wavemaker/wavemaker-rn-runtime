@@ -11,8 +11,22 @@ interface TappableProps {
     onDoubleTap?: (e: any) => void;
 }
 
+export class TapEvent {
+    propagationEnabled = true;
+    
+    constructor() {
+
+    }
+    
+    stopPropagation() {
+        this.propagationEnabled = false;
+    }
+}
+
 export class Tappable extends React.Component<TappableProps, any> {
     private lastPress = 0;
+
+    static CURRENT_EVENT: TapEvent = null as any;
 
     constructor(props: any) {
         super(props);
@@ -22,13 +36,21 @@ export class Tappable extends React.Component<TappableProps, any> {
         const delta = new Date().getTime() - this.lastPress;
         this.lastPress = this.lastPress > 0 ? 0: new Date().getTime();
         const target = this.props.target;
-        // Object.assign(target.props, this.props);
-        if(delta < 200) {
-            this.props.onDoubleTap && this.props.onDoubleTap(e);
-            target?.invokeEventCallback('onDoubletap', [null, target]);
+        if (!Tappable.CURRENT_EVENT) {
+            Tappable.CURRENT_EVENT = new TapEvent();
+            setTimeout(() => {
+                Tappable.CURRENT_EVENT = null as any;
+            }, 10);
         }
-        this.props.onTap && this.props.onTap(e);
-        target?.invokeEventCallback('onTap', [null, target]);
+        const syntheticEvent = Tappable.CURRENT_EVENT;
+        if (syntheticEvent.propagationEnabled) {
+            if(delta < 200) {
+                this.props.onDoubleTap && this.props.onDoubleTap(e);
+                target?.invokeEventCallback('onDoubletap', [syntheticEvent, target]);
+            }
+            this.props.onTap && this.props.onTap(e || syntheticEvent);
+            target?.invokeEventCallback('onTap', [syntheticEvent, target]);
+        }
     }
 
     render() {
