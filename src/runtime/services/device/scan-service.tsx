@@ -1,6 +1,6 @@
 import {Camera} from "expo-camera";
 import {BarCodeScanner} from "expo-barcode-scanner";
-import {StyleSheet, View} from "react-native";
+import {Platform, StyleSheet, View} from "react-native";
 import React from "react";
 import { ScanInput, ScanOutput } from "@wavemaker/app-rn-runtime/variables/device/scan/scan.operation";
 import {DisplayManager} from "@wavemaker/app-rn-runtime/core/display.manager";
@@ -58,13 +58,13 @@ const styles = StyleSheet.create({
   },
 });
 
-
 export class ScanService {
 
   constructor(private displayManager: DisplayManager) {}
 
   public scanBarcode(params: ScanInput): Promise<ScanOutput> {
-    const barcodeFormat: string = barcodeFormatOptions[params.barcodeFormat];
+    const format = Platform.OS === 'ios' ? params.barcodeFormat : 'QR_CODE';
+    const barcodeFormat: string = barcodeFormatOptions[format];
     return new Promise((resolve, reject) => {
       permissionManager.requestPermissions('camera').then(() => {
         const destroy = this.displayManager.show({

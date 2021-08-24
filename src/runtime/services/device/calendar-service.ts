@@ -25,7 +25,10 @@ export class CalendarService {
             result.forEach(c => calendarIds.push(c.id));
             Calendar.getEventsAsync(calendarIds, params.eventStart || DEFAULT_START_DATE, params.eventEnd || DEFAULT_END_DATE)
               .then(res => {
-                const filteredResult = res.filter(event => event.title === params.eventTitle || event.location === params.eventLocation || event.notes === params.eventNotes);
+                let filteredResult = res;
+                if (params.eventTitle || params.eventLocation || params.eventNotes) {
+                  filteredResult = res.filter(event => event.title === params.eventTitle || event.location === params.eventLocation || event.notes === params.eventNotes);
+                }
                 let events: Array<CalendarEvent> = [];
                 filteredResult.forEach(e => {
                   events.push({
