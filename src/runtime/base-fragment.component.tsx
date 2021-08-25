@@ -12,7 +12,6 @@ import WmFormField from "@wavemaker/app-rn-runtime/components/data/form/form-fie
 import WmForm from "@wavemaker/app-rn-runtime/components/data/form/form.component";
 import { isArray } from 'lodash-es';
 import { ToastConsumer, ToastOptions, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
-import { SecurityConsumer, SecurityService } from '@wavemaker/app-rn-runtime/core/security.service';
 
 
 export class FragmentProps extends BaseProps {
@@ -46,7 +45,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public _memoize = {} as any;
     private formWidgets: any = {};
     public toaster: any;
-    public security: any;
     public formatters: Map<string, Formatter>;
     public serviceDefinitions = {} as any;
 
