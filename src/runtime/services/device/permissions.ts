@@ -2,6 +2,8 @@ import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import * as Contacts from 'expo-contacts';
 import * as Calendar from 'expo-calendar';
+import { Camera } from "expo-camera";
+import { Platform } from "react-native";
 
 const rejectionMsgMap = new Map<string, string>();
 
@@ -38,17 +40,26 @@ export default {
       // requestPermissionsAsync is deprecated and requestForegroundPermissionsAsync is available only in sdk 41+
       query = Location.requestPermissionsAsync();
     } else if (type === 'image' || type === 'camera' || type === 'video') {
-      query = checkStatus(type);
+      query = Camera.requestPermissionsAsync();
     } else if(type === 'contacts') {
       query = Contacts.requestPermissionsAsync();
     } else if(type === 'calendar') {
-      query = Calendar.requestCalendarPermissionsAsync();
+      if (Platform.OS === 'ios') {
+        query = Promise.all([Calendar.requestCalendarPermissionsAsync(), Calendar.requestRemindersPermissionsAsync()]);
+      }  else {
+        query = Calendar.requestCalendarPermissionsAsync();
+      }
     }
     if (!query) {
       return Promise.reject('no supported permission type.');
     }
     return query.then((response: any) => {
-      if (response.status !== 'granted') {
+      if (Array.isArray(response)) {
+        const isRejected = response.find(o => o.status !== 'granted');
+        if (isRejected) {
+          return Promise.reject(rejectionMsgMap.get(type));
+        }
+      } else if (response && response.status !== 'granted') {
         return Promise.reject(rejectionMsgMap.get(type));
       }
       return Promise.resolve();

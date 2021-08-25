@@ -2,7 +2,7 @@ import React, { ReactNode }  from 'react';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import {TouchableOpacity, View, ViewStyle} from 'react-native';
 import ProtoTypes from 'prop-types';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
@@ -162,10 +162,7 @@ export default abstract class BaseApp extends React.Component {
 
   render() {
     return (
-
-      
       <SafeAreaProvider>
-        
         <PaperProvider theme={{
           ...DefaultTheme,
           colors: {
@@ -175,29 +172,32 @@ export default abstract class BaseApp extends React.Component {
           <NavigationServiceProvider value={this.appConfig.currentPage}>
           <ToastProvider value={AppToastService}>
               <PartialProvider value={AppPartialService}>
-                <View  style={styles.container}>
-                  <SecurityProvider value={AppSecurityService}>
-                    <ModalProvider value={AppModalService}>
-                      <View style={styles.container}>
-                        <AppNavigator
-                          app={this}
-                          hideDrawer={this.appConfig.drawer?.getContent() === null}
-                          drawerContent={() => this.appConfig.drawer?.getContent()}
-                          drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                        {AppDisplayManagerService.displayOptions.content  
-                          ? (<View style={styles.displayViewContainer}>
-                              {AppDisplayManagerService.displayOptions.content}
-                            </View>) : null}
-                      </View>
-                    </ModalProvider>
-                  </SecurityProvider>
-                  
-                </View>
+                <SafeAreaInsetsContext.Consumer>
+                  {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
+                    <View style={[styles.container, {paddingTop: insets?.top || 0, paddingBottom: insets?.bottom, paddingLeft: insets?.left, paddingRight : insets?.right}]}>
+                      <SecurityProvider value={AppSecurityService}>
+                        <ModalProvider value={AppModalService}>
+                          <View style={styles.container}>
+                            <AppNavigator
+                              app={this}
+                              hideDrawer={this.appConfig.drawer?.getContent() === null}
+                              drawerContent={() => this.appConfig.drawer?.getContent()}
+                              drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                            {AppDisplayManagerService.displayOptions.content
+                              ? (<View style={styles.displayViewContainer}>
+                                {AppDisplayManagerService.displayOptions.content}
+                              </View>) : null}
+                          </View>
+                        </ModalProvider>
+                      </SecurityProvider>
+                    </View>
+                  }
+                </SafeAreaInsetsContext.Consumer>
 
                 {AppToastService.toastsOpened.map((o, i) =>
                   (
                     <View key={i} style={[{position: 'absolute', width: '100%'}, o.styles]}>
-                      <TouchableOpacity 
+                      <TouchableOpacity
                     onPress={() => o.onClick && o.onClick()}
                       >
                             {o.content}
@@ -225,7 +225,7 @@ export default abstract class BaseApp extends React.Component {
                     )
                   )
                 }
-            </PartialProvider>
+              </PartialProvider>
             </ToastProvider>
           </NavigationServiceProvider>
         </PaperProvider>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { Badge } from 'react-native-paper';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import { TapEvent, Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { encodeUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
@@ -20,13 +20,13 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAnchorProps());
   }
 
-  onTap(navigationService: NavigationService) {
+  onTap(navigationService: NavigationService, e: TapEvent) {
     const props = this.state.props;
     if (props.hyperlink) {
       const link = props.encodeurl ? encodeUrl(props.hyperlink) : props.hyperlink;
       navigationService.openUrl(link);
     }
-    this.invokeEventCallback('onTap', [null, this.proxy]);
+    this.invokeEventCallback('onTap', [e, this.proxy]);
   }
 
   renderWidget(props: WmAnchorProps) {
@@ -40,7 +40,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
-          (<Tappable onTap={props.hyperlink || props.onTap ? () => this.onTap(navigationService) : undefined}>
+          (<Tappable onTap={props.hyperlink || props.onTap ? (e: TapEvent) => this.onTap(navigationService, e) : undefined}>
               <View style={[this.styles.root, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
                 {props.iconposition === 'top' && icon}
                 {props.iconposition === 'left' && icon}
