@@ -1,16 +1,29 @@
-import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
+import BASE_THEME, {AllStyle} from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import ThemeVariables from "@wavemaker/app-rn-runtime/styles/theme.variables";
 
-export type WmLoginStyles = BaseStyles & {};
+export type WmLoginStyles = BaseStyles & {
+    errorMsgStyles: AllStyle,
+    formStyles: AllStyle
+};
 
 export const DEFAULT_CLASS = 'app-login';
 export const DEFAULT_STYLES: WmLoginStyles = {
     root: {},
-    text: {}
+    text: {},
+    errorMsgStyles: { 
+        color: ThemeVariables.loginErrorMsgColor, 
+        fontSize: 14, 
+        backgroundColor: ThemeVariables.loginErrorMsgBgColor , 
+        borderColor: ThemeVariables.loginErrorMsgBorderColor, 
+        padding: 12 
+    },
+    formStyles: {
+        padding: 35
+    }
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-
 
 const paddingStyle = {
     padding: 5

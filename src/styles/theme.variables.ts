@@ -262,6 +262,12 @@ export class ThemeVariables {
     searchDropdownBackgroundColor = '#ffffff';
     searchDataCompleteItemBgColor = 'rgba(0,0,0,.05)';
 
+    //Login
+    loginErrorMsgColor = '#ffffff';
+    loginErrorMsgBgColor = '#F44336';
+    loginErrorMsgBorderColor = '#f31e33';
+
+
 }
 
 export default new ThemeVariables();

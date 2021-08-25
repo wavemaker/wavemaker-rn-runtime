@@ -198,20 +198,12 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     render() {
       this.autoUpdateVariables.forEach(value => this.Variables[value].invokeOnParamChange());
       return (<ThemeProvider value={this.theme}>
-        <SecurityConsumer>
-        {(securityService: SecurityService) => {
-              this.security = securityService;
-              if (securityService) {
-                securityService.loggedInUser = this.Variables.loggedInUser;
-              }
-              return <ToastConsumer>
-              {(toastService: ToastService) => {
-                this.toaster = toastService;
-                return this.renderWidget(this.props);
-              }}
-            </ToastConsumer>;
+        <ToastConsumer>
+            {(toastService: ToastService) => {
+              this.toaster = toastService;
+              return this.renderWidget(this.props);
             }}
-        </SecurityConsumer>
+          </ToastConsumer>
         
       </ThemeProvider>);
     }

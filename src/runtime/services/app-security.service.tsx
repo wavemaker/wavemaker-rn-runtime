@@ -1,9 +1,19 @@
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { SecurityOptions, SecurityService } from '@wavemaker/app-rn-runtime/core/security.service';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { each } from "lodash";
 declare const localStorage: any, window: any;
+
+interface LoggedInUserConfig {
+    isAuthenticated: Boolean;
+    isSecurityEnabled: Boolean;
+    roles: Array<string>;
+    name: String;
+    id: String;
+    tenantId: String;
+    userAttributes: any;
+}
 
 class AppSecurityService implements SecurityService {
 
@@ -22,7 +32,7 @@ class AppSecurityService implements SecurityService {
             headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
-        }}).then((response) => {
+        }}).then((response: AxiosResponse) => {
             const xsrfCookieValue = response.data ? response.data['wm_xsrf_token'] : '';
             this.token = xsrfCookieValue;
             if (typeof localStorage !== 'undefined') {
@@ -34,13 +44,14 @@ class AppSecurityService implements SecurityService {
     }
 
     private getLoggedInUserDetails(baseURL: string) {
-        return axios.get(baseURL + '/services/security/info').then((response: any) => {
-            const loggedInUser = {} as any;
+        return axios.get(baseURL + '/services/security/info').then((response: AxiosResponse) => {
+            const loggedInUser = {} as LoggedInUserConfig;
             const details = response.data;
             const appConfig = injector.get<AppConfig>('APP_CONFIG');
             if (!details.securityEnabled || details.authenticated) {
                 if (details.authenticated) {
                     loggedInUser.isAuthenticated = details.authenticated;
+                    loggedInUser.isSecurityEnabled = details.authenticated;
                     loggedInUser.roles           = details.userInfo.userRoles;
                     loggedInUser.name            = details.userInfo.userName;
                     loggedInUser.id              = details.userInfo.userId;
@@ -65,7 +76,7 @@ class AppSecurityService implements SecurityService {
         });
     }
 
-    public appLogout(options: any, successCallback: any, failureCallback: any) {
+    public appLogout(options: any) {
         return axios.post(options.baseURL + '/j_spring_security_logout', null, {
             withCredentials: true,
             headers: {
