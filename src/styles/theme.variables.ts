@@ -199,7 +199,7 @@ export class ThemeVariables {
     //message
     messageDefaultTextColor  = this.defaultColorF;
     messageDefaultIconColor = this.defaultColorF;
-    messageDefaultCloseBtnColor = this.defaultColor6;
+    messageDefaultCloseBtnColor = Color(this.defaultColor6).fade(0.5).toString();
     messageSuccessBackgroundColor = this.successColor;
     messageSuccessIconColor = this.messageDefaultIconColor;
     messageSuccessTextColor = this.messageDefaultTextColor;

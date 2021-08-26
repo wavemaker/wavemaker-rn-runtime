@@ -25,7 +25,7 @@ const getStyle = (bgColor: string, closeBtnColor: string, iconcolor: string, tex
             paddingLeft: 8,
             paddingRight: 8,
             backgroundColor: bgColor,
-            borderRadius: 2
+            borderRadius: 4
         },
         message: {
             flex: 1,
