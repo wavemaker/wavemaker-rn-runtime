@@ -20,7 +20,7 @@ export const DEFAULT_STYLES: WmProgressCircleStyles = {
 
 const getStyle = (color: string) => ({
     progressCircle: {
-        backgroundColor: Color(color).lighten(0.6).rgb().toString(),
+        backgroundColor: Color(color).fade(0.8).rgb().toString(),
     },
     progressValue: {
         backgroundColor: color
