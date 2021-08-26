@@ -12,7 +12,8 @@ export type WmButtonStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-button';
 export const DEFAULT_STYLES: WmButtonStyles = {
     root: {
-        padding: 8
+        padding: 12,
+        borderRadius: 4
     },
     content: {
       flexDirection: 'row',
@@ -21,7 +22,8 @@ export const DEFAULT_STYLES: WmButtonStyles = {
     },
     text: {
       fontSize: 12,
-      textAlign: "center"
+      textAlign: 'center',
+      textTransform: 'capitalize'
     },
     badge: {
       backgroundColor: ThemeVariables.buttonBadgeBackgroundColor,

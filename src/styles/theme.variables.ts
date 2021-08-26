@@ -120,14 +120,14 @@ export class ThemeVariables {
     buttonSuccessColor = this.successColor;
     buttonDefaultColor = this.transparent;
     buttonPrimaryColor = this.primaryColor;
-    buttonSecondaryColor = this.secondaryColor;
+    buttonSecondaryColor = this.primaryColor2;
     buttonDangerColor = this.dangerColor;
     buttonWarningColor = this.warningColor;
     buttonInfoColor = this.infoColor;
     buttonSuccessTextColor = this.successContrastColor;
     buttonDefaultTextColor = this.defaultTextColor;
     buttonPrimaryTextColor = this.primaryContrastColor;
-    buttonSecondaryTextColor = this.primaryColor;
+    buttonSecondaryTextColor = this.primaryContrastColor;
     buttonDangerTextColor = this.dangerContrastColor;
     buttonWarningTextColor = this.warningContrastColor;
     buttonInfoTextColor = this.infoContrastColor;
