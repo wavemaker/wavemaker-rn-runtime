@@ -2,7 +2,7 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { SecurityOptions, SecurityService } from '@wavemaker/app-rn-runtime/core/security.service';
 import axios, { AxiosResponse } from 'axios';
-import { each } from "lodash";
+import { each, includes } from "lodash";
 declare const localStorage: any, window: any;
 
 interface LoggedInUserConfig {
@@ -13,6 +13,12 @@ interface LoggedInUserConfig {
     id: String;
     tenantId: String;
     userAttributes: any;
+}
+
+enum USER_ROLE {
+    EVERYONE = 'Everyone',
+    ANONYMOUS = 'Anonymous',
+    AUTHENTICATED = 'Authenticated'
 }
 
 class AppSecurityService implements SecurityService {
@@ -88,6 +94,33 @@ class AppSecurityService implements SecurityService {
             const appConfig = injector.get<AppConfig>('APP_CONFIG');
             appConfig.currentPage?.goToPage('Login');
         });
+    }
+
+    private matchRoles(widgetRoles: Array<String>, userRoles: Array<String>) {
+        return widgetRoles.some(function (item) {
+            return includes(userRoles, item);
+        });
+    }
+
+    public hasAccessToWidget(widgetRoles: String) {
+        const widgetRolesArr = widgetRoles.split(',');
+        // access the widget when 'Everyone' is chosen
+        if (includes(widgetRolesArr, USER_ROLE.EVERYONE)) {
+            return true;
+        }
+
+        // access the widget when 'Anonymous' is chosen and user is not authenticated
+        if (includes(widgetRolesArr, USER_ROLE.ANONYMOUS) && !this.loggedInUser.dataSet?.isAuthenticated) {
+            return true;
+        }
+
+        // access the widget when 'Only Authenticated Users' is chosen and user is authenticated
+        if (includes(widgetRolesArr, USER_ROLE.AUTHENTICATED) && this.loggedInUser.dataSet?.isAuthenticated) {
+            return true;
+        }
+
+        // access the widget when widget role and logged in user role matches
+        return this.loggedInUser.dataSet?.isAuthenticated && this.matchRoles(widgetRolesArr, this.loggedInUser.dataSet?.roles);
     }
 
 }
