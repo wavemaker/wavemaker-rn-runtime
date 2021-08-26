@@ -1,34 +1,64 @@
+import Color from "color";
+
 export class ThemeVariables {
     primaryColor = '#007bff';
+    primaryColor1 = Color(this.primaryColor).lighten(0.2).rgb().toString();
+    primaryColor2 = Color(this.primaryColor).lighten(0.4).rgb().toString();
+    primaryColor3 = Color(this.primaryColor).lighten(0.6).rgb().toString();
     primaryContrastColor = '#ffffff';
     secondaryColor = '#6c757d';
+    secondaryContrastColor = '#ffffff';
     successColor = '#28a745';
+    successContrastColor = '#ffffff';
     infoColor = '#17a2b8';
+    infoContrastColor = '#ffffff';
     warningColor = '#ffc107';
+    warningContrastColor = '#ffffff';
     dangerColor = '#dc3545';
-    lightColor = '#f8f9fa';
-    darkColor = '#343a40';
-    borderColor = '#0003';
-    defaultColor = '#777';
+    dangerContrastColor = '#ffffff';
+    defaultColor = '#000000';
+    defaultColor1 = '#111111';
+    defaultColor2 = '#222222';
+    defaultColor3 = '#333333';
+    defaultColor4 = '#444444';
+    defaultColor5 = '#555555';
+    defaultColor6 = '#666666';
+    defaultColor7 = '#777777';
+    defaultColor8 = '#888888';
+    defaultColor9 = '#999999';
+    defaultColorA = '#aaaaaa';
+    defaultColorB = '#bbbbbb';
+    defaultColorC = '#cccccc';
+    defaultColorD = '#dddddd';
+    defaultColorE = '#eeeeee';
+    defaultColorF = '#ffffff';
+    defaultBgColor = this.defaultColorF;
+    defaultTextColor = this.defaultColor;
+    lightColor = this.defaultColorF;
+    darkColor = this.defaultColor;
+    muteColor = this.defaultColorA;
     heading1FontSize = 36;
     heading2FontSize = 30;
     heading3FontSize = 24;
     heading4FontSize = 18;
     heading5FontSize = 14;
     heading6FontSize = 12;
+    transparent = 'transparent';
+    badgeColor = '#6c757d';
+    badgeContrastColor = '#ffffff';
 
     // Navbar variables
     navbarBackgroundColor = this.primaryColor;
-    navbarTextColor = '#ffffff';
+    navbarTextColor = this.primaryContrastColor;
     navbarIconSize = 24;
     navbarFontSize = 15;
     navbarImageSize = 24;
     navbarCaretColor = this.primaryColor;
-    navitemChildBackgroundColor = '#ffffff';
-    navitemChildTextColor = '#666666';
-    navitemChildIconColor = '#666666';
+    navitemChildBackgroundColor = this.primaryContrastColor;
+    navitemChildTextColor = this.defaultColor;
+    navitemChildIconColor = this.defaultColor6;
     navitemActiveBackgroundColor = this.primaryColor;
-    navitemActiveTextColor = '#ffffff';
+    navitemActiveTextColor = this.primaryContrastColor;
     navitemActiveIconColor = this.navitemActiveTextColor;
 
     //Anchor variables
@@ -40,13 +70,13 @@ export class ThemeVariables {
     linkDangerColor = this.dangerColor;
     linkLightColor = this.lightColor;
     linkDarkColor = this.darkColor;
-    linkBadgeBackgroundColor = '#6c757d';
-    linkBadgeTextColor = '#ffffff';
+    linkBadgeBackgroundColor = this.badgeColor;
+    linkBadgeTextColor = this.badgeContrastColor;
     anchorTextPadding = 2;
 
     //Grid Layout variables
-    layoutGridBorderColor = this.borderColor;
-    gridColumnBorderColor = this.borderColor;
+    layoutGridBorderColor = this.defaultColor6;
+    gridColumnBorderColor = this.defaultColor6;
 
     //Spinner Variables
     spinnerIconColor = this.primaryColor;
@@ -58,98 +88,104 @@ export class ThemeVariables {
 
     //label Variables
     labelDefaultColor = this.defaultColor;
+    labelDefaultContrastColor = this.defaultColorF;
     labelDangerColor = this.dangerColor;
+    labelDangerContrastColor = this.dangerContrastColor;
     labelInfoColor = this.infoColor;
+    labelInfoContrastColor = this.infoContrastColor;
     labelPrimaryColor = this.primaryColor;
+    labelPrimaryContrastColor = this.primaryContrastColor;
     labelSuccessColor = this.successColor;
+    labelSuccessContrastColor = this.successContrastColor;
     labelWarningColor = this.warningColor;
+    labelWarningContrastColor = this.warningContrastColor;
     labelTextSuccessColor = this.successColor;
     labelTextDangerColor = this.dangerColor;
     labelTextInfoColor = this.infoColor;
-    labelTextMutedColor = '#aaaaaa';
+    labelTextMutedColor = this.muteColor;
     labelTextPrimaryColor = this.primaryColor;
     labelTextWarningColor = this.warningColor;
     labelAsteriskColor = this.dangerColor;
 
     //List
-    listTitleColor = '#5e5e5e';
+    listTitleColor = this.defaultColor6;
     listSubTitleColor = this.listTitleColor;
-    listDividerColor = '#ddd';
+    listDividerColor = this.defaultColorD;
     selectedItemBorderColor = this.primaryColor;
 
     //button Variables
-    buttonBadgeTextColor = '#ffffff';
-    buttonBadgeBackgroundColor = '#6c757d';
+    buttonBadgeBackgroundColor = this.badgeColor;
+    buttonBadgeTextColor = this.badgeContrastColor;
     buttonTextPadding = 2;
     buttonSuccessColor = this.successColor;
-    buttonDefaultColor = 'transparent';
+    buttonDefaultColor = this.transparent;
     buttonPrimaryColor = this.primaryColor;
-    buttonSecondaryColor = '#ffffff';
+    buttonSecondaryColor = this.secondaryColor;
     buttonDangerColor = this.dangerColor;
     buttonWarningColor = this.warningColor;
     buttonInfoColor = this.infoColor;
-    buttonSuccessTextColor ='#ffffff';
-    buttonDefaultTextColor = '#5e5e5e';
-    buttonPrimaryTextColor ='#ffffff';
+    buttonSuccessTextColor = this.successContrastColor;
+    buttonDefaultTextColor = this.defaultTextColor;
+    buttonPrimaryTextColor = this.primaryContrastColor;
     buttonSecondaryTextColor = this.primaryColor;
-    buttonDangerTextColor ='#ffffff';
-    buttonWarningTextColor = '#212529';
-    buttonInfoTextColor ='#ffffff';
-    buttonLinkColor = 'transparent';
+    buttonDangerTextColor = this.dangerContrastColor;
+    buttonWarningTextColor = this.warningContrastColor;
+    buttonInfoTextColor = this.infoContrastColor;
+    buttonLinkColor = this.transparent;
     buttonLinkTextColor = this.primaryColor;
     buttonDarkColor = this.darkColor;
-    buttonDarkTextColor = '#ffffff';
+    buttonDarkTextColor = this.lightColor;
     buttonLightColor = this.lightColor;
-    buttonLightTextColor = '#212529';
+    buttonLightTextColor = this.darkColor;
 
     //picture variables
-    pictureThumbBgColor = '#ffffff';
-    pictureThumbBorderColor = '#dddddd';
+    pictureThumbBgColor = this.defaultColorF;
+    pictureThumbBorderColor = this.defaultColorD;
 
     //input variables
-    inputTextColor = '#666666';
-    inputBorderColor = '#aaaaaa';
-    inputBackgroundColor = '#ffffff';
+    inputTextColor = this.defaultTextColor;
+    inputBorderColor = this.defaultColorA;
+    inputBackgroundColor = this.defaultColorF;
     inputFocusBorderColor = this.primaryColor;
 
     //slider variables
-    minimumTrackTintColor = '#aaa';
-    maximumTrackTintColor = '#aaa';
+    minimumTrackTintColor = this.defaultColorA;
+    maximumTrackTintColor = this.defaultColorA;
     thumbTintColor = this.primaryColor;
 
     //rating color
-    ratingIconColor = '#aaa';
-    ratingSelectedIconColor = '#f7dc6f';
+    ratingIconColor = this.defaultColorA;
+    ratingSelectedIconColor = this.primaryColor;
 
     //toggle variables
-    toggleColor = '#2196f3';
+    toggleColor = this.defaultColor2;
 
     // radioset, checkboxset variables
-    groupHeaderBackgroundColor = '#D3D3D3';
-    checkedColor = '#2196f3';
+    groupHeaderBackgroundColor = this.defaultColorD;
+    checkedColor = this.defaultColor2;;
 
     //form
-    formTitleColor = '#5e5e5e';
+    formTitleColor = this.defaultColor5;
     formSubTitleColor = this.formTitleColor;
 
     //dialog
-    dialogBackgroundColor = '#ffffff';
-    dialogBorderColor = '#dddddd';
+    dialogBackgroundColor = this.defaultColorF;
+    dialogBorderColor = this.defaultColorD;
 
-    badgeTextColor = '#ffffff';
+    badgeTextColor = this.defaultColorF;
 
     //popover
-    popoverBackgroundColor = '#ffffff';
-    popoverTitleBackgroundColor = '#dddddd';
-    popoverTitleColor = '#111111';
+    popoverBackgroundColor = this.defaultColorF;
+    popoverTitleBackgroundColor = this.defaultColorD;
+    popoverTitleColor = this.defaultColor1;
 
     //menu
-    menuIconColor = '#666666';
-    menuTextColor = '#666666';
+    menuIconColor = this.defaultColor6;
+    menuTextColor = this.defaultColor6;
     menuBackgroundColor = this.popoverBackgroundColor;
-    menuItemBorderColor = '#dddddd';
-    menuItemIconColor = '#666666';
-    menuItemTextColor = '#666666';
+    menuItemBorderColor = this.defaultColorD;
+    menuItemIconColor = this.defaultColor6;
+    menuItemTextColor = this.defaultColor6;
 
     //tile Variables
     tileDangerColor = this.dangerColor;
@@ -157,13 +193,13 @@ export class ThemeVariables {
     tilePrimaryColor = this.primaryColor;
     tileSuccessColor = this.successColor;
     tileWarningColor = this.warningColor;
-    tileWellbgColor = '#ffffff';
-    tileWellBorderColor = '#ededed';
+    tileWellbgColor = this.defaultColorF;
+    tileWellBorderColor = this.defaultColorE;
 
     //message
-    messageDefaultTextColor  = '#ffffff';
-    messageDefaultIconColor = '#ffffff';
-    messageDefaultCloseBtnColor = 'rgba(0, 0, 0, 0.5)';
+    messageDefaultTextColor  = this.defaultColorF;
+    messageDefaultIconColor = this.defaultColorF;
+    messageDefaultCloseBtnColor = this.defaultColor6;
     messageSuccessBackgroundColor = this.successColor;
     messageSuccessIconColor = this.messageDefaultIconColor;
     messageSuccessTextColor = this.messageDefaultTextColor;
@@ -192,14 +228,14 @@ export class ThemeVariables {
     panelPrimaryColor = this.primaryColor;
     panelSuccessColor = this.successColor;
     panelWarningColor = this.warningColor;
-    panelTextColor = '#ffffff';
+    panelTextColor = this.defaultColorF;
 
     //card
-    cardHeaderBgColor = '#ddd';
+    cardHeaderBgColor = this.defaultColorD;
     cardTitleColor = this.listTitleColor;
     cardSubTitleColor = this.listSubTitleColor;
-    cardContentBgColor = '#ffffff';
-    cardFooterBgColor = '#ffffff';
+    cardContentBgColor = this.defaultColorF;
+    cardFooterBgColor = this.defaultColorF;
 
     //progress bar
     progressBarDefaultColor = this.primaryColor;
@@ -217,50 +253,50 @@ export class ThemeVariables {
 
 
     //accordion
-    accordionTitleColor = '#000';
+    accordionTitleColor = this.defaultTextColor;
 
     //carousel
-    carouselPrevBtnColor='#ffffff';
-    carouselNextBtnColor='#ffffff';
-    carouselDotWrapperBgColor='transparent';
-    carouselDotColor='#ffffff';
+    carouselPrevBtnColor=this.defaultColorF;
+    carouselNextBtnColor=this.defaultColorF;
+    carouselDotWrapperBgColor=this.transparent;
+    carouselDotColor=this.defaultColorF;
     carouselActiveDotColor=this.primaryColor;
 
     //calendar
-    calendarBgColor = 'transparent';
+    calendarBgColor = this.transparent;
     calendarHeaderBgColor = this.primaryColor;
-    calendarHeaderTextColor = '#ffffff';
+    calendarHeaderTextColor = this.defaultColorF;
     calendarWeekDayTextColor = this.primaryColor;
-    calendarDateColor = '#000000';
-    calendarNotCurrentMonthDateColor = '#666666';
-    calendarHeaderColor = '#ffffff';
+    calendarDateColor = this.defaultColor;
+    calendarNotCurrentMonthDateColor = this.defaultColor6;
+    calendarHeaderColor = this.defaultColorF;
     calendarPrevYearIconColor = this.calendarHeaderColor;
     calendarNextYearIconColor = this.calendarHeaderColor;
     calendarPrevMonthIconColor = this.calendarHeaderColor;
     calendarNextMonthIconColor = this.calendarHeaderColor;
-    calendarDayBgColor = '#000000';
+    calendarDayBgColor = this.defaultColor;
     calendarSelectedDayBgColor = this.primaryColor;
-    calendarSelectedDayTextColor = '#ffffff';
-    calendarTodayBgColor = '#ddd';
-    calendarEventDay1Color = '#ffff00';
-    calendarEventDay2Color = '#ffa500';
-    calendarEventDay3Color = '#ff0000';
+    calendarSelectedDayTextColor = this.defaultColorF;
+    calendarTodayBgColor = this.defaultColorD;
+    calendarEventDay1Color = this.primaryColor1;
+    calendarEventDay2Color = this.primaryColor2;
+    calendarEventDay3Color = this.primaryColor3;
 
     //wizard
-    wizardBackgroundColor='#ffffff';
-    wizardStepActiveColor = '#21adf0';
-    wizardStepDoneColor = 'green';
-    wizardStepColor= '#aaaaaa';
+    wizardBackgroundColor = this.defaultColorF;
+    wizardStepActiveColor = this.defaultColor2;
+    wizardStepDoneColor = this.successColor;
+    wizardStepColor = this.defaultColorA;
     wizardNextBtnColor= this.primaryColor;
     wizardDoneBtnColor = this.successColor;
-    wizardStepConnectorColor = '#e2e2e2';
-    wizardStepCounerColor = '#999999'
+    wizardStepConnectorColor = this.defaultColorE;
+    wizardStepCounerColor = this.defaultColor9;
 
     //Search
-    searchItemBorderColor = '#dddddd';
-    searchItemTextColor = '#666666';
-    searchDropdownBackgroundColor = '#ffffff';
-    searchDataCompleteItemBgColor = 'rgba(0,0,0,.05)';
+    searchItemBorderColor = this.defaultColorD;
+    searchItemTextColor = this.defaultColor6;
+    searchDropdownBackgroundColor = this.defaultColorF;
+    searchDataCompleteItemBgColor = this.defaultColorE;
 
     //Login
     loginErrorMsgColor = '#ffffff';

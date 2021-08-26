@@ -22,20 +22,29 @@ export const DEFAULT_STYLES: WmLabelStyles = {
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 
-const getLabelStyles = (color: string): WmLabelStyles => {
+const getLabelStyles = (color: string, textColor: string): WmLabelStyles => {
   return {
     root: {
-      backgroundColor: color
+      backgroundColor: color,
+      paddingLeft: 8,
+      paddingTop: 4,
+      paddingRight: 8,
+      paddingBottom: 4,
+      borderRadius: 4
+    },
+    text: {
+      color: textColor,
+      fontWeight: 'bold'
     }
   } as WmLabelStyles;
 };
 
-BASE_THEME.addStyle('label-danger', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelDangerColor));
-BASE_THEME.addStyle('label-default', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelDefaultColor));
-BASE_THEME.addStyle('label-info', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelInfoColor));
-BASE_THEME.addStyle('label-primary', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelPrimaryColor));
-BASE_THEME.addStyle('label-success', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelSuccessColor));
-BASE_THEME.addStyle('label-warning', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelWarningColor));
+BASE_THEME.addStyle('label-danger', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelDangerColor, ThemeVariables.labelDangerContrastColor));
+BASE_THEME.addStyle('label-default', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelDefaultColor, ThemeVariables.labelDefaultContrastColor));
+BASE_THEME.addStyle('label-info', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelInfoColor, ThemeVariables.labelInfoContrastColor));
+BASE_THEME.addStyle('label-primary', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelPrimaryColor, ThemeVariables.labelPrimaryContrastColor));
+BASE_THEME.addStyle('label-success', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelSuccessColor, ThemeVariables.labelSuccessContrastColor));
+BASE_THEME.addStyle('label-warning', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelWarningColor, ThemeVariables.labelWarningContrastColor));
 
 const getTextStyles = (color: string) => {
   return {
@@ -70,7 +79,8 @@ BASE_THEME.addStyle('text-right', DEFAULT_CLASS, {
 const getHeadingStyles = (fontSize: number) => {
   return {
     text: {
-      fontSize: fontSize
+      fontSize: fontSize,
+      margin: 4
     }
   } as WmLabelStyles;
 };
