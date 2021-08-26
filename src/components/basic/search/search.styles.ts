@@ -22,12 +22,18 @@ export const DEFAULT_STYLES: WmSearchStyles = {
     },
     text: {},
     searchInput: {
-      height: 38,
+      height: 48,
       paddingTop: 8,
       paddingBottom: 8,
       paddingLeft: 12,
       paddingRight: 12,
-      width: '100%'
+      width: '100%',
+      borderWidth: 1,
+      borderRightWidth: 0,
+      borderTopLeftRadius: 4,
+      borderBottomLeftRadius: 4,
+      borderColor: ThemeVariables.searchBorderColor,
+      backgroundColor: ThemeVariables.searchDropdownBackgroundColor,
     },
     modal: {
       backgroundColor: 'transperant'
@@ -56,16 +62,29 @@ export const DEFAULT_STYLES: WmSearchStyles = {
     },
     clearButton: {
       root: {
-        left: -20,
+        marginLeft: -40,
+        padding: 0,
+        width: 36,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: 'transparent'
       }
     } as WmButtonStyles,
     searchButton: {
       root: {
-        left: -20,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 0,
+        borderTopRightRadius: 4,
+        borderBottomRightRadius: 4,
+        backgroundColor: ThemeVariables.searchButtonColor,
+        height: 48
+      },
+      icon: {
+        icon: {
+          fontSize: 24,
+          color: ThemeVariables.searchButtonTextColor,
+        }
       }
     } as WmButtonStyles,
     searchItem: {

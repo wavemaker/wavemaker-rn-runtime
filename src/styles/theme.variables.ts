@@ -293,6 +293,9 @@ export class ThemeVariables {
     wizardStepCounerColor = this.defaultColor9;
 
     //Search
+    searchBorderColor = this.defaultColorD;
+    searchButtonColor = this.primaryColor;
+    searchButtonTextColor = this.primaryContrastColor;
     searchItemBorderColor = this.defaultColorD;
     searchItemTextColor = this.defaultColor6;
     searchDropdownBackgroundColor = this.defaultColorF;

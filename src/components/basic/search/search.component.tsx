@@ -50,6 +50,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     this.rootElement = e.nativeEvent.target;
     this.view.measure((x, y, width, height, px, py) => {
       position.top = py + height;
+      position.left = px;
       this.updateState({ position: position } as WmSearchState);
     });
   };
@@ -156,18 +157,18 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     const props = this.state.props;
     return(
       <View style={this.styles.searchWrapper}>
-       <View style={this.styles.searchInputWrapper}>
-         <TextInput style={this.styles.searchInput}
-                    placeholder={props.placeholder}
-                    autoFocus={props.autofocus}
-                    editable={props.disabled || props.readonly ? false : true}
-                    onChangeText={this.onChange.bind(this)}
-                    onFocus={this.onFocus.bind(this)}
-                    onLayout={e => {this.searchInputWidth = e.nativeEvent.layout.width}}
-                    onBlur={() => this.invokeEventCallback('onBlur', [null, this])}
-                    value={this.state.searchQuery}>
+        <View style={this.styles.searchInputWrapper}>
+          <TextInput style={this.styles.searchInput}
+            placeholder={props.placeholder}
+            autoFocus={props.autofocus}
+            editable={props.disabled || props.readonly ? false : true}
+            onChangeText={this.onChange.bind(this)}
+            onFocus={this.onFocus.bind(this)}
+            onLayout={e => {this.searchInputWidth = e.nativeEvent.layout.width}}
+            onBlur={() => this.invokeEventCallback('onBlur', [null, this])}
+            value={this.state.searchQuery}>
          </TextInput>
-         {props.showclear ? <WmButton onTap={this.clearSearch.bind(this)}
+         {props.showclear && this.state.searchQuery ? <WmButton onTap={this.clearSearch.bind(this)}
                    styles={this.styles.clearButton} iconclass={'wi wi-clear'}></WmButton> : null}
        </View>
         {props.showSearchIcon ? <WmButton styles={this.styles.searchButton}
