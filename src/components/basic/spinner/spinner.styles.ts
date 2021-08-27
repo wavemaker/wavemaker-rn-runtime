@@ -20,7 +20,7 @@ export const DEFAULT_STYLES: WmSpinnerStyles = {
   },
   icon: {
     text: {
-      fontSize: 48,
+      fontSize: 24,
       color: ThemeVariables.spinnerIconColor
     }
   } as WmIconStyles
