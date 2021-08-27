@@ -1,4 +1,3 @@
-import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import * as Contacts from 'expo-contacts';
 import * as Calendar from 'expo-calendar';
@@ -15,22 +14,6 @@ rejectionMsgMap.set('calendar', 'enable calendar permission to access the calend
 
 interface objectMap {
   [key: string]: Array<string>
-}
-
-const permissionsStr: objectMap = {
-  CAMERA: [Permissions.CAMERA],
-  IMAGE: [Permissions.CAMERA],
-  VIDEO: [Permissions.CAMERA, Permissions.AUDIO_RECORDING],
-}
-
-const checkStatus = (type: string): Promise<Permissions.PermissionResponse> => {
-  const permissions: any = permissionsStr[type.toUpperCase()].join(',');
-  return Permissions.getAsync(permissions).then(response => {
-    if (response.status !== 'granted') {
-      return Permissions.askAsync(permissions);
-    }
-    return Promise.resolve(response);
-  });
 }
 
 export default {
