@@ -24,7 +24,7 @@ const MESSAGE_STYLES = new Map<string, string>([
 export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmAlertdialogState, WmAlertdialogStyles> {
 
   private dialogRef: WmDialog = null as any;
-  
+
   private listener: LifecycleListener = {
     onComponentInit: (c) => {
       if (c instanceof WmDialog) {
@@ -46,7 +46,7 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
   }
 
   getMessageStyle(type: string) {
-    
+
   }
 
   renderWidget(props: WmAlertdialogProps) {
@@ -54,6 +54,7 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
     return (
       <WmDialog
         iconclass={props.iconclass}
+        animation={props.animation}
         closable={props.closable}
         modal={props.modal}
         styles={this.styles.dialog}
@@ -78,6 +79,6 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
           </WmButton>
         </WmDialogactions>
       </WmDialog>
-    ); 
+    );
   }
 }

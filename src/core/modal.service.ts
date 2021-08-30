@@ -7,6 +7,7 @@ export interface ModalOptions {
     centered?: boolean,
     onClose?: () => void;
     isModal?: boolean;
+    animation: string;
 }
 
 export interface ModalService {

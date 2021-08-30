@@ -18,7 +18,7 @@ export class WmConfirmdialogState extends BaseComponentState<WmConfirmdialogProp
 export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps, WmConfirmdialogState, WmConfirmdialogStyles> {
 
   private dialogRef: WmDialog = null as any;
-  
+
   private listener: LifecycleListener = {
     onComponentInit: (c) => {
       if (c instanceof WmDialog) {
@@ -40,13 +40,14 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
   }
 
   getMessageStyle(type: string) {
-    
+
   }
 
   renderWidget(props: WmConfirmdialogProps) {
     return (
       <WmDialog
         iconclass={props.iconclass}
+        animation={props.animation}
         closable={props.closable}
         modal={props.modal}
         styles={this.styles.dialog}
@@ -79,6 +80,6 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
           </WmButton>
         </WmDialogactions>
       </WmDialog>
-    ); 
+    );
   }
 }

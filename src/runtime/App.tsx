@@ -15,6 +15,7 @@ import { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/naviga
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/message.component';
+import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 import AppDisplayManagerService from './services/app-display-manager.service';
 import AppModalService from './services/app-modal.service';
@@ -70,6 +71,7 @@ export default abstract class BaseApp extends React.Component {
   private autoUpdateVariables: string[] = [];
   public formatters = formatters;
   public serviceDefinitions = {} as any;
+  private animatedRef: any;
 
   constructor(props: any) {
     super(props);
@@ -208,21 +210,26 @@ export default abstract class BaseApp extends React.Component {
                 )}
 
                 {AppModalService.modalOptions.content &&
-                  AppModalService.modalsOpened.map((o, i) =>
-                    (
-                    <TouchableOpacity activeOpacity={1} key={i}
-                      onPress={() => o.isModal && AppModalService.hideModal(o)}
-                      style={deepCopy(styles.appModal,
-                        o.centered ? styles.centeredModal: null,
-                        o.modalStyle)}>
-                          <TouchableOpacity
-                            activeOpacity={1}
-                            onPress={() => {}}
-                            style={[styles.appModalContent, o.contentStyle]}>
-                              {o.content}
-                          </TouchableOpacity>
-                    </TouchableOpacity>
-                    )
+                  AppModalService.modalsOpened.map((o, i) => {
+                    AppModalService.animatedRef = this.animatedRef;
+                    return (
+                      <TouchableOpacity activeOpacity={1} key={i}
+                                        onPress={() => o.isModal && AppModalService.hideModal(o)}
+                                        style={deepCopy(styles.appModal,
+                                          o.centered ? styles.centeredModal: null,
+                                          o.modalStyle)}>
+                        <Animatedview entryanimation={o.animation || 'fadeIn'}
+                                        ref={ref => this.animatedRef = ref}
+                                        style={[styles.appModalContent, o.contentStyle]}>
+                             <TouchableOpacity
+                                activeOpacity={1}
+                                onPress={() => {}}
+                                style={{width: '100%', alignItems: 'center'}}>
+                                {o.content}
+                              </TouchableOpacity>
+                        </Animatedview>
+                      </TouchableOpacity>
+                    )}
                   )
                 }
               </PartialProvider>

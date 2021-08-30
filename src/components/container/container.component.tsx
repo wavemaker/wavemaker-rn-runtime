@@ -5,6 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmContainerProps from './container.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmContainerStyles } from './container.styles';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmContainerState extends BaseComponentState<WmContainerProps> {
   isPartialLoaded = false;
@@ -33,7 +34,7 @@ export default class WmContainer extends BaseComponent<WmContainerProps, WmConta
 
   renderWidget(props: WmContainerProps) {
     return (
-      <View style={this.styles.root}>
+      <Animatedview entryanimation={props.animation} style={this.styles.root}>
         <Tappable target={this}>
             <View style={[{
               width: this.styles.root.width,
@@ -41,7 +42,7 @@ export default class WmContainer extends BaseComponent<WmContainerProps, WmConta
               alignItems: (this.styles.root as any)['alignContentItems']
             },  this.styles.content]}>{this.renderContent(props)}</View>
         </Tappable>
-      </View>
+      </Animatedview>
     );
   }
 }

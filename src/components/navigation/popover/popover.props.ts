@@ -2,8 +2,10 @@ import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 import React from 'react';
 
 export default class WmPopoverProps extends BaseProps {
+  animation?: string = null as any;
   badgevalue? = null as any;
   caption? = 'Link';
+  contentanimation?: string = null as any;
   iconclass? = null as any;
   iconposition? = 'left' as any;
   popoverwidth?: string | number | null = 240;

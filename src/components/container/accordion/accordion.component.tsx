@@ -7,13 +7,14 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmAccordionProps from './accordion.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAccordionStyles } from './accordion.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmAccordionState extends BaseComponentState<WmAccordionProps> {
   expandedId: any;
 }
 
 export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccordionState, WmAccordionStyles> {
-
+  private animatedRef: any;
   constructor(props: WmAccordionProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAccordionProps());
     this.updateState({
@@ -40,7 +41,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                       id={index + 1}
                       key={'accordionpane_' + index}
                       right={props => this.expandCollapseIcon(props, item)} left={props => icon}>
-        <View style={{marginLeft: -64}}>{item}</View>
+          <Animatedview ref={ref => this.animatedRef = ref} entryanimation={this.state.props.animation}>{item}</Animatedview>
       </List.Accordion>
     );
   }
@@ -49,9 +50,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const props = this.state.props;
     const oldIndex = this.state.expandedId;
     const paneId = oldIndex === expandedId ? -1 : expandedId;
-    this.updateState({
-      expandedId: paneId,
-    } as WmAccordionState);
+
     let expandedPane, collapsedPane;
     if (isArray(props.children)) {
         expandedPane = props.children[paneId - 1];
@@ -59,6 +58,22 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     } else {
       paneId === 1 ? expandedPane = props.children : collapsedPane = props.children;
     }
+
+    if (collapsedPane) {
+      this.animatedRef.triggerExit().then((res: any) => {
+        if (res) {
+          this.updateState({
+            expandedId: paneId,
+          } as WmAccordionState);
+        }
+      })
+    } else {
+      this.updateState({
+        expandedId: paneId,
+      } as WmAccordionState);
+    }
+
+
     this.invokeEventCallback('onChange', [{}, this.proxy, paneId-1, oldIndex ? oldIndex-1 : props.defaultpaneindex,
       expandedPane && expandedPane.props.name, collapsedPane && collapsedPane.props.name])
   }

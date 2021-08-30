@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, Easing, Text, View } from 'react-native';
+import { Animated, Easing, Text } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -7,6 +7,7 @@ import WmIconProps from './icon.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmIconStyles } from './icon.styles';
 import getWavIcon from './wavicon.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 interface IconDef {
   isFontAwesome: boolean;
@@ -86,12 +87,12 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   onPropertyChange(name: string, $new: any, $old: any) {
     super.onPropertyChange(name, $new, $old);
     switch(name) {
-      case 'iconclass': 
+      case 'iconclass':
         $new && this.updateState({iconDef: this.getIconDef($new)} as WmIconState);
         break;
     }
   }
-  
+
   renderIcon(props: WmIconProps) {
     const iconDef = this.state.iconDef;
     if (!iconDef) {
@@ -105,14 +106,14 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     if (props.show && iconDef && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
       icon = (<FontAwesome name={iconDef.type}
-        style={style} 
+        style={style}
         size={iconSize}/>);
     }
     if (props.show && iconDef && iconDef.isWavIcon) {
       const WavIcon = getWavIcon();
       //@ts-ignore type information is not matching
-      icon = (<WavIcon name={iconDef.type} 
-        style={style} 
+      icon = (<WavIcon name={iconDef.type}
+        style={style}
         size={iconSize}/>);
     }
     if (icon && iconDef.animation === 'spin') {
@@ -131,12 +132,12 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     let icon = this.renderIcon(props);
     return (
       <Tappable target={this}>
-        <View style={this.styles.root}>
+        <Animatedview entryanimation={props.animation} style={this.styles.root}>
           {(props.iconposition === 'left' && icon) || null}
           {(props.caption && (<Text style={this.styles.text}>{props.caption}</Text>)) || null}
           {(props.iconposition === 'right' && icon) || null}
-        </View>
+        </Animatedview>
       </Tappable>
-    ); 
+    );
   }
 }

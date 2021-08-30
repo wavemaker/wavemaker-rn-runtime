@@ -50,6 +50,7 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
     o.content = content;
     o.isModal = !!this.state.props.modal;
     o.centered = true;
+    o.animation = this.state.props.animation;
     this._close = () => modalService.hideModal(this.state.modalOptions);
     return o;
   }
@@ -70,6 +71,6 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
         ), modalService));
         return null;
       }}
-    </ModalConsumer>); 
+    </ModalConsumer>);
   }
 }

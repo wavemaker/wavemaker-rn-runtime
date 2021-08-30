@@ -6,13 +6,14 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 
 import WmPanelProps from './panel.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmPanelStyles } from './panel.styles';
+import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmPanelState extends BaseComponentState<WmPanelProps> {
   expandedId: any;
 }
 
 export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, WmPanelStyles> {
-
+  private animatedRef: any;
   constructor(props: WmPanelProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPanelProps());
     this.updateState({
@@ -37,10 +38,22 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
       return;
     }
     const paneId = expandedId === this.state.expandedId ? -1 : 1;
-    this.updateState({
-      expandedId: paneId,
-    } as WmPanelState);
     const eventName = paneId === 1 ? 'onExpand' : 'onCollapse';
+
+    if (eventName === 'onCollapse') {
+      this.animatedRef.triggerExit().then((res: any) => {
+        if (res) {
+          this.updateState({
+            expandedId: paneId,
+          } as WmPanelState);
+        }
+      })
+    } else {
+      this.updateState({
+        expandedId: paneId,
+      } as WmPanelState);
+    }
+
     this.invokeEventCallback(eventName, [null, this.proxy]);
   }
 
@@ -60,15 +73,21 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
                       titleStyle={this.styles.text} descriptionStyle={this.styles.subheading}
                       description={props.subheading}
                       right={props => this.expandCollapseIcon(props)} left={props => icon}>
-        <View>{this.renderContent(props)}</View>
-        <View>{props.children}</View>
+        <Animatedview ref={ref => this.animatedRef = ref} entryanimation={'fadeInDown'}>
+          <View>{this.renderContent(props)}</View>
+          <View>{props.children}</View>
+        </Animatedview>
       </List.Accordion>
     );
   }
 
-
   renderWidget(props: WmPanelProps) {
-    return (<View style={this.styles.root}><List.AccordionGroup expandedId={this.state.expandedId}
-                                       onAccordionPress={this.onPanelPress.bind(this)}>{this.renderPanel(props)}</List.AccordionGroup></View>);
+    return (<View style={this.styles.root}>
+                  <List.AccordionGroup expandedId={this.state.expandedId} onAccordionPress={this.onPanelPress.bind(this)}>
+                      <Animatedview entryanimation={props.animation}>
+                        {this.renderPanel(props)}
+                      </Animatedview>
+                  </List.AccordionGroup>
+            </View>);
   }
 }

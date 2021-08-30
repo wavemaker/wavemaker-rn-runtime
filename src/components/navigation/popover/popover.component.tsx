@@ -59,6 +59,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
     o.content = content;
     o.isModal = this.state.props.autoclose !== 'disabled';
     o.centered = true;
+    o.animation = this.state.props.contentanimation || 'slideInUp';
     o.onClose = () => {
       this.hide = () => {};
       this.setState({ isOpened: false, isPartialLoaded: false, modalOptions: {} as ModalOptions });
@@ -83,6 +84,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
     return (
       <View style={styles.root} onLayout={this.computePosition} ref={ref => {this.view = ref as View}}>
         <WmAnchor
+          animation={props.animation}
           caption={props.caption}
           badgevalue={props.badgevalue}
           iconclass={props.iconclass}

@@ -7,6 +7,7 @@ import { Badge } from 'react-native-paper';
 import WmButtonProps from './button.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmButtonStyles } from './button.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmButtonState extends BaseComponentState<WmButtonProps> {
 
@@ -30,7 +31,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
 
   renderWidget(props: WmButtonProps) {
     return (
-      <View style={this.styles.root}>
+      <Animatedview entryanimation={props.animation} style={this.styles.root}>
         <Tappable target={this}>
           <View style={[this.styles.content, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
             {props.iconposition === 'top' && this.prepareIcon(props)}
@@ -40,7 +41,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             {props.badgevalue && this.prepareBadge(props)}
           </View>
         </Tappable>
-      </View>
+      </Animatedview>
     );
   }
 }

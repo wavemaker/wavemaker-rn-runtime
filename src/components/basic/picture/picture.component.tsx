@@ -1,11 +1,12 @@
 import React from 'react';
-import { Image, LayoutChangeEvent, View } from 'react-native';
+import { Image, LayoutChangeEvent } from 'react-native';
 import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPictureProps from './picture.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmPictureStyles } from './picture.styles';
+import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmPictureState extends BaseComponentState<WmPictureProps> {
   naturalImageWidth: number = 0;
@@ -105,7 +106,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     }
     return imgSrc && this.state.naturalImageWidth ? (
       <Tappable target={this}>
-        <View style={[this.styles.root, {
+        <Animatedview entryanimation={props.animation} style={[this.styles.root, {
             height: imageHeight,
             width: imageWidth,
             borderRadius: shapeStyles.picture?.borderRadius
@@ -114,7 +115,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
             onLayout={this.onImageLayoutChange}
             resizeMode={'stretch'}
             source={source}/>
-        </View>
+        </Animatedview>
       </Tappable>
     ): null;
   }

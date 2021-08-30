@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { Badge } from 'react-native-paper';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { TapEvent, Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -9,6 +9,7 @@ import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-
 
 import WmAnchorProps from './anchor.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAnchorStyles } from './anchor.styles';
+import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmAnchorState extends BaseComponentState<WmAnchorProps> {
 
@@ -41,13 +42,14 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
           (<Tappable onTap={props.hyperlink || props.onTap ? (e: TapEvent) => this.onTap(navigationService, e) : undefined}>
-              <View style={[this.styles.root, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
+              <Animatedview entryanimation={props.animation}
+                            style={[this.styles.root, { flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
                 {props.iconposition === 'top' && icon}
                 {props.iconposition === 'left' && icon}
                 {props.caption ? (<Text style={this.styles.text}>{props.caption}</Text>) : null}
                 {props.iconposition === 'right' && icon}
                 {badge}
-              </View>
+              </Animatedview>
           </Tappable>)
       }
       </NavigationServiceConsumer>

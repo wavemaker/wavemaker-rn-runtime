@@ -11,6 +11,12 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmMenuStyles } from './menu.styles';
 
 export class WmMenuState <T extends WmMenuProps> extends BaseNavState<T> {}
 
+const animationMap: any = {
+  slide: 'slideInDown',
+  fade: 'fadeIn',
+  scale: 'zoomIn'
+};
+
 export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<WmMenuProps>, WmMenuStyles> {
 
   private popOverRef: WmPopover = null as any;
@@ -45,6 +51,7 @@ export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<Wm
     const menuItems = this.state.dataItems;
     return (
       <WmPopover styles={this.styles}
+        contentanimation={animationMap[props.animateitems || 'scale']}
         caption={props.caption}
         iconclass={props.iconclass}
         listener={this.listener}

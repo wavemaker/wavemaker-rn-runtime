@@ -1,10 +1,10 @@
 import React from 'react';
-import { View} from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTileProps from './tile.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmTileStyles } from './tile.styles';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmTileState extends BaseComponentState<WmTileProps> {}
 
@@ -16,7 +16,7 @@ export default class WmTile extends BaseComponent<WmTileProps, WmTileState, WmTi
 
   renderWidget(props: WmTileProps) {
     return (<Tappable target={this}>
-      <View style={this.styles.root}>{props.children}</View>
+      <Animatedview entryanimation={props.animation} style={this.styles.root}>{props.children}</Animatedview>
     </Tappable>);
   }
 }

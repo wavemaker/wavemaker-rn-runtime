@@ -1,11 +1,12 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmLabelProps from './label.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmLabelStyles } from './label.styles';
 import { toString } from 'lodash-es';
+import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmLabelState extends BaseComponentState<WmLabelProps> {
 
@@ -23,13 +24,13 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
 
   renderWidget(props: WmLabelProps) {
     return props.caption ? (
-      <View style={this.styles.root}>
+      <Animatedview entryanimation={props.animation} style={this.styles.root}>
         <Tappable target={this}>
             <Text style={[this.styles.text, {color: props.isValid === false ? 'red' : this.styles.text.color}]}>{toString(props.caption)}
               {props.required && this.getAsterisk()}
             </Text>
         </Tappable>
-      </View>
+      </Animatedview>
     ): null;
   }
 }
