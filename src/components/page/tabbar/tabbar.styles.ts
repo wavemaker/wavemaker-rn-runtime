@@ -15,14 +15,17 @@ export type WmTabbarStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-tabbar';
 export const DEFAULT_STYLES: WmTabbarStyles = {
-    root: {},
+    root: {
+        height: 60,
+    },
     text: {},
     menu: {
         flexDirection: 'row',
         backgroundColor: ThemeVariables.tabbarBackgroundColor,
         justifyContent: 'space-around',
-        paddingTop: 4,
-        paddingBottom: 4
+        padding: 4,
+        height: '100%',
+        alignContent: 'center'
     },
     modalContent: {},
     moreMenu: {
@@ -47,7 +50,8 @@ export const DEFAULT_STYLES: WmTabbarStyles = {
     },
     tabItem: {
         flexDirection: 'column',
-        alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center',
         minWidth: 60
     },
     tabIcon: {
@@ -61,7 +65,8 @@ export const DEFAULT_STYLES: WmTabbarStyles = {
     } as WmIconStyles,
     tabLabel: {
         fontSize: 12,
-        color:  ThemeVariables.tabbarIconColor
+        color:  ThemeVariables.tabbarIconColor,
+        textAlign: 'center'
     }
 };
 
