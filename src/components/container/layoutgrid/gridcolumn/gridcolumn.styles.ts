@@ -6,16 +6,13 @@ export type WmGridColumnStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-gridcolumn';
 export const DEFAULT_STYLES: WmGridColumnStyles = {
-    root: {},
+    root: {
+      paddingVertical: 12,
+      paddingHorizontal: 8
+    },
     text: {}
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 
-BASE_THEME.addStyle('column-bordered', DEFAULT_CLASS, {
-  root: {
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: ThemeVariables.gridColumnBorderColor
-  }
-});
+BASE_THEME.addStyle('table-cell', DEFAULT_CLASS, {});

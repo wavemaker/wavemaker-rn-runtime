@@ -75,8 +75,13 @@ export class ThemeVariables {
     anchorTextPadding = 2;
 
     //Grid Layout variables
-    layoutGridBorderColor = this.defaultColor6;
-    gridColumnBorderColor = this.defaultColor6;
+    layoutGridBgColor = this.defaultColorF;
+    layoutGridBorderColor = this.defaultColorC;
+    layoutGridStripColor1 = Color(this.primaryColor).lighten(0.9).rgb().toString();
+    layoutGridHeaderBgColor = this.transparent;
+    layoutGridHeaderTextColor = this.primaryColor;
+    layoutGridStripColor2 = this.transparent;
+    gridColumnBorderColor = this.layoutGridBorderColor;
 
     //Spinner Variables
     spinnerIconColor = this.primaryColor;
