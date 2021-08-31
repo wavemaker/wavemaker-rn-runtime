@@ -33,7 +33,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
             naturalImageWidth: width,
             naturalImageHeight: height
           } as WmPictureState);
-        } else {
+        } else if (imageSrc !== null) {
           Image.getSize(imageSrc, (width: number, height: number) => {
             this.updateState({
               naturalImageWidth: width,

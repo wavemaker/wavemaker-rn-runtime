@@ -21,6 +21,7 @@ const permissionsStr: objectMap = {
   CAMERA: [Permissions.CAMERA],
   IMAGE: [Permissions.CAMERA],
   VIDEO: [Permissions.CAMERA, Permissions.AUDIO_RECORDING],
+  LOCATION: [Permissions.LOCATION]
 }
 
 const checkStatus = (type: string): Promise<Permissions.PermissionResponse> => {
@@ -38,15 +39,15 @@ export default {
     let query;
     if (type === 'location') {
       // requestPermissionsAsync is deprecated and requestForegroundPermissionsAsync is available only in sdk 41+
-      query = Location.requestPermissionsAsync();
+      query = checkStatus(type);
     } else if (type === 'image' || type === 'camera' || type === 'video') {
-      query = Camera.requestPermissionsAsync();
-    } else if(type === 'contacts') {
+      query = checkStatus(type);
+    } else if (type === 'contacts') {
       query = Contacts.requestPermissionsAsync();
-    } else if(type === 'calendar') {
+    } else if (type === 'calendar') {
       if (Platform.OS === 'ios') {
         query = Promise.all([Calendar.requestCalendarPermissionsAsync(), Calendar.requestRemindersPermissionsAsync()]);
-      }  else {
+      } else {
         query = Calendar.requestCalendarPermissionsAsync();
       }
     }

@@ -26,6 +26,8 @@ import { SecurityProvider } from '../core/security.service';
 import AppSecurityService from './services/app-security.service';
 import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/utils/variable.utils';
 
+import * as SplashScreen from 'expo-splash-screen';
+
 //some old react libraries need this
 ((View as any)['propTypes'] = { style: ProtoTypes.any})
 
@@ -75,6 +77,7 @@ export default abstract class BaseApp extends React.Component {
 
   constructor(props: any) {
     super(props);
+    SplashScreen.preventAutoHideAsync();
     this.appConfig.app = this;
     this.appConfig.drawer = new DrawerImpl(() => this.setState({'t': Date.now()}));
     let refreshAfterWait = false;
@@ -102,7 +105,7 @@ export default abstract class BaseApp extends React.Component {
   }
 
   onBeforeServiceCall(config: AxiosRequestConfig) {
-    return config
+    return config;
   }
 
   onServiceSuccess(data: any, response: AxiosResponse) {
@@ -154,6 +157,8 @@ export default abstract class BaseApp extends React.Component {
       this.onAppVariablesReady();
       this.isStarted = true;
       this.appConfig.refresh();
+      // TODO: Without callback, splashscreen was not getting hidden in ios mobile app. Later, remove the empty function.
+      SplashScreen.hideAsync().then(() => {});
     });
     this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
   }
