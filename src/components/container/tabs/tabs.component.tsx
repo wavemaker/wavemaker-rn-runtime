@@ -21,7 +21,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   renderTabpane(item: any, index: any) {
     return(
       <TabScreen label={item.props.title || 'Tab Title'} key={'tabpane_' + index} icon={item.props.paneicon}>
-        <View>{item}</View>
+        <View style={{flex: 1}}>{item}</View>
       </TabScreen>)
   }
 
@@ -38,6 +38,11 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     return (
       <Tabs
         defaultIndex={props.defaultpaneindex}
+        theme={{
+          colors: {
+            primary: this.styles.activeHeaderText.color
+          }
+        }}
         style={this.styles.root}
         mode="scrollable"
         onChangeIndex={this.onChange.bind(this)}

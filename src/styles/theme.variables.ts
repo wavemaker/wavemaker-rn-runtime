@@ -102,6 +102,11 @@ export class ThemeVariables {
     tabbarTextColor =  this.primaryContrastColor;
     tabbarIconColor = this.primaryContrastColor;
 
+    // tab variables
+    tabBorderColor = this.widgetBorderColor;
+    tabHeaderTextColor = this.widgetActiveHeaderBgColor;
+    tabContentBgColor = this.widgetBgColor;
+
     //label Variables
     labelDefaultColor = this.defaultColor;
     labelDefaultContrastColor = this.defaultColorF;
