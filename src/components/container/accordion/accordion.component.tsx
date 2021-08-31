@@ -27,15 +27,21 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     //@ts-ignore
     const badge = widgetProps.badgevalue != undefined ? (<Badge style={[this.styles.badge, this.styles[widgetProps.badgetype || 'default']]}>{widgetProps.badgevalue}</Badge>): null;
     const iconclass = props.isExpanded ? 'wi wi-minus' : 'wi wi-plus';
-    return (<Text>{badge}<WmIcon styles={this.styles.icon} name={'expand_collapse_icon'} iconclass={iconclass}></WmIcon></Text>);
+    return (<Text>{badge}<WmIcon styles={props.isExpanded ? this.styles.activeIcon : this.styles.icon} name={'expand_collapse_icon'} iconclass={iconclass}></WmIcon></Text>);
   }
 
-  renderAccordionpane(item: any, index: any) {
+  renderAccordionpane(item: any, index: any, isExpanded = true) {
     const icon = (<WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>);
     return (
       <List.Accordion title={item.props.title || 'Title'}
-                      style={this.styles.header}
-                      titleStyle={this.styles.text}
+                      style={[this.styles.header, isExpanded ? this.styles.activeHeader : {}]}
+                      theme={{
+                        colors: {
+                          background : this.styles.header.backgroundColor,
+                          primary: this.styles.activeHeader.color
+                        }
+                      }}
+                      titleStyle={[this.styles.text, isExpanded ? this.styles.activeHeaderTitle : {}]}
                       descriptionStyle={this.styles.subheading}
                       description={item.props.subheading}
                       id={index + 1}
@@ -80,12 +86,13 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
 
   renderWidget(props: WmAccordionProps) {
     const accordionpanes = props.children;
+    const expandedId = this.state.expandedId || 0;
     return (
         <View style={this.styles.root}>
-          <List.AccordionGroup expandedId={this.state.expandedId || props.defaultpaneindex + 1} onAccordionPress={this.onAccordionPress.bind(this)} >
+          <List.AccordionGroup expandedId={ expandedId || props.defaultpaneindex + 1} onAccordionPress={this.onAccordionPress.bind(this)} >
             {accordionpanes
               ? isArray(accordionpanes) && accordionpanes.length
-                ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index))
+                ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index, expandedId === index + 1))
                 : this.renderAccordionpane(accordionpanes, 0)
               : null}
           </List.AccordionGroup>

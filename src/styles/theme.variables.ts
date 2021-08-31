@@ -47,6 +47,17 @@ export class ThemeVariables {
     badgeColor = '#6c757d';
     badgeContrastColor = '#ffffff';
 
+    // page
+    pageContentBgColor = '#ffffff';
+
+    // common widget color
+    widgetHeaderBgColor = Color(this.pageContentBgColor).darken(0.1).rgb().toString();
+    widgetHeaderTextColor = this.defaultTextColor;
+    widgetActiveHeaderBgColor = this.primaryColor;
+    widgetActiveHeaderTextColor = this.primaryContrastColor;
+    widgetBorderColor = this.defaultColorC;
+    widgetBgColor = this.pageContentBgColor;
+
     // Navbar variables
     navbarBackgroundColor = this.primaryColor;
     navbarTextColor = this.primaryContrastColor;
@@ -75,13 +86,13 @@ export class ThemeVariables {
     anchorTextPadding = 2;
 
     //Grid Layout variables
-    layoutGridBgColor = this.defaultColorF;
-    layoutGridBorderColor = this.defaultColorC;
+    layoutGridBgColor = this.widgetBgColor;
+    layoutGridBorderColor = this.widgetBorderColor;
     layoutGridStripColor1 = Color(this.primaryColor).lighten(0.9).rgb().toString();
-    layoutGridHeaderBgColor = this.transparent;
-    layoutGridHeaderTextColor = this.primaryColor;
+    layoutGridHeaderBgColor = this.widgetHeaderBgColor;
+    layoutGridHeaderTextColor = this.widgetHeaderTextColor;
     layoutGridStripColor2 = this.transparent;
-    gridColumnBorderColor = this.layoutGridBorderColor;
+    gridColumnBorderColor = this.widgetBorderColor;
 
     //Spinner Variables
     spinnerIconColor = this.primaryColor;
@@ -258,7 +269,12 @@ export class ThemeVariables {
 
 
     //accordion
-    accordionTitleColor = this.defaultTextColor;
+    accordionBgColor = this.widgetBgColor;
+    accordionTitleColor = this.widgetHeaderTextColor;
+    accordionHeaderBgColor = this.widgetHeaderBgColor;
+    accordionActiveHeaderBgColor = this.widgetActiveHeaderBgColor;
+    accordionActiveHeaderTextColor = this.widgetActiveHeaderTextColor;
+    accordionBorderColor = this.widgetBorderColor;
 
     //carousel
     carouselPrevBtnColor=this.defaultColorF;
