@@ -6,7 +6,10 @@ export type WmTileStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-tile';
 export const DEFAULT_STYLES: WmTileStyles = {
-    root: {},
+    root: {
+      borderRadius: 8,
+      padding: 12
+    },
     text: {}
 };
 
@@ -19,6 +22,12 @@ const getTileBgStyles = (color: string) => {
     }
   } as WmTileStyles;
 };
+
+BASE_THEME.addStyle('tile-template-text', '', {
+  text: {
+    color: ThemeVariables.tilePrimaryTextColor
+  }
+} as any);
 
 BASE_THEME.addStyle('bg-danger', DEFAULT_CLASS, getTileBgStyles(ThemeVariables.tileDangerColor));
 BASE_THEME.addStyle('bg-info', DEFAULT_CLASS, getTileBgStyles(ThemeVariables.tileInfoColor));

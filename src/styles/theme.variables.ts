@@ -216,6 +216,7 @@ export class ThemeVariables {
     tileWarningColor = this.warningColor;
     tileWellbgColor = this.defaultColorF;
     tileWellBorderColor = this.defaultColorE;
+    tilePrimaryTextColor = this.primaryContrastColor;
 
     //message
     messageDefaultTextColor  = this.defaultColorF;
