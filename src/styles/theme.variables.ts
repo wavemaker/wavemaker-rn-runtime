@@ -244,6 +244,11 @@ export class ThemeVariables {
     messageLoadingTextColor = this.messageDefaultTextColor;
 
     //panel
+    panelBgColor = this.widgetBgColor;
+    panelHeaderBgColor = this.widgetHeaderBgColor;
+    panelHeaderTextColor = this.widgetHeaderTextColor;
+    panelFooterColor = Color(this.widgetBorderColor).fade(0.7).rgb().toString();
+    panelBorderColor = this.widgetBorderColor;
     panelDangerColor = this.dangerColor;
     panelDefaultColor = this.defaultColor;
     panelInfoColor = this.infoColor;

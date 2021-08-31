@@ -7,23 +7,41 @@ export type WmPanelStyles = BaseStyles & {
   icon: WmIconStyles,
   badge: AllStyle,
   header: AllStyle,
+  content: AllStyle,
   subheading: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-panel';
 export const DEFAULT_STYLES: WmPanelStyles = {
-    root: {},
+    root: {
+      backgroundColor: ThemeVariables.panelBgColor
+    },
     text: {},
-    header: {},
+    header: {
+      backgroundColor: ThemeVariables.panelHeaderBgColor,
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderStyle: 'solid',
+      borderWidth: 0,
+      borderColor: ThemeVariables.panelHeaderBgColor
+    },
+    content: {
+      marginLeft: 0
+    },
     subheading: {},
     icon: {
       root: {
-        alignSelf: 'auto'
+        alignSelf: 'auto',
+        fontSize: 32,
+      },
+    } as WmIconStyles,
+    toggleIcon: {
+      root: {
+        fontSize: 16,
       },
     } as WmIconStyles,
     badge: {
       color: ThemeVariables.badgeTextColor,
-      fontSize: 14,
       marginRight: 8
     },
     default: {

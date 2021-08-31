@@ -2,13 +2,15 @@ import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
-export type WmPanelFooterStyles = BaseStyles & {};
+export type WmPanelContentStyles = BaseStyles & {};
 
-export const DEFAULT_CLASS = 'app-panel-footer';
-export const DEFAULT_STYLES: WmPanelFooterStyles = {
+export const DEFAULT_CLASS = 'app-panel-content';
+export const DEFAULT_STYLES: WmPanelContentStyles = {
     root: {
-        backgroundColor: ThemeVariables.panelFooterColor,
-        minHeight: 64,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderTopWidth: 0,
+        borderColor: ThemeVariables.panelHeaderBgColor,
         padding: 8
     },
     text: {}
