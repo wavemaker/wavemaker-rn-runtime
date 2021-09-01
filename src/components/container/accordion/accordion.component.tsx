@@ -47,7 +47,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                       id={index + 1}
                       key={'accordionpane_' + index}
                       right={props => this.expandCollapseIcon(props, item)} left={props => icon}>
-          <Animatedview ref={ref => this.animatedRef = ref} entryanimation={this.state.props.animation}>{item}</Animatedview>
+          <Animatedview style={{marginLeft: -64}} ref={ref => this.animatedRef = ref} entryanimation={this.state.props.animation}>{item}</Animatedview>
       </List.Accordion>
     );
   }
