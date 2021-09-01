@@ -135,6 +135,7 @@ export class ThemeVariables {
     selectedItemBorderColor = this.primaryColor;
 
     //button Variables
+    buttonBorderColor = this.widgetBorderColor;
     buttonBadgeBackgroundColor = this.badgeColor;
     buttonBadgeTextColor = this.badgeContrastColor;
     buttonTextPadding = 2;

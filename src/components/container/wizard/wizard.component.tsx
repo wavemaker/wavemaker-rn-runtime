@@ -123,19 +123,19 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             alignItems: props.actionsalignment === 'right' ? 'flex-end' : 'flex-start',
             justifyContent: props.actionsalignment === 'right' ? 'flex-end' : 'flex-start'}]}>
             {props.cancelable ?
-                <WmButton caption={props.cancelbtnlabel} styles={this.styles.wizardActions} onTap={this.onCancel.bind(this)}></WmButton>
+                <WmButton caption={props.cancelbtnlabel} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions)} onTap={this.onCancel.bind(this)}></WmButton>
                 : null
             }
             {this.state.currentStep > 0 &&
-              <WmButton iconclass={'wi wi-chevron-left'} styles={this.styles.wizardActions} caption={props.previousbtnlabel}
+              <WmButton iconclass={'wi wi-chevron-left'} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions)} caption={props.previousbtnlabel}
                         onTap={this.onPrev.bind(this, steps)}></WmButton>
             }
             {(this.state.currentStep+1) < this.numberOfSteps &&
-              <WmButton iconclass={'wi wi-chevron-right'} styles={merge({}, this.styles.wizardActions, this.styles.nextButton)}
+              <WmButton iconclass={'wi wi-chevron-right'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-primary'), this.styles.nextButton)}
                         iconposition={'right'} caption={props.nextbtnlabel} onTap={this.onNext.bind(this, steps)}></WmButton>
             }
             {(this.state.currentStep+1) === this.numberOfSteps &&
-              <WmButton iconclass={'wi wi-done'} styles={merge({}, this.styles.wizardActions, this.styles.doneButton)}
+              <WmButton iconclass={'wi wi-done'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-success'), this.styles.doneButton)}
                         caption={props.donebtnlabel} onTap={this.onDone.bind(this)}></WmButton>
             }
           </View>

@@ -43,9 +43,12 @@ export const DEFAULT_STYLES: WmButtonStyles = {
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 
-const getButtonStyles = (bgColor: string, color: string) => {
+const getButtonStyles = (bgColor: string, color: string, borderColor = bgColor) => {
   return {
     root: {
+      borderWidth: 1,
+      borderColor: borderColor,
+      borderStyle: 'solid',
       backgroundColor: bgColor
     },
     text: {
@@ -59,7 +62,7 @@ const getButtonStyles = (bgColor: string, color: string) => {
   } as WmButtonStyles;
 }
 
-BASE_THEME.addStyle('btn-default', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonDefaultColor, ThemeVariables.buttonDefaultTextColor));
+BASE_THEME.addStyle('btn-default', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonDefaultColor, ThemeVariables.buttonDefaultTextColor, ThemeVariables.buttonBorderColor));
 BASE_THEME.addStyle('btn-info', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonInfoColor, ThemeVariables.buttonInfoTextColor));
 BASE_THEME.addStyle('btn-primary', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonPrimaryColor, ThemeVariables.buttonPrimaryTextColor));
 BASE_THEME.addStyle('btn-secondary', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonSecondaryColor, ThemeVariables.buttonSecondaryTextColor));

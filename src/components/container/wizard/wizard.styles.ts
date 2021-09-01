@@ -89,29 +89,22 @@ export const DEFAULT_STYLES: WmWizardStyles = {
       color: ThemeVariables.wizardStepColor
     },
     wizardActions: {
+      root: {
+        marginRight: 8
+      },
       text : {
         textTransform: 'capitalize',
         fontSize: 14
       }
     } as WmButtonStyles,
     nextButton: {
-      text: {
-        color: ThemeVariables.wizardNextBtnColor
-      },
-      icon: {
-        text: {
-          color: ThemeVariables.wizardNextBtnColor
-        }
+      root: {
+        marginRight: 0
       }
     } as WmButtonStyles,
     doneButton: {
-      text: {
-        color: ThemeVariables.wizardDoneBtnColor
-      },
-      icon: {
-        text: {
-          color: ThemeVariables.wizardDoneBtnColor
-        }
+      root: {
+        marginRight: 0
       }
     } as WmButtonStyles,
     stepIcon: {
