@@ -20,7 +20,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
 
   renderWidget(props: WmNumberProps) {
     return (<TextInput
-      style={[this.styles.root, {borderBottomWidth: this.state.isInvalidNumber ? 1 : 0, borderBottomColor: this.state.isInvalidNumber ? 'red' : 'green'}]}
+      style={[this.styles.root, this.state.isInvalidNumber ? this.styles.invalid : {}]}
       defaultValue={props.datavalue}
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}
