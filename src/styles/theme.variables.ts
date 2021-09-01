@@ -175,8 +175,8 @@ export class ThemeVariables {
     inputInvalidBorderColor = this.dangerColor;
 
     //slider variables
-    minimumTrackTintColor = this.defaultColorA;
-    maximumTrackTintColor = this.defaultColorA;
+    minimumTrackTintColor = this.widgetHeaderBgColor;
+    maximumTrackTintColor = this.widgetHeaderBgColor;
     thumbTintColor = this.primaryColor;
 
     //rating color
