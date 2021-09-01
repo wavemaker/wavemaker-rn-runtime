@@ -34,16 +34,18 @@ export const DEFAULT_STYLES: WmSwitchStyles = {
   } as WmIconStyles,
   buttonStyles: {
     height: 'inherit',
-    backgroundColor: '#fff',
+    backgroundColor: ThemeVariables.switchBgColor,
     flex: 1,
-    borderRadius: 0
+    borderRadius: 0,
+    borderColor: ThemeVariables.switchBorderColor
   } as AllStyle,
   selectedButtonStyles: {
-    backgroundColor: ThemeVariables.buttonPrimaryColor
+    color: ThemeVariables.switchActiveTextColor,
+    backgroundColor: ThemeVariables.switchActiveBgColor
   } as AllStyle,
   firstButtonStyles: {
     height: 'inherit',
-    backgroundColor: '#fff',
+    backgroundColor: ThemeVariables.switchBgColor,
     flex: 1,
     borderTopLeftRadius: 500,
     borderBottomLeftRadius: 500,
@@ -52,7 +54,7 @@ export const DEFAULT_STYLES: WmSwitchStyles = {
   } as AllStyle,
   lastButtonStyles: {
     height: 'inherit',
-    backgroundColor: '#fff',
+    backgroundColor: ThemeVariables.switchBgColor,
     flex: 1,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,

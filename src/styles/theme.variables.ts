@@ -223,6 +223,13 @@ export class ThemeVariables {
     tileWellBorderColor = this.defaultColorE;
     tilePrimaryTextColor = this.primaryContrastColor;
 
+    //switch
+    switchBgColor = this.widgetBgColor;
+    switchTextColor = this.defaultTextColor;
+    switchActiveBgColor = this.primaryColor;
+    switchActiveTextColor = this.primaryContrastColor;
+    switchBorderColor = this.widgetBorderColor;
+
     //message
     messageDefaultTextColor  = this.defaultColorF;
     messageDefaultIconColor = this.defaultColorF;
