@@ -206,7 +206,7 @@ export class ThemeVariables {
     menuIconColor = this.defaultColor6;
     menuTextColor = this.defaultColor6;
     menuBackgroundColor = this.popoverBackgroundColor;
-    menuItemBorderColor = this.defaultColorD;
+    menuItemBorderColor = this.widgetBorderColor;
     menuItemIconColor = this.defaultColor6;
     menuItemTextColor = this.defaultColor6;
 

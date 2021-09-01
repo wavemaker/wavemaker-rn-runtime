@@ -20,7 +20,8 @@ export const DEFAULT_STYLES: WmAnchorStyles = {
         paddingLeft: 8,
         color: ThemeVariables.linkPrimaryColor,
         fontSize: 12,
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        flex: 1
     },
     badge: {
         backgroundColor: ThemeVariables.linkBadgeBackgroundColor,

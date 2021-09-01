@@ -10,7 +10,10 @@ export type WmMenuStyles = WmPopoverStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-menu';
-export const DEFAULT_STYLES: WmMenuStyles = deepCopy(POPOVER_STYLES, { 
+export const DEFAULT_STYLES: WmMenuStyles = deepCopy(POPOVER_STYLES, {
+    root : {
+        alignSelf: 'flex-start'
+    },
     link: {
         icon: {
             root: {
