@@ -17,7 +17,6 @@ export const DEFAULT_STYLES: WmCheckboxStyles = {
     },
     checkboxLabel: {
       alignSelf: 'center',
-      paddingLeft: 30,
     }
 };
 

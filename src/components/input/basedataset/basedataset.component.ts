@@ -169,6 +169,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     }
     if (typeof dataset === 'string') {
       dataItems = dataset.split(',').map((s, i) => {
+        s = s.trim();
         return {
           key: `${name}_item${i}`,
           dataObject: s,

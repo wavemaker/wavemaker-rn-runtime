@@ -184,11 +184,11 @@ export class ThemeVariables {
     ratingSelectedIconColor = this.primaryColor;
 
     //toggle variables
-    toggleColor = this.defaultColor2;
+    toggleColor = this.primaryColor;
 
     // radioset, checkboxset variables
     groupHeaderBackgroundColor = this.defaultColorD;
-    checkedColor = this.defaultColor2;;
+    checkedColor = this.primaryColor;
 
     //form
     formTitleColor = this.defaultColor5;
