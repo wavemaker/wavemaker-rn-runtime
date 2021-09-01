@@ -23,6 +23,10 @@ import AppToastService from './services/app-toast.service';
 import AppPartialService from './services/partial.service';
 import { AppNavigator } from './App.navigator';
 import { SecurityProvider } from '../core/security.service';
+import { CameraProvider } from '../core/device/camera-service';
+import  CameraService from './services/device/camera-service';
+import { ScanProvider } from '../core/device/scan-service';
+import ScanService from './services/device/scan-service';
 import AppSecurityService from './services/app-security.service';
 import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/utils/variable.utils';
 
@@ -184,19 +188,23 @@ export default abstract class BaseApp extends React.Component {
                   {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
                     <View style={[styles.container, {paddingTop: insets?.top || 0, paddingBottom: insets?.bottom, paddingLeft: insets?.left, paddingRight : insets?.right}]}>
                       <SecurityProvider value={AppSecurityService}>
-                        <ModalProvider value={AppModalService}>
-                          <View style={styles.container}>
-                            <AppNavigator
-                              app={this}
-                              hideDrawer={this.appConfig.drawer?.getContent() === null}
-                              drawerContent={() => this.appConfig.drawer?.getContent()}
-                              drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                            {AppDisplayManagerService.displayOptions.content
-                              ? (<View style={styles.displayViewContainer}>
-                                {AppDisplayManagerService.displayOptions.content}
-                              </View>) : null}
-                          </View>
-                        </ModalProvider>
+                        <CameraProvider value={CameraService}>
+                          <ScanProvider value={ScanService}>
+                            <ModalProvider value={AppModalService}>
+                              <View style={styles.container}>
+                                <AppNavigator
+                                  app={this}
+                                  hideDrawer={this.appConfig.drawer?.getContent() === null}
+                                  drawerContent={() => this.appConfig.drawer?.getContent()}
+                                  drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                                {AppDisplayManagerService.displayOptions.content
+                                  ? (<View style={styles.displayViewContainer}>
+                                    {AppDisplayManagerService.displayOptions.content}
+                                  </View>) : null}
+                              </View>
+                            </ModalProvider>
+                          </ScanProvider>
+                        </CameraProvider>
                       </SecurityProvider>
                     </View>
                   }

@@ -8,6 +8,7 @@ import WmAccordionProps from './accordion.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAccordionStyles } from './accordion.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
+import WmAccordionpane from "@wavemaker/app-rn-runtime/components/container/accordion/accordionpane/accordionpane.component";
 
 export class WmAccordionState extends BaseComponentState<WmAccordionProps> {
   expandedId: any;
@@ -57,7 +58,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const oldIndex = this.state.expandedId;
     const paneId = oldIndex === expandedId ? -1 : expandedId;
 
-    let expandedPane, collapsedPane;
+    let expandedPane: any, collapsedPane: any;
     if (isArray(props.children)) {
         expandedPane = props.children[paneId - 1];
         collapsedPane = props.children[oldIndex ? oldIndex-1 : props.defaultpaneindex];
@@ -71,17 +72,19 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
           this.updateState({
             expandedId: paneId,
           } as WmAccordionState);
+
+          this.invokeEventCallback('onChange', [{}, this.proxy, paneId-1, oldIndex ? oldIndex-1 : props.defaultpaneindex,
+            expandedPane && expandedPane.props.name, collapsedPane && collapsedPane.props.name])
         }
       })
     } else {
       this.updateState({
         expandedId: paneId,
       } as WmAccordionState);
+
+      this.invokeEventCallback('onChange', [{}, this.proxy, paneId-1, oldIndex ? oldIndex-1 : props.defaultpaneindex,
+        expandedPane && expandedPane.props.name, collapsedPane && collapsedPane.props.name])
     }
-
-
-    this.invokeEventCallback('onChange', [{}, this.proxy, paneId-1, oldIndex ? oldIndex-1 : props.defaultpaneindex,
-      expandedPane && expandedPane.props.name, collapsedPane && collapsedPane.props.name])
   }
 
   renderWidget(props: WmAccordionProps) {

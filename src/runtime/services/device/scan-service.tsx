@@ -5,6 +5,7 @@ import React from "react";
 import { ScanInput, ScanOutput } from "@wavemaker/app-rn-runtime/variables/device/scan/scan.operation";
 import {DisplayManager} from "@wavemaker/app-rn-runtime/core/display.manager";
 import permissionManager from "@wavemaker/app-rn-runtime/runtime/services/device/permissions";
+import appDisplayManagerService from "@wavemaker/app-rn-runtime/runtime/services/app-display-manager.service";
 
 interface objectMap {
   [key: string]: string
@@ -103,3 +104,5 @@ export class ScanService {
     });
   }
 }
+const scanService = new ScanService(appDisplayManagerService);
+export default scanService;

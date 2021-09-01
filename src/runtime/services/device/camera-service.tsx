@@ -10,7 +10,7 @@ import { CaptureImageOutput } from "@wavemaker/app-rn-runtime/variables/device/c
 import permissionManager from '@wavemaker/app-rn-runtime/runtime/services/device/permissions';
 import { CameraInput } from "@wavemaker/app-rn-runtime/core/device/camera-service";
 import { Input } from "@wavemaker/app-rn-runtime/variables/device/operation.provider";
-
+import appDisplayManagerService from "@wavemaker/app-rn-runtime/runtime/services/app-display-manager.service";
 const styles = {
   actionBtn: {
     flex: 0,
@@ -216,3 +216,5 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
     </Camera>)
   }
 }
+const cameraService = new CameraService(appDisplayManagerService);
+export default cameraService;
