@@ -11,7 +11,7 @@ import WmIcon from '../../basic/icon/icon.component';
 
 export class WmCalendarState extends BaseComponentState<WmCalendarProps> {
   selectedDate: Moment = moment();
-  calendar: Map<String, { date: number, events: any []}> = null as any;
+  calendar: Map<String, { date: number, events: any []}> = new Map();
 }
 
 const DEFAULT_DATE_FORMAT = 'DD-MM-YYYY';

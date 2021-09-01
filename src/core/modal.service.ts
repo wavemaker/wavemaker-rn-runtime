@@ -11,6 +11,7 @@ export interface ModalOptions {
 }
 
 export interface ModalService {
+    refresh: () => void;
     showModal: (options: ModalOptions) => void;
     hideModal: (options: ModalOptions) => void;
 }

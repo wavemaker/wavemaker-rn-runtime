@@ -13,13 +13,20 @@ export type WmDatetimeStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-datetime';
 export const DEFAULT_STYLES: WmDatetimeStyles = {
     root: {
+        height: 38,
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 12,
+        paddingRight: 12,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderRadius: 4,
         borderColor: ThemeVariables.inputBorderColor,
-        borderBottomWidth: 1,
         padding: 8,
         width: '100%'
     },
     focused: {
-        borderColor: ThemeVariables.primaryColor
+        
     },
     container: {
         flexDirection: 'row',

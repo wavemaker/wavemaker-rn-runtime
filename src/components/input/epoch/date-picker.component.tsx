@@ -76,6 +76,8 @@ export default class DatePickerComponnent extends React.Component<DatePickerProp
                 value : date,
                 showDatePicker: false,
                 showTimePicker: true
+            }, () => {
+                modalService.refresh();
             });
         }
     }
