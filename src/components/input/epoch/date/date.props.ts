@@ -5,7 +5,7 @@ export default class WmDateProps extends WmDatetimeProps {
     super();
     this.mode = 'date';
     this.placeholder = 'Select date';
-    this.datepattern = 'MMM DD, YYYY';
+    this.datepattern = '';
     this.outputformat = 'YYYY-MM-DD';
   }
 }

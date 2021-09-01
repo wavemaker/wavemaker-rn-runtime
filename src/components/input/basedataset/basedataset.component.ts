@@ -1,6 +1,6 @@
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.props';
-import { includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values } from 'lodash';
+import { includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isObject, isArray } from 'lodash';
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseDatasetStyles } from "@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.styles";
 import moment from "moment";
 
@@ -178,6 +178,13 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
         };
       });
     } else if (dataset) {
+      if (isObject(dataset) && !isArray(dataset)) {
+        let data: Array<Object> = [];
+        forEach(dataset, function(value, key) {
+          data.push({displayValue: value, dataValue: key});
+        });
+        dataset = data;
+      }
       dataItems = (dataset as any[]).map((d, i) => {
         return {
           key: `${name}_item${i}`,

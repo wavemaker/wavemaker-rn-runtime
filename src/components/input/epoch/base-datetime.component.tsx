@@ -11,6 +11,7 @@ import WebDatePicker from './date-picker.component';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
+import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
 
 export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   showDatePicker = false;
@@ -24,9 +25,13 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   clearBtnClicked = false;
   modes = [] as string[];
   nativeModalOptions: ModalOptions = {} as any;
+  datepattern = '' as string;
 
   constructor(props: WmDatetimeProps, defaultClass = DEFAULT_CLASS, defaultStyles = DEFAULT_STYLES, defaultProps = new WmDatetimeProps()) {
     super(props, defaultClass, defaultStyles, defaultProps);
+    if (!this.state.props.datepattern) {
+      this.updateFormat('datepattern', AppI18nService.dateFormat);
+    }
     this.state.props.datepattern = this.state.props.datepattern?.replace(/d/g, 'D');
     this.state.props.outputformat = this.state.props.outputformat?.replace(/d/g, 'D');
   }
@@ -36,6 +41,12 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       return date instanceof Date ? '' + date.getTime() : date;
     }
     return date && moment(date).format(format);
+  }
+  updateFormat(pattern: string, val: string) {
+    if (pattern === 'datepattern') {
+      this.state.props.datepattern = val;
+      this.state.props.datepattern = this.state.props.datepattern.replace(/d/g, 'D');
+    }
   }
   parse(date: string | number, format: string) {
     if (format === 'timestamp') {
@@ -64,6 +75,9 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             props.datavalue = this.format(new Date(), props.outputformat);
           }
           const date = this.parse(props.datavalue as string, props.outputformat);
+          // if (name === 'datepattern') {
+          //   this.updateFormat('datepattern', $new);
+          // }
           this.updateState({
             dateValue : date,
             displayValue: this.format(date as any, props.datepattern)

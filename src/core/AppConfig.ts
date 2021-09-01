@@ -21,4 +21,5 @@ export default interface AppConfig {
     drawerType: any;
     getServiceDefinitions: any;
     loggedInUser: any;
+    selectedLocale: string;
 }

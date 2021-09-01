@@ -1,7 +1,7 @@
 import WmDatetimeProps from '../datetime/datetime.props';
 
 export default class WmDateProps extends WmDatetimeProps {
-  public timepattern = 'h:mm:ss a';
+  public timepattern = '';
   constructor() {
     super();
     this.mode = 'time';

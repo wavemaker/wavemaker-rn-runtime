@@ -8,6 +8,7 @@ import {
   BaseNumberComponent,
   BaseNumberState
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
+import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
 export class WmCurrencyState extends BaseNumberState<WmCurrencyProps> {
   currencySymbol: any;
 }
@@ -16,13 +17,16 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
 
   constructor(props: WmCurrencyProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCurrencyProps(), new WmCurrencyState());
+    if (!this.state.props.currency) {
+      this.state.props.currency = AppI18nService.currencyCode;
+    }
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
       case 'currency':
         this.updateState({
-          currencySymbol: CURRENCY_INFO[$new || 'USD'].symbol,
+          currencySymbol: CURRENCY_INFO[$new].symbol,
         } as WmCurrencyState);
         break;
 
