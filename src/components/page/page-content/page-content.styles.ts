@@ -9,7 +9,7 @@ export const DEFAULT_STYLES: WmPageContentStyles = {
     root: {
         padding: 8,
         backgroundColor: ThemeVariables.pageContentBgColor,
-        flex: 1
+        minHeight: '100%'
     },
     text: {}
 };
