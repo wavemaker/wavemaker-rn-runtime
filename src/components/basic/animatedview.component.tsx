@@ -85,6 +85,10 @@ const CustomAnimationMap: any = {
 };
 
 export class Animatedview extends React.Component<AnimatedviewProps> {
+  static defaultProps: AnimatedviewProps = {
+    duration: 200
+  };
+
   private view: Animatable.View = null as any;
 
   constructor(props: AnimatedviewProps) {
@@ -93,14 +97,14 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
   }
 
   triggerEntry() {
-    return (this as any).view.animate(this.props.entryanimation).then((endState: any) => endState.finished)
+    return (this as any).view.animate(this.props.entryanimation, this.props.duration).then((endState: any) => endState.finished)
   }
 
   triggerExit() {
     if (this.props.exitanimation) {
-      return (this as any).view.animate(this.props.exitanimation, 800, 1).then((endState: any) => endState.finished)
+      return (this as any).view.animate(this.props.exitanimation, this.props.duration, 1).then((endState: any) => endState.finished)
     } else {
-      return (this as any).view.animate(AnimationMap[this.props.entryanimation || ''], 800, 1).then((endState: any) => endState.finished)
+      return (this as any).view.animate(AnimationMap[this.props.entryanimation || ''], this.props.duration, 1).then((endState: any) => endState.finished)
     }
   }
 
@@ -111,7 +115,7 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
     return (
      <Animatable.View
        animation={this.props.entryanimation}
-       duration={this.props.duration || 800}
+       duration={this.props.duration}
        useNativeDriver={true}
        style={this.props.style}
        ref={this.handleViewRef}>
