@@ -191,8 +191,8 @@ export class ThemeVariables {
     formSubTitleColor = this.formTitleColor;
 
     //dialog
-    dialogBackgroundColor = this.defaultColorF;
-    dialogBorderColor = this.defaultColorD;
+    dialogBackgroundColor = this.widgetBgColor;
+    dialogBorderColor = this.widgetBorderColor;
 
     badgeTextColor = this.defaultColorF;
 

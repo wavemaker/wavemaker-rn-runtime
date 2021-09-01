@@ -37,6 +37,8 @@ export const DEFAULT_STYLES: WmConfirmdialogStyles = {
             height: '100%',
             width: '50%',
             padding: 16,
+            borderWidth: 0,
+            borderRadius: 0,
             borderBottomRightRadius: 8
         }
     } as WmButtonStyles,
@@ -45,7 +47,9 @@ export const DEFAULT_STYLES: WmConfirmdialogStyles = {
             height: '100%',
             width: '50%',
             paddingTop: 16,
+            borderRadius: 0,
             borderBottomLeftRadius: 8,
+            borderWidth: 0,
             borderRightWidth: 1,
             borderStyle: 'solid',
             borderColor: ThemeVariables.dialogBorderColor
