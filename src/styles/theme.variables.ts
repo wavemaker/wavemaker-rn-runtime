@@ -60,6 +60,7 @@ export class ThemeVariables {
 
     // Navbar variables
     navbarBackgroundColor = this.primaryColor;
+    navbarBorderColor = this.widgetBorderColor;
     navbarTextColor = this.primaryContrastColor;
     navbarIconSize = 24;
     navbarFontSize = 15;

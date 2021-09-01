@@ -13,7 +13,12 @@ export type WmNavItemStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-navitem';
 export const DEFAULT_STYLES: WmNavItemStyles = {
-    root: {},
+    root: {
+      borderWidth: 0,
+      borderBottomWidth: 1,
+      borderStyle: 'solid',
+      borderColor: ThemeVariables.navbarBorderColor
+    },
     text: {},
     dropdownNav: {
       flex: 1,
