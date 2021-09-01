@@ -29,7 +29,9 @@ export const DEFAULT_CLASS = 'app-wizard';
 export const DEFAULT_STYLES: WmWizardStyles = {
     root: {
       flexDirection: 'column',
-      backgroundColor: ThemeVariables.wizardBackgroundColor
+      backgroundColor: ThemeVariables.wizardBackgroundColor,
+      display: 'flex',
+      maxHeight: '100%'
     },
     text: {},
     activeStep:{
@@ -40,7 +42,7 @@ export const DEFAULT_STYLES: WmWizardStyles = {
     },
     wizardHeader: {
       height: 80,
-      paddingTop: 16,
+      padding: 8,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center'
@@ -57,7 +59,13 @@ export const DEFAULT_STYLES: WmWizardStyles = {
     },
     wizardBody: {
       alignSelf: 'flex-start',
-      paddingTop: 10
+      paddingTop: 10,
+      flex: 1,
+      width: '100%',
+      borderWidth: 0,
+      borderTopWidth: 1,
+      borderBottomWidth: 1,
+      borderColor: ThemeVariables.wizardBorderColor
     },
     wizardFooter: {
       flexDirection: 'row',

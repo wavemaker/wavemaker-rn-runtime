@@ -315,14 +315,15 @@ export class ThemeVariables {
     calendarEventDay3Color = this.primaryColor3;
 
     //wizard
-    wizardBackgroundColor = this.defaultColorF;
-    wizardStepActiveColor = this.defaultColor2;
+    wizardBackgroundColor = this.widgetBgColor;
+    wizardStepActiveColor = this.primaryColor;
     wizardStepDoneColor = this.successColor;
     wizardStepColor = this.defaultColorA;
     wizardNextBtnColor= this.primaryColor;
     wizardDoneBtnColor = this.successColor;
     wizardStepConnectorColor = this.defaultColorE;
     wizardStepCounerColor = this.defaultColor9;
+    wizardBorderColor = this.widgetBorderColor;
 
     //Search
     searchBorderColor = this.defaultColorD;

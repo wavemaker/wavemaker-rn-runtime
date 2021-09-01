@@ -110,7 +110,6 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         <View style={this.styles.wizardBody} key={'wizardbody_'+this.state.currentStep}>
           <View>{activeStep}</View>
         </View>
-        <Divider />
         <View style={[this.styles.wizardFooter, {justifyContent: 'space-between'}]}>
           <View style={{
             alignItems: props.actionsalignment === 'right' ? 'flex-start' : 'flex-end',
