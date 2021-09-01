@@ -1,9 +1,8 @@
-import * as Permissions from "expo-permissions";
-import * as Location from "expo-location";
+import * as Location from 'expo-location';
 import * as Contacts from 'expo-contacts';
 import * as Calendar from 'expo-calendar';
-import { Camera } from "expo-camera";
-import { Platform } from "react-native";
+import { Camera } from 'expo-camera';
+import { Platform } from 'react-native';
 
 const rejectionMsgMap = new Map<string, string>();
 
@@ -17,31 +16,16 @@ interface objectMap {
   [key: string]: Array<string>
 }
 
-const permissionsStr: objectMap = {
-  CAMERA: [Permissions.CAMERA],
-  IMAGE: [Permissions.CAMERA],
-  VIDEO: [Permissions.CAMERA, Permissions.AUDIO_RECORDING],
-  LOCATION: [Permissions.LOCATION]
-}
-
-const checkStatus = (type: string): Promise<Permissions.PermissionResponse> => {
-  const permissions: any = permissionsStr[type.toUpperCase()].join(',');
-  return Permissions.getAsync(permissions).then(response => {
-    if (response.status !== 'granted') {
-      return Permissions.askAsync(permissions);
-    }
-    return Promise.resolve(response);
-  });
-}
-
 export default {
   requestPermissions: (type: string) => {
     let query;
     if (type === 'location') {
       // requestPermissionsAsync is deprecated and requestForegroundPermissionsAsync is available only in sdk 41+
-      query = checkStatus(type);
-    } else if (type === 'image' || type === 'camera' || type === 'video') {
-      query = checkStatus(type);
+      query = Location.requestForegroundPermissionsAsync();
+    } else if (type === 'video') {
+      query = Camera.requestPermissionsAsync();
+    } else if (type === 'image' || type === 'camera') {
+      query = Camera.requestCameraPermissionsAsync();
     } else if (type === 'contacts') {
       query = Contacts.requestPermissionsAsync();
     } else if (type === 'calendar') {

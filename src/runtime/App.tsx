@@ -105,7 +105,8 @@ export default abstract class BaseApp extends React.Component {
   }
 
   onBeforeServiceCall(config: AxiosRequestConfig) {
-    return config;
+    console.log('onBeforeService call invoked on ' + config.url);
+    return config
   }
 
   onServiceSuccess(data: any, response: AxiosResponse) {
