@@ -82,6 +82,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             ref={ref => this.carouselRef = ref}
             data={data}
             firstItem={0}
+            style={{width: '100%', height: '100%'}}
             loop={true}
             loopClonesPerSide={1}
             autoplay={autoPlay}
