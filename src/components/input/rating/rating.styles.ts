@@ -11,21 +11,27 @@ export type WmRatingStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-rating';
 export const DEFAULT_STYLES: WmRatingStyles = {
     root: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignContent: 'center',
+        padding: 8
     },
     icon: {
         text: {
-            fontSize: 16,
+            fontSize: 24,
             color: ThemeVariables.ratingIconColor
         }
     } as WmIconStyles,
     selectedIcon: {
         text: {
-            fontSize: 16,
+            fontSize: 24,
             color: ThemeVariables.ratingSelectedIconColor
         }
     } as WmIconStyles,
-    text: {}
+    text: {
+        alignSelf: 'center',
+        paddingLeft: 8,
+        color: ThemeVariables.ratingSelectedIconColor
+    }
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
