@@ -25,7 +25,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   clearBtnClicked = false;
   modes = [] as string[];
   nativeModalOptions: ModalOptions = {} as any;
-  datepattern = '' as string;
 
   constructor(props: WmDatetimeProps, defaultClass = DEFAULT_CLASS, defaultStyles = DEFAULT_STYLES, defaultProps = new WmDatetimeProps()) {
     super(props, defaultClass, defaultStyles, defaultProps);
@@ -75,9 +74,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             props.datavalue = this.format(new Date(), props.outputformat);
           }
           const date = this.parse(props.datavalue as string, props.outputformat);
-          // if (name === 'datepattern') {
-          //   this.updateFormat('datepattern', $new);
-          // }
           this.updateState({
             dateValue : date,
             displayValue: this.format(date as any, props.datepattern)
