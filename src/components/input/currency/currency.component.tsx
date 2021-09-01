@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TextInput } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 
 import WmCurrencyProps from './currency.props';
 import { CURRENCY_INFO } from '@wavemaker/app-rn-runtime/core/currency-constants';
@@ -34,10 +34,10 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
   }
 
   renderWidget(props: WmCurrencyProps) {
-    return (<Text>
-        <Text>{this.state.currencySymbol}</Text>
+    return (<View style={this.styles.root}>
+        <Text style={this.styles.label}>{this.state.currencySymbol}</Text>
         <TextInput
-        style={[this.styles.root, this.state.isInvalidNumber ? this.styles.invalid : {}]}
+        style={[this.styles.input, this.styles.text, this.state.isInvalidNumber ? this.styles.invalid : {}]}
         defaultValue={props.datavalue}
         editable={props.disabled || props.readonly ? false : true}
         placeholder={props.placeholder}
@@ -46,6 +46,6 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         onKeyPress={this.validateInputEntry.bind(this)}
         onChangeText={this.onChangeText.bind(this)}
       />
-    </Text>);
+    </View>);
   }
 }
