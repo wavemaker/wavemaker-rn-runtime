@@ -160,6 +160,8 @@ export class ThemeVariables {
     buttonDarkTextColor = this.lightColor;
     buttonLightColor = this.lightColor;
     buttonLightTextColor = this.darkColor;
+    buttonGrpBorderColor = this.widgetBorderColor;
+    buttonGrpBgColor = this.defaultColorE;
 
     //picture variables
     pictureThumbBgColor = this.defaultColorF;
