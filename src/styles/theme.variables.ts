@@ -192,8 +192,9 @@ export class ThemeVariables {
     checkedColor = this.primaryColor;
 
     //form
-    formTitleColor = this.defaultColor5;
-    formSubTitleColor = this.formTitleColor;
+    formBorderColor = this.widgetBorderColor;
+    formTitleColor = this.widgetHeaderTextColor;
+    formSubTitleColor = this.defaultColor6;
 
     //dialog
     dialogBackgroundColor = this.widgetBgColor;

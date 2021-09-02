@@ -104,7 +104,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
             </View>
           </View>
         </View>
-          <View style={this.styles.root}>{props.children}</View>
+        {props.children}
       </View>
     );
   }

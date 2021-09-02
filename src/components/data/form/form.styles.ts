@@ -16,18 +16,20 @@ export const DEFAULT_STYLES: WmFormStyles = {
   heading : {
     paddingTop: 12,
     paddingBottom: 12,
-    paddingLeft: 12,
-    paddingRight: 12
+    paddingLeft: 8,
+    paddingRight: 8,
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
+    borderColor: ThemeVariables.formBorderColor
   },
   title: {
-    root: {
-      fontSize: 16,
-      lineHeight: 24,
+    text: {
+      fontSize: ThemeVariables.heading4FontSize,
       color: ThemeVariables.formTitleColor
     }
   } as WmLabelStyles,
   subheading: {
-    root: {
+    text: {
       fontSize: 12,
       lineHeight: 18,
       color: ThemeVariables.formSubTitleColor
@@ -36,3 +38,8 @@ export const DEFAULT_STYLES: WmFormStyles = {
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle('form-action', '', {
+  root: {
+    marginLeft: 12
+  }
+} as BaseStyles);
