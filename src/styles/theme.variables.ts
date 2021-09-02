@@ -130,9 +130,10 @@ export class ThemeVariables {
     labelAsteriskColor = this.dangerColor;
 
     //List
-    listTitleColor = this.defaultColor6;
-    listSubTitleColor = this.listTitleColor;
-    listDividerColor = this.defaultColorD;
+    listHeaderBgColor = this.widgetHeaderBgColor;
+    listTitleColor = this.widgetHeaderTextColor;
+    listSubTitleColor = this.defaultColor6;
+    listDividerColor = this.widgetBorderColor;
     selectedItemBorderColor = this.primaryColor;
 
     //button Variables
@@ -271,8 +272,11 @@ export class ThemeVariables {
 
     //card
     cardHeaderBgColor = this.defaultColorD;
+    cardBgColor = this.widgetBgColor;
     cardTitleColor = this.listTitleColor;
+    cardShadowColor = this.defaultColor;
     cardSubTitleColor = this.listSubTitleColor;
+    cardBorderColor = this.defaultColorD;
     cardContentBgColor = this.defaultColorF;
     cardFooterBgColor = this.defaultColorF;
 

@@ -17,13 +17,17 @@ export const DEFAULT_CLASS = 'app-card';
 export const DEFAULT_STYLES: WmCardStyles = {
     root: {
         width: '100%',
-        shadowColor: '#000000',
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: ThemeVariables.cardBorderColor,
+        shadowColor: ThemeVariables.cardShadowColor,
+        backgroundColor: ThemeVariables.cardBgColor,
         shadowOffset: {
             width: 1,
-            height: 0
+            height: 1
         },
         shadowOpacity: 0.5,
-        shadowRadius: 5
+        shadowRadius: 1
     },
     text: {},
     cardIcon: {
@@ -38,17 +42,19 @@ export const DEFAULT_STYLES: WmCardStyles = {
         paddingLeft: 8,
         paddingRight: 8,
         backgroundColor: ThemeVariables.cardHeaderBgColor,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignContent: 'center',
+        width: '100%'
     },
     title: {
-        root: {
+        text: {
             fontSize: 16,
             lineHeight: 24,
             color: ThemeVariables.cardTitleColor
         }
     } as WmLabelStyles,
     subheading: {
-        root: {
+        text: {
             fontSize: 12,
             lineHeight: 18,
             color: ThemeVariables.cardSubTitleColor

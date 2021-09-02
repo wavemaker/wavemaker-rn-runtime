@@ -36,22 +36,20 @@ export const DEFAULT_STYLES: WmListStyles = {
         }
     } as WmIconStyles,
     heading : {
-        paddingTop: 12,
-        paddingBottom: 12,
-        paddingLeft: 12,
-        paddingRight: 12
+        padding: 8,
+        backgroundColor: ThemeVariables.listHeaderBgColor
     },
     title: {
-        root: {
+        text: {
+            color: ThemeVariables.listTitleColor,
             fontSize: 16,
             lineHeight: 24,
-            color: ThemeVariables.listTitleColor
         }
     } as WmLabelStyles,
     subheading: {
-        root: {
+        text: {
             fontSize: 12,
-            lineHeight: 18,
+            lineHeight: 16,
             color: ThemeVariables.listSubTitleColor
         }
     } as WmLabelStyles,
