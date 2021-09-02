@@ -64,15 +64,15 @@ export class ScanService {
   constructor(private displayManager: DisplayManager) {}
 
   public scanBarcode(params: ScanInput): Promise<ScanOutput> {
-    const format = Platform.OS === 'ios' ? params.barcodeFormat : 'QR_CODE';
-    const barcodeFormat: string = barcodeFormatOptions[format];
+    const format = params?.barcodeFormat || 'ALL';
+    const barcodeFormat: string | undefined = Platform.OS === 'ios' ? undefined : barcodeFormatOptions[format];
     return new Promise((resolve, reject) => {
       permissionManager.requestPermissions('camera').then(() => {
         const destroy = this.displayManager.show({
           content: (<Camera
-            barCodeScannerSettings={{
+            barCodeScannerSettings={barcodeFormat ? {
               barCodeTypes: [BarCodeScanner.Constants.BarCodeType[barcodeFormat]],
-            }}
+            }: {}}
             onBarCodeScanned={(result) => {
               destroy.call(this.displayManager);
               resolve(result);
