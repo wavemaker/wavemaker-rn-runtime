@@ -134,10 +134,8 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
       this.takePicture();
     }
     if (!this.state.recording) {
-      console.log('record before start ');
       this.startRecord();
     } else {
-      console.log('invoke stop ');
       this.stopRecord();
       this.setState({showActionBtns: true});
     }

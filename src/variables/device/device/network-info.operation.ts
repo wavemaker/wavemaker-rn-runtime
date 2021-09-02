@@ -4,6 +4,7 @@ import { Operation } from '@wavemaker/app-rn-runtime/variables/device/operation.
 export interface NetworkInfoOutput {
   connectionType: string;
   isNetworkAvailable: boolean;
+  isOnline: boolean;
 }
 
 export class NetworkInfoOperation implements Operation {
@@ -11,7 +12,8 @@ export class NetworkInfoOperation implements Operation {
     return Network.getNetworkStateAsync().then((response) => {
       return {
         connectionType: Network.NetworkStateType[response.type as Network.NetworkStateType],
-        isNetworkAvailable: response.isInternetReachable
+        isNetworkAvailable: response.isInternetReachable,
+        isOnline: response.isInternetReachable
       } as NetworkInfoOutput;
     });
   }
