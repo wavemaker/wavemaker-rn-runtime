@@ -1,7 +1,7 @@
 import * as Location from 'expo-location';
 import * as Contacts from 'expo-contacts';
 import * as Calendar from 'expo-calendar';
-import { Camera } from 'expo-camera';
+import * as Camera from 'expo-camera';
 import { Platform } from 'react-native';
 
 const rejectionMsgMap = new Map<string, string>();

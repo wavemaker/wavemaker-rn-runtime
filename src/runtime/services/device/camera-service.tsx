@@ -30,10 +30,6 @@ const styles = {
     right: 0,
     padding: 20
   } as ViewStyle,
-  wrapper: {
-    flexDirection: 'row',
-    padding: 20
-  } as ViewStyle,
   leftWrapper: {
     flex: 1,
     alignItems: 'flex-start',
@@ -120,6 +116,8 @@ class CameraViewProps {
 class CameraViewState {
     recording: boolean = false;
     showActionBtns: boolean = false;
+    isPaused: boolean = false;
+    cameraType: CameraType = 'back' as CameraType;
 }
 
 export class CameraView extends React.Component<CameraViewProps, CameraViewState> {
@@ -149,8 +147,12 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
     if (this.state.showActionBtns) {
       this.setState({showActionBtns: false});
     }
-    this.cameraContent = await this.camera.takePictureAsync();
     this.setState({showActionBtns: true});
+    this.cameraContent = await this.camera.takePictureAsync();
+    if (this.cameraContent.uri) {
+      this.setState({isPaused: true});
+      await this.camera.pausePreview();
+    }
   }
 
   // start recording
@@ -172,45 +174,42 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
   };
 
   render() {
-    return (<Camera type={this.props.type} ref={(ref: Camera) => { this.camera = ref; }}
+    return (<Camera type={this.state.cameraType} ref={(ref: Camera) => { this.camera = ref; }}
             style={StyleSheet.absoluteFillObject}
             onCameraReady={() => {}}>
-      <View style={styles.wrapper}>
-        <View style={styles.rightWrapper}>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.type === Camera.Constants.Type.back
-                ? Camera.Constants.Type.front
-                : Camera.Constants.Type.back
-            }}>
-            <Ionicons name='camera-reverse' size={32} color='white' />
-          </TouchableOpacity>
-        </View>
-      </View>
       <View style={styles.actionBar}>
         <View style={styles.leftWrapper}>
-          { this.state.showActionBtns && <TouchableOpacity
+          <TouchableOpacity
             onPress={() => {
+              if (this.state.isPaused) {
+                this.camera.resumePreview();
+              }
               this.props.onCancel();
             }}>
             <Ionicons name='close-circle' size={32} color='white' />
-          </TouchableOpacity>}
+          </TouchableOpacity>
         </View>
         <View style={styles.midWrapper}>
         <TouchableOpacity style={[styles.circle, styles.outerCircle, this.props.captureType === 'video' && !this.state.recording ? { backgroundColor: "red" } : {},
           this.props.captureType === 'image' ? { backgroundColor: "white" } : {}]}
                           onPress={this.toggleCapture.bind(this)}>
-          <View style={[styles.circle as ViewStyle, styles.innerCircle, this.props.captureType === 'image' ? { backgroundColor: "white" } : {}]}></View>
+          <View style={[styles.circle as ViewStyle, this.props.captureType === 'image' ? {} : styles.innerCircle, this.props.captureType === 'image' ? { backgroundColor: "white" } : {}]}></View>
         </TouchableOpacity>
         </View>
         <View style={styles.rightWrapper}>
-          {this.state.showActionBtns && <TouchableOpacity
+          {this.state.showActionBtns ? (<TouchableOpacity
             onPress={() => {
+              this.camera.resumePreview();
               this.props.onSuccess(this.cameraContent);
               return;
             }}>
             <Ionicons name='checkmark-circle' size={32} color='white'/>
-          </TouchableOpacity>}
+          </TouchableOpacity>) : (<TouchableOpacity
+            onPress={() => {
+              this.setState({cameraType: this.state.cameraType === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back});
+            }}>
+            <Ionicons name='camera-reverse' size={32} color='white' />
+          </TouchableOpacity>)}
         </View>
       </View>
     </Camera>)

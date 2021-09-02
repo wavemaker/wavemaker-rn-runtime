@@ -1,11 +1,12 @@
-import {Camera} from "expo-camera";
-import {BarCodeScanner} from "expo-barcode-scanner";
-import {Platform, StyleSheet, View} from "react-native";
-import React from "react";
-import { ScanInput, ScanOutput } from "@wavemaker/app-rn-runtime/variables/device/scan/scan.operation";
-import {DisplayManager} from "@wavemaker/app-rn-runtime/core/display.manager";
-import permissionManager from "@wavemaker/app-rn-runtime/runtime/services/device/permissions";
-import appDisplayManagerService from "@wavemaker/app-rn-runtime/runtime/services/app-display-manager.service";
+import { Camera } from 'expo-camera';
+import { Ionicons } from '@expo/vector-icons';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { ScanInput, ScanOutput } from '@wavemaker/app-rn-runtime/variables/device/scan/scan.operation';
+import { DisplayManager } from '@wavemaker/app-rn-runtime/core/display.manager';
+import permissionManager from '@wavemaker/app-rn-runtime/runtime/services/device/permissions';
+import appDisplayManagerService from '@wavemaker/app-rn-runtime/runtime/services/app-display-manager.service';
 
 interface objectMap {
   [key: string]: string
@@ -33,6 +34,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column'
+  },
+  closeWrapper: {
+    flex: 1,
+    alignItems: 'flex-end',
+    paddingRight: 10
   },
   topWrapper: {
     flex: 2,
@@ -79,7 +85,16 @@ export class ScanService {
             }}
             style={StyleSheet.absoluteFillObject}
           >
-            <View style={styles.topWrapper}/>
+            <View style={styles.topWrapper}>
+              <View style={styles.closeWrapper}>
+                <TouchableOpacity
+                  onPress={() => {
+                    destroy.call(this.displayManager);
+                  }}>
+                  <Ionicons name='close-circle' size={32} color='white' />
+                </TouchableOpacity>
+              </View>
+            </View>
             <View style={styles.centerWrapper}>
               <View style={styles.leftWrapper}/>
               <View style={styles.focused}/>
