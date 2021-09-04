@@ -352,11 +352,9 @@ export class ThemeVariables {
     searchDataCompleteItemBgColor = this.defaultColorE;
 
     //Login
-    loginErrorMsgColor = '#ffffff';
-    loginErrorMsgBgColor = '#F44336';
-    loginErrorMsgBorderColor = '#f31e33';
-
-
+    loginErrorMsgColor = this.dangerContrastColor;
+    loginErrorMsgBgColor = this.dangerColor;
+    loginErrorMsgBorderColor = this.dangerColor;
 }
 
 export default new ThemeVariables();
