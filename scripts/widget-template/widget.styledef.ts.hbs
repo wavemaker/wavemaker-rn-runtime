@@ -1,0 +1,17 @@
+import { ComponentStyle, StyleDefinition } from '{{baseStylePath}}base-style-definition';
+
+export default {
+    getStyleDefs: () => ([{
+        className: '.app-{{name}}',
+        rnStyleSelector: 'app-{{name}}>root',
+        studioStyleSelector: '',
+        document: '',
+        style: {}
+    }, {
+        className: '.app-{{name}}-text',
+        rnStyleSelector: 'app-{{name}}>text',
+        studioStyleSelector: '',
+        document: '',
+        style: {}
+    }])
+} as ComponentStyle;

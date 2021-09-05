@@ -2,6 +2,7 @@ const fs = require('fs-extra');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const handlebars = require('handlebars');
+const { capitalize, camelCase } = require('lodash');
 const projectDir = '.';
 
 const loadTemplate = (templatePath) => {
@@ -12,6 +13,7 @@ const loadTemplate = (templatePath) => {
 const WIDGET_COMPONENT_TEMPLATE = loadTemplate('./widget-template/widget.component.tsx.hbs');
 const WIDGET_PROPS_TEMPLATE = loadTemplate('./widget-template/widget.props.ts.hbs');
 const WIDGET_STYLES_TEMPLATE = loadTemplate('./widget-template/widget.styles.ts.hbs');
+const WIDGET_STYLE_DEF_TEMPLATE = loadTemplate('./widget-template/widget.styledef.ts.hbs');
 const WIDGET_TRANSFORMER_TEMPLATE = loadTemplate('./widget-template/widget.transformer.ts.hbs');
 const WIDGET_SPEC_TEMPLATE = loadTemplate('./widget-template/widget.component.spec.tsx.hbs');
 
@@ -22,6 +24,23 @@ function writeFile(path, content) {
     }
     fs.writeFileSync(path, content);
 };
+
+function writeStyleDefinition(componentName, group) {
+    const styledefProviderPath = `${__dirname}/../../wavemaker-rn-codegen/src/theme/components/style-definition.provider.ts`;
+    const cComponentName = capitalize(camelCase(componentName));
+    const styledefProvider = fs.readFileSync(styledefProviderPath, 'utf-8')
+        .replace('//ADD_STYLE_IMPORT', 
+            `import ${cComponentName}StyleDef from './${group}/${componentName}.styledef';\n//ADD_STYLE_IMPORT`)
+        .replace('//ADD_STYLE_DEF', 
+            `['${group}', ${cComponentName}StyleDef.getStyleDefs()],\n//ADD_STYLE_DEF`);
+    const def = WIDGET_STYLE_DEF_TEMPLATE({
+        name: componentName,
+        baseStylePath: group.split('/').map((s, i) => '../').join('')
+    });
+    writeFile(`${__dirname}/../../wavemaker-rn-codegen/src/theme/components/${group}/${componentName}.styledef.ts`, def);
+    writeFile(styledefProviderPath, styledefProvider);
+    return styledefProvider;
+}
 
 yargs(hideBin(process.argv)).command('generate',
     'generates a wavemaker widget',
@@ -61,4 +80,5 @@ yargs(hideBin(process.argv)).command('generate',
             .replace('//#REGISTER_COMPONENT', 
                 `registerTransformer('wm-${info.widget.name.hyphenated}', ${info.widget.name.camelcase}Transformer);\n\t//#REGISTER_COMPONENT`);
         writeFile(registerFile, content);
+        writeStyleDefinition(argv.name, argv.group);
     }).showHelpOnFail().argv;
