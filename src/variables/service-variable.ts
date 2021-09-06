@@ -63,9 +63,9 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
               paramValue = paramValue || {};
               Object.keys(this.params).forEach((currentParam: any) => {
                 if (currentParam.startsWith(param.name + '.')) {
-                  const test = currentParam.split('.')[1];
+                  const bodyField = currentParam.split('.')[1];
                   paramValue[param.name] = paramValue[param.name] || {};
-                  paramValue[param.name][test] = this.params[currentParam];
+                  paramValue[param.name][bodyField] = this.params[currentParam];
                 } 
               });
               paramValue = paramValue[param.name] ? paramValue[param.name] : paramValue;

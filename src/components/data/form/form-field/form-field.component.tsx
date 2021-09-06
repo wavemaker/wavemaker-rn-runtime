@@ -7,7 +7,6 @@ import { forEach } from 'lodash';
 import WmFormFieldProps from './form-field.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormFieldStyles } from './form-field.styles';
 import {PERFORMANCE_LOGGER} from "@wavemaker/app-rn-runtime/core/logger";
-import { times } from 'lodash-es';
 
 export class WmFormFieldState extends BaseComponentState<WmFormFieldProps> {
   datavalue: any;
