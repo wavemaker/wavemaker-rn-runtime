@@ -99,12 +99,15 @@ export const DEFAULT_STYLES: WmWizardStyles = {
     } as WmButtonStyles,
     nextButton: {
       root: {
-        marginRight: 0
+        marginRight: 0,
+        backgroundColor: ThemeVariables.wizardNextBtnColor,
+        borderColor: ThemeVariables.wizardNextBtnColor
       }
     } as WmButtonStyles,
     doneButton: {
       root: {
-        marginRight: 0
+        marginRight: 0,
+        backgroundColor: ThemeVariables.wizardDoneBtnColor
       }
     } as WmButtonStyles,
     stepIcon: {
