@@ -106,7 +106,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         delete this.fragments[id];
       }
       if (w instanceof WmForm) {
-        delete this.formWidgets;
+        this.formWidgets = {};
       }
     }
 

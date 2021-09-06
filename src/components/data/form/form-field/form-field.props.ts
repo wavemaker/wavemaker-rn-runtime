@@ -10,4 +10,5 @@ export default class WmFormFieldProps extends BaseProps {
   required: Boolean = false;
   widget: any;
   onFieldChange: any;
+  formKey: string = '';
 }

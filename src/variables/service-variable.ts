@@ -35,7 +35,8 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
     _invoke(options? : any, onSuccess?: Function, onError?: Function) {
         let params = options ? (options.inputFields ? options.inputFields : options) : undefined;
         if (!params) {
-          params = Object.keys(this.params).length ? this.params : undefined;
+          const configParams = this.config.paramProvider();
+          params = Object.keys(configParams).length ? configParams : undefined;
         }
         const config = (this.config as ServiceVariableConfig);
 
@@ -51,13 +52,24 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         const proxyURL = config.baseUrl;
         let queryParams = '',
           headers: any = {},
-          requestBody,
+          requestBody: any = {},
           url = get(config.serviceInfo, 'proxySettings.mobile') === true ? proxyURL + config.serviceInfo.relativePath : config.serviceInfo.directPath,
           requiredParamMissing: any = [],
           pathParamRex;
 
         forEach(config.serviceInfo.parameters, (param) => {
             let paramValue = this.params[param.name];
+            if (param.parameterType.toUpperCase() === 'BODY') {
+              paramValue = paramValue || {};
+              Object.keys(this.params).forEach((currentParam: any) => {
+                if (currentParam.startsWith(param.name + '.')) {
+                  const test = currentParam.split('.')[1];
+                  paramValue[param.name] = paramValue[param.name] || {};
+                  paramValue[param.name][test] = this.params[currentParam];
+                } 
+              });
+              paramValue = paramValue[param.name] ? paramValue[param.name] : paramValue;
+            }
             if (paramValue) {
               switch (param.parameterType.toUpperCase()) {
                   case 'QUERY':
@@ -94,6 +106,7 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
                   'field': requiredParamMissing.join(',')
               }
           });
+          $queue.process(this);
           return Promise.reject('Required field(s) missing');
         }
 
@@ -133,11 +146,11 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
           }
         }).then(() => {
           config.onSuccess && config.onSuccess(this, this.dataSet);
-          onSuccess && onSuccess(this, this.dataSet);
+          onSuccess && onSuccess(this.dataSet);
           this.notify(VariableEvents.SUCCESS, [this, this.dataSet]);
-        }, () => {
-          config.onError && config.onError(this, null);
-          onError && onError(this, null);
+        }, (error: any) => {
+          config.onError && config.onError(this, error);
+          onError && onError(error);
           this.notify(VariableEvents.ERROR, [this, this.dataSet]);
         }).then(() => {
           this.notify(VariableEvents.AFTER_INVOKE, [this, this.dataSet]);

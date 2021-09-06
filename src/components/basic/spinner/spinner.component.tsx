@@ -17,6 +17,7 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSpinnerProps());
   }
   componentDidMount() {
+    super.componentDidMount();
     this.spin();
   }
 

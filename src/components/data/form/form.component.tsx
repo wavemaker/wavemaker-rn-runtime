@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
-import {isArray, forEach, isEqual} from 'lodash';
+import {isArray, forEach, isEqual, isObject} from 'lodash';
 
 import WmFormProps from './form.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormStyles } from './form.styles';
@@ -75,7 +75,13 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   updateDataOutput(key: string, val: any) {
     var current = this.formdataoutput || {};
-    current[key] = val;
+    if(key.indexOf('.') > -1) {
+      const obj = key.split('.');
+      current[obj[0]] = isObject(current[obj[0]]) ? current[obj[0]] : {};
+      current[obj[0]][obj[1]] = val;
+    } else {
+      current[key] = val;
+    }
     this.formdataoutput = current;
     this.updateState({ props: { dataoutput: current }} as WmFormState);
   }
