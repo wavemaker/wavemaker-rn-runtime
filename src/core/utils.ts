@@ -1,3 +1,4 @@
+import { Platform } from 'react-native'; 
 import { isString } from "lodash-es";
 
 declare const window: any;
@@ -40,3 +41,7 @@ export const deepCopy = (...objects: any) => _deepCopy({}, ...objects);
 export const isWebPreviewMode = () => !!(window && window.navigator && window.document);
 
 export const widgetsWithUndefinedValue = ['checkbox', 'toggle'];
+
+export const isAndroid = () => (Platform.OS === 'android' || (Platform.OS === 'web' && /android/i.test(window.navigator.userAgent)));
+
+export const isIos = () => (Platform.OS === 'ios' || (Platform.OS === 'web' && /iPhone|iPad/i.test(window.navigator.userAgent)));
