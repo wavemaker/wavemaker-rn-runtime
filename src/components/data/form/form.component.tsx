@@ -62,7 +62,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       if(!val && this.formWidgets[key]?.props.required && widgetsWithUndefinedValue.indexOf(this.formWidgets[key]?.props.widget) < 0) {
         isValid = false;
       }
-      this.formWidgets[key].props.onValidate();
+      this.formWidgets[key] && this.formWidgets[key].props.onValidate();
     });
     if(!isValid) {
       return false;

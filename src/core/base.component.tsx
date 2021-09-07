@@ -144,13 +144,23 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     protected abstract renderWidget(props: T): ReactNode;
 
+    getComputedStyles() {
+        let styles = deepCopy({}, this.theme.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);
+        Object.keys(styles).forEach(k => {
+            if (styles[k] === 'auto') {
+                delete styles[k];
+            }
+        });
+        return styles;
+    }
+
     public render(): ReactNode {
         WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
         const props = this.state.props;
         return props.show !== false ?
             (<ThemeConsumer>{(theme) => {
                 this.theme = theme || BASE_THEME;
-                this.styles =  this.styles || deepCopy({}, this.theme.getStyle(this.defaultClass) || this.defaultStyles, this.props.styles);    
+                this.styles =  this.styles || this.getComputedStyles();    
                 return attachBackground(this.renderWidget(this.state.props), this.styles.root);
             }}</ThemeConsumer>) : null;
     }

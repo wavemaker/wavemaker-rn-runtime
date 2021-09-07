@@ -61,14 +61,24 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
             let paramValue = this.params[param.name];
             if (param.parameterType.toUpperCase() === 'BODY') {
               paramValue = paramValue || {};
+              var out = {}, temp: any = out;
               Object.keys(this.params).forEach((currentParam: any) => {
                 if (currentParam.startsWith(param.name + '.')) {
-                  const bodyField = currentParam.split('.')[1];
-                  paramValue[param.name] = paramValue[param.name] || {};
-                  paramValue[param.name][bodyField] = this.params[currentParam];
-                } 
+                  var arr = currentParam.split('.');
+                  
+                  console.info("arr",arr);
+                  arr.forEach((val:string, ind:number) => {
+                     temp[val] = ind+1 === arr.length ? this.params[currentParam] : temp[val] || {};
+                     temp = temp[val];
+                     console.info("inside", JSON.stringify(temp));
+                  });
+                  temp = out;
+                  paramValue = out;
+                  console.info("outside", JSON.stringify(out));
+                 } 
               });
               paramValue = paramValue[param.name] ? paramValue[param.name] : paramValue;
+              console.info("paramValue", paramValue);
             }
             if (paramValue) {
               switch (param.parameterType.toUpperCase()) {

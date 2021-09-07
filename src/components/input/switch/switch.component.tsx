@@ -42,10 +42,10 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
       dataItems = (dataset as any[]).map((d, i) => {
         return {
           key: `${name}_item${i}`,
-          displayfield: d[this.state.props.displayfield],
-          datafield: d[this.state.props.datafield],
-          displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : d[this.state.props.displayfield],
-          icon: d[this.state.props.iconclass]
+          displayfield: d[this.props.displayfield],
+          datafield: d[this.props.datafield],
+          displayexp: this.props.getDisplayExpression ? this.props.getDisplayExpression(d) : d[this.props.displayfield],
+          icon: d[this.props.iconclass]
         };
       });
     }
