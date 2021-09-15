@@ -79,6 +79,7 @@ BASE_THEME.addStyle('text-right', DEFAULT_CLASS, {
 const getHeadingStyles = (fontSize: number) => {
   return {
     text: {
+      fontWeight: '400',
       fontSize: fontSize,
       margin: 4
     }
