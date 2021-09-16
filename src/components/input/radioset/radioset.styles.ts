@@ -10,10 +10,10 @@ export type WmRadiosetStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-radioset';
 export const DEFAULT_STYLES: WmRadiosetStyles = {
-    root: {},
-    text: {
+    root: {
       color: ThemeVariables.checkedColor
     },
+    text: {},
     groupHeaderTitle: {
       backgroundColor: ThemeVariables.groupHeaderBackgroundColor,
       fontSize: 16,

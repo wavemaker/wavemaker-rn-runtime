@@ -52,7 +52,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           />)}
         {props.backbutton && (<AppbarActionComponent 
           style={this.styles.action}
-          iconStyle={this.styles.leftnavIcon}
+          iconStyle={this.styles.backIcon}
           iconClass={props.backbuttoniconclass}
           onPress={this.onBackBtnPress}
           />)}

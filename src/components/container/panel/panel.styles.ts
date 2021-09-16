@@ -7,7 +7,6 @@ export type WmPanelStyles = BaseStyles & {
   icon: WmIconStyles,
   badge: AllStyle,
   header: AllStyle,
-  content: AllStyle,
   subheading: AllStyle
 };
 
@@ -24,9 +23,6 @@ export const DEFAULT_STYLES: WmPanelStyles = {
       borderStyle: 'solid',
       borderWidth: 0,
       borderColor: ThemeVariables.panelHeaderBgColor
-    },
-    content: {
-      marginLeft: 0
     },
     subheading: {},
     icon: {

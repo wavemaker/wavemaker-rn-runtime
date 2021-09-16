@@ -24,7 +24,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
       <View style={this.styles.radioHead} key={item.key}>
           <RadioButton
             value={item.datafield}
-            color={this.styles.text.color}
+            color={this.styles.root.color}
             disabled={this.state.props.readonly || this.state.props.disabled}
           />
           <Text style={this.styles.radioLabel}>{displayText}</Text>
@@ -59,7 +59,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
   renderWidget(props: WmRadiosetProps) {
     const items = this.state.dataItems;
     return (
-        <View>
+        <View style={this.styles.root}>
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderRadioButtons(items)}
         </View>

@@ -9,19 +9,18 @@ export type WmSearchStyles = BaseStyles & {
   searchItem: AllStyle;
   dropDownContent: AllStyle;
   searchItemText: AllStyle;
-  searchInput: AllStyle;
   clearButton: WmButtonStyles;
   searchButton: WmButtonStyles;
-  searchWrapper: AllStyle;
   searchInputWrapper: AllStyle;
 };
 
 export const DEFAULT_CLASS = 'app-search';
 export const DEFAULT_STYLES: WmSearchStyles = {
     root: {
+      flexDirection: 'row',
+      flex: 1
     },
-    text: {},
-    searchInput: {
+    text: {
       height: 48,
       paddingTop: 8,
       paddingBottom: 8,
@@ -49,10 +48,6 @@ export const DEFAULT_STYLES: WmSearchStyles = {
     },
     dropDownContent: {
         width: '100%'
-    },
-    searchWrapper: {
-      flexDirection: 'row',
-      flex: 1
     },
     searchInputWrapper: {
       flexDirection: 'row',

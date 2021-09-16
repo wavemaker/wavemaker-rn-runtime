@@ -11,6 +11,7 @@ export type WmAppNavbarStyles = BaseStyles & {
   action: AllStyle,
    image: ImageStyle,
    leftnavIcon: WmIconStyles,
+   backIcon: WmIconStyles,
    content: AllStyle
 };
 
@@ -25,6 +26,15 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = {
     borderRadius: 0
   },
   leftnavIcon: {
+    root: {
+        alignItems: 'flex-start'
+    },
+    icon: {
+        fontSize: ThemeVariables.navbarIconSize,
+        color: ThemeVariables.navbarTextColor
+    }
+  } as WmIconStyles,
+  backIcon: {
     root: {
         alignItems: 'flex-start'
     },

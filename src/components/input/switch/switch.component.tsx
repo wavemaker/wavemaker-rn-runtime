@@ -70,11 +70,11 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
   }
 
   renderChild(item: any, index: any) {
-    let btnClass = 'buttonStyles';
+    let btnClass = 'button';
     if(index === 0) {
-      btnClass = 'firstButtonStyles';
+      btnClass = 'firstButton';
     } else if (index+1 === this.state.dataItems.length) {
-      btnClass = 'lastButtonStyles';
+      btnClass = 'lastButton';
     }
     const displayText = item.displayexp || item.displayfield;
     const isSelected = this.state.props.datavalue === item.datafield;
@@ -82,12 +82,12 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
       <ToggleButton onPress={this.onTap.bind(this)}
                     disabled={this.state.props.disabled}
                     style={[this.styles[btnClass], 
-                      isSelected ? this.styles.selectedButtonStyles : this.styles.buttonStyles]}
+                      isSelected ? this.styles.selectedButton : this.styles.button]}
                     icon={()=>this.state.props.iconclass ?
                           (<WmIcon styles={this.styles.loadingIcon}
                                   iconclass={item.icon}
                                   caption={displayText}></WmIcon>) 
-                          : (<View><Text style={isSelected ? {color: this.styles.selectedButtonStyles.color} : {}}>{displayText}</Text></View>)}
+                          : (<View><Text style={isSelected ? {color: this.styles.selectedButton.color} : {}}>{displayText}</Text></View>)}
                     key={item.key}
                     value={item.datafield} />
     );

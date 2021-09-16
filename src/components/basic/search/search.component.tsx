@@ -156,9 +156,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   renderSearchBar() {
     const props = this.state.props;
     return(
-      <View style={this.styles.searchWrapper}>
+      <View style={this.styles.root}>
         <View style={this.styles.searchInputWrapper}>
-          <TextInput style={this.styles.searchInput}
+          <TextInput style={this.styles.text}
             placeholder={props.placeholder}
             autoFocus={props.autofocus}
             editable={props.disabled || props.readonly ? false : true}

@@ -6,10 +6,10 @@ import ThemeVariables from "@wavemaker/app-rn-runtime/styles/theme.variables";
 
 export type WmSwitchStyles = BaseStyles & {
   loadingIcon: WmIconStyles,
-  buttonStyles: AllStyle,
-  selectedButtonStyles: AllStyle,
-  firstButtonStyles: AllStyle,
-  lastButtonStyles: AllStyle
+  button: AllStyle,
+  selectedButton: AllStyle,
+  firstButton: AllStyle,
+  lastButton: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-switch';
@@ -32,26 +32,24 @@ export const DEFAULT_STYLES: WmSwitchStyles = {
       color: ThemeVariables.listSubTitleColor
     }
   } as WmIconStyles,
-  buttonStyles: {
+  button: {
     backgroundColor: ThemeVariables.switchBgColor,
     flex: 1,
     borderRadius: 0,
     borderColor: ThemeVariables.switchBorderColor
   } as AllStyle,
-  selectedButtonStyles: {
+  selectedButton: {
     color: ThemeVariables.switchActiveTextColor,
     backgroundColor: ThemeVariables.switchActiveBgColor
   } as AllStyle,
-  firstButtonStyles: {
-    backgroundColor: ThemeVariables.switchBgColor,
+  firstButton: {
     flex: 1,
     borderTopLeftRadius: 500,
     borderBottomLeftRadius: 500,
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0
   } as AllStyle,
-  lastButtonStyles: {
-    backgroundColor: ThemeVariables.switchBgColor,
+  lastButton: {
     flex: 1,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
