@@ -169,7 +169,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.resume());
       this.targetWidget.invokeEventCallback('onAttach', [null, this.proxy]);
       if (this.refreshdataonattach) {
-        Promise.all(this.startUpVariables.map(s => this.Variables[s].invoke()));
+        Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()));
       }
     }
 
