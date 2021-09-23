@@ -21,6 +21,7 @@ export const DEFAULT_STYLES: WmDatetimeStyles = {
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 4,
+        backgroundColor: ThemeVariables.inputBackgroundColor,
         borderColor: ThemeVariables.inputBorderColor,
         padding: 8,
         width: '100%'

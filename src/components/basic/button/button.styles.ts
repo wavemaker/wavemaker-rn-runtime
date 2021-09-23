@@ -22,8 +22,7 @@ export const DEFAULT_STYLES: WmButtonStyles = {
     },
     text: {
       fontSize: 12,
-      textAlign: 'center',
-      textTransform: 'capitalize'
+      textAlign: 'center'
     },
     badge: {
       backgroundColor: ThemeVariables.buttonBadgeBackgroundColor,
