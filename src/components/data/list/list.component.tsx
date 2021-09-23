@@ -45,12 +45,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const props = this.state.props;
     switch(name) {
       case 'selectfirstitem':
-        $new && this.initialized && props.dataset 
+        $new && this.initialized && props.dataset
           && props.dataset.length
           && this.onSelect(props.dataset[0], 0);
       break;
       case 'dataset':
-        props.selectfirstitem && this.initialized && this.onSelect(props.dataset[0], 0);
+        props.selectfirstitem && this.initialized && props.dataset && props.dataset.length && this.onSelect(props.dataset[0], 0);
         this.deselect();
       break;
       case 'disableitem':
@@ -91,7 +91,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                   </View>
                 </View>) : null
             }}
-            ListFooterComponent={() => props.loadingdata ? 
+            ListFooterComponent={() => props.loadingdata ?
                 (<WmIcon styles={this.styles.loadingIcon}
                   iconclass={props.loadingicon}
                   caption={props.loadingdatamsg}></WmIcon>) : null}
