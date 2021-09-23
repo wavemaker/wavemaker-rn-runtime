@@ -9,4 +9,5 @@ export default class WmFormProps extends BaseProps {
   title: any;
   subheading: any;
   iconclass: any;
+  formSubmit: Function = () => {};
 }

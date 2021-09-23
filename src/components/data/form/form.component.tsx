@@ -11,6 +11,9 @@ import {VARIABLE_LOGGER} from "@wavemaker/app-rn-runtime/variables/base-variable
 import WmLabel from "@wavemaker/app-rn-runtime/components/basic/label/label.component";
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
 
+import injector from '@wavemaker/app-rn-runtime/core/injector';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+
 export class WmFormState extends BaseComponentState<WmFormProps> {
   isValid = false;
 }
@@ -70,7 +73,26 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     if(this.props.onBeforesubmit) {
       this.invokeEventCallback('onBeforesubmit', [ null, this.proxy, formData ]);
     }
-    this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
+    if (this.props.formSubmit) {
+      this.props.formSubmit(formData, ((data: any) => {
+        this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
+        this.onResultCb(data, 'success');
+      }), ((error: any) => {
+        this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
+        this.onResultCb(error, '');
+      }));
+    } else {
+      this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
+    }
+  }
+  
+  onResultCb(response: any, status: string, event?: any) {
+    this.invokeEventCallback('onResult', [ null, this.proxy, response ]);
+    if (status) {
+        this.invokeEventCallback('onSuccess', [ null, this.proxy, response ]);
+    } else {
+        this.invokeEventCallback('onError', [ null, this.proxy, response ]);
+    }
   }
 
   updateDataOutput(key: string, val: any) {
