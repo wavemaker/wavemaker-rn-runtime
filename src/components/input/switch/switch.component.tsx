@@ -1,11 +1,12 @@
 import React from 'react';
 import {Text, View} from "react-native";
 import {Menu, ToggleButton} from 'react-native-paper';
+import { isEqual, find } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmSwitchProps from './switch.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmSwitchStyles } from './switch.styles';
-import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 export class WmSwitchState extends BaseComponentState<WmSwitchProps> {
   dataItems: any;
@@ -42,6 +43,7 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
       dataItems = (dataset as any[]).map((d, i) => {
         return {
           key: `${name}_item${i}`,
+          dataObject: d,
           displayfield: d[this.props.displayfield],
           datafield: this.state.props.datafield=== 'All Fields' ? d : d[this.state.props.datafield],
           displayexp: this.props.getDisplayExpression ? this.props.getDisplayExpression(d) : d[this.props.displayfield],
@@ -53,9 +55,12 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
   }
 
   onChange(value: any) {
-    value = this.state.props.datafield === 'All Fields' ? JSON.parse(value): value;
     if (!value) {
       return;
+    }
+    if (this.state.props.datafield === 'All Fields') {
+      const selectedItem = find(this.state.dataItems, (item) => isEqual(item.key, value));
+      value = selectedItem && selectedItem.dataObject;
     }
     // @ts-ignore
     this.updateState({props: {datavalue: value}},
@@ -70,6 +75,11 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
     this.invokeEventCallback('onTap', [ event, this.proxy ]);
   }
 
+  getItemKey(value: any) {
+    const selectedItem = find(this.state.dataItems, (item) => isEqual(item.dataObject, value));
+    return selectedItem && selectedItem.key;
+  }
+
   renderChild(item: any, index: any) {
     let btnClass = 'button';
     const props = this.state.props;
@@ -79,7 +89,7 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
       btnClass = 'lastButton';
     }
     const displayText = item.displayexp || item.displayfield;
-    const isSelected = this.state.props.datafield === 'All Fields' ? JSON.stringify(props.datavalue) === JSON.stringify(item.datafield) : this.state.props.datavalue === item.datafield;
+    const isSelected = this.state.props.datafield === 'All Fields' ? isEqual(props.datavalue, item.datafield) : this.state.props.datavalue === item.datafield;
     return (
       <ToggleButton onPress={this.onTap.bind(this)}
                     disabled={this.state.props.disabled}
@@ -91,7 +101,7 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
                                   caption={displayText}></WmIcon>)
                           : (<View><Text style={isSelected ? {color: this.styles.selectedButton.color} : {}}>{displayText}</Text></View>)}
                     key={item.key}
-                    value={this.state.props.datafield === 'All Fields' ? JSON.stringify(item.datafield) : item.datafield} />
+                    value={this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield} />
     );
   };
 
@@ -99,7 +109,7 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
     const items = this.state.dataItems;
     return (<ToggleButton.Row style={this.styles.root}
                               onValueChange={this.onChange.bind(this)}
-                              value={this.state.props.datafield === 'All Fields'? JSON.stringify(props.datavalue) : props.datavalue}>
+                              value={this.state.props.datafield === 'All Fields'? this.getItemKey(props.datavalue) : props.datavalue}>
       {items && items.length ?
         items.map((item: any, index: any) => this.renderChild(item, index)): null}
     </ToggleButton.Row>);

@@ -1,6 +1,6 @@
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.props';
-import { includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isObject, isArray } from 'lodash';
+import { find, isEqual, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isObject, isArray } from 'lodash';
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseDatasetStyles } from "@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.styles";
 import moment from "moment";
 
@@ -150,8 +150,16 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
   }
 
   onValueChange(value: any) {
-    value = this.state.props.datafield === 'All Fields' ? JSON.parse(value): value;
+    if (this.state.props.datafield === 'All Fields') {
+      const selectedItem = find(this.state.dataItems, (item) => isEqual(item.key, value));
+      value = selectedItem && selectedItem.dataObject;
+    }
     this.onChange(value);
+  }
+
+  getItemKey(value: any) {
+      const selectedItem = find(this.state.dataItems, (item) => isEqual(item.dataObject, value));
+      return selectedItem && selectedItem.key;
   }
 
   onChange(value: any) {
@@ -198,7 +206,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
           displayfield: d[this.state.props.displayfield] ||  d[this.state.props.displaylabel],
           datafield: this.state.props.datafield === 'All Fields' ? d : d[this.state.props.datafield],
           displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : d[this.state.props.displayfield],
-          selected: includes(datavalueItems, d[this.state.props.datafield]) || this.state.props.datafield === 'All Fields' ? JSON.stringify(datavalue) === JSON.stringify(d) : datavalue === d[this.state.props.datafield] ? true : false,
+          selected: includes(datavalueItems, d[this.state.props.datafield]) || this.state.props.datafield === 'All Fields' ? isEqual(datavalue, d) : datavalue === d[this.state.props.datafield] ? true : false,
           imgSrc: d[this.state.props.displayimagesrc]
         };
       });

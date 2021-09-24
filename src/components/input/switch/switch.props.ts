@@ -5,7 +5,7 @@ export default class WmSwitchProps extends BaseProps {
   datavalue: any;
   dataItems: any;
   displayfield: any;
-  datafield: any = 'All Fields';
+  datafield: any;
   disabled: any;
   displayexpression: any;
   iconclass: any;
