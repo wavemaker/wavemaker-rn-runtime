@@ -28,7 +28,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   renderChild(item: any, index: any) {
     const displayText = item.displayexp || item.displayfield || item.datafield;
     return (
-      <Picker.Item label={displayText} value={item.datafield} key={item.key} />
+      <Picker.Item label={displayText} value={this.state.props.datafield === 'All Fields' ? JSON.stringify(item.datafield) : item.datafield} key={item.key} />
       )
   }
 
@@ -38,8 +38,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
       <Picker
       style={this.styles.root}
       itemStyle={{height: this.styles.root.height}}
-      selectedValue={props.datavalue}
-      onValueChange={this.onChange.bind(this)}
+      selectedValue={this.state.props.datafield === 'All Fields' ? JSON.stringify(props.datavalue): props.datavalue}
+      onValueChange={this.onValueChange.bind(this)}
       enabled={!props.disabled}
       onFocus={this.onFocus.bind(this)}
       onBlur={this.onBlur.bind(this)}>

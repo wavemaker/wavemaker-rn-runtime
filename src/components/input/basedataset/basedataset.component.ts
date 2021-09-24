@@ -149,6 +149,11 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     this.updateState({ props: { datavalue: value } } as S);
   }
 
+  onValueChange(value: any) {
+    value = this.state.props.datafield === 'All Fields' ? JSON.parse(value): value;
+    this.onChange(value);
+  }
+
   onChange(value: any) {
     const oldValue = this.state.props.datavalue;
     if (!value) {
@@ -191,9 +196,9 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
           key: `${name}_item${i}`,
           dataObject: d,
           displayfield: d[this.state.props.displayfield] ||  d[this.state.props.displaylabel],
-          datafield: d[this.state.props.datafield],
+          datafield: this.state.props.datafield === 'All Fields' ? d : d[this.state.props.datafield],
           displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : d[this.state.props.displayfield],
-          selected: includes(datavalueItems, d[this.state.props.datafield]) || datavalue === d[this.state.props.datafield] ? true : false,
+          selected: includes(datavalueItems, d[this.state.props.datafield]) || this.state.props.datafield === 'All Fields' ? JSON.stringify(datavalue) === JSON.stringify(d) : datavalue === d[this.state.props.datafield] ? true : false,
           imgSrc: d[this.state.props.displayimagesrc]
         };
       });

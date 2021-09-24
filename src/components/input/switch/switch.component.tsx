@@ -43,7 +43,7 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
         return {
           key: `${name}_item${i}`,
           displayfield: d[this.props.displayfield],
-          datafield: d[this.props.datafield],
+          datafield: this.state.props.datafield=== 'All Fields' ? d : d[this.state.props.datafield],
           displayexp: this.props.getDisplayExpression ? this.props.getDisplayExpression(d) : d[this.props.displayfield],
           icon: d[this.props.iconclass]
         };
@@ -53,6 +53,7 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
   }
 
   onChange(value: any) {
+    value = this.state.props.datafield === 'All Fields' ? JSON.parse(value): value;
     if (!value) {
       return;
     }
@@ -71,25 +72,26 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
 
   renderChild(item: any, index: any) {
     let btnClass = 'button';
+    const props = this.state.props;
     if(index === 0) {
       btnClass = 'firstButton';
     } else if (index+1 === this.state.dataItems.length) {
       btnClass = 'lastButton';
     }
     const displayText = item.displayexp || item.displayfield;
-    const isSelected = this.state.props.datavalue === item.datafield;
+    const isSelected = this.state.props.datafield === 'All Fields' ? JSON.stringify(props.datavalue) === JSON.stringify(item.datafield) : this.state.props.datavalue === item.datafield;
     return (
       <ToggleButton onPress={this.onTap.bind(this)}
                     disabled={this.state.props.disabled}
-                    style={[this.styles[btnClass], 
+                    style={[this.styles[btnClass],
                       isSelected ? this.styles.selectedButton : this.styles.button]}
                     icon={()=>this.state.props.iconclass ?
                           (<WmIcon styles={this.styles.loadingIcon}
                                   iconclass={item.icon}
-                                  caption={displayText}></WmIcon>) 
+                                  caption={displayText}></WmIcon>)
                           : (<View><Text style={isSelected ? {color: this.styles.selectedButton.color} : {}}>{displayText}</Text></View>)}
                     key={item.key}
-                    value={item.datafield} />
+                    value={this.state.props.datafield === 'All Fields' ? JSON.stringify(item.datafield) : item.datafield} />
     );
   };
 
@@ -97,7 +99,7 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
     const items = this.state.dataItems;
     return (<ToggleButton.Row style={this.styles.root}
                               onValueChange={this.onChange.bind(this)}
-                              value={props.datavalue}>
+                              value={this.state.props.datafield === 'All Fields'? JSON.stringify(props.datavalue) : props.datavalue}>
       {items && items.length ?
         items.map((item: any, index: any) => this.renderChild(item, index)): null}
     </ToggleButton.Row>);
