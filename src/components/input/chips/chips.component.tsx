@@ -139,37 +139,44 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
       }
   }
 
+  componentDidUpdate(prevProps: WmChipsProps, prevState: WmChipsState) {
+    if (prevState.chipsList !== this.state.chipsList) {
+      this.searchRef.computePosition();
+    }
+  }
+
   renderWidget(props: WmChipsProps) {
     const chips = this.state.chipsList;
     this.updateDefaultQueryModel();
     // @ts-ignore
-    return (<View style={[this.styles.root, {flexDirection: props.inputwidth === 'default' ? 'row' : 'column'}]}>
+    return (<View style={[this.styles.root, {flexDirection: props.inputwidth === 'default' ? '' : 'column'}]}>
 
       <View style={this.styles.chipsWrapper}>
         {chips && chips.length ?
          chips.map((item: any, index: any) => this.renderChip(item, index))
           : null
         }
+        <View style={this.styles.searchContainer}>
+          {/*// @ts-ignore*/}
+          <WmSearch
+            styles={this.styles.search}
+            placeholder={this.state.saturate ? this.maxSizeReached : props.placeholder}
+            listener={this.listener}
+            dataset={props.dataset}
+            searchKey={props.searchkey}
+            minchars={props.minchars}
+            autofocus={props.autofocus}
+            disabled={props.disabled || props.readonly || this.state.saturate}
+            readonly={props.readonly}
+            displayimagesrc={props.displayimagesrc}
+            displayfield={props.displayfield}
+            datafield={props.datafield}
+            onSubmit={this.addItem.bind(this)}
+            showSearchIcon={false}
+            showclear={false}
+            type={props.minchars === 0 ? 'autocomplete' : 'search'}/>
+        </View>
       </View>
-
-      {/*// @ts-ignore*/}
-        <WmSearch
-          placeholder={this.state.saturate ? this.maxSizeReached : props.placeholder}
-          listener={this.listener}
-          dataset={props.dataset}
-          searchKey={props.searchkey}
-          minchars={props.minchars}
-          autofocus={props.autofocus}
-          disabled={props.disabled || props.readonly || this.state.saturate}
-          readonly={props.readonly}
-          displayimagesrc={props.displayimagesrc}
-          displayfield={props.displayfield}
-          datafield={props.datafield}
-          onSubmit={this.addItem.bind(this)}
-          showSearchIcon={false}
-          showclear={false}
-          type={props.minchars === 0 ? 'autocomplete' : 'search'}/>
-
     </View>);
   }
 }

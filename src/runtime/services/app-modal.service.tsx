@@ -33,7 +33,7 @@ class AppModalService implements ModalService {
             .then(() => this.animatedRef && this.animatedRef.triggerExit())
             .then((res: any) => {
               const o = this.modalsOpened.splice(i, 1)[0];
-              const p: any = o.onClose && o.onClose();
+              const p: any = o && o.onClose && o.onClose();
               if (p && p instanceof Promise) {
                 p.then(() => this.showLastModal());
               } else {
