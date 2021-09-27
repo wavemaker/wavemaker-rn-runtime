@@ -1,4 +1,4 @@
-import { isEqual, merge } from 'lodash';
+import { isEqual } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle } from 'react-native';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
@@ -29,7 +29,7 @@ export class BaseProps {
     id?: string = null as any;
     name?: string = null as any;
     key?: any = null as any;
-    show? = true;
+    show? = true as Boolean | String | Number;
     styles?: any = null;
     listener?: LifecycleListener = null as any;
 }
@@ -148,7 +148,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public render(): ReactNode {
         WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
         const props = this.state.props;
-        return props.show !== false ?
+        return props.show !== false && props.show !== 'false' && props.show !== '0'?
             (<ThemeConsumer>{(theme) => {
                 this.theme = theme || BASE_THEME;
                 this.styles =  this.styles || deepCopy({}, this.theme.getStyle(this.defaultClass) || 
