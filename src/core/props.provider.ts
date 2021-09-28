@@ -36,11 +36,7 @@ export class PropsProvider<T extends BaseProps> {
     }
 
     check(nextProps: T = this.initprops) {
-        if (this.isDirty) {
-            this.isDirty = false;
-            return true;
-        }
-        return Object.keys(nextProps).reduce((b, k) => {
+      const result = Object.keys(nextProps).reduce((b, k) => {
             let flag = false;
             //@ts-ignore
             const value = nextProps[k];
@@ -51,8 +47,11 @@ export class PropsProvider<T extends BaseProps> {
                 flag = true;
             }
             return b || flag;
-        }, false);
-    }    
+        }, false) || this.isDirty;
+
+      this.isDirty = false;
+      return result;
+    }
 
     has(propName: string) {
         return Object.keys(this.initprops).find(k => k === propName);
