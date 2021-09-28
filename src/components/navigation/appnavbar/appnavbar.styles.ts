@@ -72,6 +72,25 @@ BASE_THEME.addStyle('navbarAnchorItem', '', {
     }
   }
 } as WmAnchorStyles);
+BASE_THEME.addStyle('navbarButton', '', {
+  root: {
+    backgroundColor: ThemeVariables.transparent,
+    paddingRight: 8,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  text: {
+    color: ThemeVariables.navbarTextColor,
+    fontSize: ThemeVariables.navbarFontSize
+  },
+  icon: {
+    text: {
+      color: ThemeVariables.navbarTextColor,
+      fontSize: ThemeVariables.navbarIconSize
+    }
+  }
+} as WmAnchorStyles);
 BASE_THEME.addStyle('navbarMenu', '', {
   root: {
     paddingRight: 8,
