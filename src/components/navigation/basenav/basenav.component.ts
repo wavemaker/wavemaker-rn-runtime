@@ -1,6 +1,7 @@
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { BaseNavProps } from './basenav.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseNavStyles } from './basenav.styles';
+import { isArray } from 'lodash-es';
 
 export interface NavigationDataItem {
   key: string;
@@ -34,6 +35,9 @@ export abstract class BaseNavComponent< T extends BaseNavProps, S extends BaseNa
         } as NavigationDataItem;
       });
     } else if (dataset) {
+      if (!isArray(dataset)) {
+        dataset = [dataset];
+      }
       dataItems = (dataset as any[]).map((d, i) => {
         return {
           key: `${name}_item${i}`,
