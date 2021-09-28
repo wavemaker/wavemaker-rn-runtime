@@ -20,6 +20,8 @@ export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   isFocused = false;
 }
 
+const CURRENT_DATE = 'CURRENT_DATE';
+const CURRENT_TIME = 'CURRENT_TIME';
 
 export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps, BaseDatetimeState, WmDatetimeStyles> {
   clearBtnClicked = false;
@@ -70,7 +72,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       case 'datepattern':
       case 'outputformat':
         if (props.datavalue && props.outputformat && props.datepattern) {
-          if (props.datavalue === 'CURRENT_DATE' || props.datavalue === 'CURRENT_TIME') {
+          if (props.datavalue === CURRENT_DATE || props.datavalue === CURRENT_TIME) {
             props.datavalue = this.format(new Date(), props.outputformat);
           }
           const date = this.parse(props.datavalue as string, props.outputformat);
@@ -87,18 +89,20 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
         break;
       case 'mindate':
         if (isString($new)) {
+          const minDateVal = ($new === CURRENT_DATE || $new === CURRENT_TIME) ? new Date() : props.mindate;
           this.updateState({
             props: {
-              mindate: moment(props.mindate, 'YYYY-MM-DD').toDate()
+              mindate: moment(minDateVal, 'YYYY-MM-DD').toDate()
             }
           } as BaseDatetimeState);
         }
         break;
       case 'maxdate':
         if (isString($new)) {
+          const maxDateVal = ($new === CURRENT_DATE || $new === CURRENT_TIME) ? new Date() : props.maxdate;
           this.updateState({
             props: {
-              maxdate: moment(props.maxdate, 'YYYY-MM-DD').toDate()
+              maxdate: moment(maxDateVal, 'YYYY-MM-DD').toDate()
             }
           } as BaseDatetimeState);
         }
