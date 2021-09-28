@@ -355,6 +355,16 @@ export class ThemeVariables {
     loginErrorMsgColor = this.dangerContrastColor;
     loginErrorMsgBgColor = this.dangerColor;
     loginErrorMsgBorderColor = this.dangerColor;
+
+    //camera
+    cameraBgColor = this.transparent;
+    cameraBorderColor = this.widgetBorderColor;
+    cameraTextColor = this.defaultTextColor;
+
+    //barcode-scanner
+    barcodeScannerBgColor = this.transparent;
+    barcodeScannerBorderColor = this.widgetBorderColor;
+    barcodeScannerTextColor = this.defaultTextColor;
 }
 
 export default new ThemeVariables();

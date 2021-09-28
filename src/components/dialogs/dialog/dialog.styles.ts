@@ -21,7 +21,8 @@ export const DEFAULT_STYLES: WmDialogStyles = {
     icon: {
         root: {
             alignSelf: 'center',
-            padding: 8
+            padding: 8,
+            fontSize: 16
         }
     } as WmIconStyles,
     header: {
