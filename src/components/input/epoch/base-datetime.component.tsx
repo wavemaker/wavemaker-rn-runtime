@@ -35,6 +35,8 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }
     this.state.props.datepattern = this.state.props.datepattern?.replace(/d/g, 'D');
     this.state.props.outputformat = this.state.props.outputformat?.replace(/d/g, 'D');
+    this.state.props.datepattern = this.state.props.datepattern?.replace(/E/g, 'd');
+    this.state.props.outputformat = this.state.props.outputformat?.replace(/E/g, 'd');
   }
 
   format(date: Date | number | undefined, format: string) {
