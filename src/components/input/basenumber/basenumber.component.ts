@@ -181,6 +181,11 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   private isValidNumber(val: number): boolean {
     const props = this.state.props;
 
+    //empty number widget should not show validation error when required is false
+    // @ts-ignore
+    if(this.state.props.required === false && val === '') {
+      return false;
+    } 
     // id number is infinite then consider it as invalid value
     if (isNaN(val) || !isFinite(val) || (!Number.isInteger(props.step) &&
       this.countDecimals(val) > this.countDecimals(props.step))) {
