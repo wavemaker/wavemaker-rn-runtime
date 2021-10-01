@@ -125,6 +125,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
         break;
       case 'displayexp':
       case 'displayfield':
+      case 'displaylabel':
       case 'datafield':
         this.setDataItems(this.state.props.dataset);
         break;

@@ -52,7 +52,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     }
     this.view.measure((x, y, width, height, px, py) => {
       position.top = py + height;
-      position.left = px;
       this.updateState({ position: position } as WmSearchState);
     });
   };
@@ -206,7 +205,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     const result = this.state.data;
     this.updateDefaultQueryModel();
     return (
-      <View style={this.styles.root} onLayout={this.computePosition} ref={ref => {this.view = ref as View}}>
+      <View onLayout={this.computePosition} ref={ref => {this.view = ref as View}}>
         {this.renderSearchBar()}
         {this.state.isOpened ? (
           <ModalConsumer>
