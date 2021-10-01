@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
-import {isArray, forEach, isEqual, isObject} from 'lodash';
+import {isArray, forEach, isEqual, isObject, get} from 'lodash';
 
 import WmFormProps from './form.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormStyles } from './form.styles';
@@ -22,13 +22,13 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormProps());
   }
 
-  processFormFields(children: any) {
+  processFormFields() {
     this.formWidgets = {};
     const traverse = (currentNode: any) => {
       if (currentNode.props?.formRef) {
-        this.formWidgets[currentNode.key] = currentNode;
+        this.formWidgets[currentNode.props.name] = currentNode;
         if (this.state.props.formdata) {
-          currentNode.props.onChange(null, currentNode, this.state.props.formdata[currentNode.key]);
+          currentNode.props.onChange(null, currentNode, get(this.state.props.formdata, currentNode.props.formKey));
         }
       }
       if(currentNode.props?.children) {
@@ -41,11 +41,11 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         }
       }
     }
-    traverse(children);
+    traverse(this);
   }
 
   componentDidMount() {
-    this.processFormFields(this.props.children);
+    this.processFormFields();
     super.componentDidMount();
   }
 
@@ -111,7 +111,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         if($new && this.formWidgets) {
           PERFORMANCE_LOGGER.debug(`form data for ${this.props.name} changed from ${JSON.stringify($old)} to ${JSON.stringify($new)}`);
           forEach(this.formWidgets, (widget) => {
-            widget.props.onChange(null, widget, $new[widget.key]);
+            widget.props.onChange(null, widget, get($new, widget.props.formKey));
           });
         }
     }
