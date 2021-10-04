@@ -142,7 +142,7 @@ export class ThemeVariables {
     buttonBadgeTextColor = this.badgeContrastColor;
     buttonTextPadding = 2;
     buttonSuccessColor = this.successColor;
-    buttonDefaultColor = this.transparent;
+    buttonDefaultColor = this.defaultColorF;
     buttonPrimaryColor = this.primaryColor;
     buttonSecondaryColor = this.primaryColor2;
     buttonDangerColor = this.dangerColor;
@@ -155,7 +155,7 @@ export class ThemeVariables {
     buttonDangerTextColor = this.dangerContrastColor;
     buttonWarningTextColor = this.warningContrastColor;
     buttonInfoTextColor = this.infoContrastColor;
-    buttonLinkColor = this.transparent;
+    buttonLinkColor = this.defaultColorF;
     buttonLinkTextColor = this.primaryColor;
     buttonDarkColor = this.darkColor;
     buttonDarkTextColor = this.lightColor;

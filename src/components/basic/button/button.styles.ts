@@ -30,7 +30,9 @@ export const DEFAULT_STYLES: WmButtonStyles = {
       alignSelf: 'flex-start',
       position: 'relative',
       top: -16,
-      right: -16
+      right: -16,
+      borderWidth: 1,
+      borderStyle: 'solid'
     },
     icon: {
       text: {
@@ -52,6 +54,11 @@ const getButtonStyles = (bgColor: string, color: string, borderColor = bgColor) 
     },
     text: {
       color: color
+    },
+    badge: {
+      backgroundColor: color,
+      color: bgColor,
+      borderColor: bgColor
     },
     icon: {
       text: {

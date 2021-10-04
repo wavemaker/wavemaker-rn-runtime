@@ -21,15 +21,13 @@ export const DEFAULT_STYLES: WmAnchorStyles = {
         color: ThemeVariables.linkPrimaryColor,
         fontSize: 12,
         textDecorationLine: 'underline',
-        flex: 1
     },
     badge: {
         backgroundColor: ThemeVariables.linkBadgeBackgroundColor,
         color: ThemeVariables.linkBadgeTextColor,
         alignSelf: 'flex-start',
-        position: 'relative',
-        top: -12,
-        left: -6
+        marginTop: -12,
+        marginLeft: -6
     },
     icon: {
         root : {
