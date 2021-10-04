@@ -44,7 +44,7 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
 
   private prepareImage(props: any) {
     return (<WmPicture
-      styles={{height:props.imageheight, width:props.imagewidth}} name={props.name + '_image'}
+      styles={{root: {height:props.imageheight, width:props.imagewidth}}} name={props.name + '_image'}
       picturesource={props.image}></WmPicture>);
   }
 
@@ -53,11 +53,11 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
     return (
       <View style={this.styles.root}>
           {props.type === 'icon' && this.prepareIcon(props)}
-          {props.type === 'image' && 
+          {props.type === 'image' &&
             (<Animated.View style={{ transform: [{ rotate }] }}>
               {this.prepareImage(props)}
             </Animated.View>)}
-        
+
         <Text style={this.styles.text}>{props.caption}</Text>
       </View>
     );
