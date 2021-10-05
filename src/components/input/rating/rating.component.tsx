@@ -21,7 +21,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
   prepareItems(props: WmRatingProps) {
     let items: any[] = [];
     if (!props.dataset && props.maxvalue) {
-      items = Array.from(Array(props.maxvalue).keys());
+      items = Array.from(Array(+props.maxvalue).keys());
       items = items.map(v => v + 1);
     } else if (isString(props.dataset)) {
       items = props.dataset.split(',');
@@ -75,7 +75,8 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
   }
 
   renderWidget(props: WmRatingProps) {
-    const arr = Array.from(Array(props.maxvalue).keys());
+    const maxValue = props.maxvalue ? +props.maxvalue : 5;
+    const arr = Array.from(Array(maxValue).keys());
     let caption = null;
     if (this.state.selectedIndex > -1 && props.showcaptions) {
       const selectedItem = this.state.items[this.state.selectedIndex];
