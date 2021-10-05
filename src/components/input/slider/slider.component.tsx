@@ -5,7 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmSliderProps from './slider.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmSliderStyles } from './slider.styles';
-import { debounce } from 'lodash';
+import { debounce, isNumber } from 'lodash';
 
 export class WmSliderState extends BaseComponentState<WmSliderProps> {}
 
@@ -14,7 +14,7 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
 
   constructor(props: WmSliderProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSliderProps());
-    if (!this.state.props.datavalue) {
+    if (!isNumber(this.state.props.datavalue)) {
       this.state.props.datavalue = this.state.props.minvalue + (this.state.props.maxvalue - this.state.props.minvalue)/2;
     }
   }
@@ -22,7 +22,7 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
   onPropertyChange(name: string, $new: any, $old: any) {
     switch(name) {
       case 'datavalue': 
-        if ($new && $old) {
+        if (isNumber($new) && isNumber($old)) {
           this.invokeEventCallback('onChange', [null, this, $new, $old]);
         }
       break;
