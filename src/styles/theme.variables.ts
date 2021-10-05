@@ -1,7 +1,7 @@
 import Color from "color";
 
 export class ThemeVariables {
-    primaryColor = '#007bff';
+    primaryColor = '#0457b9';
     primaryColor1 = Color(this.primaryColor).lighten(0.2).rgb().toString();
     primaryColor2 = Color(this.primaryColor).lighten(0.4).rgb().toString();
     primaryColor3 = Color(this.primaryColor).lighten(0.6).rgb().toString();
@@ -33,7 +33,7 @@ export class ThemeVariables {
     defaultColorE = '#eeeeee';
     defaultColorF = '#ffffff';
     defaultBgColor = this.defaultColorF;
-    defaultTextColor = this.defaultColor;
+    defaultTextColor = '#666666';
     lightColor = this.defaultColorF;
     darkColor = this.defaultColor;
     muteColor = this.defaultColorA;
@@ -48,7 +48,7 @@ export class ThemeVariables {
     badgeContrastColor = '#ffffff';
 
     // page
-    pageContentBgColor = '#ffffff';
+    pageContentBgColor = '#fafafa';
 
     // common widget color
     widgetHeaderBgColor = Color(this.pageContentBgColor).darken(0.1).rgb().toString();
@@ -59,9 +59,9 @@ export class ThemeVariables {
     widgetBgColor = this.pageContentBgColor;
 
     // Navbar variables
-    navbarBackgroundColor = this.primaryColor;
+    navbarBackgroundColor = this.primaryContrastColor;
     navbarBorderColor = this.widgetBorderColor;
-    navbarTextColor = this.primaryContrastColor;
+    navbarTextColor = this.primaryColor;
     navbarIconSize = 24;
     navbarFontSize = 15;
     navbarImageSize = 24;
