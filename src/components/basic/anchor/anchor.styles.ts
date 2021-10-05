@@ -12,13 +12,13 @@ export const DEFAULT_CLASS = 'app-anchor';
 
 export const DEFAULT_STYLES: WmAnchorStyles = {
     root: {
-        color: ThemeVariables.linkPrimaryColor,
+        color: ThemeVariables.linkDefaultColor,
         flexDirection: 'row',
         alignItems: 'center'
     },
     text: {
         paddingLeft: 8,
-        color: ThemeVariables.linkPrimaryColor,
+        color: ThemeVariables.linkDefaultColor,
         fontSize: 12,
         textDecorationLine: 'underline',
     },
@@ -35,7 +35,7 @@ export const DEFAULT_STYLES: WmAnchorStyles = {
         },
         text: {
             paddingRight: ThemeVariables.anchorTextPadding,
-            color: ThemeVariables.linkPrimaryColor
+            color: ThemeVariables.linkDefaultColor
         }
     } as WmIconStyles
 };

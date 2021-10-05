@@ -74,6 +74,7 @@ export class ThemeVariables {
     navitemActiveIconColor = this.navitemActiveTextColor;
 
     //Anchor variables
+    linkDefaultColor = this.defaultTextColor;
     linkPrimaryColor = this.primaryColor;
     linkSecondaryColor = this.secondaryColor;
     linkSuccessColor = this.successColor;
@@ -315,7 +316,7 @@ export class ThemeVariables {
     calendarBgColor = this.transparent;
     calendarHeaderBgColor = this.primaryColor;
     calendarHeaderTextColor = this.defaultColorF;
-    calendarWeekDayTextColor = this.primaryColor;
+    calendarWeekDayTextColor = this.defaultColorF;
     calendarDateColor = this.defaultColor;
     calendarNotCurrentMonthDateColor = this.defaultColor6;
     calendarHeaderColor = this.defaultColorF;

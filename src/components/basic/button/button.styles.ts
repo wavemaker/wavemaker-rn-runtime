@@ -12,8 +12,10 @@ export type WmButtonStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-button';
 export const DEFAULT_STYLES: WmButtonStyles = {
     root: {
-        padding: 12,
-        borderRadius: 4
+        paddingHorizontal: 18,
+        paddingVertical: 8,
+        borderRadius: 100,
+        alignSelf: 'flex-start'
     },
     content: {
       flexDirection: 'row',
@@ -22,6 +24,7 @@ export const DEFAULT_STYLES: WmButtonStyles = {
     },
     text: {
       fontSize: 12,
+      fontWeight: 'bold',
       textAlign: 'center'
     },
     badge: {
@@ -30,14 +33,17 @@ export const DEFAULT_STYLES: WmButtonStyles = {
       alignSelf: 'flex-start',
       position: 'relative',
       top: -16,
-      right: -16,
+      marginLeft: -16,
       borderWidth: 1,
       borderStyle: 'solid'
     },
     icon: {
+      root : {
+        alignSelf: 'auto'
+      },
       text: {
         paddingRight: ThemeVariables.buttonTextPadding,
-        fontSize: 14
+        fontSize: 16
       }
     } as WmIconStyles
 };

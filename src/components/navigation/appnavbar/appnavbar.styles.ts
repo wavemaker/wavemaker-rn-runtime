@@ -18,6 +18,7 @@ export type WmAppNavbarStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-navbar';
 export const DEFAULT_STYLES: WmAppNavbarStyles = {
   root: {
+    ... BASE_THEME.getStyle('elevate2').root,
     backgroundColor: ThemeVariables.navbarBackgroundColor,
     height: 60
   },
@@ -48,6 +49,8 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = {
     height: ThemeVariables.navbarImageSize
   },
   content: {
+    textTransform: 'capitalize',
+    color: ThemeVariables.navbarTextColor,
     fontSize: ThemeVariables.navbarFontSize
   }
 };
@@ -69,6 +72,9 @@ BASE_THEME.addStyle('navbarAnchorItem', '', {
     text: {
       color: ThemeVariables.navbarTextColor,
       fontSize: ThemeVariables.navbarIconSize
+    },
+    icon : {
+      color: ThemeVariables.navbarTextColor
     }
   }
 } as WmAnchorStyles);

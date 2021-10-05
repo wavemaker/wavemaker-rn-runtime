@@ -99,4 +99,23 @@ export const ThemeConsumer = ThemeContext.Consumer;
     addColStyles('sm');
     addColStyles('md');
     addColStyles('lg');
+
+    const addElevationClasses = () => {
+        for(let i = 1; i <= 10; i++) {
+            Theme.BASE.addStyle(`elevate${i}`, '', {
+                root : {
+                    shadowColor: "#000000",
+                    shadowOffset: {
+                        width: i,
+                        height: i,
+                    },
+                    shadowOpacity: 0.27,
+                    shadowRadius: i,
+                    elevation: i,
+                    zIndex: 1
+                }
+            });
+        }
+    };
+    addElevationClasses();
 })()

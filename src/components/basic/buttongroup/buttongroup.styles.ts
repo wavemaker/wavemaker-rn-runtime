@@ -11,7 +11,7 @@ export const DEFAULT_STYLES: WmButtongroupStyles = {
       flexDirection: 'row',
       alignSelf: 'flex-start',
       alignItems: 'center',
-      borderRadius: 4,
+      borderRadius: 100,
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: ThemeVariables.buttonGrpBorderColor,

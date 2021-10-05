@@ -20,14 +20,8 @@ export const DEFAULT_STYLES: WmCardStyles = {
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: ThemeVariables.cardBorderColor,
-        shadowColor: ThemeVariables.cardShadowColor,
         backgroundColor: ThemeVariables.cardBgColor,
-        shadowOffset: {
-            width: 1,
-            height: 1
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 1
+        ...BASE_THEME.getStyle('elevate1').root,
     },
     text: {},
     cardIcon: {

@@ -17,6 +17,11 @@ export const DEFAULT_CLASS = 'app-tabbar';
 export const DEFAULT_STYLES: WmTabbarStyles = {
     root: {
         height: 60,
+        ...BASE_THEME.getStyle('elevate2').root,
+        shadowOffset: {
+            width: 0,
+            height: -2
+        }
     },
     text: {},
     menu: {
