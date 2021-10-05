@@ -22,7 +22,9 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
   onPropertyChange(name: string, $new: any, $old: any) {
     switch(name) {
       case 'datavalue': 
-        this.invokeEventCallback('onChange', [null, this, $new, $old]);
+        if ($new && $old) {
+          this.invokeEventCallback('onChange', [null, this, $new, $old]);
+        }
       break;
     }
   }
