@@ -57,6 +57,7 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
         }}>
           <Switch value={this.state.isSwitchOn}
                   color={this.styles.text.color}
+                  disabled={props.readonly || props.disabled}
                   onValueChange={this.onToggleSwitch.bind(this)} />
         </TouchableOpacity>
       </View>
