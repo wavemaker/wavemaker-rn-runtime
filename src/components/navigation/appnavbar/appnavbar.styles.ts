@@ -15,7 +15,7 @@ export type WmAppNavbarStyles = BaseStyles & {
    content: AllStyle
 };
 
-export const DEFAULT_CLASS = 'app-navbar';
+export const DEFAULT_CLASS = 'app-appnavbar';
 export const DEFAULT_STYLES: WmAppNavbarStyles = {
   root: {
     ... BASE_THEME.getStyle('elevate2').root,
