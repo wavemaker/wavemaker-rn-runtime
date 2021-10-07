@@ -6,4 +6,6 @@ export default class WmProgressCircleProps extends BaseProps {
   minvalue: number = 0;
   maxvalue: number = 100;
   captionplacement: string = 'inside';
+  title: string = '';
+  subtitle: string = '';
 }

@@ -31,7 +31,10 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
           tintColor={styles.progressValue.backgroundColor}
           backgroundColor={styles.progressCircle.backgroundColor}
           size={styles.root.height}>
-            {(fill) => (<Text style={styles.text}>{ showText ? value : '' }</Text>)}  
+            {(fill) => (<View style={{alignItems: 'center'}}>
+                          <Text style={styles.text}>{ showText ? props.title || value : '' }</Text>
+                          {showText && props.subtitle && <Text style={styles.subTitle}>{ props.subtitle }</Text>}
+                        </View>)}  
         </AnimatedCircularProgress>
       </Tappable>
     </View>); 
