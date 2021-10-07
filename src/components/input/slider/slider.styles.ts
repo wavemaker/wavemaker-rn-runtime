@@ -6,7 +6,8 @@ import { ViewStyle } from 'react-native';
 export type WmSliderStyles = BaseStyles & {
     minimumTrack: ViewStyle,
     maximumTrack: ViewStyle,
-    thumb: ViewStyle
+    thumb: ViewStyle,
+    disabled: ViewStyle
 };
 
 export const DEFAULT_CLASS = 'app-slider';
@@ -21,6 +22,9 @@ export const DEFAULT_STYLES: WmSliderStyles = {
     },
     thumb: {
         backgroundColor: ThemeVariables.thumbTintColor
+    },
+    disabled: {
+        pointerEvents: 'none'
     }
 } as WmSliderStyles;
 

@@ -49,6 +49,7 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
         <Text>{props.maxvalue}</Text>
       </View>
       <Slider
+        style={props.readonly || props.disabled ? this.styles.disabled : {}}
         step={props.step}
         value={this.valueBeforeSlide || props.datavalue}
         disabled={props.readonly}
