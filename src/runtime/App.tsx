@@ -172,6 +172,71 @@ export default abstract class BaseApp extends React.Component {
     this.appConfig.refresh();
   }
 
+  getProviders(content: React.ReactNode) {
+    return (
+      <NavigationServiceProvider value={this.appConfig.currentPage}>
+        <ToastProvider value={AppToastService}>
+          <PartialProvider value={AppPartialService}>
+            <SecurityProvider value={AppSecurityService}>
+              <CameraProvider value={CameraService}>
+                <ScanProvider value={ScanService}>
+                  <ModalProvider value={AppModalService}> 
+                    { content }         
+                  </ModalProvider>
+                </ScanProvider>
+              </CameraProvider>
+            </SecurityProvider>       
+          </PartialProvider>
+        </ToastProvider>
+      </NavigationServiceProvider>
+    );
+  }
+
+  renderToasters() {
+    return (
+      <>
+        {AppToastService.toastsOpened.map((o, i) =>
+          (
+            <View key={i} style={[{position: 'absolute', width: '100%'}, o.styles]}>
+              <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
+                {o.content}
+                <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>
+              </TouchableOpacity>
+            </View>
+          )
+        )}
+      </>);
+  }
+
+  renderDialogs(): ReactNode {
+    return (
+      <>
+      {AppModalService.modalOptions.content &&
+        AppModalService.modalsOpened.map((o, i) => {
+          AppModalService.animatedRef = this.animatedRef;
+          return (
+            <TouchableOpacity activeOpacity={1} key={i}
+                              onPress={() => o.isModal && AppModalService.hideModal(o)}
+                              style={deepCopy(styles.appModal,
+                                o.centered ? styles.centeredModal: null,
+                                o.modalStyle)}>
+              <Animatedview entryanimation={o.animation || 'fadeIn'}
+                              ref={ref => this.animatedRef = ref}
+                              style={[styles.appModalContent, o.contentStyle]}>
+                  <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => {}}
+                      style={{width: '100%', alignItems: 'center'}}>
+                      {this.getProviders(o.content)}
+                    </TouchableOpacity>
+              </Animatedview>
+            </TouchableOpacity>
+          )}
+        )
+      }
+    </>);
+  }
+
   render() {
     return (
       <SafeAreaProvider>
@@ -181,75 +246,28 @@ export default abstract class BaseApp extends React.Component {
             ...DefaultTheme.colors,
             primary: ThemeVariables.primaryColor
           }}}>
-          <NavigationServiceProvider value={this.appConfig.currentPage}>
-          <ToastProvider value={AppToastService}>
-              <PartialProvider value={AppPartialService}>
-                <SafeAreaInsetsContext.Consumer>
-                  {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
-                    <View style={[styles.container, {paddingTop: insets?.top || 0, paddingBottom: insets?.bottom, paddingLeft: insets?.left, paddingRight : insets?.right}]}>
-                      <SecurityProvider value={AppSecurityService}>
-                        <CameraProvider value={CameraService}>
-                          <ScanProvider value={ScanService}>
-                            <ModalProvider value={AppModalService}>
-                              <View style={styles.container}>
-                                <AppNavigator
-                                  app={this}
-                                  hideDrawer={this.appConfig.drawer?.getContent() === null}
-                                  drawerContent={() => this.appConfig.drawer?.getContent()}
-                                  drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                                {AppDisplayManagerService.displayOptions.content
-                                  ? (<View style={styles.displayViewContainer}>
-                                    {AppDisplayManagerService.displayOptions.content}
-                                  </View>) : null}
-                              </View>
-                            </ModalProvider>
-                          </ScanProvider>
-                        </CameraProvider>
-                      </SecurityProvider>
-                    </View>
-                  }
-                </SafeAreaInsetsContext.Consumer>
-
-                {AppToastService.toastsOpened.map((o, i) =>
-                  (
-                    <View key={i} style={[{position: 'absolute', width: '100%'}, o.styles]}>
-                      <TouchableOpacity
-                    onPress={() => o.onClick && o.onClick()}
-                      >
-                            {o.content}
-                            <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>
-                        </TouchableOpacity>
-                    </View>
-                  )
-                )}
-
-                {AppModalService.modalOptions.content &&
-                  AppModalService.modalsOpened.map((o, i) => {
-                    AppModalService.animatedRef = this.animatedRef;
-                    return (
-                      <TouchableOpacity activeOpacity={1} key={i}
-                                        onPress={() => o.isModal && AppModalService.hideModal(o)}
-                                        style={deepCopy(styles.appModal,
-                                          o.centered ? styles.centeredModal: null,
-                                          o.modalStyle)}>
-                        <Animatedview entryanimation={o.animation || 'fadeIn'}
-                                        ref={ref => this.animatedRef = ref}
-                                        style={[styles.appModalContent, o.contentStyle]}>
-                             <TouchableOpacity
-                                activeOpacity={1}
-                                onPress={() => {}}
-                                style={{width: '100%', alignItems: 'center'}}>
-                                {o.content}
-                              </TouchableOpacity>
-                        </Animatedview>
-                      </TouchableOpacity>
-                    )}
-                  )
-                }
-              </PartialProvider>
-            </ToastProvider>
-          </NavigationServiceProvider>
-        </PaperProvider>
+          <SafeAreaInsetsContext.Consumer>
+            {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
+              (this.getProviders(
+                (<View style={[styles.container, {paddingTop: insets?.top || 0, paddingBottom: insets?.bottom, paddingLeft: insets?.left, paddingRight : insets?.right}]}>
+                  <View style={styles.container}>
+                    <AppNavigator
+                      app={this}
+                      hideDrawer={this.appConfig.drawer?.getContent() === null}
+                      drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
+                      drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                    {AppDisplayManagerService.displayOptions.content
+                      ? (<View style={styles.displayViewContainer}>
+                        {AppDisplayManagerService.displayOptions.content}
+                      </View>) : null}
+                  </View>
+                </View>))
+              )
+            }
+          </SafeAreaInsetsContext.Consumer>
+          {this.renderToasters()}
+          {this.renderDialogs()}
+        </PaperProvider>        
       </SafeAreaProvider>
     );
   }
@@ -264,6 +282,7 @@ const styles = {
     width: '100%'
   },
   appModalContent : {
+    flex: 1,
     width: '100%',
     alignItems: 'center',
     flexDirection: 'column'
@@ -272,6 +291,7 @@ const styles = {
     flex: 1,
     position: 'absolute',
     top: 0,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',

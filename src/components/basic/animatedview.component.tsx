@@ -101,6 +101,9 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
   }
 
   triggerExit() {
+    if (!this.view) {
+      return;
+    }
     if (this.props.exitanimation) {
       return (this as any).view.animate(this.props.exitanimation, this.props.duration, 1).then((endState: any) => endState.finished)
     } else {
