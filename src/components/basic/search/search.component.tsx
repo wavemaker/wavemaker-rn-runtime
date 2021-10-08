@@ -46,15 +46,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   computePosition = (e?: any) => {
-    const position = {} as DropdownPosition;
     if (e) {
       this.rootElement = e.nativeEvent.target;
     }
-    this.view.measure((x, y, width, height, px, py) => {
-      position.left = px;
-      position.top = py + height;
-      this.updateState({ position: position } as WmSearchState);
-    });
   };
 
   clearSearch() {
@@ -112,7 +106,13 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   public showPopover = () => {
-    this.setState({ isOpened: true });
+    this.updateState({ isOpened: true } as WmSearchState);
+    const position = {} as DropdownPosition;
+    this.view.measure((x, y, width, height, px, py) => {
+      position.left = px;
+      position.top = py + height;
+      this.updateState({ position: position } as WmSearchState);
+    });
   };
 
   public hide = () => {};
