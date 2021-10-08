@@ -25,7 +25,7 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
         <ProgressBar
           progress={value}
           color={styles.progressValue.color}
-          style={styles.progressBar}></ProgressBar>
+          style={[styles.progressBar, {height: styles.root.height || styles.progressBar.height}]}></ProgressBar>
       </Tappable>
     </View>); 
   }
