@@ -17,7 +17,10 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
   }
 
   renderWidget(props: WmProgressCircleProps) {
-    const value = (props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue) * 100;
+    let value = 0;
+    if (props.datavalue && props.minvalue && props.maxvalue) {
+      value = (+props.datavalue - (+props.minvalue)) / (+props.maxvalue - (+props.minvalue)) * 100;
+    }
     const styles = deepCopy(this.styles, this.theme.getStyle(`app-${props.type}-progress-circle`));
     const showText = props.captionplacement !== 'hidden';
     return (
