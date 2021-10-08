@@ -51,6 +51,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       this.rootElement = e.nativeEvent.target;
     }
     this.view.measure((x, y, width, height, px, py) => {
+      position.left = px;
       position.top = py + height;
       this.updateState({ position: position } as WmSearchState);
     });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { TouchableWithoutFeedback, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { isArray } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -104,11 +104,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             data={dataset}
             ListEmptyComponent = {() => <WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>}
             renderItem={(itemInfo) => (
-            <Tappable onTap={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
+            <TouchableWithoutFeedback onPress={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
               <View style={this.state.selectedindex === itemInfo.index ? this.styles.selectedItem : {}}>
                 {props.renderItem(itemInfo.item, itemInfo.index)}
               </View>
-            </Tappable>
+            </TouchableWithoutFeedback>
           )}></FlatList>
         </View>
     );
