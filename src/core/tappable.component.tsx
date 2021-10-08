@@ -13,11 +13,11 @@ interface TappableProps {
 
 export class TapEvent {
     propagationEnabled = true;
-    
+
     constructor() {
 
     }
-    
+
     stopPropagation() {
         this.propagationEnabled = false;
     }
@@ -59,7 +59,7 @@ export class Tappable extends React.Component<TappableProps, any> {
             return (
                 <TouchableOpacity
                     style={this.props.styles}
-                    onPress={() => this.onPress()}>
+                    onPress={() => !target?.props.disabled && this.onPress()}>
                     {this.props.children}
                 </TouchableOpacity>
             );
