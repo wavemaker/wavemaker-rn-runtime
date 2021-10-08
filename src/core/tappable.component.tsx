@@ -44,7 +44,7 @@ export class Tappable extends React.Component<TappableProps, any> {
         }
         const syntheticEvent = Tappable.CURRENT_EVENT;
         if (syntheticEvent.propagationEnabled) {
-            if(delta < 200) {
+            if(delta < 500) {
                 this.props.onDoubleTap && this.props.onDoubleTap(e);
                 target?.invokeEventCallback('onDoubletap', [syntheticEvent, target]);
             }
@@ -55,7 +55,7 @@ export class Tappable extends React.Component<TappableProps, any> {
 
     render() {
         const target = this.props.target;
-        if (target?.props.onTap || target?.props.onDoubleTap || this.props.onTap || this.props.onDoubleTap) {
+        if (target?.props.onTap || target?.props.onDoubletap || this.props.onTap || this.props.onDoubleTap) {
             return (
                 <TouchableOpacity
                     style={this.props.styles}
