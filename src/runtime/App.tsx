@@ -35,7 +35,7 @@ import * as SplashScreen from 'expo-splash-screen';
 //some old react libraries need this
 ((View as any)['propTypes'] = { style: ProtoTypes.any})
 
-const MAX_TIME_BETWEEN_REFRESH_CYCLES = 200;
+const MIN_TIME_BETWEEN_REFRESH_CYCLES = 200;
 
 class DrawerImpl implements Drawer {
   content: ReactNode;
@@ -91,7 +91,7 @@ export default abstract class BaseApp extends React.Component {
     this.appConfig.refresh = () => {
       if (!wait) {
         RENDER_LOGGER.debug('refreshing the app...');
-        wait = MAX_TIME_BETWEEN_REFRESH_CYCLES;
+        wait = MIN_TIME_BETWEEN_REFRESH_CYCLES;
         refreshAfterWait = false;
         setTimeout(() => {
           this.forceUpdate();
