@@ -118,14 +118,14 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         // Setting appropriate content-Type for request accepting request body like POST, PUT, etc
         if (!includes(WS_CONSTANTS.NON_BODY_HTTP_METHODS, toUpper(config.serviceInfo.methodType))) {
           /*Based on the formData browser will automatically set the content type to 'multipart/form-data' and webkit boundary*/
-          if (!(config.serviceInfo.methodType.consumes && (config.serviceInfo.methodType.consumes[0] === WS_CONSTANTS.CONTENT_TYPES.MULTIPART_FORMDATA))) {
-            headers['Content-Type'] = (config.serviceInfo.methodType.consumes && config.serviceInfo.methodType.consumes[0]) || 'application/json';
+          if (!(config.serviceInfo.consumes && (config.serviceInfo.consumes[0] === WS_CONSTANTS.CONTENT_TYPES.MULTIPART_FORMDATA))) {
+            headers['Content-Type'] = (config.serviceInfo.consumes && config.serviceInfo.consumes[0]) || 'application/json';
           }
         }
 
         // if the consumes has application/x-www-form-urlencoded and
         // if the http request of given method type can have body send the queryParams as Form Data
-        if (includes(config.serviceInfo.methodType.consumes, WS_CONSTANTS.CONTENT_TYPES.FORM_URL_ENCODED) && !includes(WS_CONSTANTS.NON_BODY_HTTP_METHODS, (config.serviceInfo.methodType || '').toUpperCase())) {
+        if (includes(config.serviceInfo.consumes, WS_CONSTANTS.CONTENT_TYPES.FORM_URL_ENCODED) && !includes(WS_CONSTANTS.NON_BODY_HTTP_METHODS, (config.serviceInfo.methodType || '').toUpperCase())) {
           // remove the '?' at the start of the queryParams
           if (queryParams) {
             requestBody = (requestBody ? requestBody + '&' : '') + queryParams.substring(1);

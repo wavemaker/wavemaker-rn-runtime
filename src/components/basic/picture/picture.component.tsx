@@ -3,6 +3,7 @@ import { Image, LayoutChangeEvent } from 'react-native';
 import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import ImageSizeEstimator from '@wavemaker/app-rn-runtime/core/imageSizeEstimator';
 
 import WmPictureProps from './picture.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmPictureStyles } from './picture.styles';
@@ -34,12 +35,14 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
             naturalImageHeight: height
           } as WmPictureState);
         } else if (imageSrc !== null) {
-          Image.getSize(imageSrc, (width: number, height: number) => {
+          const cancel = ImageSizeEstimator.getSize(imageSrc, (width: number, height: number) => {
             this.updateState({
               naturalImageWidth: width,
               naturalImageHeight: height
             } as WmPictureState);
-          }, () => {});
+            this.cleanup.splice(this.cleanup.indexOf(cancel), 1);
+          });
+          this.cleanup.push(cancel);
         }
         break;
     }
