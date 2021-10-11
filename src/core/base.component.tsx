@@ -6,7 +6,6 @@ import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import BASE_THEME, { DEFAULT_CLASS, NamedStyles, AllStyle, ThemeConsumer, attachBackground } from '../styles/theme';
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
-import partialService from '../runtime/services/partial.service';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -41,6 +40,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public initialized = false;
     public cleanup = [] as Function[];
     public theme = BASE_THEME;
+    public updateStateTimeouts= [] as NodeJS.Timeout[];
 
     constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles?: L, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -78,6 +78,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 }
             }
         }));
+        this.cleanup.push(() => {
+            this.updateStateTimeouts.forEach(v => clearTimeout(v));
+        })
     }
 
     onPropertyChange(name: string, $new: any, $old: any) {
@@ -107,7 +110,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.state = stateFn(this.state);
             onUpdateState();
         } else {
-            setTimeout(() => this.setState(stateFn, onUpdateState));
+            const timeoutId = setTimeout(() => {
+                this.setState(stateFn, onUpdateState);
+                this.updateStateTimeouts.splice(this.updateStateTimeouts.indexOf(timeoutId), 1);
+            });
+            this.updateStateTimeouts.push(timeoutId);
         }
     }
 

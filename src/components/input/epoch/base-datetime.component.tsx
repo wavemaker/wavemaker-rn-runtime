@@ -18,6 +18,7 @@ export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   dateValue: Date =  null as any;
   displayValue: string = null as any;
   isFocused = false;
+  timerId: NodeJS.Timer = null as any;
 }
 
 const CURRENT_DATE = 'CURRENT_DATE';
@@ -63,6 +64,25 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     return date && moment(date, format).toDate();
   }
 
+  private monitorAndUpdateCurrentTime() {
+    this.stopCurrentTimeMonitor();
+    const timerId = setInterval(() => {
+      this.updateState({
+        props: {
+          readonly: true,
+          datavalue: Date.now()
+        },
+        timerId: timerId
+      } as BaseDatetimeState);
+    }, 1000);
+  }
+
+  private stopCurrentTimeMonitor() {
+    if (this.state.timerId) {
+      clearInterval(this.state.timerId);
+    }
+  }
+
   onPropertyChange(name: string, $new: any, $old: any) {
     super.onPropertyChange(name, $new, $old);
     const props = this.state.props;
@@ -71,13 +91,16 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       case 'datavalue':
         this.invokeEventCallback('onChange', [null, this, $new, $old]);
         this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
+        if (props.datavalue === CURRENT_TIME) {
+          this.monitorAndUpdateCurrentTime();
+        }
       case 'datepattern':
       case 'outputformat':
         if (props.datavalue && props.outputformat && props.datepattern) {
           if (props.datavalue === CURRENT_DATE || props.datavalue === CURRENT_TIME) {
             props.datavalue = this.format(new Date(), props.outputformat);
           }
-          const date = this.parse(props.datavalue as string, props.outputformat);
+          const date = isString(props.datavalue) ? this.parse(props.datavalue as string, props.outputformat) : props.datavalue;
           this.updateState({
             dateValue : date,
             displayValue: this.format(date as any, props.datepattern)
@@ -128,13 +151,20 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   onFocus() {
-    if (Platform.OS !== 'web' && this.state.props.mode === 'datetime') {
-      this.modes = ['date', 'time'];
-    } else {
-      this.modes = [this.state.props.mode];
+    if (!this.state.props.readonly) {
+      if (Platform.OS !== 'web' && this.state.props.mode === 'datetime') {
+        this.modes = ['date', 'time'];
+      } else {
+        this.modes = [this.state.props.mode];
+      }
+      this.updateState({showDatePicker: true, isFocused: true} as BaseDatetimeState);
+      this.invokeEventCallback('onFocus', [null, this]);
     }
-    this.updateState({showDatePicker: true, isFocused: true} as BaseDatetimeState);
-    this.invokeEventCallback('onFocus', [null, this]);
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount();
+    this.stopCurrentTimeMonitor();
   }
 
   renderWebWidget(props: WmDatetimeProps)  {
