@@ -43,6 +43,11 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   constructor(props: WmSearchProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSearchProps(), new WmSearchState());
     this.dataProvider = new LocalDataProvider();
+    if (this.props.datavalue) {
+      this.updateState({
+        searchQuery: this.props.datavalue
+      } as WmSearchState);
+    }
   }
 
   computePosition = (e?: any) => {
