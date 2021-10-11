@@ -237,7 +237,7 @@ export default abstract class BaseApp extends React.Component {
     </>);
   }
 
-  render() {
+  renderApp(commonPartial:React.ReactNode) {
     return (
       <SafeAreaProvider>
         <PaperProvider theme={{
@@ -256,6 +256,7 @@ export default abstract class BaseApp extends React.Component {
                       hideDrawer={this.appConfig.drawer?.getContent() === null}
                       drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
                       drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                      {commonPartial}
                     {AppDisplayManagerService.displayOptions.content
                       ? (<View style={styles.displayViewContainer}>
                         {AppDisplayManagerService.displayOptions.content}

@@ -47,7 +47,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public toaster: any;
     public formatters: Map<string, Formatter>;
     public serviceDefinitions = {} as any;
-
+    public notification = {text: '', title: ''};
     constructor(props: P, defaultProps?: P) {
         super(props, undefined, undefined, defaultProps);
         this.App = this.appConfig.app;
