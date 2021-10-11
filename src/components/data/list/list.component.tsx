@@ -33,6 +33,15 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   }
 
+  private selectFirstItem() {
+    const props = this.state.props;
+    if (this.initialized
+      && props.dataset
+      && props.dataset.length) {
+        this.onSelect(props.dataset[0], 0);
+      }
+  }
+
   private deselect() {
     this.selecteditem = null;
     this.updateState({
@@ -45,13 +54,16 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const props = this.state.props;
     switch(name) {
       case 'selectfirstitem':
-        $new && this.initialized && props.dataset
-          && props.dataset.length
-          && this.onSelect(props.dataset[0], 0);
+        if ($new) {
+          this.selectFirstItem();
+        }
       break;
       case 'dataset':
-        props.selectfirstitem && this.initialized && props.dataset && props.dataset.length && this.onSelect(props.dataset[0], 0);
-        this.deselect();
+        if (props.selectfirstitem) {
+          this.selectFirstItem();
+        } else {
+          this.deselect();
+        }
       break;
       case 'disableitem':
         this.deselect();
