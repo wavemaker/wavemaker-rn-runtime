@@ -26,10 +26,10 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
     return props.children;
   }
 
-  onSelect() {
+  _onSelect() {
     this.invokeEventCallback('onSelect', [null, this.proxy]);
   }
-  onDeselect() {
+  _onDeselect() {
     this.invokeEventCallback('onDeselect', [null, this.proxy]);
   }
 
