@@ -123,7 +123,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
       case 'dataset':
         this.setDataItems($new);
         break;
-      case 'displayexp':
+      case 'getDisplayExpression':
       case 'displayfield':
       case 'displaylabel':
       case 'datafield':
@@ -201,7 +201,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
         dataset = data;
       }
       dataItems = (dataset as any[]).map((d, i) => {
-        return {
+        const obj = {
           key: `${name}_item${i}`,
           dataObject: d,
           displayfield: d[this.state.props.displayfield] ||  d[this.state.props.displaylabel],
@@ -210,6 +210,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
           selected: includes(datavalueItems, d[this.state.props.datafield]) || this.state.props.datafield === 'All Fields' ? isEqual(datavalue, d) : datavalue === d[this.state.props.datafield] ? true : false,
           imgSrc: d[this.state.props.displayimagesrc]
         };
+        return obj;
       });
     }
     this.updateState({ dataItems: dataItems } as S);
