@@ -33,10 +33,9 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
 
   open() {
     if (!this.state.props.show) {
-      this.invokeEventCallback('onOpened', [null, this]);
       this.updateState({
         props:{show: true}
-      } as WmDialogState);
+      } as WmDialogState, this.invokeEventCallback.bind(this, 'onOpened', [null, this]));
     }
   }
 
