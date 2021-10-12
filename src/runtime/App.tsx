@@ -1,6 +1,6 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import {TouchableOpacity, View, ViewStyle} from 'react-native';
+import {TouchableOpacity, ScrollView, View, ViewStyle} from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -223,12 +223,9 @@ export default abstract class BaseApp extends React.Component {
               <Animatedview entryanimation={o.animation || 'fadeIn'}
                               ref={ref => this.animatedRef = ref}
                               style={[styles.appModalContent, o.contentStyle]}>
-                  <TouchableOpacity
-                      activeOpacity={1}
-                      onPress={() => {}}
-                      style={{width: '100%', alignItems: 'center'}}>
-                      {this.getProviders(o.content)}
-                    </TouchableOpacity>
+                <ScrollView style={{width: '100%'}} contentContainerStyle={{width: '100%', alignItems: 'center'}}>
+                  {this.getProviders(o.content)}
+                </ScrollView>
               </Animatedview>
             </TouchableOpacity>
           )}

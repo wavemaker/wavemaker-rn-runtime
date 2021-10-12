@@ -4,7 +4,6 @@ import { DatePickerModalContent, TimePickerModal } from 'react-native-paper-date
 import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalService, ModalOptions } from '@wavemaker/app-rn-runtime/core/modal.service';
-import { isEqual } from 'lodash-es';
 
 export class DatePickerProps {
     mode?: 'date' | 'time' | 'datetime' | string = 'datetime';
@@ -17,7 +16,7 @@ export class DatePickerProps {
 
 export class DatePickerState {
     public value?: Date = null as any;
-    public modalOptions = {} as any;
+    public modalOptions: ModalOptions = {} as any;
     public showDatePicker = false;
     public showTimePicker = false;
 }
@@ -100,14 +99,16 @@ export default class DatePickerComponnent extends React.Component<DatePickerProp
     prepareTimeModal(modalService: ModalService) {
         if (!this.timemodal) {
             this.timemodal = (
-            <TimePickerModal
-                hours={this.props.value?.getHours() || 0}
-                minutes={this.props.value?.getMinutes() || 0}
-                visible={true}
-                onDismiss={() => this.close(modalService)}
-                onConfirm={(params) => {
-                    this.onTimeChange(params.hours, params.minutes, modalService);
-                }}/>);
+            <View style={{height: 600, marginTop: 600}}>
+                <TimePickerModal
+                    hours={this.props.value?.getHours() || 0}
+                    minutes={this.props.value?.getMinutes() || 0}
+                    visible={true}
+                    onDismiss={() => this.close(modalService)}
+                    onConfirm={(params) => {
+                        this.onTimeChange(params.hours, params.minutes, modalService);
+                    }}/>
+            </View>);
         }
         return this.timemodal;
     }
@@ -122,7 +123,7 @@ export default class DatePickerComponnent extends React.Component<DatePickerProp
         <ModalConsumer>
             {(modalService: ModalService) => {
                 modalService.showModal(this.prepareModalOptions(
-                    (<View style={styles.content}>
+                    (<View style={this.state.showDatePicker ? styles.content: {}}>
                         {this.state.showDatePicker && (
                             <DatePickerModalContent
                                 mode="single"

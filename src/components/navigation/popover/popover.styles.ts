@@ -57,7 +57,8 @@ BASE_THEME.addStyle('popover-action-sheet', DEFAULT_CLASS, {
             height: 0
         },
         shadowOpacity: 0.6,
-        shadowRadius: 10
+        shadowRadius: 10,
+        maxHeight: '70%'
     }
 } as WmPopoverStyles);
 BASE_THEME.addStyle('popover-dropdown', DEFAULT_CLASS, {
