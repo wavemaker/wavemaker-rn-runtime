@@ -1,5 +1,4 @@
 import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.props';
-import {PROP_STRING} from "../../../../../wavemaker-ng-runtime/libraries/components/base";
 
 export default class WmSearchProps extends BaseDatasetProps {
   autofocus: boolean = false;
