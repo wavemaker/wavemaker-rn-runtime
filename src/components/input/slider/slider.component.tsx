@@ -46,6 +46,7 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
     <View style={this.styles.root}>
       <View style={{flexDirection:'row', justifyContent:'space-between'}}>
         <Text>{props.minvalue}</Text>
+        <Text>{props.datavalue}</Text>
         <Text>{props.maxvalue}</Text>
       </View>
       <Slider
