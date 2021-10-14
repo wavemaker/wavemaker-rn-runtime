@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { LayoutChangeEvent, View, Text } from 'react-native';
+import { isNumber } from 'lodash';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -8,23 +9,42 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmProgressCircleProps from './progress-circle.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmProgressCircleStyles } from './progress-circle.styles';
 
-export class WmProgressCircleState extends BaseComponentState<WmProgressCircleProps> {}
+
+export class WmProgressCircleState extends BaseComponentState<WmProgressCircleProps> {
+  radius = 10;
+}
 
 export default class WmProgressCircle extends BaseComponent<WmProgressCircleProps, WmProgressCircleState, WmProgressCircleStyles> {
 
   constructor(props: WmProgressCircleProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmProgressCircleProps());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmProgressCircleProps(), new WmProgressCircleState());
+  }
+
+  onLayout(e: LayoutChangeEvent) {
+    const width = e.nativeEvent.layout.width;
+    const height = e.nativeEvent.layout.height;
+    let radius = this.state.radius;
+    if (!width) {
+      radius = height;
+    } else if (!height) {
+      radius = width;
+    } else {
+      radius = Math.min(width, height);
+    }
+    this.updateState({
+      radius: radius
+    } as WmProgressCircleState);
   }
 
   renderWidget(props: WmProgressCircleProps) {
     let value = 0;
-    if (props.datavalue && props.minvalue && props.maxvalue) {
+    if (isNumber(props.datavalue) && isNumber(props.minvalue) && isNumber(props.maxvalue)) {
       value = (+props.datavalue - (+props.minvalue)) / (+props.maxvalue - (+props.minvalue)) * 100;
     }
     const styles = deepCopy(this.styles, this.theme.getStyle(`app-${props.type}-progress-circle`));
     const showText = props.captionplacement !== 'hidden';
     return (
-    <View style={styles.root}>
+    <View style={styles.root} onLayout={this.onLayout.bind(this)}>
       <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}}>
         <AnimatedCircularProgress
           fill={value}
@@ -33,10 +53,10 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
           rotation={0}
           tintColor={styles.progressValue.backgroundColor}
           backgroundColor={styles.progressCircle.backgroundColor}
-          size={styles.root.height}>
+          size={this.state.radius}>
             {(fill) => (<View style={{alignItems: 'center'}}>
                           <Text style={styles.text}>{ showText ? props.title || value : '' }</Text>
-                          {showText && props.subtitle && <Text style={styles.subTitle}>{ props.subtitle }</Text>}
+                          {showText && props.subtitle ? (<Text style={styles.subTitle}>{ props.subtitle }</Text>) : null}
                         </View>)}  
         </AnimatedCircularProgress>
       </Tappable>
