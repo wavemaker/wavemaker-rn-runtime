@@ -213,7 +213,12 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
         return obj;
       });
     }
-    this.updateState({ dataItems: dataItems } as S);
-    this.setGroupData(dataItems);
+    if (props.groupby) {
+      this.setGroupData(dataItems);
+    } else if (props.orderby) {
+      this.updateState({ dataItems: this.getOrderedDataset(dataItems, props.orderby, 'dataObject')} as S);
+    } else {
+      this.updateState({ dataItems: dataItems } as S);
+    }
   }
 }

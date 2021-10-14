@@ -1,14 +1,8 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import BaseDatasetProps from '../basedataset/basedataset.props';
 
-export default class WmSwitchProps extends BaseProps {
+export default class WmSwitchProps extends BaseDatasetProps {
   dataset: any = 'yes, no, maybe';
-  datavalue: any;
   dataItems: any;
-  displayfield: any;
-  datafield: any;
-  disabled: any;
-  displayexpression: any;
   iconclass: any;
-  getDisplayExpression: any;
-  onFieldChange: any;
 }

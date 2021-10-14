@@ -7,51 +7,13 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmSwitchProps from './switch.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmSwitchStyles } from './switch.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import { BaseDatasetComponent, BaseDatasetState } from '../basedataset/basedataset.component';
 
-export class WmSwitchState extends BaseComponentState<WmSwitchProps> {
-  dataItems: any;
-}
+export class WmSwitchState extends BaseDatasetState<WmSwitchProps> {}
 
-export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState, WmSwitchStyles> {
+export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwitchState, WmSwitchStyles> {
   constructor(props: WmSwitchProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSwitchProps());
-  }
-
-  onPropertyChange(name: string, $new: any, $old: any) {
-    switch (name) {
-      case 'dataset':
-        this.setDataItems($new);
-        break;
-      case 'datavalue':
-        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
-        break;
-    }
-  }
-
-  setDataItems(dataset: any = this.state.props.dataset) {
-    const name = this.props.name;
-    let dataItems: any = [];
-    if (typeof dataset === 'string') {
-      dataItems = dataset.split(',').map((s, i) => {
-        return {
-          key: `${name}_item${i}`,
-          displayfield: s,
-          datafield: s
-        };
-      });
-    } else if (dataset) {
-      dataItems = (dataset as any[]).map((d, i) => {
-        return {
-          key: `${name}_item${i}`,
-          dataObject: d,
-          displayfield: d[this.props.displayfield],
-          datafield: this.state.props.datafield=== 'All Fields' ? d : d[this.state.props.datafield],
-          displayexp: this.props.getDisplayExpression ? this.props.getDisplayExpression(d) : d[this.props.displayfield],
-          icon: d[this.props.iconclass]
-        };
-      });
-    }
-    this.updateState({dataItems: dataItems} as WmSwitchState);
   }
 
   onChange(value: any) {
@@ -67,17 +29,8 @@ export default class WmSwitch extends BaseComponent<WmSwitchProps, WmSwitchState
       ()=>this.invokeEventCallback('onChange', [ undefined, this.proxy, value, this.state.props.datavalue ]));
   }
 
-  updateDatavalue(value: any) {
-    this.updateState({ props: { datavalue: value }} as WmSwitchState);
-  }
-
   onTap(event: any) {
     this.invokeEventCallback('onTap', [ event, this.proxy ]);
-  }
-
-  getItemKey(value: any) {
-    const selectedItem = find(this.state.dataItems, (item) => isEqual(item.dataObject, value));
-    return selectedItem && selectedItem.key;
   }
 
   renderChild(item: any, index: any) {
