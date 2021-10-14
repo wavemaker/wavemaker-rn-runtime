@@ -10,7 +10,7 @@ export type WmPictureStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-picture';
 export const DEFAULT_STYLES: WmPictureStyles = {
   root: {
-    maxWidth: '100%'
+    width: '100%'
   },
   text: {},
   picture: {
