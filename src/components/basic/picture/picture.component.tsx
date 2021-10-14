@@ -14,8 +14,6 @@ export class WmPictureState extends BaseComponentState<WmPictureProps> {
   naturalImageHeight: number = 0;
   imageWidth: number = 0;
   imageHeight: number = 0;
-  width: number = 0;
-  height: number = 0;
 }
 
 export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureState, WmPictureStyles> {
@@ -51,36 +49,22 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
   }
 
   onViewLayoutChange = (e: LayoutChangeEvent) => {
-    this.updateState({
-      width: e.nativeEvent.layout.width,
-      height: e.nativeEvent.layout.height
-    } as WmPictureState);
-  };
-
-  onImageLayoutChange = (e: LayoutChangeEvent) => {
-    let sImageWidth = this.state.width;
-    let sImageHeight = this.styles.height;
     let imageWidth = e.nativeEvent.layout.width;
     let imageHeight = e.nativeEvent.layout.height;
-    if (sImageWidth && sImageHeight) {
-      this.updateState({
-        imageWidth: imageWidth,
-        imageHeight: imageHeight
-      } as WmPictureState);
-    } else if (!sImageWidth && !sImageHeight) {
-      this.updateState({
-        imageWidth: this.state.naturalImageWidth,
-        imageHeight: this.state.naturalImageHeight
-      } as WmPictureState);
-    } else if (sImageWidth && !sImageHeight) {
-      imageHeight = e.nativeEvent.layout.width * this.state.naturalImageHeight / this.state.naturalImageWidth;
+    if (imageWidth && !imageHeight) {
+      imageHeight = imageWidth * this.state.naturalImageHeight / this.state.naturalImageWidth;
       this.updateState({
         imageHeight: imageHeight
       } as WmPictureState);
-    } else if (sImageHeight && !sImageWidth) {
-      imageWidth = e.nativeEvent.layout.height * this.state.naturalImageWidth / this.state.naturalImageHeight;
+    } else if (imageHeight && !imageWidth) {
+      imageWidth = imageHeight * this.state.naturalImageWidth / this.state.naturalImageHeight;
       this.updateState({
         imageWidth: imageWidth
+      } as WmPictureState);
+    } else {
+      this.updateState({
+        imageWidth: imageWidth, 
+        imageHeight: imageHeight
       } as WmPictureState);
     }
   };
@@ -104,8 +88,8 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
   }
 
   renderWidget(props: WmPictureProps) {
-    const imageWidth = this.state.imageWidth || this.styles.root.width;
-    const imageHeight = this.state.imageHeight || this.styles.root.height;
+    const imageWidth = this.state.imageWidth;
+    const imageHeight = this.state.imageHeight;
     const shapeStyles = this.createShape(props.shape, imageWidth);
     const imgSrc = props.picturesource || props.pictureplaceholder;
     let source = {};
@@ -127,10 +111,9 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
               width: imageWidth,
               borderRadius: shapeStyles.picture?.borderRadius
             }, shapeStyles.root]}>
-            <Image style={[this.styles.picture, shapeStyles.picture]}
-              onLayout={this.onImageLayoutChange}
+            {this.state.imageWidth ? <Image style={[this.styles.picture, shapeStyles.picture]}
               resizeMode={'stretch'}
-              source={source}/>
+              source={source}/> : null }
           </Animatedview>
         </View>
       </Tappable>

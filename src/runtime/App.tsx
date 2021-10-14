@@ -224,7 +224,12 @@ export default abstract class BaseApp extends React.Component {
                               ref={ref => this.animatedRef = ref}
                               style={[styles.appModalContent, o.contentStyle]}>
                 <ScrollView style={{width: '100%'}} contentContainerStyle={{width: '100%', alignItems: 'center'}}>
-                  {this.getProviders(o.content)}
+                  <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => {}}
+                      style={{width: '100%', alignItems: 'center'}}>
+                      {this.getProviders(o.content)}
+                  </TouchableOpacity>
                 </ScrollView>
               </Animatedview>
             </TouchableOpacity>
