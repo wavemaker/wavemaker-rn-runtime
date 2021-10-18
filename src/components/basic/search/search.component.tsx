@@ -84,6 +84,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   onChange(value: any) {
+    this.isDefaultQuery = false;
      this.updateDatavalue(undefined);
      if (this.state.props.searchon === 'onsearchiconclick') {
        this.updateState({
@@ -108,6 +109,11 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       }
     }
     this.invokeEventCallback('onFocus', [null, this]);
+  }
+
+  onBlur() {
+    this.isDefaultQuery = true;
+    this.invokeEventCallback('onBlur', [null, this]);
   }
 
   public showPopover = () => {
@@ -172,7 +178,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
             onChangeText={this.onChange.bind(this)}
             onFocus={this.onFocus.bind(this)}
             onLayout={e => {this.searchInputWidth = e.nativeEvent.layout.width}}
-            onBlur={() => this.invokeEventCallback('onBlur', [null, this])}
+            onBlur={this.onBlur.bind(this)}
             value={this.state.searchQuery}>
          </TextInput>
          {props.showclear && this.state.searchQuery ? <WmButton onTap={this.clearSearch.bind(this)}
@@ -203,7 +209,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
         selectedItem && this.updateState({
           searchQuery: selectedItem.displayexp || selectedItem.displayfield
         } as WmSearchState);
-        this.isDefaultQuery = false;
     }
   }
 
