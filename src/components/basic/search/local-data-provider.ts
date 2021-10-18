@@ -15,11 +15,11 @@ export class LocalDataProvider {
     const casesensitive = false;
 
     /**
-     * If searchKey is defined, then check for match string against each item in the dataset with item's field name as the searchKey
+     * If searchkey is defined, then check for match string against each item in the dataset with item's field name as the searchkey
      * return the filtered data containing the matching string.
      */
-    if (props.searchKey) {
-      const keys = split(props.searchKey, ',');
+    if (props.searchkey) {
+      const keys = split(props.searchkey, ',');
 
       filteredData = filter(entries, (item: any) => {
         return keys.some(key => {
