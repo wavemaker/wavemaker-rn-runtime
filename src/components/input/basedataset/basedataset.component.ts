@@ -127,6 +127,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
       case 'displayfield':
       case 'displaylabel':
       case 'datafield':
+      case 'orderby':
         this.setDataItems(this.state.props.dataset);
         break;
       case 'groupby':
