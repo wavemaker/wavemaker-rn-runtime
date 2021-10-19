@@ -20,15 +20,10 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
   constructor(props: WmDialogProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmDialogProps(), new WmDialogState());
     this.state.modalOptions.onClose = () => {
-        return new Promise((resolve) => {
-          this.updateState({
-            props:{show: false}
-          } as WmDialogState, () => {
-            this.invokeEventCallback('onClose', [null, this]);
-            resolve(0);
-          });
-        });
-      };
+      this.updateState({
+          props: {show: false}
+      } as WmDialogState, this.invokeEventCallback.bind(this, 'onClose', [null, this]));
+    };
   }
 
   open() {
