@@ -10,6 +10,7 @@ export interface NotificationActionConfig extends ActionConfig {
     partialContent: React.ReactNode;
     toasterService: () => ToastService;
 }
+const DEFAULT_DURATION = 3000;
 export class NotificationAction extends BaseAction<NotificationActionConfig> {
     showDialog: Function;
     constructor(config: NotificationActionConfig) {
@@ -25,7 +26,7 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
         o.onClose = this.config.onClose;
         o.onClick = this.config.onOk;
         o.content = this.config.partialContent;
-        const placement = params.toasterPosition.split(' ')[0];
+        const placement = params.toasterPosition ? params.toasterPosition.split(' ')[0] : 'bottom right';
         switch(placement) {
             case 'top':
                 o.styles = {top: 0};
@@ -38,7 +39,13 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
                 break;
         }
         if (this.config.partialContent) {
+          if (!o.styles) {
+            o.styles = {};
+          }
             o.styles.backgroundColor = 'black';
+        }
+        if (!params.duration) {
+          params.duration = (params.duration !== 0 && o.type === 'success') ? DEFAULT_DURATION : 0;
         }
         o.duration = parseInt(params.duration);
         o.name = this.name;
