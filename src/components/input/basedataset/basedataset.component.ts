@@ -195,23 +195,23 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
       });
     } else if (dataset) {
       if (isObject(dataset) && !isArray(dataset)) {
-        let data: Array<Object> = [];
-        forEach(dataset, function(value, key) {
-          data.push({displayValue: value, dataValue: key});
+        forEach(dataset, (value, key) => {
+          dataItems.push({key: `${name}_item${key}`, displayfield: value, datafield: key, dataObject: dataset});
         });
-        dataset = data;
+      } else {
+        dataItems = (dataset as any[]).map((d, i) => {
+          return {
+            key: `${name}_item${i}`,
+            dataObject: d,
+            displayfield: get(d, this.state.props.displayfield) ||  get(d, this.state.props.displaylabel),
+            datafield: this.state.props.datafield === 'All Fields' ? d : get(d, this.state.props.datafield),
+            displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : get(d, this.state.props.displayfield),
+            selected: includes(datavalueItems, get(d, this.state.props.datafield)) || this.state.props.datafield === 'All Fields' ? isEqual(datavalue, d) : datavalue === get(d, this.state.props.datafield) ? true : false,
+            imgSrc: get(d, this.state.props.displayimagesrc)
+          };
+        });
       }
-      dataItems = (dataset as any[]).map((d, i) => {
-        return {
-          key: `${name}_item${i}`,
-          dataObject: d,
-          displayfield: get(d, this.state.props.displayfield) ||  get(d, this.state.props.displaylabel),
-          datafield: this.state.props.datafield === 'All Fields' ? d : get(d, this.state.props.datafield),
-          displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : get(d, this.state.props.displayfield),
-          selected: includes(datavalueItems, get(d, this.state.props.datafield)) || this.state.props.datafield === 'All Fields' ? isEqual(datavalue, d) : datavalue === get(d, this.state.props.datafield) ? true : false,
-          imgSrc: get(d, this.state.props.displayimagesrc)
-        };
-      });
+
     }
     if (props.groupby) {
       this.setGroupData(dataItems);
