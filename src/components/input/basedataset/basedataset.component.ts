@@ -202,16 +202,15 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
         dataset = data;
       }
       dataItems = (dataset as any[]).map((d, i) => {
-        const obj = {
+        return {
           key: `${name}_item${i}`,
           dataObject: d,
-          displayfield: d[this.state.props.displayfield] ||  d[this.state.props.displaylabel],
-          datafield: this.state.props.datafield === 'All Fields' ? d : d[this.state.props.datafield],
-          displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : d[this.state.props.displayfield],
-          selected: includes(datavalueItems, d[this.state.props.datafield]) || this.state.props.datafield === 'All Fields' ? isEqual(datavalue, d) : datavalue === d[this.state.props.datafield] ? true : false,
-          imgSrc: d[this.state.props.displayimagesrc]
+          displayfield: get(d, this.state.props.displayfield) ||  get(d, this.state.props.displaylabel),
+          datafield: this.state.props.datafield === 'All Fields' ? d : get(d, this.state.props.datafield),
+          displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : get(d, this.state.props.displayfield),
+          selected: includes(datavalueItems, get(d, this.state.props.datafield)) || this.state.props.datafield === 'All Fields' ? isEqual(datavalue, d) : datavalue === get(d, this.state.props.datafield) ? true : false,
+          imgSrc: get(d, this.state.props.displayimagesrc)
         };
-        return obj;
       });
     }
     if (props.groupby) {
