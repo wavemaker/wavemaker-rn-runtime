@@ -1,6 +1,6 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, ScrollView, View, ViewStyle} from 'react-native';
+import {TouchableOpacity, ScrollView, View, ViewStyle} from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -180,12 +180,12 @@ export default abstract class BaseApp extends React.Component {
             <SecurityProvider value={AppSecurityService}>
               <CameraProvider value={CameraService}>
                 <ScanProvider value={ScanService}>
-                  <ModalProvider value={AppModalService}>
-                    { content }
+                  <ModalProvider value={AppModalService}> 
+                    { content }         
                   </ModalProvider>
                 </ScanProvider>
               </CameraProvider>
-            </SecurityProvider>
+            </SecurityProvider>       
           </PartialProvider>
         </ToastProvider>
       </NavigationServiceProvider>
@@ -239,15 +239,6 @@ export default abstract class BaseApp extends React.Component {
     </>);
   }
 
-  renderIconsViewSupportForWeb() {
-    return (<style type="text/css">{`
-        @font-face {
-          font-family: 'MaterialCommunityIcons';
-          src: url(${require('react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf')}) format('truetype');
-        }
-      `}</style>);
-  }
-
   renderApp(commonPartial:React.ReactNode) {
     return (
       <SafeAreaProvider>
@@ -257,8 +248,6 @@ export default abstract class BaseApp extends React.Component {
             ...DefaultTheme.colors,
             primary: ThemeVariables.primaryColor
           }}}>
-          <React.Fragment>
-            {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
           <SafeAreaInsetsContext.Consumer>
             {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
               (this.getProviders(
@@ -281,8 +270,7 @@ export default abstract class BaseApp extends React.Component {
           </SafeAreaInsetsContext.Consumer>
           {this.renderToasters()}
           {this.renderDialogs()}
-          </React.Fragment>
-        </PaperProvider>
+        </PaperProvider>        
       </SafeAreaProvider>
     );
   }
