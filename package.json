@@ -81,7 +81,7 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.1.1",
     "react-native-web": "~0.13.12",
-    "react-native-webview": "^11.4.3",
+    "react-native-webview": "~11.4.3",
     "react-xml-parser": "^1.1.8",
     "xml2js": "^0.4.23"
   },
