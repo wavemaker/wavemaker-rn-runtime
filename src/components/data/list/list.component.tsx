@@ -74,7 +74,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   componentDidMount() {
     const props = this.state.props;
     if (this.state.props.selectfirstitem && props.dataset?.length) {
-      this.onSelect(props.dataset[0], 0);
+      setTimeout(() => {
+        this.onSelect(props.dataset[0], 0);
+      });
     }
     super.componentDidMount();
   }
