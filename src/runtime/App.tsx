@@ -239,13 +239,26 @@ export default abstract class BaseApp extends React.Component {
     </>);
   }
 
+  getVectorIconsLib(modulePath: string) {
+    try {
+      return require(modulePath);
+    } catch (e) {
+      console.log('require  "' + modulePath + '" could not be loaded.');
+      return false;
+    }
+  }
+
   renderIconsViewSupportForWeb() {
-    return (<style type="text/css">{`
+    let requiredModule = this.getVectorIconsLib('react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf');
+    if (requiredModule) {
+      return (<style type="text/css">{`
         @font-face {
           font-family: 'MaterialCommunityIcons';
-          src: url(${require('react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf')}) format('truetype');
+          src: url(${requiredModule}) format('truetype');
         }
       `}</style>);
+    }
+    return null;
   }
 
   renderApp(commonPartial:React.ReactNode) {
