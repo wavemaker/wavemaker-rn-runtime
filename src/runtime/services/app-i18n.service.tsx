@@ -14,16 +14,17 @@ class AppI18nService {
     timeFormat: string = '';
     dateTimeFormat: string = '';
     currencyCode: string = '';
+    appConfig: any;
 
     constructor() {}
 
     loadAppLocaleBundle(url: string) {
-        const appConfig = injector.get<AppConfig>('APP_CONFIG');
+        this.appConfig = injector.get<AppConfig>('APP_CONFIG');
         return this.getSelectedLocale().then((locale) => {
-          appConfig.selectedLocale = this.selectedLocale = locale || '';
+          this.appConfig.selectedLocale = this.selectedLocale = locale || '';
           if (!this.selectedLocale) {
-            this.selectedLocale = appConfig.appProperties.preferBrowserLang == 'false'? appConfig.appProperties.defaultLanguage : this.defaultSupportedLocale;
-            appConfig.selectedLocale = this.selectedLocale;
+            this.selectedLocale = this.appConfig.appProperties.preferBrowserLang == 'false'? this.appConfig.appProperties.defaultLanguage : this.defaultSupportedLocale;
+            this.appConfig.selectedLocale = this.selectedLocale;
           }
           const path = `${url + APP_LOCALE_ROOT_PATH}/${this.selectedLocale}.json`;
           return axios.get(path)
@@ -42,18 +43,22 @@ class AppI18nService {
     }
 
     setSelectedLocale(locale: string) {
-        const appConfig = injector.get<AppConfig>('APP_CONFIG');
+        if (!this.appConfig) {
+          this.appConfig = injector.get<AppConfig>('APP_CONFIG');
+        }
         let key = 'selectedLocale';
         this.selectedLocale = locale;
         if (isWebPreviewMode()) {
-          key = appConfig.appProperties.displayName + '_selectedLocale';
+          key = this.appConfig.appProperties.displayName + '_selectedLocale';
         }
         AsyncStorage.setItem(key, locale);
     }
 
     async getSelectedLocale() {
-      const appConfig = injector.get<AppConfig>('APP_CONFIG');
-      const key = isWebPreviewMode() ? appConfig && appConfig.appProperties.displayName + '_selectedLocale' : 'selectedLocale';
+      if (!this.appConfig) {
+        this.appConfig = injector.get<AppConfig>('APP_CONFIG');
+      }
+      const key = isWebPreviewMode() ? this.appConfig && this.appConfig.appProperties.displayName + '_selectedLocale' : 'selectedLocale';
       return await AsyncStorage.getItem(key);
     }
 }
