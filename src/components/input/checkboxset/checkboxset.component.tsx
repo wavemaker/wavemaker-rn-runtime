@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { forEach } from 'lodash';
+import { find, forEach, isEqual } from 'lodash';
 import { Checkbox } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -28,6 +28,8 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     this.invokeEventCallback('onTap', [null, this.proxy]);
     item.selected = !item.selected;
     const selectedValue: any = [];
+    const selectedItem = find(this.state.dataItems, d => isEqual(d.key, item.key));
+    selectedItem.selected = item.selected;
     forEach(this.state.dataItems, (item) => {
         if (item.selected) {
           selectedValue.push(item.datafield);

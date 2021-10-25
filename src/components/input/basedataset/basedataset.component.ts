@@ -182,6 +182,8 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     if (typeof datavalue === 'string') {
       datavalueItems = datavalue.split(',');
       datavalueItems = datavalueItems.map((item: any) => item.trim());
+    } else if (isArray(datavalue)) {
+      datavalueItems = datavalue;
     }
     if (typeof dataset === 'string') {
       dataItems = dataset.split(',').map((s, i) => {
