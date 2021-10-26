@@ -18,6 +18,11 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmRadiosetProps());
   }
 
+  onPress(value: any) {
+    this.invokeEventCallback('onTap', [null, this.proxy]);
+    this.onValueChange(value);
+  }
+
   renderChild(item: any, index: any) {
     const displayText = item.displayexp || item.displayfield;
     return (
@@ -50,7 +55,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
 
   renderRadioButtons(items: any) {
     const props = this.state.props;
-    return(<RadioButton.Group onValueChange={this.onValueChange.bind(this)} value={this.state.props.datafield === 'All Fields'? this.getItemKey(props.datavalue) : props.datavalue}>
+    return(<RadioButton.Group onValueChange={this.onPress.bind(this)} value={this.state.props.datafield === 'All Fields'? this.getItemKey(props.datavalue) : props.datavalue}>
       {items && items.length ?
         items.map((item: any, index: any) => this.renderChild(item, index)): null}
     </RadioButton.Group>)
