@@ -77,7 +77,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     this.updateState({
       isDone: false
     } as WmWizardState);
-    this.invokeEventCallback('onStepChange', [eventName ? eventName : 'next', steps[this.state.currentStep].props.name, this.state.currentStep]);
+    this.invokeEventCallback('onStepChange', [eventName === 'skip' ? 'skip' : 'next', steps[this.state.currentStep].props.name, this.state.currentStep]);
   }
 
   onDone($event: any) {
