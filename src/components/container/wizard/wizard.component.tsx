@@ -55,8 +55,8 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                     <WmIcon styles={merge({}, this.styles.stepIcon, {text: {color: isLastStep ? this.styles.activeStep.color : this.styles.doneStep.color}})}
                             iconclass={item.props.iconclass || 'wi wi-done'}></WmIcon>}
             </View>
-           <Text style={[this.styles.stepTitle, {color: this.getColor(index) }]}>
-             {item.props.title || 'Step Title'}</Text>
+          <Text style={[this.styles.stepTitle, {color: this.getColor(index), opacity: index === this.state.currentStep ? 1 : 0 }]}>
+            {item.props.title || 'Step Title'}</Text>
         </TouchableOpacity>
         {this.numberOfSteps > 1 && <View style={[this.styles.stepConnector, { width: isFirstStep || isLastStep ? '50%' : '100%',
                                                       left: isFirstStep ? '50%': '0%'}]}></View>}
