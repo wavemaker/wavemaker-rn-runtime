@@ -26,7 +26,7 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
       if (!this.state.props.isPartialLoaded) {
         this.state.props.isPartialLoaded = true;
         setTimeout(() => {
-          this.invokeEventCallback('onLoad', [null, this]);
+          this.invokeEventCallback('onLoad', [this]);
         });
       }
       return props.renderPartial();
