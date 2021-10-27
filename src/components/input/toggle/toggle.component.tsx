@@ -21,7 +21,7 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     switch (name) {
       case 'datavalue':
         let value = false;
-        if ($new === this.props.checkedvalue) {
+        if ($new === this.state.props.checkedvalue) {
           value = true;
         }
         this.updateState({isSwitchOn: value} as WmToggleState);
