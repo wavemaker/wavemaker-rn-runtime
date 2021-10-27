@@ -11,6 +11,7 @@ export default class WmSearchProps extends BaseDatasetProps {
   imagewidth: any = 16;
   searchon: string = 'typing';
   onSubmit?: any;
+  result: any;
   showclear: boolean = false;
   showSearchIcon: boolean = true; // internal property
 }

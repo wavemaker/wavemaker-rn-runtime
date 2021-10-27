@@ -78,6 +78,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       filteredData = props.type === 'search' && !queryText ? [] : this.dataProvider.filter(filterOptions);
     }
     this.updateState({
+      props: { result: filteredData.map( item => item.dataObject) },
       data: filteredData,
       searchQuery: queryText,
     } as WmSearchState);
@@ -88,6 +89,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
      this.updateDatavalue(undefined);
      if (this.state.props.searchon === 'onsearchiconclick') {
        this.updateState({
+         props: { result: [] },
          data: [],
          searchQuery: value,
        } as WmSearchState);
