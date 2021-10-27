@@ -33,7 +33,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     if (props.type === 'dynamic') {
       return props.renderSlide ? props.renderSlide(data.item, data.index) : null;
     }
-    return this.props.children[data.index];
+    return props.children[data.index];
   }
 
   onLayoutChange = (e: LayoutChangeEvent) => {
@@ -75,15 +75,16 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     let styles = this.styles;
     const data = props.type === 'dynamic' ? props.dataset : props.children;
     const autoPlay = props.animation === 'auto';
+    // TODO: loop prop on Carousel is not working Refer: https://github.com/meliorence/react-native-snap-carousel/issues/608
     return (
       <View style={styles.root} onLayout={this.onLayoutChange}>
-        {this.state.sliderWidth > 0 ? 
-          (<Carousel 
+        {this.state.sliderWidth > 0 ?
+          (<Carousel
             ref={ref => this.carouselRef = ref}
             data={data}
             firstItem={0}
             style={{width: '100%', height: '100%'}}
-            loop={true}
+            enableSnap={true}
             loopClonesPerSide={1}
             autoplay={autoPlay}
             activeSlideAlignment='start'
