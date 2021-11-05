@@ -25,16 +25,16 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
       </TabScreen>)
   }
 
-  onChange(newIndex: any) {
+  onChange(tabpanes: any, newIndex: any) {
     const props = this.state.props;
-    const selectedTabName = props.children[newIndex].props.name;
-    const deselectedTabName = props.children[this.oldIndex || props.defaultpaneindex].props.name;
+    const selectedTabName = tabpanes[newIndex].props.name;
+    const deselectedTabName = tabpanes[this.oldIndex || props.defaultpaneindex].props.name;
     this.invokeEventCallback('onChange', [{}, this.proxy, newIndex, this.oldIndex || props.defaultpaneindex, selectedTabName, deselectedTabName]);
     this.oldIndex = newIndex;
   }
 
   renderWidget(props: WmTabsProps) {
-    const tabpanes = props.children;
+    const tabpanes = props.children.filter((item: any) => item.props.show != false);
     return (
       <Tabs
         defaultIndex={props.defaultpaneindex}
@@ -45,7 +45,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         }}
         style={this.styles.root}
         mode="scrollable"
-        onChangeIndex={this.onChange.bind(this)}
+        onChangeIndex={this.onChange.bind(this, tabpanes)}
         showLeadingSpace={false}>
         {tabpanes
           ? isArray(tabpanes) && tabpanes.length
