@@ -44,7 +44,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   renderWizardHeader(item: any, index: number) {
     const isLastStep = index === this.numberOfSteps - 1;
     const isFirstStep = index === 0;
-    return (
+    return item.props.show != false ? (
       <View style={this.styles.headerWrapper} key={index+1}>
         <TouchableOpacity style={this.styles.stepWrapper}
                           onPress={this.updateCurrentStep.bind(this, index)} disabled={index >= this.state.currentStep}>
@@ -61,7 +61,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         {this.numberOfSteps > 1 && <View style={[this.styles.stepConnector, { width: isFirstStep || isLastStep ? '50%' : '100%',
                                                       left: isFirstStep ? '50%': '0%'}]}></View>}
       </View>
-    );
+    ) : null;
   }
 
   onPrev(steps: any) {
