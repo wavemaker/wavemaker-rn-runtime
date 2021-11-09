@@ -21,7 +21,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       multiline={true}
       numberOfLines={3}
       keyboardType={this.state.keyboardType}
-      defaultValue={props.datavalue}
+      value={this.state.textValue || props.datavalue || ''}
       autoCompleteType={props.autocomplete ? 'username' : 'off'}
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}

@@ -6,12 +6,12 @@ import { DEFAULT_CLASS, DEFAULT_STYLES } from "@wavemaker/app-rn-runtime/compone
 
 export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentState<T> {
   isInvalidNumber = false;
+  textValue: string = '';
 }
 
 export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends BaseNumberState<T>, L extends BaseNumberStyles> extends BaseComponent<T, S, L> {
   private DECIMAL;
   private GROUP;
-  textValue: any = '';
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles, defaultProps, defaultState);
     this.DECIMAL = '.';
@@ -25,7 +25,10 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   }
 
   onChangeText(value: any) {
-    this.textValue = value;
+    this.updateState({
+        textValue: value
+      } as S
+    );
     if (this.state.props.updateon === 'default') {
       this.updateDatavalue(value, null);
     }
@@ -98,7 +101,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
 
   onBlur(event: any) {
     if (this.state.props.updateon === 'blur') {
-      this.updateDatavalue(event.target.value || this.textValue, event);
+      this.updateDatavalue(event.target.value || this.state.textValue, event);
     }
 
     this.invokeEventCallback('onBlur', [ event, this.proxy]);
@@ -185,7 +188,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     // @ts-ignore
     if(this.state.props.required === false && val === '') {
       return false;
-    } 
+    }
     // id number is infinite then consider it as invalid value
     if (isNaN(val) || !isFinite(val) || (!Number.isInteger(props.step) &&
       this.countDecimals(val) > this.countDecimals(props.step))) {
@@ -220,6 +223,10 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         }
         break;
       case 'datavalue':
+        this.updateState({
+            textValue: $new
+          } as S
+        );
         this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
 
     }

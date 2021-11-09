@@ -8,12 +8,12 @@ import { BaseInputStyles } from './baseinput.styles';
 export class BaseInputState <T extends BaseInputProps> extends BaseComponentState<T> {
   keyboardType: any = 'default';
   isValid: boolean = true;
+  textValue: string = '';
 }
 
 export abstract class BaseInputComponent< T extends BaseInputProps, S extends BaseInputState<T>, L extends BaseInputStyles> extends BaseComponent<T, S, L> {
 
   isTouched: boolean = false;
-  textValue: any = '';
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles, defaultProps, defaultState);
   }
@@ -35,6 +35,10 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
         } as S);
         break;
       case 'datavalue':
+        this.updateState({
+            textValue: $new
+          } as S
+        );
         this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
     }
   }
@@ -46,7 +50,10 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   onChangeText(value: any) {
-    this.textValue = value;
+    this.updateState({
+        textValue: value
+      } as S
+    );
     if (this.state.props.updateon === 'default') {
       this.updateDatavalue(value, null);
     }
@@ -97,7 +104,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   onBlur(event: any) {
     this.isTouched = true;
     if (this.state.props.updateon === 'blur') {
-      this.updateDatavalue(event.target.value || this.textValue, event, 'blur');
+      this.updateDatavalue(event.target.value || this.state.textValue, event, 'blur');
     }
   }
 
