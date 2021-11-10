@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BaseVariable, VariableConfig, VariableEvents } from "./base-variable";
-import { isObject, forEach, get, merge, includes, toUpper } from "lodash";
+import { isObject, forEach, get, merge, includes, isEmpty, toUpper } from "lodash";
 import { WS_CONSTANTS } from "./utils/variable.constants";
 import {_setInput} from "./utils/variable.utils";
 import {$queue} from "./utils/inflight-queue";
@@ -35,7 +35,7 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
     _invoke(options? : any, onSuccess?: Function, onError?: Function) {
         let params = options ? (options.inputFields ? options.inputFields : options) : undefined;
         if (!params) {
-          const configParams = this.config.paramProvider();
+          const configParams = !isEmpty(this.params) ? this.params : this.config.paramProvider();
           params = Object.keys(configParams).length ? configParams : undefined;
         }
         const config = (this.config as ServiceVariableConfig);
@@ -71,7 +71,7 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
                   });
                   temp = currentParamOutput;
                   paramValue = currentParamOutput;
-                 } 
+                 }
               });
               paramValue = paramValue[param.name] ? paramValue[param.name] : paramValue;
             }
