@@ -1,15 +1,16 @@
 import React from 'react';
 
 export interface ToastOptions {
-    content: React.ReactNode;
+    content?: React.ReactNode;
     onClick?: () => void;
     onClose?: () => void;
     text: string;
     type: 'success' | 'warning' | 'error' | 'info' | 'loading';
     placement: string;
-    duration: Number;
+    duration?: Number;
     name: string;
     styles: any;
+    hideOnClick?: boolean;
 }
 
 export interface ToastService {

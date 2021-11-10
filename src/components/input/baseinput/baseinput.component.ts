@@ -52,11 +52,12 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   onChangeText(value: any) {
     this.updateState({
         textValue: value
-      } as S
+      } as S, () => {
+      if (this.state.props.updateon === 'default') {
+        this.updateDatavalue(value, null);
+      }
+      }
     );
-    if (this.state.props.updateon === 'default') {
-      this.updateDatavalue(value, null);
-    }
   }
 
   handleValidation(value: any) {

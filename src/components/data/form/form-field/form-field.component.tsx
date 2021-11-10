@@ -2,18 +2,18 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
-import { forEach } from 'lodash';
+import { isEqual } from 'lodash';
 
 import WmFormFieldProps from './form-field.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormFieldStyles } from './form-field.styles';
 import {PERFORMANCE_LOGGER} from "@wavemaker/app-rn-runtime/core/logger";
 
 export class WmFormFieldState extends BaseComponentState<WmFormFieldProps> {
-  datavalue: any;
   isValid = true;
 }
 
 export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormFieldState, WmFormFieldStyles> {
+  public form: any;
   constructor(props: WmFormFieldProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormFieldProps(), new WmFormFieldState());
   }
@@ -21,13 +21,13 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
       case 'datavalue':
-        if ($old || $new) {
+        if (!isEqual($old, $new)) {
           PERFORMANCE_LOGGER.debug(`form field ${this.props.name} changed from ${$old} to ${$new}`);
-          this.props.onChange(undefined, this.proxy, $new);
+          this.updateState({props: {datavalue: $new} } as any, this.props.onChange.bind(this, undefined, this, $new, $old));
         }
         break;
       case 'defaultvalue':
-        this.updateState({ props: { datavalue: $new }} as WmFormFieldState);
+        this.updateState({props: { datavalue: $new } } as any);
         break;
     }
   }
@@ -42,7 +42,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
 
   renderWidget(props: WmFormFieldProps) {
     var childrenWithProps = React.Children.map(props.renderFormFields(this.proxy).props.children, (child) => {
-      return React.cloneElement(child, { isValid: this.state.isValid, onFieldChange: this.onPropertyChange.bind(this) });
+      return React.cloneElement(child, {datavalue: props.datavalue, isValid: this.state.isValid, onFieldChange: this.onPropertyChange.bind(this), formRef: props.formRef });
     });
     return (
       <View style={this.styles.root}>{childrenWithProps}

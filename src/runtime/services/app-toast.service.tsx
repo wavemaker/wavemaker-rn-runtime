@@ -11,6 +11,14 @@ class AppToastService implements ToastService {
         if (i < 0) {
             this.toastsOpened.push(options);
             injector.get<AppConfig>('APP_CONFIG').refresh();
+            // hide the toast when toaster is clicked
+            if (options.hideOnClick) {
+              let cb = options.onClick;
+              options.onClick = () => {
+                this.hideToast(options);
+                cb && cb();
+              }
+            }
             if (options.duration) {
                 setTimeout(() => {
                     this.hideToast(options);
@@ -18,11 +26,8 @@ class AppToastService implements ToastService {
                 }, options.duration);
             }
         }
-        
     }
 
-    
-    
     public hideToast(options?: ToastOptions) {
         const i = options ? this.toastsOpened.findIndex(o => o.name === options.name) : (this.toastsOpened.length - 1);
         if (i >= 0) {
