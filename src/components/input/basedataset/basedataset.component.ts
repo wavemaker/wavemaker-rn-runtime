@@ -134,7 +134,6 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
       case 'match':
         this.setGroupData(this.state.dataItems);
       case 'datavalue':
-        this.setDataItems(this.state.props.dataset);
         this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
     }
   }

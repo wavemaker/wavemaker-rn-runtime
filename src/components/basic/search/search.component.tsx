@@ -103,6 +103,15 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
      this.invokeEventCallback('onChange', [ undefined, this.proxy, value, this.prevDatavalue ]);
   }
 
+  onPropertyChange(name: string, $new: any, $old: any) {
+     if (name === 'datavalue') {
+       this.setDataItems(this.state.props.dataset);
+       this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
+    } else {
+       super.onPropertyChange(name, $new, $old);
+     }
+  }
+
   onFocus() {
     if (this.state.props.type === 'autocomplete') {
       this.updateFilteredData(this.state.searchQuery || '');
