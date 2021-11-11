@@ -1,6 +1,6 @@
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.props';
-import { find, isEqual, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isObject, isArray } from 'lodash';
+import { find, isEqual,isEmpty, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isObject, isArray } from 'lodash';
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseDatasetStyles } from "@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.styles";
 import moment from "moment";
 
@@ -134,6 +134,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
       case 'match':
         this.setGroupData(this.state.dataItems);
       case 'datavalue':
+        this.setDataItems(this.state.props.dataset);
         this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
     }
   }
@@ -208,7 +209,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
             displayfield: get(d, this.state.props.displayfield) ||  get(d, this.state.props.displaylabel),
             datafield: this.state.props.datafield === 'All Fields' ? d : get(d, this.state.props.datafield),
             displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : get(d, this.state.props.displayfield),
-            selected: includes(datavalueItems, get(d, this.state.props.datafield)) || this.state.props.datafield === 'All Fields' ? isEqual(datavalue, d) : datavalue === get(d, this.state.props.datafield) ? true : false,
+            selected: includes(datavalueItems, get(d, this.state.props.datafield)) || (this.state.props.datafield === 'All Fields' ? !isEmpty(datavalueItems) ? includes(datavalueItems, d) : isEqual(datavalue, d) : datavalue === get(d, this.state.props.datafield)),
             imgSrc: get(d, this.state.props.displayimagesrc)
           };
         });
