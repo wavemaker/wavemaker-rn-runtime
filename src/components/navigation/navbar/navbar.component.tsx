@@ -12,7 +12,6 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmNavbarStyles } from './navbar.styles';
 class WmNavbarState<T extends BaseNavProps> extends BaseNavState<T> {}
 
 export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarState<WmNavbarProps>, WmNavbarStyles> {
-
   constructor(props: WmNavbarProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmNavbarProps(), new WmNavbarState());
   }
@@ -20,9 +19,9 @@ export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarSt
   computeItemStyles(props: WmNavbarProps) {
     let activeItemStyles = this.theme.getStyle('app-navitem-active');
     let itemStyles = this.theme.getStyle('app-navitem');
-    const indentStyle =  props.indent ? { 
-      navAnchorItem: { 
-        root: {  
+    const indentStyle =  props.indent ? {
+      navAnchorItem: {
+        root: {
           paddingLeft: props.indent
         }
       }
@@ -37,10 +36,11 @@ export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarSt
 
   renderNavItem(item: NavigationDataItem, props: WmNavbarProps) {
     const indent = this.styles.childNav.paddingLeft as number || 0;
-    const {activeItemStyles, itemStyles} = this.computeItemStyles(props); 
+    const {activeItemStyles, itemStyles} = this.computeItemStyles(props);
     return (
       <View style={this.styles.navitem} key={item.key} >
         <WmNavItem item={item}
+          onSelect={props.onSelect}
           styles={item.isactive ? activeItemStyles: itemStyles}
           view={item.childnavigation ? 'dropdown' : 'anchor'}>
           {item.childnavigation && (
@@ -56,7 +56,6 @@ export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarSt
               itemlink={props.itemlink}
               isactive={props.isactive}
               indent={props.indent || indent + indent}
-              onSelect={props.onSelect}
               ischildnav={true}>
             </WmNavbar>)}
         </WmNavItem>
