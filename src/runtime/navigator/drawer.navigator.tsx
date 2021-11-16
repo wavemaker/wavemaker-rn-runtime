@@ -17,10 +17,11 @@ class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, a
 
   render(){
     return (<Drawer.Navigator 
+      initialRouteName="pages"
       drawerContent={this.props.content}
       gestureHandlerProps = {{enabled: !this.props.hide}} 
       drawerType={this.props.type} >
-      <Drawer.Screen name="leftDrawer">
+      <Drawer.Screen name="pages">
         {(_props) => this.props.rootComponent}
       </Drawer.Screen>
     </Drawer.Navigator>);

@@ -36,7 +36,7 @@ class Screen extends React.Component {
 
   private createPage() {
     const props = this.props as any;
-    return React.createElement(pages[props.route.params.pageName].component, {...props, destroyMe: () => {
+    return React.createElement(pages[props.route.name].component, {...props, destroyMe: () => {
       setTimeout(() => {
         this.setState(() => ({renew: true, page: null}));
       }, 100);
@@ -55,9 +55,6 @@ const AppStackNavigator = (props: AppStackNavigatorProps) => {
       return (
         <Stack.Screen key={p.name}
           name={p.name}
-          initialParams={{
-            pageName: p.name
-          }}
           component={Screen}
           options={{
             headerShown: false,

@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash';
+import { clone, isEqual } from 'lodash';
 import React, { ReactNode } from 'react';
 import { Linking } from 'react-native';
 import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -27,7 +27,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     
     constructor(props: PageProps) {
       super(props);
-      this.pageName = props.route.params.pageName;
+      this.pageName = props.route.name;
       this.pageParams = props.route.params;
       this.appConfig.currentPage = this;
       this.appConfig.drawer?.setContent(null);
@@ -79,11 +79,13 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
     goToPage(pageName: string, params: any) {
       const navigation = (this.props as PageProps).navigation;
-      if (pageName !== this.pageName || !isEqual(params, this.pageParams)) {
+      const _params = clone(params);
+      delete _params['pageName'];
+      if (pageName !== this.pageName || !isEqual(_params, this.pageParams)) {
         if (pageName === this.pageName) {
-          navigation.push(pageName, params);
+          navigation.push(pageName, _params);
         } else {
-          navigation.navigate(pageName, params);
+          navigation.navigate(pageName, _params);
         }
         if (this.cache) {
           this.onDetach();
@@ -95,7 +97,12 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     }
 
     goBack() {
-      (this.props as PageProps).navigation.goBack();
+      const navigation = (this.props as PageProps).navigation;
+      if (navigation.canGoBack()) {
+        navigation.goBack();
+      } else if (window && window.history) {
+        window.history.back();
+      }
       return Promise.resolve();
     }
 
