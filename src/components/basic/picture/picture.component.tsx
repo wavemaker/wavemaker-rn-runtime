@@ -51,22 +51,20 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
   onViewLayoutChange = (e: LayoutChangeEvent) => {
     let imageWidth = e.nativeEvent.layout.width;
     let imageHeight = e.nativeEvent.layout.height;
+    if (!this.styles.root.height 
+        || (typeof this.styles.root.height === 'string'
+          && !this.styles.root.height.includes('%'))) {
+        imageHeight = 0;
+    }
     if (imageWidth && !imageHeight) {
       imageHeight = imageWidth * this.state.naturalImageHeight / this.state.naturalImageWidth;
-      this.updateState({
-        imageHeight: imageHeight
-      } as WmPictureState);
     } else if (imageHeight && !imageWidth) {
       imageWidth = imageHeight * this.state.naturalImageWidth / this.state.naturalImageHeight;
-      this.updateState({
-        imageWidth: imageWidth
-      } as WmPictureState);
-    } else {
-      this.updateState({
-        imageWidth: imageWidth, 
-        imageHeight: imageHeight
-      } as WmPictureState);
     }
+    this.updateState({
+      imageWidth: imageWidth, 
+      imageHeight: imageHeight
+    } as WmPictureState);
   };
 
   createShape(shape: string | undefined, imageWidth?: number | string): WmPictureStyles {
