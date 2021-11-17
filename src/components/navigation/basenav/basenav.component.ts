@@ -23,6 +23,15 @@ export abstract class BaseNavComponent< T extends BaseNavProps, S extends BaseNa
     super(props, defaultClass, defaultStyles, defaultProps, defaultState);
   }
 
+  getValue(item: any, val?: string | ((item: any) => string)) {
+    if (typeof val === 'string') {
+      return item[val];
+    } else if (typeof val === 'function') {
+      return val(item);
+    }
+    return '';
+  }
+
   setDataItems(dataset: any = this.state.props.dataset) {
     const name = this.props.name;
     let dataItems = [] as NavigationDataItem[];
@@ -41,11 +50,11 @@ export abstract class BaseNavComponent< T extends BaseNavProps, S extends BaseNa
       dataItems = (dataset as any[]).map((d, i) => {
         return {
           key: `${name}_item${i}`,
-          label: this.state.props.itemlabel ? d[this.state.props.itemlabel]: null,
-          icon: this.state.props.itemicon ? d[this.state.props.itemicon]: null,
-          link: this.state.props.itemlink ? d[this.state.props.itemlink] : null,
-          badge: this.state.props.itembadge ? d[this.state.props.itembadge] : null,
-          isactive: this.state.props.isactive ? d[this.state.props.isactive] : null,
+          label: this.getValue(d, this.state.props.itemlabel),
+          icon: this.getValue(d, this.state.props.itemicon),
+          link: this.getValue(d, this.state.props.itemlink),
+          badge: this.getValue(d, this.state.props.itembadge),
+          isactive: this.getValue(d, this.state.props.isactive),
           childnavigation: this.state.props.itemchildren ? d[this.state.props.itemchildren] : null
         } as NavigationDataItem;
       });
