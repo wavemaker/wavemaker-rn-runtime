@@ -1,6 +1,7 @@
 import React from 'react';
 
 export interface ModalOptions {
+    name?: string;
     content: React.ReactNode;
     modalStyle?: any;
     contentStyle?: any;

@@ -30,16 +30,13 @@ class AppModalService implements ModalService {
         const i = options ? this.modalsOpened.findIndex(o => o === options) : (this.modalsOpened.length - 1);
         if (i >= 0) {
           Promise.resolve()
-            .then(() => this.animatedRef && this.animatedRef.triggerExit())
-            .then((res: any) => {
-              const o = this.modalsOpened.splice(i, 1)[0];
-              const p: any = o && o.onClose && o.onClose();
-              if (p && p instanceof Promise) {
-                p.then(() => this.showLastModal());
-              } else {
-                this.showLastModal();
-              }
+            .then(() => this.modalsOpened.length > 1 && this.animatedRef && this.animatedRef.triggerExit())
+            .then(() => {
+              const o = this.modalsOpened[i];
+              return o && o.onClose && o.onClose();
             })
+            .then(() => this.modalsOpened.splice(i, 1))
+            .then(() => this.showLastModal());
         }
     }
 }

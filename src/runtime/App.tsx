@@ -215,7 +215,7 @@ export default abstract class BaseApp extends React.Component {
         AppModalService.modalsOpened.map((o, i) => {
           AppModalService.animatedRef = this.animatedRef;
           return (
-            <TouchableOpacity activeOpacity={1} key={i}
+            <TouchableOpacity activeOpacity={1} key={(o.name || '') + i}
                               onPress={() => o.isModal && AppModalService.hideModal(o)}
                               style={deepCopy(styles.appModal,
                                 o.centered ? styles.centeredModal: null,
