@@ -7,6 +7,7 @@ import BasePrefab from './base-prefab.component';
 export interface PartialProps extends FragmentProps {
   serviceDefinitions: any;
   prefab: any;
+  parent: string;
 }
 
 export interface PartialState extends FragmentState<PartialProps> {}

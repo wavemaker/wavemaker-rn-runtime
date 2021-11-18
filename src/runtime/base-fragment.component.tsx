@@ -10,8 +10,8 @@ import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core
 import App from './App';
 import WmFormField from "@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component";
 import WmForm from "@wavemaker/app-rn-runtime/components/data/form/form.component";
-import { isArray } from 'lodash-es';
-import { ToastConsumer, ToastOptions, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
+import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
+import BasePartial from './base-partial.component';
 
 
 export class FragmentProps extends BaseProps {
@@ -108,6 +108,13 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       if (w instanceof BaseFragment && w !== this) {
         this.fragments[id] = w;
       }
+      if (w instanceof BasePartial) {
+        const parentName = (w as BasePartial).props.parent;
+        const parent = this.Widgets[parentName];
+        if (parent) {
+          parent.Widgets = w.Widgets;
+        }
+      }
     }
 
     onComponentDestroy(w: BaseComponent<any, any, any>) {
@@ -119,6 +126,13 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       if (w instanceof WmForm) {
         w.formWidgets = [];
         delete w.formFields;
+      }
+      if (w instanceof BasePartial) {
+        const parentName = (w as BasePartial).props.parent;
+        const parent = this.Widgets[parentName];
+        if (parent) {
+          delete parent.Widgets;
+        }
       }
     }
 
