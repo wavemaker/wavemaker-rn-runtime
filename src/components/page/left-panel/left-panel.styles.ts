@@ -6,7 +6,7 @@ export type WmLeftPanelStyles = BaseStyles & {};
 export const DEFAULT_CLASS = 'app-left-panel';
 export const DEFAULT_STYLES: WmLeftPanelStyles = {
     root: {
-        flex: 1
+        minHeight: '100%'
     },
     text: {}
 };
