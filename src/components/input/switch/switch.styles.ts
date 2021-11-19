@@ -34,6 +34,7 @@ export const DEFAULT_STYLES: WmSwitchStyles = {
   } as WmIconStyles,
   button: {
     backgroundColor: ThemeVariables.switchBgColor,
+    color: ThemeVariables.switchTextColor,
     flex: 1,
     borderRadius: 0,
     borderColor: ThemeVariables.switchBorderColor

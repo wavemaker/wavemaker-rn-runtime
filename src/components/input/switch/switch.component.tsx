@@ -52,7 +52,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
                           (<WmIcon styles={this.styles.loadingIcon}
                                   iconclass={item.icon}
                                   caption={displayText}></WmIcon>)
-                          : (<View><Text style={isSelected ? {color: this.styles.selectedButton.color} : {}}>{displayText}</Text></View>)}
+                          : (<View><Text style={{color: isSelected ? this.styles.selectedButton.color : this.styles.button.color }}>{displayText}</Text></View>)}
                     key={item.key}
                     value={this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield} />
     );
