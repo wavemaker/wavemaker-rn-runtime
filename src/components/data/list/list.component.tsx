@@ -120,7 +120,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             renderItem={(itemInfo) => (
             <TouchableWithoutFeedback onPress={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
               <View style={this.state.selectedindex === itemInfo.index ? this.styles.selectedItem : {}}>
-                {props.renderItem(itemInfo.item, itemInfo.index)}
+                {props.renderItem(itemInfo.item, itemInfo.index, this)}
               </View>
             </TouchableWithoutFeedback>
           )}></FlatList>
