@@ -48,8 +48,11 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
   updateFormat(pattern: string, val: string) {
     if (pattern === 'datepattern') {
-      this.state.props.datepattern = val;
-      this.state.props.datepattern = this.state.props.datepattern.replace(/d/g, 'D');
+      this.updateState({
+        props: {
+          datepattern: val.replace(/d/g, 'D')
+        }
+      } as BaseDatetimeState);
     }
   }
   parse(date: string | number, format: string) {
@@ -188,11 +191,19 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       is24Hour={true}
       display="default"
       onChange={(event: Event, date?: Date) => {
+        if (date && this.state.props.mode === 'datetime' && this.modes[0] === 'time') {
+          const dateSelected = this.state.dateValue;
+          date = moment(date)
+            .set('month', dateSelected.getMonth())
+            .set('year', dateSelected.getFullYear())
+            .set('date', dateSelected.getDate())
+            .toDate();
+        }
+        this.onDateChange(event, date || this.state.dateValue);
         if (this.modes.length <= 1) {
           this.onBlur();
           onDismiss && onDismiss();
         }
-        this.onDateChange(event, date || this.state.dateValue);
       }}
       minimumDate={props.mindate as Date}
       maximumDate={props.maxdate as Date}
@@ -204,7 +215,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     return (<ModalConsumer>{(modalService: ModalService) => {
       this.nativeModalOptions.content = (<>
         {this.renderNativeWidget(props, () => modalService.hideModal(this.nativeModalOptions))}
-        <Text>HELLO</Text>
         </>);
       this.nativeModalOptions.centered = true;
       this.nativeModalOptions.onClose = () => {
