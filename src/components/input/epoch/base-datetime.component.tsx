@@ -11,7 +11,6 @@ import WebDatePicker from './date-picker.component';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
-import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
 
 export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   showDatePicker = false;
@@ -31,13 +30,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
 
   constructor(props: WmDatetimeProps, defaultClass = DEFAULT_CLASS, defaultStyles = DEFAULT_STYLES, defaultProps = new WmDatetimeProps()) {
     super(props, defaultClass, defaultStyles, defaultProps);
-    if (!this.state.props.datepattern) {
-      this.updateFormat('datepattern', AppI18nService.dateFormat);
-    }
-    this.state.props.datepattern = this.state.props.datepattern?.replace(/d/g, 'D');
-    this.state.props.outputformat = this.state.props.outputformat?.replace(/d/g, 'D');
-    this.state.props.datepattern = this.state.props.datepattern?.replace(/E/g, 'd');
-    this.state.props.outputformat = this.state.props.outputformat?.replace(/E/g, 'd');
   }
 
   format(date: Date | number | undefined, format: string) {
@@ -46,15 +38,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }
     return date && moment(date).format(format);
   }
-  updateFormat(pattern: string, val: string) {
-    if (pattern === 'datepattern') {
-      this.updateState({
-        props: {
-          datepattern: val.replace(/d/g, 'D')
-        }
-      } as BaseDatetimeState);
-    }
-  }
+
   parse(date: string | number, format: string) {
     if (format === 'timestamp') {
       if (isString(date)) {

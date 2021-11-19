@@ -12,6 +12,7 @@ import WmFormField from "@wavemaker/app-rn-runtime/components/data/form/form-fie
 import WmForm from "@wavemaker/app-rn-runtime/components/data/form/form.component";
 import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
 import BasePartial from './base-partial.component';
+import AppI18nService from './services/app-i18n.service';
 
 
 export class FragmentProps extends BaseProps {
@@ -141,6 +142,18 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         return this.appConfig.url + (url.startsWith('/') ? '' : '/') + url;
       }
       return url;
+    }
+
+    getDateFormat(fmt?: string) {
+      return (fmt || AppI18nService.dateFormat).replace(/d/g, 'D').replace(/E/g, 'd').replace(/y/g, 'Y');
+    }
+
+    getTimeFormat(fmt?: string) {
+      return fmt || AppI18nService.timeFormat;
+    }
+
+    getDateTimeFormat(fmt?: string) {
+      return (fmt || AppI18nService.dateTimeFormat).replace(/d/g, 'D').replace(/E/g, 'd').replace(/y/g, 'Y');
     }
 
     getStyle(classes: string, inlineStyles:any = {}) {
