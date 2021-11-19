@@ -4,8 +4,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmToggleProps from './toggle.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmToggleStyles } from './toggle.styles';
-import {TouchableOpacity} from "react-native-gesture-handler";
-import {View} from "react-native";
+import {View} from "react-native";;
 
 export class WmToggleState extends BaseComponentState<WmToggleProps> {
   isSwitchOn: boolean = false;
@@ -48,18 +47,20 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
 
   renderWidget(props: WmToggleProps) {
     return (
-      <View>
-        <TouchableOpacity style={this.styles.root} onPress={() => {
-          if (!props.readonly) {
-            this.invokeEventCallback('onFocus', [null, this]);
-          }
-          this.invokeEventCallback('onTap', [null, this]);
-        }}>
-          <Switch value={this.state.isSwitchOn}
-                  color={this.styles.text.color}
-                  disabled={props.readonly || props.disabled}
-                  onValueChange={this.onToggleSwitch.bind(this)} />
-        </TouchableOpacity>
+      <View style={this.styles.root}>
+        <Switch value={this.state.isSwitchOn}
+            color={this.styles.text.color}
+            disabled={props.readonly || props.disabled}
+            onValueChange={this.onToggleSwitch.bind(this)} 
+            onTouchEndCapture={() => {
+              // Added setTimeout to smooth animation
+              setTimeout(() => {
+                if (!props.readonly) {
+                  this.invokeEventCallback('onFocus', [null, this]);
+                }
+                this.invokeEventCallback('onTap', [null, this]);
+              }, 500);
+            }}/>
       </View>
     );
   }
