@@ -25,6 +25,22 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmMessageProps());
   }
 
+  showMessage() {
+    this.updateState({
+      props: {
+        show: true
+      }
+    } as WmMessageState);
+  }
+
+  hideMessage() {
+    this.updateState({
+      props: {
+        show: false
+      }
+    } as WmMessageState);
+  }
+
   close = () => {
     this.updateState({props: {
       show : false
