@@ -1,8 +1,9 @@
 import React from 'react';
-import { TouchableWithoutFeedback, View } from 'react-native';
+import { Text, TouchableWithoutFeedback, View} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { isArray } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { getGroupedData} from "@wavemaker/app-rn-runtime/core/utils";
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -13,6 +14,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmListStyles } from './list.styles';
 
 export class WmListState extends BaseComponentState<WmListProps> {
   public selectedindex: any;
+  groupedData: any;
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -23,7 +25,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmListProps());
   }
 
-  private onSelect($item: any, $index: number) {
+  private onSelect($item: any, $index: any) {
     if (!this.state.props.disableitem) {
       this.selecteditem = $item;
       this.updateState({
@@ -38,7 +40,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     if (this.initialized
       && props.dataset
       && props.dataset.length) {
-        this.onSelect(props.dataset[0], 0);
+        const index = props.groupby ? '00': 0;
+        this.onSelect(props.dataset[0], index);
       }
   }
 
@@ -47,6 +50,15 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     this.updateState({
       selectedindex: -1
     } as WmListState);
+  }
+
+  setGroupData(items: any) {
+    const dataItems = items;
+    const props = this.state.props;
+    if (props.groupby) {
+      const groupedData = dataItems && getGroupedData(dataItems, props.groupby, props.match, props.orderby, props.dateformat);
+      this.updateState({ groupedData: groupedData } as WmListState);
+    }
   }
 
   public onPropertyChange(name: string, $new: any, $old: any) {
@@ -59,6 +71,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         }
       break;
       case 'dataset':
+        if (this.state.props.groupby) {
+          this.setGroupData(props.dataset);
+        }
         if (props.selectfirstitem) {
           this.selectFirstItem();
         } else {
@@ -68,6 +83,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       case 'disableitem':
         this.deselect();
       break;
+      case 'groupby':
+      case 'match':
+        this.setGroupData(this.state.props.dataset);
+        break;
     }
   }
 
@@ -120,15 +139,29 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                 (<WmIcon styles={this.styles.loadingIcon}
                   iconclass={props.loadingicon}
                   caption={props.loadingdatamsg}></WmIcon>) : null}
-            data={dataset}
+            data={props.groupby ? this.state.groupedData : dataset}
             ListEmptyComponent = {() => <WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>}
-            renderItem={(itemInfo) => (
-            <TouchableWithoutFeedback onPress={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
-              <View style={this.state.selectedindex === itemInfo.index ? this.styles.selectedItem : {}}>
-                {props.renderItem(itemInfo.item, itemInfo.index, this)}
-              </View>
-            </TouchableWithoutFeedback>
-          )}></FlatList>
+            renderItem={(itemInfo) =>
+              this.props.groupby ? (
+                  <View>
+                    <Text style={this.styles.groupHeaderTitle}>{itemInfo.item.key}</Text>
+                    {
+                      itemInfo.item.data && itemInfo.item.data.length
+                        ? itemInfo.item.data.map((itemObj: any, index: any) =>
+                          (<TouchableWithoutFeedback key={`${itemObj._groupIndex}${index}`} onPress={(e) => this.onSelect(itemObj, `${itemObj._groupIndex}${index}`)}>
+                            <View style={this.state.selectedindex === `${itemObj._groupIndex}${index}` ? this.styles.selectedItem : {}}>
+                              {props.renderItem(itemObj, index, this)}
+                            </View>
+                          </TouchableWithoutFeedback>)
+                        ) : null
+                    }
+                  </View>) :
+                (<TouchableWithoutFeedback onPress={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
+                <View style={this.state.selectedindex === itemInfo.index ? this.styles.selectedItem : {}}>
+                  {props.renderItem(itemInfo.item, itemInfo.index, this)}
+                </View>
+            </TouchableWithoutFeedback>)
+            }></FlatList>
         </View>
     );
     return list;
