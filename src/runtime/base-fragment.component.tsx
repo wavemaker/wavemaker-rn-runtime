@@ -83,6 +83,9 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       const id = w.props.id || w.props.name;
 
       if (w instanceof WmForm) {
+        if (!this.Widgets[id]) {
+          this.Widgets[id] = w;
+        }
         const formWidgets = this.Widgets[id].formWidgets;
         const formFields = this.Widgets[id].formFields;
         this.Widgets[id] = w;

@@ -23,7 +23,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
       case 'datavalue':
         if (!isEqual($old, $new)) {
           PERFORMANCE_LOGGER.debug(`form field ${this.props.name} changed from ${$old} to ${$new}`);
-          this.updateState({props: {datavalue: $new} } as any, this.props.onChange.bind(this, undefined, this, $new, $old));
+          this.props.onChange(undefined, this, $new, $old);
         }
         break;
       case 'defaultvalue':
