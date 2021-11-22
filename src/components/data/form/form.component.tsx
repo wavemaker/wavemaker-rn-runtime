@@ -1,23 +1,26 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
 import { isArray, forEach, isEqual, isObject, get, set } from 'lodash';
 
+import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import WmFormField, {WmFormFieldState} from '@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component';
+import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
+
 import WmFormProps from './form.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormStyles } from './form.styles';
-import WmLabel from "@wavemaker/app-rn-runtime/components/basic/label/label.component";
-import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
-import { ToastConsumer, ToastService } from "@wavemaker/app-rn-runtime/core/toast.service";
+import WmFormFieldProps from "@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.props";
 
 export class WmFormState extends BaseComponentState<WmFormProps> {
   isValid = false;
 }
 export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFormStyles> {
-  public formFields: any;
+  public formFields: Array<BaseComponent<any, any, any>> = []; // contains array of direct widget elements [WmText, WmNumber, WmCurrent]
   private formdataoutput: any;
   private toaster: any;
-  formWidgets: any;
+  formWidgets: { [key: string]: WmFormField } = {}; // object containing key as name of formField and value as WmFormField proxy.
   constructor(props: WmFormProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormProps());
   }
@@ -26,8 +29,11 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     super.componentDidMount();
   }
 
-  registerFormFields(formFields: any, formWidgets: any) {
-    forEach(formFields, w => {
+  registerFormFields(
+    formFields: Array<BaseComponent<any, any, any>>,
+    formWidgets: { [key: string]: WmFormField }
+  ) {
+    forEach(formWidgets, (w: WmFormField) => {
       if (!w.form) {
         w.form = this;
       }
@@ -42,14 +48,13 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   }
 
   applyFormData() {
-    forEach(this.formWidgets, (fw) => {
-      const propName = fw.props.name.replace('_formWidget', '');
-      const key = get(this.formFields[propName], 'formKey') || propName;
+    forEach(this.formWidgets, (fw: WmFormField, fwName: string) => {
+      const key = get(get(this.formFields, fwName), 'formKey') || fwName;
       fw.updateState({
         props : {
           datavalue: get(this.state.props.formdata, key)
         }
-      });
+      } as WmFormFieldState);
     });
   }
 
@@ -66,7 +71,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         props : {
           datavalue: ''
         }
-      });
+      } as WmFormFieldState);
     });
   }
 
@@ -92,7 +97,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       if(!val && this.formWidgets[key]?.props.required && widgetsWithUndefinedValue.indexOf(this.formWidgets[key]?.props.widget) < 0) {
         isValid = false;
       }
-      this.formWidgets[key] && this.formWidgets[key].props.onValidate(this.formWidgets[key]);
+      const onValidate = get(this.formWidgets[key], 'props.onValidate');
+      onValidate && onValidate(this.formWidgets[key]);
     });
     if(!isValid) {
       return false;

@@ -94,18 +94,18 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       }
       if (w.props.formfield) {
         if (!this.Widgets[w.props.formRef]) {
-          this.Widgets[w.props.formRef] = {formWidgets: []};
+          this.Widgets[w.props.formRef] = {formFields: []};
         }
-        this.Widgets[w.props.formRef].formWidgets.push(w);
+        this.Widgets[w.props.formRef].formFields.push(w);
         return;
       }
       if (w instanceof WmFormField) {
         if (!this.Widgets[w.props.formRef]) {
           this.Widgets[w.props.formRef] = {};
         }
-        this.Widgets[w.props.formRef].formFields = this.Widgets[w.props.formRef].formFields || {};
+        this.Widgets[w.props.formRef].formWidgets = this.Widgets[w.props.formRef].formWidgets || {};
         // @ts-ignore
-        this.Widgets[w.props.formRef].formFields[w.props.id] = w;
+        this.Widgets[w.props.formRef].formWidgets[w.props.id] = w;
         return;
       }
       this.Widgets[id] = w;
@@ -128,8 +128,8 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         delete this.fragments[id];
       }
       if (w instanceof WmForm) {
-        w.formWidgets = [];
-        delete w.formFields;
+        w.formWidgets = {};
+        w.formFields = [];
       }
       if (w instanceof BasePartial) {
         const parentName = (w as BasePartial).props.parent;

@@ -11,4 +11,5 @@ export default class WmFormFieldProps extends BaseProps {
   widget: any;
   onFieldChange: any;
   formKey: string = '';
+  onValidate?: Function;
 }
