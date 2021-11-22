@@ -105,7 +105,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         }
         this.Widgets[w.props.formRef].formWidgets = this.Widgets[w.props.formRef].formWidgets || {};
         // @ts-ignore
-        this.Widgets[w.props.formRef].formWidgets[w.props.id] = w;
+        this.Widgets[w.props.formRef].formWidgets[w.props.name] = w;
         return;
       }
       this.Widgets[id] = w;
