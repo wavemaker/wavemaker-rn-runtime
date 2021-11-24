@@ -24,7 +24,7 @@ export default class WmContainer extends BaseComponent<WmContainerProps, WmConta
           this.updateState({
             isPartialLoaded: true
           } as WmContainerState,
-          () => this.invokeEventCallback('onLoad', [null, this]));
+          () => this.invokeEventCallback('onLoad', [this]));
         });
       }
       return props.renderPartial();
