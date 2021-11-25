@@ -95,6 +95,8 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       if (w.props.formfield) {
         if (!this.Widgets[w.props.formRef]) {
           this.Widgets[w.props.formRef] = {formFields: []};
+        } else if (!this.Widgets[w.props.formRef].formFields) {
+          this.Widgets[w.props.formRef].formFields = [];
         }
         this.Widgets[w.props.formRef].formFields.push(w);
         return;
