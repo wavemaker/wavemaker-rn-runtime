@@ -1,6 +1,7 @@
 import React from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
+import { TapEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmFormActionProps from './form-action.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormActionStyles } from './form-action.styles';
@@ -13,8 +14,8 @@ export default class WmFormAction extends BaseComponent<WmFormActionProps, WmFor
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormActionProps());
   }
 
-  onClick(cb: Function | undefined) {
-    cb && cb();
+  onClick($event: TapEvent, cb: Function | undefined) {
+    cb && cb($event);
   }
 
   renderWidget(props: WmFormActionProps) {
@@ -26,9 +27,9 @@ export default class WmFormAction extends BaseComponent<WmFormActionProps, WmFor
         styles={this.theme.getStyle(btnClass)}
         name={props.name}
         iconclass={props.iconclass}
-        onTap={
-          props.formAction && this.onClick.bind(undefined, props.formAction)
-        }
+        onTap={($event: any) => {
+          this.onClick($event, props.formAction);
+        }}
       />
     );
   }
