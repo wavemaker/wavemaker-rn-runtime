@@ -13,6 +13,7 @@ import WmForm from "@wavemaker/app-rn-runtime/components/data/form/form.componen
 import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
 import BasePartial from './base-partial.component';
 import AppI18nService from './services/app-i18n.service';
+import { isEqual } from 'lodash';
 
 
 export class FragmentProps extends BaseProps {
@@ -47,6 +48,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public toaster: any;
     public formatters: Map<string, Formatter>;
     public serviceDefinitions = {} as any;
+    public watchers = [] as any;
     public notification = {
                             text: '',
                             title: '',
@@ -168,6 +170,21 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       return inlineStyles;
     }
 
+    watch(exps:(() =>any)[], onChange: (prev: any[], now: any[]) => any) {
+      let prev = [] as any[];
+      const watcher = () => {
+        const now = exps.map(e => this.eval(e));
+        if (!isEqual(prev, now)) {
+          prev = now;
+          onChange && onChange(prev, now);
+        }
+      };
+      this.watchers.push(watcher);
+      return () => {
+        this.watchers = this.watchers.filter((w : any)=> w === watcher);
+      };
+    }
+
     eval(fn: Function, failOnError = false) {
       try {
         return fn.call(this);
@@ -234,6 +251,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     forceUpdate() {
       super.forceUpdate();
+      this.watchers.forEach((w: Function) => w());
       Object.values(this.fragments).forEach((f: any) => (f as BaseFragment<any, any>).forceUpdate());
     }
 

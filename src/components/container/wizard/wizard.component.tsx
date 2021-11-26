@@ -9,6 +9,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmWizardStyles } from './wizard.styles';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.component';
+import WmWizardstep from './wizardstep/wizardstep.component';
 
 export class WmWizardState extends BaseComponentState<WmWizardProps> {
   currentStep: number = 0;
@@ -17,11 +18,13 @@ export class WmWizardState extends BaseComponentState<WmWizardProps> {
 
 export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState, WmWizardStyles> {
   private numberOfSteps: number = null as any;
+  private steps = [] as WmWizardstep[];
+  private newIndex: number = 0;
   constructor(props: WmWizardProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmWizardProps());
     const steps = props.children;
     let defaultStepIndex = 0;
-    if (isArray(steps)) {
+    if (isArray(steps) && props.defaultstep) {
       steps.map((item: any, index: any) => {
         if (props.defaultstep === item.props.name) {
           defaultStepIndex = index;
@@ -31,9 +34,16 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     this.updateCurrentStep(defaultStepIndex);
   }
 
-  updateCurrentStep(index: number) {
+  addWizardStep(step: WmWizardstep) {
+    this.steps[this.newIndex] = step;
+    this.forceUpdate();
+  }
+
+  updateCurrentStep(index: number, isDone = false) {
+    this.newIndex = index;
     this.updateState({
-      currentStep: index
+      currentStep: index,
+      isDone: isDone
     } as WmWizardState);
   }
 
@@ -47,7 +57,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     return item.props.show != false ? (
       <View style={this.styles.headerWrapper} key={index+1}>
         <TouchableOpacity style={this.styles.stepWrapper}
-                          onPress={this.updateCurrentStep.bind(this, index)} disabled={index >= this.state.currentStep}>
+                          onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep}>
             <View style={[this.styles.step, { borderColor: this.getColor(index) }]}>
               {index >= this.state.currentStep && !this.state.isDone &&
                     <Text style={this.styles.stepCounter}>{index+1}</Text>}
@@ -65,19 +75,21 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   onPrev(steps: any) {
-    this.updateCurrentStep(this.state.currentStep - 1);
-    this.updateState({
-      isDone: false
-    } as WmWizardState);
-    this.invokeEventCallback('onStepChange', ['prev', steps[this.state.currentStep].props.name, this.state.currentStep]);
+    const index = this.state.currentStep;
+    const currentStep = this.steps[index];
+    currentStep.invokePrevCB(index);
+    this.updateCurrentStep(index - 1);
   }
 
   onNext(steps: any, eventName?: string) {
-    this.updateCurrentStep(this.state.currentStep + 1);
-    this.updateState({
-      isDone: false
-    } as WmWizardState);
-    this.invokeEventCallback('onStepChange', [eventName === 'skip' ? 'skip' : 'next', steps[this.state.currentStep].props.name, this.state.currentStep]);
+    const index = this.state.currentStep;
+    const currentStep = this.steps[index];
+    if (eventName === 'skip') {
+      currentStep.invokeSkipCB(index);
+    } else {
+      currentStep.invokeNextCB(index);
+    }
+    this.updateCurrentStep(index + 1);
   }
 
   onDone($event: any) {
@@ -98,6 +110,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     const steps = props.children;
     this.numberOfSteps = isArray(steps) ? steps.length : 1;
     const activeStep = isArray(steps) ? steps[this.state.currentStep] : steps;
+    const isSkippable = this.steps[this.state.currentStep] && this.steps[this.state.currentStep].props.enableskip;
     return (
       <View style={this.styles.root}>
         <View style={this.styles.wizardHeader}>
@@ -114,7 +127,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
           <View style={{
             alignItems: props.actionsalignment === 'right' ? 'flex-start' : 'flex-end',
             justifyContent: props.actionsalignment === 'right' ? 'flex-start' : 'flex-end'}}>
-            {activeStep && activeStep.props.enableskip &&
+            {isSkippable &&
                 <WmAnchor iconclass={'wi wi-chevron-right'} iconposition={'right'} caption={'Skip'}
                           styles={merge({}, this.styles.wizardActions, this.styles.skipLink)} onTap={this.onSkip.bind(this, steps)}></WmAnchor>
             }

@@ -8,7 +8,7 @@ import WmAccordionProps from './accordion.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAccordionStyles } from './accordion.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
-import WmAccordionpane from "@wavemaker/app-rn-runtime/components/container/accordion/accordionpane/accordionpane.component";
+import WmAccordionpane from './accordionpane/accordionpane.component';
 
 export class WmAccordionState extends BaseComponentState<WmAccordionProps> {
   expandedId: any;
@@ -16,11 +16,18 @@ export class WmAccordionState extends BaseComponentState<WmAccordionProps> {
 
 export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccordionState, WmAccordionStyles> {
   private animatedRef: any;
+  public accordionPanes = [] as WmAccordionpane[];
+  private newIndex = 0;
+
   constructor(props: WmAccordionProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAccordionProps());
     this.updateState({
       expandedId: (this.state.props.defaultpaneindex || 0) + 1
     } as WmAccordionState);
+  }
+
+  addAccordionPane(accordionPane: WmAccordionpane) {
+    this.accordionPanes[(this.newIndex || this.state.expandedId) - 1] = accordionPane;
   }
 
   expandCollapseIcon(props: any, item: any) {
@@ -54,37 +61,28 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   }
 
   onAccordionPress(expandedId: any) {
-    const props = this.state.props;
     const oldIndex = this.state.expandedId;
-    const paneId = oldIndex === expandedId ? -1 : expandedId;
-
-    let expandedPane: any, collapsedPane: any;
-    if (isArray(props.children)) {
-        expandedPane = props.children[paneId - 1];
-        collapsedPane = props.children[oldIndex ? oldIndex-1 : props.defaultpaneindex];
-    } else {
-      paneId === 1 ? expandedPane = props.children : collapsedPane = props.children;
-    }
-
-    if (collapsedPane) {
-      this.animatedRef.triggerExit().then((res: any) => {
-        if (res) {
-          this.updateState({
-            expandedId: paneId,
-          } as WmAccordionState);
-
-          this.invokeEventCallback('onChange', [{}, this.proxy, paneId-1, oldIndex ? oldIndex-1 : props.defaultpaneindex,
-            expandedPane && expandedPane.props.name, collapsedPane && collapsedPane.props.name])
-        }
-      })
-    } else {
+    this.newIndex = expandedId;
+    const collapsedPane = oldIndex ? this.accordionPanes[oldIndex - 1]: null;
+    collapsedPane?.onPaneCollapse();
+    Promise.resolve().then(() => {
+      if (this.state.expandedId) {
+        return this.animatedRef.triggerExit().then((res: any) => !res && Promise.reject());
+      }
+    }).then(() => {
       this.updateState({
-        expandedId: paneId,
-      } as WmAccordionState);
-
-      this.invokeEventCallback('onChange', [{}, this.proxy, paneId-1, oldIndex ? oldIndex-1 : props.defaultpaneindex,
-        expandedPane && expandedPane.props.name, collapsedPane && collapsedPane.props.name])
-    }
+        expandedId: expandedId,
+      } as WmAccordionState, () => {
+        const expandedPane = expandedId ? this.accordionPanes[expandedId - 1]: null;
+        expandedPane?.onPaneExpand();
+        this.invokeEventCallback('onChange', [{}, 
+          this.proxy, 
+          expandedId - 1, 
+          oldIndex ? oldIndex - 1 : null,
+          expandedPane && expandedPane.props.name,
+          collapsedPane && collapsedPane.props.name])
+      });
+    }, () => {});
   }
 
   renderWidget(props: WmAccordionProps) {

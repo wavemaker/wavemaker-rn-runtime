@@ -51,7 +51,8 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     setDrawerContent(content: React.ReactNode, drawerType: string) {
       this.hasDrawer = true;
       setTimeout(() => {
-        if (this.appConfig.currentPage === this) {
+        if (this.appConfig.currentPage === this 
+          || this.appConfig.currentPage.proxy === this) {
           this.appConfig.drawer?.setContent((
             <NavigationServiceProvider value={this}>
              {content}

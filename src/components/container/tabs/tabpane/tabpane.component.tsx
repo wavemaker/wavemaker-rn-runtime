@@ -4,6 +4,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmTabpaneProps from './tabpane.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmTabpaneStyles } from './tabpane.styles';
+import WmTabs from '../tabs.component';
 
 export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {}
 
@@ -24,6 +25,12 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
       return props.renderPartial();
     }
     return props.children;
+  }
+
+  componentDidMount() {
+    const tabs = (this.parent) as WmTabs;
+    tabs.addTabPane(this);
+    super.componentDidMount();
   }
 
   _onSelect() {

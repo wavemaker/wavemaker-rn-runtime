@@ -9,13 +9,24 @@ import {
   Tabs,
   TabScreen,
   } from 'react-native-paper-tabs';
+import WmTabpane from './tabpane/tabpane.component';
 
-export class WmTabsState extends BaseComponentState<WmTabsProps> {}
+export class WmTabsState extends BaseComponentState<WmTabsProps> {
+  selectedTabIndex: number = 0;
+}
 
 export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTabsStyles> {
-  private oldIndex: any;
+  public tabPanes = [] as WmTabpane[];
+  private newIndex = 0;
   constructor(props: WmTabsProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTabsProps());
+    this.updateState({
+      selectedTabIndex: props.defaultpaneindex || 0
+    }as WmTabsState);
+  }
+
+  addTabPane(tabPane: WmTabpane) {
+    this.tabPanes[this.newIndex || this.state.selectedTabIndex] = tabPane;
   }
 
   renderTabpane(item: any, index: any) {
@@ -25,12 +36,18 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
       </TabScreen>)
   }
 
-  onChange(tabpanes: any, newIndex: any) {
-    const props = this.state.props;
-    const selectedTabName = tabpanes[newIndex].props.name;
-    const deselectedTabName = tabpanes[this.oldIndex || props.defaultpaneindex].props.name;
-    this.invokeEventCallback('onChange', [{}, this.proxy, newIndex, this.oldIndex || props.defaultpaneindex, selectedTabName, deselectedTabName]);
-    this.oldIndex = newIndex;
+  onChange(newIndex: any) {
+    const oldIndex = this.state.selectedTabIndex;
+    const deselectedTab = this.tabPanes[this.state.selectedTabIndex];
+    this.newIndex = newIndex;
+    deselectedTab?._onDeselect();
+    this.updateState({
+      selectedTabIndex: newIndex
+    } as WmTabsState, () => {
+      const selectedTab = this.tabPanes[newIndex];
+      selectedTab?._onSelect();
+      this.invokeEventCallback('onChange', [{}, this.proxy, newIndex, oldIndex]);
+    });
   }
 
   renderWidget(props: WmTabsProps) {
@@ -45,7 +62,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         }}
         style={this.styles.root}
         mode="scrollable"
-        onChangeIndex={this.onChange.bind(this, tabpanes)}
+        onChangeIndex={this.onChange.bind(this)}
         showLeadingSpace={false}>
         {tabpanes
           ? isArray(tabpanes) && tabpanes.length

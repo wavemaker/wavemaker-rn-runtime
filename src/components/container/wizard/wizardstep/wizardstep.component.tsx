@@ -4,6 +4,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmWizardstepProps from './wizardstep.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmWizardstepStyles } from './wizardstep.styles';
+import WmWizard from '../wizard.component';
 
 export class WmWizardstepState extends BaseComponentState<WmWizardstepProps> {}
 
@@ -11,6 +12,12 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
 
   constructor(props: WmWizardstepProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmWizardstepProps());
+  }
+
+  componentDidMount() {
+    const wizard = (this.parent) as WmWizard;
+    wizard.addWizardStep(this);
+    super.componentDidMount();
   }
 
   invokeNextCB(index: number) {

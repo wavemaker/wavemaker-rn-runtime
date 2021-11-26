@@ -81,6 +81,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     super.componentDidMount();
   }
 
+  componentDidUpdate(prevProps: WmListProps, prevState: WmListState, snapshot?: any) {
+    super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, snapshot);
+    this.invokeEventCallback('onRender', [this, this.state.props.dataset]);
+  }
+
   // TODO try to optimize this, unable to track the oldProps and newProps to check if dataset has modified.
   shouldComponentUpdate(nextProps: WmListProps, nextState: WmListState, nextContext: any): boolean {
     super.shouldComponentUpdate(nextProps, nextState, nextContext);
@@ -126,7 +131,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           )}></FlatList>
         </View>
     );
-    setTimeout(() => this.invokeEventCallback('onRender', [this, this.state.props.dataset]));
     return list;
   }
 }

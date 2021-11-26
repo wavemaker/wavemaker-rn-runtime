@@ -4,6 +4,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmAccordionpaneProps from './accordionpane.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAccordionpaneStyles } from './accordionpane.styles';
+import WmAccordion from '../accordion.component';
 
 export class WmAccordionpaneState extends BaseComponentState<WmAccordionpaneProps> {}
 
@@ -19,6 +20,12 @@ export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps,
 
   onPaneCollapse() {
     this.invokeEventCallback('onCollapse', [null, this.proxy]);
+  }
+
+  componentDidMount() {
+    const accordion = (this.parent) as WmAccordion;
+    accordion.addAccordionPane(this);
+    super.componentDidMount();
   }
 
   renderContent(props: WmAccordionpaneProps) {

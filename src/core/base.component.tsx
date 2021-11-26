@@ -9,6 +9,8 @@ import { assignIn } from 'lodash-es';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
+export const ParentContext = React.createContext(null as any);
+
 export class BaseComponentState<T extends BaseProps> {
     public props = {} as T;
 }
@@ -41,6 +43,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public cleanup = [] as Function[];
     public theme = BASE_THEME;
     public updateStateTimeouts= [] as NodeJS.Timeout[];
+    public parent: BaseComponent<any, any, any> = null as any;
 
     constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles?: L, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -156,11 +159,21 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
         const props = this.state.props;
         return props.show !== false && props.show !== 'false' && props.show !== '0'?
-            (<ThemeConsumer>{(theme) => {
-                this.theme = theme || BASE_THEME;
-                this.styles =  this.styles || deepCopy({}, this.theme.getStyle(this.defaultClass) || 
-                               this.defaultStyles, this.props.styles);  
-                return attachBackground(this.renderWidget(this.state.props), this.styles.root);
-            }}</ThemeConsumer>) : null;
+            (<ParentContext.Consumer>
+                {(parent) => {
+                    this.parent = parent;
+                    return (
+                        <ParentContext.Provider value={this}>
+                        <ThemeConsumer>
+                            {(theme) => {
+                                this.theme = theme || BASE_THEME;
+                                this.styles =  this.styles || deepCopy({}, this.theme.getStyle(this.defaultClass) || 
+                                            this.defaultStyles, this.props.styles);  
+                                return attachBackground(this.renderWidget(this.state.props), this.styles.root);
+                            }}
+                        </ThemeConsumer>
+                    </ParentContext.Provider>);
+                }}
+            </ParentContext.Consumer>) : null;
     }
 }
