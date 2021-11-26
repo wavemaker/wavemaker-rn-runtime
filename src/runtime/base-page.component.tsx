@@ -24,7 +24,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     private pageParams: any = {};
     private hasDrawer = false;
     private hasTabbar = false;
-    
+
     constructor(props: PageProps) {
       super(props);
       this.pageName = props.route.name;
@@ -80,7 +80,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     goToPage(pageName: string, params: any) {
       const navigation = (this.props as PageProps).navigation;
       const _params = clone(params);
-      delete _params['pageName'];
+      _params && delete _params['pageName'];
       if (pageName !== this.pageName || !isEqual(_params, this.pageParams)) {
         if (pageName === this.pageName) {
           navigation.push(pageName, _params);
