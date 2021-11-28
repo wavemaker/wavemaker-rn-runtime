@@ -5,9 +5,7 @@ export type WmPrefabContainerStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-prefab';
 export const DEFAULT_STYLES: WmPrefabContainerStyles = {
-    root: {
-        flex: 1
-    },
+    root: {},
     text: {}
 };
 
