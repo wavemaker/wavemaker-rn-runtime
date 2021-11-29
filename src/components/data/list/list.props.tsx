@@ -15,8 +15,8 @@ export default class WmListProps extends BaseProps {
     selectfirstitem = false;
     disableitem = false;
     direction: 'row' | 'column' = 'column';
-    groupby: any;
-    match: any;
-    orderby: any;
-    dateformat: any;
+    groupby: string = null as any;
+    match: string = null as any;
+    orderby: string = null as any;
+    dateformat: string = null as any;
 }

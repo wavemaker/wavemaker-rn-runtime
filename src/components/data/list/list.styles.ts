@@ -6,6 +6,7 @@ import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/ic
 
 export type WmListStyles = BaseStyles & {
     heading: AllStyle,
+    groupHeaderTitle: AllStyle,
     listIcon: WmIconStyles,
     loadingIcon: WmIconStyles,
     title: WmLabelStyles,
@@ -24,6 +25,13 @@ export const DEFAULT_STYLES: WmListStyles = {
             marginRight: 8
         }
     } as WmIconStyles,
+  groupHeaderTitle: {
+    backgroundColor: ThemeVariables.groupHeaderBackgroundColor,
+    fontSize: 16,
+    paddingLeft: 8,
+    paddingRight: 8,
+    lineHeight: 40,
+  } as AllStyle,
     loadingIcon: {
         root: {
             flex: 1,

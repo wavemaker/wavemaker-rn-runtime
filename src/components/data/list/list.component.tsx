@@ -25,7 +25,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmListProps());
   }
 
-  private onSelect($item: any, $index: any) {
+  private onSelect($item: any, $index: number | string) {
     if (!this.state.props.disableitem) {
       this.selecteditem = $item;
       this.updateState({
