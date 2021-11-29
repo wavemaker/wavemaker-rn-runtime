@@ -225,9 +225,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
             {(modalService: ModalService) => {
               modalService.showModal(this.prepareModalOptions((
                 <View style={this.styles.dropDownContent}>
-                  <TouchableOpacity onPress={() => {
-                     this.hide()
-                  }}>
                     {result && result.map((item: any, index: any) => (
                       <View key={item.key}>
                         {
@@ -241,7 +238,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
                         }
                       </View>
                     ))}
-                  </TouchableOpacity>
                 </View>
               ), this.styles, modalService));
               return null;
