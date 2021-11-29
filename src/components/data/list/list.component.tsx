@@ -26,7 +26,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   private onSelect($item: any, $index: number | string) {
-    if (!this.state.props.disableitem) {
+    if (!this.state.props.disableitem($item, $index)) {
       this.selecteditem = $item;
       this.updateState({
         selectedindex: $index
@@ -79,9 +79,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         } else {
           this.deselect();
         }
-      break;
-      case 'disableitem':
-        this.deselect();
       break;
       case 'groupby':
       case 'match':

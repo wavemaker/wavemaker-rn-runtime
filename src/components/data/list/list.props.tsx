@@ -13,7 +13,7 @@ export default class WmListProps extends BaseProps {
     nodatamessage = 'No data found';
     loadingdata = false;
     selectfirstitem = false;
-    disableitem = false;
+    disableitem = ($item: any, $index: any) => false;
     direction: 'row' | 'column' = 'column';
     groupby: string = null as any;
     match: string = null as any;
