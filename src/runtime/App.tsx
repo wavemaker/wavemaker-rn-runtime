@@ -31,6 +31,7 @@ import AppSecurityService from './services/app-security.service';
 import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/utils/variable.utils';
 
 import * as SplashScreen from 'expo-splash-screen';
+import BasePage from './base-page.component';
 
 //some old react libraries need this
 ((View as any)['propTypes'] = { style: ProtoTypes.any})
@@ -120,6 +121,10 @@ export default abstract class BaseApp extends React.Component {
   onServiceError(errorMsg: any, error: AxiosError<any>) {
 
   }
+
+  onPageReady(activePageName: string, activePageScope: BasePage) {
+    
+  };
 
   bindServiceInterceptors() {
     axios.interceptors.request.use((config: AxiosRequestConfig) => this.onBeforeServiceCall(config));
