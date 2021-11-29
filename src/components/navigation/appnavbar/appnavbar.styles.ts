@@ -84,7 +84,8 @@ BASE_THEME.addStyle('navbarButton', '', {
     paddingRight: 8,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    alignSelf: 'center'
   },
   text: {
     color: ThemeVariables.navbarTextColor,
