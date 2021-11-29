@@ -18,6 +18,12 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormFieldProps(), new WmFormFieldState());
   }
 
+  onFieldChangeEvt(name: string, $new: any, $old: any) {
+    if (!isEqual($old, $new)) {
+      this.updateState({ props: { datavalue: $new } } as any);
+    }
+  }
+
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
       case 'datavalue':
@@ -42,7 +48,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
 
   renderWidget(props: WmFormFieldProps) {
     var childrenWithProps = React.Children.map(props.renderFormFields(this.proxy).props.children, (child) => {
-      return React.cloneElement(child, {datavalue: props.datavalue, isValid: this.state.isValid, onFieldChange: this.onPropertyChange.bind(this), formRef: props.formRef });
+      return React.cloneElement(child, {datavalue: props.datavalue, isValid: this.state.isValid, onFieldChange: this.onFieldChangeEvt.bind(this), formRef: props.formRef });
     });
     return (
       <View style={this.styles.root}>{childrenWithProps}

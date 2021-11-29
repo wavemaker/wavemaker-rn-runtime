@@ -11,7 +11,11 @@ export class LoginAction extends BaseAction<LoginActionConfig> {
     }
 
     invoke(options: any, successcb?: Function, errorcb?: Function) {
-        return this.config.securityService().appLogin({baseURL: this.config.baseURL, formData: get(options, 'formData')})
+      let params;
+      if (!get(options, 'formData')) {
+        params = this.config.paramProvider();
+      }
+      return this.config.securityService().appLogin({baseURL: this.config.baseURL, formData: get(options, 'formData') || params })
         .then((data: any) => {
             this.config.onSuccess && this.config.onSuccess(this, data);
             successcb && successcb(data);
