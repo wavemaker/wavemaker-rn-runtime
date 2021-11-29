@@ -62,7 +62,8 @@ export const DEFAULT_STYLES: WmAccordionStyles = {
     } as WmIconStyles,
     badge: {
         color: ThemeVariables.badgeTextColor,
-        fontSize: 14
+        fontSize: 14,
+        marginRight: 4 
     },
     default: {
       backgroundColor: ThemeVariables.labelDefaultColor
