@@ -6,7 +6,9 @@ import WmTabpaneProps from './tabpane.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmTabpaneStyles } from './tabpane.styles';
 import WmTabs from '../tabs.component';
 
-export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {}
+export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {
+  isPartialLoaded = false;
+}
 
 export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneState, WmTabpaneStyles> {
 
@@ -14,15 +16,20 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTabpaneProps());
   }
 
+  onPartialLoad() {
+    this.invokeEventCallback('onLoad', [null, this]);
+  }
+
   renderContent(props: WmTabpaneProps) {
     if (props.renderPartial) {
-      if (!this.state.props.isPartialLoaded) {
-        this.state.props.isPartialLoaded = true;
+      if (!this.state.isPartialLoaded) {
         setTimeout(() => {
-          this.invokeEventCallback('onLoad', [null, this]);
+          this.updateState({
+            isPartialLoaded: true
+          } as WmTabpaneState);
         });
       }
-      return props.renderPartial();
+      return props.renderPartial(this.onPartialLoad.bind(this));
     }
     return props.children;
   }

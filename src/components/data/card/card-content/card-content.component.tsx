@@ -5,7 +5,9 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmCardContentProps from './card-content.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmCardContentStyles } from './card-content.styles';
 
-export class WmCardContentState extends BaseComponentState<WmCardContentProps> {}
+export class WmCardContentState extends BaseComponentState<WmCardContentProps> {
+  isPartialLoaded = false;
+}
 
 export default class WmCardContent extends BaseComponent<WmCardContentProps, WmCardContentState, WmCardContentStyles> {
 
@@ -13,20 +15,25 @@ export default class WmCardContent extends BaseComponent<WmCardContentProps, WmC
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCardContentProps());
   }
 
+  onPartialLoad() {
+    this.invokeEventCallback('onLoad', [null, this]);
+  }
+
   renderContent(props: WmCardContentProps) {
     if (props.renderPartial) {
-      if (!this.state.props.isPartialLoaded) {
-        this.state.props.isPartialLoaded = true;
+      if (!this.state.isPartialLoaded) {
         setTimeout(() => {
-          this.invokeEventCallback('onLoad', [null, this]);
+          this.updateState({
+            isPartialLoaded: true
+          } as WmCardContentState);
         });
       }
-      return props.renderPartial();
+      return props.renderPartial(this.onPartialLoad.bind(this));
     }
     return props.children;
   }
 
   renderWidget(props: WmCardContentProps) {
-    return (<View style={this.styles.root}>{this.renderContent(props)}</View>); 
+    return (<View style={this.styles.root}>{this.renderContent(props)}</View>);
   }
 }

@@ -6,7 +6,9 @@ import WmAccordionpaneProps from './accordionpane.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAccordionpaneStyles } from './accordionpane.styles';
 import WmAccordion from '../accordion.component';
 
-export class WmAccordionpaneState extends BaseComponentState<WmAccordionpaneProps> {}
+export class WmAccordionpaneState extends BaseComponentState<WmAccordionpaneProps> {
+  isPartialLoaded = false;
+}
 
 export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps, WmAccordionpaneState, WmAccordionpaneStyles> {
 
@@ -28,15 +30,20 @@ export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps,
     super.componentDidMount();
   }
 
+  onPartialLoad() {
+    this.invokeEventCallback('onLoad', [this]);
+  }
+
   renderContent(props: WmAccordionpaneProps) {
     if (props.renderPartial) {
-      if (!this.state.props.isPartialLoaded) {
-        this.state.props.isPartialLoaded = true;
+      if (!this.state.isPartialLoaded) {
         setTimeout(() => {
-          this.invokeEventCallback('onLoad', [null, this]);
+          this.updateState({
+            isPartialLoaded: true
+          } as WmAccordionpaneState);
         });
       }
-      return props.renderPartial();
+      return props.renderPartial(this.onPartialLoad.bind(this));
     }
     return props.children;
   }

@@ -8,6 +8,7 @@ export interface PartialProps extends FragmentProps {
   serviceDefinitions: any;
   prefab: any;
   parent: string;
+  onLoad?: Function;
 }
 
 export interface PartialState extends FragmentState<PartialProps> {}
@@ -15,7 +16,7 @@ export interface PartialState extends FragmentState<PartialProps> {}
 export default abstract class BasePartial extends BaseFragment<PartialProps, PartialState> {
     private partialParams: any = {};
     Prefab: BasePrefab = null as any;
-    
+
     constructor(props: PartialProps) {
         super(props);
         const isPartOfPrefab = !!this.props.prefab;
@@ -27,6 +28,12 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
           this.Prefab = this.props.prefab;
           this.baseUrl =this.Prefab.baseUrl;
         }
+    }
+
+    onFragmentReady() {
+      return super.onFragmentReady().then(() => {
+        this.props?.onLoad && this.props?.onLoad();
+      });
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {

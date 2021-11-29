@@ -12,9 +12,12 @@ export class WmContainerState extends BaseComponentState<WmContainerProps> {
 }
 
 export default class WmContainer extends BaseComponent<WmContainerProps, WmContainerState, WmContainerStyles> {
-
   constructor(props: WmContainerProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmContainerProps());
+  }
+
+  onPartialLoad() {
+    this.invokeEventCallback('onLoad', [this]);
   }
 
   renderContent(props: WmContainerProps) {
@@ -23,11 +26,10 @@ export default class WmContainer extends BaseComponent<WmContainerProps, WmConta
         setTimeout(() => {
           this.updateState({
             isPartialLoaded: true
-          } as WmContainerState,
-          () => this.invokeEventCallback('onLoad', [this]));
+          } as WmContainerState);
         });
       }
-      return props.renderPartial();
+      return props.renderPartial(this.onPartialLoad.bind(this));
     }
     return props.children;
   }

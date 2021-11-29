@@ -121,6 +121,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         const parent = this.Widgets[parentName];
         if (parent) {
           parent.Widgets = w.Widgets;
+          parent.Variables = w.fragmentVariables;
         }
       }
     }

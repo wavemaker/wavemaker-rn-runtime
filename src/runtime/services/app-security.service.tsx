@@ -64,7 +64,7 @@ class AppSecurityService implements SecurityService {
                     loggedInUser.tenantId        = details.userInfo.tenantId;
                     loggedInUser.userAttributes  = details.userInfo.userAttributes;
                     appConfig.loggedInUser = loggedInUser;
-                    this.loggedInUser.dataSet = loggedInUser;   
+                    this.loggedInUser.dataSet = loggedInUser;
                 }
                 return appConfig.getServiceDefinitions(appConfig.url)
                 .then(() => details.authenticated && appConfig.currentPage?.goToPage(details.userInfo?.landingPage || 'Main'));
@@ -78,7 +78,7 @@ class AppSecurityService implements SecurityService {
                   });
                 return myPromise;
             }
-            
+
         });
     }
 

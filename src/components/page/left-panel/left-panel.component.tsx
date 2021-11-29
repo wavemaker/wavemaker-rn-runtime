@@ -6,7 +6,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmLeftPanelStyles } from './left-panel.s
 import { ScrollView } from 'react-native-gesture-handler';
 
 export class WmLeftPanelState extends BaseComponentState<WmLeftPanelProps> {
-
+  isPartialLoaded = false;
 }
 
 export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftPanelState, WmLeftPanelStyles> {
@@ -15,15 +15,20 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftP
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLeftPanelProps());
   }
 
+  onPartialLoad() {
+    this.invokeEventCallback('onLoad', [null, this]);
+  }
+
   renderContent(props: WmLeftPanelProps) {
     if (props.renderPartial) {
-      if (!this.state.props.isPartialLoaded) {
-        this.state.props.isPartialLoaded = true;
+      if (!this.state.isPartialLoaded) {
         setTimeout(() => {
-          this.invokeEventCallback('onLoad', [null, this]);
+          this.updateState({
+            isPartialLoaded: true
+          } as WmLeftPanelState);
         });
       }
-      return props.renderPartial();
+      return props.renderPartial(this.onPartialLoad.bind(this));
     }
     return props.children;
   }
@@ -33,6 +38,6 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftP
       <ScrollView contentContainerStyle={this.styles.root}>
         {this.renderContent(props)}
       </ScrollView>
-    ); 
+    );
   }
 }

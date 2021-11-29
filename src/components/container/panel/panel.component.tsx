@@ -10,6 +10,7 @@ import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animate
 
 export class WmPanelState extends BaseComponentState<WmPanelProps> {
   expandedId: any;
+  isPartialLoaded = false;
 }
 
 export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, WmPanelStyles> {
@@ -21,15 +22,20 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
     } as WmPanelState);
   }
 
+  onPartialLoad() {
+    this.invokeEventCallback('onLoad', [this]);
+  }
+
   renderContent(props: WmPanelProps) {
     if (props.renderPartial) {
-      if (!this.state.props.isPartialLoaded) {
-        this.state.props.isPartialLoaded = true;
+      if (!this.state.isPartialLoaded) {
         setTimeout(() => {
-          this.invokeEventCallback('onLoad', [this]);
+          this.updateState({
+            isPartialLoaded: true
+          } as WmPanelState);
         });
       }
-      return props.renderPartial();
+      return props.renderPartial(this.onPartialLoad.bind(this));
     }
   }
 
