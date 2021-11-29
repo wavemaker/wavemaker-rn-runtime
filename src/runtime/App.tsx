@@ -123,8 +123,13 @@ export default abstract class BaseApp extends React.Component {
   }
 
   onPageReady(activePageName: string, activePageScope: BasePage) {
-    
-  };
+
+  }
+
+  // To support old api
+  reload() {
+    this.refresh();
+  }
 
   bindServiceInterceptors() {
     axios.interceptors.request.use((config: AxiosRequestConfig) => this.onBeforeServiceCall(config));
