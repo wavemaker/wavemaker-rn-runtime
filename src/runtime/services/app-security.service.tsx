@@ -1,9 +1,9 @@
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
-import { SecurityOptions, SecurityService } from '@wavemaker/app-rn-runtime/core/security.service';
-import axios, { AxiosResponse } from 'axios';
-import { each, includes } from "lodash";
-declare const localStorage: any, window: any;
+import { SecurityService } from '@wavemaker/app-rn-runtime/core/security.service';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { each, includes } from 'lodash';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface LoggedInUserConfig {
     isAuthenticated: Boolean;
@@ -21,11 +21,48 @@ enum USER_ROLE {
     AUTHENTICATED = 'Authenticated'
 }
 
+const XSRF_COOKIE_NAME = 'wm_xsrf_token';
+const xsrf_header_name = 'X-WM-XSRF-TOKEN';
+
 class AppSecurityService implements SecurityService {
 
     isLoggedIn = false;
     loggedInUser: any = {};
     token: any;
+    appConfig: any;
+    baseUrl: string = '';
+
+    constructor() {
+      axios.interceptors.request.use((config: AxiosRequestConfig) => this.onBeforeServiceCall(config));
+    }
+
+    onBeforeServiceCall(config: AxiosRequestConfig) {
+      if (!this.appConfig) {
+        this.appConfig = this.getAppConfig();
+        this.baseUrl = this.appConfig.url;
+      }
+      return this.getXsrfToken().then((token: string) => {
+        if (config.url?.startsWith(this.baseUrl) && token) {
+          config.headers[xsrf_header_name] = token;
+        }
+        return config
+      });
+    }
+
+    private getXsrfToken(): Promise<string> {
+      if (this.token) {
+        return Promise.resolve(this.token);
+      }
+      return AsyncStorage.getItem(XSRF_COOKIE_NAME).then(xsrf_token => {
+        this.token = xsrf_token;
+        return this.token;
+      });
+    }
+
+    private getAppConfig() {
+      return injector.get<AppConfig>('APP_CONFIG');
+    }
+
     public appLogin(options: any) {
         // encode all parameters
         let payload = '';
@@ -38,22 +75,20 @@ class AppSecurityService implements SecurityService {
             headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-Requested-With': 'XMLHttpRequest'
-        }}).then((response: AxiosResponse) => {
-            const xsrfCookieValue = response.data ? response.data['wm_xsrf_token'] : '';
+          }}).then((response: AxiosResponse) => {
+            const xsrfCookieValue = response.data ? response.data[XSRF_COOKIE_NAME] : '';
             this.token = xsrfCookieValue;
-            if (typeof localStorage !== 'undefined') {
-                localStorage.setItem('wm_xsrf_token', xsrfCookieValue);
-            }
+            AsyncStorage.setItem(XSRF_COOKIE_NAME, xsrfCookieValue);
             this.isLoggedIn = true;
             this.getLoggedInUserDetails(options.baseURL);
         });
     }
-
+    
     private getLoggedInUserDetails(baseURL: string) {
         return axios.get(baseURL + '/services/security/info').then((response: AxiosResponse) => {
             const loggedInUser = {} as LoggedInUserConfig;
             const details = response.data;
-            const appConfig = injector.get<AppConfig>('APP_CONFIG');
+            const appConfig = this.appConfig;
             if (!details.securityEnabled || details.authenticated) {
                 if (details.authenticated) {
                     loggedInUser.isAuthenticated = details.authenticated;
@@ -77,23 +112,20 @@ class AppSecurityService implements SecurityService {
                     }, 300);
                   });
                 return myPromise;
-            }
-
-        });
+          }
+      });
     }
 
     public appLogout(options: any) {
-        return axios.post(options.baseURL + '/j_spring_security_logout', null, {
-            withCredentials: true,
-            headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-WM-XSRF-TOKEN': typeof localStorage !== 'undefined' ? localStorage.getItem('wm_xsrf_token') : this.token
-            }
-        }).then((response) => {
-            this.isLoggedIn = false;
-            const appConfig = injector.get<AppConfig>('APP_CONFIG');
-            appConfig.currentPage?.goToPage('Login');
-        });
+      return axios.post(options.baseURL + '/j_spring_security_logout', null, {
+          withCredentials: true,
+          headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+          }
+      }).then(() => {
+          this.isLoggedIn = false;
+          this.appConfig.currentPage?.goToPage('Login');
+      });
     }
 
     private matchRoles(widgetRoles: Array<String>, userRoles: Array<String>) {
@@ -122,7 +154,6 @@ class AppSecurityService implements SecurityService {
         // access the widget when widget role and logged in user role matches
         return this.loggedInUser.dataSet?.isAuthenticated && this.matchRoles(widgetRolesArr, this.loggedInUser.dataSet?.roles);
     }
-
 }
 
 const appSecurityService = new AppSecurityService();
