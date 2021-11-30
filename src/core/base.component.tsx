@@ -75,6 +75,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 if (this.propertyProvider.has(propName)) {
                     // @ts-ignore
                     this.state.props[propName] = value;
+                    this.updateState({} as S);
                     return true;
                 } else {
                     return Reflect.set(target, prop, value);
