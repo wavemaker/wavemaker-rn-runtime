@@ -24,6 +24,8 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     private pageParams: any = {};
     private hasDrawer = false;
     private hasTabbar = false;
+    private drawerContent = null as React.ReactNode;
+    private drawerType = '';
 
     constructor(props: PageProps) {
       super(props);
@@ -48,7 +50,9 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       (this.props as PageProps).navigation.toggleDrawer();
     }
 
-    setDrawerContent(content: React.ReactNode, drawerType: string) {
+    setDrawerContent(content = this.drawerContent, drawerType = this.drawerType) {
+      this.drawerContent = content;
+      this.drawerType = drawerType;
       this.hasDrawer = true;
       setTimeout(() => {
         if (this.appConfig.currentPage === this 
@@ -60,6 +64,11 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
           this.appConfig.drawer?.setAnimation(drawerType);
         }
       }, 10);
+    }
+
+    onAttach() {
+      super.onAttach();
+      this.setDrawerContent();
     }
 
     onFragmentReady() {

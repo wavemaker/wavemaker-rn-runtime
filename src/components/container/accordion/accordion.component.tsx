@@ -72,10 +72,13 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const collapsedPane = oldIndex ? this.accordionPanes[oldIndex - 1]: null;
     collapsedPane?.onPaneCollapse();
     Promise.resolve().then(() => {
-      if (this.state.expandedId) {
+      if (this.state.expandedId >= 0) {
         return this.animatedRef.triggerExit().then((res: any) => !res && Promise.reject());
       }
     }).then(() => {
+      if (this.state.expandedId === expandedId) {
+        expandedId = -1;
+      }
       this.updateState({
         expandedId: expandedId,
       } as WmAccordionState, () => {
@@ -96,7 +99,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const expandedId = this.state.expandedId || 0;
     return (
         <View style={this.styles.root}>
-          <List.AccordionGroup expandedId={ expandedId || props.defaultpaneindex + 1} onAccordionPress={this.onAccordionPress.bind(this)} >
+          <List.AccordionGroup expandedId={ expandedId } onAccordionPress={this.onAccordionPress.bind(this)} >
             {accordionpanes
               ? isArray(accordionpanes) && accordionpanes.length
                 ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index, expandedId === index + 1))
