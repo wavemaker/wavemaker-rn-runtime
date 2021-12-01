@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash';
+import { assign, isEqual } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle } from 'react-native';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
@@ -6,6 +6,7 @@ import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import BASE_THEME, { DEFAULT_CLASS, NamedStyles, AllStyle, ThemeConsumer, attachBackground } from '../styles/theme';
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
+import { HideMode } from './if.component';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -37,6 +38,7 @@ export class BaseProps {
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
     public styles: L = null as any;
+    public hideMode = HideMode.ADD_TO_DOM; 
     private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T, S, L>;
     public initialized = false;
@@ -153,14 +155,21 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
     }
 
+    isVisible() {
+        const show = this.state.props.show;
+        return show !== false && show !== 'false' && show !== '0';
+    }
+
     protected abstract renderWidget(props: T): ReactNode;
 
     
     public render(): ReactNode {
         WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
         const props = this.state.props;
-        return props.show !== false && props.show !== 'false' && props.show !== '0'?
-            (<ParentContext.Consumer>
+        if (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM) {
+            return null;
+        }
+        return (<ParentContext.Consumer>
                 {(parent) => {
                     this.parent = parent;
                     return (
@@ -168,13 +177,17 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                         <ThemeConsumer>
                             {(theme) => {
                                 this.theme = theme || BASE_THEME;
-                                this.styles =  this.styles || deepCopy({}, this.theme.getStyle(this.defaultClass) || 
-                                            this.defaultStyles, this.props.styles);  
+                                this.styles =  deepCopy({},
+                                        this.theme.getStyle(this.defaultClass) || this.defaultStyles,
+                                        this.props.styles);
+                                if (!this.isVisible()) {
+                                    assign(this.styles, this.theme.getStyle('hidden'))
+                                }  
                                 return attachBackground(this.renderWidget(this.state.props), this.styles.root);
                             }}
                         </ThemeConsumer>
                     </ParentContext.Provider>);
                 }}
-            </ParentContext.Consumer>) : null;
+            </ParentContext.Consumer>);
     }
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { isArray, merge } from 'lodash';
-import { Divider } from 'react-native-paper';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmWizardProps from './wizard.props';
@@ -19,7 +18,6 @@ export class WmWizardState extends BaseComponentState<WmWizardProps> {
 export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState, WmWizardStyles> {
   private numberOfSteps: number = null as any;
   private steps = [] as WmWizardstep[];
-  private newIndex: number = 0;
   constructor(props: WmWizardProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmWizardProps());
     const steps = props.children;
@@ -35,16 +33,25 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   addWizardStep(step: WmWizardstep) {
-    this.steps[this.newIndex] = step;
+    this.steps[step.props.index] = step;
     this.forceUpdate();
   }
 
+  componentDidMount() {
+    super.componentDidMount();
+    this.showActiveStep();
+  }
+
+  showActiveStep() {
+    this.steps[this.state.currentStep]?.setActive();
+  }
+
   updateCurrentStep(index: number, isDone = false) {
-    this.newIndex = index;
+    this.steps[this.state.currentStep]?.setInActive();
     this.updateState({
       currentStep: index,
       isDone: isDone
-    } as WmWizardState);
+    } as WmWizardState, () => this.showActiveStep());
   }
 
   getColor(index: number) {
@@ -107,21 +114,17 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   renderWidget(props: WmWizardProps) {
-    const steps = props.children;
-    this.numberOfSteps = isArray(steps) ? steps.length : 1;
-    const activeStep = isArray(steps) ? steps[this.state.currentStep] : steps;
+    const steps = isArray(props.children) ? props.children: [props.children];
+    this.numberOfSteps = steps.length;
+    const activeStep = steps[this.state.currentStep];
     const isSkippable = this.steps[this.state.currentStep] && this.steps[this.state.currentStep].props.enableskip;
     return (
       <View style={this.styles.root}>
         <View style={this.styles.wizardHeader}>
-          {steps
-            ? isArray(steps) && steps.length
-              ? steps.map((item: any, index: any) => this.renderWizardHeader(item, index))
-              : this.renderWizardHeader(steps, 0)
-            : null}
+          {steps ? steps.map((step, i) => this.renderWizardHeader(step, i)) : null}
         </View>
-        <View style={this.styles.wizardBody} key={'wizardbody_'+this.state.currentStep}>
-          <View>{activeStep}</View>
+        <View style={this.styles.wizardBody}>
+          {props.children}
         </View>
         <View style={[this.styles.wizardFooter, {justifyContent: 'space-between'}]}>
           <View style={{

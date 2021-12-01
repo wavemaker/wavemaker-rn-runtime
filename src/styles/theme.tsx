@@ -118,4 +118,11 @@ export const ThemeConsumer = ThemeContext.Consumer;
         }
     };
     addElevationClasses();
-})()
+    Theme.BASE.addStyle('hidden', '', {
+        root: {
+            width: 0,
+            height: 0,
+            transform: [{ scale: 0 }]
+        }
+    });
+})();

@@ -17,6 +17,7 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/message.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
+import { WatcherStore } from './watcher';
 import AppDisplayManagerService from './services/app-display-manager.service';
 import AppModalService from './services/app-modal.service';
 import AppToastService from './services/app-toast.service';
@@ -96,6 +97,7 @@ export default abstract class BaseApp extends React.Component {
         refreshAfterWait = false;
         setTimeout(() => {
           this.forceUpdate();
+          WatcherStore.trigger();
           this.appConfig.currentPage?.forceUpdate();
         });
         setTimeout(() => {

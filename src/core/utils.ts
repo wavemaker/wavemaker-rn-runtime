@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import { isString } from "lodash-es";
 import moment from "moment";
-import { includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values} from 'lodash';
+import { includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray} from 'lodash';
 
 declare const window: any;
 const GROUP_BY_OPTIONS = {
@@ -22,7 +22,7 @@ const _deepCopy = (o1: any, ...o2: any) => {
         if (o) {
             Object.keys(o).forEach(k => {
                 const v = o[k];
-                if (v && !isString(v) && typeof v === 'object') {
+                if (v && !isString(v) && !isArray(v) && typeof v === 'object') {
                     o1[k] = _deepCopy(o1[k] || {}, o[k]);
                 } else {
                     o1[k] = _deepCopy(v);

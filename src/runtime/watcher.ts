@@ -1,51 +1,114 @@
+import { isEqual } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
-import BaseFragment from './base-fragment.component';
+import { WIDGET_LOGGER } from '@wavemaker/app-rn-runtime/core/base.component';
 
-class WatcherStore {
+class Watcher {
+    private last: any = null;
+
+    constructor(private fn: Function, private onChange: (prev: any, now: any) => any) {
+        this.last = this.execute();
+    }
+    
+    private execute() {
+        try {
+            return this.fn();
+        } catch(e) {
+            //do nothing
+            return null;
+        }
+    }
+
+    get value() {
+        return this.last;
+    }
+
+    public check() {
+        const now = this.execute();
+        if (!isEqual(this.last, now)) {
+            WIDGET_LOGGER.debug(() => {
+                const expStr = this.fn.toString();
+                const expBody = expStr.substring(
+                    expStr.indexOf('return ') + 7,
+                    expStr.lastIndexOf(';'));
+                if (expBody !== 'fragment') {
+                    return `Watcher: <${expBody}> Changed from ${this.last} to ${now} `;
+                }
+                return '';
+            });
+            this.onChange(this.last, now);
+            this.last = now;
+            return true;
+        }
+        return false;
+    }
+}
+
+export class WatcherGroup {
+    private watchers = [] as Watcher[];
+    constructor(private isMuted = () => false) {}
+    check() {
+        if (!this.isMuted()) {
+            this.watchers.forEach(watcher => watcher.check());
+        }
+    }
+    add(watcher: Watcher) {
+        this.watchers.push(watcher);
+    }
+    clear() {
+        if (this.watchers.length) {
+            this.watchers = [];
+        }
+    }
+}
+
+export const WatcherStore = new (class {
     nextWatcherKey = 1;
-    store = new Map<string, any[]>();
+    store = new Map<string, WatcherGroup>();
     i = 0;
 
-    getWatchers(key: string) {
-        if(!this.store.has(key)) {
-            this.store.set(key, []);
-        }
-        return this.store.get(key) as any;
+    get(key: string) {
+        return this.store.get(key) as WatcherGroup;
     }
 
-    clearWatchers(key: string) {
-        const watchers = this.store.get(key);
-        if (watchers) {
-            watchers.splice(0, watchers.length);
+    clear(key: string) {
+        const watcherGroup = this.store.get(key);
+        if (watcherGroup) {
+            watcherGroup.clear();
         }
     }
 
-    removeWatchers(key: string) {
+    remove(key: string) {
         this.store.delete(key);
     }
 
     getNextWatcherKey() {
         return 'watcher'+ (this.nextWatcherKey++);
     }
-}
 
-const WACTHER_STORE = new WatcherStore();
-export function useWatcher(fragment: BaseFragment<any, any>) {
-    const [state, setState] = useState({});
-    const watcherKey = useMemo(() => WACTHER_STORE.getNextWatcherKey(), []);
-    WACTHER_STORE.clearWatchers(watcherKey);
-    const watchers = WACTHER_STORE.getWatchers(watcherKey);
-    useEffect(() => {
-        const destroy = fragment.watch(watchers, () => setState({})); 
+    trigger() {
+        this.store.forEach(watcherGroup => watcherGroup.check());
+    };
+})();
+
+export function useWatcher(isMuted = () => false) {
+    const [change, onChange] = useState({});
+    const watcherKey = useMemo(() => WatcherStore.getNextWatcherKey(), []);
+    let watcherGroup = WatcherStore.get(watcherKey);
+    if (!watcherGroup) {
+        watcherGroup = new WatcherGroup(isMuted);
+        WatcherStore.store.set(watcherKey, watcherGroup);
+    }
+    watcherGroup.clear();
+    useEffect(() => { 
         return () => {
-            WACTHER_STORE.removeWatchers(watcherKey);
-            destroy();
-        };;
+            WatcherStore.remove(watcherKey);
+        };
     }, []);
     return {
         watch: (fn: Function) => {
-            watchers.push(fn);
-            return fragment.eval(fn);
+            const watcher =  new Watcher(fn, () => onChange({}));
+            watcherGroup.add(watcher);
+            return watcher.value;
         }
     };
 };

@@ -5,5 +5,5 @@ export default class WmWizardstepProps extends BaseProps {
   enableskip: boolean = false;
   iconclass: string = 'wi wi-done';
   title: string = 'Step Title';
-
+  index: number = 0;
 }

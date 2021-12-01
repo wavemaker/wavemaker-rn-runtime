@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
@@ -19,6 +20,7 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
 
   constructor(props: WmDialogProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmDialogProps(), new WmDialogState());
+    this.hideMode = HideMode.DONOT_ADD_TO_DOM;
     this.state.modalOptions.onClose = () => {
       return new Promise<void>((res) => {
         this.updateState({
