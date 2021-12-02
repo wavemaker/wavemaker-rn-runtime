@@ -20,7 +20,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
 
   onFieldChangeEvt(name: string, $new: any, $old: any) {
     if (!isEqual($old, $new)) {
-      this.updateState({ props: { datavalue: $new } } as any);
+      this.updateState({ props: { datavalue: $new } } as WmFormFieldState);
     }
   }
 

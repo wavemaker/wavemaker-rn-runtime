@@ -39,7 +39,6 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
             textValue: $new
           } as S
         );
-        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
     }
   }
 
@@ -53,9 +52,15 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     this.updateState({
         textValue: value
       } as S, () => {
-      if (this.state.props.updateon === 'default') {
-        this.updateDatavalue(value, null);
-      }
+        if (this.state.props.updateon === 'default') {
+          this.updateDatavalue(value, null);
+          this.props.onFieldChange &&
+            this.props.onFieldChange(
+              'datavalue',
+              value,
+              this.state.props.datavalue
+            );
+        }
       }
     );
   }
@@ -105,7 +110,17 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   onBlur(event: any) {
     this.isTouched = true;
     if (this.state.props.updateon === 'blur') {
-      this.updateDatavalue(event.target.value || this.state.textValue, event, 'blur');
+      this.updateDatavalue(
+        event.target.value || this.state.textValue,
+        event,
+        'blur'
+      );
+      this.props.onFieldChange &&
+        this.props.onFieldChange(
+          'datavalue',
+          event.target.value || this.state.textValue,
+          this.state.props.datavalue
+        );
     }
   }
 

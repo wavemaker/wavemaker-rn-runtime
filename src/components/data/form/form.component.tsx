@@ -64,14 +64,15 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         props : {
           datavalue: ''
         }
-      });
-    });
-    forEach(this.formWidgets, (fw) => {
-      fw.updateState({
-        props : {
-          datavalue: ''
+      }, () => {
+        const widget = this.formWidgets[fw.props.name];
+          widget.updateState({
+              props : {
+                datavalue: ''
+              }
+            } as WmFormFieldState);
         }
-      } as WmFormFieldState);
+      );
     });
   }
 
