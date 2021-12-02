@@ -97,8 +97,8 @@ export default abstract class BaseApp extends React.Component {
         refreshAfterWait = false;
         setTimeout(() => {
           this.forceUpdate();
-          WatcherStore.trigger();
           this.appConfig.currentPage?.forceUpdate();
+          WatcherStore.trigger();
         });
         setTimeout(() => {
           wait = 0;

@@ -85,6 +85,10 @@ class AppSecurityService implements SecurityService {
     }
     
     private getLoggedInUserDetails(baseURL: string) {
+        if (!baseURL) {
+            this.loggedInUser = {};
+            return Promise.resolve({});
+        }
         return axios.get(baseURL + '/services/security/info').then((response: AxiosResponse) => {
             const loggedInUser = {} as LoggedInUserConfig;
             const details = response.data;
