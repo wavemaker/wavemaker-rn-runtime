@@ -1,4 +1,6 @@
 import axios from "axios";
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+
 import { BaseVariable, VariableConfig, VariableEvents } from "./base-variable";
 import { isObject, forEach, get, merge, includes, isEmpty, toUpper } from "lodash";
 import { WS_CONSTANTS } from "./utils/variable.constants";
@@ -53,7 +55,8 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         let queryParams = '',
           headers: any = {},
           requestBody: any = {},
-          url = get(config.serviceInfo, 'proxySettings.mobile') === true ? proxyURL + config.serviceInfo.relativePath : config.serviceInfo.directPath,
+          isProxyCall = isWebPreviewMode() ? get(config.serviceInfo, 'proxySettings.web') :  get(config.serviceInfo, 'proxySettings.mobile'),
+          url = isProxyCall ? proxyURL + get(config.serviceInfo, 'relativePath') : (get(config.serviceInfo, 'directPath') || ''),
           requiredParamMissing: any = [],
           pathParamRex;
 
