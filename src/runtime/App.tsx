@@ -4,11 +4,13 @@ import { Platform, TouchableOpacity, ScrollView, View, ViewStyle} from 'react-na
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { Linking } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
+import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
 import { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
@@ -33,6 +35,8 @@ import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/uti
 
 import * as SplashScreen from 'expo-splash-screen';
 import BasePage from './base-page.component';
+
+declare const window: any;
 
 //some old react libraries need this
 ((View as any)['propTypes'] = { style: ProtoTypes.any})
@@ -126,6 +130,19 @@ export default abstract class BaseApp extends React.Component {
 
   onPageReady(activePageName: string, activePageScope: BasePage) {
 
+  }
+
+  openBrowser(url: string, params = {} as any) {
+    if (url) {
+      if (isWebPreviewMode()) {
+        window.open(url, '_blank');
+      } else if (url.startsWith('http') && params.target === '_blank') {
+        WebBrowser.openBrowserAsync(url);
+      } else {
+        return Linking.openURL(url);
+      }
+    }
+    return Promise.resolve();
   }
 
   // To support old api

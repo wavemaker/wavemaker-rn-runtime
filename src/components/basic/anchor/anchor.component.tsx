@@ -25,7 +25,9 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     const props = this.state.props;
     if (props.hyperlink) {
       const link = props.encodeurl ? encodeUrl(props.hyperlink) : props.hyperlink;
-      navigationService.openUrl(link);
+      navigationService.openUrl(link, {
+        target: this.state.props.target
+      });
     }
     this.invokeEventCallback('onTap', [e, this.proxy]);
   }

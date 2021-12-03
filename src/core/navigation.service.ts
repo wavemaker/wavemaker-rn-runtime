@@ -3,7 +3,7 @@ import React from 'react';
 export default interface NavigationService {
     goToPage: (pageName: string, params: any) => Promise<void>;
     goBack: (pageName: string, params: any) => Promise<void>;
-    openUrl: (url: string) => Promise<void>;
+    openUrl: (url: string, params?: any) => Promise<void>;
 }
 
 const NavigationContext = React.createContext<NavigationService>(null as any);

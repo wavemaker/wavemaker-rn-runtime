@@ -1,10 +1,8 @@
 import { clone, isEqual } from 'lodash';
 import React, { ReactNode } from 'react';
-import { Linking } from 'react-native';
 import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPage from '@wavemaker/app-rn-runtime/components/page/page.component';
-import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
@@ -117,7 +115,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       return Promise.resolve();
     }
 
-    openUrl(url: string) {
+    openUrl(url: string, params = {} as any) {
       if (url) {
         if (url.startsWith('#')) {
           url = url.substring(1);
@@ -131,10 +129,8 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
               .forEach(p => params[p[0]] = p[1]);
           }
           return this.goToPage(pageName, params);
-        } else if (isWebPreviewMode()) {
-          window.open(url, '_blank');
         } else {
-          return Linking.openURL(url);
+          this.App.openBrowser(url, params);
         }
       }
       return Promise.resolve();
