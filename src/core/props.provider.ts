@@ -41,7 +41,7 @@ export class PropsProvider<T extends BaseProps> {
             //@ts-ignore
             const value = nextProps[k];
             const oldValue = this.oldProps[k];
-            if (!this.overriddenProps[k] && this.oldProps[k] !== value) {
+            if (!this.overriddenProps[k] && this.overriddenProps[k] !== '' && this.oldProps[k] !== value) {
                 this.oldProps[k] = value;
                 this.onChange(k, value, oldValue);
                 flag = true;
