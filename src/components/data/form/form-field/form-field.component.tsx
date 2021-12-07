@@ -32,9 +32,6 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           this.invokeEventCallback('onChange', [undefined, this, $new, $old]);
         }
         break;
-      case 'defaultvalue':
-        this.updateState({props: { datavalue: $new } } as any);
-        break;
     }
   }
 

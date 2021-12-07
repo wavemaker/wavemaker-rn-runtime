@@ -3,6 +3,7 @@ import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 export default class WmFormFieldProps extends BaseProps {
   children: any;
   formRef: any;
+  defaultvalue: any;
   datavalue: any;
   onChange: any;
   renderFormFields: any;

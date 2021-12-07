@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
+import {isDefined, widgetsWithUndefinedValue} from '@wavemaker/app-rn-runtime/core/utils';
 import { isArray, forEach, isEqual, isObject, get, set } from 'lodash';
 
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
@@ -11,7 +11,6 @@ import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toas
 
 import WmFormProps from './form.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormStyles } from './form.styles';
-import WmFormFieldProps from "@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.props";
 
 export class WmFormState extends BaseComponentState<WmFormProps> {
   isValid = false;
@@ -45,6 +44,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     if (this.state.props.formdata) {
       this.applyFormData();
     }
+    this.applyDefaultValue();
   }
 
   applyFormData() {
@@ -55,6 +55,23 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
           datavalue: get(this.state.props.formdata, key)
         }
       } as WmFormFieldState);
+    });
+  }
+
+  applyDefaultValue() {
+    forEach(this.formWidgets, (w: WmFormField) => {
+      if (isDefined(w.props.defaultvalue)) {
+        const field = this.formFields.find((f) => {
+          return f.props.name === w.props.name;
+        });
+        if (field) {
+          field.updateState({
+            props: {
+              datavalue: w.props.defaultvalue
+            }
+          });
+        }
+      }
     });
   }
 

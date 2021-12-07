@@ -148,3 +148,5 @@ export const getSortedGroupedData = (groupedLiData: any, groupBy: string, orderb
   });
   return _groupedData;
 };
+
+export const isDefined = (v: any) => typeof v !== 'undefined';
