@@ -33,7 +33,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
       case 'match':
         this.setGroupData(this.state.dataItems);
       case 'datavalue':
-        this.setDataItems(this.state.props.dataset);
+        this.setDataItems(this.state.props.dataset, { dataValue: $new });
         this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
     }
   }
@@ -72,10 +72,10 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     this.updateDatavalue(value);
     this.invokeEventCallback('onChange', [ undefined, this.proxy, value, oldValue]);
   }
-  setDataItems(dataset: any) {
+  setDataItems(dataset: any, propsObj?: { [key: string]: any }) {
     const name = this.props.name;
     const props = this.state.props;
-    const datavalue = props.datavalue;
+    const datavalue = propsObj ? propsObj['dataValue'] : props.datavalue;
     let dataItems: any = [];
     let datavalueItems: any = [];
     if (typeof datavalue === 'string') {

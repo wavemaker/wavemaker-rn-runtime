@@ -8,6 +8,7 @@ import {
   BaseDatasetComponent,
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
+import { isDefined } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {}
 
@@ -38,7 +39,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
       <Picker
       style={this.styles.root}
       itemStyle={{height: this.styles.root.height}}
-      selectedValue={this.state.props.datafield === 'All Fields' ? this.getItemKey(props.datavalue): (props.datavalue === null ? undefined : props.datavalue)}
+      selectedValue={this.state.props.datafield === 'All Fields' ? this.getItemKey(props.datavalue):
+        (props.datavalue === null ? undefined : isDefined(props.datavalue) ? props.datavalue : '')}
       onValueChange={this.onValueChange.bind(this)}
       enabled={!props.disabled}
       onFocus={this.onFocus.bind(this)}
