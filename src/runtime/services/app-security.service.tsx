@@ -83,7 +83,7 @@ class AppSecurityService implements SecurityService {
             this.getLoggedInUserDetails(options.baseURL);
         });
     }
-    
+
     private getLoggedInUserDetails(baseURL: string) {
         if (!baseURL) {
             this.loggedInUser = {};
@@ -115,7 +115,7 @@ class AppSecurityService implements SecurityService {
                         resolve('true');
                     }, 300);
                   });
-                return myPromise;
+                return appConfig.getServiceDefinitions(appConfig.url).then(myPromise);
           }
       });
     }

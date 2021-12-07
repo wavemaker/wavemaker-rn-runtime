@@ -30,6 +30,37 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         super(config);
     }
 
+    validateServiceInfo(config: ServiceVariableConfig) {
+      const operationInfo = config.serviceInfo;
+      // operationInfo is specifically null for un_authorized access
+      if (operationInfo === null) {
+        return {
+          'error' : {
+            'type': WS_CONSTANTS.REST_SERVICE.ERR_TYPE.USER_UNAUTHORISED,
+            'message': WS_CONSTANTS.REST_SERVICE.ERR_MSG.USER_UNAUTHORISED,
+            'field': '_wmServiceOperationInfo'
+          }
+        };
+      } else if (isEmpty(operationInfo)) {
+        return {
+          'error' : {
+            'type': WS_CONSTANTS.REST_SERVICE.ERR_TYPE.METADATA_MISSING,
+            'message': WS_CONSTANTS.REST_SERVICE.ERR_MSG.METADATA_MISSING,
+            'field': '_wmServiceOperationInfo'
+          }
+        };
+      } else if (operationInfo && operationInfo.invalid) {
+        return {
+          'error' : {
+            'type': WS_CONSTANTS.REST_SERVICE.ERR_TYPE.CRUD_OPERATION_MISSING,
+            'message': WS_CONSTANTS.REST_SERVICE.ERR_MSG.CRUD_OPERATION_MISSING,
+            'field': '_wmServiceOperationInfo'
+          }
+        };
+      }
+      return true;
+    }
+
     invoke(options? : any, onSuccess?: Function, onError?: Function) {
       return $queue.submit(this).then(this._invoke.bind(this, options, onSuccess, onError));
     }
@@ -42,6 +73,12 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         }
         const config = (this.config as ServiceVariableConfig);
 
+        const validateInfo = this.validateServiceInfo(config);
+        const errMsg = get(validateInfo, 'error.message');
+        if (errMsg) {
+          console.warn(errMsg);
+          return Promise.reject(errMsg);
+        }
         const onBeforeCallback = config.onBeforeUpdate && config.onBeforeUpdate(this, params);
         if (onBeforeCallback === false) {
           $queue.process(this);
