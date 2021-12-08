@@ -2,6 +2,7 @@ import { BaseComponent } from "@wavemaker/app-rn-runtime/core/base.component";
 import React from "react";
 import { GestureResponderEvent, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { get } from "lodash";
 
 interface TappableProps {
     children?: any
@@ -57,9 +58,9 @@ export class Tappable extends React.Component<TappableProps, any> {
         const target = this.props.target;
         if (target?.props.onTap || target?.props.onDoubletap || this.props.onTap || this.props.onDoubleTap) {
             return (
-                <TouchableOpacity
+                <TouchableOpacity disabled={get(target?.proxy, 'disabled')}
                     style={this.props.styles}
-                    onPress={() => !target?.props.disabled && this.onPress()}>
+                    onPress={() => this.onPress()}>
                     {this.props.children}
                 </TouchableOpacity>
             );
