@@ -282,6 +282,10 @@ export default abstract class BaseApp extends React.Component {
     return null;
   }
 
+  getSelectedLocale() {
+    return this.appConfig.selectedLocale;
+  }
+
   renderApp(commonPartial:React.ReactNode) {
     return (
       <SafeAreaProvider>
