@@ -3,6 +3,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import BaseInputProps from './baseinput.props';
 import { isString } from 'lodash';
 import { BaseInputStyles } from './baseinput.styles';
+import { TextInput } from 'react-native';
 
 
 export class BaseInputState <T extends BaseInputProps> extends BaseComponentState<T> {
@@ -12,12 +13,15 @@ export class BaseInputState <T extends BaseInputProps> extends BaseComponentStat
 }
 
 export abstract class BaseInputComponent< T extends BaseInputProps, S extends BaseInputState<T>, L extends BaseInputStyles> extends BaseComponent<T, S, L> {
-
+  public widgetRef: TextInput | null = null;
   isTouched: boolean = false;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles, defaultProps, defaultState);
   }
 
+  focus() {
+    this?.widgetRef?.focus();
+  }
 
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {

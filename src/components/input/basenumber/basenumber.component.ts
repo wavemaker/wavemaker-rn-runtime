@@ -3,6 +3,7 @@ import BaseNumberProps from '@wavemaker/app-rn-runtime/components/input/basenumb
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import { BaseNumberStyles } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.styles';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles";
+import { TextInput } from 'react-native';
 
 export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentState<T> {
   isInvalidNumber = false;
@@ -12,6 +13,7 @@ export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentSt
 export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends BaseNumberState<T>, L extends BaseNumberStyles> extends BaseComponent<T, S, L> {
   private DECIMAL;
   private GROUP;
+  public widgetRef: TextInput | null = null;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles, defaultProps, defaultState);
     this.DECIMAL = '.';
@@ -22,6 +24,10 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     if (this.state.props.updateon === 'default') {
       this.updateDatavalue(event.target.value, event);
     }
+  }
+
+  focus() {
+    this?.widgetRef?.focus();
   }
 
   onChangeText(value: any) {

@@ -39,6 +39,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   private rootElement: any;
   private isDefaultQuery: boolean = true;
   private dataProvider: LocalDataProvider;
+  public widgetRef: TextInput | null = null;
 
   constructor(props: WmSearchProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSearchProps(), new WmSearchState());
@@ -82,6 +83,10 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       data: filteredData,
       searchQuery: queryText,
     } as WmSearchState);
+  }
+
+  focus() {
+    this?.widgetRef?.focus();
   }
 
   onChange(value: any) {
@@ -174,6 +179,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       <View style={this.styles.root}>
         <View style={this.styles.searchInputWrapper}>
           <TextInput style={this.styles.text}
+            ref={ref => this.widgetRef = ref}
             placeholder={props.placeholder}
             autoFocus={props.autofocus}
             editable={props.disabled || props.readonly ? false : true}

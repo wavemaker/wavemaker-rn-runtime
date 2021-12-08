@@ -17,6 +17,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
 
   renderWidget(props: WmTextareaProps) {
     return ( <TextInput
+      ref={ref => this.widgetRef = ref}
       style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
       multiline={true}
       numberOfLines={3}
