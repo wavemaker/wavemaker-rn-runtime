@@ -43,6 +43,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
             textValue: $new
           } as S
         );
+        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
     }
   }
 

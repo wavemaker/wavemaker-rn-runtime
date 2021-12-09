@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
-import { isEqual } from 'lodash';
+import { isEqual, find } from 'lodash';
 
 import WmFormFieldProps from './form-field.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormFieldStyles } from './form-field.styles';
