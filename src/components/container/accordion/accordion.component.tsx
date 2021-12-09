@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { Badge, List } from 'react-native-paper';
 import { isArray } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { isDefined } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmAccordionProps from './accordion.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAccordionStyles } from './accordion.styles';
@@ -37,7 +38,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const iconclass = props.isExpanded ? 'wi wi-minus' : 'wi wi-plus';
     return (<View style={{flexDirection: 'row'}}>
             {badge}
-            <WmIcon 
+            <WmIcon
               styles={props.isExpanded ? this.styles.activeIcon : this.styles.icon}
               name={'expand_collapse_icon'}
               iconclass={iconclass}></WmIcon>
@@ -47,7 +48,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   renderAccordionpane(item: any, index: any, isExpanded = true) {
     const icon = (<WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>);
     return (
-      <List.Accordion title={item.props.title || 'Title'}
+      <List.Accordion title={isDefined(item.props.title) ? item.props.title : 'Title'}
                       style={[this.styles.header, isExpanded ? this.styles.activeHeader : {}]}
                       theme={{
                         colors: {
@@ -84,9 +85,9 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
       } as WmAccordionState, () => {
         const expandedPane = expandedId ? this.accordionPanes[expandedId - 1]: null;
         expandedPane?.onPaneExpand();
-        this.invokeEventCallback('onChange', [{}, 
-          this.proxy, 
-          expandedId - 1, 
+        this.invokeEventCallback('onChange', [{},
+          this.proxy,
+          expandedId - 1,
           oldIndex ? oldIndex - 1 : null,
           expandedPane && expandedPane.props.name,
           collapsedPane && collapsedPane.props.name])

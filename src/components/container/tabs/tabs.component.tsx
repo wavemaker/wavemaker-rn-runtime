@@ -31,7 +31,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
 
   renderTabpane(item: any, index: any) {
     return(
-      <TabScreen label={item.props.title || 'Tab Title'} key={'tabpane_' + index} icon={item.props.paneicon}>
+      <TabScreen label={item.props.title} key={'tabpane_' + index} icon={item.props.paneicon}>
         <View style={{flex: 1}}>{item}</View>
       </TabScreen>)
   }
