@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { isArray } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { isDefined } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmTabsProps from './tabs.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmTabsStyles } from './tabs.styles';
@@ -31,7 +32,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
 
   renderTabpane(item: any, index: any) {
     return(
-      <TabScreen label={item.props.title} key={'tabpane_' + index} icon={item.props.paneicon}>
+      <TabScreen label={isDefined(item.props.title) ? item.props.title : 'Tab Title'} key={'tabpane_' + index} icon={item.props.paneicon}>
         <View style={{flex: 1}}>{item}</View>
       </TabScreen>)
   }
