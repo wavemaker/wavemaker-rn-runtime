@@ -6,14 +6,16 @@ import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleList
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable'
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
-import Viewport, {EVENTS as viewportEvents} from '@wavemaker/app-rn-runtime/core/viewport';
+import Viewport, { EVENTS as viewportEvents } from '@wavemaker/app-rn-runtime/core/viewport';
 import App from './App';
-import WmFormField from "@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component";
-import WmForm from "@wavemaker/app-rn-runtime/components/data/form/form.component";
+import WmFormField from '@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component';
+import WmForm from '@wavemaker/app-rn-runtime/components/data/form/form.component';
 import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
+import spinnerService from '@wavemaker/app-rn-runtime/runtime/services/app-spinner.service';
+
 import BasePartial from './base-partial.component';
 import AppI18nService from './services/app-i18n.service';
-import { isEqual } from 'lodash';
+import { isEqual, get, filter } from 'lodash';
 
 
 export class FragmentProps extends BaseProps {
@@ -194,11 +196,32 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       return this._memoize[key];
     }
 
+    initVariableSpinner() {
+      const variables = filter(this.Variables, (v: BaseVariable<any>) => get(v, 'config.spinnerContext') === 'page')
+      // @ts-ignore
+      this.cleanup.push(variables.map(v => {
+          return ((v as BaseVariable<any>)
+            .subscribe(VariableEvents.BEFORE_INVOKE, () => {
+              spinnerService.show({
+                message: get(v, 'config.spinnerMessage')
+              });
+            }))
+      }));
+      // @ts-ignore
+      this.cleanup.push(variables.map(v => {
+        return ((v as BaseVariable<any>)
+          .subscribe(VariableEvents.AFTER_INVOKE, () => {
+            spinnerService.hide();
+          }));
+      }));
+    }
+
     onFragmentReady() {
       this.cleanup.push(...Object.values({...this.Variables, ...this.Actions}).map(v => {
         return ((v as BaseVariable<any>)
           .subscribe(VariableEvents.AFTER_INVOKE, () => this.App.refresh()));
       }));
+      this.initVariableSpinner();
       this.cleanUpVariablesandActions.push(...Object.values({...this.fragmentVariables, ...this.fragmentActions} as BaseVariable<any>));
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))

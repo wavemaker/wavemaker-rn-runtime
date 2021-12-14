@@ -352,6 +352,7 @@ const styles = {
   },
   displayViewContainer: {
     position: 'absolute',
+    justifyContent: 'center',
     width: '100%',
     left: 0,
     right: 0,
