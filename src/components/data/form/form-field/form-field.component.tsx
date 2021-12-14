@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
-import { isEqual, find } from 'lodash';
+import { isEqual, find, get } from 'lodash';
 
 import WmFormFieldProps from './form-field.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormFieldStyles } from './form-field.styles';
@@ -30,6 +30,11 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
         if (!isEqual($old, $new)) {
           PERFORMANCE_LOGGER.debug(`form field ${this.props.name} changed from ${$old} to ${$new}`);
           this.invokeEventCallback('onChange', [undefined, this, $new, $old]);
+        }
+        break;
+      case 'defaultvalue':
+        if (!isEqual($old, $new)) {
+          get(this, 'form') && this.form.applyDefaultValue();
         }
         break;
     }
