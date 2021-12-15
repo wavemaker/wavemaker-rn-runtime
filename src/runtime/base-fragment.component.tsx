@@ -198,6 +198,9 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     initVariableSpinner() {
       const variables = filter(this.Variables, (v: BaseVariable<any>) => get(v, 'config.spinnerContext') === 'page')
+      if (!variables.length) {
+        return;
+      }
       // @ts-ignore
       this.cleanup.push(variables.map(v => {
           return ((v as BaseVariable<any>)
