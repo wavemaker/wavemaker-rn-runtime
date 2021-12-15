@@ -17,6 +17,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   public widgetRef: TextInput | null = null;
   private previous = { start: 0, end: 0 };
   private previousText = '';
+  private isChanged = false;
   isTouched: boolean = false;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles, defaultProps, defaultState);
@@ -57,6 +58,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   onChangeText(value: any) {
+    this.isChanged = true;
     this.updateState({
         textValue: value
       } as S, () => {
@@ -77,21 +79,23 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   // Hence handling this using selection object.
   onSelectionChange(o: any) {
     if (o.nativeEvent.type === 'selectionchange') {
-      if (this.previousText.length !== o.nativeEvent.text.length) {
+      if (this.isChanged && this.previousText.length !== o.nativeEvent.text.length) {
         const diff = this.previousText.length - o.nativeEvent.text.length;
         const start = this.previous.start - diff;
         const end = this.previous.end - diff;
         this.setState({ selection: { start: start, end: end } });
         this.previous = { start: start, end: end };
         this.previousText = o.nativeEvent.text;
+        this.isChanged = false;
       }
-    } else {
+    }
+    if (!this.isChanged) {
       this.previous = {
         start: o.nativeEvent.selection.start,
         end: o.nativeEvent.selection.end
       }
-      this.previousText = o.nativeEvent.text;
     }
+    this.previousText = o.nativeEvent.text;
   }
 
   handleValidation(value: any) {
