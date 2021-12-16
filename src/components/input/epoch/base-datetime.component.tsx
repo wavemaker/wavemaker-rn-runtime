@@ -154,9 +154,10 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     this.stopCurrentTimeMonitor();
   }
 
-  renderWebWidget(props: WmDatetimeProps)  {
+  renderWebWidget(props: WmDatetimeProps) {
     return (<WebDatePicker
       mode={this.state.props.mode}
+      locale={props.locale}
       value={this.state.dateValue || new Date()}
       onDateChange={(date: Date) => this.onDateChange(null as any, date)}
       onDismiss={() =>

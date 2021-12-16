@@ -29,7 +29,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
       <View style={this.styles.radioHead} key={item.key}>
           <RadioButton
             value={this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield}
-            color={this.styles.root.color}
+            color={this.styles.root.color as string}
             disabled={this.state.props.readonly || this.state.props.disabled}
           />
           <Text style={this.styles.radioLabel}>{displayText}</Text>

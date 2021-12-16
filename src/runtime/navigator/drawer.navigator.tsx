@@ -16,12 +16,15 @@ class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, a
   }
 
   render(){
-    return (<Drawer.Navigator 
+    return (<Drawer.Navigator
       initialRouteName="pages"
       drawerContent={this.props.content}
-      gestureHandlerProps = {{enabled: !this.props.hide}} 
-      drawerType={this.props.type} >
-      <Drawer.Screen name="pages">
+      screenOptions={{
+          drawerType: this.props.type,
+          headerShown: false,
+          gestureHandlerProps: { enabled: !this.props.hide },
+      }}>
+      <Drawer.Screen name="pagesnew">
         {(_props) => this.props.rootComponent}
       </Drawer.Screen>
     </Drawer.Navigator>);

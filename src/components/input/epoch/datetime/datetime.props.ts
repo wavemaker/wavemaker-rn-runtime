@@ -10,4 +10,5 @@ export default class WmDatetimeProps extends BaseProps {
   placeholder? = 'Select date time';
   readonly? = false;
   onFieldChange?: any;
+  locale: string = '';
 }

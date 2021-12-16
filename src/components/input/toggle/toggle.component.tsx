@@ -4,7 +4,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmToggleProps from './toggle.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmToggleStyles } from './toggle.styles';
-import {View} from "react-native";;
+import { ColorValue, View } from "react-native";;
 
 export class WmToggleState extends BaseComponentState<WmToggleProps> {
   isSwitchOn: boolean = false;
@@ -49,9 +49,9 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     return (
       <View style={this.styles.root}>
         <Switch value={this.state.isSwitchOn}
-            color={this.styles.text.color}
+            color={this.styles.text.color as string}
             disabled={props.readonly || props.disabled}
-            onValueChange={this.onToggleSwitch.bind(this)} 
+            onValueChange={this.onToggleSwitch.bind(this)}
             onTouchEndCapture={() => {
               // Added setTimeout to smooth animation
               setTimeout(() => {

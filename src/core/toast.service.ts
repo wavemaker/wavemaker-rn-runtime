@@ -7,7 +7,7 @@ export interface ToastOptions {
     text: string;
     type: 'success' | 'warning' | 'error' | 'info' | 'loading';
     placement: string;
-    duration?: Number;
+    duration?: number;
     name: string;
     styles: any;
     hideOnClick?: boolean;

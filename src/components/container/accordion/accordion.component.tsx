@@ -52,8 +52,8 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                       style={[this.styles.header, isExpanded ? this.styles.activeHeader : {}]}
                       theme={{
                         colors: {
-                          background : this.styles.header.backgroundColor,
-                          primary: this.styles.activeHeader.color
+                          background : this.styles.header.backgroundColor as string,
+                          primary: this.styles.activeHeader.color as string
                         }
                       }}
                       titleStyle={[this.styles.text, isExpanded ? this.styles.activeHeaderTitle : {}]}

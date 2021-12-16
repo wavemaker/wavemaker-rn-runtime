@@ -12,6 +12,7 @@ export class DatePickerProps {
     maximumDate?: Date = null as any;
     onDateChange?: Function = null as any;
     onDismiss?: Function = null as any;
+    locale: string = '';
 }
 
 export class DatePickerState {
@@ -133,7 +134,7 @@ export default class DatePickerComponnent extends React.Component<DatePickerProp
                                 validRange= {{
                                     startDate: this.props.minimumDate,
                                     endDate: this.props.maximumDate
-                                }}/>)}
+                                }} locale={this.props.locale}/>)}
                         {this.state.showTimePicker && this.prepareTimeModal(modalService)}
                     </View>)
                 ));

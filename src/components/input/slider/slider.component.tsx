@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import {View, Text, ColorValue} from 'react-native';
 import Slider from '@react-native-community/slider';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -21,7 +21,7 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
 
   onPropertyChange(name: string, $new: any, $old: any) {
     switch(name) {
-      case 'datavalue': 
+      case 'datavalue':
         if (isNumber($new) && isNumber($old)) {
           this.invokeEventCallback('onChange', [null, this, $new, $old]);
         }
@@ -57,12 +57,12 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
         minimumValue={props.minvalue}
         maximumValue={props.maxvalue}
         onValueChange={this.onChange}
-        thumbTintColor={this.styles.thumb.backgroundColor}
+        thumbTintColor={this.styles.thumb.backgroundColor as string}
         onTouchStart={this.onBeforeSlide}
         onTouchEnd={this.onAfterSlide}
-        minimumTrackTintColor={this.styles.minimumTrack.backgroundColor}
-        maximumTrackTintColor={this.styles.maximumTrack.backgroundColor}
+        minimumTrackTintColor={this.styles.minimumTrack.backgroundColor as string}
+        maximumTrackTintColor={this.styles.maximumTrack.backgroundColor as string}
       />
-    </View>); 
+    </View>);
   }
 }

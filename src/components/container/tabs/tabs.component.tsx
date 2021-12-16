@@ -58,7 +58,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         defaultIndex={props.defaultpaneindex}
         theme={{
           colors: {
-            primary: this.styles.activeHeaderText.color
+            primary: this.styles.activeHeaderText.color as string
           }
         }}
         style={this.styles.root}
