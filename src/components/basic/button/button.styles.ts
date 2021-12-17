@@ -74,14 +74,14 @@ const getButtonStyles = (bgColor: string, color: string, borderColor = bgColor) 
   } as WmButtonStyles;
 }
 
-BASE_THEME.addStyle('btn-default', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonDefaultColor, ThemeVariables.buttonDefaultTextColor, ThemeVariables.buttonBorderColor));
-BASE_THEME.addStyle('btn-info', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonInfoColor, ThemeVariables.buttonInfoTextColor));
-BASE_THEME.addStyle('btn-primary', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonPrimaryColor, ThemeVariables.buttonPrimaryTextColor));
-BASE_THEME.addStyle('btn-secondary', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonSecondaryColor, ThemeVariables.buttonSecondaryTextColor));
-BASE_THEME.addStyle('btn-danger', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonDangerColor, ThemeVariables.buttonDangerTextColor));
-BASE_THEME.addStyle('btn-success', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonSuccessColor, ThemeVariables.buttonSuccessTextColor));
-BASE_THEME.addStyle('btn-warning', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonWarningColor, ThemeVariables.buttonWarningTextColor));
-BASE_THEME.addStyle('btn-link', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonLinkColor, ThemeVariables.buttonLinkTextColor));
-BASE_THEME.addStyle('btn-dark', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonDarkColor, ThemeVariables.buttonDarkTextColor));
-BASE_THEME.addStyle('btn-light', DEFAULT_CLASS, getButtonStyles(ThemeVariables.buttonLightColor, ThemeVariables.buttonLightTextColor));
+BASE_THEME.addStyle('btn-default', '', getButtonStyles(ThemeVariables.buttonDefaultColor, ThemeVariables.buttonDefaultTextColor, ThemeVariables.buttonBorderColor));
+BASE_THEME.addStyle('btn-info', '', getButtonStyles(ThemeVariables.buttonInfoColor, ThemeVariables.buttonInfoTextColor));
+BASE_THEME.addStyle('btn-primary', '', getButtonStyles(ThemeVariables.buttonPrimaryColor, ThemeVariables.buttonPrimaryTextColor));
+BASE_THEME.addStyle('btn-secondary', '', getButtonStyles(ThemeVariables.buttonSecondaryColor, ThemeVariables.buttonSecondaryTextColor));
+BASE_THEME.addStyle('btn-danger', '', getButtonStyles(ThemeVariables.buttonDangerColor, ThemeVariables.buttonDangerTextColor));
+BASE_THEME.addStyle('btn-success', '', getButtonStyles(ThemeVariables.buttonSuccessColor, ThemeVariables.buttonSuccessTextColor));
+BASE_THEME.addStyle('btn-warning', '', getButtonStyles(ThemeVariables.buttonWarningColor, ThemeVariables.buttonWarningTextColor));
+BASE_THEME.addStyle('btn-link', '', getButtonStyles(ThemeVariables.buttonLinkColor, ThemeVariables.buttonLinkTextColor));
+BASE_THEME.addStyle('btn-dark', '', getButtonStyles(ThemeVariables.buttonDarkColor, ThemeVariables.buttonDarkTextColor));
+BASE_THEME.addStyle('btn-light', '', getButtonStyles(ThemeVariables.buttonLightColor, ThemeVariables.buttonLightTextColor));
 

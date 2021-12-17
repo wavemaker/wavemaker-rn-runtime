@@ -12,4 +12,4 @@ export const DEFAULT_STYLES: WmGridColumnStyles = {
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 
-BASE_THEME.addStyle('table-cell', DEFAULT_CLASS, {});
+BASE_THEME.addStyle('table-cell', '', {});

@@ -22,7 +22,7 @@ export const DEFAULT_STYLES: WmListTemplateStyles = {
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('list-card-template', DEFAULT_CLASS, {
+BASE_THEME.addStyle('list-card-template', '', {
     root : {
         borderBottomWidth: 0
     }

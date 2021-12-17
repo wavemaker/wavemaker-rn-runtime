@@ -62,31 +62,31 @@ const getStyle = (bgColor: string, closeBtnColor: string, iconcolor: string, tex
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('success-message', DEFAULT_CLASS, getStyle(
+BASE_THEME.addStyle('success-message', '', getStyle(
     ThemeVariables.messageSuccessBackgroundColor,
     ThemeVariables.messageSuccessCloseBtnColor,
     ThemeVariables.messageSuccessIconColor,
     ThemeVariables.messageSuccessTextColor
 ));
-BASE_THEME.addStyle('error-message', DEFAULT_CLASS, getStyle(
+BASE_THEME.addStyle('error-message', '', getStyle(
     ThemeVariables.messageErrorBackgroundColor,
     ThemeVariables.messageErrorCloseBtnColor,
     ThemeVariables.messageErrorIconColor,
     ThemeVariables.messageErrorTextColor
 ));
-BASE_THEME.addStyle('warning-message', DEFAULT_CLASS, getStyle(
+BASE_THEME.addStyle('warning-message', '', getStyle(
     ThemeVariables.messageWarningBackgroundColor,
     ThemeVariables.messageWarningCloseBtnColor,
     ThemeVariables.messageWarningIconColor,
     ThemeVariables.messageWarningTextColor
 ));
-BASE_THEME.addStyle('info-message', DEFAULT_CLASS, getStyle(
+BASE_THEME.addStyle('info-message', '', getStyle(
     ThemeVariables.messageInfoBackgroundColor,
     ThemeVariables.messageInfoCloseBtnColor,
     ThemeVariables.messageInfoIconColor,
     ThemeVariables.messageInfoTextColor
 ));
-BASE_THEME.addStyle('loading-message', DEFAULT_CLASS, getStyle(
+BASE_THEME.addStyle('loading-message', '', getStyle(
     ThemeVariables.messageLoadingBackgroundColor,
     ThemeVariables.messageLoadingCloseBtnColor,
     ThemeVariables.messageLoadingIconColor,

@@ -29,12 +29,12 @@ BASE_THEME.addStyle('tile-template-text', '', {
   }
 } as any);
 
-BASE_THEME.addStyle('bg-danger', DEFAULT_CLASS, getTileBgStyles(ThemeVariables.tileDangerColor));
-BASE_THEME.addStyle('bg-info', DEFAULT_CLASS, getTileBgStyles(ThemeVariables.tileInfoColor));
-BASE_THEME.addStyle('bg-primary', DEFAULT_CLASS, getTileBgStyles(ThemeVariables.tilePrimaryColor));
-BASE_THEME.addStyle('bg-success', DEFAULT_CLASS, getTileBgStyles(ThemeVariables.tileSuccessColor));
-BASE_THEME.addStyle('bg-warning', DEFAULT_CLASS, getTileBgStyles(ThemeVariables.tileWarningColor));
-BASE_THEME.addStyle('well', DEFAULT_CLASS, {
+BASE_THEME.addStyle('bg-danger', '', getTileBgStyles(ThemeVariables.tileDangerColor));
+BASE_THEME.addStyle('bg-info', '', getTileBgStyles(ThemeVariables.tileInfoColor));
+BASE_THEME.addStyle('bg-primary', '', getTileBgStyles(ThemeVariables.tilePrimaryColor));
+BASE_THEME.addStyle('bg-success', '', getTileBgStyles(ThemeVariables.tileSuccessColor));
+BASE_THEME.addStyle('bg-warning', '', getTileBgStyles(ThemeVariables.tileWarningColor));
+BASE_THEME.addStyle('well', '', {
   root: {
     padding: 20,
     marginBottom: 20,

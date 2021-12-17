@@ -58,11 +58,11 @@ const getLinkStyles = (color: string) => {
     } as WmAnchorStyles;
 };
 
-BASE_THEME.addStyle('link-primary', DEFAULT_CLASS, getLinkStyles(ThemeVariables.linkPrimaryColor));
-BASE_THEME.addStyle('link-secondary', DEFAULT_CLASS, getLinkStyles(ThemeVariables.linkSecondaryColor));
-BASE_THEME.addStyle('link-success', DEFAULT_CLASS, getLinkStyles(ThemeVariables.linkSuccessColor));
-BASE_THEME.addStyle('link-danger', DEFAULT_CLASS, getLinkStyles(ThemeVariables.linkDangerColor));
-BASE_THEME.addStyle('link-warning', DEFAULT_CLASS, getLinkStyles(ThemeVariables.linkWarningColor));
-BASE_THEME.addStyle('link-info', DEFAULT_CLASS, getLinkStyles(ThemeVariables.linkInfoColor));
-BASE_THEME.addStyle('link-light', DEFAULT_CLASS, getLinkStyles(ThemeVariables.linkLightColor));
-BASE_THEME.addStyle('link-dark', DEFAULT_CLASS, getLinkStyles(ThemeVariables.linkDarkColor));
+BASE_THEME.addStyle('link-primary', '', getLinkStyles(ThemeVariables.linkPrimaryColor));
+BASE_THEME.addStyle('link-secondary', '', getLinkStyles(ThemeVariables.linkSecondaryColor));
+BASE_THEME.addStyle('link-success', '', getLinkStyles(ThemeVariables.linkSuccessColor));
+BASE_THEME.addStyle('link-danger', '', getLinkStyles(ThemeVariables.linkDangerColor));
+BASE_THEME.addStyle('link-warning', '', getLinkStyles(ThemeVariables.linkWarningColor));
+BASE_THEME.addStyle('link-info', '', getLinkStyles(ThemeVariables.linkInfoColor));
+BASE_THEME.addStyle('link-light', '', getLinkStyles(ThemeVariables.linkLightColor));
+BASE_THEME.addStyle('link-dark', '', getLinkStyles(ThemeVariables.linkDarkColor));

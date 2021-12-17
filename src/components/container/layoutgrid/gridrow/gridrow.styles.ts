@@ -13,24 +13,24 @@ export const DEFAULT_STYLES: WmGridRowStyles = {
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('table-row', DEFAULT_CLASS, {
+BASE_THEME.addStyle('table-row', '', {
     root: {
         borderBottomWidth: 1,
         borderStyle: 'solid',
         borderColor: ThemeVariables.gridColumnBorderColor
     }
 });
-BASE_THEME.addStyle('table-header-row', DEFAULT_CLASS, {
+BASE_THEME.addStyle('table-header-row', '', {
     root: {
         backgroundColor: ThemeVariables.layoutGridHeaderBgColor
     }
 });
-BASE_THEME.addStyle('table-striped-row0', DEFAULT_CLASS, {
+BASE_THEME.addStyle('table-striped-row0', '', {
   root: {
     backgroundColor: ThemeVariables.layoutGridStripColor1
   }
 });
-BASE_THEME.addStyle('table-striped-row1', DEFAULT_CLASS, {
+BASE_THEME.addStyle('table-striped-row1', '', {
   root: {
     backgroundColor: ThemeVariables.layoutGridStripColor2
   }

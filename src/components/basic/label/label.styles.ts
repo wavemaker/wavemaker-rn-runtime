@@ -39,12 +39,12 @@ const getLabelStyles = (color: string, textColor: string): WmLabelStyles => {
   } as WmLabelStyles;
 };
 
-BASE_THEME.addStyle('label-danger', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelDangerColor, ThemeVariables.labelDangerContrastColor));
-BASE_THEME.addStyle('label-default', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelDefaultColor, ThemeVariables.labelDefaultContrastColor));
-BASE_THEME.addStyle('label-info', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelInfoColor, ThemeVariables.labelInfoContrastColor));
-BASE_THEME.addStyle('label-primary', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelPrimaryColor, ThemeVariables.labelPrimaryContrastColor));
-BASE_THEME.addStyle('label-success', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelSuccessColor, ThemeVariables.labelSuccessContrastColor));
-BASE_THEME.addStyle('label-warning', DEFAULT_CLASS, getLabelStyles(ThemeVariables.labelWarningColor, ThemeVariables.labelWarningContrastColor));
+BASE_THEME.addStyle('label-danger', '', getLabelStyles(ThemeVariables.labelDangerColor, ThemeVariables.labelDangerContrastColor));
+BASE_THEME.addStyle('label-default', '', getLabelStyles(ThemeVariables.labelDefaultColor, ThemeVariables.labelDefaultContrastColor));
+BASE_THEME.addStyle('label-info', '', getLabelStyles(ThemeVariables.labelInfoColor, ThemeVariables.labelInfoContrastColor));
+BASE_THEME.addStyle('label-primary', '', getLabelStyles(ThemeVariables.labelPrimaryColor, ThemeVariables.labelPrimaryContrastColor));
+BASE_THEME.addStyle('label-success', '', getLabelStyles(ThemeVariables.labelSuccessColor, ThemeVariables.labelSuccessContrastColor));
+BASE_THEME.addStyle('label-warning', '', getLabelStyles(ThemeVariables.labelWarningColor, ThemeVariables.labelWarningContrastColor));
 
 const getTextStyles = (color: string) => {
   return {
@@ -54,22 +54,22 @@ const getTextStyles = (color: string) => {
   } as WmLabelStyles;
 };
 
-BASE_THEME.addStyle('text-danger', DEFAULT_CLASS, getTextStyles(ThemeVariables.labelTextDangerColor));
-BASE_THEME.addStyle('text-info', DEFAULT_CLASS, getTextStyles(ThemeVariables.labelTextInfoColor));
-BASE_THEME.addStyle('text-primary', DEFAULT_CLASS, getTextStyles(ThemeVariables.labelTextPrimaryColor));
-BASE_THEME.addStyle('text-success', DEFAULT_CLASS, getTextStyles(ThemeVariables.labelTextSuccessColor));
-BASE_THEME.addStyle('text-warning', DEFAULT_CLASS, getTextStyles(ThemeVariables.labelTextWarningColor));
-BASE_THEME.addStyle('text-center', DEFAULT_CLASS, {
+BASE_THEME.addStyle('text-danger', '', getTextStyles(ThemeVariables.labelTextDangerColor));
+BASE_THEME.addStyle('text-info', '', getTextStyles(ThemeVariables.labelTextInfoColor));
+BASE_THEME.addStyle('text-primary', '', getTextStyles(ThemeVariables.labelTextPrimaryColor));
+BASE_THEME.addStyle('text-success', '', getTextStyles(ThemeVariables.labelTextSuccessColor));
+BASE_THEME.addStyle('text-warning', '', getTextStyles(ThemeVariables.labelTextWarningColor));
+BASE_THEME.addStyle('text-center', '', {
   root: {
     textAlign: 'center'
   }
 } as WmLabelStyles);
-BASE_THEME.addStyle('text-left', DEFAULT_CLASS, {
+BASE_THEME.addStyle('text-left', '', {
   root: {
     textAlign: 'left'
   }
 } as WmLabelStyles);
-BASE_THEME.addStyle('text-right', DEFAULT_CLASS, {
+BASE_THEME.addStyle('text-right', '', {
   root: {
     textAlign: 'right'
   }
@@ -85,24 +85,24 @@ const getHeadingStyles = (fontSize: number) => {
     }
   } as WmLabelStyles;
 };
-BASE_THEME.addStyle('h1', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading1FontSize));
-BASE_THEME.addStyle('h2', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading2FontSize));
-BASE_THEME.addStyle('h3', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading3FontSize));
-BASE_THEME.addStyle('h4', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading4FontSize));
-BASE_THEME.addStyle('h5', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading5FontSize));
-BASE_THEME.addStyle('h6', DEFAULT_CLASS, getHeadingStyles(ThemeVariables.heading6FontSize));
-BASE_THEME.addStyle('media-heading', DEFAULT_CLASS, {
+BASE_THEME.addStyle('h1', '', getHeadingStyles(ThemeVariables.heading1FontSize));
+BASE_THEME.addStyle('h2', '', getHeadingStyles(ThemeVariables.heading2FontSize));
+BASE_THEME.addStyle('h3', '', getHeadingStyles(ThemeVariables.heading3FontSize));
+BASE_THEME.addStyle('h4', '', getHeadingStyles(ThemeVariables.heading4FontSize));
+BASE_THEME.addStyle('h5', '', getHeadingStyles(ThemeVariables.heading5FontSize));
+BASE_THEME.addStyle('h6', '', getHeadingStyles(ThemeVariables.heading6FontSize));
+BASE_THEME.addStyle('media-heading', '', {
   text : {
     fontSize: 16
   }
 } as WmLabelStyles);
-BASE_THEME.addStyle('text-muted', DEFAULT_CLASS, {
+BASE_THEME.addStyle('text-muted', '', {
   text : {
     fontSize: 12,
     color: ThemeVariables.labelTextMutedColor
   }
 } as WmLabelStyles);
-BASE_THEME.addStyle('p', DEFAULT_CLASS, {
+BASE_THEME.addStyle('p', '', {
   text : {
     fontSize: 12
   }

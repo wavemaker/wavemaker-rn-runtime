@@ -33,8 +33,8 @@ const getStyle = (color: string) => ({
 } as WmProgressCircleStyles);
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('app-default-progress-circle', DEFAULT_CLASS, getStyle(ThemeVariables.progressCircleDefaultColor));
-BASE_THEME.addStyle('app-success-progress-circle', DEFAULT_CLASS, getStyle(ThemeVariables.progressCircleSuccessColor));
-BASE_THEME.addStyle('app-info-progress-circle', DEFAULT_CLASS, getStyle(ThemeVariables.progressCircleInfoColor));
-BASE_THEME.addStyle('app-danger-progress-circle', DEFAULT_CLASS, getStyle(ThemeVariables.progressCircleDangerColor));
-BASE_THEME.addStyle('app-warning-progress-circle', DEFAULT_CLASS, getStyle(ThemeVariables.progressCircleWarningColor));
+BASE_THEME.addStyle('app-default-progress-circle', '', getStyle(ThemeVariables.progressCircleDefaultColor));
+BASE_THEME.addStyle('app-success-progress-circle', '', getStyle(ThemeVariables.progressCircleSuccessColor));
+BASE_THEME.addStyle('app-info-progress-circle', '', getStyle(ThemeVariables.progressCircleInfoColor));
+BASE_THEME.addStyle('app-danger-progress-circle', '', getStyle(ThemeVariables.progressCircleDangerColor));
+BASE_THEME.addStyle('app-warning-progress-circle', '', getStyle(ThemeVariables.progressCircleWarningColor));

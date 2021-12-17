@@ -16,7 +16,7 @@ export const DEFAULT_STYLES: WmLayoutGridStyles = {
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 
-BASE_THEME.addStyle('table', DEFAULT_CLASS, {
+BASE_THEME.addStyle('table', '', {
   root: {
     backgroundColor: ThemeVariables.layoutGridBgColor,
     borderWidth: 1,
@@ -28,7 +28,7 @@ BASE_THEME.addStyle('table', DEFAULT_CLASS, {
   }
 });
 
-BASE_THEME.addStyle('table-header-label', DEFAULT_CLASS, {
+BASE_THEME.addStyle('table-header-label', '', {
     text: {
       color: ThemeVariables.layoutGridHeaderTextColor,
       fontWeight: 'bold'

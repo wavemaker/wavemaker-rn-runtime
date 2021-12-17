@@ -39,7 +39,7 @@ export const DEFAULT_STYLES: WmPopoverStyles = {
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('popover-action-sheet', DEFAULT_CLASS, {
+BASE_THEME.addStyle('popover-action-sheet', '', {
     modal: {
         backgroundColor: 'rgba(0, 0, 0, 0.3)'
     },
@@ -61,7 +61,7 @@ BASE_THEME.addStyle('popover-action-sheet', DEFAULT_CLASS, {
         maxHeight: '70%'
     }
 } as WmPopoverStyles);
-BASE_THEME.addStyle('popover-dropdown', DEFAULT_CLASS, {
+BASE_THEME.addStyle('popover-dropdown', '', {
     modal: {
         backgroundColor: 'transparent',
     },
