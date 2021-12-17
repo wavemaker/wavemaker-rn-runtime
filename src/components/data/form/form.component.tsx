@@ -172,15 +172,17 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         {(toastService: ToastService) => {
           this.toaster = toastService;
           return <View style={this.styles.root}>
-            <View style={this.styles.heading}>
-              <View style={{flex: 1, flexDirection: 'row'}}>
-                <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
-                <View>
-                  <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
-                  <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+            {props.iconclass || props.title || props.subheading ? (
+              <View style={this.styles.heading}>
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                  <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
+                  <View>
+                    <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
+                    <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+                  </View>
                 </View>
               </View>
-            </View>
+            ) : null}
             {props.children}
           </View>
         }
