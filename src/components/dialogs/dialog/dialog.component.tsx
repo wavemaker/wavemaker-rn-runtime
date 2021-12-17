@@ -50,6 +50,7 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
     o.name = this.state.props.name;
     o.modalStyle = this.styles.modal;
     o.content = content;
+    o.contentStyle = this.styles.content;
     o.isModal = !!this.state.props.modal;
     o.centered = true;
     o.animation = this.state.props.animation;

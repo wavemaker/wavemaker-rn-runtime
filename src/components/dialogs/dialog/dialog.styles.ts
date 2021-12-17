@@ -1,3 +1,4 @@
+import { ViewStyle } from 'react-native';
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
@@ -5,6 +6,8 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmButtonStyles } from '../../basic/button/button.styles';
 
 export type WmDialogStyles = BaseStyles & {
+    modal: ViewStyle,
+    modalContent: ViewStyle,
     icon: WmIconStyles,
     closeBtn: WmButtonStyles
 };
@@ -18,6 +21,8 @@ export const DEFAULT_STYLES: WmDialogStyles = {
         borderRadius: 8
     },
     text: {},
+    modal: {},
+    modalContent: {},
     icon: {
         root: {
             alignSelf: 'center',
