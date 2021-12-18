@@ -93,28 +93,37 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     }
   }
 
+  private toUtf8(str: string) {
+    return (str && decodeURIComponent(str));
+  }
+
   renderIcon(props: WmIconProps) {
     const iconDef = this.state.iconDef;
     if (!iconDef) {
       return null;
     }
     let icon = null;
+    const customIcon = this.toUtf8((this.styles.icon as any).content);
     const style = [{
       color: this.styles.root.color || this.styles.text.color
     }, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}];
     const iconSize = props.iconsize || this.styles.root.fontSize || this.styles.text.fontSize || iconDef.size;
     if (props.show && iconDef && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
-      icon = (<FontAwesome name={iconDef.type}
+      icon = (<FontAwesome name={customIcon ? '' : iconDef.type}
         style={style}
-        size={iconSize}/>);
+        size={iconSize}>
+          {customIcon}
+        </FontAwesome>);
     }
     if (props.show && iconDef && iconDef.isWavIcon) {
       const WavIcon = getWavIcon();
       //@ts-ignore type information is not matching
-      icon = (<WavIcon name={iconDef.type}
+      icon = (<WavIcon name={customIcon ? '' : iconDef.type}
         style={style}
-        size={iconSize}/>);
+        size={iconSize}>
+        {customIcon}
+      </WavIcon>);
     }
     if (icon && iconDef.animation === 'spin') {
       const rotate = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg']});

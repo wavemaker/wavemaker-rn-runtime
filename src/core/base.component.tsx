@@ -1,6 +1,7 @@
 import { assign, isEqual } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle } from 'react-native';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import BASE_THEME, { DEFAULT_CLASS, NamedStyles, AllStyle, ThemeConsumer, attachBackground } from '../styles/theme';
@@ -177,8 +178,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                         <ThemeConsumer>
                             {(theme) => {
                                 this.theme = theme || BASE_THEME;
-                                this.styles =  deepCopy({},
-                                        this.theme.getStyle(this.defaultClass) || this.defaultStyles,
+                                this.styles =  deepCopy({
+                                            text: {
+                                                fontFamily: ThemeVariables.baseFont
+                                            }
+                                        }, this.theme.getStyle(this.defaultClass) || this.defaultStyles,
                                         this.props.styles);
                                 if (!this.isVisible()) {
                                     assign(this.styles, this.theme.getStyle('hidden'))
