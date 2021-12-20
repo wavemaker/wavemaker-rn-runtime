@@ -93,8 +93,11 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     }
   }
 
-  private toUtf8(str: string) {
-    return (str && decodeURIComponent(str));
+  private getCustomIcon(str: string, style: any) {
+    if (str) {
+      return (<Text style={style}>{decodeURIComponent(str)}</Text>);
+    }
+    return null;
   }
 
   renderIcon(props: WmIconProps) {
@@ -103,10 +106,10 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
       return null;
     }
     let icon = null;
-    const customIcon = this.toUtf8((this.styles.icon as any).content);
     const style = [{
       color: this.styles.root.color || this.styles.text.color
     }, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}];
+    const customIcon = this.getCustomIcon((this.styles.icon as any).content, style );
     const iconSize = props.iconsize || this.styles.root.fontSize || this.styles.text.fontSize || iconDef.size;
     if (props.show && iconDef && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
