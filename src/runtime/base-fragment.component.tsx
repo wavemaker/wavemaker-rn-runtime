@@ -13,9 +13,8 @@ import WmForm from '@wavemaker/app-rn-runtime/components/data/form/form.componen
 import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
 import spinnerService from '@wavemaker/app-rn-runtime/runtime/services/app-spinner.service';
 
-import BasePartial from './base-partial.component';
 import AppI18nService from './services/app-i18n.service';
-import { isEqual, get, filter } from 'lodash';
+import { get, filter } from 'lodash';
 
 
 export class FragmentProps extends BaseProps {
@@ -117,14 +116,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       if (w instanceof BaseFragment && w !== this) {
         this.fragments[id] = w;
       }
-      if (w instanceof BasePartial) {
-        const parentName = (w as BasePartial).props.parent;
-        const parent = this.Widgets[parentName];
-        if (parent) {
-          parent.Widgets = w.Widgets;
-          parent.Variables = w.fragmentVariables;
-        }
-      }
     }
 
     onComponentDestroy(w: BaseComponent<any, any, any>) {
@@ -136,13 +127,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       if (w instanceof WmForm) {
         w.formWidgets = {};
         w.formFields = [];
-      }
-      if (w instanceof BasePartial) {
-        const parentName = (w as BasePartial).props.parent;
-        const parent = this.Widgets[parentName];
-        if (parent) {
-          delete parent.Widgets;
-        }
       }
     }
 

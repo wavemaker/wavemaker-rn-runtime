@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPartialContainerProps from './partial-container.props';
@@ -20,6 +21,7 @@ export default class WmPartialContainer extends BaseComponent<WmPartialContainer
       //@ts-ignore
       params[k] = props[k];
     });
+    params.parent = this.parent;
     params['name'] = params['partial_name'];
     delete params['partial_name'];
     return (

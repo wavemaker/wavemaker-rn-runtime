@@ -7,7 +7,7 @@ import BasePrefab from './base-prefab.component';
 export interface PartialProps extends FragmentProps {
   serviceDefinitions: any;
   prefab: any;
-  parent: string;
+  parent: any;
   onLoad?: Function;
 }
 
@@ -32,6 +32,11 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
 
     onFragmentReady() {
       return super.onFragmentReady().then(() => {
+        const parent: any = this.props.parent;
+        if (parent) {
+          parent.Widgets = this.Widgets;
+          parent.Variables = this.fragmentVariables;
+        }
         this.props?.onLoad && this.props?.onLoad();
       });
     }
@@ -40,6 +45,15 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
       super.onComponentInit(w);
       if (w instanceof WmPartial) {
         this.targetWidget = w;
+      }
+    }
+
+    onComponentDestroy(w: BaseComponent<any, any, any>): void {
+      super.onComponentDestroy(w);
+      const parent: any = this.props.parent;
+      if (parent) {
+        delete (parent as any).Widgets;
+        delete (parent as any).Variables;
       }
     }
 
