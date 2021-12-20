@@ -22,6 +22,16 @@ export type BaseStyles = NamedStyles<any> & {
     text: TextStyle
 }
 
+export const DEFAULT_STYLES = {
+    text: {
+        fontFamily: ThemeVariables.baseFont
+    }
+} as BaseStyles;
+
+export function defineStyles<T>(styles: T): T {
+    return deepCopy({}, DEFAULT_STYLES, styles);
+}
+
 export interface LifecycleListener {
     onComponentChange?: (c: BaseComponent<any, any, any>) => void;
     onComponentInit?: (c: BaseComponent<any, any, any>) => void;
@@ -178,12 +188,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                         <ThemeConsumer>
                             {(theme) => {
                                 this.theme = theme || BASE_THEME;
-                                this.styles =  deepCopy({
-                                            text: {
-                                                fontFamily: ThemeVariables.baseFont
-                                            }
-                                        }, this.theme.getStyle(this.defaultClass) || this.defaultStyles,
-                                        this.props.styles);
+                                this.styles =  deepCopy({},
+                                    this.theme.getStyle(this.defaultClass) || this.defaultStyles,
+                                    this.props.styles);
                                 if (!this.isVisible()) {
                                     assign(this.styles, this.theme.getStyle('hidden'))
                                 }  

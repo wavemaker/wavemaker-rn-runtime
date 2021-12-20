@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmCheckboxStyles = BaseStyles & {
@@ -7,7 +7,7 @@ export type WmCheckboxStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-checkbox';
-export const DEFAULT_STYLES: WmCheckboxStyles = {
+export const DEFAULT_STYLES: WmCheckboxStyles = defineStyles({
     root: {
       flexDirection: 'row',
       alignContent: 'center',
@@ -17,7 +17,8 @@ export const DEFAULT_STYLES: WmCheckboxStyles = {
     },
     checkboxLabel: {
       alignSelf: 'center',
+      fontFamily: ThemeVariables.baseFont
     }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

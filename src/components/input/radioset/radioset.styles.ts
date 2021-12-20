@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmRadiosetStyles = BaseStyles & {
@@ -9,7 +9,7 @@ export type WmRadiosetStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-radioset';
-export const DEFAULT_STYLES: WmRadiosetStyles = {
+export const DEFAULT_STYLES: WmRadiosetStyles = defineStyles({
     root: {
       color: ThemeVariables.checkedColor
     },
@@ -20,6 +20,7 @@ export const DEFAULT_STYLES: WmRadiosetStyles = {
       paddingLeft: 8,
       paddingRight: 8,
       lineHeight: 40,
+      fontFamily: ThemeVariables.baseFont
     } as AllStyle,
     radioHead: {
       flexDirection: 'row',
@@ -27,7 +28,8 @@ export const DEFAULT_STYLES: WmRadiosetStyles = {
     } as AllStyle,
     radioLabel: {
         alignSelf: 'center',
+        fontFamily: ThemeVariables.baseFont
     } as AllStyle
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

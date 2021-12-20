@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { TextStyle } from 'react-native';
@@ -26,7 +26,7 @@ export type WmCalendarStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-calendar';
-export const DEFAULT_STYLES: WmCalendarStyles = {
+export const DEFAULT_STYLES: WmCalendarStyles = defineStyles({
     root: {
         width: '100%'
     },
@@ -123,6 +123,6 @@ export const DEFAULT_STYLES: WmCalendarStyles = {
             color: ThemeVariables.calendarNextYearIconColor
         }
     } as WmIconStyles
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

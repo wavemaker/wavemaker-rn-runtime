@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmPictureStyles } from '@wavemaker/app-rn-runtime/components/basic/picture/picture.styles';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { WmLabelStyles } from '@wavemaker/app-rn-runtime/components/basic/label/label.styles';
@@ -14,7 +14,7 @@ export type WmCardStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-card';
-export const DEFAULT_STYLES: WmCardStyles = {
+export const DEFAULT_STYLES: WmCardStyles = defineStyles({
     root: {
         width: '100%',
         borderWidth: 1,
@@ -59,6 +59,6 @@ export const DEFAULT_STYLES: WmCardStyles = {
             width: '100%'
         }
     } as WmPictureStyles
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

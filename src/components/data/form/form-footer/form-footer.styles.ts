@@ -1,11 +1,11 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmFormFooterStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-form-footer';
-export const DEFAULT_STYLES: WmFormFooterStyles = {
+export const DEFAULT_STYLES: WmFormFooterStyles = defineStyles({
     root: {
         flexDirection: 'row',
         padding: 8,
@@ -15,6 +15,6 @@ export const DEFAULT_STYLES: WmFormFooterStyles = {
         borderColor: ThemeVariables.formBorderColor
     },
     text: {}
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

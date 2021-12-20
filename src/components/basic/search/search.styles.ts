@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
 
@@ -15,7 +15,7 @@ export type WmSearchStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-search';
-export const DEFAULT_STYLES: WmSearchStyles = {
+export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
     root: {
       flexDirection: 'row',
       flex: 1
@@ -93,7 +93,8 @@ export const DEFAULT_STYLES: WmSearchStyles = {
     },
     searchItemText: {
       fontSize: 16,
-      paddingLeft: 8
+      paddingLeft: 8,
+      fontFamily: ThemeVariables.baseFont
     },
     dataCompleteItem: {
         root: {
@@ -107,6 +108,6 @@ export const DEFAULT_STYLES: WmSearchStyles = {
           color: ThemeVariables.searchItemTextColor
         }
     }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

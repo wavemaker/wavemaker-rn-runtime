@@ -1,12 +1,12 @@
 import BASE_THEME, { NamedStyles } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export type WmPartialStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-partial';
-export const DEFAULT_STYLES: WmPartialStyles = {
+export const DEFAULT_STYLES: WmPartialStyles = defineStyles({
     root: {},
     text: {}
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

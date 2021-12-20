@@ -1,6 +1,6 @@
 import Color from 'color';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmProgressBarStyles = BaseStyles & {
@@ -9,7 +9,7 @@ export type WmProgressBarStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-progress-bar';
-export const DEFAULT_STYLES: WmProgressBarStyles = {
+export const DEFAULT_STYLES: WmProgressBarStyles = defineStyles({
     root: {},
     text: {},
     progressBar: {
@@ -19,7 +19,7 @@ export const DEFAULT_STYLES: WmProgressBarStyles = {
     progressValue: {
         color: ThemeVariables.progressBarDefaultColor
     }
-};
+});
 
 const getStyle = (color: string) => ({
     progressBar: {

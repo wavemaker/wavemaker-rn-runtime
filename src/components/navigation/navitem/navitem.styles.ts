@@ -1,5 +1,5 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.styles';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
@@ -12,7 +12,7 @@ export type WmNavItemStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-navitem';
-export const DEFAULT_STYLES: WmNavItemStyles = {
+export const DEFAULT_STYLES: WmNavItemStyles = defineStyles({
     root: {
       borderWidth: 0,
       borderBottomWidth: 1,
@@ -39,7 +39,7 @@ export const DEFAULT_STYLES: WmNavItemStyles = {
         color: ThemeVariables.navbarCaretColor
       }
     } as WmIconStyles
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle(DEFAULT_CLASS + '-active', DEFAULT_CLASS, {

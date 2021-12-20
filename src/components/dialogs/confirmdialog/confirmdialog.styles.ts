@@ -1,5 +1,5 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmDialogStyles } from '../dialog/dialog.styles';
@@ -17,7 +17,7 @@ export type WmConfirmdialogStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-confirmdialog';
-export const DEFAULT_STYLES: WmConfirmdialogStyles = {
+export const DEFAULT_STYLES: WmConfirmdialogStyles = defineStyles({
     root: {},
     text: {},
     dialog: {} as WmDialogStyles,
@@ -56,6 +56,6 @@ export const DEFAULT_STYLES: WmConfirmdialogStyles = {
         }
     }  as WmButtonStyles,
     message: {} as WmLabelStyles
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

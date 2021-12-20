@@ -1,6 +1,6 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '../../basic/icon/icon.styles';
 
 export type WmTabbarStyles = BaseStyles & {
@@ -14,7 +14,7 @@ export type WmTabbarStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-tabbar';
-export const DEFAULT_STYLES: WmTabbarStyles = {
+export const DEFAULT_STYLES: WmTabbarStyles = defineStyles({
     root: {
         height: 60,
         ...BASE_THEME.getStyle('elevate2').root,
@@ -71,8 +71,9 @@ export const DEFAULT_STYLES: WmTabbarStyles = {
     tabLabel: {
         fontSize: 12,
         color:  ThemeVariables.tabbarIconColor,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: ThemeVariables.baseFont
     }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

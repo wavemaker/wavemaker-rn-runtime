@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
@@ -11,7 +11,7 @@ export type WmPanelStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-panel';
-export const DEFAULT_STYLES: WmPanelStyles = {
+export const DEFAULT_STYLES: WmPanelStyles = defineStyles({
     root: {
       backgroundColor: ThemeVariables.panelBgColor
     },
@@ -58,7 +58,7 @@ export const DEFAULT_STYLES: WmPanelStyles = {
     primary: {
       backgroundColor: ThemeVariables.labelPrimaryColor
     }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 

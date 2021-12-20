@@ -1,11 +1,11 @@
 import BASE_THEME, { AllStyle }  from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export type WmIconStyles = BaseStyles & {
     icon?: AllStyle
 };
 export const DEFAULT_CLASS = 'app-icon';
-export const DEFAULT_STYLES: WmIconStyles = {
+export const DEFAULT_STYLES: WmIconStyles = defineStyles({
     root: {
         flexDirection: 'row',
         alignSelf: 'flex-start',
@@ -17,6 +17,6 @@ export const DEFAULT_STYLES: WmIconStyles = {
     text: {
         paddingLeft: 8
     }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

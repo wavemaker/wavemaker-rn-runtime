@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmLabelStyles } from '@wavemaker/app-rn-runtime/components/basic/label/label.styles';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
@@ -16,7 +16,7 @@ export type WmListStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-list';
-export const DEFAULT_STYLES: WmListStyles = {
+export const DEFAULT_STYLES: WmListStyles = defineStyles({
     root: {},
     text: {},
     listIcon: {
@@ -31,6 +31,7 @@ export const DEFAULT_STYLES: WmListStyles = {
     paddingLeft: 8,
     paddingRight: 8,
     lineHeight: 40,
+    fontFamily: ThemeVariables.baseFont
   } as AllStyle,
     loadingIcon: {
         root: {
@@ -75,6 +76,6 @@ export const DEFAULT_STYLES: WmListStyles = {
         borderWidth: 1,
         borderStyle: 'solid'
     } as AllStyle
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

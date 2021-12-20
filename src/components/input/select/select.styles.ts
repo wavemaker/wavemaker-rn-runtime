@@ -1,11 +1,11 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmSelectStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-select';
-export const DEFAULT_STYLES: WmSelectStyles = {
+export const DEFAULT_STYLES: WmSelectStyles = defineStyles({
     root: {
       height: 38,
       paddingTop: 8,
@@ -19,6 +19,6 @@ export const DEFAULT_STYLES: WmSelectStyles = {
       borderRadius: 4
     },
     text: {}
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

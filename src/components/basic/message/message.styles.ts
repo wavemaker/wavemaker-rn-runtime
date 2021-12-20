@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
@@ -11,10 +11,10 @@ export type WmMessageStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-message';
-export const DEFAULT_STYLES: WmMessageStyles = {
+export const DEFAULT_STYLES: WmMessageStyles = defineStyles({
     root: {},
     text: {}
-} as WmMessageStyles;
+}) as WmMessageStyles;
 
 const getStyle = (bgColor: string, closeBtnColor: string, iconcolor: string, textcolor: string) => {
     return {

@@ -1,6 +1,6 @@
 import Color from 'color';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmProgressCircleStyles = BaseStyles & {
@@ -10,7 +10,7 @@ export type WmProgressCircleStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-progress-circle';
-export const DEFAULT_STYLES: WmProgressCircleStyles = {
+export const DEFAULT_STYLES: WmProgressCircleStyles = defineStyles({
     root: {},
     text: {},
     progressCircle: {},
@@ -18,10 +18,11 @@ export const DEFAULT_STYLES: WmProgressCircleStyles = {
         height: 16
     },
     subTitle: {
+        fontFamily: ThemeVariables.baseFont,
         fontSize: 12,
         color: ThemeVariables.labelTextMutedColor
     }
-};
+});
 
 const getStyle = (color: string) => ({
     progressCircle: {

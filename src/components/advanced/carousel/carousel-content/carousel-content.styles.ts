@@ -1,10 +1,10 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export type WmCarouselContentStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-carousel-content';
-export const DEFAULT_STYLES: WmCarouselContentStyles = {
+export const DEFAULT_STYLES: WmCarouselContentStyles = defineStyles({
     root: {
         flexDirection: 'column',
         justifyContent: 'center',
@@ -13,6 +13,6 @@ export const DEFAULT_STYLES: WmCarouselContentStyles = {
         height: '100%'
     },
     text: {}
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

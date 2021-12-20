@@ -1,4 +1,4 @@
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
@@ -10,7 +10,7 @@ export type WmAnchorStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-anchor';
 
-export const DEFAULT_STYLES: WmAnchorStyles = {
+export const DEFAULT_STYLES: WmAnchorStyles = defineStyles({
     root: {
         color: ThemeVariables.linkDefaultColor,
         flexDirection: 'row',
@@ -38,7 +38,7 @@ export const DEFAULT_STYLES: WmAnchorStyles = {
             color: ThemeVariables.linkDefaultColor
         }
     } as WmIconStyles
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 

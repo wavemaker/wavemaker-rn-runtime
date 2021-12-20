@@ -1,6 +1,6 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 
 export type WmCarouselStyles = BaseStyles & {
@@ -13,7 +13,7 @@ export type WmCarouselStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-carousel';
-export const DEFAULT_STYLES: WmCarouselStyles = {
+export const DEFAULT_STYLES: WmCarouselStyles = defineStyles({
     root: {
         position: 'relative'
     },
@@ -59,6 +59,6 @@ export const DEFAULT_STYLES: WmCarouselStyles = {
         marginHorizontal: 2,
         backgroundColor: ThemeVariables.carouselDotColor
     }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 
@@ -11,7 +11,7 @@ export type WmDatetimeStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-datetime';
-export const DEFAULT_STYLES: WmDatetimeStyles = {
+export const DEFAULT_STYLES: WmDatetimeStyles = defineStyles({
     root: {
         height: 38,
         paddingTop: 8,
@@ -43,6 +43,6 @@ export const DEFAULT_STYLES: WmDatetimeStyles = {
             paddingRight: 8
         }
     } as WmIconStyles
-} as WmDatetimeStyles;
+}) as WmDatetimeStyles;
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import themeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
@@ -9,7 +9,7 @@ export type WmCurrencyStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-currency';
-export const DEFAULT_STYLES: WmCurrencyStyles = {
+export const DEFAULT_STYLES: WmCurrencyStyles = defineStyles({
     root: {
       height: 40,
       borderWidth: 1,
@@ -37,10 +37,11 @@ export const DEFAULT_STYLES: WmCurrencyStyles = {
       padding: 8,
       paddingLeft: 12,
       paddingRight: 12,
+      fontFamily: ThemeVariables.baseFont
     },
     invalid: {
       borderBottomColor: 'red'
     }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

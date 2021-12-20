@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { ViewStyle } from 'react-native';
 
 export type WmNavbarStyles = BaseStyles & {
@@ -9,7 +9,7 @@ export type WmNavbarStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-navbar';
-export const DEFAULT_STYLES: WmNavbarStyles = {
+export const DEFAULT_STYLES: WmNavbarStyles = defineStyles({
     root: {},
     text: {},
     nav: {
@@ -17,7 +17,7 @@ export const DEFAULT_STYLES: WmNavbarStyles = {
     },
     navitem: {},
     childNav: {}
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('stackedNav', '', {

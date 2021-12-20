@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle }  from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 
 
 export type WmModalStyles = BaseStyles & {
@@ -7,7 +7,7 @@ export type WmModalStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-modal';
-export const DEFAULT_STYLES: WmModalStyles = {
+export const DEFAULT_STYLES: WmModalStyles = defineStyles({
     root: {
         backgroundColor: 'rgba(0, 0, 0, 0)'
     },
@@ -16,7 +16,7 @@ export const DEFAULT_STYLES: WmModalStyles = {
         borderColor: 'rgba(0, 0, 0, 0)',
         borderWidth: 0
     }
-};
+});
 
 BASE_THEME.addStyle('centered-modal', '', {
     root: {

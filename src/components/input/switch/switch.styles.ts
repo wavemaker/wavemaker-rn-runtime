@@ -1,5 +1,5 @@
 import BASE_THEME, {AllStyle} from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import {WmIconStyles} from "@wavemaker/app-rn-runtime/components/basic/icon/icon.styles";
 import {WmLabelStyles} from "@wavemaker/app-rn-runtime/components/basic/label/label.styles";
 import ThemeVariables from "@wavemaker/app-rn-runtime/styles/theme.variables";
@@ -13,7 +13,7 @@ export type WmSwitchStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-switch';
-export const DEFAULT_STYLES: WmSwitchStyles = {
+export const DEFAULT_STYLES: WmSwitchStyles = defineStyles({
     root: {
       height: 38,
       width: '100%',
@@ -57,6 +57,6 @@ export const DEFAULT_STYLES: WmSwitchStyles = {
     borderTopRightRadius: 500,
     borderBottomRightRadius: 500
   } as AllStyle
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

@@ -1,13 +1,13 @@
 import BASE_THEME, { AllStyle }  from '@wavemaker/app-rn-runtime/styles/theme';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export type WmLabelStyles = BaseStyles & {
   asterisk: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-label';
-export const DEFAULT_STYLES: WmLabelStyles = {
+export const DEFAULT_STYLES: WmLabelStyles = defineStyles({
     root: {
     },
     text: {
@@ -18,7 +18,7 @@ export const DEFAULT_STYLES: WmLabelStyles = {
       color: ThemeVariables.labelAsteriskColor,
       marginLeft: 2
     }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 

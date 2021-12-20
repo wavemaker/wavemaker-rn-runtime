@@ -1,5 +1,5 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
@@ -8,7 +8,7 @@ export type WmCameraStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-camera';
-export const DEFAULT_STYLES: WmCameraStyles = {
+export const DEFAULT_STYLES: WmCameraStyles = defineStyles({
     root: {},
     text: {},
     button: {
@@ -27,6 +27,6 @@ export const DEFAULT_STYLES: WmCameraStyles = {
         }
       }
     } as WmButtonStyles
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

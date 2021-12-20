@@ -1,14 +1,14 @@
 import { ImageStyle } from 'react-native';
 import BASE_THEME  from '@wavemaker/app-rn-runtime/styles/theme';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export type WmPictureStyles = BaseStyles & {
   picture: ImageStyle
 };
 
 export const DEFAULT_CLASS = 'app-picture';
-export const DEFAULT_STYLES: WmPictureStyles = {
+export const DEFAULT_STYLES: WmPictureStyles = defineStyles({
   root: {
     width: '100%'
   },
@@ -17,7 +17,7 @@ export const DEFAULT_STYLES: WmPictureStyles = {
     width: '100%',
     height: '100%'
   }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('rounded-image', '', {

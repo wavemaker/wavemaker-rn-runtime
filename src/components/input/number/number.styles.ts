@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmNumberStyles = BaseStyles & {
@@ -7,7 +7,7 @@ export type WmNumberStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-number';
-export const DEFAULT_STYLES: WmNumberStyles = {
+export const DEFAULT_STYLES: WmNumberStyles = defineStyles({
     root: {
       height: 38,
       paddingTop: 8,
@@ -24,6 +24,6 @@ export const DEFAULT_STYLES: WmNumberStyles = {
     invalid: {
       borderBottomColor: ThemeVariables.inputInvalidBorderColor
     }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

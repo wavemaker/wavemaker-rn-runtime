@@ -1,18 +1,18 @@
 import BASE_THEME, { AllStyle }  from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export type WmContainerStyles = BaseStyles & {
     content: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-container';
-export const DEFAULT_STYLES: WmContainerStyles = {
+export const DEFAULT_STYLES: WmContainerStyles = defineStyles({
     root: {},
     text: {},
     content: {
         flexDirection: 'column'
     }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('media-body', '', {

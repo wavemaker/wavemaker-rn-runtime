@@ -1,5 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.styles';
 import { WmContainerStyles } from '@wavemaker/app-rn-runtime/components/container/container.styles';
@@ -14,7 +14,7 @@ export type WmPopoverStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-popover';
-export const DEFAULT_STYLES: WmPopoverStyles = {
+export const DEFAULT_STYLES: WmPopoverStyles = defineStyles({
     root: {
         padding: 8
     },
@@ -23,7 +23,8 @@ export const DEFAULT_STYLES: WmPopoverStyles = {
         backgroundColor: ThemeVariables.popoverTitleBackgroundColor,
         padding: 12,
         color: ThemeVariables.popoverTitleColor,
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: ThemeVariables.baseFont
     },
     link: {} as WmAnchorStyles,
     popover: {
@@ -36,7 +37,7 @@ export const DEFAULT_STYLES: WmPopoverStyles = {
     } as WmContainerStyles,
     modal: {},
     modalContent: {}
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('popover-action-sheet', '', {

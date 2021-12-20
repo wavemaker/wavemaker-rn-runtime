@@ -1,5 +1,5 @@
 import BASE_THEME, {AllStyle} from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import {WmLabelStyles} from "@wavemaker/app-rn-runtime/components/basic/label/label.styles";
 import ThemeVariables from "@wavemaker/app-rn-runtime/styles/theme.variables";
 
@@ -10,7 +10,7 @@ export type WmFormStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-form';
-export const DEFAULT_STYLES: WmFormStyles = {
+export const DEFAULT_STYLES: WmFormStyles = defineStyles({
   root: {},
   text: {},
   heading : {
@@ -35,7 +35,7 @@ export const DEFAULT_STYLES: WmFormStyles = {
       color: ThemeVariables.formSubTitleColor
     }
   } as WmLabelStyles
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('form-action', '', {

@@ -1,6 +1,6 @@
 import { ViewStyle } from 'react-native';
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmButtonStyles } from '../../basic/button/button.styles';
@@ -13,7 +13,7 @@ export type WmDialogStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-dialog';
-export const DEFAULT_STYLES: WmDialogStyles = {
+export const DEFAULT_STYLES: WmDialogStyles = defineStyles({
     root: {
         maxWidth: 360,
         width: '90%',
@@ -59,6 +59,6 @@ export const DEFAULT_STYLES: WmDialogStyles = {
             }
         }
     } as WmButtonStyles
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

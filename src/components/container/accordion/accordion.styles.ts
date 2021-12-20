@@ -1,5 +1,5 @@
 import BASE_THEME, {AllStyle} from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { TextStyle } from 'react-native';
@@ -15,7 +15,7 @@ export type WmAccordionStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-accordion';
-export const DEFAULT_STYLES: WmAccordionStyles = {
+export const DEFAULT_STYLES: WmAccordionStyles = defineStyles({
     root: {
       width: '100%',
       borderWidth: 0,
@@ -83,6 +83,6 @@ export const DEFAULT_STYLES: WmAccordionStyles = {
     primary: {
       backgroundColor: ThemeVariables.labelPrimaryColor
     }
-};
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
