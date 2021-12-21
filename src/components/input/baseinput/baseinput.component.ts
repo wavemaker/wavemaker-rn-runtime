@@ -15,9 +15,10 @@ export class BaseInputState <T extends BaseInputProps> extends BaseComponentStat
 
 export abstract class BaseInputComponent< T extends BaseInputProps, S extends BaseInputState<T>, L extends BaseInputStyles> extends BaseComponent<T, S, L> {
   public widgetRef: TextInput | null = null;
-  private previous = { start: 0, end: 0 };
+  public previous = { start: 0, end: 0 };
   private previousText = '';
   private isChanged = false;
+  private keyPressed = 0;
   isTouched: boolean = false;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles, defaultProps, defaultState);
@@ -81,12 +82,33 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     if (o.nativeEvent.type === 'selectionchange') {
       if (this.isChanged && this.previousText.length !== o.nativeEvent.text.length) {
         const diff = this.previousText.length - o.nativeEvent.text.length;
-        const start = this.previous.start - diff;
-        const end = this.previous.end - diff;
-        this.setState({ selection: { start: start, end: end } });
-        this.previous = { start: start, end: end };
+        let start, end;
+        if (true) {
+          if (this.keyPressed > 1) {
+            console.log('diff ..' + diff);
+            start = this.previous.start - diff;
+            end = this.previous.end - diff;
+          } else {
+            if (diff > 0) {
+              start = this.previous.start - diff;
+              end = this.previous.end - diff;
+            } else {
+              if (this.keyPressed === 1) {
+                start = o.nativeEvent.selection.start;
+                end = o.nativeEvent.selection.end;
+              } else {
+                start = this.previous.start - diff;
+                end = this.previous.end - diff;
+              }
+            }
+          }
+          this.setState({ selection: { start: start, end: end } });
+          this.previous = { start: start, end: end };
+        }
         this.previousText = o.nativeEvent.text;
         this.isChanged = false;
+        this.keyPressed = 0;
+        return;
       }
     }
     if (!this.isChanged) {
@@ -96,6 +118,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
       }
     }
     this.previousText = o.nativeEvent.text;
+    this.keyPressed = 0;
   }
 
   handleValidation(value: any) {
@@ -142,6 +165,10 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
 
   onBlur(event: any) {
     this.isTouched = true;
+    this.previous = {
+      start: 0,
+      end: 0
+    };
     if (this.state.props.updateon === 'blur') {
       this.updateDatavalue(
         event.target.value || this.state.textValue,
@@ -170,6 +197,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   onKeyPress(event: any) {
+    this.keyPressed++;
     this.invokeEventCallback('onKeypress', [ event, this.proxy]);
   }
 }
