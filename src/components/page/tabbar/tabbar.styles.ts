@@ -9,8 +9,11 @@ export type WmTabbarStyles = BaseStyles & {
     moreMenu: AllStyle,
     moreMenuRow: AllStyle,
     tabItem: AllStyle,
+    activeTabItem: AllStyle,
     tabIcon: WmIconStyles,
+    activeTabIcon: AllStyle,
     tabLabel: AllStyle,
+    activeTabLabel: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-tabbar';
@@ -57,7 +60,11 @@ export const DEFAULT_STYLES: WmTabbarStyles = defineStyles({
         flexDirection: 'column',
         justifyContent: 'center',
         alignContent: 'center',
-        minWidth: 60
+        minWidth: 60,
+        opacity: 0.5
+    },
+    activeTabItem: {
+        opacity: 1
     },
     tabIcon: {
         root: {
@@ -68,12 +75,14 @@ export const DEFAULT_STYLES: WmTabbarStyles = defineStyles({
             color:  ThemeVariables.tabbarIconColor
         }
     } as WmIconStyles,
+    activeTabIcon: {},
     tabLabel: {
         fontSize: 12,
         color:  ThemeVariables.tabbarIconColor,
         textAlign: 'center',
         fontFamily: ThemeVariables.baseFont
-    }
+    },
+    activeTabLabel: {}
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

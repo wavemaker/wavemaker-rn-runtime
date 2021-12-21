@@ -136,6 +136,11 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       return Promise.resolve();
     }
 
+    isCurrentPage(link: string) {
+      const pageName = this.pageName;
+      return [pageName, '#' + pageName, '#/' + pageName].includes(link)
+    }
+
     abstract renderPage(): ReactNode;
 
     renderWidget(props: PageProps) {

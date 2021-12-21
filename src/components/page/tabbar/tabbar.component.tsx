@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -26,11 +27,12 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   }
 
   renderTabItem(item: NavigationDataItem, props: WmTabbarProps, onSelect: Function) {
+    const isActive = props.isActive && props.isActive(item);
     return (
-      <View style={this.styles.tabItem} key={item.key} >
+      <View style={[this.styles.tabItem, isActive ? this.styles.activeTabItem: {}]} key={item.key} >
         <TouchableOpacity onPress={() => onSelect && onSelect()}>
-          <WmIcon styles={this.styles.tabIcon} iconclass={item.icon}></WmIcon>
-          <Text style={this.styles.tabLabel}>{item.label}</Text>
+          <WmIcon styles={deepCopy({}, this.styles.tabIcon, isActive ? this.styles.activeTabIcon: {})} iconclass={item.icon}></WmIcon>
+          <Text style={[this.styles.tabLabel, isActive ? this.styles.activeTabLabel: {}]}>{item.label}</Text>
         </TouchableOpacity>
       </View>
     );
