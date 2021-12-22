@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 
 import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 import PartialService, { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
@@ -82,7 +83,9 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       });
       return (
         <PartialProvider value={this.partialService}>
-          {this._renderPrefab ? this._renderPrefab(): null}
+          <View style={[{width: '100%'}, props.styles.root]}>
+            {this._renderPrefab ? this._renderPrefab(): null}
+          </View>
         </PartialProvider>
       );
     }
