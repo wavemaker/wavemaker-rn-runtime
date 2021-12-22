@@ -83,7 +83,7 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       });
       return (
         <PartialProvider value={this.partialService}>
-          <View style={[{width: '100%'}, props.styles.root]}>
+          <View style={[{width: '100%'}, props.styles?.root]}>
             {this._renderPrefab ? this._renderPrefab(): null}
           </View>
         </PartialProvider>

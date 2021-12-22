@@ -6,7 +6,7 @@ import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleList
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable'
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
-import Viewport, { EVENTS as viewportEvents } from '@wavemaker/app-rn-runtime/core/viewport';
+import { default as _viewPort, EVENTS as viewportEvents } from '@wavemaker/app-rn-runtime/core/viewport';
 import App from './App';
 import WmFormField from '@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component';
 import WmForm from '@wavemaker/app-rn-runtime/components/data/form/form.component';
@@ -49,6 +49,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public toaster: any;
     public formatters: Map<string, Formatter>;
     public serviceDefinitions = {} as any;
+    public Viewport = _viewPort;
     public notification = {
                             text: '',
                             title: '',
@@ -64,12 +65,12 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         this.formatters = this.App.formatters;
         this.Actions = Object.assign({}, this.App.Actions);
         this.Variables = Object.assign({}, this.App.Variables);
-        this.cleanup.push(Viewport.subscribe(viewportEvents.ORIENTATION_CHANGE, ($new: any, $old: any) => {
+        this.cleanup.push(_viewPort.subscribe(viewportEvents.ORIENTATION_CHANGE, ($new: any, $old: any) => {
           !this.isDetached && this.targetWidget && this.targetWidget.invokeEventCallback('onOrientationchange', [null, this.proxy,
-            {screenWidth: Viewport.width,
-              screenHeight: Viewport.height}]);
+            {screenWidth: _viewPort.width,
+              screenHeight: _viewPort.height}]);
         }));
-        this.cleanup.push(Viewport.subscribe(viewportEvents.SIZE_CHANGE, ($new: any, $old: any) => {
+        this.cleanup.push(_viewPort.subscribe(viewportEvents.SIZE_CHANGE, ($new: any, $old: any) => {
           !this.isDetached && this.targetWidget && this.targetWidget.invokeEventCallback('onResize', [null, this.proxy,
             {screenWidth: $new.width,
               screenHeight: $new.height}]);
@@ -187,7 +188,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       if (!variables.length) {
         return;
       }
-      // @ts-ignore
       this.cleanup.push(...variables.map(v => {
           return ((v as BaseVariable<any>)
             .subscribe(VariableEvents.BEFORE_INVOKE, () => {
@@ -196,7 +196,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
               });
             }))
       }));
-      // @ts-ignore
       this.cleanup.push(...variables.map(v => {
         return ((v as BaseVariable<any>)
           .subscribe(VariableEvents.AFTER_INVOKE, () => {

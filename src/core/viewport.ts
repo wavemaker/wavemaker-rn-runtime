@@ -12,10 +12,11 @@ export const EVENTS = {
     SIZE_CHANGE: 'sizeChange'
 };
 
-class ViewPort extends EventNotifier {
+export class ViewPort extends EventNotifier {
     public width: number;
     public height: number;
     public orientation: string;
+    public isMobileType = true;
 
     constructor() {
         super();
