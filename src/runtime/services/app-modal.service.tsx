@@ -12,6 +12,7 @@ class AppModalService implements ModalService {
     private showLastModal() {
         this.modalOptions = this.modalsOpened.length ? this.modalsOpened[this.modalsOpened.length - 1] : {} as ModalOptions;
         this.refresh();
+        // widgets in dialog are not accessible. Hence adding setTimeout
         setTimeout(() => {
           this.modalOptions.onOpen && this.modalOptions.onOpen();
         });

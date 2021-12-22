@@ -188,7 +188,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         return;
       }
       // @ts-ignore
-      this.cleanup.push(variables.map(v => {
+      this.cleanup.push(...variables.map(v => {
           return ((v as BaseVariable<any>)
             .subscribe(VariableEvents.BEFORE_INVOKE, () => {
               spinnerService.show({
@@ -197,7 +197,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
             }))
       }));
       // @ts-ignore
-      this.cleanup.push(variables.map(v => {
+      this.cleanup.push(...variables.map(v => {
         return ((v as BaseVariable<any>)
           .subscribe(VariableEvents.AFTER_INVOKE, () => {
             spinnerService.hide();
