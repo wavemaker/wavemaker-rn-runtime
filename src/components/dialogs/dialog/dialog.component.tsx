@@ -31,13 +31,16 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
         });
       });
     };
+    this.state.modalOptions.onOpen = () => {
+      this.invokeEventCallback('onOpened', [null, this]);
+    };
   }
 
   open() {
     if (!this.state.props.show) {
       this.updateState({
         props:{show: true}
-      } as WmDialogState, this.invokeEventCallback.bind(this, 'onOpened', [null, this]));
+      } as WmDialogState);
     }
   }
 
