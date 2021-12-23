@@ -1,3 +1,4 @@
+import { TextStyle } from 'react-native';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmLabelStyles } from '@wavemaker/app-rn-runtime/components/basic/label/label.styles';
@@ -6,7 +7,7 @@ import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/ic
 
 export type WmListStyles = BaseStyles & {
     heading: AllStyle,
-    groupHeaderTitle: AllStyle,
+    groupHeading: TextStyle,
     listIcon: WmIconStyles,
     loadingIcon: WmIconStyles,
     title: WmLabelStyles,
@@ -25,14 +26,14 @@ export const DEFAULT_STYLES: WmListStyles = defineStyles({
             marginRight: 8
         }
     } as WmIconStyles,
-  groupHeaderTitle: {
-    backgroundColor: ThemeVariables.groupHeaderBackgroundColor,
-    fontSize: 16,
-    paddingLeft: 8,
-    paddingRight: 8,
-    lineHeight: 40,
-    fontFamily: ThemeVariables.baseFont
-  } as AllStyle,
+    groupHeading: {
+        backgroundColor: ThemeVariables.groupHeadingBgColor,
+        fontSize: 16,
+        paddingLeft: 8,
+        paddingRight: 8,
+        lineHeight: 40,
+        fontFamily: ThemeVariables.baseFont
+    },
     loadingIcon: {
         root: {
             flex: 1,

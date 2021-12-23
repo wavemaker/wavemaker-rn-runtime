@@ -141,7 +141,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             renderItem={(itemInfo) =>
               this.props.groupby ? (
                   <View>
-                    <Text style={this.styles.groupHeaderTitle}>{itemInfo.item.key}</Text>
+                    <Text style={this.styles.groupHeading}>{itemInfo.item.key}</Text>
                     {
                       itemInfo.item.data && itemInfo.item.data.length
                         ? itemInfo.item.data.map((itemObj: any, index: any) =>

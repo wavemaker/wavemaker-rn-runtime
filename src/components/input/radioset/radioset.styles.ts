@@ -15,7 +15,7 @@ export const DEFAULT_STYLES: WmRadiosetStyles = defineStyles({
     },
     text: {},
     groupHeaderTitle: {
-      backgroundColor: ThemeVariables.groupHeaderBackgroundColor,
+      backgroundColor: ThemeVariables.groupHeadingBgColor,
       fontSize: 16,
       paddingLeft: 8,
       paddingRight: 8,

@@ -15,7 +15,7 @@ export const DEFAULT_STYLES: WmCheckboxsetStyles = defineStyles({
       color: ThemeVariables.checkedColor
     },
   groupHeaderTitle: {
-    backgroundColor: ThemeVariables.groupHeaderBackgroundColor,
+    backgroundColor: ThemeVariables.groupHeadingBgColor,
     fontSize: 16,
     paddingLeft: 8,
     paddingRight: 8,

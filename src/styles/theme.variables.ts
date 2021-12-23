@@ -190,7 +190,7 @@ export class ThemeVariables {
     toggleColor = this.primaryColor;
 
     // radioset, checkboxset variables
-    groupHeaderBackgroundColor = this.defaultColorD;
+    groupHeadingBgColor = this.defaultColorD;
     checkedColor = this.primaryColor;
 
     //form
