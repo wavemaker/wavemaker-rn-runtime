@@ -154,7 +154,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                     }
                   </View>) :
                 (<TouchableWithoutFeedback onPress={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
-                <View style={this.state.selectedindex === itemInfo.index ? this.styles.selectedItem : {}}>
+                <View style={[
+                    props.itemclass ? this.theme.getStyle(props.itemclass(itemInfo.item, itemInfo.index)) : null,
+                    this.state.selectedindex === itemInfo.index ? this.styles.selectedItem : {}]}>
                   {props.renderItem(itemInfo.item, itemInfo.index, this)}
                 </View>
             </TouchableWithoutFeedback>)

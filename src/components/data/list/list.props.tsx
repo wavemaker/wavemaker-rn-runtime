@@ -19,4 +19,5 @@ export default class WmListProps extends BaseProps {
     match: string = null as any;
     orderby: string = null as any;
     dateformat: string = null as any;
+    itemclass: ($item: any, $index: any) => string = null as any;
 }
