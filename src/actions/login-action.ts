@@ -4,6 +4,7 @@ import { get } from 'lodash';
 export interface LoginActionConfig extends ActionConfig {
     securityService: () => SecurityService;
     baseURL: String;
+    useDefaultSuccessHandler: boolean;
 }
 export class LoginAction extends BaseAction<LoginActionConfig> {
     constructor(config: LoginActionConfig) {
@@ -15,7 +16,12 @@ export class LoginAction extends BaseAction<LoginActionConfig> {
       if (!get(options, 'formData')) {
         params = this.config.paramProvider();
       }
-      return this.config.securityService().appLogin({baseURL: this.config.baseURL, formData: get(options, 'formData') || params })
+      return this.config.securityService().appLogin(
+        {
+          baseURL: this.config.baseURL,
+          formData: get(options, 'formData') || params,
+          useDefaultSuccessHandler: this.config.useDefaultSuccessHandler
+      })
         .then((data: any) => {
             this.config.onSuccess && this.config.onSuccess(this, data);
             successcb && successcb(data);

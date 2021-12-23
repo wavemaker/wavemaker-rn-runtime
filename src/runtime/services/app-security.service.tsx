@@ -80,11 +80,11 @@ class AppSecurityService implements SecurityService {
             this.token = xsrfCookieValue;
             AsyncStorage.setItem(XSRF_COOKIE_NAME, xsrfCookieValue);
             this.isLoggedIn = true;
-            this.getLoggedInUserDetails(options.baseURL);
+            this.getLoggedInUserDetails(options.baseURL, options.useDefaultSuccessHandler);
         });
     }
 
-    private getLoggedInUserDetails(baseURL: string) {
+    private getLoggedInUserDetails(baseURL: string, useDefaultSuccessHandler: boolean = true) {
         if (!baseURL) {
             this.loggedInUser = {};
             return Promise.resolve({});
@@ -106,7 +106,7 @@ class AppSecurityService implements SecurityService {
                     this.loggedInUser.dataSet = loggedInUser;
                 }
                 return appConfig.getServiceDefinitions(appConfig.url)
-                .then(() => details.authenticated && appConfig.currentPage?.goToPage(details.userInfo?.landingPage || 'Main'));
+                .then(() => details.authenticated && useDefaultSuccessHandler && appConfig.currentPage?.goToPage(details.userInfo?.landingPage || 'Main'));
             } else {
                 const myPromise = new Promise((resolve, reject) => {
                     setTimeout(() => {
