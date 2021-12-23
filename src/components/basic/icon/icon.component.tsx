@@ -93,9 +93,13 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     }
   }
 
-  private getCustomIcon(str: string, style: any) {
-    if (str) {
-      return (<Text style={style}>{decodeURIComponent(str)}</Text>);
+  private getCustomIcon(props: WmIconProps, style: any) {
+    const customIcon = (this.theme.getStyle(props?.iconclass || '') || this.styles)?.icon;
+    if (customIcon?.content) {
+      return (<Text
+        style={[style, customIcon.fontFamily ? {fontFamily: customIcon.fontFamily}: null]}>
+          {decodeURIComponent(customIcon.content)}
+      </Text>);
     }
     return null;
   }
@@ -109,7 +113,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     const style = [{
       color: this.styles.root.color || this.styles.text.color
     }, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}];
-    const customIcon = this.getCustomIcon((this.styles.icon as any).content, style );
+    const customIcon = this.getCustomIcon(props, style);
     const iconSize = props.iconsize || this.styles.root.fontSize || this.styles.text.fontSize || iconDef.size;
     if (props.show && iconDef && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
@@ -118,8 +122,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
         size={iconSize}>
           {customIcon}
         </FontAwesome>);
-    }
-    if (props.show && iconDef && iconDef.isWavIcon) {
+    } else if (props.show && iconDef) {
       const WavIcon = getWavIcon();
       //@ts-ignore type information is not matching
       icon = (<WavIcon name={customIcon ? '' : iconDef.type}
