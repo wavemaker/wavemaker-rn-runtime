@@ -23,6 +23,7 @@ export default class WmFormAction extends BaseComponent<WmFormActionProps, WmFor
 
     return (
       <WmButton
+        disabled={props.disabled}
         caption={props.displayName}
         styles={this.theme.getStyle(btnClass)}
         name={props.name}
