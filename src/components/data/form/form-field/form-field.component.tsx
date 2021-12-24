@@ -18,9 +18,11 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormFieldProps(), new WmFormFieldState());
   }
 
-  onFieldChangeEvt(name: string, $new: any, $old: any) {
+  onFieldChangeEvt(name: string, $new: any, $old: any, isDefault: boolean) {
     if (!isEqual($old, $new)) {
-      this.updateState({ props: { datavalue: $new } } as WmFormFieldState);
+      this.updateState({ props: { datavalue: $new }} as WmFormFieldState, () => {
+        !isDefault && this.invokeEventCallback('onChange', [undefined, this, $new, $old]);
+      });
     }
   }
 
@@ -29,12 +31,11 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
       case 'datavalue':
         if (!isEqual($old, $new)) {
           PERFORMANCE_LOGGER.debug(`form field ${this.props.name} changed from ${$old} to ${$new}`);
-          this.invokeEventCallback('onChange', [undefined, this, $new, $old]);
         }
         break;
       case 'defaultvalue':
         if (!isEqual($old, $new)) {
-          get(this, 'form') && this.form.applyDefaultValue();
+          get(this, 'form') && this.form.applyDefaultValue(this);
         }
         break;
     }

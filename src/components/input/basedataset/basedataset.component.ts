@@ -7,6 +7,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, BaseDatasetStyles } from "@wavemaker/app
 export class BaseDatasetState <T extends BaseDatasetProps> extends BaseComponentState<T> {
   dataItems: any;
   groupedData: any;
+  isDefault = false;
 }
 
 export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extends BaseDatasetState<T>, L extends BaseDatasetStyles> extends BaseComponent<T, S, L> {
@@ -34,7 +35,12 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
         this.setGroupData(this.state.dataItems);
       case 'datavalue':
         this.setDataItems(this.state.props.dataset, { dataValue: $new });
-        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
+        const isDefault = this.state.isDefault;
+        if (isDefault) {
+          this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
+        } else {
+          this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
+        }
     }
   }
 

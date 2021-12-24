@@ -11,6 +11,7 @@ export class BaseInputState <T extends BaseInputProps> extends BaseComponentStat
   isValid: boolean = true;
   textValue: string = '';
   selection: any = {};
+  isDefault = false;
 }
 
 export abstract class BaseInputComponent< T extends BaseInputProps, S extends BaseInputState<T>, L extends BaseInputStyles> extends BaseComponent<T, S, L> {
@@ -47,7 +48,12 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
             textValue: $new
           } as S
         );
-        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
+        const isDefault = this.state.isDefault;
+        if (isDefault) {
+          this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
+        } else {
+          this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
+        }
     }
   }
 
