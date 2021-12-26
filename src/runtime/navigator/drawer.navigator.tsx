@@ -24,7 +24,7 @@ class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, a
           headerShown: false,
           gestureHandlerProps: { enabled: !this.props.hide },
       }}>
-      <Drawer.Screen name="pagesnew">
+      <Drawer.Screen name="pages">
         {(_props) => this.props.rootComponent}
       </Drawer.Screen>
     </Drawer.Navigator>);
