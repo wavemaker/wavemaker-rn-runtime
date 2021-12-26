@@ -33,7 +33,7 @@ export class ThemeVariables {
     defaultColorE = '#eeeeee';
     defaultColorF = '#ffffff';
     defaultBgColor = this.defaultColorF;
-    defaultTextColor = '#888890';
+    defaultTextColor = '#151420';
     lightColor = this.defaultColorF;
     darkColor = this.defaultColor;
     muteColor = this.defaultColorA;

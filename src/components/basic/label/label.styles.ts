@@ -1,4 +1,5 @@
 import BASE_THEME, { AllStyle }  from '@wavemaker/app-rn-runtime/styles/theme';
+import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -11,7 +12,7 @@ export const DEFAULT_STYLES: WmLabelStyles = defineStyles({
     root: {
     },
     text: {
-      fontSize: 12,
+      fontSize: 16,
       color: ThemeVariables.labelDefaultColor
     },
     asterisk: {
@@ -26,11 +27,11 @@ const getLabelStyles = (color: string, textColor: string): WmLabelStyles => {
   return {
     root: {
       backgroundColor: color,
-      paddingLeft: 8,
-      paddingTop: 4,
-      paddingRight: 8,
-      paddingBottom: 4,
-      borderRadius: 4
+      paddingLeft: 32,
+      paddingTop: 16,
+      paddingRight: 32,
+      paddingBottom: 16,
+      borderRadius: 6
     },
     text: {
       color: textColor,
@@ -76,17 +77,17 @@ BASE_THEME.addStyle('text-right', '', {
 } as WmLabelStyles);
 
 
-const getHeadingStyles = (fontSize: number) => {
-  return {
+const getHeadingStyles = (fontSize: number, overrides?: WmLabelStyles) => {
+  return deepCopy({
     text: {
       fontWeight: '400',
       fontSize: fontSize,
       margin: 4
     }
-  } as WmLabelStyles;
+  } as WmLabelStyles, overrides);
 };
-BASE_THEME.addStyle('h1', '', getHeadingStyles(ThemeVariables.heading1FontSize));
-BASE_THEME.addStyle('h2', '', getHeadingStyles(ThemeVariables.heading2FontSize));
+BASE_THEME.addStyle('h1', '', getHeadingStyles(ThemeVariables.heading1FontSize, {text: {fontWeight: 'bold'}} as WmLabelStyles));
+BASE_THEME.addStyle('h2', '', getHeadingStyles(ThemeVariables.heading2FontSize, {text: {fontWeight: '500'}} as WmLabelStyles));
 BASE_THEME.addStyle('h3', '', getHeadingStyles(ThemeVariables.heading3FontSize));
 BASE_THEME.addStyle('h4', '', getHeadingStyles(ThemeVariables.heading4FontSize));
 BASE_THEME.addStyle('h5', '', getHeadingStyles(ThemeVariables.heading5FontSize));
@@ -98,7 +99,6 @@ BASE_THEME.addStyle('media-heading', '', {
 } as WmLabelStyles);
 BASE_THEME.addStyle('text-muted', '', {
   text : {
-    fontSize: 12,
     color: ThemeVariables.labelTextMutedColor
   }
 } as WmLabelStyles);
