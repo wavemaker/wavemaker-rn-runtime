@@ -55,7 +55,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
           containerStyle={styles.dotsWrapperStyle}
           dotStyle={styles.activeDotStyle}
           inactiveDotStyle={styles.dotStyle}
-          inactiveDotScale={0.6}
+          inactiveDotScale={0.8}
           tappableDots={true}
         />
     );
@@ -97,7 +97,6 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             scrollEnabled={false}
             onSnapToItem={this.onSlideChange}
           ></Carousel>) : null}
-        {this.state.sliderWidth > 0 && hasDots && data ? this.renderPagination(data.length, props, styles) : null}
         {hasNavs ? (
           <View style={styles.btnPanel}>
             <WmIcon
@@ -109,6 +108,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
               styles={styles.nextBtn}
               onTap={this.next}/>
           </View>): null}
+        {this.state.sliderWidth > 0 && hasDots && data ? this.renderPagination(data.length, props, styles) : null}
       </View>);
   }
 }

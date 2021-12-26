@@ -312,7 +312,7 @@ export class ThemeVariables {
     carouselNextBtnColor=this.defaultColorF;
     carouselDotWrapperBgColor=this.transparent;
     carouselDotColor=this.defaultColorF;
-    carouselActiveDotColor=this.primaryColor;
+    carouselActiveDotColor=this.defaultColorF;
 
     //calendar
     calendarBgColor = this.transparent;
