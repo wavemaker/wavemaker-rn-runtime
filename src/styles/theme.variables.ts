@@ -84,8 +84,6 @@ export class ThemeVariables {
     linkDangerColor = this.dangerColor;
     linkLightColor = this.lightColor;
     linkDarkColor = this.darkColor;
-    linkBadgeBackgroundColor = this.badgeColor;
-    linkBadgeTextColor = this.badgeContrastColor;
     anchorTextPadding = 2;
 
     //Grid Layout variables

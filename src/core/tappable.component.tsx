@@ -65,6 +65,6 @@ export class Tappable extends React.Component<TappableProps, any> {
                 </TouchableOpacity>
             );
         }
-        return (<>{this.props.children}</>);
+        return (<View style={this.props.styles}>{this.props.children}</View>);
     }
 }

@@ -1,3 +1,4 @@
+import Color from 'color';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
@@ -23,17 +24,19 @@ export const DEFAULT_STYLES: WmAnchorStyles = defineStyles({
         textDecorationLine: 'underline',
     },
     badge: {
-        backgroundColor: ThemeVariables.linkBadgeBackgroundColor,
-        color: ThemeVariables.linkBadgeTextColor,
+        backgroundColor: Color(ThemeVariables.linkDefaultColor).fade(0.8).rgb().toString(),
+        color: ThemeVariables.linkDefaultColor,
         alignSelf: 'flex-start',
         marginTop: -12,
-        marginLeft: -6
+        marginLeft: -6,
+        fontWeight: 'bold'
     },
     icon: {
         root : {
             alignSelf: 'center'
         },
         text: {
+            fontSize: 16,
             paddingRight: ThemeVariables.anchorTextPadding,
             color: ThemeVariables.linkDefaultColor
         }
@@ -54,6 +57,10 @@ const getLinkStyles = (color: string) => {
             text: {
                 color: color
             }
+        },
+        badge: {
+            backgroundColor: Color(color).fade(0.8).rgb().toString(),
+            color: color,
         }
     } as WmAnchorStyles;
 };

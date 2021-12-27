@@ -1,3 +1,4 @@
+import Color from 'color';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -69,6 +70,10 @@ BASE_THEME.addStyle('navbarAnchorItem', '', {
     color: ThemeVariables.navbarTextColor,
     fontSize: ThemeVariables.navbarFontSize,
     textDecorationStyle: undefined
+  },
+  badge: {
+      backgroundColor: Color(ThemeVariables.navbarTextColor).fade(0.8).rgb().toString(),
+      color: ThemeVariables.navbarTextColor,
   },
   icon: {
     text: {
