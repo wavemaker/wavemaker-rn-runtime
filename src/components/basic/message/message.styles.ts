@@ -12,49 +12,81 @@ export type WmMessageStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-message';
 export const DEFAULT_STYLES: WmMessageStyles = defineStyles({
-    root: {},
-    text: {}
+    root: {
+        flexDirection: 'row',
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 8,
+        paddingRight: 8,
+        borderRadius: 6,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderStyle: 'solid'
+    },
+    message: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignContent: 'center',
+        paddingLeft: 16
+    },
+    title: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        paddingBottom: 4
+    },
+    text: {
+        fontSize: 12
+    },
+    icon: {
+        root: {
+            height: '100%',
+            alignItems: 'flex-start',
+            fontSize: 20
+        }
+    } as WmIconStyles,
+    closeBtn: {
+        root: {
+            paddingHorizontal: 0,
+            paddingRight: 8,
+            alignSelf: 'center'
+        },
+        icon: {
+            text: {
+                fontSize: 16
+            }
+        }
+    } as WmButtonStyles
 }) as WmMessageStyles;
 
-const getStyle = (bgColor: string, closeBtnColor: string, iconcolor: string, textcolor: string) => {
+const getStyle = (bgColor: string, 
+    closeBtnColor: string,
+    iconcolor: string,
+    textcolor: string,
+    borderColor = ThemeVariables.transparent) => {
     return {
         root: {
-            flexDirection: 'row',
-            paddingTop: 8,
-            paddingBottom: 8,
-            paddingLeft: 8,
-            paddingRight: 8,
             backgroundColor: bgColor,
-            borderRadius: 4
+            borderColor: borderColor
         },
         message: {
-            flex: 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingLeft: 16
+            color: textcolor
+        },
+        title: {
+            color: textcolor
         },
         text: {
-            fontSize: 12,
             color: textcolor
         },
         icon: {
             root: {
-                height: '100%',
-                alignItems: 'flex-start',
-                fontSize: 20,
                 color: iconcolor
             }
         } as WmIconStyles,
         closeBtn: {
-            root: {
-                alignItems: 'flex-start',
-                paddingTop: 2,
-                paddingBottom: 0
-            },
             icon: {
                 root : {
                     color: closeBtnColor,
-                    fontSize: 16
                 }
             }
         } as WmButtonStyles
@@ -62,33 +94,70 @@ const getStyle = (bgColor: string, closeBtnColor: string, iconcolor: string, tex
 };
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('success-message', '', getStyle(
-    ThemeVariables.messageSuccessBackgroundColor,
-    ThemeVariables.messageSuccessCloseBtnColor,
-    ThemeVariables.messageSuccessIconColor,
-    ThemeVariables.messageSuccessTextColor
+BASE_THEME.addStyle('success-dark-message', '', getStyle(
+    ThemeVariables.messageSuccessColor,
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
 ));
-BASE_THEME.addStyle('error-message', '', getStyle(
-    ThemeVariables.messageErrorBackgroundColor,
-    ThemeVariables.messageErrorCloseBtnColor,
-    ThemeVariables.messageErrorIconColor,
-    ThemeVariables.messageErrorTextColor
+BASE_THEME.addStyle('error-dark-message', '', getStyle(
+    ThemeVariables.messageErrorColor,
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
 ));
-BASE_THEME.addStyle('warning-message', '', getStyle(
-    ThemeVariables.messageWarningBackgroundColor,
-    ThemeVariables.messageWarningCloseBtnColor,
-    ThemeVariables.messageWarningIconColor,
-    ThemeVariables.messageWarningTextColor
+BASE_THEME.addStyle('warning-dark-message', '', getStyle(
+    ThemeVariables.messageWarningColor,
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF
 ));
-BASE_THEME.addStyle('info-message', '', getStyle(
-    ThemeVariables.messageInfoBackgroundColor,
-    ThemeVariables.messageInfoCloseBtnColor,
-    ThemeVariables.messageInfoIconColor,
-    ThemeVariables.messageInfoTextColor
+BASE_THEME.addStyle('info-dark-message', '', getStyle(
+    ThemeVariables.messageInfoColor,
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
 ));
-BASE_THEME.addStyle('loading-message', '', getStyle(
-    ThemeVariables.messageLoadingBackgroundColor,
-    ThemeVariables.messageLoadingCloseBtnColor,
-    ThemeVariables.messageLoadingIconColor,
-    ThemeVariables.messageLoadingTextColor
+BASE_THEME.addStyle('loading-dark-message', '', getStyle(
+    ThemeVariables.messageLoadingColor,
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
+));
+
+
+BASE_THEME.addStyle('success-light-message', '', getStyle(
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColor6,
+    ThemeVariables.messageSuccessColor,
+    ThemeVariables.defaultColor6,
+    ThemeVariables.defaultColorD
+));
+BASE_THEME.addStyle('error-light-message', '', getStyle(
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColor6,
+    ThemeVariables.messageErrorColor,
+    ThemeVariables.defaultColor6,
+    ThemeVariables.defaultColorD
+));
+BASE_THEME.addStyle('warning-light-message', '', getStyle(
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColor6,
+    ThemeVariables.messageWarningColor,
+    ThemeVariables.defaultColor6,
+    ThemeVariables.defaultColorD
+));
+BASE_THEME.addStyle('info-light-message', '', getStyle(
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColor6,
+    ThemeVariables.messageInfoColor,
+    ThemeVariables.defaultColor6,
+    ThemeVariables.defaultColorD
+));
+BASE_THEME.addStyle('loading-light-message', '', getStyle(
+    ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColor6,
+    ThemeVariables.messageLoadingColor,
+    ThemeVariables.defaultColor6,
+    ThemeVariables.defaultColorD
 ));

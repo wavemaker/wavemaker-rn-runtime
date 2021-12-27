@@ -19,6 +19,14 @@ const MESSAGE_ICONS = {
   'loading': 'fa fa-spinner fa-spin'
 };
 
+const DEFAULT_TITLE = {
+  'success': 'Success',
+  'warning': 'Warning',
+  'error': 'Error',
+  'info': 'Info',
+  'loading': 'Processing'
+} as any;
+
 export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageState, WmMessageStyles> {
 
   constructor(props: WmMessageProps) {
@@ -48,17 +56,18 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
   }
 
   renderWidget(props: WmMessageProps) {
-    const styles = deepCopy(this.theme.getStyle(props.type + '-message'), this.styles);
+    const styles = deepCopy(this.theme.getStyle(`${props.type}-${props.variant}-message`), this.styles);
     return (<Animatedview entryanimation={props.animation} style={styles.root}>
       <WmIcon
         iconclass={props.type && MESSAGE_ICONS[props.type]}
         styles={styles.icon}></WmIcon>
       <View style={styles.message}>
+        <Text style={styles.title}>{props.title || DEFAULT_TITLE[props.type || '']}</Text>
         <Text style={styles.text}>{props.caption}</Text>
       </View>
       {props.hideclose ? null : (
         <WmButton
-          iconclass="fa fa-close"
+          iconclass="wi wi-close"
           styles={styles.closeBtn}
           onTap={this.close}>
         </WmButton>)}

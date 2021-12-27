@@ -234,29 +234,11 @@ export class ThemeVariables {
     switchBorderColor = this.widgetBorderColor;
 
     //message
-    messageDefaultTextColor  = this.defaultColorF;
-    messageDefaultIconColor = this.defaultColorF;
-    messageDefaultCloseBtnColor = Color(this.defaultColor6).fade(0.5).toString();
-    messageSuccessBackgroundColor = this.successColor;
-    messageSuccessIconColor = this.messageDefaultIconColor;
-    messageSuccessTextColor = this.messageDefaultTextColor;
-    messageSuccessCloseBtnColor = this.messageDefaultCloseBtnColor;
-    messageErrorBackgroundColor = this.dangerColor;
-    messageErrorIconColor = this.messageDefaultIconColor;
-    messageErrorCloseBtnColor = this.messageDefaultCloseBtnColor;
-    messageErrorTextColor = this.messageDefaultTextColor;
-    messageWarningBackgroundColor = this.warningColor;
-    messageWarningIconColor = this.messageDefaultIconColor;
-    messageWarningCloseBtnColor = this.messageDefaultCloseBtnColor;
-    messageWarningTextColor = this.messageDefaultTextColor;
-    messageInfoBackgroundColor = this.infoColor;
-    messageInfoIconColor = this.messageDefaultIconColor;
-    messageInfoCloseBtnColor = this.messageDefaultCloseBtnColor;
-    messageInfoTextColor = this.messageDefaultTextColor;
-    messageLoadingBackgroundColor = this.infoColor;
-    messageLoadingIconColor = this.messageDefaultIconColor;
-    messageLoadingCloseBtnColor = this.messageDefaultCloseBtnColor;
-    messageLoadingTextColor = this.messageDefaultTextColor;
+    messageSuccessColor = this.successColor;
+    messageErrorColor = this.dangerColor;
+    messageWarningColor = this.warningColor;
+    messageInfoColor = this.infoColor;
+    messageLoadingColor = this.infoColor;
 
     //panel
     panelBgColor = this.widgetBgColor;
