@@ -32,9 +32,9 @@ BASE_THEME.addStyle('thumbnail-image', '', {
     borderStyle: 'solid',
     borderColor: ThemeVariables.pictureThumbBorderColor,
     borderRadius: 6,
-    paddingTop: 4,
-    paddingBottom: 4,
-    paddingLeft: 4,
-    paddingRight: 4
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 8,
+    paddingRight: 8 
   }
 } as WmPictureStyles);
