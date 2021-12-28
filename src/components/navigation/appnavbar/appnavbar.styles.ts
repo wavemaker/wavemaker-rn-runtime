@@ -8,11 +8,11 @@ import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/ancho
 import { WmPopoverStyles } from '@wavemaker/app-rn-runtime/components/navigation/popover/popover.styles';
 
 export type WmAppNavbarStyles = BaseStyles & {
-  action: AllStyle,
-   image: ImageStyle,
-   leftnavIcon: WmIconStyles,
-   backIcon: WmIconStyles,
-   content: AllStyle
+  action: WmIconStyles,
+  image: ImageStyle,
+  leftnavIcon: WmIconStyles,
+  backIcon: WmIconStyles,
+  content: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-appnavbar';
@@ -23,9 +23,7 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
     height: 60
   },
   text: {},
-  action: {
-    borderRadius: 0
-  },
+  action: {} as WmIconStyles,
   leftnavIcon: {
     root: {
         alignItems: 'flex-start'
@@ -36,8 +34,10 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
     }
   } as WmIconStyles,
   backIcon: {
-    root: {
-        alignItems: 'flex-start'
+    root: {},
+    text: {
+      fontSize: ThemeVariables.navbarFontSize,
+      color: ThemeVariables.navbarTextColor
     },
     icon: {
         fontSize: ThemeVariables.navbarIconSize,
