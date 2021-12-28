@@ -1,9 +1,11 @@
+import { TextStyle } from 'react-native';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
 
 export type WmSearchStyles = BaseStyles & {
+  focusedText: TextStyle,
   modal: AllStyle;
   modalContent: AllStyle;
   searchItem: AllStyle;
@@ -29,22 +31,26 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
       width: '100%',
       borderWidth: 1,
       borderRightWidth: 0,
-      borderTopLeftRadius: 4,
-      borderBottomLeftRadius: 4,
+      borderTopLeftRadius: 6,
+      borderBottomLeftRadius: 6,
       borderColor: ThemeVariables.searchBorderColor,
       backgroundColor: ThemeVariables.searchDropdownBackgroundColor,
+    },
+    focusedText : {
+      borderBottomLeftRadius: 0,
     },
     modal: {
       backgroundColor: 'transperant'
     },
     modalContent: {
       backgroundColor: ThemeVariables.searchDropdownBackgroundColor,
+      borderBottomLeftRadius: 6,
+      borderBottomRightRadius: 6,
       position: 'absolute',
-      shadowColor: 'rgba(0, 0, 0, 0.175)',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 1.5,
-      shadowRadius: 12,
-      elevation: 5
+      borderWidth: 1,
+      borderTopWidth: 0,
+      borderStyle: 'solid',
+      borderColor: ThemeVariables.searchBorderColor,
     },
     dropDownContent: {
         width: '100%'
@@ -61,6 +67,7 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
         padding: 0,
         width: 36,
         alignItems: 'center',
+        alignSelf: 'center',
         justifyContent: 'center',
         backgroundColor: 'transparent'
       }
@@ -84,10 +91,10 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
     } as WmButtonStyles,
     searchItem: {
       width: '100%',
-      borderBottomWidth: 1,
-      borderStyle: 'solid',
+      marginBottom: 4,
+      paddingHorizontal: 16,
+      paddingVertical: 8,
       borderBottomColor: ThemeVariables.searchItemBorderColor,
-      padding: 8,
       flexDirection: 'row',
       color: ThemeVariables.searchItemTextColor
     },

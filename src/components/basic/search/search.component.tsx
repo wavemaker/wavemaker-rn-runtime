@@ -62,6 +62,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     this.hide();
     this.updateState({
       searchQuery: '',
+      dataItems: []
     } as WmSearchState);
   }
 
@@ -137,7 +138,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
 
   prepareModalOptions(content: React.ReactNode, styles: WmSearchStyles, modalService: ModalService) {
     const o = this.state.modalOptions;
-    const modalContentSTyles = { width: this.searchInputWidth, left: this.rootElement.offsetLeft };
+    const modalContentSTyles = { 
+      width: this.searchInputWidth - 2 * (styles.modalContent.borderWidth || 0),
+      left: this.rootElement.offsetLeft + 2 * (styles.modalContent.borderWidth || 0) };
     o.modalStyle = {...styles.modal, ...this.state.position,};
     o.contentStyle = {...styles.modalContent, ...modalContentSTyles};
     o.content = content;
@@ -178,7 +181,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     return(
       <View style={this.styles.root}>
         <View style={this.styles.searchInputWrapper}>
-          <TextInput style={this.styles.text}
+          <TextInput style={[this.styles.text, this.state.isOpened && this.state.dataItems?.lenth > 0? this.styles.focusedText : null]}
             ref={ref => this.widgetRef = ref}
             placeholder={props.placeholder}
             autoFocus={props.autofocus}
