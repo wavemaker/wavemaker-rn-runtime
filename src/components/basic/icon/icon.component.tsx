@@ -94,7 +94,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   }
 
   private getCustomIcon(props: WmIconProps, style: any) {
-    const customIcon = (this.theme.getStyle(props?.iconclass || '') || this.styles)?.icon;
+    const customIcon = this.theme.getStyle(props?.iconclass || '')?.icon || this.styles.icon;
     if (customIcon?.content) {
       return (<Text
         style={[style, customIcon.fontFamily ? {fontFamily: customIcon.fontFamily}: null]}>
