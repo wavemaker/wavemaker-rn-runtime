@@ -10,7 +10,7 @@ export class BaseInputState <T extends BaseInputProps> extends BaseComponentStat
   keyboardType: any = 'default';
   isValid: boolean = true;
   textValue: string = '';
-  selection: any = {};
+  selection: any = { start: 0, end: 0 };
   isDefault = false;
 }
 
