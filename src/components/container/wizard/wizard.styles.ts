@@ -69,6 +69,7 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
     },
     wizardFooter: {
       flexDirection: 'row',
+      justifyContent: 'flex-start',
       padding: 12
     },
     buttonWrapper: {
@@ -121,7 +122,8 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
     } as WmIconStyles,
     skipLink: {
       root: {
-       padding: 8
+       padding: 8,
+       alignSelf: 'flex-end'
       },
     } as WmAnchorStyles,
     stepConnector: {

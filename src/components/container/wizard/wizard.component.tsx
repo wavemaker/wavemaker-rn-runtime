@@ -126,35 +126,28 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         <View style={this.styles.wizardBody}>
           {props.children}
         </View>
-        <View style={[this.styles.wizardFooter, {justifyContent: 'space-between'}]}>
-          <View style={{
-            alignItems: props.actionsalignment === 'right' ? 'flex-start' : 'flex-end',
-            justifyContent: props.actionsalignment === 'right' ? 'flex-start' : 'flex-end'}}>
-            {isSkippable &&
-                <WmAnchor iconclass={'wi wi-chevron-right'} iconposition={'right'} caption={'Skip'}
-                          styles={merge({}, this.styles.wizardActions, this.styles.skipLink)} onTap={this.onSkip.bind(this, steps)}></WmAnchor>
-            }
-          </View>
-          <View style={[this.styles.buttonWrapper, {
-            alignItems: props.actionsalignment === 'right' ? 'flex-end' : 'flex-start',
-            justifyContent: props.actionsalignment === 'right' ? 'flex-end' : 'flex-start'}]}>
-            {props.cancelable ?
-                <WmButton caption={props.cancelbtnlabel} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions)} onTap={this.onCancel.bind(this)}></WmButton>
-                : null
-            }
-            {this.state.currentStep > 0 &&
-              <WmButton iconclass={'wi wi-chevron-left'} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions)} caption={props.previousbtnlabel}
-                        onTap={this.onPrev.bind(this, steps)}></WmButton>
-            }
-            {(this.state.currentStep+1) < this.numberOfSteps &&
-              <WmButton iconclass={'wi wi-chevron-right'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-primary'), this.styles.nextButton)}
-                        iconposition={'right'} caption={props.nextbtnlabel} onTap={this.onNext.bind(this, steps)}></WmButton>
-            }
-            {(this.state.currentStep+1) === this.numberOfSteps &&
-              <WmButton iconclass={'wi wi-done'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-success'), this.styles.doneButton)}
-                        caption={props.donebtnlabel} onTap={this.onDone.bind(this)}></WmButton>
-            }
-          </View>
+        <View style={[this.styles.wizardFooter, 
+          {flexDirection: props.actionsalignment === 'right' ? 'row-reverse': 'row'}]}>
+          {(this.state.currentStep+1) === this.numberOfSteps &&
+            <WmButton iconclass={'wi wi-done'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-success'), this.styles.doneButton)}
+                      caption={props.donebtnlabel} onTap={this.onDone.bind(this)}></WmButton>
+          }
+          {(this.state.currentStep+1) < this.numberOfSteps &&
+            <WmButton iconclass={'wi wi-chevron-right'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-primary'), this.styles.nextButton)}
+                      iconposition={'right'} caption={props.nextbtnlabel} onTap={this.onNext.bind(this, steps)}></WmButton>
+          }
+          {this.state.currentStep > 0 &&
+            <WmButton iconclass={'wi wi-chevron-left'} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions)} caption={props.previousbtnlabel}
+                      onTap={this.onPrev.bind(this, steps)}></WmButton>
+          }
+          {props.cancelable ?
+              <WmButton caption={props.cancelbtnlabel} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions)} onTap={this.onCancel.bind(this)}></WmButton>
+              : null
+          }
+          {isSkippable &&
+              <WmAnchor iconclass={'wi wi-chevron-right'} iconposition={'right'} caption={'Skip'}
+                        styles={merge({}, this.styles.wizardActions, this.styles.skipLink)} onTap={this.onSkip.bind(this, steps)}></WmAnchor>
+          }
         </View>
       </View>
     );
