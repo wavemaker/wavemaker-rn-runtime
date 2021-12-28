@@ -49,6 +49,9 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     }
 
     setDrawerContent(content = this.drawerContent, drawerType = this.drawerType) {
+      if (!content) {
+        return;
+      }
       this.drawerContent = content;
       this.drawerType = drawerType;
       this.hasDrawer = true;
