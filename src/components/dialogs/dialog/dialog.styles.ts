@@ -18,7 +18,10 @@ export const DEFAULT_STYLES: WmDialogStyles = defineStyles({
         maxWidth: 360,
         width: '90%',
         backgroundColor: ThemeVariables.dialogBackgroundColor,
-        borderRadius: 8
+        borderTopLeftRadius: 8,
+        borderTopRighttRadius: 8,
+        borderBottomLeftRadius: 8,
+        borderBottomRightRadius: 8
     },
     text: {},
     modal: {},
