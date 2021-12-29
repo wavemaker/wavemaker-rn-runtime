@@ -142,16 +142,22 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               this.props.groupby ? (
                   <View>
                     <Text style={this.styles.groupHeading}>{itemInfo.item.key}</Text>
+                    <View style={{
+                      flexDirection: props.direction === 'row' ? 'row' : 'column'
+                    }}>
                     {
                       itemInfo.item.data && itemInfo.item.data.length
                         ? itemInfo.item.data.map((itemObj: any, index: any) =>
                           (<TouchableWithoutFeedback key={`${itemObj._groupIndex}${index}`} onPress={(e) => this.onSelect(itemObj, `${itemObj._groupIndex}${index}`)}>
-                            <View style={this.state.selectedindex === `${itemObj._groupIndex}${index}` ? this.styles.selectedItem : {}}>
+                            <View style={[
+                              props.itemclass ? this.theme.getStyle(props.itemclass(itemObj, index)) : null,
+                              this.state.selectedindex === `${itemObj._groupIndex}${index}` ? this.styles.selectedItem : {}]}>
                               {props.renderItem(itemObj, index, this)}
                             </View>
                           </TouchableWithoutFeedback>)
                         ) : null
                     }
+                    </View>
                   </View>) :
                 (<TouchableWithoutFeedback onPress={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
                 <View style={[
