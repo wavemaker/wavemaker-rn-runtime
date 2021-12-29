@@ -18,15 +18,16 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
         this.showDialog = config.showDialog;
     }
 
-    prepareToastOptions(content?: any) {
+    prepareToastOptions(options?: any) {
         const params = this.config.paramProvider();
         const o = {} as ToastOptions;
-        o.text = params.text;
-        o.type = params.class?.toLowerCase();
+        o.text = options.message || params.text;
+        o.type = options.class?.toLowerCase() || params.class?.toLowerCase();
         o.onClose = this.config.onClose;
         o.onClick = this.config.onOk;
         o.content = this.config.partialContent;
-        const placement = params.toasterPosition ? params.toasterPosition.split(' ')[0] : 'bottom right';
+        const toasterPosition = options.position || params.toasterPosition || 'bottom right';
+        const placement = toasterPosition.split(' ')[0];
         switch(placement) {
             case 'top':
                 o.styles = {top: 0};
@@ -47,7 +48,7 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
         if (!params.duration) {
           params.duration = (params.duration !== 0 && o.type === 'success') ? DEFAULT_DURATION : 0;
         }
-        o.duration = parseInt(params.duration);
+        o.duration = parseInt(options.duration || params.duration);
         o.name = this.name;
         return o;
       }
@@ -56,7 +57,7 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
         super.invoke(options, success, error);
         if (this.config.operation === 'toast') {
             const toasterService = this.config.toasterService();
-            return toasterService.showToast(this.prepareToastOptions());
+            return toasterService.showToast(this.prepareToastOptions(options));
         } else {
             return this.showDialog && this.showDialog({...this.params, onOk: this.config.onOk, onCancel: this.config.onCancel, onClose: this.config.onClose});
         }

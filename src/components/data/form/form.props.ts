@@ -9,4 +9,6 @@ export default class WmFormProps extends BaseProps {
   subheading: any;
   iconclass: any;
   formSubmit: Function = () => {};
+  onSuccess: Function = () => {};
+  onError: Function = () => {};
 }
