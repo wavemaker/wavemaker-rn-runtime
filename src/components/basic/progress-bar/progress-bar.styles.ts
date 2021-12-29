@@ -13,12 +13,9 @@ export const DEFAULT_STYLES: WmProgressBarStyles = defineStyles({
     root: {},
     text: {},
     progressBar: {
-        backgroundColor: Color(ThemeVariables.progressBarDefaultColor).fade(0.6).rgb().toString(),
         height: 4
     },
-    progressValue: {
-        color: ThemeVariables.progressBarDefaultColor
-    }
+    progressValue: {}
 });
 
 const getStyle = (color: string) => ({

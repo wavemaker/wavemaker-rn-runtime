@@ -18,7 +18,7 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
 
   renderWidget(props: WmProgressBarProps) {
     const value = (props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue);
-    const styles = deepCopy(this.styles, this.theme.getStyle(`app-${props.type}-progress-bar`))
+    const styles = deepCopy(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
     return (
     <View style={styles.root}>
       <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}}>
