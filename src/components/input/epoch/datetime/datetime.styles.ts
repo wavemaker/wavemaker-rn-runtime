@@ -24,6 +24,7 @@ export const DEFAULT_STYLES: WmDatetimeStyles = defineStyles({
         backgroundColor: ThemeVariables.inputBackgroundColor,
         borderColor: ThemeVariables.inputBorderColor,
         padding: 8,
+        justifyContent: 'center',
         width: '100%'
     },
     focused: {
@@ -37,8 +38,14 @@ export const DEFAULT_STYLES: WmDatetimeStyles = defineStyles({
         flex: 1,
         color: ThemeVariables.inputTextColor
     },
+    calendarIcon: {
+        root: {
+            alignSelf: 'center'
+        }
+    },
     clearIcon:  {
         root : {
+            alignSelf: 'center',
             paddingLeft: 8,
             paddingRight: 8
         }
