@@ -7,7 +7,10 @@ export type WmTileStyles = BaseStyles & {};
 export const DEFAULT_CLASS = 'app-tile';
 export const DEFAULT_STYLES: WmTileStyles = defineStyles({
     root: {
-      borderRadius: 8,
+      borderRadius: 6,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: ThemeVariables.transparent,
       padding: 12
     },
     text: {}
@@ -15,25 +18,12 @@ export const DEFAULT_STYLES: WmTileStyles = defineStyles({
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 
-const getTileBgStyles = (color: string) => {
-  return {
-    root: {
-      backgroundColor: color
-    }
-  } as WmTileStyles;
-};
-
 BASE_THEME.addStyle('tile-template-text', '', {
   text: {
     color: ThemeVariables.tilePrimaryTextColor
   }
 } as any);
 
-BASE_THEME.addStyle('bg-danger', '', getTileBgStyles(ThemeVariables.tileDangerColor));
-BASE_THEME.addStyle('bg-info', '', getTileBgStyles(ThemeVariables.tileInfoColor));
-BASE_THEME.addStyle('bg-primary', '', getTileBgStyles(ThemeVariables.tilePrimaryColor));
-BASE_THEME.addStyle('bg-success', '', getTileBgStyles(ThemeVariables.tileSuccessColor));
-BASE_THEME.addStyle('bg-warning', '', getTileBgStyles(ThemeVariables.tileWarningColor));
 BASE_THEME.addStyle('well', '', {
   root: {
     padding: 20,

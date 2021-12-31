@@ -2,6 +2,7 @@ import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { merge } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';
+import ThemeVariables from './theme.variables';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
 export const DEFAULT_STYLE: NamedStyles<any> = {};
 
@@ -125,4 +126,20 @@ export const ThemeConsumer = ThemeContext.Consumer;
             transform: [{ scale: 0 }]
         }
     });
+})();
+
+(() => {
+    Theme.BASE.addStyle('bg-danger', '', { root: { backgroundColor: ThemeVariables.dangerColor }});
+    Theme.BASE.addStyle('bg-info', '', { root: { backgroundColor: ThemeVariables.infoColor }});
+    Theme.BASE.addStyle('bg-primary', '', { root: { backgroundColor: ThemeVariables.primaryColor }});
+    Theme.BASE.addStyle('bg-success', '', { root: { backgroundColor: ThemeVariables.successColor }});
+    Theme.BASE.addStyle('bg-warning', '', { root: { backgroundColor: ThemeVariables.warningColor }});
+})();
+
+(() => {
+    Theme.BASE.addStyle('border-danger', '', { root: { borderColor: ThemeVariables.dangerColor }});
+    Theme.BASE.addStyle('border-info', '', { root: { borderColor: ThemeVariables.infoColor }});
+    Theme.BASE.addStyle('border-primary', '', { root: { borderColor: ThemeVariables.primaryColor }});
+    Theme.BASE.addStyle('border-success', '', { root: { borderColor: ThemeVariables.successColor }});
+    Theme.BASE.addStyle('border-warning', '', { root: { borderColor: ThemeVariables.warningColor }});
 })();
