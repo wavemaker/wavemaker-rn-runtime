@@ -282,10 +282,12 @@ export class ThemeVariables {
     //accordion
     accordionBgColor = this.widgetBgColor;
     accordionTitleColor = this.widgetHeaderTextColor;
-    accordionHeaderBgColor = this.widgetHeaderBgColor;
+    accordionHeaderBgColor = this.defaultColorF;
+    accordionIconColor= this.defaultColorB;
+    accordionActiveIconColor= this.defaultColorF;
     accordionActiveHeaderBgColor = this.widgetActiveHeaderBgColor;
     accordionActiveHeaderTextColor = this.widgetActiveHeaderTextColor;
-    accordionBorderColor = this.widgetBorderColor;
+    accordionBorderColor = this.defaultColorE;
 
     //carousel
     carouselPrevBtnColor=this.defaultColorF;

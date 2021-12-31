@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { Badge, List } from 'react-native-paper';
 import { isArray } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { isDefined } from '@wavemaker/app-rn-runtime/core/utils';
+import { deepCopy, isDefined } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmAccordionProps from './accordion.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAccordionStyles } from './accordion.styles';
@@ -31,25 +31,40 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     this.accordionPanes[(this.newIndex || this.state.expandedId) - 1] = accordionPane;
   }
 
-  expandCollapseIcon(props: any, item: any) {
+  expandCollapseIcon(props: any, item: any, showBadge = true, showIcon = true, useChevron = true, isExpanded = false) {
     const widgetProps = item.props;
     //@ts-ignore
-    const badge = widgetProps.badgevalue != undefined ? (<Badge style={[this.styles.badge, this.styles[widgetProps.badgetype || 'default']]}>{widgetProps.badgevalue}</Badge>): null;
-    const iconclass = props.isExpanded ? 'wi wi-minus' : 'wi wi-plus';
+    const badge = showBadge && widgetProps.badgevalue != undefined ? (
+      <Badge style={[
+        this.styles.badge,
+        this.styles[widgetProps.badgetype || 'default']]}>
+        {widgetProps.badgevalue}
+      </Badge>): null;
+    let iconclass = null;
+    if (useChevron) {
+      iconclass = isExpanded ? 'wi wi-chevron-down' : 'wi wi-chevron-up';
+    } else {
+      iconclass = isExpanded ? 'wi wi-minus' : 'wi wi-plus';
+    }
     return (<View style={{flexDirection: 'row'}}>
             {badge}
-            <WmIcon
-              styles={props.isExpanded ? this.styles.activeIcon : this.styles.icon}
+            {showIcon ? (
+              <WmIcon
+              styles={deepCopy({}, this.styles.icon, isExpanded ? this.styles.activeIcon : null)}
               name={'expand_collapse_icon'}
-              iconclass={iconclass}></WmIcon>
+              iconclass={iconclass}></WmIcon>): null}
           </View>);
   }
 
-  renderAccordionpane(item: any, index: any, isExpanded = true) {
-    const icon = (<WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>);
+  renderAccordionpane(item: any, index: any, isExpanded = true, accordionpanes: any[] = []) {
+    const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     return (
       <List.Accordion title={isDefined(item.props.title) ? item.props.title : 'Title'}
-                      style={[this.styles.header, isExpanded ? this.styles.activeHeader : {}]}
+                      style={[
+                        this.styles.header,
+                        index === 0 ? this.styles.firstHeader: null,
+                        index === accordionpanes.length - 1 && !isExpanded ? this.styles.lastHeader: null,
+                        isExpanded ? this.styles.activeHeader : {}]}
                       theme={{
                         colors: {
                           background : this.styles.header.backgroundColor as string,
@@ -61,7 +76,8 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                       description={item.props.subheading}
                       id={index + 1}
                       key={'accordionpane_' + index}
-                      right={props => this.expandCollapseIcon(props, item)} left={props => icon}>
+                      right={props => this.expandCollapseIcon(props, item, true, !showIconOnLeft, true, isExpanded)}
+                      left={props => this.expandCollapseIcon(props, item, false, showIconOnLeft, false, isExpanded)}>
           <Animatedview style={{marginLeft: -64}} ref={ref => this.animatedRef = ref} entryanimation={this.state.props.animation}>{item}</Animatedview>
       </List.Accordion>
     );
@@ -103,7 +119,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
           <List.AccordionGroup expandedId={ expandedId } onAccordionPress={this.onAccordionPress.bind(this)} >
             {accordionpanes
               ? isArray(accordionpanes) && accordionpanes.length
-                ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index, expandedId === index + 1))
+                ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index, expandedId === index + 1, accordionpanes))
                 : this.renderAccordionpane(accordionpanes, 0)
               : null}
           </List.AccordionGroup>
