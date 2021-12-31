@@ -15,18 +15,21 @@ export const DEFAULT_STYLES: WmProgressCircleStyles = defineStyles({
     text: {},
     progressCircle: {},
     progressValue: {
-        height: 16
+        height: 16,
     },
     subTitle: {
         fontFamily: ThemeVariables.baseFont,
         fontSize: 12,
         color: ThemeVariables.labelTextMutedColor
     }
-});
+} as WmProgressCircleStyles);
 
 const getStyle = (color: string) => ({
     progressCircle: {
         backgroundColor: Color(color).fade(0.8).rgb().toString(),
+        borderColor: color,
+        borderStyle: 'solid',
+        borderWidth: 1
     },
     progressValue: {
         backgroundColor: color
@@ -39,3 +42,39 @@ BASE_THEME.addStyle('app-success-progress-circle', '', getStyle(ThemeVariables.p
 BASE_THEME.addStyle('app-info-progress-circle', '', getStyle(ThemeVariables.progressCircleInfoColor));
 BASE_THEME.addStyle('app-danger-progress-circle', '', getStyle(ThemeVariables.progressCircleDangerColor));
 BASE_THEME.addStyle('app-warning-progress-circle', '', getStyle(ThemeVariables.progressCircleWarningColor));
+BASE_THEME.addStyle('app-progress-circle1', '', {
+    progressCircle: {
+        backgroundColor: ThemeVariables.transparent
+    },
+    progressValue: {
+        height: 8,
+        buttStyle: 'round'
+    }
+});
+BASE_THEME.addStyle('app-progress-circle2', '', {
+    progressCircle: {
+        backgroundColor: ThemeVariables.defaultColorE
+    },
+    progressValue: {
+        height: 8,
+        buttStyle: 'round'
+    }
+});
+BASE_THEME.addStyle('app-progress-circle3', '', {
+    root: {
+        transform: [{rotateY: '180deg'}]
+    },
+    text: {
+        transform: [{rotateY: '180deg'}]
+    },
+    subTitle: {
+        transform: [{rotateY: '180deg'}]
+    },
+    progressCircle: {
+        backgroundColor: ThemeVariables.defaultColorE
+    },
+    progressValue: {
+        height: 8,
+        buttStyle: 'round'
+    }
+});

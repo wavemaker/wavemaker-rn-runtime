@@ -41,7 +41,7 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
     if (isNumber(props.datavalue) && isNumber(props.minvalue) && isNumber(props.maxvalue)) {
       value = (+props.datavalue - (+props.minvalue)) / (+props.maxvalue - (+props.minvalue)) * 100;
     }
-    const styles = deepCopy(this.styles, this.theme.getStyle(`app-${props.type}-progress-circle`));
+    const styles = deepCopy(this.theme.getStyle(`app-${props.type}-progress-circle`), this.styles);
     const showText = props.captionplacement !== 'hidden';
     return (
     <View style={styles.root} onLayout={this.onLayout.bind(this)}>
@@ -52,6 +52,7 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
           backgroundWidth={styles.progressValue.height}
           rotation={0}
           tintColor={styles.progressValue.backgroundColor}
+          lineCap={styles.progressValue.buttStyle || "butt"}
           backgroundColor={styles.progressCircle.backgroundColor}
           size={this.state.radius}>
             {(fill) => (<View style={{alignItems: 'center'}}>
