@@ -319,8 +319,9 @@ export class ThemeVariables {
     //wizard
     wizardBackgroundColor = this.widgetBgColor;
     wizardStepActiveColor = this.primaryColor;
-    wizardStepDoneColor = this.successColor;
-    wizardStepColor = this.defaultColorA;
+    wizardStepDoneColor = this.primaryColor;
+    wizardStepDoneTextColor = this.defaultColorF;
+    wizardStepColor = this.primaryColor;
     wizardNextBtnColor= this.primaryColor;
     wizardDoneBtnColor = this.successColor;
     wizardStepConnectorColor = this.defaultColorE;

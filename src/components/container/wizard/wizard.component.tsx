@@ -55,7 +55,11 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   getColor(index: number) {
-    return this.state.currentStep === index ? this.styles.activeStep.color: index < this.state.currentStep ? this.styles.doneStep.color : this.styles.step.color;
+    return this.state.currentStep === index ? 
+      this.styles.activeStep.backgroundColor: 
+      index < this.state.currentStep ? 
+        this.styles.doneStep.backgroundColor :
+        this.styles.step.backgroundColor;
   }
 
   renderWizardHeader(item: any, index: number) {
@@ -65,14 +69,14 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
       <View style={this.styles.headerWrapper} key={index+1}>
         <TouchableOpacity style={this.styles.stepWrapper}
                           onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep}>
-            <View style={[this.styles.step, { borderColor: this.getColor(index) }]}>
+            <View style={[this.styles.step, { backgroundColor: this.getColor(index) }]}>
               {index >= this.state.currentStep && !this.state.isDone &&
-                    <Text style={this.styles.stepCounter}>{index+1}</Text>}
+                    <Text style={index === this.state.currentStep ? this.styles.activeStep : this.styles.stepCounter}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&
-                    <WmIcon styles={merge({}, this.styles.stepIcon, {text: {color: isLastStep ? this.styles.activeStep.color : this.styles.doneStep.color}})}
+                    <WmIcon styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
                             iconclass={item.props.iconclass || 'wi wi-done'}></WmIcon>}
             </View>
-          <Text style={[this.styles.stepTitle, {color: this.getColor(index), opacity: index === this.state.currentStep ? 1 : 0 }]}>
+          <Text style={this.styles.stepTitle}>
             {item.props.title || 'Step Title'}</Text>
         </TouchableOpacity>
         {this.numberOfSteps > 1 && <View style={[this.styles.stepConnector, { width: isFirstStep || isLastStep ? '50%' : '100%',

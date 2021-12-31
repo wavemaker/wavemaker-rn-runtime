@@ -35,10 +35,12 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
     },
     text: {},
     activeStep:{
-        color: ThemeVariables.wizardStepActiveColor
+        backgroundColor: ThemeVariables.wizardStepActiveColor,
+        color: ThemeVariables.defaultColorF
     },
     doneStep: {
-      color: ThemeVariables.wizardStepDoneColor
+      backgroundColor: ThemeVariables.wizardStepDoneColor,
+      color: ThemeVariables.defaultColorF
     },
     wizardHeader: {
       height: 80,
@@ -76,7 +78,9 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
       flexDirection: 'row',
     },
     stepTitle: {
-        textTransform: 'uppercase'
+        textTransform: 'capitalize',
+        fontSize: 12,
+        color: ThemeVariables.defaultColorA
     },
     step: {
       alignItems: 'center',
@@ -87,7 +91,8 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
       borderWidth: 1,
       borderRadius: 18.5,
       marginBottom: 10,
-      color: ThemeVariables.wizardStepColor
+      color: ThemeVariables.wizardStepColor,
+      borderColor: ThemeVariables.wizardStepColor
     },
     wizardActions: {
       root: {
@@ -117,6 +122,7 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
           justifyContent: 'center'
         },
         text: {
+          color: ThemeVariables.defaultColorF,
           fontSize: 15
         }
     } as WmIconStyles,
@@ -135,8 +141,8 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
     },
     stepCounter: {
       fontSize: 15,
-      color: ThemeVariables.wizardStepCounerColor
+      color: ThemeVariables.primaryColor
     }
-});
+} as WmWizardStyles);
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
