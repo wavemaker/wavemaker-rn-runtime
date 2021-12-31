@@ -1,7 +1,7 @@
 import Color from "color";
 
 export class ThemeVariables {
-    primaryColor = '#0457b9';
+    primaryColor = '#4263eb';
     primaryColor1 = Color(this.primaryColor).lighten(0.2).rgb().toString();
     primaryColor2 = Color(this.primaryColor).lighten(0.4).rgb().toString();
     primaryColor3 = Color(this.primaryColor).lighten(0.6).rgb().toString();
@@ -33,7 +33,7 @@ export class ThemeVariables {
     defaultColorE = '#eeeeee';
     defaultColorF = '#ffffff';
     defaultBgColor = this.defaultColorF;
-    defaultTextColor = '#666666';
+    defaultTextColor = '#888890';
     lightColor = this.defaultColorF;
     darkColor = this.defaultColor;
     muteColor = this.defaultColorA;
@@ -49,7 +49,7 @@ export class ThemeVariables {
     baseFont = 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif';
 
     // page
-    pageContentBgColor = '#fafafa';
+    pageContentBgColor = '#f9f9f9';
 
     // common widget color
     widgetHeaderBgColor = Color(this.pageContentBgColor).darken(0.1).rgb().toString();
@@ -60,11 +60,11 @@ export class ThemeVariables {
     widgetBgColor = this.pageContentBgColor;
 
     // Navbar variables
-    navbarBackgroundColor = this.primaryContrastColor;
+    navbarBackgroundColor = '#ffffff';
     navbarBorderColor = this.widgetBorderColor;
-    navbarTextColor = this.primaryColor;
-    navbarIconSize = 24;
-    navbarFontSize = 15;
+    navbarTextColor = '#151420';
+    navbarIconSize = 32;
+    navbarFontSize = 24;
     navbarImageSize = 24;
     navbarCaretColor = this.primaryColor;
     navitemChildBackgroundColor = this.primaryContrastColor;
@@ -101,9 +101,9 @@ export class ThemeVariables {
     spinnerIconColor = this.primaryColor;
 
     //tabbar variables
-    tabbarBackgroundColor = this.primaryColor;
-    tabbarTextColor =  this.primaryContrastColor;
-    tabbarIconColor = this.primaryContrastColor;
+    tabbarBackgroundColor = this.primaryContrastColor;
+    tabbarTextColor =  this.primaryColor;
+    tabbarIconColor = this.primaryColor;
 
     // tab variables
     tabBorderColor = this.widgetBorderColor;
@@ -136,6 +136,7 @@ export class ThemeVariables {
     listTitleColor = this.widgetHeaderTextColor;
     listSubTitleColor = this.defaultColor6;
     listDividerColor = this.widgetBorderColor;
+    itemBgColor = this.defaultColorF;
     selectedItemBorderColor = this.primaryColor;
 
     //button Variables

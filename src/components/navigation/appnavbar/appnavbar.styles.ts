@@ -1,7 +1,7 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { ImageStyle } from 'react-native';
+import { ImageStyle, ViewStyle } from 'react-native';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { WmMenuStyles } from '@wavemaker/app-rn-runtime/components/navigation/menu/menu.styles';
 import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.styles';
@@ -12,15 +12,14 @@ export type WmAppNavbarStyles = BaseStyles & {
   image: ImageStyle,
   leftnavIcon: WmIconStyles,
   backIcon: WmIconStyles,
-  content: AllStyle
+  middleContent: ViewStyle
 };
 
 export const DEFAULT_CLASS = 'app-appnavbar';
 export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
   root: {
-    ... BASE_THEME.getStyle('elevate2').root,
     backgroundColor: ThemeVariables.navbarBackgroundColor,
-    height: 60
+    height: 80
   },
   text: {},
   action: {} as WmIconStyles,
@@ -48,13 +47,15 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
     width: ThemeVariables.navbarImageSize,
     height: ThemeVariables.navbarImageSize
   },
-  content: {
+  middleContent: {
     textTransform: 'capitalize',
     color: ThemeVariables.navbarTextColor,
     fontSize: ThemeVariables.navbarFontSize,
-    fontFamily: ThemeVariables.baseFont
+    fontFamily: ThemeVariables.baseFont,
+    fontWeight: '500',
+    textAlign: 'center'
   }
-});
+} as WmAppNavbarStyles);
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('navbarAnchorItem', '', {

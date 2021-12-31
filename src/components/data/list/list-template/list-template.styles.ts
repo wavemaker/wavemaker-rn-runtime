@@ -14,7 +14,10 @@ export const DEFAULT_STYLES: WmListTemplateStyles = defineStyles({
         paddingRight: 4,
         paddingTop: 4,
         paddingBottom: 4,
-        borderBottomWidth: 1,
+        backgroundColor: ThemeVariables.itemBgColor,
+        borderRadius: 6,
+        marginBottom: 6,
+        borderBottomWidth: 0,
         borderBottomColor: ThemeVariables.listDividerColor,
         borderStyle: 'solid'
     },

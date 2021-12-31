@@ -43,16 +43,16 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
-          (<Tappable onTap={props.hyperlink || props.onTap ? (e: TapEvent) => this.onTap(navigationService, e) : undefined}>
-              <Animatedview entryanimation={props.animation}
-                            style={[this.styles.root, { flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
-                {props.iconposition === 'top' && icon}
-                {props.iconposition === 'left' && icon}
-                {props.caption ? (<Text style={this.styles.text}>{props.caption}</Text>) : null}
-                {props.iconposition === 'right' && icon}
-                {badge}
-              </Animatedview>
-          </Tappable>)
+          (<Animatedview entryanimation={props.animation} style={{width: this.styles.root.width, height: this.styles.root.height, justifyContent: 'center'}}>
+            <Tappable styles={[this.styles.root, { width: '100%', height: '100%', flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}
+              onTap={props.hyperlink || props.onTap ? (e: TapEvent) => this.onTap(navigationService, e) : undefined}>
+              {props.iconposition === 'top' && icon}
+              {props.iconposition === 'left' && icon}
+              {props.caption ? (<Text style={this.styles.text}>{props.caption}</Text>) : null}
+              {props.iconposition === 'right' && icon}
+              {badge}
+            </Tappable>
+          </Animatedview>)
       }
       </NavigationServiceConsumer>
     );

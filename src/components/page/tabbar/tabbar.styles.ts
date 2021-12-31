@@ -18,22 +18,14 @@ export type WmTabbarStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-tabbar';
 export const DEFAULT_STYLES: WmTabbarStyles = defineStyles({
-    root: {
-        height: 60,
-        ...BASE_THEME.getStyle('elevate2').root,
-        shadowOffset: {
-            width: 0,
-            height: -2
-        }
-    },
+    root: {},
     text: {},
     menu: {
         flexDirection: 'row',
         backgroundColor: ThemeVariables.tabbarBackgroundColor,
         justifyContent: 'space-around',
-        padding: 4,
         height: '100%',
-        alignContent: 'center'
+        alignContent: 'center',
     },
     modalContent: {},
     moreMenu: {
@@ -61,26 +53,36 @@ export const DEFAULT_STYLES: WmTabbarStyles = defineStyles({
         justifyContent: 'center',
         alignContent: 'center',
         minWidth: 60,
-        opacity: 0.5
+        height: 92,
+        opacity: 0.4
     },
     activeTabItem: {
         opacity: 1
     },
     tabIcon: {
         root: {
-            alignSelf: 'center'
+            alignSelf: 'center',
+            paddingBottom: 32,
+            borderBottomColor: ThemeVariables.tabbarIconColor,
+            borderBottomWidth: 0
         },
         icon: {
-            fontSize: 24,
+            fontSize: 36,
             color:  ThemeVariables.tabbarIconColor
         }
     } as WmIconStyles,
-    activeTabIcon: {},
+    activeTabIcon: {
+        root: {
+            borderBottomWidth: 4
+        }
+    },
     tabLabel: {
-        fontSize: 12,
+        fontSize: 14,
+        fontWeight: '500',
         color:  ThemeVariables.tabbarIconColor,
         textAlign: 'center',
-        fontFamily: ThemeVariables.baseFont
+        fontFamily: ThemeVariables.baseFont,
+        marginTop: -32
     },
     activeTabLabel: {}
 });

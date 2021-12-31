@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { Appbar } from 'react-native-paper';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -39,7 +40,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           caption={props.backbuttonlabel}
           onTap={this.onBackBtnPress}/>)}
         {props.imgsrc && (<WmPicture  picturesource={props.imgsrc} />)}
-        <Appbar.Content title={props.title} titleStyle={this.styles.content}></Appbar.Content>
+        <Appbar.Content title={props.title} titleStyle={this.styles.middleContent}></Appbar.Content>
         {props.searchbutton && (<WmIcon 
           styles={deepCopy({}, this.styles.action, this.styles.leftnavIcon)}
           iconclass={props.searchbuttoniconclass}

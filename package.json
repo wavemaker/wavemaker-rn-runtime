@@ -33,7 +33,8 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
-    "bootstrap": "yarn example && yarn && yarn pods"
+    "bootstrap": "yarn example && yarn && yarn pods",
+    "watch": "npm-watch build"
   },
   "keywords": [
     "react-native",
@@ -226,5 +227,16 @@
         }
       ]
     ]
+  },
+  "watch": {
+    "build": {
+      "patterns": ["src"],
+      "extensions": "ts,tsx",
+      "ignore": "src/vendor/external.min.js",
+      "quiet": true,
+      "legacyWatch": true,
+      "delay": 2500,
+      "runOnChangeOnly": true
+    }
   }
 }
