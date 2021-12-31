@@ -13,7 +13,10 @@ export type WmAppNavbarStyles = BaseStyles & {
   image: ImageStyle,
   leftnavIcon: WmIconStyles,
   backIcon: WmIconStyles,
-  middleContent: ViewStyle
+  leftSection: ViewStyle,
+  middleSection: ViewStyle,
+  rightSection: ViewStyle,
+  content: ViewStyle
 };
 
 export const DEFAULT_CLASS = 'app-appnavbar';
@@ -24,6 +27,9 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
   },
   text: {},
   action: {} as WmIconStyles,
+  leftSection: {
+    flex: 1
+  },
   leftnavIcon: {
     root: {
         alignItems: 'flex-start'
@@ -48,14 +54,21 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
     width: ThemeVariables.navbarImageSize,
     height: ThemeVariables.navbarImageSize
   },
-  middleContent: {
+  content: {
     textTransform: 'capitalize',
     color: ThemeVariables.navbarTextColor,
     fontSize: ThemeVariables.navbarFontSize,
     fontFamily: ThemeVariables.baseFont,
     fontWeight: '500',
     textAlign: 'center'
-  }
+  },
+  middleSection: {
+  },
+  rightSection: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
 } as WmAppNavbarStyles);
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
