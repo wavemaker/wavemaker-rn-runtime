@@ -6,6 +6,7 @@ import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Linking } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
+import { get } from 'lodash';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -31,6 +32,7 @@ import  CameraService from './services/device/camera-service';
 import { ScanProvider } from '../core/device/scan-service';
 import ScanService from './services/device/scan-service';
 import AppSecurityService from './services/app-security.service';
+import StorageService from './services/storage.service';
 import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/utils/variable.utils';
 
 import * as SplashScreen from 'expo-splash-screen';
@@ -69,6 +71,7 @@ class DrawerImpl implements Drawer {
     return this.animation;
   }
 }
+const SUPPORTED_SERVICES = { StorageService: StorageService };
 
 export default abstract class BaseApp extends React.Component {
 
@@ -284,6 +287,13 @@ export default abstract class BaseApp extends React.Component {
 
   getSelectedLocale() {
     return this.appConfig.selectedLocale;
+  }
+
+  getDependency(serviceName: string): any {
+    const service = get(SUPPORTED_SERVICES, serviceName);
+    if (service) {
+      return service;
+    }
   }
 
   renderApp(commonPartial:React.ReactNode) {
