@@ -13,14 +13,18 @@ export type WmSwitchStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-switch';
-export const DEFAULT_STYLES: WmSwitchStyles = defineStyles({
+export const DEFAULT_STYLES: WmSwitchStyles = defineStyles<WmSwitchStyles>({
     root: {
       height: 38,
       width: '100%',
       flex: 1,
       flexDirection: 'row'
     },
-    text: {},
+    text: {
+      fontWeight: '500',
+      fontSize: 16,
+      textTransform: 'capitalize'
+    },
   loadingIcon: {
     root: {
       flex: 1,
@@ -36,15 +40,35 @@ export const DEFAULT_STYLES: WmSwitchStyles = defineStyles({
     backgroundColor: ThemeVariables.switchBgColor,
     color: ThemeVariables.switchTextColor,
     flex: 1,
+    fontSize: 16,
     borderRadius: 0,
-    borderColor: ThemeVariables.switchBorderColor
+    borderColor: ThemeVariables.switchBorderColor,
+    fontWeight: 'bold'
   } as AllStyle,
   selectedButton: {
     color: ThemeVariables.switchActiveTextColor,
-    backgroundColor: ThemeVariables.switchActiveBgColor
+    backgroundColor: ThemeVariables.switchActiveBgColor,
+    borderColor: ThemeVariables.switchActiveBgColor
   } as AllStyle,
   firstButton: {
     flex: 1,
+    borderTopLeftRadius: 6,
+    borderBottomLeftRadius: 6,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0
+  } as AllStyle,
+  lastButton: {
+    flex: 1,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+    borderTopRightRadius: 6,
+    borderBottomRightRadius: 6
+  } as AllStyle
+});
+
+BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle(DEFAULT_CLASS + '1', '', {
+  firstButton: {
     borderTopLeftRadius: 500,
     borderBottomLeftRadius: 500,
     borderTopRightRadius: 0,
@@ -57,6 +81,4 @@ export const DEFAULT_STYLES: WmSwitchStyles = defineStyles({
     borderTopRightRadius: 500,
     borderBottomRightRadius: 500
   } as AllStyle
-});
-
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+} as WmSwitchStyles);

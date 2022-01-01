@@ -56,8 +56,8 @@ export class ThemeVariables {
     widgetHeaderTextColor = this.defaultTextColor;
     widgetActiveHeaderBgColor = this.primaryColor;
     widgetActiveHeaderTextColor = this.primaryContrastColor;
-    widgetBorderColor = this.defaultColorC;
-    widgetBgColor = this.pageContentBgColor;
+    widgetBorderColor = Color(this.defaultColorD).alpha(0.5).rgb().toString();
+    widgetBgColor = this.defaultColorF;
 
     // Navbar variables
     navbarBackgroundColor = '#ffffff';
@@ -109,7 +109,7 @@ export class ThemeVariables {
     tabContentBgColor = this.widgetBgColor;
 
     //label Variables
-    labelDefaultColor = this.defaultColor;
+    labelDefaultColor = this.defaultColor8;
     labelDefaultContrastColor = this.defaultColorF;
     labelDangerColor = this.dangerColor;
     labelDangerContrastColor = this.dangerContrastColor;

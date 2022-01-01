@@ -28,7 +28,9 @@ export const DEFAULT_STYLES: WmCheckboxsetStyles = defineStyles({
   } as AllStyle,
   checkboxLabel: {
     alignSelf: 'center',
-    fontFamily: ThemeVariables.baseFont
+    fontFamily: ThemeVariables.baseFont,
+    fontSize: 16,
+    color: ThemeVariables.labelDefaultColor
   } as AllStyle
 });
 

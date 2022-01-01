@@ -11,33 +11,34 @@ export type WmCurrencyStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-currency';
 export const DEFAULT_STYLES: WmCurrencyStyles = defineStyles({
     root: {
-      height: 40,
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: ThemeVariables.inputBorderColor,
       backgroundColor: ThemeVariables.inputBackgroundColor,
-      borderRadius: 4,
+      borderRadius: 6,
       flexDirection: 'row'
     },
-    text: {},
+    text: {
+      fontSize: 16
+    },
     input : {
       height: '100%',
-      paddingTop: 8,
-      paddingBottom: 8,
-      paddingLeft: 12,
-      paddingRight: 12,
-      borderBottomRightRadius: 4,
-      borderBottomLeftRadius: 4,
+      padding: 12,
       flex: 1
     },
     label: {
       height: '100%',
-      backgroundColor: themeVariables.inputBorderColor,
+      backgroundColor: themeVariables.primaryColor,
+      borderTopLeftRadius: 6,
+      borderBottomLeftRadius: 6,
+      color: themeVariables.primaryContrastColor,
       textAlignVertical: 'center',
-      padding: 8,
-      paddingLeft: 12,
-      paddingRight: 12,
-      fontFamily: ThemeVariables.baseFont
+      textAlign: 'center',
+      padding: 12,
+      width: 48,
+      fontWeight: 'bold',
+      fontFamily: ThemeVariables.baseFont,
+      fontSize: 16
     },
     invalid: {
       borderBottomColor: 'red'

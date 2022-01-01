@@ -46,8 +46,8 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     return (
       <ToggleButton onPress={this.onTap.bind(this)}
                     disabled={this.state.props.disabled}
-                    style={[this.styles[btnClass],
-                      isSelected ? this.styles.selectedButton : this.styles.button]}
+                    style={[this.styles.button, this.styles[btnClass],
+                      isSelected ? this.styles.selectedButton : null]}
                     icon={()=>this.state.props.iconclass ?
                           (<WmIcon styles={this.styles.loadingIcon}
                                   iconclass={item.icon}
