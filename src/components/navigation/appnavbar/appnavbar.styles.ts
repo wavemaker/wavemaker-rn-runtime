@@ -23,7 +23,9 @@ export const DEFAULT_CLASS = 'app-appnavbar';
 export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
   root: {
     backgroundColor: ThemeVariables.navbarBackgroundColor,
-    height: 80
+    height: 80,
+    padding: 12,
+    paddingHorizontal: 12
   },
   text: {},
   action: {} as WmIconStyles,

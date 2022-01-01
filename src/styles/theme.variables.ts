@@ -183,7 +183,7 @@ export class ThemeVariables {
 
     //rating color
     ratingIconColor = this.defaultColorA;
-    ratingSelectedIconColor = this.primaryColor;
+    ratingSelectedIconColor = '#eb8600';
 
     //toggle variables
     toggleColor = this.primaryColor;
