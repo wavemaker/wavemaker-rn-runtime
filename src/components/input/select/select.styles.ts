@@ -7,18 +7,16 @@ export type WmSelectStyles = BaseStyles & {};
 export const DEFAULT_CLASS = 'app-select';
 export const DEFAULT_STYLES: WmSelectStyles = defineStyles({
     root: {
-      height: 38,
-      paddingTop: 8,
-      paddingBottom: 8,
-      paddingLeft: 12,
-      paddingRight: 12,
+      padding: 12,
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: ThemeVariables.inputBorderColor,
       backgroundColor: ThemeVariables.inputBackgroundColor,
-      borderRadius: 4
+      borderRadius: 6
     },
-    text: {}
+    text: {
+      fontSize: 16
+    }
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

@@ -9,19 +9,17 @@ export type WmTextStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-text';
 export const DEFAULT_STYLES: WmTextStyles = defineStyles({
     root: {
-      height: 38,
-      paddingTop: 8,
-      paddingBottom: 8,
-      paddingLeft: 12,
-      paddingRight: 12,
+      padding: 12,
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: ThemeVariables.inputBorderColor,
       backgroundColor: ThemeVariables.inputBackgroundColor,
-      borderRadius: 4,
+      borderRadius: 6,
       fontFamily: ThemeVariables.baseFont
     },
-    text: {},
+    text: {
+      fontSize: 16
+    },
     invalid: {
       borderBottomColor: 'red'
     }

@@ -20,7 +20,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       ref={ref => this.widgetRef = ref}
       style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
       multiline={true}
-      numberOfLines={3}
+      numberOfLines={4}
       keyboardType={this.state.keyboardType}
       value={this.state.textValue || ''}
       autoComplete={props.autocomplete ? 'username' : 'off'}

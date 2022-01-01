@@ -7,20 +7,19 @@ export type WmNumberStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-number';
-export const DEFAULT_STYLES: WmNumberStyles = defineStyles({
+export const DEFAULT_STYLES: WmNumberStyles = defineStyles<WmNumberStyles>({
     root: {
-      height: 38,
-      paddingTop: 8,
-      paddingBottom: 8,
-      paddingLeft: 12,
-      paddingRight: 12,
+      padding: 12,
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: ThemeVariables.inputBorderColor,
       backgroundColor: ThemeVariables.inputBackgroundColor,
-      borderRadius: 4
+      borderRadius: 6
     },
-    text: {},
+    text: {
+      fontSize: 16,
+      textAlign: 'left'
+    },
     invalid: {
       borderBottomColor: ThemeVariables.inputInvalidBorderColor
     }

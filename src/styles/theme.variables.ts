@@ -1,4 +1,4 @@
-import Color from "color";
+import Color, { rgb } from "color";
 
 export class ThemeVariables {
     primaryColor = '#4263eb';
@@ -171,7 +171,7 @@ export class ThemeVariables {
 
     //input variables
     inputTextColor = this.defaultTextColor;
-    inputBorderColor = this.defaultColorA;
+    inputBorderColor = Color(this.defaultColorD).alpha(0.5).rgb().toString();
     inputBackgroundColor = this.defaultColorF;
     inputFocusBorderColor = this.primaryColor;
     inputInvalidBorderColor = this.dangerColor;
