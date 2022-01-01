@@ -7,7 +7,8 @@ export const DEFAULT_CLASS = 'app-dialogcontent';
 export const DEFAULT_STYLES: WmDialogcontentStyles = defineStyles({
     root: {
         padding: 16,
-        flex: 1
+        flex: 1,
+        minHeight: 80
     },
     text: {}
 });

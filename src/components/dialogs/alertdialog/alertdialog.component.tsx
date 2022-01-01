@@ -65,7 +65,7 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
         <WmDialogcontent styles={this.styles.dialogContent}>
           <WmLabel
             caption={props.message || ''}
-            styles={deepCopy({}, messageStyle, this.styles.message)}>
+            styles={this.styles.message}>
           </WmLabel>
         </WmDialogcontent>
         <WmDialogactions styles={this.styles.dialogActions}>

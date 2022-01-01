@@ -70,7 +70,7 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
               <View style={this.styles.headerLabel}>
                 <WmIcon caption={props.title} iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>
               </View>
-              {props.closable && <WmButton show={props.closable} iconclass="fa fa-close" onTap={() => this.close()} styles={this.styles.closeBtn}></WmButton>}
+              {props.closable && <WmButton show={props.closable} iconclass="wi wi-close" onTap={() => this.close()} styles={this.styles.closeBtn}></WmButton>}
             </View>) : null}
             {props.children}
           </View>

@@ -22,37 +22,29 @@ export const DEFAULT_STYLES: WmConfirmdialogStyles = defineStyles({
     text: {},
     dialog: {} as WmDialogStyles,
     dialogContent: {
-        root: {
-            minHeight: 100
-        }
+        root: {}
     } as WmDialogcontentStyles,
     dialogActions: {
         root: {
             padding: 0,
-            flexDirection: 'row'
+            flexDirection: 'row',
         }
     } as WmDialogactionsStyles,
     okButton: {
         root : {
-            height: '100%',
-            width: '50%',
-            padding: 16,
-            borderWidth: 0,
-            borderRadius: 0,
-            borderBottomRightRadius: 8
+            flex: 1
+        },
+        text: {
+            textTransform: 'capitalize'
         }
     } as WmButtonStyles,
     cancelButton: {
         root : {
-            height: '100%',
-            width: '50%',
-            paddingTop: 16,
-            borderRadius: 0,
-            borderBottomLeftRadius: 8,
-            borderWidth: 0,
-            borderRightWidth: 1,
-            borderStyle: 'solid',
-            borderColor: ThemeVariables.dialogBorderColor
+            flex: 1,
+            marginRight: 8,
+        },
+        text: {
+            textTransform: 'capitalize'
         }
     }  as WmButtonStyles,
     message: {} as WmLabelStyles

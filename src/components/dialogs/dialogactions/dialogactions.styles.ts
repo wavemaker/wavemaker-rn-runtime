@@ -7,11 +7,9 @@ export type WmDialogactionsStyles = BaseStyles & {};
 export const DEFAULT_CLASS = 'app-dialogactions';
 export const DEFAULT_STYLES: WmDialogactionsStyles = defineStyles({
     root: {
-        padding: 8,
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        borderTopWidth: 1,
         borderStyle: 'solid',
         borderColor: ThemeVariables.dialogBorderColor
     },

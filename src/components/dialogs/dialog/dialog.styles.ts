@@ -13,15 +13,13 @@ export type WmDialogStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-dialog';
-export const DEFAULT_STYLES: WmDialogStyles = defineStyles({
+export const DEFAULT_STYLES: WmDialogStyles = defineStyles<WmDialogStyles>({
     root: {
         maxWidth: 360,
         width: '90%',
         backgroundColor: ThemeVariables.dialogBackgroundColor,
-        borderTopLeftRadius: 8,
-        borderTopRighttRadius: 8,
-        borderBottomLeftRadius: 8,
-        borderBottomRightRadius: 8
+        borderRadius: 6,
+        padding: 16
     },
     text: {},
     modal: {},
@@ -29,22 +27,24 @@ export const DEFAULT_STYLES: WmDialogStyles = defineStyles({
     icon: {
         root: {
             alignSelf: 'center',
-            padding: 8,
-            fontSize: 16
+        },
+        text: {
+            fontSize: 20,
+            fontWeight: 'bold'
+        },
+        icon: {
+            fontSize: 24,
         }
     } as WmIconStyles,
     header: {
-        padding: 8,
         flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomWidth: 1,
         borderStyle: 'solid',
         borderColor: ThemeVariables.dialogBorderColor
     },
     headerLabel: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center'
     },
     closeBtn: {
@@ -58,7 +58,8 @@ export const DEFAULT_STYLES: WmDialogStyles = defineStyles({
                 alignItems: 'center'
             },
             text: {
-                color: '#aaa'
+                color: '#aaa',
+                fontSize: 24
             }
         }
     } as WmButtonStyles
