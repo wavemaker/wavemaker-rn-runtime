@@ -30,13 +30,9 @@ BASE_THEME.addStyle('btn-group-child', '', {
     backgroundColor: 'transparent',
     flex: 1,
     borderColor: ThemeVariables.buttonGrpBorderColor,
-    paddingHorizontal: 16,
-    paddingVertical: 16
   },
   text: {
-    fontSize: 16,
     color: ThemeVariables.defaultColor9,
-    textTransform: 'capitalize'
   }
 } as WmButtonStyles);
 BASE_THEME.addStyle('btn-group-first-child', '', {

@@ -10,11 +10,10 @@ export type WmButtonStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-button';
-export const DEFAULT_STYLES: WmButtonStyles = defineStyles({
+export const DEFAULT_STYLES: WmButtonStyles = defineStyles<WmButtonStyles>({
     root: {
-        paddingHorizontal: 18,
-        paddingVertical: 8,
-        borderRadius: 100,
+        padding: 12,
+        borderRadius: 6,
         alignSelf: 'flex-start'
     },
     content: {
@@ -23,9 +22,10 @@ export const DEFAULT_STYLES: WmButtonStyles = defineStyles({
       justifyContent: 'center'
     },
     text: {
-      fontSize: 12,
-      fontWeight: 'bold',
-      textAlign: 'center'
+      fontSize: 16,
+      fontWeight: '500',
+      textAlign: 'center',
+      textTransform: 'capitalize'
     },
     badge: {
       backgroundColor: ThemeVariables.buttonBadgeBackgroundColor,
@@ -77,7 +77,7 @@ const getButtonStyles = (bgColor: string, color: string, borderColor = bgColor) 
 BASE_THEME.addStyle('btn-default', '', getButtonStyles(ThemeVariables.buttonDefaultColor, ThemeVariables.buttonDefaultTextColor, ThemeVariables.buttonBorderColor));
 BASE_THEME.addStyle('btn-info', '', getButtonStyles(ThemeVariables.buttonInfoColor, ThemeVariables.buttonInfoTextColor));
 BASE_THEME.addStyle('btn-primary', '', getButtonStyles(ThemeVariables.buttonPrimaryColor, ThemeVariables.buttonPrimaryTextColor));
-BASE_THEME.addStyle('btn-secondary', '', getButtonStyles(ThemeVariables.buttonSecondaryColor, ThemeVariables.buttonSecondaryTextColor));
+BASE_THEME.addStyle('btn-secondary', '', getButtonStyles(ThemeVariables.buttonSecondaryColor, ThemeVariables.buttonSecondaryTextColor, ThemeVariables.buttonSecondaryTextColor));
 BASE_THEME.addStyle('btn-danger', '', getButtonStyles(ThemeVariables.buttonDangerColor, ThemeVariables.buttonDangerTextColor));
 BASE_THEME.addStyle('btn-success', '', getButtonStyles(ThemeVariables.buttonSuccessColor, ThemeVariables.buttonSuccessTextColor));
 BASE_THEME.addStyle('btn-warning', '', getButtonStyles(ThemeVariables.buttonWarningColor, ThemeVariables.buttonWarningTextColor));
