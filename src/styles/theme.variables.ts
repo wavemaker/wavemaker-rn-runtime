@@ -177,7 +177,7 @@ export class ThemeVariables {
     inputInvalidBorderColor = this.dangerColor;
 
     //slider variables
-    minimumTrackTintColor = this.widgetHeaderBgColor;
+    minimumTrackTintColor = this.primaryColor;
     maximumTrackTintColor = this.widgetHeaderBgColor;
     thumbTintColor = this.primaryColor;
 
@@ -297,17 +297,17 @@ export class ThemeVariables {
     carouselActiveDotColor=this.defaultColorF;
 
     //calendar
-    calendarBgColor = this.transparent;
-    calendarHeaderBgColor = this.primaryColor;
-    calendarHeaderTextColor = this.defaultColorF;
-    calendarWeekDayTextColor = this.defaultColorF;
+    calendarBgColor = this.defaultColorF;
+    calendarHeaderBgColor = this.defaultColorF;
+    calendarHeaderTextColor = this.defaultTextColor;
+    calendarWeekDayTextColor = this.defaultColorA;
     calendarDateColor = this.defaultColor;
     calendarNotCurrentMonthDateColor = this.defaultColor6;
     calendarHeaderColor = this.defaultColorF;
-    calendarPrevYearIconColor = this.calendarHeaderColor;
-    calendarNextYearIconColor = this.calendarHeaderColor;
-    calendarPrevMonthIconColor = this.calendarHeaderColor;
-    calendarNextMonthIconColor = this.calendarHeaderColor;
+    calendarPrevYearIconColor = this.defaultColorA;
+    calendarNextYearIconColor = this.defaultColorA;
+    calendarPrevMonthIconColor = this.defaultColorA;
+    calendarNextMonthIconColor = this.defaultColorA;
     calendarDayBgColor = this.defaultColor;
     calendarSelectedDayBgColor = this.primaryColor;
     calendarSelectedDayTextColor = this.defaultColorF;

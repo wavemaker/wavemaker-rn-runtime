@@ -8,6 +8,7 @@ export type WmCalendarStyles = BaseStyles & {
     calendar: AllStyle,
     calendarHeader: AllStyle,
     day: AllStyle,
+    dayWrapper: AllStyle,
     notDayOfCurrentMonth: AllStyle,
     monthText: TextStyle,
     yearText: TextStyle,
@@ -26,7 +27,7 @@ export type WmCalendarStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-calendar';
-export const DEFAULT_STYLES: WmCalendarStyles = defineStyles({
+export const DEFAULT_STYLES: WmCalendarStyles = defineStyles<WmCalendarStyles>({
     root: {
         width: '100%'
     },
@@ -55,25 +56,27 @@ export const DEFAULT_STYLES: WmCalendarStyles = defineStyles({
         borderColor: ThemeVariables.calendarHeaderBgColor,
         borderBottomWidth: 1,
         borderStyle: 'solid',
-        padding: 4
+        padding: 2
     },
     weekDayText: {
         color: ThemeVariables.calendarWeekDayTextColor,
         fontWeight: 'bold'
     },
     day: {
+        borderColor: 'transparent',
+        color: ThemeVariables.calendarDateColor
+    },
+    dayWrapper: {
         backgroundColor: ThemeVariables.calendarBgColor,
         borderColor: 'transparent',
-        borderTopWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        borderBottomWidth: 0,
-        borderRadius: 4,
-        color: ThemeVariables.calendarDateColor
+        width: 36,
+        height: 36,
+        borderRadius: 36
     },
     notDayOfCurrentMonth: {
         color: ThemeVariables.calendarNotCurrentMonthDateColor,
-        fontWeight: 'normal'
+        fontWeight: 'normal',
+        opacity: 0
     },
     monthText: {
         fontWeight: 'bold',
@@ -84,9 +87,11 @@ export const DEFAULT_STYLES: WmCalendarStyles = defineStyles({
         color: ThemeVariables.calendarHeaderTextColor
     },
     today: {
-        backgroundColor: ThemeVariables.calendarTodayBgColor,
+        backgroundColor: ThemeVariables.calendarTodayBgColor
     },
-    todayText: {},
+    todayText: {
+        backgroundColor: ThemeVariables.calendarTodayBgColor
+    },
     eventDay1 : {
         color: ThemeVariables.calendarEventDay1Color
     },
@@ -100,6 +105,7 @@ export const DEFAULT_STYLES: WmCalendarStyles = defineStyles({
         backgroundColor: ThemeVariables.calendarSelectedDayBgColor
     },
     selectedDayText: {
+        backgroundColor: ThemeVariables.calendarSelectedDayBgColor,
         color: ThemeVariables.calendarSelectedDayTextColor,
         fontWeight: 'bold'
     },

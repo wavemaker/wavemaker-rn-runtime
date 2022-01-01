@@ -13,17 +13,12 @@ export type WmDatetimeStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-datetime';
 export const DEFAULT_STYLES: WmDatetimeStyles = defineStyles({
     root: {
-        height: 38,
-        paddingTop: 8,
-        paddingBottom: 8,
-        paddingLeft: 12,
-        paddingRight: 12,
+        padding: 12,
         borderWidth: 1,
         borderStyle: 'solid',
-        borderRadius: 4,
+        borderRadius: 6,
         backgroundColor: ThemeVariables.inputBackgroundColor,
         borderColor: ThemeVariables.inputBorderColor,
-        padding: 8,
         justifyContent: 'center',
         width: '100%'
     },
@@ -36,11 +31,15 @@ export const DEFAULT_STYLES: WmDatetimeStyles = defineStyles({
     },
     text: {
         flex: 1,
+        fontSize: 16,
         color: ThemeVariables.inputTextColor
     },
     calendarIcon: {
         root: {
             alignSelf: 'center'
+        },
+        icon: {
+            fontSize: 24
         }
     },
     clearIcon:  {

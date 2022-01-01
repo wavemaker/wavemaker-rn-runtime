@@ -107,7 +107,7 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
             warpRowWeekdays={this.styles.weekDay}
             warpRowControlMonthYear={this.styles.calendarHeader}
             weekdayStyle={this.styles.weekDayText}
-            warpDayStyle={this.styles.day}
+            warpDayStyle={this.styles.dayWrapper}
             textDayStyle={this.styles.day}
             yearTextStyle={this.styles.yearText}
             monthTextStyle={this.styles.monthText}

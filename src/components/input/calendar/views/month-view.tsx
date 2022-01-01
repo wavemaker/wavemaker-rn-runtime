@@ -160,6 +160,7 @@ export class MonthView extends Component<MonthViewProps, MonthViewState> {
           keyExtractor={(item) => '' + item.toDate().getTime()}
           renderItem={({ item }) => this.renderDay(item)}
           extraData={this.state}
+          columnWrapperStyle={{justifyContent: 'space-between'}}
           numColumns={7}
           style={{
             padding: 4
