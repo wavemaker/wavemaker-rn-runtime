@@ -10,8 +10,7 @@ export const DEFAULT_STYLES: WmPanelContentStyles = defineStyles({
         borderStyle: 'solid',
         borderWidth: 1,
         borderTopWidth: 0,
-        borderColor: ThemeVariables.panelHeaderBgColor,
-        padding: 8
+        borderColor: ThemeVariables.panelHeaderBgColor
     },
     text: {}
 });

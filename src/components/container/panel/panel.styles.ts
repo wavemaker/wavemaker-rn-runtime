@@ -13,16 +13,26 @@ export type WmPanelStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-panel';
 export const DEFAULT_STYLES: WmPanelStyles = defineStyles({
     root: {
-      backgroundColor: ThemeVariables.panelBgColor
+      backgroundColor: ThemeVariables.panelBgColor,
+      borderStyle: 'solid',
+      borderWidth: 0,
+      padding: 12,
+      borderRadius: 6
     },
-    text: {},
+    text: {
+      color: ThemeVariables.panelHeaderTextColor,
+      fontSize: 16,
+      fontWeight: 'bold'
+    },
     header: {
       backgroundColor: ThemeVariables.panelHeaderBgColor,
       paddingHorizontal: 8,
       paddingVertical: 4,
       borderStyle: 'solid',
       borderWidth: 0,
-      borderColor: ThemeVariables.panelHeaderBgColor
+      borderColor: ThemeVariables.panelHeaderBgColor,
+      borderTopLeftRadius: 6,
+      borderTopRightRadius: 6
     },
     subheading: {},
     icon: {

@@ -9,7 +9,9 @@ export const DEFAULT_STYLES: WmPanelFooterStyles = defineStyles({
     root: {
         backgroundColor: ThemeVariables.panelFooterColor,
         minHeight: 64,
-        padding: 8
+        marginTop: 8,
+        padding: 8,
+        borderRadius: 6
     },
     text: {}
 });
