@@ -66,14 +66,13 @@ BASE_THEME.addStyle('popover-dropdown', '', {
     modal: {
         backgroundColor: 'transparent',
     },
-    modalContent: {
-        position: 'absolute',
-        shadowColor: '#000000',
-        shadowOffset: {
-            width: 0,
-            height: 0
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 6
+    popover: {
+        backgroundColor: ThemeVariables.transparent
     },
+    modalContent: {
+        borderRadius: 6,
+        position: 'absolute',
+        ...BASE_THEME.getStyle('elevate4').root,
+        shadowRadius: 8
+    }
 } as WmPopoverStyles);

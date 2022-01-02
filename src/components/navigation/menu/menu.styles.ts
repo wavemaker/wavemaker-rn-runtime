@@ -27,18 +27,23 @@ export const DEFAULT_STYLES: WmMenuStyles = deepCopy(POPOVER_STYLES, {
             color: ThemeVariables.menuTextColor
         }
     } as WmAnchorStyles,
+    popover: {
+        backgroundColor: ThemeVariables.transparent
+    },
     popoverContent: {
         flex: ''
     },
     menu: {
         width: 160,
-        backgroundColor: ThemeVariables.menuBackgroundColor
+        padding: 12,
+        backgroundColor: ThemeVariables.menuBackgroundColor,
+        borderRadius: 6
     },
     menuItem: {
         root : {
             width: '100%',
             padding: 8,
-            borderBottomWidth: 1,
+            borderBottomWidth: 0,
             borderStyle: 'solid',
             borderBottomColor: ThemeVariables.menuItemBorderColor
         },
