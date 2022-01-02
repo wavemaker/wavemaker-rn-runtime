@@ -24,6 +24,9 @@ export const DEFAULT_STYLES: WmCameraStyles = defineStyles({
       icon: {
         text: {
           color: ThemeVariables.cameraTextColor
+        },
+        icon: {
+          fontSize: 24
         }
       }
     } as WmButtonStyles

@@ -24,6 +24,9 @@ export const DEFAULT_STYLES: WmBarcodescannerStyles = defineStyles({
       icon: {
         text: {
           color: ThemeVariables.barcodeScannerTextColor
+        },
+        icon: {
+          fontSize: 24
         }
       }
     } as WmButtonStyles

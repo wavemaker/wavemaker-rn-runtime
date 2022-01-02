@@ -100,6 +100,6 @@ BASE_THEME.addStyle('app-list-dense', '', {
         marginBottom: 0,
         borderRadius: 0,
         borderBottomWidth: 1,
-        borderColor: 'rgba(0,0,0,0.01)'
+        borderBottomColor: 'rgba(0,0,0,0.05)'
     } as ViewStyle
 } as WmListStyles);

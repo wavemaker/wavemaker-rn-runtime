@@ -56,7 +56,7 @@ export class ThemeVariables {
     widgetHeaderTextColor = this.defaultTextColor;
     widgetActiveHeaderBgColor = this.primaryColor;
     widgetActiveHeaderTextColor = this.primaryContrastColor;
-    widgetBorderColor = Color(this.defaultColorD).alpha(0.5).rgb().toString();
+    widgetBorderColor = this.defaultColorC;
     widgetBgColor = this.defaultColorF;
 
     // Navbar variables
@@ -171,7 +171,7 @@ export class ThemeVariables {
 
     //input variables
     inputTextColor = this.defaultTextColor;
-    inputBorderColor = Color(this.defaultColorD).alpha(0.5).rgb().toString();
+    inputBorderColor = this.defaultColorD;
     inputBackgroundColor = this.defaultColorF;
     inputFocusBorderColor = this.primaryColor;
     inputInvalidBorderColor = this.dangerColor;
@@ -343,12 +343,12 @@ export class ThemeVariables {
     loginErrorMsgBorderColor = this.dangerColor;
 
     //camera
-    cameraBgColor = this.transparent;
+    cameraBgColor = this.defaultColorF;
     cameraBorderColor = this.widgetBorderColor;
     cameraTextColor = this.defaultTextColor;
 
     //barcode-scanner
-    barcodeScannerBgColor = this.transparent;
+    barcodeScannerBgColor = this.defaultColorF;
     barcodeScannerBorderColor = this.widgetBorderColor;
     barcodeScannerTextColor = this.defaultTextColor;
 }
