@@ -5,21 +5,9 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 export type WmListTemplateStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-list-template';
-export const DEFAULT_STYLES: WmListTemplateStyles = defineStyles({
+export const DEFAULT_STYLES: WmListTemplateStyles = defineStyles<WmListTemplateStyles>({
     root: {
-        flexDirection: 'row',
-        flex: 1,
-        width: '100%',
-        paddingLeft: 4,
-        paddingRight: 4,
-        paddingTop: 4,
-        paddingBottom: 4,
-        backgroundColor: ThemeVariables.itemBgColor,
-        borderRadius: 6,
-        marginBottom: 6,
-        borderBottomWidth: 0,
-        borderBottomColor: ThemeVariables.listDividerColor,
-        borderStyle: 'solid'
+        flex: 1
     },
     text: {}
 });

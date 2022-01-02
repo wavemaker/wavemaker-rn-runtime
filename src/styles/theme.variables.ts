@@ -49,7 +49,7 @@ export class ThemeVariables {
     baseFont = 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif';
 
     // page
-    pageContentBgColor = '#f9f9f9';
+    pageContentBgColor = '#eeeeee';
 
     // common widget color
     widgetHeaderBgColor = Color(this.pageContentBgColor).darken(0.1).rgb().toString();

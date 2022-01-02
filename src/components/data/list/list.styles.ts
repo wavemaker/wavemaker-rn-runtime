@@ -1,4 +1,4 @@
-import { TextStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmLabelStyles } from '@wavemaker/app-rn-runtime/components/basic/label/label.styles';
@@ -13,6 +13,7 @@ export type WmListStyles = BaseStyles & {
     title: WmLabelStyles,
     subheading: WmLabelStyles,
     emptyMessage: WmLabelStyles,
+    item: AllStyle,
     selectedItem: AllStyle
 };
 
@@ -72,11 +73,33 @@ export const DEFAULT_STYLES: WmListStyles = defineStyles({
             color: ThemeVariables.listSubTitleColor
         }
     } as WmLabelStyles,
-    selectedItem : {
-        borderColor: ThemeVariables.selectedItemBorderColor,
-        borderWidth: 1,
-        borderStyle: 'solid'
-    } as AllStyle
+    item: {
+        ...BASE_THEME.getStyle('elevate1').root,
+        shadowColor: 'rgba(0, 0, 0, 0.3)',
+        flexDirection: 'row',
+        flex: 1,
+        width: '100%',
+        paddingLeft: 4,
+        paddingRight: 4,
+        paddingTop: 4,
+        paddingBottom: 4,
+        backgroundColor: ThemeVariables.itemBgColor,
+        borderRadius: 6,
+        marginBottom: 6,
+        borderBottomWidth: 0,
+        borderBottomColor: ThemeVariables.listDividerColor,
+        borderStyle: 'solid',
+    },
+    selectedItem : {} as AllStyle
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+
+BASE_THEME.addStyle('app-list-dense', '', {
+    item: {
+        marginBottom: 0,
+        borderRadius: 0,
+        borderBottomWidth: 1,
+        borderColor: 'rgba(0,0,0,0.01)'
+    } as ViewStyle
+} as WmListStyles);

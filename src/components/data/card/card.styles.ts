@@ -17,11 +17,6 @@ export const DEFAULT_CLASS = 'app-card';
 export const DEFAULT_STYLES: WmCardStyles = defineStyles({
     root: {
         width: '100%',
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: ThemeVariables.cardBorderColor,
-        backgroundColor: ThemeVariables.cardBgColor,
-        ...BASE_THEME.getStyle('elevate1').root,
     },
     text: {},
     cardIcon: {
