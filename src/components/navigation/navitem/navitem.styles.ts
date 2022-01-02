@@ -30,9 +30,7 @@ export const DEFAULT_STYLES: WmNavItemStyles = defineStyles({
       root: {
         padding: 12
       },
-      text: {
-        textDecorationLine: 'none'
-      }
+      text: {}
     } as WmAnchorStyles,
     caretIcon: {
       text: {
@@ -64,7 +62,8 @@ BASE_THEME.addStyle(DEFAULT_CLASS + '-child', DEFAULT_CLASS, {
   },
   navAnchorItem: {
     text: {
-      color: ThemeVariables.navitemChildTextColor
+      color: ThemeVariables.navitemChildTextColor,
+      textDecorationLine: 'underline'
     },
     icon: {
       text: {
