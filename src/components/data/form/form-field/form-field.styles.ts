@@ -9,7 +9,9 @@ export type WmFormFieldStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-form-field';
 export const DEFAULT_STYLES: WmFormFieldStyles = defineStyles({
-    root: {},
+    root: {
+        paddingBottom: 8
+    },
     text: {},
     errorMsg: {
         color: 'red',
@@ -22,6 +24,8 @@ BASE_THEME.addStyle('form-label', '', {
         paddingBottom: 5
     },
     text: {
+        fontWeight: 'bold',
+        color: ThemeVariables.defaultTextColor,
         fontSize: ThemeVariables.heading5FontSize
     }
 } as BaseStyles);

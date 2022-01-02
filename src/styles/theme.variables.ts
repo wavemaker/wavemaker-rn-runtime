@@ -52,8 +52,8 @@ export class ThemeVariables {
     pageContentBgColor = '#eeeeee';
 
     // common widget color
-    widgetHeaderBgColor = Color(this.pageContentBgColor).darken(0.1).rgb().toString();
-    widgetHeaderTextColor = this.defaultTextColor;
+    widgetHeaderBgColor = this.defaultColorF;
+    widgetHeaderTextColor = this.defaultColor3;
     widgetActiveHeaderBgColor = this.primaryColor;
     widgetActiveHeaderTextColor = this.primaryContrastColor;
     widgetBorderColor = this.defaultColorC;
@@ -194,7 +194,7 @@ export class ThemeVariables {
 
     //form
     formBorderColor = this.widgetBorderColor;
-    formTitleColor = this.widgetHeaderTextColor;
+    formTitleColor = this.defaultTextColor;
     formSubTitleColor = this.defaultColor6;
 
     //dialog
@@ -244,7 +244,7 @@ export class ThemeVariables {
     panelBgColor = this.widgetBgColor;
     panelHeaderBgColor = this.widgetHeaderBgColor;
     panelHeaderTextColor = this.widgetHeaderTextColor;
-    panelFooterColor = Color(this.widgetBorderColor).fade(0.7).rgb().toString();
+    panelFooterColor = this.defaultColorD;
     panelBorderColor = this.widgetBorderColor;
     panelDangerColor = this.dangerColor;
     panelDefaultColor = this.defaultColor;

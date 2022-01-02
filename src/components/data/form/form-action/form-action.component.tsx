@@ -19,13 +19,11 @@ export default class WmFormAction extends BaseComponent<WmFormActionProps, WmFor
   }
 
   renderWidget(props: WmFormActionProps) {
-    let btnClass = 'btn-default';
-
     return (
       <WmButton
         disabled={props.disabled}
         caption={props.displayName}
-        styles={this.theme.getStyle(btnClass)}
+        styles={this.styles}
         name={props.name}
         iconclass={props.iconclass}
         onTap={($event: any) => {

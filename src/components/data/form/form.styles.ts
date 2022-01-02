@@ -16,16 +16,17 @@ export const DEFAULT_STYLES: WmFormStyles = defineStyles({
   heading : {
     paddingTop: 12,
     paddingBottom: 12,
-    paddingLeft: 8,
-    paddingRight: 8,
-    borderBottomWidth: 1,
+    paddingLeft: 0,
+    paddingRight: 0,
+    borderBottomWidth: 0,
     borderStyle: 'solid',
     borderColor: ThemeVariables.formBorderColor
   },
   title: {
     text: {
       fontSize: ThemeVariables.heading4FontSize,
-      color: ThemeVariables.formTitleColor
+      color: ThemeVariables.formTitleColor,
+      fontWeight: 'bold'
     }
   } as WmLabelStyles,
   subheading: {
