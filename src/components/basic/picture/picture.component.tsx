@@ -101,20 +101,20 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       }
     }
     return imgSrc && this.state.naturalImageWidth ? (
-      <Tappable target={this}>
-        <View style={this.styles.root}
-              onLayout={this.onViewLayoutChange}>
-          <Animatedview entryanimation={props.animation} style={[{
-              height: imageHeight,
-              width: imageWidth,
-              borderRadius: shapeStyles.picture?.borderRadius
-            }, shapeStyles.root]}>
-            {this.state.imageWidth ? <Image style={[this.styles.picture, shapeStyles.picture]}
-              resizeMode={'stretch'}
-              source={source}/> : null }
-          </Animatedview>
-        </View>
-      </Tappable>
+      <View style={this.styles.root}
+          onLayout={this.onViewLayoutChange}>
+        <Tappable target={this} styles={{width: '100%', height: '100%'}}>
+            <Animatedview entryanimation={props.animation} style={[{
+                height: imageHeight,
+                width: imageWidth,
+                borderRadius: shapeStyles.picture?.borderRadius
+              }, shapeStyles.root]}>
+              {this.state.imageWidth ? <Image style={[this.styles.picture, shapeStyles.picture]}
+                resizeMode={'stretch'}
+                source={source}/> : null }
+            </Animatedview>
+          </Tappable>
+      </View>
     ): null;
   }
 }
