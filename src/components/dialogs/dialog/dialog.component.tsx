@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
+import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
@@ -65,15 +66,17 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
     return (<ModalConsumer>
       {(modalService: ModalService) => {
         modalService.showModal(this.prepareModalOptions((
-          <View style={this.styles.root}>
-            {props.showheader ? (<View style={this.styles.header}>
-              <View style={this.styles.headerLabel}>
-                <WmIcon caption={props.title} iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>
-              </View>
-              {props.closable && <WmButton show={props.closable} iconclass="wi wi-close" onTap={() => this.close()} styles={this.styles.closeBtn}></WmButton>}
-            </View>) : null}
-            {props.children}
-          </View>
+          <ThemeProvider value={this.theme}>
+            <View style={this.styles.root}>
+              {props.showheader ? (<View style={this.styles.header}>
+                <View style={this.styles.headerLabel}>
+                  <WmIcon caption={props.title} iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>
+                </View>
+                {props.closable && <WmButton show={props.closable} iconclass="wi wi-close" onTap={() => this.close()} styles={this.styles.closeBtn}></WmButton>}
+              </View>) : null}
+              {props.children}
+            </View>
+          </ThemeProvider>
         ), modalService));
         return null;
       }}
