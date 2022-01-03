@@ -37,7 +37,7 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
           parent.Widgets = this.Widgets;
           parent.Variables = this.fragmentVariables;
         }
-        this.props?.onLoad && this.props?.onLoad();
+        this.invokeEventCallback('onLoad', [this]);
       });
     }
 
