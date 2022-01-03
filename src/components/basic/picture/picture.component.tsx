@@ -1,9 +1,11 @@
 import React from 'react';
 import { Image, LayoutChangeEvent, View } from 'react-native';
+import { SvgUri } from 'react-native-svg';
 import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import ImageSizeEstimator from '@wavemaker/app-rn-runtime/core/imageSizeEstimator';
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmPictureProps from './picture.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmPictureStyles } from './picture.styles';
@@ -51,7 +53,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
   onViewLayoutChange = (e: LayoutChangeEvent) => {
     let imageWidth = e.nativeEvent.layout.width;
     let imageHeight = e.nativeEvent.layout.height;
-    if (!this.styles.root.height 
+    if (!this.styles.root.height
         || (typeof this.styles.root.height === 'string'
           && !this.styles.root.height.includes('%'))) {
         imageHeight = 0;
@@ -62,7 +64,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       imageWidth = imageHeight * this.state.naturalImageWidth / this.state.naturalImageHeight;
     }
     this.updateState({
-      imageWidth: imageWidth, 
+      imageWidth: imageWidth,
       imageHeight: imageHeight
     } as WmPictureState);
   };
@@ -91,6 +93,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     const shapeStyles = this.createShape(props.shape, imageWidth);
     const imgSrc = props.picturesource || props.pictureplaceholder;
     let source = {};
+    let elementToshow;
     if (imgSrc) {
       if (isString(imgSrc) && (imgSrc.startsWith('http') || imgSrc.startsWith('file:'))) {
         source = {
@@ -99,8 +102,11 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       } else {
         source = imgSrc;
       }
+      elementToshow = (!isWebPreviewMode() && props.isSvg) ?
+        <SvgUri width={imageWidth} height={imageHeight} uri={imgSrc}/> : (this.state.naturalImageWidth ?
+          <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={'stretch'} source={source}/> : null);
     }
-    return imgSrc && this.state.naturalImageWidth ? (
+    return imgSrc ? (
       <View style={this.styles.root}
           onLayout={this.onViewLayoutChange}>
         <Tappable target={this} styles={{width: '100%', height: '100%'}}>
@@ -109,9 +115,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
                 width: imageWidth,
                 borderRadius: shapeStyles.picture?.borderRadius
               }, shapeStyles.root]}>
-              {this.state.imageWidth ? <Image style={[this.styles.picture, shapeStyles.picture]}
-                resizeMode={'stretch'}
-                source={source}/> : null }
+              {this.state.imageWidth ? elementToshow : null}
             </Animatedview>
           </Tappable>
       </View>

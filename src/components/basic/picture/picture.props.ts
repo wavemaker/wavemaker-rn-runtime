@@ -5,4 +5,5 @@ export default class WmPictureProps extends BaseProps {
   picturesource?: string = null as any;
   pictureplaceholder?: string = null as any;
   shape?: string = null as any;
+  isSvg?: string = null as any;
 }

@@ -24,7 +24,6 @@ export class FragmentProps extends BaseProps {
 export interface FragmentState<T extends FragmentProps> extends BaseComponentState<T> {}
 
 export type FragmentStyles = BaseStyles & {};
-
 export default abstract class BaseFragment<P extends FragmentProps, S extends FragmentState<P>> extends BaseComponent<P, S, FragmentStyles> implements LifecycleListener {
     public App: App;
     public onReady: Function = () => {};

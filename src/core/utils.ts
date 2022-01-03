@@ -1,7 +1,6 @@
 import { Platform } from 'react-native';
-import { isString } from "lodash-es";
 import moment from "moment";
-import { includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray} from 'lodash';
+import { includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString} from 'lodash';
 
 declare const window: any;
 const GROUP_BY_OPTIONS = {
