@@ -9,9 +9,7 @@ export type WmPictureStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-picture';
 export const DEFAULT_STYLES: WmPictureStyles = defineStyles({
-  root: {
-    width: '100%'
-  },
+  root: {},
   text: {},
   picture: {
     width: '100%',

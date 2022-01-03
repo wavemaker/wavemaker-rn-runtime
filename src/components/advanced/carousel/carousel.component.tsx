@@ -15,9 +15,35 @@ export class WmCarouselState extends BaseComponentState<WmCarouselProps> {
 export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouselState, WmCarouselStyles> {
 
   carouselRef: Carousel<unknown> | null = null as any;
+  noOfSlides: number = 0;
+  stopPlay: Function = null as any;
 
   constructor(props: WmCarouselProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCarouselProps(), new WmCarouselState());
+    this.cleanup.push(() => {
+      this.stopPlay && this.stopPlay();
+    })
+  }
+
+  autoPlay() {
+    const props = this.state.props;
+    this.stopPlay && this.stopPlay();
+    if (props.animation && props.animationinterval) {
+      const intervalId = setInterval(() => {
+        this.next();
+      }, props.animationinterval * 1000);
+      this.stopPlay = () => clearInterval(intervalId);
+    }
+  }
+
+  onPropertyChange(name: string, $new: any, $old: any): void {
+      super.onPropertyChange(name, $new, $old);
+      switch (name) {
+        case 'animation':
+        case 'animationinterval' : {
+          this.autoPlay();
+        }
+      }
   }
 
   onSlideChange = (index: number) => {
@@ -46,11 +72,11 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     return (<Text style={active ? this.styles.activeDotStyle: this.styles.dotStyle}>{index}</Text>);
   }
 
-  renderPagination(length: number, props: WmCarouselProps, styles: WmCarouselStyles) {
+  renderPagination(props: WmCarouselProps, styles: WmCarouselStyles) {
     return (
         <Pagination
           carouselRef={this.carouselRef as any}
-          dotsLength={length}
+          dotsLength={this.noOfSlides}
           activeDotIndex={this.state.activeIndex}
           containerStyle={styles.dotsWrapperStyle}
           dotStyle={styles.activeDotStyle}
@@ -62,11 +88,19 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   }
 
   next = () => {
-    this.carouselRef?.snapToNext();
+    if (this.carouselRef && this.carouselRef.currentIndex < this.noOfSlides - 1) {
+      this.carouselRef?.snapToNext();
+    } else {
+      this.carouselRef?.snapToItem(0);
+    }
   }
 
   prev = () => {
-    this.carouselRef?.snapToPrev();
+    if (this.carouselRef && this.carouselRef.currentIndex > 0) {
+      this.carouselRef?.snapToPrev();
+    } else {
+      this.carouselRef?.snapToItem(this.noOfSlides - 1);
+    }
   }
 
   renderWidget(props: WmCarouselProps) {
@@ -74,6 +108,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     const hasDots = props.controls === 'both' || props.controls ==='indicators';
     let styles = this.styles;
     const data = props.type === 'dynamic' ? props.dataset : props.children;
+    this.noOfSlides = data?.length || 0;
     const autoPlay = props.animation === 'auto';
     // TODO: loop prop on Carousel is not working Refer: https://github.com/meliorence/react-native-snap-carousel/issues/608
     return (
@@ -86,10 +121,8 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             style={{width: '100%', height: '100%'}}
             enableSnap={true}
             loopClonesPerSide={1}
-            autoplay={autoPlay}
+            autoplay={false}
             activeSlideAlignment='start'
-            autoplayDelay={(props.animationinterval || 1) * 1000}
-            autoplayInterval={(props.animationinterval || 1) * 1000}
             renderItem={this.renderItem}
             sliderWidth={this.state.sliderWidth}
             itemWidth={this.state.sliderWidth}
@@ -108,7 +141,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
               styles={styles.nextBtn}
               onTap={this.next}/>
           </View>): null}
-        {this.state.sliderWidth > 0 && hasDots && data ? this.renderPagination(data.length, props, styles) : null}
+        {this.state.sliderWidth > 0 && hasDots && data ? this.renderPagination(props, styles) : null}
       </View>);
   }
 }

@@ -106,8 +106,13 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         <SvgUri width={imageWidth} height={imageHeight} uri={imgSrc}/> : (this.state.naturalImageWidth ?
           <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={'stretch'} source={source}/> : null);
     }
-    return imgSrc ? (
-      <View style={this.styles.root}
+    return imgSrc && this.state.naturalImageWidth ? (
+      <View style={[
+          !this.styles.root.width && !this.styles.root.height ? {
+            width: this.state.naturalImageWidth,
+            height: this.state.naturalImageHeight
+          } : null,
+          this.styles.root]}
           onLayout={this.onViewLayoutChange}>
         <Tappable target={this} styles={{width: '100%', height: '100%'}}>
             <Animatedview entryanimation={props.animation} style={[{
