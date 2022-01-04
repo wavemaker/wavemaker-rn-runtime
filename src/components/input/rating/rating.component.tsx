@@ -36,7 +36,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
     }
     let selectedIndex = -1;
     if (props.datavalue !== undefined && props.datavalue !== null) {
-      selectedIndex = items.findIndex((item: any, k) => item[props.datafield as string] === props.datavalue);
+      selectedIndex = items.findIndex((item: any, k) => item[props.datafield as string] == props.datavalue);
       if (selectedIndex === -1 && isNumber(props.datavalue)) {
         selectedIndex = props.datavalue;
       }
