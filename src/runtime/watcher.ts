@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash';
+import { isEqual as _isEqual, isArray, clone } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { WIDGET_LOGGER } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -7,6 +7,9 @@ class Watcher {
 
     constructor(private fn: Function, private onChange: (prev: any, now: any) => any) {
         this.last = this.execute();
+        if (isArray(this.last)) {
+            this.last = clone(this.last);
+        }
     }
     
     private execute() {
@@ -18,13 +21,31 @@ class Watcher {
         }
     }
 
+    private isEqual($old: any, $new: any) {
+        if (!_isEqual($old, $new)) {
+            return false;
+        }
+        if (!isArray($old)) {
+            return true;
+        }
+        if ($old.length !== $new.length) {
+            return false;
+        }
+        for(let i = 0; i < $old.length; i++) {
+            if ($old[i] !== $new[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     get value() {
         return this.last;
     }
 
     public check() {
         const now = this.execute();
-        if (!isEqual(this.last, now)) {
+        if (!this.isEqual(this.last, now)) {
             WIDGET_LOGGER.debug(() => {
                 const expStr = this.fn.toString();
                 const expBody = expStr.substring(
@@ -37,6 +58,9 @@ class Watcher {
             });
             this.onChange(this.last, now);
             this.last = now;
+            if (isArray(this.last)) {
+                this.last = clone(this.last);
+            }
             return true;
         }
         return false;
@@ -86,7 +110,9 @@ export const WatcherStore = new (class {
     }
 
     trigger() {
+        const start = Date.now();
         this.store.forEach(watcherGroup => watcherGroup.check());
+        WIDGET_LOGGER.info(`Watch Cycle took ${Date.now() - start} ms.`);
     };
 })();
 

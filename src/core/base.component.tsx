@@ -173,7 +173,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     protected abstract renderWidget(props: T): ReactNode;
 
-    
+    public refresh() {
+        this.forceUpdate();
+    }
+
     public render(): ReactNode {
         WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
         const props = this.state.props;
