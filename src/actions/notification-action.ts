@@ -18,7 +18,7 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
         this.showDialog = config.showDialog;
     }
 
-    prepareToastOptions(options?: any) {
+    prepareToastOptions(options: any = {}) {
         const params = this.config.paramProvider();
         const o = {} as ToastOptions;
         o.text = options.message || params.text;
