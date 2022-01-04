@@ -90,9 +90,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     const props = this.state.props;
     const oldValue = props.datavalue;
     const validNumber = this.isValidNumber(model);
-    // regex validation
-    const valid = this.handleValidation(value);
-    if (!valid || !validNumber) {
+    if (!validNumber) {
       this.invokeEventCallback('onError', [ event, this.proxy, value, oldValue ]);
       return;
     }
@@ -208,6 +206,13 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         isInvalidNumber: true,
       } as S);
       return true;
+    }
+    // regex validation
+    if (!this.handleValidation(val)) {
+      this.updateState({
+        isInvalidNumber: true,
+      } as S);
+      return false;
     }
     this.resetValidations();
     return true;

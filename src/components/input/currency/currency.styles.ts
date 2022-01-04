@@ -24,7 +24,9 @@ export const DEFAULT_STYLES: WmCurrencyStyles = defineStyles({
     input : {
       height: '100%',
       padding: 12,
-      flex: 1
+      flex: 1,
+      borderWidth: 1,
+      borderStyle: 'solid'
     },
     label: {
       height: '100%',
@@ -41,7 +43,7 @@ export const DEFAULT_STYLES: WmCurrencyStyles = defineStyles({
       fontSize: 16
     },
     invalid: {
-      borderBottomColor: 'red'
+      borderBottomColor: ThemeVariables.inputInvalidBorderColor
     }
 });
 

@@ -124,7 +124,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
 
     // regex validation
     const valid = this.handleValidation(value);
-    const isValid = this.props.required && source && !value ? false : true;
+    const isValid = this.props.required && source && !value ? false : true && valid;
     this.updateState({
       isValid: isValid
     } as S);
