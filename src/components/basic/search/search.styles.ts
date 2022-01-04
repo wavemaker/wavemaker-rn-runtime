@@ -40,7 +40,8 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
       borderBottomLeftRadius: 0,
     },
     modal: {
-      backgroundColor: 'transperant'
+      backgroundColor: 'transperant',
+      height: '100%'
     },
     modalContent: {
       backgroundColor: ThemeVariables.searchDropdownBackgroundColor,

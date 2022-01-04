@@ -138,11 +138,11 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
 
   prepareModalOptions(content: React.ReactNode, styles: WmSearchStyles, modalService: ModalService) {
     const o = this.state.modalOptions;
-    const modalContentSTyles = { 
+    const modalContentSTyles = {
       width: this.searchInputWidth - 2 * (styles.modalContent.borderWidth || 0),
       left: this.rootElement.offsetLeft + 2 * (styles.modalContent.borderWidth || 0) };
-    o.modalStyle = {...styles.modal, ...this.state.position,};
-    o.contentStyle = {...styles.modalContent, ...modalContentSTyles};
+    o.modalStyle = {...styles.modal};
+    o.contentStyle = {...styles.modalContent, ...modalContentSTyles, ...this.state.position};
     o.content = content;
     o.isModal = true;
     o.onClose = () => {
