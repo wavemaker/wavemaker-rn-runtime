@@ -106,7 +106,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         <SvgUri width={this.styles.root.width} height={this.styles.root.height} uri={imgSrc}/> : (this.state.naturalImageWidth ?
           <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={'stretch'} source={source}/> : null);
     }
-    return imgSrc ? (
+    return imgSrc && (this.state.naturalImageWidth || props.isSvg) ? (
       <View style={[
           !this.styles.root.width && !this.styles.root.height ? {
             width: this.state.naturalImageWidth,
