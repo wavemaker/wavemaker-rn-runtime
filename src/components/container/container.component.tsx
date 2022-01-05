@@ -35,14 +35,14 @@ export default class WmContainer extends BaseComponent<WmContainerProps, WmConta
   }
 
   renderWidget(props: WmContainerProps) {
+    const dimensions = {
+      width: this.styles.root.width ? '100%' : undefined,
+      height: this.styles.root.height ? '100%' : undefined
+    };
     return (
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
-        <Tappable target={this}>
-            <View style={[{
-              width: this.styles.root.width,
-              height: this.styles.root.height,
-              alignItems: (this.styles.root as any)['alignContentItems']
-            },  this.styles.content]}>{this.renderContent(props)}</View>
+        <Tappable target={this} styles={dimensions}>
+            <View style={[dimensions,  this.styles.content]}>{this.renderContent(props)}</View>
         </Tappable>
       </Animatedview>
     );
