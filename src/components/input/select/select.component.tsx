@@ -46,7 +46,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
       onFocus={this.onFocus.bind(this)}
       onBlur={this.onBlur.bind(this)}>
       {props.placeholder || (!props.placeholder && !props.datavalue) ?
-        <Picker.Item label={props.placeholder || ''} value={''} key={props.name + '_placeholder'}/> : null}
+        <Picker.Item label={props.placeholder || ''} value={' '} key={props.name + '_placeholder'}/> : null}
       {items && items.length ?
         items.map((item: any, index: any) => this.renderChild(item, index)): null}
       </Picker>
