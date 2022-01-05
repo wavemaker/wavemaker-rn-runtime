@@ -30,7 +30,6 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
   text: {},
   action: {} as WmIconStyles,
   leftSection: {
-    flex: 1
   },
   leftnavIcon: {
     root: {

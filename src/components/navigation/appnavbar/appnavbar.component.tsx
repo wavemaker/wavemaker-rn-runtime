@@ -30,7 +30,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
     return (
       <Appbar.Header statusBarHeight={0} style={this.styles.root}>
         <View style={this.styles.leftSection}>
-        {props.showDrawerButton && (<WmIcon 
+        {props.showDrawerButton && (<WmIcon
           styles={deepCopy({}, this.styles.action, this.styles.leftnavIcon)}
           iconclass={props.leftnavpaneliconclass}
           onTap={this.onDrawerBtnPress}
@@ -41,12 +41,13 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           caption={props.backbuttonlabel}
           onTap={this.onBackBtnPress}/>)}
         </View>
+        {props.imgsrc && (<WmPicture styles={{ root: { height: this.styles.image.width, width: this.styles.image.height }}} picturesource={props.imgsrc} />)}
         <View style={this.styles.middleSection}>
-          {props.imgsrc && (<WmPicture  picturesource={props.imgsrc} />)}
-          <Appbar.Content title={props.title} titleStyle={this.styles.content}></Appbar.Content>
+          <Appbar.Content title={props.title} titleStyle={this.styles.content}>
+          </Appbar.Content>
         </View>
         <View style={this.styles.rightSection}>
-          {props.searchbutton && (<WmIcon 
+          {props.searchbutton && (<WmIcon
             styles={deepCopy({}, this.styles.action, this.styles.leftnavIcon)}
             iconclass={props.searchbuttoniconclass}
             onTap={this.onSearchBtnPress}
