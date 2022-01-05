@@ -19,16 +19,14 @@ export class WmListState extends BaseComponentState<WmListProps> {
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
 
-  public selecteditem: any;
-
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmListProps());
   }
 
   private onSelect($item: any, $index: number | string) {
     if (!this.state.props.disableitem($item, $index)) {
-      this.selecteditem = $item;
       this.updateState({
+        props: { selecteditem: $item },
         selectedindex: $index
       } as WmListState);
       this.invokeEventCallback('onSelect', [this.proxy, $item]);
@@ -46,8 +44,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   private deselect() {
-    this.selecteditem = null;
     this.updateState({
+      props: { selecteditem: null },
       selectedindex: -1
     } as WmListState);
   }
