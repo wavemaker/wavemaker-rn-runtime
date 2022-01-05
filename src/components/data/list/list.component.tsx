@@ -100,12 +100,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     this.invokeEventCallback('onRender', [this, this.state.props.dataset]);
   }
 
-  // TODO try to optimize this, unable to track the oldProps and newProps to check if dataset has modified.
-  shouldComponentUpdate(nextProps: WmListProps, nextState: WmListState, nextContext: any): boolean {
-    super.shouldComponentUpdate(nextProps, nextState, nextContext);
-    return true;
-  }
-
   renderWidget(props: WmListProps) {
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
     const dataset = isArray(props.dataset) ? props.dataset : (props.dataset ? [props.dataset]: []);
