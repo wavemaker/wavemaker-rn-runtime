@@ -1,4 +1,7 @@
 import React from 'react';
+import { Text } from 'react-native';
+import { get, filter } from 'lodash';
+
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { Formatter } from '@wavemaker/app-rn-runtime/core/formatters';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -14,8 +17,6 @@ import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toas
 import spinnerService from '@wavemaker/app-rn-runtime/runtime/services/app-spinner.service';
 
 import AppI18nService from './services/app-i18n.service';
-import { get, filter } from 'lodash';
-
 
 export class FragmentProps extends BaseProps {
 
@@ -49,6 +50,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public formatters: Map<string, Formatter>;
     public serviceDefinitions = {} as any;
     public Viewport = _viewPort;
+    public loadingMessage = React.createElement(Text, [] as any, ['loading...']);
     public notification = {
                             text: '',
                             title: '',
