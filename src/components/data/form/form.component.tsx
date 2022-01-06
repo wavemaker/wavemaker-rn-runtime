@@ -153,10 +153,10 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     this.invokeEventCallback('onResult', [ null, this.proxy, response ]);
     if (status) {
       this.invokeEventCallback('onSuccess', [ null, this.proxy, response ]);
-      !this.props.onSuccess && this.toggleMessage('success', 'Data posted successfully');
+      !this.props.onSuccess && this.toggleMessage('success', this.state.props.postmessage);
     } else {
       this.invokeEventCallback('onError', [ null, this.proxy, response ]);
-      !this.props.onError && this.toggleMessage('error', 'Failed to post data');
+      !this.props.onError && this.toggleMessage('error', this.state.props.errormessage);
     }
   }
 
