@@ -1,6 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Appbar } from 'react-native-paper';
+import { Text, View } from 'react-native';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -28,7 +27,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
 
   renderWidget(props: WmAppNavbarProps) {
     return (
-      <Appbar.Header statusBarHeight={0} style={this.styles.root}>
+      <View style={this.styles.root}>
         <View style={this.styles.leftSection}>
         {props.showDrawerButton && (<WmIcon
           styles={deepCopy({}, this.styles.action, this.styles.leftnavIcon)}
@@ -41,10 +40,15 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           caption={props.backbuttonlabel}
           onTap={this.onBackBtnPress}/>)}
         </View>
-        {props.imgsrc && (<WmPicture styles={{ root: { height: this.styles.image.width, width: this.styles.image.height }}} picturesource={props.imgsrc} />)}
         <View style={this.styles.middleSection}>
-          <Appbar.Content title={props.title} titleStyle={this.styles.content}>
-          </Appbar.Content>
+          {props.imgsrc && (
+          <WmPicture 
+            styles={{ root: { 
+              height: this.styles.image.width,
+              width: this.styles.image.height
+            }}}
+            picturesource={props.imgsrc} />)}
+          <Text style={this.styles.content}>{props.title}</Text>
         </View>
         <View style={this.styles.rightSection}>
           {props.searchbutton && (<WmIcon
@@ -54,7 +58,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
             />)}
           {props.children}
         </View>
-      </Appbar.Header>
+      </View>
     );
   }
 }

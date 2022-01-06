@@ -55,9 +55,7 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
       zIndex: 20
     },
     headerWrapper: {
-      flex: 1,
-      paddingRight: 12,
-      paddingLeft: 12
+      flex: 1
     },
     wizardBody: {
       alignSelf: 'flex-start',

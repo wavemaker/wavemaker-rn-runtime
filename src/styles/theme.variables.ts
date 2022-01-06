@@ -46,7 +46,7 @@ export class ThemeVariables {
     transparent = 'transparent';
     badgeColor = '#6c757d';
     badgeContrastColor = '#ffffff';
-    baseFont = 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif';
+    baseFont = 'Roboto';
 
     // page
     pageContentBgColor = '#eeeeee';

@@ -22,10 +22,12 @@ export type WmAppNavbarStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-appnavbar';
 export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
   root: {
+    flexDirection: 'row',
     backgroundColor: ThemeVariables.navbarBackgroundColor,
     height: 80,
     padding: 12,
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
+    alignItems: 'center'
   },
   text: {},
   action: {} as WmIconStyles,
@@ -64,6 +66,8 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
     textAlign: 'center'
   },
   middleSection: {
+    alignItems: 'center',
+    alignContent: 'center'
   },
   rightSection: {
     flex: 1,

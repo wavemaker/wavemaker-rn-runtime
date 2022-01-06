@@ -54,7 +54,7 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
   renderWidget(props: WmCheckboxProps) {
     return (
       <TouchableOpacity style={this.styles.root} onPress={this.onPress.bind(this)}>
-          <Checkbox status={this.state.isChecked ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
+          <Checkbox.Android status={this.state.isChecked ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
           <Text style={this.styles.checkboxLabel}>{props.caption}</Text>
       </TouchableOpacity>
     );

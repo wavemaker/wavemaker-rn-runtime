@@ -36,7 +36,8 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
 
   renderWidget(props: WmCurrencyProps) {
     return (<View style={this.styles.root}>
-        <Text style={this.styles.label}>{this.state.currencySymbol}</Text>
+        <View style={this.styles.labelWrapper}>
+          <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
         <TextInput ref={ref => this.widgetRef = ref}
         style={[this.styles.input, this.styles.text, this.state.isInvalidNumber ? this.styles.invalid : {}]}
         value={this.state.textValue || ''}

@@ -18,9 +18,12 @@ export type WmTabbarStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-tabbar';
 export const DEFAULT_STYLES: WmTabbarStyles = defineStyles<WmTabbarStyles>({
-    root: {},
+    root: {
+        height: 72
+    },
     text: {},
     menu: {
+        height: '100%',
         flexDirection: 'row',
         backgroundColor: ThemeVariables.tabbarBackgroundColor,
         justifyContent: 'space-around',
@@ -52,7 +55,6 @@ export const DEFAULT_STYLES: WmTabbarStyles = defineStyles<WmTabbarStyles>({
         justifyContent: 'center',
         alignItems: 'center',
         minWidth: 60,
-        height: 92,
         opacity: 0.4
     },
     activeTabItem: {
@@ -61,10 +63,9 @@ export const DEFAULT_STYLES: WmTabbarStyles = defineStyles<WmTabbarStyles>({
     tabIcon: {
         root: {
             alignSelf: 'center',
-            paddingBottom: 32,
-            height: '100%',
-            borderBottomColor: ThemeVariables.tabbarIconColor,
-            borderBottomWidth: 0
+            paddingBottom: 20,
+            borderBottomColor: ThemeVariables.transparent,
+            borderBottomWidth: 4
         },
         icon: {
             fontSize: 36,
@@ -73,7 +74,7 @@ export const DEFAULT_STYLES: WmTabbarStyles = defineStyles<WmTabbarStyles>({
     } as WmIconStyles,
     activeTabIcon: {
         root: {
-            borderBottomWidth: 4
+            borderBottomColor: ThemeVariables.tabbarIconColor,
         }
     } as WmIconStyles,
     tabLabel: {
@@ -82,7 +83,8 @@ export const DEFAULT_STYLES: WmTabbarStyles = defineStyles<WmTabbarStyles>({
         color:  ThemeVariables.tabbarIconColor,
         textAlign: 'center',
         fontFamily: ThemeVariables.baseFont,
-        marginTop: -32
+        marginTop: -30,
+        paddingBottom: 12
     },
     activeTabLabel: {}
 });

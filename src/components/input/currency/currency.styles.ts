@@ -26,18 +26,21 @@ export const DEFAULT_STYLES: WmCurrencyStyles = defineStyles({
       padding: 12,
       flex: 1,
       borderWidth: 1,
+      borderColor: themeVariables.transparent,
       borderStyle: 'solid'
     },
-    label: {
+    labelWrapper: {
       height: '100%',
       backgroundColor: themeVariables.primaryColor,
       borderTopLeftRadius: 6,
       borderBottomLeftRadius: 6,
+      width: 48,
+      padding: 12,
+    },
+    label: {
       color: themeVariables.primaryContrastColor,
       textAlignVertical: 'center',
       textAlign: 'center',
-      padding: 12,
-      width: 48,
       fontWeight: 'bold',
       fontFamily: ThemeVariables.baseFont,
       fontSize: 16

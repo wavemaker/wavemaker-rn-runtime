@@ -40,7 +40,6 @@ export const DEFAULT_STYLES: WmMessageStyles = defineStyles({
     },
     icon: {
         root: {
-            height: '100%',
             alignItems: 'flex-start',
             fontSize: 20
         }

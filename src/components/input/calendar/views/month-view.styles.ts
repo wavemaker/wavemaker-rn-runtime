@@ -5,7 +5,6 @@ const screenWidth = width < height ? width : height;
 export default StyleSheet.create({
   container: {},
   day: {
-    margin: 10,
     color: '#fff'
   },
   txtHeaderDate: {

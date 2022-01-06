@@ -255,7 +255,14 @@ export default abstract class BaseApp extends React.Component {
               <Animatedview entryanimation={o.animation || 'fadeIn'}
                               ref={ref => this.animatedRef = ref}
                               style={[styles.appModalContent, o.contentStyle]}>
-                <ScrollView style={{width: '100%'}} contentContainerStyle={{width: '100%', alignItems: 'center'}}>
+                <ScrollView style={{width: '100%'}} 
+                  contentContainerStyle={{
+                    "width": "100%",
+                    "alignItems": "center",
+                    "minHeight": "100%",
+                    "flexDirection": "column",
+                    "justifyContent": "center"
+                  }}>
                   <TouchableOpacity
                       activeOpacity={1}
                       onPress={() => {}}

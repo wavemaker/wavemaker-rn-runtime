@@ -114,7 +114,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
           } : null,
           this.styles.root]}
           onLayout={this.onViewLayoutChange}>
-        <Tappable target={this} styles={{width: '100%', height: '100%'}}>
+        <Tappable target={this} styles={{width: imageWidth ? null : '100%', height: imageHeight ? null : '100%'}}>
             <Animatedview entryanimation={props.animation} style={[{
                 height: imageHeight,
                 width: imageWidth,

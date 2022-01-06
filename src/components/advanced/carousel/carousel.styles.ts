@@ -16,6 +16,8 @@ const btn: ViewStyle = {
     height: 40,
     width: 40,
     borderRadius: 40,
+    borderColor: ThemeVariables.transparent,
+    borderWidth: 1,
     justifyContent: 'center'
 };
 
