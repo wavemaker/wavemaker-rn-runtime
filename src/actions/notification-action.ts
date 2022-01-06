@@ -26,6 +26,7 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
         o.onClose = this.config.onClose;
         o.onClick = this.config.onOk;
         o.content = this.config.partialContent;
+        o.hideOnClick = options.hideOnClick || true;
         const toasterPosition = options.position || params.toasterPosition || 'bottom right';
         const placement = toasterPosition.split(' ')[0];
         switch(placement) {
