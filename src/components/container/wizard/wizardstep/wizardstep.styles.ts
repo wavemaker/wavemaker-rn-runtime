@@ -5,7 +5,9 @@ export type WmWizardstepStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-wizardstep';
 export const DEFAULT_STYLES: WmWizardstepStyles = defineStyles({
-    root: {},
+    root: {
+        height: '100%'
+    },
     text: {}
 });
 

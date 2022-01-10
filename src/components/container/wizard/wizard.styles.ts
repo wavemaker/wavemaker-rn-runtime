@@ -31,7 +31,7 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
       flexDirection: 'column',
       backgroundColor: ThemeVariables.wizardBackgroundColor,
       display: 'flex',
-      maxHeight: '100%'
+      height: '100%'
     },
     text: {},
     activeStep:{
