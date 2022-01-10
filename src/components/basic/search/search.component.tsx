@@ -20,7 +20,10 @@ export class WmSearchState extends BaseDatasetState<WmSearchProps> {
   searchQuery: any = '';
   isOpened: boolean = false;
   modalOptions = {} as ModalOptions;
-  position = {} as DropdownPosition;
+  position = {
+    top: 0,
+    left: 0
+  } as DropdownPosition;
   data: any = [];
 }
 
@@ -36,7 +39,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   private prevDatavalue: any;
   private queryModel: any;
   private searchInputWidth: any;
-  private rootElement: any;
   private isDefaultQuery: boolean = true;
   private dataProvider: LocalDataProvider;
   public widgetRef: TextInput | null = null;
@@ -52,10 +54,13 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   computePosition = (e?: any) => {
-    if (e) {
-      this.rootElement = e.nativeEvent.target;
-    }
-  };
+    const position = {} as DropdownPosition;
+    this.view.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
+      position.left = px;
+      position.top = py + height;
+      this.updateState({ position: position } as WmSearchState);
+    });
+  }
 
   clearSearch() {
     this.invokeEventCallback('onClear', [null, this]);
@@ -126,12 +131,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
 
   public showPopover = () => {
     this.updateState({ isOpened: true } as WmSearchState);
-    const position = {} as DropdownPosition;
-    this.view.measure((x, y, width, height, px, py) => {
-      position.left = px;
-      position.top = py + height;
-      this.updateState({ position: position } as WmSearchState);
-    });
   };
 
   public hide = () => {};
@@ -140,9 +139,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     const o = this.state.modalOptions;
     const modalContentSTyles = {
       width: this.searchInputWidth - 2 * (styles.modalContent.borderWidth || 0),
-      left: this.rootElement.offsetLeft + 2 * (styles.modalContent.borderWidth || 0) };
+      left: (this.state.position.left || 0) + 2 * (styles.modalContent.borderWidth || 0) };
     o.modalStyle = {...styles.modal};
-    o.contentStyle = {...styles.modalContent, ...modalContentSTyles, ...this.state.position};
+    o.contentStyle = {...styles.modalContent, ...this.state.position, ...modalContentSTyles};
     o.content = content;
     o.isModal = true;
     o.onClose = () => {
@@ -179,7 +178,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   renderSearchBar() {
     const props = this.state.props;
     return(
-      <View style={this.styles.root}>
+      <View style={this.styles.root} ref={ref => {this.view = ref as View}} onLayout={(e) => this.computePosition(e)}>
         <View style={this.styles.searchInputWrapper}>
           <TextInput style={[this.styles.text, this.state.isOpened && this.state.dataItems?.lenth > 0? this.styles.focusedText : null]}
             ref={ref => this.widgetRef = ref}
@@ -223,11 +222,15 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     }
   }
 
+  componentDidMount(): void {
+    super.componentDidMount();
+  }
+
   renderWidget(props: WmSearchProps) {
     const result = this.state.data;
     this.updateDefaultQueryModel();
     return (
-      <View onLayout={this.computePosition} ref={ref => {this.view = ref as View}}>
+      <View>
         {this.renderSearchBar()}
         {this.state.isOpened ? (
           <ModalConsumer>

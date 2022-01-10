@@ -19,8 +19,7 @@ export type WmSearchStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-search';
 export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
     root: {
-      flexDirection: 'row',
-      flex: 1
+      flexDirection: 'row'
     },
     text: {
       height: 48,
@@ -52,7 +51,7 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
       borderTopWidth: 0,
       borderStyle: 'solid',
       borderColor: ThemeVariables.searchBorderColor,
-      height: 160
+      maxHeight: 200
     },
     dropDownContent: {
         width: '100%'
