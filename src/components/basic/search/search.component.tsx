@@ -42,6 +42,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   private isDefaultQuery: boolean = true;
   private dataProvider: LocalDataProvider;
   public widgetRef: TextInput | null = null;
+  private cursor: any = 0;
 
   constructor(props: WmSearchProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSearchProps(), new WmSearchState());
@@ -114,6 +115,11 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
      this.invokeEventCallback('onChange', [ undefined, this.proxy, value, this.prevDatavalue ]);
   }
 
+  invokeChange(e: any) {
+    this.cursor = e.target.selectionStart;
+    this.setState({ searchQuery: e.target.value });
+  }
+
   onFocus() {
     if (this.state.props.type === 'autocomplete') {
       this.updateFilteredData(this.state.searchQuery || '');
@@ -181,11 +187,16 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       <View style={this.styles.root} ref={ref => {this.view = ref as View}} onLayout={(e) => this.computePosition(e)}>
         <View style={this.styles.searchInputWrapper}>
           <TextInput style={[this.styles.text, this.state.isOpened && this.state.dataItems?.lenth > 0? this.styles.focusedText : null]}
-            ref={ref => this.widgetRef = ref}
+           ref={ref => {this.widgetRef = ref;
+             if (ref) {
+               // @ts-ignore
+               ref.selectionStart = ref.selectionEnd = this.cursor;
+             }}}
             placeholder={props.placeholder}
             autoFocus={props.autofocus}
             editable={props.disabled || props.readonly ? false : true}
             onChangeText={this.onChange.bind(this)}
+            onChange={this.invokeChange.bind(this)}
             onFocus={this.onFocus.bind(this)}
             onLayout={e => {this.searchInputWidth = e.nativeEvent.layout.width}}
             onBlur={this.onBlur.bind(this)}
