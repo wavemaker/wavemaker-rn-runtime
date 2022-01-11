@@ -52,7 +52,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       const field = this.formFields.find(f => {
         return f.props.name === fwName;
       });
-      const key = get(field, 'formKey') || fwName;
+      const key = get(fw, 'formKey') || fwName;
       field && field.setState({ isDefault: true });
       fw.updateState({
         props : {
@@ -165,7 +165,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   }
 
   updateDataOutput(key: string, val: any) {
-    var current = this.formdataoutput || {};
+    const current = this.formdataoutput || {};
     set(current, key, val);
     this.formdataoutput = current;
     this.updateState({ props: { dataoutput: current }} as WmFormState);
