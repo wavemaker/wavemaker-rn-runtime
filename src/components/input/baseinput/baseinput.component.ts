@@ -115,7 +115,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
         datavalue: value
       }
     } as S, () => {
-        this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
+        !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
         if (source === 'blur') {
           this.invokeEventCallback('onBlur', [ event, this.proxy]);
         }
@@ -131,12 +131,6 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
         event,
         'blur'
       );
-      this.props.onFieldChange &&
-        this.props.onFieldChange(
-          'datavalue',
-          event.target.value || this.state.textValue,
-          this.state.props.datavalue
-        );
     }
   }
 

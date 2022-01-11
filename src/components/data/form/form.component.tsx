@@ -49,7 +49,11 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   applyFormData() {
     forEach(this.formWidgets, (fw: WmFormField, fwName: string) => {
-      const key = get(get(this.formFields, fwName), 'formKey') || fwName;
+      const field = this.formFields.find(f => {
+        return f.props.name === fwName;
+      });
+      const key = get(field, 'formKey') || fwName;
+      field && field.setState({ isDefault: true });
       fw.updateState({
         props : {
           datavalue: get(this.state.props.formdata, key)
@@ -71,7 +75,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
             props: {
               datavalue: dv
             }
-          }, this.invokeEventCallback.bind(formField, 'onChange', [undefined, formField, dv]));
+          }, this.invokeEventCallback.bind(formField, 'onFieldChange', [undefined, formField, dv]));
         }
       }
     }

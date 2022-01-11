@@ -8,6 +8,7 @@ import { TextInput } from 'react-native';
 export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentState<T> {
   isInvalidNumber = false;
   textValue: string = '';
+  isDefault = false;
 }
 
 export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends BaseNumberState<T>, L extends BaseNumberStyles> extends BaseComponent<T, S, L> {
@@ -38,6 +39,12 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     );
     if (this.state.props.updateon === 'default') {
       this.updateDatavalue(value, null);
+      this.props.onFieldChange &&
+      this.props.onFieldChange(
+        'datavalue',
+        value,
+        this.state.props.datavalue
+      );
     }
   }
 
@@ -105,7 +112,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
       props: {
         datavalue: model
       }
-    } as S, () => this.invokeEventCallback('onChange', [ event, this.proxy, model, oldValue ]))
+    } as S, () => !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [ event, this.proxy, model, oldValue ]))
 
   }
 
@@ -244,8 +251,12 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
             textValue: $new
           } as S
         );
-        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
-
+        const isDefault = this.state.isDefault;
+        if (isDefault) {
+          this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
+        } else {
+          this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
+        }
     }
   }
 }
