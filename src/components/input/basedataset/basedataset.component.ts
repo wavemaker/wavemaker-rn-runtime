@@ -1,6 +1,6 @@
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.props';
-import { find, isEqual,isEmpty, includes, get, forEach, isObject, isArray } from 'lodash';
+import { find, isEqual,isEmpty, isFunction, includes, get, forEach, isObject, isArray } from 'lodash';
 import { getGroupedData, getOrderedDataset } from "@wavemaker/app-rn-runtime/core/utils";
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseDatasetStyles } from "@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.styles";
 
@@ -26,6 +26,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
       case 'getDisplayExpression':
       case 'displayfield':
       case 'displaylabel':
+      case 'displayimagesrc':
       case 'datafield':
       case 'orderby':
         this.setDataItems(this.state.props.dataset);
@@ -115,7 +116,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
             datafield: this.state.props.datafield === 'All Fields' ? d : get(d, this.state.props.datafield),
             displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : get(d, this.state.props.displayfield),
             selected: includes(datavalueItems, get(d, this.state.props.datafield)) || (this.state.props.datafield === 'All Fields' ? !isEmpty(datavalueItems) ? includes(datavalueItems, d) : isEqual(datavalue, d) : datavalue === get(d, this.state.props.datafield)),
-            imgSrc: get(d, this.state.props.displayimagesrc)
+            imgSrc: isFunction(this.state.props.displayimagesrc) ? this.state.props.displayimagesrc(d): get(d, this.state.props.displayimagesrc)
           };
         });
       }

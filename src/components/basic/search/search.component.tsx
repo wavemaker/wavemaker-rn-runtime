@@ -68,8 +68,15 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     this.hide();
     this.updateState({
       searchQuery: '',
-      dataItems: []
-    } as WmSearchState);
+      dataItems: this.state.dataItems ? this.state.dataItems.map((item: any) => {
+        item.selected = false;
+        return item;
+      }) : []
+    } as WmSearchState, () => {
+      if (this.state.props.type === 'autocomplete') {
+        this.updateFilteredData('');
+      }
+    });
   }
 
   updateFilteredData(queryText: any) {
@@ -90,6 +97,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       data: filteredData,
       searchQuery: queryText,
     } as WmSearchState);
+    if (!this.state.isOpened) {
+      this.showPopover();
+    }
   }
 
   focus() {
@@ -107,9 +117,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
        } as WmSearchState);
      } else {
        this.updateFilteredData(value);
-       if (!this.state.isOpened) {
-         this.showPopover();
-       }
      }
 
      this.invokeEventCallback('onChange', [ undefined, this.proxy, value, this.prevDatavalue ]);
@@ -123,9 +130,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   onFocus() {
     if (this.state.props.type === 'autocomplete') {
       this.updateFilteredData(this.state.searchQuery || '');
-      if (!this.state.isOpened) {
-        this.showPopover();
-      }
     }
     this.invokeEventCallback('onFocus', [null, this]);
   }
@@ -161,9 +165,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   searchIconPress() {
     if (this.state.props.searchon === 'onsearchiconclick') {
       this.updateFilteredData(this.state.searchQuery);
-      if (!this.state.isOpened) {
-        this.showPopover();
-      }
     } else {
       this.onItemSelect(this.state.data[0]);
     }
@@ -205,7 +206,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
          {props.showclear && this.state.searchQuery ? <WmButton onTap={this.clearSearch.bind(this)}
                    styles={this.styles.clearButton} iconclass={'wi wi-clear'}></WmButton> : null}
        </View>
-        {props.showSearchIcon ? <WmButton styles={this.styles.searchButton}
+        {props.showSearchIcon && props.type === 'search' ? <WmButton styles={this.styles.searchButton}
                   iconclass={'wi wi-search'} onTap={this.searchIconPress.bind(this)}></WmButton> : null}
       </View>
     );

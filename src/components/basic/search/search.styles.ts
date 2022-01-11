@@ -119,3 +119,10 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle('app-autocomplete', '', {
+  text: {
+    borderRightWidth: 1,
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
+  }
+} as WmSearchStyles);
