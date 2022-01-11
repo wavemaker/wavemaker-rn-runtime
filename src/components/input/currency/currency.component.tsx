@@ -38,7 +38,11 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     return (<View style={this.styles.root}>
         <View style={this.styles.labelWrapper}>
           <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
-        <TextInput ref={ref => this.widgetRef = ref}
+        <TextInput ref={ref => {this.widgetRef = ref;
+          if (ref) {
+            // @ts-ignore
+            ref.selectionStart = ref.selectionEnd = this.cursor;
+          }}}
         style={[this.styles.input, this.styles.text, this.state.isInvalidNumber ? this.styles.invalid : {}]}
         value={this.state.textValue || ''}
         editable={props.disabled || props.readonly ? false : true}
@@ -47,7 +51,8 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         onFocus={this.onFocus.bind(this)}
         onKeyPress={this.validateInputEntry.bind(this)}
         onChangeText={this.onChangeText.bind(this)}
-      />
+        onChange={this.invokeChange.bind(this)}
+        />
     </View>);
   }
 }

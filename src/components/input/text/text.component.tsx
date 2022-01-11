@@ -17,11 +17,14 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
   renderWidget(props: WmTextProps) {
     return (
         <TextInput
-          ref={ref => this.widgetRef = ref}
+          ref={ref => {this.widgetRef = ref;
+          if (ref) {
+            // @ts-ignore
+            ref.selectionStart = ref.selectionEnd = this.cursor;
+          }}}
           style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
           keyboardType={this.state.keyboardType}
           value={this.state.textValue || ''}
-          selection={this.state.selection}
           autoComplete={props.autocomplete ? 'username' : 'off'}
           autoFocus={props.autofocus}
           editable={props.disabled || props.readonly ? false : true}
@@ -32,7 +35,7 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           onFocus={this.onFocus.bind(this)}
           onKeyPress={this.onKeyPress.bind(this)}
           onChangeText={this.onChangeText.bind(this)}
-          onSelectionChange={this.onSelectionChange.bind(this)}
+          onChange={this.invokeChange.bind(this)}
         />
     );
   }

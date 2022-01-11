@@ -10,16 +10,12 @@ export class BaseInputState <T extends BaseInputProps> extends BaseComponentStat
   keyboardType: any = 'default';
   isValid: boolean = true;
   textValue: string = '';
-  selection: any = { start: 0, end: 0 };
   isDefault = false;
 }
-
 export abstract class BaseInputComponent< T extends BaseInputProps, S extends BaseInputState<T>, L extends BaseInputStyles> extends BaseComponent<T, S, L> {
   public widgetRef: TextInput | null = null;
-  private previous = { start: 0, end: 0 };
-  private previousText = '';
-  private isChanged = false;
   isTouched: boolean = false;
+  private cursor: any = 0;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles, defaultProps, defaultState);
   }
@@ -64,7 +60,6 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   onChangeText(value: any) {
-    this.isChanged = true;
     this.updateState({
         textValue: value
       } as S, () => {
@@ -81,27 +76,9 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     );
   }
 
-  // cursor position is resetting to end of the string on editing the text
-  // Hence handling this using selection object.
-  onSelectionChange(o: any) {
-    if (o.nativeEvent.type === 'selectionchange') {
-      if (this.isChanged && this.previousText.length !== o.nativeEvent.text.length) {
-        const diff = this.previousText.length - o.nativeEvent.text.length;
-        const start = this.previous.start - diff;
-        const end = this.previous.end - diff;
-        this.setState({ selection: { start: start, end: end } });
-        this.previous = { start: start, end: end };
-        this.previousText = o.nativeEvent.text;
-        this.isChanged = false;
-      }
-    }
-    if (!this.isChanged) {
-      this.previous = {
-        start: o.nativeEvent.selection.start,
-        end: o.nativeEvent.selection.end
-      }
-    }
-    this.previousText = o.nativeEvent.text;
+  invokeChange(e: any) {
+    this.cursor = e.target.selectionStart;
+    this.setState({ textValue: e.target.value });
   }
 
   handleValidation(value: any) {

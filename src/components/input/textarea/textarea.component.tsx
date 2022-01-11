@@ -17,7 +17,11 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
 
   renderWidget(props: WmTextareaProps) {
     return ( <TextInput
-      ref={ref => this.widgetRef = ref}
+      ref={ref => {this.widgetRef = ref;
+        if (ref) {
+          // @ts-ignore
+          ref.selectionStart = ref.selectionEnd = this.cursor;
+        }}}
       style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
       multiline={true}
       numberOfLines={4}
@@ -32,6 +36,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       onFocus={this.onFocus.bind(this)}
       onKeyPress={this.onKeyPress.bind(this)}
       onChangeText={this.onChangeText.bind(this)}
+      onChange={this.invokeChange.bind(this)}
     />);
   }
 }

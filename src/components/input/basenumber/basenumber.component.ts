@@ -14,6 +14,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   private DECIMAL;
   private GROUP;
   public widgetRef: TextInput | null = null;
+  private cursor: any = 0;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles, defaultProps, defaultState);
     this.DECIMAL = '.';
@@ -38,6 +39,11 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     if (this.state.props.updateon === 'default') {
       this.updateDatavalue(value, null);
     }
+  }
+
+  invokeChange(e: any) {
+    this.cursor = e.target.selectionStart;
+    this.setState({ textValue: e.target.value });
   }
 
   handleValidation(value: any) {
