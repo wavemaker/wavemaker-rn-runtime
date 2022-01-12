@@ -59,6 +59,8 @@ export const isAndroid = () => (Platform.OS === 'android' || (Platform.OS === 'w
 
 export const isIos = () => (Platform.OS === 'ios' || (Platform.OS === 'web' && /iPhone|iPad/i.test(window.navigator.userAgent)));
 
+const getGroupKey = (fieldDef: any, groupby: string,  widgetScope: any, innerItem?: any) => isFunction(groupby) ? groupby.apply(widgetScope.proxy, [innerItem ? fieldDef[innerItem] : fieldDef]) : get(innerItem ? fieldDef[innerItem] : fieldDef, groupby);
+
 /**
  * This method prepares the grouped data.
  *
@@ -69,12 +71,11 @@ export const isIos = () => (Platform.OS === 'ios' || (Platform.OS === 'web' && /
  * @param dateFormat string date format
  */
 export const getGroupedData = (fieldDefs: any, groupby: string, match: string, orderby: string, dateFormat: string, widgetScope: any, innerItem?: any) => {
-  const getGroupKey = (fieldDef: any) => isFunction(groupby) ? groupby.apply(widgetScope.proxy, [innerItem ? fieldDef[innerItem] : fieldDef]) : get(innerItem ? fieldDef[innerItem] : fieldDef, groupby);
 
   // handling case-in-sensitive scenario
   // ordering the data based on groupby field. If there is innerItem then apply orderby using the innerItem's containing the groupby field.
   fieldDefs = orderBy(fieldDefs, fieldDef => {
-    const groupKey = getGroupKey(fieldDef);
+    const groupKey = getGroupKey(fieldDef, groupby, widgetScope, innerItem);
     if (groupKey) {
       return toLower(groupKey);
     }
@@ -83,7 +84,7 @@ export const getGroupedData = (fieldDefs: any, groupby: string, match: string, o
 
   // extract the grouped data based on the field obtained from 'groupDataByField'.
   const groupedLiData = groupBy(fieldDefs, function (fieldDef) {
-    let concatStr = getGroupKey(fieldDef);
+    let concatStr = getGroupKey(fieldDef, groupby, widgetScope, innerItem);
     // by default set the undefined groupKey as 'others'
     if (isUndefined(concatStr) || isNull(concatStr) || concatStr.toString().trim() === '') {
       return GROUP_BY_OPTIONS.OTHERS;
