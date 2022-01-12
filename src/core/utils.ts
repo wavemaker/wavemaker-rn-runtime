@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import moment from "moment";
-import { includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString} from 'lodash';
+import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString} from 'lodash';
 
 declare const window: any;
 const GROUP_BY_OPTIONS = {
@@ -68,11 +68,13 @@ export const isIos = () => (Platform.OS === 'ios' || (Platform.OS === 'web' && /
  * @param orderby string orderby
  * @param dateFormat string date format
  */
-export const getGroupedData = (fieldDefs: any, groupby: string, match: string, orderby: string, dateFormat: string, innerItem?: any) => {
+export const getGroupedData = (fieldDefs: any, groupby: string, match: string, orderby: string, dateFormat: string, widgetScope: any, innerItem?: any) => {
+  const getGroupKey = (fieldDef: any) => isFunction(groupby) ? groupby.apply(widgetScope.proxy, [innerItem ? fieldDef[innerItem] : fieldDef]) : get(innerItem ? fieldDef[innerItem] : fieldDef, groupby);
+
   // handling case-in-sensitive scenario
   // ordering the data based on groupby field. If there is innerItem then apply orderby using the innerItem's containing the groupby field.
   fieldDefs = orderBy(fieldDefs, fieldDef => {
-    const groupKey = get(innerItem ? fieldDef[innerItem] : fieldDef, groupby);
+    const groupKey = getGroupKey(fieldDef);
     if (groupKey) {
       return toLower(groupKey);
     }
@@ -81,7 +83,7 @@ export const getGroupedData = (fieldDefs: any, groupby: string, match: string, o
 
   // extract the grouped data based on the field obtained from 'groupDataByField'.
   const groupedLiData = groupBy(fieldDefs, function (fieldDef) {
-    let concatStr = get(innerItem ? fieldDef[innerItem] : fieldDef, groupby);
+    let concatStr = getGroupKey(fieldDef);
     // by default set the undefined groupKey as 'others'
     if (isUndefined(concatStr) || isNull(concatStr) || concatStr.toString().trim() === '') {
       return GROUP_BY_OPTIONS.OTHERS;

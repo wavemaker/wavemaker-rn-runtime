@@ -49,7 +49,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     const dataItems = items;
     const props = this.state.props;
     if (props.groupby) {
-      const groupedData = dataItems && getGroupedData(dataItems, props.groupby, props.match, props.orderby, props.dateformat, 'dataObject');
+      const groupedData = dataItems && getGroupedData(dataItems, props.groupby, props.match, props.orderby, props.dateformat, this, 'dataObject');
       this.updateState({ groupedData: groupedData } as S);
     }
   }

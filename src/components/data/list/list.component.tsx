@@ -54,7 +54,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const dataItems = items;
     const props = this.state.props;
     if (props.groupby) {
-      const groupedData = dataItems && getGroupedData(dataItems, props.groupby, props.match, props.orderby, props.dateformat);
+      const groupedData = dataItems && getGroupedData(dataItems, props.groupby, props.match, props.orderby, props.dateformat, this);
       this.updateState({ groupedData: groupedData } as WmListState);
     }
   }
