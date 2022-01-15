@@ -54,12 +54,14 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     }
   }
 
-  computePosition = (e?: any) => {
-    const position = {} as DropdownPosition;
-    this.view.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
-      position.left = px;
-      position.top = py + height;
-      this.updateState({ position: position } as WmSearchState);
+  computePosition = () => {
+    return new Promise<void>((resolve) => {
+      const position = {} as DropdownPosition;
+      this.view.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
+        position.left = px;
+        position.top = py + height;
+        this.updateState({ position: position } as WmSearchState, resolve);
+      });
     });
   }
 
@@ -140,7 +142,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   public showPopover = () => {
-    this.updateState({ isOpened: true } as WmSearchState);
+    this.computePosition().then(() => { 
+      this.updateState({ isOpened: true } as WmSearchState);
+    });
   };
 
   public hide = () => {};
@@ -185,7 +189,11 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   renderSearchBar() {
     const props = this.state.props;
     return(
-      <View style={this.styles.root} ref={ref => {this.view = ref as View}} onLayout={(e) => this.computePosition(e)}>
+      /*
+       * onLayout function is required.
+       * https://github.com/naoufal/react-native-accordion/pull/19/files
+       */
+      <View style={this.styles.root} ref={ref => {this.view = ref as View}} onLayout={() => {}}>
         <View style={this.styles.searchInputWrapper}>
           <TextInput style={[this.styles.text, this.state.isOpened && this.state.dataItems?.lenth > 0? this.styles.focusedText : null]}
            ref={ref => {this.widgetRef = ref;
