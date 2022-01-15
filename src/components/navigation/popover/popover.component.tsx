@@ -8,7 +8,6 @@ import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.c
 
 import WmPopoverProps from './popover.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmPopoverStyles } from './popover.styles';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import WmContainer from '../../container/container.component';
 
 export class WmPopoverState extends BaseComponentState<WmPopoverProps> {
@@ -71,7 +70,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
 
   renderWidget(props: WmPopoverProps) {
     let dimensions = {} as any;
-    const styles = deepCopy(this.theme.getStyle('popover-' + props.type), this.styles);
+    const styles = this.theme.mergeStyle(this.theme.getStyle('popover-' + props.type), this.styles);
     if (props.type === 'dropdown') {
       if (props.popoverwidth) {
         dimensions.width = props.popoverwidth;
@@ -95,7 +94,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
           <ModalConsumer>
             {(modalService: ModalService) => {
               modalService.showModal(this.prepareModalOptions((
-                  <View style={deepCopy(styles.popover, dimensions)}>
+                  <View style={this.theme.mergeStyle(styles.popover, dimensions)}>
                     {props.title ? (<Text style={styles.title}>{props.title}</Text>): null}
                     <TouchableOpacity onPress={() => {
                       props.autoclose === 'always' && this.hide()

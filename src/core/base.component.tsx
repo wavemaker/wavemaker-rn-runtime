@@ -191,7 +191,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                         <ThemeConsumer>
                             {(theme) => {
                                 this.theme = theme || BASE_THEME;
-                                this.styles =  deepCopy({},
+                                this.styles =  this.theme.mergeStyle(
                                     this.theme.getStyle(this.defaultClass) || this.defaultStyles,
                                     this.props.styles);
                                 if (!this.isVisible()) {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
@@ -30,12 +29,12 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
       <View style={this.styles.root}>
         <View style={this.styles.leftSection}>
         {props.showDrawerButton && (<WmIcon
-          styles={deepCopy({}, this.styles.action, this.styles.leftnavIcon)}
+          styles={this.theme.mergeStyle({}, this.styles.action, this.styles.leftnavIcon)}
           iconclass={props.leftnavpaneliconclass}
           onTap={this.onDrawerBtnPress}
           />)}
         {props.backbutton && (<WmIcon
-          styles={deepCopy({}, this.styles.action, this.styles.backIcon)}
+          styles={this.theme.mergeStyle({}, this.styles.action, this.styles.backIcon)}
           iconclass={props.backbuttoniconclass}
           caption={props.backbuttonlabel}
           onTap={this.onBackBtnPress}/>)}
@@ -52,7 +51,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
         </View>
         <View style={this.styles.rightSection}>
           {props.searchbutton && (<WmIcon
-            styles={deepCopy({}, this.styles.action, this.styles.leftnavIcon)}
+            styles={this.theme.mergeStyle({}, this.styles.action, this.styles.leftnavIcon)}
             iconclass={props.searchbuttoniconclass}
             onTap={this.onSearchBtnPress}
             />)}

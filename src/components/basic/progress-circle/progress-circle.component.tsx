@@ -2,7 +2,6 @@ import React from 'react';
 import { LayoutChangeEvent, View, Text } from 'react-native';
 import { isNumber } from 'lodash';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -41,7 +40,7 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
     if (isNumber(props.datavalue) && isNumber(props.minvalue) && isNumber(props.maxvalue)) {
       value = (+props.datavalue - (+props.minvalue)) / (+props.maxvalue - (+props.minvalue)) * 100;
     }
-    const styles = deepCopy(this.theme.getStyle(`app-${props.type}-progress-circle`), this.styles);
+    const styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-circle`), this.styles);
     const showText = props.captionplacement !== 'hidden';
     return (
     <View style={styles.root} onLayout={this.onLayout.bind(this)}>

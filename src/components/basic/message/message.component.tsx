@@ -6,7 +6,6 @@ import WmMessageProps from './message.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmMessageStyles } from './message.styles';
 import WmIcon from '../icon/icon.component';
 import WmButton from '../button/button.component';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmMessageState extends BaseComponentState<WmMessageProps> {}
@@ -56,7 +55,7 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
   }
 
   renderWidget(props: WmMessageProps) {
-    const styles = deepCopy(this.theme.getStyle(`${props.type}-${props.variant}-message`), this.styles);
+    const styles = this.theme.mergeStyle(this.theme.getStyle(`${props.type}-${props.variant}-message`), this.styles);
     return (<Animatedview entryanimation={props.animation} style={styles.root}>
       <WmIcon
         iconclass={props.type && MESSAGE_ICONS[props.type]}

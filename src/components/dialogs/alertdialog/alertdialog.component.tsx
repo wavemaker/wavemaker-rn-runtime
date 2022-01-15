@@ -1,7 +1,6 @@
 import React from 'react';
 import { BaseComponent, BaseComponentState, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 
@@ -71,7 +70,7 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
         <WmDialogactions styles={this.styles.dialogActions}>
           <WmButton
             caption={props.oktext}
-            styles={deepCopy({}, this.theme.getStyle('btn-primary'), this.styles.okButton)}
+            styles={this.theme.mergeStyle({}, this.theme.getStyle('btn-primary'), this.styles.okButton)}
             onTap={() => {
               this.dialogRef.close();
               this.invokeEventCallback('onOk', [null, this]);

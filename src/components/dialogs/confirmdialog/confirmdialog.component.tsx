@@ -1,7 +1,6 @@
 import React from 'react';
 import { BaseComponent, BaseComponentState, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 
@@ -64,7 +63,7 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
         <WmDialogactions styles={this.styles.dialogActions}>
           <WmButton
             caption={props.canceltext}
-            styles={deepCopy({}, this.theme.getStyle('btn-secondary'), this.styles.cancelButton)}
+            styles={this.theme.mergeStyle({}, this.theme.getStyle('btn-secondary'), this.styles.cancelButton)}
             onTap={() => {
               this.dialogRef.close();
               this.invokeEventCallback('onCancel', [null, this]);
@@ -72,7 +71,7 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
           </WmButton>
           <WmButton
             caption={props.oktext}
-            styles={deepCopy({}, this.theme.getStyle('btn-primary'), this.styles.okButton)}
+            styles={this.theme.mergeStyle({}, this.theme.getStyle('btn-primary'), this.styles.okButton)}
             onTap={() => {
               this.dialogRef.close();
               this.invokeEventCallback('onOk', [null, this]);

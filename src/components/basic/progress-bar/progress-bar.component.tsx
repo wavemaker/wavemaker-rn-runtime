@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -18,7 +17,7 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
 
   renderWidget(props: WmProgressBarProps) {
     const value = (props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue);
-    const styles = deepCopy(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
+    const styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
     return (
     <View style={styles.root}>
       <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}}>

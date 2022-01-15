@@ -1,5 +1,6 @@
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
-import { merge } from 'lodash';
+import { requestPermissionsAsync } from 'expo-contacts';
+import { clone, cloneDeep, forEach, flatten, isArray, isEmpty, isObject, isString, get, mapKeys, reverse } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';
 import ThemeVariables from './theme.variables';
@@ -11,14 +12,72 @@ export class Theme {
 
     private cache: any = {};
 
-    public static BASE = new Theme();
+    public static BASE = new Theme(null as any, 'default');
+    
+    private traceEnabled = false;
 
-    private constructor(private parent?:Theme) {
-
+    private constructor(private parent:Theme, public readonly name: string) {
+        this.traceEnabled = parent && parent.traceEnabled;
     }
 
     addStyle<T extends NamedStyles<any>>(name: string, extend: string, style: T) {
-        this.styles[name] = deepCopy(this.styles[extend], this.styles[name], style);
+        this.styles[name] = deepCopy(this.getStyle(extend), this.styles[name], style);
+    }
+
+    private addTrace(styleName: string, mergedChildstyle: any, childStyle: any, parentStyle?: any) {
+        if (!this.traceEnabled) {
+            return;
+        }
+        let addTrace = !isEmpty(childStyle);
+        forEach(mergedChildstyle, (v: any, k: string) => {
+            if (v && !isString(v) && !isArray(v) && isObject(v)) {
+                addTrace = false;
+                this.addTrace(styleName + '.' + k, v, childStyle && childStyle[k], parentStyle && parentStyle[k])
+            }
+        });
+        if (addTrace) {
+            mergedChildstyle['__trace'] = [
+                {
+                    name: styleName,
+                    value: childStyle
+                },
+                ...(parentStyle?.__trace|| [])
+            ];
+        } else {
+            mergedChildstyle['__trace'] = [...(parentStyle?.__trace|| [])];
+        }
+    }
+
+    private flatten(style: any, prefix = "", result = {} as any) {
+        let collect = !isEmpty(style);
+        forEach(style, (v: any, k: string) => {
+            if (v && !isString(v) && !isArray(v) && isObject(v)) {
+                collect = false;
+                this.flatten(v, (prefix ?  prefix + '.' : '') + k, result)
+            }
+        });
+        if (collect) {
+            result[prefix] = style;
+        }
+        return result;
+    }
+
+    mergeStyle(...styles: any) {
+        const style = deepCopy(...styles);
+        if (this.traceEnabled) {
+            const flattenStyles = this.flatten(style);
+            Object.keys(flattenStyles).forEach(k => {
+                const s = flattenStyles[k];
+                s['__trace'] = flatten(reverse(styles.map((v: any) => {
+                    const cs = get(v, k);
+                    if (cs && cs.__trace) {
+                        return [...cs.__trace];
+                    }
+                    return [];
+                }).filter((t: any) => t.length > 0)));
+            });
+        }
+        return style;
     }
     
     getStyle(name: string) {
@@ -30,16 +89,19 @@ export class Theme {
             return {};
         }
         if (name.indexOf(' ') > 0) {
-            style = deepCopy(...(name.split(' ').map(c => this.getStyle(c))));            
+            style = this.mergeStyle(...(name.split(' ').map(c => this.getStyle(c))));
         } else {
-            style = deepCopy(this.parent && this.parent.getStyle(name), this.styles[name]);
+            const parentStyle = this.parent && this.parent.getStyle(name);
+            const clonedStryle = cloneDeep(this.styles[name]);
+            style = deepCopy(parentStyle, this.styles[name]);
+            this.addTrace(`@${this.name}:${name}`, style, clonedStryle, parentStyle);
         }
         this.cache[name] = style;
         return style;
     }
 
-    $new(styles = DEFAULT_STYLE) {
-        const newTheme = new Theme(this);
+    $new(name = "", styles = DEFAULT_STYLE) {
+        const newTheme = new Theme(this, name);
         Object.keys(styles).forEach(k => {
             newTheme.addStyle(k, '', styles[k] as any);
         });

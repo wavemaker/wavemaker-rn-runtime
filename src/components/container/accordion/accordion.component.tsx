@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { Badge, List } from 'react-native-paper';
 import { isArray } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { deepCopy, isDefined } from '@wavemaker/app-rn-runtime/core/utils';
+import { isDefined } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmAccordionProps from './accordion.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAccordionStyles } from './accordion.styles';
@@ -50,7 +50,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
             {badge}
             {showIcon ? (
               <WmIcon
-              styles={deepCopy({}, this.styles.icon, isExpanded ? this.styles.activeIcon : null)}
+              styles={this.theme.mergeStyle({}, this.styles.icon, isExpanded ? this.styles.activeIcon : null)}
               name={'expand_collapse_icon'}
               iconclass={iconclass}></WmIcon>): null}
           </View>);

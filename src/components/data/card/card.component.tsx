@@ -10,7 +10,6 @@ import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/pictur
 
 import WmCardProps from './card.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmCardStyles } from './card.styles';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmCardState extends BaseComponentState<WmCardProps> {}
 
@@ -44,7 +43,7 @@ export default class WmCard extends BaseComponent<WmCardProps, WmCardState, WmCa
         {props.picturesource &&  
           (<WmPicture
             picturesource={props.picturesource}
-            styles={deepCopy({root : {height: props.imageheight}}, this.styles.picture)}>
+            styles={this.theme.mergeStyle({root : {height: props.imageheight}}, this.styles.picture)}>
           </WmPicture>)}
       </View>);
   }

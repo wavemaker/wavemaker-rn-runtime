@@ -7,8 +7,7 @@ import { Formatter } from '@wavemaker/app-rn-runtime/core/formatters';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
-import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable'
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
+import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable';
 import { default as _viewPort, EVENTS as viewportEvents } from '@wavemaker/app-rn-runtime/core/viewport';
 import App from './App';
 import WmFormField from '@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component';
@@ -153,7 +152,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     getStyle(classes: string, inlineStyles:any = {}) {
       if (classes && classes.trim().length > 0) {
-        return deepCopy({}, this.theme.getStyle(classes), inlineStyles);
+        return this.theme.mergeStyle({}, this.theme.getStyle(classes), inlineStyles);
       }
       return inlineStyles;
     }

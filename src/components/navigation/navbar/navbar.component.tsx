@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import WmNavItem from '@wavemaker/app-rn-runtime/components/navigation/navitem/navitem.component';
 import { BaseNavComponent, NavigationDataItem, BaseNavState } from '@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.component';
 import { BaseNavProps } from '@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.props';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmNavbarProps from './navbar.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmNavbarStyles } from './navbar.styles';
@@ -27,10 +26,10 @@ export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarSt
       }
     } :  null;
     if (props.ischildnav) {
-      itemStyles = deepCopy({}, itemStyles, this.theme.getStyle('app-navitem-child'));
+      itemStyles = this.theme.mergeStyle({}, itemStyles, this.theme.getStyle('app-navitem-child'));
     }
-    activeItemStyles = deepCopy({}, activeItemStyles, indentStyle);
-    itemStyles = deepCopy({}, itemStyles, indentStyle);
+    activeItemStyles = this.theme.mergeStyle({}, activeItemStyles, indentStyle);
+    itemStyles = this.theme.mergeStyle({}, itemStyles, indentStyle);
     return {activeItemStyles, itemStyles};
   }
 
