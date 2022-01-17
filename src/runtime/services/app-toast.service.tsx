@@ -8,6 +8,7 @@ class AppToastService implements ToastService {
 
     public showToast(options: ToastOptions) {
         const i = this.toastsOpened.findIndex(o => o.name === options.name);
+        let timeout: any;
         if (i < 0) {
             this.toastsOpened.push(options);
             injector.get<AppConfig>('APP_CONFIG').refresh();
@@ -17,10 +18,11 @@ class AppToastService implements ToastService {
               options.onClick = () => {
                 this.hideToast(options);
                 cb && cb();
+                clearTimeout(timeout);
               }
             }
             if (options.duration) {
-                setTimeout(() => {
+              timeout = setTimeout(() => {
                     this.hideToast(options);
                     options.onClose && options.onClose();
                 }, options.duration);
