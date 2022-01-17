@@ -65,6 +65,17 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     });
   }
 
+  onPropertyChange(name: string, $new: any, $old: any): void {
+    super.onPropertyChange(name, $new, $old);
+    switch(name) {
+      case 'datavalue' : 
+      this.updateState({
+          searchQuery: $new
+        } as WmSearchState
+      );
+    }
+  }
+
   clearSearch() {
     this.invokeEventCallback('onClear', [null, this]);
     this.hide();
