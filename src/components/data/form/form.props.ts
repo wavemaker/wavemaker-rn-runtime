@@ -10,6 +10,7 @@ export default class WmFormProps extends BaseProps {
   iconclass: any;
   postmessage: string = 'Data posted successfully';
   errormessage: string = 'An error occured. Please try again!';
+  messagelayout: string = 'Inline';
   formSubmit: Function = () => {};
   onSuccess: Function = () => {};
   onError: Function = () => {};

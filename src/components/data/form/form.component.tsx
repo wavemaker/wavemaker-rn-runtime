@@ -1,12 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import {isDefined, widgetsWithUndefinedValue} from '@wavemaker/app-rn-runtime/core/utils';
+import { isDefined, widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
 import { isArray, forEach, isEqual, isObject, get, set } from 'lodash';
 
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
-import WmFormField, {WmFormFieldState} from '@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component';
+import WmFormField, { WmFormFieldState } from '@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component';
+import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/message.component';
 import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
 
 import WmFormProps from './form.props';
@@ -14,6 +15,9 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormStyles } from './form.styles';
 
 export class WmFormState extends BaseComponentState<WmFormProps> {
   isValid = false;
+  type: 'success' | 'warning' | 'error' | 'info' | 'loading' | undefined = 'success';
+  message: string = '';
+  showInlineMsg: boolean = false;
 }
 export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFormStyles> {
   public formFields: Array<BaseComponent<any, any, any>> = []; // contains array of direct widget elements [WmText, WmNumber, WmCurrent]
@@ -160,7 +164,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       !this.props.onSuccess && this.state.props.postmessage && this.toggleMessage('success', this.state.props.postmessage);
     } else {
       this.invokeEventCallback('onError', [ null, this.proxy, response ]);
-      !this.props.onError && this.toggleMessage('error', this.state.props.errormessage);
+      !this.props.onError && this.toggleMessage('error', this.state.props.errormessage || get(response, 'message'));
     }
   }
 
@@ -171,13 +175,30 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     this.updateState({ props: { dataoutput: current }} as WmFormState);
   }
 
-  toggleMessage(type: string, message: string) {
+  toggleMessage(
+    type: 'success' | 'warning' | 'error' | 'info' | 'loading' | undefined,
+    message: string
+  ) {
+    if (this.state.props.messagelayout === 'Inline') {
+        this.setState({
+          type: type,
+          message: message,
+          showInlineMsg: true
+        } as WmFormState)
+      return;
+    }
     this.toaster.showToast({
-      name: this, placement: "", styles: undefined,
+      name: this, placement: "", styles: {bottom: 0},
       text: message,
       type: type,
       hideOnClick: true
     });
+  }
+
+  onMsgClose() {
+    this.setState({
+      showInlineMsg: false
+    } as WmFormState)
   }
 
 
@@ -198,6 +219,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
                 </View>
               </View>
             ) : null}
+            {this.state.showInlineMsg ? <WmMessage type={this.state.type} caption={this.state.message} hideclose={false} onClose={this.onMsgClose.bind(this)}></WmMessage> : null
+            }
             {props.children}
           </View>
         }
