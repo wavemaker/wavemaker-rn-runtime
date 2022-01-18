@@ -104,7 +104,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     const isValid = this.props.required && source && !value ? false : true && valid;
     this.updateState({
       isValid: isValid
-    } as S);
+    } as S, this.invokeEventCallback.bind(this,'onValidate', [undefined, this.proxy, isValid]));
     if (!valid) {
       this.invokeEventCallback('onError', [ event, this.proxy, value, oldValue ]);
       return;
@@ -139,7 +139,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     const isValid = this.props.required && !this.state.props.datavalue ? false : true;
     this.updateState({
       isValid: isValid
-    } as S);
+    } as S, this.invokeEventCallback.bind(this,'onValidate', [undefined, this.proxy, isValid]));
   }
 
   onFocus(event: any) {

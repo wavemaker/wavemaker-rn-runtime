@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 

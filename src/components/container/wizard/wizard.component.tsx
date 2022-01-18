@@ -9,15 +9,19 @@ import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.c
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.component';
 import WmWizardstep from './wizardstep/wizardstep.component';
+import {values} from "lodash-es";
 
 export class WmWizardState extends BaseComponentState<WmWizardProps> {
   currentStep: number = 0;
   isDone: boolean = false;
+  nextDisabled: boolean = false;
+  doneDisabled: boolean = false;
 }
 
 export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState, WmWizardStyles> {
   private numberOfSteps: number = null as any;
   private steps = [] as WmWizardstep[];
+
   constructor(props: WmWizardProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmWizardProps());
     const steps = props.children;
@@ -55,9 +59,9 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   getColor(index: number) {
-    return this.state.currentStep === index ? 
-      this.styles.activeStep.backgroundColor: 
-      index < this.state.currentStep ? 
+    return this.state.currentStep === index ?
+      this.styles.activeStep.backgroundColor:
+      index < this.state.currentStep ?
         this.styles.doneStep.backgroundColor :
         this.styles.step.backgroundColor;
   }
@@ -117,6 +121,19 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     this.onNext(steps, 'skip');
   }
 
+  setDisabledFlags(obj: any) {
+    const isNotValid = values(obj).includes(false);
+    if ((this.state.currentStep+1) === this.numberOfSteps && this.state.doneDisabled !== isNotValid) {
+      this.setState({
+        doneDisabled: isNotValid
+      });
+    } else if ((this.state.currentStep+1) < this.numberOfSteps && this.state.nextDisabled !== isNotValid) {
+      this.setState({
+        nextDisabled: isNotValid
+      });
+    }
+  }
+
   renderWidget(props: WmWizardProps) {
     const steps = isArray(props.children) ? props.children: [props.children];
     this.numberOfSteps = steps.length;
@@ -130,15 +147,15 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         <View style={this.styles.wizardBody}>
           {props.children}
         </View>
-        <View style={[this.styles.wizardFooter, 
+        <View style={[this.styles.wizardFooter,
           {flexDirection: props.actionsalignment === 'right' ? 'row-reverse': 'row'}]}>
           {(this.state.currentStep+1) === this.numberOfSteps &&
             <WmButton iconclass={'wi wi-done'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-success'), this.styles.doneButton)}
-                      caption={props.donebtnlabel} onTap={this.onDone.bind(this)}></WmButton>
+                      caption={props.donebtnlabel} onTap={this.onDone.bind(this)} disabled={this.state.doneDisabled}></WmButton>
           }
           {(this.state.currentStep+1) < this.numberOfSteps &&
             <WmButton iconclass={'wi wi-chevron-right'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-primary'), this.styles.nextButton)}
-                      iconposition={'right'} caption={props.nextbtnlabel} onTap={this.onNext.bind(this, steps)}></WmButton>
+                      iconposition={'right'} caption={props.nextbtnlabel} onTap={this.onNext.bind(this, steps)} disabled={this.state.nextDisabled}></WmButton>
           }
           {this.state.currentStep > 0 &&
             <WmButton iconclass={'wi wi-chevron-left'} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions)} caption={props.previousbtnlabel}

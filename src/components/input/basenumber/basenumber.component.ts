@@ -211,20 +211,20 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
       this.countDecimals(val) > this.countDecimals(props.step))) {
       this.updateState({
         isInvalidNumber: true,
-      } as S);
+      } as S, this.invokeEventCallback.bind(this,'onValidate', [undefined, this.proxy, false]));
       return false;
     }
     if (val !== this.getValueInRange(val)) {
       this.updateState({
         isInvalidNumber: true,
-      } as S);
+      } as S, this.invokeEventCallback.bind(this,'onValidate', [undefined, this.proxy, false]));
       return true;
     }
     // regex validation
     if (!this.handleValidation(val)) {
       this.updateState({
         isInvalidNumber: true,
-      } as S);
+      } as S, this.invokeEventCallback.bind(this,'onValidate', [undefined, this.proxy, false]));
       return false;
     }
     this.resetValidations();
@@ -235,7 +235,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   protected resetValidations() {
     this.updateState({
       isInvalidNumber: false,
-    } as S);
+    } as S, this.invokeEventCallback.bind(this,'onValidate', [undefined, this.proxy, true]));
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
