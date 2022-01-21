@@ -13,7 +13,7 @@ export class Theme {
     private cache: any = {};
 
     public static BASE = new Theme(null as any, 'default');
-    
+
     private traceEnabled = false;
 
     private constructor(private parent:Theme, public readonly name: string) {
@@ -79,7 +79,7 @@ export class Theme {
         }
         return style;
     }
-    
+
     getStyle(name: string) {
         let style = this.cache[name];
         if (style) {
@@ -128,9 +128,18 @@ export const attachBackground = (c: ReactNode, style: ViewStyle) => {
                 backgroundStyle[k] = background[k];
             }
         });
+        const imgSrc = background.uri;
+        let source;
+        if (isString(imgSrc) && (imgSrc.startsWith('http') || imgSrc.startsWith('file:'))) {
+          source = {
+            uri: imgSrc
+          };
+        } else {
+          source = imgSrc;
+        }
         return (
-            <ImageBackground 
-                source={{uri: background.uri}}
+            <ImageBackground
+                source={source}
                 resizeMode={background.resizeMode || 'repeat'}
                 imageStyle={background.imageStyle}
                 style={backgroundStyle}>
@@ -138,7 +147,7 @@ export const attachBackground = (c: ReactNode, style: ViewStyle) => {
             </ImageBackground>);
     }
     return c;
-}; 
+};
 export type AllStyle = (ViewStyle & TextStyle & ImageStyle);
 
 const ThemeContext = React.createContext<Theme>(null as any);
