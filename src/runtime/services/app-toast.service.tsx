@@ -5,13 +5,22 @@ import { ToastOptions, ToastService } from '@wavemaker/app-rn-runtime/core/toast
 class AppToastService implements ToastService {
 
     public toastsOpened = [] as ToastOptions[];
+    public appConfig: any;
+
+    private getAppConfig() {
+      if (!this.appConfig) {
+        this.appConfig = injector.get<AppConfig>('APP_CONFIG');
+      }
+      return this.appConfig;
+    }
 
     public showToast(options: ToastOptions) {
         const i = this.toastsOpened.findIndex(o => o.name === options.name);
         let timeout: any;
         if (i < 0) {
-            this.toastsOpened.push(options);
-            injector.get<AppConfig>('APP_CONFIG').refresh();
+          options.elevationIndex = this.toastsOpened + this.getAppConfig().app.modalsOpened + 1;
+          this.toastsOpened.push(options);
+            this.getAppConfig().refresh();
             // hide the toast when toaster is clicked
             if (options.hideOnClick) {
               let cb = options.onClick;

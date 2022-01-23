@@ -6,8 +6,16 @@ class AppModalService implements ModalService {
     public modalOptions = {} as ModalOptions;
 
     public modalsOpened = [] as ModalOptions[];
+    public appConfig: any;
 
     animatedRef: any;
+
+    private getAppConfig() {
+      if (!this.appConfig) {
+        this.appConfig = injector.get<AppConfig>('APP_CONFIG');
+      }
+      return this.appConfig;
+    }
 
     private showLastModal() {
         this.modalOptions = this.modalsOpened.length ? this.modalsOpened[this.modalsOpened.length - 1] : {} as ModalOptions;
@@ -19,13 +27,14 @@ class AppModalService implements ModalService {
     }
 
     public refresh() {
-      injector.get<AppConfig>('APP_CONFIG').refresh();
+      this.getAppConfig().refresh();
     }
 
     public showModal(options: ModalOptions) {
         const i = this.modalsOpened.findIndex(o => o === options);
         if (i < 0) {
-            this.modalsOpened.push(options);
+          options.elevationIndex = this.getAppConfig().app.toastsOpened + this.modalsOpened.length + 1;
+          this.modalsOpened.push(options);
             this.showLastModal();
         }
     }

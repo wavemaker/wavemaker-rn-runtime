@@ -87,6 +87,8 @@ export default abstract class BaseApp extends React.Component {
   public formatters = formatters;
   public serviceDefinitions = {} as any;
   private animatedRef: any;
+  public modalsOpened: number = 0;
+  public toastsOpened: number = 0;
 
   constructor(props: any) {
     super(props);
@@ -225,22 +227,29 @@ export default abstract class BaseApp extends React.Component {
   }
 
   renderToasters() {
+    this.toastsOpened = AppToastService.toastsOpened.length;
     return (
       <>
         {AppToastService.toastsOpened.map((o, i) =>
           (
-            <View key={i} style={[{position: 'absolute', width: '100%'}, o.styles]}>
-              <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
-                {o.content}
-                <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>
-              </TouchableOpacity>
-            </View>
-          )
+              <View key={i} style={[{
+                position: 'absolute',
+                width: '100%',
+                elevation: o.elevationIndex,
+                zIndex: o.elevationIndex
+              }, o.styles]}>
+                <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
+                  {o.content}
+                  <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>
+                </TouchableOpacity>
+              </View>
+            )
         )}
       </>);
   }
 
   renderDialogs(): ReactNode {
+    this.modalsOpened = AppModalService.modalsOpened.length;
     return (
       <>
       {AppModalService.modalOptions.content &&
@@ -251,11 +260,13 @@ export default abstract class BaseApp extends React.Component {
                               onPress={() => o.isModal && AppModalService.hideModal(o)}
                               style={deepCopy(styles.appModal,
                                 o.centered ? styles.centeredModal: null,
-                                o.modalStyle)}>
+                                o.modalStyle,
+                                { elevation: o.elevationIndex,
+                                  zIndex: o.elevationIndex })}>
               <Animatedview entryanimation={o.animation || 'fadeIn'}
                               ref={ref => this.animatedRef = ref}
                               style={[styles.appModalContent, o.contentStyle]}>
-                <ScrollView style={{width: '100%'}} 
+                <ScrollView style={{width: '100%'}}
                   contentContainerStyle={{
                     "width": "100%",
                     "alignItems": "center",

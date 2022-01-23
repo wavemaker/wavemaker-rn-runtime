@@ -1,6 +1,7 @@
 import React from 'react';
 
 export interface ModalOptions {
+    elevationIndex: number;
     name?: string;
     content: React.ReactNode;
     modalStyle?: any;
