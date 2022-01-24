@@ -2,16 +2,17 @@ import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedat
 
 export default class WmSearchProps extends BaseDatasetProps {
   autofocus: boolean = false;
-  searchKey: any;
+  searchkey?: any;
   type: 'search' | 'autocomplete' = 'search';
-  datacompletemsg: string = 'No more data to load';
-  placeholder: string = 'Search';
-  limit: number = null as any;
-  minchars: number = null as any;
-  imagewidth: any = 16;
-  searchon: string = 'typing';
+  datacompletemsg?: string = 'No more data to load';
+  placeholder?: string = 'Search';
+  limit?: number = null as any;
+  minchars?: number = null as any;
+  imagewidth?: any = 16;
+  searchon?: string = 'typing';
   onSubmit?: any;
-  result: any;
+  onChange?: Function = null as any;
+  result?: any;
   showclear: boolean = false;
   showSearchIcon: boolean = true; // internal property
 }

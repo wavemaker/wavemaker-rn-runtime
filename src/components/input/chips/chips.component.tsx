@@ -1,8 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
-import { clone, findIndex, isUndefined, pull, filter } from 'lodash';
-import { Chip, Avatar } from 'react-native-paper';
+import { clone, findIndex, isUndefined, pull, forEach, filter, find, isEqual, merge } from 'lodash';
 import WmChipsProps from './chips.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmChipsStyles } from './chips.styles';
 import WmSearch from '@wavemaker/app-rn-runtime/components/basic/search/search.component';
@@ -10,6 +9,7 @@ import {
   BaseDatasetComponent,
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 export class WmChipsState extends BaseDatasetState<WmChipsProps> {
   chipsList: any = [];
@@ -60,6 +60,19 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     this.resetSearchModel();
   }
 
+  selectChip(chipItem: any) {
+    chipItem.selected = !chipItem.selected;
+    const selectedValue: any = [];
+    const selectedItem = find(this.state.dataItems, d => isEqual(d.key, chipItem.key));
+    selectedItem.selected = chipItem.selected;
+    forEach(this.state.dataItems, (item) => {
+      if (item.selected) {
+        selectedValue.push(item);
+      }
+    });
+    this.setDatavalue(selectedValue);
+  }
+
   setDatavalue(newChipList: any) {
     const dataValue = newChipList.map((item: any) => item.datafield);
     this.updateDatavalue(dataValue);
@@ -82,6 +95,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   }
 
   resetSearchModel() {
+    (this as any).searchRef.isDefaultQuery = false;
     this.searchRef.clearSearch();
   }
 
@@ -112,18 +126,24 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     this.invokeEventCallback('onRemove', [null, this, item]);
   }
 
+  private isDefaultView() {
+    return !this.state.props.searchable && this.state.dataItems.length <= 10;
+  }
+
   renderChip(item: any, index: any) {
     return (
-      <Chip avatar={item.imgSrc ? <Avatar.Image size={29} source={item.imgSrc}/>: null}
-            key={'chipitem_'+ index}
-            style={this.styles.chip}
-            textStyle={this.styles.chipText}
-            onClose={() => this.removeItem(item, index)}
-            onPress={() => {
-              this.invokeEventCallback('onChipclick', [null, this, item]);
-              this.invokeEventCallback('onChipselect', [null, this, item]);
-            }}>
-        {item.displayexp || item.displayfield}</Chip>
+      <TouchableOpacity style={[this.styles.chip, {backgroundColor: item.selected ? this.styles.activeChip.backgroundColor : this.styles.defaultChip.backgroundColor}]} key={'chipitem_'+ index}
+                        onPress={() => {
+                          if (this.isDefaultView()) {
+                            this.selectChip(item);
+                          }
+                          this.invokeEventCallback('onChipclick', [null, this, item]);
+                          this.invokeEventCallback('onChipselect', [null, this, item]);
+                        }}>
+        {item.selected ? <WmIcon iconclass={'wi wi-done'} iconsize={16} styles={merge({}, this.styles.doneIcon, {icon: {color: item.selected ? this.styles.activeChip.color : this.styles.defaultChip.color}})}></WmIcon> : null}
+        <Text style={{color: item.selected ? this.styles.activeChip.color : this.styles.defaultChip.color}}>{item.displayexp || item.displayfield}</Text>
+        {!this.isDefaultView() ? <WmIcon iconclass={'wi wi-clear'} iconsize={16} styles={this.styles.clearIcon} onTap={() => this.removeItem(item, index)}></WmIcon> : null}
+      </TouchableOpacity>
     )
   }
 
@@ -141,41 +161,48 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
 
   componentDidUpdate(prevProps: WmChipsProps, prevState: WmChipsState) {
     if (prevState.chipsList !== this.state.chipsList) {
-      this.searchRef.computePosition();
+      this.searchRef?.computePosition();
     }
   }
 
   renderWidget(props: WmChipsProps) {
     const chips = this.state.chipsList;
     this.updateDefaultQueryModel();
-    // @ts-ignore
-    return (<View style={[this.styles.root, {flexDirection: props.inputwidth === 'default' ? '' : 'column'}]}>
+    return (<View style={this.styles.root}>
 
       <View style={this.styles.chipsWrapper}>
-        {chips && chips.length ?
-         chips.map((item: any, index: any) => this.renderChip(item, index))
-          : null
+        {
+          this.isDefaultView() ? this.state.dataItems.map((item: any, index: any) => this.renderChip(item, index)) : null
         }
-        <View style={this.styles.searchContainer}>
-          {/*// @ts-ignore*/}
-          <WmSearch
-            styles={this.styles.search}
-            placeholder={this.state.saturate ? this.maxSizeReached : props.placeholder}
-            listener={this.listener}
-            dataset={props.dataset}
-            searchKey={props.searchkey}
-            minchars={props.minchars}
-            autofocus={props.autofocus}
-            disabled={props.disabled || props.readonly || this.state.saturate}
-            readonly={props.readonly}
-            displayimagesrc={props.displayimagesrc}
-            displayfield={props.displayfield}
-            datafield={props.datafield}
-            onSubmit={this.addItem.bind(this)}
-            showSearchIcon={false}
-            showclear={false}
-            type={props.minchars === 0 ? 'autocomplete' : 'search'}/>
-        </View>
+        { props.searchable || !this.isDefaultView() ?
+          <View style={this.styles.searchContainer}>
+            <WmSearch
+              styles={this.styles.search}
+              placeholder={this.state.saturate ? this.maxSizeReached : props.placeholder}
+              listener={this.listener}
+              dataset={props.dataset}
+              searchkey={props.searchkey}
+              minchars={props.minchars}
+              autofocus={props.autofocus}
+              disabled={props.disabled || props.readonly || this.state.saturate}
+              readonly={props.readonly}
+              displayexpression={props.displayexpression}
+              getDisplayExpression={props.getDisplayExpression}
+              displayimagesrc={props.displayimagesrc}
+              displayfield={props.displayfield}
+              datafield={props.datafield}
+              onSubmit={this.addItem.bind(this)}
+              onChange={() => this.props.listener?.onComponentChange && this.props.listener?.onComponentChange(this)}
+              showSearchIcon={false}
+              showclear={false}
+              type={props.minchars === 0 ? 'autocomplete' : 'search'}/>
+              <View style={{ flexDirection: 'row'}}>
+                {chips && chips.length ?
+                chips.map((item: any, index: any) => this.renderChip(item, index))
+                : null}
+              </View>
+          </View>
+           : null }
       </View>
     </View>);
   }

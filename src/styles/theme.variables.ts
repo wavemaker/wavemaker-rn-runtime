@@ -337,6 +337,12 @@ export class ThemeVariables {
     searchDropdownBackgroundColor = this.defaultColorF;
     searchDataCompleteItemBgColor = this.defaultColorE;
 
+    //Chip
+    chipActiveBgColor = this.primaryColor;
+    chipDefaultBgColor = this.defaultColorF;
+    chipActiveTextColor = '#fff';
+    chipDefaultTextColor = '#151420';
+
     //Login
     loginErrorMsgColor = this.dangerContrastColor;
     loginErrorMsgBgColor = this.dangerColor;
