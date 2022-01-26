@@ -21,6 +21,7 @@ export class WmFormState extends BaseComponentState<WmFormProps> {
 }
 export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFormStyles> {
   public formFields: Array<BaseComponent<any, any, any>> = []; // contains array of direct widget elements [WmText, WmNumber, WmCurrent]
+  public parentFormRef: any;
   private formdataoutput: any;
   private toaster: any;
   formWidgets: { [key: string]: WmFormField } = {}; // object containing key as name of formField and value as WmFormField proxy.
@@ -30,6 +31,18 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   componentDidMount() {
     super.componentDidMount();
+    this.getParentFormRef(this.props.parentForm);
+  }
+
+  getParentFormRef(pformName: string) {
+    let current = this.parent;
+    while (current) {
+      if (get(current, 'props.name') === pformName) {
+        this.parentFormRef = current;
+        break;
+      }
+      current = current.parent;
+    }
   }
 
   registerFormFields(
@@ -173,6 +186,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     set(current, key, val);
     this.formdataoutput = current;
     this.updateState({ props: { dataoutput: current }} as WmFormState);
+    this.parentFormRef && this.parentFormRef.updateDataOutput(this.props.name, this.formdataoutput);
   }
 
   toggleMessage(

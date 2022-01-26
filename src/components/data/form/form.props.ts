@@ -5,6 +5,7 @@ export default class WmFormProps extends BaseProps {
   dataoutput: any;
   onBeforesubmit: any;
   formdata: any;
+  parentForm: string = '';
   title: any;
   subheading: any;
   iconclass: any;
