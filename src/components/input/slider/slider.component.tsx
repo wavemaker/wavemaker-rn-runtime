@@ -15,9 +15,11 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
   constructor(props: WmSliderProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSliderProps());
     if (!isNumber(this.state.props.datavalue)) {
-      this.props.onFieldChange ?
-        this.onChange(this.state.props.minvalue + (this.state.props.maxvalue - this.state.props.minvalue)/2) :
+      if (this.props.onFieldChange) {
+        this.onChange(this.state.props.minvalue + (this.state.props.maxvalue - this.state.props.minvalue)/2);
+      } else {
         this.state.props.datavalue = this.state.props.minvalue + (this.state.props.maxvalue - this.state.props.minvalue)/2;
+      }
     }
   }
 
