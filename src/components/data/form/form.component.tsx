@@ -110,15 +110,16 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   formreset() {
     forEach(this.formFields, (fw) => {
+      const sliderDataValue = fw.state.props.minvalue + (fw.state.props.maxvalue - fw.state.props.minvalue)/2;
       fw.updateState({
         props : {
-          datavalue: ''
+          datavalue: fw.defaultClass === 'app-slider' ?  sliderDataValue : ''
         }
       }, () => {
         const widget = this.formWidgets[fw.props.name];
           widget.updateState({
               props : {
-                datavalue: ''
+                datavalue: fw.defaultClass === 'app-slider' ?  sliderDataValue : ''
               }
             } as WmFormFieldState);
         }

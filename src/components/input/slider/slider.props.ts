@@ -7,4 +7,5 @@ export default class WmSliderProps extends BaseProps {
     step: number = 1;
     readonly = false;
     disabled? = false;
+    onFieldChange: any;
 }
