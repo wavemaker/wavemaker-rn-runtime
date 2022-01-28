@@ -43,7 +43,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
             // @ts-ignore
             ref.selectionStart = ref.selectionEnd = this.cursor;
           }}}
-        style={[this.styles.input, this.styles.text, this.state.isInvalidNumber ? this.styles.invalid : {}]}
+        style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
         value={this.state.textValue || ''}
         editable={props.disabled || props.readonly ? false : true}
         placeholder={props.placeholder}

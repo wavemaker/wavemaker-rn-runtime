@@ -10,14 +10,18 @@ import { debounce, isNumber } from 'lodash';
 export class WmSliderState extends BaseComponentState<WmSliderProps> {}
 
 export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState, WmSliderStyles> {
-  valueBeforeSlide = 0;
+  valueBeforeSlide: number = 0;
 
   constructor(props: WmSliderProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSliderProps());
     if (!isNumber(this.state.props.datavalue)) {
-        this.state.props.datavalue = this.state.props.minvalue + (this.state.props.maxvalue - this.state.props.minvalue)/2;
+        this.state.props.datavalue = this.getDefaultValue()
       }
     }
+
+  getDefaultValue() {
+    return this.state.props.minvalue + (this.state.props.maxvalue - this.state.props.minvalue)/2;
+  }
 
   onPropertyChange(name: string, $new: any, $old: any) {
     switch(name) {
@@ -58,7 +62,7 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
       <Slider
         style={props.readonly || props.disabled ? this.styles.disabled : {}}
         step={props.step}
-        value={this.valueBeforeSlide || props.datavalue}
+        value={this.valueBeforeSlide || props.datavalue === '' ? this.getDefaultValue() : props.datavalue}
         disabled={props.readonly}
         minimumValue={props.minvalue}
         maximumValue={props.maxvalue}

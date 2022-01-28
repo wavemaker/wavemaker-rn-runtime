@@ -6,7 +6,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES } from "@wavemaker/app-rn-runtime/compone
 import { TextInput } from 'react-native';
 
 export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentState<T> {
-  isInvalidNumber = false;
+  isValid: boolean = true;
   textValue: string = '';
   isDefault = false;
 }
@@ -210,20 +210,20 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     if (isNaN(val) || !isFinite(val) || (!Number.isInteger(props.step) &&
       this.countDecimals(val) > this.countDecimals(props.step))) {
       this.updateState({
-        isInvalidNumber: true,
+        isValid: false,
       } as S);
       return false;
     }
     if (val !== this.getValueInRange(val)) {
       this.updateState({
-        isInvalidNumber: true,
+        isValid: false,
       } as S);
       return true;
     }
     // regex validation
     if (!this.handleValidation(val)) {
       this.updateState({
-        isInvalidNumber: true,
+        isValid: false,
       } as S);
       return false;
     }
@@ -234,7 +234,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   // resets all the flags related to the widget's validation.
   protected resetValidations() {
     this.updateState({
-      isInvalidNumber: false,
+      isValid: true,
     } as S);
   }
 

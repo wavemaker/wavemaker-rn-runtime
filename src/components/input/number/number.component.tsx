@@ -25,7 +25,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
         // @ts-ignore
         ref.selectionStart = ref.selectionEnd = this.cursor;
       }}}
-      style={[this.styles.root, this.styles.text, this.state.isInvalidNumber ? this.styles.invalid : {}]}
+      style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
       value={this.state.textValue || ''}
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}
