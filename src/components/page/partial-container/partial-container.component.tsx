@@ -5,6 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmPartialContainerProps from './partial-container.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmPartialContainerStyles } from './partial-container.styles';
+import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
 import PartialService, { PartialConsumer } from '@wavemaker/app-rn-runtime/core/partial.service';
 
 export class WmPartialContainerState extends BaseComponentState<WmPartialContainerProps> {}
@@ -13,6 +14,7 @@ export default class WmPartialContainer extends BaseComponent<WmPartialContainer
 
   constructor(props: WmPartialContainerProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPartialContainerProps());
+    this.hideMode = HideMode.DONOT_ADD_TO_DOM;
   }
 
   renderWidget(props: WmPartialContainerProps) {

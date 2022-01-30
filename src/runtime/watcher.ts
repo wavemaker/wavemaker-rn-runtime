@@ -1,15 +1,29 @@
-import { isEqual as _isEqual, isArray, clone } from 'lodash';
+import { isEqual as _isEqual, isArray, isObject, clone, reverse, sortBy } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { WIDGET_LOGGER } from '@wavemaker/app-rn-runtime/core/base.component';
 
+const WATCH_LOGGER = WIDGET_LOGGER.extend("watch");
+
 class Watcher {
     private last: any = null;
+    private expBody: string = null as any;
+    public lastExecutionTime = 0;
 
     constructor(private fn: Function, private onChange: (prev: any, now: any) => any) {
         this.last = this.execute();
         if (isArray(this.last)) {
             this.last = clone(this.last);
         }
+    }
+
+    private getExpBody() {
+        if (!this.expBody) {
+            const expStr = this.fn.toString();
+            this.expBody = expStr.substring(
+                expStr.indexOf('return ') + 7,
+                expStr.lastIndexOf(';'));
+        }
+        return this.expBody;
     }
     
     private execute() {
@@ -22,21 +36,23 @@ class Watcher {
     }
 
     private isEqual($old: any, $new: any) {
-        if (!_isEqual($old, $new)) {
-            return false;
-        }
-        if (!isArray($old)) {
-            return true;
-        }
-        if ($old.length !== $new.length) {
-            return false;
-        }
-        for(let i = 0; i < $old.length; i++) {
-            if ($old[i] !== $new[i]) {
+        const isArrayObj = isArray($old) || isArray($new);
+        if (isArrayObj) {
+            if (($old && !$new) 
+                || (!$old && $new)
+                || $old.length !== $new.length) {
                 return false;
             }
+            for(let i = 0; i < $old.length; i++) {
+                if ($old[i] !== $new[i]) {
+                    return false;
+                }
+            }
         }
-        return true;
+        if (isObject($old) || isObject($new)) {
+            return true;
+        }
+        return $old === $new;
     }
 
     get value() {
@@ -44,15 +60,14 @@ class Watcher {
     }
 
     public check() {
+        const start = Date.now();
         const now = this.execute();
-        if (!this.isEqual(this.last, now)) {
-            WIDGET_LOGGER.debug(() => {
-                const expStr = this.fn.toString();
-                const expBody = expStr.substring(
-                    expStr.indexOf('return ') + 7,
-                    expStr.lastIndexOf(';'));
-                if (expBody !== 'fragment') {
-                    return `Watcher: <${expBody}> Changed from ${this.last} to ${now} `;
+        const changed = !this.isEqual(this.last, now);
+        this.lastExecutionTime = Date.now() - start;
+        if (changed) {
+            WATCH_LOGGER.debug(() => {
+                if (this.getExpBody() !== 'fragment') {
+                    return `Watcher: <${this.getExpBody}> Changed from ${this.last} to ${now} `;
                 }
                 return '';
             });
@@ -68,21 +83,26 @@ class Watcher {
 }
 
 export class WatcherGroup {
-    private watchers = [] as Watcher[];
+    public watchers = [] as Watcher[];
+    public isActive = false;
     constructor(private isMuted = () => false) {}
     check() {
-        if (!this.isMuted()) {
-            this.watchers.forEach(watcher => watcher.check());
+        this.isActive = !this.isMuted();
+        if (this.isActive) {
+            this.watchers.some(watcher => watcher.check());
         }
     }
+
     add(watcher: Watcher) {
         this.watchers.push(watcher);
     }
+    
     clear() {
         if (this.watchers.length) {
             this.watchers = [];
         }
     }
+
 }
 
 export const WatcherStore = new (class {
@@ -111,8 +131,20 @@ export const WatcherStore = new (class {
 
     trigger() {
         const start = Date.now();
-        this.store.forEach(watcherGroup => watcherGroup.check());
-        WIDGET_LOGGER.info(`Watch Cycle took ${Date.now() - start} ms.`);
+        let watchers: Watcher[] = [];
+        this.store.forEach(watcherGroup => {
+            watcherGroup.check();
+            if (watcherGroup.isActive) {
+
+                watchers.push(...watcherGroup.watchers);
+            }
+        });
+        const totalTime = Date.now() - start;
+        if (totalTime > 1000) {
+            watchers = reverse(sortBy(watchers, w => w.lastExecutionTime));
+            //console.log('watchers %O', watchers);
+        }
+        WATCH_LOGGER.info(`Watch Cycle took ${totalTime} ms.`);
     };
 })();
 
