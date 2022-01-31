@@ -40,7 +40,7 @@ export default class WmCard extends BaseComponent<WmCardProps, WmCardState, WmCa
             isactive={props.isactive}
             itemchildren={props.itemchildren}></WmMenu>
         </View>) : null}
-        {props.picturesource &&  
+        {props.picturesource &&
           (<WmPicture
             picturesource={props.picturesource}
             styles={this.theme.mergeStyle({root : {height: props.imageheight}}, this.styles.picture)}>
@@ -51,10 +51,10 @@ export default class WmCard extends BaseComponent<WmCardProps, WmCardState, WmCa
   renderWidget(props: WmCardProps) {
     return (
       <View style={this.styles.root}>
-        <Tappable target={this} styles={{width: '100%', height: '100%'}}>
+        <Tappable target={this} styles={{width: '100%', height: this.styles.root.height ? '100%' : null}}>
             {this.renderHeader(props)}
             {props.children}
         </Tappable>
-      </View>); 
+      </View>);
   }
 }
