@@ -71,6 +71,12 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
           datavalue:  value
         }
       } as WmRatingState);
+      this.props.onFieldChange &&
+      this.props.onFieldChange(
+        'datavalue',
+        value,
+        this.state.props.datavalue
+      );
     }
   }
 
@@ -98,8 +104,8 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
     return (
     <View style={this.styles.root}>
       {arr.map((v, i) => (
-        (this.state.selectedIndex > -1 && i <= this.state.selectedIndex) ? <WmIcon 
-          key={i} 
+        (this.state.selectedIndex > -1 && i <= this.state.selectedIndex) ? <WmIcon
+          key={i}
           iconclass="wi wi-star"
           iconsize={props.iconsize}
           styles={selectedIconStyles}
@@ -107,8 +113,8 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
         ></WmIcon> : null
       ))}
       {arr.map((v, i) => (
-        (this.state.selectedIndex === -1 || i > this.state.selectedIndex) ? <WmIcon 
-          key={i} 
+        (this.state.selectedIndex === -1 || i > this.state.selectedIndex) ? <WmIcon
+          key={i}
           iconclass="wi wi-star-border"
           iconsize={props.iconsize}
           styles={this.styles.icon}
@@ -116,6 +122,6 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
         ></WmIcon> : null
       ))}
       { caption && (<Text style={this.styles.text}>{caption}</Text>)}
-    </View>); 
+    </View>);
   }
 }

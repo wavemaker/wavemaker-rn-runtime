@@ -11,4 +11,5 @@ export default class WmRatingProps extends BaseProps {
     iconcolor?: string = null as any;
     iconsize?: number = null as any;
     showcaptions? = true;
+    onFieldChange: any;
 }

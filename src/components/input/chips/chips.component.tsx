@@ -127,7 +127,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   }
 
   private isDefaultView() {
-    return !this.state.props.searchable && this.state.dataItems.length <= 10;
+    return !this.state.props.searchable && this.state.dataItems?.length <= 10;
   }
 
   renderChip(item: any, index: any) {
