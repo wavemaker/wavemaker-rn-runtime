@@ -154,6 +154,13 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       const onValidate = get(this.formWidgets[key], 'props.onValidate');
       onValidate && onValidate(this.formWidgets[key]);
     });
+    // check for isvalid state of formfield
+    forEach(this.formFields, (val) => {
+      if (!val.state.isValid) {
+        isValid = false;
+        return;
+      }
+    });
     if(!isValid) {
       return false;
     }
