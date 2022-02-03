@@ -3,7 +3,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import BaseInputProps from './baseinput.props';
 import { isString } from 'lodash';
 import { BaseInputStyles } from './baseinput.styles';
-import { TextInput } from 'react-native';
+import { Platform, TextInput } from 'react-native';
 
 
 export class BaseInputState <T extends BaseInputProps> extends BaseComponentState<T> {
@@ -77,8 +77,10 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   invokeChange(e: any) {
-    this.cursor = e.target.selectionStart;
-    this.setState({ textValue: e.target.value });
+    if (Platform.OS === 'web') {
+      this.cursor = e.target.selectionStart;
+      this.setState({ textValue: e.target.value });
+    }
   }
 
   handleValidation(value: any) {

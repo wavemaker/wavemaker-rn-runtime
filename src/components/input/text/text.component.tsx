@@ -24,9 +24,9 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
             // @ts-ignore
             ref.selectionStart = ref.selectionEnd = this.cursor;
           }}}
+          defaultValue={this.state.textValue || ''}
           style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
           keyboardType={this.state.keyboardType}
-          value={this.state.textValue || ''}
           autoComplete={props.autocomplete ? 'username' : 'off'}
           autoFocus={props.autofocus}
           editable={props.disabled || props.readonly ? false : true}

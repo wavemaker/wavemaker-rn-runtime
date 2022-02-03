@@ -21,12 +21,14 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
   renderWidget(props: WmNumberProps) {
     return (<TextInput
       ref={ref => {this.widgetRef = ref;
-      if (ref) {
         // @ts-ignore
-        ref.selectionStart = ref.selectionEnd = this.cursor;
-      }}}
-      style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
-      value={this.state.textValue || ''}
+        if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
+          // @ts-ignore
+          ref.selectionStart = ref.selectionEnd = this.cursor;
+        }}}
+      defaultValue={this.state.textValue.toString() || ''}
+      style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
+      keyboardType="numeric"
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}
       placeholder={props.placeholder}

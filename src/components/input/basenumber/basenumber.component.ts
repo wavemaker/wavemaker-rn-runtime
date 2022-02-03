@@ -3,7 +3,7 @@ import BaseNumberProps from '@wavemaker/app-rn-runtime/components/input/basenumb
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import { BaseNumberStyles } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.styles';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles";
-import { TextInput } from 'react-native';
+import { Platform, TextInput } from 'react-native';
 
 export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentState<T> {
   isValid: boolean = true;
@@ -35,22 +35,25 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   onChangeText(value: any) {
     this.updateState({
         textValue: value
-      } as S
+      } as S, () => {
+        if (this.state.props.updateon === 'default') {
+          this.updateDatavalue(value, null);
+          this.props.onFieldChange &&
+          this.props.onFieldChange(
+            'datavalue',
+            value,
+            this.state.props.datavalue
+          );
+        }
+      }
     );
-    if (this.state.props.updateon === 'default') {
-      this.updateDatavalue(value, null);
-      this.props.onFieldChange &&
-      this.props.onFieldChange(
-        'datavalue',
-        value,
-        this.state.props.datavalue
-      );
-    }
   }
 
   invokeChange(e: any) {
-    this.cursor = e.target.selectionStart;
-    this.setState({ textValue: e.target.value });
+    if (Platform.OS === 'web') {
+      this.cursor = e.target.selectionStart;
+      this.setState({ textValue: e.target.value });
+    }
   }
 
   handleValidation(value: any) {
@@ -98,7 +101,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     return number > 0 ? sum : number - decimal;
   }
 
-  updateDatavalue(value: any, event?: any) {
+  updateDatavalue(value: any, event?: any, source?: any) {
     const model = value && this.parseNumber(value.toString());
     const props = this.state.props;
     const oldValue = props.datavalue;
@@ -112,13 +115,17 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
       props: {
         datavalue: model
       }
-    } as S, () => !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [ event, this.proxy, model, oldValue ]))
-
+    } as S, () => {
+      !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
+      if (source === 'blur') {
+        this.invokeEventCallback('onBlur', [event, this.proxy]);
+      }
+    });
   }
 
   onBlur(event: any) {
     if (this.state.props.updateon === 'blur') {
-      this.updateDatavalue(event.target.value || this.state.textValue, event);
+      this.updateDatavalue(event.target.value || this.state.textValue, event, 'blur');
     }
 
     this.invokeEventCallback('onBlur', [ event, this.proxy]);
