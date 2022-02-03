@@ -24,6 +24,7 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
             // @ts-ignore
             ref.selectionStart = ref.selectionEnd = this.cursor;
           }}}
+          placeholderTextColor={this.styles.placeholderText.color as any}
           defaultValue={this.state.textValue || ''}
           style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
           keyboardType={this.state.keyboardType}

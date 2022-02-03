@@ -175,6 +175,7 @@ export class ThemeVariables {
     inputBackgroundColor = this.defaultColorF;
     inputFocusBorderColor = this.primaryColor;
     inputInvalidBorderColor = this.dangerColor;
+    inputPlaceholderColor = this.defaultColorB;
 
     //slider variables
     minimumTrackTintColor = this.primaryColor;

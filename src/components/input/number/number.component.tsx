@@ -1,5 +1,6 @@
 import React from 'react';
 import { TextInput } from 'react-native';
+import { isNull } from 'lodash';
 
 import WmNumberProps from './number.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmNumberStyles } from './number.styles';
@@ -29,6 +30,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
       defaultValue={this.state.textValue.toString() || ''}
       style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
       keyboardType="numeric"
+      placeholderTextColor={this.styles.placeholderText.color as any}
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}
       placeholder={props.placeholder}

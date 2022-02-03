@@ -3,7 +3,8 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmNumberStyles = BaseStyles & {
-  invalid: AllStyle
+  invalid: AllStyle;
+  placeholderText: AllStyle;
 };
 
 export const DEFAULT_CLASS = 'app-number';
@@ -22,6 +23,9 @@ export const DEFAULT_STYLES: WmNumberStyles = defineStyles<WmNumberStyles>({
     },
     invalid: {
       borderBottomColor: ThemeVariables.inputInvalidBorderColor
+    },
+    placeholderText: {
+      color: ThemeVariables.inputPlaceholderColor
     }
 });
 
