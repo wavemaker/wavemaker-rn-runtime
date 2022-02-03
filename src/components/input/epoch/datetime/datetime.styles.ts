@@ -45,8 +45,16 @@ export const DEFAULT_STYLES: WmDatetimeStyles = defineStyles({
     clearIcon:  {
         root : {
             alignSelf: 'center',
-            paddingLeft: 8,
-            paddingRight: 8
+            justifyContent: 'center',
+            marginRight: 4,
+            height: 24,
+            width: 24,
+            borderRadius: 16,
+            backgroundColor: ThemeVariables.defaultColorE
+        },
+        icon: {
+            fontSize: 16,
+            fontWeight: 'bold'
         }
     } as WmIconStyles
 }) as WmDatetimeStyles;

@@ -7,7 +7,9 @@ export type WmPanelFooterStyles = BaseStyles & {};
 export const DEFAULT_CLASS = 'app-panel-footer';
 export const DEFAULT_STYLES: WmPanelFooterStyles = defineStyles({
     root: {
-        backgroundColor: ThemeVariables.panelFooterColor,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: ThemeVariables.panelFooterColor,
         minHeight: 64,
         marginTop: 8,
         padding: 8,

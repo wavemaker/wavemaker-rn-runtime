@@ -19,7 +19,7 @@ export type WmTabbarStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-tabbar';
 export const DEFAULT_STYLES: WmTabbarStyles = defineStyles<WmTabbarStyles>({
     root: {
-        height: 72
+        height: 88
     },
     text: {},
     menu: {
@@ -63,7 +63,7 @@ export const DEFAULT_STYLES: WmTabbarStyles = defineStyles<WmTabbarStyles>({
     tabIcon: {
         root: {
             alignSelf: 'center',
-            paddingBottom: 20,
+            paddingBottom: 32,
             borderBottomColor: ThemeVariables.transparent,
             borderBottomWidth: 4
         },
@@ -83,8 +83,8 @@ export const DEFAULT_STYLES: WmTabbarStyles = defineStyles<WmTabbarStyles>({
         color:  ThemeVariables.tabbarIconColor,
         textAlign: 'center',
         fontFamily: ThemeVariables.baseFont,
-        marginTop: -30,
-        paddingBottom: 12
+        marginTop: -32,
+        paddingBottom: 14
     },
     activeTabLabel: {}
 });

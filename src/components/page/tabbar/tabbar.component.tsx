@@ -28,12 +28,12 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   renderTabItem(item: NavigationDataItem, props: WmTabbarProps, onSelect: Function) {
     const isActive = props.isActive && props.isActive(item);
     return (
-      <View style={[this.styles.tabItem, isActive ? this.styles.activeTabItem: {}]} key={item.key} >
-        <TouchableOpacity onPress={() => onSelect && onSelect()}>
-          <WmIcon styles={this.theme.mergeStyle({}, this.styles.tabIcon, isActive ? this.styles.activeTabIcon: {})} iconclass={item.icon}></WmIcon>
-          <Text style={[this.styles.tabLabel, isActive ? this.styles.activeTabLabel: {}]}>{item.label}</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={() => onSelect && onSelect()}  key={item.key}>
+        <View style={[this.styles.tabItem, isActive ? this.styles.activeTabItem: {}]}>
+            <WmIcon styles={this.theme.mergeStyle({}, this.styles.tabIcon, isActive ? this.styles.activeTabIcon: {})} iconclass={item.icon}></WmIcon>
+            <Text style={[this.styles.tabLabel, isActive ? this.styles.activeTabLabel: {}]}>{item.label}</Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 

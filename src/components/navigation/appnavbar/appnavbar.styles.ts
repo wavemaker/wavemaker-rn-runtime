@@ -147,7 +147,6 @@ BASE_THEME.addStyle('navbarMenu', '', {
 } as WmMenuStyles);
 BASE_THEME.addStyle('navbarPopover', '', {
   root: {
-    paddingRight: 8,
     height: '100%',
     flexDirection: 'row',
     justifyContent: 'center',

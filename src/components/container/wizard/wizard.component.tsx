@@ -54,12 +54,14 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     } as WmWizardState, () => this.showActiveStep());
   }
 
-  getColor(index: number) {
-    return this.state.currentStep === index ? 
-      this.styles.activeStep.backgroundColor: 
-      index < this.state.currentStep ? 
-        this.styles.doneStep.backgroundColor :
-        this.styles.step.backgroundColor;
+  getStepStyle(index: number) {
+    const style = [this.styles.step];
+    if (this.state.isDone || index < this.state.currentStep) {
+      style.push(this.styles.doneStep);
+    } else if (this.state.currentStep === index) {
+      style.push(this.styles.activeStep);
+    }
+    return style;
   }
 
   renderWizardHeader(item: any, index: number) {
@@ -69,7 +71,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
       <View style={this.styles.headerWrapper} key={index+1}>
         <TouchableOpacity style={this.styles.stepWrapper}
                           onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep}>
-            <View style={[this.styles.step, { backgroundColor: this.getColor(index) }]}>
+            <View style={this.getStepStyle(index)}>
               {index >= this.state.currentStep && !this.state.isDone &&
                     <Text style={index === this.state.currentStep ? this.styles.activeStep : this.styles.stepCounter}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&

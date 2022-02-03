@@ -10,6 +10,7 @@ import {
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 
 export class WmChipsState extends BaseDatasetState<WmChipsProps> {
   chipsList: any = [];
@@ -38,7 +39,6 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     let newChipList = clone(this.state.chipsList),
       allowAdd;
     newChipList.push(widget.queryModel);
-
     if (this.isDuplicate(widget.queryModel)) {
       this.resetSearchModel();
       return;
@@ -131,17 +131,20 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   }
 
   renderChip(item: any, index: any) {
+    const isSelected = this.isDefaultView() ? item.selected : true;
     return (
-      <TouchableOpacity style={[this.styles.chip, {backgroundColor: item.selected ? this.styles.activeChip.backgroundColor : this.styles.defaultChip.backgroundColor}]} key={'chipitem_'+ index}
-                        onPress={() => {
-                          if (this.isDefaultView()) {
-                            this.selectChip(item);
-                          }
-                          this.invokeEventCallback('onChipclick', [null, this, item]);
-                          this.invokeEventCallback('onChipselect', [null, this, item]);
-                        }}>
-        {item.selected ? <WmIcon iconclass={'wi wi-done'} iconsize={16} styles={merge({}, this.styles.doneIcon, {icon: {color: item.selected ? this.styles.activeChip.color : this.styles.defaultChip.color}})}></WmIcon> : null}
-        <Text style={{color: item.selected ? this.styles.activeChip.color : this.styles.defaultChip.color}}>{item.displayexp || item.displayfield}</Text>
+      <TouchableOpacity style={[this.styles.chip, isSelected ? this.styles.activeChip : null]}
+        key={'chipitem_'+ index}
+        onPress={() => {
+          if (this.isDefaultView()) {
+            this.selectChip(item);
+          }
+          this.invokeEventCallback('onChipclick', [null, this, item]);
+          this.invokeEventCallback('onChipselect', [null, this, item]);
+        }}>
+        {isSelected && this.isDefaultView() ? <WmIcon iconclass={'wi wi-done'} iconsize={16} styles={merge({}, this.styles.doneIcon, {icon: {color: isSelected ? this.styles.activeChipLabel.color : null}})}></WmIcon> : null}
+        <WmPicture styles={this.styles.imageStyles} picturesource={item.imgSrc} shape='circle'></WmPicture>
+        <Text style={[this.styles.chipLabel, isSelected ? this.styles.activeChipLabel : null]}>{item.displayexp || item.displayfield}</Text>
         {!this.isDefaultView() ? <WmIcon iconclass={'wi wi-clear'} iconsize={16} styles={this.styles.clearIcon} onTap={() => this.removeItem(item, index)}></WmIcon> : null}
       </TouchableOpacity>
     )
@@ -196,7 +199,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
               showSearchIcon={false}
               showclear={false}
               type={props.minchars === 0 ? 'autocomplete' : 'search'}/>
-              <View style={{ flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap'}}>
                 {chips && chips.length ?
                 chips.map((item: any, index: any) => this.renderChip(item, index))
                 : null}

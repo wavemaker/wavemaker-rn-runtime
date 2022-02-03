@@ -22,7 +22,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
           // @ts-ignore
           ref.selectionStart = ref.selectionEnd = this.cursor;
         }}}
-      style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
+      style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
       multiline={true}
       numberOfLines={4}
       keyboardType={this.state.keyboardType}

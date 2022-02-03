@@ -13,9 +13,9 @@ export type WmCarouselStyles = BaseStyles & {
     activeDotStyle: AllStyle
 };
 const btn: ViewStyle = {
-    height: 40,
-    width: 40,
-    borderRadius: 40,
+    height: 48,
+    width: 48,
+    borderRadius: 48,
     borderColor: ThemeVariables.transparent,
     borderWidth: 1,
     justifyContent: 'center'
@@ -30,7 +30,8 @@ export const DEFAULT_STYLES: WmCarouselStyles = defineStyles({
     btnPanel: {
         position: 'absolute',
         top: '50%',
-        marginTop: -56,
+        marginTop: -64,
+        height: 64,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -39,7 +40,8 @@ export const DEFAULT_STYLES: WmCarouselStyles = defineStyles({
     prevBtn : {
         root: {
             marginLeft: 12,
-            ...btn
+            ...btn,
+            backgroundColor: ThemeVariables.carouselPrevBgColor
         },
         text: {
             fontSize: 32
@@ -51,7 +53,8 @@ export const DEFAULT_STYLES: WmCarouselStyles = defineStyles({
     nextBtn : {
         root: {
             marginRight: 12,
-            ...btn
+            ...btn,
+            backgroundColor: ThemeVariables.carouselPrevBgColor
         },
         text: {
             fontSize: 32
@@ -62,9 +65,14 @@ export const DEFAULT_STYLES: WmCarouselStyles = defineStyles({
     } as WmIconStyles,
     dotsWrapperStyle:{
         opacity: 1,
-        marginTop: -60,
+        height: 64,
+        marginTop: -64,
+        position: 'absolute',
+        top: '100%',
         backgroundColor: ThemeVariables.carouselDotWrapperBgColor,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        paddingTop: 4,
+        paddingBottom: 4
     },
     activeDotStyle: {
         width: 12,
@@ -85,26 +93,55 @@ BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('app-carousel-1', '', {
     btnPanel: {
         top: '100%'
+    },
+    prevBtn: {
+        root: {
+            borderRadius: 6
+        }
+    },
+    nextBtn: {
+        root: {
+            borderRadius: 6
+        }
     }
 } as WmCarouselStyles);
 
 BASE_THEME.addStyle('app-carousel-2', '', {
     btnPanel: {
+        backgroundColor: ThemeVariables.defaultColorF,
+        width: '100%',
         top: '100%',
         right: 0,
-        width: 120
+        padding: 8,
+        justifyContent: 'flex-end'
     },
     dotsWrapperStyle:{
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
+        justifyContent: 'flex-start'
+    },
+    activeDotStyle: {
+        backgroundColor: ThemeVariables.primaryColor,
+    },
+    dotStyle: {
+        backgroundColor: ThemeVariables.primaryColor,
     },
     prevBtn: {
         root: {
             backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            borderColor: ThemeVariables.primaryColor,
+        },
+        icon : {
+            color: ThemeVariables.primaryColor
         }
     },
     nextBtn: {
         root: {
+            marginLeft: 8,
             backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            borderColor: ThemeVariables.primaryColor,
+        },
+        icon : {
+            color: ThemeVariables.primaryColor
         }
     }
 } as WmCarouselStyles);

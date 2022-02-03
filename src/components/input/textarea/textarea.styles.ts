@@ -15,10 +15,12 @@ export const DEFAULT_STYLES: WmTextareaStyles = defineStyles({
       borderColor: ThemeVariables.inputBorderColor,
       backgroundColor: ThemeVariables.inputBackgroundColor,
       borderRadius: 6,
-      fontFamily: ThemeVariables.baseFont
+      fontFamily: ThemeVariables.baseFont,
+      minHeight: 160,
     },
     text: {
-      fontSize: 16
+      fontSize: 16,
+      textAlignVertical: 'top'
     },
     invalid: {
       borderBottomColor: 'red'

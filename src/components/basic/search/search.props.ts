@@ -8,7 +8,8 @@ export default class WmSearchProps extends BaseDatasetProps {
   placeholder?: string = 'Search';
   limit?: number = null as any;
   minchars?: number = null as any;
-  imagewidth?: any = 16;
+  imagewidth?: any = 32;
+  imageheight?: any = 32;
   searchon?: string = 'typing';
   onSubmit?: any;
   onChange?: Function = null as any;

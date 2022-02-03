@@ -5,7 +5,9 @@ export type WmPartialStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-partial';
 export const DEFAULT_STYLES: WmPartialStyles = defineStyles({
-    root: {},
+    root: {
+        width: "100%"
+    },
     text: {}
 });
 

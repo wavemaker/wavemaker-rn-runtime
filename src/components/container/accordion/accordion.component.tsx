@@ -37,6 +37,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const badge = showBadge && widgetProps.badgevalue != undefined ? (
       <Badge style={[
         this.styles.badge,
+        isExpanded ? this.styles.activeBadge: null,
         this.styles[widgetProps.badgetype || 'default']]}>
         {widgetProps.badgevalue}
       </Badge>): null;
@@ -59,27 +60,29 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   renderAccordionpane(item: any, index: any, isExpanded = true, accordionpanes: any[] = []) {
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     return (
-      <List.Accordion title={isDefined(item.props.title) ? item.props.title : 'Title'}
-                      style={[
-                        this.styles.header,
-                        index === 0 ? this.styles.firstHeader: null,
-                        index === accordionpanes.length - 1 && !isExpanded ? this.styles.lastHeader: null,
-                        isExpanded ? this.styles.activeHeader : {}]}
-                      theme={{
-                        colors: {
-                          background : this.styles.header.backgroundColor as string,
-                          primary: this.styles.activeHeader.color as string
-                        }
-                      }}
-                      titleStyle={[this.styles.text, isExpanded ? this.styles.activeHeaderTitle : {}]}
-                      descriptionStyle={this.styles.subheading}
-                      description={item.props.subheading}
-                      id={index + 1}
-                      key={'accordionpane_' + index}
-                      right={props => this.expandCollapseIcon(props, item, true, !showIconOnLeft, true, isExpanded)}
-                      left={props => this.expandCollapseIcon(props, item, false, showIconOnLeft, false, isExpanded)}>
-          <Animatedview style={{marginLeft: -64}} ref={ref => this.animatedRef = ref} entryanimation={this.state.props.animation}>{item}</Animatedview>
-      </List.Accordion>
+      <View style={this.styles.pane}>
+        <List.Accordion title={isDefined(item.props.title) ? item.props.title : 'Title'}
+                        style={[
+                          this.styles.header,
+                          index === 0 ? this.styles.firstHeader: null,
+                          index === accordionpanes.length - 1 && !isExpanded ? this.styles.lastHeader: null,
+                          isExpanded ? this.styles.activeHeader : {}]}
+                        theme={{
+                          colors: {
+                            background : this.styles.header.backgroundColor as string,
+                            primary: this.styles.activeHeader.color as string
+                          }
+                        }}
+                        titleStyle={[this.styles.text, isExpanded ? this.styles.activeHeaderTitle : {}]}
+                        descriptionStyle={this.styles.subheading}
+                        description={item.props.subheading}
+                        id={index + 1}
+                        key={'accordionpane_' + index}
+                        right={props => this.expandCollapseIcon(props, item, true, !showIconOnLeft, true, isExpanded)}
+                        left={props => this.expandCollapseIcon(props, item, false, showIconOnLeft, false, isExpanded)}>
+            <Animatedview style={{marginLeft: -64}} ref={ref => this.animatedRef = ref} entryanimation={this.state.props.animation}>{item}</Animatedview>
+        </List.Accordion>
+      </View>
     );
   }
 

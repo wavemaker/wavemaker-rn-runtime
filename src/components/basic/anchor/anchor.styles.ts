@@ -28,7 +28,7 @@ export const DEFAULT_STYLES: WmAnchorStyles = defineStyles({
         color: ThemeVariables.linkDefaultColor,
         alignSelf: 'flex-start',
         marginTop: -12,
-        marginLeft: -6,
+        marginLeft: 0,
         fontWeight: 'bold'
     },
     icon: {

@@ -36,11 +36,13 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
     text: {},
     activeStep:{
         backgroundColor: ThemeVariables.wizardStepActiveColor,
+        borderColor: ThemeVariables.wizardStepActiveColor,
         color: ThemeVariables.defaultColorF
     },
     doneStep: {
       backgroundColor: ThemeVariables.wizardStepDoneColor,
-      color: ThemeVariables.defaultColorF
+      color: ThemeVariables.defaultColorF,
+      borderColor: ThemeVariables.wizardStepDoneColor
     },
     wizardHeader: {
       height: 80,
@@ -139,7 +141,7 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
     },
     stepCounter: {
       fontSize: 15,
-      color: ThemeVariables.primaryColor
+      color: ThemeVariables.wizardStepColor
     }
 } as WmWizardStyles);
 

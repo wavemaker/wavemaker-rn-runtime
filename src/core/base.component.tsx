@@ -44,6 +44,7 @@ export class BaseProps {
     key?: any = null as any;
     show? = true as Boolean | String | Number;
     styles?: any = null;
+    classname?: string = null as any;
     listener?: LifecycleListener = null as any;
 }
 
@@ -193,6 +194,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 this.theme = theme || BASE_THEME;
                                 this.styles =  this.theme.mergeStyle(
                                     this.theme.getStyle(this.defaultClass) || this.defaultStyles,
+                                    props.classname && this.theme.getStyle(props.classname),
                                     this.props.styles);
                                 if (!this.isVisible()) {
                                     assign(this.styles, this.theme.getStyle('hidden'))

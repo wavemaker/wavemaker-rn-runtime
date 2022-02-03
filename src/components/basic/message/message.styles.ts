@@ -62,6 +62,7 @@ const getStyle = (bgColor: string,
     closeBtnColor: string,
     iconcolor: string,
     textcolor: string,
+    titleColor: string,
     borderColor = ThemeVariables.transparent) => {
     return {
         root: {
@@ -72,7 +73,7 @@ const getStyle = (bgColor: string,
             color: textcolor
         },
         title: {
-            color: textcolor
+            color: titleColor
         },
         text: {
             color: textcolor
@@ -98,15 +99,18 @@ BASE_THEME.addStyle('success-dark-message', '', getStyle(
     ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
 ));
 BASE_THEME.addStyle('error-dark-message', '', getStyle(
     ThemeVariables.messageErrorColor,
     ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
 ));
 BASE_THEME.addStyle('warning-dark-message', '', getStyle(
     ThemeVariables.messageWarningColor,
+    ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF
@@ -116,9 +120,11 @@ BASE_THEME.addStyle('info-dark-message', '', getStyle(
     ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF,
+    ThemeVariables.defaultColorF,
 ));
 BASE_THEME.addStyle('loading-dark-message', '', getStyle(
     ThemeVariables.messageLoadingColor,
+    ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF,
     ThemeVariables.defaultColorF,
@@ -130,6 +136,7 @@ BASE_THEME.addStyle('success-light-message', '', getStyle(
     ThemeVariables.defaultColor6,
     ThemeVariables.messageSuccessColor,
     ThemeVariables.defaultColor6,
+    ThemeVariables.defaultColor1,
     ThemeVariables.defaultColorD
 ));
 BASE_THEME.addStyle('error-light-message', '', getStyle(
@@ -137,6 +144,7 @@ BASE_THEME.addStyle('error-light-message', '', getStyle(
     ThemeVariables.defaultColor6,
     ThemeVariables.messageErrorColor,
     ThemeVariables.defaultColor6,
+    ThemeVariables.defaultColor1,
     ThemeVariables.defaultColorD
 ));
 BASE_THEME.addStyle('warning-light-message', '', getStyle(
@@ -144,6 +152,7 @@ BASE_THEME.addStyle('warning-light-message', '', getStyle(
     ThemeVariables.defaultColor6,
     ThemeVariables.messageWarningColor,
     ThemeVariables.defaultColor6,
+    ThemeVariables.defaultColor1,
     ThemeVariables.defaultColorD
 ));
 BASE_THEME.addStyle('info-light-message', '', getStyle(
@@ -151,6 +160,7 @@ BASE_THEME.addStyle('info-light-message', '', getStyle(
     ThemeVariables.defaultColor6,
     ThemeVariables.messageInfoColor,
     ThemeVariables.defaultColor6,
+    ThemeVariables.defaultColor1,
     ThemeVariables.defaultColorD
 ));
 BASE_THEME.addStyle('loading-light-message', '', getStyle(
@@ -158,5 +168,6 @@ BASE_THEME.addStyle('loading-light-message', '', getStyle(
     ThemeVariables.defaultColor6,
     ThemeVariables.messageLoadingColor,
     ThemeVariables.defaultColor6,
+    ThemeVariables.defaultColor1,
     ThemeVariables.defaultColorD
 ));

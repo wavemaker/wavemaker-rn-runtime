@@ -25,6 +25,7 @@ export default StyleSheet.create({
     backgroundColor: '#25171A',
     borderColor: '#201216',
     borderWidth: 1,
+    marginVertical: 4,
   },
   icLockRed: {
     width: 13 / 2,

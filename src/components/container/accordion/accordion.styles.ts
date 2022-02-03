@@ -10,7 +10,9 @@ export type WmAccordionStyles = BaseStyles & {
   rightToggleIcon: WmIconStyles,
   leftToggleIcon: WmIconStyles,
   activeIcon: WmIconStyles,
+  pane: AllStyle,
   badge: AllStyle,
+  activeBadge: AllStyle,
   firstHeader: ViewStyle,
   lastHeader: ViewStyle,
   header: AllStyle,
@@ -37,6 +39,9 @@ export const DEFAULT_STYLES: WmAccordionStyles = defineStyles({
       borderTopLeftRadius: 6,
       borderTopRightRadius: 6
     },
+    pane : {
+      marginBottom: 4,
+    },
     header: {
       borderBottomWidth: 1,
       borderStyle: 'solid',
@@ -62,9 +67,6 @@ export const DEFAULT_STYLES: WmAccordionStyles = defineStyles({
     icon: {
       root: {
         alignSelf: 'auto',
-        borderStyle: 'solid',
-        borderWidth: 2,
-        borderColor: ThemeVariables.accordionIconColor,
         width: 24,
         height: 24,
         borderRadius: 24,
@@ -92,18 +94,24 @@ export const DEFAULT_STYLES: WmAccordionStyles = defineStyles({
         color: ThemeVariables.accordionActiveHeaderTextColor
       }
     } as WmIconStyles,
+    activeBadge: {
+      borderColor: ThemeVariables.accordionActiveHeaderTextColor,
+      color: ThemeVariables.accordionActiveHeaderTextColor
+    },
     badge: {
-        color: ThemeVariables.badgeTextColor,
+        color: ThemeVariables.accordionIconColor,
         fontSize: 14,
         marginRight: 4,
         width: 24,
         height: 24,
-        borderRadius: 24,
-        alignContent: 'center'
+        borderRadius: 12,
+        alignContent: 'center',
+        borderStyle: 'solid',
+        borderWidth: 2,
+        borderColor: ThemeVariables.accordionIconColor,
+        backgroundColor: ThemeVariables.transparent
     },
-    default: {
-      backgroundColor: Color(ThemeVariables.labelDefaultColor).alpha(0.5).rgb().toString()
-    },
+    default: {},
     success: {
       backgroundColor: ThemeVariables.labelSuccessColor
     },
@@ -123,9 +131,17 @@ export const DEFAULT_STYLES: WmAccordionStyles = defineStyles({
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('app-accordion1', '', {
+  pane: {
+    marginBottom: 0
+  },
   leftToggleIcon: {
     root: {
       width: 1
+    }
+  },
+  icon: {
+    root: {
+      backgroundColor: 'rgba(255, 255, 255, 0.1)'
     }
   }
 } as WmAccordionStyles);

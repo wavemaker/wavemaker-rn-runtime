@@ -97,6 +97,7 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
       paddingVertical: 8,
       borderBottomColor: ThemeVariables.searchItemBorderColor,
       flexDirection: 'row',
+      alignItems: 'center',
       color: ThemeVariables.searchItemTextColor
     },
     searchItemText: {

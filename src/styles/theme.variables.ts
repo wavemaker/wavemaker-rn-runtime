@@ -68,8 +68,8 @@ export class ThemeVariables {
     navbarImageSize = 24;
     navbarCaretColor = this.primaryColor;
     navitemChildBackgroundColor = this.primaryContrastColor;
-    navitemChildTextColor = this.defaultColor;
-    navitemChildIconColor = this.defaultColor6;
+    navitemChildTextColor = this.primaryColor;
+    navitemChildIconColor = this.primaryColor;
     navitemActiveBackgroundColor = this.primaryColor;
     navitemActiveTextColor = this.primaryContrastColor;
     navitemActiveIconColor = this.navitemActiveTextColor;
@@ -291,7 +291,9 @@ export class ThemeVariables {
 
     //carousel
     carouselPrevBtnColor=this.defaultColorF;
+    carouselPrevBgColor=Color(this.defaultColorF).fade(0.6).rgb().toString();
     carouselNextBtnColor=this.defaultColorF;
+    carouselNextBgColor=Color(this.defaultColorF).fade(0.6).rgb().toString();
     carouselDotWrapperBgColor=this.transparent;
     carouselDotColor=this.defaultColorF;
     carouselActiveDotColor=this.defaultColorF;
@@ -311,7 +313,7 @@ export class ThemeVariables {
     calendarDayBgColor = this.defaultColor;
     calendarSelectedDayBgColor = this.primaryColor;
     calendarSelectedDayTextColor = this.defaultColorF;
-    calendarTodayBgColor = this.defaultColorD;
+    calendarTodayBgColor = this.primaryColor3;
     calendarEventDay1Color = this.primaryColor1;
     calendarEventDay2Color = this.primaryColor2;
     calendarEventDay3Color = this.primaryColor3;
@@ -319,9 +321,9 @@ export class ThemeVariables {
     //wizard
     wizardBackgroundColor = this.widgetBgColor;
     wizardStepActiveColor = this.primaryColor;
-    wizardStepDoneColor = this.primaryColor;
+    wizardStepDoneColor = this.successColor;
     wizardStepDoneTextColor = this.defaultColorF;
-    wizardStepColor = this.primaryColor;
+    wizardStepColor = this.defaultColor9;
     wizardNextBtnColor= this.primaryColor;
     wizardDoneBtnColor = this.successColor;
     wizardStepConnectorColor = this.defaultColorE;
@@ -340,8 +342,8 @@ export class ThemeVariables {
     //Chip
     chipActiveBgColor = this.primaryColor;
     chipDefaultBgColor = this.defaultColorF;
-    chipActiveTextColor = '#fff';
-    chipDefaultTextColor = '#151420';
+    chipActiveTextColor = this.defaultColorF;
+    chipDefaultTextColor = this.defaultColorA;
 
     //Login
     loginErrorMsgColor = this.dangerContrastColor;
