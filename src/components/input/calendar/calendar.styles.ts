@@ -90,7 +90,7 @@ export const DEFAULT_STYLES: WmCalendarStyles = defineStyles<WmCalendarStyles>({
         backgroundColor: ThemeVariables.calendarTodayBgColor
     },
     todayText: {
-        backgroundColor: ThemeVariables.calendarTodayBgColor
+        backgroundColor: ThemeVariables.transparent
     },
     eventDay1 : {
         color: ThemeVariables.calendarEventDay1Color
