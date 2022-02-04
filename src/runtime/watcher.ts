@@ -164,7 +164,7 @@ export function useWatcher(isMuted = () => false) {
     }, []);
     return {
         watch: (fn: Function) => {
-            const watcher =  new Watcher(fn, () => setTimeout(() => onChange({})));
+            const watcher =  new Watcher(fn, () => onChange({}));
             watcherGroup.add(watcher);
             return watcher.value;
         }

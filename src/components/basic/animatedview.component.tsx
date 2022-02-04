@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Animatable from 'react-native-animatable';
 import { initializeRegistryWithDefinitions } from 'react-native-animatable';
-import { ViewProps, ViewStyle } from 'react-native';
+import { View, ViewProps, ViewStyle } from 'react-native';
 
 export default class AnimatedviewProps {
   entryanimation?: string = null as any;
@@ -115,7 +115,7 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
   handleViewRef = (ref: Animatable.View<ViewProps, ViewStyle>) => this.view = ref;
 
   render() {
-    return (
+    return this.props.entryanimation ? (
      <Animatable.View
        animation={this.props.entryanimation}
        duration={this.props.duration}
@@ -124,6 +124,6 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
        ref={this.handleViewRef}>
         {this.props.children}
       </Animatable.View>
-    );
+    ): (<View style={this.props.style}>{this.props.children}</View>);
   }
 }
