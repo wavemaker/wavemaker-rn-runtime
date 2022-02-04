@@ -158,8 +158,9 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     forEach(this.formFields, (val) => {
       if (val.state.isValid === false) {
         isValid = false;
-        return;
+        return false;
       }
+      return true;
     });
     if(!isValid) {
       return false;
