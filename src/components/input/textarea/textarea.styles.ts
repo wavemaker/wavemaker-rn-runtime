@@ -3,7 +3,8 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmTextareaStyles = BaseStyles & {
-  invalid: AllStyle
+  invalid: AllStyle;
+  placeholderText: AllStyle;
 };
 
 export const DEFAULT_CLASS = 'app-textarea';
@@ -24,6 +25,9 @@ export const DEFAULT_STYLES: WmTextareaStyles = defineStyles({
     },
     invalid: {
       borderBottomColor: 'red'
+    },
+    placeholderText: {
+      color: ThemeVariables.inputPlaceholderColor
     }
 });
 

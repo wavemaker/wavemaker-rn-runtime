@@ -6,6 +6,7 @@ import {
   BaseInputComponent,
   BaseInputState
 } from '@wavemaker/app-rn-runtime/components/input/baseinput/baseinput.component';
+import { isNull } from 'lodash';
 
 export class WmTextareaState extends BaseInputState<WmTextareaProps> {}
 
@@ -18,15 +19,17 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
   renderWidget(props: WmTextareaProps) {
     return ( <TextInput
       ref={ref => {this.widgetRef = ref;
-        if (ref) {
+        // @ts-ignore
+        if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
           // @ts-ignore
           ref.selectionStart = ref.selectionEnd = this.cursor;
         }}}
+      placeholderTextColor={this.styles.placeholderText.color as any}
       style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
       multiline={true}
       numberOfLines={4}
       keyboardType={this.state.keyboardType}
-      value={this.state.textValue || ''}
+      defaultValue={this.state.textValue || ''}
       autoComplete={props.autocomplete ? 'username' : 'off'}
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}

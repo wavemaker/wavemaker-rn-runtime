@@ -14,6 +14,7 @@ export type WmSearchStyles = BaseStyles & {
   clearButton: WmButtonStyles;
   searchButton: WmButtonStyles;
   searchInputWrapper: AllStyle;
+  placeholderText: AllStyle;
 };
 
 export const DEFAULT_CLASS = 'app-search';
@@ -116,6 +117,9 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
           textDecorationLine: 'none',
           color: ThemeVariables.searchItemTextColor
         }
+    },
+    placeholderText: {
+      color: ThemeVariables.inputPlaceholderColor
     }
 });
 

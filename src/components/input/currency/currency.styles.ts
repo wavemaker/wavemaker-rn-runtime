@@ -4,8 +4,9 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import themeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmCurrencyStyles = BaseStyles & {
-  label: AllStyle,
-  invalid: AllStyle
+  label: AllStyle;
+  invalid: AllStyle;
+  placeholderText: AllStyle;
 };
 
 export const DEFAULT_CLASS = 'app-currency';
@@ -47,6 +48,9 @@ export const DEFAULT_STYLES: WmCurrencyStyles = defineStyles({
     },
     invalid: {
       borderBottomColor: ThemeVariables.inputInvalidBorderColor
+    },
+    placeholderText: {
+      color: ThemeVariables.inputPlaceholderColor
     }
 });
 

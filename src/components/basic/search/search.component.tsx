@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { find } from 'lodash';
+import { Platform, Text, TextInput, View } from 'react-native';
+import { find, isNull } from 'lodash';
 
 import WmSearchProps from './search.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmSearchStyles } from './search.styles';
@@ -125,8 +125,10 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   invokeChange(e: any) {
-    this.cursor = e.target.selectionStart;
-    this.setState({ searchQuery: e.target.value });
+    if (Platform.OS === 'web') {
+      this.cursor = e.target.selectionStart;
+      this.setState({searchQuery: e.target.value});
+    }
   }
 
   onFocus() {
@@ -197,10 +199,12 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
         <View style={this.styles.searchInputWrapper}>
           <TextInput style={[this.styles.text, this.state.isOpened && this.state.dataItems?.lenth > 0? this.styles.focusedText : null]}
            ref={ref => {this.widgetRef = ref;
-             if (ref) {
+             // @ts-ignore
+             if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
                // @ts-ignore
                ref.selectionStart = ref.selectionEnd = this.cursor;
              }}}
+            placeholderTextColor={this.styles.placeholderText.color as any}
             placeholder={props.placeholder}
             autoFocus={props.autofocus}
             editable={props.disabled || props.readonly ? false : true}
@@ -209,7 +213,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
             onFocus={this.onFocus.bind(this)}
             onLayout={e => {this.searchInputWidth = e.nativeEvent.layout.width}}
             onBlur={this.onBlur.bind(this)}
-            value={this.state.searchQuery}>
+            defaultValue={this.state.searchQuery}>
          </TextInput>
          {props.showclear && this.state.searchQuery ? <WmButton onTap={this.clearSearch.bind(this)}
                    styles={this.styles.clearButton} iconclass={'wi wi-clear'}></WmButton> : null}

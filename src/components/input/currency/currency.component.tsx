@@ -9,6 +9,7 @@ import {
   BaseNumberState
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
 import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
+import { isNull } from "lodash";
 export class WmCurrencyState extends BaseNumberState<WmCurrencyProps> {
   currencySymbol: any;
 }
@@ -36,15 +37,20 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
 
   renderWidget(props: WmCurrencyProps) {
     return (<View style={this.styles.root}>
-        <View style={this.styles.labelWrapper}>
-          <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
-        <TextInput ref={ref => {this.widgetRef = ref;
-          if (ref) {
+      <View style={this.styles.labelWrapper}>
+        <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
+      <TextInput
+        ref={ref => {
+          this.widgetRef = ref;
+          // @ts-ignore
+          if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
             // @ts-ignore
             ref.selectionStart = ref.selectionEnd = this.cursor;
-          }}}
+          }
+        }}
+        placeholderTextColor={this.styles.placeholderText.color as any}
         style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
-        value={this.state.textValue || ''}
+        defaultValue={this.state.textValue || ''}
         editable={props.disabled || props.readonly ? false : true}
         placeholder={props.placeholder}
         onBlur={this.onBlur.bind(this)}
@@ -52,7 +58,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         onKeyPress={this.validateInputEntry.bind(this)}
         onChangeText={this.onChangeText.bind(this)}
         onChange={this.invokeChange.bind(this)}
-        />
+      />
     </View>);
   }
 }
