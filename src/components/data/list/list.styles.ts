@@ -14,7 +14,8 @@ export type WmListStyles = BaseStyles & {
     subheading: WmLabelStyles,
     emptyMessage: WmLabelStyles,
     item: AllStyle,
-    selectedItem: AllStyle
+    selectedItem: AllStyle,
+    selectedIcon: WmIconStyles
 };
 
 export const DEFAULT_CLASS = 'app-list';
@@ -90,7 +91,18 @@ export const DEFAULT_STYLES: WmListStyles = defineStyles({
         borderBottomColor: ThemeVariables.listDividerColor,
         borderStyle: 'solid',
     },
-    selectedItem : {} as AllStyle
+    selectedItem : {} as AllStyle,
+    selectedIcon : {
+        root: {
+            position: 'absolute',
+            right: 0,
+            top: 0
+        },
+        text: {
+            color: ThemeVariables.primaryColor,
+            fontSize: 16
+        }
+    } as WmIconStyles
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

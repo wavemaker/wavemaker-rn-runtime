@@ -163,6 +163,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                     props.itemclass ? this.theme.getStyle(props.itemclass(itemInfo.item, itemInfo.index)) : null,
                     this.state.selectedindex === itemInfo.index ? this.styles.selectedItem : {}]}>
                   {props.renderItem(itemInfo.item, itemInfo.index, this)}
+                  { this.state.selectedindex === itemInfo.index ? (
+                    <WmIcon iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
+                  ) : null}
                 </View>
             </TouchableWithoutFeedback>)
             }></FlatList>
