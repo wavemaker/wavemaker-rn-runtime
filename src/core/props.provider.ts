@@ -1,3 +1,4 @@
+import { isNil } from "lodash-es";
 import { BaseProps } from "./base.component";
 
 export class PropsProvider<T extends BaseProps> {
@@ -41,7 +42,7 @@ export class PropsProvider<T extends BaseProps> {
             //@ts-ignore
             const value = nextProps[k];
             const oldValue = this.oldProps[k];
-            if (!this.overriddenProps[k] && this.overriddenProps[k] !== '' && this.oldProps[k] !== value) {
+            if (isNil(this.overriddenProps[k]) && this.oldProps[k] !== value) {
                 this.oldProps[k] = value;
                 this.onChange(k, value, oldValue);
                 flag = true;
