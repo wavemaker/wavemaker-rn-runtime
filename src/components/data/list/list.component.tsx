@@ -19,17 +19,22 @@ export class WmListState extends BaseComponentState<WmListProps> {
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
 
+  private itemWidgets = [] as any[];
+  private selectedItemWidgets = {} as any;
+
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmListProps());
   }
 
   private onSelect($item: any, $index: number | string) {
     if (!this.state.props.disableitem($item, $index)) {
+      this.selectedItemWidgets = this.itemWidgets[$index as number];
       this.updateState({
         props: { selecteditem: $item },
         selectedindex: $index
-      } as WmListState);
-      this.invokeEventCallback('onSelect', [this.proxy, $item]);
+      } as WmListState, () => {
+        this.invokeEventCallback('onSelect', [this.proxy, $item]);
+      });
     }
   }
 
@@ -72,6 +77,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         if (this.state.props.groupby) {
           this.setGroupData(props.dataset);
         }
+        this.itemWidgets = [];
         if (props.selectfirstitem) {
           this.selectFirstItem();
         } else {
