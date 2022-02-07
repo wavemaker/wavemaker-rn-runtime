@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -8,7 +8,6 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import WmDatetimeProps from './datetime/datetime.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmDatetimeStyles } from './datetime/datetime.styles';
 import WebDatePicker from './date-picker.component';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 
@@ -210,18 +209,33 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }}</ModalConsumer>);
   }
 
+  addTouchableOpacity(props: WmDatetimeProps, children: React.ReactNode, styles?: any) {
+    return (
+      <TouchableOpacity style={styles} onPress={() => {
+        if (!props.readonly) {
+          this.onFocus();
+        }
+        this.invokeEventCallback('onTap', [null, this]);
+      }}>
+        {children}
+      </TouchableOpacity>
+    );
+  }
+
+  getIcon() {
+    if (this.state.props.mode === 'time') {
+      return 'wi wi-clock'
+    }
+    return 'wi wi-calendar';
+  }
+
   renderWidget(props: WmDatetimeProps) {
     return (
       <View style={[this.styles.root, this.state.isFocused ? this.styles.focused : null]}>
-        <TouchableOpacity onPress={() => {
-          if (!props.readonly && !this.clearBtnClicked) {
-            this.onFocus();
-          }
-          this.clearBtnClicked = false;
-          this.invokeEventCallback('onTap', [null, this]);
-        }}>
           <View style={this.styles.container}>
-            <Text style={this.styles.text}>{this.state.displayValue || this.state.props.placeholder}</Text>
+            {this.addTouchableOpacity(props, (
+              <Text style={this.styles.text}>{this.state.displayValue || this.state.props.placeholder}</Text>
+            ), { flex: 1 })}
             {(!props.readonly && props.datavalue &&
               (<WmIcon iconclass="wi wi-clear"
               styles={{color: this.styles.text.color, ...this.styles.clearIcon}}
@@ -229,9 +243,10 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                 this.onDateChange(null as any, null as any);
                 this.clearBtnClicked = true;
               }}/>)) || null}
-            <WmIcon iconclass="wi wi-calendar" styles={{color: this.styles.text.color, ...this.styles.calendarIcon}}/>
+            {this.addTouchableOpacity(props, (
+              <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}}/>
+            ))}
           </View>
-        </TouchableOpacity>
         {
           this.state.showDatePicker
           && ((Platform.OS === 'web' && this.renderWebWidget(props))

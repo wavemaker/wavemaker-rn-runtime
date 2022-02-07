@@ -30,7 +30,6 @@ export const DEFAULT_STYLES: WmDatetimeStyles = defineStyles({
         alignItems: 'center'
     },
     text: {
-        flex: 1,
         fontSize: 16,
         color: ThemeVariables.inputTextColor
     },
