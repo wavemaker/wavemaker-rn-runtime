@@ -29,7 +29,7 @@ export abstract class BaseNavComponent< T extends BaseNavProps, S extends BaseNa
     } else if (typeof val === 'function') {
       return val(item);
     }
-    return '';
+    return null;
   }
 
   setDataItems(dataset: any = this.state.props.dataset) {
@@ -70,6 +70,7 @@ export abstract class BaseNavComponent< T extends BaseNavProps, S extends BaseNa
       case 'itemlabel':
       case 'itemicon':
       case 'itemlink':
+      case 'itemchildren':
         this.setDataItems();
         break;
     }
