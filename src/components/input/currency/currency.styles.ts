@@ -55,3 +55,9 @@ export const DEFAULT_STYLES: WmCurrencyStyles = defineStyles({
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
+    root : {
+      backgroundColor: ThemeVariables.inputDisabledBgColor
+    }
+});
+

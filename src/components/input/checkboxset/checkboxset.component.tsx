@@ -26,6 +26,9 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
 
   onPress(item: any) {
     this.invokeEventCallback('onTap', [null, this.proxy]);
+    if (this.state.props.disabled) {
+      return;
+    }
     item.selected = !item.selected;
     const selectedValue: any = [];
     const selectedItem = find(this.state.dataItems, d => isEqual(d.key, item.key));

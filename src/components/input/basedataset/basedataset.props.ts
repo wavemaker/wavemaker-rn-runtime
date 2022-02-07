@@ -5,7 +5,6 @@ export default class BaseDatasetProps extends BaseProps {
   datavalue?: any;
   displayfield: any;
   datafield: any;
-  disabled: boolean = null as any;
   displayexpression: any;
   getDisplayExpression: any;
   groupby?: any;

@@ -34,4 +34,13 @@ export const DEFAULT_STYLES: WmCheckboxsetStyles = defineStyles({
   } as AllStyle
 });
 
+BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
+  root: {
+    opacity: 0.8
+  },
+  checkboxLabel : {
+    color: ThemeVariables.defaultColorA
+  }
+});
+
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

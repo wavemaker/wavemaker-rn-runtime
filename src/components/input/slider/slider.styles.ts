@@ -43,3 +43,8 @@ export const DEFAULT_STYLES: WmSliderStyles = defineStyles({
 }) as WmSliderStyles;
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
+    root : {
+      opacity: 0.5
+    }
+});

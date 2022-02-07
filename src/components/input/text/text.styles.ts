@@ -31,3 +31,8 @@ export const DEFAULT_STYLES: WmTextStyles = defineStyles({
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
+    root : {
+      backgroundColor: ThemeVariables.inputDisabledBgColor
+    }
+});

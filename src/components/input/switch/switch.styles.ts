@@ -67,6 +67,9 @@ export const DEFAULT_STYLES: WmSwitchStyles = defineStyles<WmSwitchStyles>({
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
+  root: {}
+});
 BASE_THEME.addStyle(DEFAULT_CLASS + '1', '', {
   firstButton: {
     borderTopLeftRadius: 500,

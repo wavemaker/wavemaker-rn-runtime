@@ -8,5 +8,4 @@ export default class WmButtonProps extends BaseProps {
     iconposition? = 'left';
     onTap?: Function = null as any;
     iconsize?:number = 0;
-    disabled?: boolean;
 }

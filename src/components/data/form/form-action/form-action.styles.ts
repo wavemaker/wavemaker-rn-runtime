@@ -20,5 +20,10 @@ export const DEFAULT_STYLES: WmFormActionStyles = defineStyles({
     }
   }
 } as WmFormActionStyles);
+BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
+  root : {
+    opacity: 0.5
+  }
+});
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

@@ -17,14 +17,18 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCheckboxProps());
   }
 
+  setChecked(dataValue: any, checkedvalue: any) {
+    const value = dataValue === checkedvalue;
+    this.updateState({ isChecked: value } as WmCheckboxState);
+  }
+
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
+      case 'checkedvalue':
+        this.setChecked(this.state.props.datavalue, $new);
+        break;
       case 'datavalue':
-        let value = false;
-        if ($new === this.state.props.checkedvalue) {
-          value = true;
-        }
-        this.updateState({ isChecked: value } as WmCheckboxState);
+        this.setChecked($new, this.state.props.checkedvalue);
         this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
         break;
     }
@@ -39,6 +43,9 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
       this.invokeEventCallback('onFocus', [null, this.proxy]);
     }
     this.invokeEventCallback('onTap', [null, this.proxy]);
+    if (this.state.props.disabled) {
+      return;
+    }
     const oldValue = this.state.props.datavalue;
     const value = !this.state.isChecked;
     this.updateState({ isChecked: value } as WmCheckboxState);

@@ -20,3 +20,9 @@ export const DEFAULT_STYLES: WmSelectStyles = defineStyles({
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
+    root : {
+      backgroundColor: ThemeVariables.inputDisabledBgColor
+    }
+});
+

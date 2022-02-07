@@ -118,6 +118,13 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           } as BaseDatetimeState);
         }
         break;
+      case 'readonly':
+        this.updateState({
+          props: {
+            disabled: $new
+          }
+        } as BaseDatetimeState)
+        break;
     }
   }
 

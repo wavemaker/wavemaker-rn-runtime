@@ -59,6 +59,13 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
           this.invokeEventCallback('onChange', [null, this, $new, $old]);
         }
         break;
+      case 'readonly' : 
+        this.updateState({
+          props: {
+            disabled: $new
+          }
+        } as WmRatingState);
+        break;
     }
   }
 

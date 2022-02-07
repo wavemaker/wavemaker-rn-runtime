@@ -124,6 +124,12 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
+    text : {
+      backgroundColor: ThemeVariables.inputDisabledBgColor
+    }
+});
+
 BASE_THEME.addStyle('app-autocomplete', '', {
   text: {
     borderRightWidth: 1,

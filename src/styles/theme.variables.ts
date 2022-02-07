@@ -173,6 +173,7 @@ export class ThemeVariables {
     inputTextColor = this.defaultTextColor;
     inputBorderColor = this.defaultColorD;
     inputBackgroundColor = this.defaultColorF;
+    inputDisabledBgColor = '#f6f6f6';
     inputFocusBorderColor = this.primaryColor;
     inputInvalidBorderColor = this.dangerColor;
     inputPlaceholderColor = this.defaultColorB;

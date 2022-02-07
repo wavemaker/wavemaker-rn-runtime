@@ -6,6 +6,5 @@ export default class WmSliderProps extends BaseProps {
     maxvalue: number = 100;
     step: number = 1;
     readonly = false;
-    disabled? = false;
     onFieldChange: any;
 }

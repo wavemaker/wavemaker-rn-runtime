@@ -30,3 +30,9 @@ export const DEFAULT_STYLES: WmNumberStyles = defineStyles<WmNumberStyles>({
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
+    root : {
+      backgroundColor: ThemeVariables.inputDisabledBgColor
+    }
+});
+

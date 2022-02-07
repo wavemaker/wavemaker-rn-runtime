@@ -90,3 +90,14 @@ export const DEFAULT_STYLES: WmChipsStyles = defineStyles({
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
+  chip: {
+    opacity: 0.5
+  },
+  search: {
+    root : {
+      backgroundColor: ThemeVariables.inputDisabledBgColor
+    }
+  }
+});
+

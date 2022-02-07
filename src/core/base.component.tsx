@@ -42,6 +42,7 @@ export class BaseProps {
     id?: string = null as any;
     name?: string = null as any;
     key?: any = null as any;
+    disabled? = false;
     show? = true as Boolean | String | Number;
     styles?: any = null;
     classname?: string = null as any;
@@ -194,6 +195,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 this.theme = theme || BASE_THEME;
                                 this.styles =  this.theme.mergeStyle(
                                     this.theme.getStyle(this.defaultClass) || this.defaultStyles,
+                                    props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
                                     props.classname && this.theme.getStyle(props.classname),
                                     this.props.styles);
                                 if (!this.isVisible()) {

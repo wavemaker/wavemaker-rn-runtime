@@ -5,7 +5,6 @@ export default class BaseInputProps extends BaseProps {
   autocomplete: boolean = true;
   autotrim: boolean = true;
   datavalue: any;
-  disabled: boolean = null as any;
   maxchars: number = null as any;
   readonly: boolean = null as any;
   regexp: string = null as any;

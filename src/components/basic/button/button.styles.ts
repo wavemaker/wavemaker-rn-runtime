@@ -49,6 +49,11 @@ export const DEFAULT_STYLES: WmButtonStyles = defineStyles<WmButtonStyles>({
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
+  root : {
+    opacity: 0.5
+  }
+});
 
 const getButtonStyles = (bgColor: string, color: string, borderColor = bgColor) => {
   return {
