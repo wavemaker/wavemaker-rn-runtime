@@ -47,7 +47,11 @@ export const DEFAULT_STYLES: WmConfirmdialogStyles = defineStyles({
             textTransform: 'capitalize'
         }
     }  as WmButtonStyles,
-    message: {} as WmLabelStyles
+    message: {
+        text: {
+            color: ThemeVariables.alertMessageColor
+        }
+    } as WmLabelStyles
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

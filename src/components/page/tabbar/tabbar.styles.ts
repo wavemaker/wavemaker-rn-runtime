@@ -35,7 +35,7 @@ export const DEFAULT_STYLES: WmTabbarStyles = defineStyles<WmTabbarStyles>({
         flexDirection: 'column-reverse',
         justifyContent: 'flex-end',
         backgroundColor: ThemeVariables.tabbarBackgroundColor,
-        shadowColor: '#000000',
+        ...BASE_THEME.getStyle('elevate1').root,
         shadowOffset: {
             width: 0,
             height: -6

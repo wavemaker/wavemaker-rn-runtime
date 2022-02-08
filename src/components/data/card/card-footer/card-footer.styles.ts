@@ -12,7 +12,7 @@ export const DEFAULT_STYLES: WmCardFooterStyles = defineStyles({
         padding: 8,
         borderTopWidth: 1,
         borderStyle: 'solid',
-        borderColor: '#ddd'
+        borderColor: ThemeVariables.cardFooterBorderColor
     },
     text: {}
 });

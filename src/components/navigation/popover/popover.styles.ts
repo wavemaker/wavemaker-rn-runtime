@@ -52,7 +52,7 @@ BASE_THEME.addStyle('popover-action-sheet', '', {
         position: 'absolute',
         bottom: 0,
         width: '100%',
-        shadowColor: '#000000',
+        ...BASE_THEME.getStyle('elevate1').root,
         shadowOffset: {
             width: 0,
             height: 0

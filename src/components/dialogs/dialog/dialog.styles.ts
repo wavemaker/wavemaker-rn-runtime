@@ -58,7 +58,7 @@ export const DEFAULT_STYLES: WmDialogStyles = defineStyles<WmDialogStyles>({
                 alignItems: 'center'
             },
             text: {
-                color: '#aaa',
+                color: ThemeVariables.dialogCloseIconColor,
                 fontSize: 24
             }
         }

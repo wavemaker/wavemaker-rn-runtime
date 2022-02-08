@@ -193,6 +193,7 @@ export class ThemeVariables {
     // radioset, checkboxset variables
     groupHeadingBgColor = this.defaultColorD;
     checkedColor = this.primaryColor;
+    checkedDisabledColor = this.defaultColorA;
 
     //form
     formBorderColor = this.widgetBorderColor;
@@ -202,6 +203,10 @@ export class ThemeVariables {
     //dialog
     dialogBackgroundColor = this.widgetBgColor;
     dialogBorderColor = this.widgetBorderColor;
+    dialogCloseIconColor = this.defaultColorA;
+
+    //alert dialog
+    alertMessageColor = this.defaultColor8;
 
     badgeTextColor = this.defaultColorF;
 
@@ -265,6 +270,7 @@ export class ThemeVariables {
     cardBorderColor = this.defaultColorD;
     cardContentBgColor = this.defaultColorF;
     cardFooterBgColor = this.defaultColorF;
+    cardFooterBorderColor = this.defaultColorD;
 
     //progress bar
     progressBarDefaultColor = this.primaryColor;
@@ -320,12 +326,19 @@ export class ThemeVariables {
     calendarEventDay2Color = this.primaryColor2;
     calendarEventDay3Color = this.primaryColor3;
 
+    //date picker
+    datepickerBgColor = this.defaultColorF;
+
     //wizard
     wizardBackgroundColor = this.widgetBgColor;
     wizardStepActiveColor = this.primaryColor;
     wizardStepDoneColor = this.successColor;
     wizardStepDoneTextColor = this.defaultColorF;
+    wizardStepIconColor = this.defaultColor9;
     wizardStepColor = this.defaultColor9;
+    wizardActiveStepColor = this.defaultColorF;
+    wizardDoneStepColor = this.defaultColorF;
+    wizardStepTitleColor = this.defaultColorA;
     wizardNextBtnColor= this.primaryColor;
     wizardDoneBtnColor = this.successColor;
     wizardStepConnectorColor = this.defaultColorE;

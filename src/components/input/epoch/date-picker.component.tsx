@@ -4,6 +4,7 @@ import { DatePickerModalContent, TimePickerModal } from 'react-native-paper-date
 import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalService, ModalOptions } from '@wavemaker/app-rn-runtime/core/modal.service';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export class DatePickerProps {
     mode?: 'date' | 'time' | 'datetime' | string = 'datetime';
@@ -32,7 +33,7 @@ const styles: DatePickerStyles = {
     text: {},
     modal: {},
     content: {
-        backgroundColor: '#ffffff'
+        backgroundColor: ThemeVariables.datepickerBgColor
     }
 };
 

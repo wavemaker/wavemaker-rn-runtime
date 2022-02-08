@@ -29,7 +29,7 @@ BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
     opacity: 0.8
   },
   checkboxLabel : {
-    color: ThemeVariables.defaultColorA
+    color: ThemeVariables.checkedDisabledColor
   }
 });
 

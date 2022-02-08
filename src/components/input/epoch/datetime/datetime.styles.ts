@@ -49,7 +49,7 @@ export const DEFAULT_STYLES: WmDatetimeStyles = defineStyles({
             height: 24,
             width: 24,
             borderRadius: 16,
-            backgroundColor: ThemeVariables.defaultColorE
+            backgroundColor: ThemeVariables.inputDisabledBgColor
         },
         icon: {
             fontSize: 16,

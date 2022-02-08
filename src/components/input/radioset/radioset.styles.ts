@@ -36,7 +36,7 @@ export const DEFAULT_STYLES: WmRadiosetStyles = defineStyles({
 
 BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
   root : {
-    color: ThemeVariables.defaultColorA,
+    color: ThemeVariables.checkedDisabledColor,
     opacity: 0.8
   }
 });

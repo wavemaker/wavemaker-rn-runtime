@@ -37,11 +37,11 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
     activeStep:{
         backgroundColor: ThemeVariables.wizardStepActiveColor,
         borderColor: ThemeVariables.wizardStepActiveColor,
-        color: ThemeVariables.defaultColorF
+        color: ThemeVariables.wizardActiveStepColor
     },
     doneStep: {
       backgroundColor: ThemeVariables.wizardStepDoneColor,
-      color: ThemeVariables.defaultColorF,
+      color: ThemeVariables.wizardDoneStepColor,
       borderColor: ThemeVariables.wizardStepDoneColor
     },
     wizardHeader: {
@@ -80,7 +80,7 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
     stepTitle: {
         textTransform: 'capitalize',
         fontSize: 12,
-        color: ThemeVariables.defaultColorA
+        color: ThemeVariables.wizardStepTitleColor
     },
     step: {
       alignItems: 'center',
@@ -122,7 +122,7 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
           justifyContent: 'center'
         },
         text: {
-          color: ThemeVariables.defaultColorF,
+          color: ThemeVariables.wizardStepIconColor,
           fontSize: 15
         }
     } as WmIconStyles,

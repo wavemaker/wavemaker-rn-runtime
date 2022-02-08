@@ -32,7 +32,7 @@ export const DEFAULT_STYLES: WmAlertdialogStyles = defineStyles({
     } as WmButtonStyles,
     message: {
         text: {
-            color: ThemeVariables.defaultColor8
+            color: ThemeVariables.alertMessageColor
         }
     } as WmLabelStyles
 });
