@@ -28,6 +28,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
 
   addTabPane(tabPane: WmTabpane) {
     this.tabPanes[this.newIndex || this.state.selectedTabIndex] = tabPane;
+    this.newIndex++;
   }
 
   renderTabpane(item: any, index: any) {
@@ -54,23 +55,25 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   renderWidget(props: WmTabsProps) {
     const tabpanes = props.children.filter((item: any) => item.props.show != false);
     return (
-      <Tabs
-        defaultIndex={props.defaultpaneindex}
-        theme={{
-          colors: {
-            primary: this.styles.activeHeaderText.color as string
-          }
-        }}
-        style={this.styles.root}
-        mode="scrollable"
-        onChangeIndex={this.onChange.bind(this)}
-        showLeadingSpace={false}>
-        {tabpanes
-          ? isArray(tabpanes) && tabpanes.length
-            ? tabpanes.map((item: any, index: any) => this.renderTabpane(item, index))
-            : this.renderTabpane(tabpanes, 0)
-          : null}
-      </Tabs>
+      <View style={this.styles.root}>
+        <Tabs
+          defaultIndex={props.defaultpaneindex}
+          theme={{
+            colors: {
+              primary: this.styles.activeHeaderText.color as string
+            }
+          }}
+          style={{ width: '100%', height: '100%' }}
+          mode="scrollable"
+          onChangeIndex={this.onChange.bind(this)}
+          showLeadingSpace={false}>
+          {tabpanes
+            ? isArray(tabpanes) && tabpanes.length
+              ? tabpanes.map((item: any, index: any) => this.renderTabpane(item, index))
+              : this.renderTabpane(tabpanes, 0)
+            : null}
+        </Tabs>
+      </View>
     );
   }
 }
