@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import { Platform, TextInput } from 'react-native';
 import WmTextareaProps from './textarea.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmTextareaStyles } from './textarea.styles';
 import {
@@ -17,6 +17,9 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
   }
 
   renderWidget(props: WmTextareaProps) {
+    let opts: any = {};
+    const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
+    opts[valueExpr] = this.state.textValue || '';
     return ( <TextInput
       ref={ref => {this.widgetRef = ref;
         // @ts-ignore
@@ -29,7 +32,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       multiline={true}
       numberOfLines={4}
       keyboardType={this.state.keyboardType}
-      defaultValue={this.state.textValue || ''}
+      {...opts}
       autoComplete={props.autocomplete ? 'username' : 'off'}
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}

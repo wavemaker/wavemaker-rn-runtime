@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import { Platform, TextInput } from 'react-native';
 import { isNull } from 'lodash';
 
 import WmNumberProps from './number.props';
@@ -20,6 +20,9 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
   }
 
   renderWidget(props: WmNumberProps) {
+    let opts: any = {};
+    const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
+    opts[valueExpr] = this.state.textValue.toString() || '';
     return (<TextInput
       ref={ref => {this.widgetRef = ref;
         // @ts-ignore
@@ -27,7 +30,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
           // @ts-ignore
           ref.selectionStart = ref.selectionEnd = this.cursor;
         }}}
-      defaultValue={this.state.textValue.toString() || ''}
+      {...opts}
       style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
       keyboardType="numeric"
       placeholderTextColor={this.styles.placeholderText.color as any}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, Platform } from 'react-native';
 
 import WmCurrencyProps from './currency.props';
 import { CURRENCY_INFO } from '@wavemaker/app-rn-runtime/core/currency-constants';
@@ -36,6 +36,9 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
   }
 
   renderWidget(props: WmCurrencyProps) {
+    let opts: any = {};
+    const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
+    opts[valueExpr] = this.state.textValue || '';
     return (<View style={this.styles.root}>
       <View style={this.styles.labelWrapper}>
         <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
@@ -50,7 +53,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         }}
         placeholderTextColor={this.styles.placeholderText.color as any}
         style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
-        defaultValue={this.state.textValue || ''}
+        {...opts}
         editable={props.disabled || props.readonly ? false : true}
         placeholder={props.placeholder}
         onBlur={this.onBlur.bind(this)}

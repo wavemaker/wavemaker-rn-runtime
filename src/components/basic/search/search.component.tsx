@@ -190,6 +190,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
 
   renderSearchBar() {
     const props = this.state.props;
+    let opts: any = {};
+    const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
+    opts[valueExpr] = this.state.searchQuery || '';
     return(
       /*
        * onLayout function is required.
@@ -213,7 +216,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
             onFocus={this.onFocus.bind(this)}
             onLayout={e => {this.searchInputWidth = e.nativeEvent.layout.width}}
             onBlur={this.onBlur.bind(this)}
-            defaultValue={this.state.searchQuery}>
+            {...opts}>
          </TextInput>
          {props.showclear && this.state.searchQuery ? <WmButton onTap={this.clearSearch.bind(this)}
                    styles={this.styles.clearButton} iconclass={'wi wi-clear'}></WmButton> : null}

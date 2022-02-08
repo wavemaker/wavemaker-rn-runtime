@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import { Platform, TextInput } from 'react-native';
 
 import WmTextProps from './text.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmTextStyles } from './text.styles';
@@ -16,6 +16,9 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
   }
 
   renderWidget(props: WmTextProps) {
+    let opts: any = {};
+    const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
+    opts[valueExpr] = this.state.textValue || '';
     return (
         <TextInput
           ref={ref => {this.widgetRef = ref;
@@ -24,8 +27,8 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
             // @ts-ignore
             ref.selectionStart = ref.selectionEnd = this.cursor;
           }}}
+          {...opts}
           placeholderTextColor={this.styles.placeholderText.color as any}
-          defaultValue={this.state.textValue || ''}
           style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
           keyboardType={this.state.keyboardType}
           autoComplete={props.autocomplete ? 'username' : 'off'}
