@@ -33,7 +33,7 @@ class AppModalService implements ModalService {
     public showModal(options: ModalOptions) {
         const i = this.modalsOpened.findIndex(o => o === options);
         if (i < 0) {
-          options.elevationIndex = this.getAppConfig().app.toastsOpened + this.modalsOpened.length + 1;
+          options.elevationIndex = parseInt(this.getAppConfig().app.toastsOpened + this.modalsOpened.length + 1);
           this.modalsOpened.push(options);
             this.showLastModal();
         }

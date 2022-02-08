@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface ToastOptions {
-    elevationIndex: any;
+    elevationIndex: number;
     content?: React.ReactNode;
     onClick?: () => void;
     onClose?: () => void;

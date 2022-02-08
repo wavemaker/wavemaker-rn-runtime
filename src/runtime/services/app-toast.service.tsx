@@ -18,7 +18,7 @@ class AppToastService implements ToastService {
         const i = this.toastsOpened.findIndex(o => o.name === options.name);
         let timeout: any;
         if (i < 0) {
-          options.elevationIndex = this.toastsOpened + this.getAppConfig().app.modalsOpened + 1;
+          options.elevationIndex = parseInt(this.toastsOpened + this.getAppConfig().app.modalsOpened + 1);
           this.toastsOpened.push(options);
             this.getAppConfig().refresh();
             // hide the toast when toaster is clicked
