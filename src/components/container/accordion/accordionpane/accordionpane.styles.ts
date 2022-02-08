@@ -11,7 +11,7 @@ export const DEFAULT_STYLES: WmAccordionpaneStyles = defineStyles({
         minHeight: 120,
         borderStyle: 'solid',
         borderColor: ThemeVariables.accordionBorderColor,
-        backgroundColor: Color(ThemeVariables.accordionActiveHeaderBgColor).fade(0.9).rgb().toString(),
+        backgroundColor: ThemeVariables.accordionPaneBgColor,
         padding: 4
     },
     text: {}

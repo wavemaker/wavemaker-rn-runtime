@@ -49,7 +49,7 @@ export class ThemeVariables {
     baseFont = 'Roboto';
 
     // page
-    pageContentBgColor = '#eeeeee';
+    pageContentBgColor = this.defaultColorE;
 
     // common widget color
     widgetHeaderBgColor = this.defaultColorF;
@@ -60,7 +60,7 @@ export class ThemeVariables {
     widgetBgColor = this.defaultColorF;
 
     // Navbar variables
-    navbarBackgroundColor = '#ffffff';
+    navbarBackgroundColor = this.defaultColorF;
     navbarBorderColor = this.widgetBorderColor;
     navbarTextColor = '#151420';
     navbarIconSize = 32;
@@ -296,6 +296,7 @@ export class ThemeVariables {
     accordionActiveHeaderBgColor = this.widgetActiveHeaderBgColor;
     accordionActiveHeaderTextColor = this.widgetActiveHeaderTextColor;
     accordionBorderColor = this.defaultColorE;
+    accordionPaneBgColor = this.defaultColorF;
 
     //carousel
     carouselPrevBtnColor=this.defaultColorF;
