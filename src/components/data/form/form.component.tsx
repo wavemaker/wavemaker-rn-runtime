@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { isDefined, widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
-import { isArray, forEach, isEqual, isObject, get, set } from 'lodash';
+import { debounce, isArray, forEach, isEqual, isObject, get, set } from 'lodash';
 
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -28,6 +28,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   constructor(props: WmFormProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormProps());
   }
+
+  private _debouncedSubmitForm = debounce(this.handleSubmit, 250);
 
   componentDidMount() {
     super.componentDidMount();
@@ -130,7 +132,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   }
 
   submit() {
-    this.handleSubmit();
+    this._debouncedSubmitForm();
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {

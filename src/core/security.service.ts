@@ -7,6 +7,7 @@ export interface SecurityService {
     loggedInUser: any;
     appLogin: (options: SecurityOptions, success?: any, failure?: any) => any;
     appLogout: (options: any, success?: any, failure?: any) => any;
+    navigateToLandingPage: (data: any) => any;
 }
 
 const SecurityContext = React.createContext<SecurityService>(null as any);

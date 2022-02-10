@@ -63,6 +63,10 @@ class AppSecurityService implements SecurityService {
       return injector.get<AppConfig>('APP_CONFIG');
     }
 
+    public navigateToLandingPage(details: any) {
+      this.appConfig.currentPage?.goToPage(details.userInfo?.landingPage || 'Main');
+    }
+
     public appLogin(options: any) {
         // encode all parameters
         let payload = '';
@@ -80,7 +84,7 @@ class AppSecurityService implements SecurityService {
             this.token = xsrfCookieValue;
             AsyncStorage.setItem(XSRF_COOKIE_NAME, xsrfCookieValue);
             this.isLoggedIn = true;
-            this.getLoggedInUserDetails(options.baseURL, options.useDefaultSuccessHandler);
+            return this.getLoggedInUserDetails(options.baseURL, options.useDefaultSuccessHandler);
         });
     }
 
@@ -106,7 +110,9 @@ class AppSecurityService implements SecurityService {
                     this.loggedInUser.dataSet = loggedInUser;
                 }
                 return appConfig.getServiceDefinitions(appConfig.url)
-                .then(() => details.authenticated && useDefaultSuccessHandler && appConfig.currentPage?.goToPage(details.userInfo?.landingPage || 'Main'));
+                .then(() => {
+                  return details;
+                });
             } else {
                 const myPromise = new Promise((resolve, reject) => {
                     setTimeout(() => {

@@ -23,8 +23,11 @@ export class LoginAction extends BaseAction<LoginActionConfig> {
           useDefaultSuccessHandler: this.config.useDefaultSuccessHandler
       })
         .then((data: any) => {
-            this.config.onSuccess && this.config.onSuccess(this, data);
+            this.config.onSuccess && this.config.onSuccess(this, get(data, 'userInfo'));
             successcb && successcb(data);
+            if (this.config.useDefaultSuccessHandler) {
+              this.config.securityService().navigateToLandingPage(data);
+            }
         })
         .catch((error: any) => {
             this.config.onError && this.config.onError(this, error);
