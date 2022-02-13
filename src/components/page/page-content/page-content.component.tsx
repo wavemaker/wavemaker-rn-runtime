@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
+import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPageContentProps from './page-content.props';
@@ -13,6 +14,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
 
   constructor(props: WmPageContentProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES);
+    this.hideMode = HideMode.DONOT_ADD_TO_DOM;
   }
 
   renderWidget(props: WmPageContentProps) {

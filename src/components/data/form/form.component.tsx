@@ -84,7 +84,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   updateFormFieldDefaultValue(formField: WmFormField) {
     if (formField) {
       const dv = formField.state.props.defaultvalue;
-      if (isDefined(dv) && dv !== null) {
+      if (isDefined(dv) && dv !== null && this.formFields) {
         const field = this.formFields.find((f) => {
           return f.props.name === formField.props.name;
         });

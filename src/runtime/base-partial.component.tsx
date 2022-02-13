@@ -3,12 +3,13 @@ import WmPartial from '@wavemaker/app-rn-runtime/components/page/partial/partial
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
 import { ReactNode } from 'react';
 import BasePrefab from './base-prefab.component';
-
+import { Watcher } from './watcher';
 export interface PartialProps extends FragmentProps {
   serviceDefinitions: any;
   prefab: any;
   parent: any;
   onLoad?: Function;
+  parentWatcher: Watcher;
 }
 
 export interface PartialState extends FragmentState<PartialProps> {}
@@ -28,10 +29,12 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
           this.Prefab = this.props.prefab;
           this.baseUrl =this.Prefab.baseUrl;
         }
+        this.watcher = props.parentWatcher.create();
     }
 
     onFragmentReady() {
       return super.onFragmentReady().then(() => {
+        this.onContentReady();
         const parent: any = this.props.parent;
         if (parent) {
           parent.Widgets = this.Widgets;

@@ -1,7 +1,7 @@
 import log from '@wavemaker/app-rn-runtime/core/logger';
-import { WatcherStore } from './watcher';
+import { Watcher } from './watcher';
 
 export default {
     log: log,
-    watchers: WatcherStore
+    watchers: Watcher.ROOT
 };

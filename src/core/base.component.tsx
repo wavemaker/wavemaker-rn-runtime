@@ -138,7 +138,21 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     shouldComponentUpdate(nextProps: T, nextState: S, nextContext: any) {
-        return this.propertyProvider.check(nextProps) || !isEqual(nextState, this.state);
+        if (this.propertyProvider.check(nextProps)) {
+            return true;
+        }
+        for(let key in nextState) {
+            if(key !== 'props' && (!(key in this.state) || nextState[key] !== this.state[key])) {
+                return true;
+            }
+        }
+        
+        for(let key in this.state) {
+            if(key !== 'props' && (!(key in nextState) || this.state[key] !== nextState[key])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     componentDidMount() {

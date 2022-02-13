@@ -1,5 +1,4 @@
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
-import { requestPermissionsAsync } from 'expo-contacts';
 import { clone, cloneDeep, forEach, flatten, isArray, isEmpty, isObject, isString, get, mapKeys, reverse } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';

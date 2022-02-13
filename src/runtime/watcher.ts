@@ -1,10 +1,10 @@
-import { isEqual as _isEqual, isArray, isObject, clone, reverse, sortBy } from 'lodash';
+import { isEqual as _isEqual, isArray, isObject, clone, remove, reverse, sortBy } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { WIDGET_LOGGER } from '@wavemaker/app-rn-runtime/core/base.component';
 
 const WATCH_LOGGER = WIDGET_LOGGER.extend("watch");
 
-class Watcher {
+class WatchExpression {
     private last: any = null;
     private expBody: string = null as any;
     public lastExecutionTime = 0;
@@ -48,8 +48,6 @@ class Watcher {
                     return false;
                 }
             }
-        }
-        if (isObject($old) || isObject($new)) {
             return true;
         }
         return $old === $new;
@@ -67,7 +65,7 @@ class Watcher {
         if (changed) {
             WATCH_LOGGER.debug(() => {
                 if (this.getExpBody() !== 'fragment') {
-                    return `Watcher: <${this.getExpBody}> Changed from ${this.last} to ${now} `;
+                    return `Watcher: <${this.getExpBody()}> Changed from ${this.last} to ${now} `;
                 }
                 return '';
             });
@@ -82,91 +80,79 @@ class Watcher {
     }
 }
 
-export class WatcherGroup {
-    public watchers = [] as Watcher[];
-    public isActive = false;
-    constructor(private isMuted = () => false) {}
-    check() {
-        this.isActive = !this.isMuted();
-        if (this.isActive) {
-            this.watchers.some(watcher => watcher.check());
-        }
-    }
+export class Watcher {
+    public static ROOT = new Watcher();
+    public expressions = [] as WatchExpression[];
+    public isActive = true;
+    public parent: Watcher = null as any;
+    public children = [] as Watcher[];
+    private constructor() {}
 
-    add(watcher: Watcher) {
-        this.watchers.push(watcher);
+    check() {
+        if (this.isActive) {
+            this.expressions.forEach(expression => expression.check());
+            this.children.forEach(child => {
+                child.check();
+            });
+        }
     }
     
-    clear() {
-        if (this.watchers.length) {
-            this.watchers = [];
+    create() {
+        const child = new Watcher();
+        child.parent = this;
+        this.children.push(child);
+        return child;
+    }
+
+    remove(child: Watcher) {
+        if (this.children.length > 0) {
+            const i = this.children.indexOf(child);
+            if (i >= 0) {
+                this.children.splice(i, 1);
+            }
         }
     }
 
+    destroy() {
+        this.clear();
+        this.parent && this.parent.remove(this);
+    }
+
+    clear() {
+        this.children = [];
+        this.expressions = [];
+    }
+
+    watch(fn: Function, onChange: (prev: any, now: any) => any) {
+        const expression = new WatchExpression(fn, onChange);
+        this.expressions.push(expression);
+        return expression;
+    }
+
+    count() {
+        if (!this.isActive) {
+            return 0;
+        }
+        let count = this.expressions.length;
+        this.children.forEach(child => {
+            count += child.count();
+        });
+        return count;
+    }
 }
 
-export const WatcherStore = new (class {
-    nextWatcherKey = 1;
-    store = new Map<string, WatcherGroup>();
-    i = 0;
-
-    get(key: string) {
-        return this.store.get(key) as WatcherGroup;
-    }
-
-    clear(key: string) {
-        const watcherGroup = this.store.get(key);
-        if (watcherGroup) {
-            watcherGroup.clear();
-        }
-    }
-
-    remove(key: string) {
-        this.store.delete(key);
-    }
-
-    getNextWatcherKey() {
-        return 'watcher'+ (this.nextWatcherKey++);
-    }
-
-    trigger() {
-        const start = Date.now();
-        let watchers: Watcher[] = [];
-        this.store.forEach(watcherGroup => {
-            watcherGroup.check();
-            if (watcherGroup.isActive) {
-
-                watchers.push(...watcherGroup.watchers);
-            }
-        });
-        const totalTime = Date.now() - start;
-        if (totalTime > 1000) {
-            watchers = reverse(sortBy(watchers, w => w.lastExecutionTime));
-            //console.log('watchers %O', watchers);
-        }
-        WATCH_LOGGER.info(`Watch Cycle took ${totalTime} ms.`);
-    };
-})();
-
-export function useWatcher(isMuted = () => false) {
+export function useWatcher(parent: Watcher) {
     const [change, onChange] = useState({});
-    const watcherKey = useMemo(() => WatcherStore.getNextWatcherKey(), []);
-    let watcherGroup = WatcherStore.get(watcherKey);
-    if (!watcherGroup) {
-        watcherGroup = new WatcherGroup(isMuted);
-        WatcherStore.store.set(watcherKey, watcherGroup);
-    }
-    watcherGroup.clear();
+    let [ watcher ] = useState(() => parent.create());
+    watcher.clear();
     useEffect(() => { 
         return () => {
-            WatcherStore.remove(watcherKey);
+            watcher.destroy();
         };
     }, []);
     return {
         watch: (fn: Function) => {
-            const watcher =  new Watcher(fn, () => onChange({}));
-            watcherGroup.add(watcher);
-            return watcher.value;
+            return watcher.watch(fn, () => onChange({})).value;
         }
     };
 };

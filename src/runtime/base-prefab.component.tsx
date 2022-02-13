@@ -6,10 +6,12 @@ import PartialService, { PartialProvider } from '@wavemaker/app-rn-runtime/core/
 import WmPrefabContainer from '@wavemaker/app-rn-runtime/components/prefab/prefab-container.component';
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
 import axios from 'axios';
+import { Watcher } from './watcher';
 
 
 export interface PrefabProps extends FragmentProps {
   prefabname: string;
+  parentWatcher: Watcher;
 }
 
 export interface PrefabState extends FragmentState<PrefabProps> {}
@@ -44,6 +46,7 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       this.Variables = {};
       this.appUrl = this.appConfig.url;
       this.baseUrl = `${this.baseUrl}/prefabs/${props.prefabname}`;
+      this.watcher = props.parentWatcher.create();
     }
 
     getServiceDefinitions() {
@@ -61,7 +64,10 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       this._renderPrefab = () => {
         const component = this.renderPrefab();
         super.onFragmentReady()
-        .then(() => this.invokeEventCallback('onLoad', [null, this]));
+        .then(() => {
+          this.onContentReady();
+          this.invokeEventCallback('onLoad', [null, this]);
+        });
         this._renderPrefab = () => this.renderPrefab();
         return component;
       };

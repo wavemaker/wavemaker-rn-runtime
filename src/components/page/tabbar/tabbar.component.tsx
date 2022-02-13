@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Text, View, TouchableOpacity } from 'react-native';
 
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';

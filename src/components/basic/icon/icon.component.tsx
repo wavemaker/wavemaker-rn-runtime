@@ -94,11 +94,13 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   }
 
   private getCustomIcon(props: WmIconProps, style: any) {
-    const customIcon = this.theme.getStyle(props?.iconclass || '')?.icon || this.styles.icon;
-    if (customIcon?.content) {
+    const customIcon = this.theme.mergeStyle({}, this.theme.getStyle(props?.iconclass || '')?.icon || this.styles.icon);
+    const customIconContent = customIcon?.content;
+    if (customIconContent) {
+      delete customIcon.content;
       return (<Text
         style={[style, customIcon.fontFamily ? {fontFamily: customIcon.fontFamily}: null]}>
-          {decodeURIComponent(customIcon.content)}
+          {decodeURIComponent(customIconContent)}
       </Text>);
     }
     return null;

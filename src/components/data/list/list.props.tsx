@@ -7,6 +7,7 @@ export default class WmListProps extends BaseProps {
     title: string = null as any;
     subheading: string = null as any;
     dataset = [] as any;
+    maxnumberofitems = 50;
     renderItem: any = () => (<View/>);
     loadingicon='fa fa-circle-o-notch fa-pulse';
     loadingdatamsg = 'Loading...';

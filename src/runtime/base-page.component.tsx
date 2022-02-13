@@ -6,6 +6,7 @@ import WmPage from '@wavemaker/app-rn-runtime/components/page/page.component';
 import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
+import { Watcher } from './watcher';
 
 declare const window: any;
 
@@ -32,6 +33,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       this.appConfig.currentPage = this;
       this.appConfig.drawer?.setContent(null);
       this.serviceDefinitions = this.App.serviceDefinitions;
+      this.watcher = Watcher.ROOT.create();
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {
@@ -74,6 +76,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
     onFragmentReady() {
       return super.onFragmentReady().then(() => {
+        this.onContentReady();
         this.App.onPageReady(this.pageName, this.proxy as BasePage);
         this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
           if (this.appConfig.currentPage !== this) {

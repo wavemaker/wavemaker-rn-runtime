@@ -86,7 +86,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       break;
       case 'groupby':
       case 'match':
-        this.setGroupData(this.state.props.dataset);
+        //this.setGroupData(this.state.props.dataset);
         break;
     }
   }
@@ -108,8 +108,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   renderWidget(props: WmListProps) {
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
-    const dataset = isArray(props.dataset) ? props.dataset : (props.dataset ? [props.dataset]: []);
-    const list = (
+    let dataset = isArray(props.dataset) ? props.dataset : (props.dataset ? [props.dataset]: []);
+    const max = props.maxnumberofitems;
+    dataset = dataset.slice(0, max);
+    const list = this.props.groupby ? null : (
         <View style={this.styles.root}>
           <FlatList
             keyExtractor={(item, i) => 'list_item_' +  i}

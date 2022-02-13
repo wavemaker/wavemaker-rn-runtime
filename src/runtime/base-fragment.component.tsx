@@ -16,6 +16,7 @@ import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toas
 import spinnerService from '@wavemaker/app-rn-runtime/runtime/services/app-spinner.service';
 
 import AppI18nService from './services/app-i18n.service';
+import { Watcher } from './watcher';
 
 export class FragmentProps extends BaseProps {
 
@@ -50,6 +51,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public serviceDefinitions = {} as any;
     public Viewport = _viewPort;
     public loadingMessage = React.createElement(Text, [] as any, ['loading...']);
+    public showContent = false;
     public notification = {
                             text: '',
                             title: '',
@@ -59,6 +61,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
                             onCancel: () => {},
                             onClose: () => {}
                           };
+    public watcher: Watcher = null as any;
     constructor(props: P, defaultProps?: P) {
         super(props, undefined, undefined, defaultProps);
         this.App = this.appConfig.app;
@@ -76,6 +79,14 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
               screenHeight: $new.height}]);
         }));
         this.baseUrl = this.appConfig.url;
+        this.cleanup.push(() => this.onDestroy());
+    }
+
+    onContentReady() {
+      this.onReady();
+      this.appConfig.refresh();
+      this.targetWidget && this.targetWidget.invokeEventCallback('onLoad', [null, this.proxy]);
+      this.onContentReady = () => {};
     }
 
     onComponentChange(w: BaseComponent<any, any, any>) {
@@ -214,14 +225,14 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
       .then(() => {
-        this.onReady();
+        this.showContent = true;
         this.appConfig.refresh();
-        this.targetWidget && this.targetWidget.invokeEventCallback('onLoad', [null, this.proxy]);
       });
     }
 
     onAttach() {
       this.isDetached = false;
+      this.watcher.isActive = true;
       Object.values(this.fragments).forEach((f: any) => f.onAttach());
       this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.resume());
       this.targetWidget.invokeEventCallback('onAttach', [null, this.proxy]);
@@ -232,6 +243,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     onDetach() {
       this.isDetached = true;
+      this.watcher.isActive = false;
       Object.values(this.fragments).forEach((f: any) => f.onDetach());
       this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.pause());
       this.targetWidget.invokeEventCallback('onDetach', [null, this.proxy]);
@@ -239,6 +251,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     onDestroy() {
       this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.destroy());
+      this.watcher.destroy();
     }
 
     refresh() {

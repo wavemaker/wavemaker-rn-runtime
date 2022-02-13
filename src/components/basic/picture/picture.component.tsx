@@ -53,6 +53,9 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
   onViewLayoutChange = (e: LayoutChangeEvent) => {
     let imageWidth = e.nativeEvent.layout.width;
     let imageHeight = e.nativeEvent.layout.height;
+    if (!imageWidth && !imageHeight) {
+      return;
+    }
     if (!this.styles.root.height
         || (typeof this.styles.root.height === 'string'
           && !this.styles.root.height.includes('%'))) {

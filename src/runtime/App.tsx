@@ -6,7 +6,7 @@ import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Linking } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
-import { get } from 'lodash';
+import { get, last } from 'lodash';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -20,7 +20,7 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/message.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
-import { WatcherStore } from './watcher';
+import { Watcher } from './watcher';
 import AppDisplayManagerService from './services/app-display-manager.service';
 import AppModalService from './services/app-modal.service';
 import AppToastService from './services/app-toast.service';
@@ -37,6 +37,7 @@ import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/uti
 
 import * as SplashScreen from 'expo-splash-screen';
 import BasePage from './base-page.component';
+import { WmMemo } from './memo.component';
 
 declare const window: any;
 
@@ -89,6 +90,7 @@ export default abstract class BaseApp extends React.Component {
   private animatedRef: any;
   public modalsOpened: number = 0;
   public toastsOpened: number = 0;
+  public watcher: Watcher = Watcher.ROOT;
 
   constructor(props: any) {
     super(props);
@@ -107,7 +109,7 @@ export default abstract class BaseApp extends React.Component {
         setTimeout(() => {
           this.forceUpdate();
           this.appConfig.currentPage?.forceUpdate();
-          WatcherStore.trigger();
+          this.watcher.check();
         });
         setTimeout(() => {
           wait = 0;
@@ -195,7 +197,7 @@ export default abstract class BaseApp extends React.Component {
     .then(() => {
       this.onAppVariablesReady();
       this.isStarted = true;
-      this.appConfig.refresh();
+      this.forceUpdate();
       // TODO: Without callback, splashscreen was not getting hidden in ios mobile app. Later, remove the empty function.
       SplashScreen.hideAsync().then(() => {});
     });
@@ -228,65 +230,71 @@ export default abstract class BaseApp extends React.Component {
 
   renderToasters() {
     this.toastsOpened = AppToastService.toastsOpened.length;
-    return (
-      <>
-        {AppToastService.toastsOpened.map((o, i) =>
-          (
-              <View key={i} style={[{
-                position: 'absolute',
-                width: '100%',
-                elevation: o.elevationIndex,
-                zIndex: o.elevationIndex
-              }, o.styles]}>
-                <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
-                  {o.content}
-                  <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>
-                </TouchableOpacity>
-              </View>
-            )
-        )}
-      </>);
+    return <WmMemo watcher={this.watcher} render={(watch) => {
+      watch(() => AppToastService.toastsOpened);
+      return (
+        <>
+          {AppToastService.toastsOpened.map((o, i) =>
+            (
+                <View key={i} style={[{
+                  position: 'absolute',
+                  width: '100%',
+                  elevation: o.elevationIndex,
+                  zIndex: o.elevationIndex
+                }, o.styles]}>
+                  <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
+                    {o.content}
+                    <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>
+                  </TouchableOpacity>
+                </View>
+              )
+          )}
+        </>);
+    }}/>;
   }
 
   renderDialogs(): ReactNode {
-    this.modalsOpened = AppModalService.modalsOpened.length;
-    return (
-      <>
-      {AppModalService.modalOptions.content &&
-        AppModalService.modalsOpened.map((o, i) => {
-          AppModalService.animatedRef = this.animatedRef;
-          return (
-            <TouchableOpacity activeOpacity={1} key={(o.name || '') + i}
-                              onPress={() => o.isModal && AppModalService.hideModal(o)}
-                              style={deepCopy(styles.appModal,
-                                o.centered ? styles.centeredModal: null,
-                                o.modalStyle,
-                                { elevation: o.elevationIndex,
-                                  zIndex: o.elevationIndex })}>
-              <Animatedview entryanimation={o.animation || 'fadeIn'}
-                              ref={ref => this.animatedRef = ref}
-                              style={[styles.appModalContent, o.contentStyle]}>
-                <ScrollView style={{width: '100%'}}
-                  contentContainerStyle={{
-                    "width": "100%",
-                    "alignItems": "center",
-                    "minHeight": "100%",
-                    "flexDirection": "column",
-                    "justifyContent": "center"
-                  }}>
-                  <TouchableOpacity
-                      activeOpacity={1}
-                      onPress={() => {}}
-                      style={{width: '100%', alignItems: 'center'}}>
-                      {this.getProviders(o.content)}
-                  </TouchableOpacity>
-                </ScrollView>
-              </Animatedview>
-            </TouchableOpacity>
-          )}
-        )
-      }
-    </>);
+    return <WmMemo watcher={this.watcher} render={(watch) => {
+      watch(() => last(AppModalService.modalsOpened)?.content);
+      this.modalsOpened = AppModalService.modalsOpened.length;
+      return(
+        <>
+        {AppModalService.modalOptions.content &&
+          AppModalService.modalsOpened.map((o, i) => {
+            AppModalService.animatedRef = this.animatedRef;
+            return (
+              <TouchableOpacity activeOpacity={1} key={(o.name || '') + i}
+                                onPress={() => o.isModal && AppModalService.hideModal(o)}
+                                style={deepCopy(styles.appModal,
+                                  o.centered ? styles.centeredModal: null,
+                                  o.modalStyle,
+                                  { elevation: o.elevationIndex,
+                                    zIndex: o.elevationIndex })}>
+                <Animatedview entryanimation={o.animation || 'fadeIn'}
+                                ref={ref => this.animatedRef = ref}
+                                style={[styles.appModalContent, o.contentStyle]}>
+                  <ScrollView style={{width: '100%'}}
+                    contentContainerStyle={{
+                      "width": "100%",
+                      "alignItems": "center",
+                      "minHeight": "100%",
+                      "flexDirection": "column",
+                      "justifyContent": "center"
+                    }}>
+                    <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => {}}
+                        style={{width: '100%', alignItems: 'center'}}>
+                        {this.getProviders(o.content)}
+                    </TouchableOpacity>
+                  </ScrollView>
+                </Animatedview>
+              </TouchableOpacity>
+            )}
+          )
+        }
+      </>);
+    }}/>;
   }
 
   renderIconsViewSupportForWeb() {
@@ -336,10 +344,13 @@ export default abstract class BaseApp extends React.Component {
                       drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
                       drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
                       {commonPartial}
-                    {AppDisplayManagerService.displayOptions.content
-                      ? (<View style={styles.displayViewContainer}>
-                        {AppDisplayManagerService.displayOptions.content}
-                      </View>) : null}
+                    <WmMemo watcher={this.watcher} render={(watch) => {
+                      watch(() => AppDisplayManagerService.displayOptions.content);
+                      return AppDisplayManagerService.displayOptions.content
+                        ? (<View style={styles.displayViewContainer}>
+                          {AppDisplayManagerService.displayOptions.content}
+                        </View>) : null;
+                    }}/>
                   </View>
                 </View>))
               )

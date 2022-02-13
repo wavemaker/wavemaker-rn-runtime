@@ -1,3 +1,5 @@
+import { BackHandler } from "react-native";
+
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
@@ -9,6 +11,25 @@ class AppModalService implements ModalService {
     public appConfig: any;
 
     animatedRef: any;
+
+    private clearBackButtonPress() {
+      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+    }
+
+    private setBackButtonPress() {
+      this.clearBackButtonPress();
+      if (this.modalsOpened.length > 0) {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
+      }
+    }
+    
+    private handleBackButtonPress = () => {
+      if (this.modalsOpened.length) {
+        this.hideModal();
+        return true;
+      }
+      return false;
+    }
 
     private getAppConfig() {
       if (!this.appConfig) {
@@ -24,6 +45,7 @@ class AppModalService implements ModalService {
         setTimeout(() => {
           this.modalOptions.onOpen && this.modalOptions.onOpen();
         });
+        this.setBackButtonPress();
     }
 
     public refresh() {
@@ -51,6 +73,7 @@ class AppModalService implements ModalService {
             .then(() => this.modalsOpened.splice(i, 1))
             .then(() => this.showLastModal());
         }
+        this.clearBackButtonPress();
     }
 }
 
