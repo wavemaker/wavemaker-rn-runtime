@@ -55,23 +55,28 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   renderWidget(props: WmTabsProps) {
     const tabpanes = props.children.filter((item: any) => item.props.show != false);
     return (
-      <Tabs
-        defaultIndex={props.defaultpaneindex}
-        theme={{
-          colors: {
-            primary: this.styles.activeHeaderText.color as string
-          }
-        }}
-        style={this.styles.root}
-        mode="scrollable"
-        onChangeIndex={this.onChange.bind(this)}
-        showLeadingSpace={false}>
-        {tabpanes
-          ? isArray(tabpanes) && tabpanes.length
-            ? tabpanes.map((item: any, index: any) => this.renderTabpane(item, index))
-            : this.renderTabpane(tabpanes, 0)
-          : null}
-      </Tabs>
+      <View style={this.styles.root}>
+        <Tabs
+          defaultIndex={props.defaultpaneindex}
+          theme={{
+            colors: {
+              primary: this.styles.activeHeaderText.color as string
+            }
+          }}
+          style={{ 
+            backgroundColor: this.styles.root.backgroundColor,
+            elevation: 0 
+          }}
+          mode="scrollable"
+          onChangeIndex={this.onChange.bind(this)}
+          showLeadingSpace={false}>
+          {tabpanes
+            ? isArray(tabpanes) && tabpanes.length
+              ? tabpanes.map((item: any, index: any) => this.renderTabpane(item, index))
+              : this.renderTabpane(tabpanes, 0)
+            : null}
+        </Tabs>
+      </View>
     );
   }
 }
