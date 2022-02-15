@@ -1,5 +1,6 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
-export default interface WmPageContentProps extends BaseProps {
-    children: any[];
+export default class WmPageContentProps extends BaseProps {
+    children: any[] = null as any;
+    scrollable: boolean = true;
 }

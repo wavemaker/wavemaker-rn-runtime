@@ -49,6 +49,7 @@ export const DEFAULT_STYLES: WmListStyles = defineStyles({
     } as WmIconStyles,
     heading : {
         padding: 8,
+        marginBottom: 6,
         backgroundColor: ThemeVariables.listHeaderBgColor
     },
     title: {

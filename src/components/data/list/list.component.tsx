@@ -1,12 +1,10 @@
 import React from 'react';
-import { Text, TouchableWithoutFeedback, View} from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { SectionList, Text, TouchableWithoutFeedback, View} from 'react-native';
 import { isArray } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { getGroupedData} from "@wavemaker/app-rn-runtime/core/utils";
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
-import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmListStyles } from './list.styles';
@@ -75,7 +73,14 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       break;
       case 'dataset':
         if (this.state.props.groupby) {
-          this.setGroupData(props.dataset);
+          this.setGroupData($new);
+        } else {
+          this.updateState({
+            groupedData: [{
+              key: '',
+              data: $new || []
+            }]
+          } as WmListState);
         }
         this.itemWidgets = [];
         if (props.selectfirstitem) {
@@ -86,7 +91,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       break;
       case 'groupby':
       case 'match':
-        //this.setGroupData(this.state.props.dataset);
+        this.setGroupData(this.state.props.dataset);
         break;
     }
   }
@@ -111,54 +116,40 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     let dataset = isArray(props.dataset) ? props.dataset : (props.dataset ? [props.dataset]: []);
     const max = props.maxnumberofitems;
     dataset = dataset.slice(0, max);
-    const list = this.props.groupby ? null : (
-        <View style={this.styles.root}>
-          <FlatList
+    const isHorizontal = (props.direction === 'row');
+    const list = (
+        <View>
+          <SectionList
             keyExtractor={(item, i) => 'list_item_' +  i}
-            horizontal = {props.direction === 'row'}
+            horizontal = {isHorizontal}
             onEndReached={({distanceFromEnd}) => {
               this.invokeEventCallback('onEndReached', [null, this]);
             }}
+            contentContainerStyle={this.styles.root}
             onEndReachedThreshold={0.3}
-            ListHeaderComponent={() => {
-              return (props.iconclass || props.title || props.subheading) ? (
-                <View style={this.styles.heading}>
-                  <View style={{flex: 1, flexDirection: 'row'}}>
-                    <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
-                    <View>
-                      <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
-                      <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+            sections={this.state.groupedData || []}
+            renderSectionHeader={({section: {key, data}}) => {
+              return props.groupby ? (
+                  <Text style={this.styles.groupHeading}>{key}</Text>
+              ) : 
+                ((props.iconclass || props.title || props.subheading) ? (
+                  <View style={this.styles.heading}>
+                    <View style={{flex: 1, flexDirection: 'row'}}>
+                      <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
+                      <View>
+                        <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
+                        <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+                      </View>
                     </View>
-                  </View>
-                </View>) : null
+                  </View>) : null)
             }}
-            ListFooterComponent={() => props.loadingdata ?
+            renderSectionFooter={() => props.loadingdata ?
                 (<WmIcon styles={this.styles.loadingIcon}
                   iconclass={props.loadingicon}
                   caption={props.loadingdatamsg}></WmIcon>) : null}
             data={props.groupby ? this.state.groupedData : dataset}
             ListEmptyComponent = {() => <WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>}
             renderItem={(itemInfo) =>
-              this.props.groupby ? (
-                  <View>
-                    <Text style={this.styles.groupHeading}>{itemInfo.item.key}</Text>
-                    <View style={{
-                      flexDirection: props.direction === 'row' ? 'row' : 'column'
-                    }}>
-                    {
-                      itemInfo.item.data && itemInfo.item.data.length
-                        ? itemInfo.item.data.map((itemObj: any, index: any) =>
-                          (<TouchableWithoutFeedback key={`${itemObj._groupIndex}${index}`} onPress={(e) => this.onSelect(itemObj, `${itemObj._groupIndex}${index}`)}>
-                            <View style={[
-                              props.itemclass ? this.theme.getStyle(props.itemclass(itemObj, index)) : null,
-                              this.state.selectedindex === `${itemObj._groupIndex}${index}` ? this.styles.selectedItem : {}]}>
-                              {props.renderItem(itemObj, index, this)}
-                            </View>
-                          </TouchableWithoutFeedback>)
-                        ) : null
-                    }
-                    </View>
-                  </View>) :
                 (<TouchableWithoutFeedback onPress={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
                 <View style={[
                     this.styles.item,
@@ -170,7 +161,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                   ) : null}
                 </View>
             </TouchableWithoutFeedback>)
-            }></FlatList>
+            }></SectionList>
         </View>
     );
     return list;
