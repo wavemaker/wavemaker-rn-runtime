@@ -1,6 +1,6 @@
 import React from 'react';
-import { Picker } from '@react-native-picker/picker';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
+import { find } from 'lodash';
 
 import WmSelectProps from './select.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmSelectStyles } from './select.styles';
@@ -8,48 +8,153 @@ import {
   BaseDatasetComponent,
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
-import { isDefined } from '@wavemaker/app-rn-runtime/core/utils';
+import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
+import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
+import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
-export class WmSelectState extends BaseDatasetState<WmSelectProps> {}
+export class WmSelectState extends BaseDatasetState<WmSelectProps> {
+  modalOptions = {} as ModalOptions;
+  isOpened: boolean = false;
+  selectedValue: any = '';
+}
 
 export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSelectState, WmSelectStyles> {
-
   constructor(props: WmSelectProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSelectProps());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSelectProps(), new WmSelectState());
+  }
+  view: View = null as any;
+  public widgetRef: Text | null = null;
+  private isDefaultValue: boolean = true;
+
+  onPress(event: any) {
+    if (this.state.props.disabled) {
+      return;
+    }
+    if (!this.state.isOpened) {
+      this.showPopover();
+    }
+    this.invokeEventCallback('onFocus', [event, this.proxy]);
   }
 
-  onFocus(event: any) {
-    this.invokeEventCallback('onFocus', [ event, this.proxy]);
+  prepareModalOptions(content: React.ReactNode, styles: WmSelectStyles, modalService: ModalService) {
+    const o = this.state.modalOptions;
+    o.modalStyle = styles.modal;
+    o.contentStyle = {...styles.modalContent};
+    o.content = content;
+    o.isModal = true;
+    o.centered = true;
+    o.onClose = () => {
+      this.hide = () => {};
+      this.invokeEventCallback('onBlur', [{}, this.proxy]);
+      this.setState({ isOpened: false, modalOptions: {} as ModalOptions });
+    };
+    this.hide = () => modalService.hideModal(this.state.modalOptions);
+    return o;
   }
 
-  onBlur(event: any) {
-    this.invokeEventCallback('onBlur', [ event, this.proxy]);
+  public showPopover = () => {
+      this.updateState({ isOpened: true } as WmSelectState);
+  };
+
+  public hide = () => {};
+
+  focus() {
+    this?.widgetRef?.focus();
   }
 
-  renderChild(item: any, index: any) {
-    const displayText = item.displayexp || item.displayfield || item.datafield;
+  renderSelect() {
+    const props = this.state.props;
     return (
-      <Picker.Item label={displayText} value={this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield} key={item.key} />
-      )
+      /*
+       * onLayout function is required.
+       * https://github.com/naoufal/react-native-accordion/pull/19/files
+       */
+      <View
+        style={[this.styles.root, { backgroundColor: props.disabled ? this.styles.disabledText.backgroundColor : this.styles.root.backgroundColor}]}
+        ref={(ref) => {
+          this.view = ref as View;
+        }}
+        onLayout={() => {}}>
+          <Text
+            style={this.styles.text}
+            ref={(ref) => {
+              this.widgetRef = ref;
+            }}
+            onPress={this.onPress.bind(this)}>
+            {this.state.selectedValue || props.placeholder || ' '}
+          </Text>
+          <WmButton
+            styles={this.styles.arrowButton}
+            iconclass={'wi wi-keyboard-arrow-down'}
+            onTap={this.onPress.bind(this)}
+          />
+      </View>
+    );
+  }
+
+  onItemSelect(item: any, isPlaceholder?: boolean) {
+    this.isDefaultValue = false;
+    this.updateState({
+      selectedValue: isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)
+    } as WmSelectState);
+    this.onChange(isPlaceholder ? '' : this.state.props.datafield === 'All Fields'  ? item.dataObject : item.datafield);
+    this.hide();
+  }
+
+  renderSelectItem(item: any, isPlaceholder?: boolean) {
+    return (
+      <Tappable onTap={this.onItemSelect.bind(this, item, isPlaceholder)}>
+        <View style={this.styles.selectItem}>
+          <Text style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : this.styles.selectItemText.color}]}>
+            {isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)}
+          </Text>
+        </View>
+      </Tappable>
+    );
+  }
+
+  updateDefaultQueryModel() {
+    if (this.state.dataItems && this.state.dataItems.length && this.isDefaultValue) {
+      const selectedItem = find(this.state.dataItems, (item) => item.selected);
+      selectedItem && this.updateState({
+        selectedValue: selectedItem.displayexp || selectedItem.displayfield
+      } as WmSelectState);
+    }
   }
 
   renderWidget(props: WmSelectProps) {
     const items = this.state.dataItems;
-    return (<View style={{height: this.styles.root.height}}>
-      <Picker
-      style={this.styles.root}
-      itemStyle={{height: this.styles.root.height}}
-      selectedValue={this.state.props.datafield === 'All Fields' ? this.getItemKey(props.datavalue):
-        (props.datavalue === null ? undefined : isDefined(props.datavalue) ? props.datavalue : '')}
-      onValueChange={this.onValueChange.bind(this)}
-      enabled={!props.disabled}
-      onFocus={this.onFocus.bind(this)}
-      onBlur={this.onBlur.bind(this)}>
-      {props.placeholder || (!props.placeholder && !props.datavalue) ?
-        <Picker.Item label={props.placeholder || ''} value={' '} key={props.name + '_placeholder'}/> : null}
-      {items && items.length ?
-        items.map((item: any, index: any) => this.renderChild(item, index)): null}
-      </Picker>
-    </View>);
+    this.updateDefaultQueryModel();
+    return (
+      <View>
+        {this.renderSelect()}
+        {this.state.isOpened ? (
+          <ModalConsumer>
+            {(modalService: ModalService) => {
+              modalService.showModal(
+                this.prepareModalOptions(
+                  <View style={this.styles.dropDownContent}>
+                    {props.placeholder ?
+                      <View key={props.name + '_placeholder'} style={this.styles.placeholderText}>
+                        {this.renderSelectItem({}, true)}
+                      </View>
+                      : null}
+                    {items &&
+                      items.map((item: any) => (
+                        <View key={item.key}>
+                          {this.renderSelectItem(item)}
+                        </View>
+                      ))}
+                  </View>,
+                  this.styles,
+                  modalService
+                )
+              );
+              return null;
+            }}
+          </ModalConsumer>
+        ) : null}
+      </View>
+    );
   }
 }

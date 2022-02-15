@@ -355,6 +355,12 @@ export class ThemeVariables {
     searchDropdownBackgroundColor = this.defaultColorF;
     searchDataCompleteItemBgColor = this.defaultColorE;
 
+    //Select
+    selectBorderColor = this.defaultColorD;
+    selecttemBorderColor = this.defaultColorD;
+    selectItemTextColor = this.defaultColor6;
+    selectDropdownBackgroundColor = this.defaultColorF;
+
     //Chip
     chipActiveBgColor = this.primaryColor;
     chipDefaultBgColor = this.defaultColorF;
