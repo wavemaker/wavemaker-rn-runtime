@@ -150,15 +150,16 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     getDateFormat(fmt?: string) {
-      return (fmt || AppI18nService.dateFormat).replace(/d/g, 'D').replace(/E/g, 'd').replace(/y/g, 'Y');
+      // getting formats from appLocale when app locale is loaded locally.
+      return (fmt || AppI18nService.dateFormat || get(this.appConfig, 'appLocale.formats.date')).replace(/d/g, 'D').replace(/E/g, 'd').replace(/y/g, 'Y');
     }
 
     getTimeFormat(fmt?: string) {
-      return fmt || AppI18nService.timeFormat;
+      return fmt || AppI18nService.timeFormat || get(this.appConfig, 'appLocale.formats.time');
     }
 
     getDateTimeFormat(fmt?: string) {
-      return (fmt || AppI18nService.dateTimeFormat).replace(/d/g, 'D').replace(/E/g, 'd').replace(/y/g, 'Y');
+      return (fmt || AppI18nService.dateTimeFormat || (get(this.appConfig, 'appLocale.formats.date') + ' ' + get(this.appConfig, 'appLocale.formats.time'))).replace(/d/g, 'D').replace(/E/g, 'd').replace(/y/g, 'Y');
     }
 
     getStyle(classes: string, inlineStyles:any = {}) {

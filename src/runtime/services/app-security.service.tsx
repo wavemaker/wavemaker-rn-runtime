@@ -115,12 +115,10 @@ class AppSecurityService implements SecurityService {
                 });
             } else {
                 const myPromise = new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        injector.get<AppConfig>('APP_CONFIG').landingPage = 'Login';
-                        appConfig.refresh();
-                        resolve('true');
-                    }, 300);
-                  });
+                  injector.get<AppConfig>('APP_CONFIG').landingPage = 'Login';
+                  appConfig.refresh();
+                  resolve('true');
+                });
                 return appConfig.getServiceDefinitions(appConfig.url).then(myPromise);
           }
       });
