@@ -16,7 +16,7 @@ export class Theme {
     private traceEnabled = false;
 
     private constructor(private parent:Theme, public readonly name: string) {
-        //this.traceEnabled = parent && parent.traceEnabled;
+        this.traceEnabled = parent && parent.traceEnabled;
     }
 
     addStyle<T extends NamedStyles<any>>(name: string, extend: string, style: T) {
