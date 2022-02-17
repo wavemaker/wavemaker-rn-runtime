@@ -182,7 +182,6 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         // @ts-ignore
         return axios[config.serviceInfo.methodType].apply(this, (WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(config.serviceInfo.methodType.toUpperCase()) > -1 ? [url, {headers: headers, cancelToken: this.cancelTokenSource.token}] : [url, requestBody, {headers: headers, cancelToken: this.cancelTokenSource.token}])).then(result => {
           config.onResult && config.onResult(this, result.data, result);
-          result.data = get(result.data, 'content', result.data);
           this.dataSet = (!isObject(result.data)) ? {'value': result.data} : result.data;
           // EVENT: ON_PREPARE_SETDATA
           const newDataSet = config.onBeforeDatasetReady && config.onBeforeDatasetReady(this, this.dataSet);
