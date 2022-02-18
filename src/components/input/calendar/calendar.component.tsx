@@ -59,7 +59,7 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
 
   onPropertyChange(name: string, $new: any, $old: any) {
     switch(name) {
-      case 'dataset': 
+      case 'dataset':
         this.prepareDataset($new);
         break;
       case 'datavalue':
@@ -77,10 +77,10 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
       return (
         <WmIcon
           iconclass="fa fa-circle"
-          iconsize={8} 
+          iconsize={8}
           styles={{
             root: {marginTop: -8, alignSelf: 'flexStart'},
-            icon: this.styles['eventDay' + Math.min(3, dateWindow.events.length)]}}>  
+            icon: this.styles['eventDay' + Math.min(3, dateWindow.events.length)]}}>
         </WmIcon>
       );
     }
@@ -119,7 +119,7 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
             renderPrevMonthButton={() =>
               (<WmIcon iconclass="wi wi-chevron-left fa-2x" styles={this.styles.prevMonthBtn}/>)}
             renderNextMonthButton={() =>
-                (<WmIcon iconclass="wi wi-chevron-right fa-2x" styles={this.styles.prevMonthBtn}/>)}
+                (<WmIcon iconclass="wi wi-chevron-right fa-2x" styles={this.styles.nextMonthBtn}/>)}
             renderNextYearButton={() =>
                 (<WmIcon iconclass="wi wi-angle-double-right" styles={this.styles.nextYearBtn}/>)}
           />
