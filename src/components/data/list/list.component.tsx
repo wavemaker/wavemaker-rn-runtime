@@ -1,5 +1,6 @@
 import React from 'react';
-import { SectionList, Text, TouchableWithoutFeedback, View} from 'react-native';
+import { SectionList, Text, View } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { isArray } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { getGroupedData} from "@wavemaker/app-rn-runtime/core/utils";
@@ -19,6 +20,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   private itemWidgets = [] as any[];
   private selectedItemWidgets = {} as any;
+  private key = 1;
 
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmListProps());
@@ -58,7 +60,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const props = this.state.props;
     if (props.groupby) {
       const groupedData = dataItems && getGroupedData(dataItems, props.groupby, props.match, props.orderby, props.dateformat, this);
-      this.updateState({ groupedData: groupedData } as WmListState);
+      this.updateState({ 
+        groupedData: groupedData 
+      } as WmListState, () => {
+        this.key +=  (items && items.length) || 0;
+      });
     }
   }
 
@@ -80,7 +86,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               key: '',
               data: $new || []
             }]
-          } as WmListState);
+          } as WmListState, () => {
+            this.key += ($new && $new.length) || 0;
+          });
         }
         this.itemWidgets = [];
         if (props.selectfirstitem) {
@@ -120,7 +128,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const list = (
         <View>
           <SectionList
-            keyExtractor={(item, i) => 'list_item_' +  i}
+            keyExtractor={(item, i) => 'list_item_' +  (this.key + i)} 
             horizontal = {isHorizontal}
             onEndReached={({distanceFromEnd}) => {
               this.invokeEventCallback('onEndReached', [null, this]);
@@ -150,7 +158,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             data={props.groupby ? this.state.groupedData : dataset}
             ListEmptyComponent = {() => <WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>}
             renderItem={(itemInfo) =>
-                (<TouchableWithoutFeedback onPress={(e) => this.onSelect(itemInfo.item, itemInfo.index)}>
+                (<TouchableWithoutFeedback onPress={() => this.onSelect(itemInfo.item, itemInfo.index)}>
                 <View style={[
                     this.styles.item,
                     props.itemclass ? this.theme.getStyle(props.itemclass(itemInfo.item, itemInfo.index)) : null,
