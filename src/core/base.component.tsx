@@ -51,7 +51,7 @@ export class BaseProps {
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
     public styles: L = null as any;
-    public hideMode = HideMode.ADD_TO_DOM; 
+    public hideMode = HideMode.ADD_TO_DOM;
     private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T, S, L>;
     public initialized = false;
@@ -121,7 +121,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         };
         const onUpdateState = () => {
             callback && callback();
-            propsUpdated 
+            propsUpdated
                 && this.props.listener?.onComponentChange
                 && this.props.listener?.onComponentChange(this);
         }
@@ -146,7 +146,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 return true;
             }
         }
-        
+
         for(let key in this.state) {
             if(key !== 'props' && (!(key in nextState) || this.state[key] !== nextState[key])) {
                 return true;
@@ -214,7 +214,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                     this.props.styles);
                                 if (!this.isVisible()) {
                                     assign(this.styles, this.theme.getStyle('hidden'))
-                                }  
+                                }
                                 return attachBackground(this.renderWidget(this.state.props), this.styles.root);
                             }}
                         </ThemeConsumer>

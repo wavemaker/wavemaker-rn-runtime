@@ -37,7 +37,7 @@ export class UploadFileOperation implements Operation {
       name: fileName,
     };
 
-    var formData = new FormData();
+    let formData = new FormData();
     formData.append('files', fileObj);
     return axios({
       url: serverUrl,

@@ -31,12 +31,10 @@ export default class WmCamera extends BaseComponent<WmCameraProps, WmCameraState
 
       this.camera.captureImage(params).then((res: CaptureImageOutput) => {
         this.updateModel(null, res.imagePath);
-        this.invokeEventCallback('onSuccess', [null, this.proxy, res.imagePath]);
       });
     } else {
       this.camera.captureVideo().then((res: CaptureVideoOutput) => {
         this.updateModel(null, res.videoPath);
-        this.invokeEventCallback('onSuccess', [null, this.proxy, res.videoPath]);
       });
     }
 
@@ -49,7 +47,7 @@ export default class WmCamera extends BaseComponent<WmCameraProps, WmCameraState
         datavalue: value,
         localFilePath: value
       }
-    } as WmCameraState);
+    } as WmCameraState, this.invokeEventCallback.bind(this, 'onSuccess', [null, this.proxy, value]));
   }
 
   renderWidget(props: WmCameraProps) {

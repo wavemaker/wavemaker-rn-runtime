@@ -158,9 +158,14 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         // Setting appropriate content-Type for request accepting request body like POST, PUT, etc
         if (!includes(WS_CONSTANTS.NON_BODY_HTTP_METHODS, toUpper(config.serviceInfo.methodType))) {
           /*Based on the formData browser will automatically set the content type to 'multipart/form-data' and webkit boundary*/
-          if (!(config.serviceInfo.consumes && (config.serviceInfo.consumes[0] === WS_CONSTANTS.CONTENT_TYPES.MULTIPART_FORMDATA))) {
-            headers['Content-Type'] = (config.serviceInfo.consumes && config.serviceInfo.consumes[0]) || 'application/json';
+          if ((config.serviceInfo.consumes && (config.serviceInfo.consumes[0] === WS_CONSTANTS.CONTENT_TYPES.MULTIPART_FORMDATA))) {
+            let formData = new FormData();
+            forEach(this.params, (v, k) => {
+              formData.append(k, v);
+            });
+            requestBody = formData;
           }
+          headers['Content-Type'] = (config.serviceInfo.consumes && config.serviceInfo.consumes[0]) || 'application/json';
         }
 
         // if the consumes has application/x-www-form-urlencoded and
