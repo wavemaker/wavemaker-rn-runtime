@@ -15,4 +15,5 @@ export default class BaseDatasetProps extends BaseProps {
   onFieldChange?: any;
   displaylabel?: any;
   displayimagesrc: any;
+  iconclass?: any;
 }
