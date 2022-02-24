@@ -32,7 +32,8 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
   text: {},
   action: {} as WmIconStyles,
   leftSection: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'row'
   },
   leftnavIcon: {
     root: {
@@ -118,6 +119,9 @@ BASE_THEME.addStyle('navbarButton', '', {
     fontSize: ThemeVariables.navbarFontSize
   },
   icon: {
+    root: {
+      color: ThemeVariables.navbarTextColor
+    },
     text: {
       color: ThemeVariables.navbarTextColor,
       fontSize: ThemeVariables.navbarIconSize
