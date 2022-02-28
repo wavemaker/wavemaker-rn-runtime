@@ -1,11 +1,11 @@
 import axios from "axios";
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
-import { BaseVariable, VariableConfig, VariableEvents } from "./base-variable";
-import { isObject, forEach, get, merge, includes, isEmpty, toUpper } from "lodash";
-import { WS_CONSTANTS } from "./utils/variable.constants";
-import {_setInput} from "./utils/variable.utils";
-import {$queue} from "./utils/inflight-queue";
+import { BaseVariable, VariableConfig, VariableEvents } from './base-variable';
+import { isObject, forEach, get, merge, includes, isEmpty, toUpper } from 'lodash';
+import { WS_CONSTANTS } from './utils/variable.constants';
+import { _setInput, isPageable } from './utils/variable.utils';
+import { $queue } from './utils/inflight-queue';
 
 export interface ServiceVariableConfig extends VariableConfig {
     serviceInfo: any;
@@ -91,7 +91,7 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         const proxyURL = config.baseUrl;
         let queryParams = '',
           headers: any = {},
-          requestBody: any = {},
+          requestBody: any,
           isProxyCall = isWebPreviewMode() ? get(config.serviceInfo, 'proxySettings.web') :  get(config.serviceInfo, 'proxySettings.mobile'),
           url = isProxyCall ? proxyURL + get(config.serviceInfo, 'relativePath') : (get(config.serviceInfo, 'directPath') || ''),
           requiredParamMissing: any = [],
@@ -185,10 +185,21 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         // to cancel variable xhr calls
         this.cancelTokenSource = axios.CancelToken.source();
         // @ts-ignore
-        return axios[config.serviceInfo.methodType].apply(this, (WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(config.serviceInfo.methodType.toUpperCase()) > -1 ? [url, {headers: headers, cancelToken: this.cancelTokenSource.token}] : [url, requestBody, {headers: headers, cancelToken: this.cancelTokenSource.token}])).then(result => {
+        return axios[config.serviceInfo.methodType].apply(this, (WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(config.serviceInfo.methodType.toUpperCase()) > -1 ? [url, {headers: headers, cancelToken: this.cancelTokenSource.token}] : [url, requestBody || {}, {headers: headers, cancelToken: this.cancelTokenSource.token}])).then(result => {
           config.onResult && config.onResult(this, result.data, result);
-          result.data = get(result.data, 'content', result.data);
-          this.dataSet = (!isObject(result.data)) ? {'value': result.data} : result.data;
+          const isResponsePageable = isPageable(result.data);
+          let response = result.data;
+          if (isResponsePageable) {
+            response = get(result.data, 'content', result.data);
+          }
+          this.dataSet = (!isObject(result.data)) ? {'value': result.data} : response;
+          if (isResponsePageable) {
+            Object.defineProperty(this.dataSet, 'content', {
+              get: () => {
+                return this.dataSet;
+              }
+            });
+          }
           // EVENT: ON_PREPARE_SETDATA
           const newDataSet = config.onBeforeDatasetReady && config.onBeforeDatasetReady(this, this.dataSet);
           if (newDataSet) {

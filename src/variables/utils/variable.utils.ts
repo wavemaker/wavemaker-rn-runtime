@@ -1,4 +1,4 @@
-import {forEach, get, isNumber, isObject} from "lodash";
+import { forEach, get, isNumber, isObject, isEqual, omit, keys } from "lodash";
 /**
  * sets the value against passed key on the "inputFields" object in the variable
  * @param targetObj: the object in which the key, value is to be set
@@ -178,4 +178,22 @@ export const replace = (template: any, map: any, parseError?: boolean) => {
   return template.replace(regEx, function (match: any, key: any) {
       return get(map, key);
   });
+};
+
+/*Function to check whether the specified object is a pageable object or not.*/
+export const isPageable = (obj: any): boolean => {
+  const pageable = {
+    content: [],
+    first: true,
+    last: true,
+    number: 0,
+    numberOfElements: 10,
+    size: 20,
+    sort: null,
+    totalElements: 10,
+    totalPages: 1
+  };
+  // paginated object may or may not contain 'empty' property. In either case, Pageable should return as true.
+  const paginatedObj = omit(obj, 'empty');
+  return isEqual(keys(pageable), keys(paginatedObj).sort());
 };

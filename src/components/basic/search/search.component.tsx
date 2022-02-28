@@ -17,7 +17,6 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 
 export class WmSearchState extends BaseDatasetState<WmSearchProps> {
-  searchQuery: any = '';
   isOpened: boolean = false;
   modalOptions = {} as ModalOptions;
   position = {
@@ -49,7 +48,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     this.dataProvider = new LocalDataProvider();
     if (this.props.datavalue) {
       this.updateState({
-        searchQuery: this.props.datavalue
+        props: {
+          query: this.props.datavalue
+        }
       } as WmSearchState);
     }
   }
@@ -69,7 +70,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     this.invokeEventCallback('onClear', [null, this]);
     this.hide();
     this.updateState({
-      searchQuery: '',
+      props: {
+        query: ''
+      },
       dataItems: this.state.dataItems ? this.state.dataItems.map((item: any) => {
         item.selected = false;
         return item;
@@ -95,9 +98,8 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       filteredData = props.type === 'search' && !queryText ? [] : this.dataProvider.filter(filterOptions);
     }
     this.updateState({
-      props: { result: filteredData.map( item => item.dataObject) },
+      props: { result: filteredData.map( item => item.dataObject), query: queryText },
       data: filteredData,
-      searchQuery: queryText,
     } as WmSearchState);
     if (!this.state.isOpened) {
       this.showPopover();
@@ -113,9 +115,8 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
      this.updateDatavalue(undefined);
      if (this.state.props.searchon === 'onsearchiconclick') {
        this.updateState({
-         props: { result: [] },
-         data: [],
-         searchQuery: value,
+         props: { result: [], query: value },
+         data: []
        } as WmSearchState);
      } else {
        this.updateFilteredData(value);
@@ -127,13 +128,13 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   invokeChange(e: any) {
     if (Platform.OS === 'web') {
       this.cursor = e.target.selectionStart;
-      this.setState({searchQuery: e.target.value});
+      this.updateState({ props: { query: e.target.value } } as WmSearchState);
     }
   }
 
   onFocus() {
     if (this.state.props.type === 'autocomplete') {
-      this.updateFilteredData(this.state.searchQuery || '');
+      this.updateFilteredData(this.state.props.query || '');
     }
     this.invokeEventCallback('onFocus', [null, this]);
   }
@@ -170,15 +171,16 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
 
   searchIconPress() {
     if (this.state.props.searchon === 'onsearchiconclick') {
-      this.updateFilteredData(this.state.searchQuery);
+      this.updateFilteredData(this.state.props.query);
     } else {
       this.onItemSelect(this.state.data[0]);
     }
   }
 
   onItemSelect(item: any) {
-    this.updateState({
-      searchQuery: item.displayexp || item.displayfield
+    this.updateState({ props: {
+        query: item.displayexp || item.displayfield
+      }
     } as WmSearchState);
     this.updateDatavalue(item.datafield);
     this.prevDatavalue = item.datafield;
@@ -192,7 +194,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     const props = this.state.props;
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
-    opts[valueExpr] = this.state.searchQuery || '';
+    opts[valueExpr] = this.state.props.query || '';
     return(
       /*
        * onLayout function is required.
@@ -218,7 +220,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
             onBlur={this.onBlur.bind(this)}
             {...opts}>
          </TextInput>
-         {props.showclear && this.state.searchQuery ? <WmButton onTap={this.clearSearch.bind(this)}
+         {props.showclear && this.state.props.query ? <WmButton onTap={this.clearSearch.bind(this)}
                    styles={this.styles.clearButton} iconclass={'wi wi-clear'}></WmButton> : null}
        </View>
         {props.showSearchIcon && props.type === 'search' ? <WmButton styles={this.styles.searchButton}
@@ -243,8 +245,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   updateDefaultQueryModel() {
     if (this.state.dataItems && this.state.dataItems.length && this.isDefaultQuery) {
         const selectedItem = find(this.state.dataItems, (item) => item.selected);
-        selectedItem && this.updateState({
-          searchQuery: selectedItem.displayexp || selectedItem.displayfield
+        selectedItem && this.updateState({ props: {
+            query: selectedItem.displayexp || selectedItem.displayfield
+          }
         } as WmSearchState);
     }
   }

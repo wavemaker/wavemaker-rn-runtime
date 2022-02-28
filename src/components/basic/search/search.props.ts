@@ -2,6 +2,7 @@ import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedat
 
 export default class WmSearchProps extends BaseDatasetProps {
   autofocus: boolean = false;
+  query?: string = '';
   searchkey?: any;
   type: 'search' | 'autocomplete' = 'search';
   datacompletemsg?: string = 'No more data to load';
