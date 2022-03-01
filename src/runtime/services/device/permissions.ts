@@ -23,7 +23,7 @@ export default {
       // requestPermissionsAsync is deprecated and requestForegroundPermissionsAsync is available only in sdk 41+
       query = Location.requestForegroundPermissionsAsync();
     } else if (type === 'video') {
-      query = Camera.requestPermissionsAsync();
+      query = Promise.all([Camera.requestCameraPermissionsAsync(), Camera.requestMicrophonePermissionsAsync()]);
     } else if (type === 'image' || type === 'camera') {
       query = Camera.requestCameraPermissionsAsync();
     } else if (type === 'contacts') {
