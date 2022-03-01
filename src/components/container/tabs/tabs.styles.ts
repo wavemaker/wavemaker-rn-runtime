@@ -10,8 +10,7 @@ export type WmTabsStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-tabs';
 export const DEFAULT_STYLES: WmTabsStyles = defineStyles({
     root: {
-      minHeight: 240,
-      backgroundColor: 'transparent',
+      height: 480,
       elevation: 0,
       borderBottomWidth: 1,
       borderStyle: 'solid',
