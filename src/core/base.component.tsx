@@ -64,7 +64,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         super(markupProps);
         this.state = (defaultState || {} as S);
         this.propertyProvider = new PropsProvider<T>(
-            Object.assign(defaultProps || {}, markupProps),
+            assign({}, defaultProps || {}, markupProps),
             (name: string, $new: any, $old: any) => {
                 WIDGET_LOGGER.debug(() => `${this.props.name ?? this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
                 this.onPropertyChange(name, $new, $old);
@@ -103,6 +103,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.cleanup.push(() => {
             this.updateStateTimeouts.forEach(v => clearTimeout(v));
         })
+    }
+
+    setDefaultProp(propName: string, value: any) {
+        this.propertyProvider.setDefault(propName, value);
     }
 
     onPropertyChange(name: string, $new: any, $old: any) {

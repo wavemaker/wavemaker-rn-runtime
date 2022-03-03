@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { merge } from 'lodash-es';
 
 import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 import PartialService, { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
@@ -74,6 +75,11 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       this.refresh();
       return Promise.resolve();
     }
+
+    resetAppLocale() {
+      this.appLocale = merge({ }, this.appConfig.appLocale.messages, this.appConfig.appLocale.prefabMessages[this.props.prefabname]);
+      Object.values(this.fragments).forEach((f: any) => (f as BaseFragment<any, any>).resetAppLocale());
+    } 
 
     componentWillUnmount() {
       super.componentWillUnmount();

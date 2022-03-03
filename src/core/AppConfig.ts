@@ -7,6 +7,7 @@ export interface Drawer {
 
 export default interface AppConfig {
     appProperties: any;
+    appLocale: any;
     url: string;
     wavIconAsset: any,
     loadApp: boolean;

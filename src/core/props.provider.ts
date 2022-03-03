@@ -4,6 +4,7 @@ import { BaseProps } from "./base.component";
 export class PropsProvider<T extends BaseProps> {
     private oldProps: any = {};
     private overriddenProps: any = {};
+    private dynamicDefaultProps: any = {};
     private propsProxy: T;
     private isDirty = false;
 
@@ -13,8 +14,10 @@ export class PropsProvider<T extends BaseProps> {
         this.propsProxy = (new Proxy({}, {
             get: (target, prop, receiver): any => {
                 const propName = prop.toString();
-                let value = this.overriddenProps[propName];
-                if (value === undefined) {
+                let value = this.dynamicDefaultProps[propName];
+                if (this.overriddenProps.hasOwnProperty(propName)) {
+                    value = this.overriddenProps[propName];
+                } else if (!isNil(this.oldProps[propName])) {
                     value = this.oldProps[propName];
                 }
                 return value;
@@ -34,6 +37,10 @@ export class PropsProvider<T extends BaseProps> {
                 return true;
             }
         }));
+    }
+
+    setDefault(propName: string, value: any) {
+        this.dynamicDefaultProps[propName] = value;
     }
 
     check(nextProps: T = this.initprops) {

@@ -33,6 +33,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public Widgets: any = {};
     public Variables: any = {};
     public theme: Theme = BASE_THEME;
+    public appLocale: any = {};
     private startUpVariables: string[] = [];
     private startUpActions: string[] = [];
     private autoUpdateVariables: string[] = [];
@@ -169,6 +170,11 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       return inlineStyles;
     }
 
+    resetAppLocale() {
+      this.appLocale = this.appConfig.appLocale.messages;
+      Object.values(this.fragments).forEach((f: any) => (f as BaseFragment<any, any>).resetAppLocale());
+    }
+
     eval(fn: Function, failOnError = false) {
       try {
         return fn.call(this);
@@ -184,6 +190,11 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     componentWillUnmount() {
       super.componentWillUnmount();
       this.targetWidget && this.targetWidget.invokeEventCallback('onDestroy', [null, this.proxy]);
+    }
+
+    componentDidMount(): void {
+      this.resetAppLocale();
+      super.componentDidMount();
     }
 
     memoize(key: string, o: any) {
@@ -234,6 +245,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     onAttach() {
       this.isDetached = false;
       this.watcher.isActive = true;
+      this.resetAppLocale();
       Object.values(this.fragments).forEach((f: any) => f.onAttach());
       this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.resume());
       this.targetWidget.invokeEventCallback('onAttach', [null, this.proxy]);
