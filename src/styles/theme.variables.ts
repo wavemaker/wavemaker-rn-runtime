@@ -381,6 +381,11 @@ export class ThemeVariables {
     barcodeScannerBgColor = this.defaultColorF;
     barcodeScannerBorderColor = this.widgetBorderColor;
     barcodeScannerTextColor = this.defaultTextColor;
+
+    //fileupload
+    fileuploadBgColor = this.defaultColorF;
+    fileuploadBorderColor = this.widgetBorderColor;
+    fileuploadTextColor = this.defaultTextColor;
 }
 
 export default new ThemeVariables();
