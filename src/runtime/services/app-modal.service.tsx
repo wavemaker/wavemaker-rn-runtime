@@ -10,7 +10,7 @@ class AppModalService implements ModalService {
     public modalsOpened = [] as ModalOptions[];
     public appConfig: any;
 
-    animatedRef: any;
+    animatedRefs: any = [];
 
     private clearBackButtonPress() {
       BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
@@ -22,7 +22,7 @@ class AppModalService implements ModalService {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
       }
     }
-    
+
     private handleBackButtonPress = () => {
       if (this.modalsOpened.length) {
         this.hideModal();
@@ -65,7 +65,7 @@ class AppModalService implements ModalService {
         const i = options ? this.modalsOpened.findIndex(o => o === options) : (this.modalsOpened.length - 1);
         if (i >= 0) {
           Promise.resolve()
-            .then(() => this.modalsOpened.length > 1 && this.animatedRef && this.animatedRef.triggerExit())
+            .then(() => this.modalsOpened.length > 1 && this.animatedRefs && this.animatedRefs[i].triggerExit())
             .then(() => {
               const o = this.modalsOpened[i];
               return o && o.onClose && o.onClose();

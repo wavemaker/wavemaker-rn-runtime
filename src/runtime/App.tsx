@@ -257,11 +257,11 @@ export default abstract class BaseApp extends React.Component {
     return <WmMemo watcher={this.watcher} render={(watch) => {
       watch(() => last(AppModalService.modalsOpened)?.content);
       this.modalsOpened = AppModalService.modalsOpened.length;
+          AppModalService.animatedRefs.length = 0;
       return(
         <>
         {AppModalService.modalOptions.content &&
           AppModalService.modalsOpened.map((o, i) => {
-            AppModalService.animatedRef = this.animatedRef;
             return (
               <TouchableOpacity activeOpacity={1} key={(o.name || '') + i}
                                 onPress={() => o.isModal && AppModalService.hideModal(o)}
@@ -271,7 +271,10 @@ export default abstract class BaseApp extends React.Component {
                                   { elevation: o.elevationIndex,
                                     zIndex: o.elevationIndex })}>
                 <Animatedview entryanimation={o.animation || 'fadeIn'}
-                                ref={ref => this.animatedRef = ref}
+                                ref={ref => {
+                                  this.animatedRef = ref;
+                                  AppModalService.animatedRefs[i] = ref;
+                                }}
                                 style={[styles.appModalContent, o.contentStyle]}>
                   <ScrollView style={{width: '100%'}}
                     contentContainerStyle={{
