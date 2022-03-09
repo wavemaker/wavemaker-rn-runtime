@@ -105,6 +105,9 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     const model = value && this.parseNumber(value.toString());
     const props = this.state.props;
     const oldValue = props.datavalue;
+    if (value === oldValue) {
+      return;
+    }
     const validNumber = this.isValidNumber(model);
     if (!validNumber) {
       this.invokeEventCallback('onError', [ event, this.proxy, value, oldValue ]);
@@ -125,10 +128,14 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
 
   onBlur(event: any) {
     if (this.state.props.updateon === 'blur') {
-      this.updateDatavalue(event.target.value || this.state.textValue, event, 'blur');
+      let newVal = event.target.value || this.state.textValue;
+      let oldVal = this.state.props.datavalue || '';
+      if (oldVal !== newVal) {
+        this.updateDatavalue(newVal, event, 'blur');
+      } else {
+        this.invokeEventCallback('onBlur', [event, this.proxy]);
+      }
     }
-
-    this.invokeEventCallback('onBlur', [ event, this.proxy]);
   }
 
   onFocus(event: any) {

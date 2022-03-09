@@ -95,6 +95,9 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   updateDatavalue(value: any, event?: any, source?: any) {
     const props = this.state.props;
     const oldValue = props.datavalue;
+    if (value === oldValue) {
+      return;
+    }
 
     // autotrim
     if (props.autotrim && props.datavalue && isString(props.datavalue)) {
@@ -128,11 +131,13 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   onBlur(event: any) {
     this.isTouched = true;
     if (this.state.props.updateon === 'blur') {
-      this.updateDatavalue(
-        event.target.value || this.state.textValue,
-        event,
-        'blur'
-      );
+      let newVal = event.target.value || this.state.textValue;
+      let oldVal = this.state.props.datavalue || '';
+      if (oldVal !== newVal) {
+        this.updateDatavalue(newVal, event, 'blur');
+      } else {
+        this.invokeEventCallback('onBlur', [event, this.proxy]);
+      }
     }
   }
 
