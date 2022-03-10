@@ -152,3 +152,24 @@ export const getSortedGroupedData = (groupedLiData: any, groupBy: string, orderb
 };
 
 export const isDefined = (v: any) => typeof v !== 'undefined';
+
+// try to convert the chekedvalue and unchecked values to boolean/number
+export const unStringify = (val: any, defaultVal?: boolean) => {
+  if (val === null) {
+    return defaultVal;
+  }
+
+  if (val === true || val === 'true') {
+    return true;
+  }
+
+  if (val === false || val === 'false') {
+    return false;
+  }
+
+  const number = parseInt(val, 10);
+  if (!isNaN(number)) {
+    return number;
+  }
+  return val;
+};

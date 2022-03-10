@@ -1,10 +1,11 @@
 import React from 'react';
+import { View } from 'react-native';
 import { Switch } from 'react-native-paper';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { unStringify } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmToggleProps from './toggle.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmToggleStyles } from './toggle.styles';
-import { ColorValue, View } from "react-native";;
 
 export class WmToggleState extends BaseComponentState<WmToggleProps> {
   isSwitchOn: boolean = false;
@@ -19,11 +20,10 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
       case 'datavalue':
-        let value = false;
-        if ($new === this.state.props.checkedvalue) {
-          value = true;
-        }
-        this.updateState({isSwitchOn: value} as WmToggleState);
+        let value =
+          unStringify($new) ===
+          unStringify(this.state.props.checkedvalue, true);
+        this.updateState({ isSwitchOn: value } as WmToggleState);
         this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
         break;
     }
@@ -35,10 +35,10 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
 
   onToggleSwitch(value: any) {
     const oldValue = this.state.props.datavalue;
-    this.updateState({isSwitchOn: value} as WmToggleState);
+    this.updateState({ isSwitchOn: value } as WmToggleState);
     const dataValue = value === true ? this.state.props.checkedvalue : this.state.props.uncheckedvalue;
     // @ts-ignore
-    this.updateState({props: {datavalue: dataValue}},
+    this.updateState({ props: { datavalue: dataValue } },
       ()=> {
         this.invokeEventCallback('onChange', [ null, this.proxy, dataValue, oldValue ]);
         this.invokeEventCallback('onBlur', [ null, this.proxy ]);
