@@ -26,6 +26,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   clearBtnClicked = false;
   modes = [] as string[];
   nativeModalOptions: ModalOptions = {} as any;
+  prevDatavalue: any;
 
   constructor(props: WmDatetimeProps, defaultClass = DEFAULT_CLASS, defaultStyles = DEFAULT_STYLES, defaultProps = new WmDatetimeProps()) {
     super(props, defaultClass, defaultStyles, defaultProps);
@@ -76,7 +77,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       //@ts-ignore
       case 'datavalue':
         this.invokeEventCallback('onChange', [null, this, $new, $old]);
-        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
+        this.prevDatavalue = $old;
         if (props.datavalue === CURRENT_TIME) {
           this.monitorAndUpdateCurrentTime();
         }
@@ -97,6 +98,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             displayValue: null as any
           } as BaseDatetimeState);
         }
+        this.props.onFieldChange && this.props.onFieldChange('datavalue', props.datavalue, this.prevDatavalue);
         break;
       case 'mindate':
         if (isString($new)) {

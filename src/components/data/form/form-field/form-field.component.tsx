@@ -23,7 +23,9 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
       this.updateState({ props: { datavalue: $new }} as WmFormFieldState, () => {
         !isDefault && this.invokeEventCallback('onChange', [undefined, this, $new, $old]);
       });
-      this.form.updateDataOutput.call(this.form, get(this.props, 'formKey', this.props.name), $new);
+      if (this.form) {
+        this.form.updateDataOutput.call(this.form, get(this.props, 'formKey', this.props.name), $new);
+      }
     }
   }
 
