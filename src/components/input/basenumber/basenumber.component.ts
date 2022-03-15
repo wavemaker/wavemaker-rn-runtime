@@ -217,8 +217,8 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
 
     //empty number widget should not show validation error when required is false
     // @ts-ignore
-    if(this.state.props.required === false && val === '') {
-      return false;
+    if (this.state.props.required === false && val === '') {
+      return true;
     }
     // id number is infinite then consider it as invalid value
     if (isNaN(val) || !isFinite(val) || (!Number.isInteger(props.step) &&
