@@ -48,7 +48,7 @@ export class UploadFileOperation implements Operation {
       data: formData
     }).then(
       (response) => {
-      return response.data;
+      return response.data[0];
     }, error => error);
   }
 }
