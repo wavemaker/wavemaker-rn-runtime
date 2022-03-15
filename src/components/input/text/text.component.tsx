@@ -18,7 +18,7 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
   renderWidget(props: WmTextProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
-    opts[valueExpr] = this.state.textValue || '';
+    opts[valueExpr] = this.state.textValue?.toString() || '';
     return (
         <TextInput
           ref={ref => {this.widgetRef = ref;

@@ -22,7 +22,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
   renderWidget(props: WmNumberProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
-    opts[valueExpr] = this.state.textValue.toString() || '';
+    opts[valueExpr] = this.state.textValue?.toString() || '';
     return (<TextInput
       ref={ref => {this.widgetRef = ref;
         // @ts-ignore

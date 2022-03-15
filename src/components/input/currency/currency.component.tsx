@@ -38,7 +38,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
   renderWidget(props: WmCurrencyProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
-    opts[valueExpr] = this.state.textValue.toString() || '';
+    opts[valueExpr] = this.state.textValue?.toString() || '';
     return (<View style={this.styles.root}>
       <View style={this.styles.labelWrapper}>
         <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
