@@ -35,6 +35,18 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     }
   };
 
+  onPropertyChange(name: string, $new: any, $old: any): void {
+      super.onPropertyChange(name, $new, $old);
+      switch(name) {
+        case 'datavalue':
+          if (!$new || $new.length === 0) {
+            this.updateState({
+              chipsList : []
+            } as WmChipsState);
+          }
+      }
+  }
+
   addItem($event: any, widget: any) {
     let newChipList = clone(this.state.chipsList),
       allowAdd;

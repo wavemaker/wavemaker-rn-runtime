@@ -36,6 +36,16 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     this.invokeEventCallback('onFocus', [event, this.proxy]);
   }
 
+  onPropertyChange(name: string, $new: any, $old: any): void {
+    super.onPropertyChange(name, $new, $old);
+      switch(name) {
+        case 'datavalue':
+          this.updateState({
+            selectedValue : $new
+          } as WmSelectState); 
+      }
+  }
+
   prepareModalOptions(content: React.ReactNode, styles: WmSelectStyles, modalService: ModalService) {
     const o = this.state.modalOptions;
     o.modalStyle = styles.modal;
