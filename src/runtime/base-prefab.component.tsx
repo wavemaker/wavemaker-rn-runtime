@@ -46,6 +46,7 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       this.Actions = {};
       this.Variables = {};
       this.appUrl = this.appConfig.url;
+      this.resourceBaseUrl = `${this.baseUrl}/app/prefabs/${props.prefabname}`;
       this.baseUrl = `${this.baseUrl}/prefabs/${props.prefabname}`;
       this.watcher = props.parentWatcher.create();
     }

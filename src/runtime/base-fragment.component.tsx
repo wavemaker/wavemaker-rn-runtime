@@ -29,6 +29,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public App: App;
     public onReady: Function = () => {};
     public baseUrl = '';
+    public resourceBaseUrl = '';
     public targetWidget = null as unknown as BaseComponent<any, any, any>;
     public Widgets: any = {};
     public Variables: any = {};
@@ -80,6 +81,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
               screenHeight: $new.height}]);
         }));
         this.baseUrl = this.appConfig.url;
+        this.resourceBaseUrl = this.appConfig.url;
         this.cleanup.push(() => this.onDestroy());
     }
 
