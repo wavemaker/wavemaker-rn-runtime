@@ -15,6 +15,7 @@ import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.c
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
+import {get} from "lodash-es";
 
 export class WmSearchState extends BaseDatasetState<WmSearchProps> {
   isOpened: boolean = false;
@@ -112,16 +113,17 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
 
   onChange(value: any) {
     this.isDefaultQuery = false;
-     this.updateDatavalue(undefined);
-     if (this.state.props.searchon === 'onsearchiconclick') {
-       this.updateState({
-         props: { result: [], query: value },
-         data: []
-       } as WmSearchState);
-     } else {
-       this.updateFilteredData(value);
-     }
-
+    if (this.state.props.searchon === 'onsearchiconclick') {
+      this.updateState({
+        props: {result: [], query: value},
+        data: []
+      } as WmSearchState);
+    } else {
+      this.updateFilteredData(value);
+    }
+    if (this.props.invokeEvent) {
+      this.props.invokeEvent('onChange', [undefined, this.proxy, value, this.prevDatavalue]);
+    }
      this.invokeEventCallback('onChange', [ undefined, this.proxy, value, this.prevDatavalue ]);
   }
 
@@ -185,8 +187,15 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     this.updateDatavalue(item.datafield);
     this.prevDatavalue = item.datafield;
     this.queryModel = item;
-    this.invokeEventCallback('onSelect', [null, this, item.datafield]);
-    this.invokeEventCallback('onSubmit', [null, this]);
+    if (get(this.props, 'formfield')) {
+      // @ts-ignore
+      this.props.invokeEvent('onSelect', [null, this, item.datafield]);
+      // @ts-ignore
+      this.props.invokeEvent('onSubmit', [null, this]);
+    } else {
+      this.invokeEventCallback('onSelect', [null, this, item.datafield]);
+      this.invokeEventCallback('onSubmit', [null, this]);
+    }
     this.hide();
   }
 

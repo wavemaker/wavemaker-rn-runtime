@@ -1,7 +1,7 @@
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.props';
 import { find, isEqual,isEmpty, isFunction, includes, get, forEach, isObject, isArray } from 'lodash';
-import { getGroupedData, getOrderedDataset } from "@wavemaker/app-rn-runtime/core/utils";
+import { getGroupedData, getOrderedDataset, isDefined } from "@wavemaker/app-rn-runtime/core/utils";
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseDatasetStyles } from "@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.styles";
 
 export class BaseDatasetState <T extends BaseDatasetProps> extends BaseComponentState<T> {
@@ -74,8 +74,20 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
   onChange(value: any) {
     const oldValue = this.state.props.datavalue;
     this.updateDatavalue(value);
-    this.invokeEventCallback('onChange', [ undefined, this.proxy, value, oldValue]);
+    if (value !== oldValue) {
+      if (this.props.onFieldChange) {
+        this.props.onFieldChange('datavalue', value, oldValue);
+      } else {
+        this.invokeEventCallback('onChange', [
+          undefined,
+          this.proxy,
+          value,
+          oldValue,
+        ]);
+      }
+    }
   }
+
   setDataItems(dataset: any, propsObj?: { [key: string]: any }) {
     const name = this.props.name;
     const props = this.state.props;
@@ -87,6 +99,10 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
       datavalueItems = datavalueItems.map((item: any) => item.trim());
     } else if (isArray(datavalue)) {
       datavalueItems = datavalue;
+    } else {
+      if (isDefined(datavalue)) {
+        datavalueItems = [datavalue];
+      }
     }
     if (typeof dataset === 'string') {
       dataItems = dataset.split(',').map((s, i) => {
@@ -105,6 +121,19 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
           dataItems.push({key: `${name}_item${key}`, displayfield: value, datafield: key, dataObject: dataset});
         });
       } else {
+        const isSelected = (item: any) => {
+          if (datavalueItems.length) {
+            let datafield = this.state.props.datafield;
+            if (!datafield) {
+              datafield = 'All Fields';
+            }
+            if (datafield === 'All Fields') {
+              includes(datavalueItems, item);
+            }
+            return includes(datavalueItems, get(item, datafield));
+          }
+          return false;
+        };
         dataItems = (dataset as any[]).map((d, i) => {
           return {
             key: `${name}_item${i}`,
@@ -112,7 +141,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
             displayfield: get(d, this.state.props.displayfield) ||  get(d, this.state.props.displaylabel),
             datafield: this.state.props.datafield === 'All Fields' ? d : get(d, this.state.props.datafield),
             displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : get(d, this.state.props.displayfield),
-            selected: includes(datavalueItems, get(d, this.state.props.datafield)) || (this.state.props.datafield === 'All Fields' ? !isEmpty(datavalueItems) ? includes(datavalueItems, d) : isEqual(datavalue, d) : datavalue === get(d, this.state.props.datafield)),
+            selected: isSelected(d),
             imgSrc: isFunction(this.state.props.displayimagesrc) ? this.state.props.displayimagesrc(d): get(d, this.state.props.displayimagesrc),
             icon: d[this.props.iconclass]
           };
