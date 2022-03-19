@@ -113,6 +113,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
 
   onChange(value: any) {
     this.isDefaultQuery = false;
+    const prevQuery = this.state.props.query;
     if (this.state.props.searchon === 'onsearchiconclick') {
       this.updateState({
         props: {result: [], query: value},
@@ -121,10 +122,18 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     } else {
       this.updateFilteredData(value);
     }
-    if (this.props.invokeEvent) {
-      this.props.invokeEvent('onChange', [undefined, this.proxy, value, this.prevDatavalue]);
+    if (value === '') {
+      this.updateState({
+        props: {
+          datavalue: '',
+        },
+      } as WmSearchState);
+      return;
     }
-     this.invokeEventCallback('onChange', [ undefined, this.proxy, value, this.prevDatavalue ]);
+    if (this.props.invokeEvent) {
+      this.props.invokeEvent('onChange', [undefined, this.proxy, value, prevQuery]);
+    }
+     this.invokeEventCallback('onChange', [ undefined, this.proxy, value, prevQuery ]);
   }
 
   invokeChange(e: any) {
