@@ -6,4 +6,5 @@ export default class WmToggleProps extends BaseProps {
   datavalue: any;
   readonly? = false;
   onFieldChange: any;
+  invokeEvent?: Function;
 }

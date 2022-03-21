@@ -40,7 +40,9 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     // @ts-ignore
     this.updateState({ props: { datavalue: dataValue } },
       ()=> {
-        this.invokeEventCallback('onChange', [ null, this.proxy, dataValue, oldValue ]);
+        if (!this.props.onFieldChange) {
+          this.invokeEventCallback('onChange', [null, this.proxy, dataValue, oldValue]);
+        }
         this.invokeEventCallback('onBlur', [ null, this.proxy ]);
       });
   }
