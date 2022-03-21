@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { find } from 'lodash';
+import { find, isEmpty } from 'lodash';
 
 import WmSelectProps from './select.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmSelectStyles } from './select.styles';
@@ -40,9 +40,11 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     super.onPropertyChange(name, $new, $old);
       switch(name) {
         case 'datavalue':
-          this.updateState({
-            selectedValue : $new
-          } as WmSelectState); 
+          if (isEmpty($new)) {
+            this.updateState({
+              selectedValue: this.state.props.placeholder
+            } as WmSelectState);
+          } 
       }
   }
 
