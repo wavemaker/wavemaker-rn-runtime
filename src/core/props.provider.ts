@@ -17,7 +17,7 @@ export class PropsProvider<T extends BaseProps> {
                 let value = this.dynamicDefaultProps[propName];
                 if (this.overriddenProps.hasOwnProperty(propName)) {
                     value = this.overriddenProps[propName];
-                } else if (!isNil(this.oldProps[propName])) {
+                } else if (this.oldProps.hasOwnProperty(propName)) {
                     value = this.oldProps[propName];
                 }
                 return value;

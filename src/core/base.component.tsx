@@ -191,7 +191,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     isVisible() {
         const show = this.state.props.show;
-        return show !== false && show !== 'false' && show !== '0';
+        return show !== false && show !== 'false' && show !== '0' && show !== null;
     }
 
     protected abstract renderWidget(props: T): ReactNode;
