@@ -47,6 +47,12 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
       }
   }
 
+  onDataItemsUpdate() {
+    super.onDataItemsUpdate();
+    this.isDefaultQuery = true;
+    this.updateDefaultQueryModel;
+  }
+
   addItem($event: any, widget: any) {
     let newChipList = clone(this.state.chipsList),
       allowAdd;

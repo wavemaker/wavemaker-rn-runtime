@@ -50,7 +50,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     const props = this.state.props;
     if (props.groupby) {
       const groupedData = dataItems && getGroupedData(dataItems, props.groupby, props.match, props.orderby, props.dateformat, this, 'dataObject');
-      this.updateState({ groupedData: groupedData } as S);
+      this.updateState({ groupedData: groupedData } as S, () => this.onDataItemsUpdate());
     }
   }
 
@@ -86,6 +86,10 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
         ]);
       }
     }
+  }
+
+  onDataItemsUpdate() {
+
   }
 
   setDataItems(dataset: any, propsObj?: { [key: string]: any }) {
@@ -151,11 +155,11 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     }
     if (props.groupby) {
       this.setGroupData(dataItems);
-      this.updateState({ dataItems: dataItems } as S);
+      this.updateState({ dataItems: dataItems } as S, () => this.onDataItemsUpdate());
     } else if (props.orderby) {
-      this.updateState({ dataItems: getOrderedDataset(dataItems, props.orderby, 'dataObject')} as S);
+      this.updateState({ dataItems: getOrderedDataset(dataItems, props.orderby, 'dataObject')} as S, () => this.onDataItemsUpdate());
     } else {
-      this.updateState({ dataItems: dataItems } as S);
+      this.updateState({ dataItems: dataItems } as S, () => this.onDataItemsUpdate());
     }
   }
 }
