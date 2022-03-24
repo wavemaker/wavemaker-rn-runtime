@@ -1,6 +1,6 @@
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.props';
-import { find, isEqual,isEmpty, isFunction, includes, get, forEach, isObject, isArray } from 'lodash';
+import { find, isEqual,isEmpty, isFunction, includes, get, forEach, isObject, isArray, filter, trim, uniqBy, uniqWith } from 'lodash';
 import { getGroupedData, getOrderedDataset, isDefined } from "@wavemaker/app-rn-runtime/core/utils";
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseDatasetStyles } from "@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.styles";
 
@@ -92,6 +92,28 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
 
   }
 
+  getUniqObjsByDataField(
+    data: any,
+    allowEmptyFields?: boolean
+  ) {
+    let uniqData;
+    const isAllFields = this.state.props.datafield === 'All Fields';
+
+    uniqData = isAllFields ? uniqWith(data, isEqual) : uniqBy(data, 'datafield');
+
+    if (!this.state.props.displayfield || allowEmptyFields) {
+      return uniqData;
+    }
+
+    // return objects having non empty datafield and display field values.
+    return filter(uniqData, (obj) => {
+      if (isAllFields) {
+        return trim(obj.displayfield);
+      }
+      return trim(obj.datafield) && trim(obj.displayfield);
+    });
+  }
+
   setDataItems(dataset: any, propsObj?: { [key: string]: any }) {
     const name = this.props.name;
     const props = this.state.props;
@@ -151,7 +173,9 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
           };
         });
       }
-
+    }
+    if (dataItems.length) {
+      dataItems = this.getUniqObjsByDataField(dataItems);
     }
     if (props.groupby) {
       this.setGroupData(dataItems);
