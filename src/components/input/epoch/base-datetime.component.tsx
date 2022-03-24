@@ -182,7 +182,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       mode={this.modes[0] as any}
       value={this.state.dateValue || new Date()}
       is24Hour={true}
-      display="default"
+      display={Platform.OS === 'ios' ? 'spinner': 'default'}
       onChange={(event: Event, date?: Date) => {
         if (date && this.state.props.mode === 'datetime' && this.modes[0] === 'time') {
           const dateSelected = this.state.dateValue;
