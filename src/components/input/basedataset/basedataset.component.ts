@@ -154,7 +154,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
               datafield = 'All Fields';
             }
             if (datafield === 'All Fields') {
-              includes(datavalueItems, item);
+              return includes(datavalueItems, item);
             }
             return includes(datavalueItems, get(item, datafield));
           }
