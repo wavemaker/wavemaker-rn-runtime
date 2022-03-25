@@ -123,6 +123,7 @@ export default abstract class BaseApp extends React.Component {
   }
 
   onBeforeServiceCall(config: AxiosRequestConfig) {
+    config.headers['X-Requested-With'] = 'XMLHttpRequest';
     console.log('onBeforeService call invoked on ' + config.url);
     return config
   }

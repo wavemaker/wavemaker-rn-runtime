@@ -77,8 +77,7 @@ class AppSecurityService implements SecurityService {
         return axios.post(options.baseURL + '/j_spring_security_check', payload, {
             withCredentials: true,
             headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-Requested-With': 'XMLHttpRequest'
+            'Content-Type': 'application/x-www-form-urlencoded'
           }}).then((response: AxiosResponse) => {
             const xsrfCookieValue = response.data ? response.data[XSRF_COOKIE_NAME] : '';
             this.token = xsrfCookieValue;
@@ -126,10 +125,7 @@ class AppSecurityService implements SecurityService {
 
     public appLogout(options: any) {
       return axios.post(options.baseURL + '/j_spring_security_logout', null, {
-          withCredentials: true,
-          headers: {
-          'X-Requested-With': 'XMLHttpRequest'
-          }
+          withCredentials: true
       }).then(() => {
           this.isLoggedIn = false;
           this.appConfig.currentPage?.goToPage('Login');
