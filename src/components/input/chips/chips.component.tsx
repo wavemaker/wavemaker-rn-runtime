@@ -216,7 +216,10 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
               displayfield={props.displayfield}
               datafield={props.datafield}
               onSubmit={this.addItem.bind(this)}
-              onChange={() => this.props.listener?.onComponentChange && this.props.listener?.onComponentChange(this)}
+              onChange={() => {
+                this.isDefaultQuery = false;
+                this.props.listener?.onComponentChange && this.props.listener?.onComponentChange(this)
+              }}
               showSearchIcon={false}
               showclear={false}
               type={props.minchars === 0 ? 'autocomplete' : 'search'}/>

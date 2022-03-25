@@ -151,7 +151,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   onBlur() {
-    this.isDefaultQuery = true;
     this.invokeEventCallback('onBlur', [null, this]);
   }
 
