@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { isNil } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmLinearlayoutitemProps from './linearlayoutitem.props';
@@ -14,6 +15,10 @@ export default class WmLinearlayoutitem extends BaseComponent<WmLinearlayoutitem
   }
 
   renderWidget(props: WmLinearlayoutitemProps) {
-    return (<View style={{...this.styles.root, flexGrow: props.flexgrow}}>{props.children}</View>); 
+    return (<View style={{
+      ...this.styles.root,
+      flexGrow: props.flexgrow,
+      flexShrink: isNil(props.flexshrink) ? props.flexgrow : props.flexshrink
+    }}>{props.children}</View>); 
   }
 }

@@ -5,9 +5,7 @@ export type WmLinearlayoutitemStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-linearlayoutitem';
 export const DEFAULT_STYLES: WmLinearlayoutitemStyles = defineStyles({
-    root: {
-        flexShrink: 1
-    },
+    root: {},
     text: {}
 });
 
