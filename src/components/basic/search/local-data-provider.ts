@@ -21,6 +21,21 @@ export class LocalDataProvider {
     if (props.searchkey) {
       const keys = split(props.searchkey, ',');
 
+      if (!entries.length) {
+        return [];
+      }
+
+      const entryKeys = Object.keys(entries[0]);
+
+      const hasEntry = keys.find(k => {
+        return entryKeys.includes(k)
+      });
+
+      if (!hasEntry) {
+        // widget bound to query variable, searchkey is query or path params and not the key from the entry obj
+        return entries;
+      }
+
       filteredData = filter(entries, (item: any) => {
         return keys.some(key => {
           let a = get(item.dataObject, key),
