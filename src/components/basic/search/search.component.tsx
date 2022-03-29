@@ -43,6 +43,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   private dataProvider: LocalDataProvider;
   public widgetRef: TextInput | null = null;
   private cursor: any = 0;
+  private isFocused: boolean = false;
 
   constructor(props: WmSearchProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSearchProps(), new WmSearchState());
@@ -85,7 +86,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     });
   }
 
-  updateFilteredData(queryText: any) {
+  updateFilteredData(queryText: string = '') {
     const props = this.state.props;
     const filterOptions = {
       query: queryText,
@@ -144,6 +145,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   onFocus() {
+    this.isFocused = true;
     if (this.state.props.type === 'autocomplete') {
       this.updateFilteredData(this.state.props.query || '');
     }
@@ -151,6 +153,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   onBlur() {
+    this.isFocused = false;
     this.invokeEventCallback('onBlur', [null, this]);
   }
 
@@ -262,8 +265,8 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   updateDefaultQueryModel() {
     if (this.state.dataItems && this.state.dataItems.length && this.isDefaultQuery) {
         const selectedItem = find(this.state.dataItems, (item) => item.selected);
-        selectedItem && this.updateState({ props: {
-            query: selectedItem.displayexp || selectedItem.displayfield
+        this.updateState({ props: {
+            query: selectedItem ? (selectedItem.displayexp || selectedItem.displayfield) : ''
           }
         } as WmSearchState);
     }
@@ -271,7 +274,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
 
   onDataItemsUpdate() {
     super.onDataItemsUpdate();
-    this.state.dataItems.length && this.updateFilteredData(this.state.props.query);
+    this.isFocused && this.state.dataItems.length && this.updateFilteredData(this.state.props.query);
   }
 
   componentDidMount(): void {

@@ -177,13 +177,14 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     if (dataItems.length) {
       dataItems = this.getUniqObjsByDataField(dataItems);
     }
+    const isUpdated = !isEqual(dataItems, this.state.dataItems);
     if (props.groupby) {
       this.setGroupData(dataItems);
-      this.updateState({ dataItems: dataItems } as S, () => this.onDataItemsUpdate());
+      this.updateState({ dataItems: dataItems } as S, () => isUpdated && this.onDataItemsUpdate());
     } else if (props.orderby) {
-      this.updateState({ dataItems: getOrderedDataset(dataItems, props.orderby, 'dataObject')} as S, () => this.onDataItemsUpdate());
+      this.updateState({ dataItems: getOrderedDataset(dataItems, props.orderby, 'dataObject')} as S, () => isUpdated && this.onDataItemsUpdate());
     } else {
-      this.updateState({ dataItems: dataItems } as S, () => this.onDataItemsUpdate());
+      this.updateState({ dataItems: dataItems } as S, () => isUpdated && this.onDataItemsUpdate());
     }
   }
 }

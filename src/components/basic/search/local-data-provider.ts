@@ -25,8 +25,9 @@ export class LocalDataProvider {
         return [];
       }
 
-      const entryKeys = Object.keys(entries[0]);
-
+      let entryObj = entries[0];
+      entryObj = entryObj.hasOwnProperty('dataObject') ? entryObj['dataObject'] : entryObj;
+      const entryKeys = Object.keys(entryObj);
       const hasEntry = keys.find(k => {
         return entryKeys.includes(k)
       });
