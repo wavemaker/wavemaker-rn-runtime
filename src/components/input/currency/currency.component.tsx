@@ -18,18 +18,17 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
 
   constructor(props: WmCurrencyProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCurrencyProps(), new WmCurrencyState());
-    if (!this.state.props.currency) {
-      this.state.props.currency = AppI18nService.currencyCode;
-    }
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
     super.onPropertyChange(name, $new, $old);
     switch (name) {
       case 'currency':
-        this.updateState({
-          currencySymbol: CURRENCY_INFO[$new].symbol,
-        } as WmCurrencyState);
+        if ($new) {
+          this.updateState({
+            currencySymbol: CURRENCY_INFO[$new].symbol,
+          } as WmCurrencyState);
+        }
         break;
 
     }

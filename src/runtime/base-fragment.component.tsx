@@ -165,6 +165,10 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       return (fmt || AppI18nService.dateTimeFormat || (get(this.appConfig, 'appLocale.formats.date') + ' ' + get(this.appConfig, 'appLocale.formats.time'))).replace(/d/g, 'D').replace(/E/g, 'd').replace(/y/g, 'Y');
     }
 
+    getCurrencySymbol(fmt?: string) {
+      return (fmt || AppI18nService.currencyCode || 'USD');
+    }
+
     getStyle(classes: string, inlineStyles:any = {}) {
       if (classes && classes.trim().length > 0) {
         return this.theme.mergeStyle({}, this.theme.getStyle(classes), inlineStyles);
