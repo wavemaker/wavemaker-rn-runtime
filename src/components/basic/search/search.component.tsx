@@ -103,7 +103,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       data: filteredData,
     } as WmSearchState);
     if (!this.state.isOpened) {
-      this.showPopover();
+      this.showPopover && this.showPopover();
     }
   }
 
