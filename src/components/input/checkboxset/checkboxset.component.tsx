@@ -32,6 +32,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     item.selected = !item.selected;
     const selectedValue: any = [];
     const selectedItem = find(this.state.dataItems, d => isEqual(d.key, item.key));
+    const oldValue = this.state.props.datavalue;
     selectedItem.selected = item.selected;
     forEach(this.state.dataItems, (item) => {
         if (item.selected) {
@@ -43,7 +44,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
       isValid = false;
     }
     this.updateState({ props: { datavalue: selectedValue }, isValid: isValid} as WmCheckboxsetState,
-      () => this.invokeEventCallback('onChange', [ undefined, this.proxy, selectedValue, this.state.props.datavalue ]));
+      () => this.invokeEventCallback('onChange', [ undefined, this.proxy, selectedValue, oldValue ]));
   }
 
   renderChild(item: any, index: any) {
