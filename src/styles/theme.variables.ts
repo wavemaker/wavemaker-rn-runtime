@@ -109,6 +109,7 @@ export class ThemeVariables {
     tabContentBgColor = this.widgetBgColor;
 
     //label Variables
+    labelHeaderColor = '#151420';
     labelDefaultColor = this.defaultColor8;
     labelDefaultContrastColor = this.defaultColorF;
     labelDangerColor = this.dangerColor;

@@ -82,7 +82,8 @@ const getHeadingStyles = (fontSize: number, overrides?: WmLabelStyles) => {
     text: {
       fontWeight: '400',
       fontSize: fontSize,
-      margin: 4
+      margin: 4,
+      color: ThemeVariables.labelHeaderColor
     }
   } as WmLabelStyles, overrides);
 };
