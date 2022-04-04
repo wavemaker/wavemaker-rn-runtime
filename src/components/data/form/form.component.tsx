@@ -20,11 +20,11 @@ export class WmFormState extends BaseComponentState<WmFormProps> {
   showInlineMsg: boolean = false;
 }
 export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFormStyles> {
-  public formFields: Array<BaseComponent<any, any, any>> = []; // contains array of direct widget elements [WmText, WmNumber, WmCurrent]
+  public formFields: Array<WmFormField> = []; // contains array of direct widget elements [WmText, WmNumber, WmCurrent]
   public parentFormRef: any;
   private formdataoutput: any;
   private toaster: any;
-  formWidgets: { [key: string]: WmFormField } = {}; // object containing key as name of formField and value as WmFormField proxy.
+  formWidgets: { [key: string]: BaseComponent<any, any, any> } = {}; // object containing key as name of formField and value as WmFormField proxy.
   constructor(props: WmFormProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormProps());
   }
@@ -48,10 +48,10 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   }
 
   registerFormFields(
-    formFields: Array<BaseComponent<any, any, any>>,
-    formWidgets: { [key: string]: WmFormField }
+    formFields: Array<WmFormField>,
+    formWidgets: { [key: string]: BaseComponent<any, any, any> }
   ) {
-    forEach(formWidgets, (w: WmFormField) => {
+    forEach(formFields, (w: WmFormField) => {
       if (!w.form) {
         w.form = this;
       }
@@ -67,17 +67,19 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   }
 
   applyFormData() {
-    forEach(this.formWidgets, (fw: WmFormField, fwName: string) => {
+    forEach(this.formWidgets, (fw: BaseComponent<any, any, any>, fwName: string) => {
       const field = this.formFields.find(f => {
         return f.props.name === fwName;
       });
-      const key = get(fw, 'formKey') || fwName;
-      field && field.setState({ isDefault: true });
-      fw.updateState({
-        props : {
-          datavalue: get(this.state.props.formdata, key)
-        }
-      } as WmFormFieldState);
+      const key = get(field, 'formKey') || fwName;
+      fw && fw.setState({ isDefault: true });
+      if (field) {
+        field.updateState({
+          props: {
+            datavalue: get(this.state.props.formdata, key)
+          }
+        } as WmFormFieldState);
+      }
     });
   }
 
@@ -85,12 +87,10 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     if (formField) {
       const dv = formField.state.props.defaultvalue;
       if (isDefined(dv) && dv !== null && this.formFields) {
-        const field = this.formFields.find((f) => {
-          return f.props.name === formField.props.name;
-        });
+        const field = formField.props?.name && this.formWidgets[formField.props.name];
         if (field) {
-          field.setState({ isDefault: true });
           field.updateState({
+            isDefault: true,
             props: {
               datavalue: dv
             }
@@ -105,7 +105,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       this.updateFormFieldDefaultValue(formField);
       return;
     }
-    forEach(this.formWidgets, (w: WmFormField) => {
+    forEach(this.formFields, (w: WmFormField) => {
       this.updateFormFieldDefaultValue(w);
     });
   }
@@ -113,19 +113,19 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   formreset() {
     forEach(this.formFields, (fw) => {
       fw.updateState({
-        isValid: true
-      });
-      fw.updateState({
+          isValid: true,
         props : {
           datavalue: ''
         }
-      }, () => {
-        const widget = this.formWidgets[fw.props.name];
+      } as WmFormFieldState, () => {
+        if (fw.props.name) {
+          const widget = this.formWidgets[fw.props.name];
           widget.updateState({
-              props : {
-                datavalue: ''
-              }
-            } as WmFormFieldState);
+            props : {
+              datavalue: ''
+            }
+          });
+        }
         }
       );
     });
@@ -150,14 +150,17 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     const formData = this.state.props.dataoutput;
     let isValid = true;
     forEach(formData, (val, key) => {
-      if(!val && this.formWidgets[key]?.props.required && widgetsWithUndefinedValue.indexOf(this.formWidgets[key]?.props.widget) < 0) {
+      const field = this.formFields.find((f) => {
+        return key === f.props.name;
+      });
+      if(!val && field?.props.required && widgetsWithUndefinedValue.indexOf(field?.props.widget) < 0) {
         isValid = false;
       }
-      const onValidate = get(this.formWidgets[key], 'props.onValidate');
-      onValidate && onValidate(this.formWidgets[key]);
+      const onValidate = get(field, 'props.onValidate');
+      onValidate && onValidate(field);
     });
     // check for isvalid state of formfield
-    forEach(this.formFields, (val) => {
+    forEach(this.formWidgets, (val) => {
       return isValid = val.state.isValid === false ? false : true;
     });
     if(!isValid) {

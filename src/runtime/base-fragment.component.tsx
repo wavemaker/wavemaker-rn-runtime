@@ -111,20 +111,22 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       }
       if (w.props.formfield) {
         if (!this.Widgets[w.props.formRef]) {
-          this.Widgets[w.props.formRef] = {formFields: []};
+          this.Widgets[w.props.formRef] = {formFields: [], formWidgets: {}};
         } else if (!this.Widgets[w.props.formRef].formFields) {
           this.Widgets[w.props.formRef].formFields = [];
         }
-        this.Widgets[w.props.formRef].formFields.push(w);
+        this.Widgets[w.props.formRef].formWidgets[w.props.name] = w;
         return;
       }
       if (w instanceof WmFormField) {
         if (!this.Widgets[w.props.formRef]) {
           this.Widgets[w.props.formRef] = {};
         }
+        if (!this.Widgets[w.props.formRef].formFields) {
+          this.Widgets[w.props.formRef].formFields = [];
+        }
         this.Widgets[w.props.formRef].formWidgets = this.Widgets[w.props.formRef].formWidgets || {};
-        // @ts-ignore
-        this.Widgets[w.props.formRef].formWidgets[w.props.name] = w;
+        this.Widgets[w.props.formRef].formFields.push(w);
         return;
       }
       this.Widgets[id] = w;
