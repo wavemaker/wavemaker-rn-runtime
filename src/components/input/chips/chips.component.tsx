@@ -199,7 +199,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
           this.isDefaultView() ? this.state.dataItems.map((item: any, index: any) => this.renderChip(item, index)) : null
         }
         { props.searchable || !this.isDefaultView() ?
-          <View style={this.styles.searchContainer}>
+          <View style={[this.styles.searchContainer, {flexDirection: props.inputposition === 'first' ? 'column' : 'column-reverse'}]}>
             <WmSearch
               styles={this.styles.search}
               placeholder={this.state.saturate ? this.maxSizeReached : props.placeholder}
