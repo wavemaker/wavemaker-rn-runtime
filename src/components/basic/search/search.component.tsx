@@ -230,7 +230,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
                ref.selectionStart = ref.selectionEnd = this.cursor;
              }}}
             placeholderTextColor={this.styles.placeholderText.color as any}
-            placeholder={props.placeholder}
+            placeholder={props.placeholder || 'Search'}
             autoFocus={props.autofocus}
             editable={props.disabled || props.readonly ? false : true}
             onChangeText={this.onChange.bind(this)}

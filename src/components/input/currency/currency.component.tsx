@@ -54,7 +54,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
         {...opts}
         editable={props.disabled || props.readonly ? false : true}
-        placeholder={props.placeholder}
+        placeholder={props.placeholder || 'Enter value'}
         onBlur={this.onBlur.bind(this)}
         onFocus={this.onFocus.bind(this)}
         onKeyPress={this.validateInputEntry.bind(this)}

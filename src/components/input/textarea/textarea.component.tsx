@@ -37,7 +37,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}
       maxLength={props.maxchars}
-      placeholder={props.placeholder}
+      placeholder={props.placeholder || 'Place your text'}
       onBlur={this.onBlur.bind(this)}
       onFocus={this.onFocus.bind(this)}
       onKeyPress={this.onKeyPress.bind(this)}
