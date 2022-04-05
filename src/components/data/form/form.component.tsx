@@ -125,6 +125,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
               datavalue: ''
             }
           });
+          widget?.reset();
         }
         }
       );

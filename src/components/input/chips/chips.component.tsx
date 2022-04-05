@@ -47,6 +47,12 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
       }
   }
 
+  reset() {
+    if (this.searchRef.state.props.query) {
+      this.searchRef.reset();
+    }
+  }
+
   onDataItemsUpdate() {
     super.onDataItemsUpdate();
     this.isDefaultQuery = true;

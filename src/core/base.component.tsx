@@ -113,6 +113,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     }
 
+    reset() {
+
+    }
+
     updateState(newPartialState: S, callback?: ()=>void) {
         const propsUpdated = !!newPartialState.props;
         const stateFn = (oldState: S) => {

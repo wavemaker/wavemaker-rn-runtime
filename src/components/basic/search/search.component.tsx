@@ -249,6 +249,16 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     );
   }
 
+  reset() {
+    if (this.state.props.query) {
+      this.updateState({
+        props: {
+          query: ''
+        }
+      } as WmSearchState);
+    }
+  }
+
   renderSearchItem(item: any, index: number) {
     const props = this.state.props;
     const imageStyles = { root: {height:props.imagewidth, width:props.imagewidth}}
