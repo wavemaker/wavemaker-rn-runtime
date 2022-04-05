@@ -9,4 +9,5 @@ export default class WmChipsProps extends BaseDatasetProps {
   minchars: number = 1;
   maxsize: number = null as any;
   inputposition: string = 'last';
+  invokeEvent?: Function;
 }

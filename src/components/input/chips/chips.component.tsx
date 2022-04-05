@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
-import { clone, findIndex, isUndefined, pull, forEach, filter, find, isEqual, merge } from 'lodash';
+import { clone, findIndex, get, isUndefined, pull, forEach, filter, find, isEqual, merge } from 'lodash';
 import WmChipsProps from './chips.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmChipsStyles } from './chips.styles';
 import WmSearch from '@wavemaker/app-rn-runtime/components/basic/search/search.component';
@@ -63,12 +63,14 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     let newChipList = clone(this.state.chipsList),
       allowAdd;
     newChipList.push(widget.queryModel);
+    const isFormFieldWidget = get(this.props, 'formfield');
     if (this.isDuplicate(widget.queryModel)) {
       this.resetSearchModel();
       return;
     }
 
-    allowAdd = this.invokeEventCallback('onBeforeadd', [null, this, widget.queryModel]);
+    // @ts-ignore
+    allowAdd = isFormFieldWidget ? this.props?.invokeEvent('onBeforeadd', [null, this, widget.queryModel]) : this.invokeEventCallback('onBeforeadd', [null, this, widget.queryModel]);
 
     if (!isUndefined(allowAdd) && !this.toBoolean(allowAdd)) {
       return;
@@ -80,7 +82,8 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
 
     this.setDatavalue(newChipList);
 
-    this.invokeEventCallback('onAdd', [null, this, widget.queryModel]);
+    // @ts-ignore
+    isFormFieldWidget ? this.props?.invokeEvent('onAdd', [null, this, widget.queryModel]) : this.invokeEventCallback('onAdd', [null, this, widget.queryModel]);
     this.resetSearchModel();
   }
 
@@ -137,9 +140,11 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
 
   removeItem(item: any, index: any) {
     let newChipList = clone(this.state.chipsList);
+    const isFormFieldWidget = get(this.props, 'formfield');
     newChipList = pull(newChipList, item);
     // prevent deletion if the before-remove event callback returns false
-    const allowRemove = this.invokeEventCallback('onBeforeremove',[null, this, item]);
+    // @ts-ignore
+    const allowRemove = isFormFieldWidget ? this.props.invokeEvent('onBeforeremove',[null, this, item]) : this.invokeEventCallback('onBeforeremove',[null, this, item]);
     if (!isUndefined(allowRemove) && !this.toBoolean(allowRemove)) {
       return;
     }
@@ -147,7 +152,8 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
       chipsList: newChipList
     } as WmChipsState);
     this.setDatavalue(newChipList);
-    this.invokeEventCallback('onRemove', [null, this, item]);
+    // @ts-ignore
+    isFormFieldWidget ? this.props.invokeEvent('onRemove', [null, this, item]) : this.invokeEventCallback('onRemove', [null, this, item]);
   }
 
   private isDefaultView() {
@@ -166,8 +172,15 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
           if (this.isDefaultView()) {
             this.selectChip(item);
           }
-          this.invokeEventCallback('onChipclick', [null, this, item]);
-          this.invokeEventCallback('onChipselect', [null, this, item]);
+          if (get(this.props, 'formfield')) {
+            // @ts-ignore
+            this.props.invokeEvent('onChipclick', [null, this, item]);
+            // @ts-ignore
+            this.props.invokeEvent('onChipselect', [null, this, item]);
+          } else {
+            this.invokeEventCallback('onChipclick', [null, this, item]);
+            this.invokeEventCallback('onChipselect', [null, this, item]);
+          }
         }}>
         {isSelected && this.isDefaultView() ? <WmIcon iconclass={'wi wi-done'} iconsize={16} styles={merge({}, this.styles.doneIcon, {icon: {color: isSelected ? this.styles.activeChipLabel.color : null}})}></WmIcon> : null}
         <WmPicture styles={this.styles.imageStyles} picturesource={item.imgSrc} shape='circle'></WmPicture>
