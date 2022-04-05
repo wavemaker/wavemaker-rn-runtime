@@ -41,7 +41,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
 
   onPress(item: any) {
     this.invokeEventCallback('onTap', [null, this.proxy]);
-    if (this.state.props.disabled) {
+    if (this.state.props.disabled || this.state.props.readonly) {
       return;
     }
     item.selected = !item.selected;
@@ -115,7 +115,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
   renderWidget(props: WmCheckboxsetProps) {
     const items = this.state.dataItems;
     return (
-      <View>
+      <View style={this.styles.root}>
         {props.groupby && this.renderGroupby()}
         {!props.groupby && this.renderCheckboxses(items)}
       </View>
