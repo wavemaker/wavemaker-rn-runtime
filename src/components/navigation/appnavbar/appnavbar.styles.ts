@@ -71,6 +71,10 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
     alignItems: 'center',
     alignContent: 'center'
   },
+  middleContent: {
+    flexDirection: 'row',
+    flexGrow: 1,
+  },
   rightSection: {
     flex: 1,
     flexDirection: 'row',

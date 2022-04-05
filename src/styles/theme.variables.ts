@@ -65,7 +65,7 @@ export class ThemeVariables {
     navbarTextColor = '#151420';
     navbarIconSize = 32;
     navbarFontSize = 24;
-    navbarImageSize = 24;
+    navbarImageSize = 32;
     navbarCaretColor = this.primaryColor;
     navitemChildBackgroundColor = this.primaryContrastColor;
     navitemChildTextColor = this.primaryColor;
