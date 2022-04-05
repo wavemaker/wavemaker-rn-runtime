@@ -24,6 +24,21 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCheckboxsetProps());
   }
 
+  computeDisplayValue() {
+    this.updateState({
+      props: {
+        displayValue: (this.state.dataItems || [])
+          .filter((item: any) => item.selected)
+          .map((item: any) => item.displayfield)
+      }
+    } as WmCheckboxsetState);
+  }
+
+  onDataItemsUpdate() {
+    super.onDataItemsUpdate();
+    this.computeDisplayValue();
+  }
+
   onPress(item: any) {
     this.invokeEventCallback('onTap', [null, this.proxy]);
     if (this.state.props.disabled) {
@@ -44,7 +59,10 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
       isValid = false;
     }
     this.updateState({ props: { datavalue: selectedValue }, isValid: isValid} as WmCheckboxsetState,
-      () => this.invokeEventCallback('onChange', [ undefined, this.proxy, selectedValue, oldValue ]));
+      () => {
+        this.computeDisplayValue();
+        this.invokeEventCallback('onChange', [ undefined, this.proxy, selectedValue, oldValue ]);
+      });
   }
 
   renderChild(item: any, index: any) {
