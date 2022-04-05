@@ -104,7 +104,9 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     const dataValue = newChipList.map((item: any) => item.datafield);
     this.updateDatavalue(dataValue);
     this.updateMaxSize(newChipList.length);
-    this.invokeEventCallback('onChange', [null, this, dataValue, this.prevDatavalue])
+    if (!this.props.invokeEvent) {
+      this.invokeEventCallback('onChange', [null, this, dataValue, this.prevDatavalue])
+    }
     this.prevDatavalue = dataValue;
   }
 
@@ -220,6 +222,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         { props.searchable || !this.isDefaultView() ?
           <View style={[this.styles.searchContainer, {flexDirection: props.inputposition === 'first' ? 'column' : 'column-reverse'}]}>
             <WmSearch
+              name="app-chip-search"
               styles={this.styles.search}
               placeholder={this.state.saturate ? this.maxSizeReached : props.placeholder}
               listener={this.listener}
