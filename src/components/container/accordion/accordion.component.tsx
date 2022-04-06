@@ -60,7 +60,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   renderAccordionpane(item: any, index: any, isExpanded = true, accordionpanes: any[] = []) {
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     return (
-      <View style={this.styles.pane}>
+      <View style={this.styles.pane} key={item.props.name}>
         <List.Accordion title={isDefined(item.props.title) ? item.props.title : 'Title'}
                         style={[
                           this.styles.header,
