@@ -24,7 +24,6 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
           unStringify($new) ===
           unStringify(this.state.props.checkedvalue, true);
         this.updateState({ isSwitchOn: value } as WmToggleState);
-        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
         break;
     }
   }
@@ -42,6 +41,8 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
       ()=> {
         if (!this.props.onFieldChange) {
           this.invokeEventCallback('onChange', [null, this.proxy, dataValue, oldValue]);
+        } else {
+          this.props.onFieldChange && this.props.onFieldChange('datavalue', dataValue, oldValue);
         }
         this.invokeEventCallback('onBlur', [ null, this.proxy ]);
       });

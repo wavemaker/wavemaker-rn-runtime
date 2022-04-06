@@ -31,7 +31,6 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
         break;
       case 'datavalue':
         this.setChecked($new, this.state.props.checkedvalue);
-        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old);
         break;
     }
   }
@@ -56,6 +55,8 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
       () => {
         if (!this.props.onFieldChange) {
           this.invokeEventCallback('onChange', [null, this.proxy, dataValue, oldValue]);
+        } else {
+          this.props.onFieldChange && this.props.onFieldChange('datavalue', dataValue, oldValue);
         }
         this.invokeEventCallback('onBlur', [ null, this.proxy ]);
       });
