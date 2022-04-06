@@ -74,6 +74,21 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     this?.widgetRef?.focus();
   }
 
+  computeDisplayValue() {
+    this.updateState({
+      props: {
+        displayValue: (this.state.dataItems || [])
+          .filter((item: any) => item.selected)
+          .map((item: any) => item.displayfield)
+      }
+    } as WmSelectState);
+  }
+
+  onDataItemsUpdate() {
+    super.onDataItemsUpdate();
+    this.computeDisplayValue();
+  }
+
   renderSelect() {
     const props = this.state.props;
     return (
@@ -110,6 +125,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
       selectedValue: isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)
     } as WmSelectState);
     this.onChange(isPlaceholder ? '' : this.state.props.datafield === 'All Fields'  ? item.dataObject : item.datafield);
+    this.computeDisplayValue();
     this.hide();
   }
 
