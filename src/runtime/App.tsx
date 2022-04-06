@@ -301,6 +301,19 @@ export default abstract class BaseApp extends React.Component {
     }}/>;
   }
 
+  renderDisplayManager(): ReactNode {
+    return <WmMemo watcher={this.watcher} render={(watch) => {
+      watch(() => AppDisplayManagerService.displayOptions.content);
+      return AppDisplayManagerService.displayOptions.content
+        ? (<View style={[styles.displayViewContainer, {
+          elevation: this.toastsOpened + this.modalsOpened + 1,
+          zIndex: this.toastsOpened + this.modalsOpened + 1
+        }]}>
+          {AppDisplayManagerService.displayOptions.content}
+        </View>) : null;
+    }}/>
+  }
+
   renderIconsViewSupportForWeb() {
     try {
       return (<style type="text/css">{`
@@ -348,13 +361,6 @@ export default abstract class BaseApp extends React.Component {
                       drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
                       drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
                       {commonPartial}
-                    <WmMemo watcher={this.watcher} render={(watch) => {
-                      watch(() => AppDisplayManagerService.displayOptions.content);
-                      return AppDisplayManagerService.displayOptions.content
-                        ? (<View style={styles.displayViewContainer}>
-                          {AppDisplayManagerService.displayOptions.content}
-                        </View>) : null;
-                    }}/>
                   </View>
                 </View>))
               )
@@ -362,6 +368,7 @@ export default abstract class BaseApp extends React.Component {
           </SafeAreaInsetsContext.Consumer>
           {this.renderToasters()}
           {this.renderDialogs()}
+          {this.renderDisplayManager()}
           </React.Fragment>
         </PaperProvider>
       </SafeAreaProvider>
