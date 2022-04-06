@@ -136,7 +136,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
         return {
           key: `${name}_item${i}`,
           dataObject: s,
-          displayfield: s,
+          displayfield: s.toString(),
           datafield: s,
           selected: includes(datavalueItems, s) || includes(datavalueItems, s.toString()) || datavalue === s ? true : false,
         };
@@ -165,7 +165,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
           return {
             key: `${name}_item${i}`,
             dataObject: d,
-            displayfield: get(d, this.state.props.displayfield) ||  get(d, this.state.props.displaylabel),
+            displayfield: (get(d, this.state.props.displayfield))?.toString() ||  (get(d, this.state.props.displaylabel))?.toString(),
             datafield: this.state.props.datafield === 'All Fields' ? d : get(d, this.state.props.datafield),
             displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : get(d, this.state.props.displayfield),
             selected: isSelected(d),
