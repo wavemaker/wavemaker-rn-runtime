@@ -138,7 +138,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
           dataObject: s,
           displayfield: s,
           datafield: s,
-          selected: includes(datavalueItems, s) || datavalue === s ? true : false,
+          selected: includes(datavalueItems, s) || includes(datavalueItems, s.toString()) || datavalue === s ? true : false,
         };
       });
     } else if (dataset) {
@@ -156,7 +156,8 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
             if (datafield === 'All Fields') {
               return includes(datavalueItems, item);
             }
-            return includes(datavalueItems, get(item, datafield));
+            let df = get(item, datafield);
+            return includes(datavalueItems, df) || includes(datavalueItems, df.toString());
           }
           return false;
         };
