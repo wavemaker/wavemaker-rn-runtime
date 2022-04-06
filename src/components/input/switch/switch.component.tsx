@@ -25,8 +25,12 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
       value = selectedItem && selectedItem.dataObject;
     }
     // @ts-ignore
-    this.updateState({props: {datavalue: value}},
-      ()=>this.invokeEventCallback('onChange', [ undefined, this.proxy, value, this.state.props.datavalue ]));
+    this.updateState({props: {datavalue: value}, isDefault: false},
+      () => {
+      if (!this.props.invokeEvent) {
+        this.invokeEventCallback('onChange', [undefined, this.proxy, value, this.state.props.datavalue])
+      }
+      });
   }
 
   onTap(event: any) {

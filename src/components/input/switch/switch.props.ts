@@ -4,4 +4,5 @@ import BaseDatasetProps from '../basedataset/basedataset.props';
 export default class WmSwitchProps extends BaseDatasetProps {
   dataset: any = 'yes, no, maybe';
   dataItems: any;
+  invokeEvent?: Function;
 }
