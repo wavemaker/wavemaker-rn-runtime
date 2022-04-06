@@ -41,6 +41,9 @@ export const DEFAULT_STYLES: WmNavItemStyles = defineStyles({
       }
     } as WmAnchorStyles,
     caretIcon: {
+      root : {
+        paddingRight: 12
+      },
       text: {
         color: ThemeVariables.navbarCaretColor
       }
