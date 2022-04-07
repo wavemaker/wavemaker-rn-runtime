@@ -217,6 +217,7 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         }).then(() => {
           this.notify(VariableEvents.AFTER_INVOKE, [this, this.dataSet]);
           $queue.process(this);
+          config.onCanUpdate && config.onCanUpdate();
           return this;
         });
     }
