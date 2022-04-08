@@ -55,7 +55,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
   }
 
   updateDatavalue(value: any) {
-    this.updateState({ props: { datavalue: value } } as S);
+    this.updateState({ props: { datavalue: value } } as S, () => this.computeDisplayValue());
   }
 
   onValueChange(value: any) {
@@ -88,8 +88,18 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     }
   }
 
-  onDataItemsUpdate() {
+  computeDisplayValue() {
+    this.updateState({
+      props: {
+        displayValue: (this.state.dataItems || [] as any)
+          .filter((item: any) => item.selected)
+          .map((item: any) => item.displayfield)
+      }
+    } as S);
+  }
 
+  onDataItemsUpdate() {
+    this.computeDisplayValue();
   }
 
   getUniqObjsByDataField(

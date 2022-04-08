@@ -14,6 +14,7 @@ export default class BaseDatasetProps extends BaseProps {
   dateformat?: any;
   onFieldChange?: any;
   displaylabel?: any;
+  displayValue?: any;
   displayimagesrc: any;
   iconclass?: any;
 }

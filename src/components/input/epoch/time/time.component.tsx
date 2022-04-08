@@ -8,6 +8,14 @@ export default class WmTime extends BaseDatetime {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTimeProps());
   }
 
+  onDateChange($event: Event, date?: Date): void {
+    super.onDateChange($event, date);
+  }
+
+  get timestamp() {
+    return this.state.dateValue;
+  }
+
   renderWidget(props: WmTimeProps) {
     return super.renderWidget(props);
   }

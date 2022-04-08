@@ -9,6 +9,7 @@ import { cloneDeep, isArray, isEmpty, isNumber, isString } from 'lodash-es';
 
 export class WmRatingState extends BaseComponentState<WmRatingProps> {
   items: any[] = null as any;
+  caption: any = null as any;
   selectedIndex = -1;
 }
 
@@ -16,6 +17,10 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
 
   constructor(props: WmRatingProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmRatingProps());
+  }
+
+  get caption() {
+    return this.state.caption;
   }
 
   prepareItems(props: WmRatingProps) {
@@ -41,9 +46,23 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
         selectedIndex = props.datavalue;
       }
     }
+    let caption: any = '';
+    if (selectedIndex > -1 && props.showcaptions) {
+      const selectedItem = items[selectedIndex];
+      if (selectedItem) {
+        if (props.getDisplayExpression) {
+          caption = props.getDisplayExpression(selectedItem);
+        } else {
+          caption = selectedItem[props.displayfield as string];
+        }
+      } else {
+        caption = selectedIndex + 1;
+      }
+    }
     this.updateState({
       items: items,
-      selectedIndex: selectedIndex
+      selectedIndex: selectedIndex,
+      caption: caption
     } as WmRatingState);
   }
 
@@ -90,19 +109,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
   renderWidget(props: WmRatingProps) {
     const maxValue = props.maxvalue ? +props.maxvalue : 5;
     const arr = Array.from(Array(maxValue).keys());
-    let caption = null;
-    if (this.state.selectedIndex > -1 && props.showcaptions) {
-      const selectedItem = this.state.items[this.state.selectedIndex];
-      if (selectedItem) {
-        if (props.getDisplayExpression) {
-          caption = props.getDisplayExpression(selectedItem);
-        } else {
-          caption = selectedItem[props.displayfield as string];
-        }
-      } else {
-        caption = this.state.selectedIndex + 1;
-      }
-    }
+    
     let selectedIconStyles = this.styles.selectedIcon;
     if (props.iconcolor) {
       selectedIconStyles = cloneDeep(this.styles.selectedIcon);
@@ -128,7 +135,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
           onTap={() => { this.changeValue(i)}}
         ></WmIcon> : null
       ))}
-      { caption && (<Text style={this.styles.text}>{caption}</Text>)}
+      { this.state.caption && (<Text style={this.styles.text}>{this.state.caption}</Text>)}
     </View>);
   }
 }
