@@ -40,7 +40,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     super.onPropertyChange(name, $new, $old);
       switch(name) {
         case 'datavalue':
-          if (isEmpty($new)) {
+          if (isNaN($new) && isEmpty($new)) {
             this.updateState({
               selectedValue: this.state.props.placeholder
             } as WmSelectState);

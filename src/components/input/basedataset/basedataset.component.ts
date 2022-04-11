@@ -167,7 +167,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
               return includes(datavalueItems, item);
             }
             let df = get(item, datafield);
-            return includes(datavalueItems, df) || includes(datavalueItems, df.toString());
+            return !!df && (includes(datavalueItems, df) || includes(datavalueItems, df.toString()));
           }
           return false;
         };
