@@ -93,7 +93,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
       props: {
         displayValue: (this.state.dataItems || [] as any)
           .filter((item: any) => item.selected)
-          .map((item: any) => item.displayfield)
+          .map((item: any) => item.displayexp || item.displayfield)
       }
     } as S);
   }
