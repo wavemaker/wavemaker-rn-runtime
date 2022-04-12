@@ -45,10 +45,9 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
       borderColor: ThemeVariables.wizardStepDoneColor
     },
     wizardHeader: {
-      height: 80,
       padding: 8,
       flexDirection: 'row',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       justifyContent: 'center'
     },
     stepWrapper: {
