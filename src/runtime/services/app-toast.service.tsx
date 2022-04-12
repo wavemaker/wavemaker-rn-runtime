@@ -25,15 +25,14 @@ class AppToastService implements ToastService {
             if (options.hideOnClick) {
               let cb = options.onClick;
               options.onClick = () => {
-                this.hideToast(options);
                 cb && cb();
+                this.hideToast(options);
                 clearTimeout(timeout);
               }
             }
             if (options.duration) {
               timeout = setTimeout(() => {
                     this.hideToast(options);
-                    options.onClose && options.onClose();
                 }, options.duration);
             }
         }
@@ -44,6 +43,7 @@ class AppToastService implements ToastService {
         if (i >= 0) {
             const o = this.toastsOpened.splice(i, 1)[0];
             injector.get<AppConfig>('APP_CONFIG').refresh();
+            options?.onClose && options.onClose();
         }
     }
 }
