@@ -88,16 +88,23 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   }
 
   selectChip(chipItem: any) {
+    if (!chipItem.selected && this.state.props.maxsize > 0 && (this.state.chipsList.length === this.state.props.maxsize)) {
+      return;
+    }
     chipItem.selected = !chipItem.selected;
-    const selectedValue: any = [];
+    const newChipList: any = [];
     const selectedItem = find(this.state.dataItems, d => isEqual(d.key, chipItem.key));
     selectedItem.selected = chipItem.selected;
     forEach(this.state.dataItems, (item) => {
       if (item.selected) {
-        selectedValue.push(item);
+        newChipList.push(item);
       }
     });
-    this.setDatavalue(selectedValue);
+    this.updateState({
+      chipsList: newChipList
+    } as WmChipsState);
+
+    this.setDatavalue(newChipList);
   }
 
   setDatavalue(newChipList: any) {
