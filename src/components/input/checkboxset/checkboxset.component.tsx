@@ -62,6 +62,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
 
   updateDatavalue(value: any) {
     this.updateState({ props: { datavalue: value }} as WmCheckboxsetState);
+    return Promise.resolve();
   }
 
   check() {

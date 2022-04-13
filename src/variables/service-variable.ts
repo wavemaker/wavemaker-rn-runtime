@@ -65,9 +65,10 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
       return $queue.submit(this).then(this._invoke.bind(this, options, onSuccess, onError));
     }
 
-    _invoke(options? : any, onSuccess?: Function, onError?: Function) {
+    async _invoke(options? : any, onSuccess?: Function, onError?: Function) {
         let params = options ? (options.inputFields ? options.inputFields : options) : undefined;
         if (!params) {
+          await super.invoke(params, onSuccess, onError);
           const configParams = !isEmpty(this.params) ? this.params : this.config.paramProvider();
           params = Object.keys(configParams).length ? configParams : undefined;
         }
@@ -87,7 +88,6 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         if (onBeforeCallback) {
           params = onBeforeCallback;
         }
-        super.invoke(params);
         const proxyURL = config.baseUrl;
         let queryParams = '',
           headers: any = {},

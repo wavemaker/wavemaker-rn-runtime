@@ -55,7 +55,15 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
   }
 
   updateDatavalue(value: any) {
-    this.updateState({ props: { datavalue: value } } as S, () => this.computeDisplayValue());
+    return new Promise<void>((resolve) => {
+      this.updateState({ 
+        props: { datavalue: value }
+       } as S, 
+       () => {
+        this.computeDisplayValue();
+        resolve();
+       });
+    });
   }
 
   onValueChange(value: any) {
@@ -73,19 +81,21 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
 
   onChange(value: any) {
     const oldValue = this.state.props.datavalue;
-    this.updateDatavalue(value);
-    if (value !== oldValue) {
-      if (this.props.onFieldChange) {
-        this.props.onFieldChange('datavalue', value, oldValue);
-      } else {
-        this.invokeEventCallback('onChange', [
-          undefined,
-          this.proxy,
-          value,
-          oldValue,
-        ]);
+    this.updateDatavalue(value)
+    .then(() => {
+      if (value !== oldValue) {
+        if (this.props.onFieldChange) {
+          this.props.onFieldChange('datavalue', value, oldValue);
+        } else {
+          this.invokeEventCallback('onChange', [
+            undefined,
+            this.proxy,
+            value,
+            oldValue,
+          ]);
+        }
       }
-    }
+    });
   }
 
   computeDisplayValue() {
