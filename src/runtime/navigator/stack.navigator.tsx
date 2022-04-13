@@ -40,12 +40,20 @@ class Screen extends React.Component {
       setTimeout(() => {
         this.setState(() => ({renew: true, page: null}));
       }, 100);
-    }})
+    }});
   }
 
   render() {
     return (this.state as any).page || (<View/>);
   }
+}
+
+const getPageId = (pageName: string, pageParams: any) => {
+  const pageParamsStr = pageParams ? Object.keys(pageParams)
+    .sort()
+    .map((k: string) => `${k}=${pageParams[k]}`)
+    .join('&') : '';
+  return `${pageName}?${pageParamsStr}`;
 }
 
 const AppStackNavigator = (props: AppStackNavigatorProps) => {
@@ -56,8 +64,9 @@ const AppStackNavigator = (props: AppStackNavigatorProps) => {
         <Stack.Screen key={p.name}
           name={p.name}
           component={Screen}
+          getId={({params}) => getPageId(p.name, params)}
           options={{
-            headerShown: false,
+            headerShown: false
           }}
         />);
       })}
