@@ -147,7 +147,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   onFocus() {
     this.isFocused = true;
     if (this.state.props.type === 'autocomplete') {
-      this.cursor = this.state.props.query?.length || 0;
       this.updateFilteredData(this.state.props.query || '');
     }
     this.invokeEventCallback('onFocus', [null, this]);
@@ -210,6 +209,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     }
     this.hide();
   }
+  onSelectionChange(e: any) {
+    this.cursor = e.nativeEvent.selection.start;
+  }
 
   renderSearchBar() {
     const props = this.state.props;
@@ -237,6 +239,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
             onChangeText={this.onChange.bind(this)}
             onChange={this.invokeChange.bind(this)}
             onFocus={this.onFocus.bind(this)}
+            onSelectionChange={this.onSelectionChange.bind(this)}
             onLayout={e => {this.searchInputWidth = e.nativeEvent.layout.width}}
             onBlur={this.onBlur.bind(this)}
             {...opts}>
