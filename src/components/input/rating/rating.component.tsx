@@ -78,7 +78,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
           this.invokeEventCallback('onChange', [null, this, $new, $old]);
         }
         break;
-      case 'readonly' : 
+      case 'readonly' :
         this.updateState({
           props: {
             disabled: $new
@@ -109,7 +109,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
   renderWidget(props: WmRatingProps) {
     const maxValue = props.maxvalue ? +props.maxvalue : 5;
     const arr = Array.from(Array(maxValue).keys());
-    
+
     let selectedIconStyles = this.styles.selectedIcon;
     if (props.iconcolor) {
       selectedIconStyles = cloneDeep(this.styles.selectedIcon);
@@ -135,7 +135,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
           onTap={() => { this.changeValue(i)}}
         ></WmIcon> : null
       ))}
-      { this.state.caption && (<Text style={this.styles.text}>{this.state.caption}</Text>)}
+      { !!this.state.caption && (<Text style={this.styles.text}>{this.state.caption}</Text>)}
     </View>);
   }
 }

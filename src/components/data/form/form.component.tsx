@@ -64,6 +64,17 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       this.applyFormData();
     }
     this.applyDefaultValue();
+
+    // setting default form dataoutput.
+    if (!this.formdataoutput) {
+      this.formdataoutput = {};
+      formFields.forEach((w: WmFormField) => {
+        const name = get(w.props, 'formKey') || w.props.name;
+        if (name) {
+          this.formdataoutput[name] = w.props.datavalue;
+        }
+      });
+    }
   }
 
   applyFormData() {
@@ -148,7 +159,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   // @ts-ignore
   handleSubmit(event?: any) {
     event?.preventDefault();
-    const formData = this.state.props.dataoutput;
+    const formData = this.state.props.dataoutput || this.formdataoutput;
     let isValid = true;
     forEach(formData, (val, key) => {
       const field = this.formFields.find((f) => {
