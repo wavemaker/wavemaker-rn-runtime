@@ -6,10 +6,10 @@ export interface Drawer {
 }
 
 export default interface AppConfig {
+    assets: any;
     appProperties: any;
     appLocale: any;
     url: string;
-    wavIconAsset: any,
     loadApp: boolean;
     refresh: () => void,
     currentPage?: any;

@@ -1167,7 +1167,7 @@ let fontSet: Icon<any, any> = null as any;
 export default () => {
     if (!fontSet) {
         const appConfig = injector.get<AppConfig>('APP_CONFIG');
-        fontSet = appConfig.wavIconAsset;
+        fontSet = appConfig.assets['wavicon'];
     }
-    return fontSet
+    return fontSet;
 };

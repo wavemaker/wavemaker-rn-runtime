@@ -6,12 +6,16 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmIconProps from './icon.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmIconStyles } from './icon.styles';
 import getWavIcon from './wavicon.component';
+import getStreamlineLightIcon from './streamline-light-icon.component';
+import getStreamlineRegularIcon from './streamline-regular-icon.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 interface IconDef {
   isFontAwesome: boolean;
   isWavIcon: boolean;
+  isStreamlineLightIcon: boolean;
+  isStreamlineRegularIcon: boolean;
   type: string;
   rotate: string;
   size: number;
@@ -50,11 +54,17 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     } as IconDef;
     const splits = iconClass.split(' ');
     iconDef.isFontAwesome = !!splits.find(v => v === 'fa');
+    iconDef.isStreamlineLightIcon = !!splits.find(v => v === 'wm-sl-l');
+    iconDef.isStreamlineRegularIcon = !!splits.find(v => v === 'wm-sl-r');
     if (iconDef.isFontAwesome) {
-      iconDef.type = splits.find(v => v.startsWith('fa-'))?.substr(3) || '';
+      iconDef.type = splits.find(v => v.startsWith('fa-'))?.substring(3) || '';
+    } else if (iconDef.isStreamlineLightIcon) {
+      iconDef.type = splits.find(v => v.startsWith('sl-'))?.substring(3) || '';
+    } else if (iconDef.isStreamlineRegularIcon) {
+      iconDef.type = splits.find(v => v.startsWith('sl-'))?.substring(3) || '';
     } else {
       iconDef.isWavIcon = !iconDef.isFontAwesome && !!splits.find(v => v === 'wi');
-      iconDef.type = (iconDef.isWavIcon && splits.find(v => v.startsWith('wi-'))?.substr(3)) || '';
+      iconDef.type = (iconDef.isWavIcon && splits.find(v => v.startsWith('wi-'))?.substring(3)) || '';
     }
     if (iconClass.indexOf('fa-spin') >= 0) {
       iconDef.animation = 'spin';
@@ -125,13 +135,18 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
           {customIcon}
         </FontAwesome>);
     } else if (props.show && iconDef) {
-      const WavIcon = getWavIcon();
+      let WMCustomIcon = getWavIcon();
+      if (iconDef.isStreamlineLightIcon) {
+        WMCustomIcon = getStreamlineLightIcon();
+      } else if (iconDef.isStreamlineRegularIcon) {
+        WMCustomIcon = getStreamlineRegularIcon();
+      }
       //@ts-ignore type information is not matching
-      icon = (<WavIcon name={customIcon ? '' : iconDef.type}
+      icon = WMCustomIcon ? (<WMCustomIcon name={customIcon ? '' : iconDef.type}
         style={style}
         size={iconSize}>
         {customIcon}
-      </WavIcon>);
+      </WMCustomIcon>) : null;
     }
     if (icon && iconDef.animation === 'spin') {
       const rotate = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg']});
