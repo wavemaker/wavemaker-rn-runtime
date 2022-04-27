@@ -5,9 +5,9 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmIconProps from './icon.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmIconStyles } from './icon.styles';
-import getWavIcon from './wavicon.component';
-import getStreamlineLightIcon from './streamline-light-icon.component';
-import getStreamlineRegularIcon from './streamline-regular-icon.component';
+import WavIcon from './wavicon/wavicon.component';
+import StreamlineLightIcon from './streamline-light-icon/streamline-light-icon.component';
+import StreamlineRegularIcon from './streamline-regular-icon/streamline-regular-icon.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
@@ -135,11 +135,11 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
           {customIcon}
         </FontAwesome>);
     } else if (props.show && iconDef) {
-      let WMCustomIcon = getWavIcon();
+      let WMCustomIcon = WavIcon as React.ReactNode;
       if (iconDef.isStreamlineLightIcon) {
-        WMCustomIcon = getStreamlineLightIcon();
+        WMCustomIcon = StreamlineLightIcon;
       } else if (iconDef.isStreamlineRegularIcon) {
-        WMCustomIcon = getStreamlineRegularIcon();
+        WMCustomIcon = StreamlineRegularIcon;
       }
       //@ts-ignore type information is not matching
       icon = WMCustomIcon ? (<WMCustomIcon name={customIcon ? '' : iconDef.type}

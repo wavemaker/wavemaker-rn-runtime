@@ -5,10 +5,8 @@
  * See wavicon.generator.js
  ********************************************************/
 
- import injector from '@wavemaker/app-rn-runtime/core/injector';
- import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
- import { Icon } from '@expo/vector-icons/build/createIconSet';
-
+import font from './streamline-regular-icon.ttf';
+import createIconSet from '@expo/vector-icons/build/createIconSet';
 
 export const glyphMap: any = {
     "accounting-bill": "",
@@ -218,12 +216,4 @@ export const glyphMap: any = {
     "zoom-out": ""
 };
 
-let fontSet: Icon<any, any> = null as any;
-
-export default () => {
-    if (!fontSet) {
-        const appConfig = injector.get<AppConfig>('APP_CONFIG');
-        fontSet = appConfig.assets['streamline-regular-icon'];
-    }
-    return fontSet;
-};
+export default createIconSet(glyphMap, 'streamline-regular-icon', font);
