@@ -10,6 +10,7 @@ export interface VariableConfig {
     onSuccess: Function;
     onError: Function;
     isList: boolean;
+    twoWayBinding: boolean;
 }
 
 export enum VariableEvents {
@@ -26,12 +27,14 @@ export abstract class BaseVariable<T extends VariableConfig> extends EventNotifi
     params: any = {};
     dataSet: any = {};
     isList: boolean;
+    twoWayBinding: boolean;
     isExecuting = false;
 
     constructor(public config: T) {
       super();
       this.name = config.name;
       this.isList = config.isList;
+      this.twoWayBinding = config.twoWayBinding;
       this.dataSet = this.isList ? []: this.dataSet;
       this.subscribe(VariableEvents.BEFORE_INVOKE, () => {
         this.isExecuting = true;
