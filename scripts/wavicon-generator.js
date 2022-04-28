@@ -3,10 +3,10 @@ const handlebars = require('handlebars');
 
 const WAVICON_STYLESHEET = '../../wavemaker-studio-frontend/wavemaker-app-runtime-angularjs/components/wavicon/css/wavicon.css';
 const WAVICON_TTF = '../../wavemaker-studio-frontend/wavemaker-app-runtime-angularjs/components/wavicon/fonts/wavicon.ttf';
-const WM_SL_L_STYLESHEET = '../../wavemaker-studio-frontend/wavemaker-app-runtime-angularjs/components/wm-streamline-icon/light/css/wm-streamline-light-icon.css';
-const WM_SL_L_TTF = '../../wavemaker-studio-frontend/wavemaker-app-runtime-angularjs/components/wm-streamline-icon/light/fonts/wm-streamline-light-icon.ttf';
-const WM_SL_R_STYLESHEET = '../../wavemaker-studio-frontend/wavemaker-app-runtime-angularjs/components/wm-streamline-icon/regular/css/wm-streamline-regular-icon.css';
-const WM_SL_R_TTF = '../../wavemaker-studio-frontend/wavemaker-app-runtime-angularjs/components/wm-streamline-icon/regular/fonts/wm-streamline-regular-icon.ttf';
+const WM_SL_L_STYLESHEET = '../../wavemaker-studio-frontend/wavemaker-app-runtime-angularjs/styles/wm-streamline-icon/light/css/wm-streamline-light-icon.css';
+const WM_SL_L_TTF = '../../wavemaker-studio-frontend/wavemaker-app-runtime-angularjs/styles/wm-streamline-icon/light/fonts/wm-streamline-light-icon.ttf';
+const WM_SL_R_STYLESHEET = '../../wavemaker-studio-frontend/wavemaker-app-runtime-angularjs/styles/wm-streamline-icon/regular/css/wm-streamline-regular-icon.css';
+const WM_SL_R_TTF = '../../wavemaker-studio-frontend/wavemaker-app-runtime-angularjs/styles/wm-streamline-icon/regular/fonts/wm-streamline-regular-icon.ttf';
 const TEMPLATE = handlebars.compile(`
 /*******************************************************
  * Don't make any changes.
