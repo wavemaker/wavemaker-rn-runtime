@@ -6,9 +6,9 @@ export default class WmAppNavbarProps extends BaseProps {
     backbutton = true;
     backbuttonlabel = '';
     showDrawerButton = false;
-    leftnavpaneliconclass = 'wi wi-menu';
+    leftnavpaneliconclass = 'wm-sl-l sl-hamburger-menu';
     backbuttoniconclass = 'wi wi-back';
     imgsrc = null as any;
     searchbutton = false;
-    searchbuttoniconclass = 'wi wi-search'
+    searchbuttoniconclass = 'wm-sl-l sl-search'
 }

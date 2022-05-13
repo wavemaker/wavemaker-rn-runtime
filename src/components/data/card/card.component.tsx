@@ -31,7 +31,7 @@ export default class WmCard extends BaseComponent<WmCardProps, WmCardState, WmCa
           </View>
           <WmMenu
             caption=""
-            iconclass="wi wi-more-vert"
+            iconclass="wm-sl-l sl-more-menu-vertical"
             dataset={props.actions}
             itemlabel={props.itemlabel}
             itemlink={props.itemlink}

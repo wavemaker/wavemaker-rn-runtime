@@ -11,8 +11,8 @@ import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animate
 export class WmMessageState extends BaseComponentState<WmMessageProps> {}
 
 const MESSAGE_ICONS = {
-  'success': 'wi wi-done',
-  'warning': 'wi wi-bell',
+  'success': 'wm-sl-l sl-check',
+  'warning': 'wm-sl-l sl-alarm-bell',
   'error': 'fa fa-times-circle',
   'info': 'wi wi-info',
   'loading': 'fa fa-spinner fa-spin'

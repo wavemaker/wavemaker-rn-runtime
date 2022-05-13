@@ -76,7 +76,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                     <Text style={index === this.state.currentStep ? this.styles.activeStep : this.styles.stepCounter}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&
                     <WmIcon styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
-                            iconclass={item.props.iconclass || 'wi wi-done'}></WmIcon>}
+                            iconclass={item.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
             </View>
           <Text style={this.styles.stepTitle}>
             {item.props.title || 'Step Title'}</Text>
@@ -134,7 +134,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         <View style={[this.styles.wizardFooter,
           {flexDirection: props.actionsalignment === 'right' ? 'row-reverse': 'row'}]}>
           {(this.state.currentStep+1) === this.numberOfSteps &&
-            <WmButton iconclass={'wi wi-done'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-success'), this.styles.doneButton)}
+            <WmButton iconclass={'wm-sl-l sl-check'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-success'), this.styles.doneButton)}
                       caption={props.donebtnlabel} onTap={this.onDone.bind(this)}></WmButton>
           }
           {(this.state.currentStep+1) < this.numberOfSteps &&

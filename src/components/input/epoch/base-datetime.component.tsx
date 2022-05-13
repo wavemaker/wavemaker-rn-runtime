@@ -233,9 +233,9 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
 
   getIcon() {
     if (this.state.props.mode === 'time') {
-      return 'wi wi-clock'
+      return 'wm-sl-l sl-time'
     }
-    return 'wi wi-calendar';
+    return 'wm-sl-l sl-calendar';
   }
 
   renderWidget(props: WmDatetimeProps) {
