@@ -59,7 +59,7 @@ export const DEFAULT_STYLES: WmDialogStyles = defineStyles<WmDialogStyles>({
             },
             text: {
                 color: ThemeVariables.dialogCloseIconColor,
-                fontSize: 24
+                fontSize: 16
             }
         }
     } as WmButtonStyles

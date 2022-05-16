@@ -20,7 +20,13 @@ export const DEFAULT_CLASS = 'app-confirmdialog';
 export const DEFAULT_STYLES: WmConfirmdialogStyles = defineStyles({
     root: {},
     text: {},
-    dialog: {} as WmDialogStyles,
+    dialog: {
+        icon: {
+            icon: {
+                fontSize: 16
+            }
+        }
+    } as WmDialogStyles,
     dialogContent: {
         root: {}
     } as WmDialogcontentStyles,

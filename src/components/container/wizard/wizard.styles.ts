@@ -113,6 +113,11 @@ export const DEFAULT_STYLES: WmWizardStyles = defineStyles({
       root: {
         marginRight: 0,
         backgroundColor: ThemeVariables.wizardDoneBtnColor
+      },
+      icon: {
+        text: {
+          fontSize: 12
+        } 
       }
     } as WmButtonStyles,
     stepIcon: {
