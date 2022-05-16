@@ -102,14 +102,17 @@ export default class DatePickerComponnent extends React.Component<DatePickerProp
         if (!this.timemodal) {
             this.timemodal = (
             <View style={{height: 600, marginTop: 600}}>
-                <TimePickerModal
-                    hours={this.props.value?.getHours() || 0}
-                    minutes={this.props.value?.getMinutes() || 0}
-                    visible={true}
-                    onDismiss={() => this.close(modalService)}
-                    onConfirm={(params) => {
-                        this.onTimeChange(params.hours, params.minutes, modalService);
-                    }}/>
+                {
+                    React.createElement(TimePickerModal, {
+                        hours : this.props.value?.getHours() || 0,
+                        minutes : this.props.value?.getMinutes() || 0,
+                        visible : true,
+                        onDismiss : () => this.close(modalService),
+                        onConfirm: (params) => {
+                            this.onTimeChange(params.hours, params.minutes, modalService);
+                        }
+                    })
+                }
             </View>);
         }
         return this.timemodal;
@@ -126,16 +129,17 @@ export default class DatePickerComponnent extends React.Component<DatePickerProp
             {(modalService: ModalService) => {
                 modalService.showModal(this.prepareModalOptions(
                     (<View style={this.state.showDatePicker ? styles.content: {}}>
-                        {this.state.showDatePicker && (
-                            <DatePickerModalContent
-                                mode="single"
-                                date={this.props.value}
-                                onDismiss={() => this.close(modalService)}
-                                onConfirm={(params) => this.onDateChange(params.date, modalService)}
-                                validRange= {{
+                        {this.state.showDatePicker && 
+                            React.createElement(DatePickerModalContent, {
+                                mode: "single",
+                                date: this.props.value,
+                                onDismiss: () => this.close(modalService),
+                                onConfirm: (params) => this.onDateChange(params.date, modalService),
+                                validRange: {
                                     startDate: this.props.minimumDate,
                                     endDate: this.props.maximumDate
-                                }} locale={this.props.locale}/>)}
+                                },
+                                locale: this.props.locale})}
                         {this.state.showTimePicker && this.prepareTimeModal(modalService)}
                     </View>)
                 ));
