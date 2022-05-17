@@ -119,12 +119,17 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     this.invokeEventCallback('onRender', [this, this.state.props.dataset]);
   }
 
+  getDefaultStyles() {
+    const isHorizontal = this.state.props.direction === 'horizontal';
+    return this.theme.getStyle(`${this.defaultClass} ${isHorizontal ? 'app-horizontal-list' : 'app-vertical-list'}`);
+  }
+
   renderWidget(props: WmListProps) {
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
     let dataset = isArray(props.dataset) ? props.dataset : (props.dataset ? [props.dataset]: []);
     const max = props.maxnumberofitems;
     dataset = dataset.slice(0, max);
-    const isHorizontal = (props.direction === 'row');
+    const isHorizontal = (props.direction === 'horizontal');
     const list = (
         <View>
           <SectionList

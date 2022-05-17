@@ -15,7 +15,7 @@ export default class WmListProps extends BaseProps {
     loadingdata = false;
     selectfirstitem = false;
     disableitem = ($item: any, $index: any) => false;
-    direction: 'row' | 'column' = 'column';
+    direction: 'horizontal' | 'vertical' = 'vertical';
     groupby: string = null as any;
     match: string = null as any;
     orderby: string = null as any;

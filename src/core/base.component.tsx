@@ -113,6 +113,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     }
 
+    getDefaultStyles() {
+        return this.theme.getStyle(this.defaultClass) || this.defaultStyles;
+    }
+
     reset() {
 
     }
@@ -219,7 +223,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                             {(theme) => {
                                 this.theme = theme || BASE_THEME;
                                 this.styles =  this.theme.mergeStyle(
-                                    this.theme.getStyle(this.defaultClass) || this.defaultStyles,
+                                    this.getDefaultStyles(),
                                     props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
                                     props.classname && this.theme.getStyle(props.classname),
                                     this.props.styles);

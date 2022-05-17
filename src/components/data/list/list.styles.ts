@@ -80,16 +80,12 @@ export const DEFAULT_STYLES: WmListStyles = defineStyles({
         shadowColor: 'rgba(0, 0, 0, 0.3)',
         flexDirection: 'row',
         flex: 1,
-        width: '100%',
         paddingLeft: 4,
         paddingRight: 4,
         paddingTop: 4,
         paddingBottom: 4,
         backgroundColor: ThemeVariables.itemBgColor,
         borderRadius: 6,
-        marginBottom: 6,
-        borderBottomWidth: 0,
-        borderBottomColor: ThemeVariables.listDividerColor,
         borderStyle: 'solid',
     },
     selectedItem : {} as AllStyle,
@@ -107,6 +103,30 @@ export const DEFAULT_STYLES: WmListStyles = defineStyles({
 });
 
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+
+BASE_THEME.addStyle('app-horizontal-list', '', {
+    item: {
+        marginRight: 6
+    }
+} as WmListStyles);
+
+BASE_THEME.addStyle('app-vertical-list', '', {
+    item: {
+        marginBottom: 6,
+        width: '100%',
+        borderBottomWidth: 0,
+        borderBottomColor: ThemeVariables.listDividerColor,
+    }
+} as WmListStyles);
+
+BASE_THEME.addStyle('app-horizontal-list-dense', '', {
+    item: {
+        marginRight: 0,
+        borderRadius: 0,
+        borderRightWidth: 1,
+        borderRightColor: 'rgba(0,0,0,0.05)'
+    } as ViewStyle
+} as WmListStyles);
 
 BASE_THEME.addStyle('app-list-dense', '', {
     item: {
