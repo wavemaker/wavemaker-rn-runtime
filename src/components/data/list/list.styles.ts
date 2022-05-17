@@ -105,6 +105,12 @@ export const DEFAULT_STYLES: WmListStyles = defineStyles({
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 
 BASE_THEME.addStyle('app-horizontal-list', '', {
+    groupHeading: {
+        minWidth: 120,
+        backgroundColor: ThemeVariables.transparent,
+        alignSelf: 'center',
+        textAlign: 'center'
+    },
     item: {
         marginRight: 6
     }
