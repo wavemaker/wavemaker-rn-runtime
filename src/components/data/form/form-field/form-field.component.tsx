@@ -14,11 +14,13 @@ export class WmFormFieldState extends BaseComponentState<WmFormFieldProps> {
 
 export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormFieldState, WmFormFieldStyles> {
   public form: any;
+  public formwidget: any;
   constructor(props: WmFormFieldProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormFieldProps(), new WmFormFieldState());
   }
 
   onFieldChangeEvt(name: string, $new: any, $old: any, isDefault: boolean) {
+    this.validateFormField();
     if (!isEqual($old, $new)) {
       this.updateState({ props: { datavalue: $new }} as WmFormFieldState, () => {
         !isDefault && this.invokeEventCallback('onChange', [undefined, this, $new, $old]);
@@ -45,7 +47,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   }
 
   validateFormField() {
-    if (this.state.props.required && !this.state.props.datavalue && widgetsWithUndefinedValue.indexOf(this.state.props.widget) < 0) {
+    if (this.formwidget?.state.isValid === false) {
       this.updateState({isValid: false} as WmFormFieldState);
     } else {
       this.updateState({isValid: true} as WmFormFieldState);
@@ -58,6 +60,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           datavalue: props.datavalue,
           isValid: this.state.isValid,
           invokeEvent: this.invokeEventCallback.bind(this),
+          triggerValidation: this.validateFormField.bind(this),
           onFieldChange: this.onFieldChangeEvt.bind(this),
           formRef: props.formRef });
     });

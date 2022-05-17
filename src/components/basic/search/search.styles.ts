@@ -15,6 +15,7 @@ export type WmSearchStyles = BaseStyles & {
   searchButton: WmButtonStyles;
   searchInputWrapper: AllStyle;
   placeholderText: AllStyle;
+  invalid: AllStyle;
 };
 
 export const DEFAULT_CLASS = 'app-search';
@@ -36,6 +37,9 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
       borderColor: ThemeVariables.searchBorderColor,
       backgroundColor: ThemeVariables.searchDropdownBackgroundColor,
     },
+  invalid: {
+    borderBottomColor: ThemeVariables.inputInvalidBorderColor
+  },
     focusedText : {
       borderBottomLeftRadius: 0,
     },

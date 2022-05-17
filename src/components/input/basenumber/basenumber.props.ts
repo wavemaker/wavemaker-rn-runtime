@@ -10,4 +10,5 @@ export default class BaseNumberProps extends BaseProps {
   regexp: string = null as any;
   onFieldChange: any;
   required: boolean = false;
+  triggerValidation: any;
 }

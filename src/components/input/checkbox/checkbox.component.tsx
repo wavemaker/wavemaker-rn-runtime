@@ -4,19 +4,20 @@ import { Checkbox } from 'react-native-paper';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { unStringify } from '@wavemaker/app-rn-runtime/core/utils';
+import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmCheckboxProps from './checkbox.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmCheckboxStyles } from './checkbox.styles';
 
 export class WmCheckboxState extends BaseComponentState<WmCheckboxProps> {
   isChecked: boolean = false;
+  isValid: boolean = true;
 }
 
 export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckboxState, WmCheckboxStyles> {
 
   constructor(props: WmCheckboxProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCheckboxProps());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCheckboxProps(), new WmCheckboxState());
   }
 
   setChecked(dataValue: any, checkedvalue: any) {
@@ -38,6 +39,12 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
   updateDatavalue(value: any) {
     this.updateState({ props: { datavalue: value }} as WmCheckboxState);
   }
+  validate(value: any) {
+    const isValid = validateField(this.state.props, value);
+    this.updateState({
+      isValid: isValid
+    } as WmCheckboxState);
+  }
 
   onPress() {
     if (!this.state.props.readonly) {
@@ -49,6 +56,7 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
     }
     const oldValue = this.state.props.datavalue;
     const value = !this.state.isChecked;
+    this.validate(value);
     this.updateState({ isChecked: value } as WmCheckboxState);
     const dataValue = value === true ? this.state.props.checkedvalue : this.state.props.uncheckedvalue;
     this.updateState({ props: { datavalue: dataValue } } as WmCheckboxState,

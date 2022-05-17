@@ -12,6 +12,7 @@ export type WmSelectStyles = BaseStyles & {
   dropDownContent: AllStyle;
   disabledText: AllStyle;
   placeholderText: AllStyle;
+  invalid: AllStyle;
 };
 
 export const DEFAULT_CLASS = 'app-select';
@@ -24,6 +25,9 @@ export const DEFAULT_STYLES: WmSelectStyles = defineStyles({
     borderColor: ThemeVariables.inputBorderColor,
     backgroundColor: ThemeVariables.inputBackgroundColor,
     borderRadius: 6
+  },
+  invalid: {
+    borderBottomColor: ThemeVariables.inputInvalidBorderColor
   },
   text: {
     fontSize: 16,

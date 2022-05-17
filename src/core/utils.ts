@@ -173,3 +173,22 @@ export const unStringify = (val: any, defaultVal?: boolean) => {
   }
   return val;
 };
+
+export const validateField = (props: any, value: any) => {
+  let requiredCheck = true, regexCheck = true;
+  if (props.required) {
+    if (isArray(value)) {
+      requiredCheck = value.length === 0 ? false : true
+    } else {
+      requiredCheck = !value ? false : true
+    }
+  }
+  if (props.regexp) {
+    const condition = new RegExp(props.regexp, 'g');
+    regexCheck = condition.test(value);
+  }
+  if (props.maxchars) {
+
+  }
+  return requiredCheck && regexCheck;
+};

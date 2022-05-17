@@ -17,4 +17,5 @@ export default class BaseDatasetProps extends BaseProps {
   displayValue?: any;
   displayimagesrc: any;
   iconclass?: any;
+  triggerValidation?: any;
 }

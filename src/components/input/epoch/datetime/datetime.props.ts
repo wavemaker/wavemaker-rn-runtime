@@ -11,4 +11,5 @@ export default class WmDatetimeProps extends BaseProps {
   readonly? = false;
   onFieldChange?: any;
   locale: string = '';
+  triggerValidation?: any;
 }

@@ -1,4 +1,4 @@
-import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
+import BASE_THEME, {AllStyle, Theme} from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import {ColorValue} from "react-native";
@@ -23,7 +23,7 @@ export const DEFAULT_STYLES: WmTextStyles = defineStyles({
       fontSize: 16
     },
     invalid: {
-      borderBottomColor: 'red'
+      borderBottomColor: ThemeVariables.inputInvalidBorderColor
     },
     placeholderText: {
      color: ThemeVariables.inputPlaceholderColor

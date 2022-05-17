@@ -4,6 +4,7 @@ import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/cor
 import { BaseNumberStyles } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.styles';
 import { DEFAULT_CLASS, DEFAULT_STYLES } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles";
 import { Platform, TextInput } from 'react-native';
+import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentState<T> {
   isValid: boolean = true;
@@ -37,6 +38,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         textValue: value
       } as S, () => {
         if (this.state.props.updateon === 'default') {
+          this.validate(value);
           this.updateDatavalue(value, null);
           this.props.onFieldChange &&
           this.props.onFieldChange(
@@ -54,6 +56,14 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
       this.cursor = e.target.selectionStart;
       this.setState({ textValue: e.target.value });
     }
+  }
+
+  validate(value: any) {
+    const isValid = validateField(this.state.props, value);
+    this.updateState({
+      isValid: isValid
+    } as S);
+
   }
 
   handleValidation(value: any) {
@@ -127,8 +137,14 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   }
 
   onBlur(event: any) {
+    let newVal = event.target.value || this.state.textValue;
+    this.validate(newVal);
+    if (newVal === '') {
+      setTimeout(() => {
+        this.props.triggerValidation && this.props.triggerValidation();
+      })
+    }
     if (this.state.props.updateon === 'blur') {
-      let newVal = event.target.value || this.state.textValue;
       let oldVal = this.state.props.datavalue || '';
       if (oldVal !== newVal) {
         this.updateDatavalue(newVal, event, 'blur');
@@ -233,13 +249,6 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         isValid: false,
       } as S);
       return true;
-    }
-    // regex validation
-    if (!this.handleValidation(val)) {
-      this.updateState({
-        isValid: false,
-      } as S);
-      return false;
     }
     this.resetValidations();
     return true;

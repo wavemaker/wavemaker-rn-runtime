@@ -10,6 +10,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmDatetimeStyles } from './datetime/date
 import WebDatePicker from './date-picker.component';
 import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   showDatePicker = false;
@@ -17,6 +18,7 @@ export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   displayValue: string = null as any;
   isFocused = false;
   timerId: NodeJS.Timer = null as any;
+  isValid: boolean = true;
 }
 
 const CURRENT_DATE = 'CURRENT_DATE';
@@ -28,8 +30,8 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   nativeModalOptions: ModalOptions = {} as any;
   prevDatavalue: any;
 
-  constructor(props: WmDatetimeProps, defaultClass = DEFAULT_CLASS, defaultStyles = DEFAULT_STYLES, defaultProps = new WmDatetimeProps()) {
-    super(props, defaultClass, defaultStyles, defaultProps);
+  constructor(props: WmDatetimeProps, defaultClass = DEFAULT_CLASS, defaultStyles = DEFAULT_STYLES, defaultProps = new WmDatetimeProps(), defaultState= new BaseDatetimeState()) {
+    super(props, defaultClass, defaultStyles, defaultProps, defaultState);
   }
 
   format(date: Date | number | undefined, format: string) {
@@ -131,6 +133,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   onDateChange($event: Event, date?: Date) {
+    this.validate(date);
     this.modes.shift();
     this.updateState({
       isFocused: false,
@@ -142,6 +145,10 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   onBlur() {
+    if (!this.state.props.datavalue && Platform.OS === 'web') {
+      this.validate(this.state.props.datavalue);
+      setTimeout(() => this.props.triggerValidation && this.props.triggerValidation());
+    }
     this.invokeEventCallback('onBlur', [null, this]);
   }
 
@@ -155,6 +162,13 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       this.updateState({showDatePicker: true, isFocused: true} as BaseDatetimeState);
       this.invokeEventCallback('onFocus', [null, this]);
     }
+  }
+
+  validate(value: any) {
+    const isValid = validateField(this.state.props, value);
+    this.setState({
+      isValid: isValid
+    } as BaseDatetimeState)
   }
 
   componentWillUnmount() {
@@ -240,7 +254,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
 
   renderWidget(props: WmDatetimeProps) {
     return (
-      <View style={[this.styles.root, this.state.isFocused ? this.styles.focused : null]}>
+      <View style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
           <View style={this.styles.container}>
             {this.addTouchableOpacity(props, (
               <Text style={this.styles.text}>{this.state.displayValue || this.state.props.placeholder}</Text>

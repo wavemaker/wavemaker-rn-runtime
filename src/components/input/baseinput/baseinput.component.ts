@@ -4,7 +4,7 @@ import BaseInputProps from './baseinput.props';
 import { isString } from 'lodash';
 import { BaseInputStyles } from './baseinput.styles';
 import { Platform, TextInput } from 'react-native';
-
+import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class BaseInputState <T extends BaseInputProps> extends BaseComponentState<T> {
   keyboardType: any = 'default';
@@ -64,6 +64,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
         textValue: value
       } as S, () => {
         if (this.state.props.updateon === 'default') {
+          this.validate(value);
           this.updateDatavalue(value, null);
           this.props.onFieldChange &&
             this.props.onFieldChange(
@@ -83,15 +84,6 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     }
   }
 
-  handleValidation(value: any) {
-    const props = this.state.props;
-    if (props.regexp) {
-      const condition = new RegExp(props.regexp, 'g');
-      return condition.test(value);
-    }
-    return true;
-  }
-
   updateDatavalue(value: any, event?: any, source?: any) {
     const props = this.state.props;
     const oldValue = props.datavalue;
@@ -102,17 +94,6 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     // autotrim
     if (props.autotrim && props.datavalue && isString(props.datavalue)) {
       value = value.trim();
-    }
-
-    // regex validation
-    const valid = this.handleValidation(value);
-    const isValid = this.props.required && source && !value ? false : true && valid;
-    this.updateState({
-      isValid: isValid
-    } as S);
-    if (!valid) {
-      this.invokeEventCallback('onError', [ event, this.proxy, value, oldValue ]);
-      return;
     }
 
     this.updateState({
@@ -130,9 +111,15 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
 
   onBlur(event: any) {
     this.isTouched = true;
+    let newVal = event.target.value || this.state.textValue;
+    let oldVal = this.state.props.datavalue || '';
+    this.validate(newVal);
+    if (newVal === '') {
+      setTimeout(() => {
+        this.props.triggerValidation && this.props.triggerValidation();
+      })
+    }
     if (this.state.props.updateon === 'blur') {
-      let newVal = event.target.value || this.state.textValue;
-      let oldVal = this.state.props.datavalue || '';
       if (oldVal !== newVal) {
         this.updateDatavalue(newVal, event, 'blur');
       } else {
@@ -141,9 +128,8 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     }
   }
 
-  check() {
-    this.isTouched = true;
-    const isValid = this.props.required && !this.state.props.datavalue ? false : true;
+  validate(value: any) {
+    const isValid = validateField(this.state.props, value);
     this.updateState({
       isValid: isValid
     } as S);
