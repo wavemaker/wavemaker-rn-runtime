@@ -1,9 +1,8 @@
 import React from "react";
-import { ImageBackground, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
+import { ImageBackground, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Video } from "expo-av";
-import { Camera } from "expo-camera";
-import { CameraType } from "expo-camera/build/Camera.types";
+import { ResizeMode, Video } from "expo-av";
+import { Camera, CameraType } from "expo-camera";
 
 import { DisplayManager } from "@wavemaker/app-rn-runtime/core/display.manager";
 import { CaptureVideoOutput } from "@wavemaker/app-rn-runtime/variables/device/camera/capture-video.operation";
@@ -73,7 +72,7 @@ const styles = {
 export interface CameraVideoInput extends Input {}
 
 export class CameraService {
-  private type= Camera.Constants.Type.back;
+  private type= CameraType.back;
 
   constructor(private displayManager: DisplayManager) {
   }
@@ -124,7 +123,7 @@ class CameraViewProps {
 class CameraViewState {
     recording: boolean = false;
     showActionBtns: boolean = false;
-    cameraType: CameraType = 'back' as CameraType;
+    cameraType: CameraType = CameraType.back;
     isCaptured: boolean = false;
     closeView: boolean = false;
     cameraContent: CameraOutput = {} as CameraOutput;
@@ -215,7 +214,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
           <Ionicons name='checkmark-circle' size={32} color='white'/>
         </TouchableOpacity>) : (<TouchableOpacity
           onPress={() => {
-            this.setState({cameraType: this.state.cameraType === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back});
+            this.setState({cameraType: this.state.cameraType === 'back' ? 'front' : 'back'} as CameraViewState);
           }}>
           <Ionicons name='camera-reverse' size={32} color='white' />
         </TouchableOpacity>)}
@@ -225,7 +224,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
 
   getPreviewTemplate(actions: any) {
     return this.props.captureType === 'image' ?
-      <ImageBackground source={{uri : this.state.cameraContent.uri}} resizeMode="cover" style={{flex: 1}} />
+      <ImageBackground source={{uri : this.state.cameraContent.uri}} resizeMode={ResizeMode.COVER} style={{flex: 1}} />
       : <Video
           style={{ flex: 1 }}
           source={{
@@ -234,7 +233,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
           shouldPlay={true}
           useNativeControls
           isLooping
-          resizeMode="cover"
+          resizeMode={ResizeMode.COVER}
         ></Video>
   }
 
@@ -248,7 +247,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
         {this.state.isCaptured ? (
           this.getPreviewTemplate(actions)
         ) : (
-          <Camera type={this.state.cameraType} ref={(ref: Camera) => { this.camera = ref; }}
+          <Camera type={CameraType[this.state.cameraType]} ref={(ref: Camera) => { this.camera = ref; }}
               style={{flex: 1}}
               onCameraReady={() => {}}>
 
