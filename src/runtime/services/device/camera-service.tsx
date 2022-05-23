@@ -1,9 +1,8 @@
 import React from "react";
-import { ImageBackground, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native";
+import { ImageBackground, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Video } from "expo-av";
-import { Camera } from "expo-camera";
-import { CameraType } from "expo-camera/build/Camera.types";
+import { ResizeMode, Video } from "expo-av";
+import { Camera, CameraType } from "expo-camera";
 
 import { DisplayManager } from "@wavemaker/app-rn-runtime/core/display.manager";
 import { CaptureVideoOutput } from "@wavemaker/app-rn-runtime/variables/device/camera/capture-video.operation";
@@ -73,7 +72,7 @@ const styles = {
 export interface CameraVideoInput extends Input {}
 
 export class CameraService {
-  private type= Camera.Constants.Type.back;
+  private type= CameraType.back;
 
   constructor(private displayManager: DisplayManager) {
   }
@@ -124,7 +123,7 @@ class CameraViewProps {
 class CameraViewState {
     recording: boolean = false;
     showActionBtns: boolean = false;
-    cameraType: CameraType = 'back' as CameraType;
+    cameraType: CameraType = CameraType.back;
     isCaptured: boolean = false;
     closeView: boolean = false;
     cameraContent: CameraOutput = {} as CameraOutput;
@@ -146,7 +145,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
         this.startRecord();
       } else {
         this.stopRecord();
-        this.setState({showActionBtns: true});
+        this.setState({showActionBtns: true} as CameraViewState);
       }
     }
   }
@@ -157,34 +156,34 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
       base64: false,
       skipProcessing: true,
       onPictureSaved: (response: any) => {
-        this.setState({ cameraContent: response, isCaptured: true });
+        this.setState({ cameraContent: response, isCaptured: true } as CameraViewState);
       }
     }
     await this.camera.takePictureAsync(options);
 
     if (this.state.showActionBtns) {
-      this.setState({showActionBtns: false});
+      this.setState({showActionBtns: false} as CameraViewState);
     }
-    this.setState({showActionBtns: true});
+    this.setState({showActionBtns: true} as CameraViewState);
   }
 
   // start recording
   startRecord = async () => {
     this.camera.recordAsync().then((response: any) => {
-      this.setState({ cameraContent: response, isCaptured: true });
+      this.setState({ cameraContent: response, isCaptured: true } as CameraViewState);
     });
     if (this.state.showActionBtns) {
-      this.setState({showActionBtns: false});
+      this.setState({showActionBtns: false} as CameraViewState);
     }
 
-    this.setState({recording: true});
+    this.setState({recording: true} as CameraViewState);
   };
 
   // stop recording
   stopRecord = async () => {
     this.camera.stopRecording();
-    this.setState({recording: false});
-    this.setState({showActionBtns: true});
+    this.setState({recording: false} as CameraViewState);
+    this.setState({showActionBtns: true} as CameraViewState);
   };
 
   getActionsTemplate() {
@@ -192,7 +191,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
       <View style={styles.leftWrapper}>
         <TouchableOpacity
           onPress={() => {
-            this.setState({ cameraContent: {uri: ''}, isCaptured: false,  closeView: true });
+            this.setState({ cameraContent: {uri: ''}, isCaptured: false,  closeView: true } as CameraViewState);
             this.props.onCancel();
           }}>
           <Ionicons name='close-circle' size={32} color='white' />
@@ -208,14 +207,14 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
       <View style={styles.rightWrapper}>
         {this.state.showActionBtns ? (<TouchableOpacity
           onPress={() => {
-            this.setState({ isCaptured: false, closeView: true });
+            this.setState({ isCaptured: false, closeView: true } as CameraViewState);
             this.props.onSuccess(this.state.cameraContent);
-            this.setState({ cameraContent: {uri: ''} });
+            this.setState({ cameraContent: {uri: ''} } as CameraViewState);
           }}>
           <Ionicons name='checkmark-circle' size={32} color='white'/>
         </TouchableOpacity>) : (<TouchableOpacity
           onPress={() => {
-            this.setState({cameraType: this.state.cameraType === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back});
+            this.setState({cameraType: this.state.cameraType === 'back' ? 'front' : 'back'} as CameraViewState);
           }}>
           <Ionicons name='camera-reverse' size={32} color='white' />
         </TouchableOpacity>)}
@@ -225,7 +224,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
 
   getPreviewTemplate(actions: any) {
     return this.props.captureType === 'image' ?
-      <ImageBackground source={{uri : this.state.cameraContent.uri}} resizeMode="cover" style={{flex: 1}} />
+      <ImageBackground source={{uri : this.state.cameraContent.uri}} resizeMode={ResizeMode.COVER} style={{flex: 1}} />
       : <Video
           style={{ flex: 1 }}
           source={{
@@ -234,7 +233,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
           shouldPlay={true}
           useNativeControls
           isLooping
-          resizeMode="cover"
+          resizeMode={ResizeMode.COVER}
         ></Video>
   }
 
@@ -248,7 +247,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
         {this.state.isCaptured ? (
           this.getPreviewTemplate(actions)
         ) : (
-          <Camera type={this.state.cameraType} ref={(ref: Camera) => { this.camera = ref; }}
+          <Camera type={CameraType[this.state.cameraType]} ref={(ref: Camera) => { this.camera = ref; }}
               style={{flex: 1}}
               onCameraReady={() => {}}>
 
