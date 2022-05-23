@@ -56,7 +56,7 @@
     "@expo/vector-icons": "^13.0.0",
     "react-native-reanimated": "~2.8.0",
     "@react-native-async-storage/async-storage": "^1.17.4",
-    "@react-native-community/datetimepicker": "^6.1.2",
+    "@react-native-community/datetimepicker": "^5.1.0",
     "@react-native-masked-view/masked-view": "^0.2.6",
     "@react-native-community/slider": "^4.2.1",
     "@react-native-picker/picker": "^2.4.0",
@@ -233,9 +233,7 @@
   },
   "watch": {
     "build": {
-      "patterns": [
-        "src"
-      ],
+      "patterns": ["src"],
       "extensions": "ts,tsx",
       "ignore": "src/vendor/external.min.js",
       "quiet": true,
