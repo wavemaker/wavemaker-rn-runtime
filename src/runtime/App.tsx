@@ -72,7 +72,9 @@ class DrawerImpl implements Drawer {
     return this.animation;
   }
 }
-const SUPPORTED_SERVICES = { StorageService: StorageService };
+const SUPPORTED_SERVICES = { StorageService: StorageService,
+                             AppDisplayManagerService: AppDisplayManagerService
+                            };
 
 export default abstract class BaseApp extends React.Component {
 
@@ -277,7 +279,7 @@ export default abstract class BaseApp extends React.Component {
                                   AppModalService.animatedRefs[i] = ref;
                                 }}
                                 style={[styles.appModalContent, o.contentStyle]}>
-                  <ScrollView style={{width: '100%'}}
+                  <ScrollView keyboardShouldPersistTaps={'handled'} style={{width: '100%'}}
                     contentContainerStyle={{
                       "width": "100%",
                       "alignItems": "center",

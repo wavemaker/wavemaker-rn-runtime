@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, Text, TextInput, View } from 'react-native';
+import { Keyboard, Platform, Text, TextInput, View } from 'react-native';
 import { find, isNull } from 'lodash';
 
 import WmSearchProps from './search.props';
@@ -177,9 +177,17 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     o.isModal = true;
     o.onClose = () => {
       this.hide = () => {};
-      this.setState({ isOpened: false, modalOptions: {} as ModalOptions });
+      Keyboard.dismiss();
+      if (this.state.isOpened) {
+        this.setState({isOpened: false, modalOptions: {} as ModalOptions} as WmSearchState);
+      }
     };
-    this.hide = () => modalService.hideModal(this.state.modalOptions);
+    this.hide = () => {
+      if (this.state.isOpened) {
+        this.setState({ isOpened: false, modalOptions: {} as ModalOptions } as WmSearchState);
+      }
+      modalService.hideModal(this.state.modalOptions);
+    }
     return o;
   }
 

@@ -1,7 +1,7 @@
 import { BaseComponent } from "@wavemaker/app-rn-runtime/core/base.component";
 import React from "react";
 import { GestureResponderEvent, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import { get } from "lodash";
 
 interface TappableProps {
