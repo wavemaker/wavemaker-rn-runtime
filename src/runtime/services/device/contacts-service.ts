@@ -7,7 +7,7 @@ export class ContactsService {
 
   constructor() {}
 
-  public getContacts(params: ContactsInput): Promise<ContactsOutput> {
+  public getContacts(params: ContactsInput): Promise<Array<ContactsOutput>> {
     return new Promise((resolve, reject) => {
       permissionManager.requestPermissions('contacts').then(() => {
         return Contacts.getContactsAsync({
@@ -30,7 +30,7 @@ export class ContactsService {
           });
           return resolve(contacts);
         });
-      }, reject);
-    });
+      }, () => resolve([]));
+      });
   }
 }

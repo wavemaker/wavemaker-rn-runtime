@@ -103,7 +103,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       props: { result: filteredData?.map( (item: any) => item.dataObject), query: queryText },
       data: filteredData,
     } as WmSearchState);
-    if (!this.state.isOpened) {
+    if (!this.state.isOpened && this.isFocused) {
       this.showPopover && this.showPopover();
     }
   }
@@ -192,6 +192,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   searchIconPress() {
+    this.isFocused = false;
     if (this.state.props.searchon === 'onsearchiconclick') {
       this.updateFilteredData(this.state.props.query);
     } else {
@@ -200,6 +201,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   onItemSelect(item: any) {
+    this.isFocused = false;
     this.updateState({ props: {
         query: item.displayexp || item.displayfield
       }

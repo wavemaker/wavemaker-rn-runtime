@@ -14,7 +14,7 @@ export interface ContactsOutput extends Output{
 export class GetContactsOperation implements Operation {
   constructor(private contacts: ContactsService) {}
 
-  public invoke(params: ContactsInput): Promise<ContactsOutput> {
+  public invoke(params: ContactsInput): Promise<Array<ContactsOutput>> {
     return this.contacts.getContacts(params);
   }
 }
