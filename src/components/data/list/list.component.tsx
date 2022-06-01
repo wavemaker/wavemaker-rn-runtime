@@ -3,7 +3,7 @@ import { SectionList, Text, View } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { isArray } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { getGroupedData} from "@wavemaker/app-rn-runtime/core/utils";
+import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
@@ -60,8 +60,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const props = this.state.props;
     if (props.groupby) {
       const groupedData = dataItems && getGroupedData(dataItems, props.groupby, props.match, props.orderby, props.dateformat, this);
-      this.updateState({ 
-        groupedData: groupedData 
+      this.updateState({
+        groupedData: groupedData
       } as WmListState, () => {
         this.key +=  (items && items.length) || 0;
       });
@@ -84,7 +84,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           this.updateState({
             groupedData: [{
               key: '',
-              data: $new || []
+              data: isArray($new) ? $new : (isDefined($new) ? [$new] : [])
             }]
           } as WmListState, () => {
             this.key += ($new && $new.length) || 0;
@@ -126,14 +126,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   renderWidget(props: WmListProps) {
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
-    let dataset = isArray(props.dataset) ? props.dataset : (props.dataset ? [props.dataset]: []);
     const max = props.maxnumberofitems;
-    dataset = dataset.slice(0, max);
     const isHorizontal = (props.direction === 'horizontal');
     const list = (
         <View>
           <SectionList
-            keyExtractor={(item, i) => 'list_item_' +  (this.key + i)} 
+            keyExtractor={(item, i) => 'list_item_' +  (this.key + i)}
             horizontal = {isHorizontal}
             onEndReached={({distanceFromEnd}) => {
               this.invokeEventCallback('onEndReached', [null, this]);
@@ -144,7 +142,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             renderSectionHeader={({section: {key, data}}) => {
               return props.groupby ? (
                   <Text style={this.styles.groupHeading}>{key}</Text>
-              ) : 
+              ) :
                 ((props.iconclass || props.title || props.subheading) ? (
                   <View style={this.styles.heading}>
                     <View style={{flex: 1, flexDirection: 'row'}}>
@@ -160,7 +158,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                 (<WmIcon styles={this.styles.loadingIcon}
                   iconclass={props.loadingicon}
                   caption={props.loadingdatamsg}></WmIcon>) : null}
-            data={props.groupby ? this.state.groupedData : dataset}
             ListEmptyComponent = {() => <WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>}
             renderItem={(itemInfo) =>
                 (<TouchableWithoutFeedback onPress={() => this.onSelect(itemInfo.item, itemInfo.index)}>
