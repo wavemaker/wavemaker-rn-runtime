@@ -21,7 +21,7 @@ export default class WmLinearlayoutitem extends BaseComponent<WmLinearlayoutitem
       ...this.styles.root,
       flexGrow: props.flexgrow,
       flexShrink: isNil(props.flexshrink) ? props.flexgrow : props.flexshrink,
-      flexBasis:  direction === 'row' || direction === 'row-reverse' ? 0 : 'auto'
+      flexBasis:  props.flexgrow && (direction === 'row' || direction === 'row-reverse') ? 0 : 'auto'
     }}>{props.children}</View>); 
   }
 }
