@@ -41,8 +41,9 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
           (<iframe src={props.src} width={'100%'} height={'100%'} onLoad={(e) => {
             this.setTitle(this.getTitle(e.currentTarget));
             this.invokeEventCallback('onLoad', [null, this]);
-          }}></iframe>) : 
-          (<WebView 
+          }}></iframe>) :
+          (<WebView
+            nestedScrollEnabled={true}
             style={this.styles.webview}
             source={{
               uri: props.src

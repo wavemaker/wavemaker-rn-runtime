@@ -183,10 +183,10 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       }
     };
     this.hide = () => {
+      modalService.hideModal(this.state.modalOptions);
       if (this.state.isOpened) {
         this.setState({ isOpened: false, modalOptions: {} as ModalOptions } as WmSearchState);
       }
-      modalService.hideModal(this.state.modalOptions);
     }
     return o;
   }

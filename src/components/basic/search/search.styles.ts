@@ -39,20 +39,20 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
     focusedText : {
       borderBottomLeftRadius: 0,
     },
-    modal: {
-      backgroundColor: ThemeVariables.transparent,
-    },
-    modalContent: {
-      backgroundColor: ThemeVariables.searchDropdownBackgroundColor,
-      borderBottomLeftRadius: 6,
-      borderBottomRightRadius: 6,
-      position: 'absolute',
-      borderWidth: 1,
-      borderTopWidth: 0,
-      borderStyle: 'solid',
-      borderColor: ThemeVariables.searchBorderColor,
-      maxHeight: 200
-    },
+  modal: {
+    backgroundColor: ThemeVariables.transparent,
+    height: '100%'
+  },
+  modalContent: {
+    backgroundColor: ThemeVariables.searchDropdownBackgroundColor,
+    borderRadius: 6,
+    position: 'absolute',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: ThemeVariables.searchBorderColor,
+    maxHeight: 200,
+    width: '90%'
+  },
     dropDownContent: {
         width: '100%'
     },
