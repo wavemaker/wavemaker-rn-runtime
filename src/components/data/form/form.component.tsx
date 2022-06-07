@@ -133,6 +133,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         if (fw.props.name) {
           const widget = this.formWidgets[fw.props.name];
           widget.updateState({
+            isValid: true,
             props : {
               datavalue: ''
             }
@@ -164,7 +165,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     let isValid = true;
     forEach(formData, (val, key) => {
       const field = this.formFields.find((f) => {
-        return key === f.props.name;
+        return key === f.props.formKey;
       });
 
       const onValidate = get(field, 'props.onValidate');
