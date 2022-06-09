@@ -146,7 +146,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
 
   onFocus() {
     this.isFocused = true;
-    if (this.state.props.type === 'autocomplete') {
+    if (!this.state.props.disabled && this.state.props.type === 'autocomplete') {
       this.cursor = this.state.props.query?.length || 0;
       this.updateFilteredData(this.state.props.query || '');
     }
