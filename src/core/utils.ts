@@ -183,12 +183,9 @@ export const validateField = (props: any, value: any) => {
       requiredCheck = !value ? false : true
     }
   }
-  if (props.regexp) {
+  if (value && props.regexp) {
     const condition = new RegExp(props.regexp, 'g');
     regexCheck = condition.test(value);
-  }
-  if (props.maxchars) {
-
   }
   return requiredCheck && regexCheck;
 };
