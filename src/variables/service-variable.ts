@@ -184,8 +184,16 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
         // to cancel variable xhr calls
         this.cancelTokenSource = axios.CancelToken.source();
+        const methodType = config.serviceInfo.methodType;
+        const isNonDataMethod = WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(methodType.toUpperCase()) > -1;
+        const axiosConfig = {
+          headers: headers,
+          cancelToken: this.cancelTokenSource.token,
+          withCredentials: !!get(config.serviceInfo, 'proxySettings.withCredentials')
+        };
         // @ts-ignore
-        return axios[config.serviceInfo.methodType].apply(this, (WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(config.serviceInfo.methodType.toUpperCase()) > -1 ? [url, {headers: headers, cancelToken: this.cancelTokenSource.token}] : [url, requestBody || {}, {headers: headers, cancelToken: this.cancelTokenSource.token}])).then(result => {
+        return axios[methodType].apply(this, ( isNonDataMethod ? [url, axiosConfig] : [url, requestBody || {}, axiosConfig]))
+          .then((result: any) => {
           config.onResult && config.onResult(this, result.data, result);
           const isResponsePageable = isPageable(result.data);
           let response = result.data;
