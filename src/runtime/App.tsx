@@ -14,7 +14,7 @@ import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
-import { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
+import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/message.component';
@@ -76,7 +76,7 @@ const SUPPORTED_SERVICES = { StorageService: StorageService,
                              AppDisplayManagerService: AppDisplayManagerService
                             };
 
-export default abstract class BaseApp extends React.Component {
+export default abstract class BaseApp extends React.Component implements NavigationService {
 
   Actions: any = {};
   Variables: any = {};
@@ -122,6 +122,18 @@ export default abstract class BaseApp extends React.Component {
         refreshAfterWait = true;
       }
     }
+  }
+  
+  goToPage(pageName: string, params: any)  {
+    return this.appConfig.currentPage?.goToPage(pageName, params);
+  }
+
+  goBack(pageName: string, params: any) {
+    return this.appConfig.currentPage?.goBack(pageName, params);
+  }
+
+  openUrl(url: string, params?: any)  {
+    return this.appConfig.currentPage?.openUrl(url, params);
   }
 
   onBeforeServiceCall(config: AxiosRequestConfig) {
@@ -213,7 +225,7 @@ export default abstract class BaseApp extends React.Component {
 
   getProviders(content: React.ReactNode) {
     return (
-      <NavigationServiceProvider value={this.appConfig.currentPage}>
+      <NavigationServiceProvider value={this}>
         <ToastProvider value={AppToastService}>
           <PartialProvider value={AppPartialService}>
             <SecurityProvider value={AppSecurityService}>
