@@ -43,6 +43,10 @@ class Screen extends React.Component {
     }});
   }
 
+  componentWillUnmount() {
+    this.cleanUp.forEach(fn => fn && fn());
+  }
+
   render() {
     return (this.state as any).page || (<View/>);
   }
