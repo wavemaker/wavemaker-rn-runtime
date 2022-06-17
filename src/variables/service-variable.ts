@@ -189,7 +189,7 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         const axiosConfig = {
           headers: headers,
           cancelToken: this.cancelTokenSource.token,
-          withCredentials: !!get(config.serviceInfo, 'proxySettings.withCredentials')
+          withCredentials: config.serviceInfo.proxySettings?.mobile ||  config.serviceInfo.proxySettings?.withCredentials
         };
         // @ts-ignore
         return axios[methodType].apply(this, ( isNonDataMethod ? [url, axiosConfig] : [url, requestBody || {}, axiosConfig]))
