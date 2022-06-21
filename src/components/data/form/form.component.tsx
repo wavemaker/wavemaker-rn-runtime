@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { isDefined, widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
-import { debounce, isArray, forEach, isEqual, isObject, get, set } from 'lodash';
+import { debounce, find, forEach, get, set } from 'lodash';
 
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -32,8 +32,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   private _debouncedSubmitForm = debounce(this.handleSubmit, 250);
 
   componentDidMount() {
-    super.componentDidMount();
     this.getParentFormRef(this.props.parentForm);
+    super.componentDidMount();
   }
 
   getParentFormRef(pformName: string) {
@@ -60,9 +60,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     this.formFields = formFields;
     this.formWidgets = formWidgets;
 
-    if (this.state.props.formdata) {
-      this.applyFormData();
-    }
+    this.applyFormData();
     this.applyDefaultValue();
 
     // setting default form dataoutput.
@@ -71,26 +69,31 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       formFields.forEach((w: WmFormField) => {
         const name = get(w.props, 'formKey') || w.props.name;
         if (name) {
-          this.formdataoutput[name] = w.props.datavalue;
+          set(this.formdataoutput, name, w.props.datavalue);
         }
       });
     }
   }
 
   applyFormData() {
-    forEach(this.formWidgets, (fw: BaseComponent<any, any, any>, fwName: string) => {
-      const field = this.formFields.find(f => {
-        return f.props.name === fwName;
-      });
-      const key = get(field, 'formKey') || fwName;
-      fw && fw.setState({ isDefault: true });
-      if (field) {
-        field.updateState({
-          props: {
-            datavalue: get(this.state.props.formdata, key)
-          }
-        } as WmFormFieldState);
+    let formData = this.state.props.formdata || this.parentFormRef?.state.props.formdata;
+    if (!formData || (this.parentFormRef && this.state.props.formdata)) {
+      return;
+    }
+    forEach(this.formFields, (formField: WmFormField) => {
+      let fw = formField.props?.name && this.formWidgets[formField.props.name];
+      if (!fw) {
+        fw = find(this.formWidgets, (fw: BaseComponent<any, any, any>) => {
+          return get(fw, 'formfieldname') === formField.props.name
+        });
       }
+      let key = get(formField, 'formKey') || get(fw, 'props.name');
+      fw && fw.setState({ isDefault: true });
+      formField.updateState({
+        props: {
+          datavalue: get(formData, key)
+        }
+      } as WmFormFieldState);
     });
   }
 
@@ -98,7 +101,12 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     if (formField) {
       const dv = formField.state.props.defaultvalue;
       if (isDefined(dv) && dv !== null && this.formFields) {
-        const field = formField.props?.name && this.formWidgets[formField.props.name];
+        let field = formField.props?.name && this.formWidgets[formField.props.name];
+        if (!field) {
+          field = find(this.formWidgets, (fw: BaseComponent<any, any, any>) => {
+            return get(fw, 'formfieldname') === formField.props.name
+          });
+        }
         if (field) {
           field.setState({ isDefault: true });
           field.updateState({
@@ -122,22 +130,28 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   }
 
   formreset() {
-    forEach(this.formFields, (fw) => {
-      fw.updateState({
+    forEach(this.formFields, (ff: WmFormField) => {
+      ff.updateState({
           isValid: true,
         props : {
           datavalue: ''
         }
       } as WmFormFieldState, () => {
-        if (fw.props.name) {
-          const widget = this.formWidgets[fw.props.name];
-          widget.updateState({
-            props : {
-              datavalue: ''
+          const id = ff.props.formKey || ff.props.name;
+          if (id) {
+            let widget: BaseComponent<any, any, any> | undefined | any = this.formWidgets[id];
+            if (!widget) {
+              widget = find(this.formWidgets, (fw: BaseComponent<any, any, any>) => {
+                return get(fw, 'formfieldname') === ff.props.name
+              });
             }
-          });
-          widget?.reset();
-        }
+            widget.updateState({
+              props : {
+                datavalue: ''
+              }
+            });
+            widget?.reset();
+          }
         }
       );
     });
@@ -207,10 +221,14 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   updateDataOutput(key: string, val: any) {
     const current = this.formdataoutput || {};
-    set(current, key, val);
+    if (key) {
+      set(current, key, val);
+    } else {
+      Object.assign(current, val)
+    }
     this.formdataoutput = current;
     this.updateState({ props: { dataoutput: current }} as WmFormState);
-    this.parentFormRef && this.parentFormRef.updateDataOutput(this.props.name, this.formdataoutput);
+    this.parentFormRef && this.parentFormRef.updateDataOutput(undefined, this.formdataoutput);
   }
 
   toggleMessage(

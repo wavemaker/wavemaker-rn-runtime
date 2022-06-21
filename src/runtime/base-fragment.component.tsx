@@ -106,6 +106,14 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         const formWidgets = this.Widgets[id].formWidgets;
         const formFields = this.Widgets[id].formFields;
         this.Widgets[id] = w;
+        if (w.parentFormRef) {
+          let pid = w.parentFormRef.props.id || w.parentFormRef.props.name;
+          formFields.forEach((ff: any) => {
+            const formKey = ff.props.formKey || ff.props.name;
+            this.Widgets[pid].formFields.push(ff);
+            this.Widgets[pid].formWidgets[formKey] = formWidgets[ff.props.name];
+          });
+        }
         w.registerFormFields(formFields, formWidgets);
         return;
       }
