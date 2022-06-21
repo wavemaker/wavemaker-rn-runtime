@@ -11,6 +11,7 @@ export class BaseInputState <T extends BaseInputProps> extends BaseComponentStat
   isValid: boolean = true;
   textValue: string = '';
   isDefault = false;
+  errorType: string = '';
 }
 export abstract class BaseInputComponent< T extends BaseInputProps, S extends BaseInputState<T>, L extends BaseInputStyles> extends BaseComponent<T, S, L> {
   public widgetRef: TextInput | null = null;
@@ -129,9 +130,10 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   validate(value: any) {
-    const isValid = validateField(this.state.props, value);
+    const validationObj = validateField(this.state.props, value);
     this.updateState({
-      isValid: isValid
+      isValid: validationObj.isValid,
+      errorType: validationObj.errorType
     } as S);
   }
 

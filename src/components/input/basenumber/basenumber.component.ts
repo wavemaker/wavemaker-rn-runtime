@@ -10,6 +10,7 @@ export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentSt
   isValid: boolean = true;
   textValue: string = '';
   isDefault = false;
+  errorType = '';
 }
 
 export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends BaseNumberState<T>, L extends BaseNumberStyles> extends BaseComponent<T, S, L> {
@@ -59,9 +60,10 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   }
 
   validate(value: any) {
-    const isValid = validateField(this.state.props, value);
+    const validationObj = validateField(this.state.props, value);
     this.updateState({
-      isValid: isValid
+      isValid: validationObj.isValid,
+      errorType: validationObj.errorType
     } as S);
 
   }
@@ -214,10 +216,12 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
       return value;
     }
     if (!isNaN(props.minvalue) && value < props.minvalue) {
+      this.updateState({ errorType: 'minvalue'} as S);
       return props.minvalue;
 
     }
     if (!isNaN(props.maxvalue) && value > props.maxvalue) {
+      this.updateState({ errorType: 'maxvalue'} as S);
       return props.maxvalue;
     }
     return value;

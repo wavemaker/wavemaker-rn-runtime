@@ -12,6 +12,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmCheckboxStyles } from './checkbox.styl
 export class WmCheckboxState extends BaseComponentState<WmCheckboxProps> {
   isChecked: boolean = false;
   isValid: boolean = true;
+  errorType = '';
 }
 
 export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckboxState, WmCheckboxStyles> {
@@ -40,9 +41,10 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
     this.updateState({ props: { datavalue: value }} as WmCheckboxState);
   }
   validate(value: any) {
-    const isValid = validateField(this.state.props, value);
+    const validationObj = validateField(this.state.props, value);
     this.updateState({
-      isValid: isValid
+      isValid: validationObj.isValid,
+      errorType: validationObj.errorType
     } as WmCheckboxState);
   }
 

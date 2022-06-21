@@ -182,10 +182,44 @@ export const validateField = (props: any, value: any) => {
     } else {
       requiredCheck = !value ? false : true
     }
+    if (!requiredCheck) {
+      return {
+        errorType : 'required',
+        isValid: false
+      }
+    }
   }
   if (value && props.regexp) {
     const condition = new RegExp(props.regexp, 'g');
     regexCheck = condition.test(value);
+    if (!regexCheck) {
+      return {
+        errorType : 'regexp',
+        isValid: false
+      }
+    }
   }
-  return requiredCheck && regexCheck;
+  if (value && props.maxchars && value.length > props.maxchars) {
+    return {
+      errorType : 'maxchars',
+      isValid: false
+    }
+
+  }
+  if (value && props.mindate && new Date(props.datavalue) < props.mindate) {
+    return {
+      errorType : 'mindate',
+      isValid: false
+    }
+  }
+  if (value && props.maxdate && new Date(props.datavalue) > props.maxdate) {
+    return {
+      errorType : 'maxdate',
+      isValid: false
+    }
+  }
+
+  return {
+    isValid: true
+  }
 };

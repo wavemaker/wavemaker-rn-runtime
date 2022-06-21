@@ -10,6 +10,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmToggleStyles } from './toggle.styles';
 export class WmToggleState extends BaseComponentState<WmToggleProps> {
   isSwitchOn: boolean = false;
   isValid: boolean = true;
+  errorType = '';
 }
 
 export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState, WmToggleStyles> {
@@ -34,9 +35,10 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
   }
 
   validate(value: any) {
-    const isValid = validateField(this.state.props, value);
+    const validationObj = validateField(this.state.props, value);
     this.updateState({
-      isValid: isValid
+      isValid: validationObj.isValid,
+      errorType: validationObj.errorType
     } as WmToggleState);
   }
 

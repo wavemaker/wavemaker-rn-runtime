@@ -19,6 +19,7 @@ export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   isFocused = false;
   timerId: NodeJS.Timer = null as any;
   isValid: boolean = true;
+  errorType = '';
 }
 
 const CURRENT_DATE = 'CURRENT_DATE';
@@ -145,7 +146,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   onBlur() {
-    if (!this.state.props.datavalue && Platform.OS === 'web') {
+    if (Platform.OS === 'web') {
       this.validate(this.state.props.datavalue);
       setTimeout(() => this.props.triggerValidation && this.props.triggerValidation());
     }
@@ -165,9 +166,10 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   validate(value: any) {
-    const isValid = validateField(this.state.props, value);
+    const validationObj = validateField(this.state.props, value);
     this.setState({
-      isValid: isValid
+      isValid: validationObj.isValid,
+      errorType: validationObj.errorType
     } as BaseDatetimeState)
   }
 

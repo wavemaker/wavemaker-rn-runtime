@@ -9,6 +9,7 @@ export class BaseDatasetState <T extends BaseDatasetProps> extends BaseComponent
   groupedData: any;
   isDefault = false;
   isValid = true;
+  errorType = '';
 }
 
 export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extends BaseDatasetState<T>, L extends BaseDatasetStyles> extends BaseComponent<T, S, L> {
@@ -56,9 +57,10 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
   }
 
   validate(value: any) {
-    const isValid = validateField(this.state.props, value);
+    const validationObj = validateField(this.state.props, value);
     this.setState({
-      isValid: isValid
+      isValid: validationObj.isValid,
+      errorType: validationObj.errorType
     } as S);
   }
 
