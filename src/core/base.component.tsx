@@ -227,6 +227,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                     props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
                                     props.classname && this.theme.getStyle(props.classname),
                                     this.props.styles);
+                                if (this.styles.root.hasOwnProperty('_background')) {
+                                  delete this.styles.root.backgroundColor;
+                                }
                                 if (!this.isVisible()) {
                                     assign(this.styles, this.theme.getStyle('hidden'))
                                 }

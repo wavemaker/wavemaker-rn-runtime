@@ -119,8 +119,8 @@ export const attachBackground = (c: ReactNode, style: ViewStyle) => {
     const background = (style as any)._background;
     if (background) {
         const backgroundStyle = {
-            width: style.width,
-            height: style.height
+          width: style.width || '100%',
+          height: style.height || '100%'
         } as any;
         Object.keys(background).forEach(k => {
             if (k !== 'imageStyle') {
