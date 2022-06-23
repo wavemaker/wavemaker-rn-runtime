@@ -5,6 +5,7 @@ import { get, filter } from 'lodash';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { Formatter } from '@wavemaker/app-rn-runtime/core/formatters';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
+import { toBoolean, toNumber } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable';
@@ -201,6 +202,14 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
           return null;
         }
       }
+    }
+
+    toBoolean(val: any) {
+      return toBoolean(val);
+    }
+
+    toNumber(val: any) {
+      return toNumber(val);
     }
 
     componentWillUnmount() {

@@ -34,6 +34,23 @@ const _deepCopy = (o1: any, ...o2: any) => {
 
 export const deepCopy = (...objects: any) => _deepCopy({}, ...objects);
 
+export const toBoolean = (val: any) => {
+  return  val === true 
+    || val === 'true'
+    || !(val === false 
+      || val === null
+      || val === undefined 
+      || val === '');
+};
+
+export const toNumber = (val: any) => {
+  try {
+    return parseFloat(val) || 0;
+  } catch(e) {
+    return 0;
+  }
+};
+
 /**
  * this method encodes the url and returns the encoded string
  */
