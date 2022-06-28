@@ -9,7 +9,9 @@ export type WmPictureStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-picture';
 export const DEFAULT_STYLES: WmPictureStyles = defineStyles({
-  root: {},
+  root: {
+    overflow: 'hidden'
+  },
   text: {},
   picture: {
     width: '100%',
@@ -33,6 +35,6 @@ BASE_THEME.addStyle('thumbnail-image', '', {
     paddingTop: 8,
     paddingBottom: 8,
     paddingLeft: 8,
-    paddingRight: 8 
+    paddingRight: 8
   }
 } as WmPictureStyles);
