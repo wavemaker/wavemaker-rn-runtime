@@ -233,7 +233,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
        */
       <View style={this.styles.root} ref={ref => {this.view = ref as View}} onLayout={() => {}}>
         <View style={this.styles.searchInputWrapper}>
-          <TextInput style={[this.styles.text, this.state.isOpened && this.state.dataItems?.lenth > 0? this.styles.focusedText : null]}
+          <TextInput style={[this.styles.text, this.state.isOpened && this.state.dataItems?.length > 0? this.styles.focusedText : null]}
            ref={ref => {this.widgetRef = ref;
              // @ts-ignore
              if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
