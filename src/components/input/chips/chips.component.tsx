@@ -136,7 +136,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   }
 
   isDuplicate(item: any) {
-    return findIndex(this.state.chipsList, {key: item.key}) > -1;
+    return findIndex(this.state.chipsList, {datafield: item.datafield}) > -1;
   }
 
   // Check if max size is reached
