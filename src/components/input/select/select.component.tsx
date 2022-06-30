@@ -15,7 +15,6 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
   isOpened: boolean = false;
-  selectedValue: any = '';
 }
 
 export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSelectState, WmSelectStyles> {
@@ -42,9 +41,11 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
         case 'datavalue':
           if (isNaN($new) && isEmpty($new)) {
             this.updateState({
-              selectedValue: this.state.props.placeholder
+              props: {
+                displayValue: this.state.props.placeholder || ''
+              }
             } as WmSelectState);
-          } 
+          }
       }
   }
 
@@ -93,7 +94,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               this.widgetRef = ref;
             }}
             onPress={this.onPress.bind(this)}>
-            {this.state.selectedValue || props.placeholder || ' '}
+            {this.state.props.displayValue || props.placeholder || ' '}
           </Text>
           <WmButton
             styles={this.styles.arrowButton}
@@ -106,9 +107,6 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
 
   onItemSelect(item: any, isPlaceholder?: boolean) {
     this.isDefaultValue = false;
-    this.updateState({
-      selectedValue: isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)
-    } as WmSelectState);
     this.onChange(isPlaceholder ? '' : this.state.props.datafield === 'All Fields'  ? item.dataObject : item.datafield);
     this.hide();
   }
@@ -129,14 +127,24 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     if (this.state.dataItems && this.state.dataItems.length && this.isDefaultValue) {
       const selectedItem = find(this.state.dataItems, (item) => item.selected);
       selectedItem && this.updateState({
-        selectedValue: selectedItem.displayexp || selectedItem.displayfield
+        props: {
+        displayValue: selectedItem.displayexp || selectedItem.displayfield || ''
+      }
       } as WmSelectState);
     }
   }
 
-  renderWidget(props: WmSelectProps) {
-    const items = this.state.dataItems;
+  componentDidMount() {
+    super.componentDidMount();
     this.updateDefaultQueryModel();
+  }
+
+  onDataItemsUpdate() {
+    super.onDataItemsUpdate();
+    this.updateDefaultQueryModel();
+  }
+
+  renderWidget(props: WmSelectProps) {
     return (
       <View>
         {this.renderSelect()}
@@ -151,8 +159,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
                         {this.renderSelectItem({}, true)}
                       </View>
                       : null}
-                    {items &&
-                      items.map((item: any) => (
+                    {this.state.dataItems &&
+                    this.state.dataItems.map((item: any) => (
                         <View key={item.key}>
                           {this.renderSelectItem(item)}
                         </View>

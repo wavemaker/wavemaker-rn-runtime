@@ -296,15 +296,16 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   onDataItemsUpdate() {
     super.onDataItemsUpdate();
     this.isFocused && this.state.dataItems.length && this.updateFilteredData(this.state.props.query);
+    this.updateDefaultQueryModel();
   }
 
   componentDidMount(): void {
     super.componentDidMount();
+    this.updateDefaultQueryModel();
   }
 
   renderWidget(props: WmSearchProps) {
     const result = this.state.data;
-    this.updateDefaultQueryModel();
     return (
       <View>
         {this.renderSearchBar()}
