@@ -279,18 +279,25 @@ export default abstract class BaseApp extends React.Component implements Navigat
           AppModalService.modalsOpened.map((o, i) => {
             return (
               <View key={(o.name || '') + i}
-                                style={deepCopy(styles.appModal,
-                                  o.centered ? styles.centeredModal: null,
-                                  o.modalStyle,
-                                  { elevation: o.elevationIndex,
-                                    zIndex: o.elevationIndex })}>
+                onStartShouldSetResponder={() => true}
+                onTouchEnd={() => o.isModal && AppModalService.hideModal(o)}
+                style={deepCopy(styles.appModal,
+                  o.centered ? styles.centeredModal: null,
+                  o.modalStyle,
+                  { elevation: o.elevationIndex,
+                    zIndex: o.elevationIndex })}>
                     <Animatedview entryanimation={o.animation || 'fadeIn'}
-                                  ref={ref => {
-                                    this.animatedRef = ref;
-                                    AppModalService.animatedRefs[i] = ref;
-                                  }}
-                                  style={[styles.appModalContent, o.contentStyle]}>
+                      ref={ref => {
+                        this.animatedRef = ref;
+                        AppModalService.animatedRefs[i] = ref;
+                      }}
+                      style={[styles.appModalContent, o.contentStyle]}>  
+                      <View
+                        onStartShouldSetResponder={evt => true}
+                        onTouchEnd={(e) => e.stopPropagation()}
+                        style={{width: '100%', 'alignItems': 'center'}}>
                         {this.getProviders(o.content)}
+                      </View>
                     </Animatedview>
               </View>
             )}
