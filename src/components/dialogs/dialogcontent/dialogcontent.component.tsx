@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmDialogcontentProps from './dialogcontent.props';
@@ -14,6 +14,6 @@ export default class WmDialogcontent extends BaseComponent<WmDialogcontentProps,
   }
 
   renderWidget(props: WmDialogcontentProps) {
-    return (<View style={this.styles.root}>{props.children}</View>);
+    return (<ScrollView contentContainerStyle={this.styles.root} style={{height: '90%'}}>{props.children}</ScrollView>);
   }
 }

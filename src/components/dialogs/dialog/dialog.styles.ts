@@ -1,4 +1,4 @@
-import { ViewStyle } from 'react-native';
+import { Dimensions, ViewStyle } from 'react-native';
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
@@ -17,6 +17,7 @@ export const DEFAULT_STYLES: WmDialogStyles = defineStyles<WmDialogStyles>({
     root: {
         maxWidth: 360,
         width: '90%',
+        maxHeight: Dimensions.get('window').height - 32,
         backgroundColor: ThemeVariables.dialogBackgroundColor,
         borderRadius: 6,
         padding: 16

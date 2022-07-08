@@ -1,6 +1,6 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, ScrollView, View, ViewStyle} from 'react-native';
+import { Platform, TouchableOpacity, ScrollView, View, ViewStyle, useWindowDimensions} from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -278,8 +278,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
         {AppModalService.modalOptions.content &&
           AppModalService.modalsOpened.map((o, i) => {
             return (
-              <TouchableOpacity activeOpacity={1} key={(o.name || '') + i}
-                                onPress={() => o.isModal && AppModalService.hideModal(o)}
+              <View key={(o.name || '') + i}
                                 style={deepCopy(styles.appModal,
                                   o.centered ? styles.centeredModal: null,
                                   o.modalStyle,
@@ -299,15 +298,11 @@ export default abstract class BaseApp extends React.Component implements Navigat
                       "flexDirection": "column",
                       "justifyContent": "center"
                     }}>
-                    <TouchableOpacity
-                        activeOpacity={1}
-                        onPress={() => {}}
-                        style={{width: '100%', alignItems: 'center'}}>
+                    
                         {this.getProviders(o.content)}
-                    </TouchableOpacity>
                   </ScrollView>
                 </Animatedview>
-              </TouchableOpacity>
+              </View>
             )}
           )
         }
@@ -401,6 +396,7 @@ const styles = {
   appModalContent : {
     flex: 1,
     width: '100%',
+    height: '100%',
     alignItems: 'center',
     flexDirection: 'column'
   },
