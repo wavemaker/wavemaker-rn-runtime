@@ -3,6 +3,7 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.styles';
 import { WmContainerStyles } from '@wavemaker/app-rn-runtime/components/container/container.styles';
+import { Dimensions } from 'react-native';
 
 export type WmPopoverStyles = BaseStyles & {
     link: WmAnchorStyles,
@@ -42,11 +43,12 @@ export const DEFAULT_STYLES: WmPopoverStyles = defineStyles({
 BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('popover-action-sheet', '', {
     modal: {
-        backgroundColor: 'rgba(0, 0, 0, 0.3)'
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
     },
     popover: {
         width: '100%',
-        minHeight: 240
+        minHeight: 240,
+        maxHeight: Dimensions.get('window').height - 120,
     },
     modalContent: {
         position: 'absolute',
@@ -58,7 +60,8 @@ BASE_THEME.addStyle('popover-action-sheet', '', {
             height: 0
         },
         shadowOpacity: 0.6,
-        shadowRadius: 10
+        shadowRadius: 10,
+        justifyContent: 'flex-end'
     }
 } as WmPopoverStyles);
 BASE_THEME.addStyle('popover-dropdown', '', {

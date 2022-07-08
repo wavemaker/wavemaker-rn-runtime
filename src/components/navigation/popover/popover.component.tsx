@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutChangeEvent, TouchableOpacity, Text, View } from 'react-native';
+import { LayoutChangeEvent, TouchableOpacity, Text, View, ScrollView } from 'react-native';
 import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import { TapEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -94,9 +94,9 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
           <ModalConsumer>
             {(modalService: ModalService) => {
               modalService.showModal(this.prepareModalOptions((
-                  <View style={this.theme.mergeStyle(styles.popover, dimensions)}>
+                  <ScrollView style={this.theme.mergeStyle(styles.popover, dimensions)}>
                     {props.title ? (<Text style={styles.title}>{props.title}</Text>): null}
-                    <TouchableOpacity onPress={() => {
+                    <TouchableOpacity activeOpacity={1} onPress={() => {
                       props.autoclose === 'always' && this.hide()
                     }} style={styles.popoverContent.root}>
                       <WmContainer
@@ -106,7 +106,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
                           {props.renderPartial ? null : props.children}
                       </WmContainer>
                     </TouchableOpacity>
-                  </View>
+                  </ScrollView>
               ), styles, modalService));
               return null;
             }}

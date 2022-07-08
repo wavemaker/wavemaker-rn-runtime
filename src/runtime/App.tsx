@@ -284,24 +284,14 @@ export default abstract class BaseApp extends React.Component implements Navigat
                                   o.modalStyle,
                                   { elevation: o.elevationIndex,
                                     zIndex: o.elevationIndex })}>
-                <Animatedview entryanimation={o.animation || 'fadeIn'}
-                                ref={ref => {
-                                  this.animatedRef = ref;
-                                  AppModalService.animatedRefs[i] = ref;
-                                }}
-                                style={[styles.appModalContent, o.contentStyle]}>
-                  <ScrollView keyboardShouldPersistTaps={'handled'} style={{width: '100%'}}
-                    contentContainerStyle={{
-                      "width": "100%",
-                      "alignItems": "center",
-                      "minHeight": "100%",
-                      "flexDirection": "column",
-                      "justifyContent": "center"
-                    }}>
-                    
+                    <Animatedview entryanimation={o.animation || 'fadeIn'}
+                                  ref={ref => {
+                                    this.animatedRef = ref;
+                                    AppModalService.animatedRefs[i] = ref;
+                                  }}
+                                  style={[styles.appModalContent, o.contentStyle]}>
                         {this.getProviders(o.content)}
-                  </ScrollView>
-                </Animatedview>
+                    </Animatedview>
               </View>
             )}
           )
@@ -398,7 +388,8 @@ const styles = {
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
   centeredModal: {
     flex: 1,
