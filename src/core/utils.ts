@@ -206,13 +206,13 @@ export const validateField = (props: any, value: any) => {
     }
 
   }
-  if (value && props.mindate && new Date(props.datavalue) < props.mindate) {
+  if (value && props.mindate && new Date(props.datavalue) < moment(props.mindate).startOf('day').toDate()) {
     return {
       errorType : 'mindate',
       isValid: false
     }
   }
-  if (value && props.maxdate && new Date(props.datavalue) > props.maxdate) {
+  if (value && props.maxdate && new Date(props.datavalue) > moment(props.maxdate).startOf('day').toDate()) {
     return {
       errorType : 'maxdate',
       isValid: false
