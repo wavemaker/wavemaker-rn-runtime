@@ -393,7 +393,6 @@ const styles = {
   appModalContent : {
     flex: 1,
     width: '100%',
-    height: '100%',
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'center'

@@ -111,10 +111,10 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     this.hide();
   }
 
-  renderSelectItem(item: any, isPlaceholder?: boolean) {
+  renderSelectItem(item: any, isPlaceholder: boolean, isLast: boolean) {
     return (
       <Tappable onTap={this.onItemSelect.bind(this, item, isPlaceholder)}>
-        <View style={this.styles.selectItem}>
+        <View style={[this.styles.selectItem, isLast ?  this.styles.lastSelectItem  : null ]}>
           <Text style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : this.styles.selectItemText.color}]}>
             {isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)}
           </Text>
@@ -151,18 +151,18 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
         {this.state.isOpened ? (
           <ModalConsumer>
             {(modalService: ModalService) => {
+              const items = this.state.dataItems;
               modalService.showModal(
                 this.prepareModalOptions(
                   <View style={this.styles.dropDownContent}>
                     {props.placeholder ?
                       <View key={props.name + '_placeholder'} style={this.styles.placeholderText}>
-                        {this.renderSelectItem({}, true)}
+                        {this.renderSelectItem({}, true, false)}
                       </View>
                       : null}
-                    {this.state.dataItems &&
-                    this.state.dataItems.map((item: any) => (
+                      {items && items.map((item: any, index: number) => (
                         <View key={item.key}>
-                          {this.renderSelectItem(item)}
+                          {this.renderSelectItem(item, false, index === items.length - 1)}
                         </View>
                       ))}
                   </View>,

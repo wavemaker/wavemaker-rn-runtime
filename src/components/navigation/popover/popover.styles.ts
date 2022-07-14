@@ -75,7 +75,6 @@ BASE_THEME.addStyle('popover-dropdown', '', {
         borderRadius: 6,
         position: 'absolute',
         ...BASE_THEME.getStyle('elevate4').root,
-        shadowRadius: 8,
-        height: null
+        shadowRadius: 8
     }
 } as WmPopoverStyles);

@@ -8,6 +8,7 @@ export type WmSelectStyles = BaseStyles & {
   modal: AllStyle;
   modalContent: AllStyle;
   selectItem: AllStyle;
+  lastSelectItem: AllStyle,
   selectItemText: AllStyle;
   dropDownContent: AllStyle;
   disabledText: AllStyle;
@@ -57,6 +58,9 @@ export const DEFAULT_STYLES: WmSelectStyles = defineStyles({
     borderBottomColor: ThemeVariables.selecttemBorderColor,
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  lastSelectItem: {
+    borderBottomWidth: 0
   },
   selectItemText: {
     fontSize: 16,
