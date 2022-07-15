@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { get, filter } from 'lodash';
+import { get, filter, isNil } from 'lodash';
 
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { Formatter } from '@wavemaker/app-rn-runtime/core/formatters';
@@ -205,10 +205,16 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     toBoolean(val: any) {
+      if (isNil(val)) {
+        return val;
+      }
       return toBoolean(val);
     }
 
     toNumber(val: any) {
+      if (isNil(val)) {
+        return val;
+      }
       return toNumber(val);
     }
 
