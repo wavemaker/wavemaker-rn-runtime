@@ -144,6 +144,10 @@ class AppSecurityService implements SecurityService {
                 return JSON.parse(output.data && output.data.replace(/&quot;/g, "\""));
               }
               return Promise.reject();
+            }).then((output: any) => {
+              if (output[XSRF_COOKIE_NAME]) {
+                AsyncStorage.setItem(XSRF_COOKIE_NAME, output[XSRF_COOKIE_NAME]);
+              }
             }).then(() => {
               return this.getLoggedInUserDetails(this.baseUrl);
             }).then(() => {
