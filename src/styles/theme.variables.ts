@@ -157,7 +157,7 @@ export class ThemeVariables {
     buttonDangerTextColor = this.dangerContrastColor;
     buttonWarningTextColor = this.warningContrastColor;
     buttonInfoTextColor = this.infoContrastColor;
-    buttonLinkColor = this.defaultColorF;
+    buttonLinkColor = this.transparent;
     buttonLinkTextColor = this.primaryColor;
     buttonDarkColor = this.darkColor;
     buttonDarkTextColor = this.lightColor;
@@ -287,6 +287,8 @@ export class ThemeVariables {
     progressCircleInfoColor = this.infoColor;
     progressCircleWarningColor = this.warningColor;
 
+    //container
+    containerOutlineColor = this.defaultColorC;
 
     //accordion
     accordionBgColor = this.widgetBgColor;
