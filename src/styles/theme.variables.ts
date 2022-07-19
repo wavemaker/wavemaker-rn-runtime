@@ -391,6 +391,14 @@ export class ThemeVariables {
     fileuploadBgColor = this.defaultColorF;
     fileuploadBorderColor = this.widgetBorderColor;
     fileuploadTextColor = this.defaultTextColor;
+
+    //charts
+    chartLabelColor = this.defaultTextColor;
+    chartGraphLinesColor = this.defaultColorC;
+    chartLineColor = this.defaultColor8;
+    dotsStrokeColor = this.defaultColorC;
+    barColor = this.defaultColorB;
+    chartbackgroundColor = this.defaultColorF;
 }
 
 export default new ThemeVariables();
