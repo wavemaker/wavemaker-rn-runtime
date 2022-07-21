@@ -280,7 +280,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
             return (
               <View key={(o.name || '') + i}
                 onStartShouldSetResponder={() => true}
-                onTouchEnd={() => o.isModal && AppModalService.hideModal(o)}
+                onResponderEnd={() => o.isModal && AppModalService.hideModal(o)}
                 style={deepCopy(styles.appModal,
                   o.centered ? styles.centeredModal: null,
                   o.modalStyle,
@@ -294,7 +294,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                       style={[styles.appModalContent, o.contentStyle]}>  
                       <View
                         onStartShouldSetResponder={evt => true}
-                        onTouchEnd={(e) => e.stopPropagation()}
+                        onResponderEnd={(e) => e.stopPropagation()}
                         style={{width: '100%', 'alignItems': 'center'}}>
                         {this.getProviders(o.content)}
                       </View>

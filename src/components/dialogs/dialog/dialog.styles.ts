@@ -15,7 +15,7 @@ export type WmDialogStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-dialog';
 export const DEFAULT_STYLES: WmDialogStyles = defineStyles<WmDialogStyles>({
     root: {
-        maxWidth: 360,
+        minWidth: 320,
         width: '90%',
         maxHeight: ThemeVariables.maxModalHeight,
         backgroundColor: ThemeVariables.dialogBackgroundColor,
@@ -24,7 +24,9 @@ export const DEFAULT_STYLES: WmDialogStyles = defineStyles<WmDialogStyles>({
     },
     text: {},
     modal: {},
-    modalContent: {},
+    modalContent: {
+        width: undefined
+    },
     icon: {
         root: {
             alignSelf: 'center',
