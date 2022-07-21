@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { find, isEmpty } from 'lodash';
 
 import WmSelectProps from './select.props';
@@ -11,6 +11,7 @@ import {
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
@@ -154,7 +155,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               const items = this.state.dataItems;
               modalService.showModal(
                 this.prepareModalOptions(
-                  <View style={this.styles.dropDownContent}>
+                  <ScrollView style={{width: '100%', maxHeight: ThemeVariables.maxModalHeight}} contentContainerStyle={this.styles.dropDownContent}>
                     {props.placeholder ?
                       <View key={props.name + '_placeholder'} style={this.styles.placeholderText}>
                         {this.renderSelectItem({}, true, false)}
@@ -165,7 +166,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
                           {this.renderSelectItem(item, false, index === items.length - 1)}
                         </View>
                       ))}
-                  </View>,
+                  </ScrollView>,
                   this.styles,
                   modalService
                 )

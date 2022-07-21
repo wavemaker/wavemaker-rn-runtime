@@ -1,5 +1,5 @@
 import React from 'react';
-import { Keyboard, Platform, Text, TextInput, View } from 'react-native';
+import { Keyboard, Platform, ScrollView, Text, TextInput, View } from 'react-native';
 import { find, isNull } from 'lodash';
 
 import WmSearchProps from './search.props';
@@ -313,7 +313,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
           <ModalConsumer>
             {(modalService: ModalService) => {
               modalService.showModal(this.prepareModalOptions((
-                <View style={this.styles.dropDownContent}>
+                <ScrollView style={{width: '100%', maxHeight: 200}} contentContainerStyle={this.styles.dropDownContent}>
                     {result && result.map((item: any, index: any) => (
                       <View key={item.key}>
                         {
@@ -327,7 +327,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
                         }
                       </View>
                     ))}
-                </View>
+                </ScrollView>
               ), this.styles, modalService));
               return null;
             }}

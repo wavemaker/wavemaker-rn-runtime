@@ -46,7 +46,6 @@ export const DEFAULT_STYLES: WmSelectStyles = defineStyles({
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: ThemeVariables.selectBorderColor,
-    maxHeight: '90%',
     width: '90%'
   },
   selectItem: {
@@ -70,9 +69,7 @@ export const DEFAULT_STYLES: WmSelectStyles = defineStyles({
   placeholderText: {
     color: ThemeVariables.inputPlaceholderColor
   },
-  dropDownContent: {
-    width: '100%'
-  },
+  dropDownContent: {},
   arrowButton: {
     root: {
       padding: 0,
