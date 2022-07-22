@@ -16,6 +16,7 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
   isOpened: boolean = false;
+  selectedValue: any = '';
 }
 
 export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSelectState, WmSelectStyles> {
