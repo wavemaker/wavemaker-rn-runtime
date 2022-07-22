@@ -25,11 +25,14 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
-    let imageSrc = '';
+    let imageSrc;
     switch(name) {
       case 'picturesource':
       case 'pictureplaceholder':
         imageSrc = this.state.props.picturesource || $new;
+        if (imageSrc && typeof imageSrc === 'object' && typeof imageSrc.default === 'function') {
+          return;
+        }
         if (isNumber(imageSrc)) {
           const {width, height} = Image.resolveAssetSource(imageSrc);
           this.updateState({
@@ -90,35 +93,50 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     return {} as WmPictureStyles;
   }
 
+  getElementToShow(props: WmPictureProps, imgSrc: any, shapeStyles: WmPictureStyles) {
+    let elementToshow, source;
+    if (imgSrc && typeof imgSrc === 'object' && typeof imgSrc?.default === 'function') {
+      let imgStyle : any = {};
+      if (props.resizemode === 'contain') {
+        imgStyle['width'] = '100%';
+        imgStyle['height'] = '100%';
+      }
+      elementToshow = React.createElement(imgSrc?.default, imgStyle);
+    } else if (!isWebPreviewMode() && props.isSvg) {
+      // svg from uri
+      elementToshow = <SvgUri width={this.styles.root.width} height={this.styles.root.height} uri={imgSrc}/>;
+    } else if (isString(imgSrc) && (imgSrc.startsWith('http') || imgSrc.startsWith('file:'))) {
+      source = {
+        uri: imgSrc
+      };
+    } else {
+      source = imgSrc;
+    }
+    if (this.state.naturalImageWidth) {
+      elementToshow = <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={props.resizemode} source={source}/>;
+    }
+    return elementToshow;
+  }
+
   renderWidget(props: WmPictureProps) {
     const imageWidth = this.state.imageWidth;
     const imageHeight = this.state.imageHeight;
     const shapeStyles = this.createShape(props.shape, imageWidth);
-    const imgSrc = props.picturesource || props.pictureplaceholder;
-    let source = {};
+    const imgSrc: any = props.picturesource || props.pictureplaceholder;
     let elementToshow;
     if (imgSrc) {
-      if (isString(imgSrc) && (imgSrc.startsWith('http') || imgSrc.startsWith('file:'))) {
-        source = {
-          uri: imgSrc
-        };
-      } else {
-        source = imgSrc;
-      }
-      elementToshow = (!isWebPreviewMode() && props.isSvg) ?
-        <SvgUri width={this.styles.root.width} height={this.styles.root.height} uri={imgSrc}/> : (this.state.naturalImageWidth ?
-          <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={props.resizemode} source={source}/> : null);
+      elementToshow = this.getElementToShow(props, imgSrc, shapeStyles);
     }
     return imgSrc && (this.state.naturalImageWidth || props.isSvg) ? (
-      <View style={[
-          !this.styles.root.width && !this.styles.root.height ? {
-            width: this.state.naturalImageWidth,
-            height: this.state.naturalImageHeight
-          } : null,
-          this.styles.root]}
-          onLayout={this.onViewLayoutChange}>
+      <View style={[!this.styles.root.width && !this.styles.root.height ? {
+        width: this.state.naturalImageWidth,
+        height: this.state.naturalImageHeight
+      } : null,
+        this.styles.root, shapeStyles.root, shapeStyles.picture]}>
+      <View style={[{overflow: 'hidden', width: '100%',
+        height: '100%'}]} onLayout={this.onViewLayoutChange}>
         <Tappable target={this} styles={{width: imageWidth ? null : '100%', height: imageHeight ? null : '100%'}}>
-            <Animatedview entryanimation={props.animation} style={[{
+          <Animatedview entryanimation={props.animation} style={[{
                 height: imageHeight,
                 width: imageWidth,
                 borderRadius: shapeStyles.picture?.borderRadius
@@ -126,6 +144,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
               {this.state.imageWidth ? elementToshow : null}
             </Animatedview>
           </Tappable>
+        </View>
       </View>
     ): null;
   }

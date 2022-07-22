@@ -1,4 +1,5 @@
 import Color, { rgb } from "color";
+import { Dimensions, StatusBar } from "react-native";
 
 export class ThemeVariables {
     primaryColor = '#4263eb';
@@ -47,6 +48,7 @@ export class ThemeVariables {
     badgeColor = '#6c757d';
     badgeContrastColor = '#ffffff';
     baseFont = 'Roboto';
+    maxModalHeight = Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0);
 
     // page
     pageContentBgColor = this.defaultColorE;

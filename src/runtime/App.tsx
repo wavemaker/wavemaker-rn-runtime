@@ -1,6 +1,6 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, ScrollView, View, ViewStyle} from 'react-native';
+import { Platform, TouchableOpacity, ScrollView, View, ViewStyle, useWindowDimensions} from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -14,7 +14,7 @@ import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
-import { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
+import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/message.component';
@@ -76,7 +76,7 @@ const SUPPORTED_SERVICES = { StorageService: StorageService,
                              AppDisplayManagerService: AppDisplayManagerService
                             };
 
-export default abstract class BaseApp extends React.Component {
+export default abstract class BaseApp extends React.Component implements NavigationService {
 
   Actions: any = {};
   Variables: any = {};
@@ -122,6 +122,18 @@ export default abstract class BaseApp extends React.Component {
         refreshAfterWait = true;
       }
     }
+  }
+  
+  goToPage(pageName: string, params: any)  {
+    return this.appConfig.currentPage?.goToPage(pageName, params);
+  }
+
+  goBack(pageName: string, params: any) {
+    return this.appConfig.currentPage?.goBack(pageName, params);
+  }
+
+  openUrl(url: string, params?: any)  {
+    return this.appConfig.currentPage?.openUrl(url, params);
   }
 
   onBeforeServiceCall(config: AxiosRequestConfig) {
@@ -213,7 +225,7 @@ export default abstract class BaseApp extends React.Component {
 
   getProviders(content: React.ReactNode) {
     return (
-      <NavigationServiceProvider value={this.appConfig.currentPage}>
+      <NavigationServiceProvider value={this}>
         <ToastProvider value={AppToastService}>
           <PartialProvider value={AppPartialService}>
             <SecurityProvider value={AppSecurityService}>
@@ -266,36 +278,28 @@ export default abstract class BaseApp extends React.Component {
         {AppModalService.modalOptions.content &&
           AppModalService.modalsOpened.map((o, i) => {
             return (
-              <TouchableOpacity activeOpacity={1} key={(o.name || '') + i}
-                                onPress={() => o.isModal && AppModalService.hideModal(o)}
-                                style={deepCopy(styles.appModal,
-                                  o.centered ? styles.centeredModal: null,
-                                  o.modalStyle,
-                                  { elevation: o.elevationIndex,
-                                    zIndex: o.elevationIndex })}>
-                <Animatedview entryanimation={o.animation || 'fadeIn'}
-                                ref={ref => {
-                                  this.animatedRef = ref;
-                                  AppModalService.animatedRefs[i] = ref;
-                                }}
-                                style={[styles.appModalContent, o.contentStyle]}>
-                  <ScrollView keyboardShouldPersistTaps={'handled'} style={{width: '100%'}}
-                    contentContainerStyle={{
-                      "width": "100%",
-                      "alignItems": "center",
-                      "minHeight": "100%",
-                      "flexDirection": "column",
-                      "justifyContent": "center"
-                    }}>
-                    <TouchableOpacity
-                        activeOpacity={1}
-                        onPress={() => {}}
-                        style={{width: '100%', alignItems: 'center'}}>
+              <View key={(o.name || '') + i}
+                onStartShouldSetResponder={() => true}
+                onResponderEnd={() => o.isModal && AppModalService.hideModal(o)}
+                style={deepCopy(styles.appModal,
+                  o.centered ? styles.centeredModal: null,
+                  o.modalStyle,
+                  { elevation: o.elevationIndex,
+                    zIndex: o.elevationIndex })}>
+                    <Animatedview entryanimation={o.animation || 'fadeIn'}
+                      ref={ref => {
+                        this.animatedRef = ref;
+                        AppModalService.animatedRefs[i] = ref;
+                      }}
+                      style={[styles.appModalContent, o.contentStyle]}>  
+                      <View
+                        onStartShouldSetResponder={evt => true}
+                        onResponderEnd={(e) => e.stopPropagation()}
+                        style={{width: '100%', 'alignItems': 'center'}}>
                         {this.getProviders(o.content)}
-                    </TouchableOpacity>
-                  </ScrollView>
-                </Animatedview>
-              </TouchableOpacity>
+                      </View>
+                    </Animatedview>
+              </View>
             )}
           )
         }
@@ -390,7 +394,8 @@ const styles = {
     flex: 1,
     width: '100%',
     alignItems: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
   centeredModal: {
     flex: 1,

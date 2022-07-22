@@ -13,6 +13,8 @@ export class WmSpinnerState extends BaseComponentState<WmSpinnerProps> {
 
 export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerState, WmSpinnerStyles> {
 
+  public stopAnimation = false;
+
   constructor(props: WmSpinnerProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSpinnerProps());
   }
@@ -21,9 +23,16 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
     this.spin();
   }
 
+  componentWillUnmount(): void {
+    super.componentWillUnmount();
+    this.stopAnimation = true;
+  }
   spinValue = new Animated.Value(0);
 
   private spin () {
+    if (this.stopAnimation) {
+      return;
+    }
     this.spinValue.setValue(0);
     Animated.timing(
       this.spinValue,

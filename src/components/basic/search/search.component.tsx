@@ -1,5 +1,5 @@
 import React from 'react';
-import { Keyboard, Platform, Text, TextInput, View } from 'react-native';
+import { Keyboard, Platform, ScrollView, Text, TextInput, View } from 'react-native';
 import { find, isNull } from 'lodash';
 
 import WmSearchProps from './search.props';
@@ -241,7 +241,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
        */
       <View style={this.styles.root} ref={ref => {this.view = ref as View}} onLayout={() => {}}>
         <View style={this.styles.searchInputWrapper}>
-          <TextInput style={[this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isOpened && this.state.dataItems?.lenth > 0? this.styles.focusedText : null]}
+          <TextInput style={[this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isOpened && this.state.dataItems?.length > 0? this.styles.focusedText : null]}
            ref={ref => {this.widgetRef = ref;
              // @ts-ignore
              if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
@@ -304,15 +304,16 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   onDataItemsUpdate() {
     super.onDataItemsUpdate();
     this.isFocused && this.state.dataItems.length && this.updateFilteredData(this.state.props.query);
+    this.updateDefaultQueryModel();
   }
 
   componentDidMount(): void {
     super.componentDidMount();
+    this.updateDefaultQueryModel();
   }
 
   renderWidget(props: WmSearchProps) {
     const result = this.state.data;
-    this.updateDefaultQueryModel();
     return (
       <View>
         {this.renderSearchBar()}
@@ -320,7 +321,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
           <ModalConsumer>
             {(modalService: ModalService) => {
               modalService.showModal(this.prepareModalOptions((
-                <View style={this.styles.dropDownContent}>
+                <ScrollView style={{width: '100%', maxHeight: 200}} contentContainerStyle={this.styles.dropDownContent}>
                     {result && result.map((item: any, index: any) => (
                       <View key={item.key}>
                         {
@@ -334,7 +335,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
                         }
                       </View>
                     ))}
-                </View>
+                </ScrollView>
               ), this.styles, modalService));
               return null;
             }}

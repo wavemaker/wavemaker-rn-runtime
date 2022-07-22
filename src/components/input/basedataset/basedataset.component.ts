@@ -112,9 +112,9 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
   computeDisplayValue() {
     this.updateState({
       props: {
-        displayValue: (this.state.dataItems || [] as any)
+        displayValue: ((this.state.dataItems || [] as any)
           .filter((item: any) => item.selected)
-          .map((item: any) => item.displayexp || item.displayfield)
+          .map((item: any) => item.displayexp || item.displayfield)) || ''
       }
     } as S);
   }
@@ -125,7 +125,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
 
   getUniqObjsByDataField(
     data: any,
-    allowEmptyFields?: boolean
+    allowEmptyFields: boolean = true
   ) {
     let uniqData;
     const isAllFields = this.state.props.datafield === 'All Fields';
@@ -145,7 +145,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     });
   }
 
-  setDataItems(dataset: any, propsObj?: { [key: string]: any }) {
+  setDataItems(dataset: any, propsObj?: { [key: string]: any }, allowEmpty: boolean = true) {
     const name = this.props.name;
     const props = this.state.props;
     const datavalue = propsObj ? propsObj['dataValue'] : props.datavalue;
@@ -153,7 +153,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     let datavalueItems: any = [];
     if (typeof datavalue === 'string') {
       datavalueItems = datavalue.split(',');
-      datavalueItems = datavalueItems.map((item: any) => item.trim());
+      datavalueItems = allowEmpty ? datavalueItems : datavalueItems.map((item: any) => item.trim());
     } else if (isArray(datavalue)) {
       datavalueItems = datavalue;
     } else {
@@ -175,7 +175,9 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     } else if (dataset) {
       if (isObject(dataset) && !isArray(dataset)) {
         forEach(dataset, (value, key) => {
-          dataItems.push({key: `${name}_item${key}`, displayfield: value, datafield: key, dataObject: dataset});
+          if (isDefined(key) && key !== null) {
+            dataItems.push({key: `${name}_item${key}`, displayfield: value, datafield: key, dataObject: dataset});
+          }
         });
       } else {
         const isSelected = (item: any) => {
@@ -188,26 +190,31 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
               return includes(datavalueItems, item);
             }
             let df = get(item, datafield);
-            return !!df && (includes(datavalueItems, df) || includes(datavalueItems, df.toString()));
+            if (isDefined(df) && df !== null) {
+              return (includes(datavalueItems, df) || includes(datavalueItems, df.toString()));
+            }
           }
           return false;
         };
-        dataItems = (dataset as any[]).map((d, i) => {
-          return {
-            key: `${name}_item${i}`,
-            dataObject: d,
-            displayfield: (get(d, this.state.props.displayfield))?.toString() ||  (get(d, this.state.props.displaylabel))?.toString(),
-            datafield: this.state.props.datafield === 'All Fields' ? d : get(d, this.state.props.datafield),
-            displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : get(d, this.state.props.displayfield),
-            selected: isSelected(d),
-            imgSrc: isFunction(this.state.props.displayimagesrc) ? this.state.props.displayimagesrc(d): get(d, this.state.props.displayimagesrc),
-            icon: d[this.props.iconclass]
-          };
+        forEach(dataset as any[], (d, i) => {
+          let datafieldValue = this.state.props.datafield === 'All Fields' ? d : get(d, this.state.props.datafield);
+          if (isDefined(datafieldValue) && datafieldValue !== null) {
+            dataItems.push({
+              key: `${name}_item${i}`,
+              dataObject: d,
+              displayfield: (get(d, this.state.props.displayfield))?.toString() || (get(d, this.state.props.displaylabel))?.toString(),
+              datafield: datafieldValue,
+              displayexp: this.state.props.getDisplayExpression ? this.state.props.getDisplayExpression(d) : get(d, this.state.props.displayfield),
+              selected: isSelected(d),
+              imgSrc: isFunction(this.state.props.displayimagesrc) ? this.state.props.displayimagesrc(d) : get(d, this.state.props.displayimagesrc),
+              icon: d[this.props.iconclass]
+            });
+          }
         });
       }
     }
     if (dataItems.length) {
-      dataItems = this.getUniqObjsByDataField(dataItems);
+      dataItems = this.getUniqObjsByDataField(dataItems, allowEmpty);
     }
     const isUpdated = !isEqual(dataItems, this.state.dataItems);
     if (props.groupby) {

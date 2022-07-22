@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { find, isEmpty } from 'lodash';
 
 import WmSelectProps from './select.props';
@@ -11,11 +11,11 @@ import {
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
   isOpened: boolean = false;
-  selectedValue: any = '';
 }
 
 export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSelectState, WmSelectStyles> {
@@ -42,7 +42,9 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
         case 'datavalue':
           if (isNaN($new) && isEmpty($new)) {
             this.updateState({
-              selectedValue: this.state.props.placeholder
+              props: {
+                displayValue: this.state.props.placeholder || ''
+              }
             } as WmSelectState);
           }
       }
@@ -97,7 +99,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               this.widgetRef = ref;
             }}
             onPress={this.onPress.bind(this)}>
-            {this.state.selectedValue || props.placeholder || ' '}
+            {this.state.props.displayValue || props.placeholder || ' '}
           </Text>
           <WmButton
             styles={this.styles.arrowButton}
@@ -110,17 +112,14 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
 
   onItemSelect(item: any, isPlaceholder?: boolean) {
     this.isDefaultValue = false;
-    this.updateState({
-      selectedValue: isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)
-    } as WmSelectState);
     this.onChange(isPlaceholder ? '' : this.state.props.datafield === 'All Fields'  ? item.dataObject : item.datafield);
     this.hide();
   }
 
-  renderSelectItem(item: any, isPlaceholder?: boolean) {
+  renderSelectItem(item: any, isPlaceholder: boolean, isLast: boolean) {
     return (
       <Tappable onTap={this.onItemSelect.bind(this, item, isPlaceholder)}>
-        <View style={this.styles.selectItem}>
+        <View style={[this.styles.selectItem, isLast ?  this.styles.lastSelectItem  : null ]}>
           <Text style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : this.styles.selectItemText.color}]}>
             {isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)}
           </Text>
@@ -133,35 +132,45 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     if (this.state.dataItems && this.state.dataItems.length && this.isDefaultValue) {
       const selectedItem = find(this.state.dataItems, (item) => item.selected);
       selectedItem && this.updateState({
-        selectedValue: selectedItem.displayexp || selectedItem.displayfield
+        props: {
+        displayValue: selectedItem.displayexp || selectedItem.displayfield || ''
+      }
       } as WmSelectState);
     }
   }
 
-  renderWidget(props: WmSelectProps) {
-    const items = this.state.dataItems;
+  componentDidMount() {
+    super.componentDidMount();
     this.updateDefaultQueryModel();
+  }
+
+  onDataItemsUpdate() {
+    super.onDataItemsUpdate();
+    this.updateDefaultQueryModel();
+  }
+
+  renderWidget(props: WmSelectProps) {
     return (
       <View>
         {this.renderSelect()}
         {this.state.isOpened ? (
           <ModalConsumer>
             {(modalService: ModalService) => {
+              const items = this.state.dataItems;
               modalService.showModal(
                 this.prepareModalOptions(
-                  <View style={this.styles.dropDownContent}>
+                  <ScrollView style={{width: '100%', maxHeight: ThemeVariables.maxModalHeight}} contentContainerStyle={this.styles.dropDownContent}>
                     {props.placeholder ?
                       <View key={props.name + '_placeholder'} style={this.styles.placeholderText}>
-                        {this.renderSelectItem({}, true)}
+                        {this.renderSelectItem({}, true, false)}
                       </View>
                       : null}
-                    {items &&
-                      items.map((item: any) => (
+                      {items && items.map((item: any, index: number) => (
                         <View key={item.key}>
-                          {this.renderSelectItem(item)}
+                          {this.renderSelectItem(item, false, index === items.length - 1)}
                         </View>
                       ))}
-                  </View>,
+                  </ScrollView>,
                   this.styles,
                   modalService
                 )

@@ -11,6 +11,7 @@ export class WmRatingState extends BaseComponentState<WmRatingProps> {
   items: any[] = null as any;
   caption: any = null as any;
   selectedIndex = -1;
+  isDefault = false;
 }
 
 export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState, WmRatingStyles> {
@@ -75,7 +76,12 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
       case 'datavalue' :
         this.prepareItems(this.state.props);
         if (name === 'datavalue') {
-          this.invokeEventCallback('onChange', [null, this, $new, $old]);
+          const isDefault = this.state.isDefault;
+          if (isDefault) {
+            this.updateState({ isDefault: false } as WmRatingState, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
+          } else {
+            this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
+          }
         }
         break;
       case 'readonly' :
@@ -90,19 +96,16 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
 
   changeValue(i: number) {
     const props = this.state.props;
+    const oldValue = props.datavalue;
     if (!props.readonly) {
       let value = this.state.items[i] ? this.state.items[i][props.datafield??'']: i;
       this.updateState({
         props: {
           datavalue:  value
         }
-      } as WmRatingState);
-      this.props.onFieldChange &&
-      this.props.onFieldChange(
-        'datavalue',
-        value,
-        this.state.props.datavalue
-      );
+      } as WmRatingState, () => {
+        !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [undefined, this.proxy, value, oldValue]);
+      });
     }
   }
 

@@ -131,7 +131,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const list = (
         <View>
           <SectionList
-            keyExtractor={(item, i) => 'list_item_' +  (this.key + i)}
+            keyExtractor={(item, i) => {
+              if (props.itemkey && item) {
+                return props.itemkey(item, i);
+              }
+              return 'list_item_' +  (this.key + i)
+            }}
             horizontal = {isHorizontal}
             onEndReached={({distanceFromEnd}) => {
               this.invokeEventCallback('onEndReached', [null, this]);

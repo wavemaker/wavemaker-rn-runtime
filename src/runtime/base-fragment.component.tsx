@@ -1,10 +1,11 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { get, filter } from 'lodash';
+import { get, filter, isNil } from 'lodash';
 
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { Formatter } from '@wavemaker/app-rn-runtime/core/formatters';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
+import { toBoolean, toNumber } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable';
@@ -106,6 +107,14 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         const formWidgets = this.Widgets[id].formWidgets;
         const formFields = this.Widgets[id].formFields;
         this.Widgets[id] = w;
+        if (w.parentFormRef) {
+          let pid = w.parentFormRef.props.id || w.parentFormRef.props.name;
+          formFields.forEach((ff: any) => {
+            const formKey = ff.props.formKey || ff.props.name;
+            this.Widgets[pid].formFields.push(ff);
+            this.Widgets[pid].formWidgets[formKey] = formWidgets[ff.props.name];
+          });
+        }
         w.registerFormFields(formFields, formWidgets);
         return;
       }
@@ -193,6 +202,20 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
           return null;
         }
       }
+    }
+
+    toBoolean(val: any) {
+      if (isNil(val)) {
+        return val;
+      }
+      return toBoolean(val);
+    }
+
+    toNumber(val: any) {
+      if (isNil(val)) {
+        return val;
+      }
+      return toNumber(val);
     }
 
     componentWillUnmount() {

@@ -54,7 +54,6 @@ export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: ThemeVariables.searchBorderColor,
-    maxHeight: 200,
     width: '90%'
   },
     dropDownContent: {

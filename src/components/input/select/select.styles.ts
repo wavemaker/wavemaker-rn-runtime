@@ -8,6 +8,7 @@ export type WmSelectStyles = BaseStyles & {
   modal: AllStyle;
   modalContent: AllStyle;
   selectItem: AllStyle;
+  lastSelectItem: AllStyle,
   selectItemText: AllStyle;
   dropDownContent: AllStyle;
   disabledText: AllStyle;
@@ -49,7 +50,6 @@ export const DEFAULT_STYLES: WmSelectStyles = defineStyles({
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: ThemeVariables.selectBorderColor,
-    maxHeight: '90%',
     width: '90%'
   },
   selectItem: {
@@ -62,6 +62,9 @@ export const DEFAULT_STYLES: WmSelectStyles = defineStyles({
     flexDirection: 'row',
     alignItems: 'center'
   },
+  lastSelectItem: {
+    borderBottomWidth: 0
+  },
   selectItemText: {
     fontSize: 16,
     fontFamily: ThemeVariables.baseFont,
@@ -70,9 +73,7 @@ export const DEFAULT_STYLES: WmSelectStyles = defineStyles({
   placeholderText: {
     color: ThemeVariables.inputPlaceholderColor
   },
-  dropDownContent: {
-    width: '100%'
-  },
+  dropDownContent: {},
   arrowButton: {
     root: {
       padding: 0,

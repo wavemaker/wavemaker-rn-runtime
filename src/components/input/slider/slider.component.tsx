@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, Text, ColorValue} from 'react-native';
+import {View, Text } from 'react-native';
+import { debounce, isNumber, isNil } from 'lodash';
 import Slider from '@react-native-community/slider';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmSliderProps from './slider.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmSliderStyles } from './slider.styles';
-import { debounce, isNumber } from 'lodash';
 
 export class WmSliderState extends BaseComponentState<WmSliderProps> {}
 
@@ -14,13 +14,13 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
 
   constructor(props: WmSliderProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSliderProps());
-    if (!isNumber(this.state.props.datavalue)) {
-        this.state.props.datavalue = this.getDefaultValue()
-      }
-    }
+  }
 
-  getDefaultValue() {
-    return this.state.props.minvalue + (this.state.props.maxvalue - this.state.props.minvalue)/2;
+  getDataValue() {
+    if (isNil(this.props.datavalue)) {
+      return this.state.props.minvalue + (this.state.props.maxvalue - this.state.props.minvalue)/2;
+    }
+    return Math.min(Math.max(this.props.datavalue, this.state.props.minvalue), this.state.props.maxvalue);
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
@@ -29,22 +29,26 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
         if (isNumber($new) && isNumber($old)) {
           this.invokeEventCallback('onChange', [null, this, $new, $old]);
         }
-      break;
+      case 'maxvalue':
+      case 'minvalue': 
+        this.setProp('datavalue', this.getDataValue() || 0)
     }
   }
 
   onChange = debounce((value: number) => {
-    this.updateState({
-      props : {
-        datavalue: value
-      }
-    } as WmSliderState);
-    this.props.onFieldChange &&
-    this.props.onFieldChange(
-      'datavalue',
-      value,
-      this.state.props.datavalue
-    );
+    if (this.state.props.datavalue !== value) {
+      this.updateState({
+        props : {
+          datavalue: value
+        }
+      } as WmSliderState);
+      this.props.onFieldChange &&
+      this.props.onFieldChange(
+        'datavalue',
+        value,
+        this.state.props.datavalue
+      );
+    }
   }, 200);
 
   onBeforeSlide = () => this.valueBeforeSlide = this.props.datavalue;
@@ -62,7 +66,7 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
       <Slider
         style={props.readonly || props.disabled ? this.styles.disabled : {}}
         step={props.step}
-        value={this.valueBeforeSlide || props.datavalue === '' ? this.getDefaultValue() : props.datavalue}
+        value={this.valueBeforeSlide || props.datavalue || 0}
         disabled={props.readonly}
         minimumValue={props.minvalue}
         maximumValue={props.maxvalue}

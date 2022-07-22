@@ -56,7 +56,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   onDataItemsUpdate() {
     super.onDataItemsUpdate();
     this.isDefaultQuery = true;
-    this.updateDefaultQueryModel;
+    this.updateDefaultQueryModel();
   }
 
   addItem($event: any, widget: any) {
@@ -136,7 +136,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   }
 
   isDuplicate(item: any) {
-    return findIndex(this.state.chipsList, {key: item.key}) > -1;
+    return findIndex(this.state.chipsList, {datafield: item.datafield}) > -1;
   }
 
   // Check if max size is reached
@@ -211,6 +211,11 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
       }
   }
 
+  componentDidMount(): void {
+    super.componentDidMount();
+    this.updateDefaultQueryModel();
+  }
+
   componentDidUpdate(prevProps: WmChipsProps, prevState: WmChipsState) {
     if (prevState.chipsList !== this.state.chipsList) {
       this.searchRef?.computePosition();
@@ -218,7 +223,6 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   }
 
   renderWidget(props: WmChipsProps) {
-    this.updateDefaultQueryModel();
     const chips = this.state.chipsList;
     return (<View style={this.styles.root}>
 
