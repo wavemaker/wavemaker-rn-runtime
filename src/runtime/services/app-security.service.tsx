@@ -151,7 +151,7 @@ class AppSecurityService implements SecurityService {
             }).then(() => {
               return this.getLoggedInUserDetails(this.baseUrl);
             }).then(() => {
-              this.appConfig.refresh();
+              this.appConfig.refresh(true);
             });
           }, 1000);
         }

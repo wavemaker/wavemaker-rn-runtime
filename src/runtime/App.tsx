@@ -1,6 +1,6 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, ScrollView, View, ViewStyle, useWindowDimensions} from 'react-native';
+import { Platform, TouchableOpacity, View, ViewStyle, DevSettings} from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -103,7 +103,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
     this.baseUrl = this.appConfig.url;
     let wait = 0;
     this.bindServiceInterceptors();
-    this.appConfig.refresh = () => {
+    this.appConfig.refresh = (complete = false) => {
+      if (complete) {
+        DevSettings.reload();
+      }
       if (!wait) {
         RENDER_LOGGER.debug('refreshing the app...');
         wait = MIN_TIME_BETWEEN_REFRESH_CYCLES;
