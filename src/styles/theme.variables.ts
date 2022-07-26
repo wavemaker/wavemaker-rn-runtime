@@ -396,9 +396,9 @@ export class ThemeVariables {
     chartLabelColor = this.defaultTextColor;
     chartGraphLinesColor = this.defaultColorC;
     chartLineColor = this.defaultColor8;
-    dotsStrokeColor = this.defaultColorC;
-    barColor = this.defaultColorB;
-    chartbackgroundColor = this.defaultColorF;
+    chartLegendBorder = this.defaultColor7;
+    chartAxisColor = this.defaultColor5;
+    chartAxisPointColor = this.defaultColor9;
 }
 
 export default new ThemeVariables();
