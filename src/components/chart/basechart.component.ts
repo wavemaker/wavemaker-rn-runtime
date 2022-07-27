@@ -3,8 +3,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseChartComponentStyles} from "./basechart.styles";
-import { BaseChartTheme } from "@wavemaker/app-rn-runtime/components/chart/theme/basechart.theme";
-import { get, set } from "lodash-es";
+import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/chart.theme";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -23,23 +22,27 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   public screenWidth = screenWidth;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles as L, new BaseChartComponentProps() as T, new BaseChartComponentState() as S);
-    let themeName = props.theme ? props.theme : (props.type === 'Pie' ? 'Azure' : 'Terrestrial');
-    const colorsToUse = BaseChartTheme.getColorsObj(themeName);
-    const themeToUse = BaseChartTheme.getTheme(themeName, this.props.styles);
-      this.updateState({
-        colors: colorsToUse,
-        theme: themeToUse
-      } as S);
   }
 
-  // TODO: check if this works in all cases or not.
-  overrideThemeStyle(styleObj: {[key: string]: any}) {
-    let themeObj = this.state.theme;
-    Object.keys(styleObj).forEach((k: string) => {
-      set(themeObj, k, get(styleObj, k));
-    });
+  applyTheme(props: BaseChartComponentProps) {
+    let themeName = props.theme ? props.theme : (props.type === 'Pie' ? 'Azure' : 'Terrestrial');
+    let colorsToUse = [];
+    if (typeof props.customcolors === 'string') {
+      colorsToUse = props.customcolors.split(',');
+    }
+    let themeToUse;
+    if (typeof props.theme === 'string') {
+      if (!colorsToUse.length) {
+        colorsToUse = ThemeFactory.getColorsObj(themeName);
+      }
+      themeToUse = ThemeFactory.getTheme(themeName, this.props.styles, colorsToUse);
+    } else if (typeof props.theme === 'object') {
+      // if theme is passed as an object then use that custom theme.
+      themeToUse = props.theme;
+    }
     this.updateState({
-      theme: themeObj
+      colors: colorsToUse,
+      theme: themeToUse
     } as S);
   }
 
@@ -113,6 +116,17 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     super.onPropertyChange(name, $new, $old);
     let units = '';
     switch(name) {
+      case 'customcolors':
+        if (typeof $new === 'string') {
+          $new = $new.split(',');
+        }
+        this.updateState({
+          colors: $new
+        } as S);
+        break;
+      case 'theme':
+        this.applyTheme(this.props);
+        break;
       case 'dataset':
         $new && this.prepareDataItems($new);
         break;

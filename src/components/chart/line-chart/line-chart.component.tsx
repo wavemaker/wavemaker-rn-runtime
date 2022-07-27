@@ -49,7 +49,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
         {/* x axis with vertical lines having grid stroke colors*/}
       <VictoryAxis crossAxis theme={this.state.theme} label={(props.xaxislabel || this.props.xaxisdatakey) + (props.xunits ? `(${props.xunits})` : '')} />
         {/* y axis with horizontal lines having grid stroke colors*/}
-      <VictoryAxis crossAxis theme={this.state.theme}
+      <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: props.yaxislabeldistance}}}
                    label={(props.yaxislabel || this.props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
                    dependentAxis />
       {

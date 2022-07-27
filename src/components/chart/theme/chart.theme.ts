@@ -68,16 +68,15 @@ const themes: {[key:string]: any} = {
   }
 }
 
-export abstract class BaseChartTheme {
-
-  static getColorsObj(themeName: string) {
+class ThemeFactory {
+  getColorsObj(themeName: string) {
     return themes[themeName].colors;
   }
 
-  static getTheme(name: string, styles?: any) {
+  getTheme(name: string, styles?: any, customColors?: Array<string>) {
     const colorsToUse = this.getColorsObj(name);
     const [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10] = colorsToUse;
-    const colors = [
+    let colors = [
       c1,
       c2,
       c3,
@@ -85,31 +84,29 @@ export abstract class BaseChartTheme {
       c5,
       c6,
     ];
+    if (customColors && customColors.length) {
+      colors = customColors;
+    }
     const gridColor = colorsToUse[colorsToUse.length - 1];
     let textColorFromProps;
     if (styles) {
       textColorFromProps = styles.text.color;
     }
 
-
-// *
-// * Typography
-// *
+    // Typography
     const sansSerif = "'Helvetica Neue', 'Helvetica', sans-serif";
     const letterSpacing = "normal";
     const fontSize = 12;
-// *
-// * Layout
-// *
+
+    // Layout
     const padding = 8;
     const baseProps = {
       width: 350,
       height: 350,
       padding: 50,
     };
-// *
-// * Labels
-// *
+
+    // Labels
     const baseLabelStyles = {
       fontFamily: sansSerif,
       fontSize,
@@ -121,9 +118,8 @@ export abstract class BaseChartTheme {
     };
 
     const centeredLabelStyles = assign({ textAnchor: "middle" }, baseLabelStyles);
-// *
-// * Strokes
-// *
+
+    // Strokes
     const strokeDasharray = "10, 5";
     const strokeLinecap = "round";
     const strokeLinejoin = "round";
@@ -368,3 +364,5 @@ export abstract class BaseChartTheme {
     return baseChartTheme;
   }
 }
+
+export default new ThemeFactory();
