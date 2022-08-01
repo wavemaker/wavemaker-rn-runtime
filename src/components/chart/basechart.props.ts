@@ -16,4 +16,5 @@ export default class BaseChartComponentProps extends BaseProps {
   customcolors: string | Array<string> = '';
   legendheight: number = 0;
   labeltype: string = 'percent';
+  bubblesize: string= '';
 }

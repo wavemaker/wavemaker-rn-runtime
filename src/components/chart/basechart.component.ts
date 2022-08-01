@@ -4,7 +4,8 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseChartComponentStyles} from "./basechart.styles";
 import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/chart.theme";
-import {isNumber} from "lodash-es";
+import {get, isEmpty, isNumber, set, size} from "lodash-es";
+import {WmBubbleChartState} from "@wavemaker/app-rn-runtime/components/chart/bubble-chart/bubble-chart.component";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -64,7 +65,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   applyTheme(props: BaseChartComponentProps) {
     let themeName = props.theme ? props.theme : (props.type === 'Pie' ? 'Azure' : 'Terrestrial');
     let colorsToUse = [];
-    if (typeof props.customcolors === 'string') {
+    if (typeof props.customcolors === 'string' && !isEmpty(props.customcolors)) {
       colorsToUse = props.customcolors.split(',');
     }
     let themeToUse;
@@ -127,18 +128,21 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   prepareDataItems(dataset: any) {
     let xaxis = this.props.xaxisdatakey;
     let yaxis = this.props.yaxisdatakey;
-    let datasets: any = []
-    let datapoints: Array<{[key: string] : any}> = [];
+    let datasets: any = [];
 
     if (xaxis && yaxis) {
       let yPts = yaxis.split(',');
       yPts.forEach((y: any, index: number) => {
         if (xaxis !== y) {
           datasets.push(dataset.map((o: {[key: string] : string}) => {
-            return ({
+            let dataObj = {
               x: o[xaxis],
               y: o[y]
-            });
+            };
+            if (this.props.bubblesize) {
+              set(dataObj, this.props.bubblesize, get(o, this.props.bubblesize, 1));
+            }
+            return dataObj;
           }));
         }
       });
@@ -154,6 +158,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     let units = '';
     switch(name) {
       case 'customcolors':
+        if (isEmpty($new)) {
+          return;
+        }
         if (typeof $new === 'string') {
           $new = $new.split(',');
         }

@@ -101,8 +101,8 @@ class ThemeFactory {
     // Layout
     const padding = 8;
     const baseProps = {
-      width: 350,
-      height: 350,
+      width: 250,
+      height: 250,
       padding: 50,
     };
 

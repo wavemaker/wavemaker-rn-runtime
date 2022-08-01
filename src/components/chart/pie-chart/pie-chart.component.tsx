@@ -66,12 +66,12 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
         animate={{
           duration: 1000
         }}
-        radius={this.chartHeight/2}
         innerRadius={this.state.props.innerradius}
         theme={this.state.theme}
         key={props.name}
         name={props.name}
         data={this.state.data[0]}
+
       />
       </VictoryContainer>
   }

@@ -17,11 +17,11 @@ export class WmLineChartState extends BaseChartComponentState<WmLineChartProps> 
 export default class WmLineChart extends BaseChartComponent<WmLineChartProps, WmLineChartState, WmLineChartStyles> {
 
   constructor(props: WmLineChartProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLineChartProps());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLineChartProps(), new WmLineChartState());
   }
 
   renderWidget(props: WmLineChartProps) {
-    if (!this.state.data.length) {
+    if (!this.state.data?.length) {
       return null;
     }
     return (<View

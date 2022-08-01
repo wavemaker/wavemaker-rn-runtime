@@ -13,7 +13,7 @@ export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> 
 export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, WmAreaChartState, WmAreaChartStyles> {
 
   constructor(props: WmAreaChartProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAreaChartProps());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAreaChartProps(), new WmAreaChartState());
   }
 
   renderWidget(props: WmAreaChartProps) {
