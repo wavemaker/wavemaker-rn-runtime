@@ -187,7 +187,7 @@ class ThemeFactory {
         {
           style: {
             data: {
-              fill: c9,
+              fill: c1,
               padding,
               strokeWidth: 0,
             },
@@ -284,7 +284,7 @@ class ThemeFactory {
             data: {
               fill: "transparent",
               opacity: 1,
-              stroke: c9,
+              stroke: c1,
               strokeWidth: 2,
             },
             labels: baseLabelStyles,
@@ -298,7 +298,7 @@ class ThemeFactory {
           style: {
             data: {
               padding,
-              stroke: c7,
+              stroke: '#ffffff',
               strokeWidth: 1,
             },
             labels: assign({}, baseLabelStyles, { padding: 20 }),

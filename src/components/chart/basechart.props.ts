@@ -14,4 +14,6 @@ export default class BaseChartComponentProps extends BaseProps {
   yunits: string = '';
   yaxislabeldistance: number = 30;
   customcolors: string | Array<string> = '';
+  legendheight: number = 0;
+  labeltype: string = 'percent';
 }

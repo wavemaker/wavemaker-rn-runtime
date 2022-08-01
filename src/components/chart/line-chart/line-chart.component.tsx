@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
 import { Svg } from 'react-native-svg';
 
 import { VictoryTheme, VictoryChart, VictoryLine, VictoryAxis, VictoryLegend, VictoryArea, VictoryStack } from 'victory-native';
@@ -21,6 +21,9 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
   }
 
   renderWidget(props: WmLineChartProps) {
+    if (!this.state.data.length) {
+      return null;
+    }
     return (<View
       style={this.styles.root}
     >

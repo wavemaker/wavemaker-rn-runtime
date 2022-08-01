@@ -4,6 +4,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseChartComponentStyles} from "./basechart.styles";
 import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/chart.theme";
+import {isNumber} from "lodash-es";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -19,9 +20,45 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
 const screenWidth = Dimensions.get("window").width;
 
 export abstract class BaseChartComponent<T extends BaseChartComponentProps, S extends BaseChartComponentState<T>, L extends BaseChartComponentStyles> extends BaseComponent<T, S, L> {
-  public screenWidth = screenWidth;
+  protected screenWidth: number = screenWidth;
+  protected chartWidth: number = 0;
+  protected chartHeight: number = 0;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
-    super(props, defaultClass, defaultStyles as L, new BaseChartComponentProps() as T, new BaseChartComponentState() as S);
+    super(props, defaultClass, defaultStyles as L, defaultProps, defaultState);
+    if (!props.theme) {
+      this.applyTheme(props);
+    }
+    this.setHeightWidthOnChart();
+  }
+
+  componentDidMount() {
+    this.setHeightWidthOnChart();
+    super.componentDidMount();
+  }
+
+  getTotal(data: Array<{x: any, y: any}>) {
+    let total = 0;
+    data.forEach((d: {x: any, y: any}) => {
+      total += d.y as number;
+    });
+    return total;
+  }
+
+  setHeightWidthOnChart() {
+    if (!this.styles || this.chartWidth || this.chartHeight) {
+      return;
+    }
+    let height = this.styles.root.height || 250;
+    let width = this.styles.root.width || screenWidth;
+    if (height && typeof height === 'string') {
+      height = parseInt(height);
+    }
+    if (width && typeof width === 'string') {
+      width = parseInt(width);
+    }
+    this.chartWidth = width as number;
+    this.chartHeight = height as number;
+
   }
 
   applyTheme(props: BaseChartComponentProps) {
@@ -31,12 +68,12 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       colorsToUse = props.customcolors.split(',');
     }
     let themeToUse;
-    if (typeof props.theme === 'string') {
+    if (typeof themeName === 'string') {
       if (!colorsToUse.length) {
         colorsToUse = ThemeFactory.getColorsObj(themeName);
       }
       themeToUse = ThemeFactory.getTheme(themeName, this.props.styles, colorsToUse);
-    } else if (typeof props.theme === 'object') {
+    } else if (typeof themeName === 'object') {
       // if theme is passed as an object then use that custom theme.
       themeToUse = props.theme;
     }
