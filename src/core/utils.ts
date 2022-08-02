@@ -35,11 +35,11 @@ const _deepCopy = (o1: any, ...o2: any) => {
 export const deepCopy = (...objects: any) => _deepCopy({}, ...objects);
 
 export const toBoolean = (val: any) => {
-  return  val === true 
+  return  val === true
     || val === 'true'
-    || !(val === false 
+    || !(val === false
       || val === null
-      || val === undefined 
+      || val === undefined
       || val === '');
 };
 
@@ -229,7 +229,7 @@ export const validateField = (props: any, value: any) => {
       isValid: false
     }
   }
-  if (value && props.maxdate && new Date(props.datavalue) > moment(props.maxdate).startOf('day').toDate()) {
+  if (value && props.maxdate && new Date(props.datavalue) > moment(props.maxdate).endOf('day').toDate()) {
     return {
       errorType : 'maxdate',
       isValid: false
