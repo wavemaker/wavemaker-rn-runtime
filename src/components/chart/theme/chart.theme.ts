@@ -129,7 +129,8 @@ class ThemeFactory {
         {
           style: {
             data: {
-              fill: c10,
+              fill: c1,
+              fillOpacity: 0.9
             },
             labels: baseLabelStyles,
           },
@@ -273,9 +274,9 @@ class ThemeFactory {
           data: {
             type: "circle",
           },
-          border: { stroke: ThemeVariables.chartLegendBorder },
+          border: { stroke: 'none' }, // ThemeVariables.chartLegendBorder
           labels: baseLabelStyles,
-          title: assign({}, baseLabelStyles, { padding: 5 }),
+          title: assign({}, baseLabelStyles, { padding: 5, fontSize: ThemeVariables.heading4FontSize }),
         },
       },
       line: assign(

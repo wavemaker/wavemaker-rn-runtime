@@ -42,12 +42,18 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
           name={'legend'}
           containerComponent={<Svg />}
           title={props.title}
-          centerTitle
+          orientation="horizontal"
+          gutter={20}
+          data={[]}
+          theme={this.state.theme}
+        />
+        <VictoryLegend
+          name={'legendData'}
           orientation="horizontal"
           gutter={20}
           data={this.state.legendData}
-          x={125}
-          itemsPerRow={3}
+          style={{ border: { stroke: 'none' } }}
+          borderPadding={{top: 30, left: 50}}
         />
         {/* x axis with vertical lines having grid stroke colors*/}
       <VictoryAxis crossAxis theme={this.state.theme} label={(props.xaxislabel || this.props.xaxisdatakey) + (props.xunits ? `(${props.xunits})` : '')} />
