@@ -311,10 +311,10 @@ class ThemeFactory {
         {
           style: {
             data: {
-              fill: c9,
+              fill: c1,
               opacity: 1,
               stroke: "transparent",
-              strokeWidth: 0,
+              strokeWidth: 1,
             },
             labels: baseLabelStyles,
           },

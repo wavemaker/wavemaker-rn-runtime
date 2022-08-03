@@ -15,18 +15,6 @@ import {get} from "lodash-es";
 
 export class WmBubbleChartState extends BaseChartComponentState<WmBubbleChartProps> {}
 
-const shapes: {[key: string]: ScatterSymbolType} = {
-  'circle': 'circle',
-  'cross': 'cross',
-  'diamond': 'diamond',
-  'plus': 'plus',
-  'minus': 'minus',
-  'square': 'square',
-  'star': 'star',
-  'triangle-down': 'triangleDown',
-  'triangle-up': 'triangleUp'
-};
-
 export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps, WmBubbleChartState, WmBubbleChartStyles> {
 
   constructor(props: WmBubbleChartProps) {
@@ -55,15 +43,20 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
       >
         <VictoryLegend
           name={'legend'}
-          theme={this.state.theme}
           containerComponent={<Svg />}
           title={props.title}
-          centerTitle
+          orientation="horizontal"
+          gutter={20}
+          data={[]}
+          theme={this.state.theme}
+        />
+        <VictoryLegend
+          name={'legendData'}
           orientation="horizontal"
           gutter={20}
           data={this.state.legendData}
-          x={125}
-          itemsPerRow={3}
+          style={{ border: { stroke: 'none' } }}
+          borderPadding={{top: 30, left: 50}}
         />
         {/* x axis with vertical lines having grid stroke colors*/}
         <VictoryAxis crossAxis theme={this.state.theme} label={(props.xaxislabel || this.props.xaxisdatakey) + (props.xunits ? `(${props.xunits})` : '')} />
@@ -73,10 +66,21 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
                      dependentAxis />
         {this.state.data.map((d: any, i: number) => {
         return <VictoryScatter
+          colorScale={this.state.colors}
+          animate={{
+            onLoad: {
+              duration: 5000,
+              before: () => ({ opacity: 0.3 }),
+              after: () => ({ opacity: 1 })
+            }
+          }}
+          style={{
+            data: { fill: this.state.colors[i], opacity: ({ datum }) => datum.opacity }
+          }}
           key={props.name + '_bubble_' + i}
           name={props.name + '_bubble_' + i}
-          bubbleProperty={props.bubblesize}
           data={d}
+          size={5}
         />
       })}
       </VictoryChart></View>);

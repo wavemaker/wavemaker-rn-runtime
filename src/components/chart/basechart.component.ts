@@ -4,8 +4,8 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseChartComponentStyles} from "./basechart.styles";
 import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/chart.theme";
-import {get, isEmpty, isNumber, set, size} from "lodash-es";
-import {WmBubbleChartState} from "@wavemaker/app-rn-runtime/components/chart/bubble-chart/bubble-chart.component";
+import {get, isEmpty, set} from "lodash-es";
+import {ScatterSymbolType} from "victory-core";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -16,9 +16,22 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
   colors: any;
   xLabel: string = '';
   yLabel: string = '';
+  total: number = 0;
 }
 
 const screenWidth = Dimensions.get("window").width;
+
+const shapes: {[key: string]: ScatterSymbolType} = {
+  'circle': 'circle',
+  'cross': 'cross',
+  'diamond': 'diamond',
+  'plus': 'plus',
+  'minus': 'minus',
+  'square': 'square',
+  'star': 'star',
+  'triangle-down': 'triangleDown',
+  'triangle-up': 'triangleUp'
+};
 
 export abstract class BaseChartComponent<T extends BaseChartComponentProps, S extends BaseChartComponentState<T>, L extends BaseChartComponentStyles> extends BaseComponent<T, S, L> {
   protected screenWidth: number = screenWidth;
@@ -35,14 +48,6 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   componentDidMount() {
     this.setHeightWidthOnChart();
     super.componentDidMount();
-  }
-
-  getTotal(data: Array<{x: any, y: any}>) {
-    let total = 0;
-    data.forEach((d: {x: any, y: any}) => {
-      total += d.y as number;
-    });
-    return total;
   }
 
   setHeightWidthOnChart() {
@@ -140,7 +145,10 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
               y: o[y]
             };
             if (this.props.bubblesize) {
-              set(dataObj, this.props.bubblesize, get(o, this.props.bubblesize, 1));
+              set(dataObj, 'size', get(o, this.props.bubblesize, 5));
+            }
+            if (this.props.shape) {
+              set(dataObj, 'symbol', shapes[this.props.shape]);
             }
             return dataObj;
           }));
@@ -149,8 +157,24 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       this.updateState({
         data: datasets as any,
         yAxis: yPts
-      } as S, () => this.prepareLegendData());
+      } as S, () => {
+        this.prepareLegendData();
+        if (!this.props.labeltype || this.props.labeltype === 'percent') {
+          this.setTotal(this.state.data[0]);
+        }
+      });
+
     }
+  }
+
+  setTotal(data: Array<{x: any, y: number}>) {
+    let total = 0;
+    data.forEach((d: {x: any, y: any}) => {
+      total += d.y as number;
+    });
+    this.updateState({
+      total: total
+    } as S);
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {

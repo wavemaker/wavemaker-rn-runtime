@@ -1,5 +1,5 @@
 import React from 'react';
-import {VictoryAxis, VictoryArea, VictoryTheme, VictoryChart, VictoryLegend} from "victory-native";
+import {VictoryAxis, VictoryArea, VictoryChart, VictoryLegend, VictoryStack} from "victory-native";
 
 import WmAreaChartProps from './area-chart.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAreaChartStyles } from './area-chart.styles';
@@ -46,8 +46,13 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
         style={{ border: { stroke: 'none' } }}
         borderPadding={{top: 30, left: 50}}
       />
-      <VictoryAxis crossAxis style={{ grid: { stroke: '#ccc', strokeWidth: 0.5 } }} />
-      <VictoryAxis crossAxis style={{ grid: { stroke: '#ccc', strokeWidth: 0.5 } }} dependentAxis />
+      {/* x axis with vertical lines having grid stroke colors*/}
+      <VictoryAxis crossAxis theme={this.state.theme} label={(props.xaxislabel || this.props.xaxisdatakey) + (props.xunits ? `(${props.xunits})` : '')} />
+      {/* y axis with horizontal lines having grid stroke colors*/}
+      <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: props.yaxislabeldistance}}}
+                   label={(props.yaxislabel || this.props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
+                   dependentAxis />
+      <VictoryStack>
       {
         this.state.data.map((d: any, i: number) => {
           return <VictoryArea key={props.name + '_' + i}
@@ -60,6 +65,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
           />
         })
       }
+      </VictoryStack>
     </VictoryChart>);
   }
 }

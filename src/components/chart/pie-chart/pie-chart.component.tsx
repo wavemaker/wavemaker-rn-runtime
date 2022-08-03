@@ -1,7 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
 
-import {VictoryChart, VictoryContainer, VictoryLegend, VictoryLine, VictoryPie} from 'victory-native';
+import { VictoryContainer, VictoryLegend, VictoryPie } from 'victory-native';
 
 import WmPieChartProps from './pie-chart.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmPieChartStyles } from './pie-chart.styles';
@@ -9,51 +8,79 @@ import {
   BaseChartComponent,
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
-import { Svg } from "react-native-svg";
 
 export class WmPieChartState extends BaseChartComponentState<WmPieChartProps> {
+  innerradius: number = 0;
 }
 
 export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPieChartState, WmPieChartStyles> {
-
+  private _chartHeight;
+  private _chartWidth;
+  private _pieChartHeight;
+  private labelLegendHeight;
+  private legendHeight;
   constructor(props: WmPieChartProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPieChartProps(), new WmPieChartState());
+
+    this._chartHeight = this.chartHeight || 250;
+    this._chartWidth = this.chartWidth || this.screenWidth;
+    this.legendHeight = 30 || props.legendheight;
+    this.labelLegendHeight = 20 || props.labellegendheight;
+    this._pieChartHeight = this._chartHeight - this.legendHeight - this.labelLegendHeight;
+    if (!this.state.innerradius && this.props.donutratio) {
+      this.setInnerRadius();
+    }
+  }
+
+  setInnerRadius() {
+    let ratio = this.props.donutratio;
+    if (typeof ratio === 'string') {
+      ratio = parseFloat(ratio)
+    }
+    const innerRadius: number = ratio * this._pieChartHeight/2;
+    this.updateState({
+      innerradius: innerRadius
+    } as WmPieChartState);
   }
 
   renderWidget(props: WmPieChartProps) {
     if (!this.state.data.length) {
       return null;
     }
-    let chartHeight = this.chartHeight || 250;
-    let chartWidth = this.chartWidth || this.screenWidth;
-    const legendHeight = 60 || props.legendheight;
-    const pChartHeight = chartHeight + legendHeight;
-    let total: number;
-    if (props.labeltype === 'percent') {
-      total = this.getTotal(this.state.data[0]);
-    }
+    const pieData = this.state.data[0];
+    let legendData: Array<{name: any}> = pieData.map((d: {x: any, y: any}) => {return {name: d.x}});
       return <VictoryContainer theme={this.state.theme}
-                               height={pChartHeight}
-                               width={chartWidth}>
+                               height={this._chartHeight}
+                               width={this._chartWidth}>
         <VictoryLegend
           name={'legend'}
+          colorScale={this.state.colors}
           theme={this.state.theme}
           title={props.title}
-          centerTitle
           orientation="horizontal"
           gutter={20}
-          data={this.state.legendData}
-          x={125}
-          itemsPerRow={3}
-          height={legendHeight}
+          data={[]}
+          height={this.legendHeight}
+        />
+        <VictoryLegend
+          colorScale={this.state.colors}
+          name={'legendData'}
+          orientation="horizontal"
+          gutter={20}
+          data={legendData}
+          style={{ border: { stroke: 'none' } }}
+          theme={this.state.theme}
+          borderPadding={{left: 50}}
+          height={this.labelLegendHeight} // TODO: here if contents are more then next row will be hidden. Need to fix this.
         />
     <VictoryPie
-      height={chartHeight}
-      width={chartWidth}
+      height={this._pieChartHeight}
+      domainPadding={50}
+      padding={100}
       labels={({datum}) => {
         const labelType = props.labeltype;
         if (labelType === 'percent') {
-          return `${datum.y*100/total}%`
+          return `${datum.y*100/this.state.total}%`
         } else if (labelType === 'key') {
           return `${datum.x}`;
         } else if (labelType === 'value') {
@@ -66,11 +93,12 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
         animate={{
           duration: 1000
         }}
-        innerRadius={this.state.props.innerradius}
+        radius={(this._pieChartHeight-60)/2}
+        innerRadius={this.state.innerradius}
         theme={this.state.theme}
         key={props.name}
         name={props.name}
-        data={this.state.data[0]}
+        data={pieData}
 
       />
       </VictoryContainer>
