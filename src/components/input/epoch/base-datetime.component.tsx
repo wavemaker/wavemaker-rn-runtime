@@ -140,7 +140,8 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       isFocused: false,
       showDatePicker: !!this.modes.length,
       props: {
-        datavalue: this.format(date, this.state.props.outputformat as string)
+        datavalue: this.format(date, this.state.props.outputformat as string),
+        timestamp: this.format(date, 'timestamp')
       }
     } as BaseDatetimeState);
   }
