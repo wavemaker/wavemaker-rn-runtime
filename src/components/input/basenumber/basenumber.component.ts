@@ -41,12 +41,6 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         if (this.state.props.updateon === 'default') {
           this.validate(value);
           this.updateDatavalue(value, null);
-          this.props.onFieldChange &&
-          this.props.onFieldChange(
-            'datavalue',
-            value,
-            this.state.props.datavalue
-          );
         }
       }
     );

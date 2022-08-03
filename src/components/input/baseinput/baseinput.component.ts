@@ -67,12 +67,6 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
         if (this.state.props.updateon === 'default') {
           this.validate(value);
           this.updateDatavalue(value, null);
-          this.props.onFieldChange &&
-            this.props.onFieldChange(
-              'datavalue',
-              value,
-              this.state.props.datavalue
-            );
         }
       }
     );
