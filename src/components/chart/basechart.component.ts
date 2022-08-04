@@ -4,7 +4,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseChartComponentStyles} from "./basechart.styles";
 import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/chart.theme";
-import {get, isEmpty, set} from "lodash-es";
+import { get, isEmpty, set } from "lodash-es";
 import {ScatterSymbolType} from "victory-core";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
@@ -17,6 +17,7 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
   xLabel: string = '';
   yLabel: string = '';
   total: number = 0;
+  endAngle: number = 0;
 }
 
 const screenWidth = Dimensions.get("window").width;
@@ -154,17 +155,30 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
           }));
         }
       });
-      this.updateState({
-        data: datasets as any,
-        yAxis: yPts
-      } as S, () => {
-        this.prepareLegendData();
-        if (!this.props.labeltype || this.props.labeltype === 'percent') {
-          this.setTotal(this.state.data[0]);
-        }
-      });
-
+      // chartTransform
+      this.invokeEventCallback('onTransform', [undefined, this.proxy]);
+      if (this.props.type == 'Pie' || this.props.type === 'Donut') {
+        // for animation effect
+        setTimeout(() => {
+          this.updateState({
+            endAngle: 360,
+          } as S);
+        }, 500);
+      }
+      this.updateData(datasets, yPts);
     }
+  }
+
+  updateData(datasets: any, yPts: any) {
+    this.updateState({
+      data: datasets as any,
+      yAxis: yPts
+    } as S, () => {
+      this.prepareLegendData();
+      if (!this.props.labeltype || this.props.labeltype === 'percent') {
+        this.setTotal(this.state.data[0]);
+      }
+    });
   }
 
   setTotal(data: Array<{x: any, y: number}>) {

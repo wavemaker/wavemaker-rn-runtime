@@ -77,6 +77,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
       height={this._pieChartHeight}
       domainPadding={50}
       padding={100}
+      colorScale={this.state.colors}
       labels={({datum}) => {
         const labelType = props.labeltype;
         if (labelType === 'percent') {
@@ -90,16 +91,17 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
         }
         return null;
       }}
-        animate={{
-          duration: 1000
-        }}
-        radius={(this._pieChartHeight-60)/2}
-        innerRadius={this.state.innerradius}
-        theme={this.state.theme}
-        key={props.name}
-        name={props.name}
-        data={pieData}
-
+      animate={{
+        duration: 500,
+        easing: 'exp'
+      }}
+      endAngle={this.state.endAngle || 0}
+      radius={(this._pieChartHeight-60)/2}
+      innerRadius={this.state.innerradius}
+      theme={this.state.theme}
+      key={props.name}
+      name={props.name}
+      data={pieData}
       />
       </VictoryContainer>
   }
