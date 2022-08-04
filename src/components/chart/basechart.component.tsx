@@ -1,11 +1,15 @@
+import React from "react";
 import { Dimensions } from 'react-native';
+import { get, isEmpty, set } from "lodash-es";
+import { ScatterSymbolType } from "victory-core";
+
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
+import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/chart.theme";
 
 import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseChartComponentStyles} from "./basechart.styles";
-import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/chart.theme";
-import { get, isEmpty, set } from "lodash-es";
-import {ScatterSymbolType} from "victory-core";
+
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -18,6 +22,7 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
   yLabel: string = '';
   total: number = 0;
   endAngle: number = 0;
+  loading: boolean = true;
 }
 
 const screenWidth = Dimensions.get("window").width;
@@ -169,6 +174,13 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     }
   }
 
+
+  protected renderLoadingIcon() {
+    return (<WmIcon styles={this.styles.loadingIcon}
+    iconclass={this.props.loadingicon}
+    caption={this.props.loadingdatamsg}></WmIcon>);
+  }
+
   updateData(datasets: any, yPts: any) {
     this.updateState({
       data: datasets as any,
@@ -178,6 +190,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       if (!this.props.labeltype || this.props.labeltype === 'percent') {
         this.setTotal(this.state.data[0]);
       }
+      this.updateState({
+        loading: false
+      } as S);
     });
   }
 

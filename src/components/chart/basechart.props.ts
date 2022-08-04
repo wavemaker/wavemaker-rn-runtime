@@ -19,4 +19,7 @@ export default class BaseChartComponentProps extends BaseProps {
   labeltype: string = 'percent';
   bubblesize: string= '';
   shape: string = '';
+  loadingicon='fa fa-circle-o-notch fa-pulse';
+  loadingdatamsg = 'Loading...';
+  nodatamessage = 'No data found';
 }
