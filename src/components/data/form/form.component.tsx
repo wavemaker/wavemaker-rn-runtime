@@ -184,9 +184,12 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
       const onValidate = get(field, 'props.onValidate');
       onValidate && onValidate(field);
-      if (!val && field?.props.required) {
+      if (!val && field?.state.props.required) {
         isValid = false;
-        field.updateState({ isValid: isValid } as WmFormFieldState);
+        const msg = get(field.defaultValidatorMessages, 'required') || field.state.props.validationmessage;
+        field.updateState({ isValid: isValid, props: {
+            validationmessage: msg
+          }} as WmFormFieldState);
         field.formwidget.validate && field.formwidget.validate(val);
       }
     });
