@@ -59,7 +59,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
                    dependentAxis />
       {
         this.state.data.map((d: any, i: number) => {
-          return <VictoryGroup><VictoryLine key={props.name + '_line_' + i}
+          return <VictoryGroup key={props.name + '_group_' + i}><VictoryLine key={props.name + '_line_' + i}
                               name={props.name + '_line_' + i}
                               style={{
                                 data: {

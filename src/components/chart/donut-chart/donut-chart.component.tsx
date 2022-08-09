@@ -8,8 +8,5 @@ export default class WmDonutChart extends WmPieChart {
 
   constructor(props: WmDonutChartProps) {
     super(props);
-    if (props.donutratio) {
-      this.setInnerRadius();
-    }
   }
 }

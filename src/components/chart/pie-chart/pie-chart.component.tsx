@@ -8,6 +8,7 @@ import {
   BaseChartComponent,
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
+import WmDonutChartProps from "@wavemaker/app-rn-runtime/components/chart/donut-chart/donut-chart.props";
 
 export class WmPieChartState extends BaseChartComponentState<WmPieChartProps> {
   innerradius: number = 0;
@@ -20,20 +21,20 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
   private labelLegendHeight;
   private legendHeight;
   constructor(props: WmPieChartProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPieChartProps(), new WmPieChartState());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, props.type === 'Donut' ? new WmDonutChartProps() : new WmPieChartProps(), new WmPieChartState());
 
     this._chartHeight = this.chartHeight || 250;
     this._chartWidth = this.chartWidth || this.screenWidth;
     this.legendHeight = 30 || props.legendheight;
     this.labelLegendHeight = 20 || props.labellegendheight;
     this._pieChartHeight = this._chartHeight - this.legendHeight - this.labelLegendHeight;
-    if (!this.state.innerradius && this.props.donutratio) {
+    if (!this.state.innerradius && props.donutratio) {
       this.setInnerRadius();
     }
   }
 
   setInnerRadius() {
-    let ratio = this.props.donutratio;
+    let ratio = this.state.props.donutratio;
     if (typeof ratio === 'string') {
       ratio = parseFloat(ratio)
     }
@@ -41,6 +42,13 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
     this.updateState({
       innerradius: innerRadius
     } as WmPieChartState);
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+    if (this.state.props.donutratio && !this.state.innerradius) {
+      this.setInnerRadius();
+    }
   }
 
   renderWidget(props: WmPieChartProps) {
