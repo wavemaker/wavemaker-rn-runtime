@@ -48,6 +48,14 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
       return null;
     }
     const pieData = this.state.data[0];
+    let radius = (this._pieChartHeight-60)/2;
+    let styleProp = {};
+    let labelRadius;
+    if (props.showlabels === 'hide') {
+      styleProp={labels: { display: "none" }};
+    } else if (props.showlabels === 'inside') {
+      labelRadius = radius/2;
+    }
     let legendData: Array<{name: any}> = pieData.map((d: {x: any, y: any}) => {return {name: d.x}});
       return <VictoryContainer theme={this.state.theme}
                                height={this._chartHeight}
@@ -74,6 +82,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
           height={this.labelLegendHeight} // TODO: here if contents are more then next row will be hidden. Need to fix this.
         />
     <VictoryPie
+      style={styleProp}
       height={this._pieChartHeight}
       domainPadding={50}
       padding={100}
@@ -81,7 +90,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
       labels={({datum}) => {
         const labelType = props.labeltype;
         if (labelType === 'percent') {
-          return `${datum.y*100/this.state.total}%`
+          return `${(datum.y*100/this.state.total).toFixed(1)}%`
         } else if (labelType === 'key') {
           return `${datum.x}`;
         } else if (labelType === 'value') {
@@ -91,12 +100,13 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
         }
         return null;
       }}
+      labelRadius={labelRadius}
       animate={{
         duration: 500,
         easing: 'exp'
       }}
       endAngle={this.state.endAngle || 0}
-      radius={(this._pieChartHeight-60)/2}
+      radius={radius}
       innerRadius={this.state.innerradius}
       theme={this.state.theme}
       key={props.name}

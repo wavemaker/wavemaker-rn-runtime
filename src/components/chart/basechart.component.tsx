@@ -2,6 +2,7 @@ import React from "react";
 import { Dimensions } from 'react-native';
 import { get, isEmpty, set } from "lodash-es";
 import { ScatterSymbolType } from "victory-core";
+import { VictoryLegend } from "victory-native";
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
@@ -39,6 +40,8 @@ const shapes: {[key: string]: ScatterSymbolType} = {
   'triangle-up': 'triangleUp'
 };
 
+const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
+
 export abstract class BaseChartComponent<T extends BaseChartComponentProps, S extends BaseChartComponentState<T>, L extends BaseChartComponentStyles> extends BaseComponent<T, S, L> {
   protected screenWidth: number = screenWidth;
   protected chartWidth: number = 0;
@@ -54,6 +57,43 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   componentDidMount() {
     this.setHeightWidthOnChart();
     super.componentDidMount();
+  }
+
+  abbreviateNumber(number: any) {
+    if (typeof number !== 'number') {
+      return number;
+    }
+    const tier = Math.log10(Math.abs(number)) / 3 | 0;
+
+    if (tier == 0) {
+      return number;
+    }
+
+    // get suffix and determine scale
+    const suffix = SI_SYMBOL[tier];
+    const scale = Math.pow(10, tier * 3);
+
+    // scale the number
+    var scaled = number / scale;
+
+    // format number and add suffix
+    return scaled.toFixed(1) + suffix;
+  }
+
+  getLegendView(showlegend: string) {
+    let top = showlegend === 'bottom' ? parseInt(this.styles.root.height as string) : 0;
+    if (top) {
+      top = top - (50); // remove legendHeight
+    }
+    return <VictoryLegend
+      name={'legendData'}
+      orientation="horizontal"
+      gutter={20}
+      data={this.state.legendData}
+      style={{ border: { stroke: 'none' } }}
+      borderPadding={{top: 30, left: 50}}
+      y={top}
+    />
   }
 
   setHeightWidthOnChart() {
@@ -146,9 +186,11 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       yPts.forEach((y: any, index: number) => {
         if (xaxis !== y) {
           datasets.push(dataset.map((o: {[key: string] : string}) => {
+            const xVal = get(o, xaxis);
+            const yVal = get(o, y);
             let dataObj = {
-              x: o[xaxis],
-              y: o[y]
+              x: xVal,
+              y: yVal,
             };
             if (this.props.bubblesize) {
               set(dataObj, 'size', get(o, this.props.bubblesize, 5));

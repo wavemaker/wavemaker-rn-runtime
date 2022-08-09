@@ -1,6 +1,6 @@
 import React from 'react';
-import {VictoryAxis, VictoryArea, VictoryChart, VictoryLegend, VictoryStack} from "victory-native";
-
+import { VictoryAxis, VictoryArea, VictoryChart, VictoryLegend, VictoryStack, VictoryScatter, VictoryGroup } from "victory-native";
+import { InterpolationPropType } from 'victory-core';
 import WmAreaChartProps from './area-chart.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAreaChartStyles } from './area-chart.styles';
 import {
@@ -18,6 +18,9 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
   }
 
   renderWidget(props: WmAreaChartProps) {
+    if (!this.state.data?.length) {
+      return null;
+    }
     return (<VictoryChart
       containerComponent={<Svg />}
       theme={this.state.theme}
@@ -51,11 +54,14 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
       {/* y axis with horizontal lines having grid stroke colors*/}
       <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: props.yaxislabeldistance}}}
                    label={(props.yaxislabel || this.props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
+                   tickFormat={(t) => `${this.abbreviateNumber(t)}`}
+                   fixLabelOverlap={true}
                    dependentAxis />
       <VictoryStack>
       {
         this.state.data.map((d: any, i: number) => {
-          return <VictoryArea key={props.name + '_' + i}
+          return <VictoryGroup>
+            <VictoryArea interpolation={props.interpolation as InterpolationPropType} key={props.name + '_' + i}
                               style={{
                                 data: {
                                   fill: this.state.colors[i], stroke: this.state.colors[i]
@@ -63,6 +69,20 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                               }}
                              data={d}
           />
+            {props.highlightpoints ?
+           <VictoryScatter size={5} key={props.name + '_scatter' + i}
+                           animate={{
+                             onLoad: {
+                               duration: 2000,
+                               before: () => ({ opacity: 0.3 }),
+                               after: () => ({ opacity: 1 })
+                             }
+                           }}
+                           style={{
+                             data: { fill: this.state.colors[i], opacity: 0.8}
+                           }}
+                           data={d}
+              />: null}</VictoryGroup>
         })
       }
       </VictoryStack>

@@ -63,6 +63,8 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
         {/* y axis with horizontal lines having grid stroke colors*/}
         <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: props.yaxislabeldistance}}}
                      label={(props.yaxislabel || this.props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
+                     tickFormat={(t) => `${this.abbreviateNumber(t)}`}
+                     fixLabelOverlap={true}
                      dependentAxis />
         {this.state.data.map((d: any, i: number) => {
         return <VictoryScatter

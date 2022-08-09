@@ -27,10 +27,14 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmBarChartProps(), new WmBarChartState());
   }
 
+  labelFn(data: any): string | number | string[] | number[] | null {
+    return this.abbreviateNumber(data.datum.y);
+  }
+
   getBarChart(props: WmBarChartProps) {
   return this.state.data.map((d: any, i: number) => {
     return <VictoryBar key={props.name + '_' + i}
-        horizontal={props.horizontal}
+        horizontal={props.horizontal} labels={props.showvalues ? this.labelFn.bind(this) : undefined}
         data={d}
         height={100}
         />
@@ -48,7 +52,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
                             duration: 2000,
                             onLoad: { duration: 1000 }
                           }}
-                          padding={{ top: 70, bottom: 50, left: 50, right: 50 }}>
+                          padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}>
       <VictoryLegend
         name={'legend'}
         containerComponent={<Svg />}
@@ -58,19 +62,14 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         data={[]}
         theme={this.state.theme}
       />
-      <VictoryLegend
-        name={'legendData'}
-        orientation="horizontal"
-        gutter={20}
-        data={this.state.legendData}
-        style={{ border: { stroke: 'none' } }}
-        borderPadding={{top: 30, left: 50}}
-      />
+      {props.showlegend === 'hide' ? null : this.getLegendView(props.showlegend)}
       {/* x axis with vertical lines having grid stroke colors*/}
-      <VictoryAxis crossAxis theme={this.state.theme} label={(props.xaxislabel || this.props.xaxisdatakey) + (props.xunits ? `(${props.xunits})` : '')} />
+      <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: props.xaxislabeldistance}}} label={(props.xaxislabel || this.props.xaxisdatakey) + (props.xunits ? `(${props.xunits})` : '')} />
       {/* y axis with horizontal lines having grid stroke colors*/}
       <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: props.yaxislabeldistance}}}
                    label={(props.yaxislabel || this.props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
+                   tickFormat={(t) => `${this.abbreviateNumber(t)}`}
+                   fixLabelOverlap={true}
                    dependentAxis />
       {
         props.viewtype === 'Stacked' ? <VictoryStack colorScale={this.state.colors}>
