@@ -153,6 +153,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       if (w instanceof WmForm) {
         w.formWidgets = {};
         w.formFields = [];
+        w.formfields = {};
       }
     }
 

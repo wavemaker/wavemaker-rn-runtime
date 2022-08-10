@@ -22,6 +22,7 @@ export class WmFormState extends BaseComponentState<WmFormProps> {
 export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFormStyles> {
   public formFields: Array<WmFormField> = []; // contains array of direct widget elements [WmText, WmNumber, WmCurrent]
   public parentFormRef: any;
+  public formfields: {[key: string]: WmFormField} = {};
   private formdataoutput: any;
   private toaster: any;
   formWidgets: { [key: string]: BaseComponent<any, any, any> } = {}; // object containing key as name of formField and value as WmFormField proxy.
@@ -60,6 +61,12 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
     this.formFields = formFields;
     this.formWidgets = formWidgets;
+
+    formFields.forEach((f: WmFormField) => {
+      if (f.props.name) {
+        set(this.formfields, f.props.name, f);
+      }
+    })
 
     this.applyFormData();
     this.applyDefaultValue();
