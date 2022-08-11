@@ -41,22 +41,8 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
         data={[]}
         theme={this.state.theme}
       />
-      <VictoryLegend
-        name={'legendData'}
-        orientation="horizontal"
-        gutter={20}
-        data={this.state.legendData}
-        style={{ border: { stroke: 'none' } }}
-        borderPadding={{top: 30, left: 50}}
-      />
-      {/* x axis with vertical lines having grid stroke colors*/}
-      <VictoryAxis crossAxis theme={this.state.theme} label={(props.xaxislabel || this.props.xaxisdatakey) + (props.xunits ? `(${props.xunits})` : '')} />
-      {/* y axis with horizontal lines having grid stroke colors*/}
-      <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: props.yaxislabeldistance}}}
-                   label={(props.yaxislabel || this.props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
-                   tickFormat={(t) => `${this.abbreviateNumber(t)}`}
-                   fixLabelOverlap={true}
-                   dependentAxis />
+      {this.getLegendView()}
+      {this.getAxis()}
       <VictoryStack>
       {
         this.state.data.map((d: any, i: number) => {

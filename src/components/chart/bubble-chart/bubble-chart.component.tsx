@@ -22,8 +22,8 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
   }
 
   renderWidget(props: WmBubbleChartProps) {
-    let chartHeight = this.chartHeight || 250;
-    let chartWidth = this.chartWidth || this.screenWidth;
+    let chartHeight = this.state.chartHeight || 250;
+    let chartWidth = this.state.chartWidth || this.screenWidth;
     const legendHeight = 60 || props.legendheight;
     const pChartHeight = chartHeight + legendHeight;
     if (!this.state.data?.length) {
@@ -50,22 +50,8 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
           data={[]}
           theme={this.state.theme}
         />
-        <VictoryLegend
-          name={'legendData'}
-          orientation="horizontal"
-          gutter={20}
-          data={this.state.legendData}
-          style={{ border: { stroke: 'none' } }}
-          borderPadding={{top: 30, left: 50}}
-        />
-        {/* x axis with vertical lines having grid stroke colors*/}
-        <VictoryAxis crossAxis theme={this.state.theme} label={(props.xaxislabel || this.props.xaxisdatakey) + (props.xunits ? `(${props.xunits})` : '')} />
-        {/* y axis with horizontal lines having grid stroke colors*/}
-        <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: props.yaxislabeldistance}}}
-                     label={(props.yaxislabel || this.props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
-                     tickFormat={(t) => `${this.abbreviateNumber(t)}`}
-                     fixLabelOverlap={true}
-                     dependentAxis />
+        {this.getLegendView()}
+        {this.getAxis()}
         {this.state.data.map((d: any, i: number) => {
         return <VictoryScatter
           colorScale={this.state.colors}

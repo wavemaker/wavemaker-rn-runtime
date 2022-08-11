@@ -62,15 +62,8 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         data={[]}
         theme={this.state.theme}
       />
-      {props.showlegend === 'hide' ? null : this.getLegendView(props.showlegend)}
-      {/* x axis with vertical lines having grid stroke colors*/}
-      <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: props.xaxislabeldistance}}} label={(props.xaxislabel || this.props.xaxisdatakey) + (props.xunits ? `(${props.xunits})` : '')} />
-      {/* y axis with horizontal lines having grid stroke colors*/}
-      <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: props.yaxislabeldistance}}}
-                   label={(props.yaxislabel || this.props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
-                   tickFormat={(t) => `${this.abbreviateNumber(t)}`}
-                   fixLabelOverlap={true}
-                   dependentAxis />
+      {this.getLegendView()}
+      {this.getAxis()}
       {
         props.viewtype === 'Stacked' ? <VictoryStack colorScale={this.state.colors}>
           {

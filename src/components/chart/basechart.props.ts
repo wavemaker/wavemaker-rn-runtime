@@ -33,4 +33,6 @@ export default class BaseChartComponentProps extends BaseProps {
   interpolation: string = 'linear';
   highlightpoints: boolean = false;
   showvalues: boolean = false;
+  showyaxis: boolean = true;
+  showxaxis: boolean = true;
 }

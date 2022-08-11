@@ -1,4 +1,5 @@
 import React from 'react';
+import {View} from "react-native";
 
 import { VictoryContainer, VictoryLegend, VictoryPie } from 'victory-native';
 
@@ -15,22 +16,11 @@ export class WmPieChartState extends BaseChartComponentState<WmPieChartProps> {
 }
 
 export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPieChartState, WmPieChartStyles> {
-  private _chartHeight;
-  private _chartWidth;
-  private _pieChartHeight;
-  private labelLegendHeight;
-  private legendHeight;
+  private _pieChartHeight: number = 0;
+  private labelLegendHeight: number = 0;
+  private legendHeight: number = 0;
   constructor(props: WmPieChartProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, props.type === 'Donut' ? new WmDonutChartProps() : new WmPieChartProps(), new WmPieChartState());
-
-    this._chartHeight = this.chartHeight || 250;
-    this._chartWidth = this.chartWidth || this.screenWidth;
-    this.legendHeight = 30 || props.legendheight;
-    this.labelLegendHeight = 20 || props.labellegendheight;
-    this._pieChartHeight = this._chartHeight - this.legendHeight - this.labelLegendHeight;
-    if (!this.state.innerradius && props.donutratio) {
-      this.setInnerRadius();
-    }
   }
 
   setInnerRadius() {
@@ -46,6 +36,13 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
 
   componentDidMount() {
     super.componentDidMount();
+    this.setHeightWidthOnChart(this.chartInit.bind(this));
+  }
+
+  chartInit() {
+    this.legendHeight = 30 || this.props.legendheight;
+    this.labelLegendHeight = 20 || this.props.labellegendheight;
+    this._pieChartHeight = this.state.chartHeight - this.legendHeight - this.labelLegendHeight;
     if (this.state.props.donutratio && !this.state.innerradius) {
       this.setInnerRadius();
     }
@@ -65,9 +62,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
       labelRadius = radius/2;
     }
     let legendData: Array<{name: any}> = pieData.map((d: {x: any, y: any}) => {return {name: d.x}});
-      return <VictoryContainer theme={this.state.theme}
-                               height={this._chartHeight}
-                               width={this._chartWidth}>
+      return <View style={this.styles.root}>
         <VictoryLegend
           name={'legend'}
           colorScale={this.state.colors}
@@ -121,6 +116,6 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
       name={props.name}
       data={pieData}
       />
-      </VictoryContainer>
+      </View>
   }
 }

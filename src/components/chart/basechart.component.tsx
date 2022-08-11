@@ -1,8 +1,8 @@
 import React from "react";
 import { Dimensions } from 'react-native';
-import { get, isEmpty, set } from "lodash-es";
+import {get, isEmpty, set, trim} from "lodash-es";
 import { ScatterSymbolType } from "victory-core";
-import { VictoryLegend } from "victory-native";
+import {VictoryAxis, VictoryChart, VictoryGroup, VictoryLegend} from "victory-native";
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
@@ -24,6 +24,8 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
   total: number = 0;
   endAngle: number = 0;
   loading: boolean = true;
+  chartHeight: number = 0;
+  chartWidth: number = 0;
 }
 
 const screenWidth = Dimensions.get("window").width;
@@ -44,18 +46,14 @@ const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 
 export abstract class BaseChartComponent<T extends BaseChartComponentProps, S extends BaseChartComponentState<T>, L extends BaseChartComponentStyles> extends BaseComponent<T, S, L> {
   protected screenWidth: number = screenWidth;
-  protected chartWidth: number = 0;
-  protected chartHeight: number = 0;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultStyles as L, defaultProps, defaultState);
     if (!props.theme) {
       this.applyTheme(props);
     }
-    this.setHeightWidthOnChart();
   }
 
   componentDidMount() {
-    this.setHeightWidthOnChart();
     super.componentDidMount();
   }
 
@@ -80,8 +78,11 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     return scaled.toFixed(1) + suffix;
   }
 
-  getLegendView(showlegend: string) {
-    let top = showlegend === 'bottom' ? parseInt(this.styles.root.height as string) : 0;
+  getLegendView() {
+    if (this.props.showlegend === 'hide') {
+      return null;
+    }
+    let top = this.props.showlegend === 'bottom' ? parseInt(this.styles.root.height as string) : 0;
     if (top) {
       top = top - (50); // remove legendHeight
     }
@@ -95,11 +96,19 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       y={top}
     />
   }
+  getAxis() {
+    return <VictoryGroup>
+      {true ? <VictoryAxis crossAxis theme={this.state.theme} label={(this.props.xaxislabel || this.props.xaxisdatakey) + (this.props.xunits ? `(${this.props.xunits})` : '')} /> : null }
+    {/* y axis with horizontal lines having grid stroke colors*/}
+    {true ? <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: this.props.yaxislabeldistance}}}
+                                    label={(this.props.yaxislabel || this.props.yaxisdatakey) + (this.props.yunits ? `(${this.props.yunits})` : '')}
+                                    tickFormat={(t) => `${this.abbreviateNumber(t)}`}
+                                    fixLabelOverlap={true}
+                                    dependentAxis /> : null }
+    </VictoryGroup>
+  }
 
-  setHeightWidthOnChart() {
-    if (!this.styles || this.chartWidth || this.chartHeight) {
-      return;
-    }
+  setHeightWidthOnChart(cb?: () => void) {
     let height = this.styles.root.height || 250;
     let width = this.styles.root.width || screenWidth;
     if (height && typeof height === 'string') {
@@ -108,16 +117,17 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     if (width && typeof width === 'string') {
       width = parseInt(width);
     }
-    this.chartWidth = width as number;
-    this.chartHeight = height as number;
-
+    this.updateState({
+      chartHeight: height,
+      chartWidth: width
+    } as S, cb);
   }
 
   applyTheme(props: BaseChartComponentProps) {
     let themeName = props.theme ? props.theme : (props.type === 'Pie' ? 'Azure' : 'Terrestrial');
     let colorsToUse = [];
     if (typeof props.customcolors === 'string' && !isEmpty(props.customcolors)) {
-      colorsToUse = props.customcolors.split(',');
+      colorsToUse = props.customcolors.split(',').map(trim);
     }
     let themeToUse;
     if (typeof themeName === 'string') {
