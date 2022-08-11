@@ -137,9 +137,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           <View style={[
               this.styles.item,
               props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-              this.state.selectedindex === index ? this.styles.selectedItem : {}]}>
+              this.state.selectedindex === index && this.state.props.selecteditem?._groupIndex === item._groupIndex ? this.styles.selectedItem : {}]}>
             {props.renderItem(item, index, this)}
-            { this.state.selectedindex === index ? (
+            { this.state.selectedindex === index && this.state.props.selecteditem?._groupIndex === item._groupIndex ? (
               <WmIcon iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
             ) : null}
           </View>
