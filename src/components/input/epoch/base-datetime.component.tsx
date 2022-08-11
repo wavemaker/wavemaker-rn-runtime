@@ -235,7 +235,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }}</ModalConsumer>);
   }
 
-  addTouchableOpacity(props: WmDatetimeProps, children: React.ReactNode, styles?: any) {
+  addTouchableOpacity(props: WmDatetimeProps, children: React.ReactNode, styles?: any) : React.ReactNode{
     return (
       <TouchableOpacity style={styles} onPress={() => {
         if (!props.readonly) {
@@ -256,30 +256,32 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   renderWidget(props: WmDatetimeProps) {
-    return (
-      <View style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
-          <View style={this.styles.container}>
-            {this.addTouchableOpacity(props, (
-              <Text style={this.styles.text}>{this.state.displayValue || this.state.props.placeholder}</Text>
-            ), { flex: 1 })}
-            {(!props.readonly && props.datavalue &&
-              (<WmIcon iconclass="wi wi-clear"
-              styles={{color: this.styles.text.color, ...this.styles.clearIcon}}
-              onTap={() => {
-                this.onDateChange(null as any, null as any);
-                this.clearBtnClicked = true;
-              }}/>)) || null}
-            {this.addTouchableOpacity(props, (
-              <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}}/>
-            ))}
-          </View>
-        {
-          this.state.showDatePicker
-          && ((Platform.OS === 'web' && this.renderWebWidget(props))
-            || (Platform.OS === 'android' && this.renderNativeWidget(props))
-            || (Platform.OS === 'ios' && this.renderNativeWidget(props)))
-        }
-      </View>
+    return ( 
+        this.addTouchableOpacity(props, (
+        <View style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
+            <View style={this.styles.container}>
+              {this.addTouchableOpacity(props, (
+                <Text style={this.styles.text}>{this.state.displayValue || this.state.props.placeholder}</Text>
+              ), { flex: 1 })}
+              {(!props.readonly && props.datavalue &&
+                (<WmIcon iconclass="wi wi-clear"
+                styles={{color: this.styles.text.color, ...this.styles.clearIcon}}
+                onTap={() => {
+                  this.onDateChange(null as any, null as any);
+                  this.clearBtnClicked = true;
+                }}/>)) || null}
+              {this.addTouchableOpacity(props, (
+                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}}/>
+              ))}
+            </View>
+          {
+            this.state.showDatePicker
+            && ((Platform.OS === 'web' && this.renderWebWidget(props))
+              || (Platform.OS === 'android' && this.renderNativeWidget(props))
+              || (Platform.OS === 'ios' && this.renderNativeWidget(props)))
+          }
+        </View>
+        ))
     );
   }
 }
