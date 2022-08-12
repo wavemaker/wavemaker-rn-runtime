@@ -184,10 +184,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     event?.preventDefault();
     const formData = this.state.props.dataoutput || this.formdataoutput;
     let isValid = true;
-    forEach(formData, (val, key) => {
-      const field = this.formFields.find((f) => {
-        return key === f.props.formKey;
-      });
+    forEach(this.formFields, (field) => {
+      const val = field?.state.props.datavalue;
 
       const onValidate = get(field, 'props.onValidate');
       onValidate && onValidate(field);
