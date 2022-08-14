@@ -5,7 +5,7 @@ import { find, isNull } from 'lodash';
 import WmSearchProps from './search.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmSearchStyles } from './search.styles';
 import { ModalConsumer, ModalOptions, ModalService} from "@wavemaker/app-rn-runtime/core/modal.service";
-import { LocalDataProvider } from '@wavemaker/app-rn-runtime/components/basic/search/local-data-provider';
+import { DataProvider } from '@wavemaker/app-rn-runtime/components/basic/search/local-data-provider';
 
 import {
   BaseDatasetComponent,
@@ -15,7 +15,7 @@ import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.c
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
-import {get} from "lodash-es";
+import { get, isArray, isEmpty, isObject } from "lodash-es";
 
 export class WmSearchState extends BaseDatasetState<WmSearchProps> {
   isOpened: boolean = false;
@@ -40,14 +40,15 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   private queryModel: any;
   private searchInputWidth: any;
   private isDefaultQuery: boolean = true;
-  private dataProvider: LocalDataProvider;
+  private dataProvider: DataProvider;
   public widgetRef: TextInput | null = null;
   private cursor: any = 0;
   private isFocused: boolean = false;
+  private updateRequired: any;
 
   constructor(props: WmSearchProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSearchProps(), new WmSearchState());
-    this.dataProvider = new LocalDataProvider();
+    this.dataProvider = new DataProvider();
     if (this.props.datavalue) {
       this.updateState({
         props: {
@@ -93,11 +94,33 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       props: props,
       entries: this.state.dataItems
     };
-    let filteredData;
+    let filteredData: Array<any> = [];
     if (props.minchars && queryText.length < props.minchars) {
       filteredData = [];
+    } else if (props.type === 'search' && !queryText) {
+      filteredData = [];
     } else {
-      filteredData = props.type === 'search' && !queryText ? [] : this.dataProvider?.filter(filterOptions);
+      if (this.updateRequired === undefined) {
+        this.updateRequired = this.dataProvider.init(this);
+      }
+      // for service variables invoke the variable with params.
+      if (this.updateRequired && this.state.props.query !== queryText) {
+        this.dataProvider.invokeVariable(this, queryText).then((response: any) => {
+          if (response) {
+            response = response.dataSet;
+            if (isEmpty(response)) {
+              filteredData = []
+            } else {
+              if (isObject(response) && !isArray(response)) {
+                response = [response];
+              }
+              this.setDataItems(response);
+            }
+          }
+        }, () => {});
+        return;
+      }
+      filteredData = this.dataProvider?.filter(filterOptions);
     }
     this.updateState({
       props: { result: filteredData?.map( (item: any) => item.dataObject), query: queryText },
@@ -310,6 +333,22 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   componentDidMount(): void {
     super.componentDidMount();
     this.updateDefaultQueryModel();
+  }
+
+  onPropertyChange(name: string, $new: any, $old: any) {
+    switch (name) {
+      case 'dataset':
+        if (!isEmpty($new) && isObject($new) && !isArray($new)) {
+          $new = [$new];
+          this.updateState({
+            props: {
+              dataset: $new
+            }
+          } as WmSearchState);
+        }
+        break;
+    }
+    super.onPropertyChange(name, $new, $old);
   }
 
   renderWidget(props: WmSearchProps) {

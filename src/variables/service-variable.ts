@@ -67,11 +67,11 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
 
     async _invoke(options? : any, onSuccess?: Function, onError?: Function) {
         let params = options ? (options.inputFields ? options.inputFields : options) : undefined;
-        await super.invoke(params, onSuccess, onError);
         if (!params) {
           const configParams = !isEmpty(this.params) ? this.params : this.config.paramProvider();
           params = Object.keys(configParams).length ? configParams : undefined;
         }
+        await super.invoke(params, onSuccess, onError);
         const config = (this.config as ServiceVariableConfig);
 
         const validateInfo = this.validateServiceInfo(config);

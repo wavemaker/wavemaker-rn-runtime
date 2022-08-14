@@ -195,7 +195,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         args = args && args.map(a => (a === this) ? this.proxy : a)
         if (callBack) {
             try {
-                callBack.apply(this.proxy, args);
+              return callBack.apply(this.proxy, args);
             } catch(e) {
                 console.error(e);
             }

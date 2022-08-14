@@ -1,4 +1,43 @@
 import { filter, includes, values, isNumber, split, toLower, get, toString, isArray, isObject, isString } from 'lodash';
+import { BaseComponent } from "@wavemaker/app-rn-runtime/core/base.component";
+
+export class DataProvider {
+  private localDataProvider = new LocalDataProvider();
+
+  // check if the variable is of type service variable and whether update is required.
+  init(self: BaseComponent<any, any, any>) {
+    let response = self.invokeEventCallback('isUpdateRequired', []);
+    return response;
+  }
+
+  // setting the inputFields and invoking the variable
+  invokeVariable(self: BaseComponent<any, any, any>, query: string): Promise<any> {
+    let paramsObj: {[key: string] : any} | null = null;
+    self.props.searchkey.split(',').forEach((k: string) => {
+      if (!paramsObj) {
+        paramsObj = {};
+      }
+      paramsObj[k] = query
+    });
+    let invokeEvent = get(self.props, 'formfield') ? self.props.invokeEvent : self.invokeEventCallback;
+    if (invokeEvent) {
+      return invokeEvent.call(self, 'onQuerySearch', [paramsObj]);
+    }
+    return Promise.resolve();
+  }
+
+  filter(config: any, cb? : () => void | null) {
+    const props = config.props;
+    if (props.searchkey) {
+      const keys = split(props.searchkey, ',');
+      if (keys.length && cb) {
+        cb();
+        return;
+      }
+      return this.localDataProvider.filter(config);
+    }
+  }
+}
 
 export class LocalDataProvider {
 
