@@ -45,6 +45,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
     if (!this.state.data.length) {
       return null;
     }
+    let mindomain={x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined, y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined};
     return (<VictoryChart theme={this.state.theme}
                           height={this.styles.root.height as number}
                           width={this.styles.root.width as number || this.screenWidth}
@@ -52,6 +53,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
                             duration: 2000,
                             onLoad: { duration: 1000 }
                           }}
+                          minDomain={mindomain}
                           padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}>
       <VictoryLegend
         name={'legend'}
@@ -63,7 +65,8 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         theme={this.state.theme}
       />
       {this.getLegendView()}
-      {this.getAxis()}
+      {this.getXaxis()}
+      {this.getYAxis()}
       {
         props.viewtype === 'Stacked' ? <VictoryStack colorScale={this.state.colors}>
           {

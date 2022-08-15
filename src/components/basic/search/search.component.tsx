@@ -109,7 +109,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
           if (response) {
             response = response.dataSet;
             if (isEmpty(response)) {
-              filteredData = []
+              filteredData = [];
             } else {
               if (isObject(response) && !isArray(response)) {
                 response = [response];

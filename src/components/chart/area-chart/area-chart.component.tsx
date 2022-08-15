@@ -8,6 +8,7 @@ import {
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
 import {Svg} from "react-native-svg";
+import {View} from "react-native";
 
 export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> {}
 
@@ -21,8 +22,11 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
     if (!this.state.data?.length) {
       return null;
     }
-    return (<VictoryChart
-      containerComponent={<Svg />}
+    let mindomain={x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined, y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined};
+    return (
+      <View
+      style={this.styles.root}
+    ><VictoryChart
       theme={this.state.theme}
       height={this.styles.root.height as number}
       width={this.styles.root.width as number || this.screenWidth}
@@ -31,6 +35,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
         onLoad: { duration: 1000 }
       }}
       padding={{ top: 70, bottom: 50, left: 50, right: 50 }}
+      minDomain={mindomain}
     >
       <VictoryLegend
         name={'legend'}
@@ -42,11 +47,12 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
         theme={this.state.theme}
       />
       {this.getLegendView()}
-      {this.getAxis()}
+      {this.getXaxis()}
+      {this.getYAxis()}
       <VictoryStack>
       {
         this.state.data.map((d: any, i: number) => {
-          return <VictoryGroup>
+          return <VictoryGroup key={props.name + '_area_group_' + i}>
             <VictoryArea interpolation={props.interpolation as InterpolationPropType} key={props.name + '_' + i}
                               style={{
                                 data: {
@@ -72,6 +78,6 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
         })
       }
       </VictoryStack>
-    </VictoryChart>);
+    </VictoryChart></View>);
   }
 }

@@ -35,4 +35,6 @@ export default class BaseChartComponentProps extends BaseProps {
   showvalues: boolean = false;
   showyaxis: boolean = true;
   showxaxis: boolean = true;
+  ydomain: string = '';
+  xdomain: string = '';
 }

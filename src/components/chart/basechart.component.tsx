@@ -1,6 +1,6 @@
 import React from "react";
-import { Dimensions } from 'react-native';
-import {get, isEmpty, set, trim} from "lodash-es";
+import {Dimensions, View} from 'react-native';
+import {forEach, get, isEmpty, maxBy, minBy, set, trim} from "lodash-es";
 import { ScatterSymbolType } from "victory-core";
 import {VictoryAxis, VictoryChart, VictoryGroup, VictoryLegend} from "victory-native";
 
@@ -10,7 +10,6 @@ import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/char
 
 import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseChartComponentStyles} from "./basechart.styles";
-
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -26,6 +25,10 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
   loading: boolean = true;
   chartHeight: number = 0;
   chartWidth: number = 0;
+  chartMinY: number | undefined = undefined;
+  chartMinX: number | undefined = undefined;
+  chartMaxY: number | undefined = undefined;
+  chartMaxX: number | undefined = undefined;
 }
 
 const screenWidth = Dimensions.get("window").width;
@@ -96,16 +99,132 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       y={top}
     />
   }
-  getAxis() {
-    return <VictoryGroup>
-      {true ? <VictoryAxis crossAxis theme={this.state.theme} label={(this.props.xaxislabel || this.props.xaxisdatakey) + (this.props.xunits ? `(${this.props.xunits})` : '')} /> : null }
-    {/* y axis with horizontal lines having grid stroke colors*/}
-    {true ? <VictoryAxis crossAxis theme={this.state.theme} style={{axisLabel: {padding: this.props.yaxislabeldistance}}}
-                                    label={(this.props.yaxislabel || this.props.yaxisdatakey) + (this.props.yunits ? `(${this.props.yunits})` : '')}
-                                    tickFormat={(t) => `${this.abbreviateNumber(t)}`}
-                                    fixLabelOverlap={true}
-                                    dependentAxis /> : null }
-    </VictoryGroup>
+
+  getYScaleMinValue = (value: number) => {
+    const _min = Math.floor(value);
+    return Math.abs(value) - _min > 0 ? value - .1 : _min - 1;
+  };
+
+  // x axis with vertical lines having grid stroke colors
+  getXaxis() {
+    return <VictoryAxis crossAxis label={(this.props.xaxislabel || this.props.xaxisdatakey) + (this.props.xunits ? `(${this.props.xunits})` : '')}
+                        theme={this.state.theme}/>;
+  }
+  /* y axis with horizontal lines having grid stroke colors*/
+  getYAxis() {
+    return <VictoryAxis crossAxis label={(this.props.yaxislabel || this.props.yaxisdatakey) + (this.props.yunits ? `(${this.props.yunits})` : '')}
+                        style={{axisLabel: {padding: this.props.yaxislabeldistance}}}
+                        theme={this.state.theme}
+                        tickFormat={(t) => `${this.abbreviateNumber(t)}`} dependentAxis />
+  }
+
+  // X/Y Domain properties are supported only for Column and Area charts
+  isAxisDomainSupported = (type: string) => type === 'Column'|| type === 'Area';
+
+  // Check whether X/Y Domain was set to Min and is supported for the present chart
+  isAxisDomainValid = (axis: string) => {
+    if (get(this.props, axis + 'domain') === 'Min' && (this.isAxisDomainSupported(this.props.type))) {
+      return true;
+    }
+    return false;
+  };
+
+// Check whether min and max values are finite or not
+  areMinMaxValuesValid = (values: any) => {
+    if (isFinite(values.min) && isFinite(values.max)) {
+      return true;
+    }
+    return false;
+  };
+
+  setDomainValues() {
+    let xDomainValues, yDomainValues;
+    if (this.state.data.length > 0) {
+      if (this.isAxisDomainValid('x') && typeof this.state.data[0].x === 'number') {
+        xDomainValues = this.getXMinMaxValues(this.state.data[0]);
+      }
+      if (this.isAxisDomainValid('y')) {
+        yDomainValues = this.getYMinMaxValues(this.state.data);
+      }
+      if (xDomainValues) {
+        this.updateState({
+          chartMinX: yDomainValues.min.x,
+          chartMaxX: yDomainValues.max.x
+        } as S)
+      }
+      let yMin;
+      if (yDomainValues) {
+        if (this.areMinMaxValuesValid({max: yDomainValues.max.y, min: yDomainValues.min.y})) {
+          yMin = this.getYScaleMinValue(yDomainValues.min.y);
+        }
+        this.updateState({
+          chartMinY: yMin ? yMin : yDomainValues.min.y,
+          chartMaxY: yDomainValues.max.y
+        } as S);
+      }
+    }
+  }
+
+  // Getting the min and max values among all the x values
+  getXMinMaxValues(datum: Array<{x: number, y: any}>) {
+    if (!datum) {
+      return;
+    }
+    const xValues: any = {};
+    /*
+     compute the min x value
+     eg: When data has objects
+        input: [{x:1, y:2}, {x:2, y:3}, {x:3, y:4}]
+        min x: 1
+     eg: When data has arrays
+        input: [[10, 20], [20, 30], [30, 40]];
+        min x: 10
+    */
+    xValues.min = minBy(datum, (dataObject: {x: any, y: any}) => dataObject.x);
+    /*
+     compute the max x value
+     eg: When data has objects
+        input: [{x:1, y:2}, {x:2, y:3}, {x:3, y:4}]
+        max x: 3
+     eg: When data has arrays
+        input: [[10, 20], [20, 30], [30, 40]];
+        max x: 30
+     */
+    xValues.max = maxBy(datum, (dataObject: {x: any, y: any}) => dataObject.x);
+    return xValues;
+  }
+
+  // Getting the min and max values among all the y values
+  getYMinMaxValues(datum: Array<Array<{x: any, y: number}>>) {
+    const yValues: any = {},
+      minValues: any = [],
+      maxValues: any = [];
+    if (!datum) {
+      return;
+    }
+
+    /*
+     Getting the min and max y values among all the series of data
+     compute the min y value
+     eg: When data has objects
+        input: [[{x:1, y:2}, {x:2, y:3}, {x:3, y:4}], [{x:2, y:3}, {x:3, y:4}, {x:4, y:5}]]
+        min y values : '2'(among first set) & '3'(among second set)
+        max y values : '4'(among first set) & '5'(among second set)
+
+     eg: When data has arrays
+        input: [[[10, 20], [20, 30], [30, 40]], [[20, 30], [30, 40], [40, 50]]]
+        min y values : '20'(among first set) & '30'(among second set)
+        max y values : '40'(among first set) & '50'(among second set)
+     */
+
+    forEach(datum, data => {
+      minValues.push(minBy(data,  (dataObject: {x: any, y: any}) => { return dataObject.y }));
+      maxValues.push(maxBy(data,  (dataObject: {x: any, y: any}) => { return dataObject.y }));
+    });
+    // Gets the least and highest values among all the min and max values of respective series of data
+    yValues.min = minBy(minValues, (dataObject: {x: any, y: any}) => dataObject.y);
+    yValues.max = maxBy(maxValues, (dataObject: {x: any, y: any}) => dataObject.y);
+    return yValues;
   }
 
   setHeightWidthOnChart(cb?: () => void) {
@@ -241,6 +360,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       this.prepareLegendData();
       if (!this.props.labeltype || this.props.labeltype === 'percent') {
         this.setTotal(this.state.data[0]);
+      }
+      if (this.isAxisDomainSupported(this.props.type) && (this.props.ydomain || this.props.xdomain)) {
+        this.setDomainValues();
       }
       this.updateState({
         loading: false

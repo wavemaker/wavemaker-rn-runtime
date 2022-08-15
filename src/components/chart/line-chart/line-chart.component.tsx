@@ -58,10 +58,11 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
           y={0}
         />
         {this.getLegendView()}
-        {this.getAxis()}
+        {this.getXaxis()}
+        {this.getYAxis()}
       {
         this.state.data.map((d: any, i: number) => {
-          return <VictoryGroup key={props.name + '_group_' + i}>
+          return <VictoryGroup key={props.name + '_line_group_' + i}>
             <VictoryLine interpolation={props.interpolation as InterpolationPropType}  key={props.name + '_line_' + i}
                               name={props.name + '_line_' + i}
                               standalone={true}

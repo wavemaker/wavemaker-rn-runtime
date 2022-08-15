@@ -51,7 +51,8 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
           theme={this.state.theme}
         />
         {this.getLegendView()}
-        {this.getAxis()}
+        {this.getXaxis()}
+        {this.getYAxis()}
         {this.state.data.map((d: any, i: number) => {
         return <VictoryScatter
           colorScale={this.state.colors}
