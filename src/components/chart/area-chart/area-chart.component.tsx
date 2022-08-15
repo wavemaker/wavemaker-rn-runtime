@@ -1,5 +1,5 @@
 import React from 'react';
-import { VictoryAxis, VictoryArea, VictoryChart, VictoryLegend, VictoryStack, VictoryScatter, VictoryGroup } from "victory-native";
+import { VictoryArea, VictoryChart, VictoryLegend, VictoryStack, VictoryScatter, VictoryGroup } from "victory-native";
 import { InterpolationPropType } from 'victory-core';
 import WmAreaChartProps from './area-chart.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmAreaChartStyles } from './area-chart.styles';
@@ -7,8 +7,8 @@ import {
   BaseChartComponent,
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
-import {Svg} from "react-native-svg";
-import {View} from "react-native";
+import { Svg } from "react-native-svg";
+import { View } from "react-native";
 
 export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> {}
 

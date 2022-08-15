@@ -5,11 +5,9 @@ import { Svg } from 'react-native-svg';
 import {
   VictoryChart,
   VictoryLine,
-  VictoryAxis,
   VictoryLegend,
   VictoryScatter,
-  VictoryGroup,
-  VictoryArea
+  VictoryGroup
 } from 'victory-native';
 
 import WmLineChartProps from './line-chart.props';

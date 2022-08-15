@@ -2,7 +2,7 @@ import React from "react";
 import {Dimensions, View} from 'react-native';
 import {forEach, get, isEmpty, maxBy, minBy, set, trim} from "lodash-es";
 import { ScatterSymbolType } from "victory-core";
-import {VictoryAxis, VictoryChart, VictoryGroup, VictoryLegend} from "victory-native";
+import {VictoryAxis, VictoryLegend} from "victory-native";
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
@@ -107,15 +107,21 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
 
   // x axis with vertical lines having grid stroke colors
   getXaxis() {
+    if (this.props.showxaxis === false) {
+      return null;
+    }
     return <VictoryAxis crossAxis label={(this.props.xaxislabel || this.props.xaxisdatakey) + (this.props.xunits ? `(${this.props.xunits})` : '')}
                         theme={this.state.theme}/>;
   }
   /* y axis with horizontal lines having grid stroke colors*/
   getYAxis() {
+    if (this.props.showyaxis === false) {
+      return null;
+    }
     return <VictoryAxis crossAxis label={(this.props.yaxislabel || this.props.yaxisdatakey) + (this.props.yunits ? `(${this.props.yunits})` : '')}
                         style={{axisLabel: {padding: this.props.yaxislabeldistance}}}
                         theme={this.state.theme}
-                        tickFormat={(t) => `${this.abbreviateNumber(t)}`} dependentAxis />
+                        tickFormat={(t) => `${this.abbreviateNumber(t)}`} dependentAxis />;
   }
 
   // X/Y Domain properties are supported only for Column and Area charts

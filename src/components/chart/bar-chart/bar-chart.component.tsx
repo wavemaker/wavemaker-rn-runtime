@@ -2,7 +2,6 @@ import React from 'react';
 import { View } from 'react-native';
 
 import {
-  VictoryAxis,
   VictoryChart,
   VictoryBar,
   VictoryLegend,
@@ -16,8 +15,7 @@ import {
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
 import WmBarChartProps from './bar-chart.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmBarChartStyles } from './bar-chart.styles';
-import ThemeVariables from "@wavemaker/app-rn-runtime/styles/theme.variables";
-import {Svg} from "react-native-svg";
+import { Svg } from "react-native-svg";
 
 export class WmBarChartState extends BaseChartComponentState<WmBarChartProps> {}
 
@@ -46,7 +44,9 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
       return null;
     }
     let mindomain={x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined, y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined};
-    return (<VictoryChart theme={this.state.theme}
+    return (<View
+      style={this.styles.root}
+    ><VictoryChart theme={this.state.theme}
                           height={this.styles.root.height as number}
                           width={this.styles.root.width as number || this.screenWidth}
                           animate={{
@@ -78,6 +78,6 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
           }
         </VictoryGroup>
       }
-    </VictoryChart>);
+    </VictoryChart></View>);
   }
 }
