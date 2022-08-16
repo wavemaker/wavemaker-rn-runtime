@@ -40,7 +40,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
       <VictoryLegend
         name={'legend'}
         containerComponent={<Svg />}
-        title={props.title}
+        title={[props.title, props.subheading]}
         orientation="horizontal"
         gutter={20}
         data={[]}

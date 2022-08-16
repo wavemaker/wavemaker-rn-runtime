@@ -58,7 +58,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
       <VictoryLegend
         name={'legend'}
         containerComponent={<Svg />}
-        title={props.title}
+        title={[props.title, props.subheading]}
         orientation="horizontal"
         gutter={20}
         data={[]}

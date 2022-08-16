@@ -6,6 +6,7 @@ export default class BaseChartComponentProps extends BaseProps {
   dataset: any;
   type: string = '';
   title: string = '';
+  subheading: string = '';
   theme: string = '';
   xaxislabel: string = '';
   xunits: string = '';

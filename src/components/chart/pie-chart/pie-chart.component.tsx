@@ -67,7 +67,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
           name={'legend'}
           colorScale={this.state.colors}
           theme={this.state.theme}
-          title={props.title}
+          title={[props.title, props.subheading]}
           orientation="horizontal"
           gutter={20}
           data={[]}
