@@ -158,7 +158,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
               props : {
                 datavalue: ''
               }
-            });
+            }, () => !ff.state.isValid && ff.validateFormField());
             widget?.reset();
           }
         }
