@@ -197,6 +197,10 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
           }} as WmFormFieldState);
         field.formwidget.validate && field.formwidget.validate(val);
       }
+      // check for isvalid state of formwidget
+      if (field.formwidget.state.isValid === false) {
+        isValid = false;
+      }
     });
     if (!isValid) {
       return false;
