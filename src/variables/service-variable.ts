@@ -218,14 +218,16 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
           config.onSuccess && config.onSuccess(this, this.dataSet);
           onSuccess && onSuccess(this.dataSet);
           this.notify(VariableEvents.SUCCESS, [this, this.dataSet]);
+          return this.dataSet;
         }, (error: any) => {
           config.onError && config.onError(this, error);
           onError && onError(error);
           this.notify(VariableEvents.ERROR, [this, this.dataSet]);
-        }).then(() => {
+          return error;
+        }).then((res: any) => {
           this.notify(VariableEvents.AFTER_INVOKE, [this, this.dataSet]);
           $queue.process(this);
-          config.onCanUpdate && config.onCanUpdate();
+          config.onCanUpdate && config.onCanUpdate(this, res);
           return this;
         });
     }
