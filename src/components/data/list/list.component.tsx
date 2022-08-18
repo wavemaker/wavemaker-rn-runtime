@@ -13,7 +13,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmListStyles } from './list.styles';
 
 export class WmListState extends BaseComponentState<WmListProps> {
   public selectedindex: any;
-  groupedData: any;
+  groupedData: Array<any> = [];
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -167,7 +167,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   private renderLoadingIcon(props: WmListProps) {
-    return (<WmIcon 
+    return (<WmIcon
       styles={this.styles.loadingIcon}
       iconclass={props.loadingicon}
       caption={props.loadingdatamsg}></WmIcon>)
@@ -176,7 +176,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
     return (
     <View style={this.styles.root}>
-      {this.state.groupedData.map((v: any) => ((
+      {this.state.groupedData ? this.state.groupedData.map((v: any) => ((
           <View style={{marginBottom: 16}}>
             {this.renderHeader(props, v.key)}
             <FlatList
@@ -187,7 +187,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}>
             </FlatList>
           </View>
-        )))
+        ))) : null
       }
     </View>);
   }
@@ -218,8 +218,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const isHorizontal = (props.direction === 'horizontal');
     return (
       <View>
-        {(isHorizontal && props.groupby) ? 
-          this.renderWithFlatList(props, isHorizontal) 
+        {(isHorizontal && props.groupby) ?
+          this.renderWithFlatList(props, isHorizontal)
         : this.renderWithSectionList(props, isHorizontal)}
       </View>);
   }

@@ -34,8 +34,8 @@ export class DataProvider {
         cb();
         return;
       }
-      return this.localDataProvider.filter(config);
     }
+    return this.localDataProvider.filter(config);
   }
 }
 
