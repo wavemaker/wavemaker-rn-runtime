@@ -35,7 +35,6 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
       style={this.styles.root}
     >
       <VictoryChart
-      containerComponent={<Svg />}
       theme={this.state.theme}
       height={this.styles.root.height as number}
       width={this.styles.root.width as number || this.screenWidth}
@@ -71,7 +70,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
                               }}
             data={d}
           />
-          {props.highlightpoints ?
+          {(props.highlightpoints || this.state.data.length === 1) ?
             <VictoryScatter size={5} key={props.name + '_scatter' + i}
                             animate={{
                               onLoad: {

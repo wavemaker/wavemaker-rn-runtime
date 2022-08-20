@@ -13,7 +13,7 @@ export class DataProvider {
   // setting the inputFields and invoking the variable
   invokeVariable(self: BaseComponent<any, any, any>, query: string): Promise<any> {
     let paramsObj: {[key: string] : any} | null = null;
-    self.props.searchkey.split(',').forEach((k: string) => {
+    self.props?.searchkey && self.props.searchkey.split(',').forEach((k: string) => {
       if (!paramsObj) {
         paramsObj = {};
       }

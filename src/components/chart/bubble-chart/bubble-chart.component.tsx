@@ -22,24 +22,21 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
   }
 
   renderWidget(props: WmBubbleChartProps) {
-    let chartHeight = this.state.chartHeight || 250;
-    let chartWidth = this.state.chartWidth || this.screenWidth;
-    const legendHeight = 60 || props.legendheight;
-    const pChartHeight = chartHeight + legendHeight;
     if (!this.state.data?.length) {
       return null;
     }
     return (<View
-      style={[this.styles.root, {height: pChartHeight}]}
+      style={this.styles.root}
     >
       <VictoryChart
-        containerComponent={<Svg />}
         theme={this.state.theme}
+        height={this.styles.root.height as number}
+        width={this.styles.root.width as number || this.screenWidth}
         animate={{
           duration: 2000,
           onLoad: { duration: 1000 }
         }}
-        padding={{ top: 70, bottom: 50, left: 50, right: 50 }}
+        padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
       >
         <VictoryLegend
           name={'legend'}

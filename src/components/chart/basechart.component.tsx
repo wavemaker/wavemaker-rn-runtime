@@ -1,6 +1,6 @@
 import React from "react";
-import {Dimensions, View} from 'react-native';
-import {forEach, get, isEmpty, maxBy, minBy, set, trim} from "lodash-es";
+import { Dimensions } from 'react-native';
+import {forEach, get, isArray, isEmpty, isObject, maxBy, minBy, set, trim} from "lodash-es";
 import { ScatterSymbolType } from "victory-core";
 import {VictoryAxis, VictoryLegend} from "victory-native";
 
@@ -405,6 +405,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
         this.applyTheme(this.props);
         break;
       case 'dataset':
+        if (!isEmpty($new) && isObject($new) && !isArray($new)) {
+          $new = [$new];
+        }
         $new && this.prepareDataItems($new);
         break;
       case 'xaxislabel':

@@ -100,11 +100,11 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     } else if (props.type === 'search' && !queryText) {
       filteredData = [];
     } else {
-      if (this.updateRequired === undefined) {
+      if (this.props.searchkey && this.updateRequired === undefined) {
         this.updateRequired = this.dataProvider.init(this);
       }
       // for service variables invoke the variable with params.
-      if (this.updateRequired && this.state.props.query !== queryText) {
+      if (this.props.searchkey && this.updateRequired && this.state.props.query !== queryText) {
         this.dataProvider.invokeVariable(this, queryText).then((response: any) => {
           if (response) {
             response = response.dataSet;
