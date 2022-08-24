@@ -38,10 +38,6 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
       theme={this.state.theme}
       height={this.styles.root.height as number}
       width={this.styles.root.width as number || this.screenWidth}
-      animate={{
-        duration: 2000,
-        onLoad: { duration: 1000 }
-      }}
       padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
     >
         <VictoryLegend
@@ -72,13 +68,6 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
           />
           {(props.highlightpoints || this.state.data.length === 1) ?
             <VictoryScatter size={5} key={props.name + '_scatter' + i}
-                            animate={{
-                              onLoad: {
-                                duration: 2000,
-                                before: () => ({ opacity: 0.3 }),
-                                after: () => ({ opacity: 1 })
-                              }
-                            }}
                             style={{
                               data: { fill: this.state.colors[i], opacity: 0.8}
                             }}

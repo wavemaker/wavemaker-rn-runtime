@@ -49,10 +49,6 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
     ><VictoryChart theme={this.state.theme}
                           height={this.styles.root.height as number}
                           width={this.styles.root.width as number || this.screenWidth}
-                          animate={{
-                            duration: 2000,
-                            onLoad: { duration: 1000 }
-                          }}
                           minDomain={mindomain}
                           padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}>
       <VictoryLegend

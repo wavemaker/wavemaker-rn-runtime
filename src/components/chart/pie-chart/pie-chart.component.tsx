@@ -104,10 +104,6 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
         return null;
       }}
       labelRadius={labelRadius}
-      animate={{
-        duration: 500,
-        easing: 'exp'
-      }}
       endAngle={this.state.endAngle || 0}
       radius={radius}
       innerRadius={this.state.innerradius}

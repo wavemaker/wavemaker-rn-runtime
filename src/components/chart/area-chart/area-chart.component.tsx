@@ -30,10 +30,6 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
       theme={this.state.theme}
       height={this.styles.root.height as number}
       width={this.styles.root.width as number || this.screenWidth}
-      animate={{
-        duration: 2000,
-        onLoad: { duration: 1000 }
-      }}
       padding={{ top: 70, bottom: 50, left: 50, right: 50 }}
       minDomain={mindomain}
     >
@@ -63,13 +59,6 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
           />
             {props.highlightpoints ?
            <VictoryScatter size={5} key={props.name + '_scatter' + i}
-                           animate={{
-                             onLoad: {
-                               duration: 2000,
-                               before: () => ({ opacity: 0.3 }),
-                               after: () => ({ opacity: 1 })
-                             }
-                           }}
                            style={{
                              data: { fill: this.state.colors[i], opacity: 0.8}
                            }}

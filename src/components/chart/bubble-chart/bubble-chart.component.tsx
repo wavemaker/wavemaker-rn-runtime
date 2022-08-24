@@ -32,10 +32,6 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
         theme={this.state.theme}
         height={this.styles.root.height as number}
         width={this.styles.root.width as number || this.screenWidth}
-        animate={{
-          duration: 2000,
-          onLoad: { duration: 1000 }
-        }}
         padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
       >
         <VictoryLegend
@@ -53,13 +49,6 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
         {this.state.data.map((d: any, i: number) => {
         return <VictoryScatter
           colorScale={this.state.colors}
-          animate={{
-            onLoad: {
-              duration: 5000,
-              before: () => ({ opacity: 0.3 }),
-              after: () => ({ opacity: 1 })
-            }
-          }}
           style={{
             data: { fill: this.state.colors[i], opacity: ({ datum }) => datum.opacity }
           }}
