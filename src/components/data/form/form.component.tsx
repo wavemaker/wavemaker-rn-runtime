@@ -140,7 +140,6 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   formreset() {
     forEach(this.formFields, (ff: WmFormField) => {
       ff.updateState({
-          isValid: true,
         props : {
           datavalue: ''
         }
@@ -158,7 +157,9 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
               props : {
                 datavalue: ''
               }
-            }, () => !ff.state.isValid && ff.validateFormField());
+            }, () => ff.updateState({
+              isValid: true
+            } as WmFormFieldState));
             widget?.reset();
           }
         }
