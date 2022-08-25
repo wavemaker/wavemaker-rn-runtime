@@ -8,13 +8,13 @@ import { _setInput, isPageable } from './utils/variable.utils';
 import { $queue } from './utils/inflight-queue';
 
 export interface ServiceVariableConfig extends VariableConfig {
-    serviceInfo: any;
     baseUrl: string;
     onCanUpdate: any;
     onBeforeUpdate: any;
     onResult: any;
     onBeforeDatasetReady: any;
     inFlightBehavior: string;
+    getServiceInfo: Function;
 }
 
 enum _ServiceVariableEvents {
@@ -30,8 +30,8 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         super(config);
     }
 
-    validateServiceInfo(config: ServiceVariableConfig) {
-      const operationInfo = config.serviceInfo;
+    validateServiceInfo(serviceInfo: any) {
+      const operationInfo = serviceInfo;
       // operationInfo is specifically null for un_authorized access
       if (operationInfo === null) {
         return {
@@ -73,6 +73,7 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         }
         await super.invoke(params, onSuccess, onError);
         const config = (this.config as ServiceVariableConfig);
+        const serviceInfo = config.getServiceInfo();
 
         const validateInfo = this.validateServiceInfo(config);
         const errMsg = get(validateInfo, 'error.message');
@@ -92,12 +93,12 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         let queryParams = '',
           headers: any = {},
           requestBody: any,
-          isProxyCall = isWebPreviewMode() ? get(config.serviceInfo, 'proxySettings.web') :  get(config.serviceInfo, 'proxySettings.mobile'),
-          url = isProxyCall ? proxyURL + get(config.serviceInfo, 'relativePath') : (get(config.serviceInfo, 'directPath') || ''),
+          isProxyCall = isWebPreviewMode() ? get(serviceInfo, 'proxySettings.web') :  get(serviceInfo, 'proxySettings.mobile'),
+          url = isProxyCall ? proxyURL + get(serviceInfo, 'relativePath') : (get(serviceInfo, 'directPath') || ''),
           requiredParamMissing: any = [],
           pathParamRex;
 
-        forEach(config.serviceInfo.parameters, (param) => {
+        forEach(serviceInfo.parameters, (param) => {
             let paramValue = this.params[param.name];
             if (param.parameterType.toUpperCase() === 'BODY') {
               paramValue = paramValue || {};
@@ -156,21 +157,21 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         }
 
         // Setting appropriate content-Type for request accepting request body like POST, PUT, etc
-        if (!includes(WS_CONSTANTS.NON_BODY_HTTP_METHODS, toUpper(config.serviceInfo.methodType))) {
+        if (!includes(WS_CONSTANTS.NON_BODY_HTTP_METHODS, toUpper(serviceInfo.methodType))) {
           /*Based on the formData browser will automatically set the content type to 'multipart/form-data' and webkit boundary*/
-          if ((config.serviceInfo.consumes && (config.serviceInfo.consumes[0] === WS_CONSTANTS.CONTENT_TYPES.MULTIPART_FORMDATA))) {
+          if ((serviceInfo.consumes && (serviceInfo.consumes[0] === WS_CONSTANTS.CONTENT_TYPES.MULTIPART_FORMDATA))) {
             let formData = new FormData();
             forEach(this.params, (v, k) => {
               formData.append(k, v);
             });
             requestBody = formData;
           }
-          headers['Content-Type'] = (config.serviceInfo.consumes && config.serviceInfo.consumes[0]) || 'application/json';
+          headers['Content-Type'] = (serviceInfo.consumes && serviceInfo.consumes[0]) || 'application/json';
         }
 
         // if the consumes has application/x-www-form-urlencoded and
         // if the http request of given method type can have body send the queryParams as Form Data
-        if (includes(config.serviceInfo.consumes, WS_CONSTANTS.CONTENT_TYPES.FORM_URL_ENCODED) && !includes(WS_CONSTANTS.NON_BODY_HTTP_METHODS, (config.serviceInfo.methodType || '').toUpperCase())) {
+        if (includes(serviceInfo.consumes, WS_CONSTANTS.CONTENT_TYPES.FORM_URL_ENCODED) && !includes(WS_CONSTANTS.NON_BODY_HTTP_METHODS, (serviceInfo.methodType || '').toUpperCase())) {
           // remove the '?' at the start of the queryParams
           if (queryParams) {
             requestBody = (requestBody ? requestBody + '&' : '') + queryParams.substring(1);
@@ -184,12 +185,12 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
         this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
         // to cancel variable xhr calls
         this.cancelTokenSource = axios.CancelToken.source();
-        const methodType = config.serviceInfo.methodType;
+        const methodType = serviceInfo.methodType;
         const isNonDataMethod = WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(methodType.toUpperCase()) > -1;
         const axiosConfig = {
           headers: headers,
           cancelToken: this.cancelTokenSource.token,
-          withCredentials: config.serviceInfo.proxySettings?.mobile ||  config.serviceInfo.proxySettings?.withCredentials
+          withCredentials: serviceInfo.proxySettings?.mobile ||  serviceInfo.proxySettings?.withCredentials
         };
         // @ts-ignore
         return axios[methodType].apply(this, ( isNonDataMethod ? [url, axiosConfig] : [url, requestBody || {}, axiosConfig]))
