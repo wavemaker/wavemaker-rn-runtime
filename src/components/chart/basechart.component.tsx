@@ -100,7 +100,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     />
   }
 
-  getYScaleMinValue = (value: number) => {
+  getYScaleMinValue(value: number) {
     const _min = Math.floor(value);
     return Math.abs(value) - _min > 0 ? value - .1 : _min - 1;
   };
@@ -125,10 +125,12 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   }
 
   // X/Y Domain properties are supported only for Column and Area charts
-  isAxisDomainSupported = (type: string) => type === 'Column'|| type === 'Area';
+  isAxisDomainSupported(type: string) {
+    return type === 'Column'|| type === 'Area';
+  }
 
   // Check whether X/Y Domain was set to Min and is supported for the present chart
-  isAxisDomainValid = (axis: string) => {
+  isAxisDomainValid(axis: string) {
     if (get(this.props, axis + 'domain') === 'Min' && (this.isAxisDomainSupported(this.props.type))) {
       return true;
     }
@@ -136,7 +138,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   };
 
 // Check whether min and max values are finite or not
-  areMinMaxValuesValid = (values: any) => {
+  areMinMaxValuesValid(values: any) {
     if (isFinite(values.min) && isFinite(values.max)) {
       return true;
     }
@@ -186,7 +188,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
         input: [[10, 20], [20, 30], [30, 40]];
         min x: 10
     */
-    xValues.min = minBy(datum, (dataObject: {x: any, y: any}) => dataObject.x);
+    xValues.min = minBy(datum, (dataObject: {x: any, y: any}) => dataObject.x) || {x: undefined};
     /*
      compute the max x value
      eg: When data has objects
@@ -196,7 +198,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
         input: [[10, 20], [20, 30], [30, 40]];
         max x: 30
      */
-    xValues.max = maxBy(datum, (dataObject: {x: any, y: any}) => dataObject.x);
+    xValues.max = maxBy(datum, (dataObject: {x: any, y: any}) => dataObject.x)|| {x: undefined};
     return xValues;
   }
 
@@ -224,12 +226,14 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
      */
 
     forEach(datum, data => {
-      minValues.push(minBy(data,  (dataObject: {x: any, y: any}) => { return dataObject.y }));
-      maxValues.push(maxBy(data,  (dataObject: {x: any, y: any}) => { return dataObject.y }));
+      if (data && !isEmpty(data)) {
+        minValues.push(minBy(data,  (dataObject: {x: any, y: any}) => { return dataObject.y }));
+        maxValues.push(maxBy(data,  (dataObject: {x: any, y: any}) => { return dataObject.y }));
+      }
     });
     // Gets the least and highest values among all the min and max values of respective series of data
-    yValues.min = minBy(minValues, (dataObject: {x: any, y: any}) => dataObject.y);
-    yValues.max = maxBy(maxValues, (dataObject: {x: any, y: any}) => dataObject.y);
+    yValues.min = minBy(minValues, (dataObject: {x: any, y: any}) => dataObject.y) || {y: undefined};
+    yValues.max = maxBy(maxValues, (dataObject: {x: any, y: any}) => dataObject.y) || {y: undefined};
     return yValues;
   }
 

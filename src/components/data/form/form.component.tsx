@@ -33,8 +33,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   private _debouncedSubmitForm = debounce(this.handleSubmit, 250);
 
   componentDidMount() {
-    this.getParentFormRef(this.props.parentForm);
     super.componentDidMount();
+    this.getParentFormRef(this.props.parentForm);
   }
 
   getParentFormRef(pformName: string) {
