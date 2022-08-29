@@ -146,12 +146,13 @@ class AppSecurityService implements SecurityService {
               return Promise.reject();
             }).then((output: any) => {
               if (output[XSRF_COOKIE_NAME]) {
+                this.token = output[XSRF_COOKIE_NAME];
                 AsyncStorage.setItem(XSRF_COOKIE_NAME, output[XSRF_COOKIE_NAME]);
               }
             }).then(() => {
-              return this.getLoggedInUserDetails(this.baseUrl);
-            }).then(() => {
               this.appConfig.refresh(true);
+            }).then(() => {
+              return this.getLoggedInUserDetails(this.baseUrl);
             });
           }, 1000);
         }
