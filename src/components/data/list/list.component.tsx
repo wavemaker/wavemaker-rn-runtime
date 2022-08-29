@@ -1,6 +1,6 @@
 import React from 'react';
 import { SectionList, Text, View } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { FlatList, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { isArray } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
@@ -13,7 +13,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmListStyles } from './list.styles';
 
 export class WmListState extends BaseComponentState<WmListProps> {
   public selectedindex: any;
-  groupedData: any;
+  groupedData: Array<any> = [];
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -124,61 +124,103 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return this.theme.getStyle(`${this.defaultClass} ${isHorizontal ? 'app-horizontal-list' : 'app-vertical-list'}`);
   }
 
+  private generateItemKey(item: any, index: number, props: WmListProps) {
+    if (props.itemkey && item) {
+      return props.itemkey(item, index);
+    }
+    return 'list_item_' +  (this.key + index);
+  }
+
+  private renderItem(item: any, index: number, props: WmListProps) {
+    return (
+        <TouchableWithoutFeedback onPress={() => this.onSelect(item, index)}>
+          <View style={[
+              this.styles.item,
+              props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
+              this.state.selectedindex === index ? this.styles.selectedItem : {}]}>
+            {props.renderItem(item, index, this)}
+            { this.state.selectedindex === index ? (
+              <WmIcon iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
+            ) : null}
+          </View>
+        </TouchableWithoutFeedback>
+      );
+  }
+
+  private renderHeader(props: WmListProps, title = props.title) {
+    return props.groupby ? (
+      <Text style={this.styles.groupHeading}>{title}</Text>
+    ) : (props.iconclass || title || props.subheading) ? (
+      <View style={this.styles.heading}>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
+          <View>
+            <WmLabel styles={this.styles.title} caption={title}></WmLabel>
+            <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+          </View>
+        </View>
+      </View>) : null;
+  }
+
+  private renderEmptyMessage(props: WmListProps) {
+    return (<WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>);
+  }
+
+  private renderLoadingIcon(props: WmListProps) {
+    return (<WmIcon
+      styles={this.styles.loadingIcon}
+      iconclass={props.loadingicon}
+      caption={props.loadingdatamsg}></WmIcon>)
+  }
+
+  private renderWithFlatList(props: WmListProps, isHorizontal = false) {
+    return (
+    <View style={this.styles.root}>
+      {this.state.groupedData ? this.state.groupedData.map((v: any) => ((
+          <View style={{marginBottom: 16}}>
+            {this.renderHeader(props, v.key)}
+            <FlatList
+              keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
+              horizontal = {isHorizontal}
+              data={v.data || []}
+              ListEmptyComponent = {() => this.renderEmptyMessage(props)}
+              renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}>
+            </FlatList>
+          </View>
+        ))) : null
+      }
+    </View>);
+  }
+
+  private renderWithSectionList(props: WmListProps, isHorizontal = false) {
+    return (
+      <SectionList
+        keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
+        horizontal = {isHorizontal}
+        onEndReached={({distanceFromEnd}) => {
+          this.invokeEventCallback('onEndReached', [null, this]);
+        }}
+        contentContainerStyle={this.styles.root}
+        onEndReachedThreshold={0.3}
+        sections={this.state.groupedData || []}
+        renderSectionHeader={({section: {key, data}}) => {
+          return this.renderHeader(props, key);
+        }}
+        renderSectionFooter={() => props.loadingdata ? this.renderLoadingIcon(props) : null}
+        ListEmptyComponent = {() => this.renderEmptyMessage(props)}
+        renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}>
+      </SectionList>
+    );
+  }
+
   renderWidget(props: WmListProps) {
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
-    const max = props.maxnumberofitems;
     const isHorizontal = (props.direction === 'horizontal');
-    const list = (
-        <View>
-          <SectionList
-            keyExtractor={(item, i) => {
-              if (props.itemkey && item) {
-                return props.itemkey(item, i);
-              }
-              return 'list_item_' +  (this.key + i)
-            }}
-            horizontal = {isHorizontal}
-            onEndReached={({distanceFromEnd}) => {
-              this.invokeEventCallback('onEndReached', [null, this]);
-            }}
-            contentContainerStyle={this.styles.root}
-            onEndReachedThreshold={0.3}
-            sections={this.state.groupedData || []}
-            renderSectionHeader={({section: {key, data}}) => {
-              return props.groupby ? (
-                  <Text style={this.styles.groupHeading}>{key}</Text>
-              ) :
-                ((props.iconclass || props.title || props.subheading) ? (
-                  <View style={this.styles.heading}>
-                    <View style={{flex: 1, flexDirection: 'row'}}>
-                      <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
-                      <View>
-                        <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
-                        <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
-                      </View>
-                    </View>
-                  </View>) : null)
-            }}
-            renderSectionFooter={() => props.loadingdata ?
-                (<WmIcon styles={this.styles.loadingIcon}
-                  iconclass={props.loadingicon}
-                  caption={props.loadingdatamsg}></WmIcon>) : null}
-            ListEmptyComponent = {() => <WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>}
-            renderItem={(itemInfo) =>
-                (<TouchableWithoutFeedback onPress={() => this.onSelect(itemInfo.item, itemInfo.index)}>
-                <View style={[
-                    this.styles.item,
-                    props.itemclass ? this.theme.getStyle(props.itemclass(itemInfo.item, itemInfo.index)) : null,
-                    this.state.selectedindex === itemInfo.index ? this.styles.selectedItem : {}]}>
-                  {props.renderItem(itemInfo.item, itemInfo.index, this)}
-                  { this.state.selectedindex === itemInfo.index ? (
-                    <WmIcon iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
-                  ) : null}
-                </View>
-            </TouchableWithoutFeedback>)
-            }></SectionList>
-        </View>
-    );
-    return list;
+    return (
+      <View>
+        {(isHorizontal && props.groupby) ?
+          this.renderWithFlatList(props, isHorizontal)
+        : this.renderWithSectionList(props, isHorizontal)}
+      </View>);
   }
 }

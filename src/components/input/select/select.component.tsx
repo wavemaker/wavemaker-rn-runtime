@@ -16,6 +16,7 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
   isOpened: boolean = false;
+  selectedValue: any = '';
 }
 
 export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSelectState, WmSelectStyles> {
@@ -59,8 +60,12 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     o.centered = true;
     o.onClose = () => {
       this.hide = () => {};
+      if (this.isDefaultValue && this.state.props.displayValue === '') {
+        this.validate(this.state.props.displayValue);
+        this.props.triggerValidation && this.props.triggerValidation();
+      }
       this.invokeEventCallback('onBlur', [{}, this.proxy]);
-      this.setState({ isOpened: false, modalOptions: {} as ModalOptions });
+      this.setState({ isOpened: false, modalOptions: {} as ModalOptions } as WmSelectState);
     };
     this.hide = () => modalService.hideModal(this.state.modalOptions);
     return o;
@@ -84,7 +89,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
        * https://github.com/naoufal/react-native-accordion/pull/19/files
        */
       <View
-        style={[this.styles.root, { backgroundColor: props.disabled ? this.styles.disabledText.backgroundColor : this.styles.root.backgroundColor}]}
+        style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, { backgroundColor: props.disabled ? this.styles.disabledText.backgroundColor : this.styles.root.backgroundColor}]}
         ref={(ref) => {
           this.view = ref as View;
         }}

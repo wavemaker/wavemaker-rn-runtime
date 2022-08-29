@@ -1,9 +1,15 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { each, includes } from 'lodash';
+
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { SecurityService } from '@wavemaker/app-rn-runtime/core/security.service';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { each, includes } from 'lodash';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import WebProcessService from './webprocess.service';
+
+declare const window: any;
 
 interface LoggedInUserConfig {
     isAuthenticated: Boolean;
@@ -21,11 +27,13 @@ enum USER_ROLE {
     AUTHENTICATED = 'Authenticated'
 }
 
+const authCookieStr = 'AUTH_COOKIE';
 const XSRF_COOKIE_NAME = 'wm_xsrf_token';
 const xsrf_header_name = 'X-WM-XSRF-TOKEN';
 
 class AppSecurityService implements SecurityService {
 
+    securityConfig: any;
     isLoggedIn = false;
     loggedInUser: any = {};
     token: any;
@@ -95,8 +103,9 @@ class AppSecurityService implements SecurityService {
         return axios.get(baseURL + '/services/security/info').then((response: AxiosResponse) => {
             const loggedInUser = {} as LoggedInUserConfig;
             const details = response.data;
+            this.securityConfig = details;
             const appConfig = this.appConfig;
-            if (!details.securityEnabled || details.authenticated) {
+            if (typeof details !== 'string' && (!details.securityEnabled || details.authenticated)) {
                 if (details.authenticated) {
                     loggedInUser.isAuthenticated = details.authenticated;
                     loggedInUser.isSecurityEnabled = details.authenticated;
@@ -113,22 +122,53 @@ class AppSecurityService implements SecurityService {
                   return details;
                 });
             } else {
-                const myPromise = new Promise((resolve, reject) => {
-                  injector.get<AppConfig>('APP_CONFIG').landingPage = 'Login';
-                  appConfig.refresh();
-                  resolve('true');
-                });
-                return appConfig.getServiceDefinitions(appConfig.url).then(myPromise);
+                return appConfig.getServiceDefinitions(appConfig.url)
+                  .then(() => {
+                    this.redirectToLogin();
+                  });
           }
       });
+    }
+
+    
+    public redirectToLogin() {
+      if (this.securityConfig?.loginConfig?.type  === 'SSO') {
+        const authUrl = this.appConfig.url  + '/services/security/ssologin';
+        if (Platform.OS === 'web') {
+          (window.parent || window).location.href = authUrl;
+        } else {
+          setTimeout(() => {
+            WebProcessService.execute('LOGIN', '/services/security/ssologin', false, true)
+            .then((output: any) => {
+              if (output) {
+                return JSON.parse(output.data && output.data.replace(/&quot;/g, "\""));
+              }
+              return Promise.reject();
+            }).then((output: any) => {
+              if (output[XSRF_COOKIE_NAME]) {
+                AsyncStorage.setItem(XSRF_COOKIE_NAME, output[XSRF_COOKIE_NAME]);
+              }
+            }).then(() => {
+              return this.getLoggedInUserDetails(this.baseUrl);
+            }).then(() => {
+              this.appConfig.refresh(true);
+            });
+          }, 1000);
+        }
+      } else {
+        const loginPage = this.securityConfig.loginConfig?.pageName || 'Login';
+        injector.get<AppConfig>('APP_CONFIG').landingPage = loginPage;
+        this.appConfig.currentPage?.goToPage(loginPage);
+      }
+      this.appConfig.refresh();
     }
 
     public appLogout(options: any) {
       return axios.post(options.baseURL + '/j_spring_security_logout', null, {
           withCredentials: true
-      }).then(() => {
+      }).catch(() => {}).then(() => {
           this.isLoggedIn = false;
-          this.appConfig.currentPage?.goToPage('Login');
+          this.redirectToLogin();
       });
     }
 

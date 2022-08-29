@@ -36,13 +36,14 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
     return false;
   }
 
-  injectJavaScript(fn: string) {
+  injectJavaScript(fn: Function | string) {
+    const fnStr = typeof fn === 'string' ? fn : `(${fn})()`;
     return new Promise((resolve, reject) => {
       if (this.webview) {
         const id = '' + Date.now();
         this.invokeJSCallbacks[id] = resolve;
         this.webview.injectJavaScript(
-          `window.ReactNativeWebView.postMessage('afterInjectJavaScript:' + ${id} + ':' + JSON.stringify((${fn})()))`
+          `window.ReactNativeWebView.postMessage('afterInjectJavaScript:' + ${id} + ':' + JSON.stringify(${fnStr}))`
         );
       } else {
         reject();
@@ -50,12 +51,24 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
     });
   }
 
+  parseResult(result: string) {
+    try {
+      return JSON.parse(result);
+    } catch(e) {
+      if (result === 'undefined' || result === 'null') {
+        return null;
+      }
+      return result;
+    }
+  }
+
   onMessage = (event: WebViewMessageEvent) => {
     const data: string = event.nativeEvent?.data;
     if (data && data.startsWith('afterInjectJavaScript')) {
       const id = data?.match(/\:([0-9]+)\:/);
       const callback = id && this.invokeJSCallbacks[id[1]];
-      callback && callback(JSON.parse(data.substring(data.indexOf(':', data.indexOf(':') + 1) + 1)));
+      const result = data.substring(data.indexOf(':', data.indexOf(':') + 1) + 1);
+      callback && callback(this.parseResult(result));
     } else {
       this.invokeEventCallback('onMessage', [event, this]);
     }
@@ -92,6 +105,7 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
             source={{
               uri: props.src
             }}
+            incognito={props.incognito}
             onMessage={this.onMessage}
             onNavigationStateChange={(state) => {
               this.webViewState = state;

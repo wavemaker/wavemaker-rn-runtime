@@ -35,11 +35,11 @@ const _deepCopy = (o1: any, ...o2: any) => {
 export const deepCopy = (...objects: any) => _deepCopy({}, ...objects);
 
 export const toBoolean = (val: any) => {
-  return  val === true 
+  return  val === true
     || val === 'true'
-    || !(val === false 
+    || !(val === false
       || val === null
-      || val === undefined 
+      || val === undefined
       || val === '');
 };
 
@@ -189,4 +189,54 @@ export const unStringify = (val: any, defaultVal?: boolean) => {
     return number;
   }
   return val;
+};
+
+export const validateField = (props: any, value: any) => {
+  let requiredCheck = true, regexCheck = true;
+  if (props.required) {
+    if (isArray(value)) {
+      requiredCheck = value.length === 0 ? false : true
+    } else {
+      requiredCheck = !value ? false : true
+    }
+    if (!requiredCheck) {
+      return {
+        errorType : 'required',
+        isValid: false
+      }
+    }
+  }
+  if (value && props.regexp) {
+    const condition = new RegExp(props.regexp, 'g');
+    regexCheck = condition.test(value);
+    if (!regexCheck) {
+      return {
+        errorType : 'regexp',
+        isValid: false
+      }
+    }
+  }
+  if (value && props.maxchars && value.length > props.maxchars) {
+    return {
+      errorType : 'maxchars',
+      isValid: false
+    }
+
+  }
+  if (value && props.mindate && new Date(props.datavalue) < moment(props.mindate).startOf('day').toDate()) {
+    return {
+      errorType : 'mindate',
+      isValid: false
+    }
+  }
+  if (value && props.maxdate && new Date(props.datavalue) > moment(props.maxdate).endOf('day').toDate()) {
+    return {
+      errorType : 'maxdate',
+      isValid: false
+    }
+  }
+
+  return {
+    isValid: true
+  }
 };

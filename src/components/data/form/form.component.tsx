@@ -22,6 +22,7 @@ export class WmFormState extends BaseComponentState<WmFormProps> {
 export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFormStyles> {
   public formFields: Array<WmFormField> = []; // contains array of direct widget elements [WmText, WmNumber, WmCurrent]
   public parentFormRef: any;
+  public formfields: {[key: string]: WmFormField} = {};
   private formdataoutput: any;
   private toaster: any;
   formWidgets: { [key: string]: BaseComponent<any, any, any> } = {}; // object containing key as name of formField and value as WmFormField proxy.
@@ -54,11 +55,18 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     forEach(formFields, (w: WmFormField) => {
       if (!w.form) {
         w.form = this;
+        w.formwidget = w.props.name && formWidgets[w.props.name];
       }
     });
 
     this.formFields = formFields;
     this.formWidgets = formWidgets;
+
+    formFields.forEach((f: WmFormField) => {
+      if (f.props.name) {
+        set(this.formfields, f.props.name, f);
+      }
+    })
 
     this.applyFormData();
     this.applyDefaultValue();
@@ -146,10 +154,11 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
               });
             }
             widget.updateState({
+              isValid: true,
               props : {
                 datavalue: ''
               }
-            });
+            }, () => !ff.state.isValid && ff.validateFormField());
             widget?.reset();
           }
         }
@@ -175,24 +184,28 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     event?.preventDefault();
     const formData = this.state.props.dataoutput || this.formdataoutput;
     let isValid = true;
-    forEach(formData, (val, key) => {
-      const field = this.formFields.find((f) => {
-        return key === f.props.name;
-      });
-      if(!val && field?.props.required && widgetsWithUndefinedValue.indexOf(field?.props.widget) < 0) {
-        isValid = false;
-      }
+    forEach(this.formFields, (field) => {
+      const val = field?.state.props.datavalue;
+
       const onValidate = get(field, 'props.onValidate');
       onValidate && onValidate(field);
+      if (!val && field?.state.props.required) {
+        isValid = false;
+        const msg = get(field.defaultValidatorMessages, 'required') || field.state.props.validationmessage;
+        field.updateState({ isValid: isValid, props: {
+            validationmessage: msg
+          }} as WmFormFieldState);
+        field.formwidget.validate && field.formwidget.validate(val);
+      }
+      // check for isvalid state of formwidget
+      if (field.formwidget.state.isValid === false) {
+        isValid = false;
+      }
     });
-    // check for isvalid state of formfield
-    forEach(this.formWidgets, (val) => {
-      return isValid = val.state.isValid === false ? false : true;
-    });
-    if(!isValid) {
+    if (!isValid) {
       return false;
     }
-    if(this.props.onBeforesubmit) {
+    if (this.props.onBeforesubmit) {
       this.invokeEventCallback('onBeforesubmit', [ null, this.proxy, formData ]);
     }
     if (this.props.formSubmit) {

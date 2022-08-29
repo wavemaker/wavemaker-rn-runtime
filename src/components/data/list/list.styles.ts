@@ -107,9 +107,7 @@ BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
 BASE_THEME.addStyle('app-horizontal-list', '', {
     groupHeading: {
         minWidth: 120,
-        backgroundColor: ThemeVariables.transparent,
-        alignSelf: 'center',
-        textAlign: 'center'
+        backgroundColor: ThemeVariables.groupHeadingBgColor,
     },
     item: {
         marginRight: 6

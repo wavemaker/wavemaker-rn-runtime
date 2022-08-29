@@ -1,13 +1,15 @@
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.props';
 import { find, isEqual,isEmpty, isFunction, includes, get, forEach, isObject, isArray, filter, trim, uniqBy, uniqWith } from 'lodash';
-import { getGroupedData, getOrderedDataset, isDefined } from "@wavemaker/app-rn-runtime/core/utils";
+import { getGroupedData, getOrderedDataset, isDefined, validateField } from "@wavemaker/app-rn-runtime/core/utils";
 import { DEFAULT_CLASS, DEFAULT_STYLES, BaseDatasetStyles } from "@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.styles";
 
 export class BaseDatasetState <T extends BaseDatasetProps> extends BaseComponentState<T> {
   dataItems: any;
   groupedData: any;
   isDefault = false;
+  isValid = true;
+  errorType = '';
 }
 
 export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extends BaseDatasetState<T>, L extends BaseDatasetStyles> extends BaseComponent<T, S, L> {
@@ -54,6 +56,14 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     }
   }
 
+  validate(value: any) {
+    const validationObj = validateField(this.state.props, value);
+    this.setState({
+      isValid: validationObj.isValid,
+      errorType: validationObj.errorType
+    } as S);
+  }
+
   updateDatavalue(value: any) {
     return new Promise<void>((resolve) => {
       this.updateState({
@@ -81,6 +91,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
 
   onChange(value: any) {
     const oldValue = this.state.props.datavalue;
+    this.validate(value);
     this.updateDatavalue(value)
     .then(() => {
       if (value !== oldValue) {

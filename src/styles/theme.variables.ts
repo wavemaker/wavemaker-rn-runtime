@@ -159,7 +159,7 @@ export class ThemeVariables {
     buttonDangerTextColor = this.dangerContrastColor;
     buttonWarningTextColor = this.warningContrastColor;
     buttonInfoTextColor = this.infoContrastColor;
-    buttonLinkColor = this.defaultColorF;
+    buttonLinkColor = this.transparent;
     buttonLinkTextColor = this.primaryColor;
     buttonDarkColor = this.darkColor;
     buttonDarkTextColor = this.lightColor;
@@ -194,7 +194,7 @@ export class ThemeVariables {
     toggleColor = this.primaryColor;
 
     // radioset, checkboxset variables
-    groupHeadingBgColor = this.defaultColorD;
+    groupHeadingBgColor = this.transparent;
     checkedColor = this.primaryColor;
     checkedDisabledColor = this.defaultColorA;
 
@@ -289,6 +289,8 @@ export class ThemeVariables {
     progressCircleInfoColor = this.infoColor;
     progressCircleWarningColor = this.warningColor;
 
+    //container
+    containerOutlineColor = this.defaultColorC;
 
     //accordion
     accordionBgColor = this.widgetBgColor;
@@ -389,6 +391,14 @@ export class ThemeVariables {
     fileuploadBgColor = this.defaultColorF;
     fileuploadBorderColor = this.widgetBorderColor;
     fileuploadTextColor = this.defaultTextColor;
+
+    //charts
+    chartLabelColor = this.defaultTextColor;
+    chartGraphLinesColor = this.defaultColorC;
+    chartLineColor = this.defaultColor8;
+    chartLegendBorder = this.defaultColor7;
+    chartAxisColor = this.defaultColor5;
+    chartAxisPointColor = this.defaultColor9;
 }
 
 export default new ThemeVariables();

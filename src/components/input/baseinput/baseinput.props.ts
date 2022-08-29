@@ -13,4 +13,5 @@ export default class BaseInputProps extends BaseProps {
   required?: boolean = false as any;
   checkFormField?: any;
   onFieldChange?: any;
+  triggerValidation?: any;
 }

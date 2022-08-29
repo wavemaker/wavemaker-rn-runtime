@@ -6,6 +6,7 @@ import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/ic
 export type WmDatetimeStyles = BaseStyles & {
     focused: AllStyle,
     container: AllStyle,
+    invalid: AllStyle,
     clearIcon: WmIconStyles,
     calendarIcon: WmIconStyles
 };
@@ -23,7 +24,10 @@ export const DEFAULT_STYLES: WmDatetimeStyles = defineStyles({
         width: '100%'
     },
     focused: {
-        
+
+    },
+    invalid: {
+      borderBottomColor: ThemeVariables.inputInvalidBorderColor
     },
     container: {
         flexDirection: 'row',

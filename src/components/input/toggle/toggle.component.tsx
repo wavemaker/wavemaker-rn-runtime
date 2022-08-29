@@ -2,19 +2,21 @@ import React from 'react';
 import { View } from 'react-native';
 import { Switch } from 'react-native-paper';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { unStringify } from '@wavemaker/app-rn-runtime/core/utils';
+import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmToggleProps from './toggle.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmToggleStyles } from './toggle.styles';
 
 export class WmToggleState extends BaseComponentState<WmToggleProps> {
   isSwitchOn: boolean = false;
+  isValid: boolean = true;
+  errorType = '';
 }
 
 export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState, WmToggleStyles> {
 
   constructor(props: WmToggleProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmToggleProps());
+    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmToggleProps(), new WmToggleState());
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
@@ -32,8 +34,17 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     this.updateState({ props: { datavalue: value }} as WmToggleState);
   }
 
+  validate(value: any) {
+    const validationObj = validateField(this.state.props, value);
+    this.updateState({
+      isValid: validationObj.isValid,
+      errorType: validationObj.errorType
+    } as WmToggleState);
+  }
+
   onToggleSwitch(value: any) {
     const oldValue = this.state.props.datavalue;
+    this.validate(value);
     this.updateState({ isSwitchOn: value } as WmToggleState);
     const dataValue = value === true ? this.state.props.checkedvalue : this.state.props.uncheckedvalue;
     // @ts-ignore

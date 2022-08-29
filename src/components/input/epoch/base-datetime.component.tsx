@@ -10,6 +10,7 @@ import { DEFAULT_CLASS, DEFAULT_STYLES, WmDatetimeStyles } from './datetime/date
 import WebDatePicker from './date-picker.component';
 import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   showDatePicker = false;
@@ -17,6 +18,8 @@ export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   displayValue: string = null as any;
   isFocused = false;
   timerId: NodeJS.Timer = null as any;
+  isValid: boolean = true;
+  errorType = '';
 }
 
 const CURRENT_DATE = 'CURRENT_DATE';
@@ -28,8 +31,8 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   nativeModalOptions: ModalOptions = {} as any;
   prevDatavalue: any;
 
-  constructor(props: WmDatetimeProps, defaultClass = DEFAULT_CLASS, defaultStyles = DEFAULT_STYLES, defaultProps = new WmDatetimeProps()) {
-    super(props, defaultClass, defaultStyles, defaultProps);
+  constructor(props: WmDatetimeProps, defaultClass = DEFAULT_CLASS, defaultStyles = DEFAULT_STYLES, defaultProps = new WmDatetimeProps(), defaultState= new BaseDatetimeState()) {
+    super(props, defaultClass, defaultStyles, defaultProps, defaultState);
   }
 
   format(date: Date | number | undefined, format: string) {
@@ -131,17 +134,23 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   onDateChange($event: Event, date?: Date) {
+    this.validate(date);
     this.modes.shift();
     this.updateState({
       isFocused: false,
       showDatePicker: !!this.modes.length,
       props: {
-        datavalue: this.format(date, this.state.props.outputformat as string)
+        datavalue: this.format(date, this.state.props.outputformat as string),
+        timestamp: this.format(date, 'timestamp')
       }
     } as BaseDatetimeState);
   }
 
   onBlur() {
+    if (Platform.OS === 'web') {
+      this.validate(this.state.props.datavalue);
+      setTimeout(() => this.props.triggerValidation && this.props.triggerValidation());
+    }
     this.invokeEventCallback('onBlur', [null, this]);
   }
 
@@ -155,6 +164,14 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       this.updateState({showDatePicker: true, isFocused: true} as BaseDatetimeState);
       this.invokeEventCallback('onFocus', [null, this]);
     }
+  }
+
+  validate(value: any) {
+    const validationObj = validateField(this.state.props, value);
+    this.setState({
+      isValid: validationObj.isValid,
+      errorType: validationObj.errorType
+    } as BaseDatetimeState)
   }
 
   componentWillUnmount() {
@@ -218,7 +235,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }}</ModalConsumer>);
   }
 
-  addTouchableOpacity(props: WmDatetimeProps, children: React.ReactNode, styles?: any) {
+  addTouchableOpacity(props: WmDatetimeProps, children: React.ReactNode, styles?: any) : React.ReactNode{
     return (
       <TouchableOpacity style={styles} onPress={() => {
         if (!props.readonly) {
@@ -239,30 +256,32 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   renderWidget(props: WmDatetimeProps) {
-    return (
-      <View style={[this.styles.root, this.state.isFocused ? this.styles.focused : null]}>
-          <View style={this.styles.container}>
-            {this.addTouchableOpacity(props, (
-              <Text style={this.styles.text}>{this.state.displayValue || this.state.props.placeholder}</Text>
-            ), { flex: 1 })}
-            {(!props.readonly && props.datavalue &&
-              (<WmIcon iconclass="wi wi-clear"
-              styles={{color: this.styles.text.color, ...this.styles.clearIcon}}
-              onTap={() => {
-                this.onDateChange(null as any, null as any);
-                this.clearBtnClicked = true;
-              }}/>)) || null}
-            {this.addTouchableOpacity(props, (
-              <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}}/>
-            ))}
-          </View>
-        {
-          this.state.showDatePicker
-          && ((Platform.OS === 'web' && this.renderWebWidget(props))
-            || (Platform.OS === 'android' && this.renderNativeWidget(props))
-            || (Platform.OS === 'ios' && this.renderNativeWidget(props)))
-        }
-      </View>
+    return ( 
+        this.addTouchableOpacity(props, (
+        <View style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
+            <View style={this.styles.container}>
+              {this.addTouchableOpacity(props, (
+                <Text style={this.styles.text}>{this.state.displayValue || this.state.props.placeholder}</Text>
+              ), { flex: 1 })}
+              {(!props.readonly && props.datavalue &&
+                (<WmIcon iconclass="wi wi-clear"
+                styles={{color: this.styles.text.color, ...this.styles.clearIcon}}
+                onTap={() => {
+                  this.onDateChange(null as any, null as any);
+                  this.clearBtnClicked = true;
+                }}/>)) || null}
+              {this.addTouchableOpacity(props, (
+                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}}/>
+              ))}
+            </View>
+          {
+            this.state.showDatePicker
+            && ((Platform.OS === 'web' && this.renderWebWidget(props))
+              || (Platform.OS === 'android' && this.renderNativeWidget(props))
+              || (Platform.OS === 'ios' && this.renderNativeWidget(props)))
+          }
+        </View>
+        ))
     );
   }
 }

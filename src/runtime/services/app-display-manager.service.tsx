@@ -17,7 +17,7 @@ export class AppDisplayManagerService implements DisplayManager {
       BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
     }
   }
-  
+
   private handleBackButtonPress = () => {
     if (this.displayOptions.content) {
       this.destroy();
@@ -31,6 +31,10 @@ export class AppDisplayManagerService implements DisplayManager {
     this.refresh();
     this.setBackButtonPress();
     return this.destroy;
+  }
+
+  displayContent(content: React.ReactNode) {
+    this.displayOptions.content = content;
   }
 
   refresh() {

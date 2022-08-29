@@ -39,11 +39,8 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
           selectedValue.push(item.datafield);
         }
     });
-    let isValid = true;
-    if (this.props.required && !selectedValue.length) {
-      isValid = false;
-    }
-    this.updateState({ props: { datavalue: selectedValue }, isValid: isValid} as WmCheckboxsetState,
+    this.validate(selectedValue);
+    this.updateState({ props: { datavalue: selectedValue }} as WmCheckboxsetState,
       () => {
         this.computeDisplayValue();
         this.invokeEventCallback('onChange', [ undefined, this.proxy, selectedValue, oldValue ]);
@@ -63,13 +60,6 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
   updateDatavalue(value: any) {
     this.updateState({ props: { datavalue: value }} as WmCheckboxsetState);
     return Promise.resolve();
-  }
-
-  check() {
-    const isValid = this.props.required && !this.state.props.datavalue ? false : true;
-    this.updateState({
-      isValid: isValid
-    } as WmCheckboxsetState);
   }
 
   renderGroupby() {

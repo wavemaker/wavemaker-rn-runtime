@@ -67,11 +67,11 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
 
     async _invoke(options? : any, onSuccess?: Function, onError?: Function) {
         let params = options ? (options.inputFields ? options.inputFields : options) : undefined;
-        await super.invoke(params, onSuccess, onError);
         if (!params) {
           const configParams = !isEmpty(this.params) ? this.params : this.config.paramProvider();
           params = Object.keys(configParams).length ? configParams : undefined;
         }
+        await super.invoke(params, onSuccess, onError);
         const config = (this.config as ServiceVariableConfig);
 
         const validateInfo = this.validateServiceInfo(config);
@@ -218,14 +218,16 @@ export class ServiceVariable extends BaseVariable<VariableConfig> {
           config.onSuccess && config.onSuccess(this, this.dataSet);
           onSuccess && onSuccess(this.dataSet);
           this.notify(VariableEvents.SUCCESS, [this, this.dataSet]);
+          return this.dataSet;
         }, (error: any) => {
           config.onError && config.onError(this, error);
           onError && onError(error);
           this.notify(VariableEvents.ERROR, [this, this.dataSet]);
-        }).then(() => {
+          return error;
+        }).then((res: any) => {
           this.notify(VariableEvents.AFTER_INVOKE, [this, this.dataSet]);
           $queue.process(this);
-          config.onCanUpdate && config.onCanUpdate();
+          config.onCanUpdate && config.onCanUpdate(this, res);
           return this;
         });
     }

@@ -15,7 +15,8 @@ export const DEFAULT_STYLES: WmFormFieldStyles = defineStyles({
     text: {},
     errorMsg: {
         color: 'red',
-        fontSize: 11,
+        fontSize: 13,
+        paddingTop: 6,
         fontFamily: ThemeVariables.baseFont
     }
 });

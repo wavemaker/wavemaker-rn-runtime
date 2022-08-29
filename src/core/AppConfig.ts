@@ -11,7 +11,7 @@ export default interface AppConfig {
     appLocale: any;
     url: string;
     loadApp: boolean;
-    refresh: () => void,
+    refresh: (complete?: boolean) => void,
     currentPage?: any;
     pages?: any[];
     landingPage: string;
