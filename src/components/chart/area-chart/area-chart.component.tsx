@@ -18,6 +18,32 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAreaChartProps(), new WmAreaChartState());
   }
 
+  displayView(): React.ReactNode {
+    let props: WmAreaChartProps = this.state.props;
+    return this.state.data.map((d: any, i: number) => {
+        return <VictoryGroup key={props.name + '_area_group_' + i}>
+          <VictoryArea interpolation={props.interpolation as InterpolationPropType} key={props.name + '_' + i}
+                       style={{
+                         data: {
+                           fill: this.state.colors[i], stroke: this.state.colors[i]
+                         }
+                       }}
+                       data={d}
+          />
+          {props.highlightpoints ?
+            <VictoryScatter size={5} key={props.name + '_scatter' + i}
+                            style={{
+                              data: { fill: this.state.colors[i], opacity: 0.8}
+                            }}
+                            data={d}
+            />: null}</VictoryGroup>
+      });
+  }
+
+  displayArea(): React.ReactNode {
+    return this.state.data.length > 1 ? <VictoryStack>{this.displayView()}</VictoryStack> : this.displayView();
+  }
+
   renderWidget(props: WmAreaChartProps) {
     if (!this.state.data?.length) {
       return null;
@@ -45,28 +71,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
       {this.getLegendView()}
       {this.getXaxis()}
       {this.getYAxis()}
-      <VictoryStack>
-      {
-        this.state.data.map((d: any, i: number) => {
-          return <VictoryGroup key={props.name + '_area_group_' + i}>
-            <VictoryArea interpolation={props.interpolation as InterpolationPropType} key={props.name + '_' + i}
-                              style={{
-                                data: {
-                                  fill: this.state.colors[i], stroke: this.state.colors[i]
-                                }
-                              }}
-                             data={d}
-          />
-            {props.highlightpoints ?
-           <VictoryScatter size={5} key={props.name + '_scatter' + i}
-                           style={{
-                             data: { fill: this.state.colors[i], opacity: 0.8}
-                           }}
-                           data={d}
-              />: null}</VictoryGroup>
-        })
-      }
-      </VictoryStack>
+      {this.displayArea()}
     </VictoryChart></View>);
   }
 }

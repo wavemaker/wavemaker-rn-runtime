@@ -2,7 +2,7 @@ import React from "react";
 import { Dimensions } from 'react-native';
 import {forEach, get, isArray, isEmpty, isObject, maxBy, minBy, set, trim} from "lodash-es";
 import { ScatterSymbolType } from "victory-core";
-import {VictoryAxis, VictoryLegend} from "victory-native";
+import {VictoryAxis, VictoryLegend, VictoryLabel} from "victory-native";
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
@@ -111,7 +111,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       return null;
     }
     return <VictoryAxis crossAxis label={(this.props.xaxislabel || this.props.xaxisdatakey) + (this.props.xunits ? `(${this.props.xunits})` : '')}
-                        theme={this.state.theme}/>;
+                        tickLabelComponent={<VictoryLabel angle={this.props.labelangle || 0} />} theme={this.state.theme}/>;
   }
   /* y axis with horizontal lines having grid stroke colors*/
   getYAxis() {
