@@ -38,4 +38,5 @@ export default class BaseChartComponentProps extends BaseProps {
   showxaxis: boolean = true;
   ydomain: string = '';
   xdomain: string = '';
+  labelangle: number = 0;
 }
