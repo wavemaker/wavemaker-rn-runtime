@@ -8,6 +8,7 @@ import BASE_THEME, { DEFAULT_CLASS, NamedStyles, AllStyle, ThemeConsumer, attach
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 import { HideMode } from './if.component';
+import ViewPort, {EVENTS as ViewPortEvents} from './viewport';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -102,7 +103,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }));
         this.cleanup.push(() => {
             this.updateStateTimeouts.forEach(v => clearTimeout(v));
-        })
+        });
+        this.cleanup.push(ViewPort.subscribe(ViewPortEvents.SIZE_CHANGE, () => {
+            this.theme.clearCache();
+            this.forceUpdate();
+        }));
     }
 
     setProp(propName: string, value: any) {
