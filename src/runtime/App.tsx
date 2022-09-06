@@ -128,7 +128,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       }
     }
   }
-  
+
   goToPage(pageName: string, params: any)  {
     return this.appConfig.currentPage?.goToPage(pageName, params);
   }
@@ -302,7 +302,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         this.animatedRef = ref;
                         AppModalService.animatedRefs[i] = ref;
                       }}
-                      style={[styles.appModalContent, o.contentStyle]}>  
+                      style={[styles.appModalContent, o.contentStyle]}>
                       <View
                         onStartShouldSetResponder={evt => true}
                         onResponderEnd={(e) => e.stopPropagation()}
