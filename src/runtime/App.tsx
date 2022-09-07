@@ -357,6 +357,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   renderApp(commonPartial:React.ReactNode) {
+    this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
     return (
       <SafeAreaProvider>
         <PaperProvider theme={{
