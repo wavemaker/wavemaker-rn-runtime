@@ -113,6 +113,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       return null;
     }
     return <VictoryAxis crossAxis label={(this.props.xaxislabel || this.props.xaxisdatakey) + (this.props.xunits ? `(${this.props.xunits})` : '')}
+                        style={{
+                          grid: this.styles.grid
+                        }}
                         tickLabelComponent={<VictoryLabel angle={this.props.labelangle || 0} />} theme={this.state.theme}
                         tickFormat={(d) => `${this.state.xaxisDatakeyArr.length ? this.state.xaxisDatakeyArr[d] : d}`}/>;
   }
@@ -122,7 +125,10 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       return null;
     }
     return <VictoryAxis crossAxis label={(this.props.yaxislabel || this.props.yaxisdatakey) + (this.props.yunits ? `(${this.props.yunits})` : '')}
-                        style={{axisLabel: {padding: this.props.yaxislabeldistance}}}
+                        style={{
+                          axisLabel: {padding: this.props.yaxislabeldistance},
+                          grid: this.styles.grid
+                        }}
                         theme={this.state.theme}
                         tickFormat={(t) => `${this.abbreviateNumber(t)}`} dependentAxis />;
   }
