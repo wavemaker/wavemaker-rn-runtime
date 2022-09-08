@@ -1,4 +1,4 @@
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
+import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { clone, cloneDeep, forEach, flatten, isArray, isEmpty, isObject, isString, get, mapKeys, reverse } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';
@@ -49,7 +49,11 @@ export class Theme {
     private traceEnabled = false;
 
     private constructor(private parent:Theme, public readonly name: string) {
-        this.traceEnabled = parent && parent.traceEnabled;
+        if (parent) {
+            this.traceEnabled = parent.traceEnabled;
+        } else {
+            this.traceEnabled = isWebPreviewMode();
+        }
     }
 
     clearCache() {
