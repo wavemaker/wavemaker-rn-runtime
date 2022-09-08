@@ -12,32 +12,22 @@ declare const matchMedia: any, window: any;
 if (typeof window !== "undefined") {
     // @ts-ignore: does not properly extend MediaQueryList
     window.matchMedia = (query: string) => new MediaQueryList(query);
-  }
-
-export class MediaQuery {
-
-    static EXTRA_SMALL_DEVICE = new MediaQuery("(min-width: 100px)");
-    static SMALL_DEVICE = new MediaQuery("(min-width: 576px)");
-    static MEDIUM_DEVICE = new MediaQuery("(min-width: 768px)");
-    static LARGE_DEVICE = new MediaQuery("(min-width: 992px)");
-    static EXTRA_LARGE_DEVICE = new MediaQuery("(min-width: 1200px)");
-    static EXTRA_EXTRA_LARGE_DEVICE = new MediaQuery("(min-width: 1400px)");
-
-    static PORTRAIT_SCREEN = new MediaQuery("(orientation: portrait)");
-    static LANDSCAPE_SCREEN = new MediaQuery("(orientation: landscape)");
-
-    constructor(private query: string) {
-
-    }
-
-    and(mediaQuery: MediaQuery) {
-        return new MediaQuery(this.query + ' and ' + mediaQuery.query);
-    }
-
-    toString() {
-        return this.query;
-    }
 }
+
+export const DEVICE_BREAK_POINTS = {
+    'MIN_EXTRA_SMALL_DEVICE' : '100px',
+    'MAX_EXTRA_SMALL_DEVICE' : '575px',
+    'MIN_SMALL_DEVICE' : '576px',
+    'MAX_SMALL_DEVICE' : '767px',
+    'MIN_MEDIUM_DEVICE' : '768px',
+    'MAX_MEDIUM_DEVICE' : '991px',
+    'MIN_LARGE_DEVICE' : '992px',
+    'MAX_LARGE_DEVICE' : '1199px',
+    'MIN_EXTRA_LARGE_DEVICE' : '1200px',
+    'MAX_EXTRA_LARGE_DEVICE' : '1399px',
+    'MIN_EXTRA_EXTRA_LARGE_DEVICE' : '1400px',
+    'MAX_EXTRA_EXTRA_LARGE_DEVICE' : '100000px'
+};
 
 export class Theme {
     private styles: any = {};
@@ -203,22 +193,22 @@ export const ThemeConsumer = ThemeContext.Consumer;
  * Common styles
  */
 (() => {
-    const addColStyles = (device: string, mediaQuery: MediaQuery) => {
+    const addColStyles = (device: string, minWidth: string) => {
         for(let i = 1; i <= 12; i++) {
             Theme.BASE.addStyle(`col-${device}-${i}`, '', {
-                "@media": mediaQuery.toString(),
+                "@media": `(min-width: ${minWidth})`,
                 root: {
                     width: (100 * i / 12) + '%'
                 }
             } as any)
         }
     };
-    addColStyles('xs', MediaQuery.EXTRA_SMALL_DEVICE);
-    addColStyles('sm',  MediaQuery.SMALL_DEVICE);
-    addColStyles('md',  MediaQuery.MEDIUM_DEVICE);
-    addColStyles('lg',  MediaQuery.LARGE_DEVICE);
-    addColStyles('xl',  MediaQuery.EXTRA_LARGE_DEVICE);
-    addColStyles('xxl',  MediaQuery.EXTRA_EXTRA_LARGE_DEVICE);
+    addColStyles('xs', DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE);
+    addColStyles('sm',  DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE);
+    addColStyles('md',  DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE);
+    addColStyles('lg',  DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE);
+    addColStyles('xl',  DEVICE_BREAK_POINTS.MIN_EXTRA_LARGE_DEVICE);
+    addColStyles('xxl',  DEVICE_BREAK_POINTS.MIN_EXTRA_EXTRA_LARGE_DEVICE);
 
     Theme.BASE.addStyle('d-none', '', {
         root: {
@@ -231,26 +221,41 @@ export const ThemeConsumer = ThemeContext.Consumer;
         }
     } as any);
 
-    const addDisplayStyles = (device: string, mediaQuery: MediaQuery) => {
+    const addDisplayStyles = (device: string, minWidth: string, maxWidth: string) => {
         Theme.BASE.addStyle(`d-${device}-none`, '', {
-            "@media": mediaQuery.toString(),
+            "@media": `(min-width: ${minWidth}) and (max-width: ${maxWidth})`,
             root: {
                 display: 'none'
             }
         } as any);
         Theme.BASE.addStyle(`d-${device}-flex`, '', {
-            "@media": mediaQuery.toString(),
+            "@media": `(min-width: ${minWidth}) and (max-width: ${maxWidth})`,
             root: {
                 display: 'flex'
             }
         } as any);
     };
-    addDisplayStyles('xs', MediaQuery.EXTRA_SMALL_DEVICE);
-    addDisplayStyles('sm',  MediaQuery.SMALL_DEVICE);
-    addDisplayStyles('md',  MediaQuery.MEDIUM_DEVICE);
-    addDisplayStyles('lg',  MediaQuery.LARGE_DEVICE);
-    addDisplayStyles('xl',  MediaQuery.EXTRA_LARGE_DEVICE);
-    addDisplayStyles('xxl',  MediaQuery.EXTRA_EXTRA_LARGE_DEVICE);
+    addDisplayStyles('all', 
+        DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_EXTRA_EXTRA_LARGE_DEVICE);
+    addDisplayStyles('xs', 
+        DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_EXTRA_SMALL_DEVICE);
+    addDisplayStyles('sm',   
+        DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_SMALL_DEVICE);
+    addDisplayStyles('md',   
+        DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_MEDIUM_DEVICE);
+    addDisplayStyles('lg',   
+        DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_LARGE_DEVICE);
+    addDisplayStyles('xl',   
+        DEVICE_BREAK_POINTS.MIN_EXTRA_LARGE_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_EXTRA_LARGE_DEVICE);
+    addDisplayStyles('xxl',   
+        DEVICE_BREAK_POINTS.MIN_EXTRA_EXTRA_LARGE_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_EXTRA_EXTRA_LARGE_DEVICE);
 
     const addElevationClasses = () => {
         for(let i = 1; i <= 10; i++) {

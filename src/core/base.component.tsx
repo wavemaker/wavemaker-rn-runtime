@@ -48,6 +48,7 @@ export class BaseProps {
     styles?: any = null;
     classname?: string = null as any;
     listener?: LifecycleListener = null as any;
+    showindevice?: ('xs'|'sm'|'md'|'lg'|'xl'|'xxl')[] = null as any;
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
@@ -236,6 +237,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                     this.getDefaultStyles(),
                                     props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
                                     props.classname && this.theme.getStyle(props.classname),
+                                    props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
                                     this.props.styles);
                                 if (this.styles.root.hasOwnProperty('_background')) {
                                   delete this.styles.root.backgroundColor;
