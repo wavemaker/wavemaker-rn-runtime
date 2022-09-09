@@ -15,18 +15,14 @@ if (typeof window !== "undefined") {
 }
 
 export const DEVICE_BREAK_POINTS = {
-    'MIN_EXTRA_SMALL_DEVICE' : '100px',
-    'MAX_EXTRA_SMALL_DEVICE' : '575px',
-    'MIN_SMALL_DEVICE' : '576px',
-    'MAX_SMALL_DEVICE' : '767px',
-    'MIN_MEDIUM_DEVICE' : '768px',
-    'MAX_MEDIUM_DEVICE' : '991px',
-    'MIN_LARGE_DEVICE' : '992px',
-    'MAX_LARGE_DEVICE' : '1199px',
-    'MIN_EXTRA_LARGE_DEVICE' : '1200px',
-    'MAX_EXTRA_LARGE_DEVICE' : '1399px',
-    'MIN_EXTRA_EXTRA_LARGE_DEVICE' : '1400px',
-    'MAX_EXTRA_EXTRA_LARGE_DEVICE' : '100000px'
+    'MIN_EXTRA_SMALL_DEVICE' : '0px',
+    'MAX_EXTRA_SMALL_DEVICE' : '767px',
+    'MIN_SMALL_DEVICE' : '768px',
+    'MAX_SMALL_DEVICE' : '991px',
+    'MIN_MEDIUM_DEVICE' : '992px',
+    'MAX_MEDIUM_DEVICE' : '1199px',
+    'MIN_LARGE_DEVICE' : '1200px',
+    'MAX_LARGE_DEVICE' : '1000000px',
 };
 
 export class Theme {
@@ -207,8 +203,6 @@ export const ThemeConsumer = ThemeContext.Consumer;
     addColStyles('sm',  DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE);
     addColStyles('md',  DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE);
     addColStyles('lg',  DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE);
-    addColStyles('xl',  DEVICE_BREAK_POINTS.MIN_EXTRA_LARGE_DEVICE);
-    addColStyles('xxl',  DEVICE_BREAK_POINTS.MIN_EXTRA_EXTRA_LARGE_DEVICE);
 
     Theme.BASE.addStyle('d-none', '', {
         root: {
@@ -237,7 +231,7 @@ export const ThemeConsumer = ThemeContext.Consumer;
     };
     addDisplayStyles('all', 
         DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_EXTRA_EXTRA_LARGE_DEVICE);
+        DEVICE_BREAK_POINTS.MAX_LARGE_DEVICE);
     addDisplayStyles('xs', 
         DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE,
         DEVICE_BREAK_POINTS.MAX_EXTRA_SMALL_DEVICE);
@@ -250,12 +244,6 @@ export const ThemeConsumer = ThemeContext.Consumer;
     addDisplayStyles('lg',   
         DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE,
         DEVICE_BREAK_POINTS.MAX_LARGE_DEVICE);
-    addDisplayStyles('xl',   
-        DEVICE_BREAK_POINTS.MIN_EXTRA_LARGE_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_EXTRA_LARGE_DEVICE);
-    addDisplayStyles('xxl',   
-        DEVICE_BREAK_POINTS.MIN_EXTRA_EXTRA_LARGE_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_EXTRA_EXTRA_LARGE_DEVICE);
 
     const addElevationClasses = () => {
         for(let i = 1; i <= 10; i++) {
