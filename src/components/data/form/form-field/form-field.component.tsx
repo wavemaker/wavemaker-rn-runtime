@@ -147,17 +147,17 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   validateFormField() {
     if (this.formwidget?.state.isValid === false) {
       const errorType = this.formwidget?.state?.errorType;
-      const msg = get(this.defaultValidatorMessages, errorType) || this.state.props.validationmessage;
-      let validationMsg;
-      if (msg && msg instanceof Function) {
-        // passing formwidget and form as arguments to the errorMessage function.
-        validationMsg = msg(this.formwidget.proxy, this.form);
-      } else {
-        validationMsg = msg;
+      let validationMsg = get(this.defaultValidatorMessages, errorType);
+      if (validationMsg) {
+        if (validationMsg instanceof Function) {
+          // passing formwidget and form as arguments to the errorMessage function.
+          validationMsg = validationMsg(this.formwidget.proxy, this.form);
+        }
+        this.updateState({ props: {
+            validationmessage: validationMsg
+          }} as WmFormFieldState);
       }
-      this.updateState({ isValid: false, props: {
-          validationmessage: validationMsg
-        }} as WmFormFieldState);
+      this.updateState({ isValid: false} as WmFormFieldState);
     } else {
       this.updateState({ isValid: true } as WmFormFieldState);
     }
