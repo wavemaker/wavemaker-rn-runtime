@@ -1,6 +1,5 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { TextStyle } from 'react-native';
 
 export type WmFormFieldStyles = BaseStyles & {
@@ -8,25 +7,27 @@ export type WmFormFieldStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-form-field';
-export const DEFAULT_STYLES: WmFormFieldStyles = defineStyles({
-    root: {
-        marginBottom: 24
-    },
-    text: {},
-    errorMsg: {
-        color: 'red',
-        fontSize: 13,
-        paddingTop: 6,
-        fontFamily: ThemeVariables.baseFont
-    }
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmFormFieldStyles = defineStyles({
+        root: {
+            marginBottom: 24
+        },
+        text: {},
+        errorMsg: {
+            color: 'red',
+            fontSize: 13,
+            paddingTop: 6,
+            fontFamily: themeVariables.baseFont
+        }
+    });
+    addStyle('form-label', '', {
+        root : {
+            paddingBottom: 5
+        },
+        text: {
+            color: themeVariables.defaultTextColor,
+            fontSize: themeVariables.heading5FontSize
+        }
+    } as BaseStyles);
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
 });
-BASE_THEME.addStyle('form-label', '', {
-    root : {
-        paddingBottom: 5
-    },
-    text: {
-        color: ThemeVariables.defaultTextColor,
-        fontSize: ThemeVariables.heading5FontSize
-    }
-} as BaseStyles);
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

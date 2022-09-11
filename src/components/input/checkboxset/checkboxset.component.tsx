@@ -7,7 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import WmCheckboxsetProps from './checkboxset.props';
 import {
   DEFAULT_CLASS,
-  DEFAULT_STYLES,
+  
   WmCheckboxsetStyles,
 } from './checkboxset.styles';
 import {
@@ -21,7 +21,7 @@ export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {
 
 export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetProps, WmCheckboxsetState, WmCheckboxsetStyles> {
   constructor(props: WmCheckboxsetProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCheckboxsetProps());
+    super(props, DEFAULT_CLASS, new WmCheckboxsetProps());
   }
 
   onPress(item: any) {

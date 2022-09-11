@@ -3,7 +3,7 @@ import { View, Modal as ReactModal } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmModalProps from './modal.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmModalStyles } from './modal.styles';
+import { DEFAULT_CLASS, WmModalStyles } from './modal.styles';
 
 export class WmModalState extends BaseComponentState<WmModalProps> {
 
@@ -12,7 +12,7 @@ export class WmModalState extends BaseComponentState<WmModalProps> {
 export default class WmModal extends BaseComponent<WmModalProps, WmModalState, WmModalStyles> {
 
   constructor(props: WmModalProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmModalProps());
+    super(props, DEFAULT_CLASS, new WmModalProps());
   }
 
   renderWidget(props: WmModalProps) {

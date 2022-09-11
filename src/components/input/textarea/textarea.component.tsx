@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform, TextInput } from 'react-native';
 import WmTextareaProps from './textarea.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmTextareaStyles } from './textarea.styles';
+import { DEFAULT_CLASS, WmTextareaStyles } from './textarea.styles';
 import {
   BaseInputComponent,
   BaseInputState
@@ -13,7 +13,7 @@ export class WmTextareaState extends BaseInputState<WmTextareaProps> {}
 export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTextareaState, WmTextareaStyles> {
 
   constructor(props: WmTextareaProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTextareaProps(), new WmTextareaState());
+    super(props, DEFAULT_CLASS, new WmTextareaProps(), new WmTextareaState());
   }
 
   renderWidget(props: WmTextareaProps) {

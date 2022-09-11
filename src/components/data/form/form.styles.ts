@@ -10,37 +10,39 @@ export type WmFormStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-form';
-export const DEFAULT_STYLES: WmFormStyles = defineStyles({
-  root: {},
-  text: {},
-  heading : {
-    paddingTop: 12,
-    paddingBottom: 12,
-    paddingLeft: 0,
-    paddingRight: 0,
-    borderBottomWidth: 0,
-    borderStyle: 'solid',
-    borderColor: ThemeVariables.formBorderColor
-  },
-  title: {
-    text: {
-      fontSize: ThemeVariables.heading4FontSize,
-      color: ThemeVariables.formTitleColor,
-      fontWeight: 'bold'
-    }
-  } as WmLabelStyles,
-  subheading: {
-    text: {
-      fontSize: 12,
-      lineHeight: 18,
-      color: ThemeVariables.formSubTitleColor
-    }
-  } as WmLabelStyles
-});
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const defaultStyles: WmFormStyles = defineStyles({
+    root: {},
+    text: {},
+    heading : {
+      paddingTop: 12,
+      paddingBottom: 12,
+      paddingLeft: 0,
+      paddingRight: 0,
+      borderBottomWidth: 0,
+      borderStyle: 'solid',
+      borderColor: themeVariables.formBorderColor
+    },
+    title: {
+      text: {
+        fontSize: themeVariables.heading4FontSize,
+        color: themeVariables.formTitleColor,
+        fontWeight: 'bold'
+      }
+    } as WmLabelStyles,
+    subheading: {
+      text: {
+        fontSize: 12,
+        lineHeight: 18,
+        color: themeVariables.formSubTitleColor
+      }
+    } as WmLabelStyles
+  });
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('form-action', '', {
-  root: {
-    marginLeft: 12
-  }
-} as BaseStyles);
+  addStyle(DEFAULT_CLASS, '', defaultStyles);
+  addStyle('form-action', '', {
+    root: {
+      marginLeft: 12
+    }
+  } as BaseStyles);
+});

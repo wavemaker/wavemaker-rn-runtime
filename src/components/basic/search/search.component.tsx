@@ -3,7 +3,7 @@ import { Keyboard, Platform, ScrollView, Text, TextInput, View } from 'react-nat
 import { find, isNull } from 'lodash';
 
 import WmSearchProps from './search.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmSearchStyles } from './search.styles';
+import { DEFAULT_CLASS, WmSearchStyles } from './search.styles';
 import { ModalConsumer, ModalOptions, ModalService} from "@wavemaker/app-rn-runtime/core/modal.service";
 import { DataProvider } from '@wavemaker/app-rn-runtime/components/basic/search/local-data-provider';
 
@@ -47,7 +47,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   private updateRequired: any;
 
   constructor(props: WmSearchProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSearchProps(), new WmSearchState());
+    super(props, DEFAULT_CLASS, new WmSearchProps(), new WmSearchState());
     this.dataProvider = new DataProvider();
     if (this.props.datavalue) {
       this.updateState({

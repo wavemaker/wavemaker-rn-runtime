@@ -3,7 +3,6 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import { WmPictureStyles } from '@wavemaker/app-rn-runtime/components/basic/picture/picture.styles';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { WmLabelStyles } from '@wavemaker/app-rn-runtime/components/basic/label/label.styles';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmCardStyles = BaseStyles & {
     heading: AllStyle,
@@ -14,46 +13,48 @@ export type WmCardStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-card';
-export const DEFAULT_STYLES: WmCardStyles = defineStyles({
-    root: {
-        width: '100%',
-    },
-    text: {},
-    cardIcon: {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmCardStyles = defineStyles({
         root: {
-            marginTop: 4,
-            marginRight: 8
-        }
-    } as WmIconStyles,
-    heading : {
-        paddingTop: 8,
-        paddingBottom: 8,
-        paddingLeft: 8,
-        paddingRight: 8,
-        backgroundColor: ThemeVariables.cardHeaderBgColor,
-        flexDirection: 'row',
-        alignContent: 'center',
-        width: '100%'
-    },
-    title: {
-        text: {
-            fontSize: 16,
-            lineHeight: 24,
-            color: ThemeVariables.cardTitleColor
-        }
-    } as WmLabelStyles,
-    subheading: {
-        text: {
-            fontSize: 12,
-            lineHeight: 18,
-            color: ThemeVariables.cardSubTitleColor
-        }
-    } as WmLabelStyles,
-    picture: {
-        root : {
+            width: '100%',
+        },
+        text: {},
+        cardIcon: {
+            root: {
+                marginTop: 4,
+                marginRight: 8
+            }
+        } as WmIconStyles,
+        heading : {
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 8,
+            paddingRight: 8,
+            backgroundColor: themeVariables.cardHeaderBgColor,
+            flexDirection: 'row',
+            alignContent: 'center',
             width: '100%'
-        }
-    } as WmPictureStyles
-});
+        },
+        title: {
+            text: {
+                fontSize: 16,
+                lineHeight: 24,
+                color: themeVariables.cardTitleColor
+            }
+        } as WmLabelStyles,
+        subheading: {
+            text: {
+                fontSize: 12,
+                lineHeight: 18,
+                color: themeVariables.cardSubTitleColor
+            }
+        } as WmLabelStyles,
+        picture: {
+            root : {
+                width: '100%'
+            }
+        } as WmPictureStyles
+    });
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
+});

@@ -5,7 +5,7 @@ import Slider from '@react-native-community/slider';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmSliderProps from './slider.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmSliderStyles } from './slider.styles';
+import { DEFAULT_CLASS, WmSliderStyles } from './slider.styles';
 
 export class WmSliderState extends BaseComponentState<WmSliderProps> {}
 
@@ -13,7 +13,7 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
   valueBeforeSlide: number = 0;
 
   constructor(props: WmSliderProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSliderProps());
+    super(props, DEFAULT_CLASS, new WmSliderProps());
   }
 
   getDataValue() {

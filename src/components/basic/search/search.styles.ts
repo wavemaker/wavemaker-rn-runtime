@@ -1,7 +1,6 @@
 import { TextStyle } from 'react-native';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
 
 export type WmSearchStyles = BaseStyles & {
@@ -19,123 +18,125 @@ export type WmSearchStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-search';
-export const DEFAULT_STYLES: WmSearchStyles = defineStyles({
-    root: {
-      flexDirection: 'row'
-    },
-    text: {
-      height: 48,
-      paddingTop: 8,
-      paddingBottom: 8,
-      paddingLeft: 12,
-      paddingRight: 12,
-      width: '100%',
-      borderWidth: 1,
-      borderRightWidth: 0,
-      borderTopLeftRadius: 6,
-      borderBottomLeftRadius: 6,
-      borderColor: ThemeVariables.searchBorderColor,
-      backgroundColor: ThemeVariables.searchDropdownBackgroundColor,
-    },
-  invalid: {
-    borderBottomColor: ThemeVariables.inputInvalidBorderColor
-  },
-    focusedText : {
-      borderBottomLeftRadius: 0,
-    },
-  modal: {
-    backgroundColor: ThemeVariables.transparent,
-    height: '100%'
-  },
-  modalContent: {
-    backgroundColor: ThemeVariables.searchDropdownBackgroundColor,
-    borderRadius: 6,
-    position: 'absolute',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: ThemeVariables.searchBorderColor,
-    width: '90%'
-  },
-    dropDownContent: {
-        width: '100%'
-    },
-    searchInputWrapper: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 1
-    },
-    clearButton: {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const defaultStyles: WmSearchStyles = defineStyles({
       root: {
-        marginLeft: -40,
-        padding: 0,
-        width: 36,
-        alignItems: 'center',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'transparent'
-      }
-    } as WmButtonStyles,
-    searchButton: {
-      root: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 0,
-        borderTopRightRadius: 4,
-        borderBottomRightRadius: 4,
-        backgroundColor: ThemeVariables.searchButtonColor,
-        height: 48
+        flexDirection: 'row'
       },
-      icon: {
-        icon: {
-          fontSize: 24,
-          color: ThemeVariables.searchButtonTextColor,
-        }
-      }
-    } as WmButtonStyles,
-    searchItem: {
-      width: '100%',
-      marginBottom: 4,
-      paddingHorizontal: 16,
-      paddingVertical: 8,
-      borderBottomColor: ThemeVariables.searchItemBorderColor,
-      flexDirection: 'row',
-      alignItems: 'center',
-      color: ThemeVariables.searchItemTextColor
+      text: {
+        height: 48,
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 12,
+        paddingRight: 12,
+        width: '100%',
+        borderWidth: 1,
+        borderRightWidth: 0,
+        borderTopLeftRadius: 6,
+        borderBottomLeftRadius: 6,
+        borderColor: themeVariables.searchBorderColor,
+        backgroundColor: themeVariables.searchDropdownBackgroundColor,
+      },
+    invalid: {
+      borderBottomColor: themeVariables.inputInvalidBorderColor
     },
-    searchItemText: {
-      fontSize: 16,
-      paddingLeft: 8,
-      fontFamily: ThemeVariables.baseFont
+      focusedText : {
+        borderBottomLeftRadius: 0,
+      },
+    modal: {
+      backgroundColor: themeVariables.transparent,
+      height: '100%'
     },
-    dataCompleteItem: {
+    modalContent: {
+      backgroundColor: themeVariables.searchDropdownBackgroundColor,
+      borderRadius: 6,
+      position: 'absolute',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: themeVariables.searchBorderColor,
+      width: '90%'
+    },
+      dropDownContent: {
+          width: '100%'
+      },
+      searchInputWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1
+      },
+      clearButton: {
         root: {
-          backgroundColor: ThemeVariables.searchDataCompleteItemBgColor,
+          marginLeft: -40,
+          padding: 0,
+          width: 36,
+          alignItems: 'center',
+          alignSelf: 'center',
           justifyContent: 'center',
-          padding: 8
-        },
-        text: {
-          fontSize: 12,
-          textDecorationLine: 'none',
-          color: ThemeVariables.searchItemTextColor
+          backgroundColor: 'transparent'
         }
-    },
-    placeholderText: {
-      color: ThemeVariables.inputPlaceholderColor
-    }
-});
+      } as WmButtonStyles,
+      searchButton: {
+        root: {
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 0,
+          borderTopRightRadius: 4,
+          borderBottomRightRadius: 4,
+          backgroundColor: themeVariables.searchButtonColor,
+          height: 48
+        },
+        icon: {
+          icon: {
+            fontSize: 24,
+            color: themeVariables.searchButtonTextColor,
+          }
+        }
+      } as WmButtonStyles,
+      searchItem: {
+        width: '100%',
+        marginBottom: 4,
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderBottomColor: themeVariables.searchItemBorderColor,
+        flexDirection: 'row',
+        alignItems: 'center',
+        color: themeVariables.searchItemTextColor
+      },
+      searchItemText: {
+        fontSize: 16,
+        paddingLeft: 8,
+        fontFamily: themeVariables.baseFont
+      },
+      dataCompleteItem: {
+          root: {
+            backgroundColor: themeVariables.searchDataCompleteItemBgColor,
+            justifyContent: 'center',
+            padding: 8
+          },
+          text: {
+            fontSize: 12,
+            textDecorationLine: 'none',
+            color: themeVariables.searchItemTextColor
+          }
+      },
+      placeholderText: {
+        color: themeVariables.inputPlaceholderColor
+      }
+  });
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
-    text : {
-      backgroundColor: ThemeVariables.inputDisabledBgColor
-    }
-});
+  addStyle(DEFAULT_CLASS, '', defaultStyles);
+  addStyle(DEFAULT_CLASS + '-disabled', '', {
+      text : {
+        backgroundColor: themeVariables.inputDisabledBgColor
+      }
+  });
 
-BASE_THEME.addStyle('app-autocomplete', '', {
-  text: {
-    borderRightWidth: 1,
-    borderTopRightRadius: 4,
-    borderBottomRightRadius: 4,
-  }
-} as WmSearchStyles);
+  addStyle('app-autocomplete', '', {
+    text: {
+      borderRightWidth: 1,
+      borderTopRightRadius: 4,
+      borderBottomRightRadius: 4,
+    }
+  } as WmSearchStyles);
+});

@@ -7,7 +7,7 @@ import { LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component
 import { BaseNavComponent, BaseNavState, NavigationDataItem } from '../basenav/basenav.component';
 import WmPopover from '../popover/popover.component';
 import WmMenuProps from './menu.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmMenuStyles } from './menu.styles';
+import { DEFAULT_CLASS, WmMenuStyles } from './menu.styles';
 
 export class WmMenuState <T extends WmMenuProps> extends BaseNavState<T> {}
 
@@ -30,7 +30,7 @@ export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<Wm
   };
 
   constructor(props: WmMenuProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmMenuProps(), new WmMenuState());
+    super(props, DEFAULT_CLASS, new WmMenuProps(), new WmMenuState());
   }
 
   renderMenuItem(item: NavigationDataItem) {

@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 
 import WmRadiosetProps from './radioset.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmRadiosetStyles } from './radioset.styles';
+import { DEFAULT_CLASS, WmRadiosetStyles } from './radioset.styles';
 import {
   BaseDatasetComponent,
   BaseDatasetState
@@ -15,7 +15,7 @@ export class WmRadiosetState extends BaseDatasetState<WmRadiosetProps> {
 export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, WmRadiosetState, WmRadiosetStyles> {
 
   constructor(props: WmRadiosetProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmRadiosetProps());
+    super(props, DEFAULT_CLASS, new WmRadiosetProps());
   }
 
   onPress(value: any) {

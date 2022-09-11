@@ -4,9 +4,11 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 export type WmLinearlayoutitemStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-linearlayoutitem';
-export const DEFAULT_STYLES: WmLinearlayoutitemStyles = defineStyles({
-    root: {},
-    text: {}
-});
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmLinearlayoutitemStyles = defineStyles({
+        root: {},
+        text: {}
+    });
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
+});

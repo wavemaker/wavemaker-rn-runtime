@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmLoginProps from './login.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmLoginStyles } from './login.styles';
+import { DEFAULT_CLASS, WmLoginStyles } from './login.styles';
 import { AxiosError, AxiosResponse } from 'axios';
 
 export class WmLoginState extends BaseComponentState<WmLoginProps> {
@@ -12,7 +12,7 @@ export class WmLoginState extends BaseComponentState<WmLoginProps> {
 
 export default class WmLogin extends BaseComponent<WmLoginProps, WmLoginState, WmLoginStyles> {
   constructor(props: WmLoginProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLoginProps());
+    super(props, DEFAULT_CLASS, new WmLoginProps());
   }
 
   onLoginSuccess(response: AxiosResponse) {

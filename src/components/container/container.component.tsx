@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 
 import WmContainerProps from './container.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmContainerStyles } from './container.styles';
+import { DEFAULT_CLASS, WmContainerStyles } from './container.styles';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import { PartialHost, PartialHostState } from './partial-host.component';
@@ -13,7 +13,7 @@ export class WmContainerState extends PartialHostState<WmContainerProps> {
 
 export default class WmContainer extends PartialHost<WmContainerProps, WmContainerState, WmContainerStyles> {
   constructor(props: WmContainerProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmContainerProps());
+    super(props, DEFAULT_CLASS, new WmContainerProps());
   }
 
   renderWidget(props: WmContainerProps) {

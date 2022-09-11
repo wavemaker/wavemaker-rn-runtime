@@ -2,7 +2,6 @@ import Color from 'color';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmAnchorStyles = BaseStyles & {
     badge: AllStyle,
@@ -11,65 +10,67 @@ export type WmAnchorStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-anchor';
 
-export const DEFAULT_STYLES: WmAnchorStyles = defineStyles({
-    root: {
-        color: ThemeVariables.linkDefaultColor,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    text: {
-        paddingLeft: 8,
-        color: ThemeVariables.linkDefaultColor,
-        fontSize: 18, 
-        textDecorationLine: 'underline',
-    },
-    badge: {
-        backgroundColor: Color(ThemeVariables.linkDefaultColor).fade(0.8).rgb().toString(),
-        color: ThemeVariables.linkDefaultColor,
-        alignSelf: 'flex-start',
-        marginTop: -12,
-        marginLeft: 0,
-        fontWeight: 'bold'
-    },
-    icon: {
-        root : {
-            alignSelf: 'center'
-        },
-        text: {
-            fontSize: 16,
-            paddingRight: ThemeVariables.anchorTextPadding,
-            color: ThemeVariables.linkDefaultColor
-        }
-    } as WmIconStyles
-});
-
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-
-const getLinkStyles = (color: string) => {
-    return {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmAnchorStyles = defineStyles({
         root: {
-            color: color
+            color: themeVariables.linkDefaultColor,
+            flexDirection: 'row',
+            alignItems: 'center'
         },
         text: {
-            color: color
-        },
-        icon: {
-            text: {
-                color: color
-            }
+            paddingLeft: 8,
+            color: themeVariables.linkDefaultColor,
+            fontSize: 18, 
+            textDecorationLine: 'underline',
         },
         badge: {
-            backgroundColor: Color(color).fade(0.8).rgb().toString(),
-            color: color,
-        }
-    } as WmAnchorStyles;
-};
+            backgroundColor: Color(themeVariables.linkDefaultColor).fade(0.8).rgb().toString(),
+            color: themeVariables.linkDefaultColor,
+            alignSelf: 'flex-start',
+            marginTop: -12,
+            marginLeft: 0,
+            fontWeight: 'bold'
+        },
+        icon: {
+            root : {
+                alignSelf: 'center'
+            },
+            text: {
+                fontSize: 16,
+                paddingRight: themeVariables.anchorTextPadding,
+                color: themeVariables.linkDefaultColor
+            }
+        } as WmIconStyles
+    });
 
-BASE_THEME.addStyle('link-primary', '', getLinkStyles(ThemeVariables.linkPrimaryColor));
-BASE_THEME.addStyle('link-secondary', '', getLinkStyles(ThemeVariables.linkSecondaryColor));
-BASE_THEME.addStyle('link-success', '', getLinkStyles(ThemeVariables.linkSuccessColor));
-BASE_THEME.addStyle('link-danger', '', getLinkStyles(ThemeVariables.linkDangerColor));
-BASE_THEME.addStyle('link-warning', '', getLinkStyles(ThemeVariables.linkWarningColor));
-BASE_THEME.addStyle('link-info', '', getLinkStyles(ThemeVariables.linkInfoColor));
-BASE_THEME.addStyle('link-light', '', getLinkStyles(ThemeVariables.linkLightColor));
-BASE_THEME.addStyle('link-dark', '', getLinkStyles(ThemeVariables.linkDarkColor));
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
+
+    const getLinkStyles = (color: string) => {
+        return {
+            root: {
+                color: color
+            },
+            text: {
+                color: color
+            },
+            icon: {
+                text: {
+                    color: color
+                }
+            },
+            badge: {
+                backgroundColor: Color(color).fade(0.8).rgb().toString(),
+                color: color,
+            }
+        } as WmAnchorStyles;
+    };
+
+    addStyle('link-primary', '', getLinkStyles(themeVariables.linkPrimaryColor));
+    addStyle('link-secondary', '', getLinkStyles(themeVariables.linkSecondaryColor));
+    addStyle('link-success', '', getLinkStyles(themeVariables.linkSuccessColor));
+    addStyle('link-danger', '', getLinkStyles(themeVariables.linkDangerColor));
+    addStyle('link-warning', '', getLinkStyles(themeVariables.linkWarningColor));
+    addStyle('link-info', '', getLinkStyles(themeVariables.linkInfoColor));
+    addStyle('link-light', '', getLinkStyles(themeVariables.linkLightColor));
+    addStyle('link-dark', '', getLinkStyles(themeVariables.linkDarkColor));
+});

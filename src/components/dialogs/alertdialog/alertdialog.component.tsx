@@ -9,7 +9,7 @@ import WmDialogcontent from '../dialogcontent/dialogcontent.component';
 import WmDialogactions from '../dialogactions/dialogactions.component';
 
 import WmAlertdialogProps from './alertdialog.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmAlertdialogStyles } from './alertdialog.styles';
+import { DEFAULT_CLASS, WmAlertdialogStyles } from './alertdialog.styles';
 
 export class WmAlertdialogState extends BaseComponentState<WmAlertdialogProps> {}
 
@@ -33,7 +33,7 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
   };
 
   constructor(props: WmAlertdialogProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAlertdialogProps());
+    super(props, DEFAULT_CLASS, new WmAlertdialogProps());
   }
 
   open() {

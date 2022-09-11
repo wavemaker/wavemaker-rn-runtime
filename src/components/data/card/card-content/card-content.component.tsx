@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmCardContentProps from './card-content.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmCardContentStyles } from './card-content.styles';
+import { DEFAULT_CLASS, WmCardContentStyles } from './card-content.styles';
 
 export class WmCardContentState extends BaseComponentState<WmCardContentProps> {
   isPartialLoaded = false;
@@ -12,7 +12,7 @@ export class WmCardContentState extends BaseComponentState<WmCardContentProps> {
 export default class WmCardContent extends BaseComponent<WmCardContentProps, WmCardContentState, WmCardContentStyles> {
 
   constructor(props: WmCardContentProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCardContentProps());
+    super(props, DEFAULT_CLASS, new WmCardContentProps());
   }
 
   onPartialLoad() {

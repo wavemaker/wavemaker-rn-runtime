@@ -1,11 +1,12 @@
-import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
-import { clone, cloneDeep, forEach, flatten, isArray, isEmpty, isObject, isString, get, mapKeys, reverse } from 'lodash';
+import { cloneDeep, forEach, flatten, isArray, isEmpty, isObject, isString, isFunction, get, reverse } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';
+import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
+import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 import MediaQueryList from './MediaQueryList';
 import ThemeVariables from './theme.variables';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
-export const DEFAULT_STYLE: NamedStyles<any> = {};
 
 declare const matchMedia: any, window: any;
 
@@ -25,14 +26,35 @@ export const DEVICE_BREAK_POINTS = {
     'MAX_LARGE_DEVICE' : '1000000px',
 };
 
+export type styleGeneratorFn<T extends NamedStyles<any>> = (
+    themeVariables: ThemeVariables,
+    addStyle: (name: string, extend: string, style: T) => void) => void
+
+export enum ThemeEvent {
+    CHANGE ='change'
+};
+
 export class Theme {
+    public static BASE = new Theme(null as any, 'default');
+
+    static {
+        ViewPort.subscribe(ViewPortEvents.SIZE_CHANGE, () => {
+            Theme.BASE.reset();
+        });
+    }
+
+
+    private eventNotifer = new EventNotifier();
+
+    private children: Theme[] = [];
+
     private styles: any = {};
 
     private cache: any = {};
 
-    public static BASE = new Theme(null as any, 'default');
-
     private traceEnabled = false;
+
+    private styleGenerators: styleGeneratorFn<any>[] = [];
 
     private constructor(private parent:Theme, public readonly name: string) {
         if (parent) {
@@ -42,12 +64,26 @@ export class Theme {
         }
     }
 
-    clearCache() {
-        this.cache = {};
-        this.parent && this.parent.clearCache();
+    public subscribe(event: ThemeEvent, fn: Function) {
+        return this.eventNotifer.subscribe(event, fn);
     }
 
-    addStyle<T extends NamedStyles<any>>(name: string, extend: string, style: T) {
+    public notify(event: ThemeEvent): void {
+        this.eventNotifer.notify(event, []);
+        this.children.forEach(t => t.notify(event));
+    }
+
+    clearCache() {
+        this.cache = {};
+        this.children.forEach((t) => t.clearCache());
+    }
+
+    registerStyle<T extends NamedStyles<any>>(fn: styleGeneratorFn<T>) {
+        this.styleGenerators.push(fn);
+        fn(ThemeVariables.INSTANCE, this.addStyle.bind(this));
+    }
+
+    private addStyle<T extends NamedStyles<any>>(name: string, extend: string, style: T) {
         this.styles[name] = deepCopy(this.getStyle(extend), this.styles[name], style);
     }
 
@@ -131,12 +167,34 @@ export class Theme {
         return style;
     }
 
-    $new(name = "", styles = DEFAULT_STYLE) {
+    $new(name = "", styles = {} as NamedStyles<any>) {
         const newTheme = new Theme(this, name);
-        Object.keys(styles).forEach(k => {
-            newTheme.addStyle(k, '', styles[k] as any);
-        });
+        newTheme.reset(styles);
+        this.children.push(newTheme);
         return newTheme;
+    }
+
+    destroy() {
+        const i = this.parent.children.indexOf(this);
+        if (i >= 0) {
+            this.parent.children.splice(i, 1);
+        }
+    }
+
+    reset(styles?: NamedStyles<any>) {
+        this.styles = {};
+        this.clearCache();
+        if (styles) {
+            this.registerStyle((themeVariables, addStyle) => {
+                Object.keys(styles).forEach(k => {
+                    addStyle(k, '', styles[k] as any);
+                });
+            });
+        } else {
+            this.styleGenerators.forEach(fn => 
+                fn(ThemeVariables.INSTANCE, this.addStyle.bind(this)));
+        }
+        this.notify(ThemeEvent.CHANGE);
     }
 }
 export default Theme.BASE;
@@ -188,10 +246,10 @@ export const ThemeConsumer = ThemeContext.Consumer;
 /**
  * Common styles
  */
-(() => {
+ Theme.BASE.registerStyle((themeVariables, addStyle) => {
     const addColStyles = (device: string, minWidth: string) => {
         for(let i = 1; i <= 12; i++) {
-            Theme.BASE.addStyle(`col-${device}-${i}`, '', {
+            addStyle(`col-${device}-${i}`, '', {
                 "@media": `(min-width: ${minWidth})`,
                 root: {
                     width: (100 * i / 12) + '%'
@@ -204,25 +262,25 @@ export const ThemeConsumer = ThemeContext.Consumer;
     addColStyles('md',  DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE);
     addColStyles('lg',  DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE);
 
-    Theme.BASE.addStyle('d-none', '', {
+    addStyle('d-none', '', {
         root: {
             display: 'none'
         }
     } as any);
-    Theme.BASE.addStyle('d-flex', '', {
+    addStyle('d-flex', '', {
         root: {
             display: 'flex'
         }
     } as any);
 
     const addDisplayStyles = (device: string, minWidth: string, maxWidth: string) => {
-        Theme.BASE.addStyle(`d-${device}-none`, '', {
+        addStyle(`d-${device}-none`, '', {
             "@media": `(min-width: ${minWidth}) and (max-width: ${maxWidth})`,
             root: {
                 display: 'none'
             }
         } as any);
-        Theme.BASE.addStyle(`d-${device}-flex`, '', {
+        addStyle(`d-${device}-flex`, '', {
             "@media": `(min-width: ${minWidth}) and (max-width: ${maxWidth})`,
             root: {
                 display: 'flex'
@@ -247,7 +305,7 @@ export const ThemeConsumer = ThemeContext.Consumer;
 
     const addElevationClasses = () => {
         for(let i = 1; i <= 10; i++) {
-            Theme.BASE.addStyle(`elevate${i}`, '', {
+            addStyle(`elevate${i}`, '', {
                 root : {
                     shadowColor: "#000000",
                     shadowOffset: {
@@ -263,27 +321,23 @@ export const ThemeConsumer = ThemeContext.Consumer;
         }
     };
     addElevationClasses();
-    Theme.BASE.addStyle('hidden', '', {
+    addStyle('hidden', '', {
         root: {
             width: 0,
             height: 0,
             transform: [{ scale: 0 }]
         }
     });
-})();
+    addStyle('bg-danger', '', { root: { backgroundColor: themeVariables.dangerColor }});
+    addStyle('bg-info', '', { root: { backgroundColor: themeVariables.infoColor }});
+    addStyle('bg-primary', '', { root: { backgroundColor: themeVariables.primaryColor }});
+    addStyle('bg-success', '', { root: { backgroundColor: themeVariables.successColor }});
+    addStyle('bg-warning', '', { root: { backgroundColor: themeVariables.warningColor }});
 
-(() => {
-    Theme.BASE.addStyle('bg-danger', '', { root: { backgroundColor: ThemeVariables.dangerColor }});
-    Theme.BASE.addStyle('bg-info', '', { root: { backgroundColor: ThemeVariables.infoColor }});
-    Theme.BASE.addStyle('bg-primary', '', { root: { backgroundColor: ThemeVariables.primaryColor }});
-    Theme.BASE.addStyle('bg-success', '', { root: { backgroundColor: ThemeVariables.successColor }});
-    Theme.BASE.addStyle('bg-warning', '', { root: { backgroundColor: ThemeVariables.warningColor }});
-})();
+    addStyle('border-danger', '', { root: { borderColor: themeVariables.dangerColor }});
+    addStyle('border-info', '', { root: { borderColor: themeVariables.infoColor }});
+    addStyle('border-primary', '', { root: { borderColor: themeVariables.primaryColor }});
+    addStyle('border-success', '', { root: { borderColor: themeVariables.successColor }});
+    addStyle('border-warning', '', { root: { borderColor: themeVariables.warningColor }});
+});
 
-(() => {
-    Theme.BASE.addStyle('border-danger', '', { root: { borderColor: ThemeVariables.dangerColor }});
-    Theme.BASE.addStyle('border-info', '', { root: { borderColor: ThemeVariables.infoColor }});
-    Theme.BASE.addStyle('border-primary', '', { root: { borderColor: ThemeVariables.primaryColor }});
-    Theme.BASE.addStyle('border-success', '', { root: { borderColor: ThemeVariables.successColor }});
-    Theme.BASE.addStyle('border-warning', '', { root: { borderColor: ThemeVariables.warningColor }});
-})();

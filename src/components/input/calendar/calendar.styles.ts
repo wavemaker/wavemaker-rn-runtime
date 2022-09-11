@@ -1,7 +1,6 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { TextStyle } from 'react-native';
 
 export type WmCalendarStyles = BaseStyles & {
@@ -27,108 +26,110 @@ export type WmCalendarStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-calendar';
-export const DEFAULT_STYLES: WmCalendarStyles = defineStyles<WmCalendarStyles>({
-    root: {
-        width: '100%'
-    },
-    text: {
-        color: ThemeVariables.calendarDateColor
-    },
-    calendar : {
-        backgroundColor: ThemeVariables.calendarBgColor,
-        borderColor: ThemeVariables.calendarHeaderBgColor,
-        borderWidth: 1,
-        borderStyle: 'solid',
-        marginTop: 0,
-        paddingTop: 0,
-        paddingBottom: 0
-    },
-    calendarHeader : {
-        backgroundColor: ThemeVariables.calendarHeaderBgColor,
-        borderColor: ThemeVariables.calendarHeaderBgColor,
-        borderBottomWidth: 1,
-        borderStyle: 'solid',
-        paddingTop: 8,
-        paddingBottom: 8
-    },
-    weekDay: {
-        backgroundColor: ThemeVariables.calendarBgColor,
-        borderColor: ThemeVariables.calendarHeaderBgColor,
-        borderBottomWidth: 1,
-        borderStyle: 'solid',
-        padding: 2
-    },
-    weekDayText: {
-        color: ThemeVariables.calendarWeekDayTextColor,
-        fontWeight: 'bold'
-    },
-    day: {
-        borderColor: 'transparent',
-        color: ThemeVariables.calendarDateColor
-    },
-    dayWrapper: {
-        backgroundColor: ThemeVariables.calendarBgColor,
-        borderColor: 'transparent',
-        width: 36,
-        height: 36,
-        borderRadius: 36
-    },
-    notDayOfCurrentMonth: {
-        color: ThemeVariables.calendarNotCurrentMonthDateColor,
-        fontWeight: 'normal',
-        opacity: 0
-    },
-    monthText: {
-        fontWeight: 'bold',
-        color: ThemeVariables.calendarHeaderTextColor
-    },
-    yearText: {
-        fontWeight: 'bold',
-        color: ThemeVariables.calendarHeaderTextColor
-    },
-    today: {
-        backgroundColor: ThemeVariables.calendarTodayBgColor
-    },
-    todayText: {
-        backgroundColor: ThemeVariables.transparent
-    },
-    eventDay1 : {
-        color: ThemeVariables.calendarEventDay1Color
-    },
-    eventDay2 : {
-        color: ThemeVariables.calendarEventDay2Color
-    },
-    eventDay3 : {
-        color: ThemeVariables.calendarEventDay3Color
-    },
-    selectedDay: {
-        backgroundColor: ThemeVariables.calendarSelectedDayBgColor
-    },
-    selectedDayText: {
-        backgroundColor: ThemeVariables.calendarSelectedDayBgColor,
-        color: ThemeVariables.calendarSelectedDayTextColor,
-        fontWeight: 'bold'
-    },
-    prevMonthBtn: {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmCalendarStyles = defineStyles<WmCalendarStyles>({
         root: {
-            color: ThemeVariables.calendarPrevMonthIconColor
-        }
-    } as WmIconStyles,
-    nextMonthBtn: {
-        root: {
-            color: ThemeVariables.calendarNextMonthIconColor
-        }
-    } as WmIconStyles,
-    prevYearBtn: {
-        root: {
-            color: ThemeVariables.calendarPrevYearIconColor
-        }
-    } as WmIconStyles,
-    nextYearBtn: {
-        root: {
-            color: ThemeVariables.calendarNextYearIconColor
-        }
-    } as WmIconStyles
-});
+            width: '100%'
+        },
+        text: {
+            color: themeVariables.calendarDateColor
+        },
+        calendar : {
+            backgroundColor: themeVariables.calendarBgColor,
+            borderColor: themeVariables.calendarHeaderBgColor,
+            borderWidth: 1,
+            borderStyle: 'solid',
+            marginTop: 0,
+            paddingTop: 0,
+            paddingBottom: 0
+        },
+        calendarHeader : {
+            backgroundColor: themeVariables.calendarHeaderBgColor,
+            borderColor: themeVariables.calendarHeaderBgColor,
+            borderBottomWidth: 1,
+            borderStyle: 'solid',
+            paddingTop: 8,
+            paddingBottom: 8
+        },
+        weekDay: {
+            backgroundColor: themeVariables.calendarBgColor,
+            borderColor: themeVariables.calendarHeaderBgColor,
+            borderBottomWidth: 1,
+            borderStyle: 'solid',
+            padding: 2
+        },
+        weekDayText: {
+            color: themeVariables.calendarWeekDayTextColor,
+            fontWeight: 'bold'
+        },
+        day: {
+            borderColor: 'transparent',
+            color: themeVariables.calendarDateColor
+        },
+        dayWrapper: {
+            backgroundColor: themeVariables.calendarBgColor,
+            borderColor: 'transparent',
+            width: 36,
+            height: 36,
+            borderRadius: 36
+        },
+        notDayOfCurrentMonth: {
+            color: themeVariables.calendarNotCurrentMonthDateColor,
+            fontWeight: 'normal',
+            opacity: 0
+        },
+        monthText: {
+            fontWeight: 'bold',
+            color: themeVariables.calendarHeaderTextColor
+        },
+        yearText: {
+            fontWeight: 'bold',
+            color: themeVariables.calendarHeaderTextColor
+        },
+        today: {
+            backgroundColor: themeVariables.calendarTodayBgColor
+        },
+        todayText: {
+            backgroundColor: themeVariables.transparent
+        },
+        eventDay1 : {
+            color: themeVariables.calendarEventDay1Color
+        },
+        eventDay2 : {
+            color: themeVariables.calendarEventDay2Color
+        },
+        eventDay3 : {
+            color: themeVariables.calendarEventDay3Color
+        },
+        selectedDay: {
+            backgroundColor: themeVariables.calendarSelectedDayBgColor
+        },
+        selectedDayText: {
+            backgroundColor: themeVariables.calendarSelectedDayBgColor,
+            color: themeVariables.calendarSelectedDayTextColor,
+            fontWeight: 'bold'
+        },
+        prevMonthBtn: {
+            root: {
+                color: themeVariables.calendarPrevMonthIconColor
+            }
+        } as WmIconStyles,
+        nextMonthBtn: {
+            root: {
+                color: themeVariables.calendarNextMonthIconColor
+            }
+        } as WmIconStyles,
+        prevYearBtn: {
+            root: {
+                color: themeVariables.calendarPrevYearIconColor
+            }
+        } as WmIconStyles,
+        nextYearBtn: {
+            root: {
+                color: themeVariables.calendarNextYearIconColor
+            }
+        } as WmIconStyles
+    });
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
+});

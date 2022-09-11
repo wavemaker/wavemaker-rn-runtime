@@ -1,6 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { TextStyle } from 'react-native';
 
@@ -14,62 +13,64 @@ export type WmDatetimeStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-datetime';
-export const DEFAULT_STYLES: WmDatetimeStyles = defineStyles({
-    root: {
-        padding: 12,
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderRadius: 6,
-        backgroundColor: ThemeVariables.inputBackgroundColor,
-        borderColor: ThemeVariables.inputBorderColor,
-        justifyContent: 'center',
-        width: '100%'
-    },
-    focused: {
-
-    },
-    invalid: {
-      borderBottomColor: ThemeVariables.inputInvalidBorderColor
-    },
-    placeholderText: {
-      color: ThemeVariables.inputPlaceholderColor
-    },
-    container: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    text: {
-        fontSize: 16,
-        color: ThemeVariables.inputTextColor
-    },
-    calendarIcon: {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmDatetimeStyles = defineStyles({
         root: {
-            alignSelf: 'center'
-        },
-        icon: {
-            fontSize: 24
-        }
-    },
-    clearIcon:  {
-        root : {
-            alignSelf: 'center',
+            padding: 12,
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderRadius: 6,
+            backgroundColor: themeVariables.inputBackgroundColor,
+            borderColor: themeVariables.inputBorderColor,
             justifyContent: 'center',
-            marginRight: 4,
-            height: 24,
-            width: 24,
-            borderRadius: 16,
-            backgroundColor: ThemeVariables.inputDisabledBgColor
+            width: '100%'
         },
-        icon: {
-            fontSize: 16,
-            fontWeight: 'bold'
-        }
-    } as WmIconStyles
-}) as WmDatetimeStyles;
+        focused: {
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
-    root : {
-      backgroundColor: ThemeVariables.inputDisabledBgColor
-    }
+        },
+        invalid: {
+            borderBottomColor: themeVariables.inputInvalidBorderColor
+        },
+        placeholderText: {
+          color: themeVariables.inputPlaceholderColor
+        },
+        container: {
+            flexDirection: 'row',
+            alignItems: 'center'
+        },
+        text: {
+            fontSize: 16,
+            color: themeVariables.inputTextColor
+        },
+        calendarIcon: {
+            root: {
+                alignSelf: 'center'
+            },
+            icon: {
+                fontSize: 24
+            }
+        },
+        clearIcon:  {
+            root : {
+                alignSelf: 'center',
+                justifyContent: 'center',
+                marginRight: 4,
+                height: 24,
+                width: 24,
+                borderRadius: 16,
+                backgroundColor: themeVariables.inputDisabledBgColor
+            },
+            icon: {
+                fontSize: 16,
+                fontWeight: 'bold'
+            }
+        } as WmIconStyles
+    }) as WmDatetimeStyles;
+
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
+    addStyle(DEFAULT_CLASS + '-disabled', '', {
+        root : {
+        backgroundColor: themeVariables.inputDisabledBgColor
+        }
+    });
 });

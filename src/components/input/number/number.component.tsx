@@ -3,7 +3,7 @@ import { Platform, TextInput } from 'react-native';
 import { isNull } from 'lodash';
 
 import WmNumberProps from './number.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmNumberStyles } from './number.styles';
+import { DEFAULT_CLASS, WmNumberStyles } from './number.styles';
 import {
   BaseNumberComponent,
   BaseNumberState
@@ -16,7 +16,7 @@ export class WmNumberState extends BaseNumberState<WmNumberProps> {
 export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumberState, WmNumberStyles> {
 
   constructor(props: WmNumberProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmNumberProps(), new WmNumberState());
+    super(props, DEFAULT_CLASS, new WmNumberProps(), new WmNumberState());
   }
 
   renderWidget(props: WmNumberProps) {

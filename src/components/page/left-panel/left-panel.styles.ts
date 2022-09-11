@@ -4,11 +4,13 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 export type WmLeftPanelStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-left-panel';
-export const DEFAULT_STYLES: WmLeftPanelStyles = defineStyles({
-    root: {
-        minHeight: '100%'
-    },
-    text: {}
-});
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmLeftPanelStyles = defineStyles({
+        root: {
+            minHeight: '100%'
+        },
+        text: {}
+    });
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
+});

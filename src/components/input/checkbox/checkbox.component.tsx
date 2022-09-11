@@ -7,7 +7,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmCheckboxProps from './checkbox.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmCheckboxStyles } from './checkbox.styles';
+import { DEFAULT_CLASS, WmCheckboxStyles } from './checkbox.styles';
 
 export class WmCheckboxState extends BaseComponentState<WmCheckboxProps> {
   isChecked: boolean = false;
@@ -18,7 +18,7 @@ export class WmCheckboxState extends BaseComponentState<WmCheckboxProps> {
 export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckboxState, WmCheckboxStyles> {
 
   constructor(props: WmCheckboxProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCheckboxProps(), new WmCheckboxState());
+    super(props, DEFAULT_CLASS, new WmCheckboxProps(), new WmCheckboxState());
   }
 
   setChecked(dataValue: any, checkedvalue: any) {

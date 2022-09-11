@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import { clone, findIndex, get, isUndefined, pull, forEach, filter, find, isEqual, merge } from 'lodash';
 import WmChipsProps from './chips.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmChipsStyles } from './chips.styles';
+import { DEFAULT_CLASS, WmChipsStyles } from './chips.styles';
 import WmSearch from '@wavemaker/app-rn-runtime/components/basic/search/search.component';
 import {
   BaseDatasetComponent,
@@ -19,7 +19,7 @@ export class WmChipsState extends BaseDatasetState<WmChipsProps> {
 
 export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsState, WmChipsStyles> {
   constructor(props: WmChipsProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmChipsProps(), new WmChipsState());
+    super(props, DEFAULT_CLASS, new WmChipsProps(), new WmChipsState());
   }
 
   private searchRef: WmSearch = null as any;

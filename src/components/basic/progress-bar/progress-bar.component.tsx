@@ -5,14 +5,14 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmProgressBarProps from './progress-bar.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmProgressBarStyles } from './progress-bar.styles';
+import { DEFAULT_CLASS, WmProgressBarStyles } from './progress-bar.styles';
 
 export class WmProgressBarState extends BaseComponentState<WmProgressBarProps> {}
 
 export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmProgressBarState, WmProgressBarStyles> {
 
   constructor(props: WmProgressBarProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmProgressBarProps());
+    super(props, DEFAULT_CLASS, new WmProgressBarProps());
   }
 
   renderWidget(props: WmProgressBarProps) {

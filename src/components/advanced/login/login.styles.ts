@@ -8,31 +8,34 @@ export type WmLoginStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-login';
-export const DEFAULT_STYLES: WmLoginStyles = defineStyles({
-    root: {},
-    text: {},
-    errorMsgStyles: { 
-        color: ThemeVariables.loginErrorMsgColor, 
-        fontSize: 14, 
-        backgroundColor: ThemeVariables.loginErrorMsgBgColor , 
-        borderColor: ThemeVariables.loginErrorMsgBorderColor, 
-        padding: 12,
-        fontFamily: ThemeVariables.baseFont
-    },
-    formStyles: {
-        padding: 35
-    }
-});
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmLoginStyles = defineStyles({
+        root: {},
+        text: {},
+        errorMsgStyles: { 
+            color: themeVariables.loginErrorMsgColor, 
+            fontSize: 14, 
+            backgroundColor: themeVariables.loginErrorMsgBgColor , 
+            borderColor: themeVariables.loginErrorMsgBorderColor, 
+            padding: 12,
+            fontFamily: themeVariables.baseFont
+        },
+        formStyles: {
+            padding: 35
+        }
+    });
 
-const paddingStyle = {
-    padding: 5
-};
-BASE_THEME.addStyle('app-login-username', DEFAULT_CLASS, {
-    root: paddingStyle
-});
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
 
-BASE_THEME.addStyle('app-login-password', DEFAULT_CLASS, {
-    root: paddingStyle
+    const paddingStyle = {
+        padding: 5
+    };
+    addStyle('app-login-username', DEFAULT_CLASS, {
+        root: paddingStyle
+    });
+
+    addStyle('app-login-password', DEFAULT_CLASS, {
+        root: paddingStyle
+    });
 });

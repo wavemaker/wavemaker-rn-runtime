@@ -8,7 +8,7 @@ import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-run
 import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.component';
 
 import WmPopoverProps from './popover.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmPopoverStyles } from './popover.styles';
+import { DEFAULT_CLASS, WmPopoverStyles } from './popover.styles';
 import WmContainer from '../../container/container.component';
 
 export class WmPopoverState extends BaseComponentState<WmPopoverProps> {
@@ -30,7 +30,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
   view: View = null as any;
 
   constructor(props: WmPopoverProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPopoverProps(), new WmPopoverState());
+    super(props, DEFAULT_CLASS, new WmPopoverProps(), new WmPopoverState());
   }
 
   private computePosition = (e: LayoutChangeEvent) => {

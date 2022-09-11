@@ -5,7 +5,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmFileuploadProps from './fileupload.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmFileuploadStyles } from './fileupload.styles';
+import { DEFAULT_CLASS, WmFileuploadStyles } from './fileupload.styles';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 
 
@@ -30,7 +30,7 @@ const namedParameters = {
 export default class WmFileupload extends BaseComponent<WmFileuploadProps, WmFileuploadState, WmFileuploadStyles> {
 
   constructor(props: WmFileuploadProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFileuploadProps());
+    super(props, DEFAULT_CLASS, new WmFileuploadProps());
   }
 
   onTap() {

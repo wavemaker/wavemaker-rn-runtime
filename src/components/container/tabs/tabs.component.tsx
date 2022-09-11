@@ -3,8 +3,7 @@ import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, PanResponder, Vie
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTabsProps from './tabs.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmTabsStyles } from './tabs.styles';
-
+import { DEFAULT_CLASS, WmTabsStyles } from './tabs.styles';
 import WmTabpane from './tabpane/tabpane.component';
 import WmTabheader from './tabheader/tabheader.component';
 
@@ -49,7 +48,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   });
 
   constructor(props: WmTabsProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTabsProps(), new WmTabsState());
+    super(props, DEFAULT_CLASS, new WmTabsProps(), new WmTabsState());
     const selectedIndex = props.defaultpaneindex || 0;
     const tabsShown: boolean[] = [];
     tabsShown[selectedIndex] = true;

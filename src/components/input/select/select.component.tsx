@@ -3,7 +3,7 @@ import { ScrollView, Text, View } from 'react-native';
 import { find, isEmpty } from 'lodash';
 
 import WmSelectProps from './select.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmSelectStyles } from './select.styles';
+import { DEFAULT_CLASS, WmSelectStyles } from './select.styles';
 import {
   BaseDatasetComponent,
   BaseDatasetState
@@ -21,7 +21,7 @@ export class WmSelectState extends BaseDatasetState<WmSelectProps> {
 
 export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSelectState, WmSelectStyles> {
   constructor(props: WmSelectProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSelectProps(), new WmSelectState());
+    super(props, DEFAULT_CLASS, new WmSelectProps(), new WmSelectState());
   }
   view: View = null as any;
   public widgetRef: Text | null = null;
@@ -161,7 +161,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               const items = this.state.dataItems;
               modalService.showModal(
                 this.prepareModalOptions(
-                  <ScrollView style={{width: '100%', maxHeight: ThemeVariables.maxModalHeight}} contentContainerStyle={this.styles.dropDownContent}>
+                  <ScrollView style={{width: '100%', maxHeight: ThemeVariables.INSTANCE.maxModalHeight}} contentContainerStyle={this.styles.dropDownContent}>
                     {props.placeholder ?
                       <View key={props.name + '_placeholder'} style={this.styles.placeholderText}>
                         {this.renderSelectItem({}, true, false)}

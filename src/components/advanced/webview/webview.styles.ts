@@ -7,16 +7,19 @@ export type WebviewStyles = BaseStyles & {
 }
 
 export const DEFAULT_CLASS = 'app-webview';
-export const DEFAULT_STYLES: WebviewStyles = defineStyles({
-    root: {},
-    text: {},
-    container : {
-      flex: 1,
-      minHeight: 100
-    },
-    webview: {
-      flex: 1
-    }
-});
 
-BASE_THEME.addStyle<WebviewStyles>(DEFAULT_CLASS, '', DEFAULT_STYLES);
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const defaultStyles: WebviewStyles = defineStyles({
+      root: {},
+      text: {},
+      container : {
+        flex: 1,
+        minHeight: 100
+      },
+      webview: {
+        flex: 1
+      }
+  });
+
+  addStyle(DEFAULT_CLASS, '', defaultStyles);
+});

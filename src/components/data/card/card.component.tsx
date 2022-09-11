@@ -9,14 +9,14 @@ import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/pictur
 
 
 import WmCardProps from './card.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmCardStyles } from './card.styles';
+import { DEFAULT_CLASS, WmCardStyles } from './card.styles';
 
 export class WmCardState extends BaseComponentState<WmCardProps> {}
 
 export default class WmCard extends BaseComponent<WmCardProps, WmCardState, WmCardStyles> {
 
   constructor(props: WmCardProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCardProps());
+    super(props, DEFAULT_CLASS, new WmCardProps());
   }
 
   renderHeader(props: WmCardProps) {

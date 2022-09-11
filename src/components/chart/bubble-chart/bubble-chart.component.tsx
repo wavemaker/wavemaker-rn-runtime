@@ -3,7 +3,7 @@ import {Text, View} from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmBubbleChartProps from './bubble-chart.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmBubbleChartStyles } from './bubble-chart.styles';
+import { DEFAULT_CLASS, WmBubbleChartStyles } from './bubble-chart.styles';
 import {
   BaseChartComponent,
   BaseChartComponentState
@@ -18,7 +18,7 @@ export class WmBubbleChartState extends BaseChartComponentState<WmBubbleChartPro
 export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps, WmBubbleChartState, WmBubbleChartStyles> {
 
   constructor(props: WmBubbleChartProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmBubbleChartProps(), new WmBubbleChartState());
+    super(props, DEFAULT_CLASS, new WmBubbleChartProps(), new WmBubbleChartState());
   }
 
   renderWidget(props: WmBubbleChartProps) {

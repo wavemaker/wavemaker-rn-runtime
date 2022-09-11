@@ -2,7 +2,7 @@ import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/cor
 import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.props';
 import { find, isEqual,isEmpty, isFunction, includes, get, forEach, isObject, isArray, filter, trim, uniqBy, uniqWith } from 'lodash';
 import { getGroupedData, getOrderedDataset, isDefined, validateField } from "@wavemaker/app-rn-runtime/core/utils";
-import { DEFAULT_CLASS, DEFAULT_STYLES, BaseDatasetStyles } from "@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.styles";
+import { DEFAULT_CLASS, BaseDatasetStyles } from "@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.styles";
 
 export class BaseDatasetState <T extends BaseDatasetProps> extends BaseComponentState<T> {
   dataItems: any;
@@ -14,8 +14,8 @@ export class BaseDatasetState <T extends BaseDatasetProps> extends BaseComponent
 
 export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extends BaseDatasetState<T>, L extends BaseDatasetStyles> extends BaseComponent<T, S, L> {
 
-  constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
-    super(props, defaultClass, defaultStyles, defaultProps, defaultState);
+  constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
+    super(props, defaultClass, defaultProps, defaultState);
 
   }
 

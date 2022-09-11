@@ -1,4 +1,4 @@
-import { DEFAULT_CLASS, DEFAULT_STYLES } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles";
+import { DEFAULT_CLASS } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles";
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import BaseInputProps from './baseinput.props';
 import { isString } from 'lodash';
@@ -17,8 +17,8 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   public widgetRef: TextInput | null = null;
   isTouched: boolean = false;
   private cursor: any = 0;
-  constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
-    super(props, defaultClass, defaultStyles, defaultProps, defaultState);
+  constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
+    super(props, defaultClass, defaultProps, defaultState);
   }
 
   focus() {

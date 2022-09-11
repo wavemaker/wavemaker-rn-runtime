@@ -8,7 +8,7 @@ import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.comp
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 import WmListProps from './list.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmListStyles } from './list.styles';
+import { DEFAULT_CLASS, WmListStyles } from './list.styles';
 
 
 export class WmListState extends BaseComponentState<WmListProps> {
@@ -23,7 +23,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private key = 1;
 
   constructor(props: WmListProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmListProps());
+    super(props, DEFAULT_CLASS, new WmListProps());
   }
 
   private onSelect($item: any, $index: number | string) {

@@ -8,7 +8,7 @@ import ImageSizeEstimator from '@wavemaker/app-rn-runtime/core/imageSizeEstimato
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmPictureProps from './picture.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmPictureStyles } from './picture.styles';
+import { DEFAULT_CLASS, WmPictureStyles } from './picture.styles';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmPictureState extends BaseComponentState<WmPictureProps> {
@@ -21,7 +21,7 @@ export class WmPictureState extends BaseComponentState<WmPictureProps> {
 export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureState, WmPictureStyles> {
 
   constructor(props: WmPictureProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPictureProps());
+    super(props, DEFAULT_CLASS, new WmPictureProps());
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {

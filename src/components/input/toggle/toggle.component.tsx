@@ -5,7 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmToggleProps from './toggle.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmToggleStyles } from './toggle.styles';
+import { DEFAULT_CLASS, WmToggleStyles } from './toggle.styles';
 
 export class WmToggleState extends BaseComponentState<WmToggleProps> {
   isSwitchOn: boolean = false;
@@ -16,7 +16,7 @@ export class WmToggleState extends BaseComponentState<WmToggleProps> {
 export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState, WmToggleStyles> {
 
   constructor(props: WmToggleProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmToggleProps(), new WmToggleState());
+    super(props, DEFAULT_CLASS, new WmToggleProps(), new WmToggleState());
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {

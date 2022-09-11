@@ -1,6 +1,6 @@
 import { assign } from "lodash";
 import { VictoryThemeDefinition } from "victory-core";
-import ThemeVariables from "@wavemaker/app-rn-runtime/styles/theme.variables";
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 const themes: {[key:string]: any} = {
   'Terrestrial': {
@@ -112,7 +112,7 @@ class ThemeFactory {
       fontSize,
       letterSpacing,
       padding,
-      fill: textColorFromProps || ThemeVariables.defaultTextColor,
+      fill: textColorFromProps || ThemeVariables.INSTANCE.defaultTextColor,
       stroke: "transparent",
       strokeWidth: 0,
     };
@@ -142,7 +142,7 @@ class ThemeFactory {
           style: {
             axis: {
               fill: "transparent",
-              stroke: textColorFromProps || ThemeVariables.chartAxisColor,
+              stroke: textColorFromProps || ThemeVariables.INSTANCE.chartAxisColor,
               strokeWidth: 2,
               strokeLinecap,
               strokeLinejoin,
@@ -163,13 +163,13 @@ class ThemeFactory {
             ticks: {
               fill: "transparent",
               size: 5,
-              stroke: ThemeVariables.chartAxisPointColor,
+              stroke: ThemeVariables.INSTANCE.chartAxisPointColor,
               strokeWidth: 1,
               strokeLinecap,
               strokeLinejoin,
             },
             tickLabels: assign({}, baseLabelStyles, {
-              fill: textColorFromProps || ThemeVariables.defaultTextColor,
+              fill: textColorFromProps || ThemeVariables.INSTANCE.defaultTextColor,
             }),
           },
         },
@@ -274,9 +274,9 @@ class ThemeFactory {
           data: {
             type: "circle",
           },
-          border: { stroke: 'none' }, // ThemeVariables.chartLegendBorder
+          border: { stroke: 'none' }, // ThemeVariables.INSTANCE.chartLegendBorder
           labels: baseLabelStyles,
-          title: assign({}, baseLabelStyles, { padding: 5, fontSize: ThemeVariables.heading4FontSize }),
+          title: assign({}, baseLabelStyles, { padding: 5, fontSize: ThemeVariables.INSTANCE.heading4FontSize }),
         },
       },
       line: assign(

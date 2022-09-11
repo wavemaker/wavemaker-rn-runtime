@@ -14,7 +14,7 @@ import {
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
 import WmBarChartProps from './bar-chart.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmBarChartStyles } from './bar-chart.styles';
+import { DEFAULT_CLASS, WmBarChartStyles } from './bar-chart.styles';
 import { Svg } from "react-native-svg";
 
 export class WmBarChartState extends BaseChartComponentState<WmBarChartProps> {}
@@ -22,7 +22,7 @@ export class WmBarChartState extends BaseChartComponentState<WmBarChartProps> {}
 export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBarChartState, WmBarChartStyles> {
 
   constructor(props: WmBarChartProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmBarChartProps(), new WmBarChartState());
+    super(props, DEFAULT_CLASS, new WmBarChartProps(), new WmBarChartState());
   }
 
   labelFn(data: any): string | number | string[] | number[] | null {

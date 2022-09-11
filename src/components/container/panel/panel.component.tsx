@@ -5,7 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 import WmPanelProps from './panel.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmPanelStyles } from './panel.styles';
+import { DEFAULT_CLASS, WmPanelStyles } from './panel.styles';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmPanelState extends BaseComponentState<WmPanelProps> {
@@ -16,7 +16,7 @@ export class WmPanelState extends BaseComponentState<WmPanelProps> {
 export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, WmPanelStyles> {
   private animatedRef: any;
   constructor(props: WmPanelProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPanelProps());
+    super(props, DEFAULT_CLASS, new WmPanelProps());
     this.updateState({
       expandedId: this.state.props.expanded ? 1 : -1,
     } as WmPanelState);

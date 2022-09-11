@@ -4,9 +4,11 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 export type BaseDatasetStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-basenumber';
-export const DEFAULT_STYLES: BaseDatasetStyles = defineStyles({
-  root: {},
-  text: {}
-});
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const defaultStyles: BaseDatasetStyles = defineStyles({
+    root: {},
+    text: {}
+  });
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+  addStyle(DEFAULT_CLASS, '', defaultStyles);
+});

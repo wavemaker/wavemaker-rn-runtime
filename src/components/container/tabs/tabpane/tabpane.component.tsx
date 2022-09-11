@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTabpaneProps from './tabpane.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmTabpaneStyles } from './tabpane.styles';
+import { DEFAULT_CLASS, WmTabpaneStyles } from './tabpane.styles';
 import WmTabs from '../tabs.component';
 
 export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {
@@ -13,7 +13,7 @@ export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {
 export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneState, WmTabpaneStyles> {
 
   constructor(props: WmTabpaneProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTabpaneProps());
+    super(props, DEFAULT_CLASS, new WmTabpaneProps());
   }
 
   onPartialLoad() {

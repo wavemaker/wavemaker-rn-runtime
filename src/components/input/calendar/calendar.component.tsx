@@ -6,7 +6,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import { MonthView } from './views/month-view';
 import WmCalendarProps from './calendar.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmCalendarStyles } from './calendar.styles';
+import { DEFAULT_CLASS, WmCalendarStyles } from './calendar.styles';
 import WmIcon from '../../basic/icon/icon.component';
 
 export class WmCalendarState extends BaseComponentState<WmCalendarProps> {
@@ -19,7 +19,7 @@ const DEFAULT_DATE_FORMAT = 'DD-MM-YYYY';
 export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalendarState, WmCalendarStyles> {
 
   constructor(props: WmCalendarProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCalendarProps(), new WmCalendarState());
+    super(props, DEFAULT_CLASS, new WmCalendarProps(), new WmCalendarState());
   }
 
   onDateChange = (date: Moment) => {

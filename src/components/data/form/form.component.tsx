@@ -11,7 +11,7 @@ import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/messag
 import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toast.service';
 
 import WmFormProps from './form.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormStyles } from './form.styles';
+import { DEFAULT_CLASS, WmFormStyles } from './form.styles';
 
 export class WmFormState extends BaseComponentState<WmFormProps> {
   isValid = false;
@@ -27,7 +27,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   private toaster: any;
   formWidgets: { [key: string]: BaseComponent<any, any, any> } = {}; // object containing key as name of formField and value as WmFormField proxy.
   constructor(props: WmFormProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormProps());
+    super(props, DEFAULT_CLASS, new WmFormProps());
   }
 
   private _debouncedSubmitForm = debounce(this.handleSubmit, 250);

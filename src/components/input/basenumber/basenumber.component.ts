@@ -2,7 +2,7 @@ import { includes, intersection, isNaN, isFinite, toArray } from 'lodash';
 import BaseNumberProps from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.props';
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import { BaseNumberStyles } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.styles';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles";
+import { DEFAULT_CLASS } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles";
 import { Platform, TextInput } from 'react-native';
 import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
 
@@ -18,8 +18,8 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   private GROUP;
   public widgetRef: TextInput | null = null;
   private cursor: any = 0;
-  constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
-    super(props, defaultClass, defaultStyles, defaultProps, defaultState);
+  constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
+    super(props, defaultClass, defaultProps, defaultState);
     this.DECIMAL = '.';
     this.GROUP = ',';
   }

@@ -2,7 +2,6 @@ import { ViewStyle } from 'react-native';
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmButtonStyles } from '../../basic/button/button.styles';
 
 export type WmDialogStyles = BaseStyles & {
@@ -13,59 +12,61 @@ export type WmDialogStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-dialog';
-export const DEFAULT_STYLES: WmDialogStyles = defineStyles<WmDialogStyles>({
-    root: {
-        minWidth: 320,
-        width: '90%',
-        maxHeight: ThemeVariables.maxModalHeight,
-        backgroundColor: ThemeVariables.dialogBackgroundColor,
-        borderRadius: 6,
-        padding: 16
-    },
-    text: {},
-    modal: {},
-    modalContent: {
-        width: undefined
-    },
-    icon: {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmDialogStyles = defineStyles<WmDialogStyles>({
         root: {
-            alignSelf: 'center',
+            minWidth: 320,
+            width: '90%',
+            maxHeight: themeVariables.maxModalHeight,
+            backgroundColor: themeVariables.dialogBackgroundColor,
+            borderRadius: 6,
+            padding: 16
         },
-        text: {
-            fontSize: 20,
-            fontWeight: 'bold'
+        text: {},
+        modal: {},
+        modalContent: {
+            width: undefined
         },
         icon: {
-            fontSize: 24,
-        }
-    } as WmIconStyles,
-    header: {
-        flexDirection: 'row',
-        borderStyle: 'solid',
-        borderColor: ThemeVariables.dialogBorderColor
-    },
-    headerLabel: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
-    },
-    closeBtn: {
-        root: {
-            alignSelf: 'flex-end',
-            backgroundColor: 'transparent',
-            padding: 8
-        },
-        icon : {
             root: {
-                alignItems: 'center'
+                alignSelf: 'center',
             },
             text: {
-                color: ThemeVariables.dialogCloseIconColor,
-                fontSize: 16
+                fontSize: 20,
+                fontWeight: 'bold'
+            },
+            icon: {
+                fontSize: 24,
             }
-        }
-    } as WmButtonStyles
-});
+        } as WmIconStyles,
+        header: {
+            flexDirection: 'row',
+            borderStyle: 'solid',
+            borderColor: themeVariables.dialogBorderColor
+        },
+        headerLabel: {
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center'
+        },
+        closeBtn: {
+            root: {
+                alignSelf: 'flex-end',
+                backgroundColor: 'transparent',
+                padding: 8
+            },
+            icon : {
+                root: {
+                    alignItems: 'center'
+                },
+                text: {
+                    color: themeVariables.dialogCloseIconColor,
+                    fontSize: 16
+                }
+            }
+        } as WmButtonStyles
+    });
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
+});

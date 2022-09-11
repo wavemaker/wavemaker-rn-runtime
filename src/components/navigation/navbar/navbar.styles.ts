@@ -9,39 +9,41 @@ export type WmNavbarStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-navbar';
-export const DEFAULT_STYLES: WmNavbarStyles = defineStyles({
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const defaultStyles: WmNavbarStyles = defineStyles({
+      root: {},
+      text: {},
+      nav: {
+        flexDirection: 'row'
+      },
+      navitem: {},
+      childNav: {}
+  });
+
+  addStyle(DEFAULT_CLASS, '', defaultStyles);
+  addStyle('stackedNav', '', {
     root: {},
-    text: {},
     nav: {
-      flexDirection: 'row'
+      flexDirection: 'column'
+    },
+    text: {
+      textDecorationLine: 'none'
     },
     navitem: {},
-    childNav: {}
+    childNav:  {
+      paddingLeft: 12
+    }
+  } as WmNavbarStyles);
+  addStyle('childNav', '', {
+    navitem: {}
+  } as WmNavbarStyles);
+  addStyle('justifiedNav', '', {
+    root: {},
+    nav: {
+      justifyContent: 'space-around',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    navitem: {}
+  } as WmNavbarStyles);
 });
-
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('stackedNav', '', {
-  root: {},
-  nav: {
-    flexDirection: 'column'
-  },
-  text: {
-    textDecorationLine: 'none'
-  },
-  navitem: {},
-  childNav:  {
-    paddingLeft: 12
-  }
-} as WmNavbarStyles);
-BASE_THEME.addStyle('childNav', '', {
-  navitem: {}
-} as WmNavbarStyles);
-BASE_THEME.addStyle('justifiedNav', '', {
-  root: {},
-  nav: {
-    justifyContent: 'space-around',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  navitem: {}
-} as WmNavbarStyles);

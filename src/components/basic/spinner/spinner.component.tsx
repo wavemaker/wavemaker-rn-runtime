@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmSpinnerProps from './spinner.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmSpinnerStyles } from './spinner.styles';
+import { DEFAULT_CLASS, WmSpinnerStyles } from './spinner.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 
@@ -14,7 +14,7 @@ export class WmSpinnerState extends BaseComponentState<WmSpinnerProps> {
 export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerState, WmSpinnerStyles> {
 
   constructor(props: WmSpinnerProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSpinnerProps());
+    super(props, DEFAULT_CLASS, new WmSpinnerProps());
   }
 
   private prepareIcon(props: any) {

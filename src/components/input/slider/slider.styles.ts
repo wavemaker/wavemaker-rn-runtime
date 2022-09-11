@@ -1,6 +1,5 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { TextStyle, ViewStyle } from 'react-native';
 
 export type WmSliderStyles = BaseStyles & {
@@ -14,37 +13,39 @@ export type WmSliderStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-slider';
-export const DEFAULT_STYLES: WmSliderStyles = defineStyles({
-    root: {},
-    text: {
-        fontSize: 16
-    },
-    minimumValue: {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmSliderStyles = defineStyles({
+        root: {},
+        text: {
+            fontSize: 16
+        },
+        minimumValue: {
 
-    },
-    maximumValue: {
+        },
+        maximumValue: {
 
-    },
-    value: {
+        },
+        value: {
 
-    },
-    minimumTrack: {
-        backgroundColor: ThemeVariables.minimumTrackTintColor
-    },
-    maximumTrack: {
-        backgroundColor: ThemeVariables.maximumTrackTintColor
-    },
-    thumb: {
-        backgroundColor: ThemeVariables.thumbTintColor
-    },
-    disabled: {
-        pointerEvents: 'none'
-    }
-}) as WmSliderStyles;
+        },
+        minimumTrack: {
+            backgroundColor: themeVariables.minimumTrackTintColor
+        },
+        maximumTrack: {
+            backgroundColor: themeVariables.maximumTrackTintColor
+        },
+        thumb: {
+            backgroundColor: themeVariables.thumbTintColor
+        },
+        disabled: {
+            pointerEvents: 'none'
+        }
+    }) as WmSliderStyles;
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
-    root : {
-      opacity: 0.5
-    }
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
+    addStyle(DEFAULT_CLASS + '-disabled', '', {
+        root : {
+        opacity: 0.5
+        }
+    });
 });

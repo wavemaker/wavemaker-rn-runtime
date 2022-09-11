@@ -1,12 +1,12 @@
 import WmTimeProps from './time.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES } from './time.styles';
+import { DEFAULT_CLASS, } from './time.styles';
 import BaseDatetime from '../base-datetime.component';
 import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 
 export default class WmTime extends BaseDatetime {
 
   constructor(props: WmTimeProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTimeProps());
+    super(props, DEFAULT_CLASS, new WmTimeProps());
   }
 
   onDateChange($event: DateTimePickerEvent, date?: Date): void {

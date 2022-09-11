@@ -89,6 +89,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   isStarted = false;
   appConfig = injector.get<AppConfig>('APP_CONFIG');
   public baseUrl = '';
+  public cleanup = [] as Function[];
   private startUpVariables: string[] = [];
   private startUpActions: string[] = [];
   private autoUpdateVariables: string[] = [];
@@ -250,6 +251,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     this.axiosInterceptorIds.map(id => {
       axios.interceptors.request.eject(id);
     });
+    this.cleanup.forEach(fn => fn());
   }
 
   refresh() {
@@ -389,7 +391,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
           ...DefaultTheme,
           colors: {
             ...DefaultTheme.colors,
-            primary: ThemeVariables.primaryColor
+            primary: ThemeVariables.INSTANCE.primaryColor
           }}}>
           <React.Fragment>
             {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
