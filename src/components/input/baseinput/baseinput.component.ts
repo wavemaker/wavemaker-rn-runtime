@@ -45,12 +45,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
             textValue: $new
           } as S
         );
-        const isDefault = this.state.isDefault;
-        if (isDefault) {
-          this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
-        } else {
-          this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
-        }
+        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, this.state.isDefault)
     }
   }
 
@@ -61,6 +56,9 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   onChangeText(value: any) {
+    if (this.state.isDefault) {
+      this.updateState({ isDefault: false } as S);
+    }
     this.updateState({
         textValue: value
       } as S, () => {
@@ -109,7 +107,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     let newVal = event.target.value || this.state.textValue;
     let oldVal = this.state.props.datavalue || '';
     this.validate(newVal);
-    if (newVal === '') {
+    if (newVal === '' || this.state.isDefault) {
       setTimeout(() => {
         this.props.triggerValidation && this.props.triggerValidation();
       })

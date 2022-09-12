@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { isDefined, widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
+import { isDefined, validateField, widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
 import { debounce, find, forEach, get, set } from 'lodash';
 
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
@@ -197,6 +197,14 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
             validationmessage: msg
           }} as WmFormFieldState);
         field.formwidget.validate && field.formwidget.validate(val);
+      }
+      if (field.formwidget.state.isDefault) {
+        const validationObj = validateField(field.formwidget.state.props, val);
+        if (validationObj.isValid === false) {
+          isValid = false;
+          const msg = get(field.defaultValidatorMessages, field.formwidget.state.errorType) || field.state.props.validationmessage;
+          field.setInvalidState(msg);
+        }
       }
       // check for isvalid state of formwidget
       if (field.formwidget.state.isValid === false) {

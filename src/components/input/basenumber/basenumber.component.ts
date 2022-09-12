@@ -35,6 +35,9 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   }
 
   onChangeText(value: any) {
+    if (this.state.isDefault) {
+      this.updateState({ isDefault: false } as S);
+    }
     this.updateState({
         textValue: value
       } as S, () => {
@@ -135,7 +138,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   onBlur(event: any) {
     let newVal = event.target.value || this.state.textValue;
     this.validate(newVal);
-    if (newVal === '') {
+    if (newVal === '' || this.state.isDefault) {
       setTimeout(() => {
         this.props.triggerValidation && this.props.triggerValidation();
       })
@@ -269,12 +272,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
             textValue: $new
           } as S
         );
-        const isDefault = this.state.isDefault;
-        if (isDefault) {
-          this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
-        } else {
-          this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
-        }
+        this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, this.state.isDefault);
     }
   }
 }
