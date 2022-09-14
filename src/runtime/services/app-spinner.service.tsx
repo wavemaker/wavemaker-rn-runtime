@@ -8,15 +8,26 @@ import WmSpinner from '@wavemaker/app-rn-runtime/components/basic/spinner/spinne
 export class AppSpinnerService implements SpinnerService {
   public displayOptions = {} as DisplayOptions;
   public destroy: any;
+  private count = 0;
   constructor(private displayManager: DisplayManager) {}
 
   show(options: DisplayOptions) {
-    const content = <WmSpinner caption={options.message || ''}></WmSpinner>;
-    this.destroy = this.displayManager.show({ content: content });
+    if (this.count === 0) {
+      const content = <WmSpinner caption={options.message || ''}></WmSpinner>;
+      this.destroy = this.displayManager.show({ content: content });
+    }
+    this.count++;
   }
 
   hide() {
-    this.destroy && this.destroy.call(this.displayManager);
+    if (this.count > 0) {
+      this.count--;
+    } else {
+      this.count = 0;
+    }
+    if (this.count === 0) {
+      this.destroy && this.destroy.call(this.displayManager);
+    }
   }
 }
 
