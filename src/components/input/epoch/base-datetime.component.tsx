@@ -108,7 +108,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           const minDateVal = ($new === CURRENT_DATE || $new === CURRENT_TIME) ? new Date() : props.mindate;
           this.updateState({
             props: {
-              mindate: moment(minDateVal, 'YYYY-MM-DD').toDate()
+              mindate: moment(minDateVal, props.datepattern).toDate()
             }
           } as BaseDatetimeState);
         }
@@ -118,7 +118,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           const maxDateVal = ($new === CURRENT_DATE || $new === CURRENT_TIME) ? new Date() : props.maxdate;
           this.updateState({
             props: {
-              maxdate: moment(maxDateVal, 'YYYY-MM-DD').toDate()
+              maxdate: moment(maxDateVal, props.datepattern).toDate()
             }
           } as BaseDatetimeState);
         }
