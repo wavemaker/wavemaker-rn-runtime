@@ -124,6 +124,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return this.theme.getStyle(`${this.defaultClass} ${isHorizontal ? 'app-horizontal-list' : 'app-vertical-list'}`);
   }
 
+  getIndex(item: any) {
+    return this.state.props.dataset.indexOf(item);
+  }
+
   private generateItemKey(item: any, index: number, props: WmListProps) {
     if (props.itemkey && item) {
       return props.itemkey(item, index);
