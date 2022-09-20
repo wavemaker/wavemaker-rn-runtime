@@ -4,17 +4,16 @@ import { BaseProps } from "./base.component";
 export class PropsProvider<T extends BaseProps> {
     private oldProps: any = {};
     private overriddenProps: any = {};
-    private dynamicDefaultProps: any = {};
     private propsProxy: T;
     private isDirty = false;
 
-    constructor(private initprops: T, private onChange = (name: string, $new: any, $old: any) => {}) {
+    constructor(private defaultProps: T, private initprops: T, private onChange = (name: string, $new: any, $old: any) => {}) {
         this.initprops = this.initprops || {};
         //@ts-ignore
         this.propsProxy = (new Proxy({}, {
             get: (target, prop, receiver): any => {
                 const propName = prop.toString();
-                let value = this.dynamicDefaultProps[propName];
+                let value = (this.defaultProps as any)[propName];
                 if (this.overriddenProps.hasOwnProperty(propName)) {
                     value = this.overriddenProps[propName];
                 } else if (this.oldProps.hasOwnProperty(propName)) {
@@ -40,7 +39,7 @@ export class PropsProvider<T extends BaseProps> {
     }
 
     setDefault(propName: string, value: any) {
-        this.dynamicDefaultProps[propName] = value;
+        (this.defaultProps as any)[propName] = value;
     }
 
     check(nextProps: T = this.initprops) {
@@ -72,7 +71,8 @@ export class PropsProvider<T extends BaseProps> {
     }
 
     has(propName: string) {
-        return Object.keys(this.initprops).find(k => k === propName);
+        return (this.defaultProps as any)[propName] !== undefined
+            || (this.initprops as any)[propName] !== undefined;
     }
 
     get() {

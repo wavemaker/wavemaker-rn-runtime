@@ -66,7 +66,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         super(markupProps);
         this.state = (defaultState || {} as S);
         this.propertyProvider = new PropsProvider<T>(
-            assign({}, defaultProps || {}, markupProps),
+            assign({}, defaultProps),
+            assign({}, markupProps),
             (name: string, $new: any, $old: any) => {
                 WIDGET_LOGGER.debug(() => `${this.props.name ?? this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
                 this.onPropertyChange(name, $new, $old);
