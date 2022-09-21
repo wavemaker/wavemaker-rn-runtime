@@ -53,7 +53,8 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   }
 
   renderWidget(props: WmTabsProps) {
-    const tabpanes = props.children.filter((item: any) => item.props.show != false);
+    const tabpanes = React.Children.toArray(props.children)
+      .filter((item: any) => item.props.show != false);
     return (
       <View style={this.styles.root}>
         <Tabs
