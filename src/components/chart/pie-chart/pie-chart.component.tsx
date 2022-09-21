@@ -62,7 +62,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
       labelRadius = radius/2;
     }
     const orientation = props.showlegend === 'right' ? 'vertical' : 'horizontal';
-    let legendData: Array<{name: any}> = pieData.map((d: {x: any, y: any}, index: number) => {return {name: d.x.toString(), symbol: { fill: this.state.colors[index] }}});
+    let legendData: Array<{name: any}> = pieData.map((d: {x: any, y: any}, index: number) => {return {name: d?.x?.toString(), symbol: { fill: this.state.colors[index] }}});
     return (
       <View style={this.styles.root}>
         <svg
