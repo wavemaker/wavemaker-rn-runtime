@@ -1,4 +1,4 @@
-import { isNil } from "lodash-es";
+import { assign, isNil } from "lodash-es";
 import { BaseProps } from "./base.component";
 
 export class PropsProvider<T extends BaseProps> {
@@ -42,7 +42,10 @@ export class PropsProvider<T extends BaseProps> {
         (this.defaultProps as any)[propName] = value;
     }
 
-    check(nextProps: T = this.initprops) {
+    check(nextProps?: T) {
+        if (!nextProps) {
+            nextProps = assign({}, this.defaultProps, this.initprops);
+        }
       const result = Object.keys(nextProps).reduce((b, k) => {
             let flag = false;
             //@ts-ignore
