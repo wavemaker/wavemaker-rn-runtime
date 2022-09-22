@@ -222,7 +222,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const isHorizontal = (props.direction === 'horizontal');
     return (
       <View>
-        {(isHorizontal && props.groupby) ?
+        {(isHorizontal) ?
           this.renderWithFlatList(props, isHorizontal)
         : this.renderWithSectionList(props, isHorizontal)}
       </View>);
