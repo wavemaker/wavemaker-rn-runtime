@@ -6,9 +6,12 @@ export class PropsProvider<T extends BaseProps> {
     private overriddenProps: any = {};
     private propsProxy: T;
     private isDirty = false;
+    private propertyNames = {} as any;
 
     constructor(private defaultProps: T, private initprops: T, private onChange = (name: string, $new: any, $old: any) => {}) {
         this.initprops = this.initprops || {};
+        Object.keys(defaultProps).forEach(k => this.propertyNames[k] = true);
+        Object.keys(initprops).forEach(k => this.propertyNames[k] = true);
         //@ts-ignore
         this.propsProxy = (new Proxy({}, {
             get: (target, prop, receiver): any => {
@@ -74,8 +77,7 @@ export class PropsProvider<T extends BaseProps> {
     }
 
     has(propName: string) {
-        return (this.defaultProps as any)[propName] !== undefined
-            || (this.initprops as any)[propName] !== undefined;
+        return !!this.propertyNames[propName];
     }
 
     get() {
