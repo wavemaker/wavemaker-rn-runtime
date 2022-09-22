@@ -91,9 +91,10 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     if (top) {
       top = top - (50); // remove legendHeight
     }
+    const orientation = (this.props.showlegend === 'right' || this.props.showlegend === 'left') ? 'vertical' : 'horizontal';
     return <VictoryLegend
       name={'legendData'}
-      orientation="horizontal"
+      orientation={orientation}
       gutter={20}
       data={this.state.legendData}
       style={{ border: { stroke: 'none' } }}
