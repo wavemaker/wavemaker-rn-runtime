@@ -1,8 +1,9 @@
 import React from "react";
 import { Dimensions } from 'react-native';
+import moment from "moment";
 import {forEach, get, isArray, isEmpty, isObject, maxBy, minBy, set, trim} from "lodash-es";
 import { ScatterSymbolType } from "victory-core";
-import {VictoryAxis, VictoryLegend} from "victory-native";
+import {VictoryAxis, VictoryLegend, VictoryLabel} from "victory-native";
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
@@ -15,6 +16,7 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
   data: any = [];
   content: any = null;
   yAxis: Array<string> = [];
+  xaxisDatakeyArr: Array<any> = [];
   legendData: any = [];
   theme: any;
   colors: any;
@@ -111,7 +113,11 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       return null;
     }
     return <VictoryAxis crossAxis label={(this.props.xaxislabel || this.props.xaxisdatakey) + (this.props.xunits ? `(${this.props.xunits})` : '')}
-                        theme={this.state.theme}/>;
+                        style={{
+                          grid: this.styles.grid
+                        }}
+                        tickLabelComponent={<VictoryLabel angle={this.props.labelangle || 0} />} theme={this.state.theme}
+                        tickFormat={(d) => `${this.state.xaxisDatakeyArr.length ? this.state.xaxisDatakeyArr[d] : d}`}/>;
   }
   /* y axis with horizontal lines having grid stroke colors*/
   getYAxis() {
@@ -119,7 +125,10 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       return null;
     }
     return <VictoryAxis crossAxis label={(this.props.yaxislabel || this.props.yaxisdatakey) + (this.props.yunits ? `(${this.props.yunits})` : '')}
-                        style={{axisLabel: {padding: this.props.yaxislabeldistance}}}
+                        style={{
+                          axisLabel: {padding: this.props.yaxislabeldistance},
+                          grid: this.styles.grid
+                        }}
                         theme={this.state.theme}
                         tickFormat={(t) => `${this.abbreviateNumber(t)}`} dependentAxis />;
   }
@@ -315,18 +324,34 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     });
   }
 
+  // If date string is bound to xaxis then we are pushing the x values as indexes.
+  getxAxisVal(dataObj: {[key: string] : any}, xKey: string, index: number, xaxisDatakeyArr: Array<any>) {
+    const value: any = get(dataObj, xKey);
+    const parsedDate = Date.parse(value);
+    if (moment(value).isValid() ||
+      (isNaN(value) && !isNaN(parsedDate))) {
+      xaxisDatakeyArr.push(value);
+      return index;
+    }
+    return value;
+  }
+
   prepareDataItems(dataset: any) {
     let xaxis = this.props.xaxisdatakey;
     let yaxis = this.props.yaxisdatakey;
+    let xaxisDatakeyArr: Array<any> = [];
     let datasets: any = [];
 
     if (xaxis && yaxis) {
       let yPts = yaxis.split(',');
-      yPts.forEach((y: any, index: number) => {
+      yPts.forEach((y: any) => {
         if (xaxis !== y) {
-          datasets.push(dataset.map((o: {[key: string] : string}) => {
-            const xVal = get(o, xaxis);
-            const yVal = get(o, y);
+          datasets.push(dataset.map((o: {[key: string] : any}, xindex: number) => {
+            const xVal = this.getxAxisVal(o, xaxis, xindex, xaxisDatakeyArr);
+            let yVal: string | number = get(o, y);
+            if (typeof yVal === 'string') {
+              yVal = parseFloat(yVal) || yVal;
+            }
             let dataObj = {
               x: xVal,
               y: yVal,
@@ -351,7 +376,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
           } as S);
         }, 500);
       }
-      this.updateData(datasets, yPts);
+      this.updateData(datasets, yPts, xaxisDatakeyArr);
     }
   }
 
@@ -362,10 +387,11 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     caption={this.props.loadingdatamsg}></WmIcon>);
   }
 
-  updateData(datasets: any, yPts: any) {
+  updateData(datasets: any, yPts: any, xaxisDatakeyArr: Array<any>) {
     this.updateState({
       data: datasets as any,
-      yAxis: yPts
+      yAxis: yPts,
+      xaxisDatakeyArr: xaxisDatakeyArr
     } as S, () => {
       this.prepareLegendData();
       if (!this.props.labeltype || this.props.labeltype === 'percent') {

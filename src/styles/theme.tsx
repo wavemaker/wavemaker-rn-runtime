@@ -1,10 +1,29 @@
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
+import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { clone, cloneDeep, forEach, flatten, isArray, isEmpty, isObject, isString, get, mapKeys, reverse } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';
+import MediaQueryList from './MediaQueryList';
 import ThemeVariables from './theme.variables';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
 export const DEFAULT_STYLE: NamedStyles<any> = {};
+
+declare const matchMedia: any, window: any;
+
+if (typeof window !== "undefined") {
+    // @ts-ignore: does not properly extend MediaQueryList
+    window.matchMedia = (query: string) => new MediaQueryList(query);
+}
+
+export const DEVICE_BREAK_POINTS = {
+    'MIN_EXTRA_SMALL_DEVICE' : '0px',
+    'MAX_EXTRA_SMALL_DEVICE' : '767px',
+    'MIN_SMALL_DEVICE' : '768px',
+    'MAX_SMALL_DEVICE' : '991px',
+    'MIN_MEDIUM_DEVICE' : '992px',
+    'MAX_MEDIUM_DEVICE' : '1199px',
+    'MIN_LARGE_DEVICE' : '1200px',
+    'MAX_LARGE_DEVICE' : '1000000px',
+};
 
 export class Theme {
     private styles: any = {};
@@ -16,7 +35,16 @@ export class Theme {
     private traceEnabled = false;
 
     private constructor(private parent:Theme, public readonly name: string) {
-        this.traceEnabled = parent && parent.traceEnabled;
+        if (parent) {
+            this.traceEnabled = parent.traceEnabled;
+        } else {
+            this.traceEnabled = isWebPreviewMode();
+        }
+    }
+
+    clearCache() {
+        this.cache = {};
+        this.parent && this.parent.clearCache();
     }
 
     addStyle<T extends NamedStyles<any>>(name: string, extend: string, style: T) {
@@ -91,9 +119,13 @@ export class Theme {
             style = this.mergeStyle(...(name.split(' ').map(c => this.getStyle(c))));
         } else {
             const parentStyle = this.parent && this.parent.getStyle(name);
-            const clonedStryle = cloneDeep(this.styles[name]);
-            style = deepCopy(parentStyle, this.styles[name]);
-            this.addTrace(`@${this.name}:${name}`, style, clonedStryle, parentStyle);
+            const mediaQuery = (this.styles[name] || {})['@media'];
+            let clonedStyle = {};
+            if (!mediaQuery || matchMedia(mediaQuery).matches) {
+                clonedStyle = cloneDeep(this.styles[name]);
+            }
+            style = deepCopy(parentStyle, clonedStyle);
+            this.addTrace(`@${this.name}:${name}`, style, clonedStyle, parentStyle);
         }
         this.cache[name] = style;
         return style;
@@ -157,19 +189,61 @@ export const ThemeConsumer = ThemeContext.Consumer;
  * Common styles
  */
 (() => {
-    const addColStyles = (device: string) => {
+    const addColStyles = (device: string, minWidth: string) => {
         for(let i = 1; i <= 12; i++) {
             Theme.BASE.addStyle(`col-${device}-${i}`, '', {
+                "@media": `(min-width: ${minWidth})`,
                 root: {
-                    flex: i
+                    width: (100 * i / 12) + '%'
                 }
-            })
+            } as any)
         }
     };
-    addColStyles('xs');
-    addColStyles('sm');
-    addColStyles('md');
-    addColStyles('lg');
+    addColStyles('xs', DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE);
+    addColStyles('sm',  DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE);
+    addColStyles('md',  DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE);
+    addColStyles('lg',  DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE);
+
+    Theme.BASE.addStyle('d-none', '', {
+        root: {
+            display: 'none'
+        }
+    } as any);
+    Theme.BASE.addStyle('d-flex', '', {
+        root: {
+            display: 'flex'
+        }
+    } as any);
+
+    const addDisplayStyles = (device: string, minWidth: string, maxWidth: string) => {
+        Theme.BASE.addStyle(`d-${device}-none`, '', {
+            "@media": `(min-width: ${minWidth}) and (max-width: ${maxWidth})`,
+            root: {
+                display: 'none'
+            }
+        } as any);
+        Theme.BASE.addStyle(`d-${device}-flex`, '', {
+            "@media": `(min-width: ${minWidth}) and (max-width: ${maxWidth})`,
+            root: {
+                display: 'flex'
+            }
+        } as any);
+    };
+    addDisplayStyles('all', 
+        DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_LARGE_DEVICE);
+    addDisplayStyles('xs', 
+        DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_EXTRA_SMALL_DEVICE);
+    addDisplayStyles('sm',   
+        DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_SMALL_DEVICE);
+    addDisplayStyles('md',   
+        DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_MEDIUM_DEVICE);
+    addDisplayStyles('lg',   
+        DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE,
+        DEVICE_BREAK_POINTS.MAX_LARGE_DEVICE);
 
     const addElevationClasses = () => {
         for(let i = 1; i <= 10; i++) {

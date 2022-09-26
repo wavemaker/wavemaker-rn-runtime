@@ -1,6 +1,6 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, View, ViewStyle, DevSettings} from 'react-native';
+import { Platform, TouchableOpacity, View, ViewStyle } from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -87,6 +87,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   private startUpVariables: string[] = [];
   private startUpActions: string[] = [];
   private autoUpdateVariables: string[] = [];
+  private axiosInterceptorIds: number[] = [];
   public formatters = formatters;
   public serviceDefinitions = {} as any;
   private animatedRef: any;
@@ -105,7 +106,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
     this.bindServiceInterceptors();
     this.appConfig.refresh = (complete = false) => {
       if (complete) {
-        DevSettings.reload();
+        this.reload();
+        return;
       }
       if (!wait) {
         RENDER_LOGGER.debug('refreshing the app...');
@@ -126,7 +128,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       }
     }
   }
-  
+
   goToPage(pageName: string, params: any)  {
     return this.appConfig.currentPage?.goToPage(pageName, params);
   }
@@ -171,31 +173,31 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   // To support old api
-  reload() {
-    this.refresh();
-  }
+  reload() {}
 
   bindServiceInterceptors() {
-    axios.interceptors.request.use((config: AxiosRequestConfig) => this.onBeforeServiceCall(config));
-    axios.interceptors.response.use(
-      (response: AxiosResponse) => {
-        this.onServiceSuccess(response.data, response);
-        return response;
-      },(error: AxiosError<any>) => {
-        let errorDetails: any = error.response, errMsg;
-        errorDetails = getValidJSON(errorDetails?.data) || errorDetails?.data;
-        if (errorDetails && errorDetails.errors) {
-            errMsg = parseErrors(errorDetails.errors) || "Service Call Failed";
-        } else {
-            errMsg = errMsg || "Service Call Failed";
-        }
-        error.message = errMsg;
-        this.onServiceError(error.message, error);
-        if (error.response?.config.url?.startsWith(this.appConfig.url) && error.response?.status === 401) {
-          this.appConfig.currentPage?.pageName !== 'Login' && this.appConfig.currentPage?.goToPage('Login');
-        }
-        return Promise.reject(error)
-      });
+    this.axiosInterceptorIds = [
+      axios.interceptors.request.use((config: AxiosRequestConfig) => this.onBeforeServiceCall(config)),
+      axios.interceptors.response.use(
+        (response: AxiosResponse) => {
+          this.onServiceSuccess(response.data, response);
+          return response;
+        },(error: AxiosError<any>) => {
+          let errorDetails: any = error.response, errMsg;
+          errorDetails = getValidJSON(errorDetails?.data) || errorDetails?.data;
+          if (errorDetails && errorDetails.errors) {
+              errMsg = parseErrors(errorDetails.errors) || "Service Call Failed";
+          } else {
+              errMsg = errMsg || "Service Call Failed";
+          }
+          error.message = errMsg;
+          this.onServiceError(error.message, error);
+          if (error.response?.config.url?.startsWith(this.appConfig.url) && error.response?.status === 401) {
+            this.appConfig.currentPage?.pageName !== 'Login' && this.appConfig.currentPage?.goToPage('Login');
+          }
+          return Promise.reject(error)
+        })
+    ];
   }
 
   eval(fn: Function, failOnError = false) {
@@ -220,6 +222,12 @@ export default abstract class BaseApp extends React.Component implements Navigat
       SplashScreen.hideAsync().then(() => {});
     });
     this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
+  }
+
+  componentWillUnmount(): void {
+    this.axiosInterceptorIds.map(id => {
+      axios.interceptors.request.eject(id);
+    });
   }
 
   refresh() {
@@ -294,7 +302,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         this.animatedRef = ref;
                         AppModalService.animatedRefs[i] = ref;
                       }}
-                      style={[styles.appModalContent, o.contentStyle]}>  
+                      style={[styles.appModalContent, o.contentStyle]}>
                       <View
                         onStartShouldSetResponder={evt => true}
                         onResponderEnd={(e) => e.stopPropagation()}
@@ -349,6 +357,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   renderApp(commonPartial:React.ReactNode) {
+    this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
     return (
       <SafeAreaProvider>
         <PaperProvider theme={{

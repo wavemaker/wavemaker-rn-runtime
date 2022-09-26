@@ -8,7 +8,8 @@ export const DEFAULT_CLASS = 'app-gridrow';
 export const DEFAULT_STYLES: WmGridRowStyles = defineStyles({
     root: {
         flexDirection: 'row',
-        width: '100%'
+        width: '100%',
+        flexWrap: 'wrap'
     },
     text: {}
 });
