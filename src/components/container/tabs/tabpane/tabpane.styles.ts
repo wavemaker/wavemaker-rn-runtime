@@ -8,7 +8,6 @@ export const DEFAULT_CLASS = 'app-tabpane';
 export const DEFAULT_STYLES: WmTabpaneStyles = defineStyles({
     root: {
         backgroundColor: ThemeVariables.tabContentBgColor,
-        flex: 1
     },
     text: {}
 });
