@@ -50,6 +50,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
             ref.selectionStart = ref.selectionEnd = this.cursor;
           }
         }}
+        keyboardType="numeric"
         placeholderTextColor={this.styles.placeholderText.color as any}
         style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
         {...opts}
