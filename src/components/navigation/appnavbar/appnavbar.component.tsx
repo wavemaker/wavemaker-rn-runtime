@@ -43,8 +43,10 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           {props.imgsrc && (
           <WmPicture
             styles={{ root: {
-              height: this.styles.image.width,
-              width: this.styles.image.height
+              height: this.styles.image.height,
+              width: this.styles.image.width,
+            }, picture: {
+              resizeMode: this.styles.image.resizeMode
             }}}
             picturesource={props.imgsrc} />)}
           <Text style={this.styles.content}>{props.title}</Text>

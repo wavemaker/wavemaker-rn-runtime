@@ -32,12 +32,12 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
   text: {},
   action: {} as WmIconStyles,
   leftSection: {
-    flex: 1,
+    flexGrow: 1,
     flexDirection: 'row'
   },
   leftnavIcon: {
     root: {
-        alignItems: 'flex-start'
+        alignItems: 'center'
     },
     icon: {
         fontSize: ThemeVariables.navbarIconSize,
@@ -57,7 +57,8 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
   } as WmIconStyles,
   image: {
     width: ThemeVariables.navbarImageSize,
-    height: ThemeVariables.navbarImageSize
+    height: ThemeVariables.navbarImageSize,
+    resizeMode: 'contain'
   },
   content: {
     textTransform: 'capitalize',
@@ -68,15 +69,15 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
     textAlign: 'center'
   },
   middleSection: {
-    alignItems: 'center',
-    alignContent: 'center'
+    alignItems: 'center'
   },
   middleContent: {
     flexDirection: 'row',
     flexGrow: 1,
+    alignItems: 'center'
   },
   rightSection: {
-    flex: 1,
+    flexGrow: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },
