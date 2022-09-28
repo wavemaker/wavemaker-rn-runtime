@@ -1,15 +1,15 @@
 import React from 'react';
-import {View} from "react-native";
+import { View } from 'react-native';
 
-import { VictoryContainer, VictoryLegend, VictoryPie } from 'victory-native';
+import { VictoryLegend, VictoryPie } from 'victory-native';
 
 import WmPieChartProps from './pie-chart.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmPieChartStyles } from './pie-chart.styles';
 import {
   BaseChartComponent,
   BaseChartComponentState
-} from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
-import WmDonutChartProps from "@wavemaker/app-rn-runtime/components/chart/donut-chart/donut-chart.props";
+} from '@wavemaker/app-rn-runtime/components/chart/basechart.component';
+import WmDonutChartProps from '@wavemaker/app-rn-runtime/components/chart/donut-chart/donut-chart.props';
 
 export class WmPieChartState extends BaseChartComponentState<WmPieChartProps> {
   innerradius: number = 0;
@@ -26,9 +26,9 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
   setInnerRadius() {
     let ratio = this.state.props.donutratio;
     if (typeof ratio === 'string') {
-      ratio = parseFloat(ratio)
+      ratio = parseFloat(ratio);
     }
-    const innerRadius: number = ratio * this._pieChartHeight/2;
+    const innerRadius: number = ratio * 90;
     this.updateState({
       innerradius: innerRadius
     } as WmPieChartState);
@@ -61,57 +61,73 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
     } else if (props.showlabels === 'inside') {
       labelRadius = radius/2;
     }
-    let legendData: Array<{name: any}> = pieData.map((d: {x: any, y: any}) => {return {name: d.x}});
-      return <View style={this.styles.root}>
-        <VictoryLegend
-          name={'legend'}
-          colorScale={this.state.colors}
-          theme={this.state.theme}
-          title={[props.title, props.subheading]}
-          orientation="horizontal"
-          gutter={20}
-          data={[]}
-          height={this.legendHeight}
-        />
-        <VictoryLegend
-          colorScale={this.state.colors}
-          name={'legendData'}
-          orientation="horizontal"
-          gutter={20}
-          data={legendData}
-          style={{ border: { stroke: 'none' } }}
-          theme={this.state.theme}
-          borderPadding={{left: 50}}
-          height={this.labelLegendHeight} // TODO: here if contents are more then next row will be hidden. Need to fix this.
-        />
-    <VictoryPie
-      style={styleProp}
-      height={this._pieChartHeight}
-      domainPadding={50}
-      padding={100}
-      colorScale={this.state.colors}
-      labels={({datum}) => {
-        const labelType = props.labeltype;
-        if (labelType === 'percent') {
-          return `${(datum.y*100/this.state.total).toFixed(1)}%`
-        } else if (labelType === 'key') {
-          return `${datum.x}`;
-        } else if (labelType === 'value') {
-          return `${datum.y}`;
-        } else if (labelType === 'key-value') {
-          return `${datum.x} ${datum.y}`;
-        }
-        return null;
-      }}
-      labelRadius={labelRadius}
-      endAngle={this.state.endAngle || 0}
-      radius={radius}
-      innerRadius={this.state.innerradius}
-      theme={this.state.theme}
-      key={props.name}
-      name={props.name}
-      data={pieData}
-      />
+    const orientation = props.showlegend === 'right' ? 'vertical' : 'horizontal';
+    let legendData: Array<{name: any}> = pieData.map((d: {x: any, y: any}, index: number) => {return {name: d?.x?.toString(), symbol: { fill: this.state.colors[index] }}});
+    return (
+      <View style={this.styles.root}>
+        <svg
+          width={this.styles.root.width || this.screenWidth}
+          height={this.state.chartHeight}
+        >
+          <VictoryLegend
+            title={[props.title, props.subheading]}
+            colorScale={this.state.colors}
+            standalone={false}
+            name='legend'
+            orientation={orientation}
+            gutter={20}
+            data={[]}
+            style={{ border: { stroke: 'none' }, title: { paddingBottom: 20 } }}
+            theme={this.state.theme}
+            padding={20}
+            borderPadding={{ left: 50 }} // TODO: here if contents are more then next row will be hidden. Need to fix this.
+          />
+          <VictoryLegend
+            colorScale={this.state.colors}
+            standalone={false}
+            name='legendData'
+            orientation={orientation}
+            gutter={20}
+            data={legendData}
+            style={{ border: { stroke: 'none' } }}
+            groupComponent={
+              props.showlegend === 'right' ? (
+                <g transform="translate(200)" />
+              ) : (
+                <g />
+              )
+            }
+            theme={this.state.theme}
+            padding={{ right: 0, left: 150}}
+            borderPadding={{ left: 50 }} // TODO: here if contents are more then next row will be hidden. Need to fix this.
+          />
+          <VictoryPie
+            style={styleProp}
+            standalone={false}
+            colorScale={this.state.colors}
+            labels={({datum}) => {
+              const labelType = props.labeltype;
+              if (labelType === 'percent') {
+                return `${(datum.y*100/this.state.total).toFixed(1)}%`
+              } else if (labelType === 'key') {
+                return `${datum.x}`;
+              } else if (labelType === 'value') {
+                return `${datum.y}`;
+              } else if (labelType === 'key-value') {
+                return `${datum.x} ${datum.y}`;
+              }
+              return null;
+            }}
+            endAngle={this.state.endAngle || 0}
+            innerRadius={props.innerradius || this.state.innerradius}
+            theme={this.state.theme}
+            key={props.name}
+            name={props.name}
+            data={pieData}
+            labelPlacement={props.labelplacement}
+          />
+        </svg>
       </View>
+    );
   }
 }

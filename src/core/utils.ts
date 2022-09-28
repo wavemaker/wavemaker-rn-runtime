@@ -207,7 +207,7 @@ export const validateField = (props: any, value: any) => {
     }
   }
   if (value && props.regexp) {
-    const condition = new RegExp(props.regexp, 'g');
+    const condition = new RegExp("^" + props.regexp + "$", 'g');
     regexCheck = condition.test(value);
     if (!regexCheck) {
       return {
