@@ -36,6 +36,7 @@ async function prepareNpmPackages() {
 }
 
 async function pushToLocalRepo() {
+    fs.writeFileSync(`${projectDir}/dist/new-build`, '' + Date.now);
     await execa('yalc', ['publish' , '--no-sig', '--push'], {
         'cwd': `${projectDir}/dist/module`
     });
