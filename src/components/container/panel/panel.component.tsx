@@ -40,7 +40,7 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
   }
 
   onPanelPress(expandedId: any) {
-    if (!this.state.props.collapsible || !this.state.props.expanded) {
+    if (!this.state.props.collapsible) {
       return;
     }
     const paneId = expandedId === this.state.expandedId ? -1 : 1;
@@ -51,34 +51,41 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
         if (res) {
           this.updateState({
             expandedId: paneId,
+            props: {
+              expanded: false
+            }
           } as WmPanelState);
         }
       })
     } else {
       this.updateState({
         expandedId: paneId,
+        props: {
+          expanded: true
+        }
       } as WmPanelState);
     }
 
     this.invokeEventCallback(eventName, [null, this.proxy]);
   }
 
-  expandCollapseIcon(props: any) {
+  expandCollapseIcon(isExpanded: boolean) {
     const widgetProps = this.state.props;
     //@ts-ignore
     const badge = widgetProps.badgevalue != undefined ? (<Badge style={[this.styles.badge, this.styles[widgetProps.badgetype || 'default']]}>{widgetProps.badgevalue}</Badge>): null;
-    const iconclass = props.isExpanded ? 'wi wi-minus' : 'wi wi-plus';
+    const iconclass = isExpanded ? 'wi wi-minus' : 'wi wi-plus';
     const expandCollapseIcon = widgetProps.collapsible ? (<WmIcon name={'expand_collapse_icon'} styles={this.styles.toggleIcon} iconclass={iconclass}></WmIcon>) : null;
     return (<View style={{flexDirection: 'row'}}>{badge}{expandCollapseIcon}</View>);
   }
 
-  renderPanel(props: any) {
+  renderPanel(props: WmPanelProps) {
     const icon = (<WmIcon styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>);
     return (
       <List.Accordion title={props.title} style={this.styles.header} id={1}
                       titleStyle={this.styles.text} descriptionStyle={this.styles.subheading}
                       description={props.subheading}
-                      right={props => this.expandCollapseIcon(props)} left={props => icon}>
+                      expanded={props.expanded} 
+                      right={({isExpanded}) => this.expandCollapseIcon(isExpanded)} left={props => icon}>
         <Animatedview style={{marginLeft: -64}} ref={ref => this.animatedRef = ref} entryanimation={'fadeInDown'}>
           <View>{this.renderContent(props)}</View>
           <View>{props.children}</View>
