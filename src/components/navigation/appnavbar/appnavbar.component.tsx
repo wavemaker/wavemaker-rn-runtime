@@ -39,15 +39,10 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           caption={props.backbuttonlabel}
           onTap={this.onBackBtnPress}/>)}
         </View>
-        <View style={props.imgsrc ? this.styles.middleContent : this.styles.middleSection}>
+        <View style={this.styles.middleSection}>
           {props.imgsrc && (
           <WmPicture
-            styles={{ root: {
-              height: this.styles.image.height,
-              width: this.styles.image.width,
-            }, picture: {
-              resizeMode: this.styles.image.resizeMode
-            }}}
+            styles={this.styles.image}
             picturesource={props.imgsrc} />)}
           <Text style={this.styles.content}>{props.title}</Text>
         </View>

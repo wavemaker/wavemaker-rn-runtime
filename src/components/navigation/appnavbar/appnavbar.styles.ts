@@ -7,10 +7,11 @@ import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/ic
 import { WmMenuStyles } from '@wavemaker/app-rn-runtime/components/navigation/menu/menu.styles';
 import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.styles';
 import { WmPopoverStyles } from '@wavemaker/app-rn-runtime/components/navigation/popover/popover.styles';
+import { WmPictureStyles } from '@wavemaker/app-rn-runtime/components/basic/picture/picture.styles';
 
 export type WmAppNavbarStyles = BaseStyles & {
   action: WmIconStyles,
-  image: ImageStyle,
+  image: WmPictureStyles,
   leftnavIcon: WmIconStyles,
   backIcon: WmIconStyles,
   leftSection: ViewStyle,
@@ -56,10 +57,14 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
     }
   } as WmIconStyles,
   image: {
-    width: ThemeVariables.navbarImageSize,
-    height: ThemeVariables.navbarImageSize,
-    resizeMode: 'contain'
-  },
+    root: {
+      width: ThemeVariables.navbarImageSize,
+      height: ThemeVariables.navbarImageSize,
+    },
+    picture: {
+      resizeMode: 'contain'
+    }
+  } as WmPictureStyles,
   content: {
     textTransform: 'capitalize',
     color: ThemeVariables.navbarTextColor,
@@ -69,12 +74,8 @@ export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
     textAlign: 'center'
   },
   middleSection: {
-    alignItems: 'center'
-  },
-  middleContent: {
-    flexDirection: 'row',
-    flexGrow: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    flexDirection: 'row'
   },
   rightSection: {
     flexGrow: 1,
