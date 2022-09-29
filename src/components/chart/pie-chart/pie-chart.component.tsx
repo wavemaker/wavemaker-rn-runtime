@@ -1,5 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
+import { LayoutChangeEvent, View } from 'react-native';
+import { Svg } from 'react-native-svg';
 
 import { VictoryLegend, VictoryPie } from 'victory-native';
 
@@ -13,6 +14,7 @@ import WmDonutChartProps from '@wavemaker/app-rn-runtime/components/chart/donut-
 
 export class WmPieChartState extends BaseChartComponentState<WmPieChartProps> {
   innerradius: number = 0;
+  chartWidth = 0;
 }
 
 export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPieChartState, WmPieChartStyles> {
@@ -48,12 +50,19 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
     }
   }
 
+  onViewLayoutChange = (e: LayoutChangeEvent) => {
+    let viewWidth = e.nativeEvent.layout.width;
+    this.updateState({
+      chartWidth: viewWidth
+    } as WmPieChartState)
+  }
+
   renderWidget(props: WmPieChartProps) {
     if (!this.state.data.length) {
       return null;
     }
     const pieData = this.state.data[0];
-    let radius = (this._pieChartHeight-60)/2;
+    let radius = (this._pieChartHeight-200)/2;
     let styleProp = {};
     let labelRadius;
     if (props.showlabels === 'hide') {
@@ -64,9 +73,9 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
     const orientation = props.showlegend === 'right' ? 'vertical' : 'horizontal';
     let legendData: Array<{name: any}> = pieData.map((d: {x: any, y: any}, index: number) => {return {name: d?.x?.toString(), symbol: { fill: this.state.colors[index] }}});
     return (
-      <View style={this.styles.root}>
-        <svg
-          width={this.styles.root.width || this.screenWidth}
+      <View style={this.styles.root} onLayout={this.onViewLayoutChange}>
+        <Svg
+          width={this.state.chartWidth}
           height={this.state.chartHeight}
         >
           <VictoryLegend
@@ -119,14 +128,16 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
               return null;
             }}
             endAngle={this.state.endAngle || 0}
+            radius={(this.state.chartHeight - 20)/ 2}
             innerRadius={props.innerradius || this.state.innerradius}
             theme={this.state.theme}
             key={props.name}
             name={props.name}
             data={pieData}
+            origin={{x: (this.state.chartWidth/2), y: (this.state.chartHeight/2)}}
             labelPlacement={props.labelplacement}
           />
-        </svg>
+        </Svg>
       </View>
     );
   }
