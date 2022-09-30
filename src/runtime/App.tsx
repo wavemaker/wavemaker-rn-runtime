@@ -8,6 +8,7 @@ import { Linking } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { get, last } from 'lodash';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
+import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
@@ -25,6 +26,7 @@ import AppDisplayManagerService from './services/app-display-manager.service';
 import AppModalService from './services/app-modal.service';
 import AppToastService from './services/app-toast.service';
 import AppPartialService from './services/partial.service';
+import AppSpinnerService from './services/app-spinner.service';
 import { AppNavigator } from './App.navigator';
 import { SecurityProvider } from '../core/security.service';
 import { CameraProvider } from '../core/device/camera-service';
@@ -157,6 +159,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   onPageReady(activePageName: string, activePageScope: BasePage) {
 
+  }
+
+  get spinner() {
+    return AppSpinnerService;
   }
 
   openBrowser(url: string, params = {} as any) {
@@ -322,12 +328,15 @@ export default abstract class BaseApp extends React.Component implements Navigat
     return <WmMemo watcher={this.watcher} render={(watch) => {
       watch(() => AppDisplayManagerService.displayOptions.content);
       return AppDisplayManagerService.displayOptions.content
-        ? (<View style={[styles.displayViewContainer, {
-          elevation: this.toastsOpened + this.modalsOpened + 1,
-          zIndex: this.toastsOpened + this.modalsOpened + 1
-        }]}>
-          {AppDisplayManagerService.displayOptions.content}
-        </View>) : null;
+        ? (
+          <ThemeProvider value={this.appConfig.theme}>
+            <View style={[styles.displayViewContainer, {
+              elevation: this.toastsOpened + this.modalsOpened + 1,
+              zIndex: this.toastsOpened + this.modalsOpened + 1
+            }]}>
+              {AppDisplayManagerService.displayOptions.content}
+            </View>
+          </ThemeProvider>) : null;
     }}/>
   }
 

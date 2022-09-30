@@ -19,6 +19,7 @@ export default interface AppConfig {
     drawer: Drawer;
     app: any;
     setDrawerContent: any;
+    theme: any;
     drawerType: any;
     getServiceDefinitions: any;
     loggedInUser: any;
