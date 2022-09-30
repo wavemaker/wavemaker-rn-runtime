@@ -6,7 +6,7 @@ export type WmPartialContainerStyles = BaseStyles & {};
 export const DEFAULT_CLASS = 'app-partial-container';
 export const DEFAULT_STYLES: WmPartialContainerStyles = defineStyles({
     root: {
-        width: '100%',
+        width: '100%'
     },
     text: {}
 });
