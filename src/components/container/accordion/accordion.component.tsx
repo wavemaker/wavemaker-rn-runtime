@@ -81,7 +81,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                         right={props => this.expandCollapseIcon(props, item, true, !showIconOnLeft, true, isExpanded)}
                         left={props => (
                           <>
-                            {this.expandCollapseIcon(props, item, false, showIconOnLeft, false, isExpanded)}
+                            {this.expandCollapseIcon(props, item, false, showIconOnLeft, true, isExpanded)}
                             {<WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>}
                           </>)
                         }>
