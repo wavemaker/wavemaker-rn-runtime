@@ -32,8 +32,7 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
   renderWidget(props: WmSpinnerProps) {
     return (
       <View style={this.styles.root}>
-          {!props.image && this.prepareIcon(props)}
-          {props.image && this.prepareImage(props)}
+          {props.image ? this.prepareImage(props) : this.prepareIcon(props)}
           {props.caption ? <Text style={this.styles.text}>{props.caption}</Text> : null}
       </View>
     );
