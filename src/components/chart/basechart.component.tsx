@@ -117,6 +117,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                         style={{
                           grid: this.styles.grid
                         }}
+                        fixLabelOverlap={true}
                         tickLabelComponent={<VictoryLabel angle={this.props.labelangle || 0} />} theme={this.state.theme}
                         tickFormat={(d) => `${this.state.xaxisDatakeyArr.length ? this.state.xaxisDatakeyArr[d] : d}`}/>;
   }
@@ -328,9 +329,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   // If date string is bound to xaxis then we are pushing the x values as indexes.
   getxAxisVal(dataObj: {[key: string] : any}, xKey: string, index: number, xaxisDatakeyArr: Array<any>) {
     const value: any = get(dataObj, xKey);
-    const parsedDate = Date.parse(value);
-    if (moment(value).isValid() ||
-      (isNaN(value) && !isNaN(parsedDate))) {
+    if (moment(value, true).isValid() || isNaN(value)) {
       xaxisDatakeyArr.push(value);
       return index;
     }
