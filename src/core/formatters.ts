@@ -16,7 +16,8 @@ export class DateToStringFormatter implements Formatter {
             return input.getTime() + '';
         }
         format = format.replace(/d/g, 'D');
-        return moment(input).format(format);
+        const _moment = moment(input, true);
+        return _moment.isValid() ? _moment.format(format) : input.toString();
     }
 }
 
