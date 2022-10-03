@@ -26,7 +26,11 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     return !isNil(props.caption)? (
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
         <Tappable target={this}>
-            <Text style={[this.styles.text, {color: props.isValid === false ? 'red' : this.styles.text.color}]}>{toString(props.caption)}
+            <Text
+              style={[this.styles.text, 
+                {color: props.isValid === false ? 'red' : this.styles.text.color}]}
+              numberOfLines={props.wrap ? undefined : 1}>
+              {toString(props.caption)}
               {props.required && this.getAsterisk()}
             </Text>
         </Tappable>
