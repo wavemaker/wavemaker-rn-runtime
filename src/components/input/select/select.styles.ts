@@ -25,7 +25,8 @@ export const DEFAULT_STYLES: WmSelectStyles = defineStyles({
     borderStyle: 'solid',
     borderColor: ThemeVariables.inputBorderColor,
     backgroundColor: ThemeVariables.inputBackgroundColor,
-    borderRadius: 6
+    borderRadius: 6,
+    minWidth: 160
   },
   invalid: {
     borderBottomColor: ThemeVariables.inputInvalidBorderColor
