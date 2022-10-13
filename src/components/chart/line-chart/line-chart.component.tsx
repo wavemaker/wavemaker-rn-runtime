@@ -7,7 +7,8 @@ import {
   VictoryLine,
   VictoryLegend,
   VictoryScatter,
-  VictoryGroup
+  VictoryGroup,
+  VictoryLabel
 } from 'victory-native';
 
 import WmLineChartProps from './line-chart.props';
@@ -46,6 +47,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
           title={[props.title, props.subheading]}
           orientation="horizontal"
           gutter={20}
+          titleComponent={<VictoryLabel style={[{}, this.styles.subHeading]} />}
           data={[]}
           theme={this.state.theme}
           y={0}

@@ -6,7 +6,8 @@ import {
   VictoryBar,
   VictoryLegend,
   VictoryStack,
-  VictoryGroup
+  VictoryGroup,
+  VictoryLabel
 } from "victory-native";
 
 import {
@@ -57,6 +58,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         title={[props.title, props.subheading]}
         orientation="horizontal"
         gutter={20}
+        titleComponent={<VictoryLabel style={[{}, this.styles.subHeading]} />}
         data={[]}
         theme={this.state.theme}
       />

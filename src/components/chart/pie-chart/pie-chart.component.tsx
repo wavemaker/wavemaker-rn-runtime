@@ -2,7 +2,7 @@ import React from 'react';
 import { LayoutChangeEvent, View } from 'react-native';
 import { Svg } from 'react-native-svg';
 
-import { VictoryLegend, VictoryPie } from 'victory-native';
+import { VictoryLabel, VictoryLegend, VictoryPie } from 'victory-native';
 
 import WmPieChartProps from './pie-chart.props';
 import { DEFAULT_CLASS, DEFAULT_STYLES, WmPieChartStyles } from './pie-chart.styles';
@@ -85,6 +85,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
             name='legend'
             orientation={orientation}
             gutter={20}
+            titleComponent={<VictoryLabel style={[{}, this.styles.subHeading]} />}
             data={[]}
             style={{ border: { stroke: 'none' }, title: { paddingBottom: 20 } }}
             theme={this.state.theme}

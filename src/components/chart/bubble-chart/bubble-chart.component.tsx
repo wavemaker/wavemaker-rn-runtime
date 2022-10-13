@@ -8,7 +8,7 @@ import {
   BaseChartComponent,
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
-import {VictoryAxis, VictoryChart, VictoryLegend, VictoryLine, VictoryScatter} from "victory-native";
+import {VictoryAxis, VictoryChart, VictoryLabel, VictoryLegend, VictoryLine, VictoryScatter} from "victory-native";
 import { ScatterSymbolType } from "victory-core";
 import {Svg} from "react-native-svg";
 import {get} from "lodash-es";
@@ -40,6 +40,7 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
           title={[props.title, props.subheading]}
           orientation="horizontal"
           gutter={20}
+          titleComponent={<VictoryLabel style={[{}, this.styles.subHeading]} />}
           data={[]}
           theme={this.state.theme}
         />
