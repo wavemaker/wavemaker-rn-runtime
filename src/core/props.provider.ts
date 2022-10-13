@@ -49,12 +49,14 @@ export class PropsProvider<T extends BaseProps> {
         if (!nextProps) {
             nextProps = assign({}, this.defaultProps, this.initprops);
         }
-      const result = Object.keys(nextProps).reduce((b, k) => {
+        const result = Object.keys(nextProps).reduce((b, k) => {
             let flag = false;
             //@ts-ignore
             const value = nextProps[k];
             const oldValue = this.oldProps[k];
-            if (isNil(this.overriddenProps[k]) && this.oldProps[k] !== value) {
+            if (isNil(this.overriddenProps[k])
+                && (!this.oldProps.hasOwnProperty(k)
+                    || this.oldProps[k] !== value)) {
                 this.oldProps[k] = value;
                 this.onChange(k, value, oldValue);
                 flag = true;

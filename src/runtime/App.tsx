@@ -22,6 +22,7 @@ import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/messag
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 import { Watcher } from './watcher';
+import { preparePatch } from './lib-patch';
 import AppDisplayManagerService from './services/app-display-manager.service';
 import AppModalService from './services/app-modal.service';
 import AppToastService from './services/app-toast.service';
@@ -96,6 +97,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
   public modalsOpened: number = 0;
   public toastsOpened: number = 0;
   public watcher: Watcher = Watcher.ROOT;
+  public lib = preparePatch(() => {
+    this.refresh();
+  });
 
   constructor(props: any) {
     super(props);
