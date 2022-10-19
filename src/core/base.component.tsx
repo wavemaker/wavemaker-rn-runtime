@@ -61,6 +61,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public theme = BASE_THEME;
     public updateStateTimeouts= [] as NodeJS.Timeout[];
     public parent: BaseComponent<any, any, any> = null as any;
+    public destroyed = false;
 
     constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles?: L, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -134,15 +135,19 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     updateState(newPartialState: S, callback?: ()=>void) {
+        if (this.destroyed) {
+            return;
+        }
         const propsUpdated = !!newPartialState.props;
         const stateFn = (oldState: S) => {
-            const newState = assignIn({} as S, oldState, newPartialState);
+            const oldProps = oldState.props;
+            const newState = this.initialized ? assignIn({}, oldState, newPartialState) : assignIn(oldState, newPartialState);
             if (newPartialState.props) {
                 Object.keys(newPartialState.props).forEach((k) => {
                     //@ts-ignore
-                    oldState.props[k] = newState.props[k];
+                    oldProps[k] = newState.props[k];
                 });
-                newState.props = oldState.props;
+                newState.props = oldProps;
             }
             return newState;
         };
@@ -190,6 +195,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     componentWillUnmount() {
+        this.destroyed = true;
         if (this.props.listener && this.props.listener.onComponentDestroy) {
             this.props.listener.onComponentDestroy(this.proxy);
         }

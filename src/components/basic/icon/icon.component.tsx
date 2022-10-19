@@ -43,7 +43,7 @@ export class WmIconState extends BaseComponentState<WmIconProps> {
 export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIconStyles> {
   spinValue = new Animated.Value(0);
   pulseValue = new Animated.Value(0);
-  public stopAnimation = false;
+  public stopAnimation = true; 
 
   constructor(props: WmIconProps) {
     super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmIconProps());
@@ -160,10 +160,12 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     if (icon && iconDef.animation === 'spin') {
       const rotate = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg']});
       const animation = { transform: [{ rotate }] };
+      this.stopAnimation = false;
       return (<Animated.View style={animation}>{icon}</Animated.View>);
     } else if (icon && iconDef.animation === 'pulse') {
       const opacity = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: [0, 1]});
       const animation = { opacity: opacity };
+      this.stopAnimation = false;
       return (<Animated.View style={animation}>{icon}</Animated.View>);
     } else {
       this.stopAnimation = true;
