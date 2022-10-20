@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 
 const APP_LOCALE_ROOT_PATH = '/resources/i18n';
+const STORAGE_KEY = 'selectedLocale';
 class AppI18nService {
     appLocale: any;
     defaultSupportedLocale = 'en';
@@ -14,18 +15,11 @@ class AppI18nService {
     timeFormat: string = '';
     dateTimeFormat: string = '';
     currencyCode: string = '';
-    appConfig: any;
 
     constructor() {}
 
     loadAppLocaleBundle(url: string) {
-        this.appConfig = injector.get<AppConfig>('APP_CONFIG');
-        return this.getSelectedLocale().then((locale) => {
-          this.appConfig.selectedLocale = this.selectedLocale = locale || '';
-          if (!this.selectedLocale) {
-            this.selectedLocale = this.appConfig.appProperties.preferBrowserLang == 'false'? this.appConfig.appProperties.defaultLanguage : this.defaultSupportedLocale;
-            this.appConfig.selectedLocale = this.selectedLocale;
-          }
+        return this.getSelectedLocale().then(() => {
           const path = `${url + APP_LOCALE_ROOT_PATH}/${this.selectedLocale}.json`;
           return axios.get(path)
             .then((bundle) => {
@@ -43,23 +37,12 @@ class AppI18nService {
     }
 
     setSelectedLocale(locale: string) {
-        if (!this.appConfig) {
-          this.appConfig = injector.get<AppConfig>('APP_CONFIG');
-        }
-        let key = 'selectedLocale';
         this.selectedLocale = locale;
-        if (isWebPreviewMode()) {
-          key = this.appConfig.appProperties.displayName + '_selectedLocale';
-        }
-        AsyncStorage.setItem(key, locale);
+        StorageService.setItem(STORAGE_KEY, locale);
     }
 
     async getSelectedLocale() {
-      if (!this.appConfig) {
-        this.appConfig = injector.get<AppConfig>('APP_CONFIG');
-      }
-      const key = isWebPreviewMode() ? this.appConfig && this.appConfig.appProperties.displayName + '_selectedLocale' : 'selectedLocale';
-      return await AsyncStorage.getItem(key);
+      return await StorageService.getItem(STORAGE_KEY);
     }
 }
 

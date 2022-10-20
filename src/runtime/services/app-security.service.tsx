@@ -1,10 +1,10 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { each, includes } from 'lodash';
 
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
 import { SecurityService } from '@wavemaker/app-rn-runtime/core/security.service';
 
 import WebProcessService from './webprocess.service';
@@ -61,7 +61,7 @@ class AppSecurityService implements SecurityService {
       if (this.token) {
         return Promise.resolve(this.token);
       }
-      return AsyncStorage.getItem(XSRF_COOKIE_NAME).then(xsrf_token => {
+      return StorageService.getItem(XSRF_COOKIE_NAME).then(xsrf_token => {
         this.token = xsrf_token;
         return this.token;
       });
@@ -89,7 +89,7 @@ class AppSecurityService implements SecurityService {
           }}).then((response: AxiosResponse) => {
             const xsrfCookieValue = response.data ? response.data[XSRF_COOKIE_NAME] : '';
             this.token = xsrfCookieValue;
-            AsyncStorage.setItem(XSRF_COOKIE_NAME, xsrfCookieValue);
+            StorageService.setItem(XSRF_COOKIE_NAME, xsrfCookieValue);
             this.isLoggedIn = true;
             return this.getLoggedInUserDetails(options.baseURL, options.useDefaultSuccessHandler);
         });
@@ -147,7 +147,7 @@ class AppSecurityService implements SecurityService {
             }).then((output: any) => {
               if (output[XSRF_COOKIE_NAME]) {
                 this.token = output[XSRF_COOKIE_NAME];
-                AsyncStorage.setItem(XSRF_COOKIE_NAME, output[XSRF_COOKIE_NAME]);
+                StorageService.setItem(XSRF_COOKIE_NAME, output[XSRF_COOKIE_NAME]);
               }
             }).then(() => {
               this.appConfig.refresh(true);

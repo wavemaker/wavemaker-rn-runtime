@@ -1,6 +1,6 @@
 import { keys, sortBy } from 'lodash-es';
 import { logger } from 'react-native-logs';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import StorageService from './storage.service'
 
 class LoggerCollection {
     loggerMap = new Map<string, Logger>();
@@ -9,7 +9,7 @@ class LoggerCollection {
 
 
     constructor() {
-        AsyncStorage.getItem(this.key).then((data) => {
+        StorageService.getItem(this.key).then((data) => {
             if (data) {
                 this.config = JSON.parse(data as string) || {};
                 keys(this.config).forEach((k: string) => {
@@ -42,7 +42,7 @@ class LoggerCollection {
                         this.config[k].level = level;
                     } 
                 });
-                AsyncStorage.setItem(this.key, JSON.stringify(this.config))
+                StorageService.setItem(this.key, JSON.stringify(this.config))
         }
     }
 

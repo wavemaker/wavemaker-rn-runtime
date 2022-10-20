@@ -10,6 +10,7 @@ import { get, last } from 'lodash';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
+import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
@@ -35,7 +36,6 @@ import  CameraService from './services/device/camera-service';
 import { ScanProvider } from '../core/device/scan-service';
 import ScanService from './services/device/scan-service';
 import AppSecurityService from './services/app-security.service';
-import StorageService from './services/storage.service';
 import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/utils/variable.utils';
 
 import * as SplashScreen from 'expo-splash-screen';

@@ -6,6 +6,7 @@ export interface Drawer {
 }
 
 export default interface AppConfig {
+    appId: string;
     assets: any;
     appProperties: any;
     appLocale: any;
