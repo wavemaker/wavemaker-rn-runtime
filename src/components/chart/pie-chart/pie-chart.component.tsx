@@ -74,61 +74,20 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
     let legendData: Array<{name: any}> = pieData.map((d: {x: any, y: any}, index: number) => {return {name: d?.x?.toString(), symbol: { fill: this.state.colors[index] }}});
     return (
       <View style={this.styles.root} onLayout={this.onViewLayoutChange}>
+        {this.state.chartWidth ? (
         <Svg
           width={this.state.chartWidth}
           height={this.state.chartHeight}
         >
-          <VictoryLegend
-            title={[props.title, props.subheading]}
-            colorScale={this.state.colors}
-            standalone={false}
-            name='legend'
-            orientation={orientation}
-            gutter={20}
-            data={[]}
-            style={{ border: { stroke: 'none' }, title: { paddingBottom: 20 } }}
-            theme={this.state.theme}
-            padding={20}
-            borderPadding={{ left: 50 }} // TODO: here if contents are more then next row will be hidden. Need to fix this.
-          />
-          <VictoryLegend
-            colorScale={this.state.colors}
-            standalone={false}
-            name='legendData'
-            orientation={orientation}
-            gutter={20}
-            data={legendData}
-            style={{ border: { stroke: 'none' } }}
-            groupComponent={
-              props.showlegend === 'right' ? (
-                <g transform="translate(200)" />
-              ) : (
-                <g />
-              )
-            }
-            theme={this.state.theme}
-            padding={{ right: 0, left: 150}}
-            borderPadding={{ left: 50 }} // TODO: here if contents are more then next row will be hidden. Need to fix this.
-          />
           <VictoryPie
             style={styleProp}
             standalone={false}
             colorScale={this.state.colors}
             labels={({datum}) => {
-              const labelType = props.labeltype;
-              if (labelType === 'percent') {
-                return `${(datum.y*100/this.state.total).toFixed(1)}%`
-              } else if (labelType === 'key') {
-                return `${datum.x}`;
-              } else if (labelType === 'value') {
-                return `${datum.y}`;
-              } else if (labelType === 'key-value') {
-                return `${datum.x} ${datum.y}`;
-              }
-              return null;
+              return '';
             }}
             endAngle={this.state.endAngle || 0}
-            radius={(this.state.chartHeight - 20)/ 2}
+            radius={(Math.min(this.state.chartWidth, this.state.chartHeight) - 20)/ 2}
             innerRadius={props.innerradius || this.state.innerradius}
             theme={this.state.theme}
             key={props.name}
@@ -137,7 +96,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
             origin={{x: (this.state.chartWidth/2), y: (this.state.chartHeight/2)}}
             labelPlacement={props.labelplacement}
           />
-        </Svg>
+        </Svg>) : null}
       </View>
     );
   }
