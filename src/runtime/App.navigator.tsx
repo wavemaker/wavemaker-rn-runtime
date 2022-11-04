@@ -15,6 +15,7 @@ export interface AppNavigatorProps {
   drawerContent: () => ReactNode;
   drawerAnimation: string;
   hideDrawer: boolean;
+  landingPage?: string;
   app: any;
 }
 
@@ -68,6 +69,7 @@ export const AppNavigator = (props: AppNavigatorProps) => {
   const appConfig = injector.get<AppConfig>('APP_CONFIG');
   const pages = {};
   const linking = {
+    prefixes: [`${appConfig.appId}://`],
     config: {
       screens: {
         "pages": {
@@ -85,7 +87,7 @@ export const AppNavigator = (props: AppNavigatorProps) => {
   });
   const stack = (<AppStackNavigator
     pages={appConfig.pages || []}
-    landingPage={appConfig.landingPage}></AppStackNavigator>);
+    landingPage={props.landingPage || appConfig.landingPage}></AppStackNavigator>);
   const leftNav = (<AppDrawerNavigator
       type={props.drawerAnimation === 'slide-over' ? 'front' : 'slide'}
       hide={props.hideDrawer}

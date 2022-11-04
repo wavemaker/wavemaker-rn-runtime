@@ -388,6 +388,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   <View style={styles.container}>
                     <AppNavigator
                       app={this}
+                      landingPage={(this.props as any).landingPage}
                       hideDrawer={this.appConfig.drawer?.getContent() === null}
                       drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
                       drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
