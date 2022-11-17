@@ -62,7 +62,6 @@
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/stack": "^6.2.1",
     "@types/lodash-es": "^4.17.4",
-    "@wavemaker/app-rn-runtime": "file:.yalc/@wavemaker/app-rn-runtime",
     "axios": "^0.21.1",
     "color": "4.2.3",
     "cross-env": "^5.2.0",
