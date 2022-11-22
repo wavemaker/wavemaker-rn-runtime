@@ -95,7 +95,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
         }}
         onLayout={() => {}}>
           <Text
-            style={this.styles.text}
+            style={[this.styles.text,
+              this.state.props.displayValue ? {} : {color: this.styles.placeholderText.color}]}
             ref={(ref) => {
               this.widgetRef = ref;
             }}
