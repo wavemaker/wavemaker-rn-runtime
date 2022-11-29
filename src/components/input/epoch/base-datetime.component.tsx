@@ -261,7 +261,10 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
         <View style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
             <View style={this.styles.container}>
               {this.addTouchableOpacity(props, (
-                <Text style={this.styles.text}>{this.state.displayValue || this.state.props.placeholder}</Text>
+                <Text style={[
+                  this.styles.text,
+                  this.state.displayValue ? {} : this.styles.placeholderText
+                ]}>{this.state.displayValue || this.state.props.placeholder}</Text>
               ), { flex: 1 })}
               {(!props.readonly && props.datavalue &&
                 (<WmIcon iconclass="wi wi-clear"
