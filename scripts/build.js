@@ -19,6 +19,7 @@ async function postBuild(runtimeVersion) {
     });
     packageData.main = 'index';
     packageData.module = 'index';
+    packageData['devDependencies']['@wavemaker/variables'] = runtimeVersion;
     packageData.exports = {
       "./": "./"
     };
