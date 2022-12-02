@@ -37,6 +37,7 @@ import { ScanProvider } from '../core/device/scan-service';
 import ScanService from './services/device/scan-service';
 import AppSecurityService from './services/app-security.service';
 import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/utils/variable.utils';
+import MaterialCommunityIconsFont from '@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf';
 
 import * as SplashScreen from 'expo-splash-screen';
 import BasePage from './base-page.component';
@@ -148,7 +149,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   onBeforeServiceCall(config: AxiosRequestConfig) {
-    config.headers['X-Requested-With'] = 'XMLHttpRequest';
+    if(config.headers) config.headers['X-Requested-With'] = 'XMLHttpRequest';
     console.log('onBeforeService call invoked on ' + config.url);
     return config
   }
@@ -228,7 +229,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       this.onAppVariablesReady();
       this.isStarted = true;
       this.forceUpdate();
-      // TODO: Without callback, splashscreen was not getting hidden in ios mobile app. Later, remove the empty function.
+    }, () => {}).then(() => {
       SplashScreen.hideAsync().then(() => {});
     });
     this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
@@ -349,7 +350,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       return (<style type="text/css">{`
         @font-face {
           font-family: 'MaterialCommunityIcons';
-          src: url(${require('react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf')}) format('truetype');
+          src: url(${MaterialCommunityIconsFont}) format('truetype');
         }
       `}</style>);
     } catch (e) {

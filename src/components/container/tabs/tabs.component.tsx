@@ -119,7 +119,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     const tabPanes =  React.Children.toArray(props.children)
       .filter((item: any, index: number) => item.props.show != false);
     const headerData = tabPanes.map((p: any, i: number) => 
-      ({title: p.props.title, icon: '', key:  `tab-${p.props.title}-${i}`}));
+      ({title: p.props.title || 'Tab Title', icon: '', key:  `tab-${p.props.title}-${i}`}));
     this.setTabPosition();
     return (
       <View style={this.styles.root}>

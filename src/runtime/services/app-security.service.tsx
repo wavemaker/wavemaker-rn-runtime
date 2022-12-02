@@ -51,7 +51,7 @@ class AppSecurityService implements SecurityService {
       }
       return this.getXsrfToken().then((token: string) => {
         if (config.url?.startsWith(this.baseUrl) && token) {
-          config.headers[xsrf_header_name] = token;
+          if(config.headers) config.headers[xsrf_header_name] = token;
         }
         return config
       });

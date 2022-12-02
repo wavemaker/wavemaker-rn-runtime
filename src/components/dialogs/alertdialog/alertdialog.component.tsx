@@ -64,8 +64,7 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
         <WmDialogcontent styles={this.styles.dialogContent}>
           <WmLabel
             caption={props.message || ''}
-            styles={this.styles.message}>
-          </WmLabel>
+            styles={this.styles.message}></WmLabel>
         </WmDialogcontent>
         <WmDialogactions styles={this.styles.dialogActions}>
           <WmButton
@@ -74,8 +73,7 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
             onTap={() => {
               this.dialogRef.close();
               this.invokeEventCallback('onOk', [null, this]);
-            }}>
-          </WmButton>
+            }}></WmButton>
         </WmDialogactions>
       </WmDialog>
     );
