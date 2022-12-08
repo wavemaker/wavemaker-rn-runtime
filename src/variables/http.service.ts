@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { HttpClientService } from '@wavemaker/variables/types/http-client.service';
+import { HttpClientService } from '@wavemaker/variables/src/types/http-client.service';
 import { WS_CONSTANTS } from '@wavemaker/app-rn-runtime/variables/utils/variable.constants';
 
 export class HttpService implements HttpClientService {
