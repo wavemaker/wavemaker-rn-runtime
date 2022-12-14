@@ -128,11 +128,10 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       elementToshow = this.getElementToShow(props, imgSrc, shapeStyles);
     }
     return imgSrc && (this.state.naturalImageWidth || props.isSvg) ? (
-      <View style={[!this.styles.root.width && !this.styles.root.height ? {
-        width: this.state.naturalImageWidth,
-        height: this.state.naturalImageHeight
-      } : null,
-        this.styles.root, shapeStyles.root, shapeStyles.picture]}>
+      <View style={[{
+        width: imageWidth,
+        height: imageHeight
+      }, this.styles.root, shapeStyles.root, shapeStyles.picture]}>
       <View style={[{overflow: 'hidden', width: '100%',
         height: '100%'}]} onLayout={this.onViewLayoutChange}>
         <Tappable target={this} styles={{width: imageWidth ? null : '100%', height: imageHeight ? null : '100%'}}>
@@ -140,7 +139,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
                 height: imageHeight,
                 width: imageWidth,
                 borderRadius: shapeStyles.picture?.borderRadius
-              }, shapeStyles.root]}>
+              }]}>
               {this.state.imageWidth ? elementToshow : null}
             </Animatedview>
           </Tappable>

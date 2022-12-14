@@ -1,5 +1,6 @@
 import React from 'react';
-import { LayoutChangeEvent, TouchableOpacity, Text, View, ScrollView } from 'react-native';
+import { isString } from 'lodash-es';
+import { LayoutChangeEvent, TouchableOpacity, Text, View, ScrollView, Dimensions } from 'react-native';
 import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import { TapEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -35,8 +36,16 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
   private computePosition = (e: LayoutChangeEvent) => {
     const position = {} as PopoverPosition;
     if (this.state.props.type === 'dropdown') {
+      const windowDimensions = Dimensions.get('window');
       this.view.measure((x, y, width, height, px, py) => {
-        position.left = px + width - (this.state.props.popoverwidth as number || 0);
+        let popoverwidth = this.state.props.popoverwidth as any;
+        if (popoverwidth && isString(popoverwidth)) {
+          popoverwidth = parseInt(popoverwidth);
+        }
+        position.left = px;
+        if (px + popoverwidth > windowDimensions.width) {
+          position.left = px + width - popoverwidth;
+        }
         position.top = py + height;
         this.updateState({position: position} as WmPopoverState);
       });

@@ -43,8 +43,8 @@ export default class WmCard extends BaseComponent<WmCardProps, WmCardState, WmCa
         {props.picturesource &&
           (<WmPicture
             picturesource={props.picturesource}
-            styles={this.theme.mergeStyle({root : {height: props.imageheight}}, this.styles.picture)}>
-          </WmPicture>)}
+            styles={this.theme.mergeStyle({root : {height: props.imageheight}}, this.styles.picture)}></WmPicture>
+        )}
       </View>);
   }
 

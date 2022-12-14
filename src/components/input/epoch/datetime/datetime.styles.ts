@@ -2,10 +2,12 @@ import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
+import { TextStyle } from 'react-native';
 
 export type WmDatetimeStyles = BaseStyles & {
     focused: AllStyle,
     container: AllStyle,
+    placeholderText: TextStyle,
     invalid: AllStyle,
     clearIcon: WmIconStyles,
     calendarIcon: WmIconStyles
@@ -28,6 +30,9 @@ export const DEFAULT_STYLES: WmDatetimeStyles = defineStyles({
     },
     invalid: {
       borderBottomColor: ThemeVariables.inputInvalidBorderColor
+    },
+    placeholderText: {
+      color: ThemeVariables.inputPlaceholderColor
     },
     container: {
         flexDirection: 'row',

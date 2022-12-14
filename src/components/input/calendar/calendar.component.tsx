@@ -80,8 +80,7 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
           iconsize={8}
           styles={{
             root: {marginTop: -8, alignSelf: 'flexStart'},
-            icon: this.styles['eventDay' + Math.min(3, dateWindow.events.length)]}}>
-        </WmIcon>
+            icon: this.styles['eventDay' + Math.min(3, dateWindow.events.length)]}}></WmIcon>
       );
     }
     return (<></>);
