@@ -62,6 +62,10 @@ const getPathFromState = (state: any, options: any) => {
       }).join('&');
     }
   }
+  setTimeout(() => {  
+    const id = window.history.state?.id;
+    window.history.replaceState({id}, null, path);
+  });
   return path;
 };
 
