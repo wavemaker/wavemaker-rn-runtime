@@ -41,6 +41,7 @@ export const DEFAULT_STYLES: WmSwitchStyles = defineStyles<WmSwitchStyles>({
     color: ThemeVariables.switchTextColor,
     flex: 1,
     fontSize: 16,
+    minWidth: 64,
     borderRadius: 0,
     borderColor: ThemeVariables.switchBorderColor,
     fontWeight: 'bold'
