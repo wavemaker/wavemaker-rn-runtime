@@ -16,8 +16,24 @@ export interface AppNavigatorProps {
   drawerAnimation: string;
   hideDrawer: boolean;
   landingPage?: string;
+  landingPageParams?: any;
   app: any;
 }
+
+const getNavigationState = (pageName: string, params: any) => {
+  return {
+    routes: [{
+      name: 'pages',
+      state: {
+        index: 0,
+        routes: [{
+          name: pageName,
+          params: params
+        }]
+      }
+    }]
+  };
+};
 
 const getStateFromPath = (path: string, options?: any) => {
   let hash: string = window.location.hash;
@@ -36,18 +52,7 @@ const getStateFromPath = (path: string, options?: any) => {
       params[k] = v;
     });
   }
-  return {
-    routes: [{
-      name: 'pages',
-      state: {
-        index: 0,
-        routes: [{
-          name: pageName,
-          params: params
-        }]
-      }
-    }]
-  }
+  return getNavigationState(pageName, params);
 };
 
 const getPathFromState = (state: any, options: any) => {
@@ -62,6 +67,10 @@ const getPathFromState = (state: any, options: any) => {
       }).join('&');
     }
   }
+  setTimeout(() => {  
+    const id = window.history.state?.id;
+    window.history.replaceState({id}, null, path);
+  });
   return path;
 };
 
@@ -87,7 +96,7 @@ export const AppNavigator = (props: AppNavigatorProps) => {
   });
   const stack = (<AppStackNavigator
     pages={appConfig.pages || []}
-    landingPage={props.landingPage || appConfig.landingPage}></AppStackNavigator>);
+    landingPage={appConfig.landingPage}></AppStackNavigator>);
   const leftNav = (<AppDrawerNavigator
       type={props.drawerAnimation === 'slide-over' ? 'front' : 'slide'}
       hide={props.hideDrawer}
@@ -96,5 +105,8 @@ export const AppNavigator = (props: AppNavigatorProps) => {
         {(props.drawerContent && props.drawerContent())  || (<View/>)}
       </SafeAreaView>)}
       rootComponent={stack}/>);
-  return (<NavigationContainer linking={linking}>{leftNav}</NavigationContainer>);
+      const initialState = props.landingPage && Platform.OS !== 'web' ? 
+        getNavigationState(props.landingPage, props.landingPageParams)
+      : undefined;
+  return (<NavigationContainer initialState={initialState} linking={linking}>{leftNav}</NavigationContainer>);
 };

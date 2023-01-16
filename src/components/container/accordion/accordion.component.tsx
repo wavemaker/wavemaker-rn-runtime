@@ -82,7 +82,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                         left={props => (
                           <>
                             {this.expandCollapseIcon(props, item, false, showIconOnLeft, true, isExpanded)}
-                            {<WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>}
+                            {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
                           </>)
                         }>
             <Animatedview style={{marginLeft: -64}} ref={ref => this.animatedRef = ref} entryanimation={this.state.props.animation}>{item}</Animatedview>

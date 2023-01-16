@@ -78,7 +78,7 @@ export class ScanService {
           content: (<Camera
             barCodeScannerSettings={barcodeFormat ? {
               barCodeTypes: [BarCodeScanner.Constants.BarCodeType[barcodeFormat]],
-            }: {}}
+            }: undefined}
             onBarCodeScanned={(result) => {
               destroy.call(this.displayManager);
               resolve(result);

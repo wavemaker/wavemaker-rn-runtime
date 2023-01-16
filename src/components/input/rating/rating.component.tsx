@@ -138,7 +138,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
           onTap={() => { this.changeValue(i)}}
         ></WmIcon> : null
       ))}
-      { !!this.state.caption && (<Text style={this.styles.text}>{this.state.caption}</Text>)}
+      { !!props.showcaptions ? (<Text style={this.styles.text}>{this.state.caption}</Text>) : null }
     </View>);
   }
 }

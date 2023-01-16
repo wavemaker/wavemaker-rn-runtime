@@ -1,6 +1,6 @@
 import React from 'react';
-import { SectionList, Text, View } from 'react-native';
-import { FlatList, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { SectionList, Text, View, TouchableWithoutFeedback } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import { isArray } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";

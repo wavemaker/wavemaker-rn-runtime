@@ -68,8 +68,8 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
         <WmButton
           iconclass="wi wi-close"
           styles={styles.closeBtn}
-          onTap={this.close}>
-        </WmButton>)}
+          onTap={this.close}></WmButton>
+      )}
     </Animatedview>);
   }
 }

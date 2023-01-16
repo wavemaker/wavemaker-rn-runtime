@@ -57,8 +57,7 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
         <WmDialogcontent styles={this.styles.dialogContent}>
           <WmLabel
             caption={props.message || ''}
-            styles={this.styles.message}>
-          </WmLabel>
+            styles={this.styles.message}></WmLabel>
         </WmDialogcontent>
         <WmDialogactions styles={this.styles.dialogActions}>
           <WmButton
@@ -67,16 +66,14 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
             onTap={() => {
               this.dialogRef.close();
               this.invokeEventCallback('onCancel', [null, this]);
-            }}>
-          </WmButton>
+            }}></WmButton>
           <WmButton
             caption={props.oktext}
             styles={this.theme.mergeStyle({}, this.theme.getStyle('btn-primary'), this.styles.okButton)}
             onTap={() => {
               this.dialogRef.close();
               this.invokeEventCallback('onOk', [null, this]);
-            }}>
-          </WmButton>
+            }}></WmButton>
         </WmDialogactions>
       </WmDialog>
     );

@@ -144,7 +144,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
           {customIcon}
         </FontAwesome>);
     } else if (props.show && iconDef) {
-      let WMCustomIcon = WavIcon as React.ReactNode;
+      let WMCustomIcon = WavIcon as unknown;
       if (iconDef.isStreamlineLightIcon) {
         WMCustomIcon = StreamlineLightIcon;
       } else if (iconDef.isStreamlineRegularIcon) {

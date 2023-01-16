@@ -5,6 +5,7 @@ import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Linking } from 'react-native';
+import { NativeModulesProxy } from 'expo-modules-core';
 import * as WebBrowser from 'expo-web-browser';
 import { get, last } from 'lodash';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
@@ -37,6 +38,7 @@ import { ScanProvider } from '../core/device/scan-service';
 import ScanService from './services/device/scan-service';
 import AppSecurityService from './services/app-security.service';
 import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/utils/variable.utils';
+import MaterialCommunityIconsFont from '@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf';
 
 import * as SplashScreen from 'expo-splash-screen';
 import BasePage from './base-page.component';
@@ -104,6 +106,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   constructor(props: any) {
     super(props);
     SplashScreen.preventAutoHideAsync();
+    setTimeout(() => SplashScreen.hideAsync(), 10000);
     this.appConfig.app = this;
     this.appConfig.drawer = new DrawerImpl(() => this.setState({'t': Date.now()}));
     let refreshAfterWait = false;
@@ -148,7 +151,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   onBeforeServiceCall(config: AxiosRequestConfig) {
-    config.headers['X-Requested-With'] = 'XMLHttpRequest';
+    if(config.headers) config.headers['X-Requested-With'] = 'XMLHttpRequest';
     console.log('onBeforeService call invoked on ' + config.url);
     return config
   }
@@ -159,6 +162,15 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   onServiceError(errorMsg: any, error: AxiosError<any>) {
 
+  }
+
+  invokeNativeApi(key: string, data: Object) {
+    if (NativeModulesProxy.EmbedCommModule 
+        && (Platform.OS === 'android' || Platform.OS === 'ios')) {
+        return NativeModulesProxy.EmbedCommModule.sendToNative(key, data || {});
+    } else {
+        return Promise.reject('Not able to invoke Native API in this platform.');
+    }
   }
 
   onPageReady(activePageName: string, activePageScope: BasePage) {
@@ -228,7 +240,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       this.onAppVariablesReady();
       this.isStarted = true;
       this.forceUpdate();
-      // TODO: Without callback, splashscreen was not getting hidden in ios mobile app. Later, remove the empty function.
+    }, () => {}).then(() => {
       SplashScreen.hideAsync().then(() => {});
     });
     this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
@@ -349,7 +361,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       return (<style type="text/css">{`
         @font-face {
           font-family: 'MaterialCommunityIcons';
-          src: url(${require('react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf')}) format('truetype');
+          src: url(${MaterialCommunityIconsFont}) format('truetype');
         }
       `}</style>);
     } catch (e) {
@@ -388,7 +400,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   <View style={styles.container}>
                     <AppNavigator
                       app={this}
-                      landingPage={(this.props as any).landingPage}
+                      landingPage={(this.props as any).pageName}
+                      landingPageParams={(this.props as any)?.pageName && this.props}
                       hideDrawer={this.appConfig.drawer?.getContent() === null}
                       drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
                       drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
