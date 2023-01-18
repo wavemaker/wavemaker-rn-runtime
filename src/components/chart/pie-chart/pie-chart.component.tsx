@@ -5,7 +5,7 @@ import { Svg } from 'react-native-svg';
 import { VictoryLegend, VictoryPie } from 'victory-native';
 
 import WmPieChartProps from './pie-chart.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmPieChartStyles } from './pie-chart.styles';
+import { DEFAULT_CLASS, WmPieChartStyles } from './pie-chart.styles';
 import {
   BaseChartComponent,
   BaseChartComponentState
@@ -22,7 +22,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
   private labelLegendHeight: number = 0;
   private legendHeight: number = 0;
   constructor(props: WmPieChartProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, props.type === 'Donut' ? new WmDonutChartProps() : new WmPieChartProps(), new WmPieChartState());
+    super(props, DEFAULT_CLASS, props.type === 'Donut' ? new WmDonutChartProps() : new WmPieChartProps(), new WmPieChartState());
   }
 
   setInnerRadius() {

@@ -5,7 +5,7 @@ import { isEqual, find } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmSwitchProps from './switch.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmSwitchStyles } from './switch.styles';
+import { DEFAULT_CLASS, WmSwitchStyles } from './switch.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseDatasetComponent, BaseDatasetState } from '../basedataset/basedataset.component';
 
@@ -13,7 +13,7 @@ export class WmSwitchState extends BaseDatasetState<WmSwitchProps> {}
 
 export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwitchState, WmSwitchStyles> {
   constructor(props: WmSwitchProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmSwitchProps());
+    super(props, DEFAULT_CLASS, new WmSwitchProps());
   }
 
   onChange(value: any) {

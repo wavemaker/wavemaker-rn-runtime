@@ -1,8 +1,8 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { WmAnchorStyles } from '../../basic/anchor/anchor.styles';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
-import { WmPopoverStyles, DEFAULT_STYLES as POPOVER_STYLES } from '../popover/popover.styles';
+import { WmPopoverStyles, DEFAULT_CLASS as POPOVER_CLASS } from '../popover/popover.styles';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
+import { defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export type WmMenuStyles = WmPopoverStyles & {
     menu: AllStyle,
@@ -10,57 +10,61 @@ export type WmMenuStyles = WmPopoverStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-menu';
-export const DEFAULT_STYLES: WmMenuStyles = deepCopy(POPOVER_STYLES, {
-    root : {
-        alignSelf: 'flex-start'
-    },
-    link: {
-        icon: {
-            root: {
-                color: ThemeVariables.menuIconColor
-            }
-        },
-        text: {
-            textDecorationLine: 'none',
-            paddingRight: 12,
-            fontWeight: 'bold',
-            color: ThemeVariables.menuTextColor
-        }
-    } as WmAnchorStyles,
-    popover: {
-        backgroundColor: ThemeVariables.transparent
-    },
-    popoverContent: {
-        flex: ''
-    },
-    menu: {
-        width: 160,
-        padding: 12,
-        backgroundColor: ThemeVariables.menuBackgroundColor,
-        borderRadius: 6
-    },
-    menuItem: {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmMenuStyles = {
         root : {
-            width: '100%',
-            padding: 8,
-            borderBottomWidth: 0,
-            borderStyle: 'solid',
-            borderBottomColor: ThemeVariables.menuItemBorderColor
+            alignSelf: 'flex-start'
         },
-        icon :{
-            root : {
-                fontSize: 16,
+        text: {},
+        link: {
+            icon: {
+                root: {
+                    color: themeVariables.menuIconColor
+                }
             },
-            icon : {
-                color: ThemeVariables.menuItemIconColor
+            text: {
+                textDecorationLine: 'none',
+                paddingRight: 12,
+                fontWeight: 'bold',
+                color: themeVariables.menuTextColor
             }
+        } as WmAnchorStyles,
+        popover: {
+            backgroundColor: themeVariables.transparent
         },
-        text: {
-            fontSize: 16,
-            textDecorationLine: 'none',
-            color: ThemeVariables.menuItemTextColor
-        }
-    } as WmAnchorStyles
-});
+        popoverContent: {
+            //@ts-ignore
+            flex: undefined
+        },
+        menu: {
+            width: 160,
+            padding: 12,
+            backgroundColor: themeVariables.menuBackgroundColor,
+            borderRadius: 6
+        },
+        menuItem: {
+            root : {
+                width: '100%',
+                padding: 8,
+                borderBottomWidth: 0,
+                borderStyle: 'solid',
+                borderBottomColor: themeVariables.menuItemBorderColor
+            },
+            icon :{
+                root : {
+                    fontSize: 16,
+                },
+                icon : {
+                    color: themeVariables.menuItemIconColor
+                }
+            },
+            text: {
+                fontSize: 16,
+                textDecorationLine: 'none',
+                color: themeVariables.menuItemTextColor
+            }
+        } as WmAnchorStyles
+    };
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+    addStyle(DEFAULT_CLASS, POPOVER_CLASS, defaultStyles);
+});

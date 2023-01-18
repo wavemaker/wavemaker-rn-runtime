@@ -6,7 +6,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import { isDefined } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmAccordionProps from './accordion.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmAccordionStyles } from './accordion.styles';
+import { DEFAULT_CLASS, WmAccordionStyles } from './accordion.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import WmAccordionpane from './accordionpane/accordionpane.component';
@@ -21,7 +21,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   private newIndex = 0;
 
   constructor(props: WmAccordionProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAccordionProps());
+    super(props, DEFAULT_CLASS, new WmAccordionProps());
     this.updateState({
       expandedId: (this.state.props.defaultpaneindex || 0) + 1
     } as WmAccordionState);

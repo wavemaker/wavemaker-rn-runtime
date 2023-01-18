@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmWizardstepProps from './wizardstep.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmWizardstepStyles } from './wizardstep.styles';
+import { DEFAULT_CLASS, WmWizardstepStyles } from './wizardstep.styles';
 import WmWizard from '../wizard.component';
 
 export class WmWizardstepState extends BaseComponentState<WmWizardstepProps> {
@@ -13,7 +13,7 @@ export class WmWizardstepState extends BaseComponentState<WmWizardstepProps> {
 export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWizardstepState, WmWizardstepStyles> {
 
   constructor(props: WmWizardstepProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmWizardstepProps(), new WmWizardstepState());
+    super(props, DEFAULT_CLASS, new WmWizardstepProps(), new WmWizardstepState());
   }
 
   componentDidMount() {

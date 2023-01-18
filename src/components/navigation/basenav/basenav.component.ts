@@ -1,6 +1,6 @@
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { BaseNavProps } from './basenav.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, BaseNavStyles } from './basenav.styles';
+import { DEFAULT_CLASS, BaseNavStyles } from './basenav.styles';
 import { isArray } from 'lodash-es';
 
 export interface NavigationDataItem {
@@ -19,8 +19,8 @@ export class BaseNavState <T extends BaseNavProps> extends BaseComponentState<T>
 
 export abstract class BaseNavComponent< T extends BaseNavProps, S extends BaseNavState<T>, L extends BaseNavStyles> extends BaseComponent<T, S, L> {
 
-  constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
-    super(props, defaultClass, defaultStyles, defaultProps, defaultState);
+  constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
+    super(props, defaultClass, defaultProps, defaultState);
   }
 
   getValue(item: any, val?: string | ((item: any) => string)) {

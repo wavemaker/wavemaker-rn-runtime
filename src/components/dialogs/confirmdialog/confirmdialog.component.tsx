@@ -9,7 +9,7 @@ import WmDialogcontent from '../dialogcontent/dialogcontent.component';
 import WmDialogactions from '../dialogactions/dialogactions.component';
 
 import WmConfirmdialogProps from './confirmdialog.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmConfirmdialogStyles } from './confirmdialog.styles';
+import { DEFAULT_CLASS, WmConfirmdialogStyles } from './confirmdialog.styles';
 import { merge } from 'lodash-es';
 
 export class WmConfirmdialogState extends BaseComponentState<WmConfirmdialogProps> {}
@@ -27,7 +27,7 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
   };
 
   constructor(props: WmConfirmdialogProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmConfirmdialogProps());
+    super(props, DEFAULT_CLASS, new WmConfirmdialogProps());
   }
 
   open() {

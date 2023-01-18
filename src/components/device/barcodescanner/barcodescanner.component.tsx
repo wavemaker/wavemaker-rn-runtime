@@ -5,7 +5,7 @@ import { ScanInput, ScanOutput } from '@wavemaker/app-rn-runtime/variables/devic
 import { ScanConsumer, ScanService } from '@wavemaker/app-rn-runtime/core/device/scan-service';
 
 import WmBarcodescannerProps from './barcodescanner.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmBarcodescannerStyles } from './barcodescanner.styles';
+import { DEFAULT_CLASS, WmBarcodescannerStyles } from './barcodescanner.styles';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 
 export class WmBarcodescannerState extends BaseComponentState<WmBarcodescannerProps> {}
@@ -13,7 +13,7 @@ export class WmBarcodescannerState extends BaseComponentState<WmBarcodescannerPr
 export default class WmBarcodescanner extends BaseComponent<WmBarcodescannerProps, WmBarcodescannerState, WmBarcodescannerStyles> {
   private scanner: ScanService = null as any;
   constructor(props: WmBarcodescannerProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmBarcodescannerProps());
+    super(props, DEFAULT_CLASS, new WmBarcodescannerProps());
   }
 
   onScanTap() {

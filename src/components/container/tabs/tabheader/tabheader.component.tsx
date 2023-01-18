@@ -3,7 +3,7 @@ import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, Text, View } from
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTabheaderProps from './tabheader.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmTabheaderStyles } from './tabheader.styles';
+import { DEFAULT_CLASS, WmTabheaderStyles } from './tabheader.styles';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 export class WmTabheaderState extends BaseComponentState<WmTabheaderProps> {
@@ -19,7 +19,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
   private indicatorWidth = new Animated.Value(0);
 
   constructor(props: WmTabheaderProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTabheaderProps(), new WmTabheaderState());
+    super(props, DEFAULT_CLASS, new WmTabheaderProps(), new WmTabheaderState());
     this.headerScrollPosition.addListener(({value}) => this.headerScrollPositionValue = value);
   }
 

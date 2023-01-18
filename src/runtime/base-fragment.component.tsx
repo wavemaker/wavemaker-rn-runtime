@@ -66,7 +66,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
                           };
     public watcher: Watcher = null as any;
     constructor(props: P, defaultProps?: P) {
-        super(props, undefined, undefined, defaultProps);
+        super(props, null as any, defaultProps);
         this.App = this.appConfig.app;
         this.formatters = this.App.formatters;
         this.Actions = Object.assign({}, this.App.Actions);
@@ -81,6 +81,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
             {screenWidth: $new.width,
               screenHeight: $new.height}]);
         }));
+        this.cleanup.push(() => this.theme?.destroy());
         this.baseUrl = this.appConfig.url;
         this.resourceBaseUrl = this.appConfig.url;
         this.cleanup.push(() => this.onDestroy());

@@ -4,9 +4,11 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 export type BaseNavStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-basenav';
-export const DEFAULT_STYLES: BaseNavStyles = defineStyles({
-    root: {},
-    text: {}
-});
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: BaseNavStyles = defineStyles({
+        root: {},
+        text: {}
+    });
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
+});

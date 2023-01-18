@@ -3,7 +3,7 @@ import { View, ViewStyle } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmLinearlayoutProps from './linearlayout.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmLinearlayoutStyles } from './linearlayout.styles';
+import { DEFAULT_CLASS, WmLinearlayoutStyles } from './linearlayout.styles';
 
 const ALIGNMENT_MAP = {
   'top':  'flex-start',
@@ -18,7 +18,7 @@ export class WmLinearlayoutState extends BaseComponentState<WmLinearlayoutProps>
 export default class WmLinearlayout extends BaseComponent<WmLinearlayoutProps, WmLinearlayoutState, WmLinearlayoutStyles> {
 
   constructor(props: WmLinearlayoutProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLinearlayoutProps());
+    super(props, DEFAULT_CLASS, new WmLinearlayoutProps());
   }
 
   getStyles(props: WmLinearlayoutProps) {

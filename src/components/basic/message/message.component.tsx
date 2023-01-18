@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmMessageProps from './message.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmMessageStyles } from './message.styles';
+import { DEFAULT_CLASS, WmMessageStyles } from './message.styles';
 import WmIcon from '../icon/icon.component';
 import WmButton from '../button/button.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
@@ -29,7 +29,7 @@ const DEFAULT_TITLE = {
 export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageState, WmMessageStyles> {
 
   constructor(props: WmMessageProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmMessageProps());
+    super(props, DEFAULT_CLASS, new WmMessageProps());
   }
 
   showMessage() {

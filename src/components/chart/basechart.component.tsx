@@ -10,7 +10,7 @@ import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/chart.theme";
 
 import BaseChartComponentProps from "./basechart.props";
-import { DEFAULT_CLASS, DEFAULT_STYLES, BaseChartComponentStyles} from "./basechart.styles";
+import { DEFAULT_CLASS, BaseChartComponentStyles} from "./basechart.styles";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -51,8 +51,8 @@ const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 
 export abstract class BaseChartComponent<T extends BaseChartComponentProps, S extends BaseChartComponentState<T>, L extends BaseChartComponentStyles> extends BaseComponent<T, S, L> {
   protected screenWidth: number = screenWidth;
-  constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultStyles: L = DEFAULT_STYLES as L, defaultProps?: T, defaultState?: S) {
-    super(props, defaultClass, defaultStyles as L, defaultProps, defaultState);
+  constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
+    super(props, defaultClass, defaultProps, defaultState);
     if (!props.theme) {
       this.applyTheme(props);
     }

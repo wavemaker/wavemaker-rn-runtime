@@ -2,7 +2,7 @@ import React from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmLeftPanelProps from './left-panel.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmLeftPanelStyles } from './left-panel.styles';
+import { DEFAULT_CLASS, WmLeftPanelStyles } from './left-panel.styles';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export class WmLeftPanelState extends BaseComponentState<WmLeftPanelProps> {
@@ -12,7 +12,7 @@ export class WmLeftPanelState extends BaseComponentState<WmLeftPanelProps> {
 export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftPanelState, WmLeftPanelStyles> {
 
   constructor(props: WmLeftPanelProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLeftPanelProps());
+    super(props, DEFAULT_CLASS, new WmLeftPanelProps());
   }
 
   onPartialLoad() {

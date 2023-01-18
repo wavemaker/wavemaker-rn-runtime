@@ -8,7 +8,7 @@ import { encodeUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
 import WmAnchorProps from './anchor.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmAnchorStyles } from './anchor.styles';
+import { DEFAULT_CLASS, WmAnchorStyles } from './anchor.styles';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 
 export class WmAnchorState extends BaseComponentState<WmAnchorProps> {
@@ -18,7 +18,7 @@ export class WmAnchorState extends BaseComponentState<WmAnchorProps> {
 export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState, WmAnchorStyles> {
 
   constructor(props: WmAnchorProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAnchorProps());
+    super(props, DEFAULT_CLASS, new WmAnchorProps());
   }
 
   onTap(navigationService: NavigationService, e: TapEvent) {

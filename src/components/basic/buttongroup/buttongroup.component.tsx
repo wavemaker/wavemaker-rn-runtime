@@ -3,14 +3,14 @@ import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmButtongroupProps from './buttongroup.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmButtongroupStyles } from './buttongroup.styles';
+import { DEFAULT_CLASS, WmButtongroupStyles } from './buttongroup.styles';
 
 export class WmButtongroupState extends BaseComponentState<WmButtongroupProps> {}
 
 export default class WmButtongroup extends BaseComponent<WmButtongroupProps, WmButtongroupState, WmButtongroupStyles> {
 
   constructor(props: WmButtongroupProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmButtongroupProps());
+    super(props, DEFAULT_CLASS, new WmButtongroupProps());
   }
 
   renderWidget(props: WmButtongroupProps) {

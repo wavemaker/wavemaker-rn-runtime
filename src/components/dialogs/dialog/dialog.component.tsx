@@ -9,7 +9,7 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 
 import WmDialogProps from './dialog.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmDialogStyles } from './dialog.styles';
+import { DEFAULT_CLASS, WmDialogStyles } from './dialog.styles';
 
 export class WmDialogState extends BaseComponentState<WmDialogProps> {
   modalOptions = {} as ModalOptions;
@@ -20,7 +20,7 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
   private _close: Function = () => {};
 
   constructor(props: WmDialogProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmDialogProps(), new WmDialogState());
+    super(props, DEFAULT_CLASS, new WmDialogProps(), new WmDialogState());
     this.hideMode = HideMode.DONOT_ADD_TO_DOM;
     this.state.modalOptions.onClose = () => {
       return new Promise<void>((res) => {

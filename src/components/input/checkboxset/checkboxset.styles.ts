@@ -1,6 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmCheckboxsetStyles = BaseStyles & {
   groupHeaderTitle: AllStyle;
@@ -9,38 +8,40 @@ export type WmCheckboxsetStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-checkboxset';
-export const DEFAULT_STYLES: WmCheckboxsetStyles = defineStyles({
-    root: {},
-    text: {
-      color: ThemeVariables.checkedColor
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const defaultStyles: WmCheckboxsetStyles = defineStyles({
+      root: {},
+      text: {
+        color: themeVariables.checkedColor
+      },
+    groupHeaderTitle: {
+      backgroundColor: themeVariables.groupHeadingBgColor,
+      fontSize: 16,
+      paddingLeft: 8,
+      paddingRight: 8,
+      lineHeight: 40,
+      fontFamily: themeVariables.baseFont
+    } as AllStyle,
+    checkboxHead: {
+      flexDirection: 'row',
+      alignContent: 'center',
+    } as AllStyle,
+    checkboxLabel: {
+      alignSelf: 'center',
+      fontFamily: themeVariables.baseFont,
+      fontSize: 16,
+      color: themeVariables.labelDefaultColor
+    } as AllStyle
+  });
+
+  addStyle(DEFAULT_CLASS + '-disabled', '', {
+    root: {
+      opacity: 0.8
     },
-  groupHeaderTitle: {
-    backgroundColor: ThemeVariables.groupHeadingBgColor,
-    fontSize: 16,
-    paddingLeft: 8,
-    paddingRight: 8,
-    lineHeight: 40,
-    fontFamily: ThemeVariables.baseFont
-  } as AllStyle,
-  checkboxHead: {
-    flexDirection: 'row',
-    alignContent: 'center',
-  } as AllStyle,
-  checkboxLabel: {
-    alignSelf: 'center',
-    fontFamily: ThemeVariables.baseFont,
-    fontSize: 16,
-    color: ThemeVariables.labelDefaultColor
-  } as AllStyle
-});
+    checkboxLabel : {
+      color: themeVariables.checkedDisabledColor
+    }
+  });
 
-BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
-  root: {
-    opacity: 0.8
-  },
-  checkboxLabel : {
-    color: ThemeVariables.checkedDisabledColor
-  }
+  addStyle(DEFAULT_CLASS, '', defaultStyles);
 });
-
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);

@@ -1,7 +1,6 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '../../basic/icon/icon.styles';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmRatingStyles = BaseStyles & {
     icon: WmIconStyles,
@@ -9,34 +8,36 @@ export type WmRatingStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-rating';
-export const DEFAULT_STYLES: WmRatingStyles = defineStyles({
-    root: {
-        flexDirection: 'row',
-        alignContent: 'center',
-        padding: 8
-    },
-    icon: {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmRatingStyles = defineStyles({
+        root: {
+            flexDirection: 'row',
+            alignContent: 'center',
+            padding: 8
+        },
+        icon: {
+            text: {
+                fontSize: 32,
+                color: themeVariables.ratingIconColor
+            }
+        } as WmIconStyles,
+        selectedIcon: {
+            text: {
+                fontSize: 32,
+                color: themeVariables.ratingSelectedIconColor
+            }
+        } as WmIconStyles,
         text: {
-            fontSize: 32,
-            color: ThemeVariables.ratingIconColor
+            alignSelf: 'center',
+            paddingLeft: 8,
+            color: themeVariables.ratingSelectedIconColor
         }
-    } as WmIconStyles,
-    selectedIcon: {
-        text: {
-            fontSize: 32,
-            color: ThemeVariables.ratingSelectedIconColor
-        }
-    } as WmIconStyles,
-    text: {
-        alignSelf: 'center',
-        paddingLeft: 8,
-        color: ThemeVariables.ratingSelectedIconColor
-    }
-});
+    });
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
-    root : {
-      opacity: 0.5
-    }
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
+    addStyle(DEFAULT_CLASS + '-disabled', '', {
+        root : {
+        opacity: 0.5
+        }
+    });
 });

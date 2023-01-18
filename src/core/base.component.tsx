@@ -4,11 +4,10 @@ import { TextStyle } from 'react-native';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
-import BASE_THEME, { DEFAULT_CLASS, NamedStyles, AllStyle, ThemeConsumer, attachBackground } from '../styles/theme';
+import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, attachBackground, ThemeEvent } from '../styles/theme';
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 import { HideMode } from './if.component';
-import ViewPort, {EVENTS as ViewPortEvents} from './viewport';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -23,14 +22,12 @@ export type BaseStyles = NamedStyles<any> & {
     text: TextStyle
 }
 
-export const DEFAULT_STYLES = {
-    text: {
-        fontFamily: ThemeVariables.baseFont
-    }
-} as BaseStyles;
-
 export function defineStyles<T>(styles: T): T {
-    return deepCopy({}, DEFAULT_STYLES, styles);
+    return deepCopy({
+        text: {
+            fontFamily: ThemeVariables.INSTANCE.baseFont
+        }
+    }, styles);
 }
 
 export interface LifecycleListener {
@@ -63,7 +60,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public parent: BaseComponent<any, any, any> = null as any;
     public destroyed = false;
 
-    constructor(markupProps: T, public defaultClass = DEFAULT_CLASS, private defaultStyles?: L, defaultProps?: T, defaultState?: S) {
+    constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
         this.state = (defaultState || {} as S);
         this.propertyProvider = new PropsProvider<T>(
@@ -72,9 +69,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             (name: string, $new: any, $old: any) => {
                 WIDGET_LOGGER.debug(() => `${this.props.name ?? this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
                 this.onPropertyChange(name, $new, $old);
-                if (name === 'styles') {
-                    this.styles = null as any;
-                }
             });
         //@ts-ignore
         this.state.props =this.propertyProvider.get();
@@ -107,8 +101,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.cleanup.push(() => {
             this.updateStateTimeouts.forEach(v => clearTimeout(v));
         });
-        this.cleanup.push(ViewPort.subscribe(ViewPortEvents.SIZE_CHANGE, () => {
-            this.theme.clearCache();
+        this.cleanup.push(this.theme.subscribe(ThemeEvent.CHANGE, () => {
             this.forceUpdate();
         }));
     }
@@ -127,7 +120,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     getDefaultStyles() {
-        return this.theme.getStyle(this.defaultClass) || this.defaultStyles;
+        return this.theme.getStyle(this.defaultClass);
     }
 
     reset() {

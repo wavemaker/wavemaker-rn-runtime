@@ -4,7 +4,7 @@ import { Defs, LinearGradient, Stop, Svg } from 'react-native-svg';
 import { VictoryArea, VictoryChart, VictoryLegend, VictoryStack, VictoryScatter, VictoryGroup } from "victory-native";
 import { InterpolationPropType } from 'victory-core';
 import WmAreaChartProps from './area-chart.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmAreaChartStyles } from './area-chart.styles';
+import { DEFAULT_CLASS, WmAreaChartStyles } from './area-chart.styles';
 import {
   BaseChartComponent,
   BaseChartComponentState
@@ -17,7 +17,7 @@ export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> 
 export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, WmAreaChartState, WmAreaChartStyles> {
 
   constructor(props: WmAreaChartProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAreaChartProps(), new WmAreaChartState());
+    super(props, DEFAULT_CLASS, new WmAreaChartProps(), new WmAreaChartState());
   }
 
   onViewLayoutChange = (e: LayoutChangeEvent) => {

@@ -5,7 +5,7 @@ import { widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils'
 import { isEqual, get, find, cloneDeep, forEach, keys } from 'lodash';
 
 import WmFormFieldProps from './form-field.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmFormFieldStyles } from './form-field.styles';
+import { DEFAULT_CLASS, WmFormFieldStyles } from './form-field.styles';
 import {PERFORMANCE_LOGGER} from "@wavemaker/app-rn-runtime/core/logger";
 
 export class WmFormFieldState extends BaseComponentState<WmFormFieldProps> {
@@ -20,7 +20,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   private notifyForFields: any = [];
   private _asyncValidatorFn: any;
   constructor(props: WmFormFieldProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmFormFieldProps(), new WmFormFieldState());
+    super(props, DEFAULT_CLASS, new WmFormFieldProps(), new WmFormFieldState());
   }
 
   onFieldChangeEvt(name: string, $new: any, $old: any, isDefault: boolean) {

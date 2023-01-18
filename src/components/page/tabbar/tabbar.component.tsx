@@ -9,7 +9,7 @@ import { BaseNavProps } from '@wavemaker/app-rn-runtime/components/navigation/ba
 import { BaseNavComponent, BaseNavState, NavigationDataItem } from '@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.component';
 
 import WmTabbarProps from './tabbar.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmTabbarStyles } from './tabbar.styles';
+import { DEFAULT_CLASS, WmTabbarStyles } from './tabbar.styles';
 
 class WmTabbarState<T extends BaseNavProps> extends BaseNavState<T>{
   showMore = false;
@@ -21,7 +21,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   private tabbarHeight = 0;
 
   constructor(props: WmTabbarProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTabbarProps(), new WmTabbarState());
+    super(props, DEFAULT_CLASS, new WmTabbarProps(), new WmTabbarState());
   }
 
   renderTabItem(item: NavigationDataItem, props: WmTabbarProps, onSelect: Function) {

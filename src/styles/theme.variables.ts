@@ -1,7 +1,7 @@
 import Color, { rgb } from "color";
 import { Dimensions, StatusBar } from "react-native";
 
-export class ThemeVariables {
+export default class ThemeVariables {
     primaryColor = '#4263eb';
     primaryColor1 = Color(this.primaryColor).lighten(0.2).rgb().toString();
     primaryColor2 = Color(this.primaryColor).lighten(0.4).rgb().toString();
@@ -405,6 +405,6 @@ export class ThemeVariables {
     chartLegendBorder = this.defaultColor7;
     chartAxisColor = this.defaultColor5;
     chartAxisPointColor = this.defaultColor9;
-}
 
-export default new ThemeVariables();
+    static INSTANCE = new ThemeVariables();
+}

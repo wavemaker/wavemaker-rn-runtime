@@ -7,7 +7,7 @@ import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.c
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 import WmNavItemProps from './navitem.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmNavItemStyles } from './navitem.styles';
+import { DEFAULT_CLASS, WmNavItemStyles } from './navitem.styles';
 import { NavigationDataItem } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.component";
 import { TapEvent } from "@wavemaker/app-rn-runtime/core/tappable.component";
 
@@ -18,7 +18,7 @@ export class WmNavItemState extends BaseComponentState<WmNavItemProps> {
 export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemState, WmNavItemStyles> {
 
   constructor(props: WmNavItemProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmNavItemProps(), new WmNavItemState());
+    super(props, DEFAULT_CLASS, new WmNavItemProps(), new WmNavItemState());
   }
 
   onSelectItem(cb: any, $item: NavigationDataItem, $event: TapEvent) {

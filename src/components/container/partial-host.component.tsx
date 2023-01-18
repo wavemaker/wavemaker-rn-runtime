@@ -12,8 +12,8 @@ export abstract class PartialHostProps extends BaseProps {
 export abstract class PartialHost<T extends BaseProps, S extends  PartialHostState<T>, L extends BaseStyles>
     extends BaseComponent<T, S, L> {
 
-    constructor(markupProps: T, defaultClass: string, defaultStyles?: L, defaultProps?: T, defaultState?: S) {
-        super(markupProps, defaultClass, defaultStyles, defaultProps, defaultState);
+    constructor(markupProps: T, defaultClass: string, defaultProps?: T, defaultState?: S) {
+        super(markupProps, defaultClass, defaultProps, defaultState);
     }
 
     onPartialLoad() {

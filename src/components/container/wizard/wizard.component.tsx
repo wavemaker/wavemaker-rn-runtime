@@ -4,7 +4,7 @@ import { isArray, merge } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmWizardProps from './wizard.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmWizardStyles } from './wizard.styles';
+import { DEFAULT_CLASS, WmWizardStyles } from './wizard.styles';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.component';
@@ -19,7 +19,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   private numberOfSteps: number = null as any;
   private steps = [] as WmWizardstep[];
   constructor(props: WmWizardProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmWizardProps());
+    super(props, DEFAULT_CLASS, new WmWizardProps());
     const steps = props.children;
     let defaultStepIndex = 0;
     if (isArray(steps) && props.defaultstep) {

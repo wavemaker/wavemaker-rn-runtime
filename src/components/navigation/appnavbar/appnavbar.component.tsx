@@ -5,7 +5,7 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 
 import WmAppNavbarProps from './appnavbar.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmAppNavbarStyles } from './appnavbar.styles';
+import { DEFAULT_CLASS, WmAppNavbarStyles } from './appnavbar.styles';
 
 export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {
 
@@ -18,7 +18,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   private onSearchBtnPress: Function;
 
   constructor(props: WmAppNavbarProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAppNavbarProps());
+    super(props, DEFAULT_CLASS, new WmAppNavbarProps());
     this.onDrawerBtnPress = (() => this.invokeEventCallback('onDrawerbuttonpress', [null, this])).bind(this);
     this.onBackBtnPress = (() => this.invokeEventCallback('onBackbtnclick', [null, this])).bind(this);
     this.onSearchBtnPress = (() => this.invokeEventCallback('onSearchbuttonpress', [null, this])).bind(this);

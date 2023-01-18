@@ -11,12 +11,12 @@ import {
 } from 'victory-native';
 
 import WmLineChartProps from './line-chart.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmLineChartStyles } from './line-chart.styles';
+import { DEFAULT_CLASS, WmLineChartStyles } from './line-chart.styles';
 import {
   BaseChartComponent,
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
-import ThemeVariables from "@wavemaker/app-rn-runtime/styles/theme.variables";
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import {InterpolationPropType} from "victory-core";
 
 export class WmLineChartState extends BaseChartComponentState<WmLineChartProps> {}
@@ -24,7 +24,7 @@ export class WmLineChartState extends BaseChartComponentState<WmLineChartProps> 
 export default class WmLineChart extends BaseChartComponent<WmLineChartProps, WmLineChartState, WmLineChartStyles> {
 
   constructor(props: WmLineChartProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLineChartProps(), new WmLineChartState());
+    super(props, DEFAULT_CLASS, new WmLineChartProps(), new WmLineChartState());
   }
 
   renderWidget(props: WmLineChartProps) {
@@ -61,7 +61,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
                               standalone={true}
                               style={{
                                 data: {
-                                  stroke: (this.state.colors[i] || ThemeVariables.chartLineColor),
+                                  stroke: (this.state.colors[i] || ThemeVariables.INSTANCE.chartLineColor),
                                   strokeWidth: props.linethickness}
                               }}
             data={d}

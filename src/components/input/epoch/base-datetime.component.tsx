@@ -6,7 +6,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 import WmDatetimeProps from './datetime/datetime.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmDatetimeStyles } from './datetime/datetime.styles';
+import { DEFAULT_CLASS, WmDatetimeStyles } from './datetime/datetime.styles';
 import WebDatePicker from './date-picker.component';
 import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
@@ -31,8 +31,8 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   nativeModalOptions: ModalOptions = {} as any;
   prevDatavalue: any;
 
-  constructor(props: WmDatetimeProps, defaultClass = DEFAULT_CLASS, defaultStyles = DEFAULT_STYLES, defaultProps = new WmDatetimeProps(), defaultState= new BaseDatetimeState()) {
-    super(props, defaultClass, defaultStyles, defaultProps, defaultState);
+  constructor(props: WmDatetimeProps, defaultClass = DEFAULT_CLASS, defaultProps = new WmDatetimeProps(), defaultState= new BaseDatetimeState()) {
+    super(props, defaultClass, defaultProps, defaultState);
   }
 
   format(date: Date | number | undefined, format: string) {

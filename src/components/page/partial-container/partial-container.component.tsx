@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPartialContainerProps from './partial-container.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmPartialContainerStyles } from './partial-container.styles';
+import { DEFAULT_CLASS, WmPartialContainerStyles } from './partial-container.styles';
 import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
 import PartialService, { PartialConsumer } from '@wavemaker/app-rn-runtime/core/partial.service';
 
@@ -13,7 +13,7 @@ export class WmPartialContainerState extends BaseComponentState<WmPartialContain
 export default class WmPartialContainer extends BaseComponent<WmPartialContainerProps, WmPartialContainerState, WmPartialContainerStyles> {
 
   constructor(props: WmPartialContainerProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmPartialContainerProps());
+    super(props, DEFAULT_CLASS, new WmPartialContainerProps());
     this.hideMode = HideMode.DONOT_ADD_TO_DOM;
   }
 

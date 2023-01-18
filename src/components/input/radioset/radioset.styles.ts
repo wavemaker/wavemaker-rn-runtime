@@ -1,6 +1,5 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmRadiosetStyles = BaseStyles & {
   groupHeaderTitle: AllStyle;
@@ -9,36 +8,38 @@ export type WmRadiosetStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-radioset';
-export const DEFAULT_STYLES: WmRadiosetStyles = defineStyles({
-    root: {
-      color: ThemeVariables.checkedColor
-    },
-    text: {},
-    groupHeaderTitle: {
-      backgroundColor: ThemeVariables.groupHeadingBgColor,
-      fontSize: 16,
-      paddingLeft: 8,
-      paddingRight: 8,
-      lineHeight: 40,
-      fontFamily: ThemeVariables.baseFont
-    } as AllStyle,
-    radioHead: {
-      flexDirection: 'row',
-      alignContent: 'center',
-    } as AllStyle,
-    radioLabel: {
-        alignSelf: 'center',
-        fontFamily: ThemeVariables.baseFont,
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const defaultStyles: WmRadiosetStyles = defineStyles({
+      root: {
+        color: themeVariables.checkedColor
+      },
+      text: {},
+      groupHeaderTitle: {
+        backgroundColor: themeVariables.groupHeadingBgColor,
         fontSize: 16,
-        color: ThemeVariables.labelDefaultColor
-    } as AllStyle
-});
+        paddingLeft: 8,
+        paddingRight: 8,
+        lineHeight: 40,
+        fontFamily: themeVariables.baseFont
+      } as AllStyle,
+      radioHead: {
+        flexDirection: 'row',
+        alignContent: 'center',
+      } as AllStyle,
+      radioLabel: {
+          alignSelf: 'center',
+          fontFamily: themeVariables.baseFont,
+          fontSize: 16,
+          color: themeVariables.labelDefaultColor
+      } as AllStyle
+  });
 
-BASE_THEME.addStyle(DEFAULT_CLASS + '-disabled', '', {
-  root : {
-    color: ThemeVariables.checkedDisabledColor,
-    opacity: 0.8
-  }
-});
+  addStyle(DEFAULT_CLASS + '-disabled', '', {
+    root : {
+      color: themeVariables.checkedDisabledColor,
+      opacity: 0.8
+    }
+  });
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
+  addStyle(DEFAULT_CLASS, '', defaultStyles);
+});

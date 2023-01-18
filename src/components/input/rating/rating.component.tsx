@@ -4,7 +4,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 import WmRatingProps from './rating.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmRatingStyles } from './rating.styles';
+import { DEFAULT_CLASS, WmRatingStyles } from './rating.styles';
 import { cloneDeep, isArray, isEmpty, isNumber, isString } from 'lodash-es';
 
 export class WmRatingState extends BaseComponentState<WmRatingProps> {
@@ -17,7 +17,7 @@ export class WmRatingState extends BaseComponentState<WmRatingProps> {
 export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState, WmRatingStyles> {
 
   constructor(props: WmRatingProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmRatingProps());
+    super(props, DEFAULT_CLASS, new WmRatingProps());
   }
 
   get caption() {

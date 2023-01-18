@@ -5,7 +5,7 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmCarouselProps from './carousel.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmCarouselStyles } from './carousel.styles';
+import { DEFAULT_CLASS, WmCarouselStyles } from './carousel.styles';
 
 export class WmCarouselState extends BaseComponentState<WmCarouselProps> {
   activeIndex = 0;
@@ -19,7 +19,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   stopPlay: Function = null as any;
 
   constructor(props: WmCarouselProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCarouselProps(), new WmCarouselState());
+    super(props, DEFAULT_CLASS, new WmCarouselProps(), new WmCarouselState());
     this.cleanup.push(() => {
       this.stopPlay && this.stopPlay();
     })

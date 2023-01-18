@@ -3,7 +3,7 @@ import { View, Text, TextInput, Platform } from 'react-native';
 
 import WmCurrencyProps from './currency.props';
 import { CURRENCY_INFO } from '@wavemaker/app-rn-runtime/core/currency-constants';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmCurrencyStyles } from './currency.styles';
+import { DEFAULT_CLASS, WmCurrencyStyles } from './currency.styles';
 import {
   BaseNumberComponent,
   BaseNumberState
@@ -17,7 +17,7 @@ export class WmCurrencyState extends BaseNumberState<WmCurrencyProps> {
 export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmCurrencyState, WmCurrencyStyles> {
 
   constructor(props: WmCurrencyProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmCurrencyProps(), new WmCurrencyState());
+    super(props, DEFAULT_CLASS, new WmCurrencyProps(), new WmCurrencyState());
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {

@@ -6,7 +6,7 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmProgressCircleProps from './progress-circle.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmProgressCircleStyles } from './progress-circle.styles';
+import { DEFAULT_CLASS, WmProgressCircleStyles } from './progress-circle.styles';
 
 
 export class WmProgressCircleState extends BaseComponentState<WmProgressCircleProps> {
@@ -16,7 +16,7 @@ export class WmProgressCircleState extends BaseComponentState<WmProgressCirclePr
 export default class WmProgressCircle extends BaseComponent<WmProgressCircleProps, WmProgressCircleState, WmProgressCircleStyles> {
 
   constructor(props: WmProgressCircleProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmProgressCircleProps(), new WmProgressCircleState());
+    super(props, DEFAULT_CLASS, new WmProgressCircleProps(), new WmProgressCircleState());
   }
 
   onLayout(e: LayoutChangeEvent) {

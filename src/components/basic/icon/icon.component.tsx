@@ -4,7 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmIconProps from './icon.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmIconStyles } from './icon.styles';
+import { DEFAULT_CLASS, WmIconStyles } from './icon.styles';
 import WavIcon from './wavicon/wavicon.component';
 import StreamlineLightIcon from './streamline-light-icon/streamline-light-icon.component';
 import StreamlineRegularIcon from './streamline-regular-icon/streamline-regular-icon.component';
@@ -46,7 +46,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   public stopAnimation = true; 
 
   constructor(props: WmIconProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmIconProps());
+    super(props, DEFAULT_CLASS, new WmIconProps());
   }
 
   getIconDef(iconClass: string): IconDef {

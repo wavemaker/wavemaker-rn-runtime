@@ -6,13 +6,13 @@ import { BaseNavComponent, NavigationDataItem, BaseNavState } from '@wavemaker/a
 import { BaseNavProps } from '@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.props';
 
 import WmNavbarProps from './navbar.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmNavbarStyles } from './navbar.styles';
+import { DEFAULT_CLASS, WmNavbarStyles } from './navbar.styles';
 
 class WmNavbarState<T extends BaseNavProps> extends BaseNavState<T> {}
 
 export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarState<WmNavbarProps>, WmNavbarStyles> {
   constructor(props: WmNavbarProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmNavbarProps(), new WmNavbarState());
+    super(props, DEFAULT_CLASS, new WmNavbarProps(), new WmNavbarState());
   }
 
   computeItemStyles(props: WmNavbarProps) {

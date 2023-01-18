@@ -1,7 +1,6 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmPanelStyles = BaseStyles & {
   icon: WmIconStyles,
@@ -11,89 +10,91 @@ export type WmPanelStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-panel';
-export const DEFAULT_STYLES: WmPanelStyles = defineStyles({
-    root: {
-      backgroundColor: ThemeVariables.panelBgColor,
-      borderStyle: 'solid',
-      borderWidth: 0,
-      padding: 12,
-      borderRadius: 6
-    },
-    text: {
-      color: ThemeVariables.panelHeaderTextColor,
-      fontSize: 16,
-      fontWeight: 'bold'
-    },
-    header: {
-      backgroundColor: ThemeVariables.panelHeaderBgColor,
-      paddingHorizontal: 8,
-      paddingVertical: 4,
-      borderStyle: 'solid',
-      borderWidth: 0,
-      borderColor: ThemeVariables.panelHeaderBgColor,
-      borderTopLeftRadius: 6,
-      borderTopRightRadius: 6
-    },
-    subheading: {},
-    icon: {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const defaultStyles: WmPanelStyles = defineStyles({
       root: {
-        alignSelf: 'auto',
-        fontSize: 32,
+        backgroundColor: themeVariables.panelBgColor,
+        borderStyle: 'solid',
+        borderWidth: 0,
+        padding: 12,
+        borderRadius: 6
       },
-    } as WmIconStyles,
-    toggleIcon: {
-      root: {
-        fontSize: 16,
-      },
-    } as WmIconStyles,
-    badge: {
-      color: ThemeVariables.badgeTextColor,
-      marginRight: 8
-    },
-    default: {
-      backgroundColor: ThemeVariables.labelDefaultColor
-    },
-    success: {
-      backgroundColor: ThemeVariables.labelSuccessColor
-    },
-    danger: {
-      backgroundColor: ThemeVariables.labelDangerColor
-    },
-    warning: {
-      backgroundColor: ThemeVariables.labelWarningColor
-    },
-    info: {
-      backgroundColor: ThemeVariables.labelInfoColor
-    },
-    primary: {
-      backgroundColor: ThemeVariables.labelPrimaryColor
-    }
-});
-
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-
-const getPanelBgStyles = (color: string) => {
-  return {
-    header: {
-      backgroundColor: color
-    },
-    text: {
-      color: ThemeVariables.panelTextColor
-    },
-    subheading: {
-      color: ThemeVariables.panelTextColor
-    },
-    icon: {
       text: {
-        color: ThemeVariables.panelTextColor
+        color: themeVariables.panelHeaderTextColor,
+        fontSize: 16,
+        fontWeight: 'bold'
+      },
+      header: {
+        backgroundColor: themeVariables.panelHeaderBgColor,
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderStyle: 'solid',
+        borderWidth: 0,
+        borderColor: themeVariables.panelHeaderBgColor,
+        borderTopLeftRadius: 6,
+        borderTopRightRadius: 6
+      },
+      subheading: {},
+      icon: {
+        root: {
+          alignSelf: 'auto',
+          fontSize: 32,
+        },
+      } as WmIconStyles,
+      toggleIcon: {
+        root: {
+          fontSize: 16,
+        },
+      } as WmIconStyles,
+      badge: {
+        color: themeVariables.badgeTextColor,
+        marginRight: 8
+      },
+      default: {
+        backgroundColor: themeVariables.labelDefaultColor
+      },
+      success: {
+        backgroundColor: themeVariables.labelSuccessColor
+      },
+      danger: {
+        backgroundColor: themeVariables.labelDangerColor
+      },
+      warning: {
+        backgroundColor: themeVariables.labelWarningColor
+      },
+      info: {
+        backgroundColor: themeVariables.labelInfoColor
+      },
+      primary: {
+        backgroundColor: themeVariables.labelPrimaryColor
       }
-    } as WmIconStyles
-  } as WmPanelStyles;
-};
+  });
 
-BASE_THEME.addStyle('panel-danger', '', getPanelBgStyles(ThemeVariables.panelDangerColor));
-BASE_THEME.addStyle('panel-default', '', getPanelBgStyles(ThemeVariables.panelDefaultColor));
-BASE_THEME.addStyle('panel-info', '', getPanelBgStyles(ThemeVariables.panelInfoColor));
-BASE_THEME.addStyle('panel-primary', '', getPanelBgStyles(ThemeVariables.panelPrimaryColor));
-BASE_THEME.addStyle('panel-success', '', getPanelBgStyles(ThemeVariables.panelSuccessColor));
-BASE_THEME.addStyle('panel-warning', '', getPanelBgStyles(ThemeVariables.panelWarningColor));
+  addStyle(DEFAULT_CLASS, '', defaultStyles);
+
+  const getPanelBgStyles = (color: string) => {
+    return {
+      header: {
+        backgroundColor: color
+      },
+      text: {
+        color: themeVariables.panelTextColor
+      },
+      subheading: {
+        color: themeVariables.panelTextColor
+      },
+      icon: {
+        text: {
+          color: themeVariables.panelTextColor
+        }
+      } as WmIconStyles
+    } as WmPanelStyles;
+  };
+
+  addStyle('panel-danger', '', getPanelBgStyles(themeVariables.panelDangerColor));
+  addStyle('panel-default', '', getPanelBgStyles(themeVariables.panelDefaultColor));
+  addStyle('panel-info', '', getPanelBgStyles(themeVariables.panelInfoColor));
+  addStyle('panel-primary', '', getPanelBgStyles(themeVariables.panelPrimaryColor));
+  addStyle('panel-success', '', getPanelBgStyles(themeVariables.panelSuccessColor));
+  addStyle('panel-warning', '', getPanelBgStyles(themeVariables.panelWarningColor));
+});

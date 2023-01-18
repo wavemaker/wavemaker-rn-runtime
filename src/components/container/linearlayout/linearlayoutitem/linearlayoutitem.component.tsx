@@ -5,14 +5,14 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmLinearlayout from '../linearlayout.component';
 import WmLinearlayoutitemProps from './linearlayoutitem.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmLinearlayoutitemStyles } from './linearlayoutitem.styles';
+import { DEFAULT_CLASS, WmLinearlayoutitemStyles } from './linearlayoutitem.styles';
 
 export class WmLinearlayoutitemState extends BaseComponentState<WmLinearlayoutitemProps> {}
 
 export default class WmLinearlayoutitem extends BaseComponent<WmLinearlayoutitemProps, WmLinearlayoutitemState, WmLinearlayoutitemStyles> {
 
   constructor(props: WmLinearlayoutitemProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmLinearlayoutitemProps());
+    super(props, DEFAULT_CLASS, new WmLinearlayoutitemProps());
   }
 
   renderWidget(props: WmLinearlayoutitemProps) {

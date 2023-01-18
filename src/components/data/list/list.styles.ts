@@ -2,7 +2,6 @@ import { TextStyle, ViewStyle } from 'react-native';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmLabelStyles } from '@wavemaker/app-rn-runtime/components/basic/label/label.styles';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 
 export type WmListStyles = BaseStyles & {
@@ -19,124 +18,126 @@ export type WmListStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-list';
-export const DEFAULT_STYLES: WmListStyles = defineStyles({
-    root: {},
-    text: {},
-    listIcon: {
-        root: {
-            marginTop: 4,
-            marginRight: 8
-        }
-    } as WmIconStyles,
-    groupHeading: {
-        backgroundColor: ThemeVariables.groupHeadingBgColor,
-        fontSize: 16,
-        paddingLeft: 8,
-        paddingRight: 8,
-        lineHeight: 40,
-        fontFamily: ThemeVariables.baseFont
-    },
-    loadingIcon: {
-        root: {
-            flex: 1,
-            alignSelf: 'center',
-            justifyContent: 'center',
-            fontSize: 16
-        },
-        text: {
-            color: ThemeVariables.listSubTitleColor
-        }
-    } as WmIconStyles,
-    heading : {
-        padding: 8,
-        marginBottom: 6,
-        backgroundColor: ThemeVariables.listHeaderBgColor
-    },
-    title: {
-        text: {
-            color: ThemeVariables.listTitleColor,
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+    const defaultStyles: WmListStyles = defineStyles({
+        root: {},
+        text: {},
+        listIcon: {
+            root: {
+                marginTop: 4,
+                marginRight: 8
+            }
+        } as WmIconStyles,
+        groupHeading: {
+            backgroundColor: themeVariables.groupHeadingBgColor,
             fontSize: 16,
-            lineHeight: 24,
-        }
-    } as WmLabelStyles,
-    subheading: {
-        text: {
-            fontSize: 12,
-            lineHeight: 16,
-            color: ThemeVariables.listSubTitleColor
-        }
-    } as WmLabelStyles,
-    emptyMessage: {
-        root: {
-            flex: 1,
-            alignSelf: 'center',
-            fontSize: 16,
-            lineHeight: 18,
-            color: ThemeVariables.listSubTitleColor
-        }
-    } as WmLabelStyles,
-    item: {
-        ...BASE_THEME.getStyle('elevate1').root,
-        shadowColor: 'rgba(0, 0, 0, 0.3)',
-        flexDirection: 'row',
-        flex: 1,
-        paddingLeft: 4,
-        paddingRight: 4,
-        paddingTop: 4,
-        paddingBottom: 4,
-        backgroundColor: ThemeVariables.itemBgColor,
-        borderRadius: 6,
-        borderStyle: 'solid',
-    },
-    selectedItem : {} as AllStyle,
-    selectedIcon : {
-        root: {
-            position: 'absolute',
-            right: 0,
-            top: 0
+            paddingLeft: 8,
+            paddingRight: 8,
+            lineHeight: 40,
+            fontFamily: themeVariables.baseFont
         },
-        text: {
-            color: ThemeVariables.primaryColor,
-            fontSize: 16
+        loadingIcon: {
+            root: {
+                flex: 1,
+                alignSelf: 'center',
+                justifyContent: 'center',
+                fontSize: 16
+            },
+            text: {
+                color: themeVariables.listSubTitleColor
+            }
+        } as WmIconStyles,
+        heading : {
+            padding: 8,
+            marginBottom: 6,
+            backgroundColor: themeVariables.listHeaderBgColor
+        },
+        title: {
+            text: {
+                color: themeVariables.listTitleColor,
+                fontSize: 16,
+                lineHeight: 24,
+            }
+        } as WmLabelStyles,
+        subheading: {
+            text: {
+                fontSize: 12,
+                lineHeight: 16,
+                color: themeVariables.listSubTitleColor
+            }
+        } as WmLabelStyles,
+        emptyMessage: {
+            root: {
+                flex: 1,
+                alignSelf: 'center',
+                fontSize: 16,
+                lineHeight: 18,
+                color: themeVariables.listSubTitleColor
+            }
+        } as WmLabelStyles,
+        item: {
+            ...BASE_THEME.getStyle('elevate1').root,
+            shadowColor: 'rgba(0, 0, 0, 0.3)',
+            flexDirection: 'row',
+            flex: 1,
+            paddingLeft: 4,
+            paddingRight: 4,
+            paddingTop: 4,
+            paddingBottom: 4,
+            backgroundColor: themeVariables.itemBgColor,
+            borderRadius: 6,
+            borderStyle: 'solid',
+        },
+        selectedItem : {} as AllStyle,
+        selectedIcon : {
+            root: {
+                position: 'absolute',
+                right: 0,
+                top: 0
+            },
+            text: {
+                color: themeVariables.primaryColor,
+                fontSize: 16
+            }
+        } as WmIconStyles
+    });
+
+    addStyle(DEFAULT_CLASS, '', defaultStyles);
+
+    addStyle('app-horizontal-list', '', {
+        groupHeading: {
+            minWidth: 120,
+            backgroundColor: themeVariables.groupHeadingBgColor,
+        },
+        item: {
+            marginRight: 6
         }
-    } as WmIconStyles
+    } as WmListStyles);
+
+    addStyle('app-vertical-list', '', {
+        item: {
+            marginBottom: 6,
+            width: '100%',
+            borderBottomWidth: 0,
+            borderBottomColor: themeVariables.listDividerColor,
+        }
+    } as WmListStyles);
+
+    addStyle('app-horizontal-list-dense', '', {
+        item: {
+            marginRight: 0,
+            borderRadius: 0,
+            borderRightWidth: 1,
+            borderRightColor: 'rgba(0,0,0,0.05)'
+        } as ViewStyle
+    } as WmListStyles);
+
+    addStyle('app-list-dense', '', {
+        item: {
+            marginBottom: 0,
+            borderRadius: 0,
+            borderBottomWidth: 1,
+            borderBottomColor: 'rgba(0,0,0,0.05)'
+        } as ViewStyle
+    } as WmListStyles);
 });
-
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-
-BASE_THEME.addStyle('app-horizontal-list', '', {
-    groupHeading: {
-        minWidth: 120,
-        backgroundColor: ThemeVariables.groupHeadingBgColor,
-    },
-    item: {
-        marginRight: 6
-    }
-} as WmListStyles);
-
-BASE_THEME.addStyle('app-vertical-list', '', {
-    item: {
-        marginBottom: 6,
-        width: '100%',
-        borderBottomWidth: 0,
-        borderBottomColor: ThemeVariables.listDividerColor,
-    }
-} as WmListStyles);
-
-BASE_THEME.addStyle('app-horizontal-list-dense', '', {
-    item: {
-        marginRight: 0,
-        borderRadius: 0,
-        borderRightWidth: 1,
-        borderRightColor: 'rgba(0,0,0,0.05)'
-    } as ViewStyle
-} as WmListStyles);
-
-BASE_THEME.addStyle('app-list-dense', '', {
-    item: {
-        marginBottom: 0,
-        borderRadius: 0,
-        borderBottomWidth: 1,
-        borderBottomColor: 'rgba(0,0,0,0.05)'
-    } as ViewStyle
-} as WmListStyles);

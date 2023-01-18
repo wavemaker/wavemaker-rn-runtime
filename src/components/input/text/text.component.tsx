@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform, TextInput } from 'react-native';
 
 import WmTextProps from './text.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmTextStyles } from './text.styles';
+import { DEFAULT_CLASS, WmTextStyles } from './text.styles';
 import { BaseInputComponent, BaseInputState } from "@wavemaker/app-rn-runtime/components/input/baseinput/baseinput.component";
 import { isNull } from 'lodash';
 
@@ -12,7 +12,7 @@ export class WmTextState extends BaseInputState<WmTextProps> {
 export default class WmText extends BaseInputComponent<WmTextProps, WmTextState, WmTextStyles> {
 
   constructor(props: WmTextProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmTextProps(), new WmTextState());
+    super(props, DEFAULT_CLASS, new WmTextProps(), new WmTextState());
   }
 
   renderWidget(props: WmTextProps) {

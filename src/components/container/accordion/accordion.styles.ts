@@ -1,6 +1,5 @@
 import BASE_THEME, {AllStyle} from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { TextStyle, ViewStyle } from 'react-native';
 import Color from 'color';
@@ -22,126 +21,128 @@ export type WmAccordionStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-accordion';
-export const DEFAULT_STYLES: WmAccordionStyles = defineStyles({
-    root: {
-      width: '100%',
-      borderWidth: 0,
-      borderStyle: 'solid',
-      borderColor: ThemeVariables.accordionBorderColor,
-      borderRadius: 6,
-      backgroundColor: ThemeVariables.transparent
-    },
-    text: {
-      color: ThemeVariables.accordionTitleColor,
-      fontSize: 18
-    },
-    firstHeader: {
-      borderTopLeftRadius: 6,
-      borderTopRightRadius: 6
-    },
-    pane : {
-      marginBottom: 4,
-    },
-    header: {
-      borderBottomWidth: 1,
-      borderStyle: 'solid',
-      borderColor: ThemeVariables.accordionBorderColor,
-      backgroundColor: ThemeVariables.accordionHeaderBgColor,
-      padding: 8
-    },
-    lastHeader: {
-      borderBottomWidth: 0,
-      borderBottomLeftRadius: 6,
-      borderBottomRightRadius: 6
-    },
-    activeHeader: {
-      borderColor: ThemeVariables.accordionActiveHeaderBgColor,
-      backgroundColor: ThemeVariables.accordionActiveHeaderBgColor
-    },
-    activeHeaderTitle: {
-      color: ThemeVariables.accordionActiveHeaderTextColor
-    },
-    subheading: {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const defaultStyles: WmAccordionStyles = defineStyles({
+      root: {
+        width: '100%',
+        borderWidth: 0,
+        borderStyle: 'solid',
+        borderColor: themeVariables.accordionBorderColor,
+        borderRadius: 6,
+        backgroundColor: themeVariables.transparent
+      },
+      text: {
+        color: themeVariables.accordionTitleColor,
+        fontSize: 18
+      },
+      firstHeader: {
+        borderTopLeftRadius: 6,
+        borderTopRightRadius: 6
+      },
+      pane : {
+        marginBottom: 4,
+      },
+      header: {
+        borderBottomWidth: 1,
+        borderStyle: 'solid',
+        borderColor: themeVariables.accordionBorderColor,
+        backgroundColor: themeVariables.accordionHeaderBgColor,
+        padding: 8
+      },
+      lastHeader: {
+        borderBottomWidth: 0,
+        borderBottomLeftRadius: 6,
+        borderBottomRightRadius: 6
+      },
+      activeHeader: {
+        borderColor: themeVariables.accordionActiveHeaderBgColor,
+        backgroundColor: themeVariables.accordionActiveHeaderBgColor
+      },
+      activeHeaderTitle: {
+        color: themeVariables.accordionActiveHeaderTextColor
+      },
+      subheading: {
 
+      },
+      icon: {
+        root: {
+          alignSelf: 'auto',
+          width: 24,
+          height: 24,
+          borderRadius: 24,
+          justifyContent: 'center'
+        },
+        icon: {
+          color: themeVariables.accordionIconColor,
+          alignSelf: 'center',
+          justifyContent: 'center',
+          fontSize: 16,
+          fontWeight: 'bold'
+        }
+      } as WmIconStyles,
+      leftToggleIcon: {
+        root: {}
+      } as WmIconStyles,
+      rightToggleIcon: {
+        root: {}
+      } as WmIconStyles,
+      activeIcon : {
+        root: {
+          borderColor: themeVariables.accordionActiveHeaderTextColor,
+        },
+        icon: {
+          color: themeVariables.accordionActiveHeaderTextColor
+        }
+      } as WmIconStyles,
+      activeBadge: {
+        borderColor: themeVariables.accordionActiveHeaderTextColor,
+        color: themeVariables.accordionActiveHeaderTextColor
+      },
+      badge: {
+          color: themeVariables.accordionIconColor,
+          fontSize: 14,
+          marginRight: 4,
+          width: 24,
+          height: 24,
+          borderRadius: 12,
+          alignContent: 'center',
+          borderStyle: 'solid',
+          borderWidth: 2,
+          borderColor: themeVariables.accordionIconColor,
+          backgroundColor: themeVariables.transparent
+      },
+      default: {},
+      success: {
+        backgroundColor: themeVariables.labelSuccessColor
+      },
+      danger: {
+        backgroundColor: themeVariables.labelDangerColor
+      },
+      warning: {
+        backgroundColor: themeVariables.labelWarningColor
+      },
+      info: {
+        backgroundColor: themeVariables.labelInfoColor
+      },
+      primary: {
+        backgroundColor: themeVariables.labelPrimaryColor
+      }
+  });
+
+  addStyle(DEFAULT_CLASS, '', defaultStyles);
+  addStyle('app-accordion1', '', {
+    pane: {
+      marginBottom: 0
+    },
+    leftToggleIcon: {
+      root: {
+        width: 1
+      }
     },
     icon: {
       root: {
-        alignSelf: 'auto',
-        width: 24,
-        height: 24,
-        borderRadius: 24,
-        justifyContent: 'center'
-      },
-      icon: {
-        color: ThemeVariables.accordionIconColor,
-        alignSelf: 'center',
-        justifyContent: 'center',
-        fontSize: 16,
-        fontWeight: 'bold'
+        backgroundColor: 'rgba(255, 255, 255, 0.1)'
       }
-    } as WmIconStyles,
-    leftToggleIcon: {
-      root: {}
-    } as WmIconStyles,
-    rightToggleIcon: {
-      root: {}
-    } as WmIconStyles,
-    activeIcon : {
-      root: {
-        borderColor: ThemeVariables.accordionActiveHeaderTextColor,
-      },
-      icon: {
-        color: ThemeVariables.accordionActiveHeaderTextColor
-      }
-    } as WmIconStyles,
-    activeBadge: {
-      borderColor: ThemeVariables.accordionActiveHeaderTextColor,
-      color: ThemeVariables.accordionActiveHeaderTextColor
-    },
-    badge: {
-        color: ThemeVariables.accordionIconColor,
-        fontSize: 14,
-        marginRight: 4,
-        width: 24,
-        height: 24,
-        borderRadius: 12,
-        alignContent: 'center',
-        borderStyle: 'solid',
-        borderWidth: 2,
-        borderColor: ThemeVariables.accordionIconColor,
-        backgroundColor: ThemeVariables.transparent
-    },
-    default: {},
-    success: {
-      backgroundColor: ThemeVariables.labelSuccessColor
-    },
-    danger: {
-      backgroundColor: ThemeVariables.labelDangerColor
-    },
-    warning: {
-      backgroundColor: ThemeVariables.labelWarningColor
-    },
-    info: {
-      backgroundColor: ThemeVariables.labelInfoColor
-    },
-    primary: {
-      backgroundColor: ThemeVariables.labelPrimaryColor
     }
+  } as WmAccordionStyles);
 });
-
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('app-accordion1', '', {
-  pane: {
-    marginBottom: 0
-  },
-  leftToggleIcon: {
-    root: {
-      width: 1
-    }
-  },
-  icon: {
-    root: {
-      backgroundColor: 'rgba(255, 255, 255, 0.1)'
-    }
-  }
-} as WmAccordionStyles);

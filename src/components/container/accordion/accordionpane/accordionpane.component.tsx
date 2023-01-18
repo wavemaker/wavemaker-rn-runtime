@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmAccordionpaneProps from './accordionpane.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmAccordionpaneStyles } from './accordionpane.styles';
+import { DEFAULT_CLASS, WmAccordionpaneStyles } from './accordionpane.styles';
 import WmAccordion from '../accordion.component';
 
 export class WmAccordionpaneState extends BaseComponentState<WmAccordionpaneProps> {
@@ -13,7 +13,7 @@ export class WmAccordionpaneState extends BaseComponentState<WmAccordionpaneProp
 export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps, WmAccordionpaneState, WmAccordionpaneStyles> {
 
   constructor(props: WmAccordionpaneProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmAccordionpaneProps());
+    super(props, DEFAULT_CLASS, new WmAccordionpaneProps());
   }
 
   onPaneExpand() {

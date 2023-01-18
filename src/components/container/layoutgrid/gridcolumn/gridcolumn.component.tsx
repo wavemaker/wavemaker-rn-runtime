@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmGridcolumnProps from './gridcolumn.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WmGridColumnStyles } from './gridcolumn.styles';
+import { DEFAULT_CLASS, WmGridColumnStyles } from './gridcolumn.styles';
 
 export class WmGridcolumnState extends BaseComponentState<WmGridcolumnProps> {
 
@@ -12,7 +12,7 @@ export class WmGridcolumnState extends BaseComponentState<WmGridcolumnProps> {
 export default class WmGridcolumn extends BaseComponent<WmGridcolumnProps, WmGridcolumnState, WmGridColumnStyles> {
 
   constructor(props: WmGridcolumnProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmGridcolumnProps());
+    super(props, DEFAULT_CLASS, new WmGridcolumnProps());
   }
 
   renderWidget(props: WmGridcolumnProps) {

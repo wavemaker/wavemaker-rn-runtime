@@ -5,7 +5,7 @@ import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmWebviewProps from './webview.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, WebviewStyles } from './webview.styles';
+import { DEFAULT_CLASS, WebviewStyles } from './webview.styles';
 
 class WmWebViewState extends BaseComponentState<WmWebviewProps> {
 
@@ -18,7 +18,7 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
   private invokeJSCallbacks = {} as any;
 
   constructor(props: WmWebviewProps) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new WmWebviewProps());
+    super(props, DEFAULT_CLASS, new WmWebviewProps());
     this.hideMode = HideMode.DONOT_ADD_TO_DOM;
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
   }

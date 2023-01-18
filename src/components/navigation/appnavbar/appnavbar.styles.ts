@@ -1,8 +1,7 @@
 import Color from 'color';
-import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { ImageStyle, ViewStyle } from 'react-native';
+import { ViewStyle } from 'react-native';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { WmMenuStyles } from '@wavemaker/app-rn-runtime/components/navigation/menu/menu.styles';
 import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.styles';
@@ -21,157 +20,159 @@ export type WmAppNavbarStyles = BaseStyles & {
 };
 
 export const DEFAULT_CLASS = 'app-appnavbar';
-export const DEFAULT_STYLES: WmAppNavbarStyles = defineStyles({
-  root: {
-    flexDirection: 'row',
-    backgroundColor: ThemeVariables.navbarBackgroundColor,
-    height: 80,
-    padding: 12,
-    paddingHorizontal: 12,
-    alignItems: 'center'
-  },
-  text: {},
-  action: {} as WmIconStyles,
-  leftSection: {
-    flexGrow: 1,
-    flexDirection: 'row'
-  },
-  leftnavIcon: {
+BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const defaultStyles: WmAppNavbarStyles = defineStyles({
     root: {
-        alignItems: 'center'
+      flexDirection: 'row',
+      backgroundColor: themeVariables.navbarBackgroundColor,
+      height: 80,
+      padding: 12,
+      paddingHorizontal: 12,
+      alignItems: 'center'
     },
-    icon: {
-        fontSize: ThemeVariables.navbarIconSize,
-        color: ThemeVariables.navbarTextColor
-    }
-  } as WmIconStyles,
-  backIcon: {
-    root: {},
-    text: {
-      fontSize: ThemeVariables.navbarFontSize,
-      color: ThemeVariables.navbarTextColor
+    text: {},
+    action: {} as WmIconStyles,
+    leftSection: {
+      flex: 1,
+      flexDirection: 'row'
     },
-    icon: {
-        fontSize: ThemeVariables.navbarIconSize,
-        color: ThemeVariables.navbarTextColor
-    }
-  } as WmIconStyles,
-  image: {
-    root: {
-      width: ThemeVariables.navbarImageSize,
-      height: ThemeVariables.navbarImageSize,
+    leftnavIcon: {
+      root: {
+          alignItems: 'flex-start'
+      },
+      icon: {
+          fontSize: themeVariables.navbarIconSize,
+          color: themeVariables.navbarTextColor
+      }
+    } as WmIconStyles,
+    backIcon: {
+      root: {},
+      text: {
+        fontSize: themeVariables.navbarFontSize,
+        color: themeVariables.navbarTextColor
+      },
+      icon: {
+          fontSize: themeVariables.navbarIconSize,
+          color: themeVariables.navbarTextColor
+      }
+    } as WmIconStyles,
+    image: {
+      root: {
+        width: themeVariables.navbarImageSize,
+        height: themeVariables.navbarImageSize,
+      },
+      picture: {
+        resizeMode: 'contain'
+      }
+    } as WmPictureStyles,
+    content: {
+      textTransform: 'capitalize',
+      color: themeVariables.navbarTextColor,
+      fontSize: themeVariables.navbarFontSize,
+      fontFamily: themeVariables.baseFont,
+      fontWeight: '500',
+      textAlign: 'center'
     },
-    picture: {
-      resizeMode: 'contain'
-    }
-  } as WmPictureStyles,
-  content: {
-    textTransform: 'capitalize',
-    color: ThemeVariables.navbarTextColor,
-    fontSize: ThemeVariables.navbarFontSize,
-    fontFamily: ThemeVariables.baseFont,
-    fontWeight: '500',
-    textAlign: 'center'
-  },
-  middleSection: {
-    alignItems: 'center',
-    flexDirection: 'row'
-  },
-  rightSection: {
-    flexGrow: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
-  },
-} as WmAppNavbarStyles);
+    middleSection: {
+      alignItems: 'center',
+      flexDirection: 'row'
+    },
+    rightSection: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'flex-end'
+    },
+  } as WmAppNavbarStyles);
 
-BASE_THEME.addStyle(DEFAULT_CLASS, '', DEFAULT_STYLES);
-BASE_THEME.addStyle('navbarAnchorItem', '', {
-  root: {
-    paddingRight: 8,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  text: {
-    color: ThemeVariables.navbarTextColor,
-    fontSize: ThemeVariables.navbarFontSize,
-    textDecorationStyle: undefined
-  },
-  badge: {
-      backgroundColor: Color(ThemeVariables.navbarTextColor).fade(0.8).rgb().toString(),
-      color: ThemeVariables.navbarTextColor,
-  },
-  icon: {
-    text: {
-      color: ThemeVariables.navbarTextColor,
-      fontSize: ThemeVariables.navbarIconSize
-    },
-    icon : {
-      color: ThemeVariables.navbarTextColor
-    }
-  }
-} as WmAnchorStyles);
-BASE_THEME.addStyle('navbarButton', '', {
-  root: {
-    backgroundColor: ThemeVariables.transparent,
-    paddingRight: 8,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center'
-  },
-  text: {
-    color: ThemeVariables.navbarTextColor,
-    fontSize: ThemeVariables.navbarFontSize
-  },
-  icon: {
+  addStyle(DEFAULT_CLASS, '', defaultStyles);
+  addStyle('navbarAnchorItem', '', {
     root: {
-      color: ThemeVariables.navbarTextColor
+      paddingRight: 8,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center'
     },
     text: {
-      color: ThemeVariables.navbarTextColor,
-      fontSize: ThemeVariables.navbarIconSize
+      color: themeVariables.navbarTextColor,
+      fontSize: themeVariables.navbarFontSize,
+      textDecorationStyle: undefined
+    },
+    badge: {
+        backgroundColor: Color(themeVariables.navbarTextColor).fade(0.8).rgb().toString(),
+        color: themeVariables.navbarTextColor,
+    },
+    icon: {
+      text: {
+        color: themeVariables.navbarTextColor,
+        fontSize: themeVariables.navbarIconSize
+      },
+      icon : {
+        color: themeVariables.navbarTextColor
+      }
     }
-  }
-} as WmAnchorStyles);
-BASE_THEME.addStyle('navbarMenu', '', {
-  root: {
-    paddingRight: 8,
-    height: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  link: {
+  } as WmAnchorStyles);
+  addStyle('navbarButton', '', {
+    root: {
+      backgroundColor: themeVariables.transparent,
+      paddingRight: 8,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf: 'center'
+    },
+    text: {
+      color: themeVariables.navbarTextColor,
+      fontSize: themeVariables.navbarFontSize
+    },
     icon: {
       root: {
-        fontSize: ThemeVariables.navbarIconSize,
-        color: ThemeVariables.navbarTextColor
+        color: themeVariables.navbarTextColor
+      },
+      text: {
+        color: themeVariables.navbarTextColor,
+        fontSize: themeVariables.navbarIconSize
       }
-    },
-    text: {
-      color: ThemeVariables.navbarTextColor,
-      fontSize: ThemeVariables.navbarFontSize
     }
-  }
-} as WmMenuStyles);
-BASE_THEME.addStyle('navbarPopover', '', {
-  root: {
-    height: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  link: {
-    icon: {
-      root: {
-        fontSize: ThemeVariables.navbarIconSize,
-        color: ThemeVariables.navbarTextColor
+  } as WmAnchorStyles);
+  addStyle('navbarMenu', '', {
+    root: {
+      paddingRight: 8,
+      height: '100%',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    link: {
+      icon: {
+        root: {
+          fontSize: themeVariables.navbarIconSize,
+          color: themeVariables.navbarTextColor
+        }
+      },
+      text: {
+        color: themeVariables.navbarTextColor,
+        fontSize: themeVariables.navbarFontSize
       }
-    },
-    text: {
-      color: ThemeVariables.navbarTextColor,
-      fontSize: ThemeVariables.navbarFontSize
     }
-  }
-} as WmPopoverStyles);
+  } as WmMenuStyles);
+  addStyle('navbarPopover', '', {
+    root: {
+      height: '100%',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    link: {
+      icon: {
+        root: {
+          fontSize: themeVariables.navbarIconSize,
+          color: themeVariables.navbarTextColor
+        }
+      },
+      text: {
+        color: themeVariables.navbarTextColor,
+        fontSize: themeVariables.navbarFontSize
+      }
+    }
+  } as WmPopoverStyles);
+});

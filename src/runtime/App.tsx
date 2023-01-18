@@ -5,6 +5,7 @@ import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Linking } from 'react-native';
+import { NativeModulesProxy } from 'expo-modules-core';
 import * as WebBrowser from 'expo-web-browser';
 import { get, last } from 'lodash';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
@@ -88,6 +89,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   isStarted = false;
   appConfig = injector.get<AppConfig>('APP_CONFIG');
   public baseUrl = '';
+  public cleanup = [] as Function[];
   private startUpVariables: string[] = [];
   private startUpActions: string[] = [];
   private autoUpdateVariables: string[] = [];
@@ -105,6 +107,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   constructor(props: any) {
     super(props);
     SplashScreen.preventAutoHideAsync();
+    setTimeout(() => SplashScreen.hideAsync(), 10000);
     this.appConfig.app = this;
     this.appConfig.drawer = new DrawerImpl(() => this.setState({'t': Date.now()}));
     let refreshAfterWait = false;
@@ -160,6 +163,15 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   onServiceError(errorMsg: any, error: AxiosError<any>) {
 
+  }
+
+  invokeNativeApi(key: string, data: Object) {
+    if (NativeModulesProxy.EmbedCommModule 
+        && (Platform.OS === 'android' || Platform.OS === 'ios')) {
+        return NativeModulesProxy.EmbedCommModule.sendToNative(key, data || {});
+    } else {
+        return Promise.reject('Not able to invoke Native API in this platform.');
+    }
   }
 
   onPageReady(activePageName: string, activePageScope: BasePage) {
@@ -239,6 +251,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     this.axiosInterceptorIds.map(id => {
       axios.interceptors.request.eject(id);
     });
+    this.cleanup.forEach(fn => fn());
   }
 
   refresh() {
@@ -378,7 +391,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
           ...DefaultTheme,
           colors: {
             ...DefaultTheme.colors,
-            primary: ThemeVariables.primaryColor
+            primary: ThemeVariables.INSTANCE.primaryColor
           }}}>
           <React.Fragment>
             {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
@@ -389,7 +402,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   <View style={styles.container}>
                     <AppNavigator
                       app={this}
-                      landingPage={(this.props as any).landingPage}
+                      landingPage={(this.props as any).pageName}
+                      landingPageParams={(this.props as any)?.pageName && this.props}
                       hideDrawer={this.appConfig.drawer?.getContent() === null}
                       drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
                       drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>

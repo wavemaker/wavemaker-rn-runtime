@@ -33,7 +33,7 @@ const styles: DatePickerStyles = {
     text: {},
     modal: {},
     content: {
-        backgroundColor: ThemeVariables.datepickerBgColor
+        backgroundColor: ThemeVariables.INSTANCE.datepickerBgColor
     }
 };
 
