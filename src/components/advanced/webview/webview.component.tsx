@@ -107,6 +107,7 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
             }}
             incognito={props.incognito}
             onMessage={this.onMessage}
+            sharedCookiesEnabled={true}
             onNavigationStateChange={(state) => {
               this.webViewState = state;
             }}
