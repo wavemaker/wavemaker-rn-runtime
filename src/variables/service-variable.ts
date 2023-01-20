@@ -50,7 +50,10 @@ export class ServiceVariable extends _ServiceVariable {
     return Promise.resolve(this);
   }
 
-  public doNext() {
+  public doNext(currentPage: number) {
+    this.invoke({
+      page: currentPage
+    });
     return Promise.reject(this);
   }
 
