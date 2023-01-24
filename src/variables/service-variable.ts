@@ -8,6 +8,7 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
 
 export interface ServiceVariableConfig extends VariableConfig {
   baseUrl: string;
+  maxResults: number;
   onCanUpdate: any;
   onBeforeUpdate: any;
   onResult: any;
@@ -33,6 +34,7 @@ export class ServiceVariable extends _ServiceVariable {
       dataBinding: config.paramProvider(),
       isList: config.isList,
       service: config.service,
+      maxResults: config.maxResults,
       operation: config.operation,
       operationId: config.operationId,
       serviceInfo: config.getServiceInfo(),
@@ -51,9 +53,9 @@ export class ServiceVariable extends _ServiceVariable {
   }
 
   public doNext(currentPage: number) {
-    this.invoke({
-      page: currentPage
-    });
+    // this.invoke({
+    //   page: currentPage
+    // });
     return Promise.reject(this);
   }
 
