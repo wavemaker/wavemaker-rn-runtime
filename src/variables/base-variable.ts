@@ -11,6 +11,11 @@ export interface VariableConfig {
     onError: Function;
     isList: boolean;
     twoWayBinding: boolean;
+    service: any;
+    operation: string;
+    operationId: string;
+    operationType: string;
+    serviceType: string;
 }
 
 export enum VariableEvents {

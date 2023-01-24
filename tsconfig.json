@@ -4,6 +4,9 @@
     "paths": {
       "@wavemaker/app-rn-runtime": ["./src/index"],
       "@wavemaker/app-rn-runtime/*": ["./src/*"],
+      "@wavemaker/variables/*": [
+        "./.yalc/@wavemaker/variables/src/*"
+      ],
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

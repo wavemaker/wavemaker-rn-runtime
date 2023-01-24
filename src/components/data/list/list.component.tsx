@@ -14,6 +14,7 @@ import { DEFAULT_CLASS, WmListStyles } from './list.styles';
 export class WmListState extends BaseComponentState<WmListProps> {
   public selectedindex: any;
   groupedData: Array<any> = [];
+  currentPage: number = 1;
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -23,7 +24,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private key = 1;
 
   constructor(props: WmListProps) {
-    super(props, DEFAULT_CLASS, new WmListProps());
+    super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
   }
 
   private onSelect($item: any, $index: number | string) {
@@ -202,6 +203,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
         horizontal = {isHorizontal}
         onEndReached={({distanceFromEnd}) => {
+          this.setState({ currentPage: this.state.currentPage + 1 } as WmListState);
           this.invokeEventCallback('onEndReached', [null, this]);
         }}
         contentContainerStyle={this.styles.root}
