@@ -6,7 +6,7 @@ import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 import MediaQueryList from './MediaQueryList';
 import ThemeVariables from './theme.variables';
-import { isValidStyleProp } from './style-prop.validator';
+import { getStyleReference, isValidStyleProp } from './style-prop.validator';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
 
 declare const matchMedia: any, window: any;
@@ -88,7 +88,11 @@ export class Theme {
         if (isObject(value)) {
             Object.keys(value).map((k) => this.checkStyleProperties(k, (value as any)[k]));
         } else if(!isValidStyleProp(name, value)) {
-            console.warn(`Style property: '${value}' is not a valid value to '${name}' in ${this.name}.`);
+            console.log(
+                `%cInvalid Style property: '${value}' is not a valid value to '${name}' in ${this.name}.`,
+                'background-color: #FF0000;font-weight: bold; color: #fff'
+            );
+            console.log(`Refer: ${getStyleReference(name)}`);
         }
     }
 
