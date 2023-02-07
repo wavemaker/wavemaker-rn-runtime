@@ -5,6 +5,7 @@ import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmPage from '@wavemaker/app-rn-runtime/components/page/page.component';
 import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
+import AppSpinnerService from './services/app-spinner.service';
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
 import { Watcher } from './watcher';
 
@@ -78,6 +79,8 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       return super.onFragmentReady().then(() => {
         this.onContentReady();
         this.App.onPageReady(this.pageName, this.proxy as BasePage);
+        AppSpinnerService.hide();         
+        this.showSkeleton = AppSpinnerService.skeleton;  
         this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
           if (this.appConfig.currentPage !== this) {
             this.appConfig.currentPage = this;

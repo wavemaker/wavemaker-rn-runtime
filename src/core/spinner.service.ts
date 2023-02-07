@@ -3,6 +3,7 @@ import React from 'react';
 export interface DisplayOptions {
   content?: React.ReactNode;
   message?: string;
+  loader?: any;
 }
 
 export interface SpinnerService {

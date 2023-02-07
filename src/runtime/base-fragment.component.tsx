@@ -55,6 +55,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public Viewport = _viewPort;
     public loadingMessage = React.createElement(Text, [] as any, ['loading...']);
     public showContent = false;
+    public showSkeleton = true;
     public notification = {
                             text: '',
                             title: '',
@@ -71,6 +72,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         this.formatters = this.App.formatters;
         this.Actions = Object.assign({}, this.App.Actions);
         this.Variables = Object.assign({}, this.App.Variables);
+        this.showSkeleton = (spinnerService.skeleton || this.App.appConfig.spinner.loader == "skeleton");
         this.cleanup.push(_viewPort.subscribe(viewportEvents.ORIENTATION_CHANGE, ($new: any, $old: any) => {
           !this.isDetached && this.targetWidget && this.targetWidget.invokeEventCallback('onOrientationchange', [null, this.proxy,
             {screenWidth: _viewPort.width,
@@ -248,14 +250,17 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
           return ((v as BaseVariable<any>)
             .subscribe(VariableEvents.BEFORE_INVOKE, () => {
               spinnerService.show({
-                message: get(v, 'config.spinnerMessage')
+                message: get(v, 'config.spinnerMessage'),
+                loader: this.App.appConfig.spinner
               });
+              this.showSkeleton = spinnerService.skeleton;  
             }))
       }));
       this.cleanup.push(...variables.map(v => {
         return ((v as BaseVariable<any>)
           .subscribe(VariableEvents.AFTER_INVOKE, () => {
             spinnerService.hide();
+            this.showSkeleton = spinnerService.skeleton;  
           }));
       }));
     }

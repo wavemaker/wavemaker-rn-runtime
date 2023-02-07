@@ -167,8 +167,19 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       </View>) : null;
   }
 
-  private renderEmptyMessage(props: WmListProps) {
-    return (<WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>);
+  private renderEmptyMessage(isHorizontal: boolean, item: any, index: any, props: WmListProps) {
+    let emptyData = []
+    for (const _ of Array(3).keys()) {
+      emptyData.push(
+        <View style={[
+          this.styles.item,
+          props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
+          (this.state.selectedindex === index && this.state.props.selecteditem?._groupIndex === item._groupIndex) ? this.styles.selectedItem : {}]}>
+          {props.renderItem(item, index, this)}
+        </View>
+      );
+    }
+    return (<View style={isHorizontal ? { 'flexDirection': 'row' } : {}}>{emptyData}</View>);
   }
 
   private renderLoadingIcon(props: WmListProps) {
@@ -188,7 +199,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               horizontal = {isHorizontal}
               data={v.data || []}
-              ListEmptyComponent = {() => this.renderEmptyMessage(props)}
+              ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}>
             </FlatList>
           </View>
@@ -208,12 +219,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         }}
         contentContainerStyle={this.styles.root}
         onEndReachedThreshold={0.3}
-        sections={this.state.groupedData || []}
-        renderSectionHeader={({section: {key, data}}) => {
+        sections={this.state.groupedData[0]['data'].length ? this.state.groupedData : [] || []}
+        renderSectionHeader={({ section: {key, data}}) => {
           return this.renderHeader(props, key);
         }}
         renderSectionFooter={() => props.loadingdata ? this.renderLoadingIcon(props) : null}
-        ListEmptyComponent = {() => this.renderEmptyMessage(props)}
+        ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
         renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}>
       </SectionList>
     );

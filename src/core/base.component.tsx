@@ -8,6 +8,7 @@ import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, attachBackground, The
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 import { HideMode } from './if.component';
+import { Skeletonview } from '../components/basic/skeleton/skeletonview.component';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -46,6 +47,7 @@ export class BaseProps {
     classname?: string = null as any;
     listener?: LifecycleListener = null as any;
     showindevice?: ('xs'|'sm'|'md'|'lg'|'xl'|'xxl')[] = null as any;
+    showSkeleton?: boolean = false;
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
@@ -245,7 +247,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 if (!this.isVisible()) {
                                     assign(this.styles, this.theme.getStyle('hidden'))
                                 }
-                                return attachBackground(this.renderWidget(this.state.props), this.styles.root);
+                                return props.showSkeleton?(<Skeletonview styles={this.styles.root}/>):attachBackground(this.renderWidget(this.state.props), this.styles.root);
                             }}
                         </ThemeConsumer>
                     </ParentContext.Provider>);

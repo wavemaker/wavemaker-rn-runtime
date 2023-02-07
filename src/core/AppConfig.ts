@@ -19,6 +19,7 @@ export default interface AppConfig {
     partials?: any[];
     drawer: Drawer;
     app: any;
+    spinner: any;
     setDrawerContent: any;
     theme: any;
     drawerType: any;

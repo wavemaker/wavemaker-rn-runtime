@@ -13,6 +13,7 @@ export class AppSpinnerService implements SpinnerService {
   public delay = 0;
   private count = 0;
   private image: string = '';
+  public skeleton: boolean = false;
   constructor(private displayManager: DisplayManager) {}
 
   setImage(path: string) {
@@ -20,15 +21,18 @@ export class AppSpinnerService implements SpinnerService {
   }
 
   show(options: DisplayOptions = {}) {
+    this.skeleton = options.loader.loader == 'skeleton';
     if (this.count === 0 && !this.destroy) { 
       setTimeout(() => {
-        const content = (
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <WmSpinner
-            caption={options.message || ''}
-            classname="global-spinner" 
-            image={this.image}></WmSpinner>
-        </View>);
+        const content = (<>
+          {!this.skeleton? 
+            <View style={{ justifyContent: 'center', alignItems: 'center', width:'100%', height:'100%', backgroundColor:'#ffffff', opacity: 0.8 }}>
+              <WmSpinner
+                caption={options.message || ''}
+                classname="global-spinner"
+                lottie={options.loader}></WmSpinner>
+            </View> : null}
+            </>);
         this.destroy = this.displayManager.show({ content: content });
       }, this.delay);
     }
@@ -36,6 +40,7 @@ export class AppSpinnerService implements SpinnerService {
   }
 
   hide() {
+    this.skeleton = false;
     if (this.count > 0) {
       this.count--;
     } else {

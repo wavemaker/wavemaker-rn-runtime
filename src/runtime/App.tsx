@@ -236,6 +236,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   componentDidMount() {
+    AppSpinnerService.show({
+      loader: this.appConfig.spinner
+    });
     Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
     .then(() => {
       this.onAppVariablesReady();

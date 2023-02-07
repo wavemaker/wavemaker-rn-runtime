@@ -7,4 +7,5 @@ export default class WmSpinnerProps extends BaseProps {
   image?: string = null as any;
   imageheight?: string = null as any;
   imagewidth?: number = 20;
+  lottie?: string = null as any;
 }
