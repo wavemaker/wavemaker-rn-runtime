@@ -157,6 +157,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
     return config
   }
 
+  isSkeletonEnabled() {
+    return this.appConfig.spinner.loader == "skeleton";
+  }
+
   onServiceSuccess(data: any, response: AxiosResponse) {
 
   }

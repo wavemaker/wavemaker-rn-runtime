@@ -55,7 +55,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public Viewport = _viewPort;
     public loadingMessage = React.createElement(Text, [] as any, ['loading...']);
     public showContent = false;
-    public showSkeleton = true;
+    public showSkeleton = false;
     public notification = {
                             text: '',
                             title: '',
@@ -72,7 +72,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         this.formatters = this.App.formatters;
         this.Actions = Object.assign({}, this.App.Actions);
         this.Variables = Object.assign({}, this.App.Variables);
-        this.showSkeleton = (spinnerService.skeleton || this.App.appConfig.spinner.loader == "skeleton");
+        this.showSkeleton = this.App.isSkeletonEnabled();
         this.cleanup.push(_viewPort.subscribe(viewportEvents.ORIENTATION_CHANGE, ($new: any, $old: any) => {
           !this.isDetached && this.targetWidget && this.targetWidget.invokeEventCallback('onOrientationchange', [null, this.proxy,
             {screenWidth: _viewPort.width,
@@ -253,14 +253,14 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
                 message: get(v, 'config.spinnerMessage'),
                 loader: this.App.appConfig.spinner
               });
-              this.showSkeleton = spinnerService.skeleton;  
+              this.showSkeleton = this.App.isSkeletonEnabled();
             }))
       }));
       this.cleanup.push(...variables.map(v => {
         return ((v as BaseVariable<any>)
           .subscribe(VariableEvents.AFTER_INVOKE, () => {
             spinnerService.hide();
-            this.showSkeleton = spinnerService.skeleton;  
+            this.showSkeleton = false;
           }));
       }));
     }
@@ -275,6 +275,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
       .then(() => {
+        this.showSkeleton = false;
         this.showContent = true;
         this.appConfig.refresh();
       });
