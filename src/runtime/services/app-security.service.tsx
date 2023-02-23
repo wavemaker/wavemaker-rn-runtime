@@ -2,6 +2,7 @@ import { Platform } from 'react-native';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { each, includes } from 'lodash';
 
+import networkService from '@wavemaker/app-rn-runtime/core/network.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
@@ -39,6 +40,7 @@ class AppSecurityService implements SecurityService {
     token: any;
     appConfig: any;
     baseUrl: string = '';
+    defaultSecurityConfig: any;
 
     constructor() {
       axios.interceptors.request.use((config: AxiosRequestConfig) => this.onBeforeServiceCall(config));
@@ -91,7 +93,44 @@ class AppSecurityService implements SecurityService {
             this.token = xsrfCookieValue;
             StorageService.setItem(XSRF_COOKIE_NAME, xsrfCookieValue);
             this.isLoggedIn = true;
-            return this.getLoggedInUserDetails(options.baseURL, options.useDefaultSuccessHandler);
+          }).then(() => this.load(options.baseURL))
+          .then(() => this.getLoggedInUserDetails(options.baseURL, options.useDefaultSuccessHandler));
+    }
+
+    public load(baseURL: string) {
+      return Promise.resolve().then(() => {
+        if (networkService.isConnected()) {
+          return axios.get(baseURL + '/services/security/info')
+            .then((response: AxiosResponse) => response.data);
+        }
+        return this.appConfig.getServiceDefinitions(this.appConfig.url)
+          .then(() => Promise.resolve(this.defaultSecurityConfig));
+        }).then((details: any) => {
+          const loggedInUser = {} as LoggedInUserConfig;
+          this.securityConfig = details;
+          const appConfig = this.appConfig;
+          if (typeof details !== 'string' && (!details.securityEnabled || details.authenticated)) {
+              if (details.authenticated) {
+                  loggedInUser.isAuthenticated = details.authenticated;
+                  loggedInUser.isSecurityEnabled = details.authenticated;
+                  loggedInUser.roles           = details.userInfo.userRoles;
+                  loggedInUser.name            = details.userInfo.userName;
+                  loggedInUser.id              = details.userInfo.userId;
+                  loggedInUser.tenantId        = details.userInfo.tenantId;
+                  loggedInUser.userAttributes  = details.userInfo.userAttributes;
+                  appConfig.loggedInUser = loggedInUser;
+                  this.loggedInUser.dataSet = loggedInUser;
+              }
+              return appConfig.getServiceDefinitions(appConfig.url)
+              .then(() => {
+                return details;
+              });
+          } else {
+            return appConfig.getServiceDefinitions(appConfig.url)
+              .then(() => {
+                this.redirectToLogin();
+              });
+          }
         });
     }
 
@@ -100,34 +139,7 @@ class AppSecurityService implements SecurityService {
             this.loggedInUser = {};
             return Promise.resolve({});
         }
-        return axios.get(baseURL + '/services/security/info').then((response: AxiosResponse) => {
-            const loggedInUser = {} as LoggedInUserConfig;
-            const details = response.data;
-            this.securityConfig = details;
-            const appConfig = this.appConfig;
-            if (typeof details !== 'string' && (!details.securityEnabled || details.authenticated)) {
-                if (details.authenticated) {
-                    loggedInUser.isAuthenticated = details.authenticated;
-                    loggedInUser.isSecurityEnabled = details.authenticated;
-                    loggedInUser.roles           = details.userInfo.userRoles;
-                    loggedInUser.name            = details.userInfo.userName;
-                    loggedInUser.id              = details.userInfo.userId;
-                    loggedInUser.tenantId        = details.userInfo.tenantId;
-                    loggedInUser.userAttributes  = details.userInfo.userAttributes;
-                    appConfig.loggedInUser = loggedInUser;
-                    this.loggedInUser.dataSet = loggedInUser;
-                }
-                return appConfig.getServiceDefinitions(appConfig.url)
-                .then(() => {
-                  return details;
-                });
-            } else {
-                return appConfig.getServiceDefinitions(appConfig.url)
-                  .then(() => {
-                    this.redirectToLogin();
-                  });
-          }
-      });
+        return this.load(baseURL);
     }
 
     
@@ -151,7 +163,7 @@ class AppSecurityService implements SecurityService {
               }
             }).then(() => {
               this.appConfig.refresh(true);
-            }).then(() => {
+            }).then(() => this.load(this.baseUrl)).then(() => {
               return this.getLoggedInUserDetails(this.baseUrl);
             });
           }, 1000);

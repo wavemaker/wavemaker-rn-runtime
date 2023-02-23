@@ -65,6 +65,12 @@ export class ServiceVariable extends _ServiceVariable {
 
   invoke(options? : any, onSuccess?: Function, onError?: Function) {
     this.dataBinding = this.config.paramProvider();
+    // service definitions data depends on whether user logged in or not
+    // Try to get the latest definition
+    this.serviceInfo = this.config.getServiceInfo();
+    if (!this.serviceInfo) {
+      console.error(`Service Info is missing for (${this.name}) variable.`)
+    }
     return super.invoke(options, onSuccess, onError);
   }
 

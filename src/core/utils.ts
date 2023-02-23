@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import moment from "moment";
-import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString} from 'lodash';
+import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber} from 'lodash';
 
 declare const window: any;
 const GROUP_BY_OPTIONS = {
@@ -68,7 +68,7 @@ export const toNumber = (val: any) => {
     return encodeURI(splits[0]) + (params ? '?' + params: '') + (hash ? '#'+ hash : '');
 };
 
-export const isWebPreviewMode = () => !!(window && window.navigator && window.document);
+export const isWebPreviewMode = () => Platform.OS === 'web';
 
 export const widgetsWithUndefinedValue = ['checkbox', 'toggle'];
 
@@ -189,6 +189,70 @@ export const unStringify = (val: any, defaultVal?: boolean) => {
     return number;
   }
   return val;
+};
+
+/**
+ * This function invokes the given the function (fn) until the function successfully executes or the maximum number
+ * of retries is reached or onBeforeRetry returns false.
+ *
+ * @param fn - a function that is needs to be invoked. The function can also return a promise as well.
+ * @param interval - minimum time gap between successive retries. This argument should be greater or equal to 0.
+ * @param maxRetries - maximum number of retries. This argument should be greater than 0. For all other values,
+ * maxRetries is infinity.
+ * @param onBeforeRetry - a callback function that will be invoked before re-invoking again. This function can
+ * return false or a promise that is resolved to false to stop further retry attempts.
+ * @returns {*} a promise that is resolved when fn is success (or) maximum retry attempts reached
+ * (or) onBeforeRetry returned false.
+ */
+export const retryIfFails = (fn: Function, interval: number, maxRetries: number, onBeforeRetry = () => Promise.resolve(false)) => {
+  let retryCount = 0;
+  const tryFn = () => {
+      retryCount++;
+      if (isFunction(fn)) {
+          return fn();
+      }
+  };
+  maxRetries = (isNumber(maxRetries) && maxRetries > 0 ? maxRetries : 0);
+  interval = (isNumber(interval) && interval > 0 ? interval : 0);
+  return new Promise((resolve, reject) => {
+      const errorFn = function () {
+          const errArgs = arguments;
+          setTimeout(() => {
+              Promise.resolve().then(() => onBeforeRetry()).then(function (retry) {
+                  if (retry !== false && (!maxRetries || retryCount <= maxRetries)) {
+                    Promise.resolve().then(() => tryFn()).then(resolve, errorFn);
+                  } else {
+                      reject(errArgs);
+                  }
+              }, () => reject(errArgs));
+          }, interval);
+      };
+      Promise.resolve().then(() => tryFn()).then(resolve, errorFn);
+  });
+};
+
+/**
+ * Promise of a defer created using this function, has abort function that will reject the defer when called.
+ * @returns {*} angular defer object
+ */
+export const getAbortableDefer = () => {
+  const _defer: any = {
+      promise: null,
+      reject: null,
+      resolve: null,
+      onAbort: () => { },
+      isAborted: false
+  };
+  _defer.promise = new Promise((resolve, reject) => {
+      _defer.resolve = resolve;
+      _defer.reject = reject;
+  });
+  _defer.promise.abort = () => {
+      _defer.onAbort && _defer.onAbort();
+      _defer.reject('aborted');
+      _defer.isAborted = true;
+  };
+  return _defer;
 };
 
 export const validateField = (props: any, value: any) => {

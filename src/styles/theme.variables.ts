@@ -406,5 +406,11 @@ export default class ThemeVariables {
     chartAxisColor = this.defaultColor5;
     chartAxisPointColor = this.defaultColor9;
 
+    // Network Toast
+    networkToastBgColor = this.defaultColor3;
+    networkToastTextColor = this.defaultColorF;
+    networkToastActionTextColor = this.primaryColor;
+    networkToastActionSeparatorColor = this.networkToastTextColor;
+
     static INSTANCE = new ThemeVariables();
 }

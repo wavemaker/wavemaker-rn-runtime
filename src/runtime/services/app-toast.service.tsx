@@ -6,6 +6,7 @@ class AppToastService implements ToastService {
 
     public toastsOpened = [] as ToastOptions[];
     public appConfig: any;
+    public refreshCount = 0;
 
     private getAppConfig() {
       if (!this.appConfig) {
@@ -13,14 +14,19 @@ class AppToastService implements ToastService {
       }
       return this.appConfig;
     }
+    
+    refresh() {
+      this.refreshCount++;
+      this.appConfig.refresh();
+    }
 
     public showToast(options: ToastOptions) {
         const i = this.toastsOpened.findIndex(o => o.name === options.name);
         let timeout: any;
+        this.refreshCount++;
         if (i < 0) {
           options.elevationIndex = parseInt(this.toastsOpened + this.getAppConfig().app.modalsOpened + 1);
           this.toastsOpened.push(options);
-            this.getAppConfig().refresh();
             // hide the toast when toaster is clicked
             if (options.hideOnClick) {
               let cb = options.onClick;
@@ -36,13 +42,14 @@ class AppToastService implements ToastService {
                 }, options.duration);
             }
         }
+        this.refresh();
     }
 
     public hideToast(options?: ToastOptions) {
         const i = options ? this.toastsOpened.findIndex(o => o.name === options.name) : (this.toastsOpened.length - 1);
         if (i >= 0) {
             const o = this.toastsOpened.splice(i, 1)[0];
-            injector.get<AppConfig>('APP_CONFIG').refresh();
+            this.refresh();
             options?.onClose && options.onClose();
         }
     }

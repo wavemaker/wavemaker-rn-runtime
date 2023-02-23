@@ -12,6 +12,7 @@ import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
+import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
@@ -19,6 +20,7 @@ import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
 import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
+import WmNetworkInfoToaster from '@wavemaker/app-rn-runtime/components/advanced/network-info-toaster/network-info-toaster.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/message.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
@@ -288,7 +290,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   renderToasters() {
     this.toastsOpened = AppToastService.toastsOpened.length;
     return <WmMemo watcher={this.watcher} render={(watch) => {
-      watch(() => AppToastService.toastsOpened);
+      watch(() => AppToastService.refreshCount);
       return (
         <>
           {AppToastService.toastsOpened.map((o, i) =>
@@ -296,12 +298,13 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 <View key={i} style={[{
                   position: 'absolute',
                   width: '100%',
+                  bottom: 0,
                   elevation: o.elevationIndex,
                   zIndex: o.elevationIndex
                 }, o.styles]}>
                   <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
                     {o.content}
-                    <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>
+                    {o.text && <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>}
                   </TouchableOpacity>
                 </View>
               )
@@ -415,7 +418,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
                       drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
                       drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
                       {commonPartial}
-                  </View>
+                  </View> 
+                  <WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>
                 </View>))
               )
             }

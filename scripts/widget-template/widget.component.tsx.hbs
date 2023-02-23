@@ -3,14 +3,14 @@ import { Text } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import Wm{{widget.name.camelcase}}Props from './{{widget.name.hyphenated}}.props';
-import { DEFAULT_CLASS, DEFAULT_STYLES, Wm{{widget.name.camelcase}}Styles } from './{{widget.name.hyphenated}}.styles';
+import { DEFAULT_CLASS, Wm{{widget.name.camelcase}}Styles } from './{{widget.name.hyphenated}}.styles';
 
 export class Wm{{widget.name.camelcase}}State extends BaseComponentState<Wm{{widget.name.camelcase}}Props> {}
 
 export default class Wm{{widget.name.camelcase}} extends BaseComponent<Wm{{widget.name.camelcase}}Props, Wm{{widget.name.camelcase}}State, Wm{{widget.name.camelcase}}Styles> {
 
   constructor(props: Wm{{widget.name.camelcase}}Props) {
-    super(props, DEFAULT_CLASS, DEFAULT_STYLES, new Wm{{widget.name.camelcase}}Props());
+    super(props, DEFAULT_CLASS, new Wm{{widget.name.camelcase}}Props(), new Wm{{widget.name.camelcase}}State());
   }
 
   renderWidget(props: Wm{{widget.name.camelcase}}Props) {
