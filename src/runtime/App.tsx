@@ -168,7 +168,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   onServiceError(errorMsg: any, error: AxiosError<any>) {
-
+    console.error(`Error ${errorMsg} recieved from ${error.request.url}`);
   }
 
   invokeNativeApi(key: string, data: Object) {

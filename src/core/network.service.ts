@@ -284,6 +284,7 @@ class NetworkService {
             baseURL = baseURL || '';
         }
         return axios.get(baseURL + 'services/application/wmProperties.js?t=' + Date.now(), {
+            responseType: 'text',
             timeout: maxTimeout
         }).then((res) => res.status === 200, () => false);
     }

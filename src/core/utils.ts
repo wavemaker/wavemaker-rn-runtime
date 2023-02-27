@@ -70,6 +70,8 @@ export const toNumber = (val: any) => {
 
 export const isWebPreviewMode = () => Platform.OS === 'web';
 
+export const isDevMode = () => isWebPreviewMode() || __DEV__;
+
 export const widgetsWithUndefinedValue = ['checkbox', 'toggle'];
 
 export const isAndroid = () => (Platform.OS === 'android' || (Platform.OS === 'web' && /android/i.test(window.navigator.userAgent)));
