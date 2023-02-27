@@ -169,12 +169,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   private renderEmptyMessage(isHorizontal: boolean, item: any, index: any, props: WmListProps) {
     let emptyData = []
-    for (const _ of Array(3).keys()) {
+    for (const ind of Array(3).keys()) {
       emptyData.push(
         <View style={[
           this.styles.item,
           props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-          (this.state.selectedindex === index && this.state.props.selecteditem?._groupIndex === item._groupIndex) ? this.styles.selectedItem : {}]}>
+          (this.state.selectedindex === index && this.state.props.selecteditem?._groupIndex === item._groupIndex) ? this.styles.selectedItem : {}]} key={ind}>
           {props.renderItem(item, index, this)}
         </View>
       );

@@ -13,10 +13,12 @@ export const SkeletonStyles: SkeletonviewStyles = {
         minHeight: 20,
         minWidth: 80,
         overflow: 'hidden',
-        borderRadius: 4
+        borderRadius: 4,
+        borderWidth: 0
     },
     animatedView: {
         width: 60,
+        minHeight: 20,
         backgroundColor: '#EFEFEF',
         height: '100%',
         margin: 0, padding: 0,

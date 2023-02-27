@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { View } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 
 import { SpinnerService, DisplayOptions } from '@wavemaker/app-rn-runtime/core/spinner.service';
 import { DisplayManager } from '@wavemaker/app-rn-runtime/core/display.manager';
 import appDisplayManagerService from '@wavemaker/app-rn-runtime/runtime/services/app-display-manager.service';
 import WmSpinner from '@wavemaker/app-rn-runtime/components/basic/spinner/spinner.component';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export class AppSpinnerService implements SpinnerService {
   public displayOptions = {} as DisplayOptions;
@@ -21,16 +22,16 @@ export class AppSpinnerService implements SpinnerService {
   }
 
   show(options: DisplayOptions = {}) {
-    this.skeleton = options.loader.loader == 'skeleton';
+    this.skeleton = options.spinner.loader == 'skeleton';
     if (this.count === 0 && !this.destroy) { 
       setTimeout(() => {
         const content = (<>
           {!this.skeleton? 
-            <View style={{ justifyContent: 'center', alignItems: 'center', width:'100%', height:'100%', backgroundColor:'#ffffff', opacity: 0.8 }}>
+            <View style={styles.appSpinnerContainer}>
               <WmSpinner
                 caption={options.message || ''}
                 classname="global-spinner"
-                lottie={options.loader}></WmSpinner>
+                lottie={options.spinner}></WmSpinner>
             </View> : null}
             </>);
         this.destroy = this.displayManager.show({ content: content });
@@ -55,6 +56,17 @@ export class AppSpinnerService implements SpinnerService {
       }, 300);
     }
   }
+}
+
+const styles = {
+  appSpinnerContainer:{ 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    width:'100%', 
+    height:'100%', 
+    backgroundColor: ThemeVariables.INSTANCE.primaryContrastColor, 
+    opacity: 0.8 
+  } as ViewStyle
 }
 
 const spinnerService = new AppSpinnerService(appDisplayManagerService);

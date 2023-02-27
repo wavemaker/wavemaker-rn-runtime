@@ -8,7 +8,7 @@ import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, attachBackground, The
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 import { HideMode } from './if.component';
-import { Skeletonview } from '../components/basic/skeleton/skeletonview.component';
+import { Skeletonview } from '@wavemaker/app-rn-runtime/core/skeleton/skeletonview.component';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 

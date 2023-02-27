@@ -68,7 +68,7 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
       this.hexToRgb(Color(primaryColor).darken(0.4).hex().toString()), 
       this.hexToRgb(Color(primaryColor).darken(0.6).hex().toString()), 
       this.hexToRgb(Color(primaryColor).darken(0.8).hex().toString())];
-    return this.recursiveSearch(lottiePath.url, lottiePath.loader == 'circleSpinner' ? [colors[0]] : colors);
+    return this.recursiveSearch(lottiePath.json, lottiePath.loader == 'circleSpinner' ? [colors[0]] : colors);
   }
 
   private prepareLottie(props: any) {

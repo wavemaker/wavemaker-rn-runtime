@@ -251,7 +251,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
             .subscribe(VariableEvents.BEFORE_INVOKE, () => {
               spinnerService.show({
                 message: get(v, 'config.spinnerMessage'),
-                loader: this.App.appConfig.spinner
+                spinner: this.App.appConfig.spinner
               });
               this.showSkeleton = this.App.isSkeletonEnabled();
             }))
