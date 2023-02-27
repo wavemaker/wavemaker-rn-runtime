@@ -91,6 +91,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   isStarted = false;
   appConfig = injector.get<AppConfig>('APP_CONFIG');
   public baseUrl = '';
+  public isReactNativeApp = true;
   public cleanup = [] as Function[];
   private startUpVariables: string[] = [];
   private startUpActions: string[] = [];

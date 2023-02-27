@@ -46,6 +46,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public appConfig = injector.get<AppConfig>('APP_CONFIG');
     public cache = false;
     public refreshdataonattach= true;
+    public isReactNativeApp = true;
     public fragments: any = {};
     public isDetached = false;
     public _memoize = {} as any;
