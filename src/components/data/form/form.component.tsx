@@ -180,11 +180,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         }
     }
   }
-
-  // @ts-ignore
-  handleSubmit(event?: any) {
-    event?.preventDefault();
-    const formData = this.state.props.dataoutput || this.formdataoutput;
+  // Disable the form submit if form is in invalid state. Highlight all the invalid fields if validation type is default
+  validateFieldsOnSubmit() {
     let isValid = true;
     forEach(this.formFields, (field) => {
       const val = field?.state.props.datavalue;
@@ -204,7 +201,15 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         isValid = false;
       }
     });
-    if (!isValid) {
+    return isValid;
+  }
+
+  // @ts-ignore
+  handleSubmit(event?: any) {
+    event?.preventDefault();
+    const formData = this.state.props.dataoutput || this.formdataoutput;
+
+    if (!this.validateFieldsOnSubmit()) {
       return false;
     }
     if (this.props.onBeforesubmit) {
