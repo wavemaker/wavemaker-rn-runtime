@@ -19,7 +19,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         animatedView: {
             flex: 1,
             width: 60,
-            backgroundColor: themeVariables.animatedBgColor,
+            backgroundColor: themeVariables.skeletonAnimatedBgColor,
             height: 150,
             marginTop: -10, marginBottom: -10, padding: 0,
         },
@@ -28,15 +28,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             padding: 0,
             margin: 0,
             height: '100%',
-            shadowColor: themeVariables.gradientShadowColor,
+            shadowColor: themeVariables.skeletonGradientShadowColor,
             shadowOffset: { width: 0, height: 10 },
             elevation: 5,
             shadowOpacity: 0.4,
             opacity: 0.6,
-            backgroundColor: themeVariables.gradientBgColor
+            backgroundColor: themeVariables.skeletonGradientBgColor
         },
         gradientForeground: {
-            backgroundColor: themeVariables.gradientForegroundColor
+            backgroundColor: themeVariables.skeletonGradientForegroundColor
         },
 
     });

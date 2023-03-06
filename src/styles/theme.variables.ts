@@ -415,11 +415,11 @@ export default class ThemeVariables {
     networkToastActionSeparatorColor = this.networkToastTextColor;
 
     // Skeleton
-    skeletonBgColor = this.defaultColorEF;
-    animatedBgColor = this.defaultColorEF;
-    gradientBgColor = this.defaultColorF;
-    gradientShadowColor = this.defaultColorF;
-    gradientForegroundColor = this.defaultColorAE0;
+    skeletonBgColor = this.defaultColorE;
+    skeletonAnimatedBgColor = this.defaultColorE;
+    skeletonGradientBgColor = this.defaultColorF;
+    skeletonGradientShadowColor = this.defaultColorF;
+    skeletonGradientForegroundColor = this.defaultColorA;
 
     static INSTANCE = new ThemeVariables();
 }
