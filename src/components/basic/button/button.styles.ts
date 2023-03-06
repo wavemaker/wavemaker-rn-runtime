@@ -1,11 +1,13 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '../icon/icon.styles';
+import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
 
 export type WmButtonStyles = BaseStyles & {
   content: AllStyle,
   badge: AllStyle,
-  icon: WmIconStyles
+  icon: WmIconStyles,
+  skeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-button';
@@ -46,7 +48,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           paddingRight: themeVariables.buttonTextPadding,
           fontSize: 16
         }
-      } as WmIconStyles
+      } as WmIconStyles,
+      skeleton: {} as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

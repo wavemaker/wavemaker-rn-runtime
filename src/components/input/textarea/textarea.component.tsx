@@ -7,6 +7,7 @@ import {
   BaseInputState
 } from '@wavemaker/app-rn-runtime/components/input/baseinput/baseinput.component';
 import { isNull } from 'lodash';
+import WmSkeleton from '../../basic/skeleton/skeleton.component';
 
 export class WmTextareaState extends BaseInputState<WmTextareaProps> {}
 
@@ -14,6 +15,17 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
 
   constructor(props: WmTextareaProps) {
     super(props, DEFAULT_CLASS, new WmTextareaProps(), new WmTextareaState());
+  }
+
+  public renderSkeleton(){
+    const styles = {borderRadius:4, marginBottom: 10}
+    return(
+      <>
+        <WmSkeleton width={170} height={10} styles={this.theme.mergeStyle(this.styles.skeleton, {root:this.styles})} />
+        <WmSkeleton width={120} height={10} styles={this.theme.mergeStyle(this.styles.skeleton, {root:styles})} />
+        <WmSkeleton width={80} height={10} styles={this.theme.mergeStyle(this.styles.skeleton, {root:styles})} />
+      </>
+    )
   }
 
   renderWidget(props: WmTextareaProps) {

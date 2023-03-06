@@ -33,6 +33,8 @@ export default class ThemeVariables {
     defaultColorD = '#dddddd';
     defaultColorE = '#eeeeee';
     defaultColorF = '#ffffff';
+    defaultColorEF = '#efefef';
+    defaultColorAE0 = '#aeaeae00';
     defaultBgColor = this.defaultColorF;
     defaultTextColor = '#151420';
     lightColor = this.defaultColorF;
@@ -411,6 +413,13 @@ export default class ThemeVariables {
     networkToastTextColor = this.defaultColorF;
     networkToastActionTextColor = this.primaryColor;
     networkToastActionSeparatorColor = this.networkToastTextColor;
+
+    // Skeleton
+    skeletonBgColor = this.defaultColorEF;
+    animatedBgColor = this.defaultColorEF;
+    gradientBgColor = this.defaultColorF;
+    gradientShadowColor = this.defaultColorF;
+    gradientForegroundColor = this.defaultColorAE0;
 
     static INSTANCE = new ThemeVariables();
 }

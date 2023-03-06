@@ -8,6 +8,7 @@ import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmCheckboxProps from './checkbox.props';
 import { DEFAULT_CLASS, WmCheckboxStyles } from './checkbox.styles';
+import WmSkeleton from '../../basic/skeleton/skeleton.component';
 
 export class WmCheckboxState extends BaseComponentState<WmCheckboxProps> {
   isChecked: boolean = false;
@@ -70,6 +71,21 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
         }
         this.invokeEventCallback('onBlur', [ null, this.proxy ]);
       });
+  }
+
+  public renderSkeleton(){
+    return (
+      <TouchableOpacity style={this.styles.root} onPress={this.onPress.bind(this)}>
+          <Checkbox.Android status={this.state.isChecked ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={this.props.readonly || this.props.disabled}/>
+          <WmSkeleton width={this.styles.root?.width || "100%"} height={this.styles.root?.height || this.styles.text?.fontSize || this.styles.checkboxLabel?.fontSize || 10} styles={ this.theme.mergeStyle(this.styles.skeleton, {root: {
+      borderRadius: this.styles.root?.borderRadius || 4,
+      marginTop: this.styles.root?.marginTop,
+      marginBottom: this.styles.root?.marginBottom,
+      marginLeft: this.styles.root?.marginLeft,
+      marginRight: this.styles.root?.marginRight,
+    }}) }/>
+      </TouchableOpacity>
+    );
   }
 
   renderWidget(props: WmCheckboxProps) {

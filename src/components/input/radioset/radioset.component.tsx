@@ -8,6 +8,7 @@ import {
   BaseDatasetComponent,
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
+import WmSkeleton from '../../basic/skeleton/skeleton.component';
 
 export class WmRadiosetState extends BaseDatasetState<WmRadiosetProps> {
 }
@@ -51,6 +52,62 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
           })
           : null}
       </View>
+    );
+  }
+
+
+  public renderSkeletonGroupby(){
+    const groupedData = this.state.groupedData;
+    return (
+      <View>
+        {groupedData && groupedData.length
+          ? groupedData.map((groupObj: any, index: any) => {
+            return(
+              <View key={groupObj.key}>
+                <Text style={this.styles.groupHeaderTitle}>{groupObj.key}</Text>
+                {this.renderSkeletonRadioButton(groupObj.data)}
+              </View>)
+          })
+          : null}
+      </View>
+    );
+  }
+
+  public renderSkeletonRadioButton(items: any){
+    const props = this.state.props;
+    return(<RadioButton.Group onValueChange={this.onPress.bind(this)} value={this.state.props.datafield === 'All Fields'? this.getItemKey(props.datavalue) : props.datavalue}>
+      {items && items.length ?
+        items.map((item: any, index: any) => this.renderChild(item, index)): null}
+    </RadioButton.Group>)
+  }
+
+  public renderSkeletonChild(item: any, index: any){
+    const displayText = item.displayexp || item.displayfield;
+    return (
+      <View style={this.styles.radioHead} key={item.key}>
+          <RadioButton.Android
+            value={this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield}
+            color={this.styles.root.color as string}
+            uncheckedColor={this.styles.root.color as string}
+            disabled={this.state.props.readonly || this.state.props.disabled}
+          />
+          <WmSkeleton width={this.styles.root?.width ||  "100%"} height={ this.styles.root?.height || this.styles.text?.fontSize || 20} styles={ this.theme.mergeStyle(this.styles.skeleton, {root: {
+      borderRadius: this.styles.root?.borderRadius || 4,
+      marginTop: this.styles.root?.marginTop,
+      marginBottom: this.styles.root?.marginBottom,
+      marginLeft: this.styles.root?.marginLeft,
+      marginRight: this.styles.root?.marginRight,
+    }}) }/>
+    </View>)
+  }
+
+  public renderSkeleton() {
+    const items = this.state.dataItems;
+    return (
+        <View style={this.styles.root}>
+          {this.props.groupby && this.renderGroupby()}
+          {!this.props.groupby && this.renderSkeletonRadioButton(items)}
+        </View>
     );
   }
 

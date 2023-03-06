@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { Badge, List } from 'react-native-paper';
 import { isArray } from 'lodash';
@@ -10,6 +10,7 @@ import { DEFAULT_CLASS, WmAccordionStyles } from './accordion.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import WmAccordionpane from './accordionpane/accordionpane.component';
+import WmSkeleton from '../../basic/skeleton/skeleton.component';
 
 export class WmAccordionState extends BaseComponentState<WmAccordionProps> {
   expandedId: any;
@@ -117,6 +118,52 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
           collapsedPane && collapsedPane.props.name])
       });
     }, () => {});
+  }
+
+
+  renderSkeletonAccordionpane(item: any, index: any, isExpanded = true, accordionpanes: any[] = []) {
+    const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
+    return (
+      <View style={this.styles.pane} key={item.props.name}>
+        <List.Accordion title={''}
+                        style={[{}]}
+                        theme={{}}
+                        titleStyle={[{}]}
+                        descriptionStyle={this.styles.subheading}
+                        description={item.props.subheading}
+                        id={index + 1}
+                        key={'accordionpane_' + index}
+                        right={props => this.expandCollapseIcon(props, item, true, !showIconOnLeft, true, isExpanded)}
+                        left={props => (
+                          <>
+                            <WmSkeleton width={this.styles.root?.width || "100%"} height={this.styles.root?.height || this.styles.activeHeaderTitle?.fontSize || 10} styles={{ root: { borderRadius: 4 }}} />
+                            {this.expandCollapseIcon(props, item, false, showIconOnLeft, true, isExpanded)}
+                            {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
+                          </>)
+                        }>
+            <Animatedview style={{marginLeft: -64}} ref={ref => this.animatedRef = ref} entryanimation={this.state.props.animation}>{item}</Animatedview>
+        </List.Accordion>
+      </View>
+    );
+  }
+  public AccordionSkeleton() {
+    const accordionpanes = this.props.children;
+    const expandedId = this.state.expandedId || 0;
+    return (
+      <View style={this.styles.root}>
+      <List.AccordionGroup expandedId={ expandedId } onAccordionPress={this.onAccordionPress.bind(this)} >
+        {accordionpanes
+          ? isArray(accordionpanes) && accordionpanes.length
+            ? accordionpanes.map((item: any, index: any) => this.renderSkeletonAccordionpane(item, index, false, accordionpanes))
+            : this.renderSkeletonAccordionpane(accordionpanes, 0)
+          : null}
+      </List.AccordionGroup>
+    </View>
+    )
+  }
+
+  public renderSkeleton(){
+      return(this.AccordionSkeleton())
   }
 
   renderWidget(props: WmAccordionProps) {

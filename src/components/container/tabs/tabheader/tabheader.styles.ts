@@ -2,6 +2,7 @@ import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { TextStyle, ViewStyle } from 'react-native';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmTabheaderStyles = BaseStyles & {
     activeIndicator: ViewStyle,
@@ -10,7 +11,8 @@ export type WmTabheaderStyles = BaseStyles & {
     headerText: TextStyle,
     activeHeader: ViewStyle,
     activeHeaderIcon: WmIconStyles,
-    activeHeaderText: TextStyle
+    activeHeaderText: TextStyle,
+    skeleton: WmSkeletonStyles 
 };
 
 export const DEFAULT_CLASS = 'app-tabheader';
@@ -60,7 +62,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         } as WmIconStyles,
         activeHeaderText: {
             color: themeVariables.tabActiveHeaderTextColor 
-        }
+        },
+        skeleton: {} as WmSkeletonStyles
     } as WmTabheaderStyles;
     addStyle(DEFAULT_CLASS, '', defaultStyles);
 });

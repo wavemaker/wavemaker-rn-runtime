@@ -1,8 +1,11 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmButtonStyles } from '../button/button.styles';
+import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
 
-export type WmButtongroupStyles = BaseStyles & {};
+export type WmButtongroupStyles = BaseStyles & {
+  skeleton: WmSkeletonStyles
+};
 
 export const DEFAULT_CLASS = 'app-buttongroup';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
@@ -16,7 +19,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderStyle: 'solid',
         borderColor: themeVariables.buttonGrpBorderColor,
         backgroundColor: themeVariables.buttonGrpBgColor
-      }, text: {}
+      }, 
+      text: {},
+      skeleton: {} as WmSkeletonStyles
   });
 
 

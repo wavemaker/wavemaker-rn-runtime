@@ -1,9 +1,11 @@
 import BASE_THEME, { AllStyle }  from '@wavemaker/app-rn-runtime/styles/theme';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
 
 export type WmLabelStyles = BaseStyles & {
-  asterisk: AllStyle
+  asterisk: AllStyle,
+  skeleton: WmSkeletonStyles 
 };
 
 export const DEFAULT_CLASS = 'app-label';
@@ -18,7 +20,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       asterisk: {
         color: themeVariables.labelAsteriskColor,
         marginLeft: 2
-      }
+      },
+      skeleton: {
+        root:{
+          width: '100%'
+        }
+      } as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

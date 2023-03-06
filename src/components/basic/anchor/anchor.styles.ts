@@ -2,10 +2,12 @@ import Color from 'color';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
+import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
 
 export type WmAnchorStyles = BaseStyles & {
     badge: AllStyle,
     icon: WmIconStyles
+    skeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-anchor';
@@ -40,7 +42,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 paddingRight: themeVariables.anchorTextPadding,
                 color: themeVariables.linkDefaultColor
             }
-        } as WmIconStyles
+        } as WmIconStyles,
+        skeleton: {} as WmSkeletonStyles
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

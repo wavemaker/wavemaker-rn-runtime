@@ -114,6 +114,51 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     });
   }
 
+  public renderSkeleton(){
+    const tabPanes =  React.Children.toArray(this.props.children)
+    .filter((item: any, index: number) => item.props.show != false);
+    const headerData = tabPanes.map((p: any, i: number) => 
+      ({title: p.props.title || 'Tab Title', icon: '', key:  `tab-${p.props.title}-${i}`}));
+    this.setTabPosition();
+    return(
+      <View style={[this.styles.root, { borderBottomWidth: 0}]}>
+      <View onLayout={this.setTabLayout.bind(this)} style={{width: '100%'}}></View>
+      <WmTabheader
+        styles={this.styles.tabHeader}
+        data={headerData}
+        showSkeleton={this.props.showSkeleton}
+        selectedTabIndex={this.state.selectedTabIndex}
+        onIndexChange={this.onChange.bind(this)}
+      ></WmTabheader>
+      <View 
+        //{...this.panResponder.panHandlers}
+        style={{
+          width: '100%',
+          //height: this.tabPaneHeights[this.state.selectedTabIndex],
+          overflow: 'hidden'
+        }} >
+        <Animated.View style={{
+          flexDirection: 'row',
+          flexWrap: 'nowrap',
+          transform: [{
+            translateX: this.tabPosition
+          }]}}>
+          {tabPanes.map((p: any, i) => {
+            return (
+            <View
+              key={`tab-${p.props.title}-${i}`}
+              style={{width: '100%', alignSelf: 'flex-start'}}
+              onLayout={this.setTabPaneHeights.bind(this, i)}>
+              {this.state.tabsShown[i] ? p : null}
+            </View>);
+          })}
+        </Animated.View>
+      </View>
+    </View>
+
+    )
+  }
+
   renderWidget(props: WmTabsProps) {
     const tabPanes =  React.Children.toArray(props.children)
       .filter((item: any, index: number) => item.props.show != false);

@@ -1,10 +1,12 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export type WmRadiosetStyles = BaseStyles & {
   groupHeaderTitle: AllStyle;
   radioHead: AllStyle;
   radioLabel: AllStyle;
+  skeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-radioset';
@@ -31,7 +33,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           fontFamily: themeVariables.baseFont,
           fontSize: 16,
           color: themeVariables.labelDefaultColor
-      } as AllStyle
+      } as AllStyle,
+      skeleton: {} as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS + '-disabled', '', {

@@ -5,6 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmTabheaderProps from './tabheader.props';
 import { DEFAULT_CLASS, WmTabheaderStyles } from './tabheader.styles';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import WmSkeleton from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmTabheaderState extends BaseComponentState<WmTabheaderProps> {
 }
@@ -77,6 +78,40 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
         easing: Easing.linear
       })
     ]).start();
+  }
+
+  public renderSkeleton(){
+    return(
+      <Animated.View style={{
+        transform: [{
+          translateX: this.headerScrollPosition
+        }]
+      }}
+      onLayout={this.setHeaderPanelPositon.bind(this)}>
+        <View style={this.styles.root}>
+          {this.props.data.map((header ,i) => {
+            const isSelected = i === this.props.selectedTabIndex ;
+            return (
+              <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key}>
+                <View onLayout={this.setHeaderPositon.bind(this, i)} style={[
+                  this.styles.header, 
+                  isSelected ? this.styles.activeHeader : null]}>
+                  <WmSkeleton width={this.styles.root?.width || "100%"} height={this.styles.root?.height || this.styles.activeHeaderText?.fontSize || 10} styles={[ { root: { borderRadius: 4 } }]}/>
+                </View>
+              </Tappable>
+            );
+          })}
+        </View>
+        <Animated.View style={[this.styles.activeIndicator, {
+          transform: [{
+            translateX: this.indicatorPosition
+          }, {
+            scaleX: this.indicatorWidth
+          }]
+        }]}></Animated.View>
+      </Animated.View>
+
+    )
   }
 
   renderWidget(props: WmTabheaderProps) {

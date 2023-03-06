@@ -1,10 +1,12 @@
 import React from 'react';
-import SkeletonviewProps from './skeletonview.props';
-import { SkeletonStyles, SkeletonviewStyles } from './skeletonview.style';
-import { View, Animated, Easing, StyleSheet, LayoutChangeEvent } from 'react-native';
+import { View, Animated, Easing, StyleSheet, LayoutChangeEvent, ColorValue } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export class SkeletonviewState {
+import WmSkeletonProps from './skeleton.props';
+import { DEFAULT_CLASS, WmSkeletonStyles } from './skeleton.styles';
+import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+
+export class WmSkeletonState extends BaseComponentState<WmSkeletonProps> {
   layout = {
     left: 0,
     top: 0,
@@ -53,13 +55,14 @@ class AnimationRunner {
   }
 }
 
-export class Skeletonview extends React.Component<SkeletonviewProps, SkeletonviewState, SkeletonviewStyles> {
+export default class WmSkeleton extends BaseComponent<WmSkeletonProps, WmSkeletonState, WmSkeletonStyles> {
+
   private skeletonloaderRef: any = null;
   private animationRunner = new AnimationRunner();
 
-  constructor(props: SkeletonviewProps) {
-    super(props);
-    this.state = new SkeletonviewState();
+  constructor(props: WmSkeletonProps) {
+    super(props, DEFAULT_CLASS, new WmSkeletonProps(), new WmSkeletonState());
+    this.state = new WmSkeletonState();
   }
 
   componentDidMount(): void {
@@ -86,26 +89,28 @@ export class Skeletonview extends React.Component<SkeletonviewProps, Skeletonvie
     });
   }
 
-  render() {
-    let outpuRange = [-this.state.layout.left, this.state.layout.width + this.state.layout.left];
+  renderWidget(props: WmSkeletonProps) {
+    let outpuRange = [-this.state.layout.width-this.state.layout.left, this.state.layout.width + this.state.layout.height];
     let deg = -20;
     let translateX = this.animationRunner.getValue().interpolate({
       inputRange: [0, 1],
-      outputRange: outpuRange
+      outputRange: [-50, 400]
     })
     return (
       <View ref={(ref) => { this.skeletonloaderRef = ref; }} onLayout={this.onLayoutChange}
-        style={[this.props.styles, SkeletonStyles.skeletonView]} >
+        style={[this.props.styles, this.styles.root, { width: parseInt(this.props.width+''), height: parseInt(this.props.height+'') }]} >
         {this.state.animate ?
           <Animated.View
-            style={[StyleSheet.absoluteFill, SkeletonStyles.animatedView, { width: this.state.layout.width / 10, transform: [{ translateX }, { rotate: deg + 'deg' }] }]}>
+            style={[StyleSheet.absoluteFill, this.styles.animatedView, { transform: [{ translateX }, { rotate: deg + 'deg' }], height: parseInt(this.props.height.toString()) + 100 }]}>
             <LinearGradient
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
-              colors={SkeletonStyles.gradientColors}
+              colors={[this.styles.gradientForeground.backgroundColor?.toString() as string,
+              this.styles.gradient.backgroundColor?.toString() as string,
+              this.styles.gradientForeground.backgroundColor?.toString() as string]}
               locations={[0, 0.5, 1]}
-              style={SkeletonStyles.gradient} />
+              style={[this.styles.gradient, {backgroundColor: this.styles.animatedView.backgroundColor}]} />
           </Animated.View> : null}
-      </View>)
+      </View>);
   }
 }

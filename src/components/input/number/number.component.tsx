@@ -8,6 +8,7 @@ import {
   BaseNumberComponent,
   BaseNumberState
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
+import WmSkeleton from '../../basic/skeleton/skeleton.component';
 
 export class WmNumberState extends BaseNumberState<WmNumberProps> {
   keyboardType: any;
@@ -17,6 +18,16 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
 
   constructor(props: WmNumberProps) {
     super(props, DEFAULT_CLASS, new WmNumberProps(), new WmNumberState());
+  }
+
+  public renderSkeleton() {
+    return(<WmSkeleton width={this.styles.root?.width || "100%"} height={this.styles.root?.height || 20} styles={ this.theme.mergeStyle(this.styles.skeleton, {root: {
+      borderRadius: this.styles.root?.borderRadius || 4,
+      marginTop: this.styles.root?.marginTop,
+      marginBottom: this.styles.root?.marginBottom,
+      marginLeft: this.styles.root?.marginLeft,
+      marginRight: this.styles.root?.marginRight,
+    }})}/>);
   }
 
   renderWidget(props: WmNumberProps) {

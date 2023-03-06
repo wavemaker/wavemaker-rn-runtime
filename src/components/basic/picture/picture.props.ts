@@ -8,4 +8,6 @@ export default class WmPictureProps extends BaseProps {
   shape?: string = null as any;
   isSvg?: string = null as any;
   resizemode?: ImageResizeMode = 'stretch' as any;
+  skeletonheight?: string = null as any;
+  skeletonwidth?: string = null as any;
 }

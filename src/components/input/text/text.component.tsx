@@ -5,6 +5,7 @@ import WmTextProps from './text.props';
 import { DEFAULT_CLASS, WmTextStyles } from './text.styles';
 import { BaseInputComponent, BaseInputState } from "@wavemaker/app-rn-runtime/components/input/baseinput/baseinput.component";
 import { isNull } from 'lodash';
+import WmSkeleton from '../../basic/skeleton/skeleton.component';
 
 export class WmTextState extends BaseInputState<WmTextProps> {
 }
@@ -13,6 +14,16 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
 
   constructor(props: WmTextProps) {
     super(props, DEFAULT_CLASS, new WmTextProps(), new WmTextState());
+  }
+
+  public renderSkeleton(){
+    return(<WmSkeleton width={this.styles.root?.width || "100%"} height={this.styles.root?.height || this.styles.text?.fontSize || this.styles.placeholderText?.fontSize || 10} styles={ this.theme.mergeStyle(this.styles.skeleton, {root: {
+      borderRadius: this.styles.root?.borderRadius || 4,
+      marginTop: this.styles.root?.marginTop,
+      marginBottom: this.styles.root?.marginBottom,
+      marginLeft: this.styles.root?.marginLeft,
+      marginRight: this.styles.root?.marginRight,
+    }}) }/>)
   }
 
   renderWidget(props: WmTextProps) {

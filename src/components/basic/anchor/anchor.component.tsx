@@ -10,6 +10,7 @@ import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-
 import WmAnchorProps from './anchor.props';
 import { DEFAULT_CLASS, WmAnchorStyles } from './anchor.styles';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
+import WmSkeleton from '../skeleton/skeleton.component';
 
 export class WmAnchorState extends BaseComponentState<WmAnchorProps> {
 
@@ -30,6 +31,16 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
       });
     }
     this.invokeEventCallback('onTap', [e, this.proxy]);
+  }
+
+  public renderSkeleton(){
+    return(<WmSkeleton width={this.styles.root?.width || "100%"} height={this.styles.root?.height || 20} styles={ this.theme.mergeStyle(this.styles.skeleton, {root: {
+      borderRadius: this.styles.root?.borderRadius || 4,
+      marginTop: this.styles.root?.marginTop,
+      marginBottom: this.styles.root?.marginBottom,
+      marginLeft: this.styles.root?.marginLeft,
+      marginRight: this.styles.root?.marginRight,
+    }}) }/>)
   }
 
   renderWidget(props: WmAnchorProps) {

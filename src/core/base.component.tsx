@@ -8,7 +8,6 @@ import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, attachBackground, The
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 import { HideMode } from './if.component';
-import { Skeletonview } from '@wavemaker/app-rn-runtime/core/skeleton/skeletonview.component';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -220,7 +219,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public refresh() {
         this.forceUpdate();
     }
-
+    
+    public renderSkeleton () {
+        return <></>;
+    }
+      
     public render(): ReactNode {
         WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
         const props = this.state.props;
@@ -247,7 +250,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 if (!this.isVisible()) {
                                     assign(this.styles, this.theme.getStyle('hidden'))
                                 }
-                                return props.showSkeleton?(<Skeletonview styles={this.styles.root}/>):attachBackground(this.renderWidget(this.state.props), this.styles.root);
+                                return props.showSkeleton ? this.renderSkeleton() : attachBackground(this.renderWidget(this.state.props), this.styles.root);
                             }}
                         </ThemeConsumer>
                     </ParentContext.Provider>);
