@@ -15,6 +15,7 @@ export const ParentContext = React.createContext(null as any);
 
 export class BaseComponentState<T extends BaseProps> {
     public props = {} as T;
+    public hide? = false;
 }
 
 export type BaseStyles = NamedStyles<any> & {
@@ -46,7 +47,7 @@ export class BaseProps {
     classname?: string = null as any;
     listener?: LifecycleListener = null as any;
     showindevice?: ('xs'|'sm'|'md'|'lg'|'xl'|'xxl')[] = null as any;
-    showSkeleton?: boolean = false;
+    showskeleton?: boolean = false;
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
@@ -60,6 +61,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public updateStateTimeouts= [] as NodeJS.Timeout[];
     public parent: BaseComponent<any, any, any> = null as any;
     public destroyed = false;
+    private  _showSkeleton = false;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -117,7 +119,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     onPropertyChange(name: string, $new: any, $old: any) {
-
+        switch(name) {
+            case 'showskeleton': {
+                if (this.initialized) {
+                    this.cleanRefresh();
+                }
+            }
+        }
     }
 
     getDefaultStyles() {
@@ -219,20 +227,33 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public refresh() {
         this.forceUpdate();
     }
+
+    public cleanRefresh() {
+        this.setState({
+            hide: true
+        }, () => {
+            setTimeout(() => {
+                this.setState({
+                    hide: false
+                });
+            }, 100);
+        })
+    }
     
-    public renderSkeleton () {
-        return <></>;
+    public renderSkeleton (props: T): ReactNode {
+        return null;
     }
       
     public render(): ReactNode {
         WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
         const props = this.state.props;
-        if (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM) {
+        if (this.state.hide || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)) {
             return null;
         }
         return (<ParentContext.Consumer>
                 {(parent) => {
                     this.parent = parent;
+                    this._showSkeleton = this.parent?._showSkeleton || !!this.state.props.showskeleton;
                     return (
                         <ParentContext.Provider value={this}>
                         <ThemeConsumer>
@@ -250,7 +271,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 if (!this.isVisible()) {
                                     assign(this.styles, this.theme.getStyle('hidden'))
                                 }
-                                return props.showSkeleton ? this.renderSkeleton() : attachBackground(this.renderWidget(this.state.props), this.styles.root);
+                                return (this._showSkeleton && this.renderSkeleton(props)) 
+                                    || attachBackground(this.renderWidget(this.state.props), this.styles.root);
                             }}
                         </ThemeConsumer>
                     </ParentContext.Provider>);

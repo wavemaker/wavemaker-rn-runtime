@@ -20,7 +20,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         text: {
             paddingLeft: 8
         },
-        skeleton:{} as WmSkeletonStyles
+        skeleton:{
+            root: {
+                width: 32,
+                height: 32,
+                borderRadius: 4
+            }
+        } as WmSkeletonStyles
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

@@ -8,7 +8,7 @@ import {
   BaseNumberComponent,
   BaseNumberState
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
-import WmSkeleton from '../../basic/skeleton/skeleton.component';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmNumberState extends BaseNumberState<WmNumberProps> {
   keyboardType: any;
@@ -20,14 +20,12 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
     super(props, DEFAULT_CLASS, new WmNumberProps(), new WmNumberState());
   }
 
-  public renderSkeleton() {
-    return(<WmSkeleton width={this.styles.root?.width || "100%"} height={this.styles.root?.height || 20} styles={ this.theme.mergeStyle(this.styles.skeleton, {root: {
-      borderRadius: this.styles.root?.borderRadius || 4,
-      marginTop: this.styles.root?.marginTop,
-      marginBottom: this.styles.root?.marginBottom,
-      marginLeft: this.styles.root?.marginLeft,
-      marginRight: this.styles.root?.marginRight,
-    }})}/>);
+  public renderSkeleton(props: WmNumberProps) {
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root,
+      width: this.styles.root.width,
+      height: this.styles.root?.height || this.styles.text?.fontSize || this.styles.placeholderText?.fontSize
+    });
   }
 
   renderWidget(props: WmNumberProps) {

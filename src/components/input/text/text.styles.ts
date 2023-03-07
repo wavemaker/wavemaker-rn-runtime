@@ -30,7 +30,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       placeholderText: {
       color: themeVariables.inputPlaceholderColor
       },
-      skeleton: {} as WmSkeletonStyles
+      skeleton: {
+        root: {
+          width: '100%',
+          height: 16,
+          borderRadius: 4
+        }
+      } as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

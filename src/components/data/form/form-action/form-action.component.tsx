@@ -6,7 +6,7 @@ import { TapEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmFormActionProps from './form-action.props';
 import { DEFAULT_CLASS, WmFormActionStyles } from './form-action.styles';
 import {debounce} from "lodash";
-import WmSkeleton from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import WmSkeleton, { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 import { ThemeConsumer } from '@wavemaker/app-rn-runtime/styles/theme';
 
 export class WmFormActionState extends BaseComponentState<WmFormActionProps> {}
@@ -23,14 +23,10 @@ export default class WmFormAction extends BaseComponent<WmFormActionProps, WmFor
     cb && cb($event);
   }
 
-  public renderSkeleton(){
-    return(<WmSkeleton width={this.styles.root.width || 96} height={ this.styles.root?.height || 48} styles={this.theme.mergeStyle(this.styles.skeleton, { root: {
-      borderRadius: this.styles.root?.borderRadius || 4,
-      marginTop: this.styles.root?.marginTop,
-      marginBottom: this.styles.root?.marginBottom,
-      marginLeft: this.styles.root?.marginLeft,
-      marginRight: this.styles.root?.marginRight,
-    }})}/>)
+  public renderSkeleton(props: WmFormActionProps){
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root
+    });
   }
 
   renderWidget(props: WmFormActionProps) {

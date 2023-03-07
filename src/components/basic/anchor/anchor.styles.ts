@@ -43,7 +43,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 color: themeVariables.linkDefaultColor
             }
         } as WmIconStyles,
-        skeleton: {} as WmSkeletonStyles
+        skeleton: {
+            root: {
+                width: '100%',
+                height: 20,
+                borderRadius: 4
+            }
+        } as WmSkeletonStyles
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

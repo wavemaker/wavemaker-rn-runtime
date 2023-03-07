@@ -34,7 +34,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       fontSize: 16,
       color: themeVariables.labelDefaultColor
     } as AllStyle,
-    skeleton: {} as WmSkeletonStyles
+    skeleton: {
+      root: {
+        width: '100%',
+        height: 16
+      }
+    } as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS + '-disabled', '', {

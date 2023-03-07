@@ -10,7 +10,8 @@ import { DEFAULT_CLASS, WmAccordionStyles } from './accordion.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import WmAccordionpane from './accordionpane/accordionpane.component';
-import WmSkeleton from '../../basic/skeleton/skeleton.component';
+import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export class WmAccordionState extends BaseComponentState<WmAccordionProps> {
   expandedId: any;
@@ -136,7 +137,13 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                         right={props => this.expandCollapseIcon(props, item, true, !showIconOnLeft, true, isExpanded)}
                         left={props => (
                           <>
-                            <WmSkeleton width={this.styles.root?.width || "100%"} height={this.styles.root?.height || this.styles.activeHeaderTitle?.fontSize || 10} styles={{ root: { borderRadius: 4 }}} />
+                            {
+                              createSkeleton(this.theme, { root: { borderRadius: 4 }} as WmSkeletonStyles, {
+                                ...this.styles.root,
+                                width: this.styles.root?.width || "100%",
+                                height: this.styles.root?.height || this.styles.activeHeaderTitle?.fontSize || 16
+                              })
+                            }
                             {this.expandCollapseIcon(props, item, false, showIconOnLeft, true, isExpanded)}
                             {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
                           </>)
@@ -162,7 +169,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     )
   }
 
-  public renderSkeleton(){
+  public renderSkeleton(props: WmAccordionProps){
       return(this.AccordionSkeleton())
   }
 

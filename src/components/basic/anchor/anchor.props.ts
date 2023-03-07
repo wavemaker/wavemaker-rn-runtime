@@ -12,4 +12,6 @@ export default class WmAnchorProps extends BaseProps {
     iconposition?: string = 'left';
     target?: string = '_blank';
     onTap?: any;
+    skeletonwidth?: number;
+    skeletonheight?: number;
 }

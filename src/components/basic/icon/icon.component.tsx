@@ -10,7 +10,7 @@ import StreamlineLightIcon from './streamline-light-icon/streamline-light-icon.c
 import StreamlineRegularIcon from './streamline-regular-icon/streamline-regular-icon.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
-import WmSkeleton from '../skeleton/skeleton.component';
+import WmSkeleton, { createSkeleton } from '../skeleton/skeleton.component';
 
 interface IconDef {
   isFontAwesome: boolean;
@@ -126,14 +126,12 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     return null;
   }
 
-  public renderSkeleton(){
-    return ( <WmSkeleton width={this.props.skeletonwidth || this.props.iconsize || 30} height={this.props.skeletonheight || this.props.iconsize || 30} styles={ this.theme.mergeStyle(this.styles.skeleton, { root: {
-      borderRadius: this.styles.root?.borderRadius || 4,
-      marginTop: this.styles.root?.marginTop,
-      marginBottom: this.styles.root?.marginBottom,
-      marginLeft: this.styles.root?.marginLeft,
-      marginRight: this.styles.root?.marginRight,
-    }}) }/> );
+  public renderSkeleton(props: WmIconProps) {
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root,
+      width: this.props.skeletonwidth || this.props.iconsize || this.styles.root.width,
+      height: this.props.skeletonheight || this.props.iconsize || this.styles.root.height
+    });
   }
 
   renderIcon(props: WmIconProps) {

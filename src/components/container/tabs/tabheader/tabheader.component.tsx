@@ -5,7 +5,8 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmTabheaderProps from './tabheader.props';
 import { DEFAULT_CLASS, WmTabheaderStyles } from './tabheader.styles';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
-import WmSkeleton from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import WmSkeleton, { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export class WmTabheaderState extends BaseComponentState<WmTabheaderProps> {
 }
@@ -80,7 +81,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
     ]).start();
   }
 
-  public renderSkeleton(){
+  public renderSkeleton(props: WmTabheaderProps){
     return(
       <Animated.View style={{
         transform: [{
@@ -96,7 +97,13 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                 <View onLayout={this.setHeaderPositon.bind(this, i)} style={[
                   this.styles.header, 
                   isSelected ? this.styles.activeHeader : null]}>
-                  <WmSkeleton width={this.styles.root?.width || "100%"} height={this.styles.root?.height || this.styles.activeHeaderText?.fontSize || 10} styles={[ { root: { borderRadius: 4 } }]}/>
+                  {
+                    createSkeleton(this.theme, { root: { borderRadius: 4 }} as WmSkeletonStyles, {
+                      ...this.styles.root,
+                      width: this.styles.root?.width || "100%",
+                      height: this.styles.root?.height || this.styles.activeHeaderText?.fontSize || 16
+                    })
+                  }
                 </View>
               </Tappable>
             );

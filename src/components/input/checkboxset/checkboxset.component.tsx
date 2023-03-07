@@ -14,7 +14,7 @@ import {
   BaseDatasetComponent,
   BaseDatasetState,
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
-import WmSkeleton from '../../basic/skeleton/skeleton.component';
+import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
 
 export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {
   isValid: boolean = true;
@@ -95,13 +95,13 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     return (
       <TouchableOpacity style={this.styles.checkboxHead} onPress={this.onPress.bind(this, item)} key={item.key}>
         <Checkbox.Android status={item.selected  ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
-        <WmSkeleton width={this.styles.root?.width || "100%"} height={this.styles.root?.height || this.styles.checkboxLabel?.fontSize || this.styles.text?.fontSize || 10} styles={ this.theme.mergeStyle(this.styles.skeleton, {root: {
-      borderRadius: this.styles.root?.borderRadius || 4,
-      marginTop: this.styles.root?.marginTop,
-      marginBottom: this.styles.root?.marginBottom,
-      marginLeft: this.styles.root?.marginLeft,
-      marginRight: this.styles.root?.marginRight,
-    }}) }/>
+        {
+          createSkeleton(this.theme, this.styles.skeleton, {
+            ...this.styles.root,
+            width: this.styles.root.width,
+            height: this.styles.root.height
+          })
+        }
       </TouchableOpacity>)
   }
 
@@ -131,7 +131,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     </View>)
   }
 
-  public renderSkeleton() {
+  public renderSkeleton(props: WmCheckboxsetProps) {
     const items = this.state.dataItems;
     return (
       <View style={this.styles.root}>

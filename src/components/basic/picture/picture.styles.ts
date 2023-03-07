@@ -19,7 +19,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       width: '100%',
       height: '100%'
     },
-    skeleton: {} as WmSkeletonStyles
+    skeleton: {
+      root: {
+        width: '100%',
+        height: 128
+      }
+    } as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

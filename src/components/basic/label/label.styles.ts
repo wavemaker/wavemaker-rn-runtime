@@ -23,7 +23,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       skeleton: {
         root:{
-          width: '100%'
+          width: '100%',
+          height: 16,
+          borderRadius: 4
         }
       } as WmSkeletonStyles
   });

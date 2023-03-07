@@ -6,7 +6,7 @@ import NetInfo from '@react-native-community/netinfo';
 import AppConfig from './AppConfig';
 import StorageService from './storage.service';
 import EventNotifier from './event-notifier';
-import { getAbortableDefer, retryIfFails } from './utils';
+import { getAbortableDefer, isWebPreviewMode, retryIfFails } from './utils';
 
 export class NetworkState {
     isConnecting = false;
@@ -172,7 +172,7 @@ class NetworkService {
         const state = await Network.getNetworkStateAsync();
         networkState.isNetworkAvailable = !!state.isConnected;
         networkState.isConnected = networkState.isNetworkAvailable && networkState.isConnected;
-        NetInfo.addEventListener(state => {
+        !isWebPreviewMode() && NetInfo.addEventListener(state => {
             if (state.isConnected !== networkState.isConnected) {
                 if (state.isConnected) {
                     networkState.isNetworkAvailable = !!state.isConnected;

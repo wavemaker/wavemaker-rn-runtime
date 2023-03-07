@@ -49,7 +49,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           fontSize: 16
         }
       } as WmIconStyles,
-      skeleton: {} as WmSkeletonStyles
+      skeleton: {
+        root: {
+          width: 96,
+          height: 48,
+          borderRadius: 4
+        }
+      } as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

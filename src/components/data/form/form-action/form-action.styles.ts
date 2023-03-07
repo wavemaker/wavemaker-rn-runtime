@@ -1,8 +1,11 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
-export type WmFormActionStyles = WmButtonStyles & {};
+export type WmFormActionStyles = WmButtonStyles & {
+  skeleton: WmSkeletonStyles
+};
 
 export const DEFAULT_CLASS = 'app-form-action';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
@@ -19,7 +22,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       icon: {
         fontSize: 20
       }
-    }
+    },
+    skeleton: {
+      root: {
+        width: 96,
+        height: 48
+      }
+    } as WmSkeletonStyles
   } as WmFormActionStyles);
   addStyle(DEFAULT_CLASS + '-disabled', '', {
     root : {

@@ -8,5 +8,5 @@ export default class WmLabelProps extends BaseProps {
     wrap?: boolean = true;
     skeletonheight?: string = null as any;
     skeletonwidth?: string = null as any;
-    multiline?: boolean = false;
+    multilineskeleton?: boolean = false;
 }

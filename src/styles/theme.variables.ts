@@ -33,8 +33,6 @@ export default class ThemeVariables {
     defaultColorD = '#dddddd';
     defaultColorE = '#eeeeee';
     defaultColorF = '#ffffff';
-    defaultColorEF = '#efefef';
-    defaultColorAE0 = '#aeaeae00';
     defaultBgColor = this.defaultColorF;
     defaultTextColor = '#151420';
     lightColor = this.defaultColorF;
@@ -419,7 +417,7 @@ export default class ThemeVariables {
     skeletonAnimatedBgColor = this.defaultColorE;
     skeletonGradientBgColor = this.defaultColorF;
     skeletonGradientShadowColor = this.defaultColorF;
-    skeletonGradientForegroundColor = this.defaultColorA;
+    skeletonGradientForegroundColor = this.transparent;
 
     static INSTANCE = new ThemeVariables();
 }

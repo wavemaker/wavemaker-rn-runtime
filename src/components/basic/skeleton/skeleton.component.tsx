@@ -1,10 +1,13 @@
 import React from 'react';
-import { View, Animated, Easing, StyleSheet, LayoutChangeEvent, ColorValue } from 'react-native';
+import { View, Animated, Easing, StyleSheet, LayoutChangeEvent, ColorValue, ViewStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+
+import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { Theme } from '@wavemaker/app-rn-runtime/styles/theme';
 
 import WmSkeletonProps from './skeleton.props';
 import { DEFAULT_CLASS, WmSkeletonStyles } from './skeleton.styles';
-import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { isUndefined } from 'lodash-es';
 
 export class WmSkeletonState extends BaseComponentState<WmSkeletonProps> {
   layout = {
@@ -95,13 +98,21 @@ export default class WmSkeleton extends BaseComponent<WmSkeletonProps, WmSkeleto
     let translateX = this.animationRunner.getValue().interpolate({
       inputRange: [0, 1],
       outputRange: [-50, 400]
-    })
+    });
     return (
       <View ref={(ref) => { this.skeletonloaderRef = ref; }} onLayout={this.onLayoutChange}
-        style={[this.props.styles, this.styles.root, { width: parseInt(this.props.width+''), height: parseInt(this.props.height+'') }]} >
+        style={this.styles.root} >
         {this.state.animate ?
           <Animated.View
-            style={[StyleSheet.absoluteFill, this.styles.animatedView, { transform: [{ translateX }, { rotate: deg + 'deg' }], height: parseInt(this.props.height.toString()) + 100 }]}>
+            style={[
+              StyleSheet.absoluteFill,
+              this.styles.animatedView,
+              { 
+                transform: [
+                  { translateX },
+                  { rotate: deg + 'deg' }
+                ]
+              }]}>
             <LinearGradient
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
@@ -114,3 +125,21 @@ export default class WmSkeleton extends BaseComponent<WmSkeletonProps, WmSkeleto
       </View>);
   }
 }
+
+export const createSkeleton = (theme: Theme, skeletonStyles: WmSkeletonStyles, wrapper: ViewStyle) => {
+  const style = {} as ViewStyle;
+  const addStyleProp = (propName: any) => {
+    if (!isUndefined((wrapper as any)[propName])) {
+      (style as any)[propName] = (wrapper as any)[propName];
+    }
+  };
+  addStyleProp('width');
+  addStyleProp('height');
+  addStyleProp('borderRadius');
+  addStyleProp('borderRadius');
+  addStyleProp('marginTop');
+  addStyleProp('marginBottom');
+  addStyleProp('marginLeft');
+  addStyleProp('marginRight');
+  return(<WmSkeleton styles={theme.mergeStyle(skeletonStyles, {root: style})}/>);
+};

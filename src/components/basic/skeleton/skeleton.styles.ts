@@ -20,8 +20,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             flex: 1,
             width: 60,
             backgroundColor: themeVariables.skeletonAnimatedBgColor,
-            height: 150,
-            marginTop: -10, marginBottom: -10, padding: 0,
+            height: '100%',
+            marginTop: -10,
+            marginBottom: -10,
+            padding: 0
         },
         gradient: {
             width: '100%',

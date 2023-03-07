@@ -23,7 +23,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           fontSize: 16,
           color: themeVariables.labelDefaultColor
         },
-        skeleton: {} as WmSkeletonStyles
+        skeleton: {
+          root: {
+            width: '100%',
+            height: 16
+          }
+        } as WmSkeletonStyles
     });
 
 

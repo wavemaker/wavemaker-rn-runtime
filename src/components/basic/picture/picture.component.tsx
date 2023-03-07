@@ -10,7 +10,7 @@ import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import WmPictureProps from './picture.props';
 import { DEFAULT_CLASS, WmPictureStyles } from './picture.styles';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
-import WmSkeleton from '../skeleton/skeleton.component';
+import WmSkeleton, { createSkeleton } from '../skeleton/skeleton.component';
 
 export class WmPictureState extends BaseComponentState<WmPictureProps> {
   naturalImageWidth: number = 0;
@@ -119,19 +119,18 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     return elementToshow;
   }
   
-  public renderSkeleton(){
+  public renderSkeleton(props: WmPictureProps){
     const imageWidth = this.state.imageWidth;
     const imageHeight = this.state.imageHeight;
     const shapeStyles = this.createShape(this.props.shape, imageWidth);
-    const widthStyle = this.props.skeletonwidth || this.styles.root?.width || shapeStyles.root?.width || shapeStyles.picture?.width || imageWidth; 
-    const heightStyle = this.props.skeletonheight || this.styles.root?.height || shapeStyles.root?.height || shapeStyles.picture?.height || imageHeight;
-    return ( <WmSkeleton width={ widthStyle || "100%" } height={ heightStyle || 100} styles={ this.theme.mergeStyle(this.styles.skeleton, { root: {
-        borderRadius:  this.props.shape == 'circle' && this.styles.root?.width ? 25 : shapeStyles.picture?.borderRadius || shapeStyles.root?.borderRadius || this.styles.root?.borderRadius || 4,
-        marginTop: this.styles.root?.marginTop,
-        marginBottom: this.styles.root?.marginBottom,
-        marginLeft: this.styles.root?.marginLeft,
-        marginRight: this.styles.root?.marginRight,
-      }})}/>);
+    const skeletonWidth = this.props.skeletonwidth || this.styles.root?.width || shapeStyles.root?.width || shapeStyles.picture?.width || imageWidth; 
+    const skeletonHeight = this.props.skeletonheight || this.styles.root?.height || shapeStyles.root?.height || shapeStyles.picture?.height || imageHeight;
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root,
+      borderRadius:  this.props.shape == 'circle' && this.styles.root?.width ? 25 : shapeStyles.picture?.borderRadius || shapeStyles.root?.borderRadius || this.styles.root?.borderRadius || 4,
+      width: skeletonWidth,
+      height: skeletonHeight
+    });
   }
 
   renderWidget(props: WmPictureProps) {

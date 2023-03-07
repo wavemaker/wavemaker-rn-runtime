@@ -8,8 +8,7 @@ import WmButtonProps from './button.props';
 import { DEFAULT_CLASS, WmButtonStyles } from './button.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
-import WmSkeleton from '../skeleton/skeleton.component';
-import { totalMonths } from 'react-native-paper-dates/lib/typescript/Date/dateUtils';
+import { createSkeleton } from '../skeleton/skeleton.component';
 
 export class WmButtonState extends BaseComponentState<WmButtonProps> {
 
@@ -31,14 +30,12 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
     return (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>);
   }
 
-  public renderSkeleton(){
-    return ( <WmSkeleton width={this.props.skeletonwidth || this.styles.root?.width || 96 } height={this.props.skeletonheight || this.styles.root?.height || 48} styles={ this.theme.mergeStyle(this.styles.skeleton, {root: {
-      borderRadius: this.styles.root?.borderRadius || 4,
-      marginTop: this.styles.root?.marginTop,
-      marginBottom: this.styles.root?.marginBottom,
-      marginLeft: this.styles.root?.marginLeft,
-      marginRight: this.styles.root?.marginRight,
-    }}) }/> );
+  public renderSkeleton(prop: WmButtonProps) {
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root,
+      width: this.props.skeletonwidth || this.styles.root.width,
+      height: this.props.skeletonheight || this.styles.root.height
+    });
   }
 
   renderWidget(props: WmButtonProps) {

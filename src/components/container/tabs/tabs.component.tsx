@@ -114,7 +114,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     });
   }
 
-  public renderSkeleton(){
+  public renderSkeleton(props: WmTabsProps){
     const tabPanes =  React.Children.toArray(this.props.children)
     .filter((item: any, index: number) => item.props.show != false);
     const headerData = tabPanes.map((p: any, i: number) => 
@@ -126,7 +126,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
       <WmTabheader
         styles={this.styles.tabHeader}
         data={headerData}
-        showSkeleton={this.props.showSkeleton}
+        showskeleton={this.props.showskeleton}
         selectedTabIndex={this.state.selectedTabIndex}
         onIndexChange={this.onChange.bind(this)}
       ></WmTabheader>

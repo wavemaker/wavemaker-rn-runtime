@@ -1,9 +1,11 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmTextareaStyles = BaseStyles & {
   invalid: AllStyle;
   placeholderText: AllStyle;
+  skeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-textarea';
@@ -28,7 +30,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       placeholderText: {
         color: themeVariables.inputPlaceholderColor
-      }
+      },
+      skeleton: {
+        root: {
+          width: '100%',
+          height: 84,
+          borderRadius: 4
+        }
+      } as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
@@ -7,7 +7,7 @@ import WmLabelProps from './label.props';
 import { DEFAULT_CLASS, WmLabelStyles } from './label.styles';
 import { isNil, toString } from 'lodash-es';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
-import WmSkeleton from '../skeleton/skeleton.component';
+import WmSkeleton, { createSkeleton } from '../skeleton/skeleton.component';
 import { totalMonths } from 'react-native-paper-dates/lib/typescript/Date/dateUtils';
 
 export class WmLabelState extends BaseComponentState<WmLabelProps> {
@@ -24,23 +24,37 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     return <Text style={this.styles.asterisk}>*</Text>;
   }
 
-  public renderSkeleton(){
-    if(this.props.multiline){
-      const styles = {borderRadius:4, marginBottom: 10}
-      return (<>
-        <WmSkeleton width={170} height={10} styles={this.theme.mergeStyle(this.styles.skeleton, {root:styles})} />
-        <WmSkeleton width={120} height={10} styles={this.theme.mergeStyle(this.styles.skeleton, {root:styles})} />
-        <WmSkeleton width={80} height={10} styles={this.theme.mergeStyle(this.styles.skeleton, {root:styles})} />
-      </>)
+  private getMultilineSkeleton(width: any, height: any) {
+    const styles = {
+      borderRadius:4,
+      marginBottom: 10,
+      height: height
+    };
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...styles,
+      width: width,
+      height: height
+    });
+  }
+
+  public renderSkeleton(props: WmLabelProps){
+    const skeletonWidth = this.props.skeletonwidth || this.styles.root?.width;
+    const skeletonHeight = this.props.skeletonheight || this.styles.root?.height || this.styles.text.fontSize;
+    if(this.props.multilineskeleton) {
+      return (<View style={{
+        width: skeletonWidth
+      }}>
+        {this.getMultilineSkeleton('100%', skeletonHeight)}
+        {this.getMultilineSkeleton('70%', skeletonHeight)}
+        {this.getMultilineSkeleton('40%', skeletonHeight)}
+      </View>)
     }
     else{
-      return ( <WmSkeleton width={this.props.skeletonwidth || this.styles.root?.width || "100%"} height={this.props.skeletonheight || this.styles.root?.height || this.styles.text.fontSize || 10} styles={ this.theme.mergeStyle(this.styles.skeleton, { root: {
-        borderRadius: this.styles.root?.borderRadius || 4,
-        marginTop: this.styles.root?.marginTop,
-        marginBottom: this.styles.root?.marginBottom,
-        marginLeft: this.styles.root?.marginLeft,
-        marginRight: this.styles.root?.marginRight,
-      }}) }/> );  
+      return createSkeleton(this.theme, this.styles.skeleton, {
+        ...this.styles.root,
+        width: skeletonWidth,
+        height: skeletonHeight
+      });  
     }
   }
 

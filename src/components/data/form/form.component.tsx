@@ -12,7 +12,8 @@ import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toas
 
 import WmFormProps from './form.props';
 import { DEFAULT_CLASS, WmFormStyles } from './form.styles';
-import WmSkeleton from '../../basic/skeleton/skeleton.component';
+import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export class WmFormState extends BaseComponentState<WmFormProps> {
   isValid = false;
@@ -277,7 +278,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     } as WmFormState)
   }
 
-  public renderSkeleton(){
+  public renderSkeleton(props: WmFormProps){
     return(
       <View style={this.styles.root}>
             {this.props.iconclass || this.props.title || this.props.subheading ? (
@@ -285,8 +286,20 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
                 <View style={{flex: 1, flexDirection: 'row'}}>
                   <WmIcon styles={this.styles.listIcon} iconclass={this.props.iconclass}></WmIcon>
                   <View>
-                    <WmSkeleton width={this.styles.root?.width || 100} height={this.styles.root?.height || this.styles.title?.text.fontSize || 10 } styles={this.styles.title} />
-                    <WmSkeleton width={150} height={this.styles.subheading?.text.fontSize || 10} styles={this.styles.subheading}/>
+                    {
+                      createSkeleton(this.theme, {} as WmSkeletonStyles, {
+                        ...this.styles.title.root,
+                        width: 96,
+                        height: this.styles.title.text.fontSize
+                      })
+                    }
+                    {
+                      createSkeleton(this.theme, {} as WmSkeletonStyles, {
+                        ...this.styles.subheading.root,
+                        width: 160,
+                        height: this.styles.subheading.text.fontSize
+                      })
+                    }
                   </View>
                 </View>
               </View>

@@ -21,7 +21,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         backgroundColor: themeVariables.buttonGrpBgColor
       }, 
       text: {},
-      skeleton: {} as WmSkeletonStyles
+      skeleton: {
+        root : {
+          width: '100%',
+          height: 48,
+          borderRadius: 4
+        }
+      } as WmSkeletonStyles
   });
 
 
