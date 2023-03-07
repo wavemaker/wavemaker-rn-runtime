@@ -61,7 +61,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public updateStateTimeouts= [] as NodeJS.Timeout[];
     public parent: BaseComponent<any, any, any> = null as any;
     public destroyed = false;
-    private  _showSkeleton = false;
+    public _showSkeleton = false;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);

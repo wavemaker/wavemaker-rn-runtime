@@ -37,6 +37,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public theme: Theme = BASE_THEME;
     public appLocale: any = {};
     private startUpVariables: string[] = [];
+    private startUpVariablesLoaded = false;
     private startUpActions: string[] = [];
     private autoUpdateVariables: string[] = [];
     private cleanUpVariablesandActions: BaseVariable<any>[] = [];
@@ -56,7 +57,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public Viewport = _viewPort;
     public loadingMessage = React.createElement(Text, [] as any, ['loading...']);
     public showContent = false;
-    public showSkeleton = false;
     public notification = {
                             text: '',
                             title: '',
@@ -73,7 +73,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         this.formatters = this.App.formatters;
         this.Actions = Object.assign({}, this.App.Actions);
         this.Variables = Object.assign({}, this.App.Variables);
-        this.showSkeleton = this.App.isSkeletonEnabled();
         this.cleanup.push(_viewPort.subscribe(viewportEvents.ORIENTATION_CHANGE, ($new: any, $old: any) => {
           !this.isDetached && this.targetWidget && this.targetWidget.invokeEventCallback('onOrientationchange', [null, this.proxy,
             {screenWidth: _viewPort.width,
@@ -254,14 +253,12 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
                 message: get(v, 'config.spinnerMessage'),
                 spinner: this.App.appConfig.spinner
               });
-              this.showSkeleton = this.App.isSkeletonEnabled();
             }))
       }));
       this.cleanup.push(...variables.map(v => {
         return ((v as BaseVariable<any>)
           .subscribe(VariableEvents.AFTER_INVOKE, () => {
             spinnerService.hide();
-            this.showSkeleton = false;
           }));
       }));
     }
@@ -275,8 +272,11 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.cleanUpVariablesandActions.push(...Object.values({...this.fragmentVariables, ...this.fragmentActions} as BaseVariable<any>));
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
+      .catch(() => {
+        // catch errors and show content
+      })
       .then(() => {
-        this.showSkeleton = false;
+        this.startUpVariablesLoaded = true;
         this.showContent = true;
         this.appConfig.refresh();
       });
