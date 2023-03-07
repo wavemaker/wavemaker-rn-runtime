@@ -261,7 +261,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         return ((v as BaseVariable<any>)
           .subscribe(VariableEvents.AFTER_INVOKE, () => {
             spinnerService.hide();
-            // this.showSkeleton = false;
+            this.showSkeleton = false;
           }));
       }));
     }
@@ -276,7 +276,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
       .then(() => {
-        // this.showSkeleton = false;
+        this.showSkeleton = false;
         this.showContent = true;
         this.appConfig.refresh();
       });
