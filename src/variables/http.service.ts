@@ -30,6 +30,16 @@ export class HttpService implements HttpClientService {
         })
     })
   }
+
+  sendCall(requestParams: any, variable: any) {
+    return new Promise((resolve, reject) => {
+      this.send(requestParams, variable).then((response: any) => {
+          resolve(response);
+      }, (err: any) => {
+        reject(err);
+      });
+    });
+  }
 }
 
 const httpService = new HttpService();
