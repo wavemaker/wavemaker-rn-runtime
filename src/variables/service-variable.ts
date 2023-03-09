@@ -10,6 +10,7 @@ export interface ServiceVariableConfig extends VariableConfig {
   baseUrl: string;
   maxResults: number;
   _context: any;
+  serviceType: string;
   onCanUpdate: any;
   onBeforeUpdate: any;
   onResult: any;
