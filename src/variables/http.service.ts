@@ -2,7 +2,9 @@ import axios from 'axios';
 import { HttpClientService } from '@wavemaker/variables/src/types/http-client.service';
 import { WS_CONSTANTS } from '@wavemaker/app-rn-runtime/variables/utils/variable.constants';
 import { get } from 'lodash';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 
 export class HttpService implements HttpClientService {
 
@@ -39,6 +41,11 @@ export class HttpService implements HttpClientService {
         reject(err);
       });
     });
+  }
+
+  getLocale() {
+    const appConfig = injector.get<AppConfig>('APP_CONFIG');
+    return appConfig.appLocale.messages;
   }
 }
 

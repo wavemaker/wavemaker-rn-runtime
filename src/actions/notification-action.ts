@@ -54,6 +54,10 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
         return o;
       }
 
+  getMessage() {
+    return this.config.paramProvider().text;
+  }
+
     invoke(options: any, success: any, error: any) {
         super.invoke(options, success, error);
         if (this.config.operation === 'toast') {
