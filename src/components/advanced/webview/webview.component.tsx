@@ -36,19 +36,39 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
     return false;
   }
 
-  injectJavaScript(fn: Function | string) {
-    const fnStr = typeof fn === 'string' ? fn : `(${fn})()`;
+  executeScript(fn: string) {
     return new Promise((resolve, reject) => {
       if (this.webview) {
         const id = '' + Date.now();
         this.invokeJSCallbacks[id] = resolve;
+        fn = `
+         (function(){
+          try{
+            return (${fn});
+          } catch(e) {
+            return e.getMessage();
+          }
+         }())
+        `;
         this.webview.injectJavaScript(
-          `window.ReactNativeWebView.postMessage('afterInjectJavaScript:' + ${id} + ':' + JSON.stringify(${fnStr}))`
+          `window.ReactNativeWebView.postMessage('afterInjectJavaScript:' + ${id} + ':' + JSON.stringify(${fn}))`
         );
       } else {
         reject();
       }
     });
+  }
+
+  insertCSS(style = '') {
+    style = style.replace(/[\n\t\r]/g, '');
+    return this.executeScript(`
+    function() {
+      const style = document.createElement('style');
+      style.innerHTML = '${style}';
+      document.head.appendChild(style);
+      return 'SUCCESS';
+    }()
+    `);
   }
 
   parseResult(result: string) {
@@ -82,22 +102,23 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
     }
   }
 
-  setTitle(title: string) {
+  public onLoad = (e: any, title: string, url: string) => {
     this.updateState({
       props: {
-        title: title
+        title: title,
+        src: url
       }
-    } as WmWebViewState);
+    } as WmWebViewState, () => {
+      this.invokeEventCallback('onLoad', [e, this]);
+    });
   }
 
   protected renderWidget(props: WmWebviewProps) {
     return (
       <View style={this.styles.root}>
         {Platform.OS === 'web' ?
-          (<iframe src={props.src} width={'100%'} height={'100%'} onLoad={(e) => {
-            this.setTitle(this.getTitle(e.currentTarget));
-            this.invokeEventCallback('onLoad', [e, this]);
-          }}></iframe>) :
+          (<iframe src={props.src} width={'100%'} height={'100%'}
+            onLoad={(e) => this.onLoad(e, this.getTitle(e.currentTarget), (e.currentTarget as any).src)}></iframe>) :
           (<WebView
             ref={(ref) => this.webview = ref}
             nestedScrollEnabled={true}
@@ -111,10 +132,8 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
             onNavigationStateChange={(state) => {
               this.webViewState = state;
             }}
-            onLoadEnd={(e) => {
-              this.setTitle(e.nativeEvent.title);
-              this.invokeEventCallback('onLoad', [e, this]);
-            }}>
+            scrollEnabled={true}
+            onLoadEnd={(e) => this.onLoad(e, e.nativeEvent.title, e.nativeEvent.url)}>
           </WebView>)}
       </View>
     );

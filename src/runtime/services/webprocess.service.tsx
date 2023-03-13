@@ -56,7 +56,7 @@ class WebProcessWebView extends Component<WebProcessWebViewProps> {
           }}
           onLoad={(e, w) => {
             setTimeout(() => {
-              w.injectJavaScript(this.getScriptToInject(this.props.process))
+              w.executeScript(this.getScriptToInject(this.props.process))
               .then((output) => {
                   if (output) {
                     const onComplete = this.props.onComplete;
