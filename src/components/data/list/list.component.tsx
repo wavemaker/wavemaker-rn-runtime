@@ -133,7 +133,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   private generateItemKey(item: any, index: number, props: WmListProps) {
-    if (props.itemkey && item) {
+    if (props.itemkey && item && !this._showSkeleton) {
       return props.itemkey(item, index);
     }
     return 'list_item_' +  (this.key + index);
