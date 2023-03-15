@@ -43,6 +43,7 @@ import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/uti
 import MaterialCommunityIconsFont from '@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf';
 
 import * as SplashScreen from 'expo-splash-screen';
+import BasePartial from './base-partial.component';
 import BasePage from './base-page.component';
 import { WmMemo } from './memo.component';
 
@@ -93,6 +94,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   public baseUrl = '';
   public isReactNativeApp = true;
   public cleanup = [] as Function[];
+  public commonPartial: BasePartial = null as any;
   private startUpVariables: string[] = [];
   private startUpActions: string[] = [];
   private autoUpdateVariables: string[] = [];
@@ -128,6 +130,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
         refreshAfterWait = false;
         setTimeout(() => {
           this.forceUpdate();
+          this.commonPartial.forceUpdate();
           this.appConfig.currentPage?.forceUpdate();
           this.watcher.check();
         });
