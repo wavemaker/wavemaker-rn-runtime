@@ -130,7 +130,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
         refreshAfterWait = false;
         setTimeout(() => {
           this.forceUpdate();
-          this.commonPartial.forceUpdate();
+          this.commonPartial?.forceUpdate();
           this.appConfig.currentPage?.forceUpdate();
           this.watcher.check();
         });
