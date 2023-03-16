@@ -14,12 +14,12 @@ export class HttpService implements HttpClientService {
       requestBody: any = options.data,
       isProxyCall = isWebPreviewMode() ? get(serviceInfo, 'proxySettings.web') :  get(serviceInfo, 'proxySettings.mobile'),
       url: string = isProxyCall ? '.' + options.url : options.url;
-    const cancelTokenSource = axios.CancelToken.source();
+    variable.cancelTokenSource = axios.CancelToken.source();
     const methodType: string = serviceInfo.methodType;
     const isNonDataMethod: boolean = WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(methodType.toUpperCase()) > -1;
     const axiosConfig = {
       headers: headers,
-      cancelToken: cancelTokenSource.token,
+      cancelToken: variable.cancelTokenSource.token,
       withCredentials: ''
     };
     return new Promise((resolve, reject) => {
@@ -46,6 +46,10 @@ export class HttpService implements HttpClientService {
   getLocale() {
     const appConfig = injector.get<AppConfig>('APP_CONFIG');
     return appConfig.appLocale.messages;
+  }
+
+  cancel(variable: any) {
+    variable.cancelTokenSource.cancel();
   }
 }
 

@@ -78,31 +78,31 @@ export class ServiceVariable extends _ServiceVariable {
     return super.invoke(options, onSuccess, onError);
   }
 
-  cancel($file?: any) {
-    // CHecks if there is any pending requests in the queue
-    if ($queue.requestsQueue.has(this)) {
-      // If the request is a File upload request then modify the elements associated with file upload
-      // else unsubscribe from the observable on the variable.
-      if (false) {
-        // $file._uploadProgress.unsubscribe();
-        // $file.status = 'abort';
-        // this.totalFilesCount--;
-        // initiateCallback(VARIABLE_CONSTANTS.EVENT.ABORT, variable, $file);
-        // if (!this.isFileUploadInProgress(variable.dataBinding) && this.totalFilesCount === 0) {
-        //   $queue.process(variable);
-        //   // notify inflight variable
-        //   this.notifyInflight(variable, false);
-        // }
-      } else {
-        if (true) {
-          this.cancelTokenSource.cancel();
-          $queue.process(this);
-          // notify inflight variable
-          //this.notifyInflight(variable, false);
-        }
-      }
-    }
-  }
+  // cancel($file?: any) {
+  //   // CHecks if there is any pending requests in the queue
+  //   if ($queue.requestsQueue.has(this)) {
+  //     // If the request is a File upload request then modify the elements associated with file upload
+  //     // else unsubscribe from the observable on the variable.
+  //     if (false) {
+  //       // $file._uploadProgress.unsubscribe();
+  //       // $file.status = 'abort';
+  //       // this.totalFilesCount--;
+  //       // initiateCallback(VARIABLE_CONSTANTS.EVENT.ABORT, variable, $file);
+  //       // if (!this.isFileUploadInProgress(variable.dataBinding) && this.totalFilesCount === 0) {
+  //       //   $queue.process(variable);
+  //       //   // notify inflight variable
+  //       //   this.notifyInflight(variable, false);
+  //       // }
+  //     } else {
+  //       if (true) {
+  //         this.cancelTokenSource.cancel();
+  //         $queue.process(this);
+  //         // notify inflight variable
+  //         //this.notifyInflight(variable, false);
+  //       }
+  //     }
+  //   }
+  // }
 
   setInput(key: any, val?: any, options?: any) {
     // this.params = merge({}, this.config.paramProvider(), _setInput(this.params, key, val, options));
