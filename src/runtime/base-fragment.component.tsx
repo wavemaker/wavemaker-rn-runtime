@@ -287,7 +287,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.watcher.isActive = true;
       this.resetAppLocale();
       Object.values(this.fragments).forEach((f: any) => f.onAttach());
-      this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.resume());
+      this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.resume && v.resume());
       this.targetWidget?.invokeEventCallback('onAttach', [null, this.proxy]);
       if (this.refreshdataonattach) {
         Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()));
@@ -298,7 +298,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.isDetached = true;
       this.watcher.isActive = false;
       Object.values(this.fragments).forEach((f: any) => f.onDetach());
-      this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.pause());
+      this.cleanUpVariablesandActions.forEach((v: BaseVariable<any>) => v.pause && v.pause());
       this.targetWidget?.invokeEventCallback('onDetach', [null, this.proxy]);
     }
 
