@@ -92,7 +92,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   isStarted = false;
   appConfig = injector.get<AppConfig>('APP_CONFIG');
   public baseUrl = '';
-  public isReactNativeApp = true;
+  public targetPlatform = 'NATIVE_MOBILE';
   public cleanup = [] as Function[];
   public commonPartial: BasePartial = null as any;
   private startUpVariables: string[] = [];
