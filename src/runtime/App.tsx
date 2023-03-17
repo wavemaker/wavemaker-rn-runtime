@@ -17,6 +17,7 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
 import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
@@ -412,19 +413,21 @@ export default abstract class BaseApp extends React.Component implements Navigat
           <SafeAreaInsetsContext.Consumer>
             {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
               (this.getProviders(
-                (<View style={[styles.container, {paddingTop: insets?.top || 0, paddingBottom: insets?.bottom, paddingLeft: insets?.left, paddingRight : insets?.right}]}>
-                  <View style={styles.container}>
-                    <AppNavigator
-                      app={this}
-                      landingPage={(this.props as any).pageName}
-                      landingPageParams={(this.props as any)?.pageName && this.props}
-                      hideDrawer={this.appConfig.drawer?.getContent() === null}
-                      drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
-                      drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                      {commonPartial}
-                  </View> 
-                  <WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>
-                </View>))
+                (<FixedViewContainer>
+                  <View style={[styles.container, {paddingTop: insets?.top || 0, paddingBottom: insets?.bottom, paddingLeft: insets?.left, paddingRight : insets?.right}]}>
+                    <View style={styles.container}>
+                      <AppNavigator
+                        app={this}
+                        landingPage={(this.props as any).pageName}
+                        landingPageParams={(this.props as any)?.pageName && this.props}
+                        hideDrawer={this.appConfig.drawer?.getContent() === null}
+                        drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
+                        drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                        {commonPartial}
+                    </View> 
+                    <WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>
+                  </View>
+                </FixedViewContainer>))
               )
             }
           </SafeAreaInsetsContext.Consumer>

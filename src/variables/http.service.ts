@@ -15,6 +15,10 @@ export class HttpService implements HttpClientService {
       isProxyCall = isWebPreviewMode() ? get(serviceInfo, 'proxySettings.web') :  get(serviceInfo, 'proxySettings.mobile'),
       url: string = isProxyCall ? '.' + options.url : options.url;
     variable.cancelTokenSource = axios.CancelToken.source();
+    if (!isWebPreviewMode() 
+        && !(url.startsWith('http://') || url.startsWith("https://"))) {
+        url = variable.config.baseUrl + '/' + url;
+    }
     const methodType: string = serviceInfo.methodType;
     const isNonDataMethod: boolean = WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(methodType.toUpperCase()) > -1;
     const axiosConfig = {

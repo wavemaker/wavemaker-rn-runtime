@@ -1,6 +1,6 @@
-import { assign, isEqual } from 'lodash';
+import { assign, isEqual, isUndefined } from 'lodash';
 import React, { ReactNode } from 'react';
-import { TextStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
@@ -8,6 +8,7 @@ import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, attachBackground, The
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 import { HideMode } from './if.component';
+import { FixedView } from './fixed-view.component';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -62,6 +63,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public parent: BaseComponent<any, any, any> = null as any;
     public destroyed = false;
     public _showSkeleton = false;
+    public isFixed = false;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -196,6 +198,18 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.initialized = true;
     }
 
+    componentWillAttach() {
+        if (this.isFixed) {
+            this.setState({hide: false});
+        }
+    }
+
+    componentWillDetach() {
+        if (this.isFixed) {
+            this.setState({hide: true});
+        }
+    }
+
     componentWillUnmount() {
         this.destroyed = true;
         if (this.props.listener && this.props.listener.onComponentDestroy) {
@@ -243,6 +257,34 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public renderSkeleton (props: T): ReactNode {
         return null;
     }
+
+
+
+    copyStyles(property: string, from: any, to: any) {
+        if (!isUndefined(from[property])) {
+        to[property] = from[property];
+        }
+    }
+
+    renderFixedContainer(props: T) {
+        const style = {} as ViewStyle;
+        const rootStyle = {
+            left: 0,
+            top: 0,
+            bottom: 0,
+            right: 0,
+            width: "100%",
+            height: "100%"
+        } as ViewStyle;
+        this.copyStyles('left', this.styles.root, style);
+        this.copyStyles('top', this.styles.root, style);
+        this.copyStyles('right', this.styles.root, style);
+        this.copyStyles('bottom', this.styles.root, style);
+        this.copyStyles('width', this.styles.root, style);
+        this.copyStyles('height', this.styles.root, style);
+        this.styles = this.theme.mergeStyle(this.styles, {root: rootStyle});
+        return (<FixedView style={style} theme={this.theme}>{this.renderWidget(props)}</FixedView>);
+    }
       
     public render(): ReactNode {
         WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
@@ -250,6 +292,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (this.state.hide || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)) {
             return null;
         }
+        this.isFixed = false;
         return (<ParentContext.Consumer>
                 {(parent) => {
                     this.parent = parent;
@@ -271,8 +314,18 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 if (!this.isVisible()) {
                                     assign(this.styles, this.theme.getStyle('hidden'))
                                 }
-                                return (this._showSkeleton && this.renderSkeleton(props)) 
-                                    || attachBackground(this.renderWidget(this.state.props), this.styles.root);
+                                if (this._showSkeleton) {
+                                    return (this._showSkeleton && this.renderSkeleton(props));
+                                }
+                                let widgetElement = null;
+                                this.isFixed = (this.styles.root.position as any) === 'fixed';
+                                if (this.isFixed) {
+                                    this.styles.root.position  = undefined;
+                                    widgetElement = this.renderFixedContainer(props);
+                                } else {
+                                    widgetElement = this.renderWidget(this.state.props);
+                                }
+                                return attachBackground(widgetElement, this.styles.root);
                             }}
                         </ThemeConsumer>
                     </ParentContext.Provider>);

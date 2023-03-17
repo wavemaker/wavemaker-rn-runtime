@@ -105,4 +105,32 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle('btn-link', '', linkBtnStyle);
   addStyle('btn-dark', '', getButtonStyles(themeVariables.buttonDarkColor, themeVariables.buttonDarkTextColor));
   addStyle('btn-light', '', getButtonStyles(themeVariables.buttonLightColor, themeVariables.buttonLightTextColor));
+  addStyle('fab-btn', 'btn-primary', {
+    root : {
+      ...BASE_THEME.getStyle('elevate2').root,
+      position: 'fixed' as any,
+      bottom: 160,
+      right: 48,
+      width: 56,
+      height: 56,
+      borderRadius: 56,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    text: {
+      marginLeft: 0,
+      marginRight: 0
+    },
+    icon: {
+      icon: {
+        fontSize: 24
+      }
+    } as WmIconStyles
+  } as WmButtonStyles);
+  addStyle('mini-fab-btn', 'fab-btn', {
+    root : {
+      width: 40,
+      height: 40
+    }
+  } as WmButtonStyles);
 });

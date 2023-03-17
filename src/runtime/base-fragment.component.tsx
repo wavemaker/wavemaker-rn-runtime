@@ -292,6 +292,9 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       if (this.refreshdataonattach) {
         Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()));
       }
+      Object.values(this.Widgets).forEach((w: any) => { 
+        w.componentWillAttach && w.componentWillAttach();
+      });
     }
 
     onDetach() {
@@ -300,6 +303,9 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       Object.values(this.fragments).forEach((f: any) => f.onDetach());
       this.cleanUpVariablesandActions.forEach((v: any) => v.mute && v.mute());
       this.targetWidget?.invokeEventCallback('onDetach', [null, this.proxy]);
+      Object.values(this.Widgets).forEach((w: any) => { 
+        w.componentWillDetach && w.componentWillDetach();
+      });
     }
 
     onDestroy() {
