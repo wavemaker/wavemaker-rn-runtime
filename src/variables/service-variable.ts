@@ -108,10 +108,4 @@ export class ServiceVariable extends _ServiceVariable {
     // this.params = merge({}, this.config.paramProvider(), _setInput(this.params, key, val, options));
     //  return this.params;
   }
-
-  pause() {}
-
-  resume() {}
-
-  destroy() {}
 }
