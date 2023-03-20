@@ -61,10 +61,13 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       setTimeout(() => {
         if (this.appConfig.currentPage === this 
           || this.appConfig.currentPage.proxy === this) {
-          this.appConfig.drawer?.setContent((
-            <NavigationServiceProvider value={this}>
-             {content}
-            </NavigationServiceProvider>));
+          this.appConfig.drawer?.setContent(null);
+          setTimeout(() => {
+            this.appConfig.drawer?.setContent((
+              <NavigationServiceProvider value={this}>
+              {content}
+              </NavigationServiceProvider>));
+          }, 500);
           this.appConfig.drawer?.setAnimation(drawerType);
         }
       }, 10);
