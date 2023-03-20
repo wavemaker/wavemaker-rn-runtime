@@ -36,8 +36,8 @@ export class FixedView extends React.Component<FixedViewProps> {
                 this.container = container;
                 if (this.props.show) {
                     container.add(this, (
-                        <ThemeProvider value={this.props.theme}>
-                            <View key={this.id} style={[
+                        <ThemeProvider value={this.props.theme} key={this.id}>
+                            <View style={[
                                 {position: 'absolute'},
                                 this.props.style]}>
                                 {this.props.children}
