@@ -336,7 +336,7 @@ const STYLE_PROP_TYPE_INFO = {
         ref: 'https://reactnative.dev/docs/view-style-props#pointerevents'
     },
     position: {
-        isValid: isIn('absolute', 'relative'),
+        isValid: isIn('absolute', 'relative', 'fixed'),
         ref: 'https://reactnative.dev/docs/layout-props#position'
     },
     resizeMode: {
