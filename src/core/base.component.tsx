@@ -314,8 +314,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 if (!this.isVisible()) {
                                     assign(this.styles, this.theme.getStyle('hidden'))
                                 }
-                                if (this._showSkeleton) {
-                                    return (this._showSkeleton && this.renderSkeleton(props));
+                                let eleToRender = (this._showSkeleton && this.renderSkeleton(props));
+                                if (eleToRender) {
+                                    return eleToRender;
                                 }
                                 let widgetElement = null;
                                 this.isFixed = (this.styles.root.position as any) === 'fixed';
