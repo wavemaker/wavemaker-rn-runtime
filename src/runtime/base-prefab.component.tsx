@@ -39,7 +39,7 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
     private appUrl = '';
     private prefabParams: any = {};
     private _renderPrefab:() => React.ReactNode = null as any;
-    
+
     constructor(props: PrefabProps, defualtProps: PrefabProps, private partialService: PartialService) {
       super(props, defualtProps);
       this.App = this.appConfig.app;
@@ -62,6 +62,10 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       }
     }
 
+    getPrefabName() {
+      return this.props.prefabname;
+    }
+
     onFragmentReady(): Promise<void> {
       this._renderPrefab = () => {
         const component = this.renderPrefab();
@@ -80,7 +84,7 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
     resetAppLocale() {
       this.appLocale = merge({ }, this.appConfig.appLocale.messages, this.appConfig.appLocale.prefabMessages[this.props.prefabname]);
       Object.values(this.fragments).forEach((f: any) => (f as BaseFragment<any, any>).resetAppLocale());
-    } 
+    }
 
     componentWillUnmount() {
       super.componentWillUnmount();

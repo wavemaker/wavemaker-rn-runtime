@@ -44,6 +44,10 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
       });
     }
 
+    getPrefabName() {
+      return this.Prefab?.props.prefabname;
+    }
+
     onComponentInit(w: BaseComponent<any, any, any>) {
       super.onComponentInit(w);
       if (w instanceof WmPartial) {
