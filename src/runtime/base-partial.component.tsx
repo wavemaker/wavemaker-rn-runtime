@@ -44,7 +44,7 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
       });
     }
 
-    getPrefabName() {
+    get prefabname() {
       return this.Prefab?.props.prefabname;
     }
 

@@ -62,10 +62,6 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       }
     }
 
-    getPrefabName() {
-      return this.props.prefabname;
-    }
-
     onFragmentReady(): Promise<void> {
       this._renderPrefab = () => {
         const component = this.renderPrefab();
