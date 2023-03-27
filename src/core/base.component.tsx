@@ -142,7 +142,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (this.destroyed) {
             return;
         }
-        const propsUpdated = !!newPartialState.props;
         const stateFn = (oldState: S) => {
             const oldProps = oldState.props;
             const newState = this.initialized ? assignIn({}, oldState, newPartialState) : assignIn(oldState, newPartialState);
@@ -157,8 +156,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         };
         const onUpdateState = () => {
             callback && callback();
-            propsUpdated
-                && this.props.listener?.onComponentChange
+            this.props.listener?.onComponentChange
                 && this.props.listener?.onComponentChange(this);
         }
         if (!this.initialized) {
