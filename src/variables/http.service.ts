@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { HttpClientService } from '@wavemaker/variables/src/types/http-client.service';
 import { WS_CONSTANTS } from '@wavemaker/app-rn-runtime/variables/utils/variable.constants';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -15,9 +15,13 @@ export class HttpService implements HttpClientService {
       isProxyCall = isWebPreviewMode() ? get(serviceInfo, 'proxySettings.web') :  get(serviceInfo, 'proxySettings.mobile'),
       url: string = isProxyCall ? '.' + options.url : options.url;
     variable.cancelTokenSource = axios.CancelToken.source();
-    if (!isWebPreviewMode() 
+    if (!isWebPreviewMode()
         && !(url.startsWith('http://') || url.startsWith("https://"))) {
-        url = variable.config.baseUrl + '/' + url;
+      const queryParams = options.url.split('?');
+      url = variable.config.baseUrl + serviceInfo.relativePath;
+      if (!isEmpty(queryParams[1])) {
+        url = url + '?' + queryParams[1];
+      }
     }
     const methodType: string = serviceInfo.methodType;
     const isNonDataMethod: boolean = WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(methodType.toUpperCase()) > -1;
