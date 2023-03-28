@@ -59,6 +59,20 @@ export class HttpService implements HttpClientService {
   cancel(variable: any) {
     variable.cancelTokenSource.cancel();
   }
+
+  uploadFile(url: any, data: any, variable: any, options?: any) {
+    const requestParams = {
+      url: url,
+      data: data
+    }
+    return new Promise((resolve, reject) => {
+      return this.send(requestParams, variable).then((event: any) => {
+        resolve(event.data);
+      }, (error: any) => {
+        reject(error);
+      });
+    });
+  }
 }
 
 const httpService = new HttpService();
