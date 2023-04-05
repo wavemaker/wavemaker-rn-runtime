@@ -42,7 +42,25 @@ export class ServiceVariable extends _ServiceVariable {
       operation: config.operation,
       operationId: config.operationId,
       serviceInfo: config.getServiceInfo(),
-      httpClientService: httpService
+      httpClientService: httpService,
+      onSuccess: (context: any, args: any) => {
+        return config.onSuccess && config.onSuccess(args.variable, args.data, args.options);
+      },
+      onError: (context: any, args: any) => {
+        return config.onError && config.onError(args.variable, args.data, args.options);
+      },
+      onCanUpdate: (context: any, args: any) => {
+        return config.onCanUpdate && config.onCanUpdate(args.variable, args.data, args.options);
+      },
+      onBeforeUpdate: (context: any, args: any) => {
+        return config.onBeforeUpdate && config.onBeforeUpdate(args.variable, args.data, args.options);
+      },
+      onResult: (context: any, args: any) => {
+        return config.onResult && config.onResult(args.variable, args.data, args.options);
+      },
+      onBeforeDatasetReady: (context: any, args: any) => {
+        return config.onBeforeDatasetReady && config.onBeforeDatasetReady(args.variable, args.data, args.options);
+      }
     }
     super(variableConfig);
   }
