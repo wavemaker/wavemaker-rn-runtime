@@ -251,6 +251,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       spinner: this.appConfig.spinner
     });
     Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
+    .catch(() => {})
     .then(() => {
       this.onAppVariablesReady();
       this.isStarted = true;
