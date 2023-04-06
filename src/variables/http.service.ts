@@ -23,6 +23,17 @@ export class HttpService implements HttpClientService {
         url = url + '?' + queryParams[1];
       }
     }
+    if (!isWebPreviewMode() && (variable?.serviceInfo?.consumes||[])[0] === 'multipart/form-data') {
+      headers['Content-Type'] = 'multipart/form-data';
+      let formData = new FormData();
+      (variable.serviceInfo.parameters||[]).forEach((p: any) => {
+        const v = variable.dataBinding[p.name];
+        if (v) {
+          formData.append(p.name, variable.dataBinding[p.name]);
+        }
+      });
+      requestBody = formData;
+    }
     const methodType: string = serviceInfo.methodType;
     const isNonDataMethod: boolean = WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(methodType.toUpperCase()) > -1;
     const axiosConfig = {
