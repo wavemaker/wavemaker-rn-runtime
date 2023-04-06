@@ -28,7 +28,7 @@ export class HttpService implements HttpClientService {
     const axiosConfig = {
       headers: headers,
       cancelToken: variable.cancelTokenSource.token,
-      withCredentials: ''
+      withCredentials: true
     };
     return new Promise((resolve, reject) => {
       // @ts-ignore
