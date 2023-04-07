@@ -66,7 +66,7 @@ export class ServiceVariable extends _ServiceVariable {
   }
 
   invokeOnParamChange() {
-    const last = this.dataBinding;
+    const last = this.params;
     const latest = this.config.paramProvider();
     if (!isEqual(last, latest)) {
       this.invoke();
@@ -86,7 +86,7 @@ export class ServiceVariable extends _ServiceVariable {
   }
 
   invoke(options? : any, onSuccess?: Function, onError?: Function) {
-    this.dataBinding = this.config.paramProvider();
+    this.params = this.config.paramProvider();
     // service definitions data depends on whether user logged in or not
     // Try to get the latest definition
     this.serviceInfo = this.config.getServiceInfo();
