@@ -23,8 +23,12 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
         const o = {} as ToastOptions;
         o.text = options.message || params.text;
         o.type = options.class?.toLowerCase() || params.class?.toLowerCase();
-        o.onClose = this.config.onClose;
-        o.onClick = this.config.onOk;
+        o.onClose = () => {
+            this.config.onClose && this.config.onClose(this);
+        },
+        o.onClick = () => {
+            this.config.onOk && this.config.onOk(this);
+        },
         o.content = this.config.partialContent;
         o.hideOnClick = options.hideOnClick || true;
         const toasterPosition = options.position || params.toasterPosition || 'bottom right';
@@ -41,10 +45,9 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
                 break;
         }
         if (this.config.partialContent) {
-          if (!o.styles) {
-            o.styles = {};
-          }
-            o.styles.backgroundColor = 'black';
+            if (!o.styles) {
+                o.styles = {};
+            }
         }
         if (!params.duration) {
           params.duration = (params.duration !== 0 && o.type === 'success') ? DEFAULT_DURATION : 0;

@@ -300,7 +300,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       return (
         <>
           {AppToastService.toastsOpened.map((o, i) =>
-            (
+            this.getProviders((
                 <View key={i} style={[{
                   position: 'absolute',
                   width: '100%',
@@ -314,7 +314,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   </TouchableOpacity>
                 </View>
               )
-          )}
+          ))}
         </>);
     }}/>;
   }
