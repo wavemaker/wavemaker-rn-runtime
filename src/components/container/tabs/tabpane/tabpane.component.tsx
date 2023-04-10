@@ -36,7 +36,7 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
 
   componentDidMount() {
     const tabs = (this.parent) as WmTabs;
-    tabs.addTabPane(this);
+    tabs.addTabPane(this.proxy as WmTabpane);
     super.componentDidMount();
   }
 
@@ -45,6 +45,10 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
   }
   _onDeselect() {
     this.invokeEventCallback('onDeselect', [null, this.proxy]);
+  }
+
+  select() {
+    (this.parent as WmTabs).selectTabPane(this);
   }
 
   renderWidget(props: WmTabpaneProps) {

@@ -19,33 +19,33 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   private tabPosition = new Animated.Value(0);
   private tabPaneHeights: number[] = [];
   private panResponder = PanResponder.create({
-    onMoveShouldSetPanResponder: () => true,
-    onPanResponderGrant: () => {
-      this.tabPosition.setOffset((this.tabPosition as any)._value);
-    },
-    onPanResponderMove: Animated.event([
-      null,
-      { dx: this.tabPosition }
-    ]),
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => {
+        this.tabPosition.extractOffset();
+      },
+      onPanResponderMove: Animated.event([
+        null,
+        { dx: this.tabPosition }
+      ]),
     onPanResponderRelease: () => {
-      const dx = (this.tabPosition as any)._value;
-      this.tabPosition.flattenOffset();
-      let toIndex = this.state.selectedTabIndex;
-      if (Math.abs(dx) > 50) {
-        if (dx < 0) {
-          if (toIndex < this.tabPanes.length - 1) {
-            this.onChange(toIndex + 1);
+        const dx = (this.tabPosition as any)._value;
+        this.tabPosition.flattenOffset();
+        let toIndex = this.state.selectedTabIndex;
+        if (Math.abs(dx) > 50) {
+          if (dx < 0) {
+            if (toIndex < this.tabPanes.length - 1) {
+              this.onChange(toIndex + 1);
+              return;
+            }
+          } else if (toIndex > 0) {
+            this.onChange(toIndex - 1);
             return;
           }
-        } else if (toIndex > 0) {
-          this.onChange(toIndex - 1);
-          return;
         }
+        this.onChange(toIndex);
+        this.forceUpdate();
       }
-      this.onChange(toIndex);
-      this.forceUpdate();
-    }
-  });
+    });
 
   constructor(props: WmTabsProps) {
     super(props, DEFAULT_CLASS, new WmTabsProps(), new WmTabsState());
@@ -70,12 +70,12 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     }
   }
 
-  setTabPosition() {
-    Animated.timing(this.tabPosition, {
+  animate(toIndex = this.state.selectedTabIndex) {
+    return Animated.timing(this.tabPosition, {
       useNativeDriver: true,
-      toValue:  -1 * this.state.selectedTabIndex * (this.tabLayout?.width || 0),
+      toValue:  -1 * toIndex * (this.tabLayout?.width || 0),
       duration: 200,
-      easing: Easing.linear
+      easing: Easing.out(Easing.linear)
     }).start();
   }
 
@@ -98,11 +98,31 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     this.newIndex++;
   }
 
+  selectTabPane(tabPane: WmTabpane) {
+    this.onChange(this.tabPanes.indexOf(tabPane));
+  }
+
+  goToTab(index: number) {
+    this.onChange(index);
+  }
+
+  prev() {
+    this.onChange(this.state.selectedTabIndex - 1);
+  }
+
+  next() {
+    this.onChange(this.state.selectedTabIndex + 1);
+  }
+
   onChange(newIndex: number) {
+    if (newIndex < 0 || newIndex >= this.tabPanes.length) {
+      return;
+    }
     const oldIndex = this.state.selectedTabIndex;
     const deselectedTab = this.tabPanes[this.state.selectedTabIndex];
     this.newIndex = newIndex;
     deselectedTab?._onDeselect();
+    this.animate(newIndex);
     this.updateState({
       selectedTabIndex: newIndex
     } as WmTabsState, () => {
@@ -119,7 +139,6 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     .filter((item: any, index: number) => item.props.show != false);
     const headerData = tabPanes.map((p: any, i: number) => 
       ({title: p.props.title || 'Tab Title', icon: '', key:  `tab-${p.props.title}-${i}`}));
-    this.setTabPosition();
     return(
       <View style={[this.styles.root, { borderBottomWidth: 0}]}>
       <View onLayout={this.setTabLayout.bind(this)} style={{width: '100%'}}></View>
@@ -149,7 +168,8 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
               key={`tab-${p.props.title}-${i}`}
               style={{width: '100%', alignSelf: 'flex-start'}}
               onLayout={this.setTabPaneHeights.bind(this, i)}>
-              {this.state.tabsShown[i] ? p : null}
+              {/* {this.state.tabsShown[i] ? p : null} */}
+              {p}
             </View>);
           })}
         </Animated.View>
@@ -164,7 +184,6 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
       .filter((item: any, index: number) => item.props.show != false);
     const headerData = tabPanes.map((p: any, i: number) => 
       ({title: p.props.title || 'Tab Title', icon: '', key:  `tab-${p.props.title}-${i}`}));
-    this.setTabPosition();
     return (
       <View style={this.styles.root}>
         <View onLayout={this.setTabLayout.bind(this)} style={{width: '100%'}}></View>
@@ -175,10 +194,10 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           onIndexChange={this.onChange.bind(this)}
         ></WmTabheader>
         <View 
-          //{...this.panResponder.panHandlers}
+          {...this.panResponder.panHandlers}
           style={{
             width: '100%',
-            //height: this.tabPaneHeights[this.state.selectedTabIndex],
+            height: this.tabPaneHeights[this.state.selectedTabIndex],
             overflow: 'hidden'
           }} >
           <Animated.View style={{
@@ -193,7 +212,8 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
                 key={`tab-${p.props.title}-${i}`}
                 style={{width: '100%', alignSelf: 'flex-start'}}
                 onLayout={this.setTabPaneHeights.bind(this, i)}>
-                {this.state.tabsShown[i] ? p : null}
+                {/* {this.state.tabsShown[i] ? p : null} */}
+                {p}
               </View>);
             })}
           </Animated.View>
