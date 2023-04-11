@@ -1,8 +1,8 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
 import ProtoTypes from 'prop-types';
-import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Linking } from 'react-native';
 import { NativeModulesProxy } from 'expo-modules-core';
@@ -396,24 +396,26 @@ export default abstract class BaseApp extends React.Component implements Navigat
           <SafeAreaInsetsContext.Consumer>
             {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
               (this.getProviders(
-                (<View style={[styles.container, {paddingTop: insets?.top || 0, paddingBottom: insets?.bottom, paddingLeft: insets?.left, paddingRight : insets?.right}]}>
-                  <View style={styles.container}>
-                    <AppNavigator
-                      app={this}
-                      landingPage={(this.props as any).pageName}
-                      landingPageParams={(this.props as any)?.pageName && this.props}
-                      hideDrawer={this.appConfig.drawer?.getContent() === null}
-                      drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
-                      drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                      {commonPartial}
-                  </View>
-                </View>))
+                (
+                  <SafeAreaView  style={{flex: 1}}>
+                    <StatusBar />
+                    <View style={styles.container}>
+                      <AppNavigator
+                        app={this}
+                        landingPage={(this.props as any).pageName}
+                        landingPageParams={(this.props as any)?.pageName && this.props}
+                        hideDrawer={this.appConfig.drawer?.getContent() === null}
+                        drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
+                        drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                        {commonPartial}
+                        {this.renderToasters()}
+                        {this.renderDialogs()}
+                        {this.renderDisplayManager()}
+                    </View>
+                  </SafeAreaView>))
               )
             }
           </SafeAreaInsetsContext.Consumer>
-          {this.renderToasters()}
-          {this.renderDialogs()}
-          {this.renderDisplayManager()}
           </React.Fragment>
         </PaperProvider>
       </SafeAreaProvider>
