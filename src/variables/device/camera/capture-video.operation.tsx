@@ -2,7 +2,8 @@ import { CameraService } from "@wavemaker/app-rn-runtime/core/device/camera-serv
 import { Operation, Output } from '../operation.provider';
 
 export interface CaptureVideoOutput extends Output {
-  videoPath: string
+  videoPath: string;
+  content: string;
 }
 
 export class CaptureVideoOperation implements Operation {
