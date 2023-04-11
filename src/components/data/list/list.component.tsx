@@ -81,11 +81,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         if (this.state.props.groupby) {
           this.setGroupData($new);
         } else {
+          const data = isArray($new) ? $new : (isDefined($new) ? [$new] : []);
           this.updateState({
-            groupedData: [{
+            groupedData: (data[0] || props.direction === 'horizontal' ? [{
               key: '',
-              data: isArray($new) ? $new : (isDefined($new) ? [$new] : [])
-            }]
+              data: data
+            }] : [])
           } as WmListState, () => {
             this.key += ($new && $new.length) || 0;
           });
