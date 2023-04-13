@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import moment from "moment";
+import * as FileSystem from "expo-file-system";
 import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString} from 'lodash';
 
 declare const window: any;
@@ -239,4 +240,9 @@ export const validateField = (props: any, value: any) => {
   return {
     isValid: true
   }
+};
+
+
+export const toBase64 = function(path: string) {
+  return FileSystem.readAsStringAsync(path, { encoding: 'base64' });
 };

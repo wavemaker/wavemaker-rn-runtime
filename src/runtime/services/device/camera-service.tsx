@@ -169,7 +169,10 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
         response.content = async () => {
           return await FileSystem.readAsStringAsync(response.uri, { encoding: 'base64' });
         };
-        this.setState({ cameraContent: response, isCaptured: true } as CameraViewState);
+        this.setState({ 
+          cameraContent: response,
+          isCaptured: true,
+          showActionBtns: true } as CameraViewState);
       }
     }
     await this.camera.takePictureAsync(options);

@@ -15,6 +15,7 @@ import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import * as Utils  from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
 import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
@@ -77,9 +78,11 @@ class DrawerImpl implements Drawer {
     return this.animation;
   }
 }
-const SUPPORTED_SERVICES = { StorageService: StorageService,
-                             AppDisplayManagerService: AppDisplayManagerService
-                            };
+const SUPPORTED_SERVICES = {
+  Utils: Utils,
+  StorageService: StorageService,
+  AppDisplayManagerService: AppDisplayManagerService
+};
 
 export default abstract class BaseApp extends React.Component implements NavigationService {
 
