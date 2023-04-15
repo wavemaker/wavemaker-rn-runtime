@@ -35,8 +35,7 @@
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
     "bootstrap": "yarn example && yarn && yarn pods",
-    "watch": "npm-watch build",
-    "publish-patch": "npm run build -- --production=true && node scripts/npm-publish.js"
+    "watch": "npm-watch build"
   },
   "keywords": [
     "react-native",
