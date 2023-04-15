@@ -5,6 +5,7 @@ import { isString } from 'lodash';
 import { BaseInputStyles } from './baseinput.styles';
 import { Platform, TextInput } from 'react-native';
 import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
+import Injector from '@wavemaker/app-rn-runtime/core/injector';
 
 export class BaseInputState <T extends BaseInputProps> extends BaseComponentState<T> {
   keyboardType: any = 'default';
@@ -23,6 +24,10 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
 
   focus() {
     this?.widgetRef?.focus();
+  }
+
+  blur() {
+    this?.widgetRef?.blur && this?.widgetRef?.blur();
   }
 
   onPropertyChange(name: string, $new: any, $old: any) {
@@ -105,6 +110,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   onBlur(event: any) {
+    Injector.FOCUSED_ELEMENT.remove();
     this.isTouched = true;
     let newVal = event.target.value || this.state.textValue;
     let oldVal = this.state.props.datavalue || '';
@@ -132,6 +138,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   onFocus(event: any) {
+    Injector.FOCUSED_ELEMENT.set(this);
     this.invokeEventCallback('onFocus', [ event, this.proxy]);
   }
 

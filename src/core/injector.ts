@@ -10,7 +10,7 @@ const set = <T>(t :string, o: T) => {
 
 const remove =  <T>(t :string): T => {
     const v = map.get(t) as T;
-    map.delete(t);
+    v && map.delete(t);
     return v;
 };
 
