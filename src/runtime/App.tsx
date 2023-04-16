@@ -1,8 +1,8 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
 import ProtoTypes from 'prop-types';
-import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Linking } from 'react-native';
 import { NativeModulesProxy } from 'expo-modules-core';
@@ -16,6 +16,7 @@ import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import * as Utils  from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
@@ -81,9 +82,11 @@ class DrawerImpl implements Drawer {
     return this.animation;
   }
 }
-const SUPPORTED_SERVICES = { StorageService: StorageService,
-                             AppDisplayManagerService: AppDisplayManagerService
-                            };
+const SUPPORTED_SERVICES = {
+  Utils: Utils,
+  StorageService: StorageService,
+  AppDisplayManagerService: AppDisplayManagerService
+};
 
 export default abstract class BaseApp extends React.Component implements NavigationService {
 
@@ -414,8 +417,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
           <SafeAreaInsetsContext.Consumer>
             {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
               (this.getProviders(
-                (<FixedViewContainer>
-                  <View style={[styles.container, {paddingTop: insets?.top || 0, paddingBottom: insets?.bottom, paddingLeft: insets?.left, paddingRight : insets?.right}]}>
+                (<SafeAreaView  style={{flex: 1}}>
+                  <StatusBar />
+                  <FixedViewContainer>
                     <View style={styles.container}>
                       <AppNavigator
                         app={this}
@@ -425,16 +429,16 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
                         drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
                         {commonPartial}
-                    </View> 
+                        {this.renderToasters()}
+                        {this.renderDialogs()}
+                        {this.renderDisplayManager()}
+                    </View>
                     <WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>
-                  </View>
-                </FixedViewContainer>))
+                  </FixedViewContainer>
+                </SafeAreaView>))
               )
             }
           </SafeAreaInsetsContext.Consumer>
-          {this.renderToasters()}
-          {this.renderDialogs()}
-          {this.renderDisplayManager()}
           </React.Fragment>
         </PaperProvider>
       </SafeAreaProvider>

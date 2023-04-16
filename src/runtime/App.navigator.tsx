@@ -1,12 +1,11 @@
 import React, { ReactNode } from 'react';
-import { Platform, View, StatusBar } from 'react-native';
+import { Platform, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppDrawerNavigator from './navigator/drawer.navigator';
 import AppStackNavigator from './navigator/stack.navigator';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { isEmpty, keys, last } from 'lodash';
 
 declare const window: any;
@@ -100,10 +99,7 @@ export const AppNavigator = (props: AppNavigatorProps) => {
   const leftNav = (<AppDrawerNavigator
       type={props.drawerAnimation === 'slide-over' ? 'front' : 'slide'}
       hide={props.hideDrawer}
-      content={() => (<SafeAreaView style={[{flex: 1}, Platform.OS === 'ios' ? {paddingTop: -40} : {}]}>
-        <StatusBar barStyle="light-content" backgroundColor="#000000" />
-        {(props.drawerContent && props.drawerContent())  || (<View/>)}
-      </SafeAreaView>)}
+      content={() => (props.drawerContent && props.drawerContent())  || (<View/>)}
       rootComponent={stack}/>);
       const initialState = props.landingPage && Platform.OS !== 'web' ? 
         getNavigationState(props.landingPage, props.landingPageParams)

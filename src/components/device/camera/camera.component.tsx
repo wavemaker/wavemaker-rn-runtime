@@ -14,6 +14,7 @@ export class WmCameraState extends BaseComponentState<WmCameraProps> {}
 
 export default class WmCamera extends BaseComponent<WmCameraProps, WmCameraState, WmCameraStyles> {
   private camera: CameraService = null as any;
+  public localFile: string = '';
   constructor(props: WmCameraProps) {
     super(props, DEFAULT_CLASS, new WmCameraProps());
   }
@@ -30,24 +31,25 @@ export default class WmCamera extends BaseComponent<WmCameraProps, WmCameraState
       };
 
       this.camera.captureImage(params).then((res: CaptureImageOutput) => {
-        this.updateModel(null, res.imagePath);
+        this.updateModel(null, res.imagePath, res.content);
       });
     } else {
       this.camera.captureVideo().then((res: CaptureVideoOutput) => {
-        this.updateModel(null, res.videoPath);
+        this.updateModel(null, res.videoPath, res.content);
       });
     }
 
   }
 
-  private updateModel($event: any, value: any) {
+  private updateModel($event: any, value: any, content: string) {
     value = (value.startsWith('file://') ? '' : 'file://') + value;
+    this.localFile = content;
     this.updateState({
       props: {
         datavalue: value,
         localFilePath: value
       }
-    } as WmCameraState, this.invokeEventCallback.bind(this, 'onSuccess', [null, this.proxy, value]));
+    } as WmCameraState, this.invokeEventCallback.bind(this, 'onSuccess', [null, this.proxy, value, this.localFile]));
   }
 
   renderWidget(props: WmCameraProps) {

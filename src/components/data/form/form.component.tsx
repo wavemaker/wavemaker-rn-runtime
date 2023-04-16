@@ -57,7 +57,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     forEach(formFields, (w: WmFormField) => {
       if (!w.form) {
         w.form = this;
-        w.formwidget = w.props.name && formWidgets[w.props.name];
+        w.formwidget = (w.props.formKey && formWidgets[w.props.formKey]) 
+          || (w.props.name && formWidgets[w.props.name]);
       }
     });
 

@@ -25,8 +25,9 @@ export default class WmBarcodescanner extends BaseComponent<WmBarcodescannerProp
         props: {
           datavalue: res.text
         }
-      } as WmBarcodescannerState);
-      this.invokeEventCallback('onSuccess', [null, this.proxy]);
+      } as WmBarcodescannerState, () => {
+        this.invokeEventCallback('onSuccess', [null, this.proxy]);
+      });
     })
   }
 

@@ -3,6 +3,7 @@ import React from "react";
 import { GestureResponderEvent, View } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { get } from "lodash";
+import injector from "./injector";
 
 interface TappableProps {
     children?: any
@@ -45,12 +46,17 @@ export class Tappable extends React.Component<TappableProps, any> {
         }
         const syntheticEvent = Tappable.CURRENT_EVENT;
         if (syntheticEvent.propagationEnabled) {
+            injector.FOCUSED_ELEMENT.get()?.blur();
             if(delta < 500) {
                 this.props.onDoubleTap && this.props.onDoubleTap(e);
-                target?.invokeEventCallback('onDoubletap', [syntheticEvent, target]);
+                setTimeout(() => {
+                    target?.invokeEventCallback('onDoubletap', [syntheticEvent, target]);
+                }, 200);
             }
             this.props.onTap && this.props.onTap(e || syntheticEvent);
-            target?.invokeEventCallback('onTap', [syntheticEvent, target]);
+            setTimeout(() => {
+                target?.invokeEventCallback('onTap', [syntheticEvent, target]);
+            }, 200);
         }
     }
 

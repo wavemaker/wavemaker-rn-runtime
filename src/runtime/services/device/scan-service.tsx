@@ -37,8 +37,9 @@ const styles = StyleSheet.create({
   },
   closeWrapper: {
     flex: 1,
-    alignItems: 'flex-end',
-    paddingRight: 10
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: 32
   },
   topWrapper: {
     flex: 2,
@@ -86,21 +87,23 @@ export class ScanService {
             style={StyleSheet.absoluteFillObject}
           >
             <View style={styles.topWrapper}>
-              <View style={styles.closeWrapper}>
-                <TouchableOpacity
-                  onPress={() => {
-                    destroy.call(this.displayManager);
-                  }}>
-                  <Ionicons name='close-circle' size={32} color='white' />
-                </TouchableOpacity>
-              </View>
             </View>
             <View style={styles.centerWrapper}>
               <View style={styles.leftWrapper}/>
               <View style={styles.focused}/>
               <View style={styles.rightWrapper}/>
             </View>
-            <View style={styles.bottomWrapper}/>
+            <View style={styles.bottomWrapper}>
+              
+              <View style={styles.closeWrapper}>
+                  <TouchableOpacity
+                      onPress={() => {
+                        destroy.call(this.displayManager);
+                      }}>
+                      <Ionicons name='close-circle' size={48} color='white' />
+                  </TouchableOpacity>
+              </View>
+            </View>
           </Camera>)
         });
       }, reject)
