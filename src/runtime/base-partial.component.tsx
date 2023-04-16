@@ -32,16 +32,14 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
         this.watcher = props.parentWatcher.create();
     }
 
-    onFragmentReady() {
-      return super.onFragmentReady().then(() => {
-        this.onContentReady();
-        const parent: any = this.props.parent;
-        if (parent) {
-          parent.Widgets = this.Widgets;
-          parent.Variables = this.fragmentVariables;
-        }
-        this.invokeEventCallback('onLoad', [this]);
-      });
+    onContentReady() {
+      super.onContentReady();
+      const parent: any = this.props.parent;
+      if (parent) {
+        parent.Widgets = this.Widgets;
+        parent.Variables = this.fragmentVariables;
+      }
+      this.invokeEventCallback('onLoad', [this]);
     }
 
     get prefabname() {

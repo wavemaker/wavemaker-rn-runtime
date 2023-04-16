@@ -16,7 +16,6 @@ export const ParentContext = React.createContext(null as any);
 
 export class BaseComponentState<T extends BaseProps> {
     public props = {} as T;
-    public hide? = false;
 }
 
 export type BaseStyles = NamedStyles<any> & {
@@ -64,6 +63,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public destroyed = false;
     public _showSkeleton = false;
     public isFixed = false;
+    public allowRender = true;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -198,13 +198,15 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     componentWillAttach() {
         if (this.isFixed) {
-            this.setState({hide: false});
+            this.allowRender = true;
+            this.forceUpdate();
         }
     }
 
     componentWillDetach() {
         if (this.isFixed) {
-            this.setState({hide: true});
+            this.allowRender = false;
+            this.forceUpdate();
         }
     }
 
@@ -241,15 +243,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     public cleanRefresh() {
-        this.setState({
-            hide: true
-        }, () => {
-            setTimeout(() => {
-                this.setState({
-                    hide: false
-                });
-            }, 100);
-        })
+        this.allowRender = false;
+        this.forceUpdate();
+        setTimeout(() => {
+            this.allowRender = true;
+            this.forceUpdate();
+        }, 100);
     }
     
     public renderSkeleton (props: T): ReactNode {
@@ -287,7 +286,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public render(): ReactNode {
         WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
         const props = this.state.props;
-        if (this.state.hide || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)) {
+        if (!this.allowRender || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)) {
             return null;
         }
         this.isFixed = false;

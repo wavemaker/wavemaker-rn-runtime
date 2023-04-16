@@ -78,19 +78,17 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       this.setDrawerContent();
     }
 
-    onFragmentReady() {
-      return super.onFragmentReady().then(() => {
-        this.onContentReady();
-        this.App.onPageReady(this.pageName, this.proxy as BasePage);
-        AppSpinnerService.hide(); 
-        this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
-          if (this.appConfig.currentPage !== this) {
-            this.appConfig.currentPage = this;
-            this.onAttach();
-            this.appConfig.refresh();
-          }
-        }));
-      });
+    onContentReady() {
+      super.onContentReady();
+      this.App.onPageReady(this.pageName, this.proxy as BasePage);
+      AppSpinnerService.hide(); 
+      this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
+        if (this.appConfig.currentPage !== this) {
+          this.appConfig.currentPage = this;
+          this.onAttach();
+          this.appConfig.refresh();
+        }
+      }));
     }
 
     componentWillUnmount() {
