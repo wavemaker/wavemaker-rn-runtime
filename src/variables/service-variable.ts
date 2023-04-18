@@ -1,5 +1,5 @@
 import { VariableConfig, VariableEvents } from './base-variable';
-import { isEqual } from 'lodash';
+import { isEqual, isEmpty } from 'lodash';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { $queue } from './utils/inflight-queue';
 import { ServiceVariable as _ServiceVariable } from '@wavemaker/variables/src/model/variable/service-variable';
@@ -69,7 +69,7 @@ export class ServiceVariable extends _ServiceVariable {
     const last = this.params;
     const latest = this.config.paramProvider();
     if (!isEqual(last, latest)) {
-      this.invoke();
+      this.invoke(latest);
     }
     return Promise.resolve(this);
   }
@@ -86,8 +86,13 @@ export class ServiceVariable extends _ServiceVariable {
   }
 
   invoke(options? : any, onSuccess?: Function, onError?: Function) {
-    this.dataBinding = this.params = this.config.paramProvider();
-    // service definitions data depends on whether user logged in or not
+    this.params = this.config.paramProvider();
+    let params = options ? (options.inputFields ? options.inputFields : options) : undefined;
+    if (!params) {
+      params = !isEmpty(this.dataBinding) ? this.dataBinding : this.config.paramProvider();
+    }
+    this.dataBinding = params;
+      // service definitions data depends on whether user logged in or not
     // Try to get the latest definition
     this.serviceInfo = this.config.getServiceInfo();
     if (!this.serviceInfo) {
@@ -122,8 +127,8 @@ export class ServiceVariable extends _ServiceVariable {
   //   }
   // }
 
-  setInput(key: any, val?: any, options?: any) {
-    // this.params = merge({}, this.config.paramProvider(), _setInput(this.params, key, val, options));
-    //  return this.params;
-  }
+  // setInput(key: any, val?: any, options?: any) {
+  //   this.params = merge({}, this.config.paramProvider(), _setInput(this.params, key, val, options));
+  //    return this.params;
+  // }
 }
