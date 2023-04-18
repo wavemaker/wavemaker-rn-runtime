@@ -65,17 +65,16 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
     onFragmentReady(): Promise<void> {
       this._renderPrefab = () => {
         const component = this.renderPrefab();
-        super.onFragmentReady();
+        super.onFragmentReady()
+        .then(() => {
+          this.onContentReady();
+          this.invokeEventCallback('onLoad', [null, this]);
+        });
         this._renderPrefab = () => this.renderPrefab();
         return component;
       };
       this.refresh();
       return Promise.resolve();
-    }
-
-    onContentReady(): void {
-      super.onContentReady();
-      this.invokeEventCallback('onLoad', [null, this]);
     }
 
     resetAppLocale() {

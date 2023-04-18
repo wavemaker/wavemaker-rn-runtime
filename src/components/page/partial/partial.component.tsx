@@ -1,7 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { WrapView } from '@wavemaker/app-rn-runtime/core/wrap-view.component';
 
 import WmPartialProps from './partial.props';
 import { DEFAULT_CLASS, WmPartialStyles } from './partial.styles';
@@ -16,19 +15,11 @@ export default class WmPartial extends BaseComponent<WmPartialProps, WmPartialSt
     super(props, DEFAULT_CLASS, );
   }
 
-  renderSkeleton(props: WmPartialProps) {
-    return (
-      <View style={this.styles.root}>
-        {props.children}
-      </View>);
-  }
-
   renderWidget(props: WmPartialProps) {
     return (
-    <WrapView onLoad={this.props.onContentReady}>
       <View style={this.styles.root}>
         {props.children}
       </View>
-    </WrapView>);
+    ); 
   }
 }

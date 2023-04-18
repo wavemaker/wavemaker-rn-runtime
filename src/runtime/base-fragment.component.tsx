@@ -323,9 +323,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     render() {
-      if (this.startUpVariablesLoaded) {
-        this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
-      }
+      this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
       return (<ThemeProvider value={this.theme}>
         <ToastConsumer>
             {(toastService: ToastService) => {

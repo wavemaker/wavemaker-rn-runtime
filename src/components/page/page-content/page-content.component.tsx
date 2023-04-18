@@ -2,7 +2,6 @@ import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
-import { WrapView } from '@wavemaker/app-rn-runtime/core/wrap-view.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPageContentProps from './page-content.props';
@@ -19,7 +18,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     this.hideMode = HideMode.DONOT_ADD_TO_DOM;
   }
 
-  public renderSkeleton(props: WmPageContentProps) {
+  renderWidget(props: WmPageContentProps) {
     return props.scrollable || isWebPreviewMode() ? (
       <ScrollView contentContainerStyle={this.styles.root}>
         {props.children}
@@ -28,23 +27,6 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
       <View style={this.styles.root}>
         {props.children}
       </View>
-    );
+    ); 
   }
-
-  renderWidget(props: WmPageContentProps) {
-    return (
-    <WrapView onLoad={this.props.onContentReady}>
-      {
-        props.scrollable || isWebPreviewMode() ? (
-          <ScrollView contentContainerStyle={this.styles.root}>
-            {props.children}
-          </ScrollView>
-        ) : (
-          <View style={this.styles.root}>
-            {props.children}
-          </View>
-        )
-      }
-    </WrapView>);
-  };
 }
