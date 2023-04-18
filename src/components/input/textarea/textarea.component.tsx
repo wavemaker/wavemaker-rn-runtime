@@ -17,13 +17,6 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
     super(props, DEFAULT_CLASS, new WmTextareaProps(), new WmTextareaState());
   }
 
-  public renderSkeleton(props: WmTextareaProps){
-    const styles = {borderRadius:4, marginBottom: 10};
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root,
-    });
-  }
-
   renderWidget(props: WmTextareaProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';

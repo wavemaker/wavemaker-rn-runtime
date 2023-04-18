@@ -79,9 +79,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         }
       break;
       case 'dataset':
-        if(this._showSkeleton) {
-          $new = [{}, {}, {}];
-        }
         if (this.state.props.groupby) {
           this.setGroupData($new);
         } else {

@@ -88,58 +88,6 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
         : null}
     </View>)
   }
-
-  public renderSkeletonChild(item: any, index: any) {
-    const props = this.state.props;
-    const displayText = item.displayexp || item.displayfield;
-    return (
-      <TouchableOpacity style={this.styles.checkboxHead} onPress={this.onPress.bind(this, item)} key={item.key}>
-        <Checkbox.Android status={item.selected  ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
-        {
-          createSkeleton(this.theme, this.styles.skeleton, {
-            ...this.styles.root,
-            width: this.styles.root.width,
-            height: this.styles.root.height
-          })
-        }
-      </TouchableOpacity>)
-  }
-
-  public renderSkeletonGroupby() {
-    const groupedData = this.state.groupedData;
-    return (
-      <View>
-        {groupedData && groupedData.length
-          ? groupedData.map((groupObj: any, index: any) => {
-            return(
-              <View key={groupObj.key}>
-                <Text style={this.styles.groupHeaderTitle}>{groupObj.key}</Text>
-                {this.renderSkeletonCheckboxses(groupObj.data)}
-              </View>)
-          })
-          : null}
-      </View>
-    );
-  }
-
-  public renderSkeletonCheckboxses(items: any) {
-    const props = this.state.props;
-    return(<View>
-      {items && items.length
-        ? items.map((item: any, index: any) => this.renderChild(item, index))
-        : null}
-    </View>)
-  }
-
-  public renderSkeleton(props: WmCheckboxsetProps) {
-    const items = this.state.dataItems;
-    return (
-      <View style={this.styles.root}>
-        {this.props.groupby && this.renderSkeletonGroupby()}
-        {!this.props.groupby && this.renderSkeletonCheckboxses(items)}
-      </View>
-    );
-  }
   renderWidget(props: WmCheckboxsetProps) {
     const items = this.state.dataItems;
     return (

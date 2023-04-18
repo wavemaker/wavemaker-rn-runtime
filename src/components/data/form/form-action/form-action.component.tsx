@@ -23,12 +23,6 @@ export default class WmFormAction extends BaseComponent<WmFormActionProps, WmFor
     cb && cb($event);
   }
 
-  public renderSkeleton(props: WmFormActionProps){
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root
-    });
-  }
-
   renderWidget(props: WmFormActionProps) {
     return (
       <WmButton

@@ -20,14 +20,6 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
     super(props, DEFAULT_CLASS, new WmNumberProps(), new WmNumberState());
   }
 
-  public renderSkeleton(props: WmNumberProps) {
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root,
-      width: this.styles.root.width,
-      height: this.styles.root?.height || this.styles.text?.fontSize || this.styles.placeholderText?.fontSize
-    });
-  }
-
   renderWidget(props: WmNumberProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';

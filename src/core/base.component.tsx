@@ -5,6 +5,7 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, attachBackground, ThemeEvent } from '../styles/theme';
+import EventNotifier from './event-notifier';
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 import { HideMode } from './if.component';
@@ -64,6 +65,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public destroyed = false;
     public _showSkeleton = false;
     public isFixed = false;
+    private notifier = new EventNotifier();
+    private parentListenerDestroyers = [] as Function[];
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -109,6 +112,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.cleanup.push(this.theme.subscribe(ThemeEvent.CHANGE, () => {
             this.forceUpdate();
         }));
+        this.cleanup.push(() => {
+            this.destroyParentListeners();
+        });
+    }
+
+    public subscribe(event: string, fn: Function) {
+        return this.notifier.subscribe(event, fn);
     }
 
     setProp(propName: string, value: any) {
@@ -214,6 +224,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.props.listener.onComponentDestroy(this.proxy);
         }
         this.cleanup.forEach(f => f && f());
+        this.notifier.notify('destroy', []);
     }
 
     invokeEventCallback(eventName: string, args: any[]) {
@@ -241,22 +252,31 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     public cleanRefresh() {
-        this.setState({
-            hide: true
-        }, () => {
-            setTimeout(() => {
-                this.setState({
-                    hide: false
-                });
-            }, 100);
-        })
+        this.forceUpdate();
+        this.notifier.notify('forceUpdate', []);
     }
     
     public renderSkeleton (props: T): ReactNode {
         return null;
     }
 
+    public destroyParentListeners() {
+        this.parentListenerDestroyers.map(fn => fn());
+    }
 
+    private setParent(parent: BaseComponent<any, any, any>) {
+        if (parent && this.parent !== parent)  {
+            this.parent = parent;
+            this.parentListenerDestroyers = [
+                this.parent.subscribe('forceUpdate', () => {
+                    this.cleanRefresh();
+                }),
+                this.parent.subscribe('destroy', () => {
+                    this.destroyParentListeners();
+                })
+            ];
+        }
+    }
 
     copyStyles(property: string, from: any, to: any) {
         if (!isUndefined(from[property])) {
@@ -293,7 +313,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.isFixed = false;
         return (<ParentContext.Consumer>
                 {(parent) => {
-                    this.parent = parent;
+                    this.setParent(parent);
                     this._showSkeleton = this.parent?._showSkeleton || !!this.state.props.showskeleton;
                     return (
                         <ParentContext.Provider value={this}>

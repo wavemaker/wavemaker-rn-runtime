@@ -16,14 +16,6 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
     super(props, DEFAULT_CLASS, new WmTextProps(), new WmTextState());
   }
 
-  public renderSkeleton(props: WmTextProps){
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root,
-      width: this.styles.root.width,
-      height: this.styles.root?.height || this.styles.text?.fontSize || this.styles.placeholderText?.fontSize
-    });
-  }
-
   renderWidget(props: WmTextProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';

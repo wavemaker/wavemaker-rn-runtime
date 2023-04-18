@@ -107,12 +107,8 @@ const STYLE_PROP_TYPE_INFO = {
         isValid: isIn('solid', 'dotted', 'dashed'),
         ref: 'https://reactnative.dev/docs/view-style-props#borderstyle'
     },
-    borderTopColor: {
-        isValid: isNumber,
-        ref: 'https://reactnative.dev/docs/view-style-props#bordertopcolor'
-    },
     borderTopEndRadius: {
-        isValid: isNumber,
+        isValid: isColor,
         ref: 'https://reactnative.dev/docs/view-style-props#bordertopendradius'
     },
     borderTopLeftRadius: {
