@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, PanResponder, View } from 'react-native';
+import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, PanResponder, ScrollView, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTabsProps from './tabs.props';
@@ -19,19 +19,20 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   private tabPosition = new Animated.Value(0);
   private tabPaneHeights: number[] = [];
   private panResponder = PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: () => {
-        this.tabPosition.extractOffset();
-      },
-      onPanResponderMove: Animated.event([
-        null,
-        { dx: this.tabPosition }
-      ]),
-    onPanResponderRelease: () => {
-        const dx = (this.tabPosition as any)._value;
+    onStartShouldSetPanResponder: (evt, gestureState) => true,
+    onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+    onMoveShouldSetPanResponder: () => true,
+    onPanResponderGrant: () => {
+      this.tabPosition.extractOffset();
+    },
+    onPanResponderMove: Animated.event([
+      null,
+      { dx: this.tabPosition }
+    ]),
+    onPanResponderRelease: (e, {dx}) => {
         this.tabPosition.flattenOffset();
         let toIndex = this.state.selectedTabIndex;
-        if (Math.abs(dx) > 50) {
+        if (Math.abs(dx) > 30) {
           if (dx < 0) {
             if (toIndex < this.tabPanes.length - 1) {
               this.onChange(toIndex + 1);
@@ -94,8 +95,12 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   }
 
   addTabPane(tabPane: WmTabpane) {
-    this.tabPanes[this.newIndex || this.state.selectedTabIndex] = tabPane;
-    this.newIndex++;
+    const i = this.tabPanes.findIndex(t => t.props.name === tabPane.props.name);
+    if (i >= 0) {
+      this.tabPanes[i] = tabPane;
+    } else {
+      this.tabPanes[this.newIndex++] = tabPane;
+    }
   }
 
   selectTabPane(tabPane: WmTabpane) {
@@ -193,19 +198,19 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           selectedTabIndex={this.state.selectedTabIndex}
           onIndexChange={this.onChange.bind(this)}
         ></WmTabheader>
-        <View 
-          //{...this.panResponder.panHandlers}
+        <ScrollView 
+          scrollEnabled={false}
           style={{
             width: '100%',
-            height: this.tabPaneHeights[this.state.selectedTabIndex],
-            overflow: 'hidden'
+            maxHeight: this.tabPaneHeights[this.state.selectedTabIndex]
           }} >
           <Animated.View style={{
             flexDirection: 'row',
             flexWrap: 'nowrap',
             transform: [{
               translateX: this.tabPosition
-            }]}}>
+            }]}}
+            {...this.panResponder.panHandlers}>
             {tabPanes.map((p: any, i) => {
               return (
               <View
@@ -217,7 +222,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
               </View>);
             })}
           </Animated.View>
-        </View>
+        </ScrollView>
       </View>
     );
   }
