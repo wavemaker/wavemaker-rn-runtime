@@ -194,7 +194,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           onIndexChange={this.onChange.bind(this)}
         ></WmTabheader>
         <View 
-          {...this.panResponder.panHandlers}
+          //{...this.panResponder.panHandlers}
           style={{
             width: '100%',
             height: this.tabPaneHeights[this.state.selectedTabIndex],
