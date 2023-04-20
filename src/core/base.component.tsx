@@ -252,8 +252,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     public cleanRefresh() {
-        this.forceUpdate();
-        this.notifier.notify('forceUpdate', []);
+        this.forceUpdate(() => this.notifier.notify('forceUpdate', []));
     }
     
     public renderSkeleton (props: T): ReactNode {
