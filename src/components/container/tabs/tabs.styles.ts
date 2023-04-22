@@ -10,7 +10,7 @@ export const DEFAULT_CLASS = 'app-tabs';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmTabsStyles = defineStyles({
       root: {
-        minHeight: 120,
+        minHeight: 240,
         elevation: 0,
         borderBottomWidth: 1,
         borderStyle: 'solid',

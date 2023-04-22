@@ -91,9 +91,9 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
       onLayout={this.setHeaderPanelPositon.bind(this)}>
         <View style={this.styles.root}>
           {this.props.data.map((header ,i) => {
-            const isSelected = i === this.props.selectedTabIndex ;
+            const isSelected = i === this.props.selectedTabIndex;
             return (
-              <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key}>
+              <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key} styles={{flex: 1}}>
                 <View onLayout={this.setHeaderPositon.bind(this, i)} style={[
                   this.styles.header, 
                   isSelected ? this.styles.activeHeader : null]}>
@@ -134,9 +134,11 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
           {props.data.map((header ,i) => {
             const isSelected = i === props.selectedTabIndex ;
             return (
-              <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key}>
+              <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key} 
+                styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
                 <View onLayout={this.setHeaderPositon.bind(this, i)} style={[
-                  this.styles.header, 
+                  this.styles.header,
+                  {flexGrow: undefined},
                   isSelected ? this.styles.activeHeader : null]}>
                   <Text numberOfLines={1} style={[
                     this.styles.headerText, 

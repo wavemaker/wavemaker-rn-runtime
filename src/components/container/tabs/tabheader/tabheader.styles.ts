@@ -31,7 +31,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             paddingVertical: 12,
             minWidth: 80,
             flexDirection: 'row',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            flexGrow: 1
         },
         headerIcon: {
             text: {

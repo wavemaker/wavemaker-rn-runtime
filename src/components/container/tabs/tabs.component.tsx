@@ -1,6 +1,8 @@
 import React from 'react';
-import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, PanResponder, ScrollView, View } from 'react-native';
+import { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import * as SwipeAnimation from '@wavemaker/app-rn-runtime/gestures/swipe.animation';
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmTabsProps from './tabs.props';
 import { DEFAULT_CLASS, WmTabsStyles } from './tabs.styles';
@@ -16,37 +18,26 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   public tabPanes = [] as WmTabpane[];
   private newIndex = 0;
   private tabLayout: LayoutRectangle = null as any;
-  private tabPosition = new Animated.Value(0);
   private tabPaneHeights: number[] = [];
-  private panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: (evt, gestureState) => true,
-    onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-    onMoveShouldSetPanResponder: () => true,
-    onPanResponderGrant: () => {
-      this.tabPosition.extractOffset();
+  private animationView: SwipeAnimation.View | null = null as any;
+  private animationHandlers = {
+    bounds: (e) => {
+      const activeTabIndex = this.state.selectedTabIndex,
+            w = this.tabLayout?.width || 0,
+            noOfTabs = this.tabPanes.length;
+      return {
+        lower: -1 * (activeTabIndex - (activeTabIndex === 0 ? 0 : 1)) * w,
+        center: -1 * activeTabIndex * w,
+        upper:  -1 * (activeTabIndex + (activeTabIndex === noOfTabs - 1 ? 0 : 1)) * w
+      };
     },
-    onPanResponderMove: Animated.event([
-      null,
-      { dx: this.tabPosition }
-    ]),
-    onPanResponderRelease: (e, {dx}) => {
-        this.tabPosition.flattenOffset();
-        let toIndex = this.state.selectedTabIndex;
-        if (Math.abs(dx) > 30) {
-          if (dx < 0) {
-            if (toIndex < this.tabPanes.length - 1) {
-              this.onChange(toIndex + 1);
-              return;
-            }
-          } else if (toIndex > 0) {
-            this.onChange(toIndex - 1);
-            return;
-          }
-        }
-        this.onChange(toIndex);
-        this.forceUpdate();
-      }
-    });
+    onLower: (e) => {
+      this.onChange(this.state.selectedTabIndex - 1);
+    },
+    onUpper: (e) => {
+      this.onChange(this.state.selectedTabIndex + 1);
+    }
+  } as SwipeAnimation.Handlers;
 
   constructor(props: WmTabsProps) {
     super(props, DEFAULT_CLASS, new WmTabsProps(), new WmTabsState());
@@ -69,15 +60,6 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     if (index === this.state.selectedTabIndex) {
       this.forceUpdate();
     }
-  }
-
-  animate(toIndex = this.state.selectedTabIndex) {
-    return Animated.timing(this.tabPosition, {
-      useNativeDriver: true,
-      toValue:  -1 * toIndex * (this.tabLayout?.width || 0),
-      duration: 200,
-      easing: Easing.out(Easing.linear)
-    }).start();
   }
 
   setTabShown(tabIndex: number, callback: () => any) {
@@ -104,19 +86,21 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   }
 
   selectTabPane(tabPane: WmTabpane) {
-    this.onChange(this.tabPanes.indexOf(tabPane));
+    this.goToTab(this.tabPanes.indexOf(tabPane));
   }
 
   goToTab(index: number) {
-    this.onChange(index);
+    const position = -1 * index * (this.tabLayout?.width || 0);
+    this.animationView?.setPosition(position)
+      .then(() => this.onChange(index));
   }
 
   prev() {
-    this.onChange(this.state.selectedTabIndex - 1);
+    this.animationView?.goToLower();
   }
 
   next() {
-    this.onChange(this.state.selectedTabIndex + 1);
+    this.animationView?.goToLower();
   }
 
   onChange(newIndex: number) {
@@ -127,7 +111,6 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     const deselectedTab = this.tabPanes[this.state.selectedTabIndex];
     this.newIndex = newIndex;
     deselectedTab?._onDeselect();
-    this.animate(newIndex);
     this.updateState({
       selectedTabIndex: newIndex
     } as WmTabsState, () => {
@@ -152,7 +135,6 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         data={headerData}
         showskeleton={this.props.showskeleton}
         selectedTabIndex={this.state.selectedTabIndex}
-        onIndexChange={this.onChange.bind(this)}
       ></WmTabheader>
       <View 
         //{...this.panResponder.panHandlers}
@@ -161,12 +143,10 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           //height: this.tabPaneHeights[this.state.selectedTabIndex],
           overflow: 'hidden'
         }} >
-        <Animated.View style={{
+        <View style={{
           flexDirection: 'row',
-          flexWrap: 'nowrap',
-          transform: [{
-            translateX: this.tabPosition
-          }]}}>
+          flexWrap: 'nowrap'
+        }}>
           {tabPanes.map((p: any, i) => {
             return (
             <View
@@ -177,7 +157,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
               {p}
             </View>);
           })}
-        </Animated.View>
+        </View>
       </View>
     </View>
 
@@ -196,33 +176,46 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           styles={this.styles.tabHeader}
           data={headerData}
           selectedTabIndex={this.state.selectedTabIndex}
-          onIndexChange={this.onChange.bind(this)}
+          onIndexChange={this.goToTab.bind(this)}
         ></WmTabheader>
-        <ScrollView 
-          scrollEnabled={false}
-          style={{
+        <View
+          style={[{
             width: '100%',
-            maxHeight: this.tabPaneHeights[this.state.selectedTabIndex]
-          }} >
-          <Animated.View style={{
-            flexDirection: 'row',
-            flexWrap: 'nowrap',
-            transform: [{
-              translateX: this.tabPosition
-            }]}}
-            {...this.panResponder.panHandlers}>
+            flex: 1
+          }, this.styles.root.height ? 
+          (isWebPreviewMode() ? {'overflow-x': 'hidden','overflow-y': 'auto'} as any : {overflow: 'scroll'}) 
+          : {
+            overflow: 'hidden',
+            maxHeight: this.tabPaneHeights[this.state.selectedTabIndex],
+          }]} >
+          <SwipeAnimation.View 
+            enableGestures={props.enablegestures}
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'nowrap'
+            }}
+            direction='horizontal'
+            ref={(r) => {this.animationView = r}}
+            handlers = {this.animationHandlers}
+          >
             {tabPanes.map((p: any, i) => {
               return (
-              <View
-                key={`tab-${p.props.title}-${i}`}
-                style={{width: '100%', alignSelf: 'flex-start'}}
-                onLayout={this.setTabPaneHeights.bind(this, i)}>
-                {/* {this.state.tabsShown[i] ? p : null} */}
-                {p}
+              <View 
+                style={{
+                  width: '100%',
+                  height: this.styles.root.height  ? undefined : 1000000,
+                  alignSelf: 'flex-start'}}>
+                <View
+                  key={`tab-${p.props.title}-${i}`}
+                  style={{width: '100%', alignSelf: 'flex-start'}}
+                  onLayout={this.setTabPaneHeights.bind(this, i)}>
+                  {/* {this.state.tabsShown[i] ? p : null} */}
+                  {p}
+                </View>
               </View>);
             })}
-          </Animated.View>
-        </ScrollView>
+          </SwipeAnimation.View>
+        </View>
       </View>
     );
   }
