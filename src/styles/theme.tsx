@@ -6,7 +6,7 @@ import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 import MediaQueryList from './MediaQueryList';
 import ThemeVariables from './theme.variables';
-import { getStyleReference, isValidStyleProp } from './style-prop.validator';
+import { getErrorMessage, getStyleReference, isValidStyleProp } from './style-prop.validator';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
 
 declare const matchMedia: any, window: any;
@@ -89,7 +89,7 @@ export class Theme {
             Object.keys(value).map((k) => this.checkStyleProperties(k, (value as any)[k]));
         } else if(!isValidStyleProp(name, value)) {
             console.log(
-                `%cInvalid Style property: '${value}' is not a valid value to '${name}' in ${this.name}.`,
+                `%cInvalid Style property in ${this.name}: ${getErrorMessage(name, value)}`,
                 'background-color: #FF0000;font-weight: bold; color: #fff'
             );
             console.log(`Refer: ${getStyleReference(name)}`);
@@ -97,9 +97,6 @@ export class Theme {
     }
 
     private addStyle<T extends NamedStyles<any>>(name: string, extend: string, style: T) {
-        if (this !== Theme.BASE && isWebPreviewMode()) {
-            this.checkStyleProperties(name, style);
-        }
         this.styles[name] = deepCopy(this.getStyle(extend), this.styles[name], style);
     }
 
@@ -175,6 +172,9 @@ export class Theme {
             let clonedStyle = {};
             if (!mediaQuery || matchMedia(mediaQuery).matches) {
                 clonedStyle = cloneDeep(this.styles[name]);
+            }
+            if (this !== Theme.BASE && isWebPreviewMode()) {
+                this.checkStyleProperties('', clonedStyle);
             }
             style = deepCopy(parentStyle, clonedStyle);
             this.addTrace(`@${this.name}:${name}`, style, clonedStyle, parentStyle);

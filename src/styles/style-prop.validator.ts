@@ -1,4 +1,5 @@
 import {isNumber, isNil, isString } from 'lodash-es';
+import * as Font from 'expo-font';
 
 const isColor = (c: string) => true;
 const isStringOrNumber = (v: any) => isNumber(v) || isString(v);
@@ -184,7 +185,8 @@ const STYLE_PROP_TYPE_INFO = {
         ref: 'https://reactnative.dev/docs/layout-props#flexwrap'
     },
     fontFamily: {
-        isValid: isString,
+        isValid: (v: string) => Font.isLoaded(v),
+        errorMsg: (v: string) => `Font '${v}' is not loaded. Font family names are case-sensitive. Please add font either in theme or app.`,
         ref: 'https://reactnative.dev/docs/text-style-props#fontfamily'
     },
     fontSize: {
@@ -429,4 +431,12 @@ export const getStyleReference = (name: string) => {
 export const isValidStyleProp = (name: string, value: any) => {
     const info = (STYLE_PROP_TYPE_INFO as any)[name];
     return !info || info.isValid(value);
+};
+
+export const getErrorMessage = (name: string, value: any) => {
+    const info = (STYLE_PROP_TYPE_INFO as any)[name];
+    if (info && info.errorMsg) {
+        return info.errorMsg(value);
+    }
+    return `'${value}' is not a valid value to '${name}'.`;
 };
