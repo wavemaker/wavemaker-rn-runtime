@@ -4,12 +4,13 @@ import { TextStyle, ViewStyle } from 'react-native';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
-import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, attachBackground, ThemeEvent } from '../styles/theme';
+import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, ThemeEvent } from '../styles/theme';
 import EventNotifier from './event-notifier';
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 import { HideMode } from './if.component';
 import { FixedView } from './fixed-view.component';
+import { BackgroundComponent } from '../styles/background.component';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -302,6 +303,30 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.styles = this.theme.mergeStyle(this.styles, {root: rootStyle});
         return (<FixedView style={style} theme={this.theme}>{this.renderWidget(props)}</FixedView>);
     }
+
+    public getBackgroundStyle() {
+        delete (this.styles.root as any)['backgroundSize'];
+        delete (this.styles.root as any)['backgroundImage'];
+        delete (this.styles.root as any)['backgroundPosition'];
+        const bgStyle = {
+            ...this.styles.root,
+            padding: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
+        };
+        delete (this.styles.root as any)['backgroundColor'];
+        this.styles.root = {
+            ...this.styles.root,
+            margin: 0,
+            marginLeft: 0,
+            marginRight: 0,
+            marginTop: 0,
+            marginBottom: 0
+        }
+        return bgStyle;
+    }
       
     public render(): ReactNode {
         WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
@@ -343,7 +368,15 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 } else {
                                     widgetElement = this.renderWidget(this.state.props);
                                 }
-                                return attachBackground(widgetElement, this.styles.root);
+                                return (
+                                    <BackgroundComponent 
+                                        image={(this.styles.root as any).backgroundImage}
+                                        position={(this.styles.root as any).backgroundPosition}
+                                        size={(this.styles.root as any).backgroundSize}
+                                        style={this.getBackgroundStyle()}>
+                                        {widgetElement}
+                                    </BackgroundComponent>
+                                );
                             }}
                         </ThemeConsumer>
                     </ParentContext.Provider>);

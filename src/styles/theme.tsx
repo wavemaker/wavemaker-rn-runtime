@@ -221,38 +221,7 @@ export type BackgroundImageStyle = {
     backgroundRepeat: string,
     backgroundSize: string | number
 };
-export const attachBackground = (c: ReactNode, style: ViewStyle) => {
-    const background = (style as any)._background;
-    if (background) {
-        const backgroundStyle = {
-          width: style.width || '100%',
-          height: style.height || '100%'
-        } as any;
-        Object.keys(background).forEach(k => {
-            if (k !== 'imageStyle') {
-                backgroundStyle[k] = background[k];
-            }
-        });
-        const imgSrc = background.uri;
-        let source;
-        if (isString(imgSrc) && (imgSrc.startsWith('http') || imgSrc.startsWith('file:'))) {
-          source = {
-            uri: imgSrc
-          };
-        } else {
-          source = imgSrc;
-        }
-        return (
-            <ImageBackground
-                source={source}
-                resizeMode={background.resizeMode || 'repeat'}
-                imageStyle={background.imageStyle}
-                style={backgroundStyle}>
-                    {c}
-            </ImageBackground>);
-    }
-    return c;
-};
+
 export type AllStyle = (ViewStyle & TextStyle & ImageStyle);
 
 const ThemeContext = React.createContext<Theme>(null as any);
