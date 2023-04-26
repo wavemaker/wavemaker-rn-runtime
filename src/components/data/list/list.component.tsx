@@ -201,6 +201,18 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     </View>);
   }
 
+  private getSectionListData() {
+    if (this._showSkeleton) {
+      return [{
+        key: '',
+        data: [{}, {}, {}]
+      }];
+    } else if (this.state.groupedData[0] && this.state.groupedData[0]['data'].length) {
+      return this.state.groupedData;
+    }
+    return [];
+  }
+
   private renderWithSectionList(props: WmListProps, isHorizontal = false) {
     return (
       <SectionList
@@ -212,7 +224,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         }}
         contentContainerStyle={this.styles.root}
         onEndReachedThreshold={0.3}
-        sections={this.state.groupedData[0]['data'].length ? this.state.groupedData : [] || []}
+        sections={this.getSectionListData()}
         renderSectionHeader={({ section: {key, data}}) => {
           return this.renderHeader(props, key);
         }}
