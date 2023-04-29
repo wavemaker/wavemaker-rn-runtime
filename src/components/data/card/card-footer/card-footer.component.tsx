@@ -14,6 +14,6 @@ export default class WmCardFooter extends BaseComponent<WmCardFooterProps, WmCar
   }
 
   renderWidget(props: WmCardFooterProps) {
-    return (<View style={this.styles.root}>{props.children}</View>); 
+    return (<View style={this.styles.root}>{this._background}{props.children}</View>); 
   }
 }

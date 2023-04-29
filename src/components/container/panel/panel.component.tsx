@@ -96,6 +96,7 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
 
   renderWidget(props: WmPanelProps) {
     return (<View style={this.styles.root}>
+                  {this._background}
                   <List.AccordionGroup expandedId={this.state.expandedId} onAccordionPress={this.onPanelPress.bind(this)}>
                       <Animatedview entryanimation={props.animation}>
                         {this.renderPanel(props)}

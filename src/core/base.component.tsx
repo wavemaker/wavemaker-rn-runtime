@@ -70,7 +70,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public isFixed = false;
     private notifier = new EventNotifier();
     private parentListenerDestroyers = [] as Function[];
-    public background = <></>;
+    public _background = <></>;
     private styleOverrides = {} as any;
     public loadAsset: (path: string) => number | string = null as any;
 
@@ -359,7 +359,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                     return eleToRender;
                                 }
                                 const bgStyle = this.styles.root as any;
-                                this.background = (
+                                this._background = (
                                     <BackgroundComponent 
                                         image={bgStyle.backgroundImage}
                                         position={bgStyle.backgroundPosition}

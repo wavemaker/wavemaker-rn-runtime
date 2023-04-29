@@ -21,6 +21,7 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
     const styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
     return (
     <View style={styles.root}>
+      {this._background}
       <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}}>
         <ProgressBar
           progress={value}

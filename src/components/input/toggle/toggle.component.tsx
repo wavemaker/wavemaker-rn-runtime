@@ -62,6 +62,7 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
   renderWidget(props: WmToggleProps) {
     return (
       <View style={this.styles.root}>
+        {this._background}
         <Switch value={this.state.isSwitchOn}
             color={this.styles.text.color as string}
             disabled={props.readonly || props.disabled}

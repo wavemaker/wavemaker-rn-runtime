@@ -44,6 +44,7 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
     const showText = props.captionplacement !== 'hidden';
     return (
     <View style={styles.root} onLayout={this.onLayout.bind(this)}>
+      {this._background}
       <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}}>
         <AnimatedCircularProgress
           fill={value}

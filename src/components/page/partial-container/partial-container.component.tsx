@@ -28,6 +28,7 @@ export default class WmPartialContainer extends BaseComponent<WmPartialContainer
     delete params['partial_name'];
     return (
       <View style={this.styles.root}>
+        {this._background}
         <PartialConsumer>
           {(partialService: PartialService) => {
             const partial = partialService.get(props.content);

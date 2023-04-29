@@ -41,6 +41,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
   renderWidget(props: WmButtonProps) {
     return (
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
+        {this._background}
         <Tappable target={this}>
           <View style={[this.styles.content, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
             {props.iconposition === 'top' && this.prepareIcon(props)}

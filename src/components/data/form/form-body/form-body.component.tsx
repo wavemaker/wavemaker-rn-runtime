@@ -14,6 +14,6 @@ export default class WmFormBody extends BaseComponent<WmFormBodyProps, WmFormBod
   }
 
   renderWidget(props: WmFormBodyProps) {
-    return (<View style={this.styles.root}>{props.children}</View>); 
+    return (<View style={this.styles.root}>{this._background}{props.children}</View>); 
   }
 }

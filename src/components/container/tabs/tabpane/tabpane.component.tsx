@@ -52,6 +52,6 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
   }
 
   renderWidget(props: WmTabpaneProps) {
-    return (<View style={this.styles.root}>{this.renderContent(props)}</View>);
+    return (<View style={this.styles.root}>{this._background}{this.renderContent(props)}</View>);
   }
 }

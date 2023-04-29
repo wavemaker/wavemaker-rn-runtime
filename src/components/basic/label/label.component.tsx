@@ -61,6 +61,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   renderWidget(props: WmLabelProps) {
     return !isNil(props.caption)? (
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
+        {this._background}
         <Tappable target={this}>
             <Text
               style={[this.styles.text, 

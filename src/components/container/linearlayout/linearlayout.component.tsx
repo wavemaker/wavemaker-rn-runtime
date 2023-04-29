@@ -39,7 +39,7 @@ export default class WmLinearlayout extends BaseComponent<WmLinearlayoutProps, W
 
   renderWidget(props: WmLinearlayoutProps) {
     return (<View style={{...this.getStyles(props), ...this.styles.root}}>
-      {props.children}
+      {this._background}{props.children}
       </View>); 
   }
 }

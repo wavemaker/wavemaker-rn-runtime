@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { LinearGradient as ExpoLinearGradient, LinearGradientPoint } from 'expo-linear-gradient';
 import { Image, StyleSheet, View, ViewStyle } from 'react-native';
-import { isEmpty, isNumber, isString } from 'lodash-es';
+import { isEmpty, isNil, isNumber, isString } from 'lodash-es';
 import imageSizeEstimator from '@wavemaker/app-rn-runtime/core/imageSizeEstimator';
 import { AssetConsumer } from '@wavemaker/app-rn-runtime/core/asset.provider';
 
@@ -154,7 +154,7 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
               naturalImageWidth: width,
               naturalImageHeight: height
             } as BackgroundState);
-          } else if (imageSrc !== null) {
+          } else if (!isNil(imageSrc)) {
             imageSizeEstimator.getSize(imageSrc.uri, (width: number, height: number) => {
               this.setState({
                 naturalImageWidth: width,
@@ -228,26 +228,34 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
 
     componentDidUpdate(prevProps: Readonly<BackgroundProps>, prevState: Readonly<{}>, snapshot?: any): void {
         if (prevProps.image !== this.props.image) {
-            let source = this.props.image?.trim() as any;
-            if (source?.startsWith('url')) {
-                source = this.props.image?.matchAll(IMAGE_URL_REGEX).next().value[1];
-            }
-            if (this.loadAsset) {
-                source = this.loadAsset(source);
-            }
-            if (isString(source) && (
-                source.startsWith('data:') ||
-                source.startsWith('http') || 
-                source.startsWith('file:'))) {
-                source = {
-                    uri: source
-                };
-            }
-            this.caluculateSize(source);
-            this.setState({
-                imageSrc: source
-            } as BackgroundState);
+            this.setImage();
         }
+    }
+
+    componentDidMount(): void {
+        setTimeout(() => this.setImage(), 100);
+    }
+
+    setImage() {
+        let source = this.props.image?.trim() as any;
+        if (source?.startsWith('url')) {
+            source = this.props.image?.matchAll(IMAGE_URL_REGEX).next().value[1];
+        }
+        if (this.loadAsset) {
+            source = this.loadAsset(source);
+        }
+        if (isString(source) && (
+            source.startsWith('data:') ||
+            source.startsWith('http') || 
+            source.startsWith('file:'))) {
+            source = {
+                uri: source
+            };
+        }
+        this.caluculateSize(source);
+        this.setState({
+            imageSrc: source
+        } as BackgroundState);
     }
 
     public getGradient() {

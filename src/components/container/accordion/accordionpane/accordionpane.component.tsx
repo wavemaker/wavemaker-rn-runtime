@@ -48,6 +48,6 @@ export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps,
     return props.children;
   }
   renderWidget(props: WmAccordionpaneProps) {
-    return (<View style={this.styles.root}>{this.renderContent(props)}</View>);
+    return (<View style={this.styles.root}>{this._background}{this.renderContent(props)}</View>);
   }
 }

@@ -51,6 +51,6 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
   }
 
   renderWidget(props: WmWizardstepProps) {
-    return (<View style={this.styles.root}>{props.children}</View>);
+    return (<View style={this.styles.root}>{this._background}{props.children}</View>);
   }
 }

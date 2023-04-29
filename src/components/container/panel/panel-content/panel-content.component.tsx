@@ -14,6 +14,6 @@ export default class WmPanelContent extends BaseComponent<WmPanelContentProps, W
   }
 
   renderWidget(props: WmPanelContentProps) {
-    return (<View style={this.styles.root}>{props.children}</View>); 
+    return (<View style={this.styles.root}>{this._background}{props.children}</View>); 
   }
 }

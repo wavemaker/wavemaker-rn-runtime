@@ -116,6 +116,7 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
   protected renderWidget(props: WmWebviewProps) {
     return (
       <View style={this.styles.root}>
+        {this._background}
         {Platform.OS === 'web' ?
           (<iframe src={props.src} width={'100%'} height={'100%'}
             onLoad={(e) => this.onLoad(e, this.getTitle(e.currentTarget), (e.currentTarget as any).src)}></iframe>) :

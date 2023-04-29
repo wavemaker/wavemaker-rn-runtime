@@ -120,6 +120,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
     }
     return (
     <View style={this.styles.root}>
+      {this._background}
       {arr.map((v, i) => (
         (this.state.selectedIndex > -1 && i <= this.state.selectedIndex) ? <WmIcon
           key={i}

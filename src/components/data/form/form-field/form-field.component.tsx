@@ -189,7 +189,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           formRef: props.formRef });
     });
     return (
-      <View style={this.styles.root}>{childrenWithProps}
+      <View style={this.styles.root}>{this._background}{childrenWithProps}
         {this.state.isValid === false && <Text style={this.styles.errorMsg}>{props.validationmessage}</Text>}
       </View>
     );

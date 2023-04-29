@@ -160,6 +160,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         width: imageWidth,
         height: imageHeight
       }, this.styles.root, shapeStyles.root, shapeStyles.picture]}>
+        {this._background}
       <View style={[{overflow: 'hidden', width: '100%',
         height: '100%'}]} onLayout={this.onViewLayoutChange}>
         <Tappable target={this} styles={{width: imageWidth ? null : '100%', height: imageHeight ? null : '100%'}}>

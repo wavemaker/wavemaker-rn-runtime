@@ -171,6 +171,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
       ({title: p.props.title || 'Tab Title', icon: '', key:  `tab-${p.props.title}-${i}`}));
     return (
       <View style={this.styles.root}>
+        {this._background}
         <View onLayout={this.setTabLayout.bind(this)} style={{width: '100%'}}></View>
         <WmTabheader
           styles={this.styles.tabHeader}

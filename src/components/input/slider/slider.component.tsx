@@ -58,6 +58,7 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
   renderWidget(props: WmSliderProps) {
     return (
     <View style={this.styles.root}>
+      {this._background}
       <View style={{flexDirection:'row', justifyContent:'space-between'}}>
         <Text style={[this.styles.text, this.styles.minimumValue]}>{props.minvalue}</Text>
         <Text style={[this.styles.text, this.styles.value]}>{props.datavalue}</Text>

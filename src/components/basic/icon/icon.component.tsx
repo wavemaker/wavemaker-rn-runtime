@@ -187,6 +187,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     return (
       <Tappable target={this}>
         <Animatedview entryanimation={props.animation} style={this.styles.root}>
+          {this._background}
           {(props.iconposition === 'left' && icon) || null}
           {(props.caption && (<Text style={this.styles.text}>{props.caption}</Text>)) || null}
           {(props.iconposition === 'right' && icon) || null}

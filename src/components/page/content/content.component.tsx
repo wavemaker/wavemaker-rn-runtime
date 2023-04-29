@@ -18,6 +18,7 @@ export default class WmContent extends BaseComponent<WmContentProps, WmContentSt
   renderWidget(props: WmContentProps) {
     return (
       <View style={this.styles.root}>
+        {this._background}
         {props.children}
       </View>
     ); 

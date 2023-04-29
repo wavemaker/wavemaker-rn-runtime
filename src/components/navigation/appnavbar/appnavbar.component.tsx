@@ -27,6 +27,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   renderWidget(props: WmAppNavbarProps) {
     return (
       <View style={this.styles.root}>
+        {this._background}
         <View style={this.styles.leftSection}>
         {props.showDrawerButton && (<WmIcon
           styles={this.theme.mergeStyle({}, this.styles.action, this.styles.leftnavIcon)}

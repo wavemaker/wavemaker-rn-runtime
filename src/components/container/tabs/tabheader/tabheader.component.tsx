@@ -131,6 +131,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
       }}
       onLayout={this.setHeaderPanelPositon.bind(this)}>
         <View style={this.styles.root}>
+          {this._background}
           {props.data.map((header ,i) => {
             const isSelected = i === props.selectedTabIndex ;
             return (

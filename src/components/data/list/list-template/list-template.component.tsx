@@ -17,7 +17,7 @@ export default class WmListTemplate extends BaseComponent<WmListTemplateProps, W
 
   renderWidget(props: WmListTemplateProps) {
     return (
-      <View style={this.styles.root}>{props.children}</View>
+      <View style={this.styles.root}>{this._background}{props.children}</View>
     ); 
   }
 }

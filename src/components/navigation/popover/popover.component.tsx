@@ -91,6 +91,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
     }
     return (
       <View style={styles.root} onLayout={this.computePosition} ref={ref => {this.view = ref as View}}>
+        {this._background}
         <WmAnchor
           animation={props.animation}
           caption={props.caption}

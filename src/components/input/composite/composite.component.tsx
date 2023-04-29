@@ -14,6 +14,6 @@ export default class WmComposite extends BaseComponent<WmCompositeProps, WmCompo
   }
 
   renderWidget(props: WmCompositeProps) {
-    return (<View style={this.styles.root}>{props.children}</View>); 
+    return (<View style={this.styles.root}>{this._background}{props.children}</View>); 
   }
 }

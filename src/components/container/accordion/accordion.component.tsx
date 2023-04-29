@@ -178,6 +178,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const expandedId = this.state.expandedId || 0;
     return (
         <View style={this.styles.root}>
+          {this._background}
           <List.AccordionGroup expandedId={ expandedId } onAccordionPress={this.onAccordionPress.bind(this)} >
             {accordionpanes
               ? isArray(accordionpanes) && accordionpanes.length

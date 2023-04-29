@@ -34,6 +34,6 @@ export default class WmCardContent extends BaseComponent<WmCardContentProps, WmC
   }
 
   renderWidget(props: WmCardContentProps) {
-    return (<View style={this.styles.root}>{this.renderContent(props)}</View>);
+    return (<View style={this.styles.root}>{this._background}{this.renderContent(props)}</View>);
   }
 }

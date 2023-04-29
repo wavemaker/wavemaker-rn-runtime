@@ -259,6 +259,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     return ( 
         this.addTouchableOpacity(props, (
         <View style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
+          {this._background}
             <View style={this.styles.container}>
               {this.addTouchableOpacity(props, (
                 <Text style={[

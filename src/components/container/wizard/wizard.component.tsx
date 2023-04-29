@@ -125,6 +125,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     const isSkippable = this.steps[this.state.currentStep] && this.steps[this.state.currentStep].props.enableskip;
     return (
       <View style={this.styles.root}>
+        {this._background}
         <View style={this.styles.wizardHeader}>
           {this.steps ? this.steps.map((step, i) => this.renderWizardHeader(step, i)) : null}
         </View>
