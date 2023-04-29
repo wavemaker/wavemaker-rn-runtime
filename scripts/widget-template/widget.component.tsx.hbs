@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import Wm{{widget.name.camelcase}}Props from './{{widget.name.hyphenated}}.props';
@@ -14,6 +14,10 @@ export default class Wm{{widget.name.camelcase}} extends BaseComponent<Wm{{widge
   }
 
   renderWidget(props: Wm{{widget.name.camelcase}}Props) {
-    return (<Text>Wm{{widget.name.camelcase}} is going to replace me.</Text>); 
+    return (
+      <View style={this.styles.root}>
+        {this._background}
+        <Text>Wm{{widget.name.camelcase}}is going to replace me.</Text>
+      </View>); 
   }
 }
