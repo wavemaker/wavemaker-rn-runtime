@@ -2,6 +2,8 @@ import { assign, isEqual, isUndefined } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle, ViewStyle } from 'react-native';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { StyleProps, getStyleName } from '@wavemaker/app-rn-runtime/styles/style-props';
+import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, ThemeEvent } from '../styles/theme';
@@ -9,8 +11,8 @@ import EventNotifier from './event-notifier';
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 import { HideMode } from './if.component';
+import { AssetConsumer } from './asset.provider';
 import { FixedView } from './fixed-view.component';
-import { BackgroundComponent } from '../styles/background.component';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -40,7 +42,7 @@ export interface LifecycleListener {
     onComponentDestroy?: (c: BaseComponent<any, any, any>) => void;
 }
 
-export class BaseProps {
+export class BaseProps extends StyleProps {
     id?: string = null as any;
     name?: string = null as any;
     key?: any = null as any;
@@ -68,6 +70,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public isFixed = false;
     private notifier = new EventNotifier();
     private parentListenerDestroyers = [] as Function[];
+    public background = <></>;
+    private styleOverrides = {} as any;
+    public loadAsset: (path: string) => number | string = null as any;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -77,6 +82,16 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             assign({}, markupProps),
             (name: string, $new: any, $old: any) => {
                 WIDGET_LOGGER.debug(() => `${this.props.name ?? this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
+                if (this.initialized) {
+                    const styleName = getStyleName(name);
+                    if (styleName) {
+                        if ($new === undefined) {
+                            delete this.styleOverrides[styleName];
+                        } else {
+                            this.styleOverrides[styleName] = $new;
+                        }
+                    }
+                }
                 this.onPropertyChange(name, $new, $old);
             });
         //@ts-ignore
@@ -303,30 +318,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.styles = this.theme.mergeStyle(this.styles, {root: rootStyle});
         return (<FixedView style={style} theme={this.theme}>{this.renderWidget(props)}</FixedView>);
     }
-
-    public getBackgroundStyle() {
-        delete (this.styles.root as any)['backgroundSize'];
-        delete (this.styles.root as any)['backgroundImage'];
-        delete (this.styles.root as any)['backgroundPosition'];
-        const bgStyle = {
-            ...this.styles.root,
-            padding: 0,
-            paddingLeft: 0,
-            paddingRight: 0,
-            paddingTop: 0,
-            paddingBottom: 0,
-        };
-        delete (this.styles.root as any)['backgroundColor'];
-        this.styles.root = {
-            ...this.styles.root,
-            margin: 0,
-            marginLeft: 0,
-            marginRight: 0,
-            marginTop: 0,
-            marginBottom: 0
-        }
-        return bgStyle;
-    }
       
     public render(): ReactNode {
         WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
@@ -335,7 +326,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             return null;
         }
         this.isFixed = false;
-        return (<ParentContext.Consumer>
+        return (<AssetConsumer>
+            {(loadAsset) => {
+            this.loadAsset = loadAsset;
+            return (<ParentContext.Consumer>
                 {(parent) => {
                     this.setParent(parent);
                     this._showSkeleton = this.parent?._showSkeleton || !!this.state.props.showskeleton;
@@ -349,7 +343,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                     props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
                                     props.classname && this.theme.getStyle(props.classname),
                                     props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
-                                    this.props.styles);
+                                    this.props.styles,
+                                    {
+                                        root: this.styleOverrides,
+                                        text: this.styleOverrides
+                                    });
                                 if (this.styles.root.hasOwnProperty('_background')) {
                                   delete this.styles.root.backgroundColor;
                                 }
@@ -360,27 +358,32 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 if (eleToRender) {
                                     return eleToRender;
                                 }
-                                let widgetElement = null;
+                                const bgStyle = this.styles.root as any;
+                                this.background = (
+                                    <BackgroundComponent 
+                                        image={bgStyle.backgroundImage}
+                                        position={bgStyle.backgroundPosition}
+                                        size={bgStyle.backgroundSize}
+                                        repeat={bgStyle.backgroundRepeat}
+                                        style={{borderRadius: this.styles.root.borderRadius}}>
+                                    </BackgroundComponent>
+                                );
+                                delete (this.styles.root as any)['backgroundImage'];
+                                delete (this.styles.root as any)['backgroundPosition'];
+                                delete (this.styles.root as any)['backgroundSize'];
+                                delete (this.styles.root as any)['backgroundRepeat'];
                                 this.isFixed = (this.styles.root.position as any) === 'fixed';
                                 if (this.isFixed) {
                                     this.styles.root.position  = undefined;
-                                    widgetElement = this.renderFixedContainer(props);
-                                } else {
-                                    widgetElement = this.renderWidget(this.state.props);
+                                    return this.renderFixedContainer(props);
                                 }
-                                return (
-                                    <BackgroundComponent 
-                                        image={(this.styles.root as any).backgroundImage}
-                                        position={(this.styles.root as any).backgroundPosition}
-                                        size={(this.styles.root as any).backgroundSize}
-                                        style={this.getBackgroundStyle()}>
-                                        {widgetElement}
-                                    </BackgroundComponent>
-                                );
+                                return this.renderWidget(this.state.props);
                             }}
                         </ThemeConsumer>
                     </ParentContext.Provider>);
                 }}
             </ParentContext.Consumer>);
+        }}
+        </AssetConsumer>);
     }
 }

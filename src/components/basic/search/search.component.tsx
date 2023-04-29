@@ -16,6 +16,7 @@ import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/pictur
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import { get, isArray, isEmpty, isObject } from "lodash-es";
+import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 
 export class WmSearchState extends BaseDatasetState<WmSearchProps> {
   isOpened: boolean = false;
@@ -361,6 +362,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
             {(modalService: ModalService) => {
               modalService.showModal(this.prepareModalOptions((
                 <ScrollView style={{width: '100%', maxHeight: 200}} contentContainerStyle={this.styles.dropDownContent}>
+                    <AssetProvider value={this.loadAsset}>
                     {result && result.map((item: any, index: any) => (
                       <View key={item.key}>
                         {
@@ -374,6 +376,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
                         }
                       </View>
                     ))}
+                    </AssetProvider>
                 </ScrollView>
               ), this.styles, modalService));
               return null;

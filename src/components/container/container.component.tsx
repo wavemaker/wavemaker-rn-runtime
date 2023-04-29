@@ -23,6 +23,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
     };
     return (
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
+        {this.background}
         <Tappable target={this} styles={dimensions}>
             <View style={[dimensions,  this.styles.content]}>{this.renderContent(props)}</View>
         </Tappable>
