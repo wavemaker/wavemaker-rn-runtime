@@ -286,10 +286,12 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
                             style={[
                                 { 
                                     width: '100%',
-                                    height: '100%',
+                                    height: '100%'
+                                }, 
+                                isEmpty(psresult.size) ? {
                                     minWidth: this.state.naturalImageWidth,
                                     minHeight: this.state.naturalImageHeight
-                                }
+                                } : null
                             ]}/>
                     </View>
                 </View>
