@@ -26,9 +26,10 @@ export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemSt
   }
 
   renderWidget(props: WmNavItemProps) {
+    const getDisplayLabel = this.props.getDisplayExpression || ((label: string) => label);
     let child = props.children;
     if (props.view === 'anchor') {
-      child = <WmAnchor styles={this.styles.navAnchorItem} caption={props.item.label} hyperlink={props.item.link}
+      child = <WmAnchor styles={this.styles.navAnchorItem} caption={getDisplayLabel(props.item.label)} hyperlink={props.item.link}
                  badgevalue={props.item.badge} iconclass={props.item.icon} onTap={this.onSelectItem.bind(this, props.onSelect, props.item)}></WmAnchor>
     }
     if (props.view === 'dropdown') {
@@ -38,7 +39,7 @@ export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemSt
           this.updateState({collapsed: !this.state.collapsed} as WmNavItemState);
         }}>
           <View style={this.styles.dropdownNav}>
-            <WmAnchor styles={this.styles.navAnchorItem} caption={props.item.label} iconclass={props.item.icon} onTap={this.onSelectItem.bind(this, props.onSelect, props.item)}></WmAnchor>
+            <WmAnchor styles={this.styles.navAnchorItem} caption={getDisplayLabel(props.item.label)} iconclass={props.item.icon} onTap={this.onSelectItem.bind(this, props.onSelect, props.item)}></WmAnchor>
             <WmIcon styles={this.styles.caretIcon} iconclass={this.state.collapsed ? 'fa fa-sort-down' : 'fa fa-sort-up'}></WmIcon>
           </View>
         </TouchableOpacity>

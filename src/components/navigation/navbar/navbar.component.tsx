@@ -41,6 +41,7 @@ export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarSt
         <WmNavItem item={item}
           onSelect={props.onSelect}
           styles={item.isactive ? activeItemStyles: itemStyles}
+          getDisplayExpression={this.props.getDisplayExpression} 
           view={item.childnavigation ? 'dropdown' : 'anchor'}>
           {item.childnavigation && (
             <WmNavbar
@@ -55,6 +56,7 @@ export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarSt
               itemlink={props.itemlink}
               isactive={props.isactive}
               indent={props.indent || indent + indent}
+              getDisplayExpression={this.props.getDisplayExpression} 
               ischildnav={true}>
             </WmNavbar>)}
         </WmNavItem>

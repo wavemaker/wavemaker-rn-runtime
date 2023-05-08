@@ -34,10 +34,11 @@ export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<Wm
   }
 
   renderMenuItem(item: NavigationDataItem) {
+    const getDisplayLabel = this.props.getDisplayExpression || ((label: string) => label);
     return (
       <WmAnchor
         iconclass={item.icon as string}
-        caption={item.label}
+        caption={getDisplayLabel(item.label)}
         hyperlink={item.link}
         styles={this.styles.menuItem}
         onTap={() => {

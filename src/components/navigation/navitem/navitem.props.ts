@@ -8,4 +8,5 @@ export default class WmNavItemProps extends BaseProps {
   item: any = [];
   view: 'default' | 'dropdown' | 'anchor' = 'default';
   onSelect? = ($event: TapEvent, target: any, $item: NavigationDataItem) => {};
+  getDisplayExpression? = (label: string) => null as any;
 }
