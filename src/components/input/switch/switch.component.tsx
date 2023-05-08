@@ -1,13 +1,12 @@
 import React from 'react';
 import {Text, View} from "react-native";
-import {Menu, ToggleButton} from 'react-native-paper';
 import { isEqual, find } from 'lodash';
-import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmSwitchProps from './switch.props';
 import { DEFAULT_CLASS, WmSwitchStyles } from './switch.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseDatasetComponent, BaseDatasetState } from '../basedataset/basedataset.component';
+import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 export class WmSwitchState extends BaseDatasetState<WmSwitchProps> {}
 
@@ -34,7 +33,9 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
       });
   }
 
-  onTap(event: any) {
+  onTap(event: any, item: any) {
+    const value = this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield;
+    this.onChange(value);
     this.invokeEventCallback('onTap', [ event, this.proxy ]);
   }
 
@@ -49,27 +50,33 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     const displayText = item.displayexp || item.displayfield;
     const isSelected = this.state.props.datafield === 'All Fields' ? isEqual(props.datavalue, item.datafield) : this.state.props.datavalue === item.datafield;
     return (
-      <ToggleButton onPress={this.onTap.bind(this)}
-                    disabled={this.state.props.disabled}
-                    style={[this.styles.button, this.styles[btnClass],
-                      isSelected ? this.styles.selectedButton : null]}
-                    icon={()=>this.state.props.iconclass ?
-                          (<WmIcon styles={this.styles.loadingIcon}
-                                  iconclass={item.icon}
-                                  caption={displayText}></WmIcon>)
-                          : (<View><Text style={[this.styles.text, {color: isSelected ? this.styles.selectedButton.color : this.styles.button.color }]}>{displayText}</Text></View>)}
-                    key={item.key}
-                    value={this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield} />
+      <Tappable 
+        onTap={this.state.props.disabled ? undefined : this.onTap.bind(this, null, item)}
+        styles={[
+          this.styles.button,
+          this.styles[btnClass],
+          isSelected ? this.styles.selectedButton : null]}
+          key={item.key}>
+        {this.state.props.iconclass ?
+            (<WmIcon styles={this.styles.loadingIcon}
+                    iconclass={item.icon}
+                    caption={displayText}></WmIcon>)
+            : (<View>
+                <Text 
+                  style={[this.styles.text, 
+                    {color: isSelected ? this.styles.selectedButton.color : this.styles.button.color }]}>
+                  {displayText}
+                </Text>
+              </View>)}
+      </Tappable>
     );
   };
 
   renderWidget(props: WmSwitchProps) {
     const items = this.state.dataItems;
-    return (<ToggleButton.Row style={this.styles.root}
-                              onValueChange={this.onChange.bind(this)}
-                              value={this.state.props.datafield === 'All Fields'? this.getItemKey(props.datavalue) : props.datavalue}>
+    return (<View style={this.styles.root}>
       {items && items.length ?
         items.map((item: any, index: any) => this.renderChild(item, index)): null}
-    </ToggleButton.Row>);
+    </View>);
   }
 }
