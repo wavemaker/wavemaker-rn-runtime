@@ -1,6 +1,8 @@
 import { assign, isEqual, isUndefined } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle, ViewStyle } from 'react-native';
+import { AnimatableProperties } from 'react-native-animatable';
+import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { StyleProps, getStyleName } from '@wavemaker/app-rn-runtime/styles/style-props';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
@@ -19,6 +21,8 @@ export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 export const ParentContext = React.createContext(null as any);
 
 export class BaseComponentState<T extends BaseProps> {
+    public animationId?: number = 0;
+    public animatableProps?: AnimatableProperties<ViewStyle> = undefined;
     public props = {} as T;
     public hide? = false;
 }
@@ -135,6 +139,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     public subscribe(event: string, fn: Function) {
         return this.notifier.subscribe(event, fn);
+    }
+
+    public animate(props: AnimatableProperties<ViewStyle>) {
+        this.setState({
+            animationId: Date.now(),
+            animatableProps: props
+        });
     }
 
     setProp(propName: string, value: any) {
@@ -316,7 +327,31 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.copyStyles('width', this.styles.root, style);
         this.copyStyles('height', this.styles.root, style);
         this.styles = this.theme.mergeStyle(this.styles, {root: rootStyle});
-        return (<FixedView style={style} theme={this.theme}>{this.renderWidget(props)}</FixedView>);
+        return (<FixedView style={style} theme={this.theme}>{this.addAnimation(this.renderWidget(props))}</FixedView>);
+    }
+
+    private addAnimation(n: ReactNode) {
+        if (!this.state.animatableProps) {
+            return n;
+        }
+        return (<Animatable.View key={this.state.animationId} {...this.state.animatableProps}>{n}</Animatable.View>);
+    }
+    
+    private setBackground() {
+        const bgStyle = this.styles.root as any;
+        this._background = (
+            <BackgroundComponent 
+                image={bgStyle.backgroundImage}
+                position={bgStyle.backgroundPosition}
+                size={bgStyle.backgroundSize}
+                repeat={bgStyle.backgroundRepeat}
+                style={{borderRadius: this.styles.root.borderRadius}}>
+            </BackgroundComponent>
+        );
+        delete (this.styles.root as any)['backgroundImage'];
+        delete (this.styles.root as any)['backgroundPosition'];
+        delete (this.styles.root as any)['backgroundSize'];
+        delete (this.styles.root as any)['backgroundRepeat'];
     }
       
     public render(): ReactNode {
@@ -358,26 +393,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 if (eleToRender) {
                                     return eleToRender;
                                 }
-                                const bgStyle = this.styles.root as any;
-                                this._background = (
-                                    <BackgroundComponent 
-                                        image={bgStyle.backgroundImage}
-                                        position={bgStyle.backgroundPosition}
-                                        size={bgStyle.backgroundSize}
-                                        repeat={bgStyle.backgroundRepeat}
-                                        style={{borderRadius: this.styles.root.borderRadius}}>
-                                    </BackgroundComponent>
-                                );
-                                delete (this.styles.root as any)['backgroundImage'];
-                                delete (this.styles.root as any)['backgroundPosition'];
-                                delete (this.styles.root as any)['backgroundSize'];
-                                delete (this.styles.root as any)['backgroundRepeat'];
+                                this.setBackground();
                                 this.isFixed = (this.styles.root.position as any) === 'fixed';
                                 if (this.isFixed) {
                                     this.styles.root.position  = undefined;
                                     return this.renderFixedContainer(props);
                                 }
-                                return this.renderWidget(this.state.props);
+                                return this.addAnimation(this.renderWidget(this.state.props));
                             }}
                         </ThemeConsumer>
                     </ParentContext.Provider>);
