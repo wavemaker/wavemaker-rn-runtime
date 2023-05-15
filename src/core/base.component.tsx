@@ -345,11 +345,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 position={bgStyle.backgroundPosition}
                 size={bgStyle.backgroundSize}
                 repeat={bgStyle.backgroundRepeat}
+                resizeMode={bgStyle.backgroundResizeMode}
                 style={{borderRadius: this.styles.root.borderRadius}}>
             </BackgroundComponent>
         );
         delete (this.styles.root as any)['backgroundImage'];
         delete (this.styles.root as any)['backgroundPosition'];
+        delete (this.styles.root as any)['backgroundResizeMode'];
         delete (this.styles.root as any)['backgroundSize'];
         delete (this.styles.root as any)['backgroundRepeat'];
     }

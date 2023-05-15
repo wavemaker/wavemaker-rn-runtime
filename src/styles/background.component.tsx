@@ -127,6 +127,7 @@ export interface BackgroundProps {
     image?: string;
     position?: string;
     children?: any;
+    resizeMode?: string;
     repeat?: string;
     style?: ViewStyle;
     size: string;
@@ -176,7 +177,10 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
                 height? : string | number
             }
         } = {} as any;
-        if (this.props.position === 'center') {
+        if (this.props.resizeMode) {
+            result.resizeMode = this.props.resizeMode;
+            return result;
+        } else if (this.props.position === 'center') {
             result.resizeMode = 'center';
         } else if (this.props.size === 'contain' || this.props.size === 'cover') {
             result.resizeMode = this.props.size;
