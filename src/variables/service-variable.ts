@@ -53,7 +53,7 @@ export class ServiceVariable extends _ServiceVariable {
         return config.onCanUpdate && config.onCanUpdate(args.variable, args.data, args.options);
       },
       onBeforeUpdate: (context: any, args: any) => {
-        return config.onBeforeUpdate && config.onBeforeUpdate(args.variable, args.data, args.options);
+        return config.onBeforeUpdate && config.onBeforeUpdate(args.variable, args.inputData, args.options);
       },
       onResult: (context: any, args: any) => {
         return config.onResult && config.onResult(args.variable, args.data, args.options);
