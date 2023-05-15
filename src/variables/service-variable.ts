@@ -1,7 +1,7 @@
 import { VariableConfig, VariableEvents } from './base-variable';
-import { isEqual, isEmpty } from 'lodash';
+import { isEqual, assignIn } from 'lodash';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
-import { $queue } from './utils/inflight-queue';
+import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { ServiceVariable as _ServiceVariable } from '@wavemaker/variables/src/model/variable/service-variable';
 import httpService from '@wavemaker/app-rn-runtime/variables/http.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -63,6 +63,9 @@ export class ServiceVariable extends _ServiceVariable {
       }
     }
     super(variableConfig);
+    this.subscribe(VariableEvents.AFTER_INVOKE, () => {
+        this.dataBinding = {};
+    });
   }
 
   invokeOnParamChange() {
@@ -87,11 +90,12 @@ export class ServiceVariable extends _ServiceVariable {
 
   invoke(options? : any, onSuccess?: Function, onError?: Function) {
     this.params = this.config.paramProvider();
-    let params = options ? (options.inputFields ? options.inputFields : options) : undefined;
-    if (!params) {
-      params = !isEmpty(this.dataBinding) ? this.dataBinding : this.config.paramProvider();
+    this.params = deepCopy({} as any, this.params, this.dataBinding);
+    if (options) {
+      this.params = deepCopy({} as any, this.params, options.inputFields ? options.inputFields : options);
     }
-    this.dataBinding = params;
+    options = options || {};
+    options.inputFields = this.params;
       // service definitions data depends on whether user logged in or not
     // Try to get the latest definition
     this.serviceInfo = this.config.getServiceInfo();
