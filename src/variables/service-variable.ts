@@ -33,7 +33,7 @@ export class ServiceVariable extends _ServiceVariable {
     const variableConfig = {
       name: config.name,
       dataSet: config.paramProvider(),
-      dataBinding: config.paramProvider(),
+      dataBinding: {},
       isList: config.isList,
       service: config.service,
       serviceType: config.serviceType,

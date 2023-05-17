@@ -18,7 +18,7 @@ export class HttpService implements HttpClientService {
     if (!isWebPreviewMode()
         && !(url.startsWith('http://') || url.startsWith("https://"))) {
       const queryParams = options.url.split('?');
-      url = variable.config.baseUrl + serviceInfo.relativePath;
+      url = variable.config.baseUrl + queryParams[0];
       if (!isEmpty(queryParams[1])) {
         url = url + '?' + queryParams[1];
       }
