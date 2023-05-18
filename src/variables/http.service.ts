@@ -18,9 +18,9 @@ export class HttpService implements HttpClientService {
       headers['Content-Type'] = 'multipart/form-data';
       let formData = new FormData();
       (variable.serviceInfo.parameters||[]).forEach((p: any) => {
-        const v = variable.dataBinding[p.name];
+        const v = variable.params[p.name];
         if (v) {
-          formData.append(p.name, variable.dataBinding[p.name]);
+          formData.append(p.name, variable.params[p.name]);
         }
       });
       requestBody = formData;
