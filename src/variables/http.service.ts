@@ -12,17 +12,8 @@ export class HttpService implements HttpClientService {
     const serviceInfo = variable.serviceInfo;
     let headers: any = options.headers,
       requestBody: any = options.data,
-      isProxyCall = isWebPreviewMode() ? get(serviceInfo, 'proxySettings.web') :  get(serviceInfo, 'proxySettings.mobile'),
-      url: string = isProxyCall ? '.' + options.url : options.url;
-    variable.cancelTokenSource = axios.CancelToken.source();
-    if (!isWebPreviewMode()
-        && !(url.startsWith('http://') || url.startsWith("https://"))) {
-      const queryParams = options.url.split('?');
-      url = variable.config.baseUrl + queryParams[0];
-      if (!isEmpty(queryParams[1])) {
-        url = url + '?' + queryParams[1];
-      }
-    }
+      url: string = options.url;
+      variable.cancelTokenSource = axios.CancelToken.source();
     if (!isWebPreviewMode() && (variable?.serviceInfo?.consumes||[])[0] === 'multipart/form-data') {
       headers['Content-Type'] = 'multipart/form-data';
       let formData = new FormData();

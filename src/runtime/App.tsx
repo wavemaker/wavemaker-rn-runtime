@@ -214,7 +214,13 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   bindServiceInterceptors() {
     this.axiosInterceptorIds = [
-      axios.interceptors.request.use((config: AxiosRequestConfig) => this.onBeforeServiceCall(config)),
+      axios.interceptors.request.use((config: AxiosRequestConfig) => {
+        const url = config.url as string;
+        if (!(url.startsWith('http://') || url.startsWith("https://"))) {
+          config.url = this.appConfig.url + '/' + url;
+        }
+        return this.onBeforeServiceCall(config);
+      }),
       axios.interceptors.response.use(
         (response: AxiosResponse) => {
           this.onServiceSuccess(response.data, response);
