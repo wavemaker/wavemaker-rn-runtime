@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, Platform } from 'react-native';
+import Color from "color";
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmSpinnerProps from './spinner.props';
@@ -8,7 +9,6 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 import LottieView from 'lottie-react-native';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
-import Color from "color";
 
 export class WmSpinnerState extends BaseComponentState<WmSpinnerProps> {
 
@@ -33,15 +33,18 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
   }
 
   private recursiveSearch = (obj: any, colors: any) => {
-      Object.keys(obj).forEach(key => {
+    obj && Object.keys(obj).forEach(key => {
         let value = obj[key];
         let ind = Math.floor(Math.random() * (0 - colors.length ) + colors.length);
         if (key == "nm" && (value.toLowerCase().includes('fill ') || value.toLowerCase().includes('stroke '))) {
-            if (obj["c"]["k"].length == 4 || (obj["c"]["k"].length ==3 && typeof obj["c"]["k"][0] == 'number')) {
+            if (obj["c"] && obj["c"]["k"] 
+              && (obj["c"]["k"].length == 4
+                || (obj["c"]["k"].length ==3 
+                  && typeof obj["c"]["k"][0] == 'number'))) {
                 obj["c"]["k"] = colors[ind];
             }
             else {
-                if (obj["c"]["k"]){
+                if (obj["c"] && obj["c"]["k"]){
                     for (let shape in obj["c"]["k"]) {
                       if(obj["c"]["k"][shape] && obj["c"]["k"][shape]["s"]){
                         obj["c"]["k"][shape]["s"] = colors[ind];
@@ -56,18 +59,22 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
       return obj;
   };
 
-  private hexToRgb(hex: any) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? [parseInt(result[1], 16) / 255, parseInt(result[2], 16) / 255, parseInt(result[3], 16) / 255, 1] : null;
+  private toRgbArray(color: Color) {
+    return [
+      color.red()/255,
+      color.green()/255,
+      color.blue()/255,
+      1
+    ]
   }
 
   private addClasstoLottie(lottiePath: any) {
-    let primaryColor = ThemeVariables.INSTANCE.primaryColor;
-    let colors = [this.hexToRgb(primaryColor), 
-      this.hexToRgb(Color(primaryColor).darken(0.2).hex().toString()), 
-      this.hexToRgb(Color(primaryColor).darken(0.4).hex().toString()), 
-      this.hexToRgb(Color(primaryColor).darken(0.6).hex().toString()), 
-      this.hexToRgb(Color(primaryColor).darken(0.8).hex().toString())];
+    let primaryColor = Color(ThemeVariables.INSTANCE.primaryColor);
+    let colors = [this.toRgbArray(primaryColor), 
+      this.toRgbArray(primaryColor.darken(0.2)), 
+      this.toRgbArray(primaryColor.darken(0.4)), 
+      this.toRgbArray(primaryColor.darken(0.6)), 
+      this.toRgbArray(primaryColor.darken(0.8))];
     return this.recursiveSearch(lottiePath.json, lottiePath.loader == 'circleSpinner' ? [colors[0]] : colors);
   }
 
@@ -76,6 +83,7 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
     return (
       Platform.OS == 'web' ? <Lottie animationData={this.addClasstoLottie(props.lottie)} loop={true} play={true} style={this.styles.lottie} /> : <LottieView
         source={this.addClasstoLottie(props.lottie)}
+        resizeMode='contain'
         autoPlay={true}
         loop={true}
         style={this.styles.lottie}

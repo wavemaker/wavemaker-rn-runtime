@@ -119,6 +119,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
     setTimeout(() => SplashScreen.hideAsync(), 10000);
     this.appConfig.app = this;
     this.appConfig.drawer = new DrawerImpl(() => this.refresh());
+    AppSpinnerService.setDefaultOptions({
+      spinner: this.appConfig.spinner
+    });
     let refreshAfterWait = false;
     this.baseUrl = this.appConfig.url;
     let wait = 0;
