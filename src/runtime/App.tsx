@@ -231,7 +231,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
           if (errorDetails && errorDetails.errors) {
               errMsg = parseErrors(errorDetails.errors) || "Service Call Failed";
           } else {
-              errMsg = errMsg || "Service Call Failed";
+              errMsg = error.message || "Service Call Failed";
           }
           error.message = errMsg;
           this.onServiceError(error.message, error);
