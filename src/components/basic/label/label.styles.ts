@@ -55,6 +55,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle('label-primary', '', getLabelStyles(themeVariables.labelPrimaryColor, themeVariables.labelPrimaryContrastColor));
   addStyle('label-success', '', getLabelStyles(themeVariables.labelSuccessColor, themeVariables.labelSuccessContrastColor));
   addStyle('label-warning', '', getLabelStyles(themeVariables.labelWarningColor, themeVariables.labelWarningContrastColor));
+  addStyle('label-test', '', getLabelStyles('yellow', 'red'));
 
   const getTextStyles = (color: string) => {
     return {
