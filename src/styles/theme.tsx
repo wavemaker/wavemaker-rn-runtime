@@ -87,7 +87,7 @@ export class Theme {
     checkStyleProperties(name: string, value : any) {
         if (isObject(value)) {
             Object.keys(value).map((k) => this.checkStyleProperties(k, (value as any)[k]));
-        } else if(!isValidStyleProp(name, value)) {
+        } else if(name && !isValidStyleProp(name, value)) {
             console.log(
                 `%cInvalid Style property in ${this.name}: ${getErrorMessage(name, value)}`,
                 'background-color: #FF0000;font-weight: bold; color: #fff'

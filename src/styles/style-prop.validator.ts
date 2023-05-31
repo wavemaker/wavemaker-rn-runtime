@@ -36,6 +36,10 @@ const STYLE_PROP_TYPE_INFO = {
         isValid: isColor,
         ref: 'https://reactnative.dev/docs/image-style-props#backgroundcolor'
     },
+    backgroundImage: {
+        isValid: isString,
+        ref: 'http://www.wavemakeronline.com/app-runtime/latest/rn/style-docs/widgets/view'
+    },
     borderBottomColor: {
         isValid: isColor,
         ref: 'https://reactnative.dev/docs/view-style-props#borderbottomcolor'
@@ -47,6 +51,18 @@ const STYLE_PROP_TYPE_INFO = {
     borderBottomLeftRadius: {
         isValid: isNumber,
         ref: 'https://reactnative.dev/docs/image-style-props#borderbottomleftradius'
+    },
+    backgroundPosition: {
+        isValid: isStringOrNumber,
+        ref: 'http://www.wavemakeronline.com/app-runtime/latest/rn/style-docs/widgets/view'
+    },
+    backgroundRepeat: {
+        isValid: isIn('repeat', 'repeat-x', 'repeat-y', 'no-repeat'),
+        ref: 'http://www.wavemakeronline.com/app-runtime/latest/rn/style-docs/widgets/view'
+    },
+    backgroundSize: {
+        isValid: isStringOrNumber,
+        ref: 'http://www.wavemakeronline.com/app-runtime/latest/rn/style-docs/widgets/view'
     },
     borderBottomRightRadius: {
         isValid: isNumber,
@@ -89,7 +105,7 @@ const STYLE_PROP_TYPE_INFO = {
         ref: 'https://reactnative.dev/docs/image-style-props#borderradius'
     },
     borderRightColor: {
-        isValid: isNumber,
+        isValid: isColor,
         ref: 'https://reactnative.dev/docs/view-style-props#borderrightcolor'
     },
     borderRightWidth: {
@@ -123,6 +139,10 @@ const STYLE_PROP_TYPE_INFO = {
     borderTopStartRadius: {
         isValid: isNumber,
         ref: 'https://reactnative.dev/docs/view-style-props#bordertopstartradius'
+    },
+    borderTopColor: {
+        isValid: isColor,
+        ref: 'https://reactnative.dev/docs/layout-props#bordertopwidth'
     },
     borderTopWidth: {
         isValid: isNumber,
@@ -430,13 +450,18 @@ export const getStyleReference = (name: string) => {
 
 export const isValidStyleProp = (name: string, value: any) => {
     const info = (STYLE_PROP_TYPE_INFO as any)[name];
-    return !info || info.isValid(value);
+    return name?.trim().startsWith('__') || (info && info.isValid(value));
 };
 
 export const getErrorMessage = (name: string, value: any) => {
     const info = (STYLE_PROP_TYPE_INFO as any)[name];
-    if (info && info.errorMsg) {
-        return info.errorMsg(value);
+    name = name.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
+    if (info) {
+        if (info.errorMsg) {
+            return info.errorMsg(value);
+        } else {
+            return `'${value}' is not a valid value to '${name}'.`;
+        }
     }
-    return `'${value}' is not a valid value to '${name}'.`;
+    return `'${name}' is not a supported style property in one or all Native Platforms.`
 };
