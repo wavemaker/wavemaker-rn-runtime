@@ -134,7 +134,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     if (props.itemkey && item && !this._showSkeleton) {
       return props.itemkey(item, index);
     }
-    return 'list_item_' +  (this.key + index);
+    return 'list_item_' +  ((++this.key) + index);
   }
 
   private renderItem(item: any, index: number, props: WmListProps) {

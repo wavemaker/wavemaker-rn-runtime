@@ -7,8 +7,7 @@ class LoggerCollection {
     config = {} as any;
     key = 'wm.log.config';
 
-
-    constructor() {
+    init() {
         StorageService.getItem(this.key).then((data) => {
             if (data) {
                 this.config = JSON.parse(data as string) || {};
@@ -134,5 +133,6 @@ export default {
     get: getLogger,
     setLogLevel: (name?: string, level?: string) => loggerCollection.setLogLevel(name, level),
     list: () => loggerCollection.list(),
-    reset: () => loggerCollection.setLogLevel('root', 'error')
+    reset: () => loggerCollection.setLogLevel('root', 'error'),
+    init: () => loggerCollection.init()
 };

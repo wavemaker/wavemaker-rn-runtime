@@ -96,6 +96,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                         }
                     }
                 }
+                if (name === 'showskeleton' && this.initialized) {
+                    this.cleanRefresh();
+                }
                 this.onPropertyChange(name, $new, $old);
             });
         //@ts-ignore
@@ -156,17 +159,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     setPropDefault(propName: string, value: any) {
         this.propertyProvider.setDefault(propName, value);
     }
-
-    onPropertyChange(name: string, $new: any, $old: any) {
-        switch(name) {
-            case 'showskeleton': {
-                if (this.initialized) {
-                    this.cleanRefresh();
-                }
-            }
-        }
+    
+    onPropertyChange(name: string, $new: any, $old: any) {        
     }
-
+     
     getDefaultStyles() {
         return this.theme.getStyle(this.defaultClass);
     }
@@ -252,6 +248,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
         this.cleanup.forEach(f => f && f());
         this.notifier.notify('destroy', []);
+    }
+    
+    componentDidUpdate(prevProps: Readonly<T>, prevState: Readonly<S>, snapshot?: any): void {
+        if (this.propertyProvider.check(this.props)) {
+            this.forceUpdate();
+        }
     }
 
     invokeEventCallback(eventName: string, args: any[]) {
@@ -374,6 +376,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                         <ParentContext.Provider value={this}>
                         <ThemeConsumer>
                             {(theme) => {
+                                WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
                                 this.theme = theme || BASE_THEME;
                                 this.styles =  this.theme.mergeStyle(
                                     this.getDefaultStyles(),
