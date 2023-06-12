@@ -217,6 +217,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   }
 
   componentDidUpdate(prevProps: WmChipsProps, prevState: WmChipsState) {
+    super.componentDidUpdate(prevProps, prevState);
     if (prevState.chipsList !== this.state.chipsList) {
       this.searchRef?.computePosition();
     }

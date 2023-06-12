@@ -165,9 +165,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   onBeforeServiceCall(config: AxiosRequestConfig) {
-    if(config.headers) config.headers['X-Requested-With'] = 'XMLHttpRequest';
-    console.log('onBeforeService call invoked on ' + config.url);
-    return config
+    //DO NOT WRITE CODE HERE:
+    //This is a placeholder for the WaveMaker developer.
+    return config;
   }
 
   isSkeletonEnabled() {
@@ -175,11 +175,13 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   onServiceSuccess(data: any, response: AxiosResponse) {
-
+    //DO NOT WRITE CODE HERE:
+    //This is a placeholder for the WaveMaker developer.
   }
 
   onServiceError(errorMsg: any, error: AxiosError<any>) {
-    console.error(`Error ${errorMsg} recieved from ${error.request.url}`);
+    //DO NOT WRITE CODE HERE:
+    //This is a placeholder for the WaveMaker developer.
   }
 
   invokeNativeApi(key: string, data: Object) {
@@ -222,6 +224,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
         if (!(url.startsWith('http://') || url.startsWith("https://"))) {
           config.url = this.appConfig.url + '/' + url;
         }
+        config.headers = config.headers || {};
+        config.headers['X-Requested-With'] = 'XMLHttpRequest';
+        console.log('onBeforeService call invoked on ' + config.url);
         return this.onBeforeServiceCall(config);
       }),
       axios.interceptors.response.use(
@@ -237,6 +242,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
               errMsg = error.message || "Service Call Failed";
           }
           error.message = errMsg;
+          console.error(`Error ${errMsg} recieved from ${error.response?.config?.url}`);
           this.onServiceError(error.message, error);
           if (error.response?.config.url?.startsWith(this.appConfig.url) && error.response?.status === 401) {
             this.appConfig.currentPage?.pageName !== 'Login' && this.appConfig.currentPage?.goToPage('Login');
