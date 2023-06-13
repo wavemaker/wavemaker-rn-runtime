@@ -25,7 +25,17 @@ export class HttpService implements HttpClientService {
       });
       requestBody = formData;
     }
-    const methodType: string = serviceInfo.methodType;
+    if (!isWebPreviewMode()
+      && variable.category === 'wm.LiveVariable'
+      && !(url.startsWith('http://') || url.startsWith("https://"))) {
+      options.url = options.url.replace('./', '/');
+      url = variable.config.baseUrl + options.url;
+    }
+    if (isWebPreviewMode() && variable.category === 'wm.LiveVariable') {
+      url = '.' + url;
+    }
+
+    const methodType: string = serviceInfo?.methodType || options.method.toLowerCase();
     const isNonDataMethod: boolean = WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(methodType.toUpperCase()) > -1;
     const axiosConfig = {
       headers: headers,
@@ -38,7 +48,7 @@ export class HttpService implements HttpClientService {
         .then((result: any) => {
          resolve(result);
         }, (err: any) => {
-          reject(err);
+          reject(err.response);
         })
     })
   }
