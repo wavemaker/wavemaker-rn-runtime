@@ -164,7 +164,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     return this.appConfig.currentPage?.openUrl(url, params);
   }
 
-  onBeforeServiceCall(config: AxiosRequestConfig) {
+  onBeforeServiceCall(config: InternalAxiosRequestConfig) {
     //DO NOT WRITE CODE HERE:
     //This is a placeholder for the WaveMaker developer.
     return config;
