@@ -1,5 +1,5 @@
 import React, { ReactNode }  from 'react';
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
@@ -164,7 +164,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     return this.appConfig.currentPage?.openUrl(url, params);
   }
 
-  onBeforeServiceCall(config: AxiosRequestConfig) {
+  onBeforeServiceCall(config: InternalAxiosRequestConfig) {
     if(config.headers) config.headers['X-Requested-With'] = 'XMLHttpRequest';
     console.log('onBeforeService call invoked on ' + config.url);
     return config
@@ -217,7 +217,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   bindServiceInterceptors() {
     this.axiosInterceptorIds = [
-      axios.interceptors.request.use((config: AxiosRequestConfig) => {
+      axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
         const url = config.url as string;
         if (!(url.startsWith('http://') || url.startsWith("https://"))) {
           config.url = this.appConfig.url + '/' + url;
