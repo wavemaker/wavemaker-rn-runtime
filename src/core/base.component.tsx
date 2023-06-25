@@ -85,7 +85,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             assign({}, defaultProps),
             assign({}, markupProps),
             (name: string, $new: any, $old: any) => {
-                WIDGET_LOGGER.debug(() => `${this.props.name ?? this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
+                WIDGET_LOGGER.debug(() => `${this.props.name || this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
                 if (this.initialized) {
                     const styleName = getStyleName(name);
                     if (styleName) {
@@ -357,7 +357,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
       
     public render(): ReactNode {
-        WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
+        WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
         const props = this.state.props;
         if (this.state.hide || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)) {
             return null;
