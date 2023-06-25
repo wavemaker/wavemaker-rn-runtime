@@ -1,12 +1,13 @@
 import React, { ReactNode } from 'react';
 import { Platform, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppDrawerNavigator from './navigator/drawer.navigator';
 import AppStackNavigator from './navigator/stack.navigator';
 import { isEmpty, keys, last } from 'lodash';
+import ThemeVariables from '../styles/theme.variables';
 
 declare const window: any;
 
@@ -89,6 +90,15 @@ export const AppNavigator = (props: AppNavigatorProps) => {
     getStateFromPath: isWebPreviewMode() ? getStateFromPath : undefined,
     getPathFromState: isWebPreviewMode()? getPathFromState: undefined
   } as any;
+
+  const navigationTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: ThemeVariables.INSTANCE.pageContentBgColor
+    },
+  };
+  
   appConfig.pages?.forEach((p) => {
     //@ts-ignore
     pages[p.name] = p.name;
@@ -104,5 +114,5 @@ export const AppNavigator = (props: AppNavigatorProps) => {
       const initialState = props.landingPage && Platform.OS !== 'web' ? 
         getNavigationState(props.landingPage, props.landingPageParams)
       : undefined;
-  return (<NavigationContainer initialState={initialState} linking={linking}>{leftNav}</NavigationContainer>);
+  return (<NavigationContainer initialState={initialState} linking={linking} theme={navigationTheme}>{leftNav}</NavigationContainer>);
 };
