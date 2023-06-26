@@ -37,7 +37,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
       placeholderTextColor={this.styles.placeholderText.color as any}
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}
-      placeholder={props.placeholder || 'Enter number'}
+      placeholder={props.placeholder}
       onBlur={this.onBlur.bind(this)}
       onFocus={this.onFocus.bind(this)}
       onKeyPress={this.validateInputEntry.bind(this)}
