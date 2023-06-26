@@ -1,4 +1,4 @@
-import { DEFAULT_CLASS } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles";
+import { DEFAULT_CLASS } from '@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import BaseInputProps from './baseinput.props';
 import { isString } from 'lodash';
@@ -131,7 +131,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
 
   validate(value: any) {
     const validationObj = validateField(this.state.props, value);
-    this.updateState({
+    this.setState({
       isValid: validationObj.isValid,
       errorType: validationObj.errorType
     } as S);

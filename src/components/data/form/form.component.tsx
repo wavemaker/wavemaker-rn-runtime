@@ -14,6 +14,7 @@ import WmFormProps from './form.props';
 import { DEFAULT_CLASS, WmFormStyles } from './form.styles';
 import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
+import { isDataSetWidget } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmFormState extends BaseComponentState<WmFormProps> {
   isValid = false;
@@ -25,8 +26,9 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   public formFields: Array<WmFormField> = []; // contains array of direct widget elements [WmText, WmNumber, WmCurrent]
   public parentFormRef: any;
   public formfields: {[key: string]: WmFormField} = {};
-  private formdataoutput: any;
+  public formdataoutput: any;
   private toaster: any;
+  primaryKey = [];
   formWidgets: { [key: string]: BaseComponent<any, any, any> } = {}; // object containing key as name of formField and value as WmFormField proxy.
   constructor(props: WmFormProps) {
     super(props, DEFAULT_CLASS, new WmFormProps());
@@ -57,7 +59,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     forEach(formFields, (w: WmFormField) => {
       if (!w.form) {
         w.form = this;
-        w.formwidget = (w.props.formKey && formWidgets[w.props.formKey]) 
+        w.formwidget = (w.props.formKey && formWidgets[w.props.formKey])
           || (w.props.name && formWidgets[w.props.name]);
       }
     });
@@ -83,6 +85,23 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
           set(this.formdataoutput, name, w.props.datavalue);
         }
       });
+      this.updateState({
+        props: {
+          dataoutput: this.formdataoutput
+        }
+      } as WmFormState);
+    }
+  }
+
+  private _updateFieldOnDataSourceChange(field: WmFormField, formFields: Array<WmFormField>) {
+    if (!field.state.props.isDataSetBound && isDataSetWidget(field.props.widget)) {
+      if (field.state.props.isRelated) {
+        field.updateState({
+          props: {
+            isDataSetBound: true
+          }} as WmFormFieldState);
+        this.props.relatedData && this.props.relatedData(field);
+      }
     }
   }
 
@@ -128,6 +147,10 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         }
       }
     }
+  }
+
+  get dataoutput() {
+    return this.formdataoutput;
   }
 
   applyDefaultValue(formField?: WmFormField) {
@@ -180,6 +203,21 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         if ($new) {
           this.applyFormData();
         }
+        break;
+      case 'dataset':
+        this.formFields?.forEach((w: WmFormField) => {
+          this._updateFieldOnDataSourceChange(w, this.formFields);
+        });
+        break;
+    }
+  }
+  setPrimaryKey(fieldName: string) {
+    /*Store the primary key of data*/
+    this.primaryKey = this.primaryKey || [];
+    // @ts-ignore
+    if (this.primaryKey.indexOf(fieldName) === -1) {
+      // @ts-ignore
+      this.primaryKey.push(fieldName);
     }
   }
   // Disable the form submit if form is in invalid state. Highlight all the invalid fields if validation type is default
@@ -190,7 +228,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
       const onValidate = get(field, 'props.onValidate');
       onValidate && onValidate(field);
-      if (!val && field?.state.props.required) {
+      if (!val && field?.state.props.required && field.state.props.generator === 'assigned') {
         isValid = false;
         const msg = get(field.defaultValidatorMessages, 'required') || field.state.props.validationmessage;
         field.updateState({ isValid: isValid, props: {
@@ -251,6 +289,11 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     this.formdataoutput = current;
     this.updateState({ props: { dataoutput: current }} as WmFormState);
     this.parentFormRef && this.parentFormRef.updateDataOutput(undefined, this.formdataoutput);
+    this.updateState({
+      props: {
+        dataoutput: this.formdataoutput
+      }
+    } as WmFormState);
   }
 
   toggleMessage(

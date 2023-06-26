@@ -114,6 +114,16 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
     });
   }
 
+  updateFormWidgetDataset(res: any, displayField: string) {
+    this.formwidget.updateState({
+      props: {
+        dataset: res.data,
+        datafield: 'All Fields',
+        displayfield: this.formwidget.state.props.displayfield || displayField,
+      }
+    } as WmFormFieldState);
+  }
+
   setInvalidState(msg: string) {
     this.updateState({
       isValid: false,
@@ -139,6 +149,11 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
       case 'defaultvalue':
         if (!isEqual($old, $new)) {
           get(this, 'form') && this.form.applyDefaultValue(this);
+        }
+        break;
+      case 'primary-key':
+        if ($new) {
+          this.form.setPrimaryKey(this.props.name);
         }
         break;
     }

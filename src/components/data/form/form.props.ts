@@ -13,6 +13,8 @@ export default class WmFormProps extends BaseProps {
   errormessage: string = 'An error occured. Please try again!';
   messagelayout: string = 'Inline';
   formSubmit: Function = () => {};
+  formSuccess: Function = () => {};
+  relatedData: Function = () => {};
   onSuccess: Function = () => {};
   onError: Function = () => {};
 }

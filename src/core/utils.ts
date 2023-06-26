@@ -312,3 +312,8 @@ export const validateField = (props: any, value: any) => {
 export const toBase64 = function(path: string) {
   return FileSystem.readAsStringAsync(path, { encoding: 'base64' });
 };
+
+const DATASET_WIDGETS = new Set([ 'select', 'checkboxset', 'radioset', 'switch', 'autocomplete', 'chips', 'typeahead', 'rating']);
+export const isDataSetWidget = (widget: any) => {
+  return DATASET_WIDGETS.has(widget);
+};
