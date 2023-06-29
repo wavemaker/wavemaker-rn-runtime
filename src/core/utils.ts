@@ -317,3 +317,10 @@ const DATASET_WIDGETS = new Set([ 'select', 'checkboxset', 'radioset', 'switch',
 export const isDataSetWidget = (widget: any) => {
   return DATASET_WIDGETS.has(widget);
 };
+export const isFullPathUrl = (url: string) => {
+  return isString(url) &&
+  (url.startsWith('data:') 
+  || url.startsWith('http:') 
+  || url.startsWith('https:') 
+  || url.startsWith('file:'));
+};

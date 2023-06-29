@@ -4,6 +4,7 @@ import { Image, StyleSheet, View, ViewStyle } from 'react-native';
 import { isEmpty, isNil, isNumber, isString } from 'lodash-es';
 import imageSizeEstimator from '@wavemaker/app-rn-runtime/core/imageSizeEstimator';
 import { AssetConsumer } from '@wavemaker/app-rn-runtime/core/asset.provider';
+import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 
 export interface LinearGradientProps {
     value: string;
@@ -248,10 +249,7 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
         if (this.loadAsset) {
             source = this.loadAsset(source);
         }
-        if (isString(source) && (
-            source.startsWith('data:') ||
-            source.startsWith('http') || 
-            source.startsWith('file:'))) {
+        if (isFullPathUrl(source)) {
             source = {
                 uri: source
             };
