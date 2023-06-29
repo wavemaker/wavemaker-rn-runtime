@@ -125,25 +125,6 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
       this.toggle(this.state.props.defaultpaneindex + 1);
   }
 
-  public AccordionSkeleton() {
-    const accordionpanes = this.props.children;
-    return (
-      <View style={this.styles.root}>
-      <View onTouchEnd={this.toggle.bind(this, 0)} >
-        {accordionpanes
-          ? isArray(accordionpanes) && accordionpanes.length
-            ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index, accordionpanes))
-            : this.renderAccordionpane(accordionpanes, 0)
-          : null}
-        </View>
-    </View>
-    )
-  }
-
-  public renderSkeleton(props: WmAccordionProps){
-      return(this.AccordionSkeleton())
-  }
-
   renderWidget(props: WmAccordionProps) {
     const accordionpanes = props.children;
     const expandedId = this.state.lastExpandedIndex || 0;

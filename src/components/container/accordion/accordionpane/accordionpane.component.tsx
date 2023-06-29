@@ -9,6 +9,7 @@ import Animated from 'react-native-reanimated';
 import { useSharedValue } from 'react-native-reanimated';
 import { useAnimatedStyle } from 'react-native-reanimated';
 import { withTiming } from 'react-native-reanimated';
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmAccordionpaneState extends BaseComponentState<WmAccordionpaneProps> {
   isPartialLoaded = false;
@@ -87,9 +88,14 @@ export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps,
     return props.children;
   }
   renderWidget(props: WmAccordionpaneProps) {
-    return (<AnimatedView close={this.state.collapsed}>
-        {this._background}
-        {this.renderContent(props)}
-      </AnimatedView>);
+    return isWebPreviewMode() ? 
+    (<View style={this.state.collapsed ? {maxHeight: 0} : {}}>
+      {this._background}
+      {this.renderContent(props)}
+    </View>) :
+    (<AnimatedView close={this.state.collapsed}>
+      {this._background}
+      {this.renderContent(props)}
+    </AnimatedView>);
   }
 }
