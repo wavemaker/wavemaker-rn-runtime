@@ -39,15 +39,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderTopLeftRadius: 6,
         borderTopRightRadius: 6
       },
-      pane : {
-        marginBottom: 4,
-      },
+      pane : {},
       header: {
         borderBottomWidth: 1,
         borderStyle: 'solid',
         borderColor: themeVariables.accordionBorderColor,
         backgroundColor: themeVariables.accordionHeaderBgColor,
-        padding: 8
+        padding: 8,
+        flexDirection: 'row',
+        justifyContent: 'center'
       },
       lastHeader: {
         borderBottomWidth: 0,

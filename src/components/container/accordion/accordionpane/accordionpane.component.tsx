@@ -1,26 +1,65 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmAccordionpaneProps from './accordionpane.props';
 import { DEFAULT_CLASS, WmAccordionpaneStyles } from './accordionpane.styles';
 import WmAccordion from '../accordion.component';
+import { LayoutChangeEvent, View } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { useSharedValue } from 'react-native-reanimated';
+import { useAnimatedStyle } from 'react-native-reanimated';
+import { withTiming } from 'react-native-reanimated';
 
 export class WmAccordionpaneState extends BaseComponentState<WmAccordionpaneProps> {
   isPartialLoaded = false;
+  collapsed = true;
 }
+
+const AnimatedView = (props: {
+  close: boolean,
+  children: any
+}) => {
+  const [height, setHeight] = useState(0);
+  const offset = useSharedValue(0);
+  offset.value = props.close ? 0 : 1;
+  const onLayoutChange = (e: LayoutChangeEvent) => {
+    setHeight((e.nativeEvent?.layout?.height || height || 100000000) + 100);
+  };
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      maxHeight: withTiming(offset.value * height)
+    };
+  });
+  return (
+      <Animated.View style={[animatedStyles]}>
+        <View onLayout={onLayoutChange}>
+          {props.children}
+        </View>
+      </Animated.View>
+    );
+};
 
 export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps, WmAccordionpaneState, WmAccordionpaneStyles> {
 
   constructor(props: WmAccordionpaneProps) {
-    super(props, DEFAULT_CLASS, new WmAccordionpaneProps());
+    super(props, DEFAULT_CLASS, new WmAccordionpaneProps(), new WmAccordionpaneState());
   }
 
-  onPaneExpand() {
+  isCollapsed() {
+    return this.state.collapsed;
+  }
+  
+  expand() {
+    this.updateState({
+      collapsed: false
+    } as WmAccordionpaneState);
     this.invokeEventCallback('onExpand', [null, this.proxy]);
   }
 
-  onPaneCollapse() {
+  collapse() {
+    this.updateState({
+      collapsed: true
+    } as WmAccordionpaneState);
     this.invokeEventCallback('onCollapse', [null, this.proxy]);
   }
 
@@ -48,6 +87,9 @@ export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps,
     return props.children;
   }
   renderWidget(props: WmAccordionpaneProps) {
-    return (<View style={this.styles.root}>{this._background}{this.renderContent(props)}</View>);
+    return (<AnimatedView close={this.state.collapsed}>
+        {this._background}
+        {this.renderContent(props)}
+      </AnimatedView>);
   }
 }
