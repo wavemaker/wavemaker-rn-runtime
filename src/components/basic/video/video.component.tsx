@@ -6,6 +6,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmVideoProps from './video.props';
 import { DEFAULT_CLASS, WmVideoStyles } from './video.styles';
 import { isString } from 'lodash-es';
+import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmVideoState extends BaseComponentState<WmVideoProps> {}
 
@@ -22,10 +23,7 @@ export default class WmVideo extends BaseComponent<WmVideoProps, WmVideoState, W
       return null;
     }
     const resource = this.loadAsset(path);
-    if (isString(resource) && (
-      resource.startsWith('http') 
-        || resource.startsWith('data:') 
-        || resource.startsWith('file:'))) {
+    if (isFullPathUrl(resource as string)) {
       return {
         uri: resource
       };

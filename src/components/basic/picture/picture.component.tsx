@@ -5,7 +5,7 @@ import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import ImageSizeEstimator from '@wavemaker/app-rn-runtime/core/imageSizeEstimator';
-import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import { isFullPathUrl, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmPictureProps from './picture.props';
 import { DEFAULT_CLASS, WmPictureStyles } from './picture.styles';
@@ -117,7 +117,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     } else if (!isWebPreviewMode() && props.isSvg) {
       // svg from uri
       elementToshow = <SvgUri width={this.styles.root.width} height={this.styles.root.height} uri={imgSrc}/>;
-    } else if (isString(imgSrc) && (imgSrc.startsWith('http') || imgSrc.startsWith('file:'))) {
+    } else if (isFullPathUrl(imgSrc)) {
       source = {
         uri: imgSrc
       };

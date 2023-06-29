@@ -312,3 +312,11 @@ export const validateField = (props: any, value: any) => {
 export const toBase64 = function(path: string) {
   return FileSystem.readAsStringAsync(path, { encoding: 'base64' });
 };
+
+export const isFullPathUrl = (url: string) => {
+  return isString(url) &&
+  (url.startsWith('data:') 
+  || url.startsWith('http:') 
+  || url.startsWith('https:') 
+  || url.startsWith('file:'));
+};
