@@ -24,6 +24,7 @@ export interface LinearGradientState {
 
 const IMAGE_URL_REGEX = /url\(['|"]?(.+)['|"]?\)$/gi;
 const LINEAT_GRADIENT_REGEX = /linear-gradient\((.+)\)$/gi;
+const DIMENSION_REGEX = /([0-9%]+)[a-z]*/g;
 const BACKGROUND_POSITION_REGEX = /([0-9%]+)[a-z]*\s*([0-9%]+)[a-z]*/g;
 const BACKGROUND_SIZE_REGEX = /([0-9%]+)[a-z]*\s*([0-9%]+)[a-z]*/g;
 
@@ -166,23 +167,58 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
           }
     }
 
+    getDimension(dim: string) {
+        if (dim) {
+            const value = dim.matchAll(DIMENSION_REGEX).next().value;
+            if (value[1]) {
+                return value[1].endsWith('%') ? value[1] : parseInt(value[1]);
+            }
+        }
+        return null;
+    }
+
+    public getPosition() {
+        const result = {} as ViewStyle;
+        if (!this.props.position) {
+            return result;
+        }
+        const position = this.props.position.split(' ').map(s => s.trim());
+        if (position[0] === 'center') {
+            result.alignItems = 'center';
+        } else if (position[0] === 'top') {
+            result.top = 0;
+        } else if (position[0] === 'bottom') {
+            result.bottom = 0;
+        } else {
+            result.top = this.getDimension(position[0]);
+        }
+        if (position[1] === 'center') {
+            result.justifyContent = 'center';
+        } else if (position[1] === 'left') {
+            result.left = 0;
+        } else if (position[1] === 'bottom') {
+            result.right = 0;
+        } else {
+            result.left = this.getDimension(position[1]);
+        }
+        return result;
+    }
+
     public getPositionAndSize() {
         const result: {
             resizeMode? : string,
-            position?: {
-                top?: string | number,
-                left?: string | number,
-            },
-            size?: {
-                width?: string | number,
-                height? : string | number
-            }
+            position?: ViewStyle,
+            size?: ViewStyle
         } = {} as any;
         if (this.props.resizeMode) {
             result.resizeMode = this.props.resizeMode;
             return result;
         } else if (this.props.position === 'center') {
             result.resizeMode = 'center';
+            result.position = {
+                justifyContent: 'center',
+                alignItems: 'center'
+            };
         } else if (this.props.size === 'contain' || this.props.size === 'cover') {
             result.resizeMode = this.props.size;
             return result;
@@ -194,10 +230,7 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
             result.size.height = size[2].endsWith('%') ? size[2] : parseInt(size[2]);
         }
         if (!result.resizeMode && this.props.position) {
-            result.position = {};
-            const position = this.props.position.matchAll(BACKGROUND_POSITION_REGEX).next().value;
-            result.position.top = position[1].endsWith('%') ? position[1] : parseInt(position[1]);
-            result.position.left = position[2].endsWith('%') ? position[2] : parseInt(position[2]);
+            result.position = this.getPosition();
         }
         if (!this.getGradient()?.value?.length) {
             if (this.props.repeat === 'no-repeat') {
@@ -272,11 +305,11 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
             this.loadAsset = loadAsset;
             return (<View style={[{borderWidth: 0, overflow: 'hidden'}, StyleSheet.absoluteFill, this.props.style]}>
                 <View style={[
-                    StyleSheet.absoluteFill, this.props.position === 'center' ? {
+                    StyleSheet.absoluteFill, {
                         flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    } : null]}>
+                        justifyContent: psresult.position?.justifyContent,
+                        alignItems: psresult.position?.alignItems
+                    }]}>
                     <View style={[
                         { position: 'absolute', overflow: 'hidden' },
                         psresult.position,

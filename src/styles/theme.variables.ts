@@ -115,6 +115,8 @@ export default class ThemeVariables {
     tabActiveHeaderIconColor = this.primaryColor;
     tabBorderColor = this.widgetBorderColor;
     tabContentBgColor = this.widgetBgColor;
+    tabArrowIndicatorBgColor = this.tabContentBgColor;
+    tabArrowIndicatorDotColor = this.primaryColor;
 
     //label Variables
     labelHeaderColor = '#151420';

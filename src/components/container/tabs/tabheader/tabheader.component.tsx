@@ -7,6 +7,7 @@ import { DEFAULT_CLASS, WmTabheaderStyles } from './tabheader.styles';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmSkeleton, { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
+import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 
 export class WmTabheaderState extends BaseComponentState<WmTabheaderProps> {
 }
@@ -48,6 +49,9 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
     let toIndicatorWidth = this.headersLayout[selectedTabIndex]?.width || 0;
     let toHeaderScrollPosition = this.headerScrollPositionValue;
     let totalWidth = 0;
+    if (this.state.props.data.length !== this.headersLayout.length) {
+      return;
+    }
     this.headersLayout.forEach((p, i) => {
       if (i < selectedTabIndex) {
         toIndicatorPosition += p.width;
@@ -123,6 +127,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
 
   renderWidget(props: WmTabheaderProps) {
     this.setPosition();
+    const activeIndicator = this.styles.activeIndicator as any;
     return (
       <Animated.View style={{
         transform: [{
@@ -135,15 +140,18 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
           {props.data.map((header ,i) => {
             const isSelected = i === props.selectedTabIndex ;
             return (
-              <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key} 
+              <Tappable onTap={this.onTabSelection.bind(this, i)}
+                key={header.key} 
                 styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
-                <View onLayout={this.setHeaderPositon.bind(this, i)} style={[
-                  this.styles.header,
-                  {flexGrow: undefined},
-                  isSelected ? this.styles.activeHeader : null]}>
-                  <Text numberOfLines={1} style={[
-                    this.styles.headerText, 
-                    isSelected ? this.styles.activeHeaderText : null]}>{header.title}</Text>
+                <View onLayout={this.setHeaderPositon.bind(this, i)}>
+                  <View style={[
+                    this.styles.header,
+                    {flexGrow: undefined},
+                    isSelected ? this.styles.activeHeader : null]}>
+                    <Text numberOfLines={1} style={[
+                      this.styles.headerText, 
+                      isSelected ? this.styles.activeHeaderText : null]}>{header.title}</Text>
+                  </View>
                 </View>
               </Tappable>
             );
@@ -155,7 +163,19 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
           }, {
             scaleX: this.indicatorWidth
           }]
-        }]}></Animated.View>
+        }]}>
+          {activeIndicator.backgroundImage ? (<BackgroundComponent
+            image={activeIndicator.backgroundImage}
+            position={activeIndicator.backgroundPosition}
+            size={activeIndicator.backgroundSize}
+            repeat={activeIndicator.backgroundRepeat}
+            resizeMode={activeIndicator.backgroundResizeMode}
+            style={{borderRadius: this.styles.root.borderRadius}}
+          ></BackgroundComponent>) : null }
+          <View style={this.styles.arrowIndicator}>
+            <View style={this.styles.arrowIndicatorDot}></View>
+          </View>
+        </Animated.View>
       </Animated.View>
     ); 
   }

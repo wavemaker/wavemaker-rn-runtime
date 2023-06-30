@@ -376,7 +376,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                         <ParentContext.Provider value={this}>
                         <ThemeConsumer>
                             {(theme) => {
-                                WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
+                                WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
                                 this.theme = theme || BASE_THEME;
                                 this.styles =  this.theme.mergeStyle(
                                     this.getDefaultStyles(),
