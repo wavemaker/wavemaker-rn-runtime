@@ -17,11 +17,29 @@ export class WmListState extends BaseComponentState<WmListProps> {
   currentPage: number = 1;
 }
 
+class DefaultKeyExtractor {
+  store = new Map<any, string>();
+  nextKey = 1;
+
+  getKey(o : any, create = false) {
+    let k = this.store.get(o);
+    if (!k && create) {
+      k = `key:${Date.now()}:${this.nextKey++}`;
+      this.store.set(o, k)
+    }
+    return k;
+  }
+
+  clear() {
+    this.store = new Map();
+  }
+}
+
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
 
   private itemWidgets = [] as any[];
   private selectedItemWidgets = {} as any;
-  private key = 1;
+  private keyExtractor = new DefaultKeyExtractor();
 
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
@@ -95,7 +113,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       this.updateState({
         groupedData: groupedData
       } as WmListState, () => {
-        this.key +=  (items && items.length) || 0;
+        this.keyExtractor?.clear();
       });
     }
   }
@@ -120,7 +138,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               data: data
             }] : [])
           } as WmListState, () => {
-            this.key += ($new && $new.length) || 0;
+            this.keyExtractor?.clear();
           });
         }
         this.itemWidgets = [];
@@ -174,7 +192,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     if (props.itemkey && item && !this._showSkeleton) {
       return props.itemkey(item, index);
     }
-    return 'list_item_' +  (this.key + index);
+    return 'list_item_' +  this.keyExtractor.getKey(item, true);
   }
 
   private renderItem(item: any, index: number, props: WmListProps) {
@@ -223,7 +241,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return (
     <View style={this.styles.root}>
       {this.state.groupedData ? this.state.groupedData.map((v: any, i) => ((
-          <View style={{marginBottom: 16}} key={v.key || (this.key + i)}>
+          <View style={{marginBottom: 16}} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
             <FlatList
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
