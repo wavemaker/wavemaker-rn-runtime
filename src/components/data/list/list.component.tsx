@@ -27,11 +27,42 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
   }
 
+  private isSelected($item: any) {
+    const selectedItem = this.state.props.selecteditem;
+    if (isArray(selectedItem)) {
+      return selectedItem.indexOf($item) >= 0;
+    }
+    return selectedItem === $item;
+  }
+
   private onSelect($item: any, $index: number | string) {
-    if (!this.state.props.disableitem($item, $index)) {
+    const props = this.state.props;
+    let selectedItem = null as any;
+    if (!props.disableitem($item, $index)) {
+      if (props.multiselect) {
+        selectedItem = [...(props.selecteditem || [])];
+        const index = selectedItem.indexOf($item);
+        if (index < 0) {
+          if ((!props.selectionlimit)
+            || props.selectionlimit < 0
+            || selectedItem.length < props.selectionlimit) {
+            selectedItem.push($item);
+          } else {
+            this.invokeEventCallback('onSelectionlimitexceed', [null, this]);
+          }
+        } else {
+          selectedItem.splice(index, 1);
+        }
+      } else {
+        if (selectedItem === $item) {
+          selectedItem = null;
+        } else {
+          selectedItem = $item;
+        }
+      }
       this.selectedItemWidgets = this.itemWidgets[$index as number];
       this.updateState({
-        props: { selecteditem: $item },
+        props: { selecteditem: selectedItem },
         selectedindex: $index
       } as WmListState, () => {
         this.invokeEventCallback('onSelect', [this.proxy, $item]);
@@ -49,7 +80,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       }
   }
 
-  private deselect() {
+  private deselectAll() {
     this.updateState({
       props: { selecteditem: null },
       selectedindex: -1
@@ -96,13 +127,22 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         if (props.selectfirstitem) {
           this.selectFirstItem();
         } else {
-          this.deselect();
+          this.deselectAll();
         }
       break;
       case 'groupby':
       case 'match':
         this.setGroupData(this.state.props.dataset);
         break;
+      case 'multiselect':
+        if ($new) {
+          if (!isArray(this.state.props.selecteditem)) {
+            this.state.props.selecteditem = this.state.props.selecteditem ? 
+              [this.state.props.selecteditem] : [];
+          }
+        } else if (isArray(this.state.props.selecteditem)) {
+          this.state.props.selecteditem = this.state.props.selecteditem.pop();
+        }
     }
   }
 
@@ -143,9 +183,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           <View style={[
               this.styles.item,
               props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-              this.state.selectedindex === index && this.state.props.selecteditem?._groupIndex === item._groupIndex ? this.styles.selectedItem : {}]}>
-            {props.renderItem(item, index, this)}
-            { this.state.selectedindex === index && this.state.props.selecteditem?._groupIndex === item._groupIndex ? (
+              this.isSelected(item) ? this.styles.selectedItem : {}]}>
+            { props.renderItem(item, index, this)}
+            { this.isSelected(item) ? (
               <WmIcon iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
             ) : null}
           </View>
