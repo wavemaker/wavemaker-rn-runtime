@@ -54,7 +54,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           selectedItem.splice(index, 1);
         }
       } else {
-        if (selectedItem === $item) {
+        if (props.selecteditem === $item) {
           selectedItem = null;
         } else {
           selectedItem = $item;
