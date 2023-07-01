@@ -174,7 +174,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     if (props.itemkey && item && !this._showSkeleton) {
       return props.itemkey(item, index);
     }
-    return 'list_item_' +  ((++this.key) + index);
+    return 'list_item_' +  (this.key + index);
   }
 
   private renderItem(item: any, index: number, props: WmListProps) {
@@ -222,8 +222,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
     return (
     <View style={this.styles.root}>
-      {this.state.groupedData ? this.state.groupedData.map((v: any) => ((
-          <View style={{marginBottom: 16}}>
+      {this.state.groupedData ? this.state.groupedData.map((v: any, i) => ((
+          <View style={{marginBottom: 16}} key={v.key || (this.key + i)}>
             {this.renderHeader(props, v.key)}
             <FlatList
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
