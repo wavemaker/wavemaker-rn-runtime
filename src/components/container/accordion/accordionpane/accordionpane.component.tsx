@@ -24,7 +24,7 @@ const AnimatedView = (props: {
   const offset = useSharedValue(0);
   offset.value = props.close ? 0 : 1;
   const onLayoutChange = (e: LayoutChangeEvent) => {
-    setHeight((e.nativeEvent?.layout?.height || height || 100000000) + 100);
+    setHeight((e.nativeEvent?.layout?.height || height || 100000000) + 1000);
   };
   const animatedStyles = useAnimatedStyle(() => {
     return {

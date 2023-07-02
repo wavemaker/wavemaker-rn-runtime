@@ -22,6 +22,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle(DEFAULT_CLASS, '', defaultStyles);
   addStyle('tabs-with-arrow-indicator', '', {
     tabHeader: {
+      root: {
+        backgroundColor: themeVariables.transparent
+      },
       header: {
         marginBottom: 16
       },

@@ -71,7 +71,12 @@ export class Tappable extends React.Component<TappableProps, any> {
 
     render() {
         const target = this.props.target;
-        if (target?.props.onTap || target?.props.onDoubletap || this.props.onTap || this.props.onDoubleTap) {
+        if (target?.props.onTap 
+            || target?.props.onLongtap 
+            || target?.props.onDoubletap 
+            || this.props.onTap 
+            || this.props.onLongTap 
+            || this.props.onDoubleTap) {
             return (
                 <TouchableOpacity disabled={get(target?.proxy, 'disabled')}
                     style={this.props.styles}

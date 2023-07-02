@@ -107,7 +107,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
         }
         return {
           lastExpandedIndex: expandedId,
-          isExpanded: state.isExpanded
+          isExpanded: [...state.isExpanded]
         };
       }, () => {
         this.invokeEventCallback('onChange', [{},
