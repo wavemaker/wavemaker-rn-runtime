@@ -359,7 +359,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
       
     public render(): ReactNode {
-        WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
         const props = this.state.props;
         if (this.state.hide || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)) {
             return null;
