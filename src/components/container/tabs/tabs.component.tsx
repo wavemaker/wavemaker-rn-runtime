@@ -52,7 +52,9 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
 
   setTabLayout(event: LayoutChangeEvent) {
     this.tabLayout = event.nativeEvent.layout;
-    this.forceUpdate();
+    this.forceUpdate(() => {
+      this.goToTab();
+    });
   }
 
   setTabPaneHeights(index: number, nativeEvent: LayoutChangeEvent) {
@@ -89,7 +91,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     this.goToTab(this.tabPanes.indexOf(tabPane));
   }
 
-  goToTab(index: number) {
+  goToTab(index = this.state.selectedTabIndex) {
     const position = -1 * index * (this.tabLayout?.width || 0);
     this.animationView?.setPosition(position)
       .then(() => this.onChange(index));

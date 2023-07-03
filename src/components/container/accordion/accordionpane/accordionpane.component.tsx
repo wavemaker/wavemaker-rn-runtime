@@ -5,10 +5,7 @@ import WmAccordionpaneProps from './accordionpane.props';
 import { DEFAULT_CLASS, WmAccordionpaneStyles } from './accordionpane.styles';
 import WmAccordion from '../accordion.component';
 import { LayoutChangeEvent, View } from 'react-native';
-import Animated from 'react-native-reanimated';
-import { useSharedValue } from 'react-native-reanimated';
-import { useAnimatedStyle } from 'react-native-reanimated';
-import { withTiming } from 'react-native-reanimated';
+import * as Animated from 'react-native-reanimated';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmAccordionpaneState extends BaseComponentState<WmAccordionpaneProps> {
@@ -21,22 +18,22 @@ const AnimatedView = (props: {
   children: any
 }) => {
   const [height, setHeight] = useState(0);
-  const offset = useSharedValue(0);
+  const offset = Animated.useSharedValue(0);
   offset.value = props.close ? 0 : 1;
   const onLayoutChange = (e: LayoutChangeEvent) => {
     setHeight((e.nativeEvent?.layout?.height || height || 100000000) + 1000);
   };
-  const animatedStyles = useAnimatedStyle(() => {
+  const animatedStyles = Animated.useAnimatedStyle(() => {
     return {
-      maxHeight: withTiming(offset.value * height)
+      maxHeight: Animated.withTiming(offset.value * height)
     };
   });
   return (
-      <Animated.View style={[animatedStyles]}>
+      <Animated.default.View style={[animatedStyles]}>
         <View onLayout={onLayoutChange}>
           {props.children}
         </View>
-      </Animated.View>
+      </Animated.default.View>
     );
 };
 
