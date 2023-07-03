@@ -1,6 +1,7 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
+import { Platform } from 'react-native';
 
 export type WmPanelStyles = BaseStyles & {
   icon: WmIconStyles,
@@ -71,7 +72,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
-
+  addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="web"?{
+    text:{
+      textAlign:'right',
+    } ,
+    subheading:{
+      textAlign:'right',
+    }
+  }:{});
   const getPanelBgStyles = (color: string) => {
     return {
       header: {

@@ -31,7 +31,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
-
+  addStyle(DEFAULT_CLASS + '-rtl', '', {
+    root : {
+      flexDirection: 'row',
+      textAlign: 'right'
+    }
+  });
   const getLabelStyles = (color: string, textColor: string): WmLabelStyles => {
     return {
       root: {

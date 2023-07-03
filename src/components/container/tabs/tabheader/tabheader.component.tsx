@@ -63,6 +63,8 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
     const maxScrollPosition = 0;
     toHeaderScrollPosition = Math.max(minScrollPosition, toHeaderScrollPosition);
     toHeaderScrollPosition = Math.min(maxScrollPosition, toHeaderScrollPosition);
+    let positionIndicator = (toIndicatorPosition - (100 - toIndicatorWidth) / 2);
+    let position = this.isRTL?-positionIndicator:positionIndicator;
     Animated.parallel([
       Animated.timing(this.headerScrollPosition, {
         useNativeDriver: true,
@@ -78,7 +80,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
       }),
       Animated.timing(this.indicatorPosition, {
         useNativeDriver: true,
-        toValue:  (toIndicatorPosition - (100 - toIndicatorWidth) / 2),
+        toValue:  position,
         duration: 200,
         easing: Easing.linear
       })

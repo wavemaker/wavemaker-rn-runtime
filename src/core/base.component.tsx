@@ -1,11 +1,12 @@
 import { assign, isEqual, isUndefined } from 'lodash';
 import React, { ReactNode } from 'react';
-import { TextStyle, ViewStyle } from 'react-native';
+import { I18nManager, Platform, TextStyle, ViewStyle } from 'react-native';
 import { AnimatableProperties } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { StyleProps, getStyleName } from '@wavemaker/app-rn-runtime/styles/style-props';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, ThemeEvent } from '../styles/theme';
@@ -77,6 +78,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public _background = <></>;
     private styleOverrides = {} as any;
     public loadAsset: (path: string) => number | string = null as any;
+    private i18nService = injector.I18nService.get();
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -142,6 +144,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     public subscribe(event: string, fn: Function) {
         return this.notifier.subscribe(event, fn);
+    }
+
+    public get isRTL(){
+        return this.i18nService.isRTLLocale();
     }
 
     public animate(props: AnimatableProperties<ViewStyle>) {
@@ -380,6 +386,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 this.styles =  this.theme.mergeStyle(
                                     this.getDefaultStyles(),
                                     props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
+                                    this.isRTL ? this.theme.getStyle(this.defaultClass + '-rtl') : null,
                                     props.classname && this.theme.getStyle(props.classname),
                                     props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
                                     this.props.styles,

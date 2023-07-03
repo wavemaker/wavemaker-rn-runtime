@@ -5,6 +5,7 @@ import { WmDialogStyles } from '../dialog/dialog.styles';
 import { WmDialogcontentStyles } from '../dialogcontent/dialogcontent.styles';
 import { WmDialogactionsStyles } from '../dialogactions/dialogactions.styles';
 import { WmLabelStyles } from '../../basic/label/label.styles';
+import { Platform } from 'react-native';
 
 export type WmConfirmdialogStyles = BaseStyles & {
     dialog: WmDialogStyles,
@@ -61,4 +62,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
+    addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="web"?{
+        cancelButton: {
+            root: {
+                marginLeft: 8,
+                marginRight: 0
+            }
+        }
+    }:{});
 });

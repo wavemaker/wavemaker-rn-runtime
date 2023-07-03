@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text } from 'react-native';
+import {View, Text, Platform } from 'react-native';
 import { debounce, isNumber, isNil } from 'lodash';
 import Slider from '@react-native-community/slider';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -70,6 +70,7 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
         value={this.valueBeforeSlide || props.datavalue || 0}
         disabled={props.readonly}
         minimumValue={props.minvalue}
+        inverted={this.isRTL && (Platform.OS=="android"||Platform.OS=="web")}
         maximumValue={props.maxvalue}
         onValueChange={this.onChange}
         thumbTintColor={this.styles.thumb.backgroundColor as string}

@@ -1,5 +1,6 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { Platform } from 'react-native';
 
 export type WmToggleStyles = BaseStyles & {};
 
@@ -15,6 +16,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="android"?{
+    root : {
+      transform: [{rotateY:'180deg'}]
+    }
+  }:{});
   addStyle(DEFAULT_CLASS + '-disabled', '', {
       root : {}
   });

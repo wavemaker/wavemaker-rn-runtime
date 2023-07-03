@@ -175,4 +175,28 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       padding: 5
     },
   } as WmWizardStyles);
+  addStyle(DEFAULT_CLASS + '-rtl', '', {
+    wizardActions: {
+      icon: {
+        root:{
+          transform: [{rotateY:'180deg'}]
+        }
+      },
+    },
+    nextButton:{
+      root: {
+        marginRight: 8,
+      }
+    },
+    doneButton:{
+      root: {
+        marginRight: 8,
+      },
+      icon:{
+        root:{
+          transform: [{rotateY:'0deg'}]
+        }
+      }
+    }
+  });
 });

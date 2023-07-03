@@ -88,6 +88,18 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     } as WmCarouselStyles);
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
+    addStyle(DEFAULT_CLASS + '-rtl', '', {
+        prevBtn : {
+            root:{
+                transform: [{rotateY: '180deg'}]
+            }
+        },
+        nextBtn : {
+            root:{
+                transform: [{rotateY: '180deg'}]
+            }
+        }
+    });
 
     addStyle('app-carousel-1', '', {
         btnPanel: {

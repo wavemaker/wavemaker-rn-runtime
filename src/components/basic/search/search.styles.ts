@@ -1,4 +1,4 @@
-import { TextStyle } from 'react-native';
+import { Platform, TextStyle } from 'react-native';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
@@ -130,6 +130,53 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       text : {
         backgroundColor: themeVariables.inputDisabledBgColor
       }
+  });
+
+  addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=='android'?{
+    text : {
+      textAlign: 'right',
+      borderWidth: 1,
+      borderLeftWidth: 0,
+      borderRightWidth: 1,
+      borderTopRightRadius: 6,
+      borderBottomRightRadius: 6,
+    },
+    searchButton: {
+      root: {
+        borderTopRightRadius: 4,
+        borderBottomRightRadius: 4,
+      },
+    }
+  }:Platform.OS=='web'?{
+    text : {
+      textAlign: 'right',
+      borderWidth: 1,
+      borderRightWidth: 1,
+      borderLeftWidth: 0,
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+      borderTopRightRadius: 6,
+      borderBottomRightRadius: 6,
+    },
+    searchButton: {
+      root: {
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+        borderTopLeftRadius: 4,
+        borderBottomLeftRadius: 4,
+      },
+    },
+    clearButton: {
+      root: {
+        left: 0,
+        position: 'absolute',
+        marginLeft: 0
+      }
+    } as WmButtonStyles,
+  }:{
+    text : {
+      textAlign: 'right',
+    }
   });
 
   addStyle('app-autocomplete', '', {
