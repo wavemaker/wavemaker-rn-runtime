@@ -1,6 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Switch } from 'react-native-paper';
+import { View, TouchableOpacity } from 'react-native';
+
+import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 
@@ -60,23 +61,31 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
   }
 
   renderWidget(props: WmToggleProps) {
+    const styles = this.theme.mergeStyle(this.styles, 
+      this.theme.getStyle(this.state.isSwitchOn ? 'app-toggle-on' : 'app-toggle-off'));
     return (
-      <View style={this.styles.root}>
+      <TouchableOpacity style={styles.root} onPress={() => {
+        if (this.props.disabled) {
+          return;
+        }
+        // Added setTimeout to smooth animation
+        setTimeout(() => {
+          if (!props.readonly) {
+            this.invokeEventCallback('onFocus', [null, this]);
+          }
+          this.invokeEventCallback('onTap', [null, this]);
+        }, 500);
+        this.onToggleSwitch(!this.state.isSwitchOn);
+      }}>
         {this._background}
-        <Switch value={this.state.isSwitchOn}
-            color={this.styles.text.color as string}
-            disabled={props.readonly || props.disabled}
-            onValueChange={this.onToggleSwitch.bind(this)}
-            onTouchEndCapture={() => {
-              // Added setTimeout to smooth animation
-              setTimeout(() => {
-                if (!props.readonly) {
-                  this.invokeEventCallback('onFocus', [null, this]);
-                }
-                this.invokeEventCallback('onTap', [null, this]);
-              }, 500);
-            }}/>
-      </View>
+        <View style={styles.handle}>
+          <BackgroundComponent
+            size={styles.handle.backgroundSize}
+            position={styles.handle.backgroundPosition}
+            image={styles.handle.backgroundImage}>  
+          </BackgroundComponent>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
