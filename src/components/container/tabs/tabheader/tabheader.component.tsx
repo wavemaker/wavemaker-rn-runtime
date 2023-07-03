@@ -129,6 +129,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
     this.setPosition();
     const activeIndicator = this.styles.activeIndicator as any;
     return (
+      <View style={{overflow: 'hidden'}}>
       <Animated.View style={{
         transform: [{
           translateX: this.headerScrollPosition
@@ -177,6 +178,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
           </View>
         </Animated.View>
       </Animated.View>
+      </View>
     ); 
   }
 }
