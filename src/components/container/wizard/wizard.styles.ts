@@ -21,6 +21,7 @@ export type WmWizardStyles = BaseStyles & {
   headerWrapper: AllStyle,
   stepWrapper: AllStyle,
   stepConnector: AllStyle,
+  numberTextStepConnector: AllStyle,
   stepCounter: AllStyle
 };
 
@@ -89,7 +90,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         height: 37,
         borderWidth: 1,
         borderRadius: 18.5,
-        marginBottom: 10,
         color: themeVariables.wizardStepColor,
         borderColor: themeVariables.wizardStepColor
       },
@@ -117,7 +117,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         icon: {
           text: {
             fontSize: 12
-          } 
+          }
         }
       } as WmButtonStyles,
       stepIcon: {
@@ -143,6 +143,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         zIndex: 10,
         height: 2
       },
+      numberTextStepConnector: {
+       display: 'none'
+      },
       stepCounter: {
         fontSize: 15,
         color: themeVariables.wizardStepColor
@@ -150,4 +153,26 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   } as WmWizardStyles);
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  addStyle('number-text-inline', '', {
+    stepConnector: {
+      display: 'none'
+    },
+    numberTextStepConnector: {
+      backgroundColor: themeVariables.wizardStepConnectorColor,
+      height: 2,
+      display: 'flex'
+    },
+    stepWrapper: {
+      flexDirection: 'row'
+    },
+    wizardHeader: {
+      justifyContent: 'flex-start'
+    },
+    headerWrapper: {
+      flex: -1
+    },
+    stepTitle: {
+      padding: 5
+    },
+  } as WmWizardStyles);
 });
