@@ -1,8 +1,9 @@
 import { isNil } from 'lodash-es';
 import React from  'react';
-import { Animated, Easing, ViewStyle } from 'react-native';
+import { Animated, Easing, ViewStyle, I18nManager, Platform } from 'react-native';
 import { Gesture, GestureDetector, GestureUpdateEvent } from 'react-native-gesture-handler';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 
 export class Handlers {
     bounds?: (g: GestureUpdateEvent<any>) => Bounds = null as any;
@@ -36,6 +37,7 @@ export class View extends React.Component<Props, State> {
 
     private gesture = Gesture.Pan();
     private position = new Animated.Value(0);
+    private i18nService = injector.I18nService.get();
 
     constructor(props: Props) {
         super(props);
@@ -51,21 +53,24 @@ export class View extends React.Component<Props, State> {
             .onChange(e => {
                 const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
                 this.position.setValue(
-                    (bounds?.center || 0) +
+                    (this.isRTL()?-bounds?.center! :bounds?.center || 0) +
                     (this.state.isHorizontal ? e.translationX : e.translationY));
             })
             .onEnd(e => {
                 this.props.handlers?.onAnimation && 
                 this.props.handlers?.onAnimation(e);
                 if (e.translationX < 0) {
-                    this.goToUpper(e);
+                    this.isRTL()?this.goToLower(e):this.goToUpper(e);
                 } else if (e.translationX > 0) {
-                    this.goToLower(e);
+                    this.isRTL()?this.goToUpper(e):this.goToLower(e);
                 }
             })
 
     }
 
+    isRTL(){
+        return this.i18nService.isRTLLocale();
+    }
 
     goToLower(e?: any) {
         const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
@@ -92,7 +97,7 @@ export class View extends React.Component<Props, State> {
         return new Promise((resolve) => {
             Animated.timing(this.position, {
                 useNativeDriver: true,
-                toValue:  value,
+                toValue:  this.isRTL()?-value:value,
                 duration: 200,
                 easing: Easing.out(Easing.linear)
             }).start(resolve);

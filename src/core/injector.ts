@@ -1,3 +1,5 @@
+import { I18nService } from "./i18n.service";
+
 const map = new Map<string, any>();
 
 const get = <T>(t :string): T => {
@@ -25,5 +27,6 @@ export default {
     set: set,
     get: get,
     remove: remove,
-    FOCUSED_ELEMENT: getInstance<any>('FOCUSED_ELEMENT')
+    FOCUSED_ELEMENT: getInstance<any>('FOCUSED_ELEMENT'),
+    I18nService: getInstance<I18nService>('I18nService')
 };

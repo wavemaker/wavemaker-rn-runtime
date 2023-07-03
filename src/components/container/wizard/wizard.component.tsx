@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Platform } from 'react-native';
 import { isArray, merge } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -88,7 +88,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
         {this.numberOfSteps > 1 && <View style={[this.styles.stepConnector, { width: isFirstStep || isLastStep ? '50%' : '100%',
-                                                      left: isFirstStep ? '50%': '0%'}]}></View>}
+                                                      left: Platform.OS == "web"?(!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? '50%': '0%': isFirstStep ? '50%': '0%'}]}></View>}
       </View>
     ) : null;
   }
