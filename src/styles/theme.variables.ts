@@ -199,7 +199,9 @@ export default class ThemeVariables {
     ratingSelectedIconColor = '#eb8600';
 
     //toggle variables
-    toggleColor = this.primaryColor;
+    toggleOnColor = Color(this.primaryColor).lighten(0.4).rgb().toString();
+    toggleOffColor = this.defaultColorB;
+    toggleHandleColor = this.primaryColor;
 
     // radioset, checkboxset variables
     groupHeadingBgColor = this.transparent;
