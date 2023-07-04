@@ -5,8 +5,9 @@ import WmAccordionpaneProps from './accordionpane.props';
 import { DEFAULT_CLASS, WmAccordionpaneStyles } from './accordionpane.styles';
 import WmAccordion from '../accordion.component';
 import { LayoutChangeEvent, View } from 'react-native';
-import * as Animated from 'react-native-reanimated';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+
+const Animated: any = isWebPreviewMode() ? {} : require('react-native-reanimated');
 
 export class WmAccordionpaneState extends BaseComponentState<WmAccordionpaneProps> {
   isPartialLoaded = false;

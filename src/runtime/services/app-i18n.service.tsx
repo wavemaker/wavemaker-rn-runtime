@@ -3,7 +3,6 @@ import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { I18nManager, Platform } from 'react-native';
 import { I18nService } from '@wavemaker/app-rn-runtime/core/i18n.service';
-import injector from '@wavemaker/app-rn-runtime/core/injector';
 
 const APP_LOCALE_ROOT_PATH = '/resources/i18n';
 const STORAGE_KEY = 'selectedLocale';
@@ -48,7 +47,6 @@ class AppI18nService implements I18nService{
               this.timeFormat = bundle.data.formats.time;
               this.currencyCode = bundle.data.formats.currency;
               this.dateTimeFormat = this.dateFormat + ' ' + this.timeFormat;
-              injector.set('I18nService', this);
               return bundle;
             })
             .catch(() => {
