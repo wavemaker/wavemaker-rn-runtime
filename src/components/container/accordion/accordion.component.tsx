@@ -62,12 +62,13 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     const isExpanded = this.state.isExpanded[index];
     return (
-      <View style={this.styles.pane} key={item.props.name} onTouchEnd={this.toggle.bind(this, index + 1)}>
+      <View style={this.styles.pane} key={item.props.name}>
         <View key={'accordionpane_' + (index + 1)}
               style={[this.styles.header,
                 index === 0 ? this.styles.firstHeader: null,
                 index === accordionpanes.length - 1 && !isExpanded ? this.styles.lastHeader: null,
-                isExpanded ? this.styles.activeHeader : {}]}>
+                isExpanded ? this.styles.activeHeader : {}]}
+                onTouchEnd={this.toggle.bind(this, index + 1)}>
           {this.expandCollapseIcon(item, false, showIconOnLeft, true, isExpanded)}
           {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
           <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
