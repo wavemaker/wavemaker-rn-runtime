@@ -423,5 +423,9 @@ export default class ThemeVariables {
     skeletonGradientShadowColor = this.defaultColorF;
     skeletonGradientForegroundColor = this.transparent;
 
+    // Audio
+    audioPlayerBgColor = this.defaultColorF;
+    audioPlayerFgColor = this.defaultColor3;
+
     static INSTANCE = new ThemeVariables();
 }

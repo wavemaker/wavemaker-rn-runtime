@@ -2,6 +2,7 @@ import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmSliderStyles } from '../../input/slider/slider.styles';
 import { WmIconStyles } from '../icon/icon.styles';
+import Color from 'color';
 
 export type WmAudioStyles = BaseStyles & {
     playIcon: WmIconStyles
@@ -15,7 +16,7 @@ export const DEFAULT_CLASS = 'app-audio';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles = defineStyles<WmAudioStyles>({
         root: {
-            backgroundColor: '#ffffff',
+            backgroundColor: themeVariables.defaultColorF,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -25,27 +26,27 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             minWidth: 300
         },
         text: {
-            color: '#333',
+            color: themeVariables.defaultColor3,
             paddingHorizontal: 8
         },
         playIcon: {
             icon: {
-                color: '#333'
+                color: themeVariables.defaultColor3
             }
         },
         pauseIcon: {
             icon: {
-                color: '#333'
+                color: themeVariables.defaultColor3
             }
         },
         muteIcon: {
             icon: {
-                color: '#333'
+                color: themeVariables.defaultColor3
             }
         },
         unmuteIcon: {
             icon: {
-                color: '#333'
+                color: themeVariables.defaultColor3
             }
         },
         slider: {
@@ -56,13 +57,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 display: 'none'
             },
             minimumTrack: {
-                backgroundColor: '#333'
+                backgroundColor: themeVariables.defaultColor3
             },
             maximumTrack: {
-                backgroundColor: '#ddd'
+                backgroundColor: Color(themeVariables.defaultColor3).lighten(0.8).rgb().toString()
             },
             thumb: {
-                backgroundColor: '#333'
+                backgroundColor: themeVariables.defaultColor3
             }
         } as WmSliderStyles
     } as WmAudioStyles);
