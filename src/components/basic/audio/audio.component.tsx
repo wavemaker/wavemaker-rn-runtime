@@ -223,10 +223,11 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
           step={1}
           style={{flex: 1}}
           value={this.state.currentTime}
+          disabled={isWebPreviewMode()}
           onValueChange={this.onSeekChange.bind(this)}
           minimumValue={0}
           inverted={this.isRTL && (Platform.OS=="android" || Platform.OS=="web")}
-          maximumValue={this.state.totalTime}
+          maximumValue={this.state.totalTime || 1}
           thumbTintColor={this.styles.slider.thumb.backgroundColor as string}
           minimumTrackTintColor={this.styles.slider.minimumTrack.backgroundColor as string}
           maximumTrackTintColor={this.styles.slider.maximumTrack.backgroundColor as string}
