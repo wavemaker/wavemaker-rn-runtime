@@ -70,7 +70,7 @@ export class LiveVariable extends _LiveVariable {
         return config.onCanUpdate && config.onCanUpdate(args.variable, args.data, args.options);
       },
       onBeforeUpdate: (context: any, args: any) => {
-        return config.onBeforeUpdate && config.onBeforeUpdate(args.variable, args.data, args.options);
+        return config.onBeforeUpdate && config.onBeforeUpdate(args.variable, args.dataFilter || args.inputData, args.options);
       },
       onResult: (context: any, args: any) => {
         return config.onResult && config.onResult(args.variable, args.data, args.options);
