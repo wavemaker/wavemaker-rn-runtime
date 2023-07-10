@@ -79,7 +79,8 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
   }
 
   private prepareLottie(props: any) {
-    const Lottie = Platform.OS == 'web' ? require('react-lottie-player') : null;
+    let Lottie = Platform.OS == 'web' ? require('react-lottie-player') : null;
+    Lottie = Lottie?.default || Lottie;
     return (
       Platform.OS == 'web' ? <Lottie animationData={this.addClasstoLottie(props.lottie)} loop={true} play={true} style={this.styles.lottie} /> : <LottieView
         source={this.addClasstoLottie(props.lottie)}
