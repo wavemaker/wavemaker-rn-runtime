@@ -82,6 +82,12 @@ export class LiveVariable extends _LiveVariable {
     super(variableConfig);
   }
 
+  setFilterExpValue(filter: any) {
+    this.filterExpressions?.rules.forEach((r: any) => {
+      r.value = filter[r.target];
+    });
+  }
+
   invokeOnParamChange() {
     const last = this.params;
     const latest = this.config.paramProvider();
@@ -89,9 +95,7 @@ export class LiveVariable extends _LiveVariable {
       const lastFilter = this.filters;
       const latestFilter = this.config.filterProvider && this.config.filterProvider();
       if (!isEqual(lastFilter, latestFilter)) {
-        this.filterExpressions?.rules.forEach((r: any) => {
-          r.value = latestFilter[r.target];
-        });
+        this.setFilterExpValue(latestFilter);
         if (this.autoUpdate && !isEmpty(latestFilter) && isFunction(this.update)) {
           this.filters = latestFilter;
           this.invoke();
@@ -115,6 +119,14 @@ export class LiveVariable extends _LiveVariable {
       }
     }
     return Promise.resolve(this);
+  }
+
+  listRecords(options? : any, onSuccess?: Function, onError?: Function) {
+    this.filters = this.config.filterProvider && this.config.filterProvider();
+    options = options || {};
+    options.filterFields = this.filters;
+    this.setFilterExpValue(this.filters);
+    return super.listRecords(options, onSuccess, onError);
   }
 
 }
