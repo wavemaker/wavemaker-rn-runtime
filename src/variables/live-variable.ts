@@ -4,6 +4,7 @@ import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { LiveVariable as _LiveVariable } from '@wavemaker/variables/src/model/variable/live-variable';
 import httpService from '@wavemaker/app-rn-runtime/variables/http.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
+import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 
 export interface LiveVariableConfig extends VariableConfig {
   baseUrl: string;
@@ -80,6 +81,7 @@ export class LiveVariable extends _LiveVariable {
       }
     }
     super(variableConfig);
+    this.init();
   }
 
   setFilterExpValue(filter: any) {
@@ -123,6 +125,9 @@ export class LiveVariable extends _LiveVariable {
 
   listRecords(options? : any, onSuccess?: Function, onError?: Function) {
     this.filters = this.config.filterProvider && this.config.filterProvider();
+    if (options) {
+      this.filters = deepCopy({} as any, this.filters, options.filterFields ? options.filterFields : options);
+    }
     options = options || {};
     options.filterFields = this.filters;
     this.setFilterExpValue(this.filters);
