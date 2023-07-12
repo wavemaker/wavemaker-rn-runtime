@@ -30,13 +30,14 @@ export class BaseComponentState<T extends BaseProps> {
 
 export type BaseStyles = NamedStyles<any> & {
     root: AllStyle,
-    text: TextStyle
+    text: TextStyle & {userSelect?: 'none'| 'text'}
 }
 
 export function defineStyles<T>(styles: T): T {
     return deepCopy({
         text: {
-            fontFamily: ThemeVariables.INSTANCE.baseFont
+            fontFamily: ThemeVariables.INSTANCE.baseFont,
+            userSelect: 'text'
         }
     }, styles);
 }
