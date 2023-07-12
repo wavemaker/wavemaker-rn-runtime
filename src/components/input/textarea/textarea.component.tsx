@@ -1,13 +1,13 @@
 import React from 'react';
-import { Platform, TextInput } from 'react-native';
+import { Platform, TextInput, View } from 'react-native';
 import WmTextareaProps from './textarea.props';
 import { DEFAULT_CLASS, WmTextareaStyles } from './textarea.styles';
 import {
   BaseInputComponent,
   BaseInputState
 } from '@wavemaker/app-rn-runtime/components/input/baseinput/baseinput.component';
+import { WMTextInput } from '@wavemaker/app-rn-runtime/core/components/textinput.component';
 import { isNull } from 'lodash';
-import { createSkeleton } from '../../basic/skeleton/skeleton.component';
 
 export class WmTextareaState extends BaseInputState<WmTextareaProps> {}
 
@@ -21,8 +21,8 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
-    return ( <TextInput
-      ref={ref => {this.widgetRef = ref;
+    return ( <WMTextInput
+      ref={(ref: any) => {this.widgetRef = ref;
         // @ts-ignore
         if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
           // @ts-ignore
@@ -44,6 +44,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       onKeyPress={this.onKeyPress.bind(this)}
       onChangeText={this.onChangeText.bind(this)}
       onChange={this.invokeChange.bind(this)}
+      allowContentSelection={this.styles.text.userSelect === 'text'}
     />);
   }
 }

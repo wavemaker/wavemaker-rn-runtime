@@ -66,7 +66,8 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
             <Text
               style={[this.styles.text, 
                 {color: props.isValid === false ? 'red' : this.styles.text.color}]}
-              numberOfLines={props.wrap ? undefined : 1}>
+              numberOfLines={props.wrap ? undefined : 1}
+              selectable={this.styles.text.userSelect === 'text'}>
               {toString(props.caption)}
               {props.required && this.getAsterisk()}
             </Text>

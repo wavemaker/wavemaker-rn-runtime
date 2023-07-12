@@ -425,6 +425,10 @@ const STYLE_PROP_TYPE_INFO = {
         isValid: isStringOrNumber,
         ref: 'https://reactnative.dev/docs/layout-props#top'
     },
+    userSelect: {
+        isValid: isIn('text', 'none'),
+        ref: 'valid values to user-select are text, none.'
+    },
     verticalAlign: {
         isValid: isIn('auto', 'top', 'bottom', 'middle'),
         ref: 'https://reactnative.dev/docs/text-style-props#verticalalign-android'
