@@ -5,6 +5,7 @@ import { LiveVariable as _LiveVariable } from '@wavemaker/variables/src/model/va
 import httpService from '@wavemaker/app-rn-runtime/variables/http.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
+import Formatters from '@wavemaker/app-rn-runtime/core/formatters';
 
 export interface LiveVariableConfig extends VariableConfig {
   baseUrl: string;
@@ -81,6 +82,7 @@ export class LiveVariable extends _LiveVariable {
       }
     }
     super(variableConfig);
+    this.dateFormatter = Formatters.get('toDate');
     this.init();
   }
 
