@@ -30,7 +30,7 @@ export class ServiceVariable extends _ServiceVariable {
   public appConfig = injector.get<AppConfig>('APP_CONFIG');
 
   constructor(public config: ServiceVariableConfig) {
-    const variableConfig = {
+    let variableConfig: any = {
       name: config.name,
       dataSet: config.paramProvider(),
       dataBinding: {},
@@ -46,9 +46,6 @@ export class ServiceVariable extends _ServiceVariable {
       onSuccess: (context: any, args: any) => {
         return config.onSuccess && config.onSuccess(args.variable, args.data, args.options);
       },
-      onError: (context: any, args: any) => {
-        return config.onError && config.onError(args.variable, args.data, args.options);
-      },
       onCanUpdate: (context: any, args: any) => {
         return config.onCanUpdate && config.onCanUpdate(args.variable, args.data, args.options);
       },
@@ -61,6 +58,11 @@ export class ServiceVariable extends _ServiceVariable {
       onBeforeDatasetReady: (context: any, args: any) => {
         return config.onBeforeDatasetReady && config.onBeforeDatasetReady(args.variable, args.data, args.options);
       }
+    }
+    if (config.onError) {
+      variableConfig.onError = (context: any, args: any) => {
+        return config.onError && config.onError(args.variable, args.data, args.options);
+      };
     }
     super(variableConfig);
     this.subscribe(VariableEvents.AFTER_INVOKE, () => {

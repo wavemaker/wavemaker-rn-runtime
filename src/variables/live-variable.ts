@@ -41,7 +41,7 @@ export class LiveVariable extends _LiveVariable {
   public appConfig = injector.get<AppConfig>('APP_CONFIG');
 
   constructor(public config: LiveVariableConfig) {
-    const variableConfig = {
+    const variableConfig: any = {
       name: config.name,
       dataSet: config.paramProvider(),
       inputFields: config.paramProvider(),
@@ -65,9 +65,6 @@ export class LiveVariable extends _LiveVariable {
       onSuccess: (context: any, args: any) => {
         return config.onSuccess && config.onSuccess(args.variable, args.data, args.options);
       },
-      onError: (context: any, args: any) => {
-        return config.onError && config.onError(args.variable, args.data, args.options);
-      },
       onCanUpdate: (context: any, args: any) => {
         return config.onCanUpdate && config.onCanUpdate(args.variable, args.data, args.options);
       },
@@ -80,6 +77,11 @@ export class LiveVariable extends _LiveVariable {
       onBeforeDatasetReady: (context: any, args: any) => {
         return config.onBeforeDatasetReady && config.onBeforeDatasetReady(args.variable, args.data, args.options);
       }
+    }
+    if (config.onError) {
+      variableConfig.onError = (context: any, args: any) => {
+        return config.onError && config.onError(args.variable, args.data, args.options);
+      };
     }
     super(variableConfig);
     this.dateFormatter = Formatters.get('toDate');
