@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { Badge } from 'react-native-paper';
 import { isArray } from 'lodash';
 
@@ -63,12 +63,12 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const isExpanded = this.state.isExpanded[index];
     return (
       <View style={this.styles.pane} key={item.props.name}>
-        <View key={'accordionpane_' + (index + 1)}
+        <TouchableOpacity key={'accordionpane_' + (index + 1)}
               style={[this.styles.header,
                 index === 0 ? this.styles.firstHeader: null,
                 index === accordionpanes.length - 1 && !isExpanded ? this.styles.lastHeader: null,
                 isExpanded ? this.styles.activeHeader : {}]}
-                onTouchEnd={this.toggle.bind(this, index + 1)}>
+                onPress={this.toggle.bind(this, index + 1)}>
           {this.expandCollapseIcon(item, false, showIconOnLeft, true, isExpanded)}
           {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
           <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
@@ -82,7 +82,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
               (<Text style={this.styles.subheading}>{item.props.description}</Text>) : null }
           </View>
           {this.expandCollapseIcon(item, true, !showIconOnLeft, true, isExpanded)}
-        </View>
+        </TouchableOpacity>
         {item}
       </View>
     );
