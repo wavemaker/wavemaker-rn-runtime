@@ -112,6 +112,8 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
         } else {
           this.props.destroyMe();
         }
+      } else {
+        (this.props as PageProps).navigation.closeDrawer();
       }
       return Promise.resolve();
     }
