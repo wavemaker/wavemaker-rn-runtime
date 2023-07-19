@@ -4,6 +4,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { isArray } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
+import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
@@ -53,7 +54,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return selectedItem === $item;
   }
 
-  private onSelect($item: any, $index: number | string) {
+  private onSelect($item: any, $index: number | string, triggerTapEvent = false) {
     const props = this.state.props;
     let selectedItem = null as any;
     if (!props.disableitem($item, $index)) {
@@ -84,6 +85,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         selectedindex: $index
       } as WmListState, () => {
         this.invokeEventCallback('onSelect', [this.proxy, $item]);
+        triggerTapEvent && this.invokeEventCallback('onTap', [null, this.proxy]);
       });
     }
   }
@@ -197,7 +199,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   private renderItem(item: any, index: number, props: WmListProps) {
     return (
-        <TouchableWithoutFeedback onPress={() => this.onSelect(item, index)}>
+        <Tappable
+          onTap={() => this.onSelect(item, index, true)}
+          onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
+          onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
           <View style={[
               this.styles.item,
               props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
@@ -207,7 +212,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               <WmIcon iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
             ) : null}
           </View>
-        </TouchableWithoutFeedback>
+        </Tappable>
       );
   }
 
@@ -294,11 +299,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
     const isHorizontal = (props.direction === 'horizontal');
     return (
-      <View>
-        {this._background}
-        {(isHorizontal) ?
-          this.renderWithFlatList(props, isHorizontal)
-        : this.renderWithSectionList(props, isHorizontal)}
+        <View>
+          {this._background}
+          {(isHorizontal) ?
+            this.renderWithFlatList(props, isHorizontal)
+          : this.renderWithSectionList(props, isHorizontal)}
       </View>);
   }
 }
