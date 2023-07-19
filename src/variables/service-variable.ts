@@ -44,12 +44,20 @@ export class ServiceVariable extends _ServiceVariable {
       serviceInfo: config.getServiceInfo(),
       httpClientService: httpService,
       onSuccess: (context: any, args: any) => {
+        this.notify(VariableEvents.AFTER_INVOKE, [args.variable, args.data, args.options]);
+        this.notify(VariableEvents.SUCCESS, [args.variable, args.data, args.options]);
         return config.onSuccess && config.onSuccess(args.variable, args.data, args.options);
+      },
+      onError: (context: any, args: any) => {
+        this.notify(VariableEvents.AFTER_INVOKE, [args.variable, args.data, args.options]);
+        this.notify(VariableEvents.ERROR, [args.variable, args.data, args.options]);
+        return config.onError && config.onError(args.variable, args.data, args.options);
       },
       onCanUpdate: (context: any, args: any) => {
         return config.onCanUpdate && config.onCanUpdate(args.variable, args.data, args.options);
       },
       onBeforeUpdate: (context: any, args: any) => {
+        this.notify(VariableEvents.BEFORE_INVOKE, [args.variable, args.inputData, args.options]);
         return config.onBeforeUpdate && config.onBeforeUpdate(args.variable, args.inputData, args.options);
       },
       onResult: (context: any, args: any) => {
