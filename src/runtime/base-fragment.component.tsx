@@ -327,7 +327,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         this.autoUpdateVariables
           .forEach(value => this.Variables[value]?.invokeOnParamChange());
       }
-      return (<ThemeProvider value={this.theme}>
+      return this.isVisible() ? (<ThemeProvider value={this.theme}>
         <ToastConsumer>
             {(toastService: ToastService) => {
               this.toaster = toastService;
@@ -335,7 +335,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
             }}
           </ToastConsumer>
 
-      </ThemeProvider>);
+      </ThemeProvider>) : null;
     }
 }
 

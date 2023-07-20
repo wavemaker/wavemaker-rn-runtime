@@ -39,6 +39,7 @@ export const toBoolean = (val: any) => {
   return  val === true
     || val === 'true'
     || !(val === false
+      || val === 'false'
       || val === null
       || val === undefined
       || val === '');
