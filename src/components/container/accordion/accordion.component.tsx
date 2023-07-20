@@ -32,6 +32,16 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     }
   }
 
+  expand(accordionName: string) {
+    const i = this.accordionPanes.findIndex(t => t.props.name === accordionName);
+    this.toggle(i + 1, true);
+  }
+
+  collapse(accordionName: string) {
+    const i = this.accordionPanes.findIndex(t => t.props.name === accordionName);
+    this.toggle(i + 1, false);
+  }
+
   expandCollapseIcon(item: any, showBadge = true, showIcon = true, useChevron = true, isExpanded = false) {
     const widgetProps = item.props;
     //@ts-ignore
@@ -68,7 +78,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                 index === 0 ? this.styles.firstHeader: null,
                 index === accordionpanes.length - 1 && !isExpanded ? this.styles.lastHeader: null,
                 isExpanded ? this.styles.activeHeader : {}]}
-                onPress={this.toggle.bind(this, index + 1)}>
+                onPress={this.toggle.bind(this, index + 1, !isExpanded)}>
           {this.expandCollapseIcon(item, false, showIconOnLeft, true, isExpanded)}
           {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
           <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
@@ -88,17 +98,21 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     );
   }
 
-  toggle(expandedId: number) {
-    let collapseId = this.state.isExpanded[expandedId - 1] ? expandedId: -1;
-    expandedId = this.state.isExpanded[expandedId - 1] ? -1 : expandedId;
+  toggle(index: number, expand = true) {
+    let expandedId = expand ? index : -1;
+    let collapseId = expand ? -1 : index;
+    if (expand && this.state.isExpanded[expandedId - 1]
+        || !expand && this.state.isExpanded[collapseId - 1] === false) {
+        return;
+    }
     if (collapseId < 0 && this.state.props.closeothers) {
       collapseId = this.state.lastExpandedIndex;
     }
     const collapsedPane = this.accordionPanes[collapseId -1];
-    collapsedPane?.collapse();
+    collapsedPane?.hide();
     Promise.resolve().then(() => {
       const expandedPane = expandedId ? this.accordionPanes[expandedId - 1]: null;
-      expandedPane?.expand();
+      expandedPane?.show();
       this.setState((state) => {
         if (collapseId > 0 && collapsedPane) {
           state.isExpanded[collapseId - 1] = false;
