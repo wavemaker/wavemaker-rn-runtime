@@ -48,18 +48,26 @@ export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps,
     return this.state.collapsed;
   }
   
-  expand() {
+  show() {
     this.updateState({
       collapsed: false
     } as WmAccordionpaneState);
     this.invokeEventCallback('onExpand', [null, this.proxy]);
   }
 
-  collapse() {
+  hide() {
     this.updateState({
       collapsed: true
     } as WmAccordionpaneState);
     this.invokeEventCallback('onCollapse', [null, this.proxy]);
+  }
+
+  expand() {
+    (this.parent as WmAccordion).expand(this.props.name || '');
+  }
+
+  collapse() {
+    (this.parent as WmAccordion).expand(this.props.name || '');
   }
 
   componentDidMount() {
