@@ -409,6 +409,8 @@ export default class ThemeVariables {
     chartLegendBorder = this.defaultColor7;
     chartAxisColor = this.defaultColor5;
     chartAxisPointColor = this.defaultColor9;
+    chartTitleColor = this.widgetHeaderTextColor;
+    chartSubTitleColor = this.defaultColor6;
 
     // Network Toast
     networkToastBgColor = this.defaultColor3;
