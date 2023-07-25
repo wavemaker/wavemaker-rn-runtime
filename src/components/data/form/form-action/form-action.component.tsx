@@ -26,6 +26,7 @@ export default class WmFormAction extends BaseComponent<WmFormActionProps, WmFor
   renderWidget(props: WmFormActionProps) {
     return (
       <WmButton
+        show={props.show}
         disabled={props.disabled}
         caption={props.displayName}
         styles={this.styles}

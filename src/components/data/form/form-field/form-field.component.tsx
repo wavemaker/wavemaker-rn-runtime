@@ -159,6 +159,14 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
     }
   }
 
+  setReadOnlyState(updateMode: any) {
+    this.formwidget.updateState({
+      props: {
+        readonly: !updateMode,
+      }
+    } as WmFormFieldState);
+  }
+
   validateFormField() {
     if (this.formwidget?.state.isValid === false) {
       const errorType = this.formwidget?.state?.errorType;

@@ -19,5 +19,6 @@ export default class WmFormFieldProps extends BaseProps {
   displayfield: any;
   datafield: string = '';
   isDataSetBound: boolean = false;
+  readonly: boolean = false;
   onValidate?: Function;
 }

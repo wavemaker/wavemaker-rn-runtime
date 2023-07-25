@@ -18,6 +18,7 @@ import spinnerService from '@wavemaker/app-rn-runtime/runtime/services/app-spinn
 
 import AppI18nService from './services/app-i18n.service';
 import { Watcher } from './watcher';
+import WmFormAction from '@wavemaker/app-rn-runtime/components/data/form/form-action/form-action.component';
 
 export class FragmentProps extends BaseProps {
 
@@ -109,6 +110,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         }
         const formWidgets = this.Widgets[id].formWidgets;
         const formFields = this.Widgets[id].formFields;
+        const formActions = this.Widgets[id].buttonArray;
         this.Widgets[id] = w;
         if (w.parentFormRef) {
           let pid = w.parentFormRef.props.id || w.parentFormRef.props.name;
@@ -119,6 +121,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
           });
         }
         w.registerFormFields(formFields, formWidgets);
+        w.registerFormActions(formActions);
         return;
       }
       if (w.props.formfield) {
@@ -130,6 +133,17 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         this.Widgets[w.props.formRef].formWidgets[w.props.name] = w;
         return;
       }
+      if (w instanceof WmFormAction) {
+        if (!this.Widgets[w.props.formKey]) {
+          this.Widgets[w.props.formKey] = {};
+        }
+        if (!this.Widgets[w.props.formKey].buttonArray) {
+          this.Widgets[w.props.formKey].buttonArray = [];
+        }
+        this.Widgets[w.props.formKey].buttonArray.push(w);
+        return;
+      }
+
       if (w instanceof WmFormField) {
         if (!this.Widgets[w.props.formRef]) {
           this.Widgets[w.props.formRef] = {};
@@ -292,7 +306,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       if (this.refreshdataonattach) {
         Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()));
       }
-      Object.values(this.Widgets).forEach((w: any) => { 
+      Object.values(this.Widgets).forEach((w: any) => {
         w.componentWillAttach && w.componentWillAttach();
       });
     }
@@ -303,7 +317,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       Object.values(this.fragments).forEach((f: any) => f.onDetach());
       this.cleanUpVariablesandActions.forEach((v: any) => v.mute && v.mute());
       this.targetWidget?.invokeEventCallback('onDetach', [null, this.proxy]);
-      Object.values(this.Widgets).forEach((w: any) => { 
+      Object.values(this.Widgets).forEach((w: any) => {
         w.componentWillDetach && w.componentWillDetach();
       });
     }

@@ -15,12 +15,16 @@ import { DEFAULT_CLASS, WmFormStyles } from './form.styles';
 import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 import { isDataSetWidget } from '@wavemaker/app-rn-runtime/core/utils';
+import WmFormAction, {
+  WmFormActionState
+} from '@wavemaker/app-rn-runtime/components/data/form/form-action/form-action.component';
 
 export class WmFormState extends BaseComponentState<WmFormProps> {
   isValid = false;
   type: 'success' | 'warning' | 'error' | 'info' | 'loading' | undefined = 'success';
   message: string = '';
   showInlineMsg: boolean = false;
+  isUpdateMode: boolean = true;
 }
 export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFormStyles> {
   public formFields: Array<WmFormField> = []; // contains array of direct widget elements [WmText, WmNumber, WmCurrent]
@@ -28,7 +32,9 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   public formfields: {[key: string]: WmFormField} = {};
   public formdataoutput: any;
   private toaster: any;
+  public formActions: Array<WmFormAction> = [];
   primaryKey = [];
+  buttonArray: Array<WmFormAction> = [];
   formWidgets: { [key: string]: BaseComponent<any, any, any> } = {}; // object containing key as name of formField and value as WmFormField proxy.
   constructor(props: WmFormProps) {
     super(props, DEFAULT_CLASS, new WmFormProps());
@@ -52,6 +58,36 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     }
   }
 
+  setReadonlyFields() {
+    this.formFields?.forEach((field: any) => {
+      field.setReadOnlyState(this.state.isUpdateMode);
+    });
+  }
+
+  setReadonlyState(updateMode: any) {
+    this.updateState({
+      isUpdateMode: updateMode,
+    } as WmFormState);
+    setTimeout(() => {
+      this.showActions();
+      this.setReadonlyFields();
+    }, 100);
+  }
+
+  edit() {
+    this.setReadonlyState(true);
+  }
+
+  new() {
+    this.setReadonlyState(true);
+  }
+
+  cancel() {
+    this.setReadonlyState(false);
+  }
+
+  delete() { }
+
   registerFormFields(
     formFields: Array<WmFormField>,
     formWidgets: { [key: string]: BaseComponent<any, any, any> }
@@ -73,6 +109,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       }
     })
 
+    this.setReadonlyFields();
+
     this.applyFormData();
     this.applyDefaultValue();
 
@@ -91,6 +129,20 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         }
       } as WmFormState);
     }
+  }
+
+  showActions () {
+    this.buttonArray?.forEach((action: any) => {
+      action.updateState({
+        props: {
+          show: action.updateMode === this.state.isUpdateMode
+        }} as WmFormActionState);
+    });
+  }
+
+  registerFormActions(formActions: Array<WmFormAction>) {
+    this.buttonArray = formActions;
+    this.showActions();
   }
 
   private _updateFieldOnDataSourceChange(field: WmFormField, formFields: Array<WmFormField>) {
@@ -203,6 +255,11 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         if ($new) {
           this.applyFormData();
         }
+        break;
+      case 'defaultmode':
+        this.updateState({
+          isUpdateMode: $new && $new === 'Edit' ? true : false,
+        } as WmFormState);
         break;
       case 'dataset':
         this.formFields?.forEach((w: WmFormField) => {
