@@ -7,6 +7,7 @@ import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/ic
 export type WmFormStyles = BaseStyles & {
   heading: AllStyle,
   title: WmLabelStyles,
+  listIcon: WmIconStyles,
   subheading: WmLabelStyles
 };
 
