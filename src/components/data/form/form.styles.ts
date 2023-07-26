@@ -2,6 +2,7 @@ import BASE_THEME, {AllStyle} from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import {WmLabelStyles} from "@wavemaker/app-rn-runtime/components/basic/label/label.styles";
 import ThemeVariables from "@wavemaker/app-rn-runtime/styles/theme.variables";
+import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 
 export type WmFormStyles = BaseStyles & {
   heading: AllStyle,
@@ -36,7 +37,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         lineHeight: 18,
         color: themeVariables.formSubTitleColor
       }
-    } as WmLabelStyles
+    } as WmLabelStyles,
+    listIcon: {
+      root: {
+        fontSize: themeVariables.heading4FontSize,
+        marginRight: 8
+      }
+    } as WmIconStyles,
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
