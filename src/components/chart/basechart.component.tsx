@@ -435,8 +435,12 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
         this.applyTheme(this.props);
         break;
       case 'dataset':
-        if (!isEmpty($new) && isObject($new) && !isArray($new)) {
-          $new = [$new];
+        if (!isArray($new)) {
+          if (isObject($new) && !isEmpty($new)) {
+            $new = [$new];
+          } else {
+            $new = [];
+          }
         }
         $new && this.prepareDataItems($new);
         break;
