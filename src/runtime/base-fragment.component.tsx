@@ -210,7 +210,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     toBoolean(val: any) {
       if (isNil(val)) {
-        return val;
+        return false;
       }
       return toBoolean(val);
     }

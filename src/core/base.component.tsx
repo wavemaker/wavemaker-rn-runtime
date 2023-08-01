@@ -1,4 +1,4 @@
-import { assign, isEqual, isUndefined } from 'lodash';
+import { assign, isUndefined, isNil } from 'lodash';
 import React, { ReactNode } from 'react';
 import { I18nManager, Platform, TextStyle, ViewStyle } from 'react-native';
 import { AnimatableProperties } from 'react-native-animatable';
@@ -85,7 +85,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         super(markupProps);
         this.state = (defaultState || {} as S);
         this.propertyProvider = new PropsProvider<T>(
-            assign({}, defaultProps),
+            assign({show: true}, defaultProps),
             assign({}, markupProps),
             (name: string, $new: any, $old: any) => {
                 WIDGET_LOGGER.debug(() => `${this.props.name || this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
@@ -278,7 +278,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     isVisible() {
         const show = this.state.props.show;
-        return show !== false && show !== 'false' && show !== '0' && show !== null;
+        return show !== false && show !== 'false' && show !== '0' && !isNil(show);
     }
 
     protected abstract renderWidget(props: T): ReactNode;
