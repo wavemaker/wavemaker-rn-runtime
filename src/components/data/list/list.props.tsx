@@ -11,9 +11,11 @@ export default class WmListProps extends BaseProps {
     renderItem: any = () => (<View/>);
     loadingicon='fa fa-circle-o-notch fa-pulse';
     loadingdatamsg = 'Loading...';
+    multiselect = false;
     nodatamessage = 'No data found';
     loadingdata = false;
     selectfirstitem = false;
+    selectionlimit = -1;
     disableitem = ($item: any, $index: any) => false;
     itemkey?: ($item: any, $index: any) => any = null as any;
     direction: 'horizontal' | 'vertical' = 'vertical';

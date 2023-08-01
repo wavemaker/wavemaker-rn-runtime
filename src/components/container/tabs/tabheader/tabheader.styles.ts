@@ -9,6 +9,8 @@ export type WmTabheaderStyles = BaseStyles & {
     header: ViewStyle,
     headerIcon: WmIconStyles,
     headerText: TextStyle,
+    arrowIndicator: ViewStyle,
+    arrowIndicatorDot: ViewStyle,
     activeHeader: ViewStyle,
     activeHeaderIcon: WmIconStyles,
     activeHeaderText: TextStyle,
@@ -54,7 +56,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             backgroundColor: themeVariables.tabActiveIndicatorBgColor,
             width: 100,
             height: 4,
-            marginTop: -4
+            marginTop: -4,
+            backgroundPosition: '0px center',
+            backgroundSize: '48px 48px',
+            backgroundRepeat: 'no-repeat'
         },
         activeHeaderIcon: {
             text: {
@@ -63,6 +68,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         } as WmIconStyles,
         activeHeaderText: {
             color: themeVariables.tabActiveHeaderTextColor 
+        },
+        arrowIndicator: {
+            display: 'none'
+        },
+        arrowIndicatorDot: {
+            display: 'none'
         },
         skeleton: {} as WmSkeletonStyles
     } as WmTabheaderStyles;

@@ -1,11 +1,12 @@
 import { assign, isEqual, isUndefined } from 'lodash';
 import React, { ReactNode } from 'react';
-import { TextStyle, ViewStyle } from 'react-native';
+import { I18nManager, Platform, TextStyle, ViewStyle } from 'react-native';
 import { AnimatableProperties } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { StyleProps, getStyleName } from '@wavemaker/app-rn-runtime/styles/style-props';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, ThemeEvent } from '../styles/theme';
@@ -29,13 +30,14 @@ export class BaseComponentState<T extends BaseProps> {
 
 export type BaseStyles = NamedStyles<any> & {
     root: AllStyle,
-    text: TextStyle
+    text: TextStyle & {userSelect?: 'none'| 'text'}
 }
 
 export function defineStyles<T>(styles: T): T {
     return deepCopy({
         text: {
-            fontFamily: ThemeVariables.INSTANCE.baseFont
+            fontFamily: ThemeVariables.INSTANCE.baseFont,
+            userSelect: 'text'
         }
     }, styles);
 }
@@ -77,6 +79,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public _background = <></>;
     private styleOverrides = {} as any;
     public loadAsset: (path: string) => number | string = null as any;
+    private i18nService = injector.I18nService.get();
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -85,7 +88,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             assign({}, defaultProps),
             assign({}, markupProps),
             (name: string, $new: any, $old: any) => {
-                WIDGET_LOGGER.debug(() => `${this.props.name ?? this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
+                WIDGET_LOGGER.debug(() => `${this.props.name || this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
                 if (this.initialized) {
                     const styleName = getStyleName(name);
                     if (styleName) {
@@ -95,6 +98,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                             this.styleOverrides[styleName] = $new;
                         }
                     }
+                }
+                if (name === 'showskeleton' && this.initialized) {
+                    this.cleanRefresh();
                 }
                 this.onPropertyChange(name, $new, $old);
             });
@@ -141,6 +147,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.notifier.subscribe(event, fn);
     }
 
+    public get isRTL(){
+        return this.i18nService.isRTLLocale();
+    }
+
     public animate(props: AnimatableProperties<ViewStyle>) {
         this.setState({
             animationId: Date.now(),
@@ -156,17 +166,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     setPropDefault(propName: string, value: any) {
         this.propertyProvider.setDefault(propName, value);
     }
-
-    onPropertyChange(name: string, $new: any, $old: any) {
-        switch(name) {
-            case 'showskeleton': {
-                if (this.initialized) {
-                    this.cleanRefresh();
-                }
-            }
-        }
+    
+    onPropertyChange(name: string, $new: any, $old: any) {        
     }
-
+     
     getDefaultStyles() {
         return this.theme.getStyle(this.defaultClass);
     }
@@ -252,6 +255,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
         this.cleanup.forEach(f => f && f());
         this.notifier.notify('destroy', []);
+    }
+    
+    componentDidUpdate(prevProps: Readonly<T>, prevState: Readonly<S>, snapshot?: any): void {
+        if (this.propertyProvider.check(this.props)) {
+            this.forceUpdate();
+        }
     }
 
     invokeEventCallback(eventName: string, args: any[]) {
@@ -357,7 +366,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
       
     public render(): ReactNode {
-        WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
         const props = this.state.props;
         if (this.state.hide || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)) {
             return null;
@@ -374,10 +382,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                         <ParentContext.Provider value={this}>
                         <ThemeConsumer>
                             {(theme) => {
+                                WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
                                 this.theme = theme || BASE_THEME;
                                 this.styles =  this.theme.mergeStyle(
                                     this.getDefaultStyles(),
                                     props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
+                                    this.isRTL ? this.theme.getStyle(this.defaultClass + '-rtl') : null,
                                     props.classname && this.theme.getStyle(props.classname),
                                     props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
                                     this.props.styles,

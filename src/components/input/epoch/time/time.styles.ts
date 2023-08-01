@@ -1,5 +1,6 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { WmDatetimeStyles, DEFAULT_CLASS as DATE_TIME_DEFAUlT_CLASS } from '../datetime/datetime.styles';
+import { Platform } from 'react-native';
 
 export type WmTimeStyles = WmDatetimeStyles;
 
@@ -11,4 +12,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         backgroundColor: themeVariables.inputDisabledBgColor
       }
   });
+  addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="web"?{
+    clearIcon: {
+        root: {
+            marginLeft: 4,
+            marginRight: 0
+        }
+    }
+  }:{});
 });

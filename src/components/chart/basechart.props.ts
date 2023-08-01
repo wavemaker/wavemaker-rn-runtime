@@ -3,6 +3,7 @@ import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 export default class BaseChartComponentProps extends BaseProps {
   xaxisdatakey: string = '';
   yaxisdatakey: string = '';
+  iconclass = '';
   dataset: any;
   type: string = '';
   title: string = '';
@@ -18,7 +19,7 @@ export default class BaseChartComponentProps extends BaseProps {
   customcolors: string | Array<string> = '';
   legendheight: number = 0;
   labellegendheight: number = 0;
-  labeltype: string = 'percent';
+  labeltype: 'percent' | 'value' | 'key-value' | 'key' = 'percent';
   bubblesize: string= '';
   shape: string = '';
   loadingicon='fa fa-circle-o-notch fa-pulse';
@@ -29,7 +30,7 @@ export default class BaseChartComponentProps extends BaseProps {
   offsetleft: number = 65;
   offsetright: number = 25;
   showlegend: string = 'top';
-  showlabels: string = 'outside';
+  showlabels: 'inside' | 'outside' | 'hide' = 'outside';
   tooltips: boolean = false;
   interpolation: string = 'linear';
   highlightpoints: boolean = false;

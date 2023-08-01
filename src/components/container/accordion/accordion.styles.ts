@@ -1,7 +1,7 @@
 import BASE_THEME, {AllStyle} from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
-import { TextStyle, ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle, Platform } from 'react-native';
 import Color from 'color';
 
 export type WmAccordionStyles = BaseStyles & {
@@ -39,15 +39,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderTopLeftRadius: 6,
         borderTopRightRadius: 6
       },
-      pane : {
-        marginBottom: 4,
-      },
+      pane : {},
       header: {
         borderBottomWidth: 1,
         borderStyle: 'solid',
         borderColor: themeVariables.accordionBorderColor,
         backgroundColor: themeVariables.accordionHeaderBgColor,
-        padding: 8
+        padding: 8,
+        flexDirection: 'row',
+        justifyContent: 'center'
       },
       lastHeader: {
         borderBottomWidth: 0,
@@ -130,6 +130,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="web"?{
+    text:{
+        textAlign:'right',
+    }  
+  }:{
+    text:{
+      textAlign:'left',
+    }  
+  });
   addStyle('app-accordion1', '', {
     pane: {
       marginBottom: 0

@@ -1,5 +1,6 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { Platform } from 'react-native';
 
 export type WmCurrencyStyles = BaseStyles & {
   label: AllStyle;
@@ -54,6 +55,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="web"?{
+    labelWrapper:{
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+      borderTopRightRadius: 6,
+      borderBottomRightRadius: 6,
+    }
+  }:{});
   addStyle(DEFAULT_CLASS + '-disabled', '', {
       root : {
         backgroundColor: themeVariables.inputDisabledBgColor

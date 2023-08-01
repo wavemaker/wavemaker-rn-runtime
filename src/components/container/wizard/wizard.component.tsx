@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Platform } from 'react-native';
 import { isArray, merge } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -67,22 +67,28 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   renderWizardHeader(item: any, index: number) {
     const isLastStep = index === this.numberOfSteps - 1;
     const isFirstStep = index === 0;
+    const isActiveStep = index === this.state.currentStep;
+    const isNumberTextLayout = this.state.props.classname === 'number-text-inline';
     return item.props.show != false ? (
-      <View style={this.styles.headerWrapper} key={index+1}>
+      <View style={[this.styles.headerWrapper, isNumberTextLayout ?
+        {paddingRight: isActiveStep ? 0 : 5, paddingLeft: index === this.state.currentStep + 1 ? 0 : 5}: {}]} key={index+1}>
         <TouchableOpacity style={this.styles.stepWrapper}
                           onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep}>
             <View style={this.getStepStyle(index)}>
               {index >= this.state.currentStep && !this.state.isDone &&
-                    <Text style={index === this.state.currentStep ? this.styles.activeStep : this.styles.stepCounter}>{index+1}</Text>}
+                <Text style={isActiveStep ? this.styles.activeStep : this.styles.stepCounter}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&
-                    <WmIcon styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
-                            iconclass={item.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
+                <WmIcon styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
+                        iconclass={item.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
             </View>
-          <Text style={this.styles.stepTitle}>
-            {item.props.title || 'Step Title'}</Text>
+            {((isNumberTextLayout && isActiveStep) || !isNumberTextLayout) &&
+              <Text style={this.styles.stepTitle}>
+              {item.props.title || 'Step Title'}</Text> }
+            {this.numberOfSteps > 1 && isActiveStep &&
+              <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
         {this.numberOfSteps > 1 && <View style={[this.styles.stepConnector, { width: isFirstStep || isLastStep ? '50%' : '100%',
-                                                      left: isFirstStep ? '50%': '0%'}]}></View>}
+                                                      left: Platform.OS == "web"?(!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? '50%': '0%': isFirstStep ? '50%': '0%'}]}></View>}
       </View>
     ) : null;
   }

@@ -2,6 +2,7 @@ import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
+import { Platform } from 'react-native';
 
 export type WmMessageStyles = BaseStyles & {
     message: AllStyle,
@@ -94,6 +95,27 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     };
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
+    addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="web"?{
+        title:{
+            textAlign:'right',
+        },
+        text:{
+            textAlign:'right',
+        },
+        message:{
+            paddingRight: 16
+        }
+    }:{
+        title:{
+            textAlign:'left',
+        },
+        text:{
+            textAlign:'left',
+        },
+        message:{
+            paddingRight: 16
+        }
+    });
     addStyle('success-dark-message', '', getStyle(
         themeVariables.messageSuccessColor,
         themeVariables.defaultColorF,

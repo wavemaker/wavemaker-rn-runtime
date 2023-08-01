@@ -1,6 +1,7 @@
 import BASE_THEME, {AllStyle} from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
+import { Platform } from 'react-native';
 
 export type WmSelectStyles = BaseStyles & {
   arrowButton: WmButtonStyles;
@@ -91,5 +92,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       root : {
         backgroundColor: themeVariables.inputDisabledBgColor
       }
+  });
+  addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="web"?{
+    text:{
+      textAlign:'right',
+    }
+  }:{
+    text:{
+      textAlign:'left',
+    }
   });
 });

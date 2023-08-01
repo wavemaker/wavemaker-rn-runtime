@@ -3,6 +3,7 @@ import { WmAnchorStyles } from '../../basic/anchor/anchor.styles';
 import { WmPopoverStyles, DEFAULT_CLASS as POPOVER_CLASS } from '../popover/popover.styles';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { Platform } from 'react-native';
 
 export type WmMenuStyles = WmPopoverStyles & {
     menu: AllStyle,
@@ -67,4 +68,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     };
 
     addStyle(DEFAULT_CLASS, POPOVER_CLASS, defaultStyles);
+    addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="web"?{}:{
+        root: {
+            width: '100%'
+        }
+    });
 });

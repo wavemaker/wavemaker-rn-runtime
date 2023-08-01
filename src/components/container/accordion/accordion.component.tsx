@@ -1,39 +1,48 @@
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
-import { Badge, List } from 'react-native-paper';
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { Badge } from 'react-native-paper';
 import { isArray } from 'lodash';
-import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { isDefined } from '@wavemaker/app-rn-runtime/core/utils';
 
+import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmAccordionProps from './accordion.props';
 import { DEFAULT_CLASS, WmAccordionStyles } from './accordion.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
-import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import WmAccordionpane from './accordionpane/accordionpane.component';
-import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
-import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
+import { isDefined } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmAccordionState extends BaseComponentState<WmAccordionProps> {
-  expandedId: any;
+  lastExpandedIndex = -1;
+  isExpanded = [] as boolean[];
 }
 
 export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccordionState, WmAccordionStyles> {
-  private animatedRef: any;
   public accordionPanes = [] as WmAccordionpane[];
   private newIndex = 0;
 
   constructor(props: WmAccordionProps) {
-    super(props, DEFAULT_CLASS, new WmAccordionProps());
-    this.updateState({
-      expandedId: (this.state.props.defaultpaneindex || 0) + 1
-    } as WmAccordionState);
+    super(props, DEFAULT_CLASS, new WmAccordionProps(), new WmAccordionState());
   }
 
   addAccordionPane(accordionPane: WmAccordionpane) {
-    this.accordionPanes[(this.newIndex || this.state.expandedId) - 1] = accordionPane;
+    const i = this.accordionPanes.findIndex(t => t.props.name === accordionPane.props.name);
+    if (i >= 0) {
+      this.accordionPanes[i] = accordionPane;
+    } else {
+      this.accordionPanes[this.newIndex++] = accordionPane;
+    }
   }
 
-  expandCollapseIcon(props: any, item: any, showBadge = true, showIcon = true, useChevron = true, isExpanded = false) {
+  expand(accordionName: string) {
+    const i = this.accordionPanes.findIndex(t => t.props.name === accordionName);
+    this.toggle(i + 1, true);
+  }
+
+  collapse(accordionName: string) {
+    const i = this.accordionPanes.findIndex(t => t.props.name === accordionName);
+    this.toggle(i + 1, false);
+  }
+
+  expandCollapseIcon(item: any, showBadge = true, showIcon = true, useChevron = true, isExpanded = false) {
     const widgetProps = item.props;
     //@ts-ignore
     const badge = showBadge && widgetProps.badgevalue != undefined ? (
@@ -59,133 +68,89 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
           </View>);
   }
 
-  renderAccordionpane(item: any, index: any, isExpanded = true, accordionpanes: any[] = []) {
+  renderAccordionpane(item: any, index: any, accordionpanes: any[] = []) {
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
+    const isExpanded = this.state.isExpanded[index];
     return (
       <View style={this.styles.pane} key={item.props.name}>
-        <List.Accordion title={isDefined(item.props.title) ? item.props.title : 'Title'}
-                        style={[
-                          this.styles.header,
-                          index === 0 ? this.styles.firstHeader: null,
-                          index === accordionpanes.length - 1 && !isExpanded ? this.styles.lastHeader: null,
-                          isExpanded ? this.styles.activeHeader : {}]}
-                        theme={{
-                          colors: {
-                            background : this.styles.header.backgroundColor as string,
-                            primary: this.styles.activeHeader.color as string
-                          }
-                        }}
-                        titleStyle={[this.styles.text, isExpanded ? this.styles.activeHeaderTitle : {}]}
-                        descriptionStyle={this.styles.subheading}
-                        description={item.props.subheading}
-                        id={index + 1}
-                        key={'accordionpane_' + index}
-                        right={props => this.expandCollapseIcon(props, item, true, !showIconOnLeft, true, isExpanded)}
-                        left={props => (
-                          <>
-                            {this.expandCollapseIcon(props, item, false, showIconOnLeft, true, isExpanded)}
-                            {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
-                          </>)
-                        }>
-            <Animatedview style={{marginLeft: -64}} ref={ref => this.animatedRef = ref} entryanimation={this.state.props.animation}>{item}</Animatedview>
-        </List.Accordion>
+        <TouchableOpacity key={'accordionpane_' + (index + 1)}
+              style={[this.styles.header,
+                index === 0 ? this.styles.firstHeader: null,
+                index === accordionpanes.length - 1 && !isExpanded ? this.styles.lastHeader: null,
+                isExpanded ? this.styles.activeHeader : {}]}
+                onPress={this.toggle.bind(this, index + 1, !isExpanded)}>
+          {this.expandCollapseIcon(item, false, showIconOnLeft, true, isExpanded)}
+          {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
+          <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
+            <Text style={[
+              this.styles.text,
+              this.styles.heading,
+              isExpanded ? this.styles.activeHeaderTitle : {}]}>
+                {isDefined(item.props.title) ? item.props.title : 'Title'}
+            </Text>
+            {item.props.description ? 
+              (<Text style={this.styles.subheading}>{item.props.description}</Text>) : null }
+          </View>
+          {this.expandCollapseIcon(item, true, !showIconOnLeft, true, isExpanded)}
+        </TouchableOpacity>
+        {item}
       </View>
     );
   }
 
-  onAccordionPress(expandedId: any) {
-    const oldIndex = this.state.expandedId;
-    this.newIndex = expandedId;
-    const collapsedPane = oldIndex ? this.accordionPanes[oldIndex - 1]: null;
-    collapsedPane?.onPaneCollapse();
+  toggle(index: number, expand = true) {
+    let expandedId = expand ? index : -1;
+    let collapseId = expand ? -1 : index;
+    if (expand && this.state.isExpanded[expandedId - 1]
+        || !expand && this.state.isExpanded[collapseId - 1] === false) {
+        return;
+    }
+    if (collapseId < 0 && this.state.props.closeothers) {
+      collapseId = this.state.lastExpandedIndex;
+    }
+    const collapsedPane = this.accordionPanes[collapseId -1];
+    collapsedPane?.hide();
     Promise.resolve().then(() => {
-      if (this.state.expandedId >= 0) {
-        return this.animatedRef.triggerExit().then((res: any) => !res && Promise.reject());
-      }
-    }).then(() => {
-      if (this.state.expandedId === expandedId) {
-        expandedId = -1;
-      }
-      this.updateState({
-        expandedId: expandedId,
-      } as WmAccordionState, () => {
-        const expandedPane = expandedId ? this.accordionPanes[expandedId - 1]: null;
-        expandedPane?.onPaneExpand();
+      const expandedPane = expandedId ? this.accordionPanes[expandedId - 1]: null;
+      expandedPane?.show();
+      this.setState((state) => {
+        if (collapseId > 0 && collapsedPane) {
+          state.isExpanded[collapseId - 1] = false;
+        }
+        if (expandedId > 0 && expandedPane) {
+          state.isExpanded[expandedId - 1] = true;
+        }
+        return {
+          lastExpandedIndex: expandedId,
+          isExpanded: [...state.isExpanded]
+        };
+      }, () => {
         this.invokeEventCallback('onChange', [{},
           this.proxy,
           expandedId - 1,
-          oldIndex ? oldIndex - 1 : null,
+          collapseId ? collapseId - 1 : null,
           expandedPane && expandedPane.props.name,
-          collapsedPane && collapsedPane.props.name])
-      });
+          collapsedPane && collapsedPane.props.name]);
+        });
     }, () => {});
   }
 
-
-  renderSkeletonAccordionpane(item: any, index: any, isExpanded = true, accordionpanes: any[] = []) {
-    const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
-    return (
-      <View style={this.styles.pane} key={item.props.name}>
-        <List.Accordion title={''}
-                        style={[{}]}
-                        theme={{}}
-                        titleStyle={[{}]}
-                        descriptionStyle={this.styles.subheading}
-                        description={item.props.subheading}
-                        id={index + 1}
-                        key={'accordionpane_' + index}
-                        right={props => this.expandCollapseIcon(props, item, true, !showIconOnLeft, true, isExpanded)}
-                        left={props => (
-                          <>
-                            {
-                              createSkeleton(this.theme, { root: { borderRadius: 4 }} as WmSkeletonStyles, {
-                                ...this.styles.root,
-                                width: this.styles.root?.width || "100%",
-                                height: this.styles.root?.height || this.styles.activeHeaderTitle?.fontSize || 16
-                              })
-                            }
-                            {this.expandCollapseIcon(props, item, false, showIconOnLeft, true, isExpanded)}
-                            {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
-                          </>)
-                        }>
-            <Animatedview style={{marginLeft: -64}} ref={ref => this.animatedRef = ref} entryanimation={this.state.props.animation}>{item}</Animatedview>
-        </List.Accordion>
-      </View>
-    );
-  }
-  public AccordionSkeleton() {
-    const accordionpanes = this.props.children;
-    const expandedId = this.state.expandedId || 0;
-    return (
-      <View style={this.styles.root}>
-      <List.AccordionGroup expandedId={ expandedId } onAccordionPress={this.onAccordionPress.bind(this)} >
-        {accordionpanes
-          ? isArray(accordionpanes) && accordionpanes.length
-            ? accordionpanes.map((item: any, index: any) => this.renderSkeletonAccordionpane(item, index, false, accordionpanes))
-            : this.renderSkeletonAccordionpane(accordionpanes, 0)
-          : null}
-      </List.AccordionGroup>
-    </View>
-    )
-  }
-
-  public renderSkeleton(props: WmAccordionProps){
-      return(this.AccordionSkeleton())
+  public componentDidMount(): void {
+      super.componentDidMount();
+      this.toggle(this.state.props.defaultpaneindex + 1);
   }
 
   renderWidget(props: WmAccordionProps) {
     const accordionpanes = props.children;
-    const expandedId = this.state.expandedId || 0;
+    const expandedId = this.state.lastExpandedIndex || 0;
     return (
         <View style={this.styles.root}>
           {this._background}
-          <List.AccordionGroup expandedId={ expandedId } onAccordionPress={this.onAccordionPress.bind(this)} >
             {accordionpanes
               ? isArray(accordionpanes) && accordionpanes.length
-                ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index, expandedId === index + 1, accordionpanes))
+                ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index, accordionpanes))
                 : this.renderAccordionpane(accordionpanes, 0)
               : null}
-          </List.AccordionGroup>
         </View>
     );
   }

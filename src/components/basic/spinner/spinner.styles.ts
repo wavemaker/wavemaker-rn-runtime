@@ -37,4 +37,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  addStyle(DEFAULT_CLASS + '-rtl', '', {
+    root : {
+      textAlign: 'right'
+    },
+    text: {
+      paddingRight: 8
+    }
+  });
 });

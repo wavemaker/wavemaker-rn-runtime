@@ -115,6 +115,8 @@ export default class ThemeVariables {
     tabActiveHeaderIconColor = this.primaryColor;
     tabBorderColor = this.widgetBorderColor;
     tabContentBgColor = this.widgetBgColor;
+    tabArrowIndicatorBgColor = this.tabContentBgColor;
+    tabArrowIndicatorDotColor = this.primaryColor;
 
     //label Variables
     labelHeaderColor = '#151420';
@@ -197,7 +199,9 @@ export default class ThemeVariables {
     ratingSelectedIconColor = '#eb8600';
 
     //toggle variables
-    toggleColor = this.primaryColor;
+    toggleOnColor = Color(this.primaryColor).lighten(0.4).rgb().toString();
+    toggleOffColor = this.defaultColorB;
+    toggleHandleColor = this.primaryColor;
 
     // radioset, checkboxset variables
     groupHeadingBgColor = this.transparent;
@@ -405,6 +409,8 @@ export default class ThemeVariables {
     chartLegendBorder = this.defaultColor7;
     chartAxisColor = this.defaultColor5;
     chartAxisPointColor = this.defaultColor9;
+    chartTitleColor = this.widgetHeaderTextColor;
+    chartSubTitleColor = this.defaultColor6;
 
     // Network Toast
     networkToastBgColor = this.defaultColor3;
@@ -418,6 +424,10 @@ export default class ThemeVariables {
     skeletonGradientBgColor = this.defaultColorF;
     skeletonGradientShadowColor = this.defaultColorF;
     skeletonGradientForegroundColor = this.transparent;
+
+    // Audio
+    audioPlayerBgColor = this.defaultColorF;
+    audioPlayerFgColor = this.defaultColor3;
 
     static INSTANCE = new ThemeVariables();
 }

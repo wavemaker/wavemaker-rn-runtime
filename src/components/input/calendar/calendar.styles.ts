@@ -132,4 +132,22 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
+    addStyle(DEFAULT_CLASS + '-rtl', '', {
+        prevMonthBtn: {
+            root: {
+                transform: [ {rotateY: '180deg'}]
+            }
+        } as WmIconStyles,
+        nextMonthBtn: {
+            root: {
+                transform: [ {rotateY: '180deg'}]            
+            }
+        } as WmIconStyles,
+        monthText: {
+            padding: 2
+        },
+        yearText: {
+            padding: 2
+        }
+    });
 });

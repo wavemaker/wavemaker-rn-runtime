@@ -61,9 +61,9 @@ class NetworkService {
      *
      * @returns {object} promise
      */
-    public connect(): Promise<boolean> {
+    public connect(silent = false): Promise<boolean> {
         this.setAutoConnect(true);
-        return this.tryToConnect();
+        return this.tryToConnect(silent);
     }
 
     /**

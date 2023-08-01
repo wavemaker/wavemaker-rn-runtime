@@ -90,10 +90,6 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
     abstract renderPrefab(): React.ReactNode;
 
     renderWidget(props: PrefabProps) {
-      Object.keys(this.props).forEach(k => {
-        //@ts-ignore
-        this[k] = this.state.props[k] || this.props[k];
-      });
       return (
         <PartialProvider value={this.partialService}>
           <View style={[{width: '100%'}, props.styles?.root]}>

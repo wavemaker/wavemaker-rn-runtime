@@ -117,7 +117,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         {this.state.sliderWidth > 0 ?
           (<Carousel
             ref={ref => this.carouselRef = ref}
-            data={data ?? []}
+            data={data || []}
             firstItem={0}
             style={{width: '100%', height: '100%'}}
             enableSnap={true}

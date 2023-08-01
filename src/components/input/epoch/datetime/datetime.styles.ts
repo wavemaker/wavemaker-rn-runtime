@@ -1,7 +1,7 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
-import { TextStyle } from 'react-native';
+import { TextStyle, Platform } from 'react-native';
 
 export type WmDatetimeStyles = BaseStyles & {
     focused: AllStyle,
@@ -73,4 +73,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         backgroundColor: themeVariables.inputDisabledBgColor
         }
     });
+    addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="web"?{
+        clearIcon: {
+        root: {
+            marginLeft: 4,
+            marginRight: 0
+        }
+    }
+  }:{});
 });

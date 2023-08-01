@@ -32,7 +32,7 @@ export class AppSpinnerService implements SpinnerService {
       setTimeout(() => {
         const content = (<>
           {!this.skeleton? 
-            <View style={styles.appSpinnerContainer}>
+            <View style={[styles.appSpinnerContainer, { backgroundColor: ThemeVariables.INSTANCE.pageContentBgColor }]}>
               <WmSpinner
                 caption={options.message || ''}
                 classname="global-spinner"
@@ -68,8 +68,7 @@ const styles = {
     justifyContent: 'center', 
     alignItems: 'center', 
     width:'100%', 
-    height:'100%', 
-    backgroundColor: ThemeVariables.INSTANCE.primaryContrastColor, 
+    height:'100%',  
     opacity: 0.8 
   } as ViewStyle
 }

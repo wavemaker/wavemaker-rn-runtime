@@ -214,7 +214,7 @@ export class Theme {
     }
 }
 export default Theme.BASE;
-export type NamedStyles<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle | NamedStyles<T>};
+export type NamedStyles<T> = { [P in keyof T]: AllStyle | NamedStyles<T>};
 export type BackgroundImageStyle = {
     backgroundImage: string,
     backgroundPosition: string,
@@ -222,7 +222,7 @@ export type BackgroundImageStyle = {
     backgroundSize: string | number
 };
 
-export type AllStyle = (ViewStyle & TextStyle & ImageStyle);
+export type AllStyle = (ViewStyle & TextStyle & ImageStyle & {userSelect?: 'none'| 'text'});
 
 const ThemeContext = React.createContext<Theme>(null as any);
 
@@ -324,5 +324,7 @@ export const ThemeConsumer = ThemeContext.Consumer;
     addStyle('border-primary', '', { root: { borderColor: themeVariables.primaryColor }});
     addStyle('border-success', '', { root: { borderColor: themeVariables.successColor }});
     addStyle('border-warning', '', { root: { borderColor: themeVariables.warningColor }});
+
+    addStyle('hide-context-menu', '', { text: { userSelect: 'none' }});
 });
 

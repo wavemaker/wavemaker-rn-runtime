@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -66,18 +67,20 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
     return (<ModalConsumer>
       {(modalService: ModalService) => {
         modalService.showModal(this.prepareModalOptions((
-          <ThemeProvider value={this.theme}>
-            <View style={this.styles.root}>
-            {this._background}
-              {props.showheader ? (<View style={this.styles.header}>
-                <View style={this.styles.headerLabel}>
-                  <WmIcon caption={props.title} iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>
-                </View>
-                {props.closable && <WmButton show={props.closable} iconclass="wm-sl-l sl-close" onTap={() => this.close()} styles={this.styles.closeBtn}></WmButton>}
-              </View>) : null}
-              {props.children}
-            </View>
-          </ThemeProvider>
+          <AssetProvider value={this.loadAsset}>
+            <ThemeProvider value={this.theme}>
+              <View style={this.styles.root}>
+              {this._background}
+                {props.showheader ? (<View style={this.styles.header}>
+                  <View style={this.styles.headerLabel}>
+                    <WmIcon caption={props.title} iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>
+                  </View>
+                  {props.closable && <WmButton show={props.closable} iconclass="wm-sl-l sl-close" onTap={() => this.close()} styles={this.styles.closeBtn}></WmButton>}
+                </View>) : null}
+                {props.children}
+              </View>
+            </ThemeProvider>
+          </AssetProvider>
         ), modalService));
         return null;
       }}

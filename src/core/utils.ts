@@ -308,6 +308,21 @@ export const validateField = (props: any, value: any) => {
   }
 };
 
+export const formatCompactNumber = (number: number) => {
+  const isNegative = number < 0;
+  number = isNegative ? number * -1 : number;
+  let formattedNumber = number + '';
+  if (number >= 1000 && number < 1_000_000) {
+    formattedNumber =  (number / 1000).toFixed(1).replace(/\.0$/, "") + "K";
+  } else if (number >= 1_000_000 && number < 1_000_000_000) {
+    formattedNumber =  (number / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+  } else if (number >= 1_000_000_000 && number < 1_000_000_000_000) {
+    formattedNumber =  (number / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
+  } else if (number >= 1_000_000_000_000 && number < 1_000_000_000_000_000) {
+    formattedNumber =  (number / 1_000_000_000_000).toFixed(1).replace(/\.0$/, "") + "T";
+  }
+  return (isNegative ? '-' : '') + formattedNumber;
+}
 
 export const toBase64 = function(path: string) {
   return FileSystem.readAsStringAsync(path, { encoding: 'base64' });
@@ -316,4 +331,11 @@ export const toBase64 = function(path: string) {
 const DATASET_WIDGETS = new Set([ 'select', 'checkboxset', 'radioset', 'switch', 'autocomplete', 'chips', 'typeahead', 'rating']);
 export const isDataSetWidget = (widget: any) => {
   return DATASET_WIDGETS.has(widget);
+};
+export const isFullPathUrl = (url: string) => {
+  return isString(url) &&
+  (url.startsWith('data:') 
+  || url.startsWith('http:') 
+  || url.startsWith('https:') 
+  || url.startsWith('file:'));
 };
