@@ -1,7 +1,7 @@
 import { VariableConfig, VariableEvents } from './base-variable';
-import { isEqual } from 'lodash';
+import { isEqual, assignIn } from 'lodash';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
-import { $queue } from './utils/inflight-queue';
+import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { ServiceVariable as _ServiceVariable } from '@wavemaker/variables/src/model/variable/service-variable';
 import httpService from '@wavemaker/app-rn-runtime/variables/http.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -33,7 +33,7 @@ export class ServiceVariable extends _ServiceVariable {
     const variableConfig = {
       name: config.name,
       dataSet: config.paramProvider(),
-      dataBinding: config.paramProvider(),
+      dataBinding: {},
       isList: config.isList,
       service: config.service,
       serviceType: config.serviceType,
@@ -42,16 +42,42 @@ export class ServiceVariable extends _ServiceVariable {
       operation: config.operation,
       operationId: config.operationId,
       serviceInfo: config.getServiceInfo(),
-      httpClientService: httpService
+      httpClientService: httpService,
+      onSuccess: (context: any, args: any) => {
+        this.notify(VariableEvents.AFTER_INVOKE, [args.variable, args.data, args.options]);
+        this.notify(VariableEvents.SUCCESS, [args.variable, args.data, args.options]);
+        return config.onSuccess && config.onSuccess(args.variable, args.data, args.options);
+      },
+      onError: (context: any, args: any) => {
+        this.notify(VariableEvents.AFTER_INVOKE, [args.variable, args.data, args.options]);
+        this.notify(VariableEvents.ERROR, [args.variable, args.data, args.options]);
+        return config.onError && config.onError(args.variable, args.data, args.options);
+      },
+      onCanUpdate: (context: any, args: any) => {
+        return config.onCanUpdate && config.onCanUpdate(args.variable, args.data, args.options);
+      },
+      onBeforeUpdate: (context: any, args: any) => {
+        this.notify(VariableEvents.BEFORE_INVOKE, [args.variable, args.inputData, args.options]);
+        return config.onBeforeUpdate && config.onBeforeUpdate(args.variable, args.inputData, args.options);
+      },
+      onResult: (context: any, args: any) => {
+        return config.onResult && config.onResult(args.variable, args.data, args.options);
+      },
+      onBeforeDatasetReady: (context: any, args: any) => {
+        return config.onBeforeDatasetReady && config.onBeforeDatasetReady(args.variable, args.data, args.options);
+      }
     }
     super(variableConfig);
+    this.subscribe(VariableEvents.AFTER_INVOKE, () => {
+        this.dataBinding = {};
+    });
   }
 
   invokeOnParamChange() {
-    const last = this.dataBinding;
+    const last = this.params;
     const latest = this.config.paramProvider();
     if (!isEqual(last, latest)) {
-      this.invoke();
+      this.invoke(latest);
     }
     return Promise.resolve(this);
   }
@@ -68,8 +94,14 @@ export class ServiceVariable extends _ServiceVariable {
   }
 
   invoke(options? : any, onSuccess?: Function, onError?: Function) {
-    this.dataBinding = this.config.paramProvider();
-    // service definitions data depends on whether user logged in or not
+    this.params = this.config.paramProvider();
+    this.params = deepCopy({} as any, this.params, this.dataBinding);
+    if (options) {
+      this.params = deepCopy({} as any, this.params, options.inputFields ? options.inputFields : options);
+    }
+    options = options || {};
+    options.inputFields = this.params;
+      // service definitions data depends on whether user logged in or not
     // Try to get the latest definition
     this.serviceInfo = this.config.getServiceInfo();
     if (!this.serviceInfo) {
@@ -104,8 +136,8 @@ export class ServiceVariable extends _ServiceVariable {
   //   }
   // }
 
-  setInput(key: any, val?: any, options?: any) {
-    // this.params = merge({}, this.config.paramProvider(), _setInput(this.params, key, val, options));
-    //  return this.params;
-  }
+  // setInput(key: any, val?: any, options?: any) {
+  //   this.params = merge({}, this.config.paramProvider(), _setInput(this.params, key, val, options));
+  //    return this.params;
+  // }
 }

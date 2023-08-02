@@ -1,14 +1,14 @@
 import React from 'react';
-import { Platform, TextInput } from 'react-native';
+import { Platform } from 'react-native';
 import { isNull } from 'lodash';
 
 import WmNumberProps from './number.props';
 import { DEFAULT_CLASS, WmNumberStyles } from './number.styles';
+import { WMTextInput } from '@wavemaker/app-rn-runtime/core/components/textinput.component';
 import {
   BaseNumberComponent,
   BaseNumberState
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
-import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmNumberState extends BaseNumberState<WmNumberProps> {
   keyboardType: any;
@@ -20,20 +20,12 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
     super(props, DEFAULT_CLASS, new WmNumberProps(), new WmNumberState());
   }
 
-  public renderSkeleton(props: WmNumberProps) {
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root,
-      width: this.styles.root.width,
-      height: this.styles.root?.height || this.styles.text?.fontSize || this.styles.placeholderText?.fontSize
-    });
-  }
-
   renderWidget(props: WmNumberProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
-    return (<TextInput
-      ref={ref => {this.widgetRef = ref;
+    return (<WMTextInput
+      ref={(ref: any) => {this.widgetRef = ref;
         // @ts-ignore
         if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
           // @ts-ignore
@@ -45,12 +37,13 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
       placeholderTextColor={this.styles.placeholderText.color as any}
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}
-      placeholder={props.placeholder || 'Enter number'}
+      placeholder={props.placeholder}
       onBlur={this.onBlur.bind(this)}
       onFocus={this.onFocus.bind(this)}
       onKeyPress={this.validateInputEntry.bind(this)}
       onChangeText={this.onChangeText.bind(this)}
       onChange={this.invokeChange.bind(this)}
+      allowContentSelection={this.styles.text.userSelect === 'text'}
     />);
   }
 }

@@ -21,7 +21,7 @@ export default class WmGridcolumn extends BaseComponent<WmGridcolumnProps, WmGri
     }
     const styles = this.theme.getStyle(`col-xs-${props.xscolumnwidth}  col-sm-${props.columnwidth}`);
     return (
-      <View style={[{width: "100%"}, styles.root, this.styles.root]}>{props.children}</View>
+      <View style={[{width: "100%"}, styles.root, this.styles.root]}>{this._background}{props.children}</View>
     );
   }
 }

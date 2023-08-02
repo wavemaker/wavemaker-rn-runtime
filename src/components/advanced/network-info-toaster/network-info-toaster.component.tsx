@@ -39,6 +39,7 @@ export default class WmNetworkInfoToaster extends BaseComponent<WmNetworkInfoToa
     if (this.state.newtworkState.isConnected) { 
       return (
       <View style={this.styles.root}>
+        {this._background}
         <Text style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_CONNECTED}</Text>
         <TouchableOpacity style={this.styles.action} onPress={() => this._close()}>
           <Text style={this.styles.actionText}>{this.props.appLocale.messages.LABEL_HIDE_NETWORK_INFO}</Text>
@@ -48,12 +49,14 @@ export default class WmNetworkInfoToaster extends BaseComponent<WmNetworkInfoToa
     if (this.state.newtworkState.isConnecting) { 
       return (
         <View style={this.styles.root}>
+          {this._background}
           <Text style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_CONNECTING}</Text>
         </View>);
     }
     if (this.state.newtworkState.isServiceAvailable) { 
       return (
       <View style={this.styles.root}>
+        {this._background}
         <Text style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_AVAILABLE}</Text>
         <TouchableOpacity style={this.styles.action} onPress={() => this._close()}>
           <Text style={this.styles.actionText}>{this.props.appLocale.messages.LABEL_HIDE_NETWORK_INFO}</Text>
@@ -67,6 +70,7 @@ export default class WmNetworkInfoToaster extends BaseComponent<WmNetworkInfoToa
     if (!this.state.newtworkState.isNetworkAvailable) { 
       return (
       <View style={this.styles.root}>
+        {this._background}
         <Text style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_NETWORK_NOT_AVAILABLE}</Text>
         <TouchableOpacity style={this.styles.action} onPress={() => this._close()}>
           <Text style={this.styles.actionText}>{this.props.appLocale.messages.LABEL_HIDE_NETWORK_INFO}</Text>
@@ -75,6 +79,7 @@ export default class WmNetworkInfoToaster extends BaseComponent<WmNetworkInfoToa
     }
     return (
       <View style={this.styles.root}>
+        {this._background}
         <Text style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_NOT_AVAILABLE}</Text>
         <TouchableOpacity style={this.styles.action} onPress={() => this._close()}>
           <Text style={this.styles.actionText}>{this.props.appLocale.messages.LABEL_HIDE_NETWORK_INFO}</Text>

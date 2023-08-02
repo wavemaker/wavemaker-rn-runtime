@@ -1,11 +1,11 @@
 import React from 'react';
-import { Platform, TextInput } from 'react-native';
+import { Platform } from 'react-native';
 
 import WmTextProps from './text.props';
 import { DEFAULT_CLASS, WmTextStyles } from './text.styles';
+import { WMTextInput } from '@wavemaker/app-rn-runtime/core/components/textinput.component';
 import { BaseInputComponent, BaseInputState } from "@wavemaker/app-rn-runtime/components/input/baseinput/baseinput.component";
 import { isNull } from 'lodash';
-import { createSkeleton } from '../../basic/skeleton/skeleton.component';
 
 export class WmTextState extends BaseInputState<WmTextProps> {
 }
@@ -16,21 +16,13 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
     super(props, DEFAULT_CLASS, new WmTextProps(), new WmTextState());
   }
 
-  public renderSkeleton(props: WmTextProps){
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root,
-      width: this.styles.root.width,
-      height: this.styles.root?.height || this.styles.text?.fontSize || this.styles.placeholderText?.fontSize
-    });
-  }
-
   renderWidget(props: WmTextProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (
-        <TextInput
-          ref={ref => {this.widgetRef = ref;
+        <WMTextInput
+          ref={(ref: any) => {this.widgetRef = ref;
             // @ts-ignore
           if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
             // @ts-ignore
@@ -45,12 +37,13 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           editable={props.disabled || props.readonly ? false : true}
           secureTextEntry={props.type === 'password' ? true : false}
           maxLength={props.maxchars}
-          placeholder={props.placeholder || 'Enter text'}
+          placeholder={props.placeholder}
           onBlur={this.onBlur.bind(this)}
           onFocus={this.onFocus.bind(this)}
           onKeyPress={this.onKeyPress.bind(this)}
           onChangeText={this.onChangeText.bind(this)}
           onChange={this.invokeChange.bind(this)}
+          allowContentSelection={this.styles.text.userSelect === 'text'}
         />
     );
   }

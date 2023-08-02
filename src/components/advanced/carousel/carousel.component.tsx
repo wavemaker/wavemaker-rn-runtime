@@ -113,10 +113,11 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     // TODO: loop prop on Carousel is not working Refer: https://github.com/meliorence/react-native-snap-carousel/issues/608
     return (
       <View style={styles.root} onLayout={this.onLayoutChange}>
+        {this._background}
         {this.state.sliderWidth > 0 ?
           (<Carousel
             ref={ref => this.carouselRef = ref}
-            data={data ?? []}
+            data={data || []}
             firstItem={0}
             style={{width: '100%', height: '100%'}}
             enableSnap={true}

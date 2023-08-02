@@ -15,19 +15,24 @@ export class AppSpinnerService implements SpinnerService {
   private count = 0;
   private image: string = '';
   public skeleton: boolean = false;
+  private defaultDisplayOptions: DisplayOptions =  {} as any;
   constructor(private displayManager: DisplayManager) {}
 
   setImage(path: string) {
     this.image = path;
   }
 
-  show(options: DisplayOptions = {}) {
+  setDefaultOptions(options: DisplayOptions) {
+    this.defaultDisplayOptions = options;
+  }
+
+  show(options: DisplayOptions = this.defaultDisplayOptions) {
     this.skeleton = options.spinner.loader == 'skeleton';
     if (this.count === 0 && !this.destroy) { 
       setTimeout(() => {
         const content = (<>
           {!this.skeleton? 
-            <View style={styles.appSpinnerContainer}>
+            <View style={[styles.appSpinnerContainer, { backgroundColor: ThemeVariables.INSTANCE.pageContentBgColor }]}>
               <WmSpinner
                 caption={options.message || ''}
                 classname="global-spinner"
@@ -63,8 +68,7 @@ const styles = {
     justifyContent: 'center', 
     alignItems: 'center', 
     width:'100%', 
-    height:'100%', 
-    backgroundColor: ThemeVariables.INSTANCE.primaryContrastColor, 
+    height:'100%',  
     opacity: 0.8 
   } as ViewStyle
 }

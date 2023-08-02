@@ -10,6 +10,5 @@ export default class WmCameraProps extends BaseProps {
   imagetargetwidth: number = null as any;
   imagetargetheight: number = null as any;
   datavalue: any;
-  localFile: string = '';
   localFilePath: string = '';
 }

@@ -8,4 +8,5 @@ export class BaseNavProps extends BaseProps {
   itembadge?: string | ((item: any) => string) = null as any;
   isactive?: string | ((item: any) => string) = null as any;
   itemchildren?: string = null as any;
+  getDisplayExpression? = (label: string) => null as any;
 }

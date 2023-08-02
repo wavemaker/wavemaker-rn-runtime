@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 const Stack = createStackNavigator();
 
@@ -70,7 +71,10 @@ const AppStackNavigator = (props: AppStackNavigatorProps) => {
           component={Screen}
           getId={({params}) => getPageId(p.name, params)}
           options={{
-            headerShown: false
+            headerShown: false,
+            cardStyle: {
+              backgroundColor: ThemeVariables.INSTANCE.pageContentBgColor
+            }
           }}
         />);
       })}

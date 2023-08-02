@@ -6,6 +6,7 @@ import {merge} from "lodash";
 export interface NavigationActionConfig extends ActionConfig {
     appConfig: AppConfig;
     operation: string;
+    _context: any;
 }
 
 export class NavigationAction extends BaseAction<NavigationActionConfig> {
@@ -19,7 +20,19 @@ export class NavigationAction extends BaseAction<NavigationActionConfig> {
         params = params?.data ? merge(this.config.paramProvider(), params.data) : merge(this.config.paramProvider(), this.dataSet);
         this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
         return super.invoke(params, onSuccess, onError).then(() => {
-            config.operation === 'goToPreviousPage' ? config.appConfig.currentPage?.goBack() : config.appConfig.currentPage?.goToPage(this.params.pageName, this.params);
+            switch(config.operation) {
+                case 'goToPreviousPage':
+                    config.appConfig.currentPage?.goBack();
+                    break;
+                case 'gotoTab':
+                    this.config._context?.Widgets[(params as any)?.tabName].select();
+                    break;
+                case 'gotoAccordion':
+                    this.config._context?.Widgets[(params as any)?.accordionName].expand();
+                    break;
+                case 'gotoPage' : 
+                    config.appConfig.currentPage?.goToPage(this.params.pageName, this.params);
+            }
         }).then(() => {
             config.onSuccess && config.onSuccess(this, this.dataSet);
             this.notify(VariableEvents.SUCCESS, [this, this.dataSet]);

@@ -1,13 +1,20 @@
 import { assign, isEqual, isUndefined } from 'lodash';
 import React, { ReactNode } from 'react';
-import { TextStyle, ViewStyle } from 'react-native';
+import { I18nManager, Platform, TextStyle, ViewStyle } from 'react-native';
+import { AnimatableProperties } from 'react-native-animatable';
+import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { StyleProps, getStyleName } from '@wavemaker/app-rn-runtime/styles/style-props';
+import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
-import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, attachBackground, ThemeEvent } from '../styles/theme';
+import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, ThemeEvent } from '../styles/theme';
+import EventNotifier from './event-notifier';
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 import { HideMode } from './if.component';
+import { AssetConsumer } from './asset.provider';
 import { FixedView } from './fixed-view.component';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
@@ -15,19 +22,22 @@ export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 export const ParentContext = React.createContext(null as any);
 
 export class BaseComponentState<T extends BaseProps> {
+    public animationId?: number = 0;
+    public animatableProps?: AnimatableProperties<ViewStyle> = undefined;
     public props = {} as T;
     public hide? = false;
 }
 
 export type BaseStyles = NamedStyles<any> & {
     root: AllStyle,
-    text: TextStyle
+    text: TextStyle & {userSelect?: 'none'| 'text'}
 }
 
 export function defineStyles<T>(styles: T): T {
     return deepCopy({
         text: {
-            fontFamily: ThemeVariables.INSTANCE.baseFont
+            fontFamily: ThemeVariables.INSTANCE.baseFont,
+            userSelect: 'text'
         }
     }, styles);
 }
@@ -38,7 +48,7 @@ export interface LifecycleListener {
     onComponentDestroy?: (c: BaseComponent<any, any, any>) => void;
 }
 
-export class BaseProps {
+export class BaseProps extends StyleProps {
     id?: string = null as any;
     name?: string = null as any;
     key?: any = null as any;
@@ -64,6 +74,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public destroyed = false;
     public _showSkeleton = false;
     public isFixed = false;
+    private notifier = new EventNotifier();
+    private parentListenerDestroyers = [] as Function[];
+    public _background = <></>;
+    private styleOverrides = {} as any;
+    public loadAsset: (path: string) => number | string = null as any;
+    private i18nService = injector.I18nService.get();
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -72,7 +88,20 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             assign({}, defaultProps),
             assign({}, markupProps),
             (name: string, $new: any, $old: any) => {
-                WIDGET_LOGGER.debug(() => `${this.props.name ?? this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
+                WIDGET_LOGGER.debug(() => `${this.props.name || this.constructor.name}: ${name} changed from ${$old} to ${$new}`);
+                if (this.initialized) {
+                    const styleName = getStyleName(name);
+                    if (styleName) {
+                        if ($new === undefined) {
+                            delete this.styleOverrides[styleName];
+                        } else {
+                            this.styleOverrides[styleName] = $new;
+                        }
+                    }
+                }
+                if (name === 'showskeleton' && this.initialized) {
+                    this.cleanRefresh();
+                }
                 this.onPropertyChange(name, $new, $old);
             });
         //@ts-ignore
@@ -109,6 +138,24 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.cleanup.push(this.theme.subscribe(ThemeEvent.CHANGE, () => {
             this.forceUpdate();
         }));
+        this.cleanup.push(() => {
+            this.destroyParentListeners();
+        });
+    }
+
+    public subscribe(event: string, fn: Function) {
+        return this.notifier.subscribe(event, fn);
+    }
+
+    public get isRTL(){
+        return this.i18nService.isRTLLocale();
+    }
+
+    public animate(props: AnimatableProperties<ViewStyle>) {
+        this.setState({
+            animationId: Date.now(),
+            animatableProps: props
+        });
     }
 
     setProp(propName: string, value: any) {
@@ -119,17 +166,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     setPropDefault(propName: string, value: any) {
         this.propertyProvider.setDefault(propName, value);
     }
-
-    onPropertyChange(name: string, $new: any, $old: any) {
-        switch(name) {
-            case 'showskeleton': {
-                if (this.initialized) {
-                    this.cleanRefresh();
-                }
-            }
-        }
+    
+    onPropertyChange(name: string, $new: any, $old: any) {        
     }
-
+     
     getDefaultStyles() {
         return this.theme.getStyle(this.defaultClass);
     }
@@ -214,6 +254,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.props.listener.onComponentDestroy(this.proxy);
         }
         this.cleanup.forEach(f => f && f());
+        this.notifier.notify('destroy', []);
+    }
+    
+    componentDidUpdate(prevProps: Readonly<T>, prevState: Readonly<S>, snapshot?: any): void {
+        if (this.propertyProvider.check(this.props)) {
+            this.forceUpdate();
+        }
     }
 
     invokeEventCallback(eventName: string, args: any[]) {
@@ -241,22 +288,30 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     public cleanRefresh() {
-        this.setState({
-            hide: true
-        }, () => {
-            setTimeout(() => {
-                this.setState({
-                    hide: false
-                });
-            }, 100);
-        })
+        this.forceUpdate(() => this.notifier.notify('forceUpdate', []));
     }
     
     public renderSkeleton (props: T): ReactNode {
         return null;
     }
 
+    public destroyParentListeners() {
+        this.parentListenerDestroyers.map(fn => fn());
+    }
 
+    private setParent(parent: BaseComponent<any, any, any>) {
+        if (parent && this.parent !== parent)  {
+            this.parent = parent;
+            this.parentListenerDestroyers = [
+                this.parent.subscribe('forceUpdate', () => {
+                    this.cleanRefresh();
+                }),
+                this.parent.subscribe('destroy', () => {
+                    this.destroyParentListeners();
+                })
+            ];
+        }
+    }
 
     copyStyles(property: string, from: any, to: any) {
         if (!isUndefined(from[property])) {
@@ -281,31 +336,65 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.copyStyles('width', this.styles.root, style);
         this.copyStyles('height', this.styles.root, style);
         this.styles = this.theme.mergeStyle(this.styles, {root: rootStyle});
-        return (<FixedView style={style} theme={this.theme}>{this.renderWidget(props)}</FixedView>);
+        return (<FixedView style={style} theme={this.theme}>{this.addAnimation(this.renderWidget(props))}</FixedView>);
+    }
+
+    private addAnimation(n: ReactNode) {
+        if (!this.state.animatableProps) {
+            return n;
+        }
+        return (<Animatable.View key={this.state.animationId} {...this.state.animatableProps}>{n}</Animatable.View>);
+    }
+    
+    private setBackground() {
+        const bgStyle = this.styles.root as any;
+        this._background = (
+            <BackgroundComponent 
+                image={bgStyle.backgroundImage}
+                position={bgStyle.backgroundPosition}
+                size={bgStyle.backgroundSize}
+                repeat={bgStyle.backgroundRepeat}
+                resizeMode={bgStyle.backgroundResizeMode}
+                style={{borderRadius: this.styles.root.borderRadius}}>
+            </BackgroundComponent>
+        );
+        delete (this.styles.root as any)['backgroundImage'];
+        delete (this.styles.root as any)['backgroundPosition'];
+        delete (this.styles.root as any)['backgroundResizeMode'];
+        delete (this.styles.root as any)['backgroundSize'];
+        delete (this.styles.root as any)['backgroundRepeat'];
     }
       
     public render(): ReactNode {
-        WIDGET_LOGGER.info(() => `${this.props.name ?? this.constructor.name} is rendering.`);
         const props = this.state.props;
         if (this.state.hide || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)) {
             return null;
         }
         this.isFixed = false;
-        return (<ParentContext.Consumer>
+        return (<AssetConsumer>
+            {(loadAsset) => {
+            this.loadAsset = loadAsset;
+            return (<ParentContext.Consumer>
                 {(parent) => {
-                    this.parent = parent;
+                    this.setParent(parent);
                     this._showSkeleton = this.parent?._showSkeleton || !!this.state.props.showskeleton;
                     return (
                         <ParentContext.Provider value={this}>
                         <ThemeConsumer>
                             {(theme) => {
+                                WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
                                 this.theme = theme || BASE_THEME;
                                 this.styles =  this.theme.mergeStyle(
                                     this.getDefaultStyles(),
                                     props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
+                                    this.isRTL ? this.theme.getStyle(this.defaultClass + '-rtl') : null,
                                     props.classname && this.theme.getStyle(props.classname),
                                     props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
-                                    this.props.styles);
+                                    this.props.styles,
+                                    {
+                                        root: this.styleOverrides,
+                                        text: this.styleOverrides
+                                    });
                                 if (this.styles.root.hasOwnProperty('_background')) {
                                   delete this.styles.root.backgroundColor;
                                 }
@@ -316,19 +405,19 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 if (eleToRender) {
                                     return eleToRender;
                                 }
-                                let widgetElement = null;
+                                this.setBackground();
                                 this.isFixed = (this.styles.root.position as any) === 'fixed';
                                 if (this.isFixed) {
                                     this.styles.root.position  = undefined;
-                                    widgetElement = this.renderFixedContainer(props);
-                                } else {
-                                    widgetElement = this.renderWidget(this.state.props);
+                                    return this.renderFixedContainer(props);
                                 }
-                                return attachBackground(widgetElement, this.styles.root);
+                                return this.addAnimation(this.renderWidget(this.state.props));
                             }}
                         </ThemeConsumer>
                     </ParentContext.Provider>);
                 }}
             </ParentContext.Consumer>);
+        }}
+        </AssetConsumer>);
     }
 }

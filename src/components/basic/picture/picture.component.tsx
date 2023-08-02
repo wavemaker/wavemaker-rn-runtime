@@ -5,7 +5,7 @@ import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import ImageSizeEstimator from '@wavemaker/app-rn-runtime/core/imageSizeEstimator';
-import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import { isFullPathUrl, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmPictureProps from './picture.props';
 import { DEFAULT_CLASS, WmPictureStyles } from './picture.styles';
@@ -21,35 +21,46 @@ export class WmPictureState extends BaseComponentState<WmPictureProps> {
 
 export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureState, WmPictureStyles> {
 
+  private _pictureSource = null as any;
+  private _picturePlaceHolder = null as any;
+
   constructor(props: WmPictureProps) {
     super(props, DEFAULT_CLASS, new WmPictureProps());
   }
 
+  loadImage(image: string | undefined) {
+    if (!image || !this.loadAsset) {
+      return null;
+    }
+    const imageSrc = this.loadAsset(image) as any;
+    if (imageSrc && typeof imageSrc === 'object' && typeof imageSrc.default === 'function') {
+      return null;
+    }
+    if (isNumber(imageSrc)) {
+      const {width, height} = Image.resolveAssetSource(imageSrc);
+      this.updateState({
+        naturalImageWidth: width,
+        naturalImageHeight: height
+      } as WmPictureState);
+    } else if (imageSrc !== null) {
+      const cancel = ImageSizeEstimator.getSize(imageSrc, (width: number, height: number) => {
+        this.updateState({
+          naturalImageWidth: width,
+          naturalImageHeight: height
+        } as WmPictureState);
+        this.cleanup.splice(this.cleanup.indexOf(cancel), 1);
+      });
+      this.cleanup.push(cancel);
+    }
+    return imageSrc;
+  }
+
   onPropertyChange(name: string, $new: any, $old: any) {
-    let imageSrc;
     switch(name) {
       case 'picturesource':
+        this._pictureSource = null;
       case 'pictureplaceholder':
-        imageSrc = this.state.props.picturesource || $new;
-        if (imageSrc && typeof imageSrc === 'object' && typeof imageSrc.default === 'function') {
-          return;
-        }
-        if (isNumber(imageSrc)) {
-          const {width, height} = Image.resolveAssetSource(imageSrc);
-          this.updateState({
-            naturalImageWidth: width,
-            naturalImageHeight: height
-          } as WmPictureState);
-        } else if (imageSrc !== null) {
-          const cancel = ImageSizeEstimator.getSize(imageSrc, (width: number, height: number) => {
-            this.updateState({
-              naturalImageWidth: width,
-              naturalImageHeight: height
-            } as WmPictureState);
-            this.cleanup.splice(this.cleanup.indexOf(cancel), 1);
-          });
-          this.cleanup.push(cancel);
-        }
+        this._picturePlaceHolder = null;
         break;
     }
   }
@@ -106,7 +117,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     } else if (!isWebPreviewMode() && props.isSvg) {
       // svg from uri
       elementToshow = <SvgUri width={this.styles.root.width} height={this.styles.root.height} uri={imgSrc}/>;
-    } else if (isString(imgSrc) && (imgSrc.startsWith('http') || imgSrc.startsWith('file:'))) {
+    } else if (isFullPathUrl(imgSrc)) {
       source = {
         uri: imgSrc
       };
@@ -137,7 +148,9 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     const imageWidth = this.state.imageWidth;
     const imageHeight = this.state.imageHeight;
     const shapeStyles = this.createShape(props.shape, imageWidth);
-    const imgSrc: any = props.picturesource || props.pictureplaceholder;
+    this._pictureSource =  this._pictureSource || this.loadImage(props.picturesource);
+    this._picturePlaceHolder = this._picturePlaceHolder || this.loadImage(props.pictureplaceholder);
+    const imgSrc: any = this._pictureSource || this._picturePlaceHolder;
     let elementToshow;
     if (imgSrc) {
       elementToshow = this.getElementToShow(props, imgSrc, shapeStyles);
@@ -147,6 +160,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         width: imageWidth,
         height: imageHeight
       }, this.styles.root, shapeStyles.root, shapeStyles.picture]}>
+        {this._background}
       <View style={[{overflow: 'hidden', width: '100%',
         height: '100%'}]} onLayout={this.onViewLayoutChange}>
         <Tappable target={this} styles={{width: imageWidth ? null : '100%', height: imageHeight ? null : '100%'}}>

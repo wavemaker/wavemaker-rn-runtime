@@ -42,6 +42,7 @@ class ImageSizeEstimator {
       } else {
         const reqQueue = [] as Request[];
         this.requests.set(requestId, reqQueue);
+        reqQueue.push(request)
         this.getImageSize(requestId);
       }
       return request.cancel;

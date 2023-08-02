@@ -1,8 +1,8 @@
 import React, { ReactNode }  from 'react';
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, View, ViewStyle } from 'react-native';
+import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
 import ProtoTypes from 'prop-types';
-import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Linking } from 'react-native';
 import { NativeModulesProxy } from 'expo-modules-core';
@@ -16,6 +16,7 @@ import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import * as Utils  from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
@@ -81,9 +82,11 @@ class DrawerImpl implements Drawer {
     return this.animation;
   }
 }
-const SUPPORTED_SERVICES = { StorageService: StorageService,
-                             AppDisplayManagerService: AppDisplayManagerService
-                            };
+const SUPPORTED_SERVICES = {
+  Utils: Utils,
+  StorageService: StorageService,
+  AppDisplayManagerService: AppDisplayManagerService
+};
 
 export default abstract class BaseApp extends React.Component implements NavigationService {
 
@@ -116,6 +119,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
     setTimeout(() => SplashScreen.hideAsync(), 10000);
     this.appConfig.app = this;
     this.appConfig.drawer = new DrawerImpl(() => this.refresh());
+    AppSpinnerService.setDefaultOptions({
+      spinner: this.appConfig.spinner
+    });
     let refreshAfterWait = false;
     this.baseUrl = this.appConfig.url;
     let wait = 0;
@@ -158,10 +164,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
     return this.appConfig.currentPage?.openUrl(url, params);
   }
 
-  onBeforeServiceCall(config: AxiosRequestConfig) {
-    if(config.headers) config.headers['X-Requested-With'] = 'XMLHttpRequest';
-    console.log('onBeforeService call invoked on ' + config.url);
-    return config
+  onBeforeServiceCall(config: InternalAxiosRequestConfig) {
+    //DO NOT WRITE CODE HERE:
+    //This is a placeholder for the WaveMaker developer.
+    return config;
   }
 
   isSkeletonEnabled() {
@@ -169,11 +175,13 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   onServiceSuccess(data: any, response: AxiosResponse) {
-
+    //DO NOT WRITE CODE HERE:
+    //This is a placeholder for the WaveMaker developer.
   }
 
   onServiceError(errorMsg: any, error: AxiosError<any>) {
-    console.error(`Error ${errorMsg} recieved from ${error.request.url}`);
+    //DO NOT WRITE CODE HERE:
+    //This is a placeholder for the WaveMaker developer.
   }
 
   invokeNativeApi(key: string, data: Object) {
@@ -211,7 +219,16 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   bindServiceInterceptors() {
     this.axiosInterceptorIds = [
-      axios.interceptors.request.use((config: AxiosRequestConfig) => this.onBeforeServiceCall(config)),
+      axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+        const url = config.url as string;
+        if (!(url.startsWith('http://') || url.startsWith("https://"))) {
+          config.url = this.appConfig.url + '/' + url;
+        }
+        config.headers = config.headers || {};
+        config.headers['X-Requested-With'] = 'XMLHttpRequest';
+        console.log('onBeforeService call invoked on ' + config.url);
+        return this.onBeforeServiceCall(config);
+      }),
       axios.interceptors.response.use(
         (response: AxiosResponse) => {
           this.onServiceSuccess(response.data, response);
@@ -222,9 +239,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
           if (errorDetails && errorDetails.errors) {
               errMsg = parseErrors(errorDetails.errors) || "Service Call Failed";
           } else {
-              errMsg = errMsg || "Service Call Failed";
+              errMsg = error.message || "Service Call Failed";
           }
           error.message = errMsg;
+          console.error(`Error ${errMsg} recieved from ${error.response?.config?.url}`);
           this.onServiceError(error.message, error);
           if (error.response?.config.url?.startsWith(this.appConfig.url) && error.response?.status === 401) {
             this.appConfig.currentPage?.pageName !== 'Login' && this.appConfig.currentPage?.goToPage('Login');
@@ -251,6 +269,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       spinner: this.appConfig.spinner
     });
     Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
+    .catch(() => {})
     .then(() => {
       this.onAppVariablesReady();
       this.isStarted = true;
@@ -299,7 +318,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       return (
         <>
           {AppToastService.toastsOpened.map((o, i) =>
-            (
+            this.getProviders((
                 <View key={i} style={[{
                   position: 'absolute',
                   width: '100%',
@@ -313,7 +332,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   </TouchableOpacity>
                 </View>
               )
-          )}
+          ))}
         </>);
     }}/>;
   }
@@ -413,8 +432,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
           <SafeAreaInsetsContext.Consumer>
             {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
               (this.getProviders(
-                (<FixedViewContainer>
-                  <View style={[styles.container, {paddingTop: insets?.top || 0, paddingBottom: insets?.bottom, paddingLeft: insets?.left, paddingRight : insets?.right}]}>
+                (<SafeAreaView  style={{flex: 1}}>
+                  <StatusBar />
+                  <FixedViewContainer>
                     <View style={styles.container}>
                       <AppNavigator
                         app={this}
@@ -424,16 +444,16 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
                         drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
                         {commonPartial}
-                    </View> 
+                        {this.renderToasters()}
+                        {this.renderDialogs()}
+                        {this.renderDisplayManager()}
+                    </View>
                     <WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>
-                  </View>
-                </FixedViewContainer>))
+                  </FixedViewContainer>
+                </SafeAreaView>))
               )
             }
           </SafeAreaInsetsContext.Consumer>
-          {this.renderToasters()}
-          {this.renderDialogs()}
-          {this.renderDisplayManager()}
           </React.Fragment>
         </PaperProvider>
       </SafeAreaProvider>

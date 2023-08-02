@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { each, includes } from 'lodash';
 
 import networkService from '@wavemaker/app-rn-runtime/core/network.service';
@@ -43,10 +43,10 @@ class AppSecurityService implements SecurityService {
     defaultSecurityConfig: any;
 
     constructor() {
-      axios.interceptors.request.use((config: AxiosRequestConfig) => this.onBeforeServiceCall(config));
+      axios.interceptors.request.use((config: InternalAxiosRequestConfig) => this.onBeforeServiceCall(config));
     }
 
-    onBeforeServiceCall(config: AxiosRequestConfig) {
+    onBeforeServiceCall(config: InternalAxiosRequestConfig) {
       if (!this.appConfig) {
         this.appConfig = this.getAppConfig();
         this.baseUrl = this.appConfig.url;

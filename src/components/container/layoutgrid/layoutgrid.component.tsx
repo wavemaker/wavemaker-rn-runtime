@@ -17,7 +17,7 @@ export default class WmLayoutgrid extends BaseComponent<WmLayoutgridProps, WmLay
 
   renderWidget(props: WmLayoutgridProps) {
     return (
-      <View style={this.styles.root}>{props.children}</View>
+      <View style={this.styles.root}>{this._background}{props.children}</View>
     ); 
   }
 }

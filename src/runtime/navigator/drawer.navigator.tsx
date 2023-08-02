@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 const Drawer = createDrawerNavigator();
 
 interface AppDrawerNavigatorProps {
@@ -23,6 +24,7 @@ class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, a
           drawerType: this.props.type,
           headerShown: false,
           gestureHandlerProps: { enabled: !this.props.hide },
+          drawerStyle: { backgroundColor:  ThemeVariables.INSTANCE.pageContentBgColor }
       }}>
       <Drawer.Screen name="pages">
         {(_props) => this.props.rootComponent}

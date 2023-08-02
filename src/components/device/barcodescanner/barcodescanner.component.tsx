@@ -25,8 +25,9 @@ export default class WmBarcodescanner extends BaseComponent<WmBarcodescannerProp
         props: {
           datavalue: res.text
         }
-      } as WmBarcodescannerState);
-      this.invokeEventCallback('onSuccess', [null, this.proxy]);
+      } as WmBarcodescannerState, () => {
+        this.invokeEventCallback('onSuccess', [null, this.proxy]);
+      });
     })
   }
 
@@ -36,6 +37,7 @@ export default class WmBarcodescanner extends BaseComponent<WmBarcodescannerProp
         {(scanService: ScanService) => {
           this.scanner = scanService;
           return <View style={this.styles.root}>
+            {this._background}
             <WmButton iconclass={props.iconclass} styles={this.styles.button} onTap={this.onScanTap.bind(this)} caption={props.caption} iconsize={props.iconsize}></WmButton>
           </View>
         }}

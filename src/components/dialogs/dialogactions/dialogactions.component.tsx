@@ -15,6 +15,6 @@ export default class WmDialogactions extends BaseComponent<WmDialogactionsProps,
   }
 
   renderWidget(props: WmDialogactionsProps) {
-    return (<View style={this.styles.root}>{props.children}</View>); 
+    return (<View style={this.styles.root}>{this._background}{props.children}</View>); 
   }
 }

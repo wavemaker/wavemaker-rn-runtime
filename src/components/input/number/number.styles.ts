@@ -38,5 +38,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         backgroundColor: themeVariables.inputDisabledBgColor
       }
   });
+  addStyle(DEFAULT_CLASS + '-rtl', '', {
+      root : {
+        textAlign: 'right'
+      }
+  });
 });
 

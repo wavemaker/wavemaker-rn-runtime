@@ -3,12 +3,14 @@ import React from "react";
 import { GestureResponderEvent, View } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { get } from "lodash";
+import injector from "./injector";
 
 interface TappableProps {
     children?: any
     styles?: any;
     target?: BaseComponent<any, any, any>;
     onTap?: (e: any) => void;
+    onLongTap?: (e: any) => void; 
     onDoubleTap?: (e: any) => void;
 }
 
@@ -45,22 +47,41 @@ export class Tappable extends React.Component<TappableProps, any> {
         }
         const syntheticEvent = Tappable.CURRENT_EVENT;
         if (syntheticEvent.propagationEnabled) {
+            injector.FOCUSED_ELEMENT.get()?.blur();
             if(delta < 500) {
                 this.props.onDoubleTap && this.props.onDoubleTap(e);
-                target?.invokeEventCallback('onDoubletap', [syntheticEvent, target]);
+                setTimeout(() => {
+                    target?.invokeEventCallback('onDoubletap', [syntheticEvent, target]);
+                }, 200);
             }
             this.props.onTap && this.props.onTap(e || syntheticEvent);
-            target?.invokeEventCallback('onTap', [syntheticEvent, target]);
+            setTimeout(() => {
+                target?.invokeEventCallback('onTap', [syntheticEvent, target]);
+            }, 200);
         }
+    }
+
+    onLongTap(e?: GestureResponderEvent): void {
+        const syntheticEvent = Tappable.CURRENT_EVENT;
+        this.props.onLongTap && this.props.onLongTap(e || syntheticEvent);
+        setTimeout(() => {
+            this.props.target?.invokeEventCallback('onLongtap', [syntheticEvent, this.props.target]);
+        }, 200);
     }
 
     render() {
         const target = this.props.target;
-        if (target?.props.onTap || target?.props.onDoubletap || this.props.onTap || this.props.onDoubleTap) {
+        if (target?.props.onTap 
+            || target?.props.onLongtap 
+            || target?.props.onDoubletap 
+            || this.props.onTap 
+            || this.props.onLongTap 
+            || this.props.onDoubleTap) {
             return (
                 <TouchableOpacity disabled={get(target?.proxy, 'disabled')}
                     style={this.props.styles}
-                    onPress={() => this.onPress()}>
+                    onPress={() => this.onPress()}
+                    onLongPress={() => this.onLongTap()}>
                     {this.props.children}
                 </TouchableOpacity>
             );

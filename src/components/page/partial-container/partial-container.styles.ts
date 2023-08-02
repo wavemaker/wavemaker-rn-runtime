@@ -7,7 +7,8 @@ export const DEFAULT_CLASS = 'app-partial-container';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmPartialContainerStyles = defineStyles({
         root: {
-            width: '100%'
+            width: '100%',
+            backgroundColor: themeVariables.pageContentBgColor
         },
         text: {}
     });

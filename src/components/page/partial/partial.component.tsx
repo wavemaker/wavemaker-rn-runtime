@@ -18,6 +18,7 @@ export default class WmPartial extends BaseComponent<WmPartialProps, WmPartialSt
   renderWidget(props: WmPartialProps) {
     return (
       <View style={this.styles.root}>
+        {this._background}
         {props.children}
       </View>
     ); 

@@ -55,62 +55,6 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     );
   }
 
-
-  public renderSkeletonGroupby(){
-    const groupedData = this.state.groupedData;
-    return (
-      <View>
-        {groupedData && groupedData.length
-          ? groupedData.map((groupObj: any, index: any) => {
-            return(
-              <View key={groupObj.key}>
-                <Text style={this.styles.groupHeaderTitle}>{groupObj.key}</Text>
-                {this.renderSkeletonRadioButton(groupObj.data)}
-              </View>)
-          })
-          : null}
-      </View>
-    );
-  }
-
-  public renderSkeletonRadioButton(items: any){
-    const props = this.state.props;
-    return(<RadioButton.Group onValueChange={this.onPress.bind(this)} value={this.state.props.datafield === 'All Fields'? this.getItemKey(props.datavalue) : props.datavalue}>
-      {items && items.length ?
-        items.map((item: any, index: any) => this.renderChild(item, index)): null}
-    </RadioButton.Group>)
-  }
-
-  public renderSkeletonChild(item: any, index: any){
-    const displayText = item.displayexp || item.displayfield;
-    return (
-      <View style={this.styles.radioHead} key={item.key}>
-          <RadioButton.Android
-            value={this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield}
-            color={this.styles.root.color as string}
-            uncheckedColor={this.styles.root.color as string}
-            disabled={this.state.props.readonly || this.state.props.disabled}
-          />
-          {
-            createSkeleton(this.theme, this.styles.skeleton, {
-              ...this.styles.root,
-              width: this.styles.root.width,
-              height: this.styles.root.height
-            })
-          }
-    </View>)
-  }
-
-  public renderSkeleton(props: WmRadiosetProps) {
-    const items = this.state.dataItems;
-    return (
-        <View style={this.styles.root}>
-          {this.props.groupby && this.renderGroupby()}
-          {!this.props.groupby && this.renderSkeletonRadioButton(items)}
-        </View>
-    );
-  }
-
   renderRadioButtons(items: any) {
     const props = this.state.props;
     return(<RadioButton.Group onValueChange={this.onPress.bind(this)} value={this.state.props.datafield === 'All Fields'? this.getItemKey(props.datavalue) : props.datavalue}>

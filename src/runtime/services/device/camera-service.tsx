@@ -3,6 +3,7 @@ import { ImageBackground, TouchableOpacity, View, ViewStyle } from "react-native
 import { Ionicons } from "@expo/vector-icons";
 import { ResizeMode, Video } from "expo-av";
 import { Camera, CameraType } from "expo-camera";
+import * as FileSystem from "expo-file-system";
 
 import { DisplayManager } from "@wavemaker/app-rn-runtime/core/display.manager";
 import { CaptureVideoOutput } from "@wavemaker/app-rn-runtime/variables/device/camera/capture-video.operation";
@@ -39,14 +40,17 @@ const styles = {
   } as ViewStyle,
   leftWrapper: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'flex-start',
   } as ViewStyle,
   midWrapper: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   } as ViewStyle,
   rightWrapper: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'flex-end',
   } as ViewStyle,
   circle: {
@@ -83,7 +87,10 @@ export class CameraService {
         const destroy = this.displayManager.show({
           content: (<CameraView type={this.type} captureType={'video'} onSuccess={(o) => {
             destroy.call(this.displayManager);
-            resolve({videoPath: o.uri});
+            /*o.content().catch(() => {}).then(base64 => {
+              resolve({videoPath: o.uri, content: base64 || ''});
+            });*/
+            resolve({videoPath: o.uri, content: ''});
           }}
           onCancel={() => {
             destroy.call(this.displayManager);
@@ -100,7 +107,9 @@ export class CameraService {
         const destroy = this.displayManager.show({
           content: (<CameraView type={this.type} captureType={'image'} onSuccess={(o) => {
             destroy.call(this.displayManager);
-            resolve({imagePath: o.uri});
+            o.content().catch(() => {}).then(base64 => {
+              resolve({imagePath: o.uri, content: base64 || ''});
+            });
           }} onCancel={() => {destroy.call(this.displayManager);}}
           ></CameraView>)
         });
@@ -111,6 +120,7 @@ export class CameraService {
 
 interface CameraOutput {
   uri: string;
+  content: () => Promise<string>;
 }
 
 class CameraViewProps {
@@ -156,7 +166,13 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
       base64: false,
       skipProcessing: true,
       onPictureSaved: (response: any) => {
-        this.setState({ cameraContent: response, isCaptured: true } as CameraViewState);
+        response.content = async () => {
+          return await FileSystem.readAsStringAsync(response.uri, { encoding: 'base64' });
+        };
+        this.setState({ 
+          cameraContent: response,
+          isCaptured: true,
+          showActionBtns: true } as CameraViewState);
       }
     }
     await this.camera.takePictureAsync(options);
@@ -170,6 +186,9 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
   // start recording
   startRecord = async () => {
     this.camera.recordAsync().then((response: any) => {
+      response.content = async () => {
+        return await FileSystem.readAsStringAsync(response.uri, { encoding: 'base64' });
+      };
       this.setState({ cameraContent: response, isCaptured: true } as CameraViewState);
     });
     if (this.state.showActionBtns) {
@@ -224,7 +243,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
 
   getPreviewTemplate(actions: any) {
     return this.props.captureType === 'image' ?
-      <ImageBackground source={{uri : this.state.cameraContent.uri}} resizeMode={ResizeMode.COVER} style={{flex: 1}} />
+      <ImageBackground source={{uri : this.state.cameraContent.uri}} resizeMode={ResizeMode.CONTAIN} style={{flex: 1}} />
       : <Video
           style={{ flex: 1 }}
           source={{
@@ -233,7 +252,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
           shouldPlay={true}
           useNativeControls
           isLooping
-          resizeMode={ResizeMode.COVER}
+          resizeMode={ResizeMode.CONTAIN}
         ></Video>
   }
 

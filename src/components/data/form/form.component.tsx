@@ -57,7 +57,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     forEach(formFields, (w: WmFormField) => {
       if (!w.form) {
         w.form = this;
-        w.formwidget = w.props.name && formWidgets[w.props.name];
+        w.formwidget = (w.props.formKey && formWidgets[w.props.formKey]) 
+          || (w.props.name && formWidgets[w.props.name]);
       }
     });
 
@@ -278,45 +279,13 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     } as WmFormState)
   }
 
-  public renderSkeleton(props: WmFormProps){
-    return(
-      <View style={this.styles.root}>
-            {this.props.iconclass || this.props.title || this.props.subheading ? (
-              <View style={this.styles.heading}>
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <WmIcon styles={this.styles.listIcon} iconclass={this.props.iconclass}></WmIcon>
-                  <View>
-                    {
-                      createSkeleton(this.theme, {} as WmSkeletonStyles, {
-                        ...this.styles.title.root,
-                        width: 96,
-                        height: this.styles.title.text.fontSize
-                      })
-                    }
-                    {
-                      createSkeleton(this.theme, {} as WmSkeletonStyles, {
-                        ...this.styles.subheading.root,
-                        width: 160,
-                        height: this.styles.subheading.text.fontSize
-                      })
-                    }
-                  </View>
-                </View>
-              </View>
-            ) : null}
-            {this.state.showInlineMsg ? <WmMessage type={this.state.type} caption={this.state.message} hideclose={false} onClose={this.onMsgClose.bind(this)}></WmMessage> : null
-            }
-            {this.props.children}
-          </View>
-    )
-  }
-
   renderWidget(props: WmFormProps) {
     return (
       <ToastConsumer>
         {(toastService: ToastService) => {
           this.toaster = toastService;
           return <View style={this.styles.root}>
+            {this._background}
             {props.iconclass || props.title || props.subheading ? (
               <View style={this.styles.heading}>
                 <View style={{flex: 1, flexDirection: 'row'}}>

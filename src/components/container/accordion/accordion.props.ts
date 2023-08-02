@@ -4,4 +4,5 @@ export default class WmAccordionProps extends BaseProps {
   animation: string = 'fadeInDown';
   children: any;
   defaultpaneindex: number = 0;
+  closeothers = true;
 }

@@ -6,7 +6,7 @@ import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 import MediaQueryList from './MediaQueryList';
 import ThemeVariables from './theme.variables';
-import { getStyleReference, isValidStyleProp } from './style-prop.validator';
+import { getErrorMessage, getStyleReference, isValidStyleProp } from './style-prop.validator';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
 
 declare const matchMedia: any, window: any;
@@ -87,9 +87,9 @@ export class Theme {
     checkStyleProperties(name: string, value : any) {
         if (isObject(value)) {
             Object.keys(value).map((k) => this.checkStyleProperties(k, (value as any)[k]));
-        } else if(!isValidStyleProp(name, value)) {
+        } else if(name && !isValidStyleProp(name, value)) {
             console.log(
-                `%cInvalid Style property: '${value}' is not a valid value to '${name}' in ${this.name}.`,
+                `%cInvalid Style property in ${this.name}: ${getErrorMessage(name, value)}`,
                 'background-color: #FF0000;font-weight: bold; color: #fff'
             );
             console.log(`Refer: ${getStyleReference(name)}`);
@@ -97,9 +97,6 @@ export class Theme {
     }
 
     private addStyle<T extends NamedStyles<any>>(name: string, extend: string, style: T) {
-        if (this !== Theme.BASE && isWebPreviewMode()) {
-            this.checkStyleProperties(name, style);
-        }
         this.styles[name] = deepCopy(this.getStyle(extend), this.styles[name], style);
     }
 
@@ -176,6 +173,9 @@ export class Theme {
             if (!mediaQuery || matchMedia(mediaQuery).matches) {
                 clonedStyle = cloneDeep(this.styles[name]);
             }
+            if (this !== Theme.BASE && isWebPreviewMode()) {
+                this.checkStyleProperties('', clonedStyle);
+            }
             style = deepCopy(parentStyle, clonedStyle);
             this.addTrace(`@${this.name}:${name}`, style, clonedStyle, parentStyle);
         }
@@ -214,46 +214,15 @@ export class Theme {
     }
 }
 export default Theme.BASE;
-export type NamedStyles<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle | NamedStyles<T>};
+export type NamedStyles<T> = { [P in keyof T]: AllStyle | NamedStyles<T>};
 export type BackgroundImageStyle = {
     backgroundImage: string,
     backgroundPosition: string,
     backgroundRepeat: string,
     backgroundSize: string | number
 };
-export const attachBackground = (c: ReactNode, style: ViewStyle) => {
-    const background = (style as any)._background;
-    if (background) {
-        const backgroundStyle = {
-          width: style.width || '100%',
-          height: style.height || '100%'
-        } as any;
-        Object.keys(background).forEach(k => {
-            if (k !== 'imageStyle') {
-                backgroundStyle[k] = background[k];
-            }
-        });
-        const imgSrc = background.uri;
-        let source;
-        if (isString(imgSrc) && (imgSrc.startsWith('http') || imgSrc.startsWith('file:'))) {
-          source = {
-            uri: imgSrc
-          };
-        } else {
-          source = imgSrc;
-        }
-        return (
-            <ImageBackground
-                source={source}
-                resizeMode={background.resizeMode || 'repeat'}
-                imageStyle={background.imageStyle}
-                style={backgroundStyle}>
-                    {c}
-            </ImageBackground>);
-    }
-    return c;
-};
-export type AllStyle = (ViewStyle & TextStyle & ImageStyle);
+
+export type AllStyle = (ViewStyle & TextStyle & ImageStyle & {userSelect?: 'none'| 'text'});
 
 const ThemeContext = React.createContext<Theme>(null as any);
 
@@ -355,5 +324,7 @@ export const ThemeConsumer = ThemeContext.Consumer;
     addStyle('border-primary', '', { root: { borderColor: themeVariables.primaryColor }});
     addStyle('border-success', '', { root: { borderColor: themeVariables.successColor }});
     addStyle('border-warning', '', { root: { borderColor: themeVariables.warningColor }});
+
+    addStyle('hide-context-menu', '', { text: { userSelect: 'none' }});
 });
 

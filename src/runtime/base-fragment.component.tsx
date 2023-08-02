@@ -5,7 +5,7 @@ import { get, filter, isNil } from 'lodash';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { Formatter } from '@wavemaker/app-rn-runtime/core/formatters';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
-import { toBoolean, toNumber } from '@wavemaker/app-rn-runtime/core/utils';
+import { toBoolean, toNumber, isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable';
@@ -161,10 +161,10 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     handleUrl(url: string) {
-      if (!url.startsWith('http') && !url.startsWith('file:')) {
-        return this.appConfig.url + (url.startsWith('/') ? '' : '/') + url;
+      if (isFullPathUrl(url)) {
+        return url;
       }
-      return url;
+      return this.appConfig.url + (url.startsWith('/') ? '' : '/') + url;
     }
 
     getDateFormat(fmt?: string) {
@@ -323,8 +323,11 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     render() {
-      this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
-      return (<ThemeProvider value={this.theme}>
+      if (this.startUpVariablesLoaded) {
+        this.autoUpdateVariables
+          .forEach(value => this.Variables[value]?.invokeOnParamChange());
+      }
+      return this.isVisible() ? (<ThemeProvider value={this.theme}>
         <ToastConsumer>
             {(toastService: ToastService) => {
               this.toaster = toastService;
@@ -332,7 +335,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
             }}
           </ToastConsumer>
 
-      </ThemeProvider>);
+      </ThemeProvider>) : null;
     }
 }
 

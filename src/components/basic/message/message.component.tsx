@@ -57,6 +57,7 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
   renderWidget(props: WmMessageProps) {
     const styles = this.theme.mergeStyle(this.theme.getStyle(`${props.type}-${props.variant}-message`), this.styles);
     return (<Animatedview entryanimation={props.animation} style={styles.root}>
+      {this._background}
       <WmIcon
         iconclass={props.type && MESSAGE_ICONS[props.type]}
         styles={styles.icon}></WmIcon>

@@ -98,7 +98,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
     const props = this.state.props;
     const oldValue = props.datavalue;
     if (!props.readonly) {
-      let value = this.state.items[i] ? this.state.items[i][props.datafield??'']: i;
+      let value = this.state.items[i] ? this.state.items[i][props.datafield || '']: i;
       this.updateState({
         props: {
           datavalue:  value
@@ -120,6 +120,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
     }
     return (
     <View style={this.styles.root}>
+      {this._background}
       {arr.map((v, i) => (
         (this.state.selectedIndex > -1 && i <= this.state.selectedIndex) ? <WmIcon
           key={i}

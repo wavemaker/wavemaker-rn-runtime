@@ -17,6 +17,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   renderWidget(props: WmPageProps) {
     return (
       <View style={this.styles.root}>
+        {this._background}
         {props.children}
       </View>
     ); 

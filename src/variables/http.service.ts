@@ -12,23 +12,25 @@ export class HttpService implements HttpClientService {
     const serviceInfo = variable.serviceInfo;
     let headers: any = options.headers,
       requestBody: any = options.data,
-      isProxyCall = isWebPreviewMode() ? get(serviceInfo, 'proxySettings.web') :  get(serviceInfo, 'proxySettings.mobile'),
-      url: string = isProxyCall ? '.' + options.url : options.url;
-    variable.cancelTokenSource = axios.CancelToken.source();
-    if (!isWebPreviewMode()
-        && !(url.startsWith('http://') || url.startsWith("https://"))) {
-      const queryParams = options.url.split('?');
-      url = variable.config.baseUrl + serviceInfo.relativePath;
-      if (!isEmpty(queryParams[1])) {
-        url = url + '?' + queryParams[1];
-      }
+      url: string = options.url;
+      variable.cancelTokenSource = axios.CancelToken.source();
+    if (!isWebPreviewMode() && (variable?.serviceInfo?.consumes||[])[0] === 'multipart/form-data') {
+      headers['Content-Type'] = 'multipart/form-data';
+      let formData = new FormData();
+      (variable.serviceInfo.parameters||[]).forEach((p: any) => {
+        const v = variable.params[p.name];
+        if (v) {
+          formData.append(p.name, variable.params[p.name]);
+        }
+      });
+      requestBody = formData;
     }
     const methodType: string = serviceInfo.methodType;
     const isNonDataMethod: boolean = WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(methodType.toUpperCase()) > -1;
     const axiosConfig = {
       headers: headers,
       cancelToken: variable.cancelTokenSource.token,
-      withCredentials: ''
+      withCredentials: true
     };
     return new Promise((resolve, reject) => {
       // @ts-ignore

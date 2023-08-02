@@ -1,14 +1,14 @@
 import React from 'react';
-import { View, Text, TextInput, Platform } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 
 import WmCurrencyProps from './currency.props';
 import { CURRENCY_INFO } from '@wavemaker/app-rn-runtime/core/currency-constants';
+import { WMTextInput } from '@wavemaker/app-rn-runtime/core/components/textinput.component';
 import { DEFAULT_CLASS, WmCurrencyStyles } from './currency.styles';
 import {
   BaseNumberComponent,
   BaseNumberState
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
-import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
 import { isNull } from "lodash";
 export class WmCurrencyState extends BaseNumberState<WmCurrencyProps> {
   currencySymbol: any;
@@ -41,8 +41,8 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     return (<View style={this.styles.root}>
       <View style={this.styles.labelWrapper}>
         <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
-      <TextInput
-        ref={ref => {
+      <WMTextInput
+        ref={(ref: any) => {
           this.widgetRef = ref;
           // @ts-ignore
           if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
@@ -55,12 +55,13 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
         {...opts}
         editable={props.disabled || props.readonly ? false : true}
-        placeholder={props.placeholder || 'Enter value'}
+        placeholder={props.placeholder}
         onBlur={this.onBlur.bind(this)}
         onFocus={this.onFocus.bind(this)}
         onKeyPress={this.validateInputEntry.bind(this)}
         onChangeText={this.onChangeText.bind(this)}
         onChange={this.invokeChange.bind(this)}
+        allowContentSelection={this.styles.text.userSelect === 'text'}
       />
     </View>);
   }

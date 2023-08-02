@@ -2,6 +2,7 @@ import { BaseVariable, VariableConfig, VariableEvents } from './base-variable';
 import { ModelVariable as _ModelVariable } from '@wavemaker/variables/src/model/variable/model-variable';
 
 export class ModelVariable extends _ModelVariable {
+  config: any;
 
   constructor(config: VariableConfig) {
     const variable = {
@@ -10,23 +11,26 @@ export class ModelVariable extends _ModelVariable {
       isList: config.isList
     }
     super(variable);
+    this.config = config;
     this.invoke();
   }
 
   invoke(params?: {}, onSuccess?: Function, onError?: Function) {
-    return super.execute(params, onSuccess);
-    // this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
-    //  return super.execute(params, onSuccess).then(() => {
-    //      // this.dataSet = this.params;
-    //      // this.config.onSuccess && this.config.onSuccess(this, this.dataSet);
-    //      // onSuccess && onSuccess(this, this.dataSet);
-    //      // this.notify(VariableEvents.SUCCESS, [this, this.dataSet]);
-    //  }, () => {
-    //      // this.notify(VariableEvents.ERROR, [this, this.dataSet]);
-    //  }).then(() => {
-    //      // this.notify(VariableEvents.AFTER_INVOKE, [this, this.dataSet]);
-    //      return this;
-    //  });
+    let result;
+    this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
+    try{
+      result = super.execute(params, ()=>{});
+      this.config.onSuccess && this.config.onSuccess(this, this.dataSet);
+      onSuccess && onSuccess(this, this.dataSet);
+      this.notify(VariableEvents.SUCCESS, [this, this.dataSet]);
+    }
+    catch(error){
+      this.config.onError && this.config.onError(this, this.dataSet);
+      onError && onError(this, this.dataSet);
+      this.notify(VariableEvents.ERROR, [this, this.dataSet]);
+    }
 
+    this.notify(VariableEvents.AFTER_INVOKE, [this, this.dataSet]);
+    return result;
   }
 }

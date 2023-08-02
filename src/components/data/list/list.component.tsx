@@ -4,6 +4,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { isArray } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
+import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
@@ -17,24 +18,74 @@ export class WmListState extends BaseComponentState<WmListProps> {
   currentPage: number = 1;
 }
 
+class DefaultKeyExtractor {
+  store = new Map<any, string>();
+  nextKey = 1;
+
+  getKey(o : any, create = false) {
+    let k = this.store.get(o);
+    if (!k && create) {
+      k = `key:${Date.now()}:${this.nextKey++}`;
+      this.store.set(o, k)
+    }
+    return k;
+  }
+
+  clear() {
+    this.store = new Map();
+  }
+}
+
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
 
   private itemWidgets = [] as any[];
   private selectedItemWidgets = {} as any;
-  private key = 1;
+  private keyExtractor = new DefaultKeyExtractor();
 
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
   }
 
-  private onSelect($item: any, $index: number | string) {
-    if (!this.state.props.disableitem($item, $index)) {
+  private isSelected($item: any) {
+    const selectedItem = this.state.props.selecteditem;
+    if (isArray(selectedItem)) {
+      return selectedItem.indexOf($item) >= 0;
+    }
+    return selectedItem === $item;
+  }
+
+  private onSelect($item: any, $index: number | string, triggerTapEvent = false) {
+    const props = this.state.props;
+    let selectedItem = null as any;
+    if (!props.disableitem($item, $index)) {
+      if (props.multiselect) {
+        selectedItem = [...(props.selecteditem || [])];
+        const index = selectedItem.indexOf($item);
+        if (index < 0) {
+          if ((!props.selectionlimit)
+            || props.selectionlimit < 0
+            || selectedItem.length < props.selectionlimit) {
+            selectedItem.push($item);
+          } else {
+            this.invokeEventCallback('onSelectionlimitexceed', [null, this]);
+          }
+        } else {
+          selectedItem.splice(index, 1);
+        }
+      } else {
+        if (props.selecteditem === $item) {
+          selectedItem = null;
+        } else {
+          selectedItem = $item;
+        }
+      }
       this.selectedItemWidgets = this.itemWidgets[$index as number];
       this.updateState({
-        props: { selecteditem: $item },
+        props: { selecteditem: selectedItem },
         selectedindex: $index
       } as WmListState, () => {
         this.invokeEventCallback('onSelect', [this.proxy, $item]);
+        triggerTapEvent && this.invokeEventCallback('onTap', [null, this.proxy]);
       });
     }
   }
@@ -49,7 +100,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       }
   }
 
-  private deselect() {
+  private deselectAll() {
     this.updateState({
       props: { selecteditem: null },
       selectedindex: -1
@@ -64,7 +115,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       this.updateState({
         groupedData: groupedData
       } as WmListState, () => {
-        this.key +=  (items && items.length) || 0;
+        this.keyExtractor?.clear();
       });
     }
   }
@@ -79,32 +130,39 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         }
       break;
       case 'dataset':
-        if(this._showSkeleton) {
-          $new = [{}, {}, {}];
-        }
         if (this.state.props.groupby) {
           this.setGroupData($new);
         } else {
+          const data = isArray($new) ? $new : (isDefined($new) ? [$new] : []);
           this.updateState({
-            groupedData: [{
+            groupedData: (data[0] || props.direction === 'horizontal' ? [{
               key: '',
-              data: isArray($new) ? $new : (isDefined($new) ? [$new] : [])
-            }]
+              data: data
+            }] : [])
           } as WmListState, () => {
-            this.key += ($new && $new.length) || 0;
+            this.keyExtractor?.clear();
           });
         }
         this.itemWidgets = [];
         if (props.selectfirstitem) {
           this.selectFirstItem();
         } else {
-          this.deselect();
+          this.deselectAll();
         }
       break;
       case 'groupby':
       case 'match':
         this.setGroupData(this.state.props.dataset);
         break;
+      case 'multiselect':
+        if ($new) {
+          if (!isArray(this.state.props.selecteditem)) {
+            this.state.props.selecteditem = this.state.props.selecteditem ? 
+              [this.state.props.selecteditem] : [];
+          }
+        } else if (isArray(this.state.props.selecteditem)) {
+          this.state.props.selecteditem = this.state.props.selecteditem.pop();
+        }
     }
   }
 
@@ -136,22 +194,25 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     if (props.itemkey && item && !this._showSkeleton) {
       return props.itemkey(item, index);
     }
-    return 'list_item_' +  (this.key + index);
+    return 'list_item_' +  this.keyExtractor.getKey(item, true);
   }
 
   private renderItem(item: any, index: number, props: WmListProps) {
     return (
-        <TouchableWithoutFeedback onPress={() => this.onSelect(item, index)}>
+        <Tappable
+          onTap={() => this.onSelect(item, index, true)}
+          onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
+          onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
           <View style={[
               this.styles.item,
               props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-              this.state.selectedindex === index && this.state.props.selecteditem?._groupIndex === item._groupIndex ? this.styles.selectedItem : {}]}>
-            {props.renderItem(item, index, this)}
-            { this.state.selectedindex === index && this.state.props.selecteditem?._groupIndex === item._groupIndex ? (
+              this.isSelected(item) ? this.styles.selectedItem : {}]}>
+            { props.renderItem(item, index, this)}
+            { this.isSelected(item) ? (
               <WmIcon iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
             ) : null}
           </View>
-        </TouchableWithoutFeedback>
+        </Tappable>
       );
   }
 
@@ -171,18 +232,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   private renderEmptyMessage(isHorizontal: boolean, item: any, index: any, props: WmListProps) {
-    let emptyData = []
-    for (const ind of Array(3).keys()) {
-      emptyData.push(
-        <View style={[
-          this.styles.item,
-          props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-          (this.state.selectedindex === index && this.state.props.selecteditem?._groupIndex === item._groupIndex) ? this.styles.selectedItem : {}]} key={ind}>
-          {props.renderItem(item, index, this)}
-        </View>
-      );
-    }
-    return (<View style={isHorizontal ? { 'flexDirection': 'row' } : {}}>{emptyData}</View>);
+    return (<WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>);
   }
 
   private renderLoadingIcon(props: WmListProps) {
@@ -195,8 +245,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
     return (
     <View style={this.styles.root}>
-      {this.state.groupedData ? this.state.groupedData.map((v: any) => ((
-          <View style={{marginBottom: 16}}>
+      {this.state.groupedData ? this.state.groupedData.map((v: any, i) => ((
+          <View style={{marginBottom: 16}} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
             <FlatList
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
@@ -211,6 +261,18 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     </View>);
   }
 
+  private getSectionListData() {
+    if (this._showSkeleton) {
+      return [{
+        key: '',
+        data: [{}, {}, {}]
+      }];
+    } else if (this.state.groupedData[0] && this.state.groupedData[0]['data'].length) {
+      return this.state.groupedData;
+    }
+    return [];
+  }
+
   private renderWithSectionList(props: WmListProps, isHorizontal = false) {
     return (
       <SectionList
@@ -222,7 +284,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         }}
         contentContainerStyle={this.styles.root}
         onEndReachedThreshold={0.3}
-        sections={this.state.groupedData[0]['data'].length ? this.state.groupedData : [] || []}
+        sections={this.getSectionListData()}
         renderSectionHeader={({ section: {key, data}}) => {
           return this.renderHeader(props, key);
         }}
@@ -237,10 +299,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
     const isHorizontal = (props.direction === 'horizontal');
     return (
-      <View>
-        {(isHorizontal) ?
-          this.renderWithFlatList(props, isHorizontal)
-        : this.renderWithSectionList(props, isHorizontal)}
+        <View>
+          {this._background}
+          {(isHorizontal) ?
+            this.renderWithFlatList(props, isHorizontal)
+          : this.renderWithSectionList(props, isHorizontal)}
       </View>);
   }
 }
