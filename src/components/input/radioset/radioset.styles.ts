@@ -3,6 +3,7 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export type WmRadiosetStyles = BaseStyles & {
+  group: AllStyle,
   groupHeaderTitle: AllStyle;
   radioHead: AllStyle;
   radioLabel: AllStyle;
@@ -16,6 +17,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         color: themeVariables.checkedColor
       },
       text: {},
+      group: {},
       groupHeaderTitle: {
         backgroundColor: themeVariables.groupHeadingBgColor,
         fontSize: 16,
@@ -49,6 +51,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       opacity: 0.8
     }
   });
+
+  addStyle(DEFAULT_CLASS + '-row', '', {
+    group : {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent:'space-between'
+    }
+  } as WmRadiosetStyles);
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
 });
