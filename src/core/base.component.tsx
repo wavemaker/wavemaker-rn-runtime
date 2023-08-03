@@ -371,6 +371,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             return null;
         }
         this.isFixed = false;
+        const selectedLocale = this.i18nService.getSelectedLocale();
         return (<AssetConsumer>
             {(loadAsset) => {
             this.loadAsset = loadAsset;
@@ -386,6 +387,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 this.theme = theme || BASE_THEME;
                                 this.styles =  this.theme.mergeStyle(
                                     this.getDefaultStyles(),
+                                    {text: this.theme.getStyle('app-' + selectedLocale)},
+                                    {text: this.theme.getStyle(this.defaultClass + '-' + selectedLocale)},
                                     props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
                                     this.isRTL ? this.theme.getStyle(this.defaultClass + '-rtl') : null,
                                     props.classname && this.theme.getStyle(props.classname),

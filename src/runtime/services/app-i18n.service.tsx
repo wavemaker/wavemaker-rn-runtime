@@ -27,6 +27,10 @@ class AppI18nService implements I18nService{
 
     constructor() {}
 
+    async init() {
+      this.selectedLocale = await StorageService.getItem(STORAGE_KEY);
+    }
+
     isRTLLocale(newLocale: string = this.selectedLocale){
       return !!(newLocale && RTL_LANGUAGE_CODES[newLocale]);
     }
@@ -39,7 +43,7 @@ class AppI18nService implements I18nService{
     }
 
     loadAppLocaleBundle(url: string) {
-        return this.getSelectedLocale().then(() => {
+        return Promise.resolve().then(() => {
           const path = `${url + APP_LOCALE_ROOT_PATH}/${this.selectedLocale}.json`;
           return axios.get(path)
             .then((bundle) => {
@@ -62,8 +66,8 @@ class AppI18nService implements I18nService{
         return this.setRTL(locale);
     }
 
-    async getSelectedLocale() {
-      return await StorageService.getItem(STORAGE_KEY);
+    getSelectedLocale() {
+      return this.selectedLocale;
     }
 }
 
