@@ -2,11 +2,13 @@ import BASE_THEME, {AllStyle} from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
 import { Platform } from 'react-native';
+import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 
 export type WmSelectStyles = BaseStyles & {
   arrowButton: WmButtonStyles;
   modal: AllStyle;
   modalContent: AllStyle;
+  checkIcon: WmIconStyles;
   selectItem: AllStyle;
   lastSelectItem: AllStyle,
   selectItemText: AllStyle;
@@ -38,6 +40,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       flex: 1,
       color: themeVariables.inputTextColor
     },
+    checkIcon: {
+      icon: {
+        fontSize: 24,
+        color: themeVariables.primaryColor
+      }
+    } as WmIconStyles,
     disabledText: {
       backgroundColor : themeVariables.inputDisabledBgColor
     },
@@ -70,7 +78,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     selectItemText: {
       fontSize: 16,
       fontFamily: themeVariables.baseFont,
-      color: themeVariables.selectItemTextColor
+      color: themeVariables.selectItemTextColor,
+      flex: 1
     },
     placeholderText: {
       color: themeVariables.inputPlaceholderColor

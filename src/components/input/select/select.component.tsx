@@ -8,6 +8,7 @@ import {
   BaseDatasetComponent,
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -112,6 +113,11 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     );
   }
 
+  isSelected(item: any) {
+    const val = this.state.props.datafield === 'All Fields'  ? item.dataObject : item.datafield;
+    return this.state.props.datavalue === val;
+  }
+
   onItemSelect(item: any, isPlaceholder?: boolean) {
     this.isDefaultValue = false;
     this.onChange(isPlaceholder ? '' : this.state.props.datafield === 'All Fields'  ? item.dataObject : item.datafield);
@@ -125,6 +131,11 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
           <Text style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : this.styles.selectItemText.color}]}>
             {isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)}
           </Text>
+          <WmIcon iconclass='wi wi-check' styles={this.theme.mergeStyle(this.styles.checkIcon, {
+            root: {
+              opacity: !isPlaceholder && this.isSelected(item) ?  1 : 0
+            }
+          })}></WmIcon>
         </View>
       </Tappable>
     );
