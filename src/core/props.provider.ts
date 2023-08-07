@@ -29,7 +29,7 @@ export class PropsProvider<T extends BaseProps> {
                 if (!this.has(propName)) {
                     return false;
                 }
-                this.isDirty = this.overriddenProps[propName] !== value;
+                this.isDirty = this.isDirty || this.overriddenProps[propName] !== value;
                 this.overriddenProps[propName] = value;
                 if (this.oldProps[propName] !== value) {
                     const oldValue = this.oldProps[propName];

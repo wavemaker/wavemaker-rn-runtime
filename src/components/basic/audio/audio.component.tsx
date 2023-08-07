@@ -19,6 +19,7 @@ export class WmAudioState extends BaseComponentState<WmAudioProps> {
 
 export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, WmAudioStyles> {
 
+  private loading = false;
   private sound: Sound = null as any;
   private timer: any;
   private offsetTime = 0;
@@ -31,14 +32,17 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
       super.onPropertyChange(name, $new, $old);
       switch(name) {
         case 'mp3format': {
-          if (this.initialized
-              && (this.state.playing 
-              || this.state.props.autoplay)) {
-            this.sound?.unloadAsync().then(() => {
-              this.sound = null as any;
-              this.onSeekChange(0);
-              this.play();
-            });
+          if (this.initialized) {
+            Promise.resolve()
+              .then(() => this.sound?.unloadAsync())
+              .then(() => {
+                this.sound = null as any;
+                this.onSeekChange(0);
+                if (this.state.playing 
+                  || this.state.props.autoplay) {
+                  this.play();
+                }
+              });
           }
         }
         break;
@@ -118,6 +122,7 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
 
   play() {
     if (isWebPreviewMode() 
+      || this.loading
       || (this.state.playing && this.sound)) {
       return;
     }
@@ -128,6 +133,7 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
         playing: true
       } as WmAudioState);
     } else {
+      this.loading = true;
       const source = this.getSource();
       source && Audio.Sound.createAsync(source, {
         isMuted: this.state.props.muted
@@ -144,6 +150,8 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
           this.updateState({
             playing: true
           } as WmAudioState);
+        }).catch(() => {}).then(() => {
+          this.loading = false;
         });
     }
   }
