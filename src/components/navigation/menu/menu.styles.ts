@@ -64,7 +64,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 textDecorationLine: 'none',
                 color: themeVariables.menuItemTextColor
             }
-        } as WmAnchorStyles
+        } as any as WmAnchorStyles
     };
 
     addStyle(DEFAULT_CLASS, POPOVER_CLASS, defaultStyles);

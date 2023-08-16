@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { DimensionValue, Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
@@ -42,7 +42,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     const skeletonHeight = this.props.skeletonheight || this.styles.root?.height || this.styles.text.fontSize;
     if(this.props.multilineskeleton) {
       return (<View style={{
-        width: skeletonWidth
+        width: skeletonWidth as DimensionValue
       }}>
         {this.getMultilineSkeleton('100%', skeletonHeight)}
         {this.getMultilineSkeleton('70%', skeletonHeight)}
@@ -52,8 +52,8 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     else{
       return createSkeleton(this.theme, this.styles.skeleton, {
         ...this.styles.root,
-        width: skeletonWidth,
-        height: skeletonHeight
+        width: skeletonWidth as DimensionValue,
+        height: skeletonHeight as DimensionValue
       });  
     }
   }

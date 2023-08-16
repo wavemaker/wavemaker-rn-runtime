@@ -145,7 +145,7 @@ export const getValidJSON = (content: any) => {
 export const parseErrors = (errors: any) => {
   let errMsg = '';
   if (errors && errors.error && errors.error.length) {
-      errors.error.forEach((errorDetails: any, i: Number) => {
+      errors.error.forEach((errorDetails: any, i: number) => {
           errMsg += parseError(errorDetails) + (i > 0 ? '\n' : '');
       });
   }

@@ -115,7 +115,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 borderRadius: 6
             }
         }
-    } as WmCarouselStyles);
+    } as any as WmCarouselStyles);
 
     addStyle('app-carousel-2', '', {
         btnPanel: {
@@ -155,5 +155,5 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 color: themeVariables.primaryColor
             }
         }
-    } as WmCarouselStyles);
+    } as any as WmCarouselStyles);
 });

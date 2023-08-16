@@ -29,7 +29,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 width: '100%',
                 borderRadius: 4
             }
-        } as WmButtonStyles,
+        } as any as WmButtonStyles,
         message: {
             text: {
                 color: themeVariables.alertMessageColor

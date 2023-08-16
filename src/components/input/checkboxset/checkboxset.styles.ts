@@ -39,7 +39,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         width: '100%',
         height: 16
       }
-    } as WmSkeletonStyles
+    } as any as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS + '-disabled', '', {

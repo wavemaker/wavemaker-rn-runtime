@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { DimensionValue, Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { Badge } from 'react-native-paper';
@@ -33,8 +33,8 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
   public renderSkeleton(prop: WmButtonProps) {
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
-      width: this.props.skeletonwidth || this.styles.root.width,
-      height: this.props.skeletonheight || this.styles.root.height
+      width: (this.props.skeletonwidth || this.styles.root.width)as DimensionValue,
+      height: (this.props.skeletonheight || this.styles.root.height) as DimensionValue
     });
   }
 

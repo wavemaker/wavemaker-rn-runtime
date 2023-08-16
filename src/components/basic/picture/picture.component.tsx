@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image, LayoutChangeEvent, View } from 'react-native';
-import { SvgUri } from 'react-native-svg';
+import { DimensionValue, Image, LayoutChangeEvent, View } from 'react-native';
+import { NumberProp, SvgUri } from 'react-native-svg';
 import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -116,7 +116,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       elementToshow = React.createElement(imgSrc?.default, imgStyle);
     } else if (!isWebPreviewMode() && props.isSvg) {
       // svg from uri
-      elementToshow = <SvgUri width={this.styles.root.width} height={this.styles.root.height} uri={imgSrc}/>;
+      elementToshow = <SvgUri width={this.styles.root.width as NumberProp} height={this.styles.root.height as NumberProp} uri={imgSrc}/>;
     } else if (isFullPathUrl(imgSrc)) {
       source = {
         uri: imgSrc
@@ -139,8 +139,8 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
       borderRadius:  this.props.shape == 'circle' && this.styles.root?.width ? 25 : shapeStyles.picture?.borderRadius || shapeStyles.root?.borderRadius || this.styles.root?.borderRadius || 4,
-      width: skeletonWidth,
-      height: skeletonHeight
+      width: skeletonWidth as DimensionValue,
+      height: skeletonHeight as DimensionValue
     });
   }
 

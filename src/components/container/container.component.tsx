@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 
 import WmContainerProps from './container.props';
 import { DEFAULT_CLASS, WmContainerStyles } from './container.styles';
@@ -25,7 +25,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
         {this._background}
         <Tappable target={this} styles={dimensions}>
-            <View style={[dimensions,  this.styles.content]}>{this.renderContent(props)}</View>
+            <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View>
         </Tappable>
       </Animatedview>
     );

@@ -27,7 +27,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           height: 48,
           borderRadius: 4
         }
-      } as WmSkeletonStyles
+      } as any as WmSkeletonStyles
   });
 
 

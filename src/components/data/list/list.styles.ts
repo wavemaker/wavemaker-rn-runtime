@@ -121,7 +121,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             borderBottomWidth: 0,
             borderBottomColor: themeVariables.listDividerColor,
         }
-    } as WmListStyles);
+    } as any as WmListStyles);
 
     addStyle('app-horizontal-list-dense', '', {
         item: {

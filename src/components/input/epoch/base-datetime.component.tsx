@@ -63,13 +63,13 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           datavalue: Date.now()
         },
         timerId: timerId
-      } as BaseDatetimeState);
+      } as any as BaseDatetimeState);
     }, 1000);
   }
 
   private stopCurrentTimeMonitor() {
     if (this.state.timerId) {
-      clearInterval(this.state.timerId);
+      clearInterval(this.state.timerId as any);
     }
   }
 

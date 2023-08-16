@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, Easing, Text } from 'react-native';
+import { Animated, DimensionValue, Easing, Text } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -129,8 +129,8 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   public renderSkeleton(props: WmIconProps) {
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
-      width: this.props.skeletonwidth || this.props.iconsize || this.styles.root.width,
-      height: this.props.skeletonheight || this.props.iconsize || this.styles.root.height
+      width: (this.props.skeletonwidth || this.props.iconsize || this.styles.root.width) as DimensionValue,
+      height: (this.props.skeletonheight || this.props.iconsize || this.styles.root.height) as DimensionValue
     });
   }
 

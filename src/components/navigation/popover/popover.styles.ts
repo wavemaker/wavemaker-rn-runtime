@@ -63,7 +63,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             shadowRadius: 10,
             justifyContent: 'flex-end'
         }
-    } as WmPopoverStyles);
+    } as any as WmPopoverStyles);
     addStyle('popover-dropdown', '', {
         modal: {
             backgroundColor: 'transparent',

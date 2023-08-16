@@ -154,7 +154,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         fontSize: themeVariables.navbarFontSize
       }
     }
-  } as WmMenuStyles);
+  } as any as WmMenuStyles);
   addStyle('navbarPopover', '', {
     root: {
       height: '100%',
@@ -174,5 +174,5 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         fontSize: themeVariables.navbarFontSize
       }
     }
-  } as WmPopoverStyles);
+  } as any as WmPopoverStyles);
 });

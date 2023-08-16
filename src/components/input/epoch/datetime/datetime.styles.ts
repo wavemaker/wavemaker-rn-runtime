@@ -65,7 +65,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 fontWeight: 'bold'
             }
         } as WmIconStyles
-    }) as WmDatetimeStyles;
+    }) as any as WmDatetimeStyles;
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
     addStyle(DEFAULT_CLASS + '-disabled', '', {

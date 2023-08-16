@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { DimensionValue, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmButtongroupProps from './buttongroup.props';
@@ -17,8 +17,8 @@ export default class WmButtongroup extends BaseComponent<WmButtongroupProps, WmB
   public renderSkeleton(props: WmButtongroupProps){
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
-      width: this.props.skeletonwidth || this.styles.root.width,
-      height: this.props.skeletonheight || this.styles.root.height
+      width: (this.props.skeletonwidth || this.styles.root.width) as DimensionValue,
+      height: (this.props.skeletonheight || this.styles.root.height) as DimensionValue
     });
   }
 

@@ -3,7 +3,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmCustomProps from './custom.props';
 import { DEFAULT_CLASS, WmCustomStyles } from './custom.styles';
-import { Text, View } from 'react-native';
+import { DimensionValue, Text, View } from 'react-native';
 import { createSkeleton } from '../skeleton/skeleton.component';
 
 
@@ -18,8 +18,8 @@ export default class WmCustom extends BaseComponent<WmCustomProps, WmCustomState
   public renderSkeleton(prop: WmCustomProps) {
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
-      width: this.props.skeletonwidth || this.styles.root.width,
-      height: this.props.skeletonheight || this.styles.root.height
+      width: (this.props.skeletonwidth || this.styles.root.width) as DimensionValue,
+      height: (this.props.skeletonheight || this.styles.root.height) as DimensionValue
     });
   }
 

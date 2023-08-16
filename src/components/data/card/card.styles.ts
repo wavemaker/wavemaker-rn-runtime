@@ -53,7 +53,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             root : {
                 width: '100%'
             }
-        } as WmPictureStyles
+        } as any as WmPictureStyles
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
