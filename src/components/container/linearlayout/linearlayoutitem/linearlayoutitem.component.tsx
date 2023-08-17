@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { isNil } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -21,7 +21,7 @@ export default class WmLinearlayoutitem extends BaseComponent<WmLinearlayoutitem
       ...this.styles.root,
       flexGrow: props.flexgrow,
       flexShrink: isNil(props.flexshrink) ? props.flexgrow : props.flexshrink,
-      flexBasis:  props.flexgrow && (direction === 'row' || direction === 'row-reverse') ? 0 : 'auto'
+      flexBasis:  Platform.OS == "web" ? 'auto' : (props.flexgrow && (direction === 'row' || direction === 'row-reverse') ? 0 : 'auto')
     }}>{this._background}{props.children}</View>); 
   }
 }

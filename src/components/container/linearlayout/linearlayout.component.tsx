@@ -25,6 +25,7 @@ export default class WmLinearlayout extends BaseComponent<WmLinearlayoutProps, W
     const s = {} as ViewStyle;
     const direction = props.direction;
     s.display = 'flex';
+    s.width = "100%";
     s.flexDirection = direction;
     const isHorizontal = direction.startsWith('row');
     if (isHorizontal) {
