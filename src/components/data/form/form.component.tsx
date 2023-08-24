@@ -37,7 +37,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   buttonArray: Array<WmFormAction> = [];
   formWidgets: { [key: string]: BaseComponent<any, any, any> } = {}; // object containing key as name of formField and value as WmFormField proxy.
   constructor(props: WmFormProps) {
-    super(props, DEFAULT_CLASS, new WmFormProps());
+    super(props, DEFAULT_CLASS, new WmFormProps(), new WmFormState());
   }
 
   private _debouncedSubmitForm = debounce(this.handleSubmit, 250);
