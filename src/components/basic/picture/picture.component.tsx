@@ -1,6 +1,6 @@
 import React from 'react';
 import { DimensionValue, Image, LayoutChangeEvent, View } from 'react-native';
-import { NumberProp, SvgUri } from 'react-native-svg';
+// import { NumberProp, SvgUri } from 'react-native-svg';
 import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -114,9 +114,9 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         imgStyle['height'] = '100%';
       }
       elementToshow = React.createElement(imgSrc?.default, imgStyle);
-    } else if (!isWebPreviewMode() && props.isSvg) {
-      // svg from uri
-      elementToshow = <SvgUri width={this.styles.root.width as NumberProp} height={this.styles.root.height as NumberProp} uri={imgSrc}/>;
+    // } else if (!isWebPreviewMode() && props.isSvg) {
+    //   // svg from uri
+    //   elementToshow = <SvgUri width={this.styles.root.width as NumberProp} height={this.styles.root.height as NumberProp} uri={imgSrc}/>;
     } else if (isFullPathUrl(imgSrc)) {
       source = {
         uri: imgSrc
