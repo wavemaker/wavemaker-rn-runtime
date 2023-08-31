@@ -260,7 +260,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               data={v.data || []}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)} 
-              {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}> 
+              numColumns={props.itemsperrow.xs}> 
             </FlatList>
           </View>
         ))) : null
