@@ -18,6 +18,7 @@ import {
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import {InterpolationPropType} from "victory-core";
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 export class WmLineChartState extends BaseChartComponentState<WmLineChartProps> {}
 
@@ -31,6 +32,8 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
     if (!this.state.data?.length) {
       return null;
     }
+    const icon = (<WmIcon
+       name={props.name + '_icon'} iconclass={"wi wi-line-chart"}></WmIcon>);
     return (<View
       style={this.styles.root}
     >
@@ -42,13 +45,15 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
     >
         <VictoryLegend
           name={'legend'}
-          containerComponent={<Svg />}
+          containerComponent={<Svg />} 
           title={[props.title, props.subheading]}
           orientation="horizontal"
           gutter={20}
           data={[]}
           theme={this.state.theme}
           y={0}
+          dataComponent={<WmIcon
+            styles = {{fontSize: 50}} name={props.name + '_icon'} iconclass={"wi wi-star"}></WmIcon>}
         />
         {this.getLegendView()}
         {this.getXaxis()}

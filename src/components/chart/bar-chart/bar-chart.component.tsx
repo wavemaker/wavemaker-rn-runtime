@@ -16,6 +16,7 @@ import {
 import WmBarChartProps from './bar-chart.props';
 import { DEFAULT_CLASS, WmBarChartStyles } from './bar-chart.styles';
 import { Svg } from "react-native-svg";
+import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 
 export class WmBarChartState extends BaseChartComponentState<WmBarChartProps> {}
 
@@ -68,7 +69,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
           {
             this.getBarChart(props)
           }
-        </VictoryStack> : <VictoryGroup colorScale={this.state.colors} offset={5}>
+        </VictoryStack> : <VictoryGroup colorScale={this.state.colors} offset={10} padding={{top: 5}}>
           {
             this.getBarChart(props)
           }
