@@ -442,7 +442,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
             $new = [];
           }
         }
-        $new && this.prepareDataItems($new);
+        $new && Object.keys($new).length!= 0 && this.prepareDataItems($new);
         break;
       case 'xaxislabel':
         if (this.props.xunits) {
