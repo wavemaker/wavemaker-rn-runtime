@@ -206,12 +206,11 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
    */
   private getValueInRange(value: number): number {
     const props = this.state.props;
-    if (!isNaN(props.minvalue) && value < props.minvalue) {
+    if (props.minvalue && !isNaN(props.minvalue) && value < props.minvalue) {
       this.updateState({ errorType: 'minvalue'} as S);
       return props.minvalue;
-
     }
-    if (!isNaN(props.maxvalue) && value > props.maxvalue) {
+    if (props.maxvalue && !isNaN(props.maxvalue) && value > props.maxvalue) {
       this.updateState({ errorType: 'maxvalue'} as S);
       return props.maxvalue;
     }
