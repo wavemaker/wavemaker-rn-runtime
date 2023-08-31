@@ -25,4 +25,10 @@ export default class WmListProps extends BaseProps {
     dateformat: string = null as any;
     selecteditem = null as any;
     itemclass: ($item: any, $index: any) => string = null as any;
+    itemsperrow =  {
+       xs: 1,
+       sm: 1,
+       md: 1,
+       lg: 1,
+    }
 }

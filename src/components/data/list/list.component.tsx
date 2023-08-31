@@ -41,7 +41,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private itemWidgets = [] as any[];
   private selectedItemWidgets = {} as any;
   private keyExtractor = new DefaultKeyExtractor();
-
+  
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
   }
@@ -198,7 +198,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   private renderItem(item: any, index: number, props: WmListProps) {
-    return (
+    return (  
         <Tappable
           onTap={() => this.onSelect(item, index, true)}
           onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
@@ -253,7 +253,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               horizontal = {isHorizontal}
               data={v.data || []}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
-              renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}>
+              renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)} 
+              numColumns={props.itemsperrow.xs}> 
             </FlatList>
           </View>
         ))) : null
@@ -273,7 +274,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return [];
   }
 
-  private renderWithSectionList(props: WmListProps, isHorizontal = false) {
+  private renderWithSectionList(props: WmListProps, isHorizontal = false) {  
     return (
       <SectionList
         keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
@@ -301,7 +302,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return (
         <View>
           {this._background}
-          {(isHorizontal) ?
+          {(isHorizontal || !props.groupby) ?
             this.renderWithFlatList(props, isHorizontal)
           : this.renderWithSectionList(props, isHorizontal)}
       </View>);
