@@ -42,9 +42,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       flex: 1,
       borderColor: themeVariables.buttonGrpBorderColor,
     },
-    text: {
-      color: themeVariables.defaultColor9,
-    }
   } as WmButtonStyles);
   addStyle('btn-group-first-child', '', {
     root: {
