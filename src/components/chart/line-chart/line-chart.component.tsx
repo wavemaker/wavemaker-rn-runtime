@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Svg } from 'react-native-svg';
 
 import {
@@ -7,7 +7,8 @@ import {
   VictoryLine,
   VictoryLegend,
   VictoryScatter,
-  VictoryGroup
+  VictoryGroup,
+  VictoryLabel
 } from 'victory-native';
 
 import WmLineChartProps from './line-chart.props';
@@ -30,31 +31,24 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
 
   renderWidget(props: WmLineChartProps) {
     if (!this.state.data?.length) {
-      return null;
+      <VictoryLine/>
     }
-    const icon = (<WmIcon
-       name={props.name + '_icon'} iconclass={"wi wi-line-chart"}></WmIcon>);
     return (<View
       style={this.styles.root}
     >
+      <View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            { props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
+            <Text style={this.styles.title}>{props.title}</Text>
+          </View>
+          <Text style={this.styles.subHeading}>{props.subheading}</Text>
+        </View>
       <VictoryChart
       theme={this.state.theme}
       height={this.styles.root.height as number}
       width={this.styles.root.width as number || this.screenWidth}
       padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
-    >
-        <VictoryLegend
-          name={'legend'}
-          containerComponent={<Svg />} 
-          title={[props.title, props.subheading]}
-          orientation="horizontal"
-          gutter={20}
-          data={[]}
-          theme={this.state.theme}
-          y={0}
-          dataComponent={<WmIcon
-            styles = {{fontSize: 50}} name={props.name + '_icon'} iconclass={"wi wi-star"}></WmIcon>}
-        />
+    >     
         {this.getLegendView()}
         {this.getXaxis()}
         {this.getYAxis()}
