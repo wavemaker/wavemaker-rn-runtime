@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutChangeEvent, View } from 'react-native';
+import { LayoutChangeEvent, Text, View } from 'react-native';
 import { Defs, LinearGradient, Stop, Svg } from 'react-native-svg';
 import { VictoryArea, VictoryChart, VictoryLegend, VictoryStack, VictoryScatter, VictoryGroup } from "victory-native";
 import { InterpolationPropType } from 'victory-core';
@@ -9,6 +9,7 @@ import {
   BaseChartComponent,
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
+import WmIcon from '../../basic/icon/icon.component';
 
 export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> {
   chartWidth = 0;
@@ -41,6 +42,13 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
         style={this.styles.root}
         onLayout={this.onViewLayoutChange.bind(this)}
       >
+        <View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
+            <Text style={this.styles.title}>{props.title}</Text>
+          </View>
+          <Text style={this.styles.subHeading}>{props.subheading}</Text>
+        </View>
         {this.state.chartWidth ? 
         (
           <VictoryChart
@@ -50,15 +58,6 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
             padding={{ top: 70, bottom: 50, left: 50, right: 50 }}
             minDomain={mindomain}
           > 
-            <VictoryLegend
-              name={'legend'}
-              containerComponent={<Svg />}
-              title={[props.title, props.subheading]}
-              orientation="horizontal"
-              gutter={20}
-              data={[]}
-              theme={this.state.theme}
-            />
             {this.getLegendView()}
             {this.getXaxis()}
             {this.getYAxis()}

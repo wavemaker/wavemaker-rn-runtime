@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import {
   VictoryChart,
@@ -17,6 +17,8 @@ import WmBarChartProps from './bar-chart.props';
 import { DEFAULT_CLASS, WmBarChartStyles } from './bar-chart.styles';
 import { Svg } from "react-native-svg";
 import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
+import WmIcon from '../../basic/icon/icon.component';
+import { min } from 'moment';
 
 export class WmBarChartState extends BaseChartComponentState<WmBarChartProps> {}
 
@@ -36,6 +38,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         horizontal={props.horizontal} labels={props.showvalues ? this.labelFn.bind(this) : undefined}
         data={d}
         height={100}
+        alignment='start'
         />
     });
 }
@@ -47,20 +50,20 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
     let mindomain={x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined, y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined};
     return (<View
       style={this.styles.root}
-    ><VictoryChart theme={this.state.theme}
+    >
+      <View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
+            <Text style={this.styles.title}>{props.title}</Text>
+          </View>
+          <Text style={this.styles.subHeading}>{props.subheading}</Text>
+        </View>
+      <VictoryChart theme={this.state.theme}
                           height={this.styles.root.height as number}
-                          width={this.styles.root.width as number || this.screenWidth}
+                          width={this.styles.root.width as number || this.screenWidth}               
                           minDomain={mindomain}
-                          padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}>
-      <VictoryLegend
-        name={'legend'}
-        containerComponent={<Svg />}
-        title={[props.title, props.subheading]}
-        orientation="horizontal"
-        gutter={20}
-        data={[]}
-        theme={this.state.theme}
-      />
+                          padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
+                          >
       {this.getLegendView()}
       {this.getXaxis()}
       {this.getYAxis()}
@@ -69,9 +72,9 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
           {
             this.getBarChart(props)
           }
-        </VictoryStack> : <VictoryGroup colorScale={this.state.colors} offset={10} padding={{top: 5}}>
+        </VictoryStack> : <VictoryGroup colorScale={this.state.colors}  offset={10} >
           {
-            this.getBarChart(props)
+            this.getBarChart(props)   
           }
         </VictoryGroup>
       }

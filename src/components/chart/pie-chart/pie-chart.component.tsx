@@ -16,6 +16,7 @@ import {
 import WmDonutChartProps from '@wavemaker/app-rn-runtime/components/chart/donut-chart/donut-chart.props';
 import { Legend } from '../legend/legend.component';
 
+
 export class WmPieChartState extends BaseChartComponentState<WmPieChartProps> {
   chartWidth = 0;
   totalHeight = 0;
@@ -73,11 +74,11 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
         }
       }
   }
-
+  
   renderWidget(props: WmPieChartProps) {
     if (!this.state.data.length) {
       return null;
-    }
+    }   
     const pieData = this.state.data[0];
     const chartWidth = this.state.chartWidth 
       - (props.showlegend === 'right' ? this.state.legendWidth : 0);
