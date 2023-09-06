@@ -185,6 +185,16 @@ class AppSecurityService implements SecurityService {
       });
     }
 
+    public canUserAccessPage(pageName: string) {
+      if (this.baseUrl) {
+        return axios.get(this.baseUrl + `/pages/${pageName}/${pageName}.html`)
+          .catch((res) => res)
+          .then((res) => res.status === 200 || res.status === 304); 
+      } else {
+        return Promise.resolve(true);
+      }
+    }
+
     private matchRoles(widgetRoles: Array<String>, userRoles: Array<String>) {
         return widgetRoles.some(function (item) {
             return includes(userRoles, item);
