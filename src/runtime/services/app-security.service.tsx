@@ -94,7 +94,8 @@ class AppSecurityService implements SecurityService {
             StorageService.setItem(XSRF_COOKIE_NAME, xsrfCookieValue);
             this.isLoggedIn = true;
           }).then(() => this.load(options.baseURL))
-          .then(() => this.getLoggedInUserDetails(options.baseURL, options.useDefaultSuccessHandler));
+          .then(() => this.getLoggedInUserDetails(options.baseURL, options.useDefaultSuccessHandler))
+          .then(() => this.appConfig.app.triggerStartUpVariables());
     }
 
     public load(baseURL: string) {
