@@ -37,7 +37,7 @@ export class HttpService implements HttpClientService {
     const axiosConfig = {
       headers: headers,
       cancelToken: variable.cancelTokenSource.token,
-      withCredentials: options?.withCredentials !== false
+      withCredentials: !isWebPreviewMode() || options?.withCredentials !== false
     };
     return new Promise((resolve, reject) => {
       // @ts-ignore

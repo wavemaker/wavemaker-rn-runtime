@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, LayoutChangeEvent } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -16,6 +17,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
 
   carouselRef: Carousel<unknown> | null = null as any;
   noOfSlides: number = 0;
+  private keyExtractor = new DefaultKeyExtractor();
   stopPlay: Function = null as any;
 
   constructor(props: WmCarouselProps) {
@@ -23,6 +25,13 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     this.cleanup.push(() => {
       this.stopPlay && this.stopPlay();
     })
+  }
+
+  private generateItemKey(item: any, index: number, props: WmCarouselProps) {
+    if (props.itemkey && item && !this._showSkeleton) {
+      return props.itemkey(item, index);
+    }
+    return 'list_item_' +  this.keyExtractor.getKey(item, true);
   }
 
   autoPlay() {
@@ -39,6 +48,10 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   onPropertyChange(name: string, $new: any, $old: any): void {
       super.onPropertyChange(name, $new, $old);
       switch (name) {
+        case 'dataset': {
+          this.keyExtractor?.clear();
+          break;
+        }
         case 'animation':
         case 'animationinterval' : {
           this.autoPlay();
@@ -124,6 +137,9 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             loopClonesPerSide={1}
             autoplay={false}
             activeSlideAlignment='start'
+            keyExtractor={(item: any, index: number) => {
+              return this.generateItemKey(item, index, props)
+            }}
             renderItem={this.renderItem}
             sliderWidth={this.state.sliderWidth}
             itemWidth={this.state.sliderWidth}

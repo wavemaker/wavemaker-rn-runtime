@@ -5,6 +5,7 @@ import { isArray } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
@@ -16,24 +17,6 @@ export class WmListState extends BaseComponentState<WmListProps> {
   public selectedindex: any;
   groupedData: Array<any> = [];
   currentPage: number = 1;
-}
-
-class DefaultKeyExtractor {
-  store = new Map<any, string>();
-  nextKey = 1;
-
-  getKey(o : any, create = false) {
-    let k = this.store.get(o);
-    if (!k && create) {
-      k = `key:${Date.now()}:${this.nextKey++}`;
-      this.store.set(o, k)
-    }
-    return k;
-  }
-
-  clear() {
-    this.store = new Map();
-  }
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -267,7 +250,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         key: '',
         data: [{}, {}, {}]
       }];
-    } else if (this.state.groupedData[0] && this.state.groupedData[0]['data'].length) {
+    } else if (this.state.groupedData 
+        && this.state.groupedData[0] 
+        && this.state.groupedData[0]['data'].length) {
       return this.state.groupedData;
     }
     return [];

@@ -19,7 +19,7 @@ export class ModelVariable extends _ModelVariable {
 
   invoke(params?: any, onSuccess?: Function, onError?: Function) {
     let result;
-    this.dataSet = assignIn({}, this.config.paramProvider(), params ? params.inputFields || params: {}); 
+    this.dataSet = this.config.paramProvider(); 
     this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
     try{
       result = super.execute(params, ()=>{});
