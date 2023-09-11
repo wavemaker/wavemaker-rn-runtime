@@ -6,9 +6,7 @@ export type WmListTemplateStyles = BaseStyles & {};
 export const DEFAULT_CLASS = 'app-list-template';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmListTemplateStyles = defineStyles<WmListTemplateStyles>({
-        root: {
-            flex: 1
-        },
+        root: {},
         text: {}
     });
 
@@ -16,6 +14,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     addStyle('list-card-template', '', {
         root : {
             borderBottomWidth: 0
+        }
+    } as WmListTemplateStyles);
+    addStyle('horizontal-list-template', '', {
+        root : {}
+    } as WmListTemplateStyles);
+    addStyle('vertical-list-template', '', {
+        root : {
         }
     } as WmListTemplateStyles);
 });

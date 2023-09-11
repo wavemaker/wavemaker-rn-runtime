@@ -1,4 +1,4 @@
-import { cloneDeep, forEach, flatten, isArray, isEmpty, isObject, isString, isFunction, get, reverse } from 'lodash';
+import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, isFunction, get, reverse } from 'lodash';
 import React, { ReactNode } from 'react';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
@@ -156,6 +156,21 @@ export class Theme {
         return style;
     }
 
+    cleanseStyleProperties(style: any) {
+        if (!(style && isObject(style)) || isString(style) || isArray(style)) {
+            return;
+        }
+        style = style as any;
+        if (!isNil(style['shadowRadius'])) {
+            if (style['shadowRadius'] <= 0) {
+                style['shadowColor'] = 'transparent';
+            } else if (isNil(style['elevation'])) {
+                style['elevation'] = 2;
+            }
+        }
+        Object.keys(style).forEach((k, i) => this.cleanseStyleProperties(style[k]));
+    }
+
     getStyle(name: string) {
         let style = this.cache[name];
         if (style) {
@@ -172,6 +187,7 @@ export class Theme {
             let clonedStyle = {};
             if (!mediaQuery || matchMedia(mediaQuery).matches) {
                 clonedStyle = cloneDeep(this.styles[name]);
+                this.cleanseStyleProperties(clonedStyle);
             }
             if (this !== Theme.BASE && isWebPreviewMode()) {
                 this.checkStyleProperties('', clonedStyle);

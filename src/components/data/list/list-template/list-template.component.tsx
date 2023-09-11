@@ -1,9 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
+import { isNil } from 'lodash';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmListTemplateProps from './list-template.props';
 import { DEFAULT_CLASS, WmListTemplateStyles } from './list-template.styles';
+import WmList from '../list.component';
 
 export class WmListTemplateState extends BaseComponentState<WmListTemplateProps> {
 
@@ -16,8 +18,16 @@ export default class WmListTemplate extends BaseComponent<WmListTemplateProps, W
   }
 
   renderWidget(props: WmListTemplateProps) {
+    const list = (this.parent as WmList);
+    const listProps = list.state.props;
+    const isHorizontalList = listProps.direction === 'horizontal';
+    const noOfCols = list.getNoOfColumns();
+    let style = this.theme.getStyle( isHorizontalList ? 'horizontal-list-template' : 'vertical-list-template');
+    if (isNil(style['flex']) && !isHorizontalList && noOfCols === 1) {
+        style = this.theme.mergeStyle({root: {flex: 1}}, style);
+    }
     return (
-      <View style={this.styles.root}>{this._background}{props.children}</View>
+      <View style={[this.styles.root, style?.root]}>{this._background}{props.children}</View>
     ); 
   }
 }

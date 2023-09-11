@@ -225,6 +225,14 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       caption={props.loadingdatamsg}></WmIcon>)
   }
 
+  public getNoOfColumns() {
+    const props = this.state.props;
+    if(props.direction === 'vertical') {
+      return props.itemsperrow.xs;
+    }
+    return 0;
+  }
+
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
     return (
     <View style={this.styles.root}>
@@ -232,12 +240,13 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           <View style={{marginBottom: 16}} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
             <FlatList
+              key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               horizontal = {isHorizontal}
               data={v.data || []}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)} 
-              numColumns={props.itemsperrow.xs}> 
+              {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}> 
             </FlatList>
           </View>
         ))) : null
