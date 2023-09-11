@@ -9,7 +9,8 @@ import {
   BaseChartComponent,
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
-import WmIcon from '../../basic/icon/icon.component';
+import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
+
 
 export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> {
   chartWidth = 0;

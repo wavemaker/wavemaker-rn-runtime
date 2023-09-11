@@ -69,7 +69,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     const isFirstStep = index === 0;
     const isActiveStep = index === this.state.currentStep;
     const isNumberTextLayout = this.state.props.classname === 'number-text-inline';
-    return item.props.show != false ? (
+    return item.state.props.show != false ? (
       <View style={[this.styles.headerWrapper, isNumberTextLayout ?
         {paddingRight: isActiveStep ? 0 : 5, paddingLeft: index === this.state.currentStep + 1 ? 0 : 5}: {}]} key={index+1}>
         <TouchableOpacity style={this.styles.stepWrapper}
@@ -79,11 +79,11 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                 <Text style={isActiveStep ? this.styles.activeStep : this.styles.stepCounter}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&
                 <WmIcon styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
-                        iconclass={item.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
+                        iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
             </View>
             {((isNumberTextLayout && isActiveStep) || !isNumberTextLayout) &&
               <Text style={this.styles.stepTitle}>
-              {item.props.title || 'Step Title'}</Text> }
+              {item.state.props.title || 'Step Title'}</Text> }
             {this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
