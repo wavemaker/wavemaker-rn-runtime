@@ -17,7 +17,7 @@ import WmBarChartProps from './bar-chart.props';
 import { DEFAULT_CLASS, WmBarChartStyles } from './bar-chart.styles';
 import { Svg } from "react-native-svg";
 import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
-import WmIcon from '../../basic/icon/icon.component';
+import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
 import { min } from 'moment';
 
 export class WmBarChartState extends BaseChartComponentState<WmBarChartProps> {}

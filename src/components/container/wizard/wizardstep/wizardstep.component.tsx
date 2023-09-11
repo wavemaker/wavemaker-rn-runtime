@@ -22,6 +22,15 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
     super.componentDidMount();
   }
 
+  onPropertyChange(name: string, $new: any, $old: any) {
+    super.onPropertyChange(name, $new, $old);
+    switch(name) {
+      case 'title':
+        const wizard = (this.parent) as WmWizard;
+        wizard?.refresh();
+    }
+  }
+
   setActive() {
     this.updateState({
       active: true
