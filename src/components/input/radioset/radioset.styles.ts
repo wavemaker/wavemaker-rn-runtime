@@ -17,7 +17,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         color: themeVariables.checkedColor
       },
       text: {},
-      group: {},
+      group: {
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+      },
       groupHeaderTitle: {
         backgroundColor: themeVariables.groupHeadingBgColor,
         fontSize: 16,
@@ -51,14 +54,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       opacity: 0.8
     }
   });
-
-  addStyle(DEFAULT_CLASS + '-row', '', {
-    group : {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent:'space-between'
-    }
-  } as WmRadiosetStyles);
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
 });

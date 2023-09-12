@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, DimensionValue } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 
 import WmRadiosetProps from './radioset.props';
@@ -24,10 +24,10 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     this.onValueChange(value);
   }
 
-  renderChild(item: any, index: any) {
+  renderChild(item: any, index: any, colWidth: DimensionValue) {
     const displayText = item.displayexp || item.displayfield;
     return (
-      <View style={this.styles.radioHead} key={item.key}>
+      <View style={[this.styles.radioHead, {width: colWidth}]} key={item.key}>
           <RadioButton.Android
             value={this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield}
             color={this.styles.root.color as string}
@@ -57,10 +57,12 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
 
   renderRadioButtons(items: any) {
     const props = this.state.props;
+    const noOfColumns = props.itemsperrow.xs || 1;
+    const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
     return(<RadioButton.Group onValueChange={this.onPress.bind(this)} value={this.state.props.datafield === 'All Fields'? this.getItemKey(props.datavalue) : props.datavalue}>
       <View style={this.styles.group}>
         {items && items.length ?
-          items.map((item: any, index: any) => this.renderChild(item, index)): null}
+          items.map((item: any, index: any) => this.renderChild(item, index, colWidth)): null}
       </View>
     </RadioButton.Group>)
   }
