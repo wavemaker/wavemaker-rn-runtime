@@ -154,7 +154,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
           datavalue: '',
         },
       } as WmSearchState);
-      return;
+      if (value === prevQuery) {
+        return;
+      }
     }
     if (this.props.invokeEvent) {
       this.props.invokeEvent('onChange', [undefined, this.proxy, value, prevQuery]);
