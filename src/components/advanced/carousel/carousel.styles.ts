@@ -32,7 +32,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         text: {},
         slide: {
             width: '100%',
-            paddingHorizontal: 8,
+            paddingHorizontal: 16,
             transform: [
                 {
                     translateX: 0

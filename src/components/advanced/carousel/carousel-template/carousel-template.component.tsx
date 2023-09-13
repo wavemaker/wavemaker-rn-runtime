@@ -14,6 +14,8 @@ export default class WmCarouselTemplate extends BaseComponent<WmCarouselTemplate
   }
 
   renderWidget(props: WmCarouselTemplateProps) {
-    return (<View style={this.styles.root}>{this._background}{props.children}</View>);  
+    return (<View style={[this.styles.root, {
+      height: this.styles.root.height || (this.parent?.styles.root.height && '100%')
+    }]}>{this._background}{props.children}</View>);  
   }
 }

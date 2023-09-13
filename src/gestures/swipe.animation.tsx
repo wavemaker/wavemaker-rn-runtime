@@ -1,6 +1,6 @@
 import { isNil } from 'lodash-es';
 import React from  'react';
-import { Animated, Easing, ViewStyle, I18nManager, Platform } from 'react-native';
+import { Animated, Easing, ViewStyle } from 'react-native';
 import { Gesture, GestureDetector, GestureUpdateEvent } from 'react-native-gesture-handler';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -10,6 +10,7 @@ export class Handlers {
     onAnimation?: (g: GestureUpdateEvent<any>) => any = () => {};
     onLower?:  (g: GestureUpdateEvent<any>) => any = () => {};
     onUpper?:  (g: GestureUpdateEvent<any>) => any = () => {};
+    computePhase?: (value: number) => number = null as any;
 }
 
 export interface Bounds {
@@ -37,6 +38,7 @@ export class View extends React.Component<Props, State> {
 
     private gesture = Gesture.Pan();
     private position = new Animated.Value(0);
+    public animationPhase = new Animated.Value(0);
     private i18nService = injector.I18nService.get();
 
     constructor(props: Props) {
@@ -52,9 +54,18 @@ export class View extends React.Component<Props, State> {
             .enabled(this.props.enableGestures && !isWebPreviewMode())
             .onChange(e => {
                 const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
+                const d = (this.state.isHorizontal ? e.translationX : e.translationY);
+                let phase = this.computePhase(bounds?.center || 0);
+                if (d && d < 0 && !isNil(bounds.center) && !isNil(bounds.lower)
+                    && bounds.center !== bounds.lower) {
+                    phase += (d / (bounds.center - bounds.lower)) || 0;
+                } else if (d && d > 0 && !isNil(bounds.center) && !isNil(bounds.upper)
+                    && bounds.center !== bounds.upper) {
+                    phase += (d / (bounds.upper - bounds.center)) || 0;
+                }
+                this.animationPhase.setValue(phase);
                 this.position.setValue(
-                    (this.isRTL()?-bounds?.center! :bounds?.center || 0) +
-                    (this.state.isHorizontal ? e.translationX : e.translationY));
+                    (this.isRTL()?-bounds?.center! :bounds?.center || 0) + d);
             })
             .onEnd(e => {
                 this.props.handlers?.onAnimation && 
@@ -68,6 +79,11 @@ export class View extends React.Component<Props, State> {
 
     }
 
+    computePhase(value: number) {
+        return (this.props.handlers?.computePhase && 
+            this.props.handlers?.computePhase(value)) || 0;
+    }
+
     isRTL(){
         return this.i18nService.isRTLLocale();
     }
@@ -76,8 +92,10 @@ export class View extends React.Component<Props, State> {
         const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
         this.setPosition(bounds.lower)
             .then(() => {
-                this.props.handlers?.onLower && 
-                this.props.handlers?.onLower(e);
+                if (!isNil(bounds.lower) && bounds.center !== bounds.lower) {
+                    this.props.handlers?.onLower && 
+                    this.props.handlers?.onLower(e);
+                }
             });
     }
 
@@ -85,8 +103,10 @@ export class View extends React.Component<Props, State> {
         const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
         this.setPosition(bounds.upper)
             .then(() => {
-                this.props.handlers?.onUpper && 
-                this.props.handlers?.onUpper(e);
+                if (!isNil(bounds.upper) && bounds.center !== bounds.upper) {
+                    this.props.handlers?.onUpper && 
+                    this.props.handlers?.onUpper(e);
+                }
             });
     }
     
@@ -95,12 +115,20 @@ export class View extends React.Component<Props, State> {
             return Promise.reject();
         }
         return new Promise((resolve) => {
-            Animated.timing(this.position, {
-                useNativeDriver: true,
-                toValue:  this.isRTL()?-value:value,
-                duration: 200,
-                easing: Easing.out(Easing.linear)
-            }).start(resolve);
+            Animated.parallel([
+                Animated.timing(this.animationPhase, {
+                    useNativeDriver: true,
+                    toValue:  this.computePhase(value),
+                    duration: 200,
+                    easing: Easing.out(Easing.linear)
+                }),
+                Animated.timing(this.position, {
+                    useNativeDriver: true,
+                    toValue:  this.isRTL()?-value:value,
+                    duration: 200,
+                    easing: Easing.out(Easing.linear)
+                })
+            ]).start(resolve);
         });
     }
 

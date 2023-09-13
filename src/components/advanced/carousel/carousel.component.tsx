@@ -1,6 +1,6 @@
 import React from 'react';
 import { isArray } from 'lodash-es';
-import { View, Text, LayoutChangeEvent, LayoutRectangle } from 'react-native';
+import { Animated, View, Text, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -30,6 +30,10 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         center: -1 * activeTabIndex * w,
         upper:  -1 * (activeTabIndex + (activeTabIndex === noOfTabs - 1 ? 0 : 1)) * w
       };
+    },
+    computePhase: (value) => {
+      const w = this.slideLayout?.width || 0;
+      return w && Math.abs(value / w);
     },
     onLower: (e) => {
       this.onSlideChange(this.state.activeIndex - 1);
@@ -66,6 +70,11 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         this.next();
       }, props.animationinterval * 1000);
       this.stopPlay = () => clearInterval(intervalId);
+    } else {
+      setTimeout(() => {
+        this.onSlideChange(1);
+        this.animationView?.setPosition(0);
+      }, 1000);
     }
   }
 
@@ -151,21 +160,41 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             enableGestures={props.enablegestures}
             style={{
               flexDirection: 'row',
-              flexWrap: 'nowrap'
+              flexWrap: 'nowrap',
+              alignItems: 'center'
             }}
             direction='horizontal'
             ref={(r) => {this.animationView = r}}
             handlers = {this.animationHandlers}
           >
           {data.map((item: any, index: number) => {
+            const isActive = index === this.state.activeIndex - 1;
+            let scale = this.animationView?.animationPhase.interpolate({
+              inputRange: [-2000, index - 1, index, index + 1, 2000],
+              outputRange: [0.8, 0.8, 1, 0.8, 0.8]
+            });
+            let translateX = this.animationView?.animationPhase.interpolate({
+              inputRange: [-2000, index - 1, index, index + 1, 2000],
+              outputRange: [-56, -56, 0, 56, 56]
+            });
             return (
-              <View key={this.generateItemKey(item, index, props)}
+              <Animated.View key={this.generateItemKey(item, index, props)}
                 style={[this.styles.slide,
                   index === 0 ? this.styles.firstSlide : null,
                   index === data.length - 1 ? this.styles.lastSlide: null,
-                  index === this.state.activeIndex - 1 ? this.styles.activeSlide: null]}>
+                  isActive ? this.styles.activeSlide: null,
+                  translateX && scale ? {
+                    transform: [
+                      {
+                        translateX: translateX
+                      },
+                      {
+                        scale: scale
+                      }
+                    ]
+                  } : null]}>
                 {this.renderItem(item, index)}
-              </View>
+              </Animated.View>
             );
           })}
         </SwipeAnimation.View>
