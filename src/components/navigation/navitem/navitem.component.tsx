@@ -22,7 +22,7 @@ export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemSt
   }
 
   onSelectItem(cb: any, $item: NavigationDataItem, $event: TapEvent) {
-    cb && cb($event, this, $item);
+    cb && cb($event, this, $item?.data);
   }
 
   renderWidget(props: WmNavItemProps) {
