@@ -31,7 +31,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             }
         } as WmAnchorStyles,
         popover: {
-            backgroundColor: themeVariables.transparent
+            backgroundColor: themeVariables.transparent,
+            borderTopLeftRadius: 0,
+            borderTopRightRadius: 0  
         },
         popoverContent: {
             //@ts-ignore
@@ -39,21 +41,23 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         menu: {
             width: 160,
-            padding: 12,
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 12,
+            paddingRight: 12,
             backgroundColor: themeVariables.menuBackgroundColor,
-            borderRadius: 6
+            borderRadius: 4
         },
         menuItem: {
             root : {
-                width: '100%',
-                padding: 8,
+                height: 48,
                 borderBottomWidth: 0,
                 borderStyle: 'solid',
                 borderBottomColor: themeVariables.menuItemBorderColor
             },
             icon :{
                 root : {
-                    fontSize: 16,
+                  fontSize: 24
                 },
                 icon : {
                     color: themeVariables.menuItemIconColor

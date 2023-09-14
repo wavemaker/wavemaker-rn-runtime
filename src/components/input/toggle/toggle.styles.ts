@@ -11,7 +11,8 @@ export const DEFAULT_CLASS = 'app-toggle';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmToggleStyles = defineStyles({
       root: {
-        width: 36,
+        width: 52,
+        height: 32,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -20,8 +21,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       text: {},
       handle: {
-        width: 18,
-        height: 18,
+        width: 28,
+        height: 28,
         borderRadius: 18,
         backgroundColor: themeVariables.toggleHandleColor,
         backgroundSize: '100% 100%',

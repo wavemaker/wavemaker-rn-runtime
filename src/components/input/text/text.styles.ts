@@ -13,8 +13,12 @@ export const DEFAULT_CLASS = 'app-text';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmTextStyles = defineStyles({
       root: {
-        padding: 12,
+        minHeight: 42,
+        paddingTop: 8,
+        paddingBottom: 8,
         borderWidth: 1,
+        paddingLeft: 16,
+        paddingRight: 16,
         borderStyle: 'solid',
         borderColor: themeVariables.inputBorderColor,
         backgroundColor: themeVariables.inputBackgroundColor,

@@ -18,12 +18,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       alignItems: 'center'
     },
     text: {
-      fontSize: 14,
+      fontSize: 16,
       paddingLeft: 8
     },
     icon: {
       text: {
-        fontSize: 24,
+        fontSize: 36,
+        width: 4,
         color: themeVariables.spinnerIconColor
       }
     } as WmIconStyles,

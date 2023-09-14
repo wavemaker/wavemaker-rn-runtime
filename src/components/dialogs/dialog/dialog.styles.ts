@@ -16,11 +16,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmDialogStyles = defineStyles<WmDialogStyles>({
         root: {
             minWidth: 320,
+            paddingTop: 24,
+            paddingBottom: 24,
+            paddingLeft: 24,
+            paddingRight: 24,
             width: '90%',
             maxHeight: themeVariables.maxModalHeight,
             backgroundColor: themeVariables.dialogBackgroundColor,
-            borderRadius: 6,
-            padding: 16
+            borderRadius: 28
         },
         text: {},
         modal: {},
@@ -36,7 +39,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 fontWeight: 'bold'
             },
             icon: {
-                fontSize: 24,
+                fontSize: 24
             }
         } as WmIconStyles,
         header: {
@@ -48,13 +51,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'flex-start',
-            alignItems: 'center'
+            alignItems: 'center',
+            paddingBottom: 16
         },
         closeBtn: {
             root: {
                 alignSelf: 'flex-end',
                 backgroundColor: 'transparent',
-                padding: 8
+                paddingRight: 0
             },
             icon : {
                 root: {

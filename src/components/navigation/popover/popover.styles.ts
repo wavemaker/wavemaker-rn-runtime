@@ -29,7 +29,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         link: {} as WmAnchorStyles,
         popover: {
-            backgroundColor: themeVariables.popoverBackgroundColor
+            backgroundColor: themeVariables.popoverBackgroundColor,
+            maxWidth: 640,
+            borderTopLeftRadius: 28,
+            borderTopRightRadius: 28        
         },
         popoverContent : {
             root: {
@@ -37,7 +40,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             }
         } as WmContainerStyles,
         modal: {},
-        modalContent: {}
+        modalContent: {
+            borderTopLeftRadius: 28,
+            borderTopRightRadius: 28
+        }
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

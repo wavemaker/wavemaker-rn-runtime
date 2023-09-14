@@ -13,7 +13,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root: {},
         text: {},
         progressBar: {
-            height: 2
+            height: 4
         },
         progressValue: {}
     });
