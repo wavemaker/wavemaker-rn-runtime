@@ -14,6 +14,11 @@ export default class WmDialogcontent extends BaseComponent<WmDialogcontentProps,
   }
 
   renderWidget(props: WmDialogcontentProps) {
-    return (<ScrollView contentContainerStyle={this.styles.root} style={{maxHeight: '90%'}}>{this._background}{props.children}</ScrollView>);
+    return (<ScrollView
+      contentContainerStyle={[this.styles.root, {maxHeight: undefined}]}
+      style={{maxHeight: this.styles.root.maxHeight}}>
+        {this._background}
+        {props.children}
+    </ScrollView>);
   }
 }

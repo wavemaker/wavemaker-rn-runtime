@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionList, Text, View, TouchableWithoutFeedback } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { isArray } from 'lodash-es';
+import { isArray, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -182,11 +182,15 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   private renderItem(item: any, index: number, props: WmListProps) {
+    const cols = this. getNoOfColumns();
     return (  
         <Tappable
           onTap={() => this.onSelect(item, index, true)}
           onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
-          onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
+          onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+          styles={
+            cols ? {width: round(100/cols, 2) + '%'} : null}
+          >
           <View style={[
               this.styles.item,
               props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,

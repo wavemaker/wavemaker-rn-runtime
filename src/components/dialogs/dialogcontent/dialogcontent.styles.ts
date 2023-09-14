@@ -8,7 +8,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmDialogcontentStyles = defineStyles({
         root: {
             padding: 16,
-            minHeight: 80
+            minHeight: 80,
+            maxHeight: 0.9 * themeVariables.maxModalHeight
         },
         text: {}
     });
