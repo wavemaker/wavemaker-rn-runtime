@@ -40,7 +40,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private onSelect($item: any, $index: number | string, triggerTapEvent = false) {
     const props = this.state.props;
     let selectedItem = null as any;
-    if (!props.disableitem($item, $index)) {
+    if (props.disableitem !== true 
+        && (typeof props.disableitem !== 'function' || !props.disableitem($item, $index))) {
       if (props.multiselect) {
         selectedItem = [...(props.selecteditem || [])];
         const index = selectedItem.indexOf($item);
