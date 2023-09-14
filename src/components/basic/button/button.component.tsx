@@ -21,8 +21,8 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
   }
 
   private prepareIcon(props: any) {
-    return (<WmIcon
-      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass} iconsize={props.iconsize}></WmIcon>);
+    return (props.iconclass? <WmIcon
+      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass} iconsize={props.iconsize}></WmIcon>: null);
   }
 
   private prepareBadge(props: any) {

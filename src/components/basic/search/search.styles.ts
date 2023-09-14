@@ -28,7 +28,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         paddingTop: 8,
         paddingBottom: 8,
         paddingLeft: 12,
-        paddingRight: 12,
+        paddingRight: 14,
         width: '100%',
         borderWidth: 1,
         borderRightWidth: 0,
@@ -89,7 +89,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         icon: {
           icon: {
             fontSize: 24,
-            color: themeVariables.searchButtonTextColor,
+            color: themeVariables.searchButtonTextColor
           }
         }
       } as WmButtonStyles,

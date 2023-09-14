@@ -14,8 +14,10 @@ export const DEFAULT_CLASS = 'app-button';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmButtonStyles = defineStyles<WmButtonStyles>({
       root: {
-          padding: 12,
+          minHeight: 40,
           borderRadius: 6,
+          paddingLeft: 24,
+          paddingRight: 24,
           alignSelf: 'flex-start'
       },
       content: {
@@ -24,7 +26,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         justifyContent: 'center'
       },
       text: {
-        fontSize: 16,
+        fontSize: 14,
+        paddingVertical: 11,
         fontWeight: '500',
         textAlign: 'center',
         textTransform: 'capitalize',
@@ -42,7 +45,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       icon: {
         root : {
-          alignSelf: 'auto'
+          alignSelf: 'auto',
+          paddingLeft: -8,
+          paddingRight: -8
         },
         text: {
           paddingRight: themeVariables.buttonTextPadding,

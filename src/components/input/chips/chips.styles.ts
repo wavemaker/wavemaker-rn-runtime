@@ -32,20 +32,21 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       chip: {
         margin: 2,
         backgroundColor: 'white',
-        borderRadius: 500,
+        borderRadius: 12,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 4,
         paddingHorizontal: 4,
         minWidth: 80,
-        minHeight: 40,
+        minHeight: 32,
         borderWidth: 1,
         borderColor: themeVariables.chipDefaultTextColor
       },
       chipLabel : {
         fontSize: 16,
-        paddingHorizontal: 8,
+        paddingLeft: 8,
+        paddingRight: 12,
         color: themeVariables.chipDefaultTextColor,
         borderColor: themeVariables.chipDefaultTextColor
       },
