@@ -2,6 +2,300 @@ import Color, { rgb } from "color";
 import { Dimensions, StatusBar } from "react-native";
 
 export default class ThemeVariables {
+  
+    /* primary */
+    primary0 = '#000000';
+    primary10 = '#001356';
+    primary20 = '#002388';
+    primary25 = '#002ca3';
+    primary30 = '#0035be';
+    primary35 = '#1942cc';
+    primary40 = '#2c50d9';
+    primary50 = '#4a6bf3';
+    primary60 = '#6e88ff';
+    primary70 = '#94a6ff';
+    primary80 = '#b9c3ff';
+    primary90 = '#dde1ff';
+    primary95 = '#f0efff';
+    primary98 = '#fbf8ff';
+    primary99 = '#fefbff';
+    primary100 = '#ffffff';
+
+    /* secondary */
+    secondary0 = '#000000';
+    secondary10 = '#001e2e';
+    secondary20 = '#00344d';
+    secondary25 = '#00405d';
+    secondary30 = '#004c6d';
+    secondary35 = '#00587e';
+    secondary40 = '#006590';
+    secondary50 = '#007fb4';
+    secondary60 = '#3399d1';
+    secondary70 = '#55b4ed';
+    secondary80 = '#87ceff';
+    secondary90 = '#c8e6ff';
+    secondary95 = '#e5f2ff';
+    secondary98 = '#f6faff';
+    secondary99 = '#fbfcff';
+    secondary100 = '#ffffff';
+
+    /* tertiary */
+    tertiary0 = '#000000';
+    tertiary10 = '#3e001d';
+    tertiary20 = '#5e1132';
+    tertiary25 = '#6c1d3d';
+    tertiary30 = '#7b2948';
+    tertiary35 = '#8a3454';
+    tertiary40 = '#994060';
+    tertiary50 = '#b75879';
+    tertiary60 = '#d57193';
+    tertiary70 = '#f58bad';
+    tertiary80 = '#ffb1c7';
+    tertiary90 = '#ffd9e2';
+    tertiary95 = '#ffecef';
+    tertiary98 = '#fff8f8';
+    tertiary99 = '#fffbff';
+    tertiary100 = '#ffffff';
+
+    /* neutral */
+    neutral0 = '#000000';
+    neutral10 = '#1b1b1f';
+    neutral20 = '#303034';
+    neutral25 = '#3b3b3f';
+    neutral30 = '#47464a';
+    neutral35 = '#525256';
+    neutral40 = '#5f5e62';
+    neutral50 = '#77767a';
+    neutral60 = '#919094';
+    neutral70 = '#acaaaf';
+    neutral80 = '#c8c6ca';
+    neutral90 = '#e4e1e6';
+    neutral95 = '#f3f0f4';
+    neutral98 = '#fbf8fd';
+    neutral99 = '#fefbff';
+    neutral100 = '#ffffff';
+
+    /* neutral-variant */
+    neutralvariant0 = '#000000';
+    neutralvariant10 = '#1a1b23';
+    neutralvariant20 = '#2f3038';
+    neutralvariant25 = '#3a3b43';
+    neutralvariant30 = '#45464f';
+    neutralvariant35 = '#51525b';
+    neutralvariant40 = '#5d5e67';
+    neutralvariant50 = '#767680';
+    neutralvariant60 = '#90909a';
+    neutralvariant70 = '#abaab4';
+    neutralvariant80 = '#c6c5d0';
+    neutralvariant90 = '#e2e1ec';
+    neutralvariant95 = '#f1effa';
+    neutralvariant98 = '#fbf8ff';
+    neutralvariant99 = '#fefbff';
+    neutralvariant100 = '#ffffff';
+
+    /* error */
+    error0 = '#000000';
+    error10 = '#410002';
+    error20 = '#690005';
+    error25 = '#7e0007';
+    error30 = '#93000a';
+    error35 = '#a80710';
+    error40 = '#ba1a1a';
+    error50 = '#de3730';
+    error60 = '#ff5449';
+    error70 = '#ff897d';
+    error80 = '#ffb4ab';
+    error90 = '#ffdad6';
+    error95 = '#ffedea';
+    error98 = '#fff8f7';
+    error99 = '#fffbff';
+    error100 = '#ffffff';
+
+    /* light */
+    colorPrimaryLight = '#2c50d9';
+    colorOnPrimaryLight = '#ffffff';
+    colorPrimaryContainerLight = '#dde1ff';
+    colorOnPrimaryContainerLight = '#001356';
+    colorSecondaryLight = '#006590';
+    colorOnSecondaryLight = '#ffffff';
+    colorSecondaryContainerLight = '#c8e6ff';
+    colorOnSecondaryContainerLight = '#001e2e';
+    colorTertiaryLight = '#994060';
+    colorOnTertiaryLight = '#ffffff';
+    colorTertiaryContainerLight = '#ffd9e2';
+    colorOnTertiaryContainerLight = '#3e001d';
+    colorErrorLight = '#ba1a1a';
+    colorErrorContainerLight = '#ffdad6';
+    colorOnErrorLight = '#ffffff';
+    colorOnerrorContainerLight = '#410002';
+    colorBackgroundLight = '#fefbff';
+    colorOnBackgroundLight = '#1b1b1f';
+    colorSurfaceLight = '#fefbff';
+    colorOnSurfaceLight = '#1b1b1f';
+    colorSurfaceVariantLight = '#e2e1ec';
+    colorOnSurfaceVariantLight = '#45464f';
+    colorOutlineLight = '#767680';
+    colorInverseOnSurfaceLight = '#f3f0f4';
+    colorInverseSurfaceLight = '#303034';
+    colorInversePrimaryLight = '#b9c3ff';
+    colorShadowLight = '#000000';
+    colorSurfaceTintLight = '#2c50d9';
+    colorOutlineVariantLight = '#c6c5d0';
+    colorScrimLight = '#000000';
+
+    /* dark */
+    colorPrimaryDark = '#b9c3ff';
+    colorOnPrimaryDark = '#002388';
+    colorPrimaryContainerDark = '#0035be';
+    colorOnPrimaryContainerDark = '#dde1ff';
+    colorSecondaryDark = '#87ceff';
+    colorOnSecondaryDark = '#00344d';
+    colorSecondaryContainerDark = '#004c6d';
+    colorOnSecondaryContainerDark = '#c8e6ff';
+    colorTertiaryDark = '#ffb1c7';
+    colorOnTertiaryDark = '#5e1132';
+    colorTertiaryContainerDark = '#7b2948';
+    colorOnTertiaryContainerDark = '#ffd9e2';
+    colorErrorDark = '#ffb4ab';
+    colorErrorContainerDark = '#93000a';
+    colorOnErrorDark = '#690005';
+    colorOnerrorContainerDark = '#ffdad6';
+    colorBackgroundDark = '#1b1b1f';
+    colorOnBackgroundDark = '#e4e1e6';
+    colorSurfaceDark = '#1b1b1f';
+    colorOnSurfaceDark = '#e4e1e6';
+    colorSurfaceVariantDark = '#45464f';
+    colorOnSurfaceVariantDark = '#c6c5d0';
+    colorOutlineDark = '#90909a';
+    colorInverseOnSurfaceDark = '#1b1b1f';
+    colorInverseSurfaceDark = '#e4e1e6';
+    colorInversePrimaryDark = '#2c50d9';
+    colorShadowDark = '#000000';
+    colorSurfaceTintDark = '#b9c3ff';
+    colorOutlineVariantDark = '#45464f';
+    colorScrimDark = '#000000';
+   
+     /* display - large */
+    typescaleDisplayLargeFontFamilyName = 'Roboto';
+    typescaleDisplayLargeFontFamilyStyle = 'Regular';
+    typescaleDisplayLargeFontWeight = '400';
+    typescaleDisplayLargeFontSize = '57px';
+    typescaleDisplayLargeLineHeight = '64px';
+    typescaleDisplayLargeLetterSpacing = '-0.25px';
+
+    /* display - medium */
+    typescaleDisplayMediumFontFamilyName = 'Roboto';
+    typescaleDisplayMediumFontFamilyStyle = 'Regular';
+    typescaleDisplayMediumFontWeight = '400';
+    typescaleDisplayMediumFontSize = '45px';
+    typescaleDisplayMediumLineHeight = '52px';
+    typescaleDisplayMediumLetterSpacing = '0px';
+
+    /* display - small */
+    typescaleDisplaySmallFontFamilyName = 'Roboto';
+    typescaleDisplaySmallFontFamilyStyle = 'Regular';
+    typescaleDisplaySmallFontWeight = '400';
+    typescaleDisplaySmallFontSize = '36px';
+    typescaleDisplaySmallLineHeight = '44px';
+    typescaleDisplaySmallLetterSpacing = '0px';
+
+    /* headline - large */
+    typescaleHeadlineLargeFontFamilyName = 'Roboto';
+    typescaleHeadlineLargeFontFamilyStyle = 'Regular';
+    typescaleHeadlineLargeFontWeight = '400';
+    typescaleHeadlineLargeFontSize = '32px';
+    typescaleHeadlineLargeLineHeight = '40px';
+    typescaleHeadlineLargeLetterSpacing = '0px';
+
+    /* headline - medium */
+    typescaleHeadlineMediumFontFamilyName = 'Roboto';
+    typescaleHeadlineMediumFontFamilyStyle = 'Regular';
+    typescaleHeadlineMediumFontWeight = '400';
+    typescaleHeadlineMediumFontSize = '28px';
+    typescaleHeadlineMediumLineHeight = '36px';
+    typescaleHeadlineMediumLetterSpacing = '0px';
+
+    /* headline - small */
+    typescaleHeadlineSmallFontFamilyName = 'Roboto';
+    typescaleHeadlineSmallFontFamilyStyle = 'Regular';
+    typescaleHeadlineSmallFontWeight = '400';
+    typescaleHeadlineSmallFontSize = '24px';
+    typescaleHeadlineSmallLineHeight = '32px';
+    typescaleHeadlineSmallLetterSpacing = '0px';
+
+    /* body - large */
+    typescaleBodyLargeFontFamilyName = 'Roboto';
+    typescaleBodyLargeFontFamilyStyle = 'Regular';
+    typescaleBodyLargeFontWeight = '400';
+    typescaleBodyLargeFontSize = '16px';
+    typescaleBodyLargeLineHeight = '24px';
+    typescaleBodyLargeLetterSpacing = '0.50px';
+
+    /* body - medium */
+    typescaleBodyMediumFontFamilyName = 'Roboto';
+    typescaleBodyMediumFontFamilyStyle = 'Regular';
+    typescaleBodyMediumFontWeight = '400';
+    typescaleBodyMediumFontSize = '14px';
+    typescaleBodyMediumLineHeight = '20px';
+    typescaleBodyMediumLetterSpacing = '0.25px';
+
+    /* body - small */
+    typescaleBodySmallFontFamilyName = 'Roboto';
+    typescaleBodySmallFontFamilyStyle = 'Regular';
+    typescaleBodySmallFontWeight = '400';
+    typescaleBodySmallFontSize = '12px';
+    typescaleBodySmallLineHeight = '16px';
+    typescaleBodySmallLetterSpacing = '0.40px';
+
+    /* label - large */
+    typescaleLabelLargeFontFamilyName = 'Roboto';
+    typescaleLabelLargeFontFamilyStyle = 'Medium';
+    typescaleLabelLargeFontWeight = '500';
+    typescaleLabelLargeFontSize = '14px';
+    typescaleLabelLargeLineHeight = '20px';
+    typescaleLabelLargeLetterSpacing = '0.10px';
+
+    /* label - medium */
+    typescaleLabelMediumFontFamilyName = 'Roboto';
+    typescaleLabelMediumFontFamilyStyle = 'Medium';
+    typescaleLabelMediumFontWeight = '500px';
+    typescaleLabelMediumFontSize = '12px';
+    typescaleLabelMediumLineHeight = '16px';
+    typescaleLabelMediumLetterSpacing = '0.50px';
+
+    /* label - small */
+    typescaleLabelSmallFontFamilyName = 'Roboto';
+    typescaleLabelSmallFontFamilyStyle = 'Medium';
+    typescaleLabelSmallFontWeight = '500px';
+    typescaleLabelSmallFontSize = '11px';
+    typescaleLabelSmallLineHeight = '16px';
+    typescaleLabelSmallLetterSpacing = '0.50px';
+
+    /* title - large */
+    typescaleTitleLargeFontFamilyName = 'Roboto';
+    typescaleTitleLargeFontFamilyStyle = 'Regular';
+    typescaleTitleLargeFontWeight = '400px';
+    typescaleTitleLargeFontSize = '22px';
+    typescaleTitleLargeLineHeight = '28px';
+    typescaleTitleLargeLetterSpacing = '0px';
+
+    /* title - medium */
+    typescaleTitleMediumFontFamilyName = 'Roboto';
+    typescaleTitleMediumFontFamilyStyle = 'Medium';
+    typescaleTitleMediumFontWeight = '500px';
+    typescaleTitleMediumFontSize = '16px';
+    typescaleTitleMediumLineHeight = '24px';
+    typescaleTitleMediumLetterSpacing = '0.15px';
+
+    /* title - small */
+    typescaleTitleSmallFontFamilyName = 'Roboto';
+    typescaleTitleSmallFontFamilyStyle = 'Medium';
+    typescaleTitleSmallFontWeight = '500px';
+    typescaleTitleSmallFontSize = '14px';
+    typescaleTitleSmallLineHeight = '20px';
+    typescaleTitleSmallLetterSpacing = '0.10px';
+
+
     primaryColor = '#4263eb';
     primaryColor1 = Color(this.primaryColor).lighten(0.2).rgb().toString();
     primaryColor2 = Color(this.primaryColor).lighten(0.4).rgb().toString();
