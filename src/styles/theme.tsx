@@ -168,6 +168,20 @@ export class Theme {
                 style['elevation'] = 2;
             }
         }
+        if (!isNil(style['margin'])) {
+            style['marginLeft'] = style['marginLeft'] || style['margin'];
+            style['marginRight'] = style['marginRight'] || style['margin'];
+            style['marginTop'] = style['marginTop'] || style['margin'];
+            style['marginBottom'] = style['marginBottom'] || style['margin'];
+            delete style['margin'];
+        }
+        if (!isNil(style['padding'])) {
+            style['paddingLeft'] = style['paddingLeft'] || style['padding'];
+            style['paddingRight'] = style['paddingRight'] || style['padding'];
+            style['paddingTop'] = style['paddingTop'] || style['padding'];
+            style['paddingBottom'] = style['paddingBottom'] || style['padding'];
+            delete style['padding'];
+        }
         Object.keys(style).forEach((k, i) => this.cleanseStyleProperties(style[k]));
     }
 
