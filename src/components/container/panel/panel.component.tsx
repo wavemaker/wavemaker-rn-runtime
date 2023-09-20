@@ -35,7 +35,7 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
           } as WmPanelState);
         });
       }
-      return props.renderPartial(this.onPartialLoad.bind(this));
+      return props.renderPartial(props, this.onPartialLoad.bind(this));
     }
   }
 

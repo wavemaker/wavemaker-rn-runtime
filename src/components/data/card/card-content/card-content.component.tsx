@@ -28,7 +28,7 @@ export default class WmCardContent extends BaseComponent<WmCardContentProps, WmC
           } as WmCardContentState);
         });
       }
-      return props.renderPartial(this.onPartialLoad.bind(this));
+      return props.renderPartial(props, this.onPartialLoad.bind(this));
     }
     return props.children;
   }

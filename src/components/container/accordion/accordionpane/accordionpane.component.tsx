@@ -89,13 +89,13 @@ export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps,
           } as WmAccordionpaneState);
         });
       }
-      return props.renderPartial(this.onPartialLoad.bind(this));
+      return props.renderPartial(props, this.onPartialLoad.bind(this));
     }
     return props.children;
   }
   renderWidget(props: WmAccordionpaneProps) {
     return isWebPreviewMode() ? 
-    (<View style={this.state.collapsed ? {maxHeight: 0} : {}}>
+    (<View style={this.state.collapsed ? {maxHeight: 0, overflow: 'hidden'} : {}}>
       {this._background}
       {this.renderContent(props)}
     </View>) :

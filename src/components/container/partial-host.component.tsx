@@ -32,7 +32,7 @@ export abstract class PartialHost<T extends BaseProps, S extends  PartialHostSta
                     } as any);
                 });
             }
-            return props.renderPartial(this.onPartialLoad.bind(this));
+            return props.renderPartial(props, this.onPartialLoad.bind(this));
         }
         return props.children;
     }
