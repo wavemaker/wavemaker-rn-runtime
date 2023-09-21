@@ -74,7 +74,7 @@ class AppSecurityService implements SecurityService {
     }
 
     public navigateToLandingPage(details: any) {
-      this.appConfig.currentPage?.goToPage(details.userInfo?.landingPage || 'Main');
+      this.appConfig.currentPage?.goToPage(details.userInfo?.landingPage || 'Main', null, true);
     }
 
     public appLogin(options: any) {
@@ -94,8 +94,11 @@ class AppSecurityService implements SecurityService {
             StorageService.setItem(XSRF_COOKIE_NAME, xsrfCookieValue);
             this.isLoggedIn = true;
           }).then(() => this.load(options.baseURL))
-          .then(() => this.getLoggedInUserDetails(options.baseURL, options.useDefaultSuccessHandler))
-          .then(() => this.appConfig.app.triggerStartUpVariables());
+          .then(async () => {
+            const userData = await this.getLoggedInUserDetails(options.baseURL, options.useDefaultSuccessHandler);
+            await this.appConfig.app.triggerStartUpVariables();
+            return userData;
+          });
     }
 
     public load(baseURL: string) {
@@ -172,7 +175,7 @@ class AppSecurityService implements SecurityService {
       } else {
         const loginPage = this.securityConfig.loginConfig?.pageName || 'Login';
         injector.get<AppConfig>('APP_CONFIG').landingPage = loginPage;
-        this.appConfig.currentPage?.goToPage(loginPage);
+        this.appConfig.currentPage?.goToPage(loginPage, null, true);
       }
       this.appConfig.refresh();
     }

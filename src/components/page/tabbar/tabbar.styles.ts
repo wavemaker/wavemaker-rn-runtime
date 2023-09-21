@@ -90,4 +90,26 @@ export const DEFAULT_CLASS = 'app-tabbar';
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
+    addStyle(DEFAULT_CLASS+ '-1', '', {
+        root: {
+            height: undefined
+        },
+        tabItem: {
+            justifyContent: 'space-between' 
+        },
+        activeTabItem: {
+            borderTopWidth: 4,
+            borderTopColor: themeVariables.tabbarIconColor
+        },
+        tabIcon: {
+            root: {
+                paddingTop: 8,
+                paddingBottom: 8,
+                borderBottomWidth: 0
+            }
+        },
+        tabLabel: {
+            marginTop: 0
+        }
+    } as WmTabbarStyles);
 });
