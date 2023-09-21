@@ -35,6 +35,10 @@ class ImageSizeEstimator {
     }
   
     getSize(imgSrc: string, onComplete: (width: number, height: number) => void) {
+      if (!imgSrc) {
+        setTimeout(() => onComplete(0, 0), 100);
+        return () => {};
+      }
       const requestId = imgSrc;
       const request = this.createRequest(requestId, onComplete);
       if (this.requests.has(requestId)) {

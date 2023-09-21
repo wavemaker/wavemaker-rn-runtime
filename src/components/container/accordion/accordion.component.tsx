@@ -24,11 +24,14 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   }
 
   addAccordionPane(accordionPane: WmAccordionpane) {
-    const i = this.accordionPanes.findIndex(t => t.props.name === accordionPane.props.name);
+    const i = this.accordionPanes.findIndex(t => t.props.title === accordionPane.props.title);
     if (i >= 0) {
       this.accordionPanes[i] = accordionPane;
     } else {
       this.accordionPanes[this.newIndex++] = accordionPane;
+    }
+    if (!(this.state.isExpanded?.find((v) => v))) {
+      this.toggle(this.state.props.defaultpaneindex + 1);
     }
   }
 
@@ -72,7 +75,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     const isExpanded = this.state.isExpanded[index];
     return (
-      <View style={this.styles.pane} key={item.props.name}>
+      <View style={this.styles.pane} key={item.props.title}>
         <TouchableOpacity key={'accordionpane_' + (index + 1)}
               style={[this.styles.header,
                 index === 0 ? this.styles.firstHeader: null,

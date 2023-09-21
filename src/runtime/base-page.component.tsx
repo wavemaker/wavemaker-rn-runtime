@@ -5,6 +5,7 @@ import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmPage from '@wavemaker/app-rn-runtime/components/page/page.component';
 import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
+import AppSecurityService from './services/app-security.service';
 import AppSpinnerService from './services/app-spinner.service';
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
 import { Watcher } from './watcher';
@@ -35,6 +36,13 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       this.appConfig.drawer?.setContent(null);
       this.serviceDefinitions = this.App.serviceDefinitions;
       this.watcher = Watcher.ROOT.create();
+      AppSecurityService.canUserAccessPage(this.pageName)
+        .then(flag => {
+          if (!flag) {
+            AppSecurityService.redirectToLogin();
+            this.props.destroyMe();
+          }
+        });
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {

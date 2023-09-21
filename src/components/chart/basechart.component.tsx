@@ -1,7 +1,7 @@
 import React from "react";
 import { Dimensions } from 'react-native';
 import moment from "moment";
-import {forEach, get, isArray, isEmpty, isObject, maxBy, minBy, set, trim} from "lodash-es";
+import {forEach, get, isArray, isEmpty, isObject, maxBy, minBy, set, trim, orderBy} from "lodash-es";
 import { ScatterSymbolType } from "victory-core";
 import {VictoryAxis, VictoryLegend, VictoryLabel} from "victory-native";
 
@@ -85,8 +85,8 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     return scaled.toFixed(1) + suffix;
   }
 
-  getLegendView() {
-    if (this.props.showlegend === 'hide') {
+  getLegendView(colorScale?: any) {
+    if (this.state.props.showlegend === 'hide') {
       return null;
     }
     let top = this.props.showlegend === 'bottom' ? parseInt(this.styles.root.height as string) : 0;
@@ -95,6 +95,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     }
     const orientation = (this.props.showlegend === 'right' || this.props.showlegend === 'left') ? 'vertical' : 'horizontal';
     return <VictoryLegend
+      colorScale={colorScale}
       name={'legendData'}
       orientation={orientation}
       gutter={20}
@@ -290,11 +291,22 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
 
   prepareLegendData() {
     if (this.state.yAxis) {
-      let ldata = this.state.yAxis.map((d: string) => {
-        return {
-          name: d
-        }
-      });
+      let ldata: any;
+      if (this.props.type === 'Stack') {
+        const data = orderBy(this.state.data[0], 'y', 'asc');
+        ldata = data.map((d: any) => {
+          return {
+            name: this.state.xaxisDatakeyArr[d.x]
+          }
+        });
+      } else {
+        ldata = this.state.yAxis.map((d: string) => {
+          return {
+            name: d
+          }
+        });
+      }
+
       this.updateState({
         legendData: ldata
       } as S);

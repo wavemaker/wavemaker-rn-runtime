@@ -10,6 +10,7 @@ export interface NavigationDataItem {
   link?: string;
   badge?: string;
   isactive?: string;
+  data: any;
   childnavigation?: any;
 }
 
@@ -40,6 +41,7 @@ export abstract class BaseNavComponent< T extends BaseNavProps, S extends BaseNa
         return {
           key: `${name}_item${i}`,
           label: s,
+          data: s
         } as NavigationDataItem;
       });
     } else if (dataset) {
@@ -54,6 +56,7 @@ export abstract class BaseNavComponent< T extends BaseNavProps, S extends BaseNa
           link: this.getValue(d, this.state.props.itemlink),
           badge: this.getValue(d, this.state.props.itembadge),
           isactive: this.getValue(d, this.state.props.isactive),
+          data: d,
           childnavigation: this.state.props.itemchildren ? d[this.state.props.itemchildren] : null
         } as NavigationDataItem;
       });

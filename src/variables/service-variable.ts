@@ -43,6 +43,7 @@ export class ServiceVariable extends _ServiceVariable {
       operationId: config.operationId,
       serviceInfo: config.getServiceInfo(),
       httpClientService: httpService,
+      inFlightBehavior: config.inFlightBehavior,
       onSuccess: (context: any, args: any) => {
         this.notify(VariableEvents.AFTER_INVOKE, [args.variable, args.data, args.options]);
         this.notify(VariableEvents.SUCCESS, [args.variable, args.data, args.options]);

@@ -1,10 +1,11 @@
 import React from 'react';
 import { SectionList, Text, View, TouchableWithoutFeedback } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { isArray } from 'lodash-es';
+import { isArray, isNil, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
@@ -16,24 +17,6 @@ export class WmListState extends BaseComponentState<WmListProps> {
   public selectedindex: any;
   groupedData: Array<any> = [];
   currentPage: number = 1;
-}
-
-class DefaultKeyExtractor {
-  store = new Map<any, string>();
-  nextKey = 1;
-
-  getKey(o : any, create = false) {
-    let k = this.store.get(o);
-    if (!k && create) {
-      k = `key:${Date.now()}:${this.nextKey++}`;
-      this.store.set(o, k)
-    }
-    return k;
-  }
-
-  clear() {
-    this.store = new Map();
-  }
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -57,7 +40,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private onSelect($item: any, $index: number | string, triggerTapEvent = false) {
     const props = this.state.props;
     let selectedItem = null as any;
-    if (!props.disableitem($item, $index)) {
+    if (props.disableitem !== true 
+        && (typeof props.disableitem !== 'function' || !props.disableitem($item, $index))) {
       if (props.multiselect) {
         selectedItem = [...(props.selecteditem || [])];
         const index = selectedItem.indexOf($item);
@@ -198,11 +182,24 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   private renderItem(item: any, index: number, props: WmListProps) {
+    const cols = this. getNoOfColumns();
+    const isHorizontal = (props.direction === 'horizontal');
     return (  
         <Tappable
           onTap={() => this.onSelect(item, index, true)}
           onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
-          onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}>
+          onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+          styles={
+            [
+              cols ? {
+                width: round(100/cols, 2) + '%'
+              } : null,
+              cols || isHorizontal? {
+                paddingRight: (isNil(this.styles.item.marginRight) 
+                  ? this.styles.item.margin : this.styles.item.marginRight) || 4
+              }: null
+            ]
+          }>
           <View style={[
               this.styles.item,
               props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
@@ -242,6 +239,14 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       caption={props.loadingdatamsg}></WmIcon>)
   }
 
+  public getNoOfColumns() {
+    const props = this.state.props;
+    if(props.direction === 'vertical') {
+      return props.itemsperrow.xs;
+    }
+    return 0;
+  }
+
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
     return (
     <View style={this.styles.root}>
@@ -249,12 +254,13 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           <View style={{marginBottom: 16}} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
             <FlatList
+              key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               horizontal = {isHorizontal}
               data={v.data || []}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)} 
-              numColumns={props.itemsperrow.xs}> 
+              {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}> 
             </FlatList>
           </View>
         ))) : null
@@ -268,7 +274,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         key: '',
         data: [{}, {}, {}]
       }];
-    } else if (this.state.groupedData[0] && this.state.groupedData[0]['data'].length) {
+    } else if (this.state.groupedData 
+        && this.state.groupedData[0] 
+        && this.state.groupedData[0]['data'].length) {
       return this.state.groupedData;
     }
     return [];
@@ -300,7 +308,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
     const isHorizontal = (props.direction === 'horizontal');
     return (
-        <View>
+        <View style={isHorizontal ? null : { width: '100%' }}>
           {this._background}
           {(isHorizontal || !props.groupby) ?
             this.renderWithFlatList(props, isHorizontal)

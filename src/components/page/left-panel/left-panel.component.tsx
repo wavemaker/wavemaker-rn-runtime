@@ -28,7 +28,7 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftP
           } as WmLeftPanelState);
         });
       }
-      return props.renderPartial(this.onPartialLoad.bind(this));
+      return props.renderPartial(props, this.onPartialLoad.bind(this));
     }
     return props.children;
   }

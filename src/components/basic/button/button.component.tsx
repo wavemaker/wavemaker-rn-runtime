@@ -46,7 +46,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
           <View style={[this.styles.content, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
             {props.iconposition === 'top' && this.prepareIcon(props)}
             {props.iconposition === 'left' && this.prepareIcon(props)}
-            <Text style={this.styles.text}>{props.caption}</Text>
+            {props.caption ? (<Text style={this.styles.text}>{props.caption}</Text>): null}
             {props.iconposition === 'right' && this.prepareIcon(props)}
             {props.badgevalue && this.prepareBadge(props)}
           </View>

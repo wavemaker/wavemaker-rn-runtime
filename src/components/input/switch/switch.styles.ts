@@ -15,7 +15,8 @@ export const DEFAULT_CLASS = 'app-switch';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmSwitchStyles = defineStyles<WmSwitchStyles>({
       root: {
-        height: 38,
+        minHeight: 24,
+        padding: 4,
         flexDirection: 'row'
       },
       text: {

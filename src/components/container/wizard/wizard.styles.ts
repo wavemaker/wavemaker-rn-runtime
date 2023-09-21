@@ -32,7 +32,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         flexDirection: 'column',
         backgroundColor: themeVariables.wizardBackgroundColor,
         display: 'flex',
-        height: '100%'
+        minHeight: 240
       },
       text: {},
       activeStep:{

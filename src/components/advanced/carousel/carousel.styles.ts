@@ -6,6 +6,10 @@ import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/ic
 export type WmCarouselStyles = BaseStyles & {
     btnPanel: AllStyle,
     prevBtn: WmIconStyles,
+    slide: AllStyle,
+    firstSlide: AllStyle,
+    lastSlide: AllStyle,
+    activeSlide: AllStyle,
     nextBtn: WmIconStyles,
     dotsWrapperStyle: AllStyle,
     dotStyle: AllStyle,
@@ -26,6 +30,18 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             position: 'relative'
         },
         text: {},
+        slide: {
+            width: '100%',
+            paddingHorizontal: 16,
+            transform: [
+                {
+                    translateX: 0
+                }
+            ]
+        },
+        firstSlide: {},
+        lastSlide: {},
+        activeSlide: {},
         btnPanel: {
             position: 'absolute',
             top: '50%',
@@ -64,25 +80,23 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         } as WmIconStyles,
         dotsWrapperStyle:{
             opacity: 1,
-            height: 64,
-            marginTop: -64,
-            position: 'absolute',
-            top: '100%',
             backgroundColor: themeVariables.carouselDotWrapperBgColor,
-            alignSelf: 'center',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
             paddingTop: 4,
             paddingBottom: 4
         },
         activeDotStyle: {
-            width: 12,
-            height: 12,
-            borderRadius: 10,
             backgroundColor: themeVariables.carouselActiveDotColor,
             opacity: 1
         },
         dotStyle: {
+            width: 8,
+            height: 8,
+            borderRadius: 10,
             opacity: 0.2,
-            marginHorizontal: -2,
+            marginHorizontal: 2,
             backgroundColor: themeVariables.carouselDotColor
         }
     } as WmCarouselStyles);

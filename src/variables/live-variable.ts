@@ -62,6 +62,7 @@ export class LiveVariable extends _LiveVariable {
       tableType: config.tableType,
       relatedTables: config.relatedTables,
       httpClientService: httpService,
+      inFlightBehavior: config.inFlightBehavior,
       onSuccess: (context: any, args: any) => {
         return config.onSuccess && config.onSuccess(args.variable, args.data, args.options);
       },

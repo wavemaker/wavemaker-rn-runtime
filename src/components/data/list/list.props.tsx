@@ -16,7 +16,7 @@ export default class WmListProps extends BaseProps {
     loadingdata = false;
     selectfirstitem = false;
     selectionlimit = -1;
-    disableitem = ($item: any, $index: any) => false;
+    disableitem: Function | boolean = ($item: any, $index: any) => false;
     itemkey?: ($item: any, $index: any) => any = null as any;
     direction: 'horizontal' | 'vertical' = 'vertical';
     groupby: string = null as any;

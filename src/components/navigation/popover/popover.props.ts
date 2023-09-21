@@ -12,7 +12,7 @@ export default class WmPopoverProps extends BaseProps {
   popoverheight?: string | number | null = 360;
   autoclose?: 'outsideClick' | 'disabled' | 'always' = 'outsideClick';
   children? = [] as any;
-  renderPartial?: ()  => React.ReactNode = null as any;
+  renderPartial?: Function = null as any;
   title?: string = null as any;
   type?: 'action-sheet' | 'dropdown' = 'action-sheet';
 }

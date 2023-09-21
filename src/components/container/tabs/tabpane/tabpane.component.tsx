@@ -29,7 +29,7 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
           } as WmTabpaneState);
         });
       }
-      return props.renderPartial(this.onPartialLoad.bind(this));
+      return props.renderPartial(props, this.onPartialLoad.bind(this));
     }
     return props.children;
   }

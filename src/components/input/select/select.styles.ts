@@ -29,7 +29,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderColor: themeVariables.inputBorderColor,
       backgroundColor: themeVariables.inputBackgroundColor,
       borderRadius: 6,
-      minWidth: 160
+      minWidth: 160,
+      alignItems: 'center'
     },
     invalid: {
       borderBottomColor: themeVariables.inputInvalidBorderColor
