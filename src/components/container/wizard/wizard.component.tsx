@@ -149,11 +149,11 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                       iconposition={'right'} caption={props.nextbtnlabel} onTap={this.onNext.bind(this, this.steps)}></WmButton>
           }
           {this.state.currentStep > 0 &&
-            <WmButton iconclass={'wi wi-chevron-left'} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions)} caption={props.previousbtnlabel}
+            <WmButton iconclass={'wi wi-chevron-left'} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions, this.styles.prevButton)} caption={props.previousbtnlabel}
                       onTap={this.onPrev.bind(this, this.steps)}></WmButton>
           }
           {props.cancelable ?
-              <WmButton caption={props.cancelbtnlabel} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions)} onTap={this.onCancel.bind(this)}></WmButton>
+              <WmButton caption={props.cancelbtnlabel} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions, this.styles.cancelButton)} onTap={this.onCancel.bind(this)}></WmButton>
               : null
           }
           {isSkippable &&
