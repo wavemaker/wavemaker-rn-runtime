@@ -8,10 +8,25 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmCompositeStyles = defineStyles({
         root: {
             flexDirection: 'row',
-            alignItems: 'center'
+            alignItems: 'flex-start'
         },
         text: {}
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
+    addStyle('app-composite-left-caption', DEFAULT_CLASS,  {
+        root: {
+            flexDirection: 'row'
+        }
+    } as WmCompositeStyles);
+    addStyle('app-composite-right-caption', DEFAULT_CLASS,  {
+        root: {
+            flexDirection: 'row-reverse'
+        }
+    } as WmCompositeStyles);
+    addStyle('app-composite-top-caption', DEFAULT_CLASS, {
+        root: {
+            flexDirection: 'column'
+        }
+    } as WmCompositeStyles);
 });
