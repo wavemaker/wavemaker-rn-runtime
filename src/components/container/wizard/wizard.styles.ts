@@ -14,6 +14,8 @@ export type WmWizardStyles = BaseStyles & {
   step: AllStyle,
   nextButton: WmButtonStyles,
   doneButton: WmButtonStyles,
+  prevButton: WmButtonStyles,
+  cancelButton: WmButtonStyles,
   stepIcon: WmIconStyles,
   skipLink: WmAnchorStyles,
   activeStep: AllStyle,
@@ -108,6 +110,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           backgroundColor: themeVariables.wizardNextBtnColor,
           borderColor: themeVariables.wizardNextBtnColor
         }
+      } as WmButtonStyles,
+      prevButton: {
+      } as WmButtonStyles,
+      cancelButton: {
       } as WmButtonStyles,
       doneButton: {
         root: {
