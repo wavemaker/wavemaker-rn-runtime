@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionList, Text, View, TouchableWithoutFeedback } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { isArray, isNil, round } from 'lodash-es';
+import { isArray, isEmpty, isNil, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -257,7 +257,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               horizontal = {isHorizontal}
-              data={v.data || []}
+              data={isEmpty(v.data[0]) ? []: v.data}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)} 
               {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}> 
