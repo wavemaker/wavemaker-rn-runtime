@@ -91,7 +91,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       return super.onFragmentReady().then(() => {
         this.onContentReady();
         this.App.onPageReady(this.pageName, this.proxy as BasePage);
-        AppSpinnerService.hide(); 
+        AppSpinnerService.hide();
         this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
           if (this.appConfig.currentPage !== this) {
             this.appConfig.currentPage = this;
