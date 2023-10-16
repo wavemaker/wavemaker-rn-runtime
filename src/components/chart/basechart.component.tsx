@@ -121,6 +121,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                         fixLabelOverlap={false}
                         tickLabelComponent={<VictoryLabel angle={this.props.labelangle || 0} />} theme={this.state.theme}
                         tickCount={this.state.xaxisDatakeyArr.length} 
+                        invertAxis={this.isRTL}
                         tickFormat={(d) => `${this.state.xaxisDatakeyArr[d] ? this.state.xaxisDatakeyArr[d]: ''}`}/>;     
 }            
   
@@ -133,6 +134,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           axis: {stroke: this.props.showyaxis === false? 'none': '#000000'}
                         }}
                         theme={this.state.theme}
+                        orientation={this.isRTL?"right":"left"}
                         tickFormat={(t) => `${this.abbreviateNumber(t)}`} dependentAxis />;
   }
 
