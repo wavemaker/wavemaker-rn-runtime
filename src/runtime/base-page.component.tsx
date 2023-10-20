@@ -76,10 +76,10 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
               <NavigationServiceProvider value={this}>
               {content}
               </NavigationServiceProvider>));
-          }, 500);
+          }, 5000);
           this.appConfig.drawer?.setAnimation(drawerType);
         }
-      }, 10);
+      }, 1000);
     }
 
     onAttach() {
@@ -106,19 +106,13 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       super.componentWillUnmount();
     }
 
-    goToPage(pageName: string, params: any, clearCahe = false) {
+    goToPage(pageName: string, params: any) {
       const navigation = (this.props as PageProps).navigation;
       const _params = clone(params);
       _params && delete _params['pageName'];
       if (pageName !== this.pageName || !isEqual(_params, this.pageParams)) {
         if (pageName === this.pageName) {
           navigation.push(pageName, _params);
-        } else if (clearCahe) {
-          navigation.dispatch(CommonActions.reset({
-            index: 0,
-            routes: [
-              { name: pageName, params: params }
-            ]}));
         } else {
           navigation.navigate(pageName, _params);
         }

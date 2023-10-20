@@ -16,7 +16,6 @@ export default class BaseChartComponentProps extends BaseProps {
   yunits: string = '';
   yaxislabeldistance: number = 50;
   xaxislabeldistance: number = 30;
-  // customcolors: string | Array<string> = '';
   customcolors: any;
   legendheight: number = 0;
   labellegendheight: number = 0;
@@ -41,5 +40,5 @@ export default class BaseChartComponentProps extends BaseProps {
   ydomain: string = '';
   xdomain: string = '';
   labelangle: number = 0;
-  
+  selecteditem = null as any;
 }

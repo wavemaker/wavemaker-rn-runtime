@@ -11,7 +11,7 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 export class AppSpinnerService implements SpinnerService {
   public displayOptions = {} as DisplayOptions;
   public destroy: any;
-  public delay = 0;
+  public delay = 10;
   private count = 0;
   private image: string = '';
   public skeleton: boolean = false;

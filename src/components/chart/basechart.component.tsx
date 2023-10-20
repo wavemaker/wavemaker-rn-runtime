@@ -13,6 +13,7 @@ import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, BaseChartComponentStyles} from "./basechart.styles";
 import _ from "lodash";
 import { constructSampleData, getChartType } from "./staticdata";
+import { WmBarChartState } from "./bar-chart/bar-chart.component";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];

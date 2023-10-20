@@ -65,7 +65,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   renderWizardHeader(item: any, index: number) {
-    const isLastStep = index === this.numberOfSteps - 1;
+    const isLastStep = index === this.numberOfSteps-1;
     const isFirstStep = index === 0;
     const isActiveStep = index === this.state.currentStep;
     const isNumberTextLayout = this.state.props.classname === 'number-text-inline';
@@ -126,10 +126,10 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   renderWidget(props: WmWizardProps) {
-    this.numberOfSteps = this.steps.length;
+    this.numberOfSteps = this.steps.filter((step)=>{return step.props.show}).length;
     const activeStep = this.steps[this.state.currentStep];
     const isSkippable = this.steps[this.state.currentStep] && this.steps[this.state.currentStep].props.enableskip;
-    return (
+    return  (
       <View style={this.styles.root}>
         {this._background}
         <View style={this.styles.wizardHeader}>

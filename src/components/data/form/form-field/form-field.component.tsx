@@ -8,6 +8,7 @@ import WmFormFieldProps from './form-field.props';
 import { DEFAULT_CLASS, WmFormFieldStyles } from './form-field.styles';
 import {PERFORMANCE_LOGGER} from "@wavemaker/app-rn-runtime/core/logger";
 
+
 export class WmFormFieldState extends BaseComponentState<WmFormFieldProps> {
   isValid = true;
 }
@@ -45,6 +46,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
       }
     });
   }
+  
 
   // Notifies changes to observing validation fields
   notifyChanges() {
@@ -138,7 +140,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
       }
     } as WmFormFieldState);
   }
-
+ 
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
       case 'datavalue':
@@ -156,6 +158,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           this.form.setPrimaryKey(this.props.name);
         }
         break;
+
     }
   }
 
@@ -163,8 +166,9 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
     this.formwidget.updateState({
       props: {
         readonly: !updateMode,
+        show: this.state.props.defaultvalue?true:false
       }
-    } as WmFormFieldState);
+    } as unknown as WmFormFieldState);
   }
 
   validateFormField() {

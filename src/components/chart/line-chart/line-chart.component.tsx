@@ -21,6 +21,7 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import {InterpolationPropType} from "victory-core";
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
+
 export class WmLineChartState extends BaseChartComponentState<WmLineChartProps> {}
 
 export default class WmLineChart extends BaseChartComponent<WmLineChartProps, WmLineChartState, WmLineChartStyles> {
@@ -28,12 +29,13 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
   constructor(props: WmLineChartProps) {
     super(props, DEFAULT_CLASS, new WmLineChartProps(), new WmLineChartState());
   }
-
+ 
   renderWidget(props: WmLineChartProps) {
     if (!this.state.data?.length) {
       <VictoryLine/>
     }
-    return (<View
+    return (
+    <View
       style={this.styles.root}
     >
       <View>
@@ -75,6 +77,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
         })
       }
     </VictoryChart>
-    </View>);
+    </View>
+    );
   }
 }
