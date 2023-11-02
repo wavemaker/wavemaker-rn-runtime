@@ -64,9 +64,10 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
         {this._background}
         <Tappable target={this}>
             <Text
-              style={[this.styles.text, 
-                {color: props.isValid === false ? 'red' : this.styles.text.color}]}
-              numberOfLines={props.wrap ? undefined : 1}
+              style={[this.styles.text,
+              {color: props.isValid === false ? 'red' : this.styles.text.color}]}
+              ellipsizeMode="tail"
+              numberOfLines={props.wrap? undefined : props.noOfLines}
               selectable={this.styles.text.userSelect === 'text'}>
               {toString(props.caption)}
               {props.required && this.getAsterisk()}
