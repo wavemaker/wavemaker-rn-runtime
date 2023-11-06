@@ -12,8 +12,7 @@ export default class WmComposite extends BaseComponent<WmCompositeProps, WmCompo
   constructor(props: WmCompositeProps) {
     super(props, DEFAULT_CLASS, new WmCompositeProps());
   }
-
   renderWidget(props: WmCompositeProps) {
-    return (<View style={this.styles.root}>{this._background}{props.children}</View>); 
+    return (<View style={[this.styles.root,{flexDirection: props.captionposition=="top"?'column':'row'}]}>{this._background}{props.children}</View>); 
   }
 }
