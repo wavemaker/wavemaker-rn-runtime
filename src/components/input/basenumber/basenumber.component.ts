@@ -34,10 +34,44 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     this?.widgetRef?.focus();
   }
 
-  onChangeText(value: any) {
-    this.updateState({
-        textValue: value
-      } as S, () => {
+  validateOnDevice(value: string, type: 'number' | 'currency') {
+    const isCurrencyField = type === 'currency';
+    let isValidText = true;
+
+    // * check for alphabets
+    if (/[a-zA-Z]/.test(value)) {
+      isValidText = false;
+    }
+
+    // * currency only: check for negative number
+    if (isCurrencyField && (Number(value) < 0 || /-/g.test(value))) {
+      isValidText = false;
+    }
+
+    // * check for more than one decimal point
+    if (/^\d*\.\d*\..*$/.test(value)) {
+      isValidText = false;
+    }
+
+    // * check for spaces and comma
+    if (/[\s,]/.test(value)) {
+      isValidText = false;
+    }
+
+    return isValidText;
+  }
+
+  onChangeText(value: string, type: 'number' | 'currency') {
+    const isValidTextOnDevice = this.validateOnDevice(value, type);
+    if (!isValidTextOnDevice) {
+      return;
+    }
+
+    this.updateState(
+      {
+        textValue: value,
+      } as S,
+      () => {
         if (this.state.props.updateon === 'default') {
           this.validate(value);
           this.updateDatavalue(value, null);
@@ -121,15 +155,15 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     }
 
     this.updateState({
-      props: {
-        datavalue: model
+        props: {
+          datavalue: model
       }
-    } as S, () => {
-      !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
-      if (source === 'blur') {
-        this.invokeEventCallback('onBlur', [event, this.proxy]);
-      }
-    });
+      } as S, () => {
+        !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
+        if (source === 'blur') {
+          this.invokeEventCallback('onBlur', [event, this.proxy]);
+        }
+      });
   }
 
   onBlur(event: any) {
@@ -232,7 +266,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     }
     // id number is infinite then consider it as invalid value
     if (isNaN(val) || !isFinite(val) || (!Number.isInteger(props.step) &&
-      this.countDecimals(val) > this.countDecimals(props.step))) {
+        this.countDecimals(val) > this.countDecimals(props.step))) {
       this.updateState({
         isValid: false,
       } as S);
@@ -264,10 +298,10 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         }
         break;
       case 'datavalue':
-        this.updateState({
-            textValue: $new
-          } as S
-        );
+        // ? why here
+        // this.updateState({
+        //   textValue: $new,
+        // } as S);
         const isDefault = this.state.isDefault;
         if (isDefault) {
           this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));

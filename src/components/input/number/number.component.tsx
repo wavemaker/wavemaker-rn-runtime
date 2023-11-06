@@ -25,25 +25,28 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (<WMTextInput
-      ref={(ref: any) => {this.widgetRef = ref;
-        // @ts-ignore
-        if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
+        ref={(ref: any) => {this.widgetRef = ref;
           // @ts-ignore
-          ref.selectionStart = ref.selectionEnd = this.cursor;
-        }}}
-      {...opts}
-      style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
-      keyboardType="numeric"
-      placeholderTextColor={this.styles.placeholderText.color as any}
-      autoFocus={props.autofocus}
-      editable={props.disabled || props.readonly ? false : true}
-      placeholder={props.placeholder}
-      onBlur={this.onBlur.bind(this)}
-      onFocus={this.onFocus.bind(this)}
-      onKeyPress={this.validateInputEntry.bind(this)}
-      onChangeText={this.onChangeText.bind(this)}
-      onChange={this.invokeChange.bind(this)}
-      allowContentSelection={this.styles.text.userSelect === 'text'}
-    />);
+          if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
+            // @ts-ignore
+            ref.selectionStart = ref.selectionEnd = this.cursor;
+          }}}
+        {...opts}
+        style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
+        keyboardType="numeric"
+        placeholderTextColor={this.styles.placeholderText.color as any}
+        autoFocus={props.autofocus}
+        editable={props.disabled || props.readonly ? false : true}
+        placeholder={props.placeholder}
+        value={this.state.textValue}
+        onBlur={this.onBlur.bind(this)}
+        onFocus={this.onFocus.bind(this)}
+        onKeyPress={this.validateInputEntry.bind(this)}
+        onChangeText={(text) => {
+          this.onChangeText.bind(this)(text, 'number');
+        }}
+        onChange={this.invokeChange.bind(this)}
+        allowContentSelection={this.styles.text.userSelect === 'text'}
+      />);
   }
 }

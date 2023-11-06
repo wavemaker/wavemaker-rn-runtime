@@ -39,30 +39,33 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (<View style={this.styles.root}>
-      <View style={this.styles.labelWrapper}>
-        <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
-      <WMTextInput
-        ref={(ref: any) => {
-          this.widgetRef = ref;
-          // @ts-ignore
-          if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
+        <View style={this.styles.labelWrapper}>
+          <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
+        <WMTextInput
+          ref={(ref: any) => {
+            this.widgetRef = ref;
             // @ts-ignore
-            ref.selectionStart = ref.selectionEnd = this.cursor;
-          }
-        }}
-        keyboardType="numeric"
-        placeholderTextColor={this.styles.placeholderText.color as any}
-        style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
-        {...opts}
-        editable={props.disabled || props.readonly ? false : true}
-        placeholder={props.placeholder}
-        onBlur={this.onBlur.bind(this)}
-        onFocus={this.onFocus.bind(this)}
-        onKeyPress={this.validateInputEntry.bind(this)}
-        onChangeText={this.onChangeText.bind(this)}
-        onChange={this.invokeChange.bind(this)}
-        allowContentSelection={this.styles.text.userSelect === 'text'}
-      />
-    </View>);
+            if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
+              // @ts-ignore
+              ref.selectionStart = ref.selectionEnd = this.cursor;
+            }
+          }}
+          keyboardType="numeric"
+          placeholderTextColor={this.styles.placeholderText.color as any}
+          style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
+          {...opts}
+          editable={props.disabled || props.readonly ? false : true}
+          placeholder={props.placeholder}
+          value={this.state.textValue}
+          onBlur={this.onBlur.bind(this)}
+          onFocus={this.onFocus.bind(this)}
+          onKeyPress={this.validateInputEntry.bind(this)}
+          onChangeText={(text) => {
+            this.onChangeText.bind(this)(text, 'currency');
+          }}
+          onChange={this.invokeChange.bind(this)}
+          allowContentSelection={this.styles.text.userSelect === 'text'}
+        />
+      </View>);
   }
 }
