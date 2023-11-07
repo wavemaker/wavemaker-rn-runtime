@@ -4,7 +4,7 @@ import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/cor
 import { BaseNumberStyles } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.styles';
 import { DEFAULT_CLASS } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles";
 import { Platform, TextInput } from 'react-native';
-import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
+import { countDecimalDigits, validateField } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentState<T> {
   isValid: boolean = true;
@@ -64,6 +64,12 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   onChangeText(value: string, type: 'number' | 'currency') {
     const isValidTextOnDevice = this.validateOnDevice(value, type);
     if (!isValidTextOnDevice) {
+      return;
+    }
+
+    const decimalPlacesInNumber = countDecimalDigits(value);
+
+    if (this.props.decimalPlaces < decimalPlacesInNumber) {
       return;
     }
 
