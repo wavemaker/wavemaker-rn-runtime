@@ -308,6 +308,23 @@ export const validateField = (props: any, value: any) => {
   }
 };
 
+export const countDecimalDigits = (number: number | string) => {
+  if (!number) return 0;
+
+  // * convert the number to a string
+  const numberString = number.toString();
+  
+  // * regular expression to match and count the decimal digits
+  const decimalMatch = numberString.match(/\.(\d+)/);
+
+  if (decimalMatch) {
+    const decimalDigits = decimalMatch[1];
+    return decimalDigits.length;
+  } else {
+    return 0; // * no decimal digits found
+  }
+}
+
 export const formatCompactNumber = (number: number) => {
   const isNegative = number < 0;
   number = isNegative ? number * -1 : number;

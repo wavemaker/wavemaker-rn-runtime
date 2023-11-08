@@ -4,7 +4,7 @@ import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/cor
 import { BaseNumberStyles } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.styles';
 import { DEFAULT_CLASS } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.styles";
 import { Platform, TextInput } from 'react-native';
-import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
+import { countDecimalDigits, validateField } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentState<T> {
   isValid: boolean = true;
@@ -34,7 +34,45 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     this?.widgetRef?.focus();
   }
 
-  onChangeText(value: any) {
+  validateOnDevice(value: string, type: 'number' | 'currency') {
+    const isCurrencyField = type === 'currency';
+    let isValidText = true;
+
+    // * check for alphabets
+    if (/[a-zA-Z]/.test(value)) {
+      isValidText = false;
+    }
+
+    // * currency only: check for negative number
+    if (isCurrencyField && (Number(value) < 0 || /-/g.test(value))) {
+      isValidText = false;
+    }
+
+    // * check for more than one decimal point
+    if (/^\d*\.\d*\..*$/.test(value)) {
+      isValidText = false;
+    }
+
+    // * check for spaces and comma
+    if (/[\s,]/.test(value)) {
+      isValidText = false;
+    }
+
+    return isValidText;
+  }
+
+  onChangeText(value: string, type: 'number' | 'currency') {
+    const isValidTextOnDevice = this.validateOnDevice(value, type);
+    if (!isValidTextOnDevice) {
+      return;
+    }
+
+    const decimalPlacesInNumber = countDecimalDigits(value);
+
+    if (this.props.decimalPlaces < decimalPlacesInNumber) {
+      return;
+    }
+
     this.updateState({
         textValue: value
       } as S, () => {
@@ -265,10 +303,10 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         }
         break;
       case 'datavalue':
-        this.updateState({
-            textValue: $new
-          } as S
-        );
+        // ? why here
+        // this.updateState({
+        //   textValue: $new,
+        // } as S);
         const isDefault = this.state.isDefault;
         if (isDefault) {
           this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));

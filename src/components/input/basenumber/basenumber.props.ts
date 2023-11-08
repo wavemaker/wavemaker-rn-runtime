@@ -11,4 +11,5 @@ export default class BaseNumberProps extends BaseProps {
   onFieldChange: any;
   required: boolean = false;
   triggerValidation: any;
+  decimalPlaces: number = 2;
 }
