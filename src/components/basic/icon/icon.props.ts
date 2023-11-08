@@ -2,6 +2,7 @@ import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export default class WmIconProps extends BaseProps {
   animation?: string = null as any;
+  iterationcount?: any;
   iconclass?: string = 'wm-sl-l sl-user';
   iconposition? = 'left';
   caption? = '';
