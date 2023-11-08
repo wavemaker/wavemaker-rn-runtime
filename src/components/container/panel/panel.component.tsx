@@ -84,6 +84,7 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
       <List.Accordion title={props.title} style={this.styles.header} id={1}
                       titleStyle={this.styles.text} descriptionStyle={this.styles.subheading}
                       description={props.subheading}
+                      theme={{colors: {background: 'transparent'}}}
                       expanded={props.expanded} 
                       right={({isExpanded}) => this.expandCollapseIcon(isExpanded)} left={props => icon}>
         <Animatedview style={{marginLeft: -64}} ref={ref => this.animatedRef = ref} entryanimation={'fadeInDown'}>
