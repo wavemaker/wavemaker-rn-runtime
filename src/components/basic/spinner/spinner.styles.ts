@@ -23,7 +23,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     icon: {
       text: {
-        fontSize: 36,
+        fontSize: 48,
         width: 4,
         color: themeVariables.spinnerIconColor
       }

@@ -14,10 +14,7 @@ export const DEFAULT_CLASS = 'app-navitem';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmNavItemStyles = defineStyles({
       root: {
-        borderWidth: 0,
-        borderBottomWidth: 1,
-        borderStyle: 'solid',
-        borderColor: themeVariables.navbarBorderColor
+        backgroundColor: themeVariables.navbarBackgroundColor,
       },
       text: {},
       dropdownNav: {
@@ -31,12 +28,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           padding: 12
         },
         text: {
-          color: themeVariables.navitemChildTextColor,
-          textDecorationLine: 'underline'
+          color: themeVariables.navbarTextColor,
+          fontFamily: 'Roboto',
+          lineHeight: 20,
+          fontSize: 14,
+          fontWeight: '500',
         },
         icon: {
           text: {
-            color: themeVariables.navitemChildIconColor
+            color: themeVariables.navbarTextColor,
+            fontSize: 24
           }
         }
       } as WmAnchorStyles,
@@ -57,7 +58,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     navAnchorItem: {
       text: {
-        color: themeVariables.navitemActiveTextColor
+        color: themeVariables.navitemActiveTextColor,
+        fontFamily: 'Roboto',
+        lineHeight: 20,
+        fontSize: 14,
+        fontWeight: '700',
       },
       icon: {
         text: {
@@ -74,7 +79,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     navAnchorItem: {
       text: {
         color: themeVariables.navitemChildTextColor,
-        textDecorationLine: 'underline'
       },
       icon: {
         text: {

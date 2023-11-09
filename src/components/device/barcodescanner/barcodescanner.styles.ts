@@ -16,7 +16,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           borderWidth: 1,
           borderColor: themeVariables.barcodeScannerBorderColor,
           borderStyle: 'solid',
-          backgroundColor: themeVariables.barcodeScannerBgColor
+          backgroundColor: themeVariables.barcodeScannerBgColor,
+          borderRadius: 4
         },
         text: {
           color: themeVariables.barcodeScannerTextColor

@@ -203,6 +203,9 @@ export default class ThemeVariables {
     toggleOnColor = Color(this.primaryColor).lighten(0.4).rgb().toString();
     toggleOffColor = this.defaultColorB;
     toggleHandleColor = this.primaryColor;
+    toggleHandleDisableColor = this.defaultColorA;
+    toggleOffBorderColor = this.defaultColorB;
+    toggleUnselectedTrackbgColor = this.defaultColorC;
 
     // radioset, checkboxset variables
     groupHeadingBgColor = this.transparent;
@@ -218,6 +221,9 @@ export default class ThemeVariables {
     dialogBackgroundColor = this.widgetBgColor;
     dialogBorderColor = this.widgetBorderColor;
     dialogCloseIconColor = this.defaultColorA;
+    dialogLabelColor = this.defaultColor3;
+    dialogIconColor = this.defaultColor4;
+    dialogSupportingTextColor = this.defaultColor1;
 
     //alert dialog
     alertMessageColor = this.defaultColor8;
@@ -288,6 +294,7 @@ export default class ThemeVariables {
 
     //progress bar
     progressBarDefaultColor = this.primaryColor;
+    progressBarTrackColor = this.defaultColorD;
     progressBarSuccessColor = this.successColor;
     progressBarDangerColor = this.dangerColor;
     progressBarInfoColor = this.infoColor;
@@ -338,7 +345,7 @@ export default class ThemeVariables {
     calendarDayBgColor = this.defaultColor;
     calendarSelectedDayBgColor = this.primaryColor;
     calendarSelectedDayTextColor = this.defaultColorF;
-    calendarTodayBgColor = this.primaryColor3;
+    calendarTodayBgColor = this.defaultColorE;
     calendarEventDay1Color = this.primaryColor1;
     calendarEventDay2Color = this.primaryColor2;
     calendarEventDay3Color = this.primaryColor3;
@@ -370,7 +377,7 @@ export default class ThemeVariables {
     searchItemTextColor = this.defaultColor6;
     searchDropdownBackgroundColor = this.defaultColorF;
     searchDataCompleteItemBgColor = this.defaultColorE;
-
+    searchBgContainerColor = this.defaultColorD;
     //Select
     selectBorderColor = this.defaultColorD;
     selecttemBorderColor = this.defaultColorD;
@@ -378,11 +385,13 @@ export default class ThemeVariables {
     selectDropdownBackgroundColor = this.defaultColorF;
 
     //Chip
-    chipActiveBgColor = this.primaryColor;
-    chipDefaultBgColor = this.defaultColorF;
     chipActiveTextColor = this.defaultColorF;
     chipDefaultTextColor = this.defaultColorA;
-
+    chipborderColor = this.defaultColorD;
+    chipContainerColor = this.defaultColor2; 
+    chipIconColor = this.primaryColor;
+    chipSelectedOutlineColor = this.defaultColor6;
+    chipSelectedContainerColor = this.defaultColor7;
     //Login
     loginErrorMsgColor = this.dangerContrastColor;
     loginErrorMsgBgColor = this.dangerColor;

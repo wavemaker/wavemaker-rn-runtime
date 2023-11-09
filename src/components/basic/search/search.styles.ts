@@ -24,16 +24,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         flexDirection: 'row'
       },
       text: {
-        height: 48,
+        minHeight: 56,
         paddingTop: 8,
         paddingBottom: 8,
-        paddingLeft: 12,
+        paddingLeft: 24,
         paddingRight: 14,
         width: '100%',
         borderWidth: 1,
         borderRightWidth: 0,
-        borderTopLeftRadius: 6,
-        borderBottomLeftRadius: 6,
+        borderTopLeftRadius: 28,
+        borderBottomLeftRadius: 28,
         borderColor: themeVariables.searchBorderColor,
         backgroundColor: themeVariables.searchDropdownBackgroundColor,
       },
@@ -41,7 +41,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderBottomColor: themeVariables.inputInvalidBorderColor
     },
       focusedText : {
-        borderBottomLeftRadius: 0,
+        borderBottomLeftRadius: 28,
       },
     modal: {
       backgroundColor: themeVariables.transparent,
@@ -81,15 +81,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 0,
-          borderTopRightRadius: 4,
-          borderBottomRightRadius: 4,
+          borderTopRightRadius: 28,
+          borderBottomRightRadius: 28,
           backgroundColor: themeVariables.searchButtonColor,
-          height: 48
+          height: 56
         },
         icon: {
           icon: {
             fontSize: 24,
-            color: themeVariables.searchButtonTextColor
+            color: themeVariables.searchButtonTextColor,
+            marginRight: 4
           }
         }
       } as WmButtonStyles,

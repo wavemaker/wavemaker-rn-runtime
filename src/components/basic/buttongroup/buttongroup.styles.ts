@@ -15,9 +15,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         alignSelf: 'flex-start',
         alignItems: 'center',
         borderRadius: 100,
-        paddingLeft: 12,
-        paddingRight: 12,
-        minHeight: 40,
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: themeVariables.buttonGrpBorderColor,
@@ -29,7 +26,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root : {
           width: '100%',
           height: 48,
-          borderRadius: 4
+          borderRadius: 4,
+          borderColor: themeVariables.buttonGrpBorderColor
         }
       } as any as WmSkeletonStyles
   });

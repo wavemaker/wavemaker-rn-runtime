@@ -26,13 +26,19 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         dialogActions: {} as WmDialogcontentStyles,
         okButton: {
             root: {
-                width: '100%',
-                borderRadius: 4
+               border: 'none',
+               marginLeft: 4
+            },
+            text : {
+              fontsize: 16
             }
         } as any as WmButtonStyles,
         message: {
             text: {
-                color: themeVariables.alertMessageColor
+                fontFamily: 'Roboto',
+                fontSize: 14,
+                fontWeight: '400',
+                color: themeVariables.dialogSupportingTextColor
             }
         } as WmLabelStyles
     });

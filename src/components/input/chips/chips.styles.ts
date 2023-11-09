@@ -31,8 +31,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       chip: {
         margin: 2,
-        backgroundColor: 'white',
-        borderRadius: 12,
+        backgroundColor: themeVariables.chipContainerColor,
+        borderRadius: 8,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -41,18 +41,22 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         minWidth: 80,
         minHeight: 32,
         borderWidth: 1,
-        borderColor: themeVariables.chipDefaultTextColor
+        borderColor: themeVariables.chipborderColor,
+        elevation: 1
       },
       chipLabel : {
-        fontSize: 16,
+        fontSize: 14,
         paddingLeft: 8,
+        fontFamily: 'Roboto',
+        fontWeight: '500',
         paddingRight: 12,
         color: themeVariables.chipDefaultTextColor,
-        borderColor: themeVariables.chipDefaultTextColor
+        borderColor: themeVariables.chipborderColor
       },
       activeChip: {
-        backgroundColor: themeVariables.chipActiveBgColor,
-        borderColor: themeVariables.chipActiveBgColor,
+        backgroundColor: themeVariables.chipSelectedContainerColor, 
+        borderColor: themeVariables.chipSelectedOutlineColor,
+        borderWidth: 0
       },
       activeChipLabel: {
         color: themeVariables.chipActiveTextColor
@@ -73,13 +77,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       } as WmSearchStyles,
       doneIcon: {
         icon: {
-          paddingLeft: 8
+          paddingLeft: 8,
+          fontSize: 18,
+          color: themeVariables.chipIconColor,
         }
       } as WmIconStyles,
       clearIcon: {
         icon: {
-          color: themeVariables.chipActiveTextColor,
-          paddingRight: 8
+          color: themeVariables.chipIconColor,
+          paddingRight: 8,
+          fontSize: 18
         }
       } as WmIconStyles,
       imageStyles: {

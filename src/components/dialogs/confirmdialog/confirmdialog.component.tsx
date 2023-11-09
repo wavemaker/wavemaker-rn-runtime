@@ -62,14 +62,14 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
         <WmDialogactions styles={this.styles.dialogActions}>
           <WmButton
             caption={props.canceltext}
-            styles={this.theme.mergeStyle({}, this.theme.getStyle('btn-secondary'), this.styles.cancelButton)}
+            styles={this.theme.mergeStyle({}, this.theme.getStyle('btn-onlyLabel'), this.styles.cancelButton)}
             onTap={() => {
               this.dialogRef.close();
               this.invokeEventCallback('onCancel', [null, this]);
             }}></WmButton>
           <WmButton
             caption={props.oktext}
-            styles={this.theme.mergeStyle({}, this.theme.getStyle('btn-primary'), this.styles.okButton)}
+            styles={this.theme.mergeStyle({}, this.theme.getStyle('btn-onlyLabel'), this.styles.okButton)}
             onTap={() => {
               this.dialogRef.close();
               this.invokeEventCallback('onOk', [null, this]);

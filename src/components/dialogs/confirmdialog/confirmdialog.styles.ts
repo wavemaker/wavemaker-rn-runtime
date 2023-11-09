@@ -38,25 +38,26 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             }
         } as WmDialogactionsStyles,
         okButton: {
-            root : {
-                flex: 1
-            },
+            root : {},
             text: {
-                textTransform: 'capitalize'
+                textTransform: 'capitalize',
+                fontSize: 16
             }
         } as WmButtonStyles,
         cancelButton: {
             root : {
-                flex: 1,
-                marginRight: 8,
             },
             text: {
-                textTransform: 'capitalize'
+                textTransform: 'capitalize',
+                fontSize: 16
             }
         }  as WmButtonStyles,
         message: {
             text: {
-                color: themeVariables.alertMessageColor
+                fontFamily: 'Roboto',
+                fontSize: 14,
+                fontWeight: '400',
+                color: themeVariables.dialogSupportingTextColor
             }
         } as WmLabelStyles
     });
