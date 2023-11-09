@@ -1,9 +1,10 @@
 import React from "react";
-import { ImageBackground, TouchableOpacity, View, ViewStyle } from "react-native";
+import { ImageBackground, Platform, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ResizeMode, Video } from "expo-av";
 import { Camera, CameraType } from "expo-camera";
 import * as FileSystem from "expo-file-system";
+import * as Application from 'expo-application';
 
 import { DisplayManager } from "@wavemaker/app-rn-runtime/core/display.manager";
 import { CaptureVideoOutput } from "@wavemaker/app-rn-runtime/variables/device/camera/capture-video.operation";
@@ -85,7 +86,7 @@ export class CameraService {
     return new Promise((resolve, reject) => {
       permissionManager.requestPermissions('video').then(() => {
         const destroy = this.displayManager.show({
-          content: (<CameraView type={this.type} captureType={'video'} onSuccess={(o) => {
+          content: (<CameraView testID={"camera_view"} type={this.type} captureType={'video'} onSuccess={(o) => {
             destroy.call(this.displayManager);
             /*o.content().catch(() => {}).then(base64 => {
               resolve({videoPath: o.uri, content: base64 || ''});
@@ -105,7 +106,7 @@ export class CameraService {
     return new Promise((resolve, reject) => {
       permissionManager.requestPermissions('image').then(() => {
         const destroy = this.displayManager.show({
-          content: (<CameraView type={this.type} captureType={'image'} onSuccess={(o) => {
+          content: (<CameraView testID={"camera_view"} type={this.type} captureType={'image'} onSuccess={(o) => {
             destroy.call(this.displayManager);
             o.content().catch(() => {}).then(base64 => {
               resolve({imagePath: o.uri, content: base64 || ''});
@@ -124,6 +125,7 @@ interface CameraOutput {
 }
 
 class CameraViewProps {
+  testID: string = 'camera_view';
   type: 'front' | 'back' = 'back' as CameraType;
   captureType: 'image' | 'video' = 'image';
   onSuccess: (o: CameraOutput) => any = () => {};
@@ -158,6 +160,20 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
         this.setState({showActionBtns: true} as CameraViewState);
       }
     }
+  }
+
+  getTestProps(suffix: string) {
+    const id = this.props.testID + (suffix ? '_' + suffix  : '');
+    if (Platform.OS === 'android' || Platform.OS === 'web') {
+      return {
+          accessibilityLabel: id,
+          testID: id
+      };
+    }
+    return {
+        accessible: false,
+        testID: id
+    };
   }
 
   async takePicture() {
@@ -209,6 +225,7 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
     return <View style={styles.actionBar}>
       <View style={styles.leftWrapper}>
         <TouchableOpacity
+          {...this.getTestProps('close')}
           onPress={() => {
             this.setState({ cameraContent: {uri: ''}, isCaptured: false,  closeView: true } as CameraViewState);
             this.props.onCancel();
@@ -219,7 +236,8 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
       <View style={styles.midWrapper}>
         {!this.state.isCaptured ? <TouchableOpacity style={[styles.circle, styles.outerCircle, this.props.captureType === 'video' && !this.state.recording ? { backgroundColor: "red" } : {},
           this.props.captureType === 'image' ? { backgroundColor: "white" } : {}]}
-                          onPress={this.toggleCapture.bind(this)}>
+                          onPress={this.toggleCapture.bind(this)}
+                          {...this.getTestProps('capture')}>
           <View style={[styles.circle as ViewStyle, this.props.captureType === 'image' ? {} : styles.innerCircle, this.props.captureType === 'image' ? { backgroundColor: "white" } : {}]}></View>
         </TouchableOpacity> : null}
       </View>
@@ -229,9 +247,11 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
             this.setState({ isCaptured: false, closeView: true } as CameraViewState);
             this.props.onSuccess(this.state.cameraContent);
             this.setState({ cameraContent: {uri: ''} } as CameraViewState);
-          }}>
+          }}
+          {...this.getTestProps('ok')}>
           <Ionicons name='checkmark-circle' size={32} color='white'/>
         </TouchableOpacity>) : (<TouchableOpacity
+          {...this.getTestProps('toggle')}
           onPress={() => {
             this.setState({cameraType: this.state.cameraType === 'back' ? 'front' : 'back'} as CameraViewState);
           }}>

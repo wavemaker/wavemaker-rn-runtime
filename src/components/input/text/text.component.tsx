@@ -22,6 +22,7 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (
         <WMTextInput
+          {...this.getTestPropsForInput()}
           ref={(ref: any) => {this.widgetRef = ref;
             // @ts-ignore
           if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {

@@ -127,6 +127,7 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
             source={{
               uri: props.src
             }}
+            testID={this.getTestId('web_view')}
             incognito={props.incognito}
             onMessage={this.onMessage}
             sharedCookiesEnabled={true}

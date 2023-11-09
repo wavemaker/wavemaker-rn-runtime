@@ -40,8 +40,8 @@ export default class WmNetworkInfoToaster extends BaseComponent<WmNetworkInfoToa
       return (
       <View style={this.styles.root}>
         {this._background}
-        <Text style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_CONNECTED}</Text>
-        <TouchableOpacity style={this.styles.action} onPress={() => this._close()}>
+        <Text {...this.getTestPropsForLabel('msg')} style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_CONNECTED}</Text>
+        <TouchableOpacity {...this.getTestPropsForAction('close')} style={this.styles.action} onPress={() => this._close()}>
           <Text style={this.styles.actionText}>{this.props.appLocale.messages.LABEL_HIDE_NETWORK_INFO}</Text>
         </TouchableOpacity>
       </View>);
@@ -50,19 +50,19 @@ export default class WmNetworkInfoToaster extends BaseComponent<WmNetworkInfoToa
       return (
         <View style={this.styles.root}>
           {this._background}
-          <Text style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_CONNECTING}</Text>
+          <Text {...this.getTestPropsForLabel('msg')} style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_CONNECTING}</Text>
         </View>);
     }
     if (this.state.newtworkState.isServiceAvailable) { 
       return (
       <View style={this.styles.root}>
         {this._background}
-        <Text style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_AVAILABLE}</Text>
-        <TouchableOpacity style={this.styles.action} onPress={() => this._close()}>
+        <Text {...this.getTestPropsForLabel('msg')} style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_AVAILABLE}</Text>
+        <TouchableOpacity {...this.getTestPropsForAction('close')} style={this.styles.action} onPress={() => this._close()}>
           <Text style={this.styles.actionText}>{this.props.appLocale.messages.LABEL_HIDE_NETWORK_INFO}</Text>
         </TouchableOpacity>
           <Text style={this.styles.actionSeparator}>|</Text>
-        <TouchableOpacity style={this.styles.action}>
+        <TouchableOpacity {...this.getTestPropsForAction('connect')} style={this.styles.action}>
           <Text style={this.styles.actionText}>{this.props.appLocale.messages.LABEL_CONNECT_TO_SERVICE}</Text>
         </TouchableOpacity>
       </View>);
@@ -71,8 +71,8 @@ export default class WmNetworkInfoToaster extends BaseComponent<WmNetworkInfoToa
       return (
       <View style={this.styles.root}>
         {this._background}
-        <Text style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_NETWORK_NOT_AVAILABLE}</Text>
-        <TouchableOpacity style={this.styles.action} onPress={() => this._close()}>
+        <Text {...this.getTestPropsForLabel('msg')} style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_NETWORK_NOT_AVAILABLE}</Text>
+        <TouchableOpacity {...this.getTestPropsForAction('close')} style={this.styles.action} onPress={() => this._close()}>
           <Text style={this.styles.actionText}>{this.props.appLocale.messages.LABEL_HIDE_NETWORK_INFO}</Text>
         </TouchableOpacity>
       </View>);
@@ -80,8 +80,8 @@ export default class WmNetworkInfoToaster extends BaseComponent<WmNetworkInfoToa
     return (
       <View style={this.styles.root}>
         {this._background}
-        <Text style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_NOT_AVAILABLE}</Text>
-        <TouchableOpacity style={this.styles.action} onPress={() => this._close()}>
+        <Text {...this.getTestPropsForLabel('msg')} style={this.styles.text}>{this.props.appLocale.messages.MESSAGE_SERVICE_NOT_AVAILABLE}</Text>
+        <TouchableOpacity  {...this.getTestPropsForAction('close')} style={this.styles.action} onPress={() => this._close()}>
           <Text style={this.styles.actionText}>{this.props.appLocale.messages.LABEL_HIDE_NETWORK_INFO}</Text>
         </TouchableOpacity>
       </View>);

@@ -33,18 +33,20 @@ export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarSt
     return {activeItemStyles, itemStyles};
   }
 
-  renderNavItem(item: NavigationDataItem, props: WmNavbarProps) {
+  renderNavItem(item: NavigationDataItem, index: number, props: WmNavbarProps) {
     const indent = this.styles.childNav.paddingLeft as number || 0;
     const {activeItemStyles, itemStyles} = this.computeItemStyles(props);
     return (
       <View style={this.styles.navitem} key={item.key} >
         <WmNavItem item={item}
+          id={this.getTestId('child'+ index)}
           onSelect={props.onSelect}
           styles={item.isactive ? activeItemStyles: itemStyles}
           getDisplayExpression={this.props.getDisplayExpression} 
           view={item.childnavigation ? 'dropdown' : 'anchor'}>
           {item.childnavigation && (
             <WmNavbar
+              id={this.getTestId('child'+ index +'_menu')}
               dataset={item.childnavigation}
               type={props.type}
               styles={this.styles}
@@ -57,7 +59,8 @@ export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarSt
               isactive={props.isactive}
               indent={props.indent || indent + indent}
               getDisplayExpression={this.props.getDisplayExpression} 
-              ischildnav={true}>
+              ischildnav={true}
+              onSelect={props.onSelect}>
             </WmNavbar>)}
         </WmNavItem>
       </View>
@@ -71,8 +74,8 @@ export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarSt
 
     return (
       <View style={[this.theme.getStyle(styleName), this.styles.nav]}>
-          { navItems && navItems.length ? navItems.map(item => {
-              return this.renderNavItem(item, props);
+          { navItems && navItems.length ? navItems.map((item, index) => {
+              return this.renderNavItem(item, index, props);
             }) : childElements
           }
       </View>

@@ -101,6 +101,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
             ref={(ref) => {
               this.widgetRef = ref;
             }}
+            {...this.getTestPropsForInput()}
             onPress={this.onPress.bind(this)}>
             {this.state.props.displayValue || props.placeholder || ' '}
           </Text>
@@ -124,15 +125,15 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     this.hide();
   }
 
-  renderSelectItem(item: any, isPlaceholder: boolean, isLast: boolean) {
+  renderSelectItem(item: any, index: number, isPlaceholder: boolean, isLast: boolean) {
     let selected = this.isSelected(item);
     return (
-      <Tappable onTap={this.onItemSelect.bind(this, item, isPlaceholder)}>
+      <Tappable {...this.getTestPropsForAction(index + '')} onTap={this.onItemSelect.bind(this, item, isPlaceholder)}>
         <View style={[this.styles.selectItem, isLast ?  this.styles.lastSelectItem  : null, selected ? this.styles.selectedItem : null ]}>
-          <Text style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : selected ? this.styles.selectedItemText.color : this.styles.selectItemText.color}]}>
+          <Text {...this.getTestPropsForLabel(index + '')}style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : selected ? this.styles.selectedItemText.color : this.styles.selectItemText.color}]}>
             {isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)}
           </Text>
-          <WmIcon iconclass='wi wi-check' styles={this.theme.mergeStyle(this.styles.checkIcon, {
+          <WmIcon id={this.getTestId('checkicon' + index)} iconclass='wi wi-check' styles={this.theme.mergeStyle(this.styles.checkIcon, {
             root: {
               opacity: !isPlaceholder && selected ?  1 : 0
             }
@@ -176,12 +177,12 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
                   <ScrollView style={{width: '100%', maxHeight: ThemeVariables.INSTANCE.maxModalHeight}} contentContainerStyle={this.styles.dropDownContent}>
                     {props.placeholder ?
                       <View key={props.name + '_placeholder'} style={this.styles.placeholderText}>
-                        {this.renderSelectItem({}, true, false)}
+                        {this.renderSelectItem({}, 0, true, false)}
                       </View>
                       : null}
                       {items && items.map((item: any, index: number) => (
                         <View key={item.key}>
-                          {this.renderSelectItem(item, false, index === items.length - 1)}
+                          {this.renderSelectItem(item, index, false, index === items.length - 1)}
                         </View>
                       ))}
                   </ScrollView>,

@@ -186,6 +186,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const isHorizontal = (props.direction === 'horizontal');
     return (  
         <Tappable
+          {...this.getTestPropsForAction(`item${index}`)}
           onTap={() => this.onSelect(item, index, true)}
           onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
           onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
@@ -206,7 +207,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               this.isSelected(item) ? this.styles.selectedItem : {}]}>
             { props.renderItem(item, index, this)}
             { this.isSelected(item) ? (
-              <WmIcon iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
+              <WmIcon id={this.getTestId('icon' + index)}iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
             ) : null}
           </View>
         </Tappable>
@@ -219,21 +220,22 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     ) : (props.iconclass || props.title || props.subheading) ? (
       <View style={this.styles.heading}>
         <View style={{flex: 1, flexDirection: 'row'}}>
-          <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
+          <WmIcon id={this.getTestId('icon')} styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
           <View>
-            <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
-            <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+            <WmLabel id={this.getTestId('title')} styles={this.styles.title} caption={props.title}></WmLabel>
+            <WmLabel id={this.getTestId('subheading')} styles={this.styles.subheading} caption={props.subheading}></WmLabel>
           </View>
         </View>
       </View>) : null;
   }
 
   private renderEmptyMessage(isHorizontal: boolean, item: any, index: any, props: WmListProps) {
-    return (<WmLabel styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>);
+    return (<WmLabel  id={this.getTestId('emptymsg')} styles={this.styles.emptyMessage} caption={props.nodatamessage}></WmLabel>);
   }
 
   private renderLoadingIcon(props: WmListProps) {
     return (<WmIcon
+      id={this.getTestId('loadingicon')}
       styles={this.styles.loadingIcon}
       iconclass={props.loadingicon}
       caption={props.loadingdatamsg}></WmIcon>)

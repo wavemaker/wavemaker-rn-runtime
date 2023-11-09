@@ -68,6 +68,7 @@
     "color": "4.2.3",
     "cross-env": "^5.2.0",
     "css-mediaquery": "^0.1.2",
+    "expo-application": "^5.4.0",
     "expo-font": "11.4.0",
     "expo-linear-gradient": "12.3.0",
     "expo-modules-core": "~1.1.0",

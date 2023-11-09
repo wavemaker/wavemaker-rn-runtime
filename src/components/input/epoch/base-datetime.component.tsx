@@ -237,7 +237,9 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
 
   addTouchableOpacity(props: WmDatetimeProps, children: React.ReactNode, styles?: any) : React.ReactNode{
     return (
-      <TouchableOpacity style={styles} onPress={() => {
+      <TouchableOpacity 
+        {...this.getTestPropsForAction()} 
+        style={styles} onPress={() => {
         if (!props.readonly) {
           this.onFocus();
         }
@@ -265,11 +267,13 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                 <Text style={[
                   this.styles.text,
                   this.state.displayValue ? {} : this.styles.placeholderText
-                ]}>{this.state.displayValue || this.state.props.placeholder}</Text>
+                ]}
+                {...this.getTestPropsForLabel()}>{this.state.displayValue || this.state.props.placeholder}</Text>
               ), [{ flex: 1}, this.isRTL?{flexDirection:'row', textAlign:'right'}:{}] )}
               {(!props.readonly && props.datavalue &&
                 (<WmIcon iconclass="wi wi-clear"
                 styles={{color: this.styles.text.color, ...this.styles.clearIcon}}
+                id={this.getTestId('clearicon')}
                 onTap={() => {
                   this.onDateChange(null as any, null as any);
                   this.clearBtnClicked = true;

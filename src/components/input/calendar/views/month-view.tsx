@@ -17,6 +17,8 @@ import styles from './month-view.styles'
 import _ from 'lodash';
 
 export class MonthViewProps {
+  testID?: string = null as any;
+  accessibilityLabel?: string = null as any;
   date?: Moment = null as any;
   minDate? = moment('1990-01-01', 'YYYY-MM-DD');
   maxDate? = moment('2100-01-01', 'YYYY-MM-DD');
@@ -81,7 +83,10 @@ export class MonthView extends Component<MonthViewProps, MonthViewState> {
     const notCurrentMonth = !this.props.date?.isSame(day, 'month');
     const dateStyle = ((this.props.getDayStyle ? this.props.getDayStyle(day) : null) || {}) as any;
     return (
-      <TouchableOpacity onPress={() => this.selectDate(day)}
+      <TouchableOpacity 
+        testID={this.props.testID + '_' + day.format('yyyy_mm_dd')}
+        accessibilityLabel={this.props.testID + '_' + day.format('yyyy_mm_dd')}
+        onPress={() => this.selectDate(day)}
         style={[styles.warpDay, warpDayStyle,
           isCurrent ? currentDayStyle : {},
           dateSelected ? { backgroundColor: '#2C1F23', ...dateSelectedWarpDayStyle } : {},

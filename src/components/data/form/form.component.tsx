@@ -389,10 +389,10 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
             {props.iconclass || props.title || props.subheading ? (
               <View style={this.styles.heading}>
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                  <WmIcon styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
+                  <WmIcon  id={this.getTestId('icon')} styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
                   <View>
-                    <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
-                    <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>
+                    <WmLabel id={this.getTestId('title')} styles={this.styles.title} caption={props.title}></WmLabel>
+                    <WmLabel id={this.getTestId('description')} styles={this.styles.subheading} caption={props.subheading}></WmLabel>
                   </View>
                 </View>
               </View>
