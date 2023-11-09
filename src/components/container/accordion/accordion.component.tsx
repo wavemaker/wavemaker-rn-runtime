@@ -45,14 +45,15 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     this.toggle(i + 1, false);
   }
 
-  expandCollapseIcon(item: any, showBadge = true, showIcon = true, useChevron = true, isExpanded = false) {
+  expandCollapseIcon(item: any, index: number, showBadge = true, showIcon = true, useChevron = true, isExpanded = false) {
     const widgetProps = item.props;
     //@ts-ignore
     const badge = showBadge && widgetProps.badgevalue != undefined ? (
       <Badge style={[
         this.styles.badge,
         isExpanded ? this.styles.activeBadge: null,
-        this.styles[widgetProps.badgetype || 'default']]}>
+        this.styles[widgetProps.badgetype || 'default']]}
+        {...this.getTestProps('badge'+index)}>
         {widgetProps.badgevalue}
       </Badge>): null;
     let iconclass = null;
@@ -65,6 +66,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
             {badge}
             {showIcon ? (
               <WmIcon
+              id={this.getTestId('icon' + index)}
               styles={this.theme.mergeStyle({}, this.styles.icon, isExpanded ? this.styles.activeIcon : null)}
               name={'expand_collapse_icon'}
               iconclass={iconclass}></WmIcon>): null}
@@ -77,24 +79,27 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     return (
       <View style={this.styles.pane} key={item.props.title}>
         <TouchableOpacity key={'accordionpane_' + (index + 1)}
+              {...this.getTestPropsForAction(`header${index}`)}
               style={[this.styles.header,
                 index === 0 ? this.styles.firstHeader: null,
                 index === accordionpanes.length - 1 && !isExpanded ? this.styles.lastHeader: null,
                 isExpanded ? this.styles.activeHeader : {}]}
                 onPress={this.toggle.bind(this, index + 1, !isExpanded)}>
-          {this.expandCollapseIcon(item, false, showIconOnLeft, true, isExpanded)}
+          {this.expandCollapseIcon(item, index, false, showIconOnLeft, true, isExpanded)}
           {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
           <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
             <Text style={[
               this.styles.text,
               this.styles.heading,
-              isExpanded ? this.styles.activeHeaderTitle : {}]}>
+              isExpanded ? this.styles.activeHeaderTitle : {}]}
+              {...this.getTestPropsForAction(`header${index}_title`)}>
                 {isDefined(item.props.title) ? item.props.title : 'Title'}
             </Text>
             {item.props.description ? 
-              (<Text style={this.styles.subheading}>{item.props.description}</Text>) : null }
+              (<Text style={this.styles.subheading}
+                {...this.getTestPropsForAction(`header${index}_description`)}>{item.props.description}</Text>) : null }
           </View>
-          {this.expandCollapseIcon(item, true, !showIconOnLeft, true, isExpanded)}
+          {this.expandCollapseIcon(item, index, true, !showIconOnLeft, true, isExpanded)}
         </TouchableOpacity>
         {item}
       </View>

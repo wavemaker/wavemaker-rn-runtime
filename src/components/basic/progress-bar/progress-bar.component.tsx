@@ -22,8 +22,9 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
     return (
     <View style={styles.root}>
       {this._background}
-      <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}}>
+      <Tappable {...this.getTestPropsForAction()} target={this} styles={{root:{width: '100%', height: '100%'}}}>
         <ProgressBar
+          testID={this.getTestId('progressbar')}
           progress={value}
           color={styles.progressValue.color}
           style={[styles.progressBar, {height: styles.root.height || styles.progressBar.height}]}></ProgressBar>

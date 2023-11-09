@@ -29,18 +29,20 @@ export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemSt
     const getDisplayLabel = this.props.getDisplayExpression || ((label: string) => label);
     let child = props.children;
     if (props.view === 'anchor') {
-      child = <WmAnchor styles={this.styles.navAnchorItem} caption={getDisplayLabel(props.item.label)} hyperlink={props.item.link}
+      child = <WmAnchor id={this.getTestId('navlink')} styles={this.styles.navAnchorItem} caption={getDisplayLabel(props.item.label)} hyperlink={props.item.link}
                  badgevalue={props.item.badge} iconclass={props.item.icon} onTap={this.onSelectItem.bind(this, props.onSelect, props.item)}></WmAnchor>
     }
     if (props.view === 'dropdown') {
       child = (
         <>
-        <TouchableOpacity onPress={() => {
-          this.updateState({collapsed: !this.state.collapsed} as WmNavItemState);
-        }}>
+        <TouchableOpacity 
+          id={this.getTestId('navlink')}
+          onPress={() => {
+            this.updateState({collapsed: !this.state.collapsed} as WmNavItemState);
+          }}>
           <View style={this.styles.dropdownNav}>
-            <WmAnchor styles={this.styles.navAnchorItem} caption={getDisplayLabel(props.item.label)} iconclass={props.item.icon} onTap={this.onSelectItem.bind(this, props.onSelect, props.item)}></WmAnchor>
-            <WmIcon styles={this.styles.caretIcon} iconclass={this.state.collapsed ? 'fa fa-sort-down' : 'fa fa-sort-up'}></WmIcon>
+            <WmAnchor id={this.getTestId('navlink')} styles={this.styles.navAnchorItem} caption={getDisplayLabel(props.item.label)} iconclass={props.item.icon} onTap={this.onSelectItem.bind(this, props.onSelect, props.item)}></WmAnchor>
+            <WmIcon id={this.getTestId('icon')} styles={this.styles.caretIcon} iconclass={this.state.collapsed ? 'fa fa-sort-down' : 'fa fa-sort-up'}></WmIcon>
           </View>
         </TouchableOpacity>
         {!this.state.collapsed && props.children}

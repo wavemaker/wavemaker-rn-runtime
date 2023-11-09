@@ -24,7 +24,8 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     bounds: (e) => {
       const activeTabIndex = this.state.activeIndex - 1,
             w = this.slideLayout?.width || 0,
-            noOfTabs = this.state.props.dataset.length;
+            props = this.state.props,
+            noOfTabs = props.type === 'dynamic' ? props.dataset : props.children;
       return {
         lower: -1 * (activeTabIndex - (activeTabIndex === 0 ? 0 : 1)) * w,
         center: -1 * activeTabIndex * w,
@@ -112,7 +113,9 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   }
 
   next = () => {
-    if (this.state.activeIndex >= this.state.props.dataset.length) {
+    const props = this.state.props;
+    const data = props.type === 'dynamic' ? props.dataset : props.children;
+    if (this.state.activeIndex >= data?.length || 0) {
       this.onSlideChange(1);
       this.animationView?.setPosition(0);
     } else {
@@ -161,7 +164,8 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             style={{
               flexDirection: 'row',
               flexWrap: 'nowrap',
-              alignItems: 'center'
+              alignItems: 'center',
+              height: props.type === 'dynamic' ? undefined : '100%',
             }}
             direction='horizontal'
             ref={(r) => {this.animationView = r}}
@@ -179,7 +183,9 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             });
             return (
               <Animated.View key={this.generateItemKey(item, index, props)}
-                style={[this.styles.slide,
+                style={[
+                  {height: props.type === 'dynamic' ? undefined : '100%'},
+                  this.styles.slide,
                   index === 0 ? this.styles.firstSlide : null,
                   index === data.length - 1 ? this.styles.lastSlide: null,
                   isActive ? this.styles.activeSlide: null,
@@ -201,10 +207,12 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         {hasNavs ? (
           <View style={styles.btnPanel}>
             <WmIcon
+              id={this.getTestId('prev_icon')}
               iconclass="wi wi-chevron-left fa-2x"
               styles={styles.prevBtn}
               onTap={this.prev}/>
             <WmIcon
+              id={this.getTestId('next_icon')}
               iconclass="wi wi-chevron-right fa-2x"
               styles={styles.nextBtn}
               onTap={this.next}/>

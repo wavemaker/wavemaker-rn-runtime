@@ -4,6 +4,7 @@ import { get, filter, isNil } from 'lodash';
 
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { Formatter } from '@wavemaker/app-rn-runtime/core/formatters';
+import { TestIdPrefixProvider, TextIdPrefixConsumer } from '@wavemaker/app-rn-runtime/core/testid.provider';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { toBoolean, toNumber, isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -336,18 +337,33 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       Object.values(this.fragments).forEach((f: any) => (f as BaseFragment<any, any>).forceUpdate());
     }
 
+    generateTestIdPrefix() {
+      const testId = this.getTestId();
+      return testId && (testId.split('')
+        .reduce((a, v, i) => a + (v.charCodeAt(0)  * (i + 1)), 0) + '');
+    }
+
     render() {
       if (this.startUpVariablesLoaded) {
         this.autoUpdateVariables
           .forEach(value => this.Variables[value]?.invokeOnParamChange());
       }
-      return this.isVisible() ? (<ThemeProvider value={this.theme}>
-        <ToastConsumer>
-            {(toastService: ToastService) => {
-              this.toaster = toastService;
-              return this.renderWidget(this.props);
+      return this.isVisible() ? (
+      <ThemeProvider value={this.theme}>
+        <TextIdPrefixConsumer>
+            {(testIdPrefix) => {
+              this.testIdPrefix = testIdPrefix || '';
+              return (
+              <TestIdPrefixProvider value={this.generateTestIdPrefix() || ''}>
+                <ToastConsumer>
+                {(toastService: ToastService) => {
+                  this.toaster = toastService;
+                  return this.renderWidget(this.props);
+                }}
+              </ToastConsumer>
+              </TestIdPrefixProvider>);
             }}
-          </ToastConsumer>
+        </TextIdPrefixConsumer>
 
       </ThemeProvider>) : null;
     }

@@ -59,14 +59,16 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
     return (<Animatedview entryanimation={props.animation} style={styles.root}>
       {this._background}
       <WmIcon
+        id={this.getTestId('icon')}
         iconclass={props.type && MESSAGE_ICONS[props.type]}
         styles={styles.icon}></WmIcon>
       <View style={styles.message}>
-        <Text style={styles.title}>{props.title || DEFAULT_TITLE[props.type || '']}</Text>
-        <Text style={styles.text}>{props.caption}</Text>
+        <Text {...this.getTestPropsForLabel('title')} style={styles.title}>{props.title || DEFAULT_TITLE[props.type || '']}</Text>
+        <Text {...this.getTestPropsForLabel('caption')} style={styles.text}>{props.caption}</Text>
       </View>
       {props.hideclose ? null : (
         <WmButton
+          id={this.getTestId('close')}
           iconclass="wi wi-close"
           styles={styles.closeBtn}
           onTap={this.close}></WmButton>

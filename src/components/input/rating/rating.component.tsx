@@ -123,6 +123,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
       {this._background}
       {arr.map((v, i) => (
         (this.state.selectedIndex > -1 && i <= this.state.selectedIndex) ? <WmIcon
+          id={this.getTestId('star' + i)}
           key={i}
           iconclass="wi wi-star"
           iconsize={props.iconsize}
@@ -132,6 +133,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
       ))}
       {arr.map((v, i) => (
         (this.state.selectedIndex === -1 || i > this.state.selectedIndex) ? <WmIcon
+          id={this.getTestId('star' + i)}
           key={i}
           iconclass="wi wi-star-border"
           iconsize={props.iconsize}

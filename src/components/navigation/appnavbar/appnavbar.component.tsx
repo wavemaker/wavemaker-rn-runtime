@@ -30,11 +30,13 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
         {this._background}
         <View style={this.styles.leftSection}>
         {props.showDrawerButton && (<WmIcon
+          id={this.getTestId('leftnavbtn')}
           styles={this.theme.mergeStyle({}, this.styles.action, this.styles.leftnavIcon)}
           iconclass={props.leftnavpaneliconclass}
           onTap={this.onDrawerBtnPress}
           />)}
         {props.backbutton && (<WmIcon
+          id={this.getTestId('backbtn')}
           styles={this.theme.mergeStyle({}, this.styles.action, this.styles.backIcon)}
           iconclass={props.backbuttoniconclass}
           caption={props.backbuttonlabel}
@@ -43,12 +45,14 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
         <View style={this.styles.middleSection}>
           {props.imgsrc && (
           <WmPicture
+            id={this.getTestId('picture')}
             styles={this.styles.image}
             picturesource={props.imgsrc} />)}
-          <Text style={this.styles.content}>{props.title}</Text>
+          <Text style={this.styles.content} {...this.getTestPropsForLabel('title')}>{props.title}</Text>
         </View>
         <View style={this.styles.rightSection}>
           {props.searchbutton && (<WmIcon
+            id={this.getTestId('searchbtn')}
             styles={this.theme.mergeStyle({}, this.styles.action, this.styles.leftnavIcon)}
             iconclass={props.searchbuttoniconclass}
             onTap={this.onSearchBtnPress}

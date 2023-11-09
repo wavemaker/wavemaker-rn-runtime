@@ -59,7 +59,7 @@ export default class WmCamera extends BaseComponent<WmCameraProps, WmCameraState
               {this._background}
               this.camera = cameraService;
               return <View style={this.styles.root}>
-                <WmButton iconclass={props.iconclass} styles={this.styles.button} iconsize={props.iconsize} onTap={this.onCameraTap.bind(this)}></WmButton>
+                <WmButton id={this.getTestId('button')} iconclass={props.iconclass} styles={this.styles.button} iconsize={props.iconsize} onTap={this.onCameraTap.bind(this)}></WmButton>
               </View>
             }}
           </CameraConsumer>

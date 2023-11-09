@@ -25,6 +25,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (<WMTextInput
+      {...this.getTestPropsForInput()}
       ref={(ref: any) => {this.widgetRef = ref;
         // @ts-ignore
         if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {

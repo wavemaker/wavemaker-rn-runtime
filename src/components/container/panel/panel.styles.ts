@@ -26,6 +26,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         fontWeight: 'bold'
       },
       header: {
+        flexDirection: 'row',
         backgroundColor: themeVariables.panelHeaderBgColor,
         paddingHorizontal: 8,
         paddingVertical: 4,
@@ -35,7 +36,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderTopLeftRadius: 6,
         borderTopRightRadius: 6
       },
-      subheading: {},
+      heading: {
+        paddingHorizontal: 16
+      },
+      subheading: {
+        paddingHorizontal: 16
+      },
       icon: {
         root: {
           alignSelf: 'auto',
@@ -49,7 +55,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       } as WmIconStyles,
       badge: {
         color: themeVariables.badgeTextColor,
-        marginRight: 8
+        marginRight: 8,
+        alignSelf: 'center'
       },
       default: {
         backgroundColor: themeVariables.labelDefaultColor

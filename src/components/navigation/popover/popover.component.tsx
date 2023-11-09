@@ -93,6 +93,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
       <View style={styles.root} onLayout={this.computePosition} ref={ref => {this.view = ref as View}}>
         {this._background}
         <WmAnchor
+          id={this.getTestId('trigger')}
           animation={props.animation}
           caption={props.caption}
           badgevalue={props.badgevalue}
@@ -106,17 +107,19 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
               modalService.showModal(this.prepareModalOptions((
                   <ScrollView style={this.theme.mergeStyle(styles.popover, dimensions)}>
                     {props.title ? (<Text style={styles.title}>{props.title}</Text>): null}
-                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                    <TouchableOpacity 
+                    {...this.getTestPropsForAction('outercontent')}
+                    activeOpacity={1} onPress={() => {
                       props.autoclose === 'always' && this.hide()
                     }} style={styles.popoverContent.root}>
                       <WmContainer
                         styles={styles.popoverContent}
                         onLoad={() => this.invokeEventCallback('onLoad', [this])}
-                        {...props.renderPartial ? {
+                        {... props.renderPartial ? {
                           renderPartial : (p: any, onLoad: Function) => {
-                          return props.renderPartial && props.renderPartial(props, onLoad);
+                            return props.renderPartial && props.renderPartial(props, onLoad);
                           }
-                          } : {}}>
+                        } : {}}>
                           {props.renderPartial ? null : props.children}
                       </WmContainer>
                     </TouchableOpacity>

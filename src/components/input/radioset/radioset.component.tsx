@@ -29,6 +29,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     return (
       <View style={[this.styles.radioHead, {width: colWidth}]} key={item.key}>
           <RadioButton.Android
+            {...this.getTestProps('' + index)}
             value={this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield}
             color={this.styles.root.color as string}
             uncheckedColor={this.styles.root.color as string}

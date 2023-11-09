@@ -52,6 +52,7 @@ export default class WmVideo extends BaseComponent<WmVideoProps, WmVideoState, W
           resizeMode={ResizeMode.CONTAIN}
           isLooping={props.loop}
           isMuted={props.muted}
+          testID={this.getTestId('video')}
         />
       </View>); 
   }
