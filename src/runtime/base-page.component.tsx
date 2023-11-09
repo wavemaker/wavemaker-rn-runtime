@@ -1,5 +1,6 @@
 import { clone, isEqual } from 'lodash';
 import React, { ReactNode } from 'react';
+import { CommonActions } from '@react-navigation/native';
 import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPage from '@wavemaker/app-rn-runtime/components/page/page.component';
@@ -105,13 +106,19 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       super.componentWillUnmount();
     }
 
-    goToPage(pageName: string, params: any) {
+    goToPage(pageName: string, params: any, clearCahe = false) {
       const navigation = (this.props as PageProps).navigation;
       const _params = clone(params);
       _params && delete _params['pageName'];
       if (pageName !== this.pageName || !isEqual(_params, this.pageParams)) {
         if (pageName === this.pageName) {
           navigation.push(pageName, _params);
+        } else if (clearCahe) {
+          navigation.dispatch(CommonActions.reset({
+            index: 0,
+            routes: [
+              { name: pageName, params: params }
+            ]}));
         } else {
           navigation.navigate(pageName, _params);
         }
