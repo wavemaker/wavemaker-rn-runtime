@@ -69,7 +69,7 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
         <WmDialogactions styles={this.styles.dialogActions}>
           <WmButton
             caption={props.oktext}
-            styles={this.theme.mergeStyle({}, this.theme.getStyle('btn-primary'), this.styles.okButton)}
+            styles={this.theme.mergeStyle({},this.styles.okButton,this.theme.getStyle('btn-only-label'))}
             onTap={() => {
               this.dialogRef.close();
               this.invokeEventCallback('onOk', [null, this]);

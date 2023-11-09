@@ -29,7 +29,9 @@ export const DEFAULT_CLASS = 'app-calendar';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmCalendarStyles = defineStyles<WmCalendarStyles>({
         root: {
-            width: '100%'
+            width: '100%',
+            minHeight: 456,
+            minWidth: 360
         },
         text: {
             color: themeVariables.calendarDateColor
@@ -39,9 +41,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             borderColor: themeVariables.calendarHeaderBgColor,
             borderWidth: 1,
             borderStyle: 'solid',
-            marginTop: 0,
+            marginTop: 0,   
             paddingTop: 0,
-            paddingBottom: 0
+            paddingBottom: 0,
+            elevation: 6
         },
         calendarHeader : {
             backgroundColor: themeVariables.calendarHeaderBgColor,
@@ -56,22 +59,27 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             borderColor: themeVariables.calendarHeaderBgColor,
             borderBottomWidth: 1,
             borderStyle: 'solid',
-            padding: 2
+            padding: 2,
         },
         weekDayText: {
             color: themeVariables.calendarWeekDayTextColor,
-            fontWeight: 'bold'
+            fontWeight: '400',
+            fontFamily: themeVariables.baseFont,
+            fontSize: 16,
         },
         day: {
             borderColor: 'transparent',
-            color: themeVariables.calendarDateColor
+            color: themeVariables.calendarDateColor,
+            fontSize: 16,
+            fontFamily: themeVariables.baseFont,
+            fontWeight: '400'
         },
         dayWrapper: {
             backgroundColor: themeVariables.calendarBgColor,
             borderColor: 'transparent',
-            width: 36,
-            height: 36,
-            borderRadius: 36
+            width: 38,
+            height: 38,
+            borderRadius: 26
         },
         notDayOfCurrentMonth: {
             color: themeVariables.calendarNotCurrentMonthDateColor,
@@ -79,18 +87,21 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             opacity: 0
         },
         monthText: {
-            fontWeight: 'bold',
+            fontWeight: '500',
+            fontFamily: themeVariables.baseFont,
             color: themeVariables.calendarHeaderTextColor
         },
         yearText: {
-            fontWeight: 'bold',
+            fontWeight: '500',
+            fontFamily: themeVariables.baseFont,
             color: themeVariables.calendarHeaderTextColor
         },
         today: {
-            backgroundColor: themeVariables.calendarTodayBgColor
+            backgroundColor: themeVariables.calendarBgColor,
+            borderColor: themeVariables.primaryColor
         },
         todayText: {
-            backgroundColor: themeVariables.transparent
+            backgroundColor: themeVariables.calendarSelectedDayBgColor
         },
         eventDay1 : {
             color: themeVariables.calendarEventDay1Color

@@ -14,8 +14,12 @@ export const DEFAULT_CLASS = 'app-button';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmButtonStyles = defineStyles<WmButtonStyles>({
       root: {
-          padding: 12,
+          minHeight: 40,
           borderRadius: 6,
+          paddingTop: 11,
+          paddingBottom: 11,
+          paddingLeft: 24,
+          paddingRight: 24,
           alignSelf: 'flex-start'
       },
       content: {
@@ -24,7 +28,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         justifyContent: 'center'
       },
       text: {
-        fontSize: 16,
+        fontSize: 14,
+        fontFamily: themeVariables.baseFont,
         fontWeight: '500',
         textAlign: 'center',
         textTransform: 'capitalize',
@@ -35,14 +40,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         color: themeVariables.buttonBadgeTextColor,
         alignSelf: 'flex-start',
         position: 'relative',
-        top: -16,
+        minHeight: 6,
+        top: -20,
         marginLeft: -16,
         borderWidth: 1,
         borderStyle: 'solid'
       },
       icon: {
         root : {
-          alignSelf: 'auto'
+          alignSelf: 'auto',
+          paddingLeft: -8,
+          paddingRight: -8
         },
         text: {
           paddingRight: themeVariables.buttonTextPadding,
@@ -89,7 +97,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     } as WmButtonStyles;
   }
 
-  const linkBtnStyle = getButtonStyles(themeVariables.buttonLinkColor, themeVariables.buttonLinkTextColor);
+  const linkBtnStyle = getButtonStyles(themeVariables.buttonLinkColor, themeVariables.buttonLinkTextColor );
+const buttonWithOnlyLabel = getButtonStyles(themeVariables.buttonLinkColor, themeVariables.buttonLinkTextColor );
+
   linkBtnStyle.root.paddingVertical = 4;
   linkBtnStyle.text.textDecorationColor = themeVariables.buttonLinkTextColor;
   linkBtnStyle.text.textDecorationLine = 'underline';
@@ -103,6 +113,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle('btn-success', '', getButtonStyles(themeVariables.buttonSuccessColor, themeVariables.buttonSuccessTextColor));
   addStyle('btn-warning', '', getButtonStyles(themeVariables.buttonWarningColor, themeVariables.buttonWarningTextColor));
   addStyle('btn-link', '', linkBtnStyle);
+  addStyle('btn-only-label', '', buttonWithOnlyLabel);
   addStyle('btn-dark', '', getButtonStyles(themeVariables.buttonDarkColor, themeVariables.buttonDarkTextColor));
   addStyle('btn-light', '', getButtonStyles(themeVariables.buttonLightColor, themeVariables.buttonLightTextColor));
   addStyle('fab-btn', 'btn-primary', {

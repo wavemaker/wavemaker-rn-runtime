@@ -112,9 +112,11 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
                       <WmContainer
                         styles={styles.popoverContent}
                         onLoad={() => this.invokeEventCallback('onLoad', [this])}
-                        renderPartial={(p: any, onLoad: Function) => {
+                        {...props.renderPartial ? {
+                          renderPartial : (p: any, onLoad: Function) => {
                           return props.renderPartial && props.renderPartial(props, onLoad);
-                        }}>
+                          }
+                          } : {}}>
                           {props.renderPartial ? null : props.children}
                       </WmContainer>
                     </TouchableOpacity>

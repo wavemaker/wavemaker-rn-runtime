@@ -12,12 +12,16 @@ export const DEFAULT_CLASS = 'app-number';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmNumberStyles = defineStyles<WmNumberStyles>({
       root: {
-        padding: 12,
+        minHeight: 42,
+        paddingTop: 8,
+        paddingBottom: 8,
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: themeVariables.inputBorderColor,
         backgroundColor: themeVariables.inputBackgroundColor,
-        borderRadius: 6
+        borderRadius: 6,
+        paddingLeft: 16,
+        paddingRight: 16
       },
       text: {
         fontSize: 16,

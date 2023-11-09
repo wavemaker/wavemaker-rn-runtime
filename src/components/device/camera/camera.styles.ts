@@ -16,7 +16,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           borderWidth: 1,
           borderColor: themeVariables.cameraBorderColor,
           borderStyle: 'solid',
-          backgroundColor: themeVariables.cameraBgColor
+          backgroundColor: themeVariables.cameraBgColor,
+          borderRadius: 4
         },
         text: {
           color: themeVariables.cameraTextColor

@@ -12,6 +12,7 @@ export const DEFAULT_CLASS = 'app-currency';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmCurrencyStyles = defineStyles({
       root: {
+        minHeight: 42,
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: themeVariables.inputBorderColor,
@@ -23,22 +24,29 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         fontSize: 16
       },
       input : {
-        height: '100%',
-        padding: 12,
+        minHeight: 42,
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 16,
+        paddingRight: 16,
         flex: 1,
         borderWidth: 1,
         borderColor: themeVariables.transparent,
         borderStyle: 'solid'
       },
       labelWrapper: {
-        height: '100%',
+        minHeight: 42,
         backgroundColor: themeVariables.primaryColor,
         borderTopLeftRadius: 6,
         borderBottomLeftRadius: 6,
         width: 48,
-        padding: 12,
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 16,
+        paddingRight: 16
       },
       label: {
+        marginVertical: 0.7,
         color: themeVariables.primaryContrastColor,
         textAlignVertical: 'center',
         textAlign: 'center',

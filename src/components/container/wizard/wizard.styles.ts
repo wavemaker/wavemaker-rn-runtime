@@ -74,7 +74,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       wizardFooter: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        padding: 12
+        paddingVertical: 12,
+        paddingRight: 0,
+        width: '100%',
+        marginLeft: 14,
       },
       buttonWrapper: {
         flexDirection: 'row',
@@ -108,7 +111,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root: {
           marginRight: 0,
           backgroundColor: themeVariables.wizardNextBtnColor,
-          borderColor: themeVariables.wizardNextBtnColor
+          borderColor: themeVariables.wizardActiveStepColor
+        },
+        text:{
+          color: themeVariables.wizardActiveStepColor
         }
       } as WmButtonStyles,
       prevButton: {
@@ -118,11 +124,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       doneButton: {
         root: {
           marginRight: 0,
-          backgroundColor: themeVariables.wizardDoneBtnColor
+          backgroundColor: themeVariables.wizardDoneBtnColor,
+          borderColor: themeVariables.wizardActiveStepColor
+        },
+        text:{
+          color: themeVariables.wizardActiveStepColor
         },
         icon: {
           text: {
-            fontSize: 12
+            fontSize: 12,
+            color: themeVariables.wizardActiveStepColor
           }
         }
       } as WmButtonStyles,

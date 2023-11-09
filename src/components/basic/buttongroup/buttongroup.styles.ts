@@ -25,7 +25,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root : {
           width: '100%',
           height: 48,
-          borderRadius: 4
+          borderRadius: 4,
+          borderColor: themeVariables.buttonGrpBorderColor
         }
       } as any as WmSkeletonStyles
   });
