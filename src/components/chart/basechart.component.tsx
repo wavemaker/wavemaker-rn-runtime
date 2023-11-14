@@ -177,6 +177,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           }
                           return this.abbreviateNumber(d);
                         }}
+                        orientation={this.isRTL?"right":"left"}
                         dependentAxis />;
   }
   

@@ -75,14 +75,14 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
                   strokeWidth: props.linethickness,
                 }
               }}       
-              data={d}
+              data={this.isRTL?d.toReversed():d}
             />
           {(props.highlightpoints || this.state.data.length === 1) ?
               <VictoryScatter size={5} key={props.name + '_scatter' + i}
                   style={{
                     data: { fill: this.state.colors[i], opacity: 0.8,}
                   }}
-                  data={d}
+                  data={this.isRTL?d.toReversed():d}
                   events={[{
                     target: 'data',
                     eventHandlers: Platform.OS == "web" ? {
