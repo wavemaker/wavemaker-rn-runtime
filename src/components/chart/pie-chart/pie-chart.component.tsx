@@ -137,7 +137,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
                 theme={this.state.theme}
                 key={props.name}
                 name={props.name}
-                data={pieData}
+                data={this.isRTL?pieData.toReversed():pieData}
                 origin={origin}
                 labelPlacement={props.labelplacement}
                 labelRadius={labelRadius}

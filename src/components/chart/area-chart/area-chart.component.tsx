@@ -81,7 +81,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                         stroke: this.state.colors[i]
                       }
                     }}
-                    data={d}
+                    data={this.isRTL?d.toReversed():d}
                   />
                   {props.highlightpoints ?
                     <VictoryScatter
@@ -90,7 +90,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                       style={{
                         data: { fill: this.state.colors[i], opacity: 0.8}
                       }}
-                      data={d}/>
+                      data={this.isRTL?d.toReversed():d}/>
                   : null}
                 </VictoryGroup>
               })

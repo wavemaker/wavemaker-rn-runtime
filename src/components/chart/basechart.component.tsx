@@ -119,6 +119,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           grid: this.styles.grid
                         }}
                         fixLabelOverlap={true}
+                        invertAxis={this.isRTL}
                         tickLabelComponent={<VictoryLabel angle={this.props.labelangle || 0} />} theme={this.state.theme}
                         tickFormat={(d) => `${this.state.xaxisDatakeyArr.length ? this.state.xaxisDatakeyArr[d] : d}`}/>;
   }
@@ -133,6 +134,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           grid: this.styles.grid
                         }}
                         theme={this.state.theme}
+                        orientation={this.isRTL?"right":"left"}
                         tickFormat={(t) => `${this.abbreviateNumber(t)}`} dependentAxis />;
   }
 
