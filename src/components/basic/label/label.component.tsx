@@ -9,21 +9,38 @@ import { isNil, toString } from 'lodash-es';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import WmSkeleton, { createSkeleton } from '../skeleton/skeleton.component';
 import { totalMonths } from 'react-native-paper-dates/lib/typescript/Date/dateUtils';
+import WmAnchor from '../anchor/anchor.component';
+
+type PartType = {
+  text?: string,
+  link?: string,
+};
 
 export class WmLabelState extends BaseComponentState<WmLabelProps> {
-
+  parts: PartType[] = []
 }
 
 export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, WmLabelStyles> {
 
   constructor(props: WmLabelProps) {
-    super(props, DEFAULT_CLASS, new WmLabelProps());
+    super(props, DEFAULT_CLASS, new WmLabelProps(), new WmLabelState());
   }
 
   private getAsterisk () {
     return <Text style={this.styles.asterisk}>*</Text>;
   }
 
+  public onPropertyChange(name: string, $new: any, $old: any): void {
+    super.onPropertyChange(name, $new, $old);
+
+    switch(name) {
+      case "caption":
+        this.updateState({
+          parts: this.parseCaption($new)
+        } as WmLabelState);
+        break;
+    }
+  }
   private getMultilineSkeleton(width: any, height: any) {
     const styles = {
       borderRadius:4,
@@ -35,6 +52,33 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       width: width,
       height: height
     });
+  }
+
+  parseCaption(caption: string) {
+    const pattern = /\[([^\]]+)\]\((http.*?[^)])\)/g;
+    const linkRegex = /^(http|https):\/\/[^ "]+$/;
+    const captionSplit = caption.split(pattern);
+
+    let parts = [];
+
+    for (let i = 0; i < captionSplit.length; i++) {
+      const isLink = linkRegex.test(captionSplit[i]);
+      let part: PartType = {};
+      
+      const isNextTextALink = linkRegex.test(captionSplit[i + 1]) || false;
+      if (isLink) {
+        part.text = captionSplit[i - 1] ?? '';
+        part.link = captionSplit[i];
+      } else {
+        part.text = isNextTextALink ? "" : captionSplit[i];
+      };
+
+      if (part.text) {
+        parts.push(part);
+      }
+    }
+
+    return parts;
   }
 
   public renderSkeleton(props: WmLabelProps){
@@ -59,21 +103,38 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   }
 
   renderWidget(props: WmLabelProps) {
-    return !isNil(props.caption)? (
+    return !isNil(props.caption) ? (
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
         {this._background}
-        <Tappable {...this.getTestPropsForAction()} target={this}>
-            <Text
-              style={[this.styles.text, 
-                {color: props.isValid === false ? 'red' : this.styles.text.color}]}
-              {...this.getTestPropsForLabel('caption')}
-              numberOfLines={props.wrap ? undefined : 1}
-              selectable={this.styles.text.userSelect === 'text'}>
-              {toString(props.caption)}
-              {props.required && this.getAsterisk()}
-            </Text>
+        <Tappable target={this}>
+          <Text style={{flex: 1, flexWrap: "wrap"}}>
+            {this.state.parts?.map((part, index) => (
+              <React.Fragment key={`part_${index}`}>
+                {part.link ? (
+                  <WmAnchor caption={part.text} hyperlink={part.link} />
+                ) : (
+                  <Text
+                    style={[
+                      this.styles.text,
+                      {
+                        color:
+                          props.isValid === false
+                            ? 'red'
+                            : this.styles.text.color,
+                      },
+                    ]}
+                    numberOfLines={props.wrap ? undefined : 1}
+                    selectable={this.styles.text.userSelect === 'text'}
+                  >
+                    {toString(part.text)}
+                    {props.required && this.getAsterisk()}
+                  </Text>
+                )}
+              </React.Fragment>
+            ))}
+          </Text>
         </Tappable>
       </Animatedview>
-    ): null;
+    ) : null;
   }
 }
