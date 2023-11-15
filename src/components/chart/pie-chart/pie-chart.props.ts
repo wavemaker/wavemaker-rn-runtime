@@ -5,4 +5,5 @@ export default class WmPieChartProps extends BaseChartComponentProps {
   donutratio: number = 0;
   labelplacement: VictorySliceLabelPlacementType = 'vertical';
   centerlabel = '';
+  onSelect?: any;
 }
