@@ -2,6 +2,7 @@ import { parseInt } from 'lodash';
 import moment from 'moment';
 import { CURRENCY_INFO, Currency } from './constants/currency-constants';
 import { DateFormatter } from '@wavemaker/variables/src/types/date-formatter';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 
 export interface Formatter {
     format: (input: any, ...params: any) => any;
@@ -39,7 +40,13 @@ export class AppendFormatter implements Formatter {
 export class NumberToStringFormatter implements Formatter {
 
     public format(input: number, fractionSize: number): string {
-        return isNaN(input) ? '': input.toFixed(fractionSize).toLocaleLowerCase();
+        const i18nService = injector.I18nService.get();
+        const selectedLocale = i18nService.getSelectedLocale();
+        let formatCurrency = new Intl.NumberFormat(selectedLocale,{
+            minimumFractionDigits: fractionSize,
+            maximumFractionDigits: fractionSize,
+        });
+        return isNaN(input) ? '': formatCurrency.format(input);
     }
 }
 
