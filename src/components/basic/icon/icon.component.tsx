@@ -158,7 +158,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
         WMCustomIcon = StreamlineLightIcon;
       } else if (iconDef.isStreamlineRegularIcon) {
         WMCustomIcon = StreamlineRegularIcon;
-      } else if (!iconDef.isWavIcon && !this.styles.icon?.fontFamily) {
+      } else if (!iconDef.isWavIcon && !customIcon && !this.styles.icon?.fontFamily) {
         return null;
       }
       //@ts-ignore type information is not matching

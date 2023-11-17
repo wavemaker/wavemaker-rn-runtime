@@ -55,6 +55,10 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   }
 
   parseCaption(caption: string) {
+    if (!caption) {
+      return [];
+    }
+    caption += '';
     const pattern = /\[([^\]]+)\]\((http.*?[^)])\)/g;
     const linkRegex = /^(http|https):\/\/[^ "]+$/;
     const captionSplit = caption.split(pattern);
@@ -111,7 +115,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
             {this.state.parts?.map((part, index) => (
               <React.Fragment key={`part_${index}`}>
                 {part.link ? (
-                  <WmAnchor caption={part.text} hyperlink={part.link} />
+                  <WmAnchor styles={this.styles.link} caption={part.text} hyperlink={part.link} />
                 ) : (
                   <Text
                     style={[

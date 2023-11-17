@@ -45,9 +45,9 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     if (this.styles.icon && this.styles.icon.text) {
       this.styles.icon.text.color = this.styles.text.color;
     }
-    const icon = (<WmIcon
+    const icon = props.iconclass ? (<WmIcon
       id={this.getTestId('icon')}
-      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>);
+      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>) :  null;
     //@ts-ignore
     const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>): null;
     return (
