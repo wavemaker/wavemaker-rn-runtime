@@ -9,6 +9,7 @@ import { NativeModulesProxy } from 'expo-modules-core';
 import * as WebBrowser from 'expo-web-browser';
 import { get, last } from 'lodash';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
+import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
@@ -95,6 +96,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   onAppVariablesReady = () => {};
   isStarted = false;
   appConfig = injector.get<AppConfig>('APP_CONFIG');
+  private eventNotifier = new EventNotifier();
   public baseUrl = '';
   public targetPlatform = 'NATIVE_MOBILE';
   public cleanup = [] as Function[];
@@ -150,6 +152,18 @@ export default abstract class BaseApp extends React.Component implements Navigat
         refreshAfterWait = true;
       }
     }
+  }
+
+  subscribe(event: string, fn: Function) {
+    return this.eventNotifier.subscribe(event, fn);
+  }
+  
+  notify(event: string, ...args: any) {
+    return this.eventNotifier.notify(event, args);
+  }
+
+  get activePage() {
+    return this.appConfig.currentPage;
   }
 
   goToPage(pageName: string, params: any)  {
