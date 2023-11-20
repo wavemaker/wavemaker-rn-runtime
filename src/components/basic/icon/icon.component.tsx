@@ -44,7 +44,7 @@ export class WmIconState extends BaseComponentState<WmIconProps> {
 export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIconStyles> {
   spinValue = new Animated.Value(0);
   pulseValue = new Animated.Value(0);
-  public stopAnimation = true; 
+  public stopAnimation = true;
 
   constructor(props: WmIconProps) {
     super(props, DEFAULT_CLASS, new WmIconProps());
