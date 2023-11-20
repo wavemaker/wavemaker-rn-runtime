@@ -1,6 +1,6 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
+import { Platform, TouchableOpacity, View, ViewStyle, StatusBar, KeyboardAvoidingView } from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -453,6 +453,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 (<SafeAreaView  style={{flex: 1}}>
                   <StatusBar />
                   <FixedViewContainer>
+                  <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} 
+                  style={{ flex: 1 }}>
                     <View style={styles.container}>
                       <AppNavigator
                         app={this}
@@ -466,6 +468,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         {this.renderDialogs()}
                         {this.renderDisplayManager()}
                     </View>
+                    </KeyboardAvoidingView>
                     <WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>
                   </FixedViewContainer>
                 </SafeAreaView>))

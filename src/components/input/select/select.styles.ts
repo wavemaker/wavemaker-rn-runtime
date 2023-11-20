@@ -12,6 +12,8 @@ export type WmSelectStyles = BaseStyles & {
   selectItem: AllStyle;
   lastSelectItem: AllStyle,
   selectItemText: AllStyle;
+  selectedItem: AllStyle;
+  selectedItemText: AllStyle;
   dropDownContent: AllStyle;
   disabledText: AllStyle;
   placeholderText: AllStyle;
@@ -42,7 +44,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       color: themeVariables.inputTextColor
     },
     checkIcon: {
-      icon: {
+      text: {
         fontSize: 24,
         color: themeVariables.primaryColor
       }
@@ -82,6 +84,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       color: themeVariables.selectItemTextColor,
       flex: 1
     },
+    selectedItem: {},
+    selectedItemText:{},
     placeholderText: {
       color: themeVariables.inputPlaceholderColor
     },
