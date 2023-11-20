@@ -74,13 +74,13 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
       }
   }
 
-  onSelect(data: any, event: any){
-    let value = event.slice.value;
-    let label = this.state.xaxisDatakeyArr[event.datum.x];
-    let selectedItem = {"name": label, "percentage": value}
-    let selectedChartItem = event.slice;
-    selectedChartItem["data"] = {x: label, y: value, color: event.style.fill, _dataObj: selectedItem}
-    this.invokeEventCallback('onSelect', [data.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+  onSelect(event: any, data: any){
+    let value = data.slice.value;
+    let label = this.state.xaxisDatakeyArr[data.datum.x];
+    let selectedItem = this.props.dataset[data.index];
+    let selectedChartItem = data.slice;
+    selectedChartItem["data"] = {x: label, y: value, color: data.style.fill, _dataObj: selectedItem}
+    this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
   }
 
   renderWidget(props: WmPieChartProps) {
