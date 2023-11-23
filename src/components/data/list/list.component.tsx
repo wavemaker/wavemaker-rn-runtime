@@ -1,6 +1,6 @@
 import React from 'react';
 import { SectionList, Text, View, TouchableWithoutFeedback, FlatList } from 'react-native';
-import { isArray, isNil, round } from 'lodash-es';
+import { isArray, isEmpty, isNil, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -116,7 +116,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         if (this.state.props.groupby) {
           this.setGroupData($new);
         } else {
-          const data = isArray($new) ? $new : (isDefined($new) ? [$new] : []);
+          const data = isArray($new) ? $new : (!isEmpty($new) && isDefined($new) ? [$new] : []);
           this.updateState({
             groupedData: (data[0] || props.direction === 'horizontal' ? [{
               key: '',
@@ -251,7 +251,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
     return (
     <View style={this.styles.root}>
-      {this.state.groupedData ? this.state.groupedData.map((v: any, i) => ((
+      {!isEmpty(this.state.groupedData) ? this.state.groupedData.map((v: any, i) => ((
           <View style={{marginBottom: 16}} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
             <FlatList
@@ -264,7 +264,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}> 
             </FlatList>
           </View>
-        ))) : null
+        ))) : this.renderEmptyMessage(isHorizontal, null, null,props)
       }
     </View>);
   }
