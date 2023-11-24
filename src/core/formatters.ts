@@ -19,10 +19,15 @@ export class DateToStringFormatter implements DateFormatter {
         }
         format = format.replace(/d/g, 'D');
         const _moment = moment(input, [
+            "M/D/YYYY", "M-D-YYYY", "M.D.YYYY",
+            "M/DD/YYYY", "M-DD-YYYY", "M.DD.YYYY",
+            "YYYY/M/D", "YYYY-M-D", "YYYY.M.D",
+            "MM/D/YYYY", "MM-D-YYYY", "MM.D.YYYY",
+            "M/D/YY", "M-D-YY", "M.D.YY", "D MMM YYYY",
             "MM/DD/YYYY", "MM-DD-YYYY", "MM.DD.YYYY",
             "YYYY/MM/DD", "YYYY-MM-DD", "YYYY.MM.DD",
-            "MM/DD/YY", "MM-DD-YY", "MM.DD.YY", "DD MMM YYYY",
-          ], true);
+            "MM/DD/YY", "MM-DD-YY", "MM.DD.YY", "DD MMM YYYY"
+        ], true);
         return _moment.isValid() ? _moment.format(format) : input.toString();
     }
 }
