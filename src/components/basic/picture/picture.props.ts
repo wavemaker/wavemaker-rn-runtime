@@ -1,4 +1,4 @@
-import { ImageResizeMode } from 'react-native';
+import { AccessibilityRole, ImageResizeMode } from 'react-native';
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export default class WmPictureProps extends BaseProps {
@@ -10,4 +10,7 @@ export default class WmPictureProps extends BaseProps {
   resizemode?: ImageResizeMode = 'stretch' as any;
   skeletonheight?: string = null as any;
   skeletonwidth?: string = null as any;
+  accessibilitylabel?: string = undefined;
+  hint?: string = undefined;
+  accessibilityrole?: AccessibilityRole = 'image';
 }

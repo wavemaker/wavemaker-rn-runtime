@@ -10,6 +10,7 @@ import {
   BaseNumberState
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
 import { isNull } from "lodash";
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
 export class WmCurrencyState extends BaseNumberState<WmCurrencyProps> {
   currencySymbol: any;
 }
@@ -43,6 +44,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
       <WMTextInput
         {...this.getTestPropsForInput()}
+        {...getAccessibilityProps(AccessibilityWidgetType.CURRENCY, props)}
         ref={(ref: any) => {
           this.widgetRef = ref;
           // @ts-ignore

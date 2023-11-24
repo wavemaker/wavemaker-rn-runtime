@@ -9,6 +9,7 @@ import {
   BaseNumberComponent,
   BaseNumberState
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmNumberState extends BaseNumberState<WmNumberProps> {
   keyboardType: any;
@@ -26,6 +27,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (<WMTextInput
       {...this.getTestPropsForInput()}
+      {...getAccessibilityProps(AccessibilityWidgetType.NUMBER, props)}
       ref={(ref: any) => {this.widgetRef = ref;
         // @ts-ignore
         if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
