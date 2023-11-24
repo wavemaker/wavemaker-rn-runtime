@@ -356,3 +356,135 @@ export const isFullPathUrl = (url: string) => {
   || url.startsWith('https:') 
   || url.startsWith('file:'));
 };
+
+export enum AccessibilityWidgetType {
+  BUTTON = 'button',
+  PICTURE = 'picture',
+  TEXT = 'text',
+  NUMBER = 'number',
+  TEXTAREA = 'textarea',
+  SELECT = 'select',
+  CHIPS = 'chips',
+  CURRENCY = 'currency',
+  RADIOSET = 'radioset',
+};
+
+export type AccessibilityPropsType = {
+  accessible?: boolean;
+  accessibilityLabel?: string;
+  accessibilityLabelledBy?: string;
+  accessibilityHint?: string;
+  accessibilityRole?: 'button' | 'link' | 'header' | 'search' | 'image' | 'imagebutton' | 'none' | 'summary' | 'text';
+  accessibilityState?: {
+    disabled?: boolean;
+    selected?: boolean;
+    checked?: boolean;
+    expanded?: boolean;
+  };
+  accessibilityValue?: {
+    min?: number;
+    max?: number;
+    now?: number;
+    text?: string;
+  };
+  accessibilityActions?: Array<{
+    name: string;
+    label?: string;
+  }>;
+  accessibilityLiveRegion?: 'none' | 'polite' | 'assertive';
+  accessibilityLanguage?: any;
+  accessibilityElementsHidden?: boolean;
+  accessibilityViewIsModal?: boolean;
+};
+
+export function removeUndefinedKeys(obj: any) {
+  for (const key in obj) {
+    if (obj[key] === undefined) {
+      delete obj[key];
+    } else if (typeof obj[key] === 'object') {
+      // * if the value is an object, recursively call the function
+      removeUndefinedKeys(obj[key]);
+    }
+  }
+
+  return obj;
+}
+
+export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, accessibilityProps: AccessibilityPropsType | any) => {
+  let props: AccessibilityPropsType = {accessible: true};
+
+  switch (widgetType) {
+    case AccessibilityWidgetType.BUTTON:
+    case AccessibilityWidgetType.TEXT:
+    case AccessibilityWidgetType.NUMBER:
+    case AccessibilityWidgetType.TEXTAREA:
+    case AccessibilityWidgetType.SELECT:
+    case AccessibilityWidgetType.CURRENCY:
+    case AccessibilityWidgetType.PICTURE: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel;
+      props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole;
+
+      if (
+        widgetType === AccessibilityWidgetType.BUTTON ||
+        widgetType === AccessibilityWidgetType.TEXT ||
+        widgetType === AccessibilityWidgetType.NUMBER ||
+        widgetType === AccessibilityWidgetType.TEXTAREA ||
+        widgetType === AccessibilityWidgetType.SELECT
+      ) {
+        props.accessibilityState = { disabled: accessibilityProps.disabled };
+      }
+      if (
+        (widgetType === AccessibilityWidgetType.TEXT ||
+          widgetType === AccessibilityWidgetType.NUMBER ||
+          widgetType === AccessibilityWidgetType.TEXTAREA ||
+          widgetType === AccessibilityWidgetType.SELECT ||
+          widgetType === AccessibilityWidgetType.CURRENCY) &&
+        isAndroid()
+      ) {
+        props.accessibilityLabelledBy =
+          accessibilityProps.accessibilitylabelledby;
+      }
+      if (
+        widgetType === AccessibilityWidgetType.NUMBER ||
+        widgetType === AccessibilityWidgetType.CURRENCY
+      ) {
+        props.accessibilityValue = {
+          min: accessibilityProps.minvalue,
+          max: accessibilityProps.maxvalue,
+        };
+      }
+      if (widgetType === AccessibilityWidgetType.SELECT) {
+        props.accessibilityState = {
+          ...props.accessibilityState,
+          expanded: accessibilityProps.expanded,
+        };
+      }
+      break;
+    }
+
+    case AccessibilityWidgetType.CHIPS: {
+      props.accessibilityState = {
+        disabled: accessibilityProps.disabled,
+        selected: accessibilityProps.selected,
+      };
+      break;
+    }
+
+    case AccessibilityWidgetType.RADIOSET: {
+      props.accessibilityState = {
+        disabled: accessibilityProps.disabled,
+        selected: accessibilityProps.selected,
+      };
+      break;
+    }
+
+    default:
+      break;
+  }
+
+  const finalProps = removeUndefinedKeys(props);
+  console.log('finalProps', finalProps)
+
+  return finalProps;
+}

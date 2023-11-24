@@ -1,3 +1,4 @@
+import {AccessibilityRole} from "react-native";
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export default class BaseDatasetProps extends BaseProps {
@@ -18,4 +19,8 @@ export default class BaseDatasetProps extends BaseProps {
   displayimagesrc: any;
   iconclass?: any;
   triggerValidation?: any;
+  accessibilitylabel?: string = undefined;
+  hint?: string = undefined;
+  accessibilityrole?: AccessibilityRole = "none";
+  accessibilitylabelledby?: string = undefined;
 }
