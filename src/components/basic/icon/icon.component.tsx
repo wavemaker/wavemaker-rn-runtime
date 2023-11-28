@@ -2,6 +2,7 @@ import React from 'react';
 import { Animated, DimensionValue, Easing, Text } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
 
 import WmIconProps from './icon.props';
 import { DEFAULT_CLASS, WmIconStyles } from './icon.styles';
@@ -148,6 +149,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     if (props.show && iconDef && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
       icon = (<FontAwesome name={customIcon ? '' : iconDef.type}
+        
         style={style}
         size={iconSize}>
           {customIcon}
@@ -189,7 +191,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     let iterationCount: any = props.iterationcount ? (props.iterationcount != 'infinite' ? parseInt(props.iterationcount): 'infinite') : undefined;
     return (
       <Tappable target={this}  {...this.getTestPropsForAction()}>
-        <Animatedview entryanimation={props.animation} style={this.styles.root} iterationCount={iterationCount}>
+        <Animatedview entryanimation={props.animation} style={this.styles.root} iterationCount={iterationCount} {...getAccessibilityProps(AccessibilityWidgetType.ICON, props)}>
           {this._background}
           {(props.iconposition === 'left' && icon) || null}
           {(props.caption && (<Text {...this.getTestPropsForLabel('caption')}style={this.styles.text}>{props.caption}</Text>)) || null}

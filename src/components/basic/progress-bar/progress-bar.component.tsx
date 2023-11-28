@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
 
 import WmProgressBarProps from './progress-bar.props';
 import { DEFAULT_CLASS, WmProgressBarStyles } from './progress-bar.styles';
@@ -24,7 +25,7 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
       {this._background}
       <Tappable {...this.getTestPropsForAction()} target={this} styles={{root:{width: '100%', height: '100%'}}}>
         <ProgressBar
-          testID={this.getTestId('progressbar')}
+          {...getAccessibilityProps(AccessibilityWidgetType.PROGRESSBAR, props)}
           progress={value}
           color={styles.progressValue.color}
           style={[styles.progressBar, {height: styles.root.height || styles.progressBar.height}]}></ProgressBar>

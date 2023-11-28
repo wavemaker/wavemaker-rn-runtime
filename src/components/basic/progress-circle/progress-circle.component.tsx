@@ -4,6 +4,7 @@ import { isNumber } from 'lodash';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
 
 import WmProgressCircleProps from './progress-circle.props';
 import { DEFAULT_CLASS, WmProgressCircleStyles } from './progress-circle.styles';
@@ -47,6 +48,7 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
       {this._background}
       <Tappable {...this.getTestPropsForAction()} target={this} styles={{root:{width: '100%', height: '100%'}}}>
         <AnimatedCircularProgress
+          {...getAccessibilityProps(AccessibilityWidgetType.PROGRESSBAR, props)}
           fill={value}
           width={styles.progressValue.height}
           backgroundWidth={styles.progressValue.height}
