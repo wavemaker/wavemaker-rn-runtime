@@ -7,6 +7,7 @@ import { DEFAULT_CLASS, WmSwitchStyles } from './switch.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseDatasetComponent, BaseDatasetState } from '../basedataset/basedataset.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmSwitchState extends BaseDatasetState<WmSwitchProps> {}
 
@@ -52,6 +53,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     return (
       <Tappable 
         {...this.getTestPropsForAction(index + '')}
+        {...getAccessibilityProps(AccessibilityWidgetType.SWITCH, {...this.state.props, selected: isSelected})}
         onTap={this.state.props.disabled ? undefined : this.onTap.bind(this, null, item)}
         styles={[
           this.styles.button,

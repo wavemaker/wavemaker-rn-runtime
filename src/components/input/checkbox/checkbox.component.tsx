@@ -3,7 +3,7 @@ import { Text, TouchableOpacity } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
+import {AccessibilityWidgetType, getAccessibilityProps, unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmCheckboxProps from './checkbox.props';
 import { DEFAULT_CLASS, WmCheckboxStyles } from './checkbox.styles';
@@ -76,8 +76,8 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
     return (
       <TouchableOpacity {...this.getTestPropsForAction()} style={this.styles.root} onPress={this.onPress.bind(this)}>
           {this._background}
-          <Checkbox.Android status={this.state.isChecked ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
-          <Text {...this.getTestPropsForLabel()} style={this.styles.checkboxLabel}>{props.caption}</Text>
+          <Checkbox.Android status={this.state.isChecked ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {...props, checked: this.state.isChecked})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${props.caption}`} />
+          <Text {...this.getTestPropsForLabel()} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {...props, checked: this.state.isChecked})} style={this.styles.checkboxLabel}>{props.caption}</Text>
       </TouchableOpacity>
     );
   }

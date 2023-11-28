@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
+import {AccessibilityWidgetType, getAccessibilityProps, unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmToggleProps from './toggle.props';
 import { DEFAULT_CLASS, WmToggleStyles } from './toggle.styles';
@@ -66,6 +66,7 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     return (
       <TouchableOpacity 
         {...this.getTestPropsForAction()}
+        {...getAccessibilityProps(AccessibilityWidgetType.TOGGLE, {...this.props, selected: this.state.isSwitchOn})}
         style={styles.root} onPress={() => {
         if (this.props.disabled) {
           return;
