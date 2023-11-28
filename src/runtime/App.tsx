@@ -13,6 +13,7 @@ import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
+import ConstantService from '@wavemaker/app-rn-runtime/core/constant.service';
 import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
@@ -85,6 +86,7 @@ class DrawerImpl implements Drawer {
 }
 const SUPPORTED_SERVICES = {
   Utils: Utils,
+  CONSTANTS: ConstantService,
   StorageService: StorageService,
   AppDisplayManagerService: AppDisplayManagerService
 };
@@ -157,7 +159,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   subscribe(event: string, fn: Function) {
     return this.eventNotifier.subscribe(event, fn);
   }
-  
+
   notify(event: string, ...args: any) {
     return this.eventNotifier.notify(event, args);
   }
@@ -199,7 +201,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   invokeNativeApi(key: string, data: Object) {
-    if (NativeModulesProxy.EmbedCommModule 
+    if (NativeModulesProxy.EmbedCommModule
         && (Platform.OS === 'android' || Platform.OS === 'ios')) {
         return NativeModulesProxy.EmbedCommModule.sendToNative(key, data || {});
     } else {
@@ -453,7 +455,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 (<SafeAreaView  style={{flex: 1}}>
                   <StatusBar />
                   <FixedViewContainer>
-                  <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} 
+                  <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}
                   style={{ flex: 1 }}>
                     <View style={styles.container}>
                       <AppNavigator
