@@ -1,5 +1,5 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
-
+import { AccessibilityRole } from 'react-native';
 export default class WmAnchorProps extends BaseProps {
     animation?: string = null as any;
     caption? = 'Link';
@@ -14,4 +14,7 @@ export default class WmAnchorProps extends BaseProps {
     onTap?: any;
     skeletonwidth?: number;
     skeletonheight?: number;
+    accessibilitylabel?: string = undefined;
+    hint?: string = undefined;
+    accessibilityrole?: AccessibilityRole = 'link';
 }

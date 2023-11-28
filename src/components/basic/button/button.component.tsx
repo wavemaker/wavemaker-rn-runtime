@@ -78,7 +78,10 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             {props.caption ? (
               <Text
                 style={this.styles.text}
-                {...this.getTestPropsForLabel('caption')}>
+                {...this.getTestPropsForLabel('caption')}
+                // accessible={false}
+                // accessibilityLabel={`${props.caption}`}
+              >
                 {props.caption}
               </Text>
             ) : null}

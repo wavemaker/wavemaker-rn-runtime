@@ -5,6 +5,7 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
 import WmLabelProps from './label.props';
 import { DEFAULT_CLASS, WmLabelStyles } from './label.styles';
 import { isNil, toString } from 'lodash-es';
@@ -133,6 +134,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
                         part.link && navigationService.openUrl(part.link, '_blank');
                       }
                     }: {}}
+                    {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
                   >
                     {toString(part.text)}
                     {props.required && this.getAsterisk()}
