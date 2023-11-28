@@ -4,7 +4,7 @@ import { Badge } from 'react-native-paper';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { TapEvent, Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
-import { encodeUrl } from '@wavemaker/app-rn-runtime/core/utils';
+import { encodeUrl, AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
 import WmAnchorProps from './anchor.props';
@@ -59,7 +59,9 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
               {this._background}
               {props.iconposition === 'top' && icon}
               {props.iconposition === 'left' && icon}
-              {props.caption ? (<Text {...this.getTestPropsForLabel('caption')} style={this.styles.text}>{props.caption}</Text>) : null}
+              {props.caption ? (<Text style={this.styles.text}
+              {...getAccessibilityProps(AccessibilityWidgetType.ANCHOR, props)}
+              >{props.caption}</Text>) : null}
               {props.iconposition === 'right' && icon}
               {badge}
             </Tappable>

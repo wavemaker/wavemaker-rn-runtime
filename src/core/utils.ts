@@ -350,6 +350,14 @@ export enum AccessibilityWidgetType {
   CHIPS = 'chips',
   CURRENCY = 'currency',
   RADIOSET = 'radioset',
+  VIDEO = 'video',
+  PROGRESSBAR = 'progressbar',
+  PROGRESSCIRCLE = 'progresscircle',
+  LABEL = 'label',
+  ANCHOR = 'anchor',
+  MESSAGE = 'message',
+  SEARCH = 'search',
+  ICON = 'icon'
 };
 
 export type AccessibilityPropsType = {
@@ -357,7 +365,7 @@ export type AccessibilityPropsType = {
   accessibilityLabel?: string;
   accessibilityLabelledBy?: string;
   accessibilityHint?: string;
-  accessibilityRole?: 'button' | 'link' | 'header' | 'search' | 'image' | 'imagebutton' | 'none' | 'summary' | 'text';
+  accessibilityRole?: 'button' | 'link' | 'header' | 'search' | 'image' | 'imagebutton' | 'none' | 'summary' | 'text' | 'progressbar' | 'grid' | 'alert';
   accessibilityState?: {
     disabled?: boolean;
     selected?: boolean;
@@ -403,7 +411,13 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.TEXTAREA:
     case AccessibilityWidgetType.SELECT:
     case AccessibilityWidgetType.CURRENCY:
-    case AccessibilityWidgetType.PICTURE: {
+    case AccessibilityWidgetType.LABEL:
+    case AccessibilityWidgetType.ANCHOR:
+    case AccessibilityWidgetType.MESSAGE:    
+    case AccessibilityWidgetType.SEARCH: 
+    case AccessibilityWidgetType.PICTURE: 
+    case AccessibilityWidgetType.ICON:
+    case AccessibilityWidgetType.VIDEO:{
       props.accessibilityLabel = accessibilityProps.accessibilitylabel;
       props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityRole = accessibilityProps.accessibilityrole;
@@ -447,6 +461,8 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     }
 
     case AccessibilityWidgetType.CHIPS: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel
+      props.accessibilityHint = accessibilityProps.hint
       props.accessibilityState = {
         disabled: accessibilityProps.disabled,
         selected: accessibilityProps.selected,
@@ -461,7 +477,12 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
       };
       break;
     }
-
+    case AccessibilityWidgetType.PROGRESSBAR:
+    case AccessibilityWidgetType.PROGRESSCIRCLE: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel;
+      props.accessibilityRole = accessibilityProps.accessibilityrole;
+      break;
+    }
     default:
       break;
   }
