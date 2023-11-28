@@ -14,6 +14,7 @@ import {
   BaseDatasetState,
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {
   isValid: boolean = true;
@@ -54,8 +55,8 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
       <TouchableOpacity {...this.getTestPropsForAction(index + '')}
         style={[this.styles.item, item.selected ? this.styles.checkedItem : null]}
         onPress={this.onPress.bind(this, item)} key={item.key}>
-        <Checkbox.Android status={item.selected  ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
-        <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.checkboxLabel}>{displayText}</Text>
+        <Checkbox.Android status={item.selected  ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {...props, checked: item.selected})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${displayText}`}/>
+        <Text {...this.getTestPropsForLabel(index + '')} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {...props, checked: item.selected})} style={this.styles.checkboxLabel}>{displayText}</Text>
       </TouchableOpacity>)
   }
 

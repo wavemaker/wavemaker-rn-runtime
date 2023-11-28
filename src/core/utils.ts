@@ -367,6 +367,10 @@ export enum AccessibilityWidgetType {
   CHIPS = 'chips',
   CURRENCY = 'currency',
   RADIOSET = 'radioset',
+  CHECKBOX = 'checkbox',
+  TOGGLE = 'toggle',
+  SWITCH = 'switch',
+  DATE = 'date',
 };
 
 export type AccessibilityPropsType = {
@@ -420,6 +424,8 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.TEXTAREA:
     case AccessibilityWidgetType.SELECT:
     case AccessibilityWidgetType.CURRENCY:
+    case AccessibilityWidgetType.TOGGLE:
+    case AccessibilityWidgetType.DATE:
     case AccessibilityWidgetType.PICTURE: {
       props.accessibilityLabel = accessibilityProps.accessibilitylabel;
       props.accessibilityHint = accessibilityProps.hint;
@@ -430,7 +436,9 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
         widgetType === AccessibilityWidgetType.TEXT ||
         widgetType === AccessibilityWidgetType.NUMBER ||
         widgetType === AccessibilityWidgetType.TEXTAREA ||
-        widgetType === AccessibilityWidgetType.SELECT
+        widgetType === AccessibilityWidgetType.SELECT ||
+        widgetType === AccessibilityWidgetType.TOGGLE ||
+        widgetType === AccessibilityWidgetType.DATE
       ) {
         props.accessibilityState = { disabled: accessibilityProps.disabled };
       }
@@ -439,7 +447,8 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
           widgetType === AccessibilityWidgetType.NUMBER ||
           widgetType === AccessibilityWidgetType.TEXTAREA ||
           widgetType === AccessibilityWidgetType.SELECT ||
-          widgetType === AccessibilityWidgetType.CURRENCY) &&
+          widgetType === AccessibilityWidgetType.CURRENCY ||
+          widgetType === AccessibilityWidgetType.TOGGLE) &&
         isAndroid()
       ) {
         props.accessibilityLabelledBy =
@@ -460,6 +469,12 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
           expanded: accessibilityProps.expanded,
         };
       }
+      if (widgetType === AccessibilityWidgetType.TOGGLE) {
+        props.accessibilityState = {
+          ...props.accessibilityState,
+          selected: accessibilityProps.selected,
+        };
+      }
       break;
     }
 
@@ -472,6 +487,22 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     }
 
     case AccessibilityWidgetType.RADIOSET: {
+      props.accessibilityState = {
+        disabled: accessibilityProps.readonly || accessibilityProps.disabled,
+        selected: accessibilityProps.selected,
+      };
+      break;
+    }
+
+    case AccessibilityWidgetType.CHECKBOX: {
+      props.accessibilityState = {
+        disabled: accessibilityProps.readonly ||  accessibilityProps.disabled,
+        checked: accessibilityProps.checked,
+      };
+      break;
+    }
+
+    case AccessibilityWidgetType.SWITCH: {
       props.accessibilityState = {
         disabled: accessibilityProps.disabled,
         selected: accessibilityProps.selected,

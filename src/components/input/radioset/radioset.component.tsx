@@ -39,7 +39,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
             value={value}
             color={this.styles.root.color as string}
             uncheckedColor={this.styles.root.color as string}
-            {...getAccessibilityProps(AccessibilityWidgetType.CURRENCY, {...this.state.props, selected: this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield})}
+            {...getAccessibilityProps(AccessibilityWidgetType.RADIOSET, {...this.state.props, selected: this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield})}
             accessibilityLabel={`Radio button for ${displayText}`}
             disabled={this.state.props.readonly || this.state.props.disabled}
           />

@@ -3,7 +3,7 @@ import { TouchableOpacity, Animated, Easing, LayoutChangeEvent } from 'react-nat
 
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
+import {AccessibilityWidgetType, getAccessibilityProps, unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmToggleProps from './toggle.props';
 import { DEFAULT_CLASS, WmToggleStyles } from './toggle.styles';
@@ -98,6 +98,7 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
       onLayout={(e) => {
         this.onLayoutChange(e);
       }}
+      {...getAccessibilityProps(AccessibilityWidgetType.TOGGLE, {...this.props, selected: this.state.isSwitchOn})}
       onPress={() => {
         if (this.props.disabled) {
           return;
