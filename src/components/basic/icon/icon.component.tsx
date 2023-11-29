@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, DimensionValue, Easing, Text } from 'react-native';
+import { Animated, DimensionValue, Easing, Text, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
@@ -183,15 +183,21 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     } else {
       this.stopAnimation = true;
     }
-    return icon;
+    return (
+      <View
+        {...getAccessibilityProps(AccessibilityWidgetType.ICON, this.props)}
+      >
+        {icon}
+      </View>
+    );
   }
 
   renderWidget(props: WmIconProps) {
     let icon = this.renderIcon(props);
     let iterationCount: any = props.iterationcount ? (props.iterationcount != 'infinite' ? parseInt(props.iterationcount): 'infinite') : undefined;
     return (
-      <Tappable target={this}  {...this.getTestPropsForAction()}>
-        <Animatedview entryanimation={props.animation} style={this.styles.root} iterationCount={iterationCount} {...getAccessibilityProps(AccessibilityWidgetType.ICON, props)}>
+      <Tappable target={this} {...this.getTestPropsForAction()}>
+        <Animatedview entryanimation={props.animation} style={this.styles.root} iterationCount={iterationCount}>
           {this._background}
           {(props.iconposition === 'left' && icon) || null}
           {(props.caption && (<Text {...this.getTestPropsForLabel('caption')}style={this.styles.text}>{props.caption}</Text>)) || null}
