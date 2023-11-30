@@ -11,6 +11,8 @@ import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/char
 
 import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, BaseChartComponentStyles} from "./basechart.styles";
+import _ from "lodash";
+
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -111,17 +113,28 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
 
   // x axis with vertical lines having grid stroke colors
   getXaxis() {
-    if (this.props.showxaxis === false) {
-      return null;
+    const minIndex = 0;
+    const maxIndex = this.state.xaxisDatakeyArr.length - 1;
+    const getTickValueLabel = this.props.xtickexpr as any;
+    let labels = [];
+    if(getTickValueLabel){
+      labels = this.props.dataset.map((d: any,i: number)=>getTickValueLabel(d,i));
     }
-    return <VictoryAxis crossAxis label={(this.props.xaxislabel || this.props.xaxisdatakey) + (this.props.xunits ? `(${this.props.xunits})` : '')}
+    return <VictoryAxis crossAxis label={(this.props.xaxislabel || this.props.xaxisdatakey || "name") + (this.props.xunits ? `(${this.props.xunits})` : '')}
                         style={{
-                          grid: this.styles.grid
+                          grid: this.props.hidegridxaxis?{stroke: null}: this.styles.grid,
+                          axis: {stroke: this.props.showxaxis === false? 'none': '#000000'}
                         }}
-                        fixLabelOverlap={true}
+                        fixLabelOverlap= {this.props.autoadjustlabels?true:false}
                         tickLabelComponent={<VictoryLabel angle={this.props.labelangle || 0} />} theme={this.state.theme}
-                        tickFormat={(d) => `${this.state.xaxisDatakeyArr.length ? this.state.xaxisDatakeyArr[d] : d}`}/>;
-  }
+                        tickCount={this.state.xaxisDatakeyArr.length} 
+                        invertAxis={this.isRTL}
+                        tickValues={labels}
+                        tickFormat={(d) => `${this.state.xaxisDatakeyArr[d] ? this.state.xaxisDatakeyArr[d]: ''}`}
+                        />;                    
+}            
+
+
   /* y axis with horizontal lines having grid stroke colors*/
   getYAxis() {
     if (this.props.showyaxis === false) {
@@ -130,11 +143,18 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     return <VictoryAxis crossAxis label={(this.props.yaxislabel || this.props.yaxisdatakey) + (this.props.yunits ? `(${this.props.yunits})` : '')}
                         style={{
                           axisLabel: {padding: this.props.yaxislabeldistance},
-                          grid: this.styles.grid
+                          grid: this.props.hidegridyaxis ? { stroke: null } : {
+                            stroke: 'red',
+                            strokeDasharray: '24, 1'
+                          },
+                          axis: {stroke: this.props.showyaxis === false? 'none': '#000000'},
                         }}
+                        fixLabelOverlap= {this.props.autoadjustlabels?true:false}
                         theme={this.state.theme}
                         tickFormat={(t) => `${this.abbreviateNumber(t)}`} dependentAxis />;
   }
+  
+ 
 
   // X/Y Domain properties are supported only for Column and Area charts
   isAxisDomainSupported(type: string) {
@@ -192,7 +212,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     }
     const xValues: any = {};
     /*
-     compute the min x value
+     compute the min x valuex
      eg: When data has objects
         input: [{x:1, y:2}, {x:2, y:3}, {x:3, y:4}]
         min x: 1

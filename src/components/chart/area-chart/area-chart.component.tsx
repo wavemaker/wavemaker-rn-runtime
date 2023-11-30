@@ -1,7 +1,7 @@
 import React from 'react';
-import { LayoutChangeEvent, View } from 'react-native';
+import { LayoutChangeEvent, View, Text } from 'react-native';
 import { Defs, LinearGradient, Stop, Svg } from 'react-native-svg';
-import { VictoryArea, VictoryChart, VictoryLegend, VictoryStack, VictoryScatter, VictoryGroup } from "victory-native";
+import { VictoryArea, VictoryLine, VictoryChart, VictoryLegend, VictoryStack, VictoryScatter, VictoryGroup } from "victory-native";
 import { InterpolationPropType } from 'victory-core';
 import WmAreaChartProps from './area-chart.props';
 import { DEFAULT_CLASS, WmAreaChartStyles } from './area-chart.styles';
@@ -9,6 +9,7 @@ import {
   BaseChartComponent,
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> {
   chartWidth = 0;
@@ -47,7 +48,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
             theme={this.state.theme}
             height={this.styles.root.height as number}
             width={this.state.chartWidth || 120}
-            padding={{ top: 70, bottom: 50, left: 50, right: 50 }}
+            padding={{ top: 70, bottom: 50, left: 50, right: 30 }}
             minDomain={mindomain}
           > 
             <VictoryLegend
@@ -78,19 +79,21 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                     style={{
                       data: {
                         fill: `url(#${chartName}Gradient${i})`,
-                        stroke: this.state.colors[i]
+                        stroke: 'green',
+                        strokeWidth: 5,
                       }
                     }}
                     data={d}
                   />
-                  {props.highlightpoints ?
+                  {props.highlightpoints || this.state.data.length === 1?
                     <VictoryScatter
                       size={5}
                       key={props.name + '_scatter' + i}
                       style={{
-                        data: { fill: this.state.colors[i], opacity: 0.8}
-                      }}
-                      data={d}/>
+                        data: { fill: 'black', opacity: 0.8}
+                      }}        
+                      data={d}
+                      />
                   : null}
                 </VictoryGroup>
               })
