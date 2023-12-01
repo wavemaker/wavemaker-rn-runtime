@@ -447,7 +447,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.POVOVER:
     case AccessibilityWidgetType.WEBVIEW:
     case AccessibilityWidgetType.VIDEO: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel;
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
       props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityRole = accessibilityProps.accessibilityrole;
 

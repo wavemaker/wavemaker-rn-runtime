@@ -8,7 +8,6 @@ import WmFileuploadProps from './fileupload.props';
 import { DEFAULT_CLASS, WmFileuploadStyles } from './fileupload.styles';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 
-
 export interface SelectFileOutput {
   mimeType: string;
   name: string;
@@ -55,7 +54,7 @@ export default class WmFileupload extends BaseComponent<WmFileuploadProps, WmFil
   renderWidget(props: WmFileuploadProps) {
     return <View style={this.styles.root}>
       {this._background}
-      <WmButton id={this.getTestId()} iconclass={props.iconclass} caption={props.caption} styles={this.styles.button} iconsize={props.iconsize} onTap={this.onTap.bind(this)}></WmButton>
+      <WmButton accessibilitylabel={props.accessibilitylabel || props.caption} hint = {props.hint} id={this.getTestId()} iconclass={props.iconclass} caption={props.caption} styles={this.styles.button} iconsize={props.iconsize} onTap={this.onTap.bind(this)}></WmButton>
     </View>
   }
 }
