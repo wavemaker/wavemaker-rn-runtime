@@ -1,5 +1,6 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 import React from 'react';
+import { AccessibilityRole } from 'react-native';
 
 export default class WmPopoverProps extends BaseProps {
   animation?: string = null as any;
@@ -15,4 +16,7 @@ export default class WmPopoverProps extends BaseProps {
   renderPartial?: Function = null as any;
   title?: string = null as any;
   type?: 'action-sheet' | 'dropdown' = 'action-sheet';
+  accessibilitylabel?: string = undefined;
+  hint?: string = undefined;
+  accessibilityrole?: AccessibilityRole = "none";
 }

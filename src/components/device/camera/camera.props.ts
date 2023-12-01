@@ -1,4 +1,5 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { AccessibilityRole } from 'react-native';
 
 export default class WmCameraProps extends BaseProps {
   allowedit: boolean = false;
@@ -11,4 +12,7 @@ export default class WmCameraProps extends BaseProps {
   imagetargetheight: number = null as any;
   datavalue: any;
   localFilePath: string = '';
+  accessibilitylabel?: string = undefined;
+  hint?: string = undefined;
+  accessibilityrole?: AccessibilityRole = "imagebutton";
 }

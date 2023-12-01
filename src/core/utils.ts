@@ -361,7 +361,10 @@ export enum AccessibilityWidgetType {
   ANCHOR = 'anchor',
   MESSAGE = 'message',
   SEARCH = 'search',
-  ICON = 'icon'
+  ICON = 'icon',
+  NAV = 'nav',
+  POVOVER = 'popover',
+  WEBVIEW = 'webview',
 };
 
 export type AccessibilityPropsType = {
@@ -424,6 +427,9 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.SEARCH:
     case AccessibilityWidgetType.PICTURE:
     case AccessibilityWidgetType.ICON:
+    case AccessibilityWidgetType.NAV:
+    case AccessibilityWidgetType.POVOVER:
+    case AccessibilityWidgetType.WEBVIEW:
     case AccessibilityWidgetType.VIDEO: {
       props.accessibilityLabel = accessibilityProps.accessibilitylabel;
       props.accessibilityHint = accessibilityProps.hint;
