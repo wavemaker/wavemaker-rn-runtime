@@ -7,6 +7,7 @@ export default class AnimatedviewProps {
   entryanimation?: string = null as any;
   children?: any;
   duration?: number = null as any;
+  iterationCount?:any;
   style?: any;
   exitanimation?: string = null as any;
 }
@@ -50,6 +51,38 @@ const AnimationMap: any = {
 };
 
 const CustomAnimationMap: any = {
+  flipInY: {
+    0: {
+        transform: [{rotateY: "0deg"}]
+    },
+    1: {
+        transform: [{rotateY: "360deg"}]
+    }
+  },
+  flipInX: {
+    0: {
+        transform: [{rotateX: "0deg"}]
+    },
+    1: {
+        transform: [{rotateX: "360deg"}]
+    }
+  },
+  flipOutY: {
+    0: {
+        transform: [{rotateY: "3600deg"}]
+    },
+    1: {
+        transform: [{rotateY: "0deg"}]
+    }
+  },
+  flipOutX: {
+    0: {
+        transform: [{rotateX: "360deg"}]
+    },
+    1: {
+        transform: [{rotateX: "0deg"}]
+    }
+  },
   slideInDown : {
     from: { translateY: -20 },
     to: { translateY: 0 }
@@ -121,6 +154,7 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
        duration={this.props.duration}
        useNativeDriver={true}
        style={this.props.style}
+       iterationCount={this.props.iterationCount}
        ref={this.handleViewRef}>
         {this.props.children}
       </Animatable.View>

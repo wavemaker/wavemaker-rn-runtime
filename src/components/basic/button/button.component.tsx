@@ -21,8 +21,9 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
   }
 
   private prepareIcon(props: any) {
-    return (<WmIcon
-      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass} iconsize={props.iconsize}></WmIcon>);
+    return (props.iconclass? <WmIcon
+      {...this.getTestPropsForLabel('icon')}
+      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass} iconsize={props.iconsize}></WmIcon>: null);
   }
 
   private prepareBadge(props: any) {
@@ -42,11 +43,12 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
     return (
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
         {this._background}
-        <Tappable target={this}>
+        <Tappable target={this} {...this.getTestPropsForAction()}>
           <View style={[this.styles.content, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
             {props.iconposition === 'top' && this.prepareIcon(props)}
             {props.iconposition === 'left' && this.prepareIcon(props)}
-            {props.caption ? (<Text style={this.styles.text}>{props.caption}</Text>): null}
+            {props.caption ? (<Text style={this.styles.text} 
+              {...this.getTestPropsForLabel('caption')}>{props.caption}</Text>): null}
             {props.iconposition === 'right' && this.prepareIcon(props)}
             {props.badgevalue && this.prepareBadge(props)}
           </View>

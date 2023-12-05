@@ -33,10 +33,11 @@ export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<Wm
     super(props, DEFAULT_CLASS, new WmMenuProps(), new WmMenuState());
   }
 
-  renderMenuItem(item: NavigationDataItem) {
+  renderMenuItem(item: NavigationDataItem, index: number) {
     const getDisplayLabel = this.props.getDisplayExpression || ((label: string) => label);
     return (
       <WmAnchor
+        id={this.getTestId('menuitem' + index)}
         iconclass={item.icon as string}
         caption={getDisplayLabel(item.label)}
         hyperlink={item.link}
@@ -51,7 +52,9 @@ export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<Wm
   renderWidget(props: WmMenuProps) {
     const menuItems = this.state.dataItems;
     return (
-      <WmPopover styles={this.styles}
+      <WmPopover 
+        id={this.getTestId('menu')}
+        styles={this.styles}
         contentanimation={animationMap[props.animateitems || 'scale']}
         caption={props.caption}
         iconclass={props.iconclass}
@@ -61,9 +64,9 @@ export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<Wm
         iconposition="right"
         type='dropdown'>
           <View style={this.styles.menu}>
-            {menuItems.map(item => (
+            {menuItems.map((item, index) => (
               <View key={item.key}>
-                {this.renderMenuItem(item)}
+                {this.renderMenuItem(item, index)}
               </View>
             ))}
           </View>

@@ -1,11 +1,12 @@
 import { BaseComponent } from "@wavemaker/app-rn-runtime/core/base.component";
 import React from "react";
-import { GestureResponderEvent, View } from "react-native";
+import { GestureResponderEvent, Platform, View } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { get } from "lodash";
 import injector from "./injector";
 
 interface TappableProps {
+    testID?: string;
     children?: any
     styles?: any;
     target?: BaseComponent<any, any, any>;
@@ -54,9 +55,12 @@ export class Tappable extends React.Component<TappableProps, any> {
                     target?.invokeEventCallback('onDoubletap', [syntheticEvent, target]);
                 }, 200);
             }
-            this.props.onTap && this.props.onTap(e || syntheticEvent);
             setTimeout(() => {
-                target?.invokeEventCallback('onTap', [syntheticEvent, target]);
+                if (this.props.onTap) {
+                    this.props.onTap(e || syntheticEvent);
+                } else {
+                    target?.invokeEventCallback('onTap', [syntheticEvent, target]);
+                }
             }, 200);
         }
     }
@@ -78,7 +82,15 @@ export class Tappable extends React.Component<TappableProps, any> {
             || this.props.onLongTap 
             || this.props.onDoubleTap) {
             return (
-                <TouchableOpacity disabled={get(target?.proxy, 'disabled')}
+                <TouchableOpacity 
+                    {...(Platform.OS === 'android' || Platform.OS === 'web') ? {
+                        accessibilityLabel: this.props.testID,
+                        testID: this.props.testID
+                    }: {
+                        accessible: false,
+                        testID: this.props.testID
+                    }} 
+                    disabled={get(target?.proxy, 'disabled')}
                     style={this.props.styles}
                     onPress={() => this.onPress()}
                     onLongPress={() => this.onLongTap()}>

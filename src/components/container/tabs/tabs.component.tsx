@@ -176,6 +176,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         {this._background}
         <View onLayout={this.setTabLayout.bind(this)} style={{width: '100%'}}></View>
         <WmTabheader
+          id={this.getTestId('headers')}
           styles={this.styles.tabHeader}
           data={headerData}
           selectedTabIndex={this.state.selectedTabIndex}

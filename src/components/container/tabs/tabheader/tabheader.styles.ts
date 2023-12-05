@@ -29,9 +29,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         text: {},
         header: {
             backgroundColor: themeVariables.tabHeaderBgColor,
-            paddingHorizontal: 12,
+            paddingTop: 16,
+            paddingBottom: 16,
             paddingVertical: 12,
             minWidth: 80,
+            minHeight:48,
             flexDirection: 'row',
             justifyContent: 'center',
             flexGrow: 1
@@ -39,15 +41,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         headerIcon: {
             text: {
                 color: themeVariables.tabHeaderIconColor
-            }
+            },
+            icon: {
+                fontSize : 24
+             }
         } as WmIconStyles,
         headerText: {
             color: themeVariables.tabHeaderTextColor,
             overflow: 'visible',
             fontFamily: themeVariables.baseFont,
-            fontWeight: 'bold',
-            fontSize: 16,
-            textTransform: 'capitalize'
+            fontWeight: '500',
+            fontSize: 14,
         },
         activeHeader: {
             backgroundColor: themeVariables.tabActiveHeaderBgColor
@@ -55,7 +59,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         activeIndicator: {
             backgroundColor: themeVariables.tabActiveIndicatorBgColor,
             width: 100,
-            height: 4,
+            height: 2,
             marginTop: -4,
             backgroundPosition: '0px center',
             backgroundSize: '48px 48px',

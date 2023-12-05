@@ -1,8 +1,7 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { find, forEach, isEqual } from 'lodash';
 import { Checkbox } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import WmCheckboxsetProps from './checkboxset.props';
 import {
@@ -52,9 +51,9 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     const props = this.state.props;
     const displayText = item.displayexp || item.displayfield;
     return (
-      <TouchableOpacity style={this.styles.checkboxHead} onPress={this.onPress.bind(this, item)} key={item.key}>
+      <TouchableOpacity {...this.getTestPropsForAction(index + '')} style={this.styles.checkboxHead} onPress={this.onPress.bind(this, item)} key={item.key}>
         <Checkbox.Android status={item.selected  ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
-        <Text style={this.styles.checkboxLabel}>{displayText}</Text>
+        <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.checkboxLabel}>{displayText}</Text>
       </TouchableOpacity>)
   }
 

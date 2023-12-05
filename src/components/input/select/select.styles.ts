@@ -12,6 +12,8 @@ export type WmSelectStyles = BaseStyles & {
   selectItem: AllStyle;
   lastSelectItem: AllStyle,
   selectItemText: AllStyle;
+  selectedItem: AllStyle;
+  selectedItemText: AllStyle;
   dropDownContent: AllStyle;
   disabledText: AllStyle;
   placeholderText: AllStyle;
@@ -42,7 +44,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       color: themeVariables.inputTextColor
     },
     checkIcon: {
-      icon: {
+      text: {
         fontSize: 24,
         color: themeVariables.primaryColor
       }
@@ -55,12 +57,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       height: '100%'
     },
     modalContent: {
-      backgroundColor: themeVariables.selectDropdownBackgroundColor,
+      backgroundColor: themeVariables.inputBackgroundColor,
       borderRadius: 6,
       position: 'absolute',
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: themeVariables.selectBorderColor,
+      borderColor: themeVariables.inputBorderColor,
       width: '90%'
     },
     selectItem: {
@@ -82,6 +84,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       color: themeVariables.selectItemTextColor,
       flex: 1
     },
+    selectedItem: {},
+    selectedItemText:{},
     placeholderText: {
       color: themeVariables.inputPlaceholderColor
     },
@@ -89,6 +93,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     arrowButton: {
       root: {
         padding: 0,
+        minHeight: 0,
         alignItems: 'center',
         alignSelf: 'center',
         justifyContent: 'center',

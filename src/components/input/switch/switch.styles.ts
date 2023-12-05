@@ -38,20 +38,22 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     button: {
       backgroundColor: themeVariables.switchBgColor,
       color: themeVariables.switchTextColor,
-      fontSize: 16,
+      fontSize: 14,
       minWidth: 64,
+      minHeight: 40,
       borderRadius: 0,
       borderColor: themeVariables.switchBorderColor,
       borderWidth: 1,
       borderRightWidth: 0,
-      fontWeight: 'bold',
+      fontWeight: '500',
+      fontFamily: themeVariables.baseFont,
       justifyContent: 'center',
       alignItems: 'center'
     } as AllStyle,
     selectedButton: {
       color: themeVariables.switchActiveTextColor,
       backgroundColor: themeVariables.switchActiveBgColor,
-      borderColor: themeVariables.switchActiveBgColor
+      borderColor: themeVariables.switchBorderColor
     } as AllStyle,
     firstButton: {
       borderTopLeftRadius: 6,

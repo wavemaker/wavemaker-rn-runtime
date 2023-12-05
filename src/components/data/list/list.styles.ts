@@ -24,7 +24,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         text: {},
         listIcon: {
             root: {
-                marginTop: 4,
+                marginTop: 10,
                 marginRight: 8
             }
         } as WmIconStyles,
@@ -56,13 +56,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             text: {
                 color: themeVariables.listTitleColor,
                 fontSize: 16,
+                fontFamily: themeVariables.baseFont,
                 lineHeight: 24,
+                fontWeight: '400'   
             }
         } as WmLabelStyles,
         subheading: {
             text: {
-                fontSize: 12,
-                lineHeight: 16,
+                fontSize: 14,
+                lineHeight: 20,
+                fontFamily: themeVariables.baseFont,
+                fontWeight: '400',
                 color: themeVariables.listSubTitleColor
             }
         } as WmLabelStyles,
@@ -84,7 +88,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             paddingRight: 4,
             paddingTop: 4,
             paddingBottom: 4,
+            minHeight: 56,
             backgroundColor: themeVariables.itemBgColor,
+            borderColor: themeVariables.selectedItemBorderColor,
             borderRadius: 6,
             borderStyle: 'solid',
         },
@@ -110,7 +116,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             backgroundColor: themeVariables.groupHeadingBgColor,
         },
         item: {
-            marginRight: 6
+            marginRight: 6,
+            borderColor: themeVariables.selectedItemBorderColor,
         }
     } as WmListStyles);
 

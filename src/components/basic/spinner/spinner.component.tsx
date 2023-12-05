@@ -22,12 +22,14 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
 
   private prepareIcon(props: any) {
     return (<WmIcon
+      id={this.getTestId('icon')}
       styles={this.styles.icon}
       iconclass={props.iconclass + ' fa-spin'} iconsize={props.iconsize}></WmIcon>);
   }
 
   private prepareImage(props: any) {
     return (<WmPicture
+        id={this.getTestId('picture')}
         styles={this.styles.image}
         picturesource={props.image}></WmPicture>);
   }
@@ -83,6 +85,7 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
     Lottie = Lottie?.default || Lottie;
     return (
       Platform.OS == 'web' ? <Lottie animationData={this.addClasstoLottie(props.lottie)} loop={true} play={true} style={this.styles.lottie} /> : <LottieView
+        testID={this.getTestId('lottie')}
         source={this.addClasstoLottie(props.lottie)}
         resizeMode='contain'
         autoPlay={true}
@@ -97,7 +100,7 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
       <View style={this.styles.root}>
         {this._background}
         {props.lottie ? this.prepareLottie(props) : props.image ? this.prepareImage(props) : this.prepareIcon(props)}
-        {props.caption ? <Text style={this.styles.text}>{props.caption}</Text> : null}
+        {props.caption ? <Text {...this.getTestPropsForLabel()} style={this.styles.text}>{props.caption}</Text> : null}
       </View>
     );
   }

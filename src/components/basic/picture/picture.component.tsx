@@ -114,9 +114,9 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         imgStyle['height'] = '100%';
       }
       elementToshow = React.createElement(imgSrc?.default, imgStyle);
-    // } else if (!isWebPreviewMode() && props.isSvg) {
-    //   // svg from uri
-    //   elementToshow = <SvgUri width={this.styles.root.width as NumberProp} height={this.styles.root.height as NumberProp} uri={imgSrc}/>;
+    //} else if (!isWebPreviewMode() && props.isSvg) {
+    //  svg from uri
+    //  elementToshow = <SvgUri testID={this.getTestId('picture')} width={this.styles.root.width as NumberProp} height={this.styles.root.height as NumberProp} uri={imgSrc}/>;
     } else if (isFullPathUrl(imgSrc)) {
       source = {
         uri: imgSrc
@@ -125,7 +125,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       source = imgSrc;
     }
     if (this.state.naturalImageWidth) {
-      elementToshow = <Image style={[this.styles.picture, shapeStyles.picture]} resizeMode={props.resizemode} source={source}/>;
+      elementToshow = <Image testID={this.getTestId('picture')} style={[this.styles.picture, shapeStyles.picture]} resizeMode={props.resizemode} source={source}/>;
     }
     return elementToshow;
   }
@@ -163,7 +163,9 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         {this._background}
       <View style={[{overflow: 'hidden', width: '100%',
         height: '100%'}]} onLayout={this.onViewLayoutChange}>
-        <Tappable target={this} styles={{width: imageWidth ? null : '100%', height: imageHeight ? null : '100%'}}>
+        <Tappable 
+          {...this.getTestPropsForAction()}
+          target={this} styles={{width: imageWidth ? null : '100%', height: imageHeight ? null : '100%'}}>
           <Animatedview entryanimation={props.animation} style={[{
                 height: imageHeight,
                 width: imageWidth,

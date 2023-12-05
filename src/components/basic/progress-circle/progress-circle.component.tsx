@@ -45,7 +45,7 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
     return (
     <View style={styles.root} onLayout={this.onLayout.bind(this)}>
       {this._background}
-      <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}}>
+      <Tappable {...this.getTestPropsForAction()} target={this} styles={{root:{width: '100%', height: '100%'}}}>
         <AnimatedCircularProgress
           fill={value}
           width={styles.progressValue.height}

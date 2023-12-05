@@ -274,6 +274,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
                // @ts-ignore
                ref.selectionStart = ref.selectionEnd = this.cursor;
              }}}
+            {...this.getTestPropsForInput()}
             placeholderTextColor={this.styles.placeholderText.color as any}
             placeholder={props.placeholder || 'Search'}
             autoFocus={props.autofocus}
@@ -286,9 +287,11 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
             {...opts}>
          </TextInput>
          {props.showclear && this.state.props.query ? <WmButton onTap={this.clearSearch.bind(this)}
+                   id={this.getTestId('clear')}
                    styles={this.styles.clearButton} iconclass={'wi wi-clear'}></WmButton> : null}
        </View>
         {props.showSearchIcon && props.type === 'search' ? <WmButton styles={this.styles.searchButton}
+                  id={this.getTestId('search')}
                   iconclass={'wm-sl-l sl-search'} onTap={this.searchIconPress.bind(this)}></WmButton> : null}
       </View>
     );
@@ -308,10 +311,10 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     const props = this.state.props;
     const imageStyles = { root: {height:props.imagewidth, width:props.imagewidth}}
     return (
-      <Tappable onTap={this.onItemSelect.bind(this, item)}>
+      <Tappable onTap={this.onItemSelect.bind(this, item)} {...this.getTestProps(`action${index}`)}>
         <View  style={this.styles.searchItem}>
-          <WmPicture styles={imageStyles} name={props.name + '_image'}  picturesource={item.imgSrc}></WmPicture>
-          <Text style={this.styles.searchItemText}>{item.displayexp || item.displayfield}</Text>
+          <WmPicture id={this.getTestId(`picture${index}`)} styles={imageStyles} name={props.name + '_image'}  picturesource={item.imgSrc}></WmPicture>
+          <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.searchItemText}>{item.displayexp || item.displayfield}</Text>
         </View>
       </Tappable>
     );

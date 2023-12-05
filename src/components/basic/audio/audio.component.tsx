@@ -216,11 +216,13 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
       <View style={this.styles.root}>
         {this._background}
         {!this.state.playing ? (<WmIcon 
+          id={this.getTestId('play')}
           name={props.name + "_play"}
           styles={this.styles.playIcon}
           iconclass="wi wi-play-arrow fa-2x"
           onTap={() => this.play()}></WmIcon>) : (
         <WmIcon name={props.name + "_pause"}
+          id={this.getTestId('pause')}
           iconclass="wi wi-pause fa-2x"
           styles={this.styles.pauseIcon}
           onTap={() => this.pause()}></WmIcon>)}
@@ -228,6 +230,7 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
           {`${this.formatTime(this.state.currentTime)} / ${this.formatTime(this.state.totalTime)}`}
         </Text>
         <Slider
+          testID={this.getTestId('slider')}
           step={1}
           style={{flex: 1}}
           value={this.state.currentTime}
@@ -241,10 +244,12 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
           maximumTrackTintColor={this.styles.slider.maximumTrack.backgroundColor as string}
         />
         {!props.muted ? (<WmIcon name={props.name + "_mute"}
+          id={this.getTestId('mute')}
           iconclass="wi wi-volume-up fa-2x"
           styles={this.styles.muteIcon}
           onTap={() => this.mute()}></WmIcon>) :
         (<WmIcon name={props.name + "_unmute"}
+          id={this.getTestId('unmute')}
           iconclass="wi wi-volume-off fa-2x"
           styles={this.styles.unmuteIcon}
           onTap={() => this.unmute()}></WmIcon>)}

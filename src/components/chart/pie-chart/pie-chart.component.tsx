@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutChangeEvent, View, Text } from 'react-native';
+import { LayoutChangeEvent, View, Text, Platform } from 'react-native';
 import { Svg } from 'react-native-svg';
 
 import { VictoryLabel, VictoryLegend, VictoryPie } from 'victory-native';
@@ -74,7 +74,16 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
         }
       }
   }
-  
+
+  onSelect(event: any, data: any){
+    let value = data.slice.value;
+    let label = this.state.xaxisDatakeyArr[data.datum.x];
+    let selectedItem = this.props.dataset[data.index];
+    let selectedChartItem = data.slice;
+    selectedChartItem["data"] = {x: label, y: value, color: data.style.fill, _dataObj: selectedItem}
+    this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+  }
+
   renderWidget(props: WmPieChartProps) {
     if (!this.state.data.length) {
       return null;
@@ -142,6 +151,14 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
                 origin={origin}
                 labelPlacement={props.labelplacement}
                 labelRadius={labelRadius}
+                events={[{
+                  target: 'data',
+                  eventHandlers: Platform.OS == "web" ? {
+                    onClick: this.onSelect.bind(this)
+                  }:{
+                    onPress: this.onSelect.bind(this)
+                  }
+                }]}
               />
               <VictoryLabel
                 textAnchor="middle"

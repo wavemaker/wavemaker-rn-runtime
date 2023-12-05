@@ -3,7 +3,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmLeftPanelProps from './left-panel.props';
 import { DEFAULT_CLASS, WmLeftPanelStyles } from './left-panel.styles';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native';
 
 export class WmLeftPanelState extends BaseComponentState<WmLeftPanelProps> {
   isPartialLoaded = false;

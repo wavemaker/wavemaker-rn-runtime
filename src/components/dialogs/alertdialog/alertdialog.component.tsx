@@ -52,6 +52,7 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
     const messageStyle = this.theme.getStyle(MESSAGE_STYLES.get(props.alerttype || 'error') as string);
     return (
       <WmDialog
+        id={this.getTestId('dialog')}
         iconclass={props.iconclass}
         animation={props.animation}
         closable={props.closable}
@@ -63,13 +64,15 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
       }}>
         <WmDialogcontent styles={this.styles.dialogContent}>
           <WmLabel
+            id={this.getTestId('msg')}
             caption={props.message || ''}
             styles={this.styles.message}></WmLabel>
         </WmDialogcontent>
         <WmDialogactions styles={this.styles.dialogActions}>
           <WmButton
+            id={this.getTestId('okbtn')}
             caption={props.oktext}
-            styles={this.theme.mergeStyle({}, this.theme.getStyle('btn-primary'), this.styles.okButton)}
+            styles={this.theme.mergeStyle({},this.styles.okButton,this.theme.getStyle('btn-only-label'))}
             onTap={() => {
               this.dialogRef.close();
               this.invokeEventCallback('onOk', [null, this]);

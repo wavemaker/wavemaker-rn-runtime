@@ -11,19 +11,19 @@ export const DEFAULT_CLASS = 'app-toggle';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmToggleStyles = defineStyles({
       root: {
-        width: 36,
+        width: 52,
+        height: 32,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
         borderRadius: 18,
-        borderWidth: 1
       },
       text: {},
       handle: {
-        width: 18,
-        height: 18,
+        width: 20,
+        height: 20,
         borderRadius: 18,
-        backgroundColor: themeVariables.toggleHandleColor,
+        // backgroundColor: themeVariables.toggleHandleColor,
         backgroundSize: '100% 100%',
         backgroundPosition: 'center'
       }
@@ -34,13 +34,25 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     root : {
       backgroundColor: themeVariables.toggleOnColor,
       justifyContent: 'flex-end',
-      borderColor: themeVariables.toggleOnColor
+    },
+    handle: {
+      width: 24,
+      height: 24,
+      marginRight:4,
+      backgroundColor: themeVariables.toggleHandleColor,
     }
   } as WmToggleStyles);
   addStyle(DEFAULT_CLASS + '-off', '', {
     root : {
       backgroundColor: themeVariables.toggleOffColor,
-      borderColor: themeVariables.toggleOffColor
+      borderColor: themeVariables.toggleOffBorderColor,
+      borderWidth: 2
+    },
+    handle: {
+      width: 16,
+      height: 16,
+      marginLeft: 6,
+      backgroundColor: themeVariables.toggleHandleDisableColor,
     }
   } as WmToggleStyles);
   addStyle(DEFAULT_CLASS + '-rtl', '', {});

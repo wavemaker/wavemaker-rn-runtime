@@ -1,6 +1,7 @@
 import { assign, isUndefined, isNil } from 'lodash';
 import React, { ReactNode } from 'react';
 import { I18nManager, Platform, TextStyle, ViewStyle } from 'react-native';
+import * as Application from 'expo-application';
 import { AnimatableProperties } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
@@ -8,14 +9,15 @@ import { StyleProps, getStyleName } from '@wavemaker/app-rn-runtime/styles/style
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
-import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, ThemeEvent } from '../styles/theme';
+import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, ThemeEvent, Theme } from '../styles/theme';
 import EventNotifier from './event-notifier';
 import { PropsProvider } from './props.provider';
 import { assignIn } from 'lodash-es';
 import { HideMode } from './if.component';
 import { AssetConsumer } from './asset.provider';
 import { FixedView } from './fixed-view.component';
+import { TextIdPrefixConsumer } from './testid.provider';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -80,6 +82,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private styleOverrides = {} as any;
     public loadAsset: (path: string) => number | string = null as any;
     private i18nService = injector.I18nService.get();
+    public testIdPrefix = '';
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -364,6 +367,73 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         delete (this.styles.root as any)['backgroundSize'];
         delete (this.styles.root as any)['backgroundRepeat'];
     }
+
+    public getTestId(suffix?: string) {
+        let id = this.props.id || this.props.name;
+        if (this.testIdPrefix) {
+            id = this.testIdPrefix + '_' + id;
+        }
+        if (suffix) {
+            id = id + '_' + suffix;
+        }
+        return id;
+    }
+
+    public getTestProps(suffix?: string) {
+        let id = this.getTestId(suffix);
+        if (Platform.OS === 'android' || Platform.OS === 'web') {
+            return {
+                accessibilityLabel: id,
+                testID: id
+            };
+        }
+        return {
+            accessible: false,
+            testID: id
+        };
+    }
+
+    public getTestPropsForInput(suffix?: string) {
+        return this.getTestProps(suffix || 'i');
+    }
+
+    public getTestPropsForAction(suffix?: string) {
+        return this.getTestProps(suffix || 'a');
+    }
+
+    public getTestPropsForLabel(suffix?: string) {
+        return this.getTestProps(suffix || 'l');
+    }
+
+    private getDependenciesFromContext(fn: () => ReactNode) {
+        return (
+        <TextIdPrefixConsumer>
+            {(testIdPrefix) => {
+                this.testIdPrefix = testIdPrefix || '';
+                return (<AssetConsumer>
+                    {(loadAsset) => {
+                    this.loadAsset = loadAsset;
+                    return (<ParentContext.Consumer>
+                        {(parent) => {
+                            this.setParent(parent);
+                            this._showSkeleton = this.parent?._showSkeleton 
+                                || !!this.state.props.showskeleton;
+                            return (
+                                <ParentContext.Provider value={this}>
+                                    <ThemeConsumer>
+                                        {(theme) => {                                
+                                            this.theme = theme || BASE_THEME;
+                                            return fn();
+                                        }}
+                                    </ThemeConsumer>
+                                </ParentContext.Provider>);
+                        }}    
+                        </ParentContext.Consumer>);
+                    }}
+                </AssetConsumer>);
+            }}
+        </TextIdPrefixConsumer>); 
+    }
       
     public render(): ReactNode {
         const props = this.state.props;
@@ -372,55 +442,38 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
         this.isFixed = false;
         const selectedLocale = this.i18nService.getSelectedLocale();
-        return (<AssetConsumer>
-            {(loadAsset) => {
-            this.loadAsset = loadAsset;
-            return (<ParentContext.Consumer>
-                {(parent) => {
-                    this.setParent(parent);
-                    this._showSkeleton = this.parent?._showSkeleton || !!this.state.props.showskeleton;
-                    return (
-                        <ParentContext.Provider value={this}>
-                        <ThemeConsumer>
-                            {(theme) => {
-                                WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
-                                this.theme = theme || BASE_THEME;
-                                this.styles =  this.theme.mergeStyle(
-                                    this.getDefaultStyles(),
-                                    {text: this.theme.getStyle('app-' + selectedLocale)},
-                                    {text: this.theme.getStyle(this.defaultClass + '-' + selectedLocale)},
-                                    props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
-                                    this.isRTL ? this.theme.getStyle(this.defaultClass + '-rtl') : null,
-                                    props.classname && this.theme.getStyle(props.classname),
-                                    props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
-                                    this.props.styles,
-                                    {
-                                        root: this.styleOverrides,
-                                        text: this.styleOverrides
-                                    });
-                                if (this.styles.root.hasOwnProperty('_background')) {
-                                  delete this.styles.root.backgroundColor;
-                                }
-                                if (!this.isVisible()) {
-                                    assign(this.styles, this.theme.getStyle('hidden'))
-                                }
-                                let eleToRender = (this._showSkeleton && this.renderSkeleton(props));
-                                if (eleToRender) {
-                                    return eleToRender;
-                                }
-                                this.setBackground();
-                                this.isFixed = (this.styles.root.position as any) === 'fixed';
-                                if (this.isFixed) {
-                                    this.styles.root.position  = undefined;
-                                    return this.renderFixedContainer(props);
-                                }
-                                return this.addAnimation(this.renderWidget(this.state.props));
-                            }}
-                        </ThemeConsumer>
-                    </ParentContext.Provider>);
-                }}
-            </ParentContext.Consumer>);
-        }}
-        </AssetConsumer>);
+        return this.getDependenciesFromContext(() => {
+            WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
+            this.styles =  this.theme.mergeStyle(
+                this.getDefaultStyles(),
+                {text: this.theme.getStyle('app-' + selectedLocale)},
+                {text: this.theme.getStyle(this.defaultClass + '-' + selectedLocale)},
+                props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
+                this.isRTL ? this.theme.getStyle(this.defaultClass + '-rtl') : null,
+                props.classname && this.theme.getStyle(props.classname),
+                props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
+                this.props.styles,
+                {
+                    root: this.styleOverrides,
+                    text: this.styleOverrides
+                });
+            if (this.styles.root.hasOwnProperty('_background')) {
+                delete this.styles.root.backgroundColor;
+            }
+            if (!this.isVisible()) {
+                assign(this.styles, this.theme.getStyle('hidden'))
+            }
+            let eleToRender = (this._showSkeleton && this.renderSkeleton(props));
+            if (eleToRender) {
+                return eleToRender;
+            }
+            this.setBackground();
+            this.isFixed = (this.styles.root.position as any) === 'fixed';
+            if (this.isFixed) {
+                this.styles.root.position  = undefined;
+                return this.renderFixedContainer(props);
+            }
+            return this.addAnimation(this.renderWidget(this.state.props));        
+        });
     }
 }

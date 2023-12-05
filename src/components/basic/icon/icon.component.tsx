@@ -158,7 +158,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
         WMCustomIcon = StreamlineLightIcon;
       } else if (iconDef.isStreamlineRegularIcon) {
         WMCustomIcon = StreamlineRegularIcon;
-      } else if (!iconDef.isWavIcon && !this.styles.icon?.fontFamily) {
+      } else if (!iconDef.isWavIcon && !customIcon && !this.styles.icon?.fontFamily) {
         return null;
       }
       //@ts-ignore type information is not matching
@@ -186,12 +186,13 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
 
   renderWidget(props: WmIconProps) {
     let icon = this.renderIcon(props);
+    let iterationCount: any = props.iterationcount ? (props.iterationcount != 'infinite' ? parseInt(props.iterationcount): 'infinite') : undefined;
     return (
-      <Tappable target={this}>
-        <Animatedview entryanimation={props.animation} style={this.styles.root}>
+      <Tappable target={this}  {...this.getTestPropsForAction()}>
+        <Animatedview entryanimation={props.animation} style={this.styles.root} iterationCount={iterationCount}>
           {this._background}
           {(props.iconposition === 'left' && icon) || null}
-          {(props.caption && (<Text style={this.styles.text}>{props.caption}</Text>)) || null}
+          {(props.caption && (<Text {...this.getTestPropsForLabel('caption')}style={this.styles.text}>{props.caption}</Text>)) || null}
           {(props.iconposition === 'right' && icon) || null}
         </Animatedview>
       </Tappable>

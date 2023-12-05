@@ -1,6 +1,6 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
+import { Platform, TouchableOpacity, View, ViewStyle, StatusBar, KeyboardAvoidingView } from 'react-native';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -9,9 +9,11 @@ import { NativeModulesProxy } from 'expo-modules-core';
 import * as WebBrowser from 'expo-web-browser';
 import { get, last } from 'lodash';
 import { RENDER_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
+import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
+import ConstantService from '@wavemaker/app-rn-runtime/core/constant.service';
 import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
@@ -84,6 +86,7 @@ class DrawerImpl implements Drawer {
 }
 const SUPPORTED_SERVICES = {
   Utils: Utils,
+  CONSTANTS: ConstantService,
   StorageService: StorageService,
   AppDisplayManagerService: AppDisplayManagerService
 };
@@ -95,6 +98,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   onAppVariablesReady = () => {};
   isStarted = false;
   appConfig = injector.get<AppConfig>('APP_CONFIG');
+  private eventNotifier = new EventNotifier();
   public baseUrl = '';
   public targetPlatform = 'NATIVE_MOBILE';
   public cleanup = [] as Function[];
@@ -152,6 +156,18 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }
   }
 
+  subscribe(event: string, fn: Function) {
+    return this.eventNotifier.subscribe(event, fn);
+  }
+
+  notify(event: string, ...args: any) {
+    return this.eventNotifier.notify(event, args);
+  }
+
+  get activePage() {
+    return this.appConfig.currentPage;
+  }
+
   goToPage(pageName: string, params: any)  {
     return this.appConfig.currentPage?.goToPage(pageName, params);
   }
@@ -185,7 +201,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   invokeNativeApi(key: string, data: Object) {
-    if (NativeModulesProxy.EmbedCommModule 
+    if (NativeModulesProxy.EmbedCommModule
         && (Platform.OS === 'android' || Platform.OS === 'ios')) {
         return NativeModulesProxy.EmbedCommModule.sendToNative(key, data || {});
     } else {
@@ -332,7 +348,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 }, o.styles]}>
                   <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
                     {o.content}
-                    {o.text && <WmMessage type={o.type} caption={o.text} hideclose={true}></WmMessage>}
+                    {o.text && <WmMessage name={"message"+ i} type={o.type} caption={o.text} hideclose={true}></WmMessage>}
                   </TouchableOpacity>
                 </View>
               )
@@ -439,6 +455,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 (<SafeAreaView  style={{flex: 1}}>
                   <StatusBar />
                   <FixedViewContainer>
+                  <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}
+                  style={{ flex: 1 }}>
                     <View style={styles.container}>
                       <AppNavigator
                         app={this}
@@ -452,6 +470,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         {this.renderDialogs()}
                         {this.renderDisplayManager()}
                     </View>
+                    </KeyboardAvoidingView>
                     <WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>
                   </FixedViewContainer>
                 </SafeAreaView>))

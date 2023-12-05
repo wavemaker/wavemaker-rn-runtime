@@ -1,6 +1,7 @@
 import { Camera } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import * as Application from 'expo-application';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { ScanInput, ScanOutput } from '@wavemaker/app-rn-runtime/variables/device/scan/scan.operation';
@@ -70,6 +71,20 @@ export class ScanService {
 
   constructor(private displayManager: DisplayManager) {}
 
+  getTestProps(suffix: string) {
+    const id = "scan" + (suffix ? '_' + suffix  : '');
+    if (Platform.OS === 'android' || Platform.OS === 'web') {
+      return {
+          accessibilityLabel: id,
+          testID: id
+      };
+    }
+    return {
+        accessible: false,
+        testID: id
+    };
+  }
+
   public scanBarcode(params: ScanInput): Promise<ScanOutput> {
     const format = params?.barcodeFormat || 'ALL';
     const barcodeFormat: string | undefined = Platform.OS === 'ios' ? undefined : barcodeFormatOptions[format];
@@ -97,6 +112,7 @@ export class ScanService {
               
               <View style={styles.closeWrapper}>
                   <TouchableOpacity
+                      {... this.getTestProps('close_button')}
                       onPress={() => {
                         destroy.call(this.displayManager);
                       }}>

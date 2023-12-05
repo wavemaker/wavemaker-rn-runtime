@@ -24,7 +24,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmAppNavbarStyles = defineStyles({
     root: {
       flexDirection: 'row',
-      backgroundColor: themeVariables.navbarBackgroundColor,
+      backgroundColor: themeVariables.navitemActiveBackgroundColor,
       height: 80,
       padding: 12,
       paddingHorizontal: 12,

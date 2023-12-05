@@ -42,6 +42,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
       <View style={this.styles.labelWrapper}>
         <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
       <WMTextInput
+        {...this.getTestPropsForInput()}
         ref={(ref: any) => {
           this.widgetRef = ref;
           // @ts-ignore

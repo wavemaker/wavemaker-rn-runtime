@@ -144,6 +144,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
             const isSelected = i === props.selectedTabIndex ;
             return (
               <Tappable onTap={this.onTabSelection.bind(this, i)}
+                {...this.getTestPropsForAction(i +'')}
                 key={header.key} 
                 styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
                 <View onLayout={this.setHeaderPositon.bind(this, i)}>
@@ -153,7 +154,9 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                     isSelected ? this.styles.activeHeader : null]}>
                     <Text numberOfLines={1} style={[
                       this.styles.headerText, 
-                      isSelected ? this.styles.activeHeaderText : null]}>{header.title}</Text>
+                      isSelected ? this.styles.activeHeaderText : null]}
+                      {...this.getTestPropsForLabel(i + '_title')}
+                    >{header.title}</Text>
                   </View>
                 </View>
               </Tappable>

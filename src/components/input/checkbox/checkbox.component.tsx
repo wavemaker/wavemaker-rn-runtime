@@ -1,7 +1,6 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { Checkbox } from 'react-native-paper';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
@@ -75,10 +74,10 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
 
   renderWidget(props: WmCheckboxProps) {
     return (
-      <TouchableOpacity style={this.styles.root} onPress={this.onPress.bind(this)}>
+      <TouchableOpacity {...this.getTestPropsForAction()} style={this.styles.root} onPress={this.onPress.bind(this)}>
           {this._background}
           <Checkbox.Android status={this.state.isChecked ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
-          <Text style={this.styles.checkboxLabel}>{props.caption}</Text>
+          <Text {...this.getTestPropsForLabel()} style={this.styles.checkboxLabel}>{props.caption}</Text>
       </TouchableOpacity>
     );
   }

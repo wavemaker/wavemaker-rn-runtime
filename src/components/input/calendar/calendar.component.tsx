@@ -115,13 +115,13 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
             currentDayTextStyle={this.styles.todayText}
             notDayOfCurrentMonthStyle={this.styles.notDayOfCurrentMonth}
             renderPrevYearButton={() =>
-              (<WmIcon iconclass="wi wi-angle-double-left" styles={this.styles.prevYearBtn}/>)}
+              (<WmIcon id={this.getTestId('prevyearicon')} iconclass="wi wi-angle-double-left" styles={this.styles.prevYearBtn}/>)}
             renderPrevMonthButton={() =>
-              (<WmIcon iconclass="wi wi-chevron-left fa-2x" styles={this.styles.prevMonthBtn}/>)}
+              (<WmIcon id={this.getTestId('prevmonthicon')} iconclass="wi wi-chevron-left fa-2x" styles={this.styles.prevMonthBtn}/>)}
             renderNextMonthButton={() =>
-                (<WmIcon iconclass="wi wi-chevron-right fa-2x" styles={this.styles.nextMonthBtn}/>)}
+                (<WmIcon id={this.getTestId('nextmonthicon')} iconclass="wi wi-chevron-right fa-2x" styles={this.styles.nextMonthBtn}/>)}
             renderNextYearButton={() =>
-                (<WmIcon iconclass="wi wi-angle-double-right" styles={this.styles.nextYearBtn}/>)}
+                (<WmIcon  id={this.getTestId('nextyearicon')} iconclass="wi wi-angle-double-right" styles={this.styles.nextYearBtn}/>)}
           />
       </View>
     );

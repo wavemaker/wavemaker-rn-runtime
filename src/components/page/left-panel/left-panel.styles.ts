@@ -7,7 +7,12 @@ export const DEFAULT_CLASS = 'app-left-panel';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmLeftPanelStyles = defineStyles({
         root: {
-            minHeight: '100%'
+            minHeight: '100%',
+            backgroundColor: themeVariables.navbarBackgroundColor,
+            elevation: 1,
+            borderTopRightRadius: 16,
+            borderBottomRightRadius: 16,
+            maxWidth: 360
         },
         text: {}
     });

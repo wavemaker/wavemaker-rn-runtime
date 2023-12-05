@@ -45,20 +45,21 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     if (this.styles.icon && this.styles.icon.text) {
       this.styles.icon.text.color = this.styles.text.color;
     }
-    const icon = (<WmIcon
-      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>);
+    const icon = props.iconclass ? (<WmIcon
+      id={this.getTestId('icon')}
+      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>) :  null;
     //@ts-ignore
     const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>): null;
     return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
           (<Animatedview entryanimation={props.animation} style={{width: this.styles.root.width, height: this.styles.root.height, justifyContent: 'center'}}>
-            <Tappable target={this} styles={[this.styles.root, this.styles.root.width && this.styles.root.height ? { width: '100%', height: '100%'} : null, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}
+            <Tappable {...this.getTestPropsForAction()} target={this} styles={[this.styles.root, this.styles.root.width && this.styles.root.height ? { width: '100%', height: '100%'} : null, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}
               onTap={props.hyperlink || props.onTap ? (e: TapEvent) => this.onTap(navigationService, e) : undefined}>
               {this._background}
               {props.iconposition === 'top' && icon}
               {props.iconposition === 'left' && icon}
-              {props.caption ? (<Text style={this.styles.text}>{props.caption}</Text>) : null}
+              {props.caption ? (<Text {...this.getTestPropsForLabel('caption')} style={this.styles.text}>{props.caption}</Text>) : null}
               {props.iconposition === 'right' && icon}
               {badge}
             </Tappable>

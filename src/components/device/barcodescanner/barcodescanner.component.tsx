@@ -38,7 +38,7 @@ export default class WmBarcodescanner extends BaseComponent<WmBarcodescannerProp
           this.scanner = scanService;
           return <View style={this.styles.root}>
             {this._background}
-            <WmButton iconclass={props.iconclass} styles={this.styles.button} onTap={this.onScanTap.bind(this)} caption={props.caption} iconsize={props.iconsize}></WmButton>
+            <WmButton id={this.getTestId('button')} iconclass={props.iconclass} styles={this.styles.button} onTap={this.onScanTap.bind(this)} caption={props.caption} iconsize={props.iconsize}></WmButton>
           </View>
         }}
       </ScanConsumer>

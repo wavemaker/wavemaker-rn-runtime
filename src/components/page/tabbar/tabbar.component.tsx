@@ -24,11 +24,11 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
     super(props, DEFAULT_CLASS, new WmTabbarProps(), new WmTabbarState());
   }
 
-  renderTabItem(item: NavigationDataItem, props: WmTabbarProps, onSelect: Function) {
+  renderTabItem(item: NavigationDataItem, testId: string, props: WmTabbarProps, onSelect: Function) {
     const isActive = props.isActive && props.isActive(item);
     const getDisplayLabel = this.props.getDisplayExpression || ((label: string) => label);
     return (
-      <TouchableOpacity onPress={() => onSelect && onSelect()}  key={item.key}>
+      <TouchableOpacity {...this.getTestPropsForAction('item' + testId)} onPress={() => onSelect && onSelect()}  key={item.key}>
         <View style={[this.styles.tabItem, isActive ? this.styles.activeTabItem: {}]}>
             <WmIcon styles={this.theme.mergeStyle({}, this.styles.tabIcon, isActive ? this.styles.activeTabIcon: {})} iconclass={item.icon}></WmIcon>
             <Text style={[this.styles.tabLabel, isActive ? this.styles.activeTabLabel: {}]}>{getDisplayLabel(item.label)}</Text>
@@ -80,7 +80,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
                   <View style={this.styles.moreMenu}>
                     {moreItems.map((a, i) =>
                       (<View key={i} style={this.styles.moreMenuRow}>
-                        {a.map(item => this.renderTabItem(item, props,  () => this.onItemSelect(item, navigationService)))}
+                        {a.map(item => this.renderTabItem(item, i + '', props,  () => this.onItemSelect(item, navigationService)))}
                       </View>)
                     )}
                   </View>
@@ -94,12 +94,12 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
           <View style={this.styles.menu}
             onLayout={e => { this.tabbarHeight = e.nativeEvent.layout.height}}>
             {tabItems.filter((item, i) => i < max)
-              .map((item, i) => this.renderTabItem(item, props, () => this.onItemSelect(item, navigationService)))}
+              .map((item, i) => this.renderTabItem(item, i + '', props, () => this.onItemSelect(item, navigationService)))}
             {tabItems.length > max && (
               this.renderTabItem({
                 label: props.morebuttonlabel,
                 icon: props.morebuttoniconclass
-              } as NavigationDataItem, props,  () => {
+              } as NavigationDataItem, 6666 +'', props,  () => {
                 this.updateState({showMore: !this.state.showMore} as WmTabbarState<WmTabbarProps>);
               })
             )}

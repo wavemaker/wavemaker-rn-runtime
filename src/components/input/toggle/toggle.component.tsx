@@ -64,7 +64,9 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     const styles = this.theme.mergeStyle(this.styles, 
       this.theme.getStyle(this.state.isSwitchOn ? 'app-toggle-on' : 'app-toggle-off'));
     return (
-      <TouchableOpacity style={styles.root} onPress={() => {
+      <TouchableOpacity 
+        {...this.getTestPropsForAction()}
+        style={styles.root} onPress={() => {
         if (this.props.disabled) {
           return;
         }
