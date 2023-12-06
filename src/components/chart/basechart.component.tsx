@@ -89,11 +89,12 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     if (this.state.props.showlegend === 'hide') {
       return null;
     }
-    let top = this.props.showlegend === 'bottom' ? parseInt(this.styles.root.height as string) : 0;
+    const props = this.state.props;
+    let top = props.showlegend === 'bottom' ? parseInt(this.styles.root.height as string) : 0;
     if (top) {
       top = top - (50); // remove legendHeight
     }
-    const orientation = (this.props.showlegend === 'right' || this.props.showlegend === 'left') ? 'vertical' : 'horizontal';
+    const orientation = (props.showlegend === 'right' || props.showlegend === 'left') ? 'vertical' : 'horizontal';
     return <VictoryLegend
       colorScale={colorScale}
       name={'legendData'}
@@ -115,43 +116,59 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   getXaxis() {
     const minIndex = 0;
     const maxIndex = this.state.xaxisDatakeyArr.length - 1;
-    const getTickValueLabel = this.props.xtickexpr as any;
-    let labels = [];
-    if(getTickValueLabel){
-      labels = this.props.dataset.map((d: any,i: number)=>getTickValueLabel(d,i));
-    }
-    return <VictoryAxis crossAxis label={(this.props.xaxislabel || this.props.xaxisdatakey || "name") + (this.props.xunits ? `(${this.props.xunits})` : '')}
+    const props = this.state.props;
+    const getTickValueLabel = props.xtickexpr as any;
+    return <VictoryAxis crossAxis={false} label={(props.xaxislabel || props.xaxisdatakey || "name") + (props.xunits ? `(${props.xunits})` : '')}
                         style={{
-                          grid: this.props.hidegridxaxis?{stroke: null}: this.styles.grid,
-                          axis: {stroke: this.props.showxaxis === false? 'none': '#000000'}
+                          axisLabel: this.theme.mergeStyle(this.styles.axisLabel, this.styles.yAxisLabel, {padding: props.yaxislabeldistance}),
+                          grid: props.hidegridxaxis ?
+                              { stroke: null } :  this.theme.mergeStyle(this.styles.grid, this.styles.xGrid),
+                          axis: props.showxaxis === false ?
+                              { stroke: 'none' } :  this.theme.mergeStyle(this.styles.axis, this.styles.xAxis),
+                          ticks: this.theme.mergeStyle(this.styles.ticks, this.styles.xTicks),
+                          tickLabels: this.theme.mergeStyle(this.styles.tickLabels, this.styles.xTickLabels)
                         }}
-                        fixLabelOverlap= {this.props.autoadjustlabels?true:false}
-                        tickLabelComponent={<VictoryLabel angle={this.props.labelangle || 0} />} theme={this.state.theme}
+                        fixLabelOverlap= {props.autoadjustlabels?true:false}
+                        tickLabelComponent={<VictoryLabel angle={props.labelangle || 0} />} theme={this.state.theme}
                         tickCount={this.state.xaxisDatakeyArr.length} 
                         invertAxis={this.isRTL}
-                        tickValues={labels}
-                        tickFormat={(d) => `${this.state.xaxisDatakeyArr[d] ? this.state.xaxisDatakeyArr[d]: ''}`}
+                        tickFormat= {(d, i, ticks) => {
+                          if (getTickValueLabel) {
+                              return getTickValueLabel(this.state.xaxisDatakeyArr[d], i, (ticks || []).length);
+                          } else if (this.state.xaxisDatakeyArr) {
+                            return this.state.xaxisDatakeyArr[d];
+                          }
+                          return '';
+                        }}
                         />;                    
 }            
 
 
   /* y axis with horizontal lines having grid stroke colors*/
   getYAxis() {
-    if (this.props.showyaxis === false) {
+    const props = this.state.props;
+    if (props.showyaxis === false) {
       return null;
     }
-    return <VictoryAxis crossAxis label={(this.props.yaxislabel || this.props.yaxisdatakey) + (this.props.yunits ? `(${this.props.yunits})` : '')}
+    const getTickValueLabel = props.ytickexpr as any;
+    return <VictoryAxis crossAxis={false} label={(props.yaxislabel || props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
                         style={{
-                          axisLabel: {padding: this.props.yaxislabeldistance},
-                          grid: this.props.hidegridyaxis ? { stroke: null } : {
-                            stroke: 'red',
-                            strokeDasharray: '24, 1'
-                          },
-                          axis: {stroke: this.props.showyaxis === false? 'none': '#000000'},
+                          axisLabel: this.theme.mergeStyle(this.styles.axisLabel, this.styles.yAxisLabel, {padding: props.yaxislabeldistance}),
+                          grid: props.hidegridyaxis ? { stroke: null } : this.theme.mergeStyle(this.styles.grid, this.styles.yGrid),
+                          axis: props.showxaxis === false ?
+                          { stroke: 'none' } :  this.theme.mergeStyle(this.styles.axis, this.styles.yAxis),
+                          ticks: this.theme.mergeStyle(this.styles.ticks, this.styles.yTicks),
+                          tickLabels: this.theme.mergeStyle(this.styles.tickLabels, this.styles.yTickLabels)
                         }}
-                        fixLabelOverlap= {this.props.autoadjustlabels?true:false}
+                        fixLabelOverlap= {props.autoadjustlabels?true:false}
                         theme={this.state.theme}
-                        tickFormat={(t) => `${this.abbreviateNumber(t)}`} dependentAxis />;
+                        tickFormat= {(d, i, ticks) => {
+                          if (getTickValueLabel) {
+                            return getTickValueLabel(d, i, (ticks || []).length);
+                          }
+                          return this.abbreviateNumber(d);
+                        }}
+                        dependentAxis />;
   }
   
  
@@ -163,7 +180,8 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
 
   // Check whether X/Y Domain was set to Min and is supported for the present chart
   isAxisDomainValid(axis: string) {
-    if (get(this.props, axis + 'domain') === 'Min' && (this.isAxisDomainSupported(this.props.type))) {
+    const props = this.state.props;
+    if (get(props, axis + 'domain') === 'Min' && (this.isAxisDomainSupported(props.type))) {
       return true;
     }
     return false;
@@ -295,7 +313,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       if (!colorsToUse.length) {
         colorsToUse = ThemeFactory.getColorsObj(themeName);
       }
-      themeToUse = ThemeFactory.getTheme(themeName, this.props.styles, colorsToUse);
+      themeToUse = ThemeFactory.getTheme(themeName, props.styles, colorsToUse);
     } else if (typeof themeName === 'object') {
       // if theme is passed as an object then use that custom theme.
       themeToUse = props.theme;
@@ -307,9 +325,10 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   }
 
   prepareLegendData() {
+    const props = this.state.props;
     if (this.state.yAxis) {
       let ldata: any;
-      if (this.props.type === 'Stack') {
+      if (props.type === 'Stack') {
         const data = orderBy(this.state.data[0], 'y', 'asc');
         ldata = data.map((d: any) => {
           return {
@@ -369,8 +388,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   }
 
   prepareDataItems(dataset: any) {
-    let xaxis = this.props.xaxisdatakey;
-    let yaxis = this.props.yaxisdatakey;
+    const props = this.state.props;
+    let xaxis = props.xaxisdatakey;
+    let yaxis = props.yaxisdatakey;
     let xaxisDatakeyArr: Array<any> = [];
     let datasets: any = [];
 
@@ -388,11 +408,11 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
               x: xVal,
               y: yVal,
             };
-            if (this.props.bubblesize) {
-              set(dataObj, 'size', get(o, this.props.bubblesize, 5));
+            if (props.bubblesize) {
+              set(dataObj, 'size', get(o, props.bubblesize, 5));
             }
-            if (this.props.shape) {
-              set(dataObj, 'symbol', shapes[this.props.shape]);
+            if (props.shape) {
+              set(dataObj, 'symbol', shapes[props.shape]);
             }
             return dataObj;
           }));
@@ -400,7 +420,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       });
       // chartTransform
       this.invokeEventCallback('onTransform', [undefined, this.proxy]);
-      if (this.props.type == 'Pie' || this.props.type === 'Donut') {
+      if (props.type == 'Pie' || props.type === 'Donut') {
         // for animation effect
         setTimeout(() => {
           this.updateState({
@@ -414,22 +434,24 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
 
 
   protected renderLoadingIcon() {
+    const props = this.state.props;
     return (<WmIcon styles={this.styles.loadingIcon}
-    iconclass={this.props.loadingicon}
-    caption={this.props.loadingdatamsg}></WmIcon>);
+    iconclass={props.loadingicon}
+    caption={props.loadingdatamsg}></WmIcon>);
   }
 
   updateData(datasets: any, yPts: any, xaxisDatakeyArr: Array<any>) {
+    const props = this.state.props;
     this.updateState({
       data: datasets as any,
       yAxis: yPts,
       xaxisDatakeyArr: xaxisDatakeyArr
     } as S, () => {
       this.prepareLegendData();
-      if (!this.props.labeltype || this.props.labeltype === 'percent') {
+      if (!props.labeltype || props.labeltype === 'percent') {
         this.setTotal(this.state.data[0]);
       }
-      if (this.isAxisDomainSupported(this.props.type) && (this.props.ydomain || this.props.xdomain)) {
+      if (this.isAxisDomainSupported(props.type) && (props.ydomain || props.xdomain)) {
         this.setDomainValues();
       }
       this.updateState({
@@ -450,6 +472,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
 
   onPropertyChange(name: string, $new: any, $old: any) {
     super.onPropertyChange(name, $new, $old);
+    const props = this.state.props;
     let units = '';
     switch(name) {
       case 'customcolors':
@@ -464,7 +487,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
         } as S);
         break;
       case 'theme':
-        this.applyTheme(this.props);
+        this.applyTheme(props);
         break;
       case 'dataset':
         if (!isArray($new)) {
@@ -477,16 +500,16 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
         $new && this.prepareDataItems($new);
         break;
       case 'xaxislabel':
-        if (this.props.xunits) {
-          units = ' (' + this.props.xunits + ')';
+        if (props.xunits) {
+          units = ' (' + props.xunits + ')';
         }
         this.updateState({
           xLabel: $new + units
         } as S);
         break;
       case 'yaxislabel':
-        if (this.props.yunits) {
-          units = ' (' + this.props.yunits + ')';
+        if (props.yunits) {
+          units = ' (' + props.yunits + ')';
         }
         this.updateState({
           yLabel: $new + units

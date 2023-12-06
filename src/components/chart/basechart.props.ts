@@ -37,11 +37,11 @@ export default class BaseChartComponentProps extends BaseProps {
   showvalues: boolean = false;
   showyaxis: boolean = true;
   showxaxis: boolean = true;
-  ydomain: string = '';
-  xdomain: string = '';
+  ydomain: string = 'Min';
+  xdomain: string = 'Min';
   labelangle: number = 0;
-  xtickexpr: any;
-  ytickexpr? = (label: string) => null as any;
+  xtickexpr?: (item: any, index: number, length: number) => any;
+  ytickexpr?: (item: any, index: number, length: number) => any;
   hidegridxaxis: boolean = false;
   hidegridyaxis: boolean = false;
   autoadjustlabels: boolean = false;
