@@ -53,11 +53,15 @@ export class Tappable extends React.Component<TappableProps, any> {
                 setTimeout(() => {
                     target?.invokeEventCallback('onDoubletap', [syntheticEvent, target]);
                 }, 200);
-            }
-            this.props.onTap && this.props.onTap(e || syntheticEvent);
+            }            
             setTimeout(() => {
-                target?.invokeEventCallback('onTap', [syntheticEvent, target]);
-            }, 200);
+                if (this.props.onTap) {
+                    this.props.onTap(e || syntheticEvent);
+                } else {
+                    target?.invokeEventCallback('onTap', [syntheticEvent, target]);
+                }
+            }, 200)
+
         }
     }
 
