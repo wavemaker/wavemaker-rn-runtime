@@ -111,7 +111,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
         {this._background}
         <Tappable target={this}>
-          <Text style={{flex: 1, flexWrap: "wrap"}}>
+          <Text style={{flex: 1, flexWrap: "wrap"}} numberOfLines={props.nooflines} ellipsizeMode="tail">
             {this.state.parts?.map((part, index) => (
               <React.Fragment key={`part_${index}`}>
                 {part.link ? (
@@ -127,9 +127,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
                             : this.styles.text.color,
                       },
                     ]}
-                    numberOfLines={props.wrap ? undefined : 1}
                     selectable={this.styles.text.userSelect === 'text'}
-                    ellipsizeMode="tail"
                   >
                     {toString(part.text)}
                     {props.required && this.getAsterisk()}
