@@ -1,6 +1,7 @@
 import React from 'react';
 import { LayoutChangeEvent, View, Text, Platform } from 'react-native';
 import { Svg } from 'react-native-svg';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
 
 import { VictoryLabel, VictoryLegend, VictoryPie } from 'victory-native';
 
@@ -114,6 +115,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
     });
     return (
       <View style={[{opacity: this.state.opacity}, this.styles.root]}
+        {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
         onLayout={this.onViewLayoutChange}>
         <View onLayout={this.onInfoViewLayoutChange}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>

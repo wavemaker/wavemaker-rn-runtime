@@ -365,6 +365,7 @@ export enum AccessibilityWidgetType {
   NAV = 'nav',
   POVOVER = 'popover',
   WEBVIEW = 'webview',
+  LINECHART = 'linechart',
 };
 
 export type AccessibilityPropsType = {
@@ -430,6 +431,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.NAV:
     case AccessibilityWidgetType.POVOVER:
     case AccessibilityWidgetType.WEBVIEW:
+    case AccessibilityWidgetType.LINECHART:  
     case AccessibilityWidgetType.VIDEO: {
       props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
       props.accessibilityHint = accessibilityProps.hint;
@@ -483,7 +485,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     }
 
     case AccessibilityWidgetType.CHIPS: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel;
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
       props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityState = {
         disabled: accessibilityProps.disabled,
@@ -517,7 +519,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     }
     case AccessibilityWidgetType.PROGRESSBAR:
     case AccessibilityWidgetType.PROGRESSCIRCLE: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel;
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
       props.accessibilityRole = accessibilityProps.accessibilityrole;
       break;
     }

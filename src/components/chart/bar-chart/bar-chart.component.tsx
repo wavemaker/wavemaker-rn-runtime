@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
 
 import {
   VictoryChart,
@@ -45,6 +46,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
     }
     let mindomain={x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined, y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined};
     return (<View
+      {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
       style={this.styles.root}
     ><VictoryChart theme={this.state.theme}
                           height={this.styles.root.height as number}

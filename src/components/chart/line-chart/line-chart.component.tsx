@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Svg } from 'react-native-svg';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
 
 import {
   VictoryChart,
@@ -33,6 +34,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
     }
     return (<View
       style={this.styles.root}
+      {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
     >
       <VictoryChart
       theme={this.state.theme}

@@ -9,6 +9,7 @@ import {
   BaseChartComponent,
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
 
 export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> {
   chartWidth = 0;
@@ -38,6 +39,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
     const chartName = this.props.name ?? 'nonameAreachart';
     return (
       <View
+        {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
         style={this.styles.root}
         onLayout={this.onViewLayoutChange.bind(this)}
       >

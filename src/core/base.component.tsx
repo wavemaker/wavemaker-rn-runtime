@@ -376,14 +376,14 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (suffix) {
             id = id + '_' + suffix;
         }
-        return id;
+        return '';
     }
 
     public getTestProps(suffix?: string) {
         let id = this.getTestId(suffix);
         if (Platform.OS === 'android' || Platform.OS === 'web') {
             return {
-                // accessibilityLabel: id,
+                accessibilityLabel: id+"hey",
                 testID: id
             };
         }
