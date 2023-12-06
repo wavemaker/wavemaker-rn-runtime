@@ -1,4 +1,5 @@
 import React from 'react';
+import Color from "color";
 import { LayoutChangeEvent, View, Text } from 'react-native';
 import { Defs, LinearGradient, Stop, Svg } from 'react-native-svg';
 import { VictoryArea, VictoryLine, VictoryChart, VictoryLegend, VictoryStack, VictoryScatter, VictoryGroup } from "victory-native";
@@ -10,6 +11,7 @@ import {
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { isNil, isNumber } from 'lodash-es';
 
 export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> {
   chartWidth = 0;
@@ -33,10 +35,14 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
       return null;
     }
     let mindomain={
-      x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined,
-      y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined
+      x: props.xdomain === 'Min' ? this.state.chartMinX: undefined,
+      y: props.ydomain === 'Min' ? this.state.chartMinY: undefined
     };
     const chartName = this.props.name ?? 'nonameAreachart';
+    let gradientStop = '100%';
+    if (isNumber(this.state.chartMaxY) && isNumber(this.state.chartMinY) && this.state.chartMaxY > 0) {
+      gradientStop = (this.state.chartMaxY - this.state.chartMinY) * 100 / this.state.chartMaxY + '%';
+    }
     return (
       <View
         style={this.styles.root}
@@ -69,8 +75,8 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                 return <VictoryGroup key={props.name + '_area_group_' + i}>
                   <Defs>
                     <LinearGradient id={`${chartName}Gradient${i}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                      <Stop offset="0%" stopColor={this.state.colors[i]}/>
-                      <Stop offset="100%" stopColor={'#ffffff00'} stopOpacity="0"/>
+                      <Stop offset="0%" stopColor={Color(this.state.colors[i]).lighten(0.2).rgb().toString()}/>
+                      <Stop offset={gradientStop} stopColor={Color(this.state.colors[i]).lighten(0.6).rgb().toString()}/>
                     </LinearGradient>
                   </Defs>
                   <VictoryArea
@@ -79,18 +85,19 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                     style={{
                       data: {
                         fill: `url(#${chartName}Gradient${i})`,
-                        stroke: 'green',
-                        strokeWidth: 5,
+                        stroke: this.state.colors[i],
+                        strokeWidth: props.linethickness,
                       }
                     }}
                     data={d}
                   />
-                  {props.highlightpoints || this.state.data.length === 1?
+                  {props.highlightpoints ?
                     <VictoryScatter
                       size={5}
                       key={props.name + '_scatter' + i}
                       style={{
-                        data: { fill: 'black', opacity: 0.8}
+                        data: { 
+                          fill: Color(this.state.colors[i]).darken(0.2).rgb().toString()}
                       }}        
                       data={d}
                       />
