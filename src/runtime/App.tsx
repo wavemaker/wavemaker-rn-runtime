@@ -13,6 +13,7 @@ import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
+import ConstantService from '@wavemaker/app-rn-runtime/core/constant.service';
 import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
@@ -85,6 +86,7 @@ class DrawerImpl implements Drawer {
 }
 const SUPPORTED_SERVICES = {
   Utils: Utils,
+  CONSTANTS: ConstantService,
   StorageService: StorageService,
   AppDisplayManagerService: AppDisplayManagerService
 };
