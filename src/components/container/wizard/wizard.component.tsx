@@ -82,7 +82,6 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     const Labels = this.steps.map((step: WmWizardstep) => step.state.props.title);
     return (
       <WmPopover
-        id={this.getTestId('menu')}
         styles={this.styles.popover}
         contentanimation={'slideInDown'}
         caption={''}
