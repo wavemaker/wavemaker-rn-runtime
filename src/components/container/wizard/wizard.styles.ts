@@ -3,6 +3,9 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.styles';
+import { WmProgressCircleStyles } from '@wavemaker/app-rn-runtime/components/basic/progress-circle/progress-circle.styles';
+import { WmPopoverStyles } from '@wavemaker/app-rn-runtime/components/navigation/popover/popover.styles';
+import { WmLabelStyles } from '@wavemaker/app-rn-runtime/components/basic/label/label.styles';
 
 export type WmWizardStyles = BaseStyles & {
   wizardHeader: AllStyle,
@@ -10,6 +13,7 @@ export type WmWizardStyles = BaseStyles & {
   wizardFooter: AllStyle,
   wizardActions: WmButtonStyles,
   stepTitle: AllStyle,
+  stepSubTitle: AllStyle,
   buttonWrapper: AllStyle,
   step: AllStyle,
   nextButton: WmButtonStyles,
@@ -24,7 +28,15 @@ export type WmWizardStyles = BaseStyles & {
   stepWrapper: AllStyle,
   stepConnector: AllStyle,
   numberTextStepConnector: AllStyle,
-  stepCounter: AllStyle
+  stepCounter: AllStyle,
+  progressCircle: WmProgressCircleStyles,
+  popover: WmPopoverStyles,
+  stepMenu: AllStyle,
+  activeStepMenu: AllStyle,
+  stepMenuLabel: WmLabelStyles,
+  stepMenuActiveLabel: WmLabelStyles
+  stepMenuIcon: WmIconStyles,
+  stepMenuActiveIcon: WmIconStyles
 };
 
 export const DEFAULT_CLASS = 'app-wizard';
@@ -74,7 +86,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       wizardFooter: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        padding: 12
+        padding: 12,
+        width: '100%',
       },
       buttonWrapper: {
         flexDirection: 'row',
@@ -83,6 +96,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           textTransform: 'capitalize',
           fontSize: 12,
           color: themeVariables.wizardStepTitleColor
+      },
+      stepSubTitle:{
+        color: themeVariables.wizardStepTitleColor
       },
       step: {
         alignItems: 'center',
@@ -155,7 +171,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       stepCounter: {
         fontSize: 15,
         color: themeVariables.wizardStepColor
-      }
+      },
+      progressCircle:{} as WmProgressCircleStyles,
+      popover:{} as WmPopoverStyles,
+      stepMenu:{},
+      activeStepMenu:{},
+      stepMenuLabel: {} as WmLabelStyles,
+      stepMenuActiveLabel: {} as WmLabelStyles,
+      stepMenuIcon: {} as WmIconStyles,
+      stepMenuActiveIcon: {} as WmIconStyles
   } as WmWizardStyles);
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
@@ -180,6 +204,95 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     stepTitle: {
       padding: 5
     },
+  } as WmWizardStyles);
+  addStyle('progress-circle-header', '', {
+    stepWrapper: {
+      paddingBottom: 4,
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+    wizardHeader: {
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      backgroundColor: themeVariables.wizardBackgroundColor,
+      height: 120,
+      borderRadius: 30
+    },
+    stepSubTitle:{
+      fontSize: 12,
+      paddingHorizontal: 5
+    },
+    headerWrapper: {
+      flex: 1
+    },
+    stepTitle: {
+      fontSize: 16,
+      paddingHorizontal: 5
+    },
+    progressCircle:{
+      root: { 
+        height: 60, 
+        width: 60 
+      }, 
+      text: {},
+      progressValue:{
+        height: 8
+      }
+    },
+    popover:{
+      popover:{
+        width: 160,
+        paddingTop: 8,
+        paddingBottom: 8,
+        backgroundColor: themeVariables.menuBackgroundColor,
+        minHeight:160,
+        borderBottomLeftRadius: 28,
+        borderBottomRightRadius: 28  
+      },
+      popoverContent: {
+        root:{
+          //@ts-ignore
+          flex: undefined
+        }
+      },
+      modalContent:{
+        borderBottomLeftRadius: 28,
+        borderBottomRightRadius: 28
+      }
+    } as WmPopoverStyles,
+    stepMenu:{
+      flexDirection: 'row', 
+      padding: 14, 
+      alignItems: 'center', 
+      justifyContent:'flex-start'
+    },
+    activeStepMenu:{},
+    stepMenuLabel:{
+      text:{
+        color:themeVariables.menuItemTextColor
+      }
+    },
+    stepMenuActiveLabel:{
+      text:{
+        color: themeVariables.primaryColor
+      }
+    },
+    stepMenuIcon: {
+      root:{
+        paddingRight: 4
+      },
+      text:{
+        color:themeVariables.menuItemTextColor
+      }
+    },
+    stepMenuActiveIcon:{
+      root:{
+        paddingRight: 4
+      },
+      text:{
+        color: themeVariables.primaryColor
+      }
+    }
   } as WmWizardStyles);
   addStyle(DEFAULT_CLASS + '-rtl', '', {
     wizardActions: {
