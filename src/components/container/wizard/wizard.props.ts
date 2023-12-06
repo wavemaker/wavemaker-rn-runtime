@@ -9,4 +9,8 @@ export default class WmWizardProps extends BaseProps {
   nextbtnlabel: string = 'Next';
   previousbtnlabel: string = 'Previous';
   defaultstep: string = 'none';
+  progresstitle: string = '';
+  progresstype: 'default' | 'success' | 'info' | 'warning' | 'error' = 'default';
+  getmenudataexpression: any = undefined;
+  popovericonclass: string = 'fa fa-caret-down';
 }
