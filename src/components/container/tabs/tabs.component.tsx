@@ -41,15 +41,8 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
 
   constructor(props: WmTabsProps) {
     super(props, DEFAULT_CLASS, new WmTabsProps(), new WmTabsState());
-    const selectedIndex = props.defaultpaneindex || 0;
-    const tabsShown: boolean[] = [];
-    tabsShown[selectedIndex] = true;
-    this.updateState({
-      selectedTabIndex: selectedIndex,
-      tabsShown: tabsShown
-    }as WmTabsState);
   }
-
+  
   setTabLayout(event: LayoutChangeEvent) {
     this.tabLayout = event.nativeEvent.layout;
     this.forceUpdate(() => {
@@ -166,6 +159,20 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     )
   }
 
+  public onPropertyChange(name: string, $new: any, $old: any): void {
+    super.onPropertyChange(name, $new, $old);
+    switch(name) {
+      case "defaultpaneindex":
+        const selectedIndex = $new || 0;
+        const tabsShown: boolean[] = [];
+        tabsShown[selectedIndex] = true;
+        this.updateState({
+          selectedTabIndex: selectedIndex,
+          tabsShown: tabsShown
+        } as WmTabsState);
+    }
+  }
+  
   renderWidget(props: WmTabsProps) {
     const tabPanes =  React.Children.toArray(props.children)
       .filter((item: any, index: number) => item.props.show != false);
