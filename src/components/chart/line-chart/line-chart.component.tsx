@@ -8,12 +8,7 @@ import {
   VictoryLegend,
   VictoryScatter,
   VictoryGroup,
-  VictoryLabel,
-  VictoryArea,
-  VictoryAxis,
-  VictoryTooltip,
-  VictoryVoronoiContainer
-} from 'victory-native';
+  } from 'victory-native';
 
 import WmLineChartProps from './line-chart.props';
 import { DEFAULT_CLASS, WmLineChartStyles } from './line-chart.styles';
@@ -32,20 +27,17 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
     super(props, DEFAULT_CLASS, new WmLineChartProps(), new WmLineChartState());
   }
   renderWidget(props: WmLineChartProps) {
-  
-    if (!this.state.data?.length) {
+      if (!this.state.data?.length) {
       return null;
     }
-    return (<View
-      style={this.styles.root}
-    >
+    return (
+    <View style={this.styles.root}>
       <VictoryChart
-      containerComponent={<VictoryVoronoiContainer labels={({ datum }) => `${(datum.x)}, ${(datum.y)}`}/>}
-      theme={this.state.theme}
-      height={this.styles.root.height as number}
-      width={this.styles.root.width as number || this.screenWidth}
-      padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
-    >
+        theme={this.state.theme}
+        height={this.styles.root.height as number}
+        width={this.styles.root.width as number || this.screenWidth}
+        padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
+      >
         <VictoryLegend
           name={'legend'}
           containerComponent={<Svg />}
@@ -59,47 +51,29 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
         {this.getLegendView()}
         {this.getXaxis()}
         {this.getYAxis()}
-      {
-        this.state.data.map((d: any, i: number) => {
+        {this.state.data.map((d: any, i: number) => {
           return <VictoryGroup key={props.name + '_line_group_' + i}>
-            <VictoryArea
-                interpolation={props.interpolation as InterpolationPropType}
-                key={props.name + '_area_' + i}
-                name={props.name + '_area_' + i}
-                standalone={true}
-                style={{
-                data: {
-                  fill: '#90EE90',  // Set the fill color to green
-                  fillOpacity: 0.8,  // Adjust the opacity as needed
-                  },
-                }}
-                data={this.isRTL ? d.toReversed() : d}
-             />
             <VictoryLine interpolation={props.interpolation as InterpolationPropType}  key={props.name + '_line_' + i}
-                              name={props.name + '_line_' + i}
-                              standalone={true}
-                              style={{
-                                data: {
-                                  stroke: ("green" || ThemeVariables.INSTANCE.chartLineColor),
-                                  strokeWidth: props.linethickness,
-                                }
-                              }}       
-            data={this.isRTL?d.toReversed():d}
-          />
+              name={props.name + '_line_' + i}
+              standalone={true}
+              style={{
+                data: {
+                  stroke: (this.state.colors[i] || ThemeVariables.INSTANCE.chartLineColor),
+                  strokeWidth: props.linethickness,
+                }
+              }}       
+              data={d}
+            />
           {(props.highlightpoints || this.state.data.length === 1) ?
-            <VictoryScatter size={5} key={props.name + '_scatter' + i}
-                            style={{
-                              data: { fill: this.state.colors[i], opacity: 0.8,}
-                            }}
-                           
-                            // data={this.isRTL?d.toReversed():d}
-                            data={this.isRTL?d.toReversed(): [d[d.length-1]]}
-                          
-            />: null}
+              <VictoryScatter size={5} key={props.name + '_scatter' + i}
+                  style={{
+                    data: { fill: this.state.colors[i], opacity: 0.8,}
+                  }}
+                  data={d}
+              />: null}
             </VictoryGroup>
-        })
-      }
-    </VictoryChart>
+        })}
+      </VictoryChart>
     </View>);
   }
 }
