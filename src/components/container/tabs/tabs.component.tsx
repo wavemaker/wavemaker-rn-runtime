@@ -191,7 +191,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           : {
             overflow: 'hidden',
             maxHeight: this.tabPaneHeights[this.state.selectedTabIndex],
-          }]} >
+          }, this.styles.tabContent]} >
           <SwipeAnimation.View 
             enableGestures={props.enablegestures}
             style={{
