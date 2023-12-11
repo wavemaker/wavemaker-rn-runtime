@@ -62,7 +62,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             marginLeft: -8,
             marginTop: -18,
             borderRadius: 16,
-            backgroundColor: themeVariables.thumbTintColor
+            backgroundColor: themeVariables.thumbTintColor,
+            backgroundSize: '100% 100%',
+            backgroundPosition: 'center'
         },
         disabled: {
             pointerEvents: 'none'
