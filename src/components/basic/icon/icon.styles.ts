@@ -15,7 +15,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             alignItems: 'center'
         },
         icon: {
-            paddingLeft: 0
+            paddingLeft: 0,
+            paddingRight: 8
         },
         text: {
             paddingLeft: 8

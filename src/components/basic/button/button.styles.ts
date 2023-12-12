@@ -15,9 +15,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmButtonStyles = defineStyles<WmButtonStyles>({
       root: {
           minHeight: 40,
-          borderRadius: 6,
-          paddingTop: 11,
-          paddingBottom: 11,
+          borderRadius: 50,
+          paddingTop: 12,
+          paddingBottom: 14,
           paddingLeft: 24,
           paddingRight: 24,
           alignSelf: 'flex-start'
