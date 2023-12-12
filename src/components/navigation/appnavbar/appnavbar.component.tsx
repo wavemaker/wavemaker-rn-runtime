@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, BackHandler } from 'react-native';
+import { isAndroid } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
@@ -22,6 +23,13 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
     this.onDrawerBtnPress = (() => this.invokeEventCallback('onDrawerbuttonpress', [null, this])).bind(this);
     this.onBackBtnPress = (() => this.invokeEventCallback('onBackbtnclick', [null, this])).bind(this);
     this.onSearchBtnPress = (() => this.invokeEventCallback('onSearchbuttonpress', [null, this])).bind(this);
+    if (isAndroid()) {
+      const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
+        this.onBackBtnPress();
+        return true;
+      });
+      this.cleanup.push(() => subscription.remove());
+    }
   }
 
   renderWidget(props: WmAppNavbarProps) {
