@@ -111,7 +111,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
         {this._background}
         <Tappable target={this}>
-          <Text style={{flex: 1, flexWrap: "wrap"}}>
+          <Text style={{flexWrap: "wrap"}}>
             {this.state.parts?.map((part, index) => (
               <React.Fragment key={`part_${index}`}>
                 {part.link ? (

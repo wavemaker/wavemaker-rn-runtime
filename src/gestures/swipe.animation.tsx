@@ -1,6 +1,6 @@
 import { isNil } from 'lodash-es';
 import React from  'react';
-import { Animated, Easing, ViewStyle } from 'react-native';
+import { Animated, Easing, View as RNView, ViewStyle, LayoutChangeEvent, LayoutRectangle, DimensionValue } from 'react-native';
 import { Gesture, GestureDetector, GestureUpdateEvent } from 'react-native-gesture-handler';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -26,20 +26,26 @@ export class Props {
     style?: ViewStyle = {} as any;
     children: any;
     enableGestures: any;
+    slideWidth?: DimensionValue = '100%';  
 }
 
 export class State {
     threshold = 30;
     isHorizontal = false;
     bounds: Bounds = {} as any;
+    maxPosition = Number.MAX_VALUE;
 }
 
 export class View extends React.Component<Props, State> {
+
+    static defaultProps = new Props();
 
     private gesture = Gesture.Pan();
     private position = new Animated.Value(0);
     public animationPhase = new Animated.Value(0);
     private i18nService = injector.I18nService.get();
+    private childrenLayout: LayoutRectangle[] = [];
+    private viewLayout: LayoutRectangle = null as any;
 
     constructor(props: Props) {
         super(props);
@@ -79,6 +85,30 @@ export class View extends React.Component<Props, State> {
 
     }
 
+    computeMaxScroll() {
+        let max = Number.MAX_VALUE;
+        const childrenWidth = this.childrenLayout.reduce((s, v) => s + v.width, 0);
+        const childrenHeight = this.childrenLayout.reduce((s, v) => s + v.height, 0);
+        if (this.props.direction === 'horizontal') {
+            if (childrenWidth && this.viewLayout?.width) {
+                max = childrenWidth - this.viewLayout.width;
+            }
+        } else if (childrenHeight && this.viewLayout?.height) {
+            max = childrenHeight - this.viewLayout.height;
+        }
+        this.setState({maxPosition: -1 * max});
+    }
+
+    setChildrenLayout(event: LayoutChangeEvent, index: number) {
+      this.childrenLayout[index] = event.nativeEvent.layout;
+      this.computeMaxScroll();
+    }
+
+    setViewLayout(event: LayoutChangeEvent) {
+        this.viewLayout = event.nativeEvent.layout;
+        this.computeMaxScroll();
+    }
+
     computePhase(value: number) {
         return (this.props.handlers?.computePhase && 
             this.props.handlers?.computePhase(value)) || 0;
@@ -114,6 +144,7 @@ export class View extends React.Component<Props, State> {
         if (isNil(value)) {
             return Promise.reject();
         }
+        let position = isNaN(this.state.maxPosition) ? value : Math.max(this.state.maxPosition, value);
         return new Promise((resolve) => {
             Animated.parallel([
                 Animated.timing(this.animationPhase, {
@@ -124,7 +155,7 @@ export class View extends React.Component<Props, State> {
                 }),
                 Animated.timing(this.position, {
                     useNativeDriver: true,
-                    toValue:  this.isRTL()?-value:value,
+                    toValue:  (this.isRTL() ? -1: 1) * position,
                     duration: 200,
                     easing: Easing.out(Easing.linear)
                 })
@@ -133,10 +164,16 @@ export class View extends React.Component<Props, State> {
     }
 
     public render() {
+        const isHorizontal = this.props.direction === 'horizontal';
         return (
             //@ts-ignore
             <GestureDetector gesture={this.gesture}>
                 <Animated.View style={[
+                    isHorizontal ? {
+                        flexDirection: 'row',
+                        flexWrap: 'nowrap',
+                        alignItems: 'center',
+                    } : null,
                     this.props.style, 
                     {
                         transform: this.state.isHorizontal ? [{
@@ -144,8 +181,19 @@ export class View extends React.Component<Props, State> {
                         }] : [{
                             translateY: this.position
                         }]
-                    }]}>
-                    {this.props.children}
+                    }]} onLayout={this.setViewLayout.bind(this)}>
+                    {this.props.children.map((c: any, i: number) => {
+                        return (<RNView onLayout={(e) => this.setChildrenLayout(e, i)} key={c.key} 
+                            style={[{
+                                minWidth: this.props.slideWidth
+                            },
+                            this.props.style?.height === '100%' ? {
+                                height: '100%'
+                            } : null
+                        ]}>
+                            {c}
+                        </RNView>);
+                    })}
                 </Animated.View>
             </GestureDetector>
         );
