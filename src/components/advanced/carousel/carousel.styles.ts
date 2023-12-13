@@ -32,10 +32,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         text: {},
         slide: {
             width: '100%',
+            overflow: 'hidden',
             paddingHorizontal: 16,
             transform: [
                 {
-                    translateX: 0
+                    scale: 0.8
                 }
             ]
         },
@@ -88,15 +89,18 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             paddingBottom: 4
         },
         activeDotStyle: {
+            position: 'absolute',
             backgroundColor: themeVariables.carouselActiveDotColor,
-            opacity: 1
+            opacity: 1,
+            padding: 4
         },
         dotStyle: {
             width: 8,
             height: 8,
             borderRadius: 10,
             opacity: 0.2,
-            marginHorizontal: 2,
+            marginLeft: 2,
+            marginRight: 2,
             backgroundColor: themeVariables.carouselDotColor
         }
     } as WmCarouselStyles);

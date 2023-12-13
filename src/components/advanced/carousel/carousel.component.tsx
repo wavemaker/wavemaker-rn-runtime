@@ -1,6 +1,6 @@
 import React from 'react';
-import { isArray } from 'lodash-es';
-import { Animated, View, Text, LayoutChangeEvent, LayoutRectangle } from 'react-native';
+import { isArray, isUndefined } from 'lodash-es';
+import { Animated, Easing, View, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -16,23 +16,32 @@ export class WmCarouselState extends BaseComponentState<WmCarouselProps> {
 export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouselState, WmCarouselStyles> {
 
   noOfSlides: number = 0;
-  private slideLayout: LayoutRectangle = null as any;
+  private slidesLayout: LayoutRectangle[] = [];
   private keyExtractor = new DefaultKeyExtractor();
   stopPlay: Function = null as any;
+  private dotScale = new Animated.Value(0);
+  private dotPosition = new Animated.Value(0);
   private animationView: SwipeAnimation.View | null = null as any;
   private animationHandlers = {
     bounds: (e) => {
-      const activeTabIndex = this.state.activeIndex - 1,
-            w = this.slideLayout?.width || 0,
-            noOfTabs = this.state.props.dataset.length;
+      const activeTabIndex = this.state.activeIndex - 1;
+      let lower = 0;
+      if (activeTabIndex > 0) {
+        lower = this.slidesLayout
+          .filter((l , i) => i < activeTabIndex - 1)
+          .reduce((s, l) => s + l.width, 0);
+      }
+      let center = lower + (this.slidesLayout[activeTabIndex - 1]?.width || 0);
+      let upper = center + (this.slidesLayout[activeTabIndex]?.width || 0);
       return {
-        lower: -1 * (activeTabIndex - (activeTabIndex === 0 ? 0 : 1)) * w,
-        center: -1 * activeTabIndex * w,
-        upper:  -1 * (activeTabIndex + (activeTabIndex === noOfTabs - 1 ? 0 : 1)) * w
+        lower: -1 * lower,
+        center: -1 * center,
+        upper:  -1 * upper
       };
     },
     computePhase: (value) => {
-      const w = this.slideLayout?.width || 0;
+      const activeTabIndex = this.state.activeIndex - 1;
+      const w = this.slidesLayout[activeTabIndex]?.width || 0;
       return w && Math.abs(value / w);
     },
     onLower: (e) => {
@@ -50,16 +59,18 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     })
   }
 
+  addSlideLayout(index: number, nativeEvent: LayoutChangeEvent) {
+    this.slidesLayout[index] = nativeEvent.nativeEvent.layout;
+    if (index === this.state.activeIndex) {
+      this.forceUpdate();
+    }
+  }
+
   private generateItemKey(item: any, index: number, props: WmCarouselProps) {
     if (props.itemkey && item && !this._showSkeleton) {
       return props.itemkey(item, index);
     }
     return 'list_item_' +  this.keyExtractor.getKey(item, true);
-  }
-
-  setSlideLayout(event: LayoutChangeEvent) {
-    this.slideLayout = event.nativeEvent.layout;
-    this.forceUpdate();
   }
 
   autoPlay() {
@@ -84,7 +95,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         case 'dataset': {
           this.keyExtractor?.clear();
           this.updateState({
-            activeIndex: Math.min(this.state.activeIndex, $new?.length || 0)
+            activeIndex: Math.min(this.state.activeIndex, $new?.length || 1)
           } as WmCarouselState);
           break;
         }
@@ -95,12 +106,63 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
       }
   }
 
+  animatePagination(index: number) {
+    const prevIndex = this.state.activeIndex;
+    const margin = ((this.styles.dotStyle?.marginLeft as number)|| 0) + 
+    ((this.styles.dotStyle?.marginRight as number)|| 0)
+    const width = (this.styles.dotStyle?.width as number)|| 2;
+    const size = margin + width;
+    const position = Math.max(index - 1, 0)  * size;
+    const scale = Math.abs(index - prevIndex) * size;
+    const options = {
+      useNativeDriver: true,
+      duration: 200,
+      easing: Easing.out(Easing.linear)
+    };
+    if (prevIndex < index) {
+      Animated.sequence([
+        Animated.timing(this.dotScale, {
+          toValue: scale,
+          ...options
+        }),
+        Animated.parallel([
+          Animated.timing(this.dotScale, {
+              toValue:  0,
+              ...options
+          }),
+          Animated.timing(this.dotPosition, {
+              toValue:  (this.isRTL ? -1: 1) * position,
+              ...options
+          })
+        ])
+      ]).start();
+    } else if (prevIndex > index) {
+      Animated.sequence([
+        Animated.parallel([
+          Animated.timing(this.dotScale, {
+              toValue:  scale,
+              ...options
+          }),
+          Animated.timing(this.dotPosition, {
+              toValue:  (this.isRTL ? -1: 1) * position,
+              ...options
+          })
+        ]),
+        Animated.timing(this.dotScale, {
+          toValue: 0,
+          ...options
+        }),
+      ]).start();
+    } 
+  }
+
   onSlideChange = (index: number) => {
     const prevIndex = this.state.activeIndex;
     this.updateState({
       activeIndex: index
     } as WmCarouselState,
     () => this.invokeEventCallback('onChange', [this, index, prevIndex]));
+    this.animatePagination(index);
   }
 
   renderItem = (item: any, index: number) => {
@@ -132,16 +194,34 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
       minIndex = maxIndex - maxNoOfDots;
     }
     return (<View style={this.styles.dotsWrapperStyle}>
-      {
-        data.map((item: any, index: number) => {
-          return index >= minIndex && index <= maxIndex ? (
-            <View key={'dots_' + this.generateItemKey(item, index, this.state.props)} 
-              style={[
-                this.styles.dotStyle,
-                index === this.state.activeIndex - 1 ? this.styles.activeDotStyle: null]}>
-            </View>) : null;
-        })
-      }
+      <View style={{flexDirection: this.isRTL ? 'row-reverse' : 'row'}}>
+        {
+          data.map((item: any, index: number) => {
+            return index >= minIndex && index <= maxIndex ? (
+              <View key={'dots_' + this.generateItemKey(item, index, this.state.props)} 
+                style={[this.styles.dotStyle]}>
+              </View>) : null;
+          })
+        }
+        <Animated.View style={[
+          this.styles.dotStyle,
+          this.styles.activeDotStyle, {
+            width: undefined,
+            height: undefined,
+            transform: [{
+              translateX: this.dotPosition
+            }]
+          }, this.isRTL ? { right: 0 } : { left: 0}]}>
+            <Animated.View style={[{
+              width: 1,
+              height: 1
+            }, {
+              // This is failing in Android
+              // minWidth: this.dotScale
+            }]}>
+        </Animated.View>
+        </Animated.View>
+      </View>
     </View>);
   }
 
@@ -152,26 +232,31 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     let data = props.type === 'dynamic' ? props.dataset : props.children;
     data = isArray(data) ? data : [];
     this.noOfSlides = data?.length || 0;
+    let slideScale = undefined as any;
+    let slideTranslateX = undefined as any;
+    if (isArray(this.styles.slide?.transform)) {
+      slideScale = (this.styles.slide?.transform?.find(o => !isUndefined((o as any).scale)) as any)?.scale;
+      slideTranslateX = (this.styles.slide?.transform?.find(o => !isUndefined((o as any).translateX)) as any)?.translateX;
+    }
     // TODO: loop prop on Carousel is not working Refer: https://github.com/meliorence/react-native-snap-carousel/issues/608
     return (
-      <View style={styles.root} onLayout={this.setSlideLayout.bind(this)}>
+      <View style={styles.root}>
         {this._background}
         <SwipeAnimation.View 
             enableGestures={props.enablegestures}
             style={{
-              flexDirection: 'row',
-              flexWrap: 'nowrap',
-              alignItems: 'center'
+              height: props.type === 'dynamic' ? undefined : '100%',
             }}
             direction='horizontal'
             ref={(r) => {this.animationView = r}}
             handlers = {this.animationHandlers}
+            slideWidth={this.styles.slide.width}
           >
           {data.map((item: any, index: number) => {
             const isActive = index === this.state.activeIndex - 1;
             let scale = this.animationView?.animationPhase.interpolate({
               inputRange: [-2000, index - 1, index, index + 1, 2000],
-              outputRange: [0.8, 0.8, 1, 0.8, 0.8]
+              outputRange: [slideScale, slideScale, 1, slideScale, slideScale]
             });
             let translateX = this.animationView?.animationPhase.interpolate({
               inputRange: [-2000, index - 1, index, index + 1, 2000],
@@ -179,16 +264,25 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             });
             return (
               <Animated.View key={this.generateItemKey(item, index, props)}
-                style={[this.styles.slide,
+                onLayout={this.addSlideLayout.bind(this, index)}
+                onTouchEnd={() => {
+                  this.onSlideChange(index + 1);
+                  const position = this.slidesLayout
+                    .filter((l , i) => i < index)
+                    .reduce((s, l) => s + l.width, 0);
+                  this.animationView?.setPosition(-1 * position);
+                }}
+                style={[
+                  {height: props.type === 'dynamic' ? undefined : '100%'},
+                  this.styles.slide,
                   index === 0 ? this.styles.firstSlide : null,
                   index === data.length - 1 ? this.styles.lastSlide: null,
                   isActive ? this.styles.activeSlide: null,
                   translateX && scale ? {
                     transform: [
                       {
-                        translateX: translateX
-                      },
-                      {
+                        translateX: !isUndefined(slideTranslateX) ? slideTranslateX : translateX
+                      }, {
                         scale: scale
                       }
                     ]
