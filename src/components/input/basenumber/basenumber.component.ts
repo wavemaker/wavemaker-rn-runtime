@@ -38,13 +38,18 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     const isCurrencyField = type === 'currency';
     let isValidText = true;
 
-    // * check for alphabets
-    if (/[a-zA-Z]/.test(value)) {
+    // * no alphabets except E, may contain E only once
+    if (/[a-df-zA-DF-Z]/.test(value) || !/^[^eE]*[eE]?[^eE]*$/.test(value)) {
       isValidText = false;
     }
 
     // * currency only: check for negative number
     if (isCurrencyField && (Number(value) < 0 || /-/g.test(value))) {
+      isValidText = false;
+    }
+
+    // * number only: not more than one minus and doesn't end with minus (-)
+    if (!isCurrencyField && (Number(value.match(/-/g)?.length) > 1) || /\w-/.test(value)) {
       isValidText = false;
     }
 
