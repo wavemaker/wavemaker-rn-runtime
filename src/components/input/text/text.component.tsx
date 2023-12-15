@@ -30,8 +30,11 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
             ref.selectionStart = ref.selectionEnd = this.cursor;
           }}}
           {...opts}
+          label={props.label}
+          isFloating={props.isFloating}
           placeholderTextColor={this.styles.placeholderText.color as any}
           style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
+          floatingStyle={this.styles.floatingText}
           keyboardType={this.state.keyboardType}
           autoComplete={props.autocomplete ? 'username' : 'off'}
           autoFocus={props.autofocus}
