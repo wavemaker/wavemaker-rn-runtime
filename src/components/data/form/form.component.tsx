@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { isDefined, widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
-import { debounce, find, forEach, isNil, get, set } from 'lodash';
+import { debounce, find, forEach, isNil, get, set, cloneDeep } from 'lodash';
 
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -216,6 +216,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   }
 
   formreset() {
+    this.formdataoutput = {};
     forEach(this.formFields, (ff: WmFormField) => {
       const defaultValue = isNil(ff.state.props.defaultvalue) ?  '' : ff.state.props.defaultvalue;
       ff.updateState({
@@ -286,7 +287,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
       const onValidate = get(field, 'props.onValidate');
       onValidate && onValidate(field);
-      if (!val && field?.state.props.required && field.state.props.generator === 'assigned') {
+      if (!val && field?.state.props.required) {
         isValid = false;
         const msg = get(field.defaultValidatorMessages, 'required') || field.state.props.validationmessage;
         field.updateState({ isValid: isValid, props: {
@@ -305,7 +306,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   // @ts-ignore
   handleSubmit(event?: any) {
     event?.preventDefault();
-    const formData = this.state.props.dataoutput || this.formdataoutput;
+    const formData = cloneDeep(this.state.props.dataoutput || this.formdataoutput);
 
     if (!this.validateFieldsOnSubmit()) {
       return false;
@@ -370,7 +371,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       name: this, placement: "", styles: {bottom: 0},
       text: message,
       type: type,
-      hideOnClick: true
+      hideOnClick: true,
+      duration: 5000
     });
   }
 
