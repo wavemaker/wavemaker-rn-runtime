@@ -16,6 +16,12 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
     super(props, DEFAULT_CLASS, new WmContainerProps());
   }
 
+  componentDidMount(): void {
+    if (!this.props.renderPartial) {
+      this.invokeEventCallback('onLoad', [this]);
+    }
+  }
+
   renderWidget(props: WmContainerProps) {
     const dimensions = {
       width: this.styles.root.width ? '100%' : undefined,
