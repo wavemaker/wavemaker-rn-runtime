@@ -11,6 +11,7 @@ export interface ToastOptions {
     duration?: number;
     name: string;
     styles: any;
+    classname: string;
     hideOnClick?: boolean;
 }
 
