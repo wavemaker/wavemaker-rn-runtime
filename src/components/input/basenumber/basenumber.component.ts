@@ -302,10 +302,9 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         }
         break;
       case 'datavalue':
-        // ? why here
-        // this.updateState({
-        //   textValue: $new,
-        // } as S);
+        this.updateState({
+          textValue: $new,
+        } as S);
         const isDefault = this.state.isDefault;
         if (isDefault) {
           this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));

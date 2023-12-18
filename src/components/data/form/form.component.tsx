@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { isDefined, widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
-import { debounce, find, forEach, get, set } from 'lodash';
+import { debounce, find, forEach, isNil, get, set } from 'lodash';
 
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -217,9 +217,10 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   formreset() {
     forEach(this.formFields, (ff: WmFormField) => {
+      const defaultValue = isNil(ff.state.props.defaultvalue) ?  '' : ff.state.props.defaultvalue;
       ff.updateState({
         props : {
-          datavalue: ''
+          datavalue: defaultValue
         }
       } as WmFormFieldState, () => {
           const id = ff.props.formKey || ff.props.name;
@@ -233,7 +234,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
             widget.updateState({
               isValid: true,
               props : {
-                datavalue: ''
+                datavalue: defaultValue
               }
             }, () => ff.updateState({
               isValid: true
