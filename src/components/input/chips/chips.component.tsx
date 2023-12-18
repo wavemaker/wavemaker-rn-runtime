@@ -87,6 +87,16 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     this.resetSearchModel();
   }
 
+  computeDisplayValue() {
+    this.updateState({
+      props: {
+        displayValue: ((this.state.dataItems || [] as any)
+          .filter((item: any) => item.selected)
+          .map((item: any) => item.displayexp || item.displayfield)) || ''
+      }
+    } as WmChipsState);
+  }
+
   selectChip(chipItem: any) {
     if (!chipItem.selected && this.state.props.maxsize > 0 && (this.state.chipsList.length === this.state.props.maxsize)) {
       return;
