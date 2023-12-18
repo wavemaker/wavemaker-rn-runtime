@@ -19,6 +19,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     if (!value) {
       return;
     }
+    const oldVal = this.state.props.datavalue;
     this.validate(value);
     if (this.state.props.datafield === 'All Fields') {
       const selectedItem = find(this.state.dataItems, (item) => isEqual(item.key, value));
@@ -28,7 +29,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     this.updateState({props: {datavalue: value}, isDefault: false},
       () => {
       if (!this.props.invokeEvent) {
-        this.invokeEventCallback('onChange', [undefined, this.proxy, value, this.state.props.datavalue])
+        this.invokeEventCallback('onChange', [undefined, this.proxy, value, oldVal]);
       }
       });
   }
