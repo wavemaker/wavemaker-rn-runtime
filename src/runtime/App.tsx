@@ -260,7 +260,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
           error.message = errMsg;
           console.error(`Error ${errMsg} recieved from ${error.response?.config?.url}`);
           this.onServiceError(error.message, error);
-          if (error.response?.config.url?.startsWith(this.appConfig.url) && error.response?.status === 401) {
+          if (error.response?.config.url?.startsWith(this.appConfig.url) && !error.response?.config.url?.includes('/services/') && error.response?.status === 401) {
             this.appConfig.currentPage?.pageName !== 'Login' && this.appConfig.currentPage?.goToPage('Login');
           }
           return Promise.reject(error)
