@@ -57,6 +57,16 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
       </TouchableOpacity>)
   }
 
+  computeDisplayValue() {
+    this.updateState({
+      props: {
+        displayValue: ((this.state.dataItems || [] as any)
+          .filter((item: any) => item.selected)
+          .map((item: any) => item.displayexp || item.displayfield)) || ''
+      }
+    } as WmCheckboxsetState);
+  }
+
   updateDatavalue(value: any) {
     this.updateState({ props: { datavalue: value }} as WmCheckboxsetState);
     return Promise.resolve();
