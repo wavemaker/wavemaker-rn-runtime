@@ -337,8 +337,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
       watch(() => AppToastService.refreshCount);
       return (
         <>
-          {AppToastService.toastsOpened.map((o, i) =>
-            this.getProviders((
+          {AppToastService.toastsOpened.map((o, i) =>{
+            const styles = this.appConfig.theme.mergeStyle(this.appConfig.theme.getStyle(`app-message`),this.appConfig.theme.getStyle(o.classname));
+            return this.getProviders((
                 <View key={i} style={[{
                   position: 'absolute',
                   width: '100%',
@@ -348,11 +349,11 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 }, o.styles]}>
                   <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
                     {o.content}
-                    {o.text && <WmMessage name={"message"+ i} type={o.type} caption={o.text} hideclose={true}></WmMessage>}
+                    {o.text && <WmMessage name={"message"+ i} styles={styles} type={o.type} caption={o.text} hideclose={true}></WmMessage>}
                   </TouchableOpacity>
                 </View>
               )
-          ))}
+          )})}
         </>);
     }}/>;
   }
