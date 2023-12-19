@@ -172,8 +172,8 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     const currentStep = this.steps[index];
     if (eventName === 'skip') {
       currentStep.invokeSkipCB(index);
-    } else {
-      currentStep.invokeNextCB(index);
+    } else if (currentStep.invokeNextCB(index) == false) {
+      return;
     }
     this.updateCurrentStep(index + 1);
   }

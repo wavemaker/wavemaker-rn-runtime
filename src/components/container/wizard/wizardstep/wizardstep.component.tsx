@@ -47,8 +47,8 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
     return super.isVisible() && this.state.active;
   }
 
-  invokeNextCB(index: number) {
-    this.invokeEventCallback('onNext', [this.proxy, this, index]);
+  invokeNextCB(index: number) : boolean {
+    return this.invokeEventCallback('onNext', [this.proxy, this, index]);
   }
 
   invokePrevCB(index: number) {
