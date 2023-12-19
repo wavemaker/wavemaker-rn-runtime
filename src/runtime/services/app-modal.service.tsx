@@ -44,7 +44,7 @@ class AppModalService implements ModalService {
         // widgets in dialog are not accessible. Hence adding setTimeout
         setTimeout(() => {
           this.modalOptions.onOpen && this.modalOptions.onOpen();
-        });
+        },500);
         this.setBackButtonPress();
     }
 
