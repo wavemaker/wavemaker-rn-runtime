@@ -55,7 +55,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps & {allowCont
           {
             translateX:
               isInputFocused || animateLabelText
-                ? withTiming(labelOffset.value - 5, { duration: 200 })
+                ? withTiming(labelOffset.value - 7, { duration: 200 })
                 : withTiming(0, { duration: 200 }),
           },
           {
@@ -68,6 +68,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps & {allowCont
       };
     });
 
+    console.log('props =>', props)
     return (
       <View>
         {props.isFloating ? (
@@ -92,7 +93,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps & {allowCont
 
         <TextInput
           {...props}
-          placeholder={props.isFloating ? '' : props.placeholder}
+          placeholder={props.isFloating ? isInputFocused ? props.placeholder : '' : props.placeholder}
           style={[
             props.style,
             borderBottomColor,

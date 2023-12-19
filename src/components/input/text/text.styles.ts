@@ -25,7 +25,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         backgroundColor: themeVariables.inputBackgroundColor,
         borderTopLeftRadius: 6,
         borderTopRightRadius: 6,
-        borderBottomColor: themeVariables.defaultColor,
         fontFamily: themeVariables.baseFont
       },
       text: {

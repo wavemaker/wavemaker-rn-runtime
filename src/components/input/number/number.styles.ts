@@ -5,6 +5,7 @@ import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 export type WmNumberStyles = BaseStyles & {
   invalid: AllStyle;
   placeholderText: AllStyle;
+  floatingText: AllStyle;
   skeleton: WmSkeletonStyles;
 };
 
@@ -12,10 +13,12 @@ export const DEFAULT_CLASS = 'app-number';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmNumberStyles = defineStyles<WmNumberStyles>({
       root: {
-        minHeight: 42,
-        paddingTop: 8,
-        paddingBottom: 8,
-        borderWidth: 1,
+        minHeight: 56,
+        // paddingTop: 8,
+        // paddingBottom: 8,
+        borderBottomWidth: 1,
+        borderTopLeftRadius: 6,
+        borderTopRightRadius: 6,
         borderStyle: 'solid',
         borderColor: themeVariables.inputBorderColor,
         backgroundColor: themeVariables.inputBackgroundColor,
@@ -32,6 +35,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       placeholderText: {
         color: themeVariables.inputPlaceholderColor
+      },
+      floatingText: {
+        position: 'absolute',
+        paddingTop: 19,
+        marginBottom: 4,
+        marginHorizontal: 10,
+        paddingHorizontal: 5,
+        fontSize: 14,
+        zIndex: 1,
       },
       skeleton: {} as WmSkeletonStyles
   });

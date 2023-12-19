@@ -33,6 +33,9 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
           ref.selectionStart = ref.selectionEnd = this.cursor;
         }}}
       {...opts}
+      label={props.label}
+      isFloating={props.isFloating}
+      floatingStyle={this.styles.floatingText}
       style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
       keyboardType="numeric"
       placeholderTextColor={this.styles.placeholderText.color as any}

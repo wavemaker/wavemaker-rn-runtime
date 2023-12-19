@@ -5,6 +5,7 @@ import { Platform } from 'react-native';
 export type WmCurrencyStyles = BaseStyles & {
   label: AllStyle;
   invalid: AllStyle;
+  floatingText: AllStyle;
   placeholderText: AllStyle;
 };
 
@@ -12,8 +13,10 @@ export const DEFAULT_CLASS = 'app-currency';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmCurrencyStyles = defineStyles({
       root: {
-        minHeight: 42,
-        borderWidth: 1,
+        minHeight: 56,
+        borderBottomWidth: 1,
+        borderTopLeftRadius: 6,
+        borderTopRightRadius: 6,
         borderStyle: 'solid',
         borderColor: themeVariables.inputBorderColor,
         backgroundColor: themeVariables.inputBackgroundColor,
@@ -59,7 +62,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       placeholderText: {
         color: themeVariables.inputPlaceholderColor
-      }
+      },
+      floatingText: {
+        position: 'absolute',
+        paddingTop: 19,
+        marginBottom: 4,
+        marginHorizontal: 10,
+        paddingHorizontal: 5,
+        fontSize: 14,
+        zIndex: 1,
+      },
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
