@@ -164,9 +164,10 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       return Promise.resolve();
     }
 
-    isCurrentPage(link: string) {
+    isActiveTabbarItem({label, link, links}: {label: string, link: string, links: string[]}) {
       const pageName = this.pageName;
-      return [pageName, '#' + pageName, '#/' + pageName].includes(link)
+      const possibleLinks = [pageName, '#' + pageName, '#/' + pageName];
+      return links && links.find(l => possibleLinks.includes(l));
     }
 
     abstract renderPage(): ReactNode;
