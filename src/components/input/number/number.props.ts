@@ -2,5 +2,7 @@ import BaseNumberProps from '@wavemaker/app-rn-runtime/components/input/basenumb
 
 export default class WmNumberProps extends BaseNumberProps {
   autofocus: boolean = null as any;
+  label?: string;
+  isFloating?: boolean = true;
   placeholder: string = '';
 }

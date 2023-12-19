@@ -55,6 +55,9 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         placeholderTextColor={this.styles.placeholderText.color as any}
         style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
         {...opts}
+        label={props.label}
+        isFloating={props.isFloating}
+        floatingStyle={this.styles.floatingText}
         editable={props.disabled || props.readonly ? false : true}
         placeholder={props.placeholder}
         value={this.state.textValue}
