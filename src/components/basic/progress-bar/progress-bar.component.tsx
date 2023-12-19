@@ -17,7 +17,6 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
 
   renderWidget(props: WmProgressBarProps) {
     let value = (props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue);
-    value = Math.round(isNaN(value) ? 0 : value);
     const styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
     return (
     <View style={styles.root}>

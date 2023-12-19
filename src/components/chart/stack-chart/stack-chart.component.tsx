@@ -55,7 +55,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
       const colorScaleArray = this.getColorCodes();
       const maxValue = Math.max(...data.map((o: any) => o.y));
       data = orderBy(data, 'y', 'desc');
-      const radius = 170;
+      const radius = Math.min(this.state.chartWidth/2, this.state.chartHeight - 50);
       return data.map((d: any, i: number) => {
         let d1: any = [];
         d1.push(d);
@@ -77,7 +77,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
 
   getArcAxis() {
     const ticks = this.getTickValues();
-    const radius = 170;
+    const radius = Math.min(this.state.chartWidth/2, this.state.chartHeight-50);
     const axisData: any = [];
     ticks.forEach((d: any, i: any) => {
       axisData.push({x:  `${this.state.props.yunits}${d}`, y: 1})

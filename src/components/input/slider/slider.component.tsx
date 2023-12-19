@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, LayoutChangeEvent, TouchableOpacity, Animated, Easing } from 'react-native';
 import { debounce, isNumber, isNil } from 'lodash';
 import { Gesture, GestureDetector, PanGesture } from 'react-native-gesture-handler';
+import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmSliderProps from './slider.props';
@@ -151,7 +152,13 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
           transform: [{
             translateX: this.position
           }]
-        }]}></Animated.View>
+        }]}>
+          <BackgroundComponent
+            size={(this.styles.thumb as any).backgroundSize}
+            position={(this.styles.thumb as any).backgroundPosition}
+            image={(this.styles.thumb as any).backgroundImage}>  
+          </BackgroundComponent>
+        </Animated.View>
       </GestureDetector>
     </View>);
   }
