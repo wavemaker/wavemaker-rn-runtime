@@ -26,19 +26,32 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
     this.setHeightWidthOnChart();
   }
 
+  getNegativeValuesArray() {
+    let negativeValuesArray = cloneDeep(this.state.data[0]).filter((d: any) => d.y < 0);
+    negativeValuesArray = orderBy(negativeValuesArray, 'y', 'desc');
+    return negativeValuesArray;
+  }
+
+  getPositiveValuesArray() {
+    let positiveValuesArray = cloneDeep(this.state.data[0]).filter((d: any) => d.y > 0);
+    positiveValuesArray = orderBy(positiveValuesArray, 'y', 'asc');
+    return positiveValuesArray;
+  }
+
   getBarChart(props: WmStackChartProps) {
-    if ( this.state.data.length >0 ) {
-     let data = cloneDeep(this.state.data[0]);
-     data = orderBy(data, 'y', 'asc');
-     let currentValue = 0;
+    if ( this.state.data.length > 0 ) {
+      const negativeValues = cloneDeep(this.getNegativeValuesArray());
+      const data = negativeValues.concat(cloneDeep(this.getPositiveValuesArray()));
+      let currentValue = 0;
+
       return data.map((d: any, i: number) => {
         let d1: any = [];
         d.x = 0;
         d.y = d.y - currentValue;
         d1.push(d);
-        currentValue = d.y + currentValue;
+        currentValue = d.y < 0 && i === negativeValues.length -1 ? 0 : d.y + currentValue;
         return <VictoryBar key={props.name + '_' + i}
-                           cornerRadius={{bottomLeft:(3), bottomRight:(3), topLeft:(3), topRight:(3)}}
+                           cornerRadius={{bottomLeft:(1), bottomRight:(1), topLeft:(1), topRight:(1)}}
                            data={d1}/>
       });
     }
@@ -110,9 +123,18 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
     if (this.state.data[0].length) {
       let data = cloneDeep(this.state.data[0]);
       const maxValue = Math.max(...data.map((o: any) => o.y));
+      const minValue = Math.min(...data.map((o: any) => o.y));
       const scale = Scale.getBaseScale({}, 'x');
-      scale.domain([0, maxValue]);
+      scale.domain([minValue > 0 ? 0 : minValue, maxValue]);
       ticks = Axis.getTicks({}, scale);
+      ticks[ticks.length -1] = maxValue;
+      if ( minValue < 0 ) {
+        if (ticks[0] === 0) {
+          ticks.unshift(minValue);
+        } else {
+          ticks[0] = minValue;
+        }
+      }
     }
     return ticks;
   }
