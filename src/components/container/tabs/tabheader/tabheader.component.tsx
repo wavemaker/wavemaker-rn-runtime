@@ -29,6 +29,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
 
   setHeaderPanelPositon(nativeEvent: LayoutChangeEvent) {
     this.headerPanelLayout = nativeEvent.nativeEvent.layout;
+    this.forceUpdate();
   }
 
   setHeaderPositon(index: number, nativeEvent: LayoutChangeEvent) {
@@ -81,7 +82,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
       }),
       Animated.timing(this.reverseIndicatorWidth, {
         useNativeDriver: true,
-        toValue:  100 / toIndicatorWidth,
+        toValue:  toIndicatorWidth ? 100 / toIndicatorWidth : 0,
         duration: 200,
         easing: Easing.linear
       }),
