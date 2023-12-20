@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 
 import {
   VictoryChart,
@@ -35,11 +35,27 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         horizontal={props.horizontal} labels={props.showvalues ? this.labelFn.bind(this) : undefined}
         data={d}
         height={100}
-        />
+        events={[{
+          target: 'data',
+          eventHandlers: Platform.OS == "web" ? {
+            onClick: this.onSelect.bind(this)
+          }:{
+            onPress: this.onSelect.bind(this)
+          }
+        }]}/>
     });
 }
 
+onSelect(event: any, data: any){
+  let value = data.data[data.index].y;
+  let label = this.state.xaxisDatakeyArr[data.datum.x];
+  let selectedItem = this.props.dataset[data.index];
+  let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+  this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+}
+
   renderWidget(props: WmBarChartProps) {
+    this.invokeEventCallback('onBeforerender', [this.proxy, null]);
     if (!this.state.data.length) {
       return null;
     }

@@ -6,4 +6,5 @@ export default class WmStackChartProps extends BaseChartComponentProps {
   thickness: number = 20;
   offsetleft: number = 25;
   offsetright: number = 35;
+  onSelect?: any;
 }
