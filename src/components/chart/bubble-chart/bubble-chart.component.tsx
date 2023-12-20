@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, Platform} from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmBubbleChartProps from './bubble-chart.props';
@@ -21,7 +21,16 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
     super(props, DEFAULT_CLASS, new WmBubbleChartProps(), new WmBubbleChartState());
   }
 
+  onSelect(event: any, data: any){
+    let value = data.data[data.index].y;
+    let label = this.state.xaxisDatakeyArr[data.datum.x];
+    let selectedItem = this.props.dataset[data.index];
+    let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+    this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+  }
+
   renderWidget(props: WmBubbleChartProps) {
+    this.invokeEventCallback('onBeforerender', [this.proxy, null]);
     if (!this.state.data?.length) {
       return null;
     }
@@ -56,6 +65,14 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
           name={props.name + '_bubble_' + i}
           data={d}
           size={5}
+          events={[{
+            target: 'data',
+            eventHandlers: Platform.OS == "web" ? {
+              onClick: this.onSelect.bind(this)
+            }:{
+              onPress: this.onSelect.bind(this)
+            }
+          }]}
         />
       })}
       </VictoryChart></View>);

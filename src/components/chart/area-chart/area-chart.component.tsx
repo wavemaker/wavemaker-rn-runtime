@@ -1,6 +1,6 @@
 import React from 'react';
 import Color from "color";
-import { LayoutChangeEvent, View, Text } from 'react-native';
+import { LayoutChangeEvent, View, Text, Platform } from 'react-native';
 import { Defs, LinearGradient, Stop, Svg } from 'react-native-svg';
 import { VictoryArea, VictoryLine, VictoryChart, VictoryLegend, VictoryStack, VictoryScatter, VictoryGroup } from "victory-native";
 import { InterpolationPropType } from 'victory-core';
@@ -32,7 +32,16 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
     } as WmAreaChartState)
   }
 
+  onSelect(event: any, data: any){
+    let value = data.data[data.index].y;
+    let label = this.state.xaxisDatakeyArr[data.datum.x];
+    let selectedItem = this.props.dataset[data.index];
+    let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+    this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+  }
+
   renderWidget(props: WmAreaChartProps) {
+    this.invokeEventCallback('onBeforerender', [this.proxy, null]);
     if (!this.state.data?.length) {
       return null;
     }
@@ -100,6 +109,14 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                           fill: Color(this.state.colors[i]).darken(0.2).rgb().toString()}
                       }}        
                       data={d}
+                      events={[{
+                        target: 'data',
+                        eventHandlers: Platform.OS == "web" ? {
+                          onClick: this.onSelect.bind(this)
+                        }:{
+                          onPress: this.onSelect.bind(this)
+                        }
+                      }]}
                       />
                   : null}
                 </VictoryGroup>

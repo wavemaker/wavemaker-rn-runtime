@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutChangeEvent, View } from 'react-native';
+import { LayoutChangeEvent, View, Platform } from 'react-native';
 import { Svg } from 'react-native-svg';
 import { VictoryStack, VictoryBar, VictoryChart, VictoryPie, VictoryLegend, VictoryAxis } from 'victory-native';
 import { Axis, Scale } from 'victory-core';
@@ -139,7 +139,16 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
     return ticks;
   }
 
+  onSelect(event: any, data: any){
+    let value = data.data[data.index].y;
+    let label = this.state.xaxisDatakeyArr[data.datum.x];
+    let selectedItem = this.props.dataset[data.index];
+    let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+    this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+  }
+
   renderWidget(props: WmStackChartProps) {
+    this.invokeEventCallback('onBeforerender', [this.proxy, null]);
     if (!this.state.data.length) {
       return null;
     }
@@ -191,6 +200,14 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
               style={{
                 data: { strokeWidth: this.state.props.thickness }
               }}
+              events={[{
+                target: 'data',
+                eventHandlers: Platform.OS == "web" ? {
+                  onClick: this.onSelect.bind(this)
+                }:{
+                  onPress: this.onSelect.bind(this)
+                }
+              }]}
             >
               {
                 this.getBarChart(props)

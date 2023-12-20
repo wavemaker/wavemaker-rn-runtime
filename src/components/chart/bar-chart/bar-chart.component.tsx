@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View, Platform } from 'react-native';
 
 import {
   VictoryChart,
@@ -15,8 +15,6 @@ import {
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
 import WmBarChartProps from './bar-chart.props';
 import { DEFAULT_CLASS, WmBarChartStyles } from './bar-chart.styles';
-import { Svg } from "react-native-svg";
-import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
 import { min } from 'moment';
 
@@ -39,11 +37,27 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         data={d}
         height={100}
         alignment='start'
-        />
+        events={[{
+          target: 'data',
+          eventHandlers: Platform.OS == "web" ? {
+            onClick: this.onSelect.bind(this)
+          }:{
+            onPress: this.onSelect.bind(this)
+          }
+        }]}/>
     });
 }
 
+onSelect(event: any, data: any){
+  let value = data.data[data.index].y;
+  let label = this.state.xaxisDatakeyArr[data.datum.x];
+  let selectedItem = this.props.dataset[data.index];
+  let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+  this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+}
+
   renderWidget(props: WmBarChartProps) {
+    this.invokeEventCallback('onBeforerender', [this.proxy, null]);
     if (!this.state.data.length) {
       return null;
     }

@@ -5,4 +5,5 @@ export default class WmBarChartProps extends BaseChartComponentProps {
   viewtype: string = 'Grouped';
   yaxislabeldistance: number = 30;
   xaxislabeldistance: number = 50;
+  onSelect?: any;
 }
