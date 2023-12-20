@@ -68,7 +68,6 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps & {allowCont
       };
     });
 
-    console.log('props =>', props)
     return (
       <View>
         {props.isFloating ? (

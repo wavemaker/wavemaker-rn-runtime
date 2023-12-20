@@ -2,6 +2,6 @@ import BaseInputProps from "@wavemaker/app-rn-runtime/components/input/baseinput
 
 export default class WmTextProps extends BaseInputProps {
   label?: string;
-  isFloating?: boolean = true;
+  isFloating?: boolean = false;
   placeholder: string = 'Enter text';
 }

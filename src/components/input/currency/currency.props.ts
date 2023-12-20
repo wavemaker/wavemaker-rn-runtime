@@ -4,5 +4,5 @@ export default class WmCurrencyProps extends BaseNumberProps {
   currency: any;
   placeholder: string = '';
   label?: string;
-  isFloating?: boolean = true;
+  isFloating?: boolean = false;
 }
