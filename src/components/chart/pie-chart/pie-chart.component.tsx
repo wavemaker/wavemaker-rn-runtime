@@ -84,6 +84,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
   }
 
   renderWidget(props: WmPieChartProps) {
+    this.invokeEventCallback('onBeforerender', [this.proxy, null]);
     if (!this.state.data.length) {
       return null;
     }

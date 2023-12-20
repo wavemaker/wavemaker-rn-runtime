@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { Svg } from 'react-native-svg';
 
 import {
@@ -26,8 +26,18 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
   constructor(props: WmLineChartProps) {
     super(props, DEFAULT_CLASS, new WmLineChartProps(), new WmLineChartState());
   }
+  
+  onSelect(event: any, data: any){
+    let value = data.data[data.index].y;
+    let label = this.state.xaxisDatakeyArr[data.datum.x];
+    let selectedItem = this.props.dataset[data.index];
+    let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+    this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+  }
+
   renderWidget(props: WmLineChartProps) {
-      if (!this.state.data?.length) {
+    this.invokeEventCallback('onBeforerender', [this.proxy, null]);
+    if (!this.state.data?.length) {
       return null;
     }
     return (
@@ -70,6 +80,14 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
                     data: { fill: this.state.colors[i], opacity: 0.8,}
                   }}
                   data={d}
+                  events={[{
+                    target: 'data',
+                    eventHandlers: Platform.OS == "web" ? {
+                      onClick: this.onSelect.bind(this)
+                    }:{
+                      onPress: this.onSelect.bind(this)
+                    }
+                  }]}
               />: null}
             </VictoryGroup>
         })}
