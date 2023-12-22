@@ -13,21 +13,28 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       text: {},
       button: {
         root: {
+          minHeight: 30,
+          minWidth: 40,
+          paddingRight: 0,
+          paddingTop: 10,
+          paddingLeft: 9,
+          paddingBottom: 8,
           borderWidth: 1,
-          borderColor: themeVariables.barcodeScannerBorderColor,
+          borderColor: themeVariables.defaultColor2,
           borderStyle: 'solid',
-          backgroundColor: themeVariables.barcodeScannerBgColor,
-          borderRadius: 4
+          backgroundColor: themeVariables.primaryColor,
+          borderRadius: 20,
         },
         text: {
-          color: themeVariables.barcodeScannerTextColor
+          color: themeVariables.barcodeScannerTextColor,
+          paddingRight: 0
         },
         icon: {
           text: {
-            color: themeVariables.barcodeScannerTextColor
+            color: themeVariables.defaultColorF
           },
           icon: {
-            fontSize: 24
+            fontSize: 20
           }
         }
       } as WmButtonStyles

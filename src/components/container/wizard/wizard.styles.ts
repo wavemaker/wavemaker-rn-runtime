@@ -153,7 +153,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       stepIcon: {
           root: {
             alignSelf: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            paddingLeft: 8
           },
           text: {
             color: themeVariables.wizardStepIconColor,

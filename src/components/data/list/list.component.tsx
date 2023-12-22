@@ -10,6 +10,7 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
+import { TouchableRipple } from 'react-native-paper';
 
 
 export class WmListState extends BaseComponentState<WmListProps> {
@@ -200,6 +201,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               }: null
             ]
           }>
+          <TouchableRipple
+           rippleColor="rgba(255, 99, 71, 0.2" 
+           borderless = {true}>
           <View style={[
               this.styles.item,
               props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
@@ -209,6 +213,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               <WmIcon id={this.getTestId('icon' + index)}iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
             ) : null}
           </View>
+          </TouchableRipple>
         </Tappable>
       );
   }

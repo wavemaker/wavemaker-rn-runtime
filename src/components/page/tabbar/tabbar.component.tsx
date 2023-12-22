@@ -14,6 +14,7 @@ import { DEFAULT_CLASS, WmTabbarStyles } from './tabbar.styles';
 class WmTabbarState<T extends BaseNavProps> extends BaseNavState<T>{
   showMore = false;
   modalOptions = {} as ModalOptions;
+  currentActiveTabIndex: number | null = null;
 }
 
 export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarState<WmTabbarProps>, WmTabbarStyles> {
@@ -25,20 +26,25 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   }
 
   renderTabItem(item: NavigationDataItem, testId: string, props: WmTabbarProps, onSelect: Function) {
-    const isActive = props.isActive && props.isActive(item);
+    const isActive = this.state.currentActiveTabIndex === Number(testId);
     const getDisplayLabel = this.props.getDisplayExpression || ((label: string) => label);
     return (
-      <TouchableOpacity {...this.getTestPropsForAction('item' + testId)} onPress={() => onSelect && onSelect()}  key={item.key}>
-        <View style={[this.styles.tabItem, isActive ? this.styles.activeTabItem: {}]}>
+        <View style={[this.styles.tabItem]} key={`${item.label}_${testId}`}>
+          <TouchableOpacity
+            {...this.getTestPropsForAction('item' + testId)} onPress={() => onSelect && onSelect()}  key={item.key}
+             >
+             <View style = {isActive ? this.styles.activeTabItem: {}}>
             <WmIcon styles={this.theme.mergeStyle({}, this.styles.tabIcon, isActive ? this.styles.activeTabIcon: {})} iconclass={item.icon}></WmIcon>
+            </View>
+          </TouchableOpacity>
             <Text style={[this.styles.tabLabel, isActive ? this.styles.activeTabLabel: {}]}>{getDisplayLabel(item.label)}</Text>
         </View>
-      </TouchableOpacity>
     );
   }
 
-  onItemSelect(item: NavigationDataItem, navigationService: NavigationService) {
+  onItemSelect(item: NavigationDataItem, index: number, navigationService: NavigationService) {
     item.link && navigationService.openUrl(item.link);
+    this.setState({currentActiveTabIndex: index});
     this.invokeEventCallback('onSelect', [null, this.proxy, item]);
   }
 
@@ -79,8 +85,8 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
                 <ThemeProvider value={this.theme} >
                   <View style={this.styles.moreMenu}>
                     {moreItems.map((a, i) =>
-                      (<View key={i} style={this.styles.moreMenuRow}>
-                        {a.map(item => this.renderTabItem(item, i + '', props,  () => this.onItemSelect(item, navigationService)))}
+                      (<View key={`tabitem_${i}`} style={this.styles.moreMenuRow}>
+                        {a.map(item => this.renderTabItem(item, i + '', props,  () => this.onItemSelect(item, i, navigationService)))}
                       </View>)
                     )}
                   </View>
@@ -94,7 +100,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
           <View style={this.styles.menu}
             onLayout={e => { this.tabbarHeight = e.nativeEvent.layout.height}}>
             {tabItems.filter((item, i) => i < max)
-              .map((item, i) => this.renderTabItem(item, i + '', props, () => this.onItemSelect(item, navigationService)))}
+              .map((item, i) => this.renderTabItem(item, i + '', props, () => this.onItemSelect(item, i, navigationService)))}
             {tabItems.length > max && (
               this.renderTabItem({
                 label: props.morebuttonlabel,

@@ -96,7 +96,9 @@ export class Tappable extends React.Component<TappableProps, any> {
                 style={this.props.styles}
                 onPress={() => this.onPress()}
                 onLongPress={() => this.onLongTap()}>
+                <>
                 {this.props.children}
+                </>
                 </TouchableRipple>
             );
         }
