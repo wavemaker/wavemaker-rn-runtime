@@ -20,10 +20,12 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
 
   renderWidget(props: WmPageContentProps) {
     return props.scrollable || isWebPreviewMode() ? (
-      <ScrollView contentContainerStyle={this.styles.root}>
+      <View style={{height: '100%', width: '100%', backgroundColor: this.styles.root.backgroundColor}}>
         {this._background}
-        {props.children}
-      </ScrollView>
+        <ScrollView contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}>
+          {props.children}
+        </ScrollView>
+      </View>
     ) : (
       <View style={this.styles.root}>
         {this._background}
