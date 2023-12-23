@@ -60,11 +60,17 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   updateCurrentStep(index: number, isDone = false) {
+    const lastStep = this.state.currentStep;
     this.steps[this.state.currentStep]?.setInActive();
     this.updateState({
       currentStep: index,
       isDone: isDone
-    } as WmWizardState, () => this.showActiveStep());
+    } as WmWizardState, () => {
+      this.showActiveStep();
+      if (lastStep !== index) {
+        this.invokeEventCallback('onChange', [null, this.proxy, index + 1, lastStep + 1]);
+      }
+    });
   }
 
   getStepStyle(index: number) {
