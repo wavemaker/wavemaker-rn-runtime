@@ -26,7 +26,8 @@ export class Props {
     style?: ViewStyle = {} as any;
     children: any;
     enableGestures: any;
-    slideWidth?: DimensionValue = '100%';  
+    slideWidth?: DimensionValue = '100%'; 
+    slideMinWidth?: DimensionValue = undefined;  
 }
 
 export class State {
@@ -184,8 +185,10 @@ export class View extends React.Component<Props, State> {
                     }]} onLayout={this.setViewLayout.bind(this)}>
                     {this.props.children.map((c: any, i: number) => {
                         return (<RNView onLayout={(e) => this.setChildrenLayout(e, i)} key={c.key} 
-                            style={[{
-                                minWidth: this.props.slideWidth
+                            style={[this.props.slideMinWidth ? {
+                                minWidth: this.props.slideMinWidth
+                            } : {
+                                width: this.props.slideWidth
                             },
                             this.props.style?.height === '100%' ? {
                                 height: '100%'
