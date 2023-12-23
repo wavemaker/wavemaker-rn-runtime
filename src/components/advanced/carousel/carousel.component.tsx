@@ -168,7 +168,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   renderItem = (item: any, index: number) => {
     const props = this.state.props;
     if (props.type === 'dynamic') {
-      return props.renderSlide ? props.renderSlide(item, index) : null;
+      return props.renderSlide ? props.renderSlide(item, index, this) : null;
     }
     return props.children[index];
   }
