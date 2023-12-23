@@ -252,7 +252,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             direction='horizontal'
             ref={(r) => {this.animationView = r}}
             handlers = {this.animationHandlers}
-            slideWidth={this.styles.slide.width}
+            slideMinWidth={this.styles.slide.width}
           >
           {data.map((item: any, index: number) => {
             const isActive = index === this.state.activeIndex - 1;
