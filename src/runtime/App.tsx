@@ -376,6 +376,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   { elevation: o.elevationIndex,
                     zIndex: o.elevationIndex })}>
                     <Animatedview entryanimation={o.animation || 'fadeIn'}
+                      exitanimation={o.exitAnimation || 'fadeOut'}
                       ref={ref => {
                         this.animatedRef = ref;
                         AppModalService.animatedRefs[i] = ref;

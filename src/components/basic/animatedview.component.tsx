@@ -114,6 +114,22 @@ const CustomAnimationMap: any = {
   fadeOutUp: {
     from: { opacity: 1, translateY: 0 },
     to: { opacity: 0, translateY: -20 }
+  },
+  increaseHeight: {
+    0: {
+      transform: [{scaleY: 0}]
+    },
+    1: {
+      transform: [{scaleY: 1}]
+    }
+  },
+  decreaseHeight: {
+    0: {
+      transform: [{scaleY: 1}]
+    },
+    1: {
+      transform: [{scaleY: 0}]
+    }
   }
 };
 

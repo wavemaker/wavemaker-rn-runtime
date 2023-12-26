@@ -68,6 +68,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
     o.isModal = this.state.props.autoclose !== 'disabled';
     o.centered = true;
     o.animation = this.state.props.contentanimation || 'slideInUp';
+    o.exitAnimation = this.state.props.contentanimation === 'increaseHeight' ? 'decreaseHeight' : undefined;
     o.onClose = () => {
       this.hide = () => {};
       this.setState({ isOpened: false, isPartialLoaded: false, modalOptions: {} as ModalOptions });

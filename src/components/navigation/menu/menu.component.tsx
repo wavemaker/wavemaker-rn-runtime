@@ -14,7 +14,8 @@ export class WmMenuState <T extends WmMenuProps> extends BaseNavState<T> {}
 const animationMap: any = {
   slide: 'slideInDown',
   fade: 'fadeIn',
-  scale: 'zoomIn'
+  scale: 'zoomIn',
+  scaleY: 'increaseHeight'
 };
 
 export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<WmMenuProps>, WmMenuStyles> {
