@@ -32,6 +32,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         }
       } as any as WmSkeletonStyles,
       link: {
+        root: {
+          marginBottom: -4
+        },
         text: {
           padding: 0
         }
