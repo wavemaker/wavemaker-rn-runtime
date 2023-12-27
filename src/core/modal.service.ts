@@ -1,4 +1,5 @@
 import React from 'react';
+import { CustomAnimation } from 'react-native-animatable';
 
 export interface ModalOptions {
     elevationIndex: number;
@@ -10,7 +11,8 @@ export interface ModalOptions {
     onClose?: () => void;
     onOpen?: () => void;
     isModal?: boolean;
-    animation: string;
+    animation: string | CustomAnimation;
+    exitAnimation?: string | CustomAnimation;
 }
 
 export interface ModalService {

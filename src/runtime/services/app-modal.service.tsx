@@ -65,13 +65,23 @@ class AppModalService implements ModalService {
         const i = options ? this.modalsOpened.findIndex(o => o === options) : (this.modalsOpened.length - 1);
         if (i >= 0) {
           Promise.resolve()
-            .then(() => this.modalsOpened.length > 1 && this.animatedRefs && this.animatedRefs[i].triggerExit())
+            .then(() => {
+              this.modalsOpened.length >= 1 && this.animatedRefs && this.animatedRefs[i].triggerExit()
+            })
             .then(() => {
               const o = this.modalsOpened[i];
-              return o && o.onClose && o.onClose();
+              // return o && o.onClose && o.onClose();
+              const timeoutDuration = typeof this.modalOptions.exitAnimation === 'object' ? 300 : 0;
+
+              // return o && o.onClose && o.onClose();
+              setTimeout(() => {
+                o && o.onClose && o.onClose();
+                this.modalsOpened.splice(i, 1);
+                this.showLastModal();
+              }, timeoutDuration);
             })
-            .then(() => this.modalsOpened.splice(i, 1))
-            .then(() => this.showLastModal());
+            // .then(() => this.modalsOpened.splice(i, 1))
+            // .then(() => this.showLastModal());
         }
         this.clearBackButtonPress();
     }

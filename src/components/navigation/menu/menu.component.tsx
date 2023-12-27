@@ -14,7 +14,8 @@ export class WmMenuState <T extends WmMenuProps> extends BaseNavState<T> {}
 const animationMap: any = {
   slide: 'slideInDown',
   fade: 'fadeIn',
-  scale: 'zoomIn'
+  scale: 'zoomIn',
+  height: 'increaseHeight'
 };
 
 export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<WmMenuProps>, WmMenuStyles> {
@@ -62,6 +63,7 @@ export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<Wm
         popoverheight={this.styles.menu.height as string | number | undefined || null}
         popoverwidth={this.styles.menu.width as string | number | undefined || null}
         iconposition="right"
+        menuItemsCount={menuItems?.length || 3}
         type='dropdown'>
           <View style={this.styles.menu}>
             {menuItems.map((item, index) => (

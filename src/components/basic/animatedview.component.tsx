@@ -4,12 +4,12 @@ import { initializeRegistryWithDefinitions } from 'react-native-animatable';
 import { View, ViewProps, ViewStyle } from 'react-native';
 
 export default class AnimatedviewProps {
-  entryanimation?: string = null as any;
+  entryanimation?: string | Animatable.CustomAnimation = null as any;
   children?: any;
   duration?: number = null as any;
   iterationCount?:any;
   style?: any;
-  exitanimation?: string = null as any;
+  exitanimation?: string | Animatable.CustomAnimation = null as any;
 }
 
 const AnimationMap: any = {
@@ -140,7 +140,7 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
     if (this.props.exitanimation) {
       return (this as any).view.animate(this.props.exitanimation, this.props.duration, 1).then((endState: any) => endState.finished)
     } else {
-      return (this as any).view.animate(AnimationMap[this.props.entryanimation || ''], this.props.duration, 1).then((endState: any) => endState.finished)
+      return (this as any).view.animate(typeof this.props.entryanimation === 'object' ? this.props.entryanimation : AnimationMap[this.props.entryanimation || ''], this.props.duration, 1).then((endState: any) => endState.finished)
     }
   }
 
@@ -152,7 +152,7 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
      <Animatable.View
        animation={this.props.entryanimation}
        duration={this.props.duration}
-       useNativeDriver={true}
+       useNativeDriver={typeof this.props.entryanimation === 'string'}
        style={this.props.style}
        iterationCount={this.props.iterationCount}
        ref={this.handleViewRef}>

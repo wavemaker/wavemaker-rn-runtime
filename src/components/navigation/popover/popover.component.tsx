@@ -10,6 +10,7 @@ import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.c
 import WmPopoverProps from './popover.props';
 import { DEFAULT_CLASS, WmPopoverStyles } from './popover.styles';
 import WmContainer from '../../container/container.component';
+import { CustomAnimation } from 'react-native-animatable';
 
 export class WmPopoverState extends BaseComponentState<WmPopoverProps> {
   isOpened: boolean = false;
@@ -62,12 +63,24 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
 
   prepareModalOptions(content: React.ReactNode, styles: WmPopoverStyles, modalService: ModalService) {
     const o = this.state.modalOptions;
+    const isHeightAnimation = this.state.props.contentanimation === 'increaseHeight';
+    const isHeightAsString = typeof styles.modalContent.height === 'string';
+    const increaseHeight = {
+      from: { height: isHeightAsString ? "0%" : 0 },
+      to: { height: styles.modalContent?.height },
+    } as CustomAnimation;
+    const decreaseHeight = {
+      from: { height: styles.modalContent?.height },
+      to: { height: isHeightAsString ? "0%" : 0 },
+    } as CustomAnimation;
+
     o.modalStyle = styles.modal;
     o.contentStyle = {...styles.modalContent, ...this.state.position};
     o.content = content;
     o.isModal = this.state.props.autoclose !== 'disabled';
     o.centered = true;
-    o.animation = this.state.props.contentanimation || 'slideInUp';
+    o.animation = isHeightAnimation ? increaseHeight : this.state.props.contentanimation || 'slideInUp';
+    o.exitAnimation = isHeightAnimation ? decreaseHeight : undefined;
     o.onClose = () => {
       this.hide = () => {};
       this.setState({ isOpened: false, isPartialLoaded: false, modalOptions: {} as ModalOptions });
@@ -87,6 +100,13 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
       }
       if (props.popoverheight) {
         dimensions.height = props.popoverheight;
+      }
+      if (this.state.props.contentanimation === 'increaseHeight') {
+        const menuItemHeight = styles.menuItem?.root?.height || 48;
+        const menuVerticalPadding = (styles.menu?.paddingTop + styles?.menu?.paddingBottom) || 16;
+        const menuItemsCount = Number(this.props.menuItemsCount || 0);
+        const dropdownMenuHeight = (menuItemsCount * menuItemHeight) + menuVerticalPadding
+        styles.modalContent.height = props.popoverheight || dropdownMenuHeight || props.popoverwidth;
       }
     }
     return (

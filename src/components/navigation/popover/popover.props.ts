@@ -14,5 +14,6 @@ export default class WmPopoverProps extends BaseProps {
   children? = [] as any;
   renderPartial?: Function = null as any;
   title?: string = null as any;
+  menuItemsCount?: number = 3;
   type?: 'action-sheet' | 'dropdown' = 'action-sheet';
 }
