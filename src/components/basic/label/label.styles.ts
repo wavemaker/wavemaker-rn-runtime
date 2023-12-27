@@ -31,7 +31,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           borderRadius: 4
         }
       } as any as WmSkeletonStyles,
-      link: {} as WmAnchorStyles
+      link: {
+        text: {
+          padding: 0
+        }
+      } as WmAnchorStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
