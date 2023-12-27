@@ -51,7 +51,9 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     const props = this.state.props;
     const displayText = item.displayexp || item.displayfield;
     return (
-      <TouchableOpacity {...this.getTestPropsForAction(index + '')} style={this.styles.checkboxHead} onPress={this.onPress.bind(this, item)} key={item.key}>
+      <TouchableOpacity {...this.getTestPropsForAction(index + '')}
+        style={[this.styles.item, item.selected ? this.styles.checkedItem : null]}
+        onPress={this.onPress.bind(this, item)} key={item.key}>
         <Checkbox.Android status={item.selected  ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
         <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.checkboxLabel}>{displayText}</Text>
       </TouchableOpacity>)
