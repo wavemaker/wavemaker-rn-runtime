@@ -26,11 +26,16 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
 
   renderChild(item: any, index: any, colWidth: DimensionValue) {
     const displayText = item.displayexp || item.displayfield;
+    const value = this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield;
+    const selected = value === this.state.props.datavalue;
     return (
-      <View style={[this.styles.radioHead, {width: colWidth}]} key={item.key}>
+      <View style={[
+        this.styles.item,
+        selected ? this.styles.selectedItem : null,
+        {width: colWidth}]} key={item.key}>
           <RadioButton.Android
             {...this.getTestProps('' + index)}
-            value={this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield}
+            value={value}
             color={this.styles.root.color as string}
             uncheckedColor={this.styles.root.color as string}
             disabled={this.state.props.readonly || this.state.props.disabled}

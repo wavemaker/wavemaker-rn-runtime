@@ -4,7 +4,8 @@ import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export type WmCheckboxsetStyles = BaseStyles & {
   groupHeaderTitle: AllStyle;
-  checkboxHead: AllStyle;
+  item: AllStyle;
+  checkedItem: AllStyle;
   checkboxLabel: AllStyle;
   skeleton: WmSkeletonStyles;
 };
@@ -24,10 +25,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       lineHeight: 40,
       fontFamily: themeVariables.baseFont
     } as AllStyle,
-    checkboxHead: {
+    item: {
       flexDirection: 'row',
       alignContent: 'center',
     } as AllStyle,
+    checkedItem: {} as AllStyle,
     checkboxLabel: {
       alignSelf: 'center',
       fontFamily: themeVariables.baseFont,

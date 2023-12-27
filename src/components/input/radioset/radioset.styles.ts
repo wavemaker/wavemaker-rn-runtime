@@ -5,7 +5,8 @@ import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 export type WmRadiosetStyles = BaseStyles & {
   group: AllStyle,
   groupHeaderTitle: AllStyle;
-  radioHead: AllStyle;
+  item: AllStyle;
+  selectedItem: AllStyle;
   radioLabel: AllStyle;
   skeleton: WmSkeletonStyles;
 };
@@ -29,10 +30,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         lineHeight: 40,
         fontFamily: themeVariables.baseFont
       } as AllStyle,
-      radioHead: {
+      item: {
         flexDirection: 'row',
         alignContent: 'center',
       } as AllStyle,
+      selectedItem: {} as AllStyle,
       radioLabel: {
           alignSelf: 'center',
           fontFamily: themeVariables.baseFont,
