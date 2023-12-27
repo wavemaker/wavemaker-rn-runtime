@@ -8,7 +8,6 @@ import { DEFAULT_CLASS, WmLabelStyles } from './label.styles';
 import { isNil, toString } from 'lodash-es';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import WmSkeleton, { createSkeleton } from '../skeleton/skeleton.component';
-import { totalMonths } from 'react-native-paper-dates/lib/typescript/Date/dateUtils';
 import WmAnchor from '../anchor/anchor.component';
 
 type PartType = {
@@ -59,17 +58,17 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       return [];
     }
     caption += '';
-    const pattern = /\[([^\]]+)\]\((http.*?[^)])\)/g;
-    const linkRegex = /^(http|https):\/\/[^ "]+$/;
+    const pattern = /\[([^\]]+)\]\(([^)]*)\)/g;
+    const linkRegex = /^(((http|https):\/\/)|#)[^ "]+$/;
     const captionSplit = caption.split(pattern);
 
     let parts = [];
 
     for (let i = 0; i < captionSplit.length; i++) {
-      const isLink = linkRegex.test(captionSplit[i]);
+      const isLink = captionSplit[i] === "" || linkRegex.test(captionSplit[i]);
       let part: PartType = {};
       
-      const isNextTextALink = linkRegex.test(captionSplit[i + 1]) || false;
+      const isNextTextALink = captionSplit[i + 1] === "" || linkRegex.test(captionSplit[i + 1]) || false;
       if (isLink) {
         part.text = captionSplit[i - 1] ?? '';
         part.link = captionSplit[i];
@@ -107,6 +106,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   }
 
   renderWidget(props: WmLabelProps) {
+    const linkStyles = this.theme.mergeStyle({text: this.styles.text}, this.styles.link);
     return !isNil(props.caption) ? (
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
         {this._background}
@@ -114,8 +114,8 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
           <Text style={{flexWrap: "wrap"}}>
             {this.state.parts?.map((part, index) => (
               <React.Fragment key={`part_${index}`}>
-                {part.link ? (
-                  <WmAnchor styles={this.styles.link} caption={part.text} hyperlink={part.link} />
+                {!isNil(part.link) ? (
+                  <WmAnchor styles={linkStyles} caption={part.text} hyperlink={part.link} />
                 ) : (
                   <Text
                     style={[
