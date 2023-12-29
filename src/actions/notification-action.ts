@@ -54,7 +54,6 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
         }
         o.duration = parseInt(options.duration || params.duration);
         o.name = this.name;
-        o.classname = options.classname || params.classname;
         return o;
       }
 
