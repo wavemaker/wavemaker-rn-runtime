@@ -138,8 +138,13 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   onFocus(event: any) {
-    Injector.FOCUSED_ELEMENT.set(this);
-    this.invokeEventCallback('onFocus', [ event, this.proxy]);
+    // When input widgets are inside list widget and try to focus the field, list is selecting but unable to enter values in input fields
+    // because on tap event of list is triggering after 200ms timeout So added 250ms timeout here
+    setTimeout(() => {
+      Injector.FOCUSED_ELEMENT.set(this);
+      this.invokeEventCallback('onFocus', [ event, this.proxy]);
+    }, 250);
+
   }
 
   onKeyPress(event: any) {

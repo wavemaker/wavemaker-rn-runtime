@@ -104,14 +104,25 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     onComponentInit(w: BaseComponent<any, any, any>) {
       const id = w.props.id || w.props.name;
+      let formWidgets: any, formFields: any, formActions: any;
 
       if (w instanceof WmForm) {
         if (!this.Widgets[id]) {
           this.Widgets[id] = w;
         }
-        const formWidgets = this.Widgets[id].formWidgets;
-        const formFields = this.Widgets[id].formFields;
-        const formActions = this.Widgets[id].buttonArray;
+        if (w.props.id) {
+          const name: any = w.props.name;
+          formWidgets = this.Widgets[name].formWidgets;
+          formFields = this.Widgets[name].formFields;
+          formActions = this.Widgets[name].buttonArray;
+          this.Widgets[name].formFields = [];
+          this.Widgets[name].buttonArray = [];
+          this.Widgets[name].formWidgets = {};
+        } else {
+          formWidgets = this.Widgets[id].formWidgets;
+          formFields = this.Widgets[id].formFields;
+          formActions = this.Widgets[id].buttonArray;
+        }
         this.Widgets[id] = w;
         if (w.parentFormRef) {
           let pid = w.parentFormRef.props.id || w.parentFormRef.props.name;
