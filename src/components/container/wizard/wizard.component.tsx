@@ -160,15 +160,21 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     ) : null;
   }
 
-  onPrev(steps: any) {
+  prev() {
     const index = this.state.currentStep;
+    if (index <= 0) {
+      return;
+    }
     const currentStep = this.steps[index];
     currentStep.invokePrevCB(index);
     this.updateCurrentStep(index - 1);
   }
 
-  onNext(steps: any, eventName?: string) {
+  next(eventName?: string) {
     const index = this.state.currentStep;
+    if (index >= this.steps.length - 1) {
+      return;
+    }
     const currentStep = this.steps[index];
     if (eventName === 'skip') {
       currentStep.invokeSkipCB(index);
@@ -178,18 +184,25 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     this.updateCurrentStep(index + 1);
   }
 
-  onDone($event: any) {
+  done($event: any) {
+    if (this.state.currentStep !== this.steps.length - 1) {
+      return;
+    }
     this.updateState({
       isDone: true
     } as WmWizardState);
     this.invokeEventCallback('onDone', [$event, this.proxy]);
   }
 
-  onCancel() {
+  cancel() {
     this.invokeEventCallback('onCancel', [null, this.proxy]);
   }
-  onSkip(steps: any) {
-    this.onNext(steps, 'skip');
+  
+  skip() {
+    if ( this.steps[this.state.currentStep] 
+      && this.steps[this.state.currentStep].props.enableskip) {
+      this.next('skip');
+    }
   }
 
   renderWidget(props: WmWizardProps) {
@@ -210,26 +223,26 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
           {flexDirection: props.actionsalignment === 'right' ? 'row-reverse': 'row'}]}>
           {(this.state.currentStep+1) === this.numberOfSteps &&
             <WmButton iconclass={'wm-sl-l sl-check'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.doneButton)}
-              id = {this.getTestId('donebtn')}  caption={props.donebtnlabel} onTap={this.onDone.bind(this)}></WmButton>
+              id = {this.getTestId('donebtn')}  caption={props.donebtnlabel} onTap={this.done.bind(this)}></WmButton>
           }
           {(this.state.currentStep+1) < this.numberOfSteps &&
             <WmButton iconclass={'wi wi-chevron-right'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.nextButton)}
                 id = {this.getTestId('nextbtn')} 
-                      iconposition={'right'} caption={props.nextbtnlabel} onTap={this.onNext.bind(this, this.steps)}></WmButton>
+                      iconposition={'right'} caption={props.nextbtnlabel} onTap={this.next.bind(this)}></WmButton>
           }
           {this.state.currentStep > 0 &&
             <WmButton iconclass={'wi wi-chevron-left'} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions, this.styles.prevButton)} caption={props.previousbtnlabel}
                 id = {this.getTestId('prevbtn')}
-                onTap={this.onPrev.bind(this, this.steps)}></WmButton>
+                onTap={this.prev.bind(this)}></WmButton>
           }
           {props.cancelable ?
-              <WmButton id = {this.getTestId('cancelbtn')}  caption={props.cancelbtnlabel} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions, this.styles.cancelButton)} onTap={this.onCancel.bind(this)}></WmButton>
+              <WmButton id = {this.getTestId('cancelbtn')}  caption={props.cancelbtnlabel} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions, this.styles.cancelButton)} onTap={this.cancel.bind(this)}></WmButton>
               : null
           }
           {isSkippable &&
               <WmAnchor iconclass={'wi wi-chevron-right'} iconposition={'right'} caption={'Skip'}
                 id = {this.getTestId('skip')}        
-                styles={merge({}, this.styles.wizardActions, this.styles.skipLink)} onTap={this.onSkip.bind(this, this.steps)}></WmAnchor>
+                styles={merge({}, this.styles.wizardActions, this.styles.skipLink)} onTap={this.skip.bind(this)}></WmAnchor>
           }
         </View>
       </View>
