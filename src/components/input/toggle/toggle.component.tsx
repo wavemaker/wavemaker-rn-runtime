@@ -55,12 +55,12 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     Animated.sequence([
       Animated.timing(this.scaleValue, {
         toValue: 1.6,
-        duration: 500,
+        duration: 300,
         useNativeDriver: true,
       }),
       Animated.timing(this.animationValue, {
         toValue: value ? 1 : 0,
-        duration: 500,
+        duration: 300,
         easing: Easing.linear,
         useNativeDriver: true,
       }),

@@ -41,10 +41,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         menu: {
             width: 160,
-            paddingTop: 8,
-            paddingBottom: 8,
-            paddingLeft: 12,
-            paddingRight: 12,
             backgroundColor: themeVariables.menuBackgroundColor,
             borderRadius: 4
         },
@@ -63,7 +59,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             icon :{
                 root : {
                   fontSize: 24,
-                  paddingLeft: 12
+                  paddingLeft: 22
                 },
                 icon : {
                     color: themeVariables.menuItemIconColor
@@ -71,7 +67,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             },
             text: {
                 fontSize: 16,
-                paddingTop: 10,
+                paddingTop: 4,
                 textDecorationLine: 'none',
                 color: themeVariables.menuItemTextColor
             }

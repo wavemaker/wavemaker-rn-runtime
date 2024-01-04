@@ -123,6 +123,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       nextButton: {
         root: {
           marginRight: 0,
+          paddingRight: 8,
           backgroundColor: themeVariables.wizardNextBtnColor,
           borderColor: themeVariables.wizardActiveStepColor
         },
@@ -131,8 +132,20 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         }
       } as WmButtonStyles,
       prevButton: {
+        root: {
+          paddingLeft: 16
+        },
+        icon: {
+          icon:{
+          paddingRight: 0,
+          paddingLeft: 0
+          }
+        } as WmIconStyles
       } as WmButtonStyles,
       cancelButton: {
+        root:{
+          minHeight: 46
+        }
       } as WmButtonStyles,
       doneButton: {
         root: {

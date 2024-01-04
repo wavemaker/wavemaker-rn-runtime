@@ -17,7 +17,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           minWidth: 40,
           paddingRight: 0,
           paddingTop: 10,
-          paddingLeft: 9,
+          paddingLeft: 8,
           paddingBottom: 8,
           borderWidth: 1,
           borderColor: themeVariables.defaultColor2,
@@ -34,7 +34,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             color: themeVariables.defaultColorF
           },
           icon: {
-            fontSize: 20
+            fontSize: 21
           }
         }
       } as WmButtonStyles

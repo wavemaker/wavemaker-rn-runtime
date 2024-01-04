@@ -60,7 +60,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             backgroundColor: themeVariables.tabActiveIndicatorBgColor,
             width: 100,
             height: 2,
-            marginTop: -4
+            marginTop: -2
         },
         activeHeaderIcon: {
             text: {

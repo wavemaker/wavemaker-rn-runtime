@@ -58,25 +58,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   } as WmButtonStyles);
   addStyle('btn-group-last-child', '', {
     root: {
-      paddingRight: 52,
-      paddingLeft: 38,
       borderRightWidth: 0,
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
-      borderLeftWidth: 1,
       borderTopRightRadius: 28,
       borderBottomRightRadius: 28,
       backgroundColor: 'transparent',
       borderColor: themeVariables.buttonGrpBorderColor
-    },
-    text: {
-      fontSize: 14,
-      fontFamily: themeVariables.baseFont,
-      fontWeight: '500',
-      textAlign: 'center',
-      textTransform: 'capitalize',
-      color:themeVariables.defaultColor9
-    },
+    }
   } as WmButtonStyles);
   addStyle(DEFAULT_CLASS, '', defaultStyles);
 });

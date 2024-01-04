@@ -16,7 +16,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           minHeight: 30,
           minWidth: 40,
           paddingRight: 0,
-          paddingLeft: 8,
+          paddingLeft: 7,
           paddingBottom: 4,
           paddingTop: 4,
           borderWidth: 1,
