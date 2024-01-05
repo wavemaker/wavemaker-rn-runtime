@@ -60,10 +60,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             backgroundColor: themeVariables.tabActiveIndicatorBgColor,
             width: 100,
             height: 2,
-            marginTop: -4,
-            backgroundPosition: '0px center',
-            backgroundSize: '48px 48px',
-            backgroundRepeat: 'no-repeat'
+            marginTop: -2
         },
         activeHeaderIcon: {
             text: {
@@ -74,7 +71,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             color: themeVariables.tabActiveHeaderTextColor 
         },
         arrowIndicator: {
-            display: 'none'
+            display: 'none',
+            backgroundImage: '',
+            backgroundSize: '100% 100%',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
         },
         arrowIndicatorDot: {
             display: 'none'

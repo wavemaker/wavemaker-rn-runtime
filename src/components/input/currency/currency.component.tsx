@@ -57,10 +57,13 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         {...opts}
         editable={props.disabled || props.readonly ? false : true}
         placeholder={props.placeholder}
+        value={this.state.textValue}
         onBlur={this.onBlur.bind(this)}
         onFocus={this.onFocus.bind(this)}
         onKeyPress={this.validateInputEntry.bind(this)}
-        onChangeText={this.onChangeText.bind(this)}
+        onChangeText={(text) => {
+          this.onChangeText.bind(this)(text, 'currency');
+        }}
         onChange={this.invokeChange.bind(this)}
         allowContentSelection={this.styles.text.userSelect === 'text'}
       />

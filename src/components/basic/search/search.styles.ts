@@ -21,7 +21,8 @@ export const DEFAULT_CLASS = 'app-search';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmSearchStyles = defineStyles({
       root: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        borderRadius: 28
       },
       text: {
         minHeight: 56,
@@ -35,10 +36,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderTopLeftRadius: 28,
         borderBottomLeftRadius: 28,
         borderColor: themeVariables.searchBorderColor,
-        backgroundColor: themeVariables.searchDropdownBackgroundColor,
+        backgroundColor: themeVariables.searchBgContainerColor,
       },
     invalid: {
-      borderBottomColor: themeVariables.inputInvalidBorderColor
+      borderBottomColor: themeVariables.inputInvalidBorderColor,
     },
       focusedText : {
         borderBottomLeftRadius: 28,
@@ -48,10 +49,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       height: '100%'
     },
     modalContent: {
-      backgroundColor: themeVariables.searchDropdownBackgroundColor,
+      backgroundColor: themeVariables.searchBgContainerColor,
       borderRadius: 6,
       position: 'absolute',
-      borderWidth: 1,
       borderStyle: 'solid',
       borderColor: themeVariables.searchBorderColor,
       width: '90%'

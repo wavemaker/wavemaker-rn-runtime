@@ -19,6 +19,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
   private headerScrollPosition = new Animated.Value(0);
   private headerScrollPositionValue = 0;
   private indicatorPosition = new Animated.Value(0);
+  private reverseIndicatorWidth = new Animated.Value(0);
   private indicatorWidth = new Animated.Value(0);
 
   constructor(props: WmTabheaderProps) {
@@ -78,6 +79,12 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
         duration: 200,
         easing: Easing.linear
       }),
+      Animated.timing(this.reverseIndicatorWidth, {
+        useNativeDriver: true,
+        toValue:  100 / toIndicatorWidth,
+        duration: 200,
+        easing: Easing.linear
+      }),
       Animated.timing(this.indicatorPosition, {
         useNativeDriver: true,
         toValue:  position,
@@ -129,9 +136,9 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
 
   renderWidget(props: WmTabheaderProps) {
     this.setPosition();
-    const activeIndicator = this.styles.activeIndicator as any;
+    const arrowIndicator = this.styles.arrowIndicator as any;
     return (
-      <View style={{overflow: 'hidden'}}>
+      <View style={{overflow: 'hidden', zIndex: 16}}>
       <Animated.View style={{
         transform: [{
           translateX: this.headerScrollPosition
@@ -170,17 +177,23 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
             scaleX: this.indicatorWidth
           }]
         }]}>
-          {activeIndicator.backgroundImage ? (<BackgroundComponent
-            image={activeIndicator.backgroundImage}
-            position={activeIndicator.backgroundPosition}
-            size={activeIndicator.backgroundSize}
-            repeat={activeIndicator.backgroundRepeat}
-            resizeMode={activeIndicator.backgroundResizeMode}
+          <Animated.View style={[{
+              transform: [{
+                scaleX: this.reverseIndicatorWidth
+              }]
+            },
+            this.styles.arrowIndicator
+          ]}>
+            {arrowIndicator.backgroundImage ? (<BackgroundComponent
+            image={arrowIndicator.backgroundImage}
+            position={arrowIndicator.backgroundPosition}
+            size={arrowIndicator.backgroundSize}
+            repeat={arrowIndicator.backgroundRepeat}
+            resizeMode={arrowIndicator.backgroundResizeMode}
             style={{borderRadius: this.styles.root.borderRadius}}
           ></BackgroundComponent>) : null }
-          <View style={this.styles.arrowIndicator}>
             <View style={this.styles.arrowIndicatorDot}></View>
-          </View>
+          </Animated.View>
         </Animated.View>
       </Animated.View>
       </View>

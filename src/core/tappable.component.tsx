@@ -1,9 +1,9 @@
 import { BaseComponent } from "@wavemaker/app-rn-runtime/core/base.component";
 import React from "react";
 import { GestureResponderEvent, Platform, View } from "react-native";
-import { TouchableOpacity } from "react-native";
 import { get } from "lodash";
 import injector from "./injector";
+import { TouchableRipple } from "react-native-paper";
 
 interface TappableProps {
     testID?: string;
@@ -17,7 +17,7 @@ interface TappableProps {
 
 export class TapEvent {
     propagationEnabled = true;
-
+   
     constructor() {
 
     }
@@ -31,12 +31,12 @@ export class Tappable extends React.Component<TappableProps, any> {
     private lastPress = 0;
 
     static CURRENT_EVENT: TapEvent = null as any;
-
+   
     constructor(props: any) {
         super(props);
     }
 
-    onPress(e?: GestureResponderEvent): void {
+    onPress(e?: GestureResponderEvent): void {        
         const delta = new Date().getTime() - this.lastPress;
         this.lastPress = this.lastPress > 0 ? 0: new Date().getTime();
         const target = this.props.target;
@@ -82,20 +82,24 @@ export class Tappable extends React.Component<TappableProps, any> {
             || this.props.onLongTap 
             || this.props.onDoubleTap) {
             return (
-                <TouchableOpacity 
-                    {...(Platform.OS === 'android' || Platform.OS === 'web') ? {
-                        accessibilityLabel: this.props.testID,
-                        testID: this.props.testID
-                    }: {
-                        accessible: false,
-                        testID: this.props.testID
-                    }} 
-                    disabled={get(target?.proxy, 'disabled')}
-                    style={this.props.styles}
-                    onPress={() => this.onPress()}
-                    onLongPress={() => this.onLongTap()}>
-                    {this.props.children}
-                </TouchableOpacity>
+                <TouchableRipple
+                rippleColor="rgba(31, 0, 0, 0.6)" 
+                borderless = {true}
+                 {...(Platform.OS === 'android' || Platform.OS === 'web') ? {
+                    accessibilityLabel: this.props.testID,
+                    testID: this.props.testID
+                }: {
+                    accessible: false,
+                    testID: this.props.testID
+                }} 
+                disabled={get(target?.proxy, 'disabled')}
+                style={this.props.styles}
+                onPress={() => this.onPress()}
+                onLongPress={() => this.onLongTap()}>
+                <>
+                {this.props.children}
+                </>
+                </TouchableRipple>
             );
         }
         return (<View style={this.props.styles}>{this.props.children}</View>);

@@ -17,7 +17,8 @@ export const DEFAULT_CLASS = 'app-popover';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmPopoverStyles = defineStyles({
         root: {
-            padding: 8
+            padding: 8,
+            alignSelf: 'flex-start'
         },
         text: {},
         title: {
@@ -27,7 +28,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             fontSize: 16,
             fontFamily: themeVariables.baseFont
         },
-        link: {} as WmAnchorStyles,
+        link: {
+            root:{
+            },
+            text:{
+                paddingRight: 8
+            }
+        } as WmAnchorStyles,
         popover: {
             backgroundColor: themeVariables.popoverBackgroundColor,
             maxWidth: 640,

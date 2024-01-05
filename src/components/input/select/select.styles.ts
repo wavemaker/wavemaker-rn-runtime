@@ -92,7 +92,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     dropDownContent: {},
     arrowButton: {
       root: {
-        padding: 0,
+        borderRadius: 0,
+        paddingTop: 6,
+        paddingBottom: 6,
+        paddingLeft: 6,
+        paddingRight: 0,
         minHeight: 0,
         alignItems: 'center',
         alignSelf: 'center',

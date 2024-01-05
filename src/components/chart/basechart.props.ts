@@ -14,7 +14,7 @@ export default class BaseChartComponentProps extends BaseProps {
   staggerlabels: boolean = false;
   yaxislabel: string = '';
   yunits: string = '';
-  yaxislabeldistance: number = 50;
+  yaxislabeldistance: number = 60;
   xaxislabeldistance: number = 30;
   // customcolors: string | Array<string> = '';
   customcolors: any;
@@ -38,8 +38,12 @@ export default class BaseChartComponentProps extends BaseProps {
   showvalues: boolean = false;
   showyaxis: boolean = true;
   showxaxis: boolean = true;
-  ydomain: string = '';
-  xdomain: string = '';
+  ydomain: string = 'Min';
+  xdomain: string = 'Min';
   labelangle: number = 0;
-  
+  xtickexpr?: (item: any, index: number, length: number) => any;
+  ytickexpr?: (item: any, index: number, length: number) => any;
+  hidegridxaxis: boolean = false;
+  hidegridyaxis: boolean = false;
+  autoadjustlabels: boolean = false;
 }

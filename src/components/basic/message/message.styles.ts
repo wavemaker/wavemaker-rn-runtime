@@ -47,8 +47,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         } as WmIconStyles,
         closeBtn: {
             root: {
+                borderRadius: 0,
+                paddingLeft: 8,
                 paddingHorizontal: 0,
-                paddingRight: 8,
+                paddingRight: 0,
                 alignSelf: 'center'
             },
             icon: {

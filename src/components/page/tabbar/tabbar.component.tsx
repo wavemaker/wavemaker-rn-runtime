@@ -28,15 +28,26 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
     const isActive = props.isActive && props.isActive(item);
     const getDisplayLabel = this.props.getDisplayExpression || ((label: string) => label);
     return (
-      <TouchableOpacity {...this.getTestPropsForAction('item' + testId)} onPress={() => onSelect && onSelect()}  key={item.key}>
-        <View style={[this.styles.tabItem, isActive ? this.styles.activeTabItem: {}]}>
-            <WmIcon styles={this.theme.mergeStyle({}, this.styles.tabIcon, isActive ? this.styles.activeTabIcon: {})} iconclass={item.icon}></WmIcon>
-            <Text style={[this.styles.tabLabel, isActive ? this.styles.activeTabLabel: {}]}>{getDisplayLabel(item.label)}</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={[this.styles.tabItem]} key={`${item.label}_${testId}`}>
+        <TouchableOpacity
+          {...this.getTestPropsForAction('item' + testId)}
+          onPress={() => onSelect && onSelect()}
+          key={item.key}
+        >
+          <View style={[isActive ? this.styles.activeTabItem : {}]}>
+            <WmIcon
+              styles={this.theme.mergeStyle({}, this.styles.tabIcon, isActive ? this.styles.activeTabIcon : {})}
+              iconclass={item.icon}
+            ></WmIcon>
+          </View>
+        </TouchableOpacity>
+        <Text style={[this.styles.tabLabel, isActive ? this.styles.activeTabLabel : {}]}>
+          {getDisplayLabel(item.label)}
+        </Text>
+      </View>
     );
   }
-
+  
   onItemSelect(item: NavigationDataItem, navigationService: NavigationService) {
     item.link && navigationService.openUrl(item.link);
     this.invokeEventCallback('onSelect', [null, this.proxy, item]);

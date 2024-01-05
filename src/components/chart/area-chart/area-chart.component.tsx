@@ -1,7 +1,8 @@
 import React from 'react';
-import { LayoutChangeEvent, Text, View } from 'react-native';
+import Color from "color";
+import { LayoutChangeEvent, View, Text } from 'react-native';
 import { Defs, LinearGradient, Stop, Svg } from 'react-native-svg';
-import { VictoryArea, VictoryChart, VictoryLegend, VictoryStack, VictoryScatter, VictoryGroup } from "victory-native";
+import { VictoryArea, VictoryLine, VictoryChart, VictoryLegend, VictoryStack, VictoryScatter, VictoryGroup } from "victory-native";
 import { InterpolationPropType } from 'victory-core';
 import WmAreaChartProps from './area-chart.props';
 import { DEFAULT_CLASS, WmAreaChartStyles } from './area-chart.styles';
@@ -11,6 +12,8 @@ import {
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
 
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { isNil, isNumber } from 'lodash-es';
 
 export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> {
   chartWidth = 0;
@@ -34,10 +37,14 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
       return null;
     }
     let mindomain={
-      x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined,
-      y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined
+      x: props.xdomain === 'Min' ? this.state.chartMinX: undefined,
+      y: props.ydomain === 'Min' ? this.state.chartMinY: undefined
     };
     const chartName = this.props.name ?? 'nonameAreachart';
+    let gradientStop = '100%';
+    if (isNumber(this.state.chartMaxY) && isNumber(this.state.chartMinY) && this.state.chartMaxY > 0) {
+      gradientStop = (this.state.chartMaxY - this.state.chartMinY) * 100 / this.state.chartMaxY + '%';
+    }
     return (
       <View
         style={this.styles.root}
@@ -56,7 +63,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
             theme={this.state.theme}
             height={this.styles.root.height as number}
             width={this.state.chartWidth || 120}
-            padding={{ top: 70, bottom: 50, left: 50, right: 50 }}
+            padding={{ top: 70, bottom: 50, left: 50, right: 30 }}
             minDomain={mindomain}
           > 
             {this.getLegendView()}
@@ -68,8 +75,8 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                 return <VictoryGroup key={props.name + '_area_group_' + i}>
                   <Defs>
                     <LinearGradient id={`${chartName}Gradient${i}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                      <Stop offset="0%" stopColor={this.state.colors[i]}/>
-                      <Stop offset="100%" stopColor={'#ffffff00'} stopOpacity="0"/>
+                      <Stop offset="0%" stopColor={Color(this.state.colors[i]).lighten(0.2).rgb().toString()}/>
+                      <Stop offset={gradientStop} stopColor={Color(this.state.colors[i]).lighten(0.6).rgb().toString()}/>
                     </LinearGradient>
                   </Defs>
                   <VictoryArea
@@ -78,7 +85,8 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                     style={{
                       data: {
                         fill: `url(#${chartName}Gradient${i})`,
-                        stroke: this.state.colors[i]
+                        stroke: this.state.colors[i],
+                        strokeWidth: props.linethickness,
                       }
                     }}
                     data={d}
@@ -88,9 +96,11 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                       size={5}
                       key={props.name + '_scatter' + i}
                       style={{
-                        data: { fill: this.state.colors[i], opacity: 0.8}
-                      }}
-                      data={d}/>
+                        data: { 
+                          fill: Color(this.state.colors[i]).darken(0.2).rgb().toString()}
+                      }}        
+                      data={d}
+                      />
                   : null}
                 </VictoryGroup>
               })
