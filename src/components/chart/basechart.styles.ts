@@ -26,7 +26,10 @@ export type BaseChartComponentStyles = BaseStyles & {
   xGrid: VictoryStyleObject,
   yGrid: VictoryStyleObject,
   legendText: TextStyle,
-  legenedDot: ViewStyle 
+  legenedDot: ViewStyle,
+  tooltipContainer: any,
+  tooltipXText: any,
+  tooltipYText: any,
 };
 
 export const DEFAULT_CLASS = 'app-chart';
@@ -79,7 +82,19 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     } as any,
     xTickLabels: {} as any,
     yTickLabels: {} as any,
-    barChart: {}
+    barChart: {},
+    tooltipContainer:{
+      backgroundColor: "rgba(255, 255, 255, 0.7)",
+      borderColor: "#404040",
+      borderWidth: 1,
+      paddingTop: 10,
+      paddingBottom: 10,
+      paddingLeft: 6,
+      paddingRight: 6,
+      borderRadius: 5,
+    },
+    tooltipXText:{},
+    tooltipYText:{}
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

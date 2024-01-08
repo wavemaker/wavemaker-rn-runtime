@@ -82,7 +82,18 @@ onSelect(event: any, data: any){
                           width={this.styles.root.width as number || this.screenWidth}               
                           minDomain={mindomain}
                           padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
-                          >
+                          containerComponent={
+                            this.getTooltip(props)
+                          }>
+      <VictoryLegend
+        name={'legend'}
+        containerComponent={<Svg />}
+        title={[props.title, props.subheading]}
+        orientation="horizontal"
+        gutter={20}
+        data={[]}
+        theme={this.state.theme}
+      />
       {this.getLegendView()}
       {this.getXaxis()}
       {this.getYAxis()}

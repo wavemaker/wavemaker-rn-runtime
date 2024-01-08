@@ -46,4 +46,11 @@ export default class BaseChartComponentProps extends BaseProps {
   hidegridxaxis: boolean = false;
   hidegridyaxis: boolean = false;
   autoadjustlabels: boolean = false;
+  tooltiporientation : 'top' | 'bottom' | 'left' |'right' = 'top';
+  tooltipwidth?: number = undefined;
+  tooltipheight?: number = undefined;
+  tooltippointerlength?: number = undefined;
+  tooltippointerwidth?: number = undefined;
+  tooltipcenteroffsetx?: number = undefined;
+  tooltipcenteroffsety?: number = undefined;
 }
