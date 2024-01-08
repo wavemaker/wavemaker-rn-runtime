@@ -35,6 +35,11 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         horizontal={props.horizontal} labels={props.showvalues ? this.labelFn.bind(this) : undefined}
         data={d}
         height={100}
+        style={props.customcolors?{
+          data: {
+            fill: ({ datum }) => this.state.colors[datum.x] ?? this.state.colors[datum.x % this.state.colors.length]
+          }
+        }:{}}
         events={[{
           target: 'data',
           eventHandlers: Platform.OS == "web" ? {
