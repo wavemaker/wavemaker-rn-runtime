@@ -84,8 +84,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     yTickLabels: {} as any,
     barChart: {},
     tooltipContainer:{
-      backgroundColor: "rgba(255, 255, 255, 0.7)",
-      borderColor: "#404040",
+      backgroundColor: themeVariables.tooltipBgColor,
+      borderColor: themeVariables.tooltipBorderColor,
       borderWidth: 1,
       paddingTop: 10,
       paddingBottom: 10,

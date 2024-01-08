@@ -444,5 +444,8 @@ export default class ThemeVariables {
     audioPlayerBgColor = this.defaultColorF;
     audioPlayerFgColor = this.defaultColor3;
 
+    //Tool tip
+    tooltipBgColor = Color("#fff").fade(0.6).rgb().toString();
+    tooltipBorderColor = '#404040';
     static INSTANCE = new ThemeVariables();
 }
