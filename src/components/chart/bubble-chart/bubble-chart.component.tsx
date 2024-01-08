@@ -42,6 +42,9 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
         height={this.styles.root.height as number}
         width={this.styles.root.width as number || this.screenWidth}
         padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
+        containerComponent={
+          this.getTooltip(props)
+        }
       >
         <VictoryLegend
           name={'legend'}

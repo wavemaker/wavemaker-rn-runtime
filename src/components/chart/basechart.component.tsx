@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import moment from "moment";
 import {forEach, get, isArray, isEmpty, isObject, maxBy, minBy, set, trim, orderBy} from "lodash-es";
 import { ScatterSymbolType } from "victory-core";
-import {VictoryAxis, VictoryLegend, VictoryLabel} from "victory-native";
+import {VictoryAxis, VictoryLegend, VictoryLabel, VictoryVoronoiContainer, VictoryTooltip} from "victory-native";
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
@@ -171,6 +171,31 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                         dependentAxis />;
   }
   
+  getTooltip(props: BaseChartComponentProps) {
+    const tooltipContainer = this.styles.tooltipContainer;
+    const xaxis = props.xaxisdatakey;
+    return (
+      <VictoryVoronoiContainer
+      labels={({ datum }) => `${props.dataset[datum.x][xaxis]} \n Value ${datum.y} `}
+      voronoiBlacklist={this.state.data.map((item: any, i: number) => props.name + '_' + i)}
+      labelComponent={
+        <VictoryTooltip
+          style={[{fill: this.styles.tooltipXText.color,...this.styles.tooltipXText},{fill: this.styles.tooltipYText.color,...this.styles.tooltipYText}]}
+          orientation={props.tooltiporientation}
+          pointerLength={props.tooltippointerlength}
+          pointerWidth={props.tooltippointerwidth}
+          flyoutHeight={props.tooltipheight}
+          flyoutWidth={props.tooltipwidth}
+          flyoutStyle={{fill: tooltipContainer.backgroundColor, stroke: tooltipContainer.borderColor,  strokeWidth: tooltipContainer.borderWidth,...this.styles.tooltipContainer}}
+          flyoutPadding={{top: tooltipContainer.paddingTop, bottom: tooltipContainer.paddingBottom, left: tooltipContainer.paddingLeft, right: tooltipContainer.paddingRight}}
+          cornerRadius={tooltipContainer.borderRadius}
+          centerOffset={{ x: props.tooltipcenteroffsetx, y: props.tooltipcenteroffsety}}
+          constrainToVisibleArea
+        />
+      }
+    />
+    );
+  }
  
 
   // X/Y Domain properties are supported only for Column and Area charts

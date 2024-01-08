@@ -47,6 +47,9 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
         height={this.styles.root.height as number}
         width={this.styles.root.width as number || this.screenWidth}
         padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
+        containerComponent={
+          this.getTooltip(props)
+        }
       >
         <VictoryLegend
           name={'legend'}
@@ -64,7 +67,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
         {this.state.data.map((d: any, i: number) => {
           return <VictoryGroup key={props.name + '_line_group_' + i}>
             <VictoryLine interpolation={props.interpolation as InterpolationPropType}  key={props.name + '_line_' + i}
-              name={props.name + '_line_' + i}
+              name={props.name + '_' + i}
               standalone={true}
               style={{
                 data: {

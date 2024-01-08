@@ -169,7 +169,11 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
               bottom: props.offsetbottom,
               left: props.offsetleft,
               right: props.offsetright
-            }}>
+            }}
+            containerComponent={
+              this.getTooltip(props)
+            }
+            >
             <VictoryLegend
               name={'legend'}
               containerComponent={<Svg />}

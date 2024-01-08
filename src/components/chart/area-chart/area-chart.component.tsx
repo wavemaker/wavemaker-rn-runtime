@@ -65,6 +65,9 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
             width={this.state.chartWidth || 120}
             padding={{ top: 70, bottom: 50, left: 50, right: 30 }}
             minDomain={mindomain}
+            containerComponent={
+              this.getTooltip(props)
+            }
           > 
             <VictoryLegend
               name={'legend'}
@@ -91,6 +94,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                   <VictoryArea
                     interpolation={props.interpolation as InterpolationPropType}
                     key={props.name + '_' + i}
+                    name={props.name + '_' + i}
                     style={{
                       data: {
                         fill: `url(#${chartName}Gradient${i})`,

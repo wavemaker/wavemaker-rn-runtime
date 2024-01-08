@@ -71,7 +71,10 @@ onSelect(event: any, data: any){
                           height={this.styles.root.height as number}
                           width={this.styles.root.width as number || this.screenWidth}
                           minDomain={mindomain}
-                          padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}>
+                          padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
+                          containerComponent={
+                            this.getTooltip(props)
+                          }>
       <VictoryLegend
         name={'legend'}
         containerComponent={<Svg />}
