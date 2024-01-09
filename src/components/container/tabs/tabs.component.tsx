@@ -203,7 +203,8 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
             enableGestures={props.enablegestures}
             style={{
               flexDirection: 'row',
-              flexWrap: 'nowrap'
+              flexWrap: 'nowrap',
+              alignItems: 'flex-start'
             }}
             direction='horizontal'
             ref={(r) => {this.animationView = r}}
@@ -212,12 +213,12 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
             {tabPanes.map((p: any, i) => {
               return (
               <View 
+                key={`tab-${p.props.title}-${i}`}
                 style={{
                   width: '100%',
                   height: this.styles.root.height  ? undefined : 1000000,
                   alignSelf: 'flex-start'}}>
                 <View
-                  key={`tab-${p.props.title}-${i}`}
                   style={{width: '100%', alignSelf: 'flex-start'}}
                   onLayout={this.setTabPaneHeights.bind(this, i)}>
                   {/* {this.state.tabsShown[i] ? p : null} */}
