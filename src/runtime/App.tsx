@@ -28,6 +28,7 @@ import WmNetworkInfoToaster from '@wavemaker/app-rn-runtime/components/advanced/
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/message.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
+import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
 
 import { Watcher } from './watcher';
 import { preparePatch } from './lib-patch';
@@ -213,6 +214,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   }
 
+  setTimezone(timezone: any){
+    AppI18nService.setTimezone(timezone);
+  }
+  
   get spinner() {
     return AppSpinnerService;
   }

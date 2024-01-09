@@ -11,6 +11,7 @@ import WebDatePicker from './date-picker.component';
 import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
+import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
 
 export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   showDatePicker = false;
@@ -73,6 +74,17 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }
   }
 
+  convertTimezone(date: any){ 
+    const timezone = AppI18nService.getTimezone();
+    if (timezone) {
+      const parsedDateString = new Date(date).toLocaleString(this.props.locale, { timeZone: timezone });
+      return moment(parsedDateString, 'M/D/YYYY, h:mm:ss A');
+    }
+    else {
+      return date;
+    }
+  }
+
   onPropertyChange(name: string, $new: any, $old: any) {
     super.onPropertyChange(name, $new, $old);
     const props = this.state.props;
@@ -87,13 +99,14 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       case 'datepattern':
       case 'outputformat':
         if (props.datavalue && props.outputformat && props.datepattern) {
-          if (props.datavalue === CURRENT_DATE || props.datavalue === CURRENT_TIME) {
-            props.datavalue = this.format(new Date(), props.outputformat);
+          let datavalue = props.datavalue;
+          if (datavalue === CURRENT_DATE || datavalue === CURRENT_TIME) {
+            datavalue = this.format(new Date(), props.outputformat) as any;
           }
-          const date = isString(props.datavalue) ? this.parse(props.datavalue as string, props.outputformat) : props.datavalue;
+          const date = isString(datavalue) ? this.parse(datavalue as string, props.outputformat) : datavalue;
           this.updateState({
             dateValue : date,
-            displayValue: this.format(date as any, props.datepattern)
+            displayValue: this.format(this.convertTimezone(date) as any, props.datepattern)
           } as BaseDatetimeState);
         } else {
           this.updateState({

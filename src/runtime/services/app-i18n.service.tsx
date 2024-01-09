@@ -24,6 +24,7 @@ class AppI18nService implements I18nService{
     timeFormat: string = '';
     dateTimeFormat: string = '';
     currencyCode: string = '';
+    timezone: string = '';
 
     constructor() {}
 
@@ -58,6 +59,14 @@ class AppI18nService implements I18nService{
             });
 
         });
+    }
+
+    setTimezone(timezone: string){
+      this.timezone = timezone;
+    }
+
+    getTimezone(){
+      return this.timezone;
     }
 
     setSelectedLocale(locale: string) {
