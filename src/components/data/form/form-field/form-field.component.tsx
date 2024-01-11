@@ -160,7 +160,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   }
 
   setReadOnlyState(updateMode: any) {
-    this.formwidget.updateState({
+    this.formwidget?.updateState({
       props: {
         readonly: !updateMode,
       }
