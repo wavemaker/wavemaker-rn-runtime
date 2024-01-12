@@ -12,7 +12,10 @@ export type WmTabbarStyles = BaseStyles & {
     tabIcon: WmIconStyles,
     activeTabIcon: WmIconStyles,
     tabLabel: AllStyle,
-    activeTabLabel: AllStyle
+    activeTabLabel: AllStyle,
+    centerHubItem: AllStyle,
+    centerHubIcon: WmIconStyles,
+    centerHubLabel: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-tabbar';
@@ -100,7 +103,10 @@ export const DEFAULT_CLASS = 'app-tabbar';
             fontSize: 12,
             fontFamily: themeVariables.baseFont,
             color:  themeVariables.tabShadowColor,
-        }
+        },
+        centerHubItem: {},
+        centerHubIcon: {} as WmIconStyles, 
+        centerHubLabel:{}
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
@@ -126,4 +132,43 @@ export const DEFAULT_CLASS = 'app-tabbar';
             marginTop: 0
         }
     } as WmTabbarStyles);
+    addStyle('clipped-tabbar', '', {
+        root:{
+             marginTop: -60
+        },
+        menu: {
+            backgroundColor: themeVariables.transparent
+        },
+        centerHubItem: {
+            width: 70,
+            height: 70,
+            shadowColor: 'grey',
+            shadowOpacity: 0.1,
+            opacity: 1,
+            shadowOffset: { width: 2, height: 0 },
+            shadowRadius: 2,
+            borderRadius: 35,
+            position: 'absolute',
+            bottom: 28,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: themeVariables.centerHubItemColor,
+            left: (themeVariables.maxWidth/2) - 35
+        },
+        centerHubIcon: {
+            root: {
+                alignSelf: 'center',
+                borderBottomColor: themeVariables.transparent,
+                paddingBottom: 4
+            },
+            icon: {
+                fontSize: 24,
+                paddingRight: 0,
+                color:  themeVariables.centerHubIconColor
+            }
+        } as WmIconStyles, 
+        centerHubLabel:{
+            color:  themeVariables.centerHubLabelColor,
+        }
+    })
 });
