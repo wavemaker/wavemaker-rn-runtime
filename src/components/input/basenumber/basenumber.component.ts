@@ -163,7 +163,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         datavalue: model
       }
     } as S, () => {
-      !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
+      !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, model, oldValue]);
       if (source === 'blur') {
         this.invokeEventCallback('onBlur', [event, this.proxy]);
       }
