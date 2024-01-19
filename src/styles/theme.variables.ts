@@ -50,6 +50,7 @@ export default class ThemeVariables {
     badgeContrastColor = '#ffffff';
     baseFont = 'Roboto';
     maxModalHeight = Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0);
+    maxWidth = Dimensions.get("window").width; 
 
     // page
     pageContentBgColor = this.defaultColorE;
@@ -105,6 +106,9 @@ export default class ThemeVariables {
     tabbarBackgroundColor = this.primaryContrastColor;
     tabbarTextColor =  this.primaryColor;
     tabbarIconColor = this.primaryColor;
+    centerHubItemColor = this.secondaryColor;
+    centerHubIconColor = this.defaultColorF;
+    centerHubLabelColor = this.defaultColorF;
 
     // tab variables
     tabHeaderBgColor = this.widgetBgColor;

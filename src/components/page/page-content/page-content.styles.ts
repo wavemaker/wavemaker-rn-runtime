@@ -7,7 +7,10 @@ export const DEFAULT_CLASS = 'app-page-content';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmPageContentStyles = defineStyles({
         root: {
-            padding: 8,
+            paddingLeft: 8,
+            paddingRight: 8,
+            paddingTop: 8,
+            paddingBottom: 80,
             backgroundColor: themeVariables.pageContentBgColor,
             minHeight: '100%'
         },
