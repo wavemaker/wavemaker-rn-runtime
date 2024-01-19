@@ -10,7 +10,8 @@ export class ModelVariable extends _ModelVariable {
     const variable = {
       name: config.name,
       dataSet: config.paramProvider(),
-      isList: config.isList
+      isList: config.isList,
+      twoWayBinding: config.twoWayBinding
     }
     super(variable);
     this.config = config;
@@ -19,7 +20,7 @@ export class ModelVariable extends _ModelVariable {
 
   invoke(params?: any, onSuccess?: Function, onError?: Function) {
     let result;
-    this.dataSet = this.config.paramProvider(); 
+    this.dataSet = this.config.paramProvider();
     this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
     try{
       result = super.execute(params, ()=>{});
