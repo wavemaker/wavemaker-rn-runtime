@@ -22,7 +22,8 @@ export default class WmComposite extends BaseComponent<WmCompositeProps, WmCompo
   renderWidget(props: WmCompositeProps) {
     const styles = this.theme.mergeStyle({}, 
       this.styles,
-      this.theme.getStyle(POSITION_STYLES[props.captionposition]));
+      props.captionposition ? this.theme.getStyle(POSITION_STYLES[props.captionposition]) : {}
+    );
     return (<View style={styles.root}>{this._background}{props.children}</View>); 
   }
 }
