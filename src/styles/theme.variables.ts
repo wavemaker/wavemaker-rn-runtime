@@ -50,6 +50,7 @@ export default class ThemeVariables {
     badgeContrastColor = '#ffffff';
     baseFont = 'Roboto';
     maxModalHeight = Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0);
+    maxWidth = Dimensions.get("window").width; 
 
     // page
     pageContentBgColor = this.defaultColorE;
