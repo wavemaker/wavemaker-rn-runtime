@@ -67,7 +67,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     let parts = [];
 
     for (let i = 0; i < captionSplit.length; i++) {
-      const isLink = captionSplit[i] === "" || linkRegex.test(captionSplit[i]);
+      const isLink = linkRegex.test(captionSplit[i]);
       let part: PartType = {};
       
       const isNextTextALink = linkRegex.test(captionSplit[i + 1]);
