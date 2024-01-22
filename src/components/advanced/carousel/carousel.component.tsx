@@ -5,6 +5,7 @@ import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extracto
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import * as SwipeAnimation from '@wavemaker/app-rn-runtime/gestures/swipe.animation';
+import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmCarouselProps from './carousel.props';
 import { DEFAULT_CLASS, WmCarouselStyles } from './carousel.styles';
@@ -267,13 +268,6 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             return (
               <Animated.View key={this.generateItemKey(item, index, props)}
                 onLayout={this.addSlideLayout.bind(this, index)}
-                onTouchEnd={() => {
-                  this.onSlideChange(index + 1);
-                  const position = this.slidesLayout
-                    .filter((l , i) => i < index)
-                    .reduce((s, l) => s + l.width, 0);
-                  this.animationView?.setPosition(-1 * position);
-                }}
                 style={[
                   {height: props.type === 'dynamic' ? undefined : '100%'},
                   this.styles.slide,
@@ -289,9 +283,16 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
                       }
                     ]
                   } : null]}>
-                
-                {this.renderItem(item, index)}
-              </Animated.View> 
+                <Tappable onTap={() => {
+                  this.onSlideChange(index + 1);
+                  const position = this.slidesLayout
+                    .filter((l , i) => i < index)
+                    .reduce((s, l) => s + l.width, 0);
+                  this.animationView?.setPosition(-1 * position);
+                }}>
+                  {this.renderItem(item, index)}
+                </Tappable>
+              </Animated.View>
             );
           })}
         </SwipeAnimation.View>
