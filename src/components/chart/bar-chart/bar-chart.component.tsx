@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Platform } from 'react-native';
+import { Text, View, Platform } from 'react-native';
 
 import {
   VictoryChart,
@@ -85,15 +85,6 @@ onSelect(event: any, data: any){
                           containerComponent={
                             this.getTooltip(props)
                           }>
-      <VictoryLegend
-        name={'legend'}
-        containerComponent={<Svg />}
-        title={[props.title, props.subheading]}
-        orientation="horizontal"
-        gutter={20}
-        data={[]}
-        theme={this.state.theme}
-      />
       {this.getLegendView()}
       {this.getXaxis()}
       {this.getYAxis()}
