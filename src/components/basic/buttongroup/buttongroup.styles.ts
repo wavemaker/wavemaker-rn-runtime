@@ -18,7 +18,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: themeVariables.buttonGrpBorderColor,
-        backgroundColor: themeVariables.buttonGrpBgColor
+        backgroundColor: themeVariables.buttonGrpBgColor,
+        overflow: 'hidden'
       }, 
       text: {},
       skeleton: {
@@ -50,9 +51,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle('btn-group-first-child', '', {
     root: {
       borderLeftWidth: 0,
-      borderRadius: 0,
-      backgroundColor: 'transparent',
-      borderColor: themeVariables.buttonGrpBorderColor
+      borderRadius: 0
+    }
+  } as WmButtonStyles);
+  addStyle('btn-group-last-child', '', {
+    root: {
+      borderRightWidth: 0,
+      borderRadius: 0
     }
   } as WmButtonStyles);
   addStyle(DEFAULT_CLASS, '', defaultStyles);

@@ -2,13 +2,14 @@ import React from 'react';
 import { DimensionValue, Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
+
 
 import WmLabelProps from './label.props';
 import { DEFAULT_CLASS, WmLabelStyles } from './label.styles';
 import { isNil, toString } from 'lodash-es';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import WmSkeleton, { createSkeleton } from '../skeleton/skeleton.component';
-import WmAnchor from '../anchor/anchor.component';
 
 type PartType = {
   text?: string,
@@ -58,6 +59,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       return [];
     }
     caption += '';
+    caption = caption.replace(/\(\s*\)/, '(#/__EMPTY__)');
     const pattern = /\[([^\]]+)\]\(([^)]*)\)/g;
     const linkRegex = /^(((http|https):\/\/)|#)[^ "]+$/;
     const captionSplit = caption.split(pattern);
@@ -68,10 +70,10 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       const isLink = captionSplit[i] === "" || linkRegex.test(captionSplit[i]);
       let part: PartType = {};
       
-      const isNextTextALink = captionSplit[i + 1] === "" || linkRegex.test(captionSplit[i + 1]) || false;
+      const isNextTextALink = linkRegex.test(captionSplit[i + 1]);
       if (isLink) {
         part.text = captionSplit[i - 1] ?? '';
-        part.link = captionSplit[i];
+        part.link = captionSplit[i] === '#/__EMPTY__' ? '' : captionSplit[i];
       } else {
         part.text = isNextTextALink ? "" : captionSplit[i];
       };
@@ -110,33 +112,36 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     return !isNil(props.caption) ? (
       <Animatedview entryanimation={props.animation} style={this.styles.root}>
         {this._background}
-        <Tappable target={this}>
-          <Text style={{flexWrap: "wrap", textAlign: this.styles.text.textAlign}} numberOfLines={props.nooflines} ellipsizeMode="tail">
-            {this.state.parts?.map((part, index) => (
-              <React.Fragment key={`part_${index}`}>
-                {!isNil(part.link) ? (
-                  <WmAnchor styles={linkStyles} caption={part.text} hyperlink={part.link} />
-                ) : (
+        <NavigationServiceConsumer>
+        {(navigationService: NavigationService) => {
+          return (<Tappable target={this}>
+            <Text style={{flexWrap: "wrap", textAlign: this.styles.text.textAlign}} numberOfLines={props.nooflines} ellipsizeMode="tail">
+              {this.state.parts?.map((part, index) => {
+                const isLink = !isNil(part.link);
+                return (
                   <Text
+                    key={`part_${index}`}
                     style={[
                       this.styles.text,
-                      {
-                        color:
-                          props.isValid === false
-                            ? 'red'
-                            : this.styles.text.color,
-                      },
+                      isLink ? this.styles.link.text : null,
+                      props.isValid ? null : { color: 'red'}
                     ]}
+                    {...this.getTestPropsForLabel(isLink ? `link_${index}` : `${index}`)}
                     selectable={this.styles.text.userSelect === 'text'}
+                    {...part.link ? {
+                      onPress: () => {
+                        part.link && navigationService.openUrl(part.link, '_blank');
+                      }
+                    }: {}}
                   >
                     {toString(part.text)}
                     {props.required && this.getAsterisk()}
                   </Text>
-                )}
-              </React.Fragment>
-            ))}
-          </Text>
-        </Tappable>
+                );
+              })}
+            </Text>
+          </Tappable>)}}
+        </NavigationServiceConsumer>
       </Animatedview>
     ) : null;
   }
