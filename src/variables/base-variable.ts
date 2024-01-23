@@ -61,7 +61,8 @@ export abstract class BaseVariable<T extends VariableConfig> extends EventNotifi
     }
 
     public doNext(): Promise<BaseVariable<T>> {
-      return Promise.reject(this);
+      // return Promise.reject(this);
+      return Promise.resolve(this);
     }
 
     public invokeOnParamChange(): Promise<BaseVariable<T>> {

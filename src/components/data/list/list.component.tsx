@@ -5,6 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
+import WMFlatList from '../../../core/components/flatlist.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
@@ -250,19 +251,29 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
     return (
-    <View style={this.styles.root}>
+    <View style={[this.styles.root, {flex: 1}]}>
       {!isEmpty(this.state.groupedData) ? this.state.groupedData.map((v: any, i) => ((
-          <View style={{marginBottom: 16}} key={v.key || this.keyExtractor.getKey(v, true)}>
+          <View style={{marginBottom: 16, flex: 1}} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
-            <FlatList
-              key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
-              keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
-              horizontal = {isHorizontal}
-              data={v.data || []}
-              ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
-              renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)} 
-              {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}> 
-            </FlatList>
+            <View style={{flex: 1}}>
+              <FlatList
+                onEndReachedThreshold={0.3}
+                onEndReached={({distanceFromEnd}) => {
+                  setTimeout(() => {
+                    this.setState({ currentPage: this.state.currentPage + 1 } as WmListState);
+
+                    this.invokeEventCallback('onEndReached', [null, this]);
+                  }, 0)
+                }}
+                key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
+                keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
+                horizontal = {isHorizontal}
+                data={isEmpty(v.data[0]) ? []: v.data}
+                ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
+                renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)} 
+                {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}> 
+              </FlatList>
+            </View>
           </View>
         ))) : this.renderEmptyMessage(isHorizontal, null, null,props)
       }
@@ -305,15 +316,57 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     );
   }
 
+  private handleOnEndReached = ({ distanceFromEnd }: any) => {
+    setTimeout(() => {
+      this.setState({
+        currentPage: this.state.currentPage + 1,
+      } as WmListState);
+
+      this.invokeEventCallback('onEndReached', [null, this]);
+    }, 0);
+  }
+
   renderWidget(props: WmListProps) {
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
     const isHorizontal = (props.direction === 'horizontal');
     return (
-        <View style={isHorizontal ? null : { width: '100%' }}>
-          {this._background}
-          {(isHorizontal || !props.groupby) ?
-            this.renderWithFlatList(props, isHorizontal)
-          : this.renderWithSectionList(props, isHorizontal)}
-      </View>);
+      <View style={isHorizontal ? null : { width: '100%' }}>
+        {this._background}
+        {isHorizontal || !props.groupby ? (
+          // this.renderWithFlatList(props, isHorizontal)
+          <WMFlatList
+            {...props}
+            isHorizontal={isHorizontal}
+            groupedData={this.state.groupedData}
+            renderHeader={this.renderHeader}
+            handleOnEndReached={this.handleOnEndReached}
+            getKey={(v: any) => this.keyExtractor.getKey(v, true)}
+            generateItemKey={(item: any, i: number) =>
+              this.generateItemKey(item, i, props)
+            }
+            listEmptyComponent={(itemInfo: any) =>
+              this.renderEmptyMessage(
+                isHorizontal,
+                itemInfo.item,
+                itemInfo.index,
+                props
+              )
+            }
+            renderItem={(itemInfo: any) =>
+              this.renderItem(itemInfo.item, itemInfo.index, props)
+            }
+            noOfColumns={this.getNoOfColumns()}
+            renderEmptyMessage={this.renderEmptyMessage(
+              isHorizontal,
+              null,
+              null,
+              props
+            )}
+          />
+        ) : (
+          this.renderWithSectionList(props, isHorizontal)
+        )}
+      </View>
+    );
   }
 }

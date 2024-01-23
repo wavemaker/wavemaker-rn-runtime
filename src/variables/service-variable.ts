@@ -5,6 +5,7 @@ import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { ServiceVariable as _ServiceVariable } from '@wavemaker/variables/src/model/variable/service-variable';
 import httpService from '@wavemaker/app-rn-runtime/variables/http.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
+import { AxiosResponse } from 'axios';
 
 export interface ServiceVariableConfig extends VariableConfig {
   baseUrl: string;
@@ -88,11 +89,17 @@ export class ServiceVariable extends _ServiceVariable {
     return Promise.resolve(this);
   }
 
-  public doNext(currentPage: number) {
+  public async doNext(currentPage: number) {
     // this.invoke({
     //   page: currentPage
     // });
-    return Promise.reject(this);
+    // return Promise.reject(this);
+    const apiResponse = await this.invoke({
+      page: currentPage
+    }) as AxiosResponse;
+    const pageData = await apiResponse.data;
+  
+    return Promise.resolve(pageData);
   }
 
   onDataUpdated() {
