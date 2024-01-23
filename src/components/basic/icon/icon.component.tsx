@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, DimensionValue, Easing, Text } from 'react-native';
+import { Animated, DimensionValue, Easing, Text, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -135,19 +135,32 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   }
 
   renderIcon(props: WmIconProps) {
+    let iconJsx = null;
+    const { iconurl, iconmargin, iconheight, iconwidth } = props;
+    if (iconurl) {
+     return(<Image
+          style={{
+            margin: iconmargin ?? 0,
+            height: iconheight ?? 10,
+            width: iconwidth ?? 10,
+          }}
+          source={{ uri: iconurl }}
+        />)
+    }
     const iconDef = this.state.iconDef;
     if (!iconDef) {
       return null;
     }
-    let icon = null;
-    const style = [{
-      color: this.styles.root.color || this.styles.text.color
-    }, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}];
+    const { root, text, icon } = this.styles;
+    const style = [{ color: root.color || text.color },
+    icon,
+    { transform: [{ rotate: iconDef.rotate }] }];
+
     const customIcon = this.getCustomIcon(props, style);
     const iconSize = props.iconsize || this.styles.root.fontSize || this.styles.text.fontSize || iconDef.size;
     if (props.show && iconDef && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
-      icon = (<FontAwesome name={customIcon ? '' : iconDef.type}
+      iconJsx = (<FontAwesome name={customIcon ? '' : iconDef.type}
         style={style}
         size={iconSize}>
           {customIcon}
@@ -162,26 +175,26 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
         return null;
       }
       //@ts-ignore type information is not matching
-      icon = WMCustomIcon ? (<WMCustomIcon name={customIcon ? '' : iconDef.type}
+      iconJsx = WMCustomIcon ? (<WMCustomIcon name={customIcon ? '' : iconDef.type}
         style={style}
         size={iconSize}>
         {customIcon}
       </WMCustomIcon>) : null;
     }
-    if (icon && iconDef.animation === 'spin') {
+    if (iconJsx && iconDef.animation === 'spin') {
       const rotate = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg']});
       const animation = { transform: [{ rotate }] };
       this.stopAnimation = false;
-      return (<Animated.View style={animation}>{icon}</Animated.View>);
-    } else if (icon && iconDef.animation === 'pulse') {
+      return (<Animated.View style={animation}>{iconJsx}</Animated.View>);
+    } else if (iconJsx && iconDef.animation === 'pulse') {
       const opacity = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: [0, 1]});
       const animation = { opacity: opacity };
       this.stopAnimation = false;
-      return (<Animated.View style={animation}>{icon}</Animated.View>);
+      return (<Animated.View style={animation}>{iconJsx}</Animated.View>);
     } else {
       this.stopAnimation = true;
     }
-    return icon;
+    return iconJsx;
   }
 
   renderWidget(props: WmIconProps) {

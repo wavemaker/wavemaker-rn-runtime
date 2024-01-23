@@ -24,7 +24,14 @@ export default class WmCard extends BaseComponent<WmCardProps, WmCardState, WmCa
       <View style={{flexDirection: 'row'}}>
         {(props.iconclass || props.title || props.subheading || props.actions) ?
         (<View style={this.styles.heading}>
-          <WmIcon styles={this.styles.cardIcon} iconclass={props.iconclass}></WmIcon>
+        {props.iconclass || props.iconurl ? 
+          <WmIcon styles={this.styles.cardIcon}
+           iconclass={props.iconclass}
+           iconurl={props.iconurl}
+           iconheight={props.iconheight}
+           iconmargin={props.iconmargin}
+           iconwidth={props.iconwidth}
+           /> : null} 
           <View style={{flex: 1}}>
             <WmLabel styles={this.styles.title} caption={props.title}></WmLabel>
             <WmLabel styles={this.styles.subheading} caption={props.subheading}></WmLabel>

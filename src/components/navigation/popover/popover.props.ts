@@ -15,4 +15,8 @@ export default class WmPopoverProps extends BaseProps {
   renderPartial?: Function = null as any;
   title?: string = null as any;
   type?: 'action-sheet' | 'dropdown' = 'action-sheet';
+  iconurl?: string = null as any;
+  iconheight?: number = null as any;
+  iconwidth?: number = null as any;
+  iconmargin?: number = null as any;
 }

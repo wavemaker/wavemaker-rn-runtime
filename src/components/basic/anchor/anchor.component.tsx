@@ -42,14 +42,34 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
   }
 
   renderWidget(props: WmAnchorProps) {
+      const {
+        iconclass,
+        iconurl,
+        name,
+        iconheight,
+        iconmargin,
+        iconwidth,
+        badgevalue,
+      } = props;
+     
     if (this.styles.icon && this.styles.icon.text) {
       this.styles.icon.text.color = this.styles.text.color;
     }
-    const icon = props.iconclass ? (<WmIcon
-      id={this.getTestId('icon')}
-      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>) :  null;
+
+    const icon = (iconclass || iconurl) && (
+      <WmIcon
+        id={this.getTestId('icon')}
+        styles={this.styles.icon} 
+        name={name + '_icon'}
+        iconclass={iconclass}
+        iconurl={iconurl}
+        iconheight={iconheight}
+        iconmargin={iconmargin}
+        iconwidth={iconwidth}
+      />
+    );    
     //@ts-ignore
-    const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>): null;
+    const badge = badgevalue != undefined ? (<Badge style={this.styles.badge}>{badgevalue}</Badge>): null;
     return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>

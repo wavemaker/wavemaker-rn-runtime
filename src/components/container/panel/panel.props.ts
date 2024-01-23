@@ -11,4 +11,8 @@ export default class WmPanelProps extends BaseProps {
   badgevalue: string = null as any;
   badgetype: string = 'default';
   expanded: boolean = true;
+  iconurl?: string = null as any;
+  iconheight?: number = null as any;
+  iconwidth?: number = null as any;
+  iconmargin?: number = null as any;
 }

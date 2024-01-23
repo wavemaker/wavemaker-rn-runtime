@@ -10,4 +10,8 @@ export default class WmButtonProps extends BaseProps {
     iconsize?:number = 0;
     skeletonheight?: string = null as any;
     skeletonwidth?: string = null as any;
+    iconurl?: string = null as any;
+    iconheight?: number = null as any;
+    iconwidth?: number = null as any;
+    iconmargin?: number = null as any;
 }
