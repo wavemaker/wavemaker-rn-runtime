@@ -40,6 +40,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
             fill: ({ datum }) => this.state.colors[datum.x] ?? this.state.colors[datum.x % this.state.colors.length]
           }
         }:{}}
+        cornerRadius={{topLeft: this.styles.bar.borderTopLeftRadius, topRight: this.styles.bar.borderTopRightRadius, bottomLeft: this.styles.bar.borderBottomLeftRadius, bottomRight: this.styles.bar.borderBottomRightRadius}}
         events={[{
           target: 'data',
           eventHandlers: Platform.OS == "web" ? {
