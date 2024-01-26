@@ -16,6 +16,15 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
     super(props, DEFAULT_CLASS, new WmTextProps(), new WmTextState());
   }
 
+  public getStyleClassName(): string | undefined {
+    const classes = [];
+    if (this.state.props.floatinglabel) {
+      classes.push('app-text-with-label'); 
+    }
+    classes.push(super.getStyleClassName());
+    return classes.join(' ');
+  }
+
   renderWidget(props: WmTextProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
@@ -30,9 +39,9 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
             ref.selectionStart = ref.selectionEnd = this.cursor;
           }}}
           {...opts}
-          label={props.label}
-          isFloating={props.isFloating}
-          floatingStyle={this.styles.floatingText}
+          floatingLabel={props.floatinglabel}
+          floatingLabelStyle={this.styles.floatingLabel}
+          activeFloatingLabelStyle={this.styles.activeFloatingLabel}
           placeholderTextColor={this.styles.placeholderText.color as any}
           style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
           keyboardType={this.state.keyboardType}

@@ -5,7 +5,8 @@ import { Platform } from 'react-native';
 export type WmCurrencyStyles = BaseStyles & {
   label: AllStyle;
   invalid: AllStyle;
-  floatingText: AllStyle;
+  floatingLabel: AllStyle;
+  activeFloatingLabel: AllStyle;
   placeholderText: AllStyle;
 };
 
@@ -14,9 +15,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmCurrencyStyles = defineStyles({
       root: {
         minHeight: 42,
-        borderBottomWidth: 1,
-        borderTopLeftRadius: 6,
-        borderTopRightRadius: 6,
+        borderWidth: 1,
         borderStyle: 'solid',
         borderColor: themeVariables.inputBorderColor,
         backgroundColor: themeVariables.inputBackgroundColor,
@@ -35,8 +34,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         flex: 1,
         borderWidth: 1,
         borderColor: themeVariables.transparent,
-        borderStyle: 'solid',
-        minWidth: 200,
+        borderStyle: 'solid'
       },
       labelWrapper: {
         minHeight: 42,
@@ -47,8 +45,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         paddingTop: 8,
         paddingBottom: 8,
         paddingLeft: 16,
-        paddingRight: 16,
-        justifyContent: 'center',
+        paddingRight: 16
       },
       label: {
         marginVertical: 0.7,
@@ -65,15 +62,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       placeholderText: {
         color: themeVariables.inputPlaceholderColor
       },
-      floatingText: {
-        position: 'absolute',
-        paddingTop: 19,
-        marginBottom: 4,
-        marginHorizontal: 10,
-        paddingHorizontal: 5,
-        fontSize: 14,
-        zIndex: 1,
-      },
+      floatingLabel: {},
+      activeFloatingLabel: {}
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
@@ -89,5 +79,21 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       root : {
         backgroundColor: themeVariables.inputDisabledBgColor
       }
+  });
+  addStyle(DEFAULT_CLASS + '-with-label', '', {
+    root: {
+      minHeight: 48
+    },
+    floatingLabel: {
+      position: 'absolute',
+      top: 12,
+      left: 16,
+      fontSize: 14,
+      textAlign: 'left',
+      color: themeVariables.floatingLabelColor
+    },
+    activeFloatingLabel: {
+      color: themeVariables.activeFloatingLabelColor
+    }
   });
 });

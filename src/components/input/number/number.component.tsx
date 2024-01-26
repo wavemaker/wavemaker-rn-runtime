@@ -20,6 +20,15 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
     super(props, DEFAULT_CLASS, new WmNumberProps(), new WmNumberState());
   }
 
+  public getStyleClassName(): string | undefined {
+    const classes = [];
+    if (this.state.props.floatinglabel) {
+      classes.push('app-number-with-label'); 
+    }
+    classes.push(super.getStyleClassName());
+    return classes.join(' ');
+  }
+
   renderWidget(props: WmNumberProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
@@ -33,9 +42,9 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
           ref.selectionStart = ref.selectionEnd = this.cursor;
         }}}
       {...opts}
-      label={props.label}
-      isFloating={props.isFloating}
-      floatingStyle={this.styles.floatingText}
+      floatingLabel={props.floatinglabel}
+      floatingLabelStyle={this.styles.floatingLabel}
+      activeFloatingLabelStyle={this.styles.activeFloatingLabel}
       style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
       keyboardType="numeric"
       placeholderTextColor={this.styles.placeholderText.color as any}

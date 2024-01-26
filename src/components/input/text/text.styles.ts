@@ -6,7 +6,8 @@ import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 export type WmTextStyles = BaseStyles & {
   invalid: AllStyle;
   placeholderText: AllStyle;
-  floatingText: AllStyle;
+  floatingLabel: AllStyle;
+  activeFloatingLabel: AllStyle;
   skeleton: WmSkeletonStyles;
 };
 
@@ -14,17 +15,16 @@ export const DEFAULT_CLASS = 'app-text';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmTextStyles = defineStyles({
       root: {
-        minHeight: 56,
-        // paddingTop: 12,
-        // paddingBottom: 8,
-        borderBottomWidth: 1,
+        minHeight: 42,
+        paddingTop: 8,
+        paddingBottom: 8,
+        borderWidth: 1,
         paddingLeft: 16,
         paddingRight: 16,
         borderStyle: 'solid',
         borderColor: themeVariables.inputBorderColor,
         backgroundColor: themeVariables.inputBackgroundColor,
-        borderTopLeftRadius: 6,
-        borderTopRightRadius: 6,
+        borderRadius: 6,
         fontFamily: themeVariables.baseFont
       },
       text: {
@@ -36,15 +36,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       placeholderText: {
       color: themeVariables.inputPlaceholderColor
       },
-      floatingText: {
-        position: 'absolute',
-        paddingTop: 19,
-        marginBottom: 4,
-        marginHorizontal: 10,
-        paddingHorizontal: 5,
-        fontSize: 14,
-        zIndex: 1,
-      },
+      floatingLabel: {},
+      activeFloatingLabel: {},
       skeleton: {
         root: {
           width: '100%',
@@ -64,5 +57,20 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       root:{
         textAlign: 'right'
       }
-  })
+  });
+  addStyle(DEFAULT_CLASS + '-with-label', '', {
+    root: {
+      minHeight: 48,
+    },
+    floatingLabel: {
+      position: 'absolute',
+      top: 12,
+      left: 16,
+      fontSize: 14,
+      color: themeVariables.floatingLabelColor
+    },
+    activeFloatingLabel: {
+      color: themeVariables.activeFloatingLabelColor
+    }
+  });
 });
