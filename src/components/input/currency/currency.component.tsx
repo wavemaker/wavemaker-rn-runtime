@@ -34,13 +34,24 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     }
   }
 
+  public getStyleClassName(): string | undefined {
+    const classes = [];
+    if (this.state.props.floatinglabel) {
+      classes.push('app-currency-with-label'); 
+    }
+    classes.push(super.getStyleClassName());
+    return classes.join(' ');
+  }
+
   renderWidget(props: WmCurrencyProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (<View style={this.styles.root}>
       <View style={this.styles.labelWrapper}>
-        <Text style={this.styles.label}>{this.state.currencySymbol}</Text></View>
+        <Text style={this.styles.label}>{this.state.currencySymbol}</Text>
+      </View>
+      <View style={{flex: 1}}>
       <WMTextInput
         {...this.getTestPropsForInput()}
         ref={(ref: any) => {
@@ -55,9 +66,9 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         placeholderTextColor={this.styles.placeholderText.color as any}
         style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
         {...opts}
-        label={props.label}
-        isFloating={props.isFloating}
-        floatingStyle={this.styles.floatingText}
+        floatingLabel={props.floatinglabel}
+        floatingLabelStyle={this.styles.floatingLabel}
+        activeFloatingLabelStyle={this.styles.activeFloatingLabel}
         editable={props.disabled || props.readonly ? false : true}
         placeholder={props.placeholder}
         value={this.state.textValue}
@@ -70,6 +81,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         onChange={this.invokeChange.bind(this)}
         allowContentSelection={this.styles.text.userSelect === 'text'}
       />
+      </View>
     </View>);
   }
 }

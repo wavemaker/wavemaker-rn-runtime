@@ -1,21 +1,25 @@
 import React, { ForwardedRef, useCallback, useRef, useState } from 'react';
-import { Platform, TextInput, TextInputProps, TouchableOpacity, View, ViewStyle } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { Platform, TextInput, TextInputProps, TextStyle } from 'react-native';
+import { FloatingLabel } from './floatinglabel.component';
 
 interface SelectRange {
     start: number,
     end: number
 }
 
-export const WMTextInput = React.forwardRef((props: (TextInputProps & {allowContentSelection: boolean, label: string, isFloating: boolean, floatingStyle: AllStyle}), ref: ForwardedRef<TextInput>) => {
+export const WMTextInput = React.forwardRef((props: (TextInputProps & 
+  {allowContentSelection: boolean, 
+    floatingLabel: string
+    floatingLabelStyle:  TextStyle,
+    activeFloatingLabelStyle: TextStyle
+  }), 
+    ref: ForwardedRef<TextInput>) => {
     const [selectRange, setSelectRange] = useState<SelectRange>(null as any);
     const [isInputFocused, setIsInputFocused] = useState(false);
-    const labelOffset = useSharedValue(0);
-    const animateLabelText = props.isFloating && ( Platform.OS === 'web' ? Number(props.value?.length) > 0 : Number(props.defaultValue?.length) > 0);
-
     const value = useRef(props.value || '');
+    
+    const animateLabelText = props.floatingLabel && ( Platform.OS === 'web' ? Number(props.value?.length) > 0 : Number(props.defaultValue?.length) > 0);
+
     const onSelectionChange = useCallback((e: any) => {
         if (Platform.OS !== 'android') {
             return;
@@ -36,71 +40,21 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps & {allowCont
         value.current = text;
     }, []);
 
-    let borderBottomColor: ViewStyle = {};
-
-    // * change border color on focus
-    if (isInputFocused) {
-      borderBottomColor.borderBottomColor = ThemeVariables.INSTANCE.primaryColor;
-    }
-
-    const labelAnimatedStyles = useAnimatedStyle(() => {
-      return {
-        transform: [
-          {
-            translateY:
-              isInputFocused || animateLabelText
-                ? withTiming(labelOffset.value - 14, { duration: 200 })
-                : withTiming(0, { duration: 200 }),
-          },
-          {
-            translateX:
-              isInputFocused || animateLabelText
-                ? withTiming(labelOffset.value - 7, { duration: 200 })
-                : withTiming(0, { duration: 200 }),
-          },
-          {
-            scale:
-              isInputFocused || animateLabelText
-                ? withTiming(0.8, { duration: 200 })
-                : withTiming(1, { duration: 200 }),
-          },
-        ],
-      };
-    });
-
     return (
-      <View>
-        {props.isFloating ? (
-          <TouchableOpacity
-            style={{ pointerEvents: 'none', position: 'absolute', zIndex: 1 }}
-          >
-            <Animated.Text
-              style={[
-                labelAnimatedStyles,
-                props.floatingStyle,
-                {
-                  color:
-                    borderBottomColor.borderBottomColor ??
-                    ThemeVariables.INSTANCE.inputPlaceholderColor,
-                },
-              ]}
-            >
-              {props.label ?? props.placeholder}
-            </Animated.Text>
-          </TouchableOpacity>
+      <>
+        {props.floatingLabel ? (
+          <FloatingLabel
+            moveUp={!!(value.current || isInputFocused)}
+            label={props.floatingLabel ?? props.placeholder} 
+            style={{
+              ...(props.floatingLabelStyle || []),
+              ...(isInputFocused ? (props.activeFloatingLabelStyle || {}) : {})
+            }}/>
         ) : null}
-
         <TextInput
           {...props}
-          placeholder={props.isFloating ? isInputFocused ? props.placeholder : '' : props.placeholder}
-          style={[
-            props.style,
-            borderBottomColor,
-            {
-              paddingTop: props.isFloating ? 12 : 0,
-              minHeight: props.isFloating ? 56 : 42,
-            },
-          ]}
+          placeholder={props.floatingLabel ? '' : props.placeholder }
+          style={props.style}
           onFocus={(e) => {
             props.onFocus?.(e);
             setIsInputFocused(true);
@@ -119,6 +73,6 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps & {allowCont
           }}
           contextMenuHidden={!props.allowContentSelection}
         ></TextInput>
-      </View>
+      </>
     );
 });
