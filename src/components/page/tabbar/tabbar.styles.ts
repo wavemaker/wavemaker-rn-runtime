@@ -96,6 +96,11 @@ export const DEFAULT_CLASS = 'app-tabbar';
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
+    addStyle('tabbar-spacer', '', {
+        root: {
+            height: 96
+        }
+    });
     addStyle(DEFAULT_CLASS+ '-1', '', {
         root: {
             height: undefined
@@ -121,7 +126,7 @@ export const DEFAULT_CLASS = 'app-tabbar';
     addStyle('clipped-tabbar', '', {
         root:{
             backgroundColor: themeVariables.transparent,
-            marginTop: -45
+            marginTop: -88
         },
         menu: {
             backgroundColor: themeVariables.transparent

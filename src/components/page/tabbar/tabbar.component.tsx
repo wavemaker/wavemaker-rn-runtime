@@ -12,13 +12,15 @@ import WmTabbarProps from './tabbar.props';
 import { DEFAULT_CLASS, WmTabbarStyles } from './tabbar.styles';
 import Svg, { Path } from 'react-native-svg';
 import { getPathDown } from './curve';
-import { scale } from 'react-native-size-scaling';
+// import { scale } from 'react-native-size-scaling';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 interface TabDataItem extends NavigationDataItem {
   floating: boolean;
   indexBeforeMid: number;
 }
+
+const scale = (n: number) => n;
 
 class WmTabbarState<T extends BaseNavProps> extends BaseNavState<T> {
   showMore = false;
