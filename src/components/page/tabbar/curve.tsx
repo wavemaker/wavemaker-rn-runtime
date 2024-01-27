@@ -1,5 +1,6 @@
 import * as d3Shape from "d3-shape";
-import { scale } from "react-native-size-scaling";
+// import { scale } from "react-native-size-scaling";
+const scale = (n: number) => n;
 
 interface LineDatum {
   x: number;

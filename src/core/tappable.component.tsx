@@ -83,7 +83,7 @@ export class Tappable extends React.Component<TappableProps, any> {
             || this.props.onDoubleTap) {
             return (
                 <TouchableRipple
-                rippleColor="rgba(31, 0, 0, 0.6)" 
+                rippleColor="rgba(0, 0, 0, 0)" 
                 borderless = {true}
                  {...(Platform.OS === 'android' || Platform.OS === 'web') ? {
                     accessibilityLabel: this.props.testID,
@@ -96,7 +96,7 @@ export class Tappable extends React.Component<TappableProps, any> {
                 style={this.props.styles}
                 onPress={() => this.onPress()}
                 onLongPress={() => this.onLongTap()}>
-                {this.props.children}
+                    <>{this.props.children}</>
                 </TouchableRipple>
             );
         }
