@@ -78,7 +78,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   convertTimezone(date: any){ 
     const timezone = AppI18nService.getTimezone();
     if (timezone) {
-      const parsedDateString = new Date(date).toLocaleString(this.props.locale, { timeZone: timezone });
+      const parsedDateString = new Date(date).toLocaleString(this.props.locale ? this.props.locale : 'en-us', { timeZone: timezone });
       return moment(parsedDateString, 'M/D/YYYY, h:mm:ss A');
     }
     else {
@@ -102,12 +102,12 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
         if (props.datavalue && props.outputformat && props.datepattern) {
           let datavalue = props.datavalue;
           if (datavalue === CURRENT_DATE || datavalue === CURRENT_TIME) {
-            datavalue = this.format(new Date(), props.outputformat) as any;
+            datavalue = new Date() as any;
           }
           const date = isString(datavalue) ? this.parse(datavalue as string, props.outputformat) : datavalue;
           this.updateState({
             dateValue : date,
-            displayValue: this.format(this.convertTimezone(date) as any, props.datepattern)
+            displayValue: this.format(this.convertTimezone(datavalue) as any, props.datepattern)
           } as BaseDatetimeState);
         } else {
           this.updateState({
