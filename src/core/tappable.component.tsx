@@ -13,6 +13,7 @@ interface TappableProps {
     onTap?: (e: any) => void;
     onLongTap?: (e: any) => void; 
     onDoubleTap?: (e: any) => void;
+    onPressOut? : (e: any) => void;
 }
 
 export class TapEvent {
@@ -72,6 +73,14 @@ export class Tappable extends React.Component<TappableProps, any> {
             this.props.target?.invokeEventCallback('onLongtap', [syntheticEvent, this.props.target]);
         }, 200);
     }
+    
+    onPressOut(e?: GestureResponderEvent): void {
+        const syntheticEvent = Tappable.CURRENT_EVENT;
+        this.props.onPressOut && this.props.onPressOut(e || syntheticEvent);
+        setTimeout(() => {
+            this.props.target?.invokeEventCallback('onPressout', [syntheticEvent, this.props.target]);
+        }, 200);
+    }
 
     render() {
         const target = this.props.target;
@@ -95,7 +104,8 @@ export class Tappable extends React.Component<TappableProps, any> {
                 disabled={get(target?.proxy, 'disabled')}
                 style={this.props.styles}
                 onPress={() => this.onPress()}
-                onLongPress={() => this.onLongTap()}>
+                onLongPress={() => this.onLongTap()}
+                onPressOut={() => this.onPressOut()}>
                     <>{this.props.children}</>
                 </TouchableRipple>
             );
