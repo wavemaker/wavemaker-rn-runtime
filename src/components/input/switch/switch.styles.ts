@@ -61,18 +61,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderColor: themeVariables.switchBorderColor
     } as AllStyle,
     firstButton: {
-      borderTopLeftRadius: 28,
-      borderBottomLeftRadius: 28,
-      paddingLeft: 24,
-      paddingRight: 24,
+      borderTopLeftRadius: 18,
+      borderBottomLeftRadius: 18,
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0
     } as AllStyle,
     lastButton: {
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
-      borderTopRightRadius: 28,
-      borderBottomRightRadius: 28,
+      borderTopRightRadius: 18,
+      borderBottomRightRadius: 18,
       borderRightWidth: 1
     } as AllStyle
   });

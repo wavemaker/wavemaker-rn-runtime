@@ -21,6 +21,9 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     }
     const oldVal = this.state.props.datavalue;
     this.validate(value);
+    if (value === oldVal) {
+      return;
+    }
     if (this.state.props.datafield === 'All Fields') {
       const selectedItem = find(this.state.dataItems, (item) => isEqual(item.key, value));
       value = selectedItem && selectedItem.dataObject;
