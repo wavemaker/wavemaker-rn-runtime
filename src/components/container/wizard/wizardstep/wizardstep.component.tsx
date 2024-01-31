@@ -5,6 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmWizardstepProps from './wizardstep.props';
 import { DEFAULT_CLASS, WmWizardstepStyles } from './wizardstep.styles';
 import WmWizard from '../wizard.component';
+import { isBoolean } from 'lodash-es';
 
 export class WmWizardstepState extends BaseComponentState<WmWizardstepProps> {
   active = false;
@@ -17,6 +18,7 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
     super(props, DEFAULT_CLASS, new WmWizardstepProps(), new WmWizardstepState());
   }
 
+ 
   componentDidMount() {
     const wizard = (this.parent) as WmWizard;
     wizard.addWizardStep(this);
@@ -43,12 +45,44 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
     return this.invokeEventCallback('onNext', [this.proxy, this, index]);
   }
 
-  invokePrevCB(index: number) {
-    this.invokeEventCallback('onPrev', [this.proxy, this, index]);
+  invokePrevCB(index: number) : boolean {
+    return this.invokeEventCallback('onPrev', [this.proxy, this, index]);
   }
 
   invokeSkipCB(index: number) {
     this.invokeEventCallback('onSkip', [this.proxy, this, index]);
+  }
+  
+  enableNext(visibility: boolean){
+    this.updateState({
+      enablenext: visibility
+    }  as WmWizardstepState);
+  }
+
+  enablePrev(visibility: boolean){
+    this.updateState({
+      enableprev: visibility
+    }  as WmWizardstepState);
+  }
+
+  enableDone(visibility: boolean){
+    this.updateState({
+      enabledone: visibility
+    } as WmWizardstepState)
+  }
+
+  onPropertyChange(name: string, $new: any, $old: any) {
+    super.onPropertyChange(name, $new, $old);
+    switch(name) {
+      case 'enableskip':
+        if ($new != $old && isBoolean($new)) {
+          this.updateState({
+            props:{
+              enableskip: $new
+          }} as WmWizardstepState)
+        }
+        break;
+    }
   }
 
   renderWidget(props: WmWizardstepProps) {
