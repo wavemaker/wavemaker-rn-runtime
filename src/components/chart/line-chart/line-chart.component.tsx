@@ -77,7 +77,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
               }}       
               data={this.isRTL?d.toReversed():d}
             />
-          {(props.highlightpoints || this.state.data.length === 1) ?
+          {(props.highlightpoints || this.state.data[0].length === 1) ?
               <VictoryScatter size={5} key={props.name + '_scatter' + i}
                   style={{
                     data: { fill: this.state.colors[i], opacity: 0.8,}
