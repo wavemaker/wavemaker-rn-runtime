@@ -8,6 +8,7 @@ import WmWizard from '../wizard.component';
 
 export class WmWizardstepState extends BaseComponentState<WmWizardstepProps> {
   active = false;
+  showContent: boolean = false;
 }
 
 export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWizardstepState, WmWizardstepStyles> {
@@ -51,6 +52,11 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
   }
 
   renderWidget(props: WmWizardstepProps) {
-    return (<View style={this.styles.root}>{this._background}{props.children}</View>);
+    if(!this.state.showContent && this.isVisible()){
+      this.updateState({showContent: true} as WmWizardstepState, ()=>{
+        this.invokeEventCallback('onLoad', [this]);
+      });
+    }
+    return this.state.showContent && (<View style={this.styles.root}>{this._background}{props.children}</View>);
   }
 }
