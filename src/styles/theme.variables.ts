@@ -52,6 +52,9 @@ export default class ThemeVariables {
     maxModalHeight = Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0);
     maxWidth = Dimensions.get("window").width; 
 
+     //rippleColor
+     rippleColor = Color(this.primaryColor).fade(0.7).rgb().toString();
+
     // page
     pageContentBgColor = this.defaultColorE;
 

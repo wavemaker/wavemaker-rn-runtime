@@ -4,6 +4,8 @@ import { GestureResponderEvent, Platform, View } from "react-native";
 import { get } from "lodash";
 import injector from "./injector";
 import { TouchableRipple } from "react-native-paper";
+import ThemeVariables from "../styles/theme.variables";
+
 
 interface TappableProps {
     testID?: string;
@@ -106,8 +108,8 @@ export class Tappable extends React.Component<TappableProps, any> {
             || this.props.onLongTap 
             || this.props.onDoubleTap) {
             return (
-                <TouchableRipple
-                rippleColor="rgba(0, 0, 0, 0)" 
+            <TouchableRipple
+                rippleColor={ThemeVariables.INSTANCE.rippleColor}
                 borderless = {true}
                  {...(Platform.OS === 'android' || Platform.OS === 'web') ? {
                     accessibilityLabel: this.props.testID,

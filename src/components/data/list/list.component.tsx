@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionList, Text, View, TouchableWithoutFeedback, FlatList } from 'react-native';
+import { SectionList, Text, View, FlatList } from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
@@ -7,6 +7,7 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
@@ -260,9 +261,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               }: null
             ]
           }>
-          <TouchableRipple
-           rippleColor="rgba(255, 99, 71, 0.2" 
-           borderless = {true}>
+           <TouchableRipple
+            rippleColor={ThemeVariables.INSTANCE.rippleColor}
+            borderless = {true}>
           <View style={[
               this.styles.item,
               props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
