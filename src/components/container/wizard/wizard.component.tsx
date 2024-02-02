@@ -205,10 +205,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
   
   skip() {
-    if ( this.steps[this.state.currentStep] 
-      && this.steps[this.state.currentStep].props.enableskip) {
-      this.next('skip');
-    }
+    this.next('skip');
   }
 
   renderWidget(props: WmWizardProps) {
