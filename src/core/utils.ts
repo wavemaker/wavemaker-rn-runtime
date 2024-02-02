@@ -544,7 +544,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
   }
 
   const finalProps = removeUndefinedKeys(props);
-  console.log('finalProps', finalProps)
+  // console.log('finalProps', finalProps)
 
   return finalProps;
 }
