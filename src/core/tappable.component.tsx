@@ -95,6 +95,7 @@ export class Tappable extends React.Component<TappableProps, any> {
         setTimeout(() => {
             this.props.target?.invokeEventCallback('onTouchend', [syntheticEvent, this.props.target]);
         }, 200);
+        this.isLongTap = false;
     }
 
     render() {
