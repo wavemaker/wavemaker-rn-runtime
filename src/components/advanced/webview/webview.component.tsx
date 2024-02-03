@@ -8,6 +8,10 @@ import WmWebviewProps from './webview.props';
 import { DEFAULT_CLASS, WebviewStyles } from './webview.styles';
 
 class WmWebViewState extends BaseComponentState<WmWebviewProps> {
+  currentTarget = {
+    title: '',
+    src: ''
+  };
 
 }
 
@@ -34,6 +38,14 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
       return true;
     }
     return false;
+  }
+
+  get title() {
+    return this.state.currentTarget?.title;
+  }
+
+  get currentsrc() {
+    return this.state.currentTarget?.src;
   }
 
   executeScript(fn: string) {
@@ -102,11 +114,11 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
     }
   }
 
-  public onLoad = (e: any, title: string, url: string) => {
+  public onLoad(e: any, title: string, src: string) {
     this.updateState({
-      props: {
+      currentTarget: {
         title: title,
-        src: url
+        src: src
       }
     } as WmWebViewState, () => {
       this.invokeEventCallback('onLoad', [e, this]);
