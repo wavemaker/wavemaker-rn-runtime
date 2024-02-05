@@ -52,39 +52,17 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
   invokeSkipCB(index: number) {
     this.invokeEventCallback('onSkip', [this.proxy, this, index]);
   }
-  
-  enableNext(visibility: boolean){
-    this.updateState({
-      enablenext: visibility
-    }  as WmWizardstepState);
-  }
-
-  enablePrev(visibility: boolean){
-    this.updateState({
-      enableprev: visibility
-    }  as WmWizardstepState);
-  }
-
-  enableDone(visibility: boolean){
-    this.updateState({
-      enabledone: visibility
-    } as WmWizardstepState)
-  }
-
-  onPropertyChange(name: string, $new: any, $old: any) {
-    super.onPropertyChange(name, $new, $old);
-    switch(name) {
+  onPropertyChange(name: string, $new: any, $old: any): void {
+    switch(name){
+      case 'disableprev':
+      case 'disablenext':
+      case 'disabledone':
       case 'enableskip':
-        if ($new != $old && isBoolean($new)) {
-          this.updateState({
-            props:{
-              enableskip: $new
-          }} as WmWizardstepState)
-        }
-        break;
+        setTimeout(() => {
+          this.parent.forceUpdate();
+        }, 10);
     }
   }
-
   renderWidget(props: WmWizardstepProps) {
     if(!this.state.showContent && this.isVisible()){
       this.updateState({showContent: true} as WmWizardstepState, ()=>{

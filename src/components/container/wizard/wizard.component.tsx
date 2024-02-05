@@ -229,19 +229,19 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         </View>
         <View style={[this.styles.wizardFooter,
           {flexDirection: props.actionsalignment === 'right' ? 'row-reverse': 'row'}]}>
-          {(this.state.currentStep+1) === this.numberOfSteps && activeStep.state.enabledone &&
+          {(this.state.currentStep+1) === this.numberOfSteps &&
             <WmButton iconclass={'wm-sl-l sl-check'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.doneButton)}
-              id = {this.getTestId('donebtn')}  caption={props.donebtnlabel} onTap={this.done.bind(this)}></WmButton>
+              id = {this.getTestId('donebtn')} caption={props.donebtnlabel} onTap={this.done.bind(this)} disabled={activeStep.state.props.disabledone}></WmButton>
           }
-          {(this.state.currentStep+1) < this.numberOfSteps && activeStep.state.enablenext &&
+          {(this.state.currentStep+1) < this.numberOfSteps &&
             <WmButton iconclass={'wi wi-chevron-right'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.nextButton)}
-                id = {this.getTestId('nextbtn')} 
-                      iconposition={'right'} caption={props.nextbtnlabel} onTap={this.next.bind(this)}></WmButton>
+                id = {this.getTestId('nextbtn')}
+                      iconposition={'right'} caption={props.nextbtnlabel} onTap={this.next.bind(this)} disabled={activeStep.state.props.disablenext}></WmButton>
           }
-          {this.state.currentStep > 0 && activeStep.state.enableprev &&
+          {this.state.currentStep > 0 &&
             <WmButton iconclass={'wi wi-chevron-left'} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions, this.styles.prevButton)} caption={props.previousbtnlabel}
                 id = {this.getTestId('prevbtn')}
-                onTap={this.prev.bind(this)}></WmButton>
+                onTap={this.prev.bind(this)} disabled={activeStep.state.props.disableprev}></WmButton>
           }
           {props.cancelable ?
               <WmButton id = {this.getTestId('cancelbtn')}  caption={props.cancelbtnlabel} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions, this.styles.cancelButton)} onTap={this.cancel.bind(this)}></WmButton>
