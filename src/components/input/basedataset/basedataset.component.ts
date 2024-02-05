@@ -1,6 +1,6 @@
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.props';
-import { find, isEqual,isEmpty, isFunction, includes, get, forEach, isObject, isArray, filter, trim, uniqBy, uniqWith } from 'lodash';
+import { find, isString, isEqual,isEmpty, isFunction, includes, get, forEach, isObject, isArray, filter, trim, uniqBy, uniqWith } from 'lodash';
 import { getGroupedData, getOrderedDataset, isDefined, validateField } from "@wavemaker/app-rn-runtime/core/utils";
 import { DEFAULT_CLASS, BaseDatasetStyles } from "@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.styles";
 
@@ -166,7 +166,7 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
     }
     if (isArray(dataset) && !isObject(dataset[0])) {
       dataItems = dataset.map((s, i) => {
-        s = s.trim();
+        s = isString(s) ? s.trim() : s;
         return {
           key: `${name}_item${i}`,
           dataObject: s,
