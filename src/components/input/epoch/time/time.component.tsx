@@ -9,6 +9,15 @@ export default class WmTime extends BaseDatetime {
     super(props, DEFAULT_CLASS, new WmTimeProps());
   }
 
+  public getStyleClassName(): string | undefined {
+    const classes = [];
+    if (this.state.props.floatinglabel) {
+      classes.push('app-time-with-label'); 
+    }
+    classes.push(super.getStyleClassName());
+    return classes.join(' ');
+  }
+
   onDateChange($event: DateTimePickerEvent, date?: Date): void {
     super.onDateChange($event, date);
   }
