@@ -62,6 +62,10 @@ export default class ThemeVariables {
     widgetBorderColor = this.defaultColorC;
     widgetBgColor = this.defaultColorF;
 
+    //App Navbar
+    titleBadgeBackgroundColor = Color('#151420').fade(0.8).rgb().toString();
+    titleBadgeTextColor = '#151420';
+
     // Navbar variables
     navbarBackgroundColor = this.defaultColorF;
     navbarBorderColor = this.widgetBorderColor;
