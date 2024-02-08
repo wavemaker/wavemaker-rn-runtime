@@ -216,10 +216,17 @@ export default class ThemeVariables {
     toggleUnselectedTrackbgColor = this.defaultColorC;
 
     // radioset, checkboxset variables
-    groupHeadingBgColor = this.transparent;
-    checkedColor = this.primaryColor;
-    checkedDisabledColor = this.defaultColorA;
-
+    groupHeadingBgColor = '@transparent';
+    checkedColor = '@primaryColor';
+    checkedDisabledColor = '@defaultColorA';
+    checkedEnabledColor = '@defaultColorF';
+    checkboxBorderColor = '@defaultColor9';
+    checkedBgColor = '@primaryColor';
+    uncheckedBgColor = '@transparent';
+    checkedIconColor = '@defaultColorF';
+    checkedBorderColor = '@primaryColor';
+    uncheckedBorderColor = '@defaultColor9';
+    
     //form
     formBorderColor = this.widgetBorderColor;
     formTitleColor = this.defaultTextColor;
