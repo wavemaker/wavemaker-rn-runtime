@@ -14,6 +14,7 @@ import {
   BaseDatasetState,
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
+import WmIcon from '../../basic/icon/icon.component';
 
 export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {
   isValid: boolean = true;
@@ -52,10 +53,10 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     const displayText = item.displayexp || item.displayfield;
     return (
       <TouchableOpacity {...this.getTestPropsForAction(index + '')}
-        style={[this.styles.item, item.selected ? this.styles.checkedItem : null]}
+        style={this.styles.item}
         onPress={this.onPress.bind(this, item)} key={item.key}>
-        <Checkbox.Android status={item.selected  ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
-        <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.checkboxLabel}>{displayText}</Text>
+        <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled}/>
+        <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.text}>{displayText}</Text>
       </TouchableOpacity>)
   }
 
