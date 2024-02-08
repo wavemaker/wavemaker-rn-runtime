@@ -11,7 +11,6 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
-import { TouchableRipple } from 'react-native-paper';
 
 
 export class WmListState extends BaseComponentState<WmListProps> {
@@ -245,6 +244,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const cols = this. getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
     return (  
+      <View style={[
+        this.styles.item,
+        props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
+        this.isSelected(item) ? this.styles.selectedItem : {}]}>
         <Tappable
           {...this.getTestPropsForAction(`item${index}`)}
           onTap={() => this.onSelect(item, index, true)}
@@ -253,28 +256,20 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           styles={
             [
               cols ? {
-                width: round(100/cols, 2) + '%'
+                width: round(100 / cols, 2) + '%'
               } : null,
-              cols || isHorizontal? {
-                paddingRight: (isNil(this.styles.item.marginRight) 
+              cols || isHorizontal ? {
+                paddingRight: (isNil(this.styles.item.marginRight)
                   ? this.styles.item.margin : this.styles.item.marginRight) || 4
-              }: null
+              } : null
             ]
           }>
-           <TouchableRipple
-            rippleColor={ThemeVariables.INSTANCE.rippleColor}
-            borderless = {true}>
-          <View style={[
-              this.styles.item,
-              props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-              this.isSelected(item) ? this.styles.selectedItem : {}]}>
-            { props.renderItem(item, index, this)}
-            { this.isSelected(item) ? (
-              <WmIcon id={this.getTestId('icon' + index)}iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
-            ) : null}
-          </View>
-          </TouchableRipple>
+          {props.renderItem(item, index, this)}
+          {this.isSelected(item) ? (
+            <WmIcon id={this.getTestId('icon' + index)} iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
+          ) : null}
         </Tappable>
+      </View>
       );
   }
 

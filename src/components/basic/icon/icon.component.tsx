@@ -2,6 +2,7 @@ import React from 'react';
 import { Animated, DimensionValue, Easing, Text, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmIconProps from './icon.props';
 import { DEFAULT_CLASS, WmIconStyles } from './icon.styles';
@@ -45,6 +46,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   spinValue = new Animated.Value(0);
   pulseValue = new Animated.Value(0);
   public stopAnimation = true; 
+  private _iconSource = null as any;
 
   constructor(props: WmIconProps) {
     super(props, DEFAULT_CLASS, new WmIconProps());
@@ -134,18 +136,53 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     });
   }
 
+  getElementToShow(props: WmIconProps, iconSrc: any) {
+
+    const { iconmargin, iconheight, iconwidth } = props;
+    let width, height;
+    let elementToshow, source;
+
+    if (iconwidth) width = iconwidth;
+    else if (iconheight) width = iconheight;
+    else width = 12;
+    if (iconheight) height = iconheight;
+    else if (iconwidth) height = iconwidth;
+    else height = 12;
+
+    if (isFullPathUrl(iconSrc)) {
+      source = {
+        uri: iconSrc
+      };
+    } else {
+      source = iconSrc;
+    }
+    elementToshow = <Image testID={this.getTestId('icon')}
+      style={{
+        margin: iconmargin ?? 0,
+        height: height,
+        width: width
+      }}
+      source={source}/>;
+    return elementToshow;
+  }
+
+  loadIcon(iconImage: string | undefined) {
+    if (!iconImage || !this.loadAsset) {
+      return null;
+    }
+    const iconImageSrc = this.loadAsset(iconImage);
+    if (iconImageSrc && typeof iconImageSrc !== 'function') {
+      return iconImageSrc;
+    }
+    return null;
+  }
+
   renderIcon(props: WmIconProps) {
     let iconJsx = null;
-    const { iconurl, iconmargin, iconheight, iconwidth } = props;
-    if (iconurl) {
-     return(<Image
-          style={{
-            margin: iconmargin ?? 0,
-            height: iconheight ?? 10,
-            width: iconwidth ?? 10,
-          }}
-          source={{ uri: iconurl }}
-        />)
+    this._iconSource =  this._iconSource || this.loadIcon(props.iconurl);
+    const iconSrc: any = this._iconSource 
+    if (iconSrc) {
+      return this.getElementToShow(props, iconSrc);
     }
     const iconDef = this.state.iconDef;
     if (!iconDef) {
