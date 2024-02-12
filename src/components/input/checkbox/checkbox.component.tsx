@@ -1,13 +1,12 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
-import { Checkbox } from 'react-native-paper';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 import WmCheckboxProps from './checkbox.props';
 import { DEFAULT_CLASS, WmCheckboxStyles } from './checkbox.styles';
-import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
 
 export class WmCheckboxState extends BaseComponentState<WmCheckboxProps> {
   isChecked: boolean = false;
@@ -76,8 +75,8 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
     return (
       <TouchableOpacity {...this.getTestPropsForAction()} style={this.styles.root} onPress={this.onPress.bind(this)}>
           {this._background}
-          <Checkbox.Android status={this.state.isChecked ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
-          <Text {...this.getTestPropsForLabel()} style={this.styles.checkboxLabel}>{props.caption}</Text>
+          <WmIcon iconclass="wi wi-check" styles={this.state.isChecked ? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled}/>
+          <Text {...this.getTestPropsForLabel()} style={this.styles.text}>{props.caption}</Text>
       </TouchableOpacity>
     );
   }

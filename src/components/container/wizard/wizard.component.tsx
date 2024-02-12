@@ -172,7 +172,9 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
       return;
     }
     const currentStep = this.steps[index];
-    currentStep.invokePrevCB(index);
+    if(currentStep.invokePrevCB(index) == false){
+      return;
+    }
     this.updateCurrentStep(index - 1);
   }
 
@@ -205,16 +207,13 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
   
   skip() {
-    if ( this.steps[this.state.currentStep] 
-      && this.steps[this.state.currentStep].props.enableskip) {
-      this.next('skip');
-    }
+    this.next('skip');
   }
 
   renderWidget(props: WmWizardProps) {
     this.numberOfSteps = this.steps.length;
     const activeStep = this.steps[this.state.currentStep];
-    const isSkippable = this.steps[this.state.currentStep] && this.steps[this.state.currentStep].props.enableskip;
+    const isSkippable = activeStep && activeStep.state.props.enableskip;
     const isProgressCircleHeader = this.state.props.classname?.includes('progress-circle-header');
     return (
       <View style={this.styles.root}>
@@ -229,17 +228,17 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
           {flexDirection: props.actionsalignment === 'right' ? 'row-reverse': 'row'}]}>
           {(this.state.currentStep+1) === this.numberOfSteps &&
             <WmButton iconclass={'wm-sl-l sl-check'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.doneButton)}
-              id = {this.getTestId('donebtn')}  caption={props.donebtnlabel} onTap={this.done.bind(this)}></WmButton>
+              id = {this.getTestId('donebtn')} caption={props.donebtnlabel} onTap={this.done.bind(this)} disabled={activeStep.state.props.disabledone}></WmButton>
           }
           {(this.state.currentStep+1) < this.numberOfSteps &&
             <WmButton iconclass={'wi wi-chevron-right'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.nextButton)}
-                id = {this.getTestId('nextbtn')} 
-                      iconposition={'right'} caption={props.nextbtnlabel} onTap={this.next.bind(this)}></WmButton>
+                id = {this.getTestId('nextbtn')}
+                      iconposition={'right'} caption={props.nextbtnlabel} onTap={this.next.bind(this)} disabled={activeStep.state.props.disablenext}></WmButton>
           }
           {this.state.currentStep > 0 &&
             <WmButton iconclass={'wi wi-chevron-left'} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions, this.styles.prevButton)} caption={props.previousbtnlabel}
                 id = {this.getTestId('prevbtn')}
-                onTap={this.prev.bind(this)}></WmButton>
+                onTap={this.prev.bind(this)} disabled={activeStep.state.props.disableprev}></WmButton>
           }
           {props.cancelable ?
               <WmButton id = {this.getTestId('cancelbtn')}  caption={props.cancelbtnlabel} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions, this.styles.cancelButton)} onTap={this.cancel.bind(this)}></WmButton>

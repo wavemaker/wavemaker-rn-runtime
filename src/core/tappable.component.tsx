@@ -45,23 +45,6 @@ export class Tappable extends React.Component<TappableProps, any> {
 
     onPress(e?: GestureResponderEvent): void {        
         this.lastPress = Date.now();
-        const syntheticEvent = Tappable.CURRENT_EVENT;
-        this.props.onTouchStart && this.props.onTouchStart(e || syntheticEvent);
-        this.props.target?.invokeEventCallback('onTouchstart', [syntheticEvent, this.props.target]);
-    }
-
-    onLongTap(e?: GestureResponderEvent): void {
-        const syntheticEvent = Tappable.CURRENT_EVENT;
-        this.props.onLongTap && this.props.onLongTap(e || syntheticEvent);
-        setTimeout(() => {
-            this.props.target?.invokeEventCallback('onLongtap', [syntheticEvent, this.props.target]);
-        }, 200);
-        this.isLongTap = true;
-    }
-    
-    onPressOut(e?: GestureResponderEvent): void {
-        const currentTime = Date.now();
-        const tapDelta = currentTime - this.lastTap;
         const target = this.props.target;
         if (!Tappable.CURRENT_EVENT) {
             Tappable.CURRENT_EVENT = new TapEvent();
@@ -70,10 +53,10 @@ export class Tappable extends React.Component<TappableProps, any> {
             }, 10);
         }
         const syntheticEvent = Tappable.CURRENT_EVENT;
-        this.props.onTouchEnd && this.props.onTouchEnd(e || syntheticEvent);
-        setTimeout(() => {
-            this.props.target?.invokeEventCallback('onTouchend', [syntheticEvent, this.props.target]);
-        }, 200);
+        this.props.onTouchStart && this.props.onTouchStart(e || syntheticEvent);
+        this.props.target?.invokeEventCallback('onTouchstart', [syntheticEvent, this.props.target]);
+        const currentTime = Date.now();
+        const tapDelta = currentTime - this.lastTap;
         if (this.isLongTap) {
             this.isLongTap = false;
             return;
@@ -97,6 +80,24 @@ export class Tappable extends React.Component<TappableProps, any> {
             }, 200);
             this.lastTap = currentTime;
         }
+    }
+
+    onLongTap(e?: GestureResponderEvent): void {
+        const syntheticEvent = Tappable.CURRENT_EVENT;
+        this.props.onLongTap && this.props.onLongTap(e || syntheticEvent);
+        setTimeout(() => {
+            this.props.target?.invokeEventCallback('onLongtap', [syntheticEvent, this.props.target]);
+        }, 200);
+        this.isLongTap = true;
+    }
+    
+    onPressOut(e?: GestureResponderEvent): void {
+        const syntheticEvent = Tappable.CURRENT_EVENT;
+        this.props.onTouchEnd && this.props.onTouchEnd(e || syntheticEvent);
+        setTimeout(() => {
+            this.props.target?.invokeEventCallback('onTouchend', [syntheticEvent, this.props.target]);
+        }, 200);
+        this.isLongTap = false;
     }
 
     render() {

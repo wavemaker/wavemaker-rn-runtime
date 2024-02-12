@@ -10,5 +10,6 @@ export default class WmAppNavbarProps extends BaseProps {
     backbuttoniconclass = 'wi wi-back';
     imgsrc = null as any;
     searchbutton = false;
-    searchbuttoniconclass = 'wm-sl-l sl-search'
+    searchbuttoniconclass = 'wm-sl-l sl-search';
+    badgevalue?: string;
 }
