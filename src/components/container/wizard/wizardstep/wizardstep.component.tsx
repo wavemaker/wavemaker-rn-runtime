@@ -58,6 +58,9 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
       case 'disablenext':
       case 'disabledone':
       case 'enableskip':
+      case 'showprev':
+      case 'shownext':
+      case 'showdone':
         setTimeout(() => {
           this.parent.forceUpdate();
         }, 10);
