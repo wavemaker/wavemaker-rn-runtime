@@ -27,7 +27,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     };
     const defaultStyles: WmCarouselStyles = defineStyles({
         root: {
-            position: 'relative'
+            position: 'relative',
+            rippleColor: themeVariables.transparent
         },
         text: {},
         slide: {
@@ -57,7 +58,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             root: {
                 marginLeft: 12,
                 ...btn,
-                backgroundColor: themeVariables.carouselPrevBgColor
+                backgroundColor: themeVariables.carouselPrevBgColor,
+                rippleColor: themeVariables.transparent
             },
             text: {
                 fontSize: 32
@@ -70,7 +72,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             root: {
                 marginRight: 12,
                 ...btn,
-                backgroundColor: themeVariables.carouselPrevBgColor
+                backgroundColor: themeVariables.carouselPrevBgColor,
+                rippleColor: themeVariables.transparent
             },
             text: {
                 fontSize: 32

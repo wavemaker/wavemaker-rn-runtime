@@ -17,6 +17,7 @@ interface TappableProps {
     onDoubleTap?: (e: any) => void;
     onTouchStart? : (e: any) => void;
     onTouchEnd? : (e: any) => void;
+    rippleColor?: string;
 }
 
 export class TapEvent {
@@ -110,7 +111,7 @@ export class Tappable extends React.Component<TappableProps, any> {
             || this.props.onDoubleTap) {
             return (
             <TouchableRipple
-                rippleColor={ThemeVariables.INSTANCE.rippleColor}
+                rippleColor={this.props.rippleColor}
                 borderless = {true}
                  {...(Platform.OS === 'android' || Platform.OS === 'web') ? {
                     accessibilityLabel: this.props.testID,

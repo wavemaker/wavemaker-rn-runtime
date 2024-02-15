@@ -23,7 +23,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           borderColor: themeVariables.defaultColor2,
           borderStyle: 'solid',
           backgroundColor: themeVariables.primaryColor,
-          borderRadius: 20
+          borderRadius: 20,
+          rippleColor : themeVariables.rippleColor
         },
         text: {
           color: themeVariables.cameraTextColor,

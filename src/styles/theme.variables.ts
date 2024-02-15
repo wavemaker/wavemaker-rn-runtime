@@ -53,7 +53,7 @@ export default class ThemeVariables {
     maxWidth = Dimensions.get("window").width; 
 
      //rippleColor
-     rippleColor = Color(this.primaryColor).fade(0.7).rgb().toString();
+     rippleColor = this.transparent
 
     // page
     pageContentBgColor = this.defaultColorE;

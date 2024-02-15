@@ -77,6 +77,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingLeft: this.styles.root.paddingLeft,
             paddingRight: this.styles.root.paddingRight
           }}
+          rippleColor = {this.styles.root.rippleColor}
           target={this}
           {...this.getTestPropsForAction()}>
           <View

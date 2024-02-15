@@ -22,7 +22,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmSearchStyles = defineStyles({
       root: {
         flexDirection: 'row',
-        borderRadius: 28
+        borderRadius: 28,
       },
       text: {
         minHeight: 56,
@@ -84,7 +84,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           borderTopRightRadius: 28,
           borderBottomRightRadius: 28,
           backgroundColor: themeVariables.searchButtonColor,
-          height: 56
+          height: 56,
+          rippleColor: themeVariables.rippleColor
         },
         icon: {
           icon: {

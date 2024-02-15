@@ -289,7 +289,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
                     .filter((l , i) => i < index)
                     .reduce((s, l) => s + l.width, 0);
                   this.animationView?.setPosition(-1 * position);
-                }}>
+                }} rippleColor={this.styles.root.rippleColor}>
                   {this.renderItem(item, index)}
                 </Tappable>
               </Animated.View>

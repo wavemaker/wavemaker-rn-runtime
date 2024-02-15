@@ -12,7 +12,8 @@ export const DEFAULT_CLASS = 'app-picture';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmPictureStyles = defineStyles({
     root: {
-      overflow: 'hidden'
+      overflow: 'hidden',
+      rippleColor: themeVariables.transparent
     },
     text: {},
     picture: {

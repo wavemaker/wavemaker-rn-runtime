@@ -165,6 +165,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         height: '100%'}]} onLayout={this.onViewLayoutChange}>
         <Tappable 
           {...this.getTestPropsForAction()}
+          rippleColor={this.styles.root.rippleColor}
           target={this} styles={{width: imageWidth ? null : '100%', height: imageHeight ? null : '100%'}}>
           <Animatedview entryanimation={props.animation} style={[{
                 height: imageHeight,

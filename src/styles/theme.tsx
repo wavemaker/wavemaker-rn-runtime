@@ -289,7 +289,7 @@ export type BackgroundImageStyle = {
     backgroundSize: string | number
 };
 
-export type AllStyle = (ViewStyle & TextStyle & ImageStyle & {userSelect?: 'none'| 'text'});
+export type AllStyle = (ViewStyle & TextStyle & ImageStyle & {userSelect?: 'none'| 'text'} & {rippleColor?: string});
 
 const ThemeContext = React.createContext<Theme>(null as any);
 

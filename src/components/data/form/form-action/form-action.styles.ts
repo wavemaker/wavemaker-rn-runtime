@@ -15,7 +15,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       marginLeft: 4,
       marginRight: 4,
       marginBottom: 0,
-      flex: 1
+      flex: 1,
+      rippleColor: themeVariables.rippleColor
     },
     text: {},
     icon : {
