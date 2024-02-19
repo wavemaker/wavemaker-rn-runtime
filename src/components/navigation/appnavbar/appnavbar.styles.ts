@@ -47,7 +47,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       }
     } as WmIconStyles,
     backIcon: {
-      root: {},
+      root: {
+        rippleColor: themeVariables.transparent
+      },
       text: {
         fontSize: themeVariables.navbarFontSize,
         color: themeVariables.navbarTextColor
