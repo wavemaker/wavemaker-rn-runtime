@@ -152,7 +152,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     if (value === oldValue) {
       return;
     }
-    const validNumber = this.isValidNumber(model);
+    const validNumber = this.isValidNumber(model) || value == oldValue + '.';
     if (!validNumber) {
       this.invokeEventCallback('onError', [ event, this.proxy, value, oldValue ]);
       return;
@@ -160,10 +160,10 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
 
     this.updateState({
       props: {
-        datavalue: model
+        datavalue: model || Number(value)
       }
     } as S, () => {
-      !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
+      !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, model, oldValue]);
       if (source === 'blur') {
         this.invokeEventCallback('onBlur', [event, this.proxy]);
       }
