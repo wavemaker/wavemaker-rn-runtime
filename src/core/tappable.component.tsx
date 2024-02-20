@@ -118,6 +118,7 @@ export class Tappable extends React.Component<TappableProps, any> {
                     disabled={get(target?.proxy, 'disabled')}
                     style={this.props.styles}
                     onPress={() => this.onPress()}
+                    onPressOut={() => this.onPressOut()}
                     onLongPress={() => this.onLongTap()}>
                     {this.props.children}
                 </TouchableOpacity>
