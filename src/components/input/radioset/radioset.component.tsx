@@ -9,6 +9,7 @@ import {
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmRadiosetState extends BaseDatasetState<WmRadiosetProps> {
 }
@@ -38,6 +39,8 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
             value={value}
             color={this.styles.root.color as string}
             uncheckedColor={this.styles.root.color as string}
+            // {...getAccessibilityProps(AccessibilityWidgetType.RADIOSET, {...this.state.props, selected: this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield})}
+            accessibilityLabel={`Radio button for ${displayText}`}
             disabled={this.state.props.readonly || this.state.props.disabled}
           />
           <Text style={this.styles.radioLabel}>{displayText}</Text>
@@ -47,7 +50,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
   renderGroupby() {
     const groupedData = this.state.groupedData;
     return (
-      <View>
+      <View accessibilityRole='radiogroup'>
         {groupedData && groupedData.length
           ? groupedData.map((groupObj: any, index: any) => {
             return(

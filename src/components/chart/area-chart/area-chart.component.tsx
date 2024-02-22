@@ -14,6 +14,7 @@ import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { isNil, isNumber } from 'lodash-es';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
 
 export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> {
   chartWidth = 0;
@@ -56,6 +57,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
     }
     return (
       <View
+        {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
         style={this.styles.root}
         onLayout={this.onViewLayoutChange.bind(this)}
       >

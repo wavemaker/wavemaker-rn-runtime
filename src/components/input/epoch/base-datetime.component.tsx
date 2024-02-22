@@ -10,7 +10,7 @@ import { DEFAULT_CLASS, WmDatetimeStyles } from './datetime/datetime.styles';
 import WebDatePicker from './date-picker.component';
 import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
-import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps, validateField } from '@wavemaker/app-rn-runtime/core/utils';
 import { FloatingLabel } from '@wavemaker/app-rn-runtime/core/components/floatinglabel.component';
 import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
@@ -213,6 +213,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   renderNativeWidget(props: WmDatetimeProps, onDismiss?: Function) {
     return (<DateTimePicker
       mode={this.modes[0] as any}
+      {...getAccessibilityProps(AccessibilityWidgetType.DATE, {...this.state.props})}
       value={this.state.dateValue || new Date()}
       is24Hour={true}
       display='default'

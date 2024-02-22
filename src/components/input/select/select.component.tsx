@@ -13,6 +13,7 @@ import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-run
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
@@ -90,6 +91,10 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
        * https://github.com/naoufal/react-native-accordion/pull/19/files
        */
       <View
+        {...getAccessibilityProps(
+          AccessibilityWidgetType.SELECT,
+          props
+        )}
         style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, { backgroundColor: props.disabled ? this.styles.disabledText.backgroundColor : this.styles.root.backgroundColor}]}
         ref={(ref) => {
           this.view = ref as View;
@@ -128,7 +133,10 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   renderSelectItem(item: any, index: number, isPlaceholder: boolean, isLast: boolean) {
     let selected = this.isSelected(item);
     return (
-      <Tappable  {...this.getTestPropsForAction(index + '')} onTap={this.onItemSelect.bind(this, item, isPlaceholder)}>
+      <Tappable  {...this.getTestPropsForAction(index + '')} onTap={this.onItemSelect.bind(this, item, isPlaceholder)} {...getAccessibilityProps(
+        AccessibilityWidgetType.SELECT,
+        {...this.props, expanded: this.state.isOpened}
+      )}>
         <View style={[this.styles.selectItem, isLast ?  this.styles.lastSelectItem  : null, selected ? this.styles.selectedItem : null ]}>
           <Text  {...this.getTestPropsForLabel(index + '')} style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : selected ? this.styles.selectedItemText.color : this.styles.selectItemText.color}]}>
             {isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)}

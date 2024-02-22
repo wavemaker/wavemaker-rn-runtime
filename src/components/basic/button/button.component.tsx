@@ -9,6 +9,7 @@ import { DEFAULT_CLASS, WmButtonStyles } from './button.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import { createSkeleton } from '../skeleton/skeleton.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmButtonState extends BaseComponentState<WmButtonProps> {
 
@@ -68,7 +69,12 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingRight: 0,
             overflow: 'hidden'
           }
-        ]}>
+        ]}
+        accessibilityProps={{...getAccessibilityProps(
+          AccessibilityWidgetType.BUTTON,
+          props
+        )}}
+        >
         {this._background}
         <Tappable
           styles={{
@@ -90,7 +96,10 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             {props.caption ? (
               <Text
                 style={this.styles.text}
-                {...this.getTestPropsForLabel('caption')}>
+                // {...this.getTestPropsForLabel('caption')}
+                importantForAccessibility={'no'}
+                // accessibilityLabel={`${props.caption}`}
+              >
                 {props.caption}
               </Text>
             ) : null}

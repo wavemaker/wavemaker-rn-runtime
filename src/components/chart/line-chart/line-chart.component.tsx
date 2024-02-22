@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, Platform } from 'react-native';
-
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
 import {
   VictoryChart,
   VictoryLine,
@@ -40,7 +40,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
       return null;
     }
     return (
-    <View style={this.styles.root}>
+    <View style={this.styles.root} {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}>
       <View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           { props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }

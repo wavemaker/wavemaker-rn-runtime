@@ -13,8 +13,8 @@ import {
   BaseDatasetComponent,
   BaseDatasetState,
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
-import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
-import WmIcon from '../../basic/icon/icon.component';
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {
   isValid: boolean = true;

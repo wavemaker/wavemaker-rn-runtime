@@ -193,7 +193,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                     //@ts-ignore
                     oldProps[k] = newState.props[k];
                 });
-                newState.props = oldProps;
+            newState.props = oldProps;
             }
             return newState;
         };
@@ -376,7 +376,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (suffix) {
             id = id + '_' + suffix;
         }
-        return id;
+        return '';
     }
 
     public getTestProps(suffix?: string) {

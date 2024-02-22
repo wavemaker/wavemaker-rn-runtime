@@ -2,8 +2,8 @@ import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmCheckboxProps from './checkbox.props';
 import { DEFAULT_CLASS, WmCheckboxStyles } from './checkbox.styles';

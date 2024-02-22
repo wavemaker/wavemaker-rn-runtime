@@ -6,6 +6,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmWebviewProps from './webview.props';
 import { DEFAULT_CLASS, WebviewStyles } from './webview.styles';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
 
 class WmWebViewState extends BaseComponentState<WmWebviewProps> {
   currentTarget = {
@@ -140,6 +141,7 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
               uri: props.src
             }}
             testID={this.getTestId('web_view')}
+            {...getAccessibilityProps(AccessibilityWidgetType.WEBVIEW, props)}
             incognito={props.incognito}
             onMessage={this.onMessage}
             sharedCookiesEnabled={true}
