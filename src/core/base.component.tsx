@@ -1,7 +1,6 @@
 import { assign, isUndefined, isNil } from 'lodash';
 import React, { ReactNode } from 'react';
-import { I18nManager, Platform, TextStyle, ViewStyle } from 'react-native';
-import * as Application from 'expo-application';
+import { AccessibilityInfo, Platform, TextStyle, ViewStyle } from 'react-native';
 import { AnimatableProperties } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
@@ -9,7 +8,7 @@ import { StyleProps, getStyleName } from '@wavemaker/app-rn-runtime/styles/style
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
-import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, ThemeEvent, Theme } from '../styles/theme';
 import EventNotifier from './event-notifier';
 import { PropsProvider } from './props.provider';
@@ -18,6 +17,7 @@ import { HideMode } from './if.component';
 import { AssetConsumer } from './asset.provider';
 import { FixedView } from './fixed-view.component';
 import { TextIdPrefixConsumer } from './testid.provider';
+import { isScreenReaderEnabled } from './accessibility';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -141,6 +141,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.cleanup.push(this.theme.subscribe(ThemeEvent.CHANGE, () => {
             this.forceUpdate();
         }));
+        this.cleanup.push(AccessibilityInfo.addEventListener('screenReaderChanged',
+            () => {
+              setTimeout(() => {
+                this.forceUpdate();
+              }, 100);
+            },
+        ).remove);
         this.cleanup.push(() => {
             this.destroyParentListeners();
         });
@@ -381,6 +388,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     public getTestProps(suffix?: string) {
         let id = this.getTestId(suffix);
+        if (isScreenReaderEnabled()) {
+            return {};
+        }
         if (Platform.OS === 'android' || Platform.OS === 'web') {
             return {
                 accessibilityLabel: id,

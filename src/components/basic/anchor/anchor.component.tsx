@@ -4,7 +4,8 @@ import { Badge } from 'react-native-paper';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { TapEvent, Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
-import { encodeUrl, AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
+import { encodeUrl } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
 import WmAnchorProps from './anchor.props';

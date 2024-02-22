@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 import WmProgressBarProps from './progress-bar.props';
 import { DEFAULT_CLASS, WmProgressBarStyles } from './progress-bar.styles';

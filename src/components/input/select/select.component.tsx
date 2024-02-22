@@ -13,7 +13,7 @@ import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-run
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;

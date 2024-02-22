@@ -9,7 +9,7 @@ import {
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 export class WmRadiosetState extends BaseDatasetState<WmRadiosetProps> {
 }

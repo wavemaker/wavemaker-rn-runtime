@@ -11,7 +11,7 @@ import {
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 export class WmChipsState extends BaseDatasetState<WmChipsProps> {
   chipsList: any = [];

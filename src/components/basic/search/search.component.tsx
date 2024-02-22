@@ -6,7 +6,7 @@ import WmSearchProps from './search.props';
 import { DEFAULT_CLASS, WmSearchStyles } from './search.styles';
 import { ModalConsumer, ModalOptions, ModalService} from "@wavemaker/app-rn-runtime/core/modal.service";
 import { DataProvider } from '@wavemaker/app-rn-runtime/components/basic/search/local-data-provider';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 import {
   BaseDatasetComponent,

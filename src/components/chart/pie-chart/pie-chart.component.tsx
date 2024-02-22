@@ -1,7 +1,7 @@
 import React from 'react';
 import { LayoutChangeEvent, View, Text, Platform } from 'react-native';
 import { Svg } from 'react-native-svg';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 import { VictoryLabel, VictoryLegend, VictoryPie } from 'victory-native';
 

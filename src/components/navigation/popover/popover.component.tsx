@@ -10,7 +10,7 @@ import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.c
 import WmPopoverProps from './popover.props';
 import { DEFAULT_CLASS, WmPopoverStyles } from './popover.styles';
 import WmContainer from '../../container/container.component';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 export class WmPopoverState extends BaseComponentState<WmPopoverProps> {
   isOpened: boolean = false;

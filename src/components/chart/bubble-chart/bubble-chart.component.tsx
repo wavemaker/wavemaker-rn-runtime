@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, Platform} from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 import WmBubbleChartProps from './bubble-chart.props';
 import { DEFAULT_CLASS, WmBubbleChartStyles } from './bubble-chart.styles';

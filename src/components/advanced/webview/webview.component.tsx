@@ -6,7 +6,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmWebviewProps from './webview.props';
 import { DEFAULT_CLASS, WebviewStyles } from './webview.styles';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 class WmWebViewState extends BaseComponentState<WmWebviewProps> {
   currentTarget = {

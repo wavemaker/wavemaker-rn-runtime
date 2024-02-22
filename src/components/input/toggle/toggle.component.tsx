@@ -3,7 +3,8 @@ import { TouchableOpacity, Animated, Easing, LayoutChangeEvent } from 'react-nat
 
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import {AccessibilityWidgetType, getAccessibilityProps, unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
+import { unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 import WmToggleProps from './toggle.props';
 import { DEFAULT_CLASS, WmToggleStyles } from './toggle.styles';

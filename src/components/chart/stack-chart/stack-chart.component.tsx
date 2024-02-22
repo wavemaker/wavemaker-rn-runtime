@@ -4,7 +4,7 @@ import { Svg } from 'react-native-svg';
 import { VictoryStack, VictoryBar, VictoryChart, VictoryPie, VictoryLegend, VictoryAxis } from 'victory-native';
 import { Axis, Scale } from 'victory-core';
 import { orderBy, cloneDeep, findIndex, isString} from 'lodash';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import WmStackChartProps from './stack-chart.props';
 import { DEFAULT_CLASS, WmStackChartStyles } from './stack-chart.styles';
 import {

@@ -5,7 +5,8 @@ import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import ImageSizeEstimator from '@wavemaker/app-rn-runtime/core/imageSizeEstimator';
-import { AccessibilityWidgetType, getAccessibilityProps, isFullPathUrl, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 import WmPictureProps from './picture.props';
 import { DEFAULT_CLASS, WmPictureStyles } from './picture.styles';

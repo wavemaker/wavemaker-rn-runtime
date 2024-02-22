@@ -9,7 +9,7 @@ import { DEFAULT_CLASS, WmButtonStyles } from './button.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import { createSkeleton } from '../skeleton/skeleton.component';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export class WmButtonState extends BaseComponentState<WmButtonProps> {
 

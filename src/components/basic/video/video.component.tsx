@@ -6,7 +6,8 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmVideoProps from './video.props';
 import { DEFAULT_CLASS, WmVideoStyles } from './video.styles';
 import { isString } from 'lodash-es';
-import { isFullPathUrl, AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmVideoState extends BaseComponentState<WmVideoProps> {}
 

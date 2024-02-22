@@ -8,7 +8,7 @@ import {
 } from '@wavemaker/app-rn-runtime/components/input/baseinput/baseinput.component';
 import { WMTextInput } from '@wavemaker/app-rn-runtime/core/components/textinput.component';
 import { isNull } from 'lodash';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 export class WmTextareaState extends BaseInputState<WmTextareaProps> {}
 

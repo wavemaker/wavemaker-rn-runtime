@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, Platform } from 'react-native';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import {
   VictoryChart,
   VictoryLine,

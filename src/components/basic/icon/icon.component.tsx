@@ -2,7 +2,8 @@ import React from 'react';
 import { Animated, DimensionValue, Easing, Text, Image, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { isFullPathUrl, AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
+import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 import WmIconProps from './icon.props';
 import { DEFAULT_CLASS, WmIconStyles } from './icon.styles';

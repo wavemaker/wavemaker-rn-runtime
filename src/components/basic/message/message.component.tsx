@@ -7,7 +7,7 @@ import { DEFAULT_CLASS, WmMessageStyles } from './message.styles';
 import WmIcon from '../icon/icon.component';
 import WmButton from '../button/button.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/utils'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export class WmMessageState extends BaseComponentState<WmMessageProps> {}
 
