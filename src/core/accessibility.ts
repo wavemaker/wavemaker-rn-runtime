@@ -12,6 +12,12 @@ AccessibilityInfo.addEventListener(
 
 export const isScreenReaderEnabled = () => _isScreenReaderEnabled;
 
+async function getScreenReaderStatus() {
+  _isScreenReaderEnabled = await AccessibilityInfo.isScreenReaderEnabled();
+}
+
+getScreenReaderStatus();
+
 export enum AccessibilityWidgetType {
   BUTTON = 'button',
   PICTURE = 'picture',

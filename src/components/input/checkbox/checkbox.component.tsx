@@ -7,6 +7,7 @@ import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmCheckboxProps from './checkbox.props';
 import { DEFAULT_CLASS, WmCheckboxStyles } from './checkbox.styles';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export class WmCheckboxState extends BaseComponentState<WmCheckboxProps> {
   isChecked: boolean = false;
@@ -73,7 +74,7 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
 
   renderWidget(props: WmCheckboxProps) {
     return (
-      <TouchableOpacity {...this.getTestPropsForAction()} style={this.styles.root} onPress={this.onPress.bind(this)}>
+      <TouchableOpacity {...this.getTestPropsForAction()} style={this.styles.root} onPress={this.onPress.bind(this)} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {...props, checked: this.state.isChecked})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${props.caption}`}>
           {this._background}
           <WmIcon iconclass="wi wi-check" styles={this.state.isChecked ? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled}/>
           <Text {...this.getTestPropsForLabel()} style={this.styles.text}>{props.caption}</Text>
