@@ -383,7 +383,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (suffix) {
             id = id + '_' + suffix;
         }
-        return '';
+        return id;
     }
 
     public getTestProps(suffix?: string) {

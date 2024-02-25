@@ -115,7 +115,9 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
         <NavigationServiceConsumer>
         {(navigationService: NavigationService) => {
           return (<Tappable target={this}>
-            <Text style={{flexWrap: "wrap", textAlign: this.styles.text.textAlign}} numberOfLines={props.nooflines} ellipsizeMode="tail">
+            <Text style={{flexWrap: "wrap", textAlign: this.styles.text.textAlign}}
+              {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
+              numberOfLines={props.nooflines} ellipsizeMode="tail">
               {this.state.parts?.map((part, index) => {
                 const isLink = !isNil(part.link);
                 return (
@@ -126,7 +128,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
                       isLink ? this.styles.link.text : null,
                       props.isValid ? null : { color: 'red'}
                     ]}
-                    {...this.getTestPropsForLabel(isLink ? `link_${index}` : `${index}`)}
+                    {...this.getTestPropsForLabel(isLink ? `link_${index}` : `caption_${index}`)}
                     selectable={this.styles.text.userSelect === 'text'}
                     {...part.link ? {
                       onPress: () => {

@@ -275,6 +275,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
                // @ts-ignore
                ref.selectionStart = ref.selectionEnd = this.cursor;
              }}}
+            {...this.getTestPropsForInput()}
             {...getAccessibilityProps(AccessibilityWidgetType.SEARCH, props)}
             placeholderTextColor={this.styles.placeholderText.color as any}
             placeholder={props.placeholder || 'Search'}
