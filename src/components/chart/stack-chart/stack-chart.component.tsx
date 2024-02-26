@@ -186,7 +186,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
             theme={this.state.theme}
             minDomain={mindomain}
             height={this.styles.root.height as number}
-            width={this.styles.root.width as number || this.screenWidth}
+            width={this.styles.root.width as number || this.state.chartWidth}
             padding={{
               top: props.offsettop,
               bottom: props.offsetbottom,

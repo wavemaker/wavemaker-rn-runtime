@@ -157,7 +157,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     if (value === oldValue) {
       return;
     }
-    const validNumber = this.isValidNumber(model);
+    const validNumber = this.isValidNumber(model) || value == oldValue + '.';
     if (!validNumber) {
       this.invokeEventCallback('onError', [ event, this.proxy, value, oldValue ]);
       return;
@@ -165,7 +165,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
 
     this.updateState({
       props: {
-        datavalue: model
+        datavalue: model || Number(value)
       }
     } as S, () => {
       !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, model, oldValue]);
@@ -178,10 +178,10 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   onBlur(event: any) {
     let newVal = event.target.value || this.state.textValue;
     this.validate(newVal);
-    if (newVal === '') {
+    if (newVal === '' || newVal == undefined) {
       setTimeout(() => {
         this.props.triggerValidation && this.props.triggerValidation();
-      })
+      },10)
     }
     if (this.state.props.updateon === 'blur') {
       let oldVal = this.state.props.datavalue || '';
@@ -249,11 +249,11 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
    */
   private getValueInRange(value: number): number {
     const props = this.state.props;
-    if (!isNil(null) && !isNaN(props.minvalue) && value < props.minvalue) {
+    if (!isNil(value) && !isNaN(props.minvalue) && value < props.minvalue) {
       this.updateState({ errorType: 'minvalue'} as S);
       return props.minvalue;
     }
-    if (!isNil(null) && !isNaN(props.maxvalue) && value > props.maxvalue) {
+    if (!isNil(value) && !isNaN(props.maxvalue) && value > props.maxvalue) {
       this.updateState({ errorType: 'maxvalue'} as S);
       return props.maxvalue;
     }

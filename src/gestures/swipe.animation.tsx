@@ -55,11 +55,39 @@ export class View extends React.Component<Props, State> {
             threshold: props.threshold || 30,
             bounds: {} as any
         } as State;
+        var touchStart = {
+            x: 0,
+            y: 0,
+            active: false
+        };
         this.gesture
             .maxPointers(1)
             .minDistance(this.state.threshold)
             .enabled(this.props.enableGestures && !isWebPreviewMode())
+            .onTouchesDown((e, s) => {
+                touchStart = {
+                    x: e.changedTouches[0].x,
+                    y: e.changedTouches[0].y,
+                    active: false
+                  };
+            })
+            .onTouchesMove((e, s) => {
+                if (touchStart.active) {
+                    return;
+                }
+                const translationX = e.allTouches[0].x - touchStart.x;
+                const translationY = e.allTouches[0].y - touchStart.y;
+                const d = (this.state.isHorizontal ? translationX : translationY);
+                const od = (this.state.isHorizontal ? translationY : translationX);
+                if (Math.abs(d) >= this.state.threshold
+                    && Math.abs(od) < Math.tan((15 * Math.PI) / 180) * this.state.threshold) {
+                    touchStart.active = true;
+                }
+            })
             .onChange(e => {
+                if (!touchStart.active) {
+                    return;
+                }
                 const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
                 const d = (this.state.isHorizontal ? e.translationX : e.translationY);
                 let phase = this.computePhase(bounds?.center || 0);
@@ -75,6 +103,14 @@ export class View extends React.Component<Props, State> {
                     (this.isRTL()?-bounds?.center! :bounds?.center || 0) + d);
             })
             .onEnd(e => {
+                if (!touchStart.active) {
+                    return;
+                }
+                touchStart =  {
+                    x: 0,
+                    y: 0,
+                    active: false
+                };
                 this.props.handlers?.onAnimation && 
                 this.props.handlers?.onAnimation(e);
                 if (e.translationX < 0) {
