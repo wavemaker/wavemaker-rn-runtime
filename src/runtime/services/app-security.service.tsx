@@ -190,7 +190,7 @@ class AppSecurityService implements SecurityService {
     }
 
     public canUserAccessPage(pageName: string) {
-      if (this.baseUrl) {
+      if (this.baseUrl && this.securityConfig?.isSecurityEnabled) {
         return axios.get(this.baseUrl + `/pages/${pageName}/${pageName}.html`)
           .catch((res) => res)
           .then((res) => res.status === 200 || res.status === 304); 
