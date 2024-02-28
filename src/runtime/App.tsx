@@ -169,6 +169,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
     return this.appConfig.currentPage;
   }
 
+  get Widgets() {
+    return this.commonPartial?.Widgets;
+  }
+
   goToPage(pageName: string, params: any)  {
     return this.appConfig.currentPage?.goToPage(pageName, params);
   }

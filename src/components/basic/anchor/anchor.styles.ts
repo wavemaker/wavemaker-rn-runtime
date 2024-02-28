@@ -21,6 +21,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         text: {
             paddingLeft: 8,
+            paddingRight: 8,
             color: themeVariables.linkDefaultColor,
             fontSize: 18, 
             textDecorationLine: 'underline',

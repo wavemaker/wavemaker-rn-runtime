@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, Platform, TouchableOpacity, ViewStyle } from 'react-native';
 import moment from 'moment';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -11,7 +11,10 @@ import WebDatePicker from './date-picker.component';
 import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { FloatingLabel } from '@wavemaker/app-rn-runtime/core/components/floatinglabel.component';
 import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
+import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 
 export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   showDatePicker = false;
@@ -77,11 +80,11 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   convertTimezone(date: any){ 
     const timezone = AppI18nService.getTimezone();
     if (timezone) {
-      const parsedDateString = new Date(date).toLocaleString(this.props.locale, { timeZone: timezone });
+      const parsedDateString = new Date(date).toLocaleString(this.props.locale ? this.props.locale : 'en-us', { timeZone: timezone });
       return moment(parsedDateString, 'M/D/YYYY, h:mm:ss A');
     }
     else {
-      return date;
+      return null;
     }
   }
 
@@ -99,14 +102,15 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       case 'datepattern':
       case 'outputformat':
         if (props.datavalue && props.outputformat && props.datepattern) {
-          let datavalue = props.datavalue;
+          let datavalue: any = props.datavalue;
           if (datavalue === CURRENT_DATE || datavalue === CURRENT_TIME) {
-            datavalue = this.format(new Date(), props.outputformat) as any;
+            datavalue = new Date() as any;
           }
           const date = isString(datavalue) ? this.parse(datavalue as string, props.outputformat) : datavalue;
+          datavalue = this.convertTimezone(datavalue);
           this.updateState({
             dateValue : date,
-            displayValue: this.format(this.convertTimezone(date) as any, props.datepattern)
+            displayValue: this.format(datavalue?datavalue:date as any, props.datepattern)
           } as BaseDatetimeState);
         } else {
           this.updateState({
@@ -210,9 +214,10 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   renderNativeWidget(props: WmDatetimeProps, onDismiss?: Function) {
     return (<DateTimePicker
       mode={this.modes[0] as any}
+      {...getAccessibilityProps(AccessibilityWidgetType.DATE, {...this.state.props})}
       value={this.state.dateValue || new Date()}
       is24Hour={true}
-      display={Platform.OS === 'ios' ? 'spinner': 'default'}
+      display='default'
       onChange={(event: DateTimePickerEvent, date?: Date) => {
         if (date && this.state.props.mode === 'datetime' && this.modes[0] === 'time') {
           const dateSelected = this.state.dateValue;
@@ -232,6 +237,61 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       maximumDate={props.maxdate as Date}
     />
     );
+  }
+
+  renderNativeIOSWidget(props: WmDatetimeProps, onDismiss?: Function) {
+    let date_change : any = undefined;
+    return (<View style={this.styles.dialog}>
+      <DateTimePicker
+        mode={this.modes[0] as any}
+        value={this.state.dateValue || new Date()}
+        is24Hour={true}
+        display='spinner'
+        onChange={(event: DateTimePickerEvent, date?: Date) => {
+          if (date && this.state.props.mode === 'datetime' && this.modes[0] === 'time') {
+            const dateSelected = this.state.dateValue;
+            date = moment(date)
+              .set('month', dateSelected.getMonth())
+              .set('year', dateSelected.getFullYear())
+              .set('date', dateSelected.getDate())
+              .toDate();
+          }
+          date_change = date;
+        }}
+        minimumDate={props.mindate as Date}
+        maximumDate={props.maxdate as Date}
+      />
+      <View style={this.styles.actionWrapper}>
+        <WmButton styles={this.styles.selectBtn} caption='Select' onTap={() => {
+          this.onDateChange(null as any, date_change || this.state.dateValue || new Date());
+          if (this.modes.length <= 1) {
+            this.onBlur();
+            onDismiss && onDismiss();
+          }
+        }} />
+        <WmButton styles={this.styles.cancelBtn} caption='Cancel' onTap={() => {
+          this.modes.shift();
+          this.onDateChange(null as any, this.state.dateValue || undefined);
+          this.onBlur();
+          onDismiss && onDismiss();
+        }} />
+      </View>
+    </View>
+    );
+  }
+
+  renderNativeIOSWidgetWithModal(props: WmDatetimeProps) {
+    return (<ModalConsumer>{(modalService: ModalService) => {
+      this.nativeModalOptions.content = (<>
+        {this.renderNativeIOSWidget(props, () => modalService.hideModal(this.nativeModalOptions))}
+        </>);
+      this.nativeModalOptions.centered = true;
+      this.nativeModalOptions.onClose = () => {
+        this.onBlur();
+      };
+      modalService.showModal(this.nativeModalOptions);
+      return null;
+    }}</ModalConsumer>);
   }
 
   renderNativeWidgetWithModal(props: WmDatetimeProps) {
@@ -275,13 +335,26 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
         this.addTouchableOpacity(props, (
         <View style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
           {this._background}
+            {props.floatinglabel ? (
+            <FloatingLabel
+              moveUp={!!(props.datavalue || this.state.isFocused)}
+              label={props.floatinglabel ?? props.placeholder} 
+              style={{
+                ...(this.styles.floatingLabel || []),
+                ...(this.state.isFocused ? (this.styles.activeFloatingLabel || {}) : {})
+              }}
+              />
+          ) : null}
             <View style={this.styles.container}>
               {this.addTouchableOpacity(props, (
                 <Text style={[
                   this.styles.text,
                   this.state.displayValue ? {} : this.styles.placeholderText
                 ]}
-                {...this.getTestPropsForLabel()}>{this.state.displayValue || this.state.props.placeholder}</Text>
+                {...this.getTestPropsForLabel()}>
+                  {this.state.displayValue 
+                    || (props.floatinglabel ? ''  : this.state.props.placeholder)}
+                </Text>
               ), [{ flex: 1}, this.isRTL?{flexDirection:'row', textAlign:'right'}:{}] )}
               {(!props.readonly && props.datavalue &&
                 (<WmIcon iconclass="wi wi-clear"
@@ -299,7 +372,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             this.state.showDatePicker
             && ((Platform.OS === 'web' && this.renderWebWidget(props))
               || (Platform.OS === 'android' && this.renderNativeWidget(props))
-              || (Platform.OS === 'ios' && this.renderNativeWidget(props)))
+              || (Platform.OS === 'ios' && this.renderNativeIOSWidgetWithModal(props)))
           }
         </View>
         ))

@@ -10,6 +10,7 @@ import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.c
 import WmPopoverProps from './popover.props';
 import { DEFAULT_CLASS, WmPopoverStyles } from './popover.styles';
 import WmContainer from '../../container/container.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 export class WmPopoverState extends BaseComponentState<WmPopoverProps> {
   isOpened: boolean = false;
@@ -90,7 +91,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
       }
     }
     return (
-      <View style={styles.root} onLayout={this.computePosition} ref={ref => {this.view = ref as View}}>
+      <View style={styles.root} onLayout={this.computePosition} ref={ref => {this.view = ref as View}} {...getAccessibilityProps(AccessibilityWidgetType.POVOVER, props)}>
         {this._background}
         <WmAnchor
           id={this.getTestId('trigger')}
@@ -99,13 +100,17 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
           badgevalue={props.badgevalue}
           iconclass={props.iconclass}
           iconposition={props.iconposition}
+          iconheight={props.iconheight}
+          iconwidth={props.iconwidth}
+          iconmargin={props.iconmargin}
+          iconurl={props.iconurl}
           styles={styles.link}
-          onTap={this.showPopover}></WmAnchor>
+          onTap={this.showPopover}/>
         {this.state.isOpened ? (
           <ModalConsumer>
             {(modalService: ModalService) => {
               modalService.showModal(this.prepareModalOptions((
-                  <ScrollView style={this.theme.mergeStyle(styles.popover, dimensions)}>
+                  <ScrollView style={this.theme.mergeStyle(styles.popover, dimensions)} accessible={props.type !== "dropdown"} accessibilityViewIsModal>
                     {props.title ? (<Text style={styles.title}>{props.title}</Text>): null}
                     <TouchableOpacity 
                     {...this.getTestPropsForAction('outercontent')}

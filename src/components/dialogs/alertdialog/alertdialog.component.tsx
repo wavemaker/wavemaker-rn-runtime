@@ -54,6 +54,10 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
       <WmDialog
         id={this.getTestId('dialog')}
         iconclass={props.iconclass}
+        iconurl={props.iconurl}
+        iconheight={props.iconheight}
+        iconmargin={props.iconmargin}
+        iconwidth={props.iconwidth}
         animation={props.animation}
         closable={props.closable}
         modal={props.modal}

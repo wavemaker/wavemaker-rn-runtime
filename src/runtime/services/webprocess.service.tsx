@@ -47,7 +47,6 @@ class WebProcessWebView extends Component<WebProcessWebViewProps> {
         }}>
           <WmWebview src={this.props.src}
             incognito={this.props.incognito}
-            title=""
             styles={{
             root: {
               width: '100%',

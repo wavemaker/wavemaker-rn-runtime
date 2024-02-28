@@ -6,7 +6,9 @@ import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 export type WmTextStyles = BaseStyles & {
   invalid: AllStyle;
   placeholderText: AllStyle;
-  skeleton: WmSkeletonStyles
+  floatingLabel: AllStyle;
+  activeFloatingLabel: AllStyle;
+  skeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-text';
@@ -34,6 +36,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       placeholderText: {
       color: themeVariables.inputPlaceholderColor
       },
+      floatingLabel: {},
+      activeFloatingLabel: {},
       skeleton: {
         root: {
           width: '100%',
@@ -53,5 +57,20 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       root:{
         textAlign: 'right'
       }
-  })
+  });
+  addStyle(DEFAULT_CLASS + '-with-label', '', {
+    root: {
+      minHeight: 48,
+    },
+    floatingLabel: {
+      position: 'absolute',
+      top: 12,
+      left: 16,
+      fontSize: 14,
+      color: themeVariables.floatingLabelColor
+    },
+    activeFloatingLabel: {
+      color: themeVariables.activeFloatingLabelColor
+    }
+  });
 });

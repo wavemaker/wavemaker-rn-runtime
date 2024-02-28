@@ -9,6 +9,7 @@ import { DEFAULT_CLASS, WmButtonStyles } from './button.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import { createSkeleton } from '../skeleton/skeleton.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export class WmButtonState extends BaseComponentState<WmButtonProps> {
 
@@ -20,10 +21,27 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
     super(props, DEFAULT_CLASS, new WmButtonProps());
   }
 
-  private prepareIcon(props: any) {
-    return (props.iconclass? <WmIcon
-      {...this.getTestPropsForLabel('icon')}
-      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass} iconsize={props.iconsize}></WmIcon>: null);
+  private prepareIcon({
+    iconclass,
+    iconurl,
+    name,
+    iconsize,
+    iconheight,
+    iconmargin,
+    iconwidth,
+  }: any) {
+    return iconclass || iconurl
+      ? (<WmIcon
+          {...this.getTestPropsForLabel('icon')}
+          styles={this.styles.icon} 
+          name={`${name}_icon`} 
+          iconclass={iconclass}
+          iconsize={iconsize}
+          iconurl={iconurl} 
+          iconheight={iconheight}
+          iconmargin={iconmargin}
+          iconwidth={iconwidth}
+        />): null;
   }
 
   private prepareBadge(props: any) {
@@ -41,14 +59,50 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
 
   renderWidget(props: WmButtonProps) {
     return (
-      <Animatedview entryanimation={props.animation} style={this.styles.root}>
+      <Animatedview entryanimation={props.animation}
+        style={[
+          this.styles.root,
+          {
+            paddingTop: 0,
+            paddingBottom: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
+            overflow: 'hidden'
+          }
+        ]}
+        accessibilityProps={{...getAccessibilityProps(
+          AccessibilityWidgetType.BUTTON,
+          props
+        )}}
+        >
         {this._background}
-        <Tappable target={this} {...this.getTestPropsForAction()}>
-          <View style={[this.styles.content, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}>
+        <Tappable
+          styles={{
+            paddingTop: this.styles.root.paddingTop,
+            paddingBottom: this.styles.root.paddingBottom,
+            paddingLeft: this.styles.root.paddingLeft,
+            paddingRight: this.styles.root.paddingRight
+          }}
+          rippleColor = {this.styles.root.rippleColor}
+          target={this}
+          {...this.getTestPropsForAction()}>
+          <View
+            style={[
+              this.styles.content,
+              { flexDirection: props.iconposition === 'top' ? 'column' : 'row' }
+            ]}>
             {props.iconposition === 'top' && this.prepareIcon(props)}
             {props.iconposition === 'left' && this.prepareIcon(props)}
-            {props.caption ? (<Text style={this.styles.text} 
-              {...this.getTestPropsForLabel('caption')}>{props.caption}</Text>): null}
+            {props.caption ? (
+              <Text
+                style={this.styles.text}
+                {...this.getTestPropsForLabel('caption')}
+                importantForAccessibility={'no'}
+                // accessibilityLabel={`${props.caption}`}
+              >
+                {props.caption}
+              </Text>
+            ) : null}
             {props.iconposition === 'right' && this.prepareIcon(props)}
             {props.badgevalue && this.prepareBadge(props)}
           </View>

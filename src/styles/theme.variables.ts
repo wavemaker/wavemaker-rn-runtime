@@ -50,6 +50,10 @@ export default class ThemeVariables {
     badgeContrastColor = '#ffffff';
     baseFont = 'Roboto';
     maxModalHeight = Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0);
+    maxWidth = Dimensions.get("window").width; 
+
+     //rippleColor
+     rippleColor = this.transparent
 
     // page
     pageContentBgColor = this.defaultColorE;
@@ -61,6 +65,10 @@ export default class ThemeVariables {
     widgetActiveHeaderTextColor = this.primaryContrastColor;
     widgetBorderColor = this.defaultColorC;
     widgetBgColor = this.defaultColorF;
+
+    //App Navbar
+    titleBadgeBackgroundColor = Color('#151420').fade(0.8).rgb().toString();
+    titleBadgeTextColor = '#151420';
 
     // Navbar variables
     navbarBackgroundColor = this.defaultColorF;
@@ -105,6 +113,14 @@ export default class ThemeVariables {
     tabbarBackgroundColor = this.primaryContrastColor;
     tabbarTextColor =  this.primaryColor;
     tabbarIconColor = this.primaryColor;
+    tabShadowColor = this.defaultColor;
+    tabActiveBackgroundColor = this.secondaryColor;
+    tabActiveIconColor = this.secondaryColor;
+    tabLabelTextColor = this.defaultColor3;
+
+    centerHubItemColor = '@primaryColor';
+    centerHubIconColor = '@defaultColorF';
+    centerHubLabelColor = '@defaultColorF';
 
     // tab variables
     tabHeaderBgColor = this.widgetBgColor;
@@ -190,6 +206,10 @@ export default class ThemeVariables {
     inputInvalidBorderColor = this.dangerColor;
     inputPlaceholderColor = this.defaultColorB;
 
+    //floating label
+    floatingLabelColor = '@inputPlaceholderColor';
+    activeFloatingLabelColor = '@primaryColor';
+
     //slider variables
     minimumTrackTintColor = this.primaryColor;
     maximumTrackTintColor = this.widgetHeaderBgColor;
@@ -208,10 +228,17 @@ export default class ThemeVariables {
     toggleUnselectedTrackbgColor = this.defaultColorC;
 
     // radioset, checkboxset variables
-    groupHeadingBgColor = this.transparent;
-    checkedColor = this.primaryColor;
-    checkedDisabledColor = this.defaultColorA;
-
+    groupHeadingBgColor = '@transparent';
+    checkedColor = '@primaryColor';
+    checkedDisabledColor = '@defaultColorA';
+    checkedEnabledColor = '@defaultColorF';
+    checkboxBorderColor = '@defaultColor9';
+    checkedBgColor = '@primaryColor';
+    uncheckedBgColor = '@transparent';
+    checkedIconColor = '@defaultColorF';
+    checkedBorderColor = '@primaryColor';
+    uncheckedBorderColor = '@defaultColor9';
+    
     //form
     formBorderColor = this.widgetBorderColor;
     formTitleColor = this.defaultTextColor;

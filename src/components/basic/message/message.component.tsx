@@ -7,6 +7,7 @@ import { DEFAULT_CLASS, WmMessageStyles } from './message.styles';
 import WmIcon from '../icon/icon.component';
 import WmButton from '../button/button.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export class WmMessageState extends BaseComponentState<WmMessageProps> {}
 
@@ -63,8 +64,8 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
         iconclass={props.type && MESSAGE_ICONS[props.type]}
         styles={styles.icon}></WmIcon>
       <View style={styles.message}>
-        <Text {...this.getTestPropsForLabel('title')} style={styles.title}>{props.title || DEFAULT_TITLE[props.type || '']}</Text>
-        <Text {...this.getTestPropsForLabel('caption')} style={styles.text}>{props.caption}</Text>
+        <Text {...this.getTestPropsForLabel('title')} style={styles.title} {...getAccessibilityProps(AccessibilityWidgetType.MESSAGE, props)}>{props.title || DEFAULT_TITLE[props.type || '']}</Text>
+        <Text {...this.getTestPropsForLabel('caption')} style={styles.text} {...getAccessibilityProps(AccessibilityWidgetType.MESSAGE, props)}>{props.caption}</Text>
       </View>
       {props.hideclose ? null : (
         <WmButton

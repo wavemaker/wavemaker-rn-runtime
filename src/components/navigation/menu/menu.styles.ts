@@ -41,10 +41,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         menu: {
             width: 160,
-            paddingTop: 8,
-            paddingBottom: 8,
-            paddingLeft: 12,
-            paddingRight: 12,
             backgroundColor: themeVariables.menuBackgroundColor,
             borderRadius: 4
         },
@@ -53,11 +49,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 height: 48,
                 borderBottomWidth: 0,
                 borderStyle: 'solid',
+                flexDirection : 'row',
+                alignItems: 'flex-start',
+                flexGrow:1, 
+                paddingTop: 8,
+                justifyContent: 'flex-start',
                 borderBottomColor: themeVariables.menuItemBorderColor
             },
             icon :{
                 root : {
-                  fontSize: 24
+                  fontSize: 24,
+                  paddingLeft: 22
                 },
                 icon : {
                     color: themeVariables.menuItemIconColor
@@ -65,6 +67,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             },
             text: {
                 fontSize: 16,
+                paddingTop: 4,
                 textDecorationLine: 'none',
                 color: themeVariables.menuItemTextColor
             }

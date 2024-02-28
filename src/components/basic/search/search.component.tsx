@@ -6,6 +6,7 @@ import WmSearchProps from './search.props';
 import { DEFAULT_CLASS, WmSearchStyles } from './search.styles';
 import { ModalConsumer, ModalOptions, ModalService} from "@wavemaker/app-rn-runtime/core/modal.service";
 import { DataProvider } from '@wavemaker/app-rn-runtime/components/basic/search/local-data-provider';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 import {
   BaseDatasetComponent,
@@ -275,6 +276,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
                ref.selectionStart = ref.selectionEnd = this.cursor;
              }}}
             {...this.getTestPropsForInput()}
+            {...getAccessibilityProps(AccessibilityWidgetType.SEARCH, props)}
             placeholderTextColor={this.styles.placeholderText.color as any}
             placeholder={props.placeholder || 'Search'}
             autoFocus={props.autofocus}

@@ -15,12 +15,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmButtonStyles = defineStyles<WmButtonStyles>({
       root: {
           minHeight: 40,
-          borderRadius: 6,
-          paddingTop: 11,
-          paddingBottom: 11,
+          borderRadius: 32,
+          paddingTop: 12,
+          paddingBottom: 12,
           paddingLeft: 24,
           paddingRight: 24,
-          alignSelf: 'flex-start'
+          alignSelf: 'flex-start',
+          rippleColor: themeVariables.rippleColor
       },
       content: {
         flexDirection: 'row',
@@ -33,7 +34,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         fontWeight: '500',
         textAlign: 'center',
         textTransform: 'capitalize',
-        marginHorizontal: 4
       },
       badge: {
         backgroundColor: themeVariables.buttonBadgeBackgroundColor,

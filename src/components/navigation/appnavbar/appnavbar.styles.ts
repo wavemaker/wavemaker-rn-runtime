@@ -1,7 +1,7 @@
 import Color from 'color';
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { WmMenuStyles } from '@wavemaker/app-rn-runtime/components/navigation/menu/menu.styles';
 import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.styles';
@@ -16,7 +16,8 @@ export type WmAppNavbarStyles = BaseStyles & {
   leftSection: ViewStyle,
   middleSection: ViewStyle,
   rightSection: ViewStyle,
-  content: ViewStyle
+  content: ViewStyle,
+  badge: TextStyle
 };
 
 export const DEFAULT_CLASS = 'app-appnavbar';
@@ -46,7 +47,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       }
     } as WmIconStyles,
     backIcon: {
-      root: {},
+      root: {
+        rippleColor: themeVariables.transparent
+      },
       text: {
         fontSize: themeVariables.navbarFontSize,
         color: themeVariables.navbarTextColor
@@ -72,6 +75,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       fontFamily: themeVariables.baseFont,
       fontWeight: '500',
       textAlign: 'center'
+    },
+    badge: {
+      backgroundColor: themeVariables.titleBadgeBackgroundColor,
+      color: themeVariables.titleBadgeTextColor,
+      alignSelf: 'flex-start',
+      marginLeft: 4
     },
     middleSection: {
       alignItems: 'center',

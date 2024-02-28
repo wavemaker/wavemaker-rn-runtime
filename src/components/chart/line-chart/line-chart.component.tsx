@@ -1,14 +1,12 @@
 import React from 'react';
-import { View, Platform } from 'react-native';
-import { Svg } from 'react-native-svg';
-
+import { Text, View, Platform } from 'react-native';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import {
   VictoryChart,
   VictoryLine,
-  VictoryLegend,
   VictoryScatter,
   VictoryGroup,
-  } from 'victory-native';
+} from 'victory-native';
 
 import WmLineChartProps from './line-chart.props';
 import { DEFAULT_CLASS, WmLineChartStyles } from './line-chart.styles';
@@ -18,6 +16,7 @@ import {
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import {InterpolationPropType} from "victory-core";
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 export class WmLineChartState extends BaseChartComponentState<WmLineChartProps> {}
 
@@ -41,7 +40,14 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
       return null;
     }
     return (
-    <View style={this.styles.root}>
+    <View style={this.styles.root} {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}>
+      <View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          { props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
+          <Text style={this.styles.title}>{props.title}</Text>
+        </View>
+        <Text style={this.styles.subHeading}>{props.subheading}</Text>
+      </View>
       <VictoryChart
         theme={this.state.theme}
         height={this.styles.root.height as number}
@@ -51,16 +57,6 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
           this.getTooltip(props)
         }
       >
-        <VictoryLegend
-          name={'legend'}
-          containerComponent={<Svg />}
-          title={[props.title, props.subheading]}
-          orientation="horizontal"
-          gutter={20}
-          data={[]}
-          theme={this.state.theme}
-          y={0}
-        />
         {this.getLegendView()}
         {this.getXaxis()}
         {this.getYAxis()}
@@ -75,14 +71,14 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
                   strokeWidth: props.linethickness,
                 }
               }}       
-              data={d}
+              data={this.isRTL?d.toReversed():d}
             />
-          {(props.highlightpoints || this.state.data.length === 1) ?
+          {(props.highlightpoints || this.state.data[0].length === 1) ?
               <VictoryScatter size={5} key={props.name + '_scatter' + i}
                   style={{
                     data: { fill: this.state.colors[i], opacity: 0.8,}
                   }}
-                  data={d}
+                  data={this.isRTL?d.toReversed():d}
                   events={[{
                     target: 'data',
                     eventHandlers: Platform.OS == "web" ? {

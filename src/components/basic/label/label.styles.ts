@@ -14,6 +14,7 @@ export const DEFAULT_CLASS = 'app-label';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmLabelStyles = defineStyles({
       root: {
+        alignSelf: 'flex-start'
       },
       text: {
         fontSize: 16,
@@ -31,11 +32,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         }
       } as any as WmSkeletonStyles,
       link: {
-        root: {
-          marginBottom: -4
-        },
         text: {
-          padding: 0
+          textDecorationLine: 'underline'
         }
       } as WmAnchorStyles
   });

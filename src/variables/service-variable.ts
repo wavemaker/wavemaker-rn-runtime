@@ -77,6 +77,7 @@ export class ServiceVariable extends _ServiceVariable {
     this.subscribe(VariableEvents.AFTER_INVOKE, () => {
         this.dataBinding = {};
     });
+    this.init();
   }
 
   invokeOnParamChange() {
