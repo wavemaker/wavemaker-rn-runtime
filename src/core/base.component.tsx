@@ -103,7 +103,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                     }
                 }
                 if (name === 'showskeleton' && this.initialized) {
-                    this.cleanRefresh();
+                    setTimeout(() => this.cleanRefresh(), 100);
                 }
                 this.onPropertyChange(name, $new, $old);
             });
