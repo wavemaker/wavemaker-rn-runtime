@@ -19,10 +19,11 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   }
 
   renderWidget(props: WmPageContentProps) {
+    const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
     return props.scrollable || isWebPreviewMode() ? (
       <View style={{height: '100%', width: '100%', backgroundColor: this.styles.root.backgroundColor}}>
         {this._background}
-        <ScrollView contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}>
+        <ScrollView contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}  showsVerticalScrollIndicator={showScrollbar}>
           {props.children}
         </ScrollView>
       </View>
