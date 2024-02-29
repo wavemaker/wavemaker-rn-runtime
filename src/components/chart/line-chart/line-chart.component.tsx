@@ -77,10 +77,10 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
               }}       
               data={d}
             />
-          {(props.highlightpoints || this.state.data.length === 1) ?
+          
               <VictoryScatter size={5} key={props.name + '_scatter' + i}
                   style={{
-                    data: { fill: this.state.colors[i], opacity: 0.8,}
+                    data: (props.highlightpoints || this.state.data.length === 1) ? {fill: this.state.colors[i], opacity: 0.8} : {opacity:0}
                   }}
                   data={d}
                   events={[{
@@ -91,7 +91,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
                       onPress: this.onSelect.bind(this)
                     }
                   }]}
-              />: null}
+              />
             </VictoryGroup>
         })}
       </VictoryChart>

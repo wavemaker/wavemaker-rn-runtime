@@ -63,7 +63,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
             theme={this.state.theme}
             height={this.styles.root.height as number}
             width={this.state.chartWidth || 120}
-            padding={{ top: 70, bottom: 50, left: 50, right: 30 }}
+            padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
             minDomain={mindomain}
             containerComponent={
               this.getTooltip(props)
@@ -104,13 +104,11 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                     }}
                     data={d}
                   />
-                  {props.highlightpoints ?
                     <VictoryScatter
                       size={5}
                       key={props.name + '_scatter' + i}
                       style={{
-                        data: { 
-                          fill: Color(this.state.colors[i]).darken(0.2).rgb().toString()}
+                        data: props.highlightpoints ? {fill: this.state.colors[i], opacity: 0.8}:{opacity: 0}
                       }}        
                       data={d}
                       events={[{
@@ -122,7 +120,6 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                         }
                       }]}
                       />
-                  : null}
                 </VictoryGroup>
               })
             }
