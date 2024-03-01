@@ -38,13 +38,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       badge: {
         backgroundColor: themeVariables.buttonBadgeBackgroundColor,
         color: themeVariables.buttonBadgeTextColor,
-        alignSelf: 'flex-start',
+        alignSelf: 'flex-end',
         position: 'relative',
-        minHeight: 6,
-        top: -20,
-        marginLeft: -16,
+        bottom: 60 ,
+        marginRight: 18,
         borderWidth: 1,
-        borderStyle: 'solid'
+        borderStyle: 'solid',
       },
       icon: {
         root : {

@@ -49,6 +49,7 @@ export default class ThemeVariables {
     badgeColor = '#6c757d';
     badgeContrastColor = '#ffffff';
     baseFont = 'Roboto';
+    tabbarInactiveColor  = '#d8d8d8';
     maxModalHeight = Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0);
     maxWidth = Dimensions.get("window").width; 
 
@@ -111,12 +112,12 @@ export default class ThemeVariables {
 
     //tabbar variables
     tabbarBackgroundColor = this.primaryContrastColor;
-    tabbarTextColor =  this.primaryColor;
-    tabbarIconColor = this.primaryColor;
+    tabbarTextColor =  '@tabbarInactiveColor';
+    tabbarIconColor = '@tabbarInactiveColor';
     tabShadowColor = this.defaultColor;
-    tabActiveBackgroundColor = this.secondaryColor;
-    tabActiveIconColor = this.secondaryColor;
-    tabLabelTextColor = this.defaultColor3;
+    tabActiveBackgroundColor = this.primaryColor3;
+    tabActiveIconColor = this.primaryColor;
+    tabLabelTextColor = this.primaryColor;
 
     centerHubItemColor = 'var(--primaryColor)';
     centerHubIconColor = 'var(--defaultColorF)';
@@ -415,7 +416,7 @@ export default class ThemeVariables {
     chipActiveTextColor = this.defaultColorF;
     chipDefaultTextColor = this.defaultColorA;
     chipborderColor = this.defaultColorD;
-    chipContainerColor = this.defaultColor2; 
+    chipContainerColor = this.defaultColorF; 
     chipIconColor = this.primaryColor;
     chipSelectedOutlineColor = this.defaultColor6;
     chipSelectedContainerColor = this.defaultColor7;

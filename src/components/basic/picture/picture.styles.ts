@@ -13,6 +13,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmPictureStyles = defineStyles({
     root: {
       overflow: 'hidden',
+      width: 270,
       rippleColor: themeVariables.transparent
     },
     text: {},

@@ -99,7 +99,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       paddingRight: 8,
       flexDirection: 'row',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      overflow: 'visible'
     },
     text: {
       color: themeVariables.navbarTextColor,

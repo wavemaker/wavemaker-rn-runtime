@@ -17,7 +17,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root: {
             color: themeVariables.linkDefaultColor,
             flexDirection: 'row',
-            alignItems: 'center'
+            alignItems: 'center',
+            overflow: 'visible'
         },
         text: {
             paddingLeft: 8,

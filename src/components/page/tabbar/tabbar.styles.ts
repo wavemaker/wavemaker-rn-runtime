@@ -61,7 +61,7 @@ export const DEFAULT_CLASS = 'app-tabbar';
             alignItems: 'center',
             minHeight: 32,
             minWidth: 64,
-            opacity: 0.4,
+            opacity: 1,
             marginBottom: 16
         },
         activeTabItem: {
@@ -69,7 +69,7 @@ export const DEFAULT_CLASS = 'app-tabbar';
             height: 32,
             width: 64,
             borderRadius: 50,
-            marginBottom: 2,
+            marginBottom: -2,
             backgroundColor: themeVariables.tabActiveBackgroundColor
         },
         tabIcon: {
@@ -81,7 +81,7 @@ export const DEFAULT_CLASS = 'app-tabbar';
             icon: {
                 fontSize: 24,
                 paddingRight: 0,
-                color:  themeVariables.tabShadowColor
+                color:  themeVariables.tabbarIconColor
             }
         } as WmIconStyles,
         activeTabIcon: {
@@ -93,16 +93,17 @@ export const DEFAULT_CLASS = 'app-tabbar';
         } as WmIconStyles,
         tabLabel: {
             fontSize: 12,
+            marginTop: 4,
             fontWeight: '500',
             fontFamily: themeVariables.baseFont,
-            color:  themeVariables.tabLabelTextColor,
+            color:  themeVariables.tabbarTextColor,
             textAlign: 'center',
         },
         activeTabLabel: {
             fontWeight: '700',
             fontSize: 12,
             fontFamily: themeVariables.baseFont,
-            color:  themeVariables.tabShadowColor,
+            color:  themeVariables.tabLabelTextColor,
         },
         centerHubItem: {},
         centerHubIcon: {} as WmIconStyles, 

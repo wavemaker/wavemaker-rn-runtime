@@ -59,6 +59,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
 
   renderWidget(props: WmButtonProps) {
     return (
+      <>
       <Animatedview entryanimation={props.animation}
         style={[
           this.styles.root,
@@ -104,10 +105,11 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
               </Text>
             ) : null}
             {props.iconposition === 'right' && this.prepareIcon(props)}
-            {props.badgevalue && this.prepareBadge(props)}
           </View>
         </Tappable>
       </Animatedview>
+      {props.badgevalue && this.prepareBadge(props)}
+      </>
     );
   }
 }
