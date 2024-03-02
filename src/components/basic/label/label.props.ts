@@ -10,4 +10,5 @@ export default class WmLabelProps extends BaseProps {
     skeletonheight?: string = null as any;
     skeletonwidth?: string = null as any;
     multilineskeleton?: boolean = false;
+    onTap?: Function = null as any;
 }
