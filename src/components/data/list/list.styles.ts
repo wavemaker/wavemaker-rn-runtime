@@ -12,6 +12,7 @@ export type WmListStyles = BaseStyles & {
     title: WmLabelStyles,
     subheading: WmLabelStyles,
     emptyMessage: WmLabelStyles,
+    onDemandMessage: WmLabelStyles,
     item: AllStyle,
     selectedItem: AllStyle,
     selectedIcon: WmIconStyles
@@ -76,6 +77,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 alignSelf: 'center',
                 fontSize: 16,
                 lineHeight: 18,
+                color: themeVariables.listSubTitleColor
+            }
+        } as WmLabelStyles,
+        onDemandMessage: {
+            root: {
+                paddingVertical: 8
+            },
+            text: {
+                textAlign: 'center',
                 color: themeVariables.listSubTitleColor
             }
         } as WmLabelStyles,

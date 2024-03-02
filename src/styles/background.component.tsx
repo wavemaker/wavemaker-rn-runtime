@@ -340,7 +340,7 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
         const gradientData = this.getGradient();
         if (gradientData?.value?.length) {
             return this.renderLinearGradient(gradientData.value[1]);
-        } else if (this.props.image) {
+        } else if (this.props.image && this.state.imageSrc) {
             return this.renderImage();
         }
         return null;

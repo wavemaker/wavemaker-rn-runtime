@@ -13,4 +13,5 @@ export default class WmLabelProps extends BaseProps {
     accessibilitylabel?: string = undefined;
     hint?: string = undefined;
     accessibilityrole?: AccessibilityRole = 'text';
+    onTap?: Function = null as any;
 }

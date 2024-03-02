@@ -157,6 +157,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.notifier.subscribe(event, fn);
     }
 
+    public notify(event: string, args: any[]) {
+        return this.notifier.notify(event, args);
+    }
+
     public get isRTL(){
         return this.i18nService.isRTLLocale();
     }
@@ -264,6 +268,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.props.listener.onComponentDestroy(this.proxy);
         }
         this.cleanup.forEach(f => f && f());
+        this.notifier.destroy();
         this.notifier.notify('destroy', []);
     }
     
@@ -312,6 +317,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private setParent(parent: BaseComponent<any, any, any>) {
         if (parent && this.parent !== parent)  {
             this.parent = parent;
+            this.notifier.setParent(parent.notifier);
             this.parentListenerDestroyers = [
                 this.parent.subscribe('forceUpdate', () => {
                     this.cleanRefresh();
