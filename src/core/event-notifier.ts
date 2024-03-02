@@ -31,6 +31,9 @@ export default class EventNotifier {
                 c.notify(event, args);
             });
         }
+        this.children.forEach((c) => {
+            c.notify(event, args);
+        })
     }
 
     public subscribe(event: string, fn: Function) {

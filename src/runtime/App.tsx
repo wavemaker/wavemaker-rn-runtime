@@ -114,6 +114,13 @@ export default abstract class BaseApp extends React.Component implements Navigat
   public modalsOpened: number = 0;
   public toastsOpened: number = 0;
   public watcher: Watcher = Watcher.ROOT;
+  public paperTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: ThemeVariables.INSTANCE.primaryColor
+    }
+  };
   public lib = preparePatch(() => {
     this.refresh();
   });
@@ -452,12 +459,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
     return (
       <SafeAreaProvider>
-        <PaperProvider theme={{
-          ...DefaultTheme,
-          colors: {
-            ...DefaultTheme.colors,
-            primary: ThemeVariables.INSTANCE.primaryColor
-          }}}>
+        <PaperProvider theme={this.paperTheme}>
           <React.Fragment>
             {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
           <SafeAreaInsetsContext.Consumer>

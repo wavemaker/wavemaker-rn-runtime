@@ -22,7 +22,9 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     return props.scrollable || isWebPreviewMode() ? (
       <View style={{height: '100%', width: '100%', backgroundColor: this.styles.root.backgroundColor}}>
         {this._background}
-        <ScrollView contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}>
+        <ScrollView contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
+          onScroll={(event) => {this.notify('scroll', [event])}}
+          scrollEventThrottle={48}>
           {props.children}
         </ScrollView>
       </View>

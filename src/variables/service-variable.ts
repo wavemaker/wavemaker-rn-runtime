@@ -1,5 +1,5 @@
 import { VariableConfig, VariableEvents } from './base-variable';
-import { isEqual, assignIn } from 'lodash';
+import { isEqual, assignIn, isString } from 'lodash';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { ServiceVariable as _ServiceVariable } from '@wavemaker/variables/src/model/variable/service-variable';
@@ -88,11 +88,20 @@ export class ServiceVariable extends _ServiceVariable {
     return Promise.resolve(this);
   }
 
-  public doNext(currentPage: number) {
-    // this.invoke({
-    //   page: currentPage
-    // });
-    return Promise.reject(this);
+  public async doNext() {
+    let page = 0 as any;
+    if (isString(this.pagination.page)) {
+      page = (parseInt(this.pagination.page) + 1) + '';
+    } else {
+      page = this.pagination.page + 1;
+    }
+    return new Promise((resolve, reject) => {
+      this.invoke({
+        page: page
+      }, 
+      (dataset: any) => resolve(dataset), 
+      reject);
+    });
   }
 
   onDataUpdated() {

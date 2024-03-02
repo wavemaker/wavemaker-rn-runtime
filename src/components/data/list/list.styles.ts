@@ -12,6 +12,7 @@ export type WmListStyles = BaseStyles & {
     title: WmLabelStyles,
     subheading: WmLabelStyles,
     emptyMessage: WmLabelStyles,
+    onDemandMessage: WmLabelStyles,
     item: AllStyle,
     selectedItem: AllStyle,
     selectedIcon: WmIconStyles,
@@ -83,6 +84,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         group: {
             marginBottom: 16,
         },
+        onDemandMessage: {
+            root: {
+                paddingVertical: 8
+            },
+            text: {
+                textAlign: 'center',
+                color: themeVariables.listSubTitleColor
+            }
+        } as WmLabelStyles,
         item: {
             ...BASE_THEME.getStyle('elevate1').root,
             shadowColor: 'rgba(0, 0, 0, 0.3)',
