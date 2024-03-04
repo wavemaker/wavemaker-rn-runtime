@@ -155,7 +155,7 @@ export const DEFAULT_CLASS = 'app-tabbar';
             shadowRadius: 2,
             borderRadius: 35,
             position: 'absolute',
-            bottom: 53,
+            bottom: 28,
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: themeVariables.centerHubItemColor,

@@ -48,20 +48,20 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
     : [this.styles.tabItem];
   
     return (
-      <View style={[this.styles.tabItem]} key={`${item.label}_${testId}`}>
+      <View style={[increasedGap, floating? this.styles.centerHubItem: {}]} key={`${item.label}_${testId}`}>
         <TouchableOpacity
           {...this.getTestPropsForAction('item' + testId)}
           onPress={() => onSelect && onSelect()}
           key={item.key}
         >
-          <View style={[isActive ? this.styles.activeTabItem : {}]}>
+          <View style={[isActive && !floating  ? this.styles.activeTabItem : {}]}>
             <WmIcon
-              styles={this.theme.mergeStyle({}, this.styles.tabIcon, isActive ? this.styles.activeTabIcon : {})}
+              styles={this.theme.mergeStyle({}, this.styles.tabIcon, floating? this.styles.centerHubIcon: {}, isActive ? this.styles.activeTabIcon : {})}
               iconclass={item.icon}
             ></WmIcon>
           </View>
         </TouchableOpacity>
-        <Text style={[this.styles.tabLabel, isActive ? this.styles.activeTabLabel : {}]}>
+        <Text style={[this.styles.tabLabel, floating? this.styles.centerHubLabel: {},  isActive ? this.styles.activeTabLabel : {}]}>
           {getDisplayLabel(item.label)}
         </Text>
       </View>
