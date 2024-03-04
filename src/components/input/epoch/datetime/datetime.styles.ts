@@ -1,7 +1,7 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
-import { TextStyle, Platform } from 'react-native';
+import { TextStyle, Platform, ViewStyle } from 'react-native';
 
 export type WmDatetimeStyles = BaseStyles & {
     focused: AllStyle,
@@ -9,14 +9,19 @@ export type WmDatetimeStyles = BaseStyles & {
     placeholderText: TextStyle,
     invalid: AllStyle,
     clearIcon: WmIconStyles,
-    calendarIcon: WmIconStyles
+    calendarIcon: WmIconStyles,
+    floatingLabel: ViewStyle,
+    activeFloatingLabel: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-datetime';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmDatetimeStyles = defineStyles({
         root: {
-            padding: 12,
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 16,
+            paddingRight: 16,
             borderWidth: 1,
             borderStyle: 'solid',
             borderRadius: 6,
@@ -62,6 +67,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             },
             icon: {
                 fontSize: 16,
+                paddingRight: 0,
                 fontWeight: 'bold'
             }
         } as WmIconStyles
@@ -81,4 +87,20 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         }
     }
   }:{});
+  addStyle(DEFAULT_CLASS + '-with-label', '', {
+    root:{
+        minHeight: 48,
+        paddingVertical: 16
+    },
+    floatingLabel: {
+        position: 'absolute',
+        top: 12,
+        left: 16,
+        fontSize: 14,
+        color: themeVariables.floatingLabelColor
+    },
+    activeFloatingLabel: {
+        color: themeVariables.activeFloatingLabelColor
+    }
+  } as any as WmDatetimeStyles);
 });

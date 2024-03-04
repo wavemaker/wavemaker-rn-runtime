@@ -5,6 +5,8 @@ import { Platform } from 'react-native';
 export type WmCurrencyStyles = BaseStyles & {
   label: AllStyle;
   invalid: AllStyle;
+  floatingLabel: AllStyle;
+  activeFloatingLabel: AllStyle;
   placeholderText: AllStyle;
 };
 
@@ -59,7 +61,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       placeholderText: {
         color: themeVariables.inputPlaceholderColor
-      }
+      },
+      floatingLabel: {},
+      activeFloatingLabel: {}
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
@@ -75,5 +79,21 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       root : {
         backgroundColor: themeVariables.inputDisabledBgColor
       }
+  });
+  addStyle(DEFAULT_CLASS + '-with-label', '', {
+    root: {
+      minHeight: 48
+    },
+    floatingLabel: {
+      position: 'absolute',
+      top: 12,
+      left: 16,
+      fontSize: 14,
+      textAlign: 'left',
+      color: themeVariables.floatingLabelColor
+    },
+    activeFloatingLabel: {
+      color: themeVariables.activeFloatingLabelColor
+    }
   });
 });

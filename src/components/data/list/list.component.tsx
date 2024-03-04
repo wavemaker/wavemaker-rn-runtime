@@ -1,6 +1,6 @@
 import React from 'react';
 import { SectionList, Text, View, TouchableWithoutFeedback, FlatList } from 'react-native';
-import { isArray, isEmpty, isNil, round } from 'lodash-es';
+import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -82,6 +82,59 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         this.onSelect(props.dataset[0], index);
       }
   }
+  
+  clear(){
+    this.updateState({
+      groupedData: {},
+    } as WmListState);
+  }
+
+  selectItem(item: any){
+    const dataset = this.state.props.dataset;
+    if(isNumber(item)){
+      this.onSelect(dataset[item], item);
+    }
+    else{
+      let index = dataset.indexOf(item);
+      this.onSelect(dataset[index], index);
+    }
+  }
+
+  getItem(index: number){
+    const props = this.state.props;
+    return this.props.dataset[index]
+  }
+
+  deselect(item: any){
+    const props = this.state.props;
+    let selectedItem = null as any;
+    let index = isNumber(item)?item:props.dataset.indexOf(item);
+    if(props.multiselect && index >= 0){
+      selectedItem = [...(props.selecteditem || [])];
+      let selectedItemIndex = selectedItem.indexOf(props.dataset[index])
+      if(selectedItemIndex >= 0){
+        selectedItem.splice(selectedItemIndex, 1);
+      }
+    }
+    else{
+      if (props.selecteditem === props.dataset[index]) {
+        selectedItem = null;
+      }
+    }
+    this.updateState({
+      props: { selecteditem: selectedItem },
+      
+    } as WmListState);
+  }
+  
+  getWidgets(widgetname: string, index: number){
+    if(index >= 0 && index < this.itemWidgets.length){
+      return this.itemWidgets[index][widgetname]
+    }
+    else{
+      return this.itemWidgets.map(item => item[widgetname]).filter(widget => widget !== undefined);
+    }
+  }
 
   private deselectAll() {
     this.updateState({
@@ -146,6 +199,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         } else if (isArray(this.state.props.selecteditem)) {
           this.state.props.selecteditem = this.state.props.selecteditem.pop();
         }
+        break;
+      case 'selecteditem':
+        if($new != $old && isNumber($new)) {
+          this.selectItem(this.state.props.dataset[$new])
+        }
+        break;
     }
   }
 

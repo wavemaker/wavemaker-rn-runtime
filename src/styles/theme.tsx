@@ -161,6 +161,15 @@ export class Theme {
             return;
         }
         style = style as any;
+        if (isObject(style) && !isArray(style)) {
+            Object.keys(style).forEach(k => {
+                const v = style[k];
+                if (isString(v) && v.startsWith('@')) {
+                    const varValue = (ThemeVariables.INSTANCE as any)[v.substring(1)];
+                    style[k] =  isNil(varValue) ? v : varValue;
+                }
+            });
+        }
         if (!isNil(style['shadowRadius'])) {
             if (style['shadowRadius'] <= 0) {
                 style['shadowColor'] = 'transparent';
@@ -225,6 +234,34 @@ export class Theme {
         if (i >= 0) {
             this.parent.children.splice(i, 1);
         }
+    }
+    
+    getTextStyle(s: any) {
+        if (!s) {
+            return {};
+        }
+        return {
+            color: s.color,
+            fontFamily: s.fontFamily,
+            fontSize: s.fontSize,
+            fontStyle: s.fontStyle,
+            fontWeight: s.fontWeight,
+            includeFontPadding: s.includeFontPadding,
+            fontVariant: s.fontVariant,
+            letterSpacing: s.letterSpacing,
+            lineHeight: s.lineHeight,
+            textAlign: s.textAlign,
+            textAlignVertical: s.textAlignVertical,
+            textDecorationColor: s.textDecorationColor,
+            textDecorationStyle: s.textDecorationStyle,
+            textShadowColor: s.textShadowColor,
+            textShadowOffset: s.textShadowOffset,
+            textShadowRadius: s.textShadowRadius,
+            textTransform: s.textTransform,
+            verticalAlign: s.verticalAlign,
+            writingDirection: s.writingDirection,
+            userSelect: s.userSelect,
+        } as TextStyle;
     }
 
     reset(styles?: NamedStyles<any>) {
