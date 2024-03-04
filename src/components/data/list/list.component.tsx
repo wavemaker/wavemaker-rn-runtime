@@ -16,6 +16,7 @@ export class WmListState extends BaseComponentState<WmListProps> {
   public selectedindex: any;
   groupedData: Array<any> = [];
   currentPage = 1;
+  maxRecordsToShow = 20;
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -89,7 +90,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         && isArray(this.state.props.dataset)) {
           $list.dataset = [...this.state.props.dataset, ...data];
           this.updateState({
-            currentPage : this.state.currentPage + 1
+            currentPage : this.state.currentPage + 1,
+            maxRecordsToShow: this.state.maxRecordsToShow + 20
           } as WmListState);
           this.hasMoreData = true;
       } else {
@@ -260,8 +262,14 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
     this.subscribe('scroll', (event: any) => {
       const scrollPosition = event.nativeEvent.contentOffset.y  + event.nativeEvent.layoutMeasurement.height;
-      if (this.state.props.deferload && scrollPosition > this.endThreshold) {
-        this.loadData();
+      if (scrollPosition > this.endThreshold) {
+        if (this.state.props.dataset?.length > this.state.maxRecordsToShow) {
+          this.updateState({
+            maxRecordsToShow: this.state.maxRecordsToShow + 20
+          } as WmListState);
+        } else if (this.state.props.deferload) {
+          this.loadData();
+        } 
       }
     });
     super.componentDidMount();
@@ -291,7 +299,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderItem(item: any, index: number, props: WmListProps) {
     const cols = this. getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
-    return (  
+    return index < this.state.maxRecordsToShow ? (  
+      <View style={[
+        this.styles.item,
+        props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
+        this.isSelected(item) ? this.styles.selectedItem : {}]}>
         <Tappable
           {...this.getTestPropsForAction(`item${index}`)}
           onTap={() => this.onSelect(item, index, true)}
@@ -318,7 +330,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             ) : null}
           </View>
         </Tappable>
-      );
+      </View>
+      ) : null;
   }
 
   private renderHeader(props: WmListProps, title: string) {
