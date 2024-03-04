@@ -1,5 +1,6 @@
 import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, isFunction, get, reverse } from 'lodash';
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { camelCase } from 'lodash-es';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
@@ -72,6 +73,19 @@ export class Theme {
     public notify(event: ThemeEvent): void {
         this.eventNotifer.notify(event, []);
         this.children.forEach(t => t.notify(event));
+    }
+
+    private replaceVariables(val: string) {
+        if(isString(val)) { 
+            (val.match(/_*var\([^\)]*\)/g) || []).forEach((s) => {
+                const variableName = s.substring(4, s.length - 1);
+                val = val.replace(s, (ThemeVariables.INSTANCE as any)[variableName]
+                    || (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
+                    || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]);
+                val = this.replaceVariables(val);
+            });
+        }
+        return val; 
     }
 
     clearCache() {
@@ -161,6 +175,11 @@ export class Theme {
             return;
         }
         style = style as any;
+        if (isObject(style) && !isArray(style)) {
+            Object.keys(style).forEach(k => {
+                style[k] = this.replaceVariables(style[k]);
+            });
+        }
         if (!isNil(style['shadowRadius'])) {
             if (style['shadowRadius'] <= 0) {
                 style['shadowColor'] = 'transparent';
