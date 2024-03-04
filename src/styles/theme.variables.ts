@@ -118,9 +118,9 @@ export default class ThemeVariables {
     tabActiveIconColor = this.secondaryColor;
     tabLabelTextColor = this.defaultColor3;
 
-    centerHubItemColor = '@primaryColor';
-    centerHubIconColor = '@defaultColorF';
-    centerHubLabelColor = '@defaultColorF';
+    centerHubItemColor = 'var(--primaryColor)';
+    centerHubIconColor = 'var(--defaultColorF)';
+    centerHubLabelColor = 'var(--defaultColorF)';
 
     // tab variables
     tabHeaderBgColor = this.widgetBgColor;
@@ -207,8 +207,8 @@ export default class ThemeVariables {
     inputPlaceholderColor = this.defaultColorB;
 
     //floating label
-    floatingLabelColor = '@inputPlaceholderColor';
-    activeFloatingLabelColor = '@primaryColor';
+    floatingLabelColor = 'var(--inputPlaceholderColor)';
+    activeFloatingLabelColor = 'var(--primaryColor)';
 
     //slider variables
     minimumTrackTintColor = this.primaryColor;
@@ -228,16 +228,16 @@ export default class ThemeVariables {
     toggleUnselectedTrackbgColor = this.defaultColorC;
 
     // radioset, checkboxset variables
-    groupHeadingBgColor = '@transparent';
-    checkedColor = '@primaryColor';
-    checkedDisabledColor = '@defaultColorA';
-    checkedEnabledColor = '@defaultColorF';
-    checkboxBorderColor = '@defaultColor9';
-    checkedBgColor = '@primaryColor';
-    uncheckedBgColor = '@transparent';
-    checkedIconColor = '@defaultColorF';
-    checkedBorderColor = '@primaryColor';
-    uncheckedBorderColor = '@defaultColor9';
+    groupHeadingBgColor = 'var(--transparent)';
+    checkedColor = 'var(--primaryColor)';
+    checkedDisabledColor = 'var(--defaultColorA)';
+    checkedEnabledColor = 'var(--defaultColorF)';
+    checkboxBorderColor = 'var(--defaultColor9)';
+    checkedBgColor = 'var(--primaryColor)';
+    uncheckedBgColor = 'var(--transparent)';
+    checkedIconColor = 'var(--defaultColorF)';
+    checkedBorderColor = 'var(--primaryColor)';
+    uncheckedBorderColor = 'var(--defaultColor9)';
     
     //form
     formBorderColor = this.widgetBorderColor;
