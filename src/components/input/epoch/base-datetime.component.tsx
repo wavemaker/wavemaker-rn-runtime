@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform, TouchableOpacity, ViewStyle } from 'react-native';
+import { View, Text, Platform, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -11,7 +11,6 @@ import WebDatePicker from './date-picker.component';
 import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
-import { FloatingLabel } from '@wavemaker/app-rn-runtime/core/components/floatinglabel.component';
 import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
 
 export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
@@ -276,26 +275,13 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
         this.addTouchableOpacity(props, (
         <View style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
           {this._background}
-            {props.floatinglabel ? (
-            <FloatingLabel
-              moveUp={!!(props.datavalue || this.state.isFocused)}
-              label={props.floatinglabel ?? props.placeholder} 
-              style={{
-                ...(this.styles.floatingLabel || []),
-                ...(this.state.isFocused ? (this.styles.activeFloatingLabel || {}) : {})
-              }}
-              />
-          ) : null}
             <View style={this.styles.container}>
               {this.addTouchableOpacity(props, (
                 <Text style={[
                   this.styles.text,
                   this.state.displayValue ? {} : this.styles.placeholderText
                 ]}
-                {...this.getTestPropsForLabel()}>
-                  {this.state.displayValue 
-                    || (props.floatinglabel ? ''  : this.state.props.placeholder)}
-                </Text>
+                {...this.getTestPropsForLabel()}>{this.state.displayValue || this.state.props.placeholder}</Text>
               ), [{ flex: 1}, this.isRTL?{flexDirection:'row', textAlign:'right'}:{}] )}
               {(!props.readonly && props.datavalue &&
                 (<WmIcon iconclass="wi wi-clear"

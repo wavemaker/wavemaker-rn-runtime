@@ -13,5 +13,4 @@ export default class WmDatetimeProps extends BaseProps {
   locale: string = '';
   timestamp?: any;
   triggerValidation?: any;
-  floatinglabel?: string;
 }

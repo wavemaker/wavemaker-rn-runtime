@@ -17,15 +17,6 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
     super(props, DEFAULT_CLASS, new WmTextareaProps(), new WmTextareaState());
   }
 
-  public getStyleClassName(): string | undefined {
-    const classes = [];
-    if (this.state.props.floatinglabel) {
-      classes.push('app-textarea-with-label'); 
-    }
-    classes.push(super.getStyleClassName());
-    return classes.join(' ');
-  }
-
   renderWidget(props: WmTextareaProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
@@ -44,9 +35,6 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       numberOfLines={4}
       keyboardType={this.state.keyboardType}
       {...opts}
-      floatingLabel={props.floatinglabel}
-      floatingLabelStyle={this.styles.floatingLabel}
-      activeFloatingLabelStyle={this.styles.activeFloatingLabel}
       autoComplete={props.autocomplete ? 'username' : 'off'}
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}

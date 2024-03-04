@@ -5,8 +5,6 @@ import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/ske
 export type WmTextareaStyles = BaseStyles & {
   invalid: AllStyle;
   placeholderText: AllStyle;
-  floatingLabel: AllStyle;
-  activeFloatingLabel: AllStyle;
   skeleton: WmSkeletonStyles;
 };
 
@@ -27,8 +25,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         fontSize: 16,
         textAlignVertical: 'top'
       },
-      floatingLabel: {},
-      activeFloatingLabel: {},
       invalid: {
         borderBottomColor: 'red'
       },
@@ -53,21 +49,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle(DEFAULT_CLASS + '-rtl', '', {
     root:{
       textAlign: 'right'
-    }
-  })
-  addStyle(DEFAULT_CLASS + '-with-label', '', {
-    text:{
-      paddingTop: 24
-    },
-    floatingLabel: {
-      position: 'absolute',
-      top: 12,
-      left: 16,
-      fontSize: 14,
-      color: themeVariables.floatingLabelColor
-    },
-    activeFloatingLabel: {
-      color: themeVariables.activeFloatingLabelColor
     }
   })
 });

@@ -20,20 +20,4 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         }
     }
   }:{});
-  addStyle(DEFAULT_CLASS + '-with-label', '', {
-    root:{
-      minHeight: 48,
-      paddingVertical: 16
-    },
-    floatingLabel: {
-        position: 'absolute',
-        top: 12,
-        left: 16,
-        fontSize: 14,
-        color: themeVariables.floatingLabelColor
-    },
-    activeFloatingLabel: {
-        color: themeVariables.activeFloatingLabelColor
-    }
-  } as any as WmDatetimeStyles);
 });

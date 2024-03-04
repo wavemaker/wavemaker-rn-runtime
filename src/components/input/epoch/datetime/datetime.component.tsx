@@ -8,15 +8,6 @@ export default class WmDatetime extends BaseDatetime {
     super(props, DEFAULT_CLASS, new WmDatetimeProps());
   }
 
-  public getStyleClassName(): string | undefined {
-    const classes = [];
-    if (this.state.props.floatinglabel) {
-      classes.push('app-datetime-with-label'); 
-    }
-    classes.push(super.getStyleClassName());
-    return classes.join(' ');
-  }
-
   renderWidget(props: WmDatetimeProps) {
     return super.renderWidget(props);
   }

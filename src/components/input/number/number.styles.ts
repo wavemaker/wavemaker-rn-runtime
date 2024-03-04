@@ -5,8 +5,6 @@ import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 export type WmNumberStyles = BaseStyles & {
   invalid: AllStyle;
   placeholderText: AllStyle;
-  floatingLabel: AllStyle;
-  activeFloatingLabel: AllStyle;
   skeleton: WmSkeletonStyles;
 };
 
@@ -35,8 +33,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       placeholderText: {
         color: themeVariables.inputPlaceholderColor
       },
-      floatingLabel: {},
-      activeFloatingLabel: {},
       skeleton: {} as WmSkeletonStyles
   });
 
@@ -50,21 +46,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       root : {
         textAlign: 'right'
       }
-  });
-  addStyle(DEFAULT_CLASS + '-with-label', '', {
-    root: {
-      minHeight: 48
-    },
-    floatingLabel: {
-      position: 'absolute',
-      top: 12,
-      left: 16,
-      fontSize: 14,
-      color: themeVariables.floatingLabelColor
-    },
-    activeFloatingLabel: {
-      color: themeVariables.activeFloatingLabelColor
-    }
   });
 });
 

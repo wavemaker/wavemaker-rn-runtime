@@ -1,4 +1,4 @@
-import { includes, intersection, isNaN, isFinite, toArray, isNil } from 'lodash';
+import { includes, intersection, isNaN, isFinite, toArray } from 'lodash';
 import BaseNumberProps from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.props';
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import { BaseNumberStyles } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.styles';
@@ -244,12 +244,12 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
    */
   private getValueInRange(value: number): number {
     const props = this.state.props;
-    if (!isNil(null) && !isNaN(props.minvalue) && value < props.minvalue) {
+    if (!isNaN(props.minvalue) && value < props.minvalue) {
       this.updateState({ errorType: 'minvalue'} as S);
       return props.minvalue;
 
     }
-    if (!isNil(null) && !isNaN(props.maxvalue) && value > props.maxvalue) {
+    if (!isNaN(props.maxvalue) && value > props.maxvalue) {
       this.updateState({ errorType: 'maxvalue'} as S);
       return props.maxvalue;
     }
