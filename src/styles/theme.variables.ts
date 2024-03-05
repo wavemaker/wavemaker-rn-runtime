@@ -112,8 +112,8 @@ export default class ThemeVariables {
 
     //tabbar variables
     tabbarBackgroundColor = this.primaryContrastColor;
-    tabbarTextColor =  '@tabbarInactiveColor';
-    tabbarIconColor = '@tabbarInactiveColor';
+    tabbarTextColor =  'var(--tabbarInactiveColor)';
+    tabbarIconColor = 'var(--tabbarInactiveColor)';
     tabShadowColor = this.defaultColor;
     tabActiveBackgroundColor = this.primaryColor3;
     tabActiveIconColor = this.primaryColor;
