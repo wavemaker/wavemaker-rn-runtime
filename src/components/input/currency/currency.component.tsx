@@ -71,7 +71,6 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         activeFloatingLabelStyle={this.styles.activeFloatingLabel}
         editable={props.disabled || props.readonly ? false : true}
         placeholder={props.placeholder}
-        value={this.state.textValue}
         onBlur={this.onBlur.bind(this)}
         onFocus={this.onFocus.bind(this)}
         onKeyPress={this.validateInputEntry.bind(this)}
