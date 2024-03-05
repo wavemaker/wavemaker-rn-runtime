@@ -53,7 +53,6 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}
       placeholder={props.placeholder}
-      value={this.state.textValue}
       onBlur={this.onBlur.bind(this)}
       onFocus={this.onFocus.bind(this)}
       onKeyPress={this.validateInputEntry.bind(this)}
