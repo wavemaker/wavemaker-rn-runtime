@@ -118,7 +118,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
             <Text style={{flexWrap: "wrap", textAlign: this.styles.text.textAlign}}
               {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
               numberOfLines={props.nooflines} ellipsizeMode="tail">
-              {this.state.parts?.map((part, index) => {
+              {this.state.parts?.length === 1 ? this.state.props.caption : this.state.parts?.map((part, index) => {
                 const isLink = !isNil(part.link);
                 return (
                   <Text

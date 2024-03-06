@@ -1,5 +1,5 @@
 import { AccessibilityInfo } from 'react-native';
-import { isAndroid, removeUndefinedKeys } from './utils';
+import { isAndroid, isWebPreviewMode, removeUndefinedKeys } from './utils';
 
 let _isScreenReaderEnabled = false;
 
@@ -13,7 +13,7 @@ AccessibilityInfo.addEventListener(
 export const isScreenReaderEnabled = () => _isScreenReaderEnabled;
 
 async function getScreenReaderStatus() {
-  _isScreenReaderEnabled = await AccessibilityInfo.isScreenReaderEnabled();
+  _isScreenReaderEnabled = (!isWebPreviewMode() && await AccessibilityInfo.isScreenReaderEnabled());
 }
 
 getScreenReaderStatus();
