@@ -33,6 +33,7 @@ export default class WmFormAction extends BaseComponent<WmFormActionProps, WmFor
         styles={this.styles}
         name={props.name}
         iconclass={props.iconclass}
+        iconposition={props.iconposition}
         onTap={($event: any) => {
           this._debouncedFormAction($event, props.formAction);
         }}
