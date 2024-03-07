@@ -252,7 +252,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return (
     <View style={this.styles.root}>
       {!isEmpty(this.state.groupedData) ? this.state.groupedData.map((v: any, i) => ((
-          <View style={{marginBottom: 16}} key={v.key || this.keyExtractor.getKey(v, true)}>
+          <View style={this.styles.group} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
             <FlatList
               key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
