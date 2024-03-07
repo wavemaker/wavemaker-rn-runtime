@@ -15,7 +15,8 @@ export type WmListStyles = BaseStyles & {
     onDemandMessage: WmLabelStyles,
     item: AllStyle,
     selectedItem: AllStyle,
-    selectedIcon: WmIconStyles
+    selectedIcon: WmIconStyles,
+    group: AllStyle,
 };
 
 export const DEFAULT_CLASS = 'app-list';
@@ -89,6 +90,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 color: themeVariables.listSubTitleColor
             }
         } as WmLabelStyles,
+        group: {
+            marginBottom: 16,
+        },
         item: {
             ...BASE_THEME.getStyle('elevate1').root,
             shadowColor: 'rgba(0, 0, 0, 0.3)',
