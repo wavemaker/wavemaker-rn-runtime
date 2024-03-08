@@ -6,6 +6,7 @@ import { BaseInputStyles } from './baseinput.styles';
 import { Platform, TextInput } from 'react-native';
 import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
 import Injector from '@wavemaker/app-rn-runtime/core/injector';
+import { mask } from 'react-native-mask-text';
 
 export class BaseInputState <T extends BaseInputProps> extends BaseComponentState<T> {
   keyboardType: any = 'default';
@@ -66,8 +67,15 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   onChangeText(value: any) {
+    let valueModified = value;
+    if(this.state.props.maskchar){
+      valueModified = value.replace(/./g, this.state.props.maskchar);
+    }
+    if(this.state.props.displayformat){
+      valueModified = mask(value, this.state.props.displayformat);
+    }
     this.updateState({
-        textValue: value
+        textValue: valueModified
       } as S, () => {
         if (this.state.props.updateon === 'default') {
           this.validate(value);

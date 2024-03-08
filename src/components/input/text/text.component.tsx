@@ -53,7 +53,7 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           autoComplete={props.autocomplete ? 'username' : 'off'}
           autoFocus={props.autofocus}
           editable={props.disabled || props.readonly ? false : true}
-          secureTextEntry={props.type === 'password' ? true : false}
+          secureTextEntry={props.type === 'password' && !props.maskchar ? true : false}
           maxLength={props.maxchars}
           placeholder={props.placeholder}
           onBlur={this.onBlur.bind(this)}
