@@ -8,4 +8,5 @@ export default class WmRadiosetProps extends BaseDatasetProps {
     md: 1,
     lg: 1,
  };
+ renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
 }

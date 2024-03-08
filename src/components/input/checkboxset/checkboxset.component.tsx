@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import { find, forEach, isEqual } from 'lodash';
+import { find, forEach, isEqual,  isEmpty } from 'lodash';
 import { Checkbox } from 'react-native-paper';
 
 import WmCheckboxsetProps from './checkboxset.props';
@@ -18,6 +18,7 @@ import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-r
 
 export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {
   isValid: boolean = true;
+  template: string = "";
 }
 
 export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetProps, WmCheckboxsetState, WmCheckboxsetStyles> {
@@ -56,7 +57,9 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
         style={this.styles.item}
         onPress={this.onPress.bind(this, item)} key={item.key} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {...props, checked: item.selected})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${displayText}`}>
         <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled}/>
-        <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.text}>{displayText}</Text>
+        {!isEmpty(this.state.template) && this.props.renderitempartial ?
+           this.props.renderitempartial(item.dataObject, index, this.state.template) :
+        <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.text}>{displayText}</Text>}
       </TouchableOpacity>)
   }
 
@@ -73,6 +76,10 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
   updateDatavalue(value: any) {
     this.updateState({ props: { datavalue: value }} as WmCheckboxsetState);
     return Promise.resolve();
+  }
+
+  setTemplate(partialName: any) {
+    this.updateState({ template: partialName} as WmCheckboxsetState);
   }
 
   renderGroupby() {

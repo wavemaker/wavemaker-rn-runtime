@@ -10,8 +10,10 @@ import {
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { isEmpty } from 'lodash';
 
 export class WmRadiosetState extends BaseDatasetState<WmRadiosetProps> {
+  template: string = '';
 }
 
 export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, WmRadiosetState, WmRadiosetStyles> {
@@ -43,8 +45,14 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
             accessibilityLabel={`Radio button for ${displayText}`}
             disabled={this.state.props.readonly || this.state.props.disabled}
           />
-          <Text style={this.styles.radioLabel}>{displayText}</Text>
+          {!isEmpty(this.state.template) && this.props.renderitempartial ?
+          this.props.renderitempartial(item.dataObject, index, this.state.template) :
+          <Text style={this.styles.radioLabel}>{displayText}</Text>}
     </View>)
+  }
+
+  setTemplate(partialName: any) {
+    this.updateState({ template: partialName } as WmRadiosetState);
   }
 
   renderGroupby() {
