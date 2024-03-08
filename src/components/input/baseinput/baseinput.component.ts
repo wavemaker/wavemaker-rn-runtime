@@ -115,10 +115,10 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     let newVal = event.target.value || this.state.textValue;
     let oldVal = this.state.props.datavalue || '';
     this.validate(newVal);
-    if (newVal === '') {
+    if (newVal === '' || newVal == undefined) {
       setTimeout(() => {
         this.props.triggerValidation && this.props.triggerValidation();
-      })
+      },10)
     }
     if (this.state.props.updateon === 'blur') {
       if (oldVal !== newVal) {
