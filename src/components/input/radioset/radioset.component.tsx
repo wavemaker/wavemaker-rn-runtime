@@ -1,4 +1,5 @@
 import React from 'react';
+import { isEmpty } from 'lodash';
 import { View, Text, DimensionValue } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 
@@ -11,6 +12,7 @@ import {
 import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
 
 export class WmRadiosetState extends BaseDatasetState<WmRadiosetProps> {
+  template: string = '';
 }
 
 export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, WmRadiosetState, WmRadiosetStyles> {
@@ -40,8 +42,14 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
             uncheckedColor={this.styles.root.color as string}
             disabled={this.state.props.readonly || this.state.props.disabled}
           />
-          <Text style={this.styles.radioLabel}>{displayText}</Text>
+          {!isEmpty(this.state.template) && this.props.renderitempartial ?
+          this.props.renderitempartial(item.dataObject, index, this.state.template) :
+          <Text style={this.styles.radioLabel}>{displayText}</Text>}
     </View>)
+  }
+
+  setTemplate(partialName: any) {
+    this.updateState({ template: partialName } as WmRadiosetState);
   }
 
   renderGroupby() {

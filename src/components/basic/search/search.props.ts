@@ -20,4 +20,5 @@ export default class WmSearchProps extends BaseDatasetProps {
   showSearchIcon: boolean = true; // internal property
   invokeEvent?: Function;
   formFieldInstance?: BaseComponent<any, any, any>;
+  renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
 }
