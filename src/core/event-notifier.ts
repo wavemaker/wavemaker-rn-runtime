@@ -11,18 +11,22 @@ export default class EventNotifier {
     }
 
     public notify(event: string, args: any[]) {
+        let propagate = true;
         if (this.listeners[event]) {
-            this.listeners[event].forEach((l: Function) => {
+            propagate = !this.listeners[event].find((l: Function) => {
                 try {
-                    l && l.apply(null, args);
+                    return (l && l.apply(null, args)) === false;
                 } catch(e) {
                     console.error(e);
                 }
+                return true;
             });
         }
-        this.children.forEach((c) => {
-            c.notify(event, args);
-        })
+        if (propagate) {
+            this.children.forEach((c) => {
+                c.notify(event, args);
+            });
+        }
     }
 
     public subscribe(event: string, fn: Function) {
