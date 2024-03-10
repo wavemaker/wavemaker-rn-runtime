@@ -14,6 +14,9 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
 
   constructor(props: WmTabpaneProps) {
     super(props, DEFAULT_CLASS, new WmTabpaneProps());
+    this.subscribe('scroll', (event: any) => {
+      return (this.parent as WmTabs).selectedTabPane === this.proxy;
+    });
   }
 
   onPartialLoad() {

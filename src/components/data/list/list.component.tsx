@@ -81,29 +81,36 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     if (this.loadingData) {
       return;
     }
-    const $list = this.proxy as any;
-    $list.loadingdata = true;
-    this.loadingData = true;
-    this.props.getNextPageData && this.props.getNextPageData(null, this.proxy, this.state.currentPage + 1).then((data) => {
-      if (data 
-        && isArray(data)
-        && isArray(this.state.props.dataset)) {
-          $list.dataset = [...this.state.props.dataset, ...data];
-          this.updateState({
-            currentPage : this.state.currentPage + 1,
-            maxRecordsToShow: this.state.maxRecordsToShow + 20
-          } as WmListState);
-          this.hasMoreData = true;
-      } else {
-        this.hasMoreData = false;
-      }
-    }).catch((err) => {
-      console.error(err);
-    }).then(() => {
-      setTimeout(() => {
-        $list.loadingdata = false;
-      }, 1000);
-    });
+    if (isArray(this.state.props.dataset) 
+      && this.state.props.dataset.length > this.state.maxRecordsToShow) {
+      this.updateState({
+        maxRecordsToShow: this.state.maxRecordsToShow + 20
+      } as WmListState);
+    } else if (this.state.props.deferload) {
+      const $list = this.proxy as any;
+      $list.loadingdata = true;
+      this.loadingData = true;
+      this.props.getNextPageData && this.props.getNextPageData(null, this.proxy, this.state.currentPage + 1).then((data) => {
+        if (data 
+          && isArray(data)
+          && isArray(this.state.props.dataset)) {
+            $list.dataset = [...this.state.props.dataset, ...data];
+            this.updateState({
+              currentPage : this.state.currentPage + 1,
+              maxRecordsToShow: this.state.maxRecordsToShow + 20
+            } as WmListState);
+            this.hasMoreData = true;
+        } else {
+          this.hasMoreData = false;
+        }
+      }).catch((err) => {
+        console.error(err);
+      }).then(() => {
+        setTimeout(() => {
+          $list.loadingdata = false;
+        }, 1000);
+      });
+    }
   }
 
   private selectFirstItem() {
@@ -205,13 +212,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     this.subscribe('scroll', (event: any) => {
       const scrollPosition = event.nativeEvent.contentOffset.y  + event.nativeEvent.layoutMeasurement.height;
       if (scrollPosition > this.endThreshold) {
-        if (this.state.props.dataset?.length > this.state.maxRecordsToShow) {
-          this.updateState({
-            maxRecordsToShow: this.state.maxRecordsToShow + 20
-          } as WmListState);
-        } else if (this.state.props.deferload) {
-          this.loadData();
-        } 
+        this.loadData();
       }
     });
     super.componentDidMount();
@@ -338,7 +339,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)} 
               {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}> 
             </FlatList>
-            {props.deferload ? 
+            {props.deferload || (v.data.length > this.state.maxRecordsToShow) ? 
               (this.loadingData ? 
                 this.renderLoadingIcon(props) :
                 (<WmLabel id={this.getTestId('ondemandmessage')}

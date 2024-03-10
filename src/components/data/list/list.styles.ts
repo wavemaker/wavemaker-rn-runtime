@@ -86,8 +86,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         onDemandMessage: {
             root: {
-                paddingVertical: 8
-            },
+                paddingVertical: 8,
+                width: '100%'
+            } as ViewStyle,
             text: {
                 textAlign: 'center',
                 color: themeVariables.listSubTitleColor
