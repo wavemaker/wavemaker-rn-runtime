@@ -390,7 +390,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             <FlatList
               key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
-              scrollEnabled={false}
+              scrollEnabled={isHorizontal}
               horizontal = {isHorizontal}
               data={v.data || []}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
