@@ -1,6 +1,7 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
+import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 
 export type WmRadiosetStyles = BaseStyles & {
   group: AllStyle,
@@ -9,6 +10,8 @@ export type WmRadiosetStyles = BaseStyles & {
   selectedItem: AllStyle;
   radioLabel: AllStyle;
   skeleton: WmSkeletonStyles;
+  uncheckedRadio: WmIconStyles;
+  checkedRadio: WmIconStyles;
 };
 
 export const DEFAULT_CLASS = 'app-radioset';
@@ -33,13 +36,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       item: {
         flexDirection: 'row',
         alignContent: 'center',
+        marginTop: 8
       } as AllStyle,
       selectedItem: {} as AllStyle,
       radioLabel: {
           alignSelf: 'center',
           fontFamily: themeVariables.baseFont,
           fontSize: 16,
-          color: themeVariables.labelDefaultColor
+          color: themeVariables.labelDefaultColor,
+          marginLeft: 8
       } as AllStyle,
       skeleton: {
         root: {
@@ -47,8 +52,39 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           height: 16,
           borderRadius: 4
         }
-      } as any as WmSkeletonStyles
-  });
+      } as any as WmSkeletonStyles,
+      uncheckedRadio: {
+        root: {
+          width: 20,
+          height: 20,
+          borderRadius: 10,
+          borderStyle: "solid",
+          borderWidth: 2,
+          borderColor: themeVariables.checkedBorderColor,
+        },
+        text: {},
+        icon: {
+          opacity: 0,
+        }
+      } as WmIconStyles,
+      checkedRadio : {
+        root: {
+          width: 20,
+          height: 20,
+          borderRadius: 10,
+          borderStyle: "solid",
+          borderWidth: 2,
+          borderColor: themeVariables.checkedBorderColor,
+        },
+        text: {
+          fontSize: 16,
+        },
+        icon : {
+          color: themeVariables.checkedColor,
+          padding: 0,
+        }
+  } as WmIconStyles
+});
 
   addStyle(DEFAULT_CLASS + '-disabled', '', {
     root : {

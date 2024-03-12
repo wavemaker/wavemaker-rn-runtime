@@ -265,7 +265,7 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
     }
 
     componentDidUpdate(prevProps: Readonly<BackgroundProps>, prevState: Readonly<{}>, snapshot?: any): void {
-        if (prevProps.image !== this.props.image) {
+        if (this.props.image && prevProps.image !== this.props.image) {
             this.setImage();
         }
     }
@@ -323,11 +323,13 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
                                     width: '100%',
                                     height: '100%'
                                 }, 
-                                isEmpty(psresult.size) ? {
+                                !isEmpty(psresult.size)
+                                    || (psresult.resizeMode === 'cover'
+                                        || psresult.resizeMode  === 'contain') ? null : {
                                     minWidth: this.state.naturalImageWidth,
                                     minHeight: this.state.naturalImageHeight
-                                } : null
-                            ]}/>
+                                }
+                            ]}/> 
                     </View>
                 </View>
             </View>);
