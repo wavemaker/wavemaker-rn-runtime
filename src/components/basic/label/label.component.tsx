@@ -59,15 +59,16 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       return [];
     }
     caption += '';
+    caption = caption.replace(/\s*\(\s*\$event,\s*\$widget\s*\)\s*/, '');
     caption = caption.replace(/\(\s*\)/, '(#/__EMPTY__)');
     const pattern = /\[([^\]]+)\]\(([^)]*)\)/g;
-    const linkRegex = /^(((http|https):\/\/)|#)[^ "]+$/;
+    const linkRegex = /^(((http|https):\/\/)|javascript:|#).+$/;
     const captionSplit = caption.split(pattern);
 
     let parts = [];
 
     for (let i = 0; i < captionSplit.length; i++) {
-      const isLink = captionSplit[i] === "" || linkRegex.test(captionSplit[i]);
+      const isLink = linkRegex.test(captionSplit[i]);
       let part: PartType = {};
       
       const isNextTextALink = linkRegex.test(captionSplit[i + 1]);
@@ -130,11 +131,19 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
                     ]}
                     {...this.getTestPropsForLabel(isLink ? `link_${index}` : `caption_${index}`)}
                     selectable={this.styles.text.userSelect === 'text'}
-                    {...part.link ? {
-                      onPress: () => {
-                        part.link && navigationService.openUrl(part.link, '_blank');
+                    onPress={() => {
+                      if (part.link) { 
+                        if (part.link.startsWith('http:')
+                          || part.link.startsWith('https:')
+                          || part.link.startsWith('#')) {
+                          navigationService.openUrl(part.link, '_blank');
+                        } else if (part.link.startsWith('javascript:')) {
+                          const eventName = part.link.substring(11);
+                          this.invokeEventCallback(eventName, [null, this.proxy]);
+                        }
                       }
-                    }: {}}
+                      this.invokeEventCallback('onTap', [null, this.proxy]);
+                    }}
                     {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
                   >
                     {toString(part.text)}
