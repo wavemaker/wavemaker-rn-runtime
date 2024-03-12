@@ -6,4 +6,5 @@ export default class WmTabpaneProps extends BaseProps {
   title: string = 'Tab Title';
   renderPartial?: Function;
   isPartialLoaded = false;
+  deferload = false;
 }

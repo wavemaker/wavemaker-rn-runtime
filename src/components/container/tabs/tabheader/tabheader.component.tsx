@@ -114,7 +114,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                   {
                     createSkeleton(this.theme, { root: { borderRadius: 4 }} as WmSkeletonStyles, {
                       ...this.styles.root,
-                      width: this.styles.root?.width || "100%",
+                      width: this.styles.root?.width || "80%",
                       height: this.styles.root?.height || this.styles.activeHeaderText?.fontSize || 16
                     })
                   }

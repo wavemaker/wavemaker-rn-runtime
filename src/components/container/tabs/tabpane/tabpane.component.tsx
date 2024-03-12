@@ -8,6 +8,8 @@ import WmTabs from '../tabs.component';
 
 export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {
   isPartialLoaded = false;
+  showContent: boolean = false;
+  isActive = false;
 }
 
 export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneState, WmTabpaneStyles> {
@@ -15,8 +17,9 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
   constructor(props: WmTabpaneProps) {
     super(props, DEFAULT_CLASS, new WmTabpaneProps());
     this.subscribe('scroll', (event: any) => {
-      return (this.parent as WmTabs).selectedTabPane === this.proxy;
+      return this.state.isActive;
     });
+    this.updateState({showContent: !this.state.props.deferload} as WmTabpaneState);
   }
 
   onPartialLoad() {
@@ -44,9 +47,15 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
   }
 
   _onSelect() {
+    this.updateState({
+      isActive: true
+    } as WmTabpaneState);
     this.invokeEventCallback('onSelect', [null, this.proxy]);
   }
   _onDeselect() {
+    this.updateState({
+      isActive: false
+    } as WmTabpaneState);
     this.invokeEventCallback('onDeselect', [null, this.proxy]);
   }
 
@@ -55,6 +64,14 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
   }
 
   renderWidget(props: WmTabpaneProps) {
-    return (<View style={this.styles.root}>{this._background}{this.renderContent(props)}</View>);
+    if(!this.state.showContent && this.state.isActive){
+      this.updateState({showContent: true} as WmTabpaneState);
+    }
+    return this.state.showContent ? 
+      (<View style={this.styles.root}>
+        {this._background}
+        {this.renderContent(props)}
+      </View>)
+      : null;
   }
 }
