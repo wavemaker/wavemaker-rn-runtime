@@ -302,7 +302,9 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
         return (
         <AssetConsumer>
             {(loadAsset) => {
+            const loadImage = this.loadAsset !== loadAsset;
             this.loadAsset = loadAsset;
+            loadImage && this.setImage();
             return (<View style={[{borderWidth: 0, overflow: 'hidden'}, StyleSheet.absoluteFill, this.props.style]}>
                 <View style={[
                     StyleSheet.absoluteFill, {
