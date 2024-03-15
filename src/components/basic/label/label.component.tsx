@@ -116,7 +116,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
         <NavigationServiceConsumer>
         {(navigationService: NavigationService) => {
           return (<Tappable target={this}>
-            <Text style={{flexWrap: "wrap", textAlign: this.styles.text.textAlign}}
+            <Text style={ this.state.parts.length <= 1 ? this.styles.text : {flexWrap: "wrap", textAlign: this.styles.text.textAlign}}
               {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
               numberOfLines={props.nooflines} ellipsizeMode="tail">
               {this.state.parts?.length === 1 ? this.state.props.caption : this.state.parts?.map((part, index) => {
