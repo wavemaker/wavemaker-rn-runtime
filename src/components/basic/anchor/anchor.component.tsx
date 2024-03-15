@@ -83,7 +83,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
               {props.caption ? (<Text style={this.styles.text}
               {...this.getTestPropsForLabel('caption')} 
               {...getAccessibilityProps(AccessibilityWidgetType.ANCHOR, props)}
-              >{props.caption}</Text>) : null}
+              numberOfLines={props.nooflines}>{props.caption}</Text>) : null}
               {props.iconposition === 'right' && icon}
               {badge}
             </Tappable>

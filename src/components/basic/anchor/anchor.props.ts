@@ -21,4 +21,5 @@ export default class WmAnchorProps extends BaseProps {
     accessibilitylabel?: string = undefined;
     hint?: string = undefined;
     accessibilityrole?: AccessibilityRole = 'link';
+    nooflines?: any = undefined;
 }
