@@ -84,12 +84,24 @@ export class StringToNumberFormatter implements Formatter {
     }
 }
 
-export default new Map<string, Formatter>([
-    ['numberToString', new NumberToStringFormatter()],
-    ['prefix', new PrependFormatter()],
-    ['suffix', new AppendFormatter()],
-    ['stringToNumber', new StringToNumberFormatter()],
-    ['timeFromNow', new TimeFromNowFormatter()],
-    ['toDate', new DateToStringFormatter()],
-    ['toCurrency', new CurrencyFormatter()]
+const createFormatter = (key: string, defaultFormatter: Formatter) => {
+    return {
+        format: (input: any, ...params: any) => {
+            const output = defaultFormatter.format(input, ...params);
+            const customFormatter = formatters.get(`custom.${key}`);
+            return customFormatter ? customFormatter.format(output, ...params): output;
+        }
+    };
+};
+
+const formatters = new Map<string, Formatter>([
+    ['numberToString', createFormatter('numberToString' , new NumberToStringFormatter())],
+    ['prefix', createFormatter('prefix', new PrependFormatter())],
+    ['suffix', createFormatter('suffix', new AppendFormatter())],
+    ['stringToNumber', createFormatter('stringToNumber',new StringToNumberFormatter())],
+    ['timeFromNow', createFormatter('timeFromNow', new TimeFromNowFormatter())],
+    ['toDate', createFormatter('toDate', new DateToStringFormatter())],
+    ['toCurrency', createFormatter('toCurrency', new CurrencyFormatter())]
 ]);
+
+export default formatters;
