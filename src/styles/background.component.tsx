@@ -28,6 +28,8 @@ const DIMENSION_REGEX = /([0-9%]+)[a-z]*/g;
 const BACKGROUND_POSITION_REGEX = /([0-9%]+)[a-z]*\s*([0-9%]+)[a-z]*/g;
 const BACKGROUND_SIZE_REGEX = /([0-9%]+)[a-z]*\s*([0-9%]+)[a-z]*/g;
 
+const ASSET_CACHE = {} as any;
+
 export class LinearGradient extends React.Component<LinearGradientProps, LinearGradientState> {
 
     constructor(props: LinearGradientProps) {
@@ -147,7 +149,9 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
 
     constructor(props: BackgroundProps) {
         super(props);
-        this.state = {} as BackgroundState;
+        this.state = {
+            imageSrc : this.props.image ? ASSET_CACHE[this.props.image] : undefined
+        } as BackgroundState;
     }
 
     public caluculateSize(imageSrc: any) {
@@ -276,6 +280,9 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
 
     setImage() {
         let source = this.props.image?.trim() as any;
+        if (!source) {
+            return;
+        }
         if (source?.startsWith('url')) {
             source = this.props.image?.matchAll(IMAGE_URL_REGEX).next().value[1];
         }
@@ -291,6 +298,9 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
         this.setState({
             imageSrc: source
         } as BackgroundState);
+        if (this.props.image) {
+            ASSET_CACHE[this.props.image] = source;
+        }
     }
 
     public getGradient() {

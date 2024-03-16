@@ -8,7 +8,6 @@ import WmTabs from '../tabs.component';
 
 export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {
   isPartialLoaded = false;
-  showContent: boolean = false;
   isActive = false;
 }
 
@@ -19,7 +18,6 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
     this.subscribe('scroll', (event: any) => {
       return this.state.isActive;
     });
-    this.updateState({showContent: !this.state.props.deferload} as WmTabpaneState);
   }
 
   onPartialLoad() {
@@ -38,6 +36,10 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
       return props.renderPartial(props, this.onPartialLoad.bind(this));
     }
     return props.children;
+  }
+
+  showView(): boolean {
+    return this.isVisible() && this.state.isActive;
   }
 
   componentDidMount() {
@@ -64,14 +66,9 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
   }
 
   renderWidget(props: WmTabpaneProps) {
-    if(!this.state.showContent && this.state.isActive){
-      this.updateState({showContent: true} as WmTabpaneState);
-    }
-    return this.state.showContent ? 
-      (<View style={this.styles.root}>
+    return (<View style={this.styles.root}>
         {this._background}
         {this.renderContent(props)}
-      </View>)
-      : null;
+      </View>);
   }
 }
