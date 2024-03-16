@@ -29,6 +29,7 @@ export default class WmListProps extends BaseProps {
     selecteditem = null as any;
     itemclass: ($item: any, $index: any) => string = null as any;
     getNextPageData: ($event: any, $list: any, page: number) => Promise<any> = null as any;
+    pagesize = 20;
     itemsperrow =  {
        xs: 1,
        sm: 1,

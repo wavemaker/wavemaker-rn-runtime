@@ -61,6 +61,7 @@ export class BaseProps extends StyleProps {
     listener?: LifecycleListener = null as any;
     showindevice?: ('xs'|'sm'|'md'|'lg'|'xl'|'xxl')[] = null as any;
     showskeleton?: boolean = false;
+    deferload?: boolean = false;
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
@@ -83,6 +84,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public loadAsset: (path: string) => number | string = null as any;
     private i18nService = injector.I18nService.get();
     public testIdPrefix = '';
+    private _showView = true;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -109,6 +111,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             });
         //@ts-ignore
         this.state.props =this.propertyProvider.get();
+        //@ts-ignore
+        this._showView = !this.props.deferload;
         this.propertyProvider.check();
         //@ts-ignore
         this.proxy = (new Proxy(this, {
@@ -291,6 +295,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
     }
 
+    showView() {
+        return this.isVisible();
+    }
+
     isVisible() {
         const show = this.state.props.show;
         return show !== false && show !== 'false' && show !== '0' && !isNil(show);
@@ -457,13 +465,16 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
       
     public render(): ReactNode {
         const props = this.state.props;
-        if (this.state.hide || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)) {
-            return null;
-        }
         this.isFixed = false;
         const selectedLocale = this.i18nService.getSelectedLocale();
         return this.getDependenciesFromContext(() => {
             WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
+            this._showView = this._showView || this.showView();
+            if (this.state.hide 
+                || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)
+                || !this._showView) {
+                return null;
+            }
             const classname = this.getStyleClassName();
             this.styles =  this.theme.mergeStyle(
                 this.getDefaultStyles(),

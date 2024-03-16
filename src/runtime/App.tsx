@@ -468,6 +468,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 (<SafeAreaView  style={{flex: 1}}>
                   <StatusBar />
                   <FixedViewContainer>
+                  <ThemeProvider value={this.appConfig.theme}>
                   <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}
                   style={{ flex: 1 }}>
                     <View style={styles.container}>
@@ -484,7 +485,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         {this.renderDisplayManager()}
                     </View>
                     </KeyboardAvoidingView>
-                    <WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>
+                    {this.appConfig.url ? 
+                      (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
+                      : null}
+                  </ThemeProvider>
                   </FixedViewContainer>
                 </SafeAreaView>))
               )

@@ -31,6 +31,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
+    this.updateState({
+      maxRecordsToShow: this.state.props.pagesize
+    } as WmListState);
   }
 
   private isSelected($item: any) {
@@ -85,7 +88,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     if (isArray(this.state.props.dataset) 
       && this.state.props.dataset.length > this.state.maxRecordsToShow) {
       this.updateState({
-        maxRecordsToShow: this.state.maxRecordsToShow + 20
+        maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
       } as WmListState);
     } else if (this.state.props.deferload) {
       const $list = this.proxy as any;
@@ -98,7 +101,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             $list.dataset = [...this.state.props.dataset, ...data];
             this.updateState({
               currentPage : this.state.currentPage + 1,
-              maxRecordsToShow: this.state.maxRecordsToShow + 20
+              maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
             } as WmListState);
             this.hasMoreData = true;
         } else {
@@ -270,7 +273,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
     this.subscribe('scroll', (event: any) => {
       const scrollPosition = event.nativeEvent.contentOffset.y  + event.nativeEvent.layoutMeasurement.height;
-      if (scrollPosition > this.endThreshold) {
+      if (scrollPosition > this.endThreshold && this.state.props.direction === 'vertical') {
         this.loadData();
       }
     });
@@ -301,7 +304,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderItem(item: any, index: number, props: WmListProps) {
     const cols = this. getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
-    return index < this.state.maxRecordsToShow ? (  
+    return (index < this.state.maxRecordsToShow || isHorizontal) ? (  
       <View style={[
         this.styles.item,
         props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
@@ -398,7 +401,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                 this.renderLoadingIcon(props) :
                 (<WmLabel id={this.getTestId('ondemandmessage')}
                   styles={this.styles.onDemandMessage}
-                  caption={this.hasMoreData ? props.ondemandmessage : props.nodatamessage}
+                  caption={this.hasMoreData && !isHorizontal ? props.ondemandmessage : props.nodatamessage}
                   onTap={() => this.loadData()}></WmLabel>))
               : null}
           </View>
