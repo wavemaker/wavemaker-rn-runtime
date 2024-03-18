@@ -27,9 +27,11 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
   }
 
   renderWidget(props: WmTextProps) {
-    let opts: any = {};
-    const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
-    opts[valueExpr] = this.state.textValue?.toString() || '';
+    // let opts: any = {};
+    // const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
+    // opts[valueExpr] = this.state.text
+    let regExarray = eval(props.displayformat);
+    
     return (
         <WMTextInput
           {...this.getTestPropsForInput()}
@@ -43,7 +45,8 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
             // @ts-ignore
             ref.selectionStart = ref.selectionEnd = this.cursor;
           }}}
-          {...opts}
+          // {...opts}
+          value = {this.state.textValue}
           floatingLabel={props.floatinglabel}
           floatingLabelStyle={this.styles.floatingLabel}
           activeFloatingLabelStyle={this.styles.activeFloatingLabel}
@@ -53,13 +56,14 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           autoComplete={props.autocomplete ? 'username' : 'off'}
           autoFocus={props.autofocus}
           editable={props.disabled || props.readonly ? false : true}
-          secureTextEntry={props.type === 'password' ? true : false}
+          obfuscationCharacter = {props.maskchar}
+          mask={regExarray}
           maxLength={props.maxchars}
           placeholder={props.placeholder}
           onBlur={this.onBlur.bind(this)}
           onFocus={this.onFocus.bind(this)}
           onKeyPress={this.onKeyPress.bind(this)}
-          onChangeText={this.onChangeText.bind(this)}
+          textChange={(valueModified : any  , actualValue : any ) =>this.onChangeText.bind(this)(valueModified, actualValue)}
           onChange={this.invokeChange.bind(this)}
           allowContentSelection={this.styles.text.userSelect === 'text'}
         />

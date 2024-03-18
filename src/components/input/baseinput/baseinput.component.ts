@@ -65,14 +65,19 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     }
   }
 
-  onChangeText(value: any) {
+  onChangeText(valueModified: any, actualValue : any ) {
+    let abc;
+    if(this.state.props.maskchar){
+      abc = valueModified ;
+    }
+    if(this.state.props.displayformat){
+      abc = valueModified;
+    }
     this.updateState({
         textValue: value
       } as S, () => {
-        if (this.state.props.updateon === 'default') {
-          this.validate(value);
-          this.updateDatavalue(value, null);
-        }
+          this.validate(actualValue);
+          this.updateDatavalue(actualValue, null);
       }
     );
   }

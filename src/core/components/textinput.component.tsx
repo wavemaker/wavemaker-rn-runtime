@@ -1,6 +1,7 @@
 import React, { ForwardedRef, useCallback, useRef, useState } from 'react';
 import { Platform, TextInput, TextInputProps, TextStyle } from 'react-native';
 import { FloatingLabel } from './floatinglabel.component';
+import MaskInput from 'react-native-mask-input';
 
 interface SelectRange {
     start: number,
@@ -11,7 +12,11 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
   {allowContentSelection: boolean, 
     floatingLabel: string
     floatingLabelStyle:  TextStyle,
-    activeFloatingLabelStyle: TextStyle
+    activeFloatingLabelStyle: TextStyle,
+    mask: any, 
+    showObfuscatedValue: any
+    textChange: any,
+    obfuscationCharacter: string
   }), 
     ref: ForwardedRef<TextInput>) => {
     const [selectRange, setSelectRange] = useState<SelectRange>(null as any);
@@ -36,8 +41,9 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
             setSelectRange(null as any);
         }
     }, [props.allowContentSelection, value.current]);
-    const onChangeText = useCallback((text: string) => {
-        value.current = text;
+
+    const textChangeLocal = useCallback((text: string) => {        
+       value.current = text;  
     }, []);
 
     return (
@@ -51,7 +57,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
               ...(isInputFocused ? (props.activeFloatingLabelStyle || {}) : {})
             }}/>
         ) : null}
-        <TextInput
+        <MaskInput
           {...props}
           placeholder={props.floatingLabel ? '' : props.placeholder }
           style={props.style}
@@ -64,15 +70,25 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
             setIsInputFocused(false);
           }}
           ref={ref}
+          showObfuscatedValue={true}
+          obfuscationCharacter={props.obfuscationCharacter}
           selection={selectRange}
           onSelectionChange={onSelectionChange}
           caretHidden={!!selectRange?.end}
-          onChangeText={(text) => {
-            props.onChangeText && props.onChangeText(text);
-            onChangeText(text);
+          onChangeText={(masked, unmasked , obfuscated) => {
+            if(props.mask){
+              props.textChange && props.textChange(masked, unmasked)
+              textChangeLocal(masked);
+            }else if(props.showObfuscatedValue){
+              props.textChange && props.textChange(obfuscated, unmasked)
+              textChangeLocal(obfuscated);
+            }else{
+              props.textChange && props.textChange(unmasked)
+              textChangeLocal(unmasked);
+            }
           }}
           contextMenuHidden={!props.allowContentSelection}
-        ></TextInput>
+        ></MaskInput>
       </>
     );
 });
