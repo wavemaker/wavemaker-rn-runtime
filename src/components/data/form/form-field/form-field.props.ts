@@ -21,4 +21,5 @@ export default class WmFormFieldProps extends BaseProps {
   isDataSetBound: boolean = false;
   readonly: boolean = false;
   onValidate?: Function;
+  formScope?: Function = () => {};
 }

@@ -21,6 +21,16 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   private _asyncValidatorFn: any;
   constructor(props: WmFormFieldProps) {
     super(props, DEFAULT_CLASS, new WmFormFieldProps(), new WmFormFieldState());
+    if (!this.form) {
+      this.form = props.formScope && props.formScope();
+    }
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+    this.formwidget = (this.props.formKey && this.form?.formWidgets[this.props.formKey])
+      || (this.props.name && this.form?.formWidgets[this.props.name]);
+    this.form?.registerFormFields(this.form.formFields, this.form.formWidgets);
   }
 
   onFieldChangeEvt(name: string, $new: any, $old: any, isDefault: boolean) {
