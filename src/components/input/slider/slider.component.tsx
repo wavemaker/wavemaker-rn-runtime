@@ -154,9 +154,10 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
           }]
         }]}>
           <BackgroundComponent
-            size={(this.styles.thumb as any).backgroundSize}
+            size={(this.styles.thumb as any).backgroundSize || 'contain'}
             position={(this.styles.thumb as any).backgroundPosition}
-            image={(this.styles.thumb as any).backgroundImage}>  
+            image={(this.styles.thumb as any).backgroundImage}
+            repeat={(this.styles.thumb as any).backgroundRepeat || 'no-repeat'}>  
           </BackgroundComponent>
         </Animated.View>
       </GestureDetector>

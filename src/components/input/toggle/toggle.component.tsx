@@ -131,9 +131,10 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
           },
         ]}>
           <BackgroundComponent
-            size={styles.handle.backgroundSize}
+            size={styles.handle.backgroundSize || 'contain'}
             position={styles.handle.backgroundPosition}
-            image={styles.handle.backgroundImage}>  
+            image={styles.handle.backgroundImage}
+            repeat={styles.handle.backgroundRepeat || 'no-repeat'}>  
           </BackgroundComponent>
         </Animated.View>
       </TouchableOpacity>
