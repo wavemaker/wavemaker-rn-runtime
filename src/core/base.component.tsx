@@ -89,6 +89,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
         this.state = (defaultState || {} as S);
+        this.notifier.name = this.props.name || '';
         this.propertyProvider = new PropsProvider<T>(
             assign({show: true}, defaultProps),
             assign({}, markupProps),

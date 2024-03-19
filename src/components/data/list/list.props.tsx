@@ -27,6 +27,7 @@ export default class WmListProps extends BaseProps {
     orderby: string = null as any;
     dateformat: string = null as any;
     selecteditem = null as any;
+    navigation : 'Scroll' | 'On-Demand' | 'None' = 'None';
     itemclass: ($item: any, $index: any) => string = null as any;
     getNextPageData: ($event: any, $list: any, page: number) => Promise<any> = null as any;
     pagesize = 20;

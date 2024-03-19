@@ -14,7 +14,7 @@ export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {
 export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneState, WmTabpaneStyles> {
 
   constructor(props: WmTabpaneProps) {
-    super(props, DEFAULT_CLASS, new WmTabpaneProps());
+    super(props, DEFAULT_CLASS, new WmTabpaneProps(), new WmTabpaneState());
     this.subscribe('scroll', (event: any) => {
       return this.state.isActive;
     });

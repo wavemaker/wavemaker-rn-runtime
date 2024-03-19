@@ -81,6 +81,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   }
 
+  private get loadDataOnDemand() {
+    const navigation = this.state.props.navigation;
+    return navigation === 'Scroll' || navigation === 'On-Demand';
+  }
+
   private loadData() {
     if (this.loadingData) {
       return;
@@ -90,13 +95,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       this.updateState({
         maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
       } as WmListState);
-    } else if (this.state.props.deferload) {
+    } else if (this.loadDataOnDemand) {
       const $list = this.proxy as any;
       $list.loadingdata = true;
       this.loadingData = true;
       this.props.getNextPageData && this.props.getNextPageData(null, this.proxy, this.state.currentPage + 1).then((data) => {
-        if (data 
-          && isArray(data)
+        if (isArray(data) && data.length > 0
           && isArray(this.state.props.dataset)) {
             $list.dataset = [...this.state.props.dataset, ...data];
             this.updateState({
@@ -215,7 +219,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         } else {
           if (!($old && $old.length)
             && $new && $new.length
-            && this.state.props.deferload) {
+            && this.loadDataOnDemand) {
               this.updateState({
                 props: {
                   dataset: [...$new]
@@ -396,7 +400,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)} 
               {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}> 
             </FlatList>
-            {props.deferload || (v.data.length > this.state.maxRecordsToShow) ? 
+            {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow) ? 
               (this.loadingData ? 
                 this.renderLoadingIcon(props) :
                 (<WmLabel id={this.getTestId('ondemandmessage')}
