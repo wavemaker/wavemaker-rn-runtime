@@ -298,8 +298,9 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.cleanUpVariablesandActions.push(...Object.values({...this.fragmentVariables, ...this.fragmentActions} as BaseVariable<any>));
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
-      .catch(() => {
+      .catch((error) => {
         // catch errors and show content
+        console.error(error);
       })
       .then(() => {
         this.startUpVariablesLoaded = true;

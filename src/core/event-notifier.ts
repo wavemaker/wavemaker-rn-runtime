@@ -1,10 +1,14 @@
+let i = 1;
 export default class EventNotifier {
+    public name = '';
+    public id = i++;
     private listeners = {} as any;
     private parent: EventNotifier = null as any;
     private children: EventNotifier[] = [];
 
     setParent(parent: EventNotifier) {
         if (parent !== this.parent) {
+            this.removeFromParent();
             this.parent = parent;
             this.parent.children.push(this);
         }
@@ -39,10 +43,17 @@ export default class EventNotifier {
         };
     }
 
-    public destroy() {
+    private removeFromParent() {
         if (this.parent) {
             const i = this.parent.children.indexOf(this) || -1;
-            this.parent.children.splice(i, 1);
+            if (i >= 0) {
+                this.parent.children.splice(i, 1);
+            }
+            this.parent = null as any;
         }
+    }
+
+    public destroy() {
+        this.removeFromParent();
     }
 }
