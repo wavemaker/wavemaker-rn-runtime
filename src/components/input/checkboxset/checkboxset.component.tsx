@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { find, forEach, isEqual,  isEmpty } from 'lodash';
 import { Checkbox } from 'react-native-paper';
-
+import { ScrollView } from 'react-native-gesture-handler';
 import WmCheckboxsetProps from './checkboxset.props';
 import {
   DEFAULT_CLASS,
@@ -110,10 +110,12 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
   renderWidget(props: WmCheckboxsetProps) {
     const items = this.state.dataItems;
     return (
-      <View style={this.styles.root}>
-        {props.groupby && this.renderGroupby()}
-        {!props.groupby && this.renderCheckboxses(items)}
-      </View>
+      <ScrollView style={this.styles.root}>
+        <ScrollView horizontal={true}>
+          {props.groupby && this.renderGroupby()}
+          {!props.groupby && this.renderCheckboxses(items)}
+        </ScrollView>
+      </ScrollView>
     );
   }
 }
