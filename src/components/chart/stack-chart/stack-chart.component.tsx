@@ -4,7 +4,7 @@ import { Svg } from 'react-native-svg';
 import { VictoryStack, VictoryBar, VictoryChart, VictoryPie, VictoryLegend, VictoryAxis } from 'victory-native';
 import { Axis, Scale } from 'victory-core';
 import { orderBy, cloneDeep, findIndex, isString} from 'lodash';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 import WmStackChartProps from './stack-chart.props';
 import { DEFAULT_CLASS, WmStackChartStyles } from './stack-chart.styles';
 import {
@@ -47,7 +47,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
    if (this.state.colors.length === 1 ) {
        return this.state.colors[0];
    } else {
-       let colorCodes = cloneDeep(this.state.colors);;
+       let colorCodes = cloneDeep(this.state.colors);
        if ( this.state.data.length > 0 ) {
          const orderedData = this.getData();
          this.state.data[0].map((d: any, i: number) => {
@@ -64,6 +64,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
       const negativeValues = cloneDeep(this.getNegativeValuesArray());
       const data = this.getData();
       let currentValue = 0;
+      let cornerRadius: any;
 
       return data.map((d: any, i: number) => {
         let d1: any = [];
@@ -71,8 +72,14 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
         d.y = d.y - currentValue;
         d1.push(d);
         currentValue = d.y < 0 && i === negativeValues.length -1 ? 0 : d.y + currentValue;
+        if (i === 0) {
+          cornerRadius = {top: 0, bottom: -5};
+        }
+        if (i === data.length - 1) {
+          cornerRadius = {top: -5, bottom: -5};
+        }
         return <VictoryBar key={props.name + '_' + i}
-                           cornerRadius={{bottomLeft:(1), bottomRight:(1), topLeft:(1), topRight:(1)}}
+                           cornerRadius={cornerRadius}
                            data={d1}/>
       });
     }
@@ -143,8 +150,8 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
     let ticks: any = [];
     if (this.state.data[0].length) {
       let data = cloneDeep(this.state.data[0]);
-      const maxValue = Math.max(...data.map((o: any) => o.y));
-      const minValue = Math.min(...data.map((o: any) => o.y));
+      const maxValue = Math.max(...data.map((o: any) => o.y ? o.y : 0));
+      const minValue = Math.min(...data.map((o: any) => o.y ? o.y : 0));
       const scale = Scale.getBaseScale({}, 'x');
       scale.domain([minValue > 0 ? 0 : minValue, maxValue]);
       ticks = Axis.getTicks({}, scale);
@@ -186,7 +193,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
             theme={this.state.theme}
             minDomain={mindomain}
             height={this.styles.root.height as number}
-            width={this.styles.root.width as number || this.state.chartWidth}
+            width={this.styles.root.width as number || this.state.chartWidth || 200}
             padding={{
               top: props.offsettop,
               bottom: props.offsetbottom,
