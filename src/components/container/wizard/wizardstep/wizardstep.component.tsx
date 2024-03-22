@@ -5,9 +5,11 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmWizardstepProps from './wizardstep.props';
 import { DEFAULT_CLASS, WmWizardstepStyles } from './wizardstep.styles';
 import WmWizard from '../wizard.component';
+import { isBoolean } from 'lodash-es';
 
 export class WmWizardstepState extends BaseComponentState<WmWizardstepProps> {
   active = false;
+  showContent: boolean = false;
 }
 
 export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWizardstepState, WmWizardstepStyles> {
@@ -16,6 +18,7 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
     super(props, DEFAULT_CLASS, new WmWizardstepProps(), new WmWizardstepState());
   }
 
+ 
   componentDidMount() {
     const wizard = (this.parent) as WmWizard;
     wizard.addWizardStep(this);
@@ -42,15 +45,30 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
     return this.invokeEventCallback('onNext', [this.proxy, this, index]);
   }
 
-  invokePrevCB(index: number) {
-    this.invokeEventCallback('onPrev', [this.proxy, this, index]);
+  invokePrevCB(index: number) : boolean {
+    return this.invokeEventCallback('onPrev', [this.proxy, this, index]);
   }
 
   invokeSkipCB(index: number) {
     this.invokeEventCallback('onSkip', [this.proxy, this, index]);
   }
-
+  onPropertyChange(name: string, $new: any, $old: any): void {
+    switch(name){
+      case 'disableprev':
+      case 'disablenext':
+      case 'disabledone':
+      case 'enableskip':
+        setTimeout(() => {
+          this.parent.forceUpdate();
+        }, 10);
+    }
+  }
   renderWidget(props: WmWizardstepProps) {
-    return (<View style={this.styles.root}>{this._background}{props.children}</View>);
+    if(!this.state.showContent && this.isVisible()){
+      this.updateState({showContent: true} as WmWizardstepState, ()=>{
+        this.invokeEventCallback('onLoad', [this]);
+      });
+    }
+    return this.state.showContent && (<View style={this.styles.root}>{this._background}{props.children}</View>);
   }
 }

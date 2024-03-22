@@ -1,4 +1,4 @@
-import { includes, intersection, isNaN, isFinite, toArray } from 'lodash';
+import { includes, intersection, isNaN, isFinite, toArray, isNil } from 'lodash';
 import BaseNumberProps from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.props';
 import { BaseComponent, BaseComponentState } from "@wavemaker/app-rn-runtime/core/base.component";
 import { BaseNumberStyles } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.styles';
@@ -38,13 +38,18 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     const isCurrencyField = type === 'currency';
     let isValidText = true;
 
-    // * check for alphabets
-    if (/[a-zA-Z]/.test(value)) {
+    // * no alphabets except E, may contain E only once
+    if (/[a-df-zA-DF-Z]/.test(value) || !/^[^eE]*[eE]?[^eE]*$/.test(value)) {
       isValidText = false;
     }
 
     // * currency only: check for negative number
     if (isCurrencyField && (Number(value) < 0 || /-/g.test(value))) {
+      isValidText = false;
+    }
+
+    // * number only: not more than one minus and doesn't end with minus (-)
+    if (!isCurrencyField && (Number(value.match(/-/g)?.length) > 1) || /\w-/.test(value)) {
       isValidText = false;
     }
 
@@ -163,7 +168,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         datavalue: model
       }
     } as S, () => {
-      !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
+      !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, model, oldValue]);
       if (source === 'blur') {
         this.invokeEventCallback('onBlur', [event, this.proxy]);
       }
@@ -244,12 +249,12 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
    */
   private getValueInRange(value: number): number {
     const props = this.state.props;
-    if (!isNaN(props.minvalue) && value < props.minvalue) {
+    if (!isNil(null) && !isNaN(props.minvalue) && value < props.minvalue) {
       this.updateState({ errorType: 'minvalue'} as S);
       return props.minvalue;
 
     }
-    if (!isNaN(props.maxvalue) && value > props.maxvalue) {
+    if (!isNil(null) && !isNaN(props.maxvalue) && value > props.maxvalue) {
       this.updateState({ errorType: 'maxvalue'} as S);
       return props.maxvalue;
     }

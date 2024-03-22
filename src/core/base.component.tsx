@@ -393,6 +393,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         };
     }
 
+    public getStyleClassName() {
+        return this.state.props.classname;
+    }
+
     public getTestPropsForInput(suffix?: string) {
         return this.getTestProps(suffix || 'i');
     }
@@ -444,13 +448,14 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         const selectedLocale = this.i18nService.getSelectedLocale();
         return this.getDependenciesFromContext(() => {
             WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
+            const classname = this.getStyleClassName();
             this.styles =  this.theme.mergeStyle(
                 this.getDefaultStyles(),
                 {text: this.theme.getStyle('app-' + selectedLocale)},
                 {text: this.theme.getStyle(this.defaultClass + '-' + selectedLocale)},
                 props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
                 this.isRTL ? this.theme.getStyle(this.defaultClass + '-rtl') : null,
-                props.classname && this.theme.getStyle(props.classname),
+                classname && this.theme.getStyle(classname),
                 props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
                 this.props.styles,
                 {

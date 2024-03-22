@@ -118,9 +118,14 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     const maxIndex = this.state.xaxisDatakeyArr.length - 1;
     const props = this.state.props;
     const getTickValueLabel = props.xtickexpr as any;
+    let height = this.styles.root.height || 250;
+    let yaxislabeldistance = props.yaxislabeldistance ? props.yaxislabeldistance : height as number - 20;
+    if (height && typeof height === 'string') {
+      height = parseInt(height);
+    }
     return <VictoryAxis crossAxis={false} label={(props.xaxislabel || props.xaxisdatakey || "name") + (props.xunits ? `(${props.xunits})` : '')}
                         style={{
-                          axisLabel: this.theme.mergeStyle(this.styles.axisLabel, this.styles.yAxisLabel, {padding: props.yaxislabeldistance}),
+                          axisLabel: this.theme.mergeStyle(this.styles.axisLabel, this.styles.yAxisLabel),
                           grid: props.hidegridxaxis ?
                               { stroke: null } :  this.theme.mergeStyle(this.styles.grid, this.styles.xGrid),
                           axis: props.showxaxis === false ?
@@ -129,7 +134,8 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           tickLabels: this.theme.mergeStyle(this.styles.tickLabels, this.styles.xTickLabels)
                         }}
                         fixLabelOverlap= {props.autoadjustlabels?true:false}
-                        tickLabelComponent={<VictoryLabel angle={props.labelangle || 0} />} theme={this.state.theme}
+                        axisLabelComponent={<VictoryLabel y={yaxislabeldistance}/>}
+                        tickLabelComponent={<VictoryLabel y={props.offsetyaxis ? props.offsetyaxis : height as number - 30} angle={props.labelangle || 0}/>} theme={this.state.theme}
                         tickCount={this.state.xaxisDatakeyArr.length} 
                         invertAxis={this.isRTL}
                         tickFormat= {(d, i, ticks) => {
@@ -151,9 +157,10 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       return null;
     }
     const getTickValueLabel = props.ytickexpr as any;
+    let xaxislabeldistance = props.xaxislabeldistance ? props.xaxislabeldistance : 20
     return <VictoryAxis crossAxis={false} label={(props.yaxislabel || props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
                         style={{
-                          axisLabel: this.theme.mergeStyle(this.styles.axisLabel, this.styles.yAxisLabel, {padding: props.yaxislabeldistance}),
+                          axisLabel: this.theme.mergeStyle(this.styles.axisLabel, this.styles.yAxisLabel),
                           grid: props.hidegridyaxis ? { stroke: null } : this.theme.mergeStyle(this.styles.grid, this.styles.yGrid),
                           axis: props.showxaxis === false ?
                           { stroke: 'none' } :  this.theme.mergeStyle(this.styles.axis, this.styles.yAxis),
@@ -161,6 +168,8 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           tickLabels: this.theme.mergeStyle(this.styles.tickLabels, this.styles.yTickLabels)
                         }}
                         fixLabelOverlap= {props.autoadjustlabels?true:false}
+                        axisLabelComponent={<VictoryLabel x={xaxislabeldistance}/>}
+                        tickLabelComponent={<VictoryLabel x={props.offsetxaxis ? props.offsetxaxis : 50}/>} 
                         theme={this.state.theme}
                         tickFormat= {(d, i, ticks) => {
                           if (getTickValueLabel) {
@@ -168,6 +177,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           }
                           return this.abbreviateNumber(d);
                         }}
+                        orientation={this.isRTL?"right":"left"}
                         dependentAxis />;
   }
   

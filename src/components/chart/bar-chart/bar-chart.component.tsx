@@ -33,13 +33,14 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
   return this.state.data.map((d: any, i: number) => {
     return <VictoryBar key={props.name + '_' + i}
         horizontal={props.horizontal} labels={props.showvalues ? this.labelFn.bind(this) : undefined}
-        data={d}
+        data={this.isRTL?d.toReversed():d}
         height={100}
         style={props.customcolors?{
           data: {
             fill: ({ datum }) => this.state.colors[datum.x] ?? this.state.colors[datum.x % this.state.colors.length]
           }
         }:{}}
+        cornerRadius={{topLeft: this.styles.bar.borderTopLeftRadius, topRight: this.styles.bar.borderTopRightRadius, bottomLeft: this.styles.bar.borderBottomLeftRadius, bottomRight: this.styles.bar.borderBottomRightRadius}}
         events={[{
           target: 'data',
           eventHandlers: Platform.OS == "web" ? {

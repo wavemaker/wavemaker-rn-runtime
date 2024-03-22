@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Animated, Easing, LayoutChangeEvent } from 'react-native';
 
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -12,9 +12,13 @@ export class WmToggleState extends BaseComponentState<WmToggleProps> {
   isSwitchOn: boolean = false;
   isValid: boolean = true;
   errorType = '';
+  viewWidth: number = 0;
 }
 
 export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState, WmToggleStyles> {
+
+  private animationValue = new Animated.Value(0);
+  private scaleValue = new Animated.Value(1);
 
   constructor(props: WmToggleProps) {
     super(props, DEFAULT_CLASS, new WmToggleProps(), new WmToggleState());
@@ -48,6 +52,25 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     this.validate(value);
     this.updateState({ isSwitchOn: value } as WmToggleState);
     const dataValue = value === true ? this.state.props.checkedvalue : this.state.props.uncheckedvalue;
+    Animated.sequence([
+      Animated.timing(this.scaleValue, {
+        toValue: 1.6,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this.animationValue, {
+        toValue: value ? 1 : 0,
+        duration: 500,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      Animated.timing(this.scaleValue, {
+        toValue: value ? 1.5 : 1,
+        duration: 0,
+        useNativeDriver: true,
+      }).start();
+    });
     // @ts-ignore
     this.updateState({ props: { datavalue: dataValue } },
       ()=> {
@@ -60,13 +83,22 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
       });
   }
 
+  onLayoutChange(event: LayoutChangeEvent){
+    let width = event.nativeEvent.layout.width;
+    this.setState({
+      viewWidth: width,
+    } as WmToggleState);
+  }
+
   renderWidget(props: WmToggleProps) {
     const styles = this.theme.mergeStyle(this.styles, 
       this.theme.getStyle(this.state.isSwitchOn ? 'app-toggle-on' : 'app-toggle-off'));
     return (
       <TouchableOpacity 
-        {...this.getTestPropsForAction()}
-        style={styles.root} onPress={() => {
+      onLayout={(e) => {
+        this.onLayoutChange(e);
+      }}
+      onPress={() => {
         if (this.props.disabled) {
           return;
         }
@@ -78,15 +110,30 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
           this.invokeEventCallback('onTap', [null, this]);
         }, 500);
         this.onToggleSwitch(!this.state.isSwitchOn);
-      }}>
+      }}{...this.getTestPropsForAction()}
+      style={styles.root}>
         {this._background}
-        <View style={styles.handle}>
+        <Animated.View
+         style={[
+          styles.handle,
+          {
+            transform: [
+              {
+                translateX: this.animationValue.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, this.state.viewWidth - (this.styles.handle.width as number+ 18)],
+                }),
+              },
+              {scale : this.scaleValue}
+            ],
+          },
+        ]}>
           <BackgroundComponent
             size={styles.handle.backgroundSize}
             position={styles.handle.backgroundPosition}
             image={styles.handle.backgroundImage}>  
           </BackgroundComponent>
-        </View>
+        </Animated.View>
       </TouchableOpacity>
     );
   }

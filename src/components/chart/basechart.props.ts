@@ -14,8 +14,10 @@ export default class BaseChartComponentProps extends BaseProps {
   staggerlabels: boolean = false;
   yaxislabel: string = '';
   yunits: string = '';
-  yaxislabeldistance: number = 60;
-  xaxislabeldistance: number = 30;
+  yaxislabeldistance?: number = undefined;
+  xaxislabeldistance?: number = undefined;
+  offsetxaxis?: number = undefined;
+  offsetyaxis?: number = undefined;
   customcolors: string | Array<string> = '';
   legendheight: number = 0;
   labellegendheight: number = 0;

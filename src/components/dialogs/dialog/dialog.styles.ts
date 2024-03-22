@@ -62,12 +62,20 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             root: {
                 alignSelf: 'flex-end',
                 backgroundColor: 'transparent',
-                paddingRight: 0,
-                paddingTop: 0
+                borderRadius: 8,
+                paddingRight: 8,
+                paddingTop: 8,
+                paddingBottom: 8,
+                paddingLeft: 8,
+                minHeight: 0,
+                marginBottom: 22
             },
             icon : {
                 root: {
-                    alignItems: 'center'
+                    alignItems: 'center',
+                },
+                icon: {
+                    paddingRight: 0
                 },
                 text: {
                     color: themeVariables.dialogCloseIconColor,
