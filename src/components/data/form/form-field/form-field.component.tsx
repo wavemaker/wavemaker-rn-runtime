@@ -206,6 +206,8 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
       return React.cloneElement(child, {
           datavalue: props.datavalue,
           isValid: this.state.isValid,
+          maskchar: props.maskchar,
+          displayformat: props.displayformat,
           invokeEvent: this.invokeEventCallback.bind(this),
           triggerValidation: this.validateFormField.bind(this),
           onFieldChange: this.onFieldChangeEvt.bind(this),
