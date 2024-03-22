@@ -22,4 +22,6 @@ export default class WmFormFieldProps extends BaseProps {
   readonly: boolean = false;
   onValidate?: Function;
   formScope?: Function = () => {};
+  maskchar: string = null as any;
+  displayformat: string = null as any;
 }
