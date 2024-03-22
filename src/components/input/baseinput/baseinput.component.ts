@@ -112,7 +112,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   onBlur(event: any) {
     Injector.FOCUSED_ELEMENT.remove();
     this.isTouched = true;
-    let newVal = event.target.value || this.state.textValue;
+    let newVal = this.state.textValue;
     let oldVal = this.state.props.datavalue || '';
     this.validate(newVal);
     if (newVal === '' || newVal == undefined) {

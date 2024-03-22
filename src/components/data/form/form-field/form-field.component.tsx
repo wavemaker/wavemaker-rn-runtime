@@ -211,6 +211,8 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           datavalue: props.datavalue,
           value: this.value,
           isValid: this.state.isValid,
+          maskchar: props.maskchar,
+          displayformat: props.displayformat,
           invokeEvent: this.invokeEventCallback.bind(this),
           triggerValidation: this.validateFormField.bind(this),
           onFieldChange: this.onFieldChangeEvt.bind(this),

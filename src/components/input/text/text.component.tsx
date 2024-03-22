@@ -31,12 +31,14 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           }}}
           {...opts}
           placeholderTextColor={this.styles.placeholderText.color as any}
-          style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
+          style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
           keyboardType={this.state.keyboardType}
           autoComplete={props.autocomplete ? 'username' : 'off'}
           autoFocus={props.autofocus}
           editable={props.disabled || props.readonly ? false : true}
-          secureTextEntry={props.type === 'password' ? true : false}
+          secureTextEntry={props.type === 'password' && !props.maskchar ? true : false}
+          displayformat={props.displayformat}
+          maskchar={props.maskchar}
           maxLength={props.maxchars}
           placeholder={props.placeholder}
           onBlur={this.onBlur.bind(this)}
