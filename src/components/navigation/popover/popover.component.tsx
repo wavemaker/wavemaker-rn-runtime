@@ -105,7 +105,9 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
           <ModalConsumer>
             {(modalService: ModalService) => {
               modalService.showModal(this.prepareModalOptions((
-                  <ScrollView style={this.theme.mergeStyle(styles.popover, dimensions)}>
+                  <ScrollView style={this.theme.mergeStyle(styles.popover, dimensions)} 
+                    onScroll={(event) => {this.notify('scroll', [event])}}
+                    scrollEventThrottle={48}>
                     {props.title ? (<Text style={styles.title}>{props.title}</Text>): null}
                     <TouchableOpacity 
                     {...this.getTestPropsForAction('outercontent')}
