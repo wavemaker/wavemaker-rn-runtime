@@ -1,5 +1,7 @@
 import React from 'react';
 import { Text, View, BackHandler } from 'react-native';
+import { Badge } from 'react-native-paper';
+
 import { isAndroid } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -33,6 +35,8 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   }
 
   renderWidget(props: WmAppNavbarProps) {
+    //@ts-ignore
+    const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>): null;
     return (
       <View style={this.styles.root}>
         {this._background}
@@ -57,6 +61,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
             styles={this.styles.image}
             picturesource={props.imgsrc} />)}
           <Text style={this.styles.content} {...this.getTestPropsForLabel('title')}>{props.title}</Text>
+          {badge}
         </View>
         <View style={this.styles.rightSection}>
           {props.searchbutton && (<WmIcon

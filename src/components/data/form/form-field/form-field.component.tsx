@@ -25,10 +25,10 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
 
   onFieldChangeEvt(name: string, $new: any, $old: any, isDefault: boolean) {
     this.notifyChanges();
-    this.validateFormField();
     if (!isEqual($old, $new)) {
       this.updateState({ props: { datavalue: $new }} as WmFormFieldState, () => {
         !isDefault && this.invokeEventCallback('onChange', [undefined, this, $new, $old]);
+        this.validateFormField();
       });
       if (this.form) {
         this.form.updateDataOutput.call(this.form, get(this.props, 'formKey', this.props.name), $new);
@@ -201,10 +201,15 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
 
   }
 
+  get value(){
+    return this.state.props.datavalue;
+  }
+
   renderWidget(props: WmFormFieldProps) {
     var childrenWithProps = React.Children.map(props.renderFormFields(this.proxy).props.children, (child) => {
       return React.cloneElement(child, {
           datavalue: props.datavalue,
+          value: this.value,
           isValid: this.state.isValid,
           invokeEvent: this.invokeEventCallback.bind(this),
           triggerValidation: this.validateFormField.bind(this),

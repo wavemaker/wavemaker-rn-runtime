@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
-import { find, forEach, isEqual } from 'lodash';
+import { find, forEach, isEqual,  isEmpty } from 'lodash';
 import { Checkbox } from 'react-native-paper';
-
+import { ScrollView } from 'react-native-gesture-handler';
 import WmCheckboxsetProps from './checkboxset.props';
 import {
   DEFAULT_CLASS,
@@ -17,6 +17,7 @@ import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.compon
 
 export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {
   isValid: boolean = true;
+  template: string = "";
 }
 
 export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetProps, WmCheckboxsetState, WmCheckboxsetStyles> {
@@ -55,7 +56,9 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
         style={[this.styles.item, item.selected ? this.styles.checkedItem : null]}
         onPress={this.onPress.bind(this, item)} key={item.key}>
         <Checkbox.Android status={item.selected  ? 'checked' : 'unchecked'} color={this.styles.text.color as string} disabled={props.readonly || props.disabled}/>
-        <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.checkboxLabel}>{displayText}</Text>
+        {!isEmpty(this.state.template) && this.props.renderitempartial ?
+           this.props.renderitempartial(item.dataObject, index, this.state.template) :
+        <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.text}>{displayText}</Text>}
       </TouchableOpacity>)
   }
 
@@ -72,6 +75,10 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
   updateDatavalue(value: any) {
     this.updateState({ props: { datavalue: value }} as WmCheckboxsetState);
     return Promise.resolve();
+  }
+
+  setTemplate(partialName: any) {
+    this.updateState({ template: partialName} as WmCheckboxsetState);
   }
 
   renderGroupby() {
@@ -102,10 +109,12 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
   renderWidget(props: WmCheckboxsetProps) {
     const items = this.state.dataItems;
     return (
-      <View style={this.styles.root}>
-        {props.groupby && this.renderGroupby()}
-        {!props.groupby && this.renderCheckboxses(items)}
-      </View>
+      <ScrollView style={this.styles.root}>
+        <ScrollView horizontal={true}>
+          {props.groupby && this.renderGroupby()}
+          {!props.groupby && this.renderCheckboxses(items)}
+        </ScrollView>
+      </ScrollView>
     );
   }
 }

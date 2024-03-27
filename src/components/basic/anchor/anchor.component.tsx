@@ -59,7 +59,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
               {this._background}
               {props.iconposition === 'top' && icon}
               {props.iconposition === 'left' && icon}
-              {props.caption ? (<Text {...this.getTestPropsForLabel('caption')} style={this.styles.text}>{props.caption}</Text>) : null}
+              {props.caption ? (<Text {...this.getTestPropsForLabel('caption')} style={this.styles.text} numberOfLines={props.nooflines}>{props.caption}</Text>) : null}
               {props.iconposition === 'right' && icon}
               {badge}
             </Tappable>

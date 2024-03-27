@@ -30,6 +30,7 @@ export type BaseChartComponentStyles = BaseStyles & {
   tooltipContainer: any,
   tooltipXText: any,
   tooltipYText: any,
+  bar: any;
 };
 
 export const DEFAULT_CLASS = 'app-chart';
@@ -93,7 +94,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderRadius: 5,
     },
     tooltipXText:{},
-    tooltipYText:{}
+    tooltipYText:{},
+    bar:{
+      borderTopLeftRadius: 0,
+      borderTopRightRadius: 0,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0
+    }
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

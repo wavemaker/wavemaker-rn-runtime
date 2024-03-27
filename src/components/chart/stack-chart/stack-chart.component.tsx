@@ -3,8 +3,7 @@ import { LayoutChangeEvent, View, Platform } from 'react-native';
 import { Svg } from 'react-native-svg';
 import { VictoryStack, VictoryBar, VictoryChart, VictoryPie, VictoryLegend, VictoryAxis } from 'victory-native';
 import { Axis, Scale } from 'victory-core';
-import { orderBy, cloneDeep } from 'lodash';
-
+import { orderBy, cloneDeep, findIndex, isString} from 'lodash';
 import WmStackChartProps from './stack-chart.props';
 import { DEFAULT_CLASS, WmStackChartStyles } from './stack-chart.styles';
 import {
@@ -38,11 +37,33 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
     return positiveValuesArray;
   }
 
+  getData() {
+    const negativeValues = cloneDeep(this.getNegativeValuesArray());
+    return negativeValues.concat(cloneDeep(this.getPositiveValuesArray()));
+  }
+
+  updateColors() {
+   if (this.state.colors.length === 1 ) {
+       return this.state.colors[0];
+   } else {
+       let colorCodes = cloneDeep(this.state.colors);
+       if ( this.state.data.length > 0 ) {
+         const orderedData = this.getData();
+         this.state.data[0].map((d: any, i: number) => {
+           let index = findIndex(orderedData, d);
+           colorCodes[index] = this.state.colors[i];
+         })
+         return colorCodes;
+       }
+    }
+  }
+
   getBarChart(props: WmStackChartProps) {
     if ( this.state.data.length > 0 ) {
       const negativeValues = cloneDeep(this.getNegativeValuesArray());
-      const data = negativeValues.concat(cloneDeep(this.getPositiveValuesArray()));
+      const data = this.getData();
       let currentValue = 0;
+      let cornerRadius: any;
 
       return data.map((d: any, i: number) => {
         let d1: any = [];
@@ -50,16 +71,22 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
         d.y = d.y - currentValue;
         d1.push(d);
         currentValue = d.y < 0 && i === negativeValues.length -1 ? 0 : d.y + currentValue;
+        if (i === 0) {
+          cornerRadius = {top: 0, bottom: -5};
+        }
+        if (i === data.length - 1) {
+          cornerRadius = {top: -5, bottom: -5};
+        }
         return <VictoryBar key={props.name + '_' + i}
-                           cornerRadius={{bottomLeft:(1), bottomRight:(1), topLeft:(1), topRight:(1)}}
+                           cornerRadius={cornerRadius}
                            data={d1}/>
       });
     }
   }
 
   private getColorCodes() {
-      const colors = cloneDeep(this.state.colors);
-      return colors.reverse();
+      const colors = cloneDeep(this.updateColors());
+      return isString(colors) ? [colors] : colors.reverse();
   }
 
   getArcChart(props: WmStackChartProps) {
@@ -122,8 +149,8 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
     let ticks: any = [];
     if (this.state.data[0].length) {
       let data = cloneDeep(this.state.data[0]);
-      const maxValue = Math.max(...data.map((o: any) => o.y));
-      const minValue = Math.min(...data.map((o: any) => o.y));
+      const maxValue = Math.max(...data.map((o: any) => o.y ? o.y : 0));
+      const minValue = Math.min(...data.map((o: any) => o.y ? o.y : 0));
       const scale = Scale.getBaseScale({}, 'x');
       scale.domain([minValue > 0 ? 0 : minValue, maxValue]);
       ticks = Axis.getTicks({}, scale);
@@ -134,6 +161,8 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
         } else {
           ticks[0] = minValue;
         }
+      } else {
+        ticks[0] = this.state.props.minvalue;
       }
     }
     return ticks;
@@ -153,7 +182,6 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
       return null;
     }
     let mindomain={x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined, y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined};
-    const colorScale = this.state.colors.length === 1 ? this.state.colors[0] : this.state.colors;
     return (
       <View
         style={this.styles.root} onLayout={this.onViewLayoutChange}
@@ -163,7 +191,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
             theme={this.state.theme}
             minDomain={mindomain}
             height={this.styles.root.height as number}
-            width={this.styles.root.width as number || this.screenWidth}
+            width={this.styles.root.width as number || this.state.chartWidth || 200}
             padding={{
               top: props.offsettop,
               bottom: props.offsetbottom,
@@ -188,7 +216,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
               data={[]}
               theme={this.state.theme}
             />
-            {this.getLegendView(colorScale)}
+            {this.getLegendView(this.updateColors())}
             <VictoryAxis crossAxis
                          style={{
                            tickLabels: { fill: this.state.props.showyaxis === false ? 'transparent' : '#000000',  fontSize: 12, padding: this.state.props.thickness/2 + 5},
@@ -199,7 +227,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
                          tickValues={this.getTickValues()}
                          tickFormat={(t) => this.state.props.yunits ? `${this.abbreviateNumber(t)}${this.state.props.yunits}` : `${this.abbreviateNumber(t)}`} dependentAxis />
             <VictoryStack
-              colorScale={colorScale}
+              colorScale={this.updateColors()}
               horizontal={true}
               style={{
                 data: { strokeWidth: this.state.props.thickness }

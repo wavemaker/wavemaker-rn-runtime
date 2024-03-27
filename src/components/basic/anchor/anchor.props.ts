@@ -14,4 +14,5 @@ export default class WmAnchorProps extends BaseProps {
     onTap?: any;
     skeletonwidth?: number;
     skeletonheight?: number;
+    nooflines?: any = undefined;
 }
