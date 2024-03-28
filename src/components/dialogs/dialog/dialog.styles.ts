@@ -24,7 +24,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             width: '90%',
             maxHeight: themeVariables.maxModalHeight,
             backgroundColor: themeVariables.dialogBackgroundColor,
-            borderRadius: 28
+            borderRadius: 28,
         },
         text: {},
         modal: {},
@@ -68,7 +68,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 paddingBottom: 8,
                 paddingLeft: 8,
                 minHeight: 0,
-                marginBottom: 22
+                marginBottom: 22,
+                rippleColor: themeVariables.transparent
             },
             icon : {
                 root: {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Platform } from 'react-native';
-
+import { View, Text, Platform } from 'react-native';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import {
   VictoryChart,
   VictoryBar,
@@ -15,7 +15,8 @@ import {
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
 import WmBarChartProps from './bar-chart.props';
 import { DEFAULT_CLASS, WmBarChartStyles } from './bar-chart.styles';
-import { Svg } from "react-native-svg";
+import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
+import { min } from 'moment';
 
 export class WmBarChartState extends BaseChartComponentState<WmBarChartProps> {}
 
@@ -35,6 +36,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         horizontal={props.horizontal} labels={props.showvalues ? this.labelFn.bind(this) : undefined}
         data={this.isRTL?d.toReversed():d}
         height={100}
+        alignment='start'
         style={props.customcolors?{
           data: {
             fill: ({ datum }) => this.state.colors[datum.x] ?? this.state.colors[datum.x % this.state.colors.length]
@@ -67,24 +69,24 @@ onSelect(event: any, data: any){
     }
     let mindomain={x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined, y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined};
     return (<View
+      {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
       style={this.styles.root}
-    ><VictoryChart theme={this.state.theme}
+    >
+      <View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
+            <Text style={this.styles.title}>{props.title}</Text>
+          </View>
+          <Text style={this.styles.subHeading}>{props.subheading}</Text>
+        </View>
+      <VictoryChart theme={this.state.theme}
                           height={this.styles.root.height as number}
-                          width={this.styles.root.width as number || this.screenWidth}
+                          width={this.styles.root.width as number || this.screenWidth}               
                           minDomain={mindomain}
                           padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
                           containerComponent={
                             this.getTooltip(props)
                           }>
-      <VictoryLegend
-        name={'legend'}
-        containerComponent={<Svg />}
-        title={[props.title, props.subheading]}
-        orientation="horizontal"
-        gutter={20}
-        data={[]}
-        theme={this.state.theme}
-      />
       {this.getLegendView()}
       {this.getXaxis()}
       {this.getYAxis()}
@@ -93,9 +95,9 @@ onSelect(event: any, data: any){
           {
             this.getBarChart(props)
           }
-        </VictoryStack> : <VictoryGroup colorScale={this.state.colors} offset={5}>
+        </VictoryStack> : <VictoryGroup colorScale={this.state.colors}  offset={10} >
           {
-            this.getBarChart(props)
+            this.getBarChart(props)   
           }
         </VictoryGroup>
       }

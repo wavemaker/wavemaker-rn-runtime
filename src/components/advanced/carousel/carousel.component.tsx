@@ -289,7 +289,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
                     .filter((l , i) => i < index)
                     .reduce((s, l) => s + l.width, 0);
                   this.animationView?.setPosition(-1 * position);
-                }}>
+                }} rippleColor={this.styles.root.rippleColor}>
                   {this.renderItem(item, index)}
                 </Tappable>
               </Animated.View>
@@ -302,12 +302,14 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
               id={this.getTestId('prev_icon')}
               iconclass="wi wi-chevron-left fa-2x"
               styles={styles.prevBtn}
-              onTap={this.prev}/>
+              onTap={this.prev}
+              accessibilitylabel='back'/>
             <WmIcon
               id={this.getTestId('next_icon')}
               iconclass="wi wi-chevron-right fa-2x"
               styles={styles.nextBtn}
-              onTap={this.next}/>
+              onTap={this.next}
+              accessibilitylabel='next'/>
           </View>): null}
           {hasDots && data ? this.renderPagination(data) : null}
       </View>);

@@ -1,7 +1,6 @@
 import { assign, isUndefined, isNil } from 'lodash';
 import React, { ReactNode } from 'react';
-import { I18nManager, Platform, TextStyle, ViewStyle } from 'react-native';
-import * as Application from 'expo-application';
+import { AccessibilityInfo, Platform, TextStyle, ViewStyle } from 'react-native';
 import { AnimatableProperties } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
@@ -9,7 +8,7 @@ import { StyleProps, getStyleName } from '@wavemaker/app-rn-runtime/styles/style
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
-import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, ThemeEvent, Theme } from '../styles/theme';
 import EventNotifier from './event-notifier';
 import { PropsProvider } from './props.provider';
@@ -18,6 +17,7 @@ import { HideMode } from './if.component';
 import { AssetConsumer } from './asset.provider';
 import { FixedView } from './fixed-view.component';
 import { TextIdPrefixConsumer } from './testid.provider';
+import { isScreenReaderEnabled } from './accessibility';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -61,6 +61,7 @@ export class BaseProps extends StyleProps {
     listener?: LifecycleListener = null as any;
     showindevice?: ('xs'|'sm'|'md'|'lg'|'xl'|'xxl')[] = null as any;
     showskeleton?: boolean = false;
+    deferload?: boolean = false;
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
@@ -83,10 +84,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public loadAsset: (path: string) => number | string = null as any;
     private i18nService = injector.I18nService.get();
     public testIdPrefix = '';
+    private _showView = true;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
         this.state = (defaultState || {} as S);
+        this.notifier.name = this.props.name || '';
         this.propertyProvider = new PropsProvider<T>(
             assign({show: true}, defaultProps),
             assign({}, markupProps),
@@ -103,12 +106,14 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                     }
                 }
                 if (name === 'showskeleton' && this.initialized) {
-                    this.cleanRefresh();
+                    setTimeout(() => this.cleanRefresh(), 100);
                 }
                 this.onPropertyChange(name, $new, $old);
             });
         //@ts-ignore
         this.state.props =this.propertyProvider.get();
+        //@ts-ignore
+        this._showView = !this.props.deferload;
         this.propertyProvider.check();
         //@ts-ignore
         this.proxy = (new Proxy(this, {
@@ -141,6 +146,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.cleanup.push(this.theme.subscribe(ThemeEvent.CHANGE, () => {
             this.forceUpdate();
         }));
+        this.cleanup.push(AccessibilityInfo.addEventListener('screenReaderChanged',
+            () => {
+              setTimeout(() => {
+                this.forceUpdate();
+              }, 100);
+            },
+        ).remove);
         this.cleanup.push(() => {
             this.destroyParentListeners();
         });
@@ -148,6 +160,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     public subscribe(event: string, fn: Function) {
         return this.notifier.subscribe(event, fn);
+    }
+
+    public notify(event: string, args: any[]) {
+        return this.notifier.notify(event, args);
     }
 
     public get isRTL(){
@@ -193,7 +209,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                     //@ts-ignore
                     oldProps[k] = newState.props[k];
                 });
-                newState.props = oldProps;
+            newState.props = oldProps;
             }
             return newState;
         };
@@ -257,6 +273,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.props.listener.onComponentDestroy(this.proxy);
         }
         this.cleanup.forEach(f => f && f());
+        this.notifier.destroy();
         this.notifier.notify('destroy', []);
     }
     
@@ -277,6 +294,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 console.error(e);
             }
         }
+    }
+
+    showView() {
+        return this.isVisible();
     }
 
     isVisible() {
@@ -305,6 +326,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private setParent(parent: BaseComponent<any, any, any>) {
         if (parent && this.parent !== parent)  {
             this.parent = parent;
+            this.notifier.setParent(parent.notifier);
             this.parentListenerDestroyers = [
                 this.parent.subscribe('forceUpdate', () => {
                     this.cleanRefresh();
@@ -381,6 +403,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     public getTestProps(suffix?: string) {
         let id = this.getTestId(suffix);
+        if (isScreenReaderEnabled()) {
+            return {};
+        }
         if (Platform.OS === 'android' || Platform.OS === 'web') {
             return {
                 accessibilityLabel: id,
@@ -441,13 +466,16 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
       
     public render(): ReactNode {
         const props = this.state.props;
-        if (this.state.hide || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)) {
-            return null;
-        }
         this.isFixed = false;
         const selectedLocale = this.i18nService.getSelectedLocale();
         return this.getDependenciesFromContext(() => {
             WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
+            this._showView = this._showView || this.showView();
+            if (this.state.hide 
+                || (!this.isVisible() && this.hideMode === HideMode.DONOT_ADD_TO_DOM)
+                || !this._showView) {
+                return null;
+            }
             const classname = this.getStyleClassName();
             this.styles =  this.theme.mergeStyle(
                 this.getDefaultStyles(),

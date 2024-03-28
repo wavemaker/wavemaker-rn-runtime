@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionList, Text, View, TouchableWithoutFeedback, FlatList } from 'react-native';
+import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent } from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
@@ -7,6 +7,7 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
@@ -15,7 +16,8 @@ import { DEFAULT_CLASS, WmListStyles } from './list.styles';
 export class WmListState extends BaseComponentState<WmListProps> {
   public selectedindex: any;
   groupedData: Array<any> = [];
-  currentPage: number = 1;
+  currentPage = 1;
+  maxRecordsToShow = 20;
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -23,9 +25,15 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private itemWidgets = [] as any[];
   private selectedItemWidgets = {} as any;
   private keyExtractor = new DefaultKeyExtractor();
+  private endThreshold = -1;
+  private loadingData = false;
+  private hasMoreData = true;
   
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
+    this.updateState({
+      maxRecordsToShow: this.state.props.pagesize
+    } as WmListState);
   }
 
   private isSelected($item: any) {
@@ -69,6 +77,46 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       } as WmListState, () => {
         this.invokeEventCallback('onSelect', [this.proxy, $item]);
         triggerTapEvent && this.invokeEventCallback('onTap', [null, this.proxy]);
+      });
+    }
+  }
+
+  private get loadDataOnDemand() {
+    const navigation = this.state.props.navigation;
+    return navigation === 'Scroll' || navigation === 'On-Demand';
+  }
+
+  private loadData() {
+    if (this.loadingData) {
+      return;
+    }
+    if (isArray(this.state.props.dataset) 
+      && this.state.props.dataset.length > this.state.maxRecordsToShow) {
+      this.updateState({
+        maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
+      } as WmListState);
+    } else if (this.loadDataOnDemand) {
+      const $list = this.proxy as any;
+      $list.loadingdata = true;
+      this.loadingData = true;
+      this.props.getNextPageData && this.props.getNextPageData(null, this.proxy, this.state.currentPage + 1).then((data) => {
+        if (isArray(data) && data.length > 0
+          && isArray(this.state.props.dataset)) {
+            $list.dataset = [...this.state.props.dataset, ...data];
+            this.updateState({
+              currentPage : this.state.currentPage + 1,
+              maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
+            } as WmListState);
+            this.hasMoreData = true;
+        } else {
+          this.hasMoreData = false;
+        }
+      }).catch((err) => {
+        console.error(err);
+      }).then(() => {
+        setTimeout(() => {
+          $list.loadingdata = false;
+        }, 1000);
       });
     }
   }
@@ -169,10 +217,19 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         if (this.state.props.groupby) {
           this.setGroupData($new);
         } else {
+          if (!($old && $old.length)
+            && $new && $new.length
+            && this.loadDataOnDemand) {
+              this.updateState({
+                props: {
+                  dataset: [...$new]
+                }
+              } as WmListState);
+          }
           const data = isArray($new) ? $new : (!isEmpty($new) && isDefined($new) ? [$new] : []);
           this.updateState({
             groupedData: (data[0] || props.direction === 'horizontal' ? [{
-              key: '',
+              key: 'key',
               data: data
             }] : [])
           } as WmListState, () => {
@@ -200,6 +257,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           this.state.props.selecteditem = this.state.props.selecteditem.pop();
         }
         break;
+      case 'loadingdata': 
+        this.loadingData = $new && this.loadingData;
+        break;
       case 'selecteditem':
         if($new != $old && isNumber($new)) {
           this.selectItem(this.state.props.dataset[$new])
@@ -215,6 +275,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         this.onSelect(props.dataset[0], 0);
       });
     }
+    this.subscribe('scroll', (event: any) => {
+      const scrollPosition = event.nativeEvent.contentOffset.y  + event.nativeEvent.layoutMeasurement.height;
+      if (scrollPosition > this.endThreshold && this.state.props.direction === 'vertical') {
+        this.loadData();
+      }
+    });
     super.componentDidMount();
   }
 
@@ -242,7 +308,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderItem(item: any, index: number, props: WmListProps) {
     const cols = this. getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
-    return (  
+    return (index < this.state.maxRecordsToShow || isHorizontal) ? (  
+      <View style={[
+        this.styles.item,
+        props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
+        this.isSelected(item) ? this.styles.selectedItem : {}]}>
         <Tappable
           {...this.getTestPropsForAction(`item${index}`)}
           onTap={() => this.onSelect(item, index, true)}
@@ -251,25 +321,21 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           styles={
             [
               cols ? {
-                width: round(100/cols, 2) + '%'
+                width: '100%'
               } : null,
-              cols || isHorizontal? {
-                paddingRight: (isNil(this.styles.item.marginRight) 
+              cols || isHorizontal ? {
+                paddingRight: (isNil(this.styles.item.marginRight)
                   ? this.styles.item.margin : this.styles.item.marginRight) || 4
-              }: null
+              } : null
             ]
           }>
-          <View style={[
-              this.styles.item,
-              props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-              this.isSelected(item) ? this.styles.selectedItem : {}]}>
-            { props.renderItem(item, index, this)}
-            { this.isSelected(item) ? (
-              <WmIcon id={this.getTestId('icon' + index)}iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
-            ) : null}
-          </View>
+          {props.renderItem(item, index, this)}
+          {this.isSelected(item) ? (
+            <WmIcon id={this.getTestId('icon' + index)} iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
+          ) : null}
         </Tappable>
-      );
+      </View>
+      ) : null;
   }
 
   private renderHeader(props: WmListProps, title: string) {
@@ -292,11 +358,14 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   private renderLoadingIcon(props: WmListProps) {
-    return (<WmIcon
+    return props.loadingicon ? (<WmIcon
       id={this.getTestId('loadingicon')}
       styles={this.styles.loadingIcon}
       iconclass={props.loadingicon}
       caption={props.loadingdatamsg}></WmIcon>)
+      : (
+        <ActivityIndicator color={this.styles.loadingIcon.text.color}></ActivityIndicator>
+      );
   }
 
   public getNoOfColumns() {
@@ -307,21 +376,38 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return 0;
   }
 
+  private onLayoutChange(e: LayoutChangeEvent) {
+    const l = e.nativeEvent.layout;
+    this.endThreshold = l.height + l.y - 100;
+    if (!this.endThreshold) {
+      this.endThreshold = -1;
+    }
+  }
+
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
     return (
-    <View style={this.styles.root}>
+    <View style={this.styles.root} onLayout={e => this.onLayoutChange(e)}>
       {!isEmpty(this.state.groupedData) ? this.state.groupedData.map((v: any, i) => ((
-          <View style={{marginBottom: 16}} key={v.key || this.keyExtractor.getKey(v, true)}>
+          <View style={this.styles.group} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
             <FlatList
               key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
+              scrollEnabled={isHorizontal}
               horizontal = {isHorizontal}
-              data={v.data || []}
+              data={isEmpty(v.data[0]) ? []: v.data}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)} 
               {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}> 
             </FlatList>
+            {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow) ? 
+              (this.loadingData ? 
+                this.renderLoadingIcon(props) :
+                (<WmLabel id={this.getTestId('ondemandmessage')}
+                  styles={this.styles.onDemandMessage}
+                  caption={this.hasMoreData && !isHorizontal ? props.ondemandmessage : props.nodatamessage}
+                  onTap={() => this.loadData()}></WmLabel>))
+              : null}
           </View>
         ))) : this.renderEmptyMessage(isHorizontal, null, null,props)
       }
@@ -347,12 +433,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       <SectionList
         keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
         horizontal = {isHorizontal}
-        onEndReached={({distanceFromEnd}) => {
-          this.setState({ currentPage: this.state.currentPage + 1 } as WmListState);
-          this.invokeEventCallback('onEndReached', [null, this]);
-        }}
         contentContainerStyle={this.styles.root}
-        onEndReachedThreshold={0.3}
         sections={this.getSectionListData()}
         renderSectionHeader={({ section: {key, data}}) => {
           return this.renderHeader(props, key);

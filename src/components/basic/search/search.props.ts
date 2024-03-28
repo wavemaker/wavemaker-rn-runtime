@@ -1,5 +1,6 @@
 import BaseDatasetProps from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.props';
 import {BaseComponent} from "@wavemaker/app-rn-runtime/core/base.component";
+import { AccessibilityRole } from 'react-native';
 
 export default class WmSearchProps extends BaseDatasetProps {
   autofocus: boolean = false;
@@ -20,4 +21,8 @@ export default class WmSearchProps extends BaseDatasetProps {
   showSearchIcon: boolean = true; // internal property
   invokeEvent?: Function;
   formFieldInstance?: BaseComponent<any, any, any>;
+  accessibilitylabel?: string = undefined;
+  hint?: string = undefined;
+  accessibilityrole?: AccessibilityRole = 'search';
+  renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
 }

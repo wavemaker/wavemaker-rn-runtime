@@ -10,7 +10,7 @@ export const DEFAULT_CLASS = 'app-fileupload';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmFileuploadStyles = defineStyles({
     root: {
-      borderRadius: 6,
+      borderRadius: 32,
       alignSelf: 'flex-start',
       borderWidth: 1,
       borderColor: themeVariables.fileuploadBorderColor,

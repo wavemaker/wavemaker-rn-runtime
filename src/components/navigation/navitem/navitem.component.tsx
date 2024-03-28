@@ -9,6 +9,7 @@ import WmNavItemProps from './navitem.props';
 import { DEFAULT_CLASS, WmNavItemStyles } from './navitem.styles';
 import { NavigationDataItem } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.component";
 import { TapEvent } from "@wavemaker/app-rn-runtime/core/tappable.component";
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 export class WmNavItemState extends BaseComponentState<WmNavItemProps> {
   collapsed = true;
@@ -28,8 +29,18 @@ export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemSt
     const getDisplayLabel = this.props.getDisplayExpression || ((label: string) => label);
     let child = props.children;
     if (props.view === 'anchor') {
-      child = <WmAnchor id={this.getTestId('navlink')} styles={this.styles.navAnchorItem} caption={getDisplayLabel(props.item.label)} hyperlink={props.item.link}
-                 badgevalue={props.item.badge} iconclass={props.item.icon} onTap={this.onSelectItem.bind(this, props.onSelect, props.item)}></WmAnchor>
+      child = (
+        <WmAnchor
+          id={this.getTestId('navlink')}
+          {...getAccessibilityProps(AccessibilityWidgetType.NAV, props)}
+          styles={this.styles.navAnchorItem}
+          caption={getDisplayLabel(props.item.label)}
+          hyperlink={props.item.link}
+          badgevalue={props.item.badge}
+          iconclass={props.item.icon}
+          onTap={this.onSelectItem.bind(this, props.onSelect, props.item)}
+        ></WmAnchor>
+      );
     }
     if (props.view === 'dropdown') {
       child = (
@@ -40,7 +51,7 @@ export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemSt
             this.updateState({collapsed: !this.state.collapsed} as WmNavItemState);
           }}>
           <View style={this.styles.dropdownNav}>
-            <WmAnchor id={this.getTestId('navlink')} styles={this.styles.navAnchorItem} caption={getDisplayLabel(props.item.label)} iconclass={props.item.icon} onTap={this.onSelectItem.bind(this, props.onSelect, props.item)}></WmAnchor>
+            <WmAnchor id={this.getTestId('navlink')} styles={this.styles.navAnchorItem} caption={getDisplayLabel(props.item.label)} iconclass={props.item.icon} onTap={this.onSelectItem.bind(this, props.onSelect, props.item)} {...getAccessibilityProps(AccessibilityWidgetType.NAV, props)}></WmAnchor>
             <WmIcon id={this.getTestId('icon')} styles={this.styles.caretIcon} iconclass={this.state.collapsed ? 'fa fa-sort-down' : 'fa fa-sort-up'}></WmIcon>
           </View>
         </TouchableOpacity>

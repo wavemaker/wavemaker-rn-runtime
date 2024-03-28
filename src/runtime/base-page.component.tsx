@@ -40,8 +40,8 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       AppSecurityService.canUserAccessPage(this.pageName)
         .then(flag => {
           if (!flag) {
+            this.cache = false;
             AppSecurityService.redirectToLogin();
-            this.props.destroyMe();
           }
         });
     }

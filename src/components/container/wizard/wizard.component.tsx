@@ -142,7 +142,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     const isFirstStep = index === 0;
     const isActiveStep = index === this.state.currentStep;
     const isNumberTextLayout = this.state.props.classname === 'number-text-inline';
-    return item.props.show != false ? (
+    return item.state.props.show != false ? (
       <View style={[this.styles.headerWrapper, isNumberTextLayout ?
         {paddingRight: isActiveStep ? 0 : 5, paddingLeft: index === this.state.currentStep + 1 ? 0 : 5}: {}]} key={index+1}>
         <TouchableOpacity style={this.styles.stepWrapper}
@@ -152,11 +152,11 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                 <Text style={isActiveStep ? this.styles.activeStep : this.styles.stepCounter}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&
                 <WmIcon styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
-                        iconclass={item.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
+                        iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
             </View>
             {((isNumberTextLayout && isActiveStep) || !isNumberTextLayout) &&
               <Text style={this.styles.stepTitle}>
-              {item.props.title || 'Step Title'}</Text> }
+              {item.state.props.title || 'Step Title'}</Text> }
             {this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
@@ -226,16 +226,16 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         </View>
         <View style={[this.styles.wizardFooter,
           {flexDirection: props.actionsalignment === 'right' ? 'row-reverse': 'row'}]}>
-          {(this.state.currentStep+1) === this.numberOfSteps &&
+          {(this.state.currentStep+1) === this.numberOfSteps && activeStep.state.props.showdone &&
             <WmButton iconclass={'wm-sl-l sl-check'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.doneButton)}
               id = {this.getTestId('donebtn')} caption={props.donebtnlabel} onTap={this.done.bind(this)} disabled={activeStep.state.props.disabledone}></WmButton>
           }
-          {(this.state.currentStep+1) < this.numberOfSteps &&
+          {(this.state.currentStep+1) < this.numberOfSteps && activeStep.state.props.shownext &&
             <WmButton iconclass={'wi wi-chevron-right'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.nextButton)}
                 id = {this.getTestId('nextbtn')}
                       iconposition={'right'} caption={props.nextbtnlabel} onTap={this.next.bind(this)} disabled={activeStep.state.props.disablenext}></WmButton>
           }
-          {this.state.currentStep > 0 &&
+          {this.state.currentStep > 0 && activeStep.state.props.showprev &&
             <WmButton iconclass={'wi wi-chevron-left'} styles={merge({}, this.theme.getStyle('btn-default'), this.styles.wizardActions, this.styles.prevButton)} caption={props.previousbtnlabel}
                 id = {this.getTestId('prevbtn')}
                 onTap={this.prev.bind(this)} disabled={activeStep.state.props.disableprev}></WmButton>

@@ -2,6 +2,7 @@ import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { TextStyle, Platform, ViewStyle } from 'react-native';
+import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
 
 export type WmDatetimeStyles = BaseStyles & {
     focused: AllStyle,
@@ -12,6 +13,10 @@ export type WmDatetimeStyles = BaseStyles & {
     calendarIcon: WmIconStyles,
     floatingLabel: ViewStyle,
     activeFloatingLabel: AllStyle
+    actionWrapper: ViewStyle,
+    selectBtn: WmButtonStyles,
+    cancelBtn: WmButtonStyles,
+    dialog: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-datetime';
@@ -70,7 +75,35 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 paddingRight: 0,
                 fontWeight: 'bold'
             }
-        } as WmIconStyles
+        } as WmIconStyles,
+        dialog:{
+            minWidth: 320,
+            paddingTop: 24,
+            paddingBottom: 24,
+            paddingLeft: 24,
+            paddingRight: 24,
+            elevation: 6,
+            width: '90%',
+            maxHeight: themeVariables.maxModalHeight,
+            backgroundColor: themeVariables.dialogBackgroundColor,
+            borderRadius: 28
+        },
+        actionWrapper: {
+            flexDirection: 'row-reverse', 
+            marginRight: 20,
+        },
+        selectBtn: {
+            root:{
+                paddingLeft: 12,
+                paddingRight: 12,
+            }
+        },
+        cancelBtn: {
+            root:{
+                paddingLeft: 12,
+                paddingRight: 12,
+            }
+        }
     }) as any as WmDatetimeStyles;
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

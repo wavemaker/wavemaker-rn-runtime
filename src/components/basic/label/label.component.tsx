@@ -3,7 +3,7 @@ import { DimensionValue, Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
-
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 import WmLabelProps from './label.props';
 import { DEFAULT_CLASS, WmLabelStyles } from './label.styles';
@@ -59,9 +59,10 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       return [];
     }
     caption += '';
+    caption = caption.replace(/\s*\(\s*\$event,\s*\$widget\s*\)\s*/, '');
     caption = caption.replace(/\(\s*\)/, '(#/__EMPTY__)');
     const pattern = /\[([^\]]+)\]\(([^)]*)\)/g;
-    const linkRegex = /^(((http|https):\/\/)|#)[^ "]+$/;
+    const linkRegex = /^(((http|https):\/\/)|javascript:|#).+$/;
     const captionSplit = caption.split(pattern);
 
     let parts = [];
@@ -115,8 +116,10 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
         <NavigationServiceConsumer>
         {(navigationService: NavigationService) => {
           return (<Tappable target={this}>
-            <Text style={{flexWrap: "wrap", textAlign: this.styles.text.textAlign}} numberOfLines={props.nooflines} ellipsizeMode="tail">
-              {this.state.parts?.map((part, index) => {
+            <Text style={ this.state.parts.length <= 1 ? this.styles.text : {flexWrap: "wrap", textAlign: this.styles.text.textAlign}}
+              {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
+              numberOfLines={props.nooflines} ellipsizeMode="tail">
+              {this.state.parts?.length === 1 ? this.state.props.caption : this.state.parts?.map((part, index) => {
                 const isLink = !isNil(part.link);
                 return (
                   <Text
@@ -126,13 +129,22 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
                       isLink ? this.styles.link.text : null,
                       props.isValid ? null : { color: 'red'}
                     ]}
-                    {...this.getTestPropsForLabel(isLink ? `link_${index}` : `${index}`)}
+                    {...this.getTestPropsForLabel(isLink ? `link_${index}` : `caption_${index}`)}
                     selectable={this.styles.text.userSelect === 'text'}
-                    {...part.link ? {
-                      onPress: () => {
-                        part.link && navigationService.openUrl(part.link, '_blank');
+                    onPress={() => {
+                      if (part.link) { 
+                        if (part.link.startsWith('http:')
+                          || part.link.startsWith('https:')
+                          || part.link.startsWith('#')) {
+                          navigationService.openUrl(part.link, '_blank');
+                        } else if (part.link.startsWith('javascript:')) {
+                          const eventName = part.link.substring(11);
+                          this.invokeEventCallback(eventName, [null, this.proxy]);
+                        }
                       }
-                    }: {}}
+                      this.invokeEventCallback('onTap', [null, this.proxy]);
+                    }}
+                    {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
                   >
                     {toString(part.text)}
                     {props.required && this.getAsterisk()}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { LayoutChangeEvent, View, Text, Platform } from 'react-native';
 import { Svg } from 'react-native-svg';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 import { VictoryLabel, VictoryLegend, VictoryPie } from 'victory-native';
 
@@ -15,6 +16,7 @@ import {
 } from '@wavemaker/app-rn-runtime/components/chart/basechart.component';
 import WmDonutChartProps from '@wavemaker/app-rn-runtime/components/chart/donut-chart/donut-chart.props';
 import { Legend } from '../legend/legend.component';
+
 
 export class WmPieChartState extends BaseChartComponentState<WmPieChartProps> {
   chartWidth = 0;
@@ -87,7 +89,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
     this.invokeEventCallback('onBeforerender', [this.proxy, null]);
     if (!this.state.data.length) {
       return null;
-    }
+    }   
     const pieData = this.state.data[0];
     const chartWidth = this.state.chartWidth 
       - (props.showlegend === 'right' ? this.state.legendWidth : 0);
@@ -115,6 +117,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
     });
     return (
       <View style={[{opacity: this.state.opacity}, this.styles.root]}
+        {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
         onLayout={this.onViewLayoutChange}>
         <View onLayout={this.onInfoViewLayoutChange}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>

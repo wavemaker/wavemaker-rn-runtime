@@ -18,11 +18,28 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
     super(props, DEFAULT_CLASS, new WmWizardstepProps(), new WmWizardstepState());
   }
 
- 
   componentDidMount() {
     const wizard = (this.parent) as WmWizard;
     wizard.addWizardStep(this);
     super.componentDidMount();
+  }
+
+  onPropertyChange(name: string, $new: any, $old: any) {
+    super.onPropertyChange(name, $new, $old);
+    switch(name) {
+      case 'title':
+        const wizard = (this.parent) as WmWizard;
+        wizard?.refresh();
+        break;
+      case 'disableprev':
+      case 'disablenext':
+      case 'disabledone':
+      case 'enableskip':
+        setTimeout(() => {
+          this.parent.forceUpdate();
+        }, 10);
+        break;
+    }
   }
 
   setActive() {
@@ -51,17 +68,6 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
 
   invokeSkipCB(index: number) {
     this.invokeEventCallback('onSkip', [this.proxy, this, index]);
-  }
-  onPropertyChange(name: string, $new: any, $old: any): void {
-    switch(name){
-      case 'disableprev':
-      case 'disablenext':
-      case 'disabledone':
-      case 'enableskip':
-        setTimeout(() => {
-          this.parent.forceUpdate();
-        }, 10);
-    }
   }
   renderWidget(props: WmWizardstepProps) {
     if(!this.state.showContent && this.isVisible()){

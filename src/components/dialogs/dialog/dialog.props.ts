@@ -11,4 +11,8 @@ export default class WmDialogProps extends BaseProps {
   showheader? = true;
   title? = '';
   onOpened?: Function = null as any;
+  iconurl?: string = null as any;
+  iconheight?: number = null as any;
+  iconwidth?: number = null as any;
+  iconmargin?: number = null as any;
 }

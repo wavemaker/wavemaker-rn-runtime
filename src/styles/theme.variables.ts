@@ -49,8 +49,12 @@ export default class ThemeVariables {
     badgeColor = '#6c757d';
     badgeContrastColor = '#ffffff';
     baseFont = 'Roboto';
+    tabbarInactiveColor  = '#d8d8d8';
     maxModalHeight = Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0);
     maxWidth = Dimensions.get("window").width; 
+
+     //rippleColor
+     rippleColor = this.transparent
 
     // page
     pageContentBgColor = this.defaultColorE;
@@ -62,6 +66,10 @@ export default class ThemeVariables {
     widgetActiveHeaderTextColor = this.primaryContrastColor;
     widgetBorderColor = this.defaultColorC;
     widgetBgColor = this.defaultColorF;
+
+    //App Navbar
+    titleBadgeBackgroundColor = Color('#151420').fade(0.8).rgb().toString();
+    titleBadgeTextColor = '#151420';
 
     // Navbar variables
     navbarBackgroundColor = this.defaultColorF;
@@ -104,11 +112,16 @@ export default class ThemeVariables {
 
     //tabbar variables
     tabbarBackgroundColor = this.primaryContrastColor;
-    tabbarTextColor =  this.primaryColor;
-    tabbarIconColor = this.primaryColor;
-    centerHubItemColor = '@primaryColor';
-    centerHubIconColor = '@defaultColorF';
-    centerHubLabelColor = '@defaultColorF';
+    tabbarTextColor =  'var(--tabbarInactiveColor)';
+    tabbarIconColor = 'var(--tabbarInactiveColor)';
+    tabShadowColor = this.defaultColor;
+    tabActiveBackgroundColor = this.primaryColor3;
+    tabActiveIconColor = this.primaryColor;
+    tabLabelTextColor = this.primaryColor;
+
+    centerHubItemColor = 'var(--primaryColor)';
+    centerHubIconColor = 'var(--defaultColorF)';
+    centerHubLabelColor = 'var(--defaultColorF)';
 
     // tab variables
     tabHeaderBgColor = this.widgetBgColor;
@@ -195,8 +208,8 @@ export default class ThemeVariables {
     inputPlaceholderColor = this.defaultColorB;
 
     //floating label
-    floatingLabelColor = '@inputPlaceholderColor';
-    activeFloatingLabelColor = '@primaryColor';
+    floatingLabelColor = 'var(--inputPlaceholderColor)';
+    activeFloatingLabelColor = 'var(--primaryColor)';
 
     //slider variables
     minimumTrackTintColor = this.primaryColor;
@@ -216,10 +229,17 @@ export default class ThemeVariables {
     toggleUnselectedTrackbgColor = this.defaultColorC;
 
     // radioset, checkboxset variables
-    groupHeadingBgColor = this.transparent;
-    checkedColor = this.primaryColor;
-    checkedDisabledColor = this.defaultColorA;
-
+    groupHeadingBgColor = 'var(--transparent)';
+    checkedColor = 'var(--primaryColor)';
+    checkedDisabledColor = 'var(--defaultColorA)';
+    checkedEnabledColor = 'var(--defaultColorF)';
+    checkboxBorderColor = 'var(--defaultColor9)';
+    checkedBgColor = 'var(--primaryColor)';
+    uncheckedBgColor = 'var(--transparent)';
+    checkedIconColor = 'var(--defaultColorF)';
+    checkedBorderColor = 'var(--primaryColor)';
+    uncheckedBorderColor = 'var(--defaultColor9)';
+    
     //form
     formBorderColor = this.widgetBorderColor;
     formTitleColor = this.defaultTextColor;
@@ -396,7 +416,7 @@ export default class ThemeVariables {
     chipActiveTextColor = this.defaultColorF;
     chipDefaultTextColor = this.defaultColorA;
     chipborderColor = this.defaultColorD;
-    chipContainerColor = this.defaultColor2; 
+    chipContainerColor = this.defaultColorF; 
     chipIconColor = this.primaryColor;
     chipSelectedOutlineColor = this.defaultColor6;
     chipSelectedContainerColor = this.defaultColor7;

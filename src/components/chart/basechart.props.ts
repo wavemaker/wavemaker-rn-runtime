@@ -1,4 +1,5 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { AccessibilityRole } from 'react-native';
 
 export default class BaseChartComponentProps extends BaseProps {
   xaxisdatakey: string = '';
@@ -54,4 +55,7 @@ export default class BaseChartComponentProps extends BaseProps {
   tooltippointerwidth?: number = undefined;
   tooltipcenteroffsetx?: number = undefined;
   tooltipcenteroffsety?: number = undefined;
+  accessibilitylabel?: string = undefined;
+  hint?: string = undefined;
+  accessibilityrole?: AccessibilityRole = 'none';
 }

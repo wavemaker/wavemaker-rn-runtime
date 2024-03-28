@@ -3,7 +3,8 @@ import { TouchableOpacity, Animated, Easing, LayoutChangeEvent } from 'react-nat
 
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
+import { unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 import WmToggleProps from './toggle.props';
 import { DEFAULT_CLASS, WmToggleStyles } from './toggle.styles';
@@ -55,12 +56,12 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     Animated.sequence([
       Animated.timing(this.scaleValue, {
         toValue: 1.6,
-        duration: 500,
+        duration: 300,
         useNativeDriver: true,
       }),
       Animated.timing(this.animationValue, {
         toValue: value ? 1 : 0,
-        duration: 500,
+        duration: 300,
         easing: Easing.linear,
         useNativeDriver: true,
       }),
@@ -98,6 +99,7 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
       onLayout={(e) => {
         this.onLayoutChange(e);
       }}
+      {...getAccessibilityProps(AccessibilityWidgetType.TOGGLE, {...this.props, selected: this.state.isSwitchOn})}
       onPress={() => {
         if (this.props.disabled) {
           return;
@@ -129,9 +131,10 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
           },
         ]}>
           <BackgroundComponent
-            size={styles.handle.backgroundSize}
+            size={styles.handle.backgroundSize || 'contain'}
             position={styles.handle.backgroundPosition}
-            image={styles.handle.backgroundImage}>  
+            image={styles.handle.backgroundImage}
+            repeat={styles.handle.backgroundRepeat || 'no-repeat'}>  
           </BackgroundComponent>
         </Animated.View>
       </TouchableOpacity>

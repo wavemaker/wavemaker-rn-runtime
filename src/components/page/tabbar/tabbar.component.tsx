@@ -49,18 +49,26 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   
     return (
       <View style={[increasedGap, floating? this.styles.centerHubItem: {}]} key={`${item.label}_${testId}`}>
-      <TouchableOpacity {...this.getTestPropsForAction('item' + testId)} onPress={() => onSelect && onSelect()}  key={item.key}>
-      <View style={[isActive && !floating ? this.styles.activeTabItem : {}]}>
-      <WmIcon styles={this.theme.mergeStyle({}, this.styles.tabIcon ,floating? this.styles.centerHubIcon: {}, isActive && !floating ? this.styles.activeTabIcon : {})}
-          iconclass={item.icon}></WmIcon>
-      <Text style={[this.styles.tabLabel,floating? this.styles.centerHubLabel: {}, isActive && !floating ? this.styles.activeTabLabel: {}]}>{getDisplayLabel(item.label)}</Text>
+        <TouchableOpacity
+          {...this.getTestPropsForAction('item' + testId)}
+          onPress={() => onSelect && onSelect()}
+          key={item.key}
+        >
+          <View style={[isActive && !floating  ? this.styles.activeTabItem : {}]}>
+            <WmIcon
+              styles={this.theme.mergeStyle({}, this.styles.tabIcon, floating? this.styles.centerHubIcon: {}, isActive ? this.styles.activeTabIcon : {})}
+              iconclass={item.icon}
+            ></WmIcon>
+          </View>
+        </TouchableOpacity>
+        <Text style={[this.styles.tabLabel, floating? this.styles.centerHubLabel: {},  isActive ? this.styles.activeTabLabel : {}]}>
+          {getDisplayLabel(item.label)}
+        </Text>
       </View>
-      </TouchableOpacity>
-      </View>
-  );
-}
-
-  onItemSelect(item: TabDataItem, navigationService: NavigationService) {
+    );
+  }
+  
+  onItemSelect(item: NavigationDataItem, navigationService: NavigationService) {
     item.link && navigationService.openUrl(item.link);
     this.invokeEventCallback('onSelect', [null, this.proxy, item]);
   }

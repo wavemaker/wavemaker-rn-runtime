@@ -41,6 +41,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       fontSize: 14,
       minWidth: 64,
       minHeight: 40,
+      paddingLeft: 16,
+      paddingRight: 16,
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,

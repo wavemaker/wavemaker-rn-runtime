@@ -50,6 +50,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       color: themeVariables.chartTitleColor,
       fontSize: 20,
       lineHeight: 24,
+      paddingLeft: 10,
     },
     subHeading: {
       fontSize: 12,

@@ -5,6 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import { TapEvent, Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { encodeUrl } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
 
 import WmAnchorProps from './anchor.props';
@@ -42,14 +43,34 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
   }
 
   renderWidget(props: WmAnchorProps) {
+      const {
+        iconclass,
+        iconurl,
+        name,
+        iconheight,
+        iconmargin,
+        iconwidth,
+        badgevalue,
+      } = props;
+     
     if (this.styles.icon && this.styles.icon.text) {
       this.styles.icon.text.color = this.styles.text.color;
     }
-    const icon = props.iconclass ? (<WmIcon
-      id={this.getTestId('icon')}
-      styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>) :  null;
+
+    const icon = (iconclass || iconurl) && (
+      <WmIcon
+        id={this.getTestId('icon')}
+        styles={this.styles.icon} 
+        name={name + '_icon'}
+        iconclass={iconclass}
+        iconurl={iconurl}
+        iconheight={iconheight}
+        iconmargin={iconmargin}
+        iconwidth={iconwidth}
+      />
+    );    
     //@ts-ignore
-    const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>): null;
+    const badge = badgevalue != undefined ? (<Badge style={this.styles.badge}>{badgevalue}</Badge>): null;
     return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
@@ -59,7 +80,10 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
               {this._background}
               {props.iconposition === 'top' && icon}
               {props.iconposition === 'left' && icon}
-              {props.caption ? (<Text {...this.getTestPropsForLabel('caption')} style={this.styles.text}>{props.caption}</Text>) : null}
+              {props.caption ? (<Text style={this.styles.text}
+              {...this.getTestPropsForLabel('caption')} 
+              {...getAccessibilityProps(AccessibilityWidgetType.ANCHOR, props)}
+              numberOfLines={props.nooflines}>{props.caption}</Text>) : null}
               {props.iconposition === 'right' && icon}
               {badge}
             </Tappable>

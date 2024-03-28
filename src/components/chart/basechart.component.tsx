@@ -12,7 +12,7 @@ import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/char
 import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, BaseChartComponentStyles} from "./basechart.styles";
 import _ from "lodash";
-
+import { constructSampleData, getChartType } from "./staticdata";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -37,7 +37,7 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
 
 const screenWidth = Dimensions.get("window").width;
 
-const shapes: {[key: string]: ScatterSymbolType} = {
+const shapes: {[key: string]: any} = {
   'circle': 'circle',
   'cross': 'cross',
   'diamond': 'diamond',
@@ -46,7 +46,7 @@ const shapes: {[key: string]: ScatterSymbolType} = {
   'square': 'square',
   'star': 'star',
   'triangle-down': 'triangleDown',
-  'triangle-up': 'triangleUp'
+  'triangle-up': 'triangleUp',
 };
 
 const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
@@ -186,6 +186,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     const xaxis = props.xaxisdatakey;
     return (
       <VictoryVoronoiContainer
+      voronoiDimension="x"
       labels={({ datum }) => `${props.dataset[datum.x][xaxis]} \n Value ${datum.y} `}
       voronoiBlacklist={this.state.data.map((item: any, i: number) => props.name + '_' + i)}
       labelComponent={
@@ -346,6 +347,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     let themeToUse;
     if (typeof themeName === 'string') {
       if (!colorsToUse.length) {
+        colorsToUse = props.customcolors as string[];
+      }
+      if(props.customcolors===undefined) {
         colorsToUse = ThemeFactory.getColorsObj(themeName);
       }
       themeToUse = ThemeFactory.getTheme(themeName, props.styles, colorsToUse);
@@ -415,7 +419,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   // If date string is bound to xaxis then we are pushing the x values as indexes.
   getxAxisVal(dataObj: {[key: string] : any}, xKey: string, index: number, xaxisDatakeyArr: Array<any>) {
     const value: any = get(dataObj, xKey);
-    if (moment(value, true).isValid() || isNaN(value)) {
+    if (moment(value).isValid() || isNaN(value) || typeof value === 'string' || typeof value === 'number') {
       xaxisDatakeyArr.push(value);
       return index;
     }
@@ -428,7 +432,11 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     let yaxis = props.yaxisdatakey;
     let xaxisDatakeyArr: Array<any> = [];
     let datasets: any = [];
-
+    if (dataset.length === 0) {
+      dataset = constructSampleData(getChartType(this.props), yaxis?.split(','), this.props.shape);
+      xaxis = "x";
+      yaxis = "y";
+    }
     if (xaxis && yaxis) {
       let yPts = yaxis.split(',');
       yPts.forEach((y: any) => {
@@ -553,3 +561,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     }
   }
 }
+function getDataType(widgetContext: { yaxisdatakey: string | null | undefined; shape: any; }): any {
+  throw new Error("Function not implemented.");
+}
+

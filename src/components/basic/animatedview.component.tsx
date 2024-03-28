@@ -10,6 +10,7 @@ export default class AnimatedviewProps {
   iterationCount?:any;
   style?: any;
   exitanimation?: string = null as any;
+  accessibilityProps?: any;
 }
 
 const AnimationMap: any = {
@@ -155,9 +156,10 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
        useNativeDriver={true}
        style={this.props.style}
        iterationCount={this.props.iterationCount}
-       ref={this.handleViewRef}>
+       ref={this.handleViewRef}
+       {...this.props.accessibilityProps}>
         {this.props.children}
       </Animatable.View>
-    ): (<View style={this.props.style}>{this.props.children}</View>);
+    ): (<View style={this.props.style} {...this.props.accessibilityProps}>{this.props.children}</View>);
   }
 }

@@ -14,6 +14,7 @@ export const DEFAULT_CLASS = 'app-label';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmLabelStyles = defineStyles({
       root: {
+        alignSelf: 'flex-start'
       },
       text: {
         fontSize: 16,

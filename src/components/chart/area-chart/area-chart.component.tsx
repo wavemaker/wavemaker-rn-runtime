@@ -10,8 +10,11 @@ import {
   BaseChartComponent,
   BaseChartComponentState
 } from "@wavemaker/app-rn-runtime/components/chart/basechart.component";
+import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
+
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { isNil, isNumber } from 'lodash-es';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> {
   chartWidth = 0;
@@ -54,30 +57,29 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
     }
     return (
       <View
+        {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
         style={this.styles.root}
         onLayout={this.onViewLayoutChange.bind(this)}
       >
+        <View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
+            <Text style={this.styles.title}>{props.title}</Text>
+          </View>
+          <Text style={this.styles.subHeading}>{props.subheading}</Text>
+        </View>
         {this.state.chartWidth ? 
         (
           <VictoryChart
             theme={this.state.theme}
             height={this.styles.root.height as number}
             width={this.state.chartWidth || 120}
-            padding={{ top: 70, bottom: 50, left: 50, right: 30 }}
+            padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
             minDomain={mindomain}
             containerComponent={
               this.getTooltip(props)
             }
           > 
-            <VictoryLegend
-              name={'legend'}
-              containerComponent={<Svg />}
-              title={[props.title, props.subheading]}
-              orientation="horizontal"
-              gutter={20}
-              data={[]}
-              theme={this.state.theme}
-            />
             {this.getLegendView()}
             {this.getXaxis()}
             {this.getYAxis()}
@@ -104,14 +106,12 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                     }}
                     data={this.isRTL?d.toReversed():d}
                   />
-                  {props.highlightpoints ?
                     <VictoryScatter
                       size={5}
                       key={props.name + '_scatter' + i}
                       style={{
-                        data: { 
-                          fill: Color(this.state.colors[i]).darken(0.2).rgb().toString()}
-                      }}      
+                        data: props.highlightpoints ? {fill: this.state.colors[i], opacity: 0.8}:{opacity: 0}
+                      }}        
                       data={this.isRTL?d.toReversed():d}
                       events={[{
                         target: 'data',
@@ -122,7 +122,6 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                         }
                       }]}
                       />
-                  : null}
                 </VictoryGroup>
               })
             }

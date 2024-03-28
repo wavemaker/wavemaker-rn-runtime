@@ -114,6 +114,13 @@ export default abstract class BaseApp extends React.Component implements Navigat
   public modalsOpened: number = 0;
   public toastsOpened: number = 0;
   public watcher: Watcher = Watcher.ROOT;
+  public paperTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: ThemeVariables.INSTANCE.primaryColor
+    }
+  };
   public lib = preparePatch(() => {
     this.refresh();
   });
@@ -167,6 +174,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   get activePage() {
     return this.appConfig.currentPage;
+  }
+
+  get Widgets() {
+    return this.commonPartial?.Widgets;
   }
 
   goToPage(pageName: string, params: any)  {
@@ -448,12 +459,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
     return (
       <SafeAreaProvider>
-        <PaperProvider theme={{
-          ...DefaultTheme,
-          colors: {
-            ...DefaultTheme.colors,
-            primary: ThemeVariables.INSTANCE.primaryColor
-          }}}>
+        <PaperProvider theme={this.paperTheme}>
           <React.Fragment>
             {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
           <SafeAreaInsetsContext.Consumer>
@@ -462,6 +468,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 (<SafeAreaView  style={{flex: 1}}>
                   <StatusBar />
                   <FixedViewContainer>
+                  <ThemeProvider value={this.appConfig.theme}>
                   <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}
                   style={{ flex: 1 }}>
                     <View style={styles.container}>
@@ -478,7 +485,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         {this.renderDisplayManager()}
                     </View>
                     </KeyboardAvoidingView>
-                    <WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>
+                    {this.appConfig.url ? 
+                      (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
+                      : null}
+                  </ThemeProvider>
                   </FixedViewContainer>
                 </SafeAreaView>))
               )

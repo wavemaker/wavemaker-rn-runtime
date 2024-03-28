@@ -41,8 +41,7 @@ export abstract class BaseNavComponent< T extends BaseNavProps, S extends BaseNa
         return {
           key: `${name}_item${i}`,
           label: s,
-          data: s,
-          icon: 'wi wi-' + s
+          data: s
         } as NavigationDataItem;
       });
     } else if (dataset) {
