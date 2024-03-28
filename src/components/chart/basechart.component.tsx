@@ -185,6 +185,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     const xaxis = props.xaxisdatakey;
     return (
       <VictoryVoronoiContainer
+      voronoiDimension="x"
       labels={({ datum }) => `${props.dataset[datum.x][xaxis]} \n Value ${datum.y} `}
       voronoiBlacklist={this.state.data.map((item: any, i: number) => props.name + '_' + i)}
       labelComponent={
