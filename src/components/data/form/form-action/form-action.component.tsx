@@ -1,7 +1,7 @@
 import React from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
-import { TapEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import { SyntheticEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmFormActionProps from './form-action.props';
 import { DEFAULT_CLASS, WmFormActionStyles } from './form-action.styles';
@@ -19,7 +19,7 @@ export default class WmFormAction extends BaseComponent<WmFormActionProps, WmFor
 
   private _debouncedFormAction = debounce(this.onClick, 250);
 
-  onClick($event: TapEvent, cb: Function | undefined) {
+  onClick($event: SyntheticEvent, cb: Function | undefined) {
     cb && cb($event);
   }
 
