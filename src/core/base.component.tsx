@@ -87,6 +87,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
         this.state = (defaultState || {} as S);
+        this.notifier.name = this.props.name || '';
         this.propertyProvider = new PropsProvider<T>(
             assign({show: true}, defaultProps),
             assign({}, markupProps),
@@ -148,6 +149,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     public subscribe(event: string, fn: Function) {
         return this.notifier.subscribe(event, fn);
+    }
+
+    public notify(event: string, args: any[]) {
+        return this.notifier.notify(event, args);
     }
 
     public get isRTL(){
@@ -257,6 +262,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.props.listener.onComponentDestroy(this.proxy);
         }
         this.cleanup.forEach(f => f && f());
+        this.notifier.destroy();
         this.notifier.notify('destroy', []);
     }
     
@@ -305,6 +311,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private setParent(parent: BaseComponent<any, any, any>) {
         if (parent && this.parent !== parent)  {
             this.parent = parent;
+            this.notifier.setParent(parent.notifier);
             this.parentListenerDestroyers = [
                 this.parent.subscribe('forceUpdate', () => {
                     this.cleanRefresh();
