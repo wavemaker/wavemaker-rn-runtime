@@ -8,7 +8,7 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import WmNavItemProps from './navitem.props';
 import { DEFAULT_CLASS, WmNavItemStyles } from './navitem.styles';
 import { NavigationDataItem } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.component";
-import { TapEvent } from "@wavemaker/app-rn-runtime/core/tappable.component";
+import { SyntheticEvent } from "@wavemaker/app-rn-runtime/core/tappable.component";
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 export class WmNavItemState extends BaseComponentState<WmNavItemProps> {
@@ -21,7 +21,7 @@ export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemSt
     super(props, DEFAULT_CLASS, new WmNavItemProps(), new WmNavItemState());
   }
 
-  onSelectItem(cb: any, $item: NavigationDataItem, $event: TapEvent) {
+  onSelectItem(cb: any, $item: NavigationDataItem, $event: SyntheticEvent) {
     cb && cb($event, this, $item?.data);
   }
 
