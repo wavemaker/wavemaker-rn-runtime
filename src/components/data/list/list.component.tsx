@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent } from 'react-native';
+import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, GestureResponderEvent } from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
@@ -44,7 +44,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return selectedItem === $item;
   }
 
-  private onSelect($item: any, $index: number | string, triggerTapEvent = false) {
+  private onSelect($item: any, $index: number | string, e: any ,triggerTapEvent = false) {
     const props = this.state.props;
     let selectedItem = null as any;
     if (props.disableitem !== true 
@@ -64,11 +64,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           selectedItem.splice(index, 1);
         }
       } else {
-        if (props.selecteditem === $item) {
-          selectedItem = null;
-        } else {
-          selectedItem = $item;
-        }
+        selectedItem = $item;
       }
       this.selectedItemWidgets = this.itemWidgets[$index as number];
       this.updateState({
@@ -76,7 +72,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         selectedindex: $index
       } as WmListState, () => {
         this.invokeEventCallback('onSelect', [this.proxy, $item]);
-        triggerTapEvent && this.invokeEventCallback('onTap', [null, this.proxy]);
+        triggerTapEvent && this.invokeEventCallback('onTap', [e, this.proxy]);
       });
     }
   }
@@ -127,7 +123,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       && props.dataset
       && props.dataset.length) {
         const index = props.groupby ? '00': 0;
-        this.onSelect(props.dataset[0], index);
+        this.onSelect(props.dataset[0], index, null);
       }
   }
   
@@ -140,11 +136,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   selectItem(item: any){
     const dataset = this.state.props.dataset;
     if(isNumber(item)){
-      this.onSelect(dataset[item], item);
+      this.onSelect(dataset[item], item, null);
     }
     else{
       let index = dataset.indexOf(item);
-      this.onSelect(dataset[index], index);
+      this.onSelect(dataset[index], index, null);
     }
   }
 
@@ -272,7 +268,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const props = this.state.props;
     if (this.state.props.selectfirstitem && props.dataset?.length) {
       setTimeout(() => {
-        this.onSelect(props.dataset[0], 0);
+        this.onSelect(props.dataset[0], 0, null);
       });
     }
     this.subscribe('scroll', (event: any) => {
@@ -315,11 +311,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         this.isSelected(item) ? this.styles.selectedItem : {}]}>
         <Tappable
           {...this.getTestPropsForAction(`item${index}`)}
-          onTap={() => this.onSelect(item, index, true)}
+          onTap={(e: any) => this.onSelect(item, index, e, true)}
           onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
           onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
           styles={
-            [
+            [{display: 'flex', flexDirection : 'row'},
               cols ? {
                 width: '100%'
               } : null,
