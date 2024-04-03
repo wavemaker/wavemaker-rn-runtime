@@ -37,6 +37,8 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
         this.onContentReady();
         const parent: any = this.props.parent;
         if (parent) {
+          parent.pageParams = (this as any).pageParams;
+          parent.partialParams  = (this as any).pageParams;
           parent.Widgets = this.Widgets;
           parent.Variables = this.fragmentVariables;
         }
