@@ -133,6 +133,18 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       return Promise.resolve();
     }
 
+    public navigateToLandingPage() {
+      AppSecurityService.navigateToLandingPage();
+    }
+
+    public toHashURL() {
+      const hash = `#/${this.pageName}`;
+      const paramStr = Object.keys(this.pageParams || [])
+        .map(k => k && `${k}=${this.pageParams[k]}`)
+        .join('&');
+      return hash + (paramStr ? `?${paramStr}` : '');
+    }
+
     goBack() {
       const navigation = (this.props as PageProps).navigation;
       if (navigation.canGoBack()) {

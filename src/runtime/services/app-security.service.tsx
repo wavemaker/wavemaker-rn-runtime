@@ -20,6 +20,7 @@ interface LoggedInUserConfig {
     id: String;
     tenantId: String;
     userAttributes: any;
+    landingPage: string;
 }
 
 enum USER_ROLE {
@@ -41,6 +42,7 @@ class AppSecurityService implements SecurityService {
     appConfig: any;
     baseUrl: string = '';
     defaultSecurityConfig: any;
+    landingPage = '';
 
     constructor() {
       axios.interceptors.request.use((config: InternalAxiosRequestConfig) => this.onBeforeServiceCall(config));
@@ -73,8 +75,18 @@ class AppSecurityService implements SecurityService {
       return injector.get<AppConfig>('APP_CONFIG');
     }
 
-    public navigateToLandingPage(details: any) {
-      this.appConfig.currentPage?.goToPage(details.userInfo?.landingPage || 'Main', null, true);
+    public navigateToLandingPage() {
+      this.appConfig.currentPage?.goToPage(
+        this.appConfig.loggedInUser?.landingPage 
+        || this.appConfig.landingPage 
+        || 'Main', null, true);
+      if (this.landingPage) {
+        const landingPage = this.landingPage;
+        this.landingPage = '';
+        setTimeout(() => {
+          this.appConfig.currentPage?.openUrl(landingPage);
+        }, 100);
+      }
     }
 
     public appLogin(options: any) {
@@ -111,7 +123,8 @@ class AppSecurityService implements SecurityService {
           .then(() => Promise.resolve(this.defaultSecurityConfig));
         }).then((details: any) => {
           const loggedInUser = {} as LoggedInUserConfig;
-          this.securityConfig = details;
+          this.securityConfig = details || {};
+          this.securityConfig.isSecurityEnabled = !!details?.securityEnabled;
           const appConfig = this.appConfig;
           if (typeof details !== 'string' && (!details.securityEnabled || details.authenticated)) {
               if (details.authenticated) {
@@ -122,6 +135,7 @@ class AppSecurityService implements SecurityService {
                   loggedInUser.id              = details.userInfo.userId;
                   loggedInUser.tenantId        = details.userInfo.tenantId;
                   loggedInUser.userAttributes  = details.userInfo.userAttributes;
+                  loggedInUser.landingPage  = details.userInfo.landingPage;
                   appConfig.loggedInUser = loggedInUser;
                   this.loggedInUser.dataSet = loggedInUser;
               }
@@ -148,6 +162,9 @@ class AppSecurityService implements SecurityService {
 
     
     public redirectToLogin() {
+      if (this.appConfig.currentPage?.pageName !== this.appConfig.landingPage) {
+        this.landingPage = this.appConfig.currentPage?.toHashURL();
+      }
       if (this.securityConfig?.loginConfig?.type  === 'SSO') {
         const authUrl = this.appConfig.url  + '/services/security/ssologin';
         if (Platform.OS === 'web') {
