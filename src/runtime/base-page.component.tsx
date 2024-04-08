@@ -41,7 +41,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
         .then(flag => {
           if (!flag) {
             this.cache = false;
-            AppSecurityService.redirectToLogin();
+            AppSecurityService.redirectToLogin(this.toHashURL());
           }
         });
     }
@@ -110,7 +110,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       const navigation = (this.props as PageProps).navigation;
       const _params = clone(params);
       _params && delete _params['pageName'];
-      if (pageName !== this.pageName || !isEqual(_params, this.pageParams)) {
+      if (pageName !== this.pageName || !isEqual(_params || null, this.pageParams || null)) {
         if (pageName === this.pageName) {
           navigation.push(pageName, _params);
         } else if (clearCahe) {
