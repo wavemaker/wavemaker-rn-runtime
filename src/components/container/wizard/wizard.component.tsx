@@ -154,7 +154,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                 <WmIcon styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
                         iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
             </View>
-            {((isNumberTextLayout && isActiveStep) || !isNumberTextLayout) &&
+            {(isActiveStep) &&
               <Text style={this.styles.stepTitle}>
               {item.state.props.title || 'Step Title'}</Text> }
             {this.numberOfSteps > 1 && isActiveStep &&
