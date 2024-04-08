@@ -161,10 +161,7 @@ class AppSecurityService implements SecurityService {
     }
 
     
-    public redirectToLogin() {
-      if (this.appConfig.currentPage?.pageName !== this.appConfig.landingPage) {
-        this.landingPage = this.appConfig.currentPage?.toHashURL();
-      }
+    public redirectToLogin(redirectTo?: string) {
       if (this.securityConfig?.loginConfig?.type  === 'SSO') {
         const authUrl = this.appConfig.url  + '/services/security/ssologin';
         if (Platform.OS === 'web') {
@@ -191,6 +188,9 @@ class AppSecurityService implements SecurityService {
         }
       } else {
         const loginPage = this.securityConfig.loginConfig?.pageName || 'Login';
+        if (redirectTo && !redirectTo.startsWith('#/'+ loginPage)) {
+          this.landingPage = redirectTo;
+        }
         injector.get<AppConfig>('APP_CONFIG').landingPage = loginPage;
         this.appConfig.currentPage?.goToPage(loginPage, null, true);
       }
