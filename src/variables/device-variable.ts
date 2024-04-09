@@ -21,7 +21,7 @@ export class DeviceVariable extends BaseVariable<DeviceVariableConfig> {
     }
     this.notify(VariableEvents.BEFORE_INVOKE, [this, this.dataSet]);
 
-    return operation.invoke(this.params as Input, onSuccess, onError)
+    return operation.invoke(this.params as Input, onSuccess, onError, this.config.operation, this)
       .then((data: Output) => {
         this.dataSet = data;
         this.config.onSuccess && this.config.onSuccess(this, this.dataSet);
