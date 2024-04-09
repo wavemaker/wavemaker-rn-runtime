@@ -14,7 +14,7 @@ import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
 import ConstantService from '@wavemaker/app-rn-runtime/core/constant.service';
-import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
+import NetworkService, { NetworkState } from '@wavemaker/app-rn-runtime/core/network.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
@@ -125,6 +125,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
     this.refresh();
   });
 
+  public networkStatus = {} as NetworkState;
+
   constructor(props: any) {
     super(props);
     SplashScreen.preventAutoHideAsync();
@@ -162,6 +164,12 @@ export default abstract class BaseApp extends React.Component implements Navigat
         refreshAfterWait = true;
       }
     }
+    this.cleanup.push(
+      NetworkService.notifier.subscribe('onNetworkStateChange', (networkState: NetworkState) => {
+        this.networkStatus = {...networkState};
+        this.refresh();
+      }
+    ));
   }
 
   subscribe(event: string, fn: Function) {
