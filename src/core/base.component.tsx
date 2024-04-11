@@ -18,6 +18,7 @@ import { HideMode } from './if.component';
 import { AssetConsumer } from './asset.provider';
 import { FixedView } from './fixed-view.component';
 import { TextIdPrefixConsumer } from './testid.provider';
+import { Tappable, TappableContext } from './tappable.component';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -83,6 +84,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public loadAsset: (path: string) => number | string = null as any;
     private i18nService = injector.I18nService.get();
     public testIdPrefix = '';
+    public closestTappable?: Tappable;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -151,8 +153,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.notifier.subscribe(event, fn);
     }
 
-    public notify(event: string, args: any[]) {
-        return this.notifier.notify(event, args);
+    public notify(event: string, args: any[], emitToParent = false) {
+        return this.notifier.notify(event, args, emitToParent);
     }
 
     public get isRTL(){
@@ -414,32 +416,36 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     private getDependenciesFromContext(fn: () => ReactNode) {
         return (
-        <TextIdPrefixConsumer>
-            {(testIdPrefix) => {
-                this.testIdPrefix = testIdPrefix || '';
-                return (<AssetConsumer>
-                    {(loadAsset) => {
-                    this.loadAsset = loadAsset;
-                    return (<ParentContext.Consumer>
-                        {(parent) => {
-                            this.setParent(parent);
-                            this._showSkeleton = this.parent?._showSkeleton 
-                                || !!this.state.props.showskeleton;
-                            return (
-                                <ParentContext.Provider value={this}>
-                                    <ThemeConsumer>
-                                        {(theme) => {                                
-                                            this.theme = theme || BASE_THEME;
-                                            return fn();
-                                        }}
-                                    </ThemeConsumer>
-                                </ParentContext.Provider>);
-                        }}    
-                        </ParentContext.Consumer>);
+        <TappableContext.Consumer>{(tappable) => {
+            this.closestTappable = tappable;
+            return (
+                <TextIdPrefixConsumer>
+                    {(testIdPrefix) => {
+                        this.testIdPrefix = testIdPrefix || '';
+                        return (<AssetConsumer>
+                            {(loadAsset) => {
+                            this.loadAsset = loadAsset;
+                            return (<ParentContext.Consumer>
+                                {(parent) => {
+                                    this.setParent(parent);
+                                    this._showSkeleton = this.parent?._showSkeleton 
+                                        || !!this.state.props.showskeleton;
+                                    return (
+                                        <ParentContext.Provider value={this}>
+                                            <ThemeConsumer>
+                                                {(theme) => {                                
+                                                    this.theme = theme || BASE_THEME;
+                                                    return fn();
+                                                }}
+                                            </ThemeConsumer>
+                                        </ParentContext.Provider>);
+                                }}    
+                                </ParentContext.Consumer>);
+                            }}
+                        </AssetConsumer>);
                     }}
-                </AssetConsumer>);
-            }}
-        </TextIdPrefixConsumer>); 
+                </TextIdPrefixConsumer>)}}
+        </TappableContext.Consumer>); 
     }
       
     public render(): ReactNode {

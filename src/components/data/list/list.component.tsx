@@ -40,7 +40,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return selectedItem === $item;
   }
 
-  private onSelect($item: any, $index: number | string, triggerTapEvent = false) {
+  private async onSelect($item: any, $index: number | string, $event?: any) {
     const props = this.state.props;
     let selectedItem = null as any;
     if (props.disableitem !== true 
@@ -60,20 +60,21 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           selectedItem.splice(index, 1);
         }
       } else {
-        if (props.selecteditem === $item) {
-          selectedItem = null;
-        } else {
-          selectedItem = $item;
-        }
+        selectedItem = $item;
       }
       this.selectedItemWidgets = this.itemWidgets[$index as number];
-      this.updateState({
-        props: { selecteditem: selectedItem },
-        selectedindex: $index
-      } as WmListState, () => {
-        this.invokeEventCallback('onSelect', [this.proxy, $item]);
-        triggerTapEvent && this.invokeEventCallback('onTap', [null, this.proxy]);
+      return new Promise(resolve => {
+        this.updateState({
+          props: { selecteditem: selectedItem },
+          selectedindex: $index
+        } as WmListState, () => {
+          this.invokeEventCallback('onSelect', [this.proxy, $item]);
+          $event && this.invokeEventCallback('onTap', [$event, this.proxy]);
+          resolve(null);
+        });
       });
+    } else {
+      return Promise.resolve(null);
     }
   }
 
@@ -253,11 +254,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         this.isSelected(item) ? this.styles.selectedItem : {}]}>
         <Tappable
           {...this.getTestPropsForAction(`item${index}`)}
-          onTap={() => this.onSelect(item, index, true)}
+          onTap={($event) => this.onSelect(item, index, $event)}
           onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
           onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
           styles={
-            [
+            [{display: 'flex', flexDirection : 'row'},
               cols ? {
                 width: '100%'
               } : null,

@@ -143,6 +143,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     setTimeout(() => {
       Injector.FOCUSED_ELEMENT.set(this);
       this.invokeEventCallback('onFocus', [ event, this.proxy]);
+      this.closestTappable?.triggerTap();
     }, 250);
 
   }

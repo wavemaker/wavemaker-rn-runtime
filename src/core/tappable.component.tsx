@@ -5,7 +5,8 @@ import { TouchableOpacity } from "react-native";
 import { get } from "lodash";
 import injector from "./injector";
 
-export const ParentTappableContext = React.createContext<Tappable>(null as any);
+export const TappableContext = React.createContext<Tappable>(null as any);
+
 interface TappableProps {
     testID?: string;
     children?: any
@@ -43,6 +44,19 @@ export class Tappable extends React.Component<TappableProps, any> {
         super(props);
     }
 
+    async triggerTap(e = new SyntheticEvent()) {
+        if (!e.propagationEnabled) {
+            return;
+        }
+        const target = this.props.target;
+        if (this.props.onTap) {
+            await this.props.onTap(e);
+        } else {
+            await target?.invokeEventCallback('onTap', [e, target]);
+        }
+        this.parent?.triggerTap(e);
+    }
+
     onPress(e: SyntheticEvent): void {   
         this.lastPress = Date.now();
         const target = this.props.target;
@@ -65,6 +79,9 @@ export class Tappable extends React.Component<TappableProps, any> {
                 this.lastDoubleTap = currentTime;
             }
             setTimeout(() => {
+                if (!e.propagationEnabled) {
+                    return;
+                }
                 if (this.props.onTap) {
                     this.props.onTap(e);
                 } else {
@@ -114,9 +131,9 @@ export class Tappable extends React.Component<TappableProps, any> {
             || this.props.onLongTap 
             || this.props.onDoubleTap) {
             return (
-                <ParentTappableContext.Consumer>{(parent) => {
+                <TappableContext.Consumer>{(parent) => {
                     this.setParent(parent);
-                    return( <ParentTappableContext.Provider value={this}>
+                    return(<TappableContext.Provider value={this}>
                 <TouchableOpacity
                  {...(Platform.OS === 'android' || Platform.OS === 'web') ? {
                     accessibilityLabel: this.props.testID,
@@ -127,12 +144,17 @@ export class Tappable extends React.Component<TappableProps, any> {
                 }} 
                 disabled={get(target?.proxy, 'disabled')}
                 style={this.props.styles}
-                onPress={(e?: GestureResponderEvent) => this.onPress(new SyntheticEvent())}
+                onPress={(e?: GestureResponderEvent) => {
+                    if ((e?.target as any)?.tagName === 'INPUT') {
+                        return;
+                    }
+                    this.onPress(new SyntheticEvent())
+                }}
                 onLongPress={(e?: GestureResponderEvent) => this.onLongTap(new SyntheticEvent())}
                 onPressOut={(e?: GestureResponderEvent) => this.onPressOut(new SyntheticEvent())}>
                     <>{this.props.children}</>
                 </TouchableOpacity>
-                </ParentTappableContext.Provider>)}}</ParentTappableContext.Consumer>
+                </TappableContext.Provider>)}}</TappableContext.Consumer>
             
             );
         }

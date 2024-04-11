@@ -1,9 +1,10 @@
 let i = 1;
 export default class EventNotifier {
+    public static ROOT = new EventNotifier();
     public name = '';
     public id = i++;
     private listeners = {} as any;
-    private parent: EventNotifier = null as any;
+    private parent: EventNotifier = EventNotifier.ROOT;
     private children: EventNotifier[] = [];
 
     setParent(parent: EventNotifier) {
@@ -14,7 +15,7 @@ export default class EventNotifier {
         }
     }
 
-    public notify(event: string, args: any[]) {
+    public notify(event: string, args: any[], emitToParent = false) {
         let propagate = true;
         if (this.listeners[event]) {
             propagate = !this.listeners[event].find((l: Function) => {
@@ -27,9 +28,13 @@ export default class EventNotifier {
             });
         }
         if (propagate) {
-            this.children.forEach((c) => {
-                c.notify(event, args);
-            });
+            if (emitToParent) {
+                this.parent?.notify(event, args, true);
+            } else {
+                this.children.forEach((c) => {
+                    c.notify(event, args);
+                });
+            }
         }
     }
 
