@@ -7,7 +7,7 @@ import { DEFAULT_CLASS, WmSwitchStyles } from './switch.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseDatasetComponent, BaseDatasetState } from '../basedataset/basedataset.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export class WmSwitchState extends BaseDatasetState<WmSwitchProps> {}
 
@@ -55,7 +55,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     const displayText = item.displayexp || item.displayfield;
     const isSelected = this.state.props.datafield === 'All Fields' ? isEqual(props.datavalue, item.datafield) : this.state.props.datavalue === item.datafield;
     return (
-      <Tappable 
+      <Tappable
         {...this.getTestPropsForAction(index + '')}
         {...getAccessibilityProps(AccessibilityWidgetType.SWITCH, {...this.state.props, selected: isSelected})}
         onTap={this.state.props.disabled ? undefined : this.onTap.bind(this, null, item)}
@@ -65,15 +65,15 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
           isSelected ? this.styles.selectedButton : null]}
           key={item.key}>
         {this.state.props.iconclass ?
-            (<WmIcon 
+            (<WmIcon
               id={this.getTestId('icon' + index)}
               styles={this.styles.loadingIcon}
               iconclass={item.icon}
               caption={displayText}></WmIcon>)
             : (<View>
-                <Text 
+                <Text
                   {...this.getTestPropsForLabel('' + index)}
-                  style={[this.styles.text, 
+                  style={[ isSelected ?  this.styles.selectedButtonText : this.styles.text,
                     {color: isSelected ? this.styles.selectedButton.color : this.styles.button.color }]}>
                   {displayText}
                 </Text>

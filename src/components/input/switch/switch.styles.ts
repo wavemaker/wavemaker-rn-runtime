@@ -7,6 +7,7 @@ export type WmSwitchStyles = BaseStyles & {
   loadingIcon: WmIconStyles,
   button: AllStyle,
   selectedButton: AllStyle,
+  selectedButtonText: AllStyle,
   firstButton: AllStyle,
   lastButton: AllStyle
 };
@@ -22,7 +23,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       text: {
         fontWeight: '500',
         fontSize: 16,
-        textTransform: 'capitalize'
+        textTransform: 'uppercase'
       },
     loadingIcon: {
       root: {
@@ -59,6 +60,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       color: themeVariables.switchActiveTextColor,
       backgroundColor: themeVariables.switchActiveBgColor,
       borderColor: themeVariables.switchBorderColor
+    } as AllStyle,
+    selectedButtonText: {
+      fontWeight: '500',
+      fontSize: 16,
+      textTransform: 'uppercase'
     } as AllStyle,
     firstButton: {
       borderTopLeftRadius: 18,
