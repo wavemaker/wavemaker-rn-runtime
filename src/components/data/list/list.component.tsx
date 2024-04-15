@@ -11,6 +11,7 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 export class WmListState extends BaseComponentState<WmListProps> {
@@ -387,7 +388,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
     return (
-    <View style={this.styles.root} onLayout={e => this.onLayoutChange(e)}>
+    <ScrollView style={this.styles.root} onLayout={e => this.onLayoutChange(e)}>
       {!isEmpty(this.state.groupedData) ? this.state.groupedData.map((v: any, i) => ((
           <View style={this.styles.group} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
@@ -412,7 +413,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           </View>
         ))) : this.renderEmptyMessage(isHorizontal, null, null,props)
       }
-    </View>);
+    </ScrollView>);
   }
 
   private getSectionListData() {
