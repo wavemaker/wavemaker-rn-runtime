@@ -19,4 +19,6 @@ export default class WmDatetimeProps extends BaseProps {
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole = "none";
   accessibilitylabelledby?: string = undefined;
+  iswheelpicker?: boolean = true;
+  is24hour?: boolean = true;
 }
