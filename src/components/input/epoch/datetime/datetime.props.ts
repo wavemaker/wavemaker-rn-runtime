@@ -14,4 +14,6 @@ export default class WmDatetimeProps extends BaseProps {
   timestamp?: any;
   triggerValidation?: any;
   floatinglabel?: string;
+  iswheelpicker?: boolean = true;
+  is24hour?: boolean = true;
 }

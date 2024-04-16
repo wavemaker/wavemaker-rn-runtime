@@ -356,3 +356,107 @@ export const isFullPathUrl = (url: string) => {
   || url.startsWith('https:') 
   || url.startsWith('file:'));
 };
+
+export function removeUndefinedKeys(obj: any) {
+  for (const key in obj) {
+    if (obj[key] === undefined) {
+      delete obj[key];
+    } else if (typeof obj[key] === 'object') {
+      // * if the value is an object, recursively call the function
+      removeUndefinedKeys(obj[key]);
+    }
+  }
+
+  return obj;
+}
+// * get total number of days in a month of a year
+function getDaysInMonth(month: number, year: number) {
+  return new Date(year, month, 0).getDate();
+}
+
+export const getDates = (
+  month = 0, // zero-based
+  year = new Date().getFullYear(),
+) => {
+  const daysInMonth = getDaysInMonth(month, year);
+  const dates = Array.from({length: daysInMonth}, (v, i) => i + 1);
+
+  return dates;
+};
+
+export const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+export const getMonths = () => {
+  const months = monthNames.map(name => name.substring(0, 3));
+
+  return months;
+};
+
+export const getYearRange = (
+  startYear: number = 1950,
+  endYear: number = 2060,
+) => {
+  const years = [];
+  for (let year = startYear; year <= endYear; ++year) {
+    years.push(year);
+  }
+
+  return years;
+};
+
+export const getDateObject = (date: number, month: number, year: number) => {
+  // * month is zero-based
+  return new Date(year, month, date);
+};
+
+export const getHours = () => {
+  const hours = [];
+  for (let hour = 1; hour <= 12; ++hour) {
+    const paddedHour = String(hour).padStart(2, '0');
+    hours.push(paddedHour);
+  }
+
+  return hours;
+}
+
+export const get24Hours = () => {
+  const hours = [];
+  for (let hour = 0; hour <= 23; ++hour) {
+    const paddedHour = String(hour).padStart(2, '0');
+    hours.push(paddedHour);
+  }
+
+  return hours;
+}
+
+export const getMinutes = () => {
+  const minutes = [];
+  for (let minute = 0; minute <= 59; ++minute) {
+    const paddedMinute = String(minute).padStart(2, '0');
+    minutes.push(paddedMinute);
+  }
+
+  return minutes;
+}
+
+export const getTimeIndicators = () => {
+  return ['AM', 'PM'];
+}
+
+export const getDateTimeObject = (date: number, month: number, year: number, hour: number, minute: number) => {
+  // * month is zero-based
+  return new Date(year, month, date, hour, minute);
+};
