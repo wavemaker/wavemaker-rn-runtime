@@ -470,5 +470,11 @@ export default class ThemeVariables {
     //Tool tip
     tooltipBgColor = Color("#fff").fade(0.6).rgb().toString();
     tooltipBorderColor = '#404040';
+
+    // Wheel Picker
+    wheelHighlightBorder = 'var(--primaryColor)';
+    wheelSelectedTextColor = '#1d1d1b';
+    wheelTextColor = '#737373';
+
     static INSTANCE = new ThemeVariables();
 }
