@@ -76,7 +76,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   renderAccordionpane(item: any, index: any, accordionpanes: any[] = []) {
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     const isExpanded = this.state.isExpanded[index];
-    return (
+    return item.props.show != false ? (
       <View style={this.styles.pane} key={item.props.title}>
         <TouchableOpacity key={'accordionpane_' + (index + 1)}
               {...this.getTestPropsForAction(`header${index}`)}
@@ -103,7 +103,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
         </TouchableOpacity>
         {item}
       </View>
-    );
+    ): null;
   }
 
   toggle(index: number, expand = true) {
