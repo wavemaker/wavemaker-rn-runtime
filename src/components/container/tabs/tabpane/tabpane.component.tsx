@@ -5,6 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmTabpaneProps from './tabpane.props';
 import { DEFAULT_CLASS, WmTabpaneStyles } from './tabpane.styles';
 import WmTabs from '../tabs.component';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {
   isPartialLoaded = false;
@@ -66,9 +67,9 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
   }
 
   renderWidget(props: WmTabpaneProps) {
-    return (<View style={this.styles.root}>
+    return (<ScrollView style={this.styles.root}>
         {this._background}
         {this.renderContent(props)}
-      </View>);
+      </ScrollView>);
   }
 }
