@@ -36,7 +36,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     switch(name) {
       case "caption":
         this.updateState({
-          parts: this.parseCaption($new)
+          parts: this.parseCaption(String($new))
         } as WmLabelState);
         break;
     }
