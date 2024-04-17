@@ -194,6 +194,10 @@ export default class ThemeVariables {
     inputInvalidBorderColor = this.dangerColor;
     inputPlaceholderColor = this.defaultColorB;
 
+    //wheel picker variables
+    wheelSelectedColor  = '#1d1d1b';
+    wheelColor = '#737373';
+
     //floating label
     floatingLabelColor = '@inputPlaceholderColor';
     activeFloatingLabelColor = '@primaryColor';
@@ -460,8 +464,8 @@ export default class ThemeVariables {
 
     // Wheel Picker
     wheelHighlightBorder = 'var(--primaryColor)';
-    wheelSelectedTextColor = '#1d1d1b';
-    wheelTextColor = '#737373';
+    wheelSelectedTextColor = 'var(--wheelSelectedColor)';
+    wheelTextColor = 'var(--wheelColor)';
 
     static INSTANCE = new ThemeVariables();
 }
