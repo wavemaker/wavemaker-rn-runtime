@@ -160,10 +160,12 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
         return;
       }
     }
-    if (this.props.invokeEvent) {
-      this.props.invokeEvent('onChange', [undefined, this.proxy, value, prevQuery]);
-    }
-     this.invokeEventCallback('onChange', [ undefined, this.proxy, value, prevQuery ]);
+    setTimeout(() => {
+      if (this.props.invokeEvent) {
+        this.props.invokeEvent('onChange', [undefined, this.proxy, value, prevQuery]);
+      }
+       this.invokeEventCallback('onChange', [ undefined, this.proxy, value, prevQuery ]);
+    }, 300);
   }
 
   invokeChange(e: any) {
