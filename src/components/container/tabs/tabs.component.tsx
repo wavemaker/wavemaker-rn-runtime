@@ -42,7 +42,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   constructor(props: WmTabsProps) {
     super(props, DEFAULT_CLASS, new WmTabsProps(), new WmTabsState());
   }
-  
+
   setTabLayout(event: LayoutChangeEvent) {
     this.tabLayout = event.nativeEvent.layout;
     this.forceUpdate(() => {
@@ -128,7 +128,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   public renderSkeleton(props: WmTabsProps){
     const tabPanes =  React.Children.toArray(this.props.children)
     .filter((item: any, index: number) => item.props.show != false);
-    const headerData = tabPanes.map((p: any, i: number) => 
+    const headerData = tabPanes.map((p: any, i: number) =>
       ({title: p.props.title || 'Tab Title', icon: '', key:  `tab-${p.props.title}-${i}`}));
     return(
       <View style={[this.styles.root, { borderBottomWidth: 0}]}>
@@ -139,7 +139,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         showskeleton={this.props.showskeleton}
         selectedTabIndex={this.state.selectedTabIndex}
       ></WmTabheader>
-      <View 
+      <View
         //{...this.panResponder.panHandlers}
         style={{
           width: '100%',
@@ -180,12 +180,12 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         } as WmTabsState);
     }
   }
-  
+
   renderWidget(props: WmTabsProps) {
     const tabPanes =  React.Children.toArray(props.children)
       .filter((item: any, index: number) => item.props.show != false);
-    const headerData = tabPanes.map((p: any, i: number) => 
-      ({title: p.props.title || 'Tab Title', icon: '', key:  `tab-${p.props.title}-${i}`}));
+    const headerData = tabPanes.map((p: any, i: number) =>
+      ({title: p.props.title || 'Tab Title',  icon: p.props.paneicon || '', key:  `tab-${p.props.title}-${i}`}));
     return (
       <View style={this.styles.root}>
         {this._background}
@@ -201,13 +201,13 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           style={[{
             width: '100%',
             flex: 1
-          }, this.styles.root.height ? 
-          (isWebPreviewMode() ? {'overflow-x': 'hidden','overflow-y': 'auto'} as any : {overflow: 'scroll'}) 
+          }, this.styles.root.height ?
+          (isWebPreviewMode() ? {'overflow-x': 'hidden','overflow-y': 'auto'} as any : {overflow: 'scroll'})
           : {
             overflow: 'hidden',
             maxHeight: this.tabPaneHeights[this.state.selectedTabIndex],
           }, this.styles.tabContent]} >
-          <SwipeAnimation.View 
+          <SwipeAnimation.View
             enableGestures={props.enablegestures}
             style={{
               flexDirection: 'row',
@@ -220,7 +220,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           >
             {tabPanes.map((p: any, i) => {
               return (
-              <View 
+              <View
                 key={`tab-${p.props.title}-${i}`}
                 style={{
                   width: '100%',
