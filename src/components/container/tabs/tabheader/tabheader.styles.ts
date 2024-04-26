@@ -14,7 +14,7 @@ export type WmTabheaderStyles = BaseStyles & {
     activeHeader: ViewStyle,
     activeHeaderIcon: WmIconStyles,
     activeHeaderText: TextStyle,
-    skeleton: WmSkeletonStyles 
+    skeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-tabheader';
@@ -43,7 +43,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 color: themeVariables.tabHeaderIconColor
             },
             icon: {
-                fontSize : 24
+                fontSize : 12
              }
         } as WmIconStyles,
         headerText: {
@@ -68,7 +68,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             }
         } as WmIconStyles,
         activeHeaderText: {
-            color: themeVariables.tabActiveHeaderTextColor 
+            color: themeVariables.tabActiveHeaderTextColor
         },
         arrowIndicator: {
             display: 'none',
