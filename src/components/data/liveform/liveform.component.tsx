@@ -70,8 +70,8 @@ export default class WmLiveForm extends WmForm {
     if (!this.validateFieldsOnSubmit()) {
       return false;
     }
-    if (this.props.onBeforesubmit) {
-      this.invokeEventCallback('onBeforesubmit', [ null, this.proxy, formData ]);
+    if (this.props.onBeforeservicecall) {
+      this.invokeEventCallback('onBeforeservicecall', [ null, this.proxy, formData ]);
     }
     if (this.props.formSubmit) {
       this.props.formSubmit({inputFields: formData}, operationType, ((data: any) => {
