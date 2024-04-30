@@ -13,4 +13,5 @@ export default class WmWizardProps extends BaseProps {
   progresstype: 'default' | 'success' | 'info' | 'warning' | 'error' = 'default';
   getmenudataexpression: any = undefined;
   popovericonclass: string = 'fa fa-caret-down';
+  headernavigation: boolean = true
 }
