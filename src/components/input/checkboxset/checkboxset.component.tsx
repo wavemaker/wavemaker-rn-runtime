@@ -1,12 +1,12 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-import { find, forEach, isEqual } from 'lodash';
+import { Text, View, TouchableOpacity, DimensionValue } from 'react-native';
+import { find, forEach, isEqual,  isEmpty } from 'lodash';
 import { Checkbox } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import WmCheckboxsetProps from './checkboxset.props';
 import {
   DEFAULT_CLASS,
-  
+
   WmCheckboxsetStyles,
 } from './checkboxset.styles';
 import {
@@ -48,13 +48,13 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
       });
   }
 
-  renderChild(item: any, index: any) {
+  renderChild(item: any, index: any,colWidth: DimensionValue) {
     const props = this.state.props;
     const displayText = item.displayexp || item.displayfield;
     return (
       <TouchableOpacity {...this.getTestPropsForAction(index + '')}
-        style={this.styles.item}
-        onPress={this.onPress.bind(this, item)} key={item.key}>
+        style={[this.styles.item, {width: colWidth}]}
+        onPress={this.onPress.bind(this, item)} key={item.key} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {...props, checked: item.selected})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${displayText}`}>
         <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled}/>
         <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.text}>{displayText}</Text>
       </TouchableOpacity>)
@@ -94,16 +94,18 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
 
   renderCheckboxses(items: any) {
     const props = this.state.props;
-    return(<View>
+    const noOfColumns = props.itemsperrow.xs || 1;
+    const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
+    return(<View style = {{flexWrap: 'wrap', flexDirection: 'row'}}>
       {items && items.length
-        ? items.map((item: any, index: any) => this.renderChild(item, index))
+        ? items.map((item: any, index: any) => this.renderChild(item, index, colWidth))
         : null}
     </View>)
   }
   renderWidget(props: WmCheckboxsetProps) {
     const items = this.state.dataItems;
     return (
-      <ScrollView style={this.styles.root}>
+      <ScrollView contentContainerStyle={this.styles.root}>
         <ScrollView horizontal={true}>
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderCheckboxses(items)}
