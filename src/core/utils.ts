@@ -2,6 +2,7 @@ import { Platform } from 'react-native';
 import moment from "moment";
 import * as FileSystem from "expo-file-system";
 import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber} from 'lodash';
+import ThemeVariables from '../styles/theme.variables';
 
 declare const window: any;
 const GROUP_BY_OPTIONS = {
@@ -460,3 +461,40 @@ export const getDateTimeObject = (date: number, month: number, year: number, hou
   // * month is zero-based
   return new Date(year, month, date, hour, minute);
 };
+
+export const getGradientStartEnd = (angle: string) => {
+  let start = { x: 0, y: 1 };
+  let end = { x: 1, y: 1 };
+
+  if (angle === '0deg' || angle?.toLowerCase() === 'to top') {
+    end.x = 0;
+    end.y = 0;
+  } else if (angle === '90deg' || angle?.toLowerCase() === 'to right') {
+    start.x = 0;
+  } else if (angle === '180deg' || angle?.toLowerCase() === 'to bottom') {
+    start.y = 0;
+    end.x = 0;
+    end.y = 1;
+  } else if (angle === '270deg' || angle?.toLowerCase() === 'to left') {
+    start.x = 1;
+    end.x = 0;
+  } else {
+    // other angle
+  }
+
+  return {start, end}
+}
+
+export const parseLinearGradient = (gradient: string) => {
+  let angle = '', color1 = '', color2 = '';
+  const linearGradientRegex = /linear-gradient\(([^,]+),\s*([^,]+),\s*([^)]+)\)/;
+  const hasLinearGradient = linearGradientRegex.test(gradient);
+
+  const matches = gradient?.match(linearGradientRegex);
+  angle = matches?.[1] || '90deg';
+  const {start, end} = getGradientStartEnd(angle)
+  color1 = matches?.[2] || ThemeVariables.INSTANCE.primaryColor;
+  color2 = matches?.[3] || ThemeVariables.INSTANCE.primaryColor;
+
+  return {hasLinearGradient, color1, color2, start, end};
+}
