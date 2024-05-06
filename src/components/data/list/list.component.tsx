@@ -28,7 +28,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private endThreshold = -1;
   private loadingData = false;
   private hasMoreData = true;
-  
+
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
     this.updateState({
@@ -47,7 +47,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private async onSelect($item: any, $index: number | string, $event?: any) {
     const props = this.state.props;
     let selectedItem = null as any;
-    if (props.disableitem !== true 
+    let eventName = 'onSelect';
+    if (props.disableitem !== true
         && (typeof props.disableitem !== 'function' || !props.disableitem($item, $index))) {
       if (props.multiselect) {
         selectedItem = [...(props.selecteditem || [])];
@@ -62,8 +63,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           }
         } else {
           selectedItem.splice(index, 1);
+          eventName = 'onDeselect';
         }
       } else {
+        this.state.props.selecteditem &&  this.invokeEventCallback('onDeselect', [this.proxy, this.state.props.selecteditem]);
         selectedItem = $item;
       }
       this.selectedItemWidgets = this.itemWidgets[$index as number];
@@ -72,7 +75,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           props: { selecteditem: selectedItem },
           selectedindex: $index
         } as WmListState, () => {
-          this.invokeEventCallback('onSelect', [this.proxy, $item]);
+          this.invokeEventCallback(eventName, [this.proxy, $item]);
           $event && this.invokeEventCallback('onTap', [$event, this.proxy]);
           resolve(null);
         });
@@ -91,7 +94,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     if (this.loadingData) {
       return;
     }
-    if (isArray(this.state.props.dataset) 
+    if (isArray(this.state.props.dataset)
       && this.state.props.dataset.length > this.state.maxRecordsToShow) {
       this.updateState({
         maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
@@ -131,7 +134,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         this.onSelect(props.dataset[0], index);
       }
   }
-  
+
   clear(){
     this.updateState({
       groupedData: {},
@@ -172,10 +175,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
     this.updateState({
       props: { selecteditem: selectedItem },
-      
-    } as WmListState);
+
+    } as WmListState, () => {
+      this.invokeEventCallback('onDeselect', [this.proxy, item]);
+    });
   }
-  
+
   getWidgets(widgetname: string, index: number){
     if(index >= 0 && index < this.itemWidgets.length){
       return this.itemWidgets[index][widgetname]
@@ -251,14 +256,14 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       case 'multiselect':
         if ($new) {
           if (!isArray(this.state.props.selecteditem)) {
-            this.state.props.selecteditem = this.state.props.selecteditem ? 
+            this.state.props.selecteditem = this.state.props.selecteditem ?
               [this.state.props.selecteditem] : [];
           }
         } else if (isArray(this.state.props.selecteditem)) {
           this.state.props.selecteditem = this.state.props.selecteditem.pop();
         }
         break;
-      case 'loadingdata': 
+      case 'loadingdata':
         this.loadingData = $new && this.loadingData;
         break;
       case 'selecteditem':
@@ -309,7 +314,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderItem(item: any, index: number, props: WmListProps) {
     const cols = this. getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
-    return (index < this.state.maxRecordsToShow || isHorizontal) ? (  
+    return (index < this.state.maxRecordsToShow || isHorizontal) ? (
       <View style={[
         this.styles.item,
         props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
@@ -398,11 +403,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               horizontal = {isHorizontal}
               data={isEmpty(v.data[0]) ? []: v.data}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
-              renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)} 
-              {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}> 
+              renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
+              {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}>
             </FlatList>
-            {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow) ? 
-              (this.loadingData ? 
+            {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow) ?
+              (this.loadingData ?
                 this.renderLoadingIcon(props) :
                 (<WmLabel id={this.getTestId('ondemandmessage')}
                   styles={this.styles.onDemandMessage}
@@ -421,15 +426,15 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         key: '',
         data: [{}, {}, {}]
       }];
-    } else if (this.state.groupedData 
-        && this.state.groupedData[0] 
+    } else if (this.state.groupedData
+        && this.state.groupedData[0]
         && this.state.groupedData[0]['data'].length) {
       return this.state.groupedData;
     }
     return [];
   }
 
-  private renderWithSectionList(props: WmListProps, isHorizontal = false) {  
+  private renderWithSectionList(props: WmListProps, isHorizontal = false) {
     return (
       <SectionList
         keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
