@@ -15,7 +15,8 @@ export type WmListStyles = BaseStyles & {
     onDemandMessage: WmLabelStyles,
     item: AllStyle,
     selectedItem: AllStyle,
-    selectedIcon: WmIconStyles
+    selectedIcon: WmIconStyles,
+    group: AllStyle,
 };
 
 export const DEFAULT_CLASS = 'app-list';
@@ -59,7 +60,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 fontSize: 16,
                 fontFamily: themeVariables.baseFont,
                 lineHeight: 24,
-                fontWeight: '400'   
+                fontWeight: '400'
             }
         } as WmLabelStyles,
         subheading: {
@@ -90,7 +91,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 color: themeVariables.listSubTitleColor
             }
         } as WmLabelStyles,
-        item: {
+      group: {
+        marginBottom: 16,
+      },
+      item: {
             ...BASE_THEME.getStyle('elevate1').root,
             shadowColor: 'rgba(0, 0, 0, 0.3)',
             flexDirection: 'row',
