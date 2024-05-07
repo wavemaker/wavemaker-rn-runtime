@@ -463,19 +463,20 @@ export const getDateTimeObject = (date: number, month: number, year: number, hou
 };
 
 export const getGradientStartEnd = (angle: string) => {
+  const angleLowerCase = angle?.toLowerCase();
   let start = { x: 0, y: 1 };
   let end = { x: 1, y: 1 };
 
-  if (angle === '0deg' || angle?.toLowerCase() === 'to top') {
+  if (angle === '0deg' || angleLowerCase === 'to top') {
     end.x = 0;
     end.y = 0;
-  } else if (angle === '90deg' || angle?.toLowerCase() === 'to right') {
+  } else if (angle === '90deg' || angleLowerCase === 'to right') {
     start.x = 0;
-  } else if (angle === '180deg' || angle?.toLowerCase() === 'to bottom') {
+  } else if (angle === '180deg' || angleLowerCase === 'to bottom') {
     start.y = 0;
     end.x = 0;
     end.y = 1;
-  } else if (angle === '270deg' || angle?.toLowerCase() === 'to left') {
+  } else if (angle === '270deg' || angleLowerCase === 'to left') {
     start.x = 1;
     end.x = 0;
   } else {
