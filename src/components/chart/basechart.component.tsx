@@ -153,7 +153,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                         tickLabelComponent={<VictoryLabel y={props.offsetyaxis ? props.offsetyaxis : height as number - 30} angle={props.labelangle || 0}/>} theme={this.state.theme}
                         tickCount={this.state.xaxisDatakeyArr.length} 
                         invertAxis={this.isRTL}
-                        tickFormat= {(d, i, ticks) => {
+                        tickFormat= {(d: number, i: number, ticks: any) => {
                           if (getTickValueLabel) {
                               return getTickValueLabel(this.state.xaxisDatakeyArr[d], i, (ticks || []).length);
                           } else if (this.state.xaxisDatakeyArr) {
@@ -186,7 +186,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                         axisLabelComponent={<VictoryLabel x={xaxislabeldistance}/>}
                         tickLabelComponent={<VictoryLabel x={props.offsetxaxis ? props.offsetxaxis : 50}/>} 
                         theme={this.state.theme}
-                        tickFormat= {(d, i, ticks) => {
+                        tickFormat= {(d: number, i: number, ticks: any) => {
                           if (getTickValueLabel) {
                             return getTickValueLabel(d, i, (ticks || []).length);
                           }
