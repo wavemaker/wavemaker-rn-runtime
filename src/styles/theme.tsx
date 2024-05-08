@@ -177,7 +177,7 @@ export class Theme {
         style = style as any;
         if (isObject(style) && !isArray(style)) {
             Object.keys(style).forEach(k => {
-                style[k] = this.replaceVariables(style[k]);
+                (style as any)[k] = this.replaceVariables((style as any)[k]);
             });
         }
         if (!isNil(style['shadowRadius'])) {

@@ -248,7 +248,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
                          }}
                          theme={this.state.theme}
                          tickValues={this.getTickValues()}
-                         tickFormat={(t) => this.state.props.yunits ? `${this.abbreviateNumber(t)}${this.state.props.yunits}` : `${this.abbreviateNumber(t)}`} dependentAxis />
+                         tickFormat={(t: any) => this.state.props.yunits ? `${this.abbreviateNumber(t)}${this.state.props.yunits}` : `${this.abbreviateNumber(t)}`} dependentAxis />
             <VictoryStack
               colorScale={this.updateColors()}
               horizontal={true}
