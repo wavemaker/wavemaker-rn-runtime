@@ -41,7 +41,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       color: themeVariables.switchTextColor,
       fontSize: 14,
       minWidth: 64,
-      minHeight: 40,
+      height: 40,
       paddingLeft: 16,
       paddingRight: 16,
       borderTopLeftRadius: 0,
