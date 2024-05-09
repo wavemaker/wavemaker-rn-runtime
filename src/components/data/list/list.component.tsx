@@ -96,9 +96,13 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
     if (isArray(this.state.props.dataset)
       && this.state.props.dataset.length > this.state.maxRecordsToShow) {
+      this.loadingData = true;
       this.updateState({
         maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
       } as WmListState);
+      setTimeout(() => {
+        this.loadingData = false;
+      }, 100);
     } else if (this.loadDataOnDemand) {
       const $list = this.proxy as any;
       $list.loadingdata = true;
@@ -329,7 +333,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               cols ? {
                 width: '100%'
               } : null,
-              cols || isHorizontal ? {
+              (cols && cols > 1) || isHorizontal ? {
                 paddingRight: (isNil(this.styles.item.marginRight)
                   ? this.styles.item.margin : this.styles.item.marginRight) || 4
               } : null
