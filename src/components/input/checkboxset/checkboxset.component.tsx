@@ -1,8 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, DimensionValue } from 'react-native';
 import { find, forEach, isEqual,  isEmpty } from 'lodash';
-import { Checkbox } from 'react-native-paper';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native';
 import WmCheckboxsetProps from './checkboxset.props';
 import {
   DEFAULT_CLASS,
@@ -14,7 +13,7 @@ import {
   BaseDatasetState,
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
-import WmIcon from '../../basic/icon/icon.component';
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {
   isValid: boolean = true;
@@ -96,7 +95,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     const props = this.state.props;
     const noOfColumns = props.itemsperrow.xs || 1;
     const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
-    return(<View style = {{flexWrap: 'wrap', flexDirection: 'row'}}>
+    return(<View style = { noOfColumns === 1 ? {} : {flexWrap: 'wrap', flexDirection: 'row'}}>
       {items && items.length
         ? items.map((item: any, index: any) => this.renderChild(item, index, colWidth))
         : null}

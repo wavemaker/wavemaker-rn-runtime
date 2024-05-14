@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, DimensionValue, TouchableOpacity } from 'react-native';
-import { RadioButton } from 'react-native-paper';
 
 import WmRadiosetProps from './radioset.props';
 import { DEFAULT_CLASS, WmRadiosetStyles } from './radioset.styles';
@@ -9,6 +8,7 @@ import {
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import { ScrollView } from 'react-native';
 import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
 import { find, forEach, isEqual } from 'lodash-es';
 import { isEmpty } from 'lodash';
@@ -40,7 +40,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
       this.invokeEventCallback('onChange', [ undefined, this.proxy, selectedValue, oldValue ]);
     });
   }
-  
+
   renderChild(item: any, index: any, colWidth: DimensionValue) {
     const displayText = item.displayexp || item.displayfield;
     const value = this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield;
@@ -77,7 +77,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     const noOfColumns = props.itemsperrow.xs || 1;
     const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
     return(
-      <View style={this.styles.group}>
+      <View style={noOfColumns === 1 ? {} : this.styles.group}>
         {items && items.length ?
           items.map((item: any, index: any) => this.renderChild(item, index, colWidth)): null}
       </View>)
@@ -86,10 +86,12 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
   renderWidget(props: WmRadiosetProps) {
     const items = this.state.dataItems;
     return (
-        <View style={this.styles.root}>
+      <ScrollView style={this.styles.root}>
+        <ScrollView horizontal={true}>
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderRadioButtons(items)}
-        </View>
+        </ScrollView>
+      </ScrollView>
     );
   }
 }
