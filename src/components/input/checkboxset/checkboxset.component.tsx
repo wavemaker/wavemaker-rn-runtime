@@ -104,7 +104,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
   renderWidget(props: WmCheckboxsetProps) {
     const items = this.state.dataItems;
     return (
-      <ScrollView contentContainerStyle={this.styles.root}>
+      <ScrollView style={this.styles.root}>
         <ScrollView horizontal={true}>
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderCheckboxses(items)}
