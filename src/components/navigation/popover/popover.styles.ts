@@ -63,8 +63,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             bottom: 0,
             left: 0,
             right: 0,
-            minHeight: Dimensions.get('window').height * 0.5,
-            maxHeight: Dimensions.get('window').height * 0.8
+            width: '100%',
+            minHeight: 240,
+            maxHeight: Dimensions.get('window').height - 120
         },
         modalContent: {
             position: 'absolute',
