@@ -1,6 +1,6 @@
 import React from 'react';
 import { isString } from 'lodash-es';
-import { LayoutChangeEvent, TouchableOpacity, Text, View, ScrollView, Dimensions } from 'react-native';
+import { LayoutChangeEvent, TouchableOpacity, Text, View, ScrollView, Dimensions, Animated, PanResponder } from 'react-native';
 import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import { TapEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -10,7 +10,7 @@ import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.c
 import WmPopoverProps from './popover.props';
 import { DEFAULT_CLASS, WmPopoverStyles } from './popover.styles';
 import WmContainer from '../../container/container.component';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export class WmPopoverState extends BaseComponentState<WmPopoverProps> {
   isOpened: boolean = false;
@@ -29,10 +29,40 @@ export interface PopoverPosition {
 export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverState, WmPopoverStyles> {
 
   view: View = null as any;
+  dragY = new Animated.Value(0);
 
   constructor(props: WmPopoverProps) {
     super(props, DEFAULT_CLASS, new WmPopoverProps(), new WmPopoverState());
+
+    if (this.state.props.autoopen) {
+      this.showPopover();
+    }
   }
+
+  public panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onMoveShouldSetPanResponder: () => true,
+    onPanResponderMove: (_, gestureState) => {
+      if (gestureState.dy > 0 && gestureState.dy < Number(this.styles.popover.minHeight)) {
+        this.dragY.setValue(Number(this.styles.popover.minHeight) - gestureState.dy);
+      }
+    },
+    onPanResponderRelease: (_, gestureState) => {
+      if (gestureState.dy < -50) {
+        Animated.timing(this.dragY, {
+          toValue: Number(this.styles.popover.maxHeight),
+          duration: 500,
+          useNativeDriver: false,
+        }).start();
+      } else {
+        Animated.timing(this.dragY, {
+          toValue: Number(this.styles.popover.minHeight),
+          duration: 500,
+          useNativeDriver: false,
+        }).start();
+      }
+    },
+  });
 
   private computePosition = (e: LayoutChangeEvent) => {
     const position = {} as PopoverPosition;
@@ -53,11 +83,51 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
     }
   };
 
-  public showPopover = (e?: TapEvent) => {
-    this.setState({ isOpened: true });
+  public renderPopoverContent (props : WmPopoverProps , styles : WmPopoverStyles, dimensions: any) {
+    return (
+      <ScrollView style={this.theme.mergeStyle(styles.popover, dimensions)}
+      onScroll={(event) => {this.notify('scroll', [event])}}
+      scrollEventThrottle={48}
+      accessible={props.type !== "dropdown"} accessibilityViewIsModal>
+      {props.title ? (<Text style={styles.title}>{props.title}</Text>): null}
+      <TouchableOpacity
+      {...this.getTestPropsForAction('outercontent')}
+      activeOpacity={1} onPress={() => {
+        props.autoclose === 'always' && this.hide()
+      }} style={styles.popoverContent.root}>
+        <WmContainer
+          styles={styles.popoverContent}
+          onLoad={() => this.invokeEventCallback('onLoad', [this])}
+          {... props.renderPartial ? {
+            renderPartial : (p: any, onLoad: Function) => {
+              return props.renderPartial && props.renderPartial(props, onLoad);
+            }
+          } : {}}>
+            {props.renderPartial ? null : props.children}
+        </WmContainer>
+      </TouchableOpacity>
+    </ScrollView>
+    )}
+
+  public showPopover = (e?: SyntheticEvent) => {
+    this.updateState({ isOpened: true } as WmPopoverState);
     this.invokeEventCallback('onShow', [e, this]);
     e?.stopPropagation();
   };
+
+  public onPropertyChange(name: string, $new: any, $old: any): void {
+    super.onPropertyChange(name, $new, $old);
+    switch(name) {
+      case "autoopen":
+        if($new){
+          this.showPopover && this.showPopover()
+        }
+        else{
+          this.hide && this.hide()
+      }
+    }
+  }
+
 
   public hide = () => {};
 
@@ -109,30 +179,11 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
         {this.state.isOpened ? (
           <ModalConsumer>
             {(modalService: ModalService) => {
-              modalService.showModal(this.prepareModalOptions((
-                  <ScrollView style={this.theme.mergeStyle(styles.popover, dimensions)} 
-                    onScroll={(event) => {this.notify('scroll', [event])}}
-                    scrollEventThrottle={48}
-                    accessible={props.type !== "dropdown"} accessibilityViewIsModal>
-                    {props.title ? (<Text style={styles.title}>{props.title}</Text>): null}
-                    <TouchableOpacity 
-                    {...this.getTestPropsForAction('outercontent')}
-                    activeOpacity={1} onPress={() => {
-                      props.autoclose === 'always' && this.hide()
-                    }} style={styles.popoverContent.root}>
-                      <WmContainer
-                        styles={styles.popoverContent}
-                        onLoad={() => this.invokeEventCallback('onLoad', [this])}
-                        {... props.renderPartial ? {
-                          renderPartial : (p: any, onLoad: Function) => {
-                            return props.renderPartial && props.renderPartial(props, onLoad);
-                          }
-                        } : {}}>
-                          {props.renderPartial ? null : props.children}
-                      </WmContainer>
-                    </TouchableOpacity>
-                  </ScrollView>
-              ), styles, modalService));
+              modalService.showModal(this.prepareModalOptions(props.type === 'action-sheet' ?  (
+                <Animated.View style= {[styles.popover,{ height: this.dragY }]} {...this.panResponder.panHandlers}>
+                 {this.renderPopoverContent(props, styles, dimensions)}
+                  </Animated.View>
+              ): (this.renderPopoverContent(props, styles, dimensions)), styles, modalService));
               return null;
             }}
           </ModalConsumer>) : null}

@@ -12,6 +12,7 @@ export default class WmPopoverProps extends BaseProps {
   popoverwidth?: string | number | null = 240;
   popoverheight?: string | number | null = 360;
   autoclose?: 'outsideClick' | 'disabled' | 'always' = 'outsideClick';
+  autoopen?: boolean = false;
   children? = [] as any;
   renderPartial?: Function = null as any;
   title?: string = null as any;
