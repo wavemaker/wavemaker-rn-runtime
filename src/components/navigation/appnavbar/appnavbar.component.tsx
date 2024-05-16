@@ -60,7 +60,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
             id={this.getTestId('picture')}
             styles={this.styles.image}
             picturesource={props.imgsrc} />)}
-          <Text style={this.styles.content} {...this.getTestPropsForLabel('title')}>{props.title}</Text>
+          <Text style={this.styles.content} {...this.getTestPropsForLabel('title')} accessibilityRole='header'>{props.title}</Text>
           {badge}
         </View>
         <View style={this.styles.rightSection}>
