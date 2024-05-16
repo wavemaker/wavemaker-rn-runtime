@@ -340,13 +340,13 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   private renderHeader(props: WmListProps, title: string) {
     return props.groupby ? (
-      <Text style={this.styles.groupHeading}>{title}</Text>
+      <Text style={this.styles.groupHeading} accessibilityRole='header'>{title}</Text>
     ) : (props.iconclass || props.title || props.subheading) ? (
       <View style={this.styles.heading}>
         <View style={{flex: 1, flexDirection: 'row'}}>
           <WmIcon id={this.getTestId('icon')} styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
           <View>
-            <WmLabel id={this.getTestId('title')} styles={this.styles.title} caption={props.title}></WmLabel>
+            <WmLabel id={this.getTestId('title')} styles={this.styles.title} caption={props.title} accessibilityrole='header'></WmLabel>
             <WmLabel id={this.getTestId('subheading')} styles={this.styles.subheading} caption={props.subheading}></WmLabel>
           </View>
         </View>

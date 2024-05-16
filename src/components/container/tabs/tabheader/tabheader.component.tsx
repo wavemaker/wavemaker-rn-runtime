@@ -155,7 +155,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                 {...this.getTestPropsForAction(i +'')}
                 key={header.key} 
                 styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
-                <View onLayout={this.setHeaderPositon.bind(this, i)}>
+                <View onLayout={this.setHeaderPositon.bind(this, i)} accessible={true} accessibilityRole='header'>
                   <View style={[
                     this.styles.header,
                     {flexGrow: undefined},

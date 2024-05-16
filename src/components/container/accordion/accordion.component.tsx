@@ -92,7 +92,8 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
               this.styles.text,
               this.styles.heading,
               isExpanded ? this.styles.activeHeaderTitle : {}]}
-              {...this.getTestPropsForAction(`header${index}_title`)}>
+              {...this.getTestPropsForAction(`header${index}_title`)}
+              accessibilityRole='header'>
                 {isDefined(item.props.title) ? item.props.title : 'Title'}
             </Text>
             {item.props.description ? 

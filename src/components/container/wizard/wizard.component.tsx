@@ -101,7 +101,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
           <View style={this.styles.popover.popover}>
             {Labels.map((item: any, index: number) => {
               const currentMenuItem = index==this.state.currentStep;
-              const caption = menuDataset({"count":this.steps.length}, index); 
+              const caption = menuDataset({"count":this.steps.length}, index);
               return (
               <TouchableWithoutFeedback key={'wizard_menu_item_'+index} onPress={()=>{this.popOverRef.hide();}}>
                 <View style={[this.styles.stepMenu, currentMenuItem?this.styles.activeStepMenu:{}]}>
@@ -146,7 +146,8 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
       <View style={[this.styles.headerWrapper, isNumberTextLayout ?
         {paddingRight: isActiveStep ? 0 : 5, paddingLeft: index === this.state.currentStep + 1 ? 0 : 5}: {}]} key={index+1}>
         <TouchableOpacity style={this.styles.stepWrapper}
-                          onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep}>
+                          onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep || !this.state.props.headernavigation}
+                          accessibilityRole='header'>
             <View style={this.getStepStyle(index)}>
               {index >= this.state.currentStep && !this.state.isDone &&
                 <Text style={isActiveStep ? this.styles.activeStep : this.styles.stepCounter}>{index+1}</Text>}
@@ -205,7 +206,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   cancel() {
     this.invokeEventCallback('onCancel', [null, this.proxy]);
   }
-  
+
   skip() {
     this.next('skip');
   }
@@ -246,7 +247,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
           }
           {isSkippable &&
               <WmAnchor iconclass={'wi wi-chevron-right'} iconposition={'right'} caption={'Skip'}
-                id = {this.getTestId('skip')}        
+                id = {this.getTestId('skip')}
                 styles={merge({}, this.styles.wizardActions, this.styles.skipLink)} onTap={this.skip.bind(this)}></WmAnchor>
           }
         </View>
