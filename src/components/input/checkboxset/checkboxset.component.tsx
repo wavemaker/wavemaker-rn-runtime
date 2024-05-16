@@ -1,7 +1,6 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, DimensionValue } from 'react-native';
+import { Text, View, TouchableOpacity, DimensionValue, ScrollView } from 'react-native';
 import { find, forEach, isEqual,  isEmpty } from 'lodash';
-import { ScrollView } from 'react-native';
 import WmCheckboxsetProps from './checkboxset.props';
 import {
   DEFAULT_CLASS,

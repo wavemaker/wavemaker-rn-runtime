@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, DimensionValue, TouchableOpacity } from 'react-native';
+import { View, Text, DimensionValue, TouchableOpacity, ScrollView } from 'react-native';
 
 import WmRadiosetProps from './radioset.props';
 import { DEFAULT_CLASS, WmRadiosetStyles } from './radioset.styles';
@@ -8,7 +8,6 @@ import {
   BaseDatasetState
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
-import { ScrollView } from 'react-native';
 import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 import { find, forEach, isEqual } from 'lodash-es';
