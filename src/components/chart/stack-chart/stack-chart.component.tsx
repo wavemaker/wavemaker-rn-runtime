@@ -174,6 +174,14 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
     let label = this.state.xaxisDatakeyArr[data.datum.x];
     let selectedItem = this.props.dataset[data.index];
     let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+    const nativeEvent = event.nativeEvent;
+    this.setTooltipPosition(nativeEvent);
+    this.updateState({
+      tooltipXaxis: label,
+      tooltipYaxis: value,
+      isTooltipOpen: true,
+      selectedItem: {...selectedItem, index: data.index},
+    } as WmStackChartState)
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
   }
 
@@ -187,7 +195,8 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
       <View
         {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
         style={this.styles.root} onLayout={this.onViewLayoutChange}
-      >{
+      >
+        {this.getTooltip()}{
         props.viewtype === 'Bar' ?
           <VictoryChart
             theme={this.state.theme}
@@ -200,9 +209,6 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
               left: props.offsetleft,
               right: props.offsetright
             }}
-            containerComponent={
-              this.getTooltip(props)
-            }
             >
             <VictoryLegend
               name={'legend'}
