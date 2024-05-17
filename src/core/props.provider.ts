@@ -27,7 +27,7 @@ export class PropsProvider<T extends BaseProps> {
             set: (target: any, prop, value: any): any => {
                 const propName = prop.toString();
                 if (!this.has(propName)) {
-                    return false;
+                    return true;
                 }
                 this.isDirty = this.isDirty || this.overriddenProps[propName] !== value;
                 this.overriddenProps[propName] = value;
