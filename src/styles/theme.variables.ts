@@ -472,8 +472,7 @@ export default class ThemeVariables {
     audioPlayerFgColor = this.defaultColor3;
 
     //Tool tip
-    tooltipBgColor = Color("#fff").fade(0.6).rgb().toString();
-    tooltipBorderColor = '#404040';
+    tooltipBgColor = "#e7f9fd";
 
     // Wheel Picker
     wheelHighlightBorder = 'var(--primaryColor)';

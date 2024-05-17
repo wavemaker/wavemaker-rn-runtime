@@ -58,7 +58,15 @@ onSelect(event: any, data: any){
   let value = data.data[data.index].y;
   let label = this.state.xaxisDatakeyArr[data.datum.x];
   let selectedItem = this.props.dataset[data.index];
-  let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+  const nativeEvent = event.nativeEvent;
+    this.setTooltipPosition(nativeEvent);
+    let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+    this.updateState({
+      tooltipXaxis: label,
+      tooltipYaxis: value,
+      isTooltipOpen: true,
+      selectedItem: {...selectedItem, index: data.index},
+    } as WmBarChartState)
   this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
 }
 
@@ -72,6 +80,7 @@ onSelect(event: any, data: any){
       {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
       style={this.styles.root}
     >
+      {this.getTooltip()}
       <View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
@@ -83,10 +92,7 @@ onSelect(event: any, data: any){
                           height={this.styles.root.height as number}
                           width={this.styles.root.width as number || this.screenWidth}               
                           minDomain={mindomain}
-                          padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
-                          containerComponent={
-                            this.getTooltip(props)
-                          }>
+                          padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}>
       {this.getLegendView()}
       {this.getXaxis()}
       {this.getYAxis()}
