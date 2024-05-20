@@ -80,7 +80,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     // set default value
     useEffect(() => {
       const defaultValue = props.defaultValue || props.value || '';
-      if (!value.current) {
+      if (defaultValue && !value.current) {
         value.current = defaultValue;
         onChangeText(defaultValue);
       }
