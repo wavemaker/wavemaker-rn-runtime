@@ -229,6 +229,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }
   }
 
+  triggerPageReady(activePageName: string, activePageScope: BasePage) {
+    this.onPageReady(activePageName, activePageScope);
+  }
+
   onPageReady(activePageName: string, activePageScope: BasePage) {
 
   }
@@ -318,9 +322,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       this.onAppVariablesReady();
       this.isStarted = true;
       this.forceUpdate();
-    }, () => {}).then(() => {
-      SplashScreen.hideAsync().then(() => {});
-    });
+    }, () => {});
     this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
   }
 
@@ -475,10 +477,11 @@ export default abstract class BaseApp extends React.Component implements Navigat
               (this.getProviders(
                 (<SafeAreaView  style={{flex: 1}}>
                   <StatusBar />
-                  <FixedViewContainer>
                   <ThemeProvider value={this.appConfig.theme}>
+
                   <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}
                   style={{ flex: 1 }}>
+                  <FixedViewContainer>
                     <View style={styles.container}>
                       <AppNavigator
                         app={this}
@@ -488,16 +491,16 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
                         drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
                         {commonPartial}
-                        {this.renderToasters()}
-                        {this.renderDialogs()}
-                        {this.renderDisplayManager()}
                     </View>
-                    </KeyboardAvoidingView>
                     {this.appConfig.url ? 
                       (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
                       : null}
-                  </ThemeProvider>
                   </FixedViewContainer>
+                  {this.renderToasters()}
+                  {this.renderDialogs()}
+                  {this.renderDisplayManager()}
+                  </KeyboardAvoidingView>
+                  </ThemeProvider>
                 </SafeAreaView>))
               )
             }

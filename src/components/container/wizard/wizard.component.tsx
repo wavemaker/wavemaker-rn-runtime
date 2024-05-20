@@ -150,7 +150,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                           accessibilityRole='header'>
             <View style={this.getStepStyle(index)}>
               {index >= this.state.currentStep && !this.state.isDone &&
-                <Text style={isActiveStep ? this.styles.activeStep : this.styles.stepCounter}>{index+1}</Text>}
+                <Text style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&
                 <WmIcon styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
                         iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}

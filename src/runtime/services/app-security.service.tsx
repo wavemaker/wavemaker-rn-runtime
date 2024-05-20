@@ -138,6 +138,7 @@ class AppSecurityService implements SecurityService {
                   loggedInUser.landingPage  = details.userInfo.landingPage;
                   appConfig.loggedInUser = loggedInUser;
                   this.loggedInUser.dataSet = loggedInUser;
+                  appConfig.landingPage = appConfig.appProperties?.homePage;
               }
               return appConfig.getServiceDefinitions(appConfig.url)
               .then(() => {

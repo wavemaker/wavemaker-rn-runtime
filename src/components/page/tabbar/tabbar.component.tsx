@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { Text, View, TouchableOpacity, Dimensions, Keyboard } from 'react-native';
 
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
@@ -31,9 +31,18 @@ class WmTabbarState<T extends BaseNavProps> extends BaseNavState<T> {
 export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarState<WmTabbarProps>, WmTabbarStyles> {
 
   private tabbarHeight = 0;
+  private keyBoardShown = false;
 
   constructor(props: WmTabbarProps) {
     super(props, DEFAULT_CLASS, new WmTabbarProps(), new WmTabbarState());
+    this.cleanup.push(Keyboard.addListener('keyboardWillShow', () => {
+      this.keyBoardShown = true;
+      this.forceUpdate();
+    }).remove);
+    this.cleanup.push(Keyboard.addListener('keyboardWillHide', () => {
+      this.keyBoardShown = false;
+      this.forceUpdate();
+    }).remove);
   }
 
   private maxWidth = Dimensions.get("window").width;  
@@ -48,23 +57,23 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
     : [this.styles.tabItem];
   
     return (
-      <View style={[increasedGap, floating? this.styles.centerHubItem: {}]} key={`${item.label}_${testId}`}>
-        <TouchableOpacity
-          {...this.getTestPropsForAction('item' + testId)}
-          onPress={() => onSelect && onSelect()}
-          key={item.key}
-        >
+      <TouchableOpacity 
+        {...this.getTestPropsForAction('item' + testId)}
+        style={[increasedGap, floating? this.styles.centerHubItem: {}]}
+        key={`${item.label}_${testId}`}
+        onPress={() => onSelect && onSelect()}>
+        <View key={item.key}>
           <View style={[isActive && !floating  ? this.styles.activeTabItem : {}]}>
             <WmIcon
               styles={this.theme.mergeStyle({}, this.styles.tabIcon, floating? this.styles.centerHubIcon: {}, isActive ? this.styles.activeTabIcon : {})}
               iconclass={item.icon}
             ></WmIcon>
           </View>
-        </TouchableOpacity>
-        <Text style={[this.styles.tabLabel, floating? this.styles.centerHubLabel: {},  isActive ? this.styles.activeTabLabel : {}]}>
+        </View>
+        <Text style={[this.styles.tabLabel, floating? this.styles.centerHubLabel: {},  isActive ? this.styles.activeTabLabel : {}]} numberOfLines={1}>
           {getDisplayLabel(item.label)}
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   }
   
@@ -83,12 +92,16 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
     return o;
   }
 
+  isVisible(): boolean {
+    return super.isVisible() && !this.keyBoardShown;
+  }
+
   renderWidget(props: WmTabbarProps) {
     let max = 5;
     const tabItems = this.state.dataItems;
     const tabItemsLength = tabItems.length;
     const isClippedTabbar = ((props.classname || '').indexOf('clipped-tabbar') >= 0) && (tabItemsLength % 2 !== 0);
-    if (tabItemsLength % 2 !== 0) {
+    if (isClippedTabbar && tabItemsLength % 2 !== 0) {
       const middleIndex = Math.floor(tabItemsLength / 2);
       tabItems[middleIndex]['floating'] = true;
       tabItems[middleIndex - 1]['indexBeforeMid'] = middleIndex-1;

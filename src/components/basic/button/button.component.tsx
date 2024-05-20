@@ -83,6 +83,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingBottom: this.styles.root.paddingBottom,
             paddingLeft: this.styles.root.paddingLeft,
             paddingRight: this.styles.root.paddingRight,
+            width: '100%',
             height: '100%',
             justifyContent: 'center',
           }}

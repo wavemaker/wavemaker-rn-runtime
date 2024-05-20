@@ -99,6 +99,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             shadowColor: 'rgba(0, 0, 0, 0.3)',
             paddingLeft: 4,
             paddingRight: 4,
+            flex: 1,
+            flexDirection: 'row',
             paddingTop: 4,
             paddingBottom: 4,
             minHeight: 56,

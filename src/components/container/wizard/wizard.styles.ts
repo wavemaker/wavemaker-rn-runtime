@@ -6,6 +6,7 @@ import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/ancho
 import { WmProgressCircleStyles } from '@wavemaker/app-rn-runtime/components/basic/progress-circle/progress-circle.styles';
 import { WmPopoverStyles } from '@wavemaker/app-rn-runtime/components/navigation/popover/popover.styles';
 import { WmLabelStyles } from '@wavemaker/app-rn-runtime/components/basic/label/label.styles';
+import { TextStyle } from 'react-native';
 
 export type WmWizardStyles = BaseStyles & {
   wizardHeader: AllStyle,
@@ -28,6 +29,7 @@ export type WmWizardStyles = BaseStyles & {
   stepWrapper: AllStyle,
   stepConnector: AllStyle,
   numberTextStepConnector: AllStyle,
+  activeStepCounter: TextStyle,
   stepCounter: AllStyle,
   progressCircle: WmProgressCircleStyles,
   popover: WmPopoverStyles,
@@ -189,6 +191,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       numberTextStepConnector: {
        display: 'none'
+      },
+      activeStepCounter: {
+        color: themeVariables.wizardActiveStepColor
       },
       stepCounter: {
         fontSize: 15,
