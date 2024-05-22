@@ -110,11 +110,11 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           if (datavalue === CURRENT_DATE || datavalue === CURRENT_TIME) {
             datavalue = new Date() as any;
           }
-          const date = isString(datavalue) ? this.parse(datavalue as string, props.outputformat) : datavalue;
+          const date = isString(datavalue) ? this.parse(datavalue as string, props.outputformat.toUpperCase()) : datavalue;
           datavalue = this.convertTimezone(datavalue);
           this.updateState({
             dateValue : date,
-            displayValue: this.format(datavalue?datavalue:date as any, props.datepattern)
+            displayValue: this.format(datavalue?datavalue:date as any, props.datepattern.toUpperCase())
           } as BaseDatetimeState);
         } else {
           this.updateState({
@@ -129,7 +129,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           const minDateVal = ($new === CURRENT_DATE || $new === CURRENT_TIME) ? new Date() : props.mindate;
           this.updateState({
             props: {
-              mindate: moment(minDateVal, props.datepattern).toDate()
+              mindate: moment(minDateVal, props.datepattern?.toUpperCase()).toDate()
             }
           } as BaseDatetimeState);
         }
@@ -139,7 +139,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           const maxDateVal = ($new === CURRENT_DATE || $new === CURRENT_TIME) ? new Date() : props.maxdate;
           this.updateState({
             props: {
-              maxdate: moment(maxDateVal, props.datepattern).toDate()
+              maxdate: moment(maxDateVal, props.datepattern?.toUpperCase()).toDate()
             }
           } as BaseDatetimeState);
         }
@@ -161,7 +161,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       isFocused: false,
       showDatePicker: !!this.modes.length,
       props: {
-        datavalue: this.format(date, this.state.props.outputformat as string),
+        datavalue: this.format(date, this.state.props.outputformat?.toUpperCase() as string),
         timestamp: this.format(date, 'timestamp')
       }
     } as BaseDatetimeState);
