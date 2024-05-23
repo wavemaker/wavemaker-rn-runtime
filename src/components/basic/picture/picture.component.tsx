@@ -138,12 +138,12 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     }
     return elementToshow;
   }
-  
+
   public renderSkeleton(props: WmPictureProps){
     const imageWidth = this.state.imageWidth;
     const imageHeight = this.state.imageHeight;
     const shapeStyles = this.createShape(this.props.shape, imageWidth);
-    const skeletonWidth = this.props.skeletonwidth || this.styles.root?.width || shapeStyles.root?.width || shapeStyles.picture?.width || imageWidth; 
+    const skeletonWidth = this.props.skeletonwidth || this.styles.root?.width || shapeStyles.root?.width || shapeStyles.picture?.width || imageWidth;
     const skeletonHeight = this.props.skeletonheight || this.styles.root?.height || shapeStyles.root?.height || shapeStyles.picture?.height || imageHeight;
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
@@ -172,11 +172,11 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         {this._background}
       <View style={[{overflow: 'hidden', width: '100%',
         height: '100%'}]} onLayout={this.onViewLayoutChange}>
-        <Tappable 
+        <Tappable
           {...this.getTestPropsForAction()}
           rippleColor={this.styles.root.rippleColor}
           target={this} styles={{width: imageWidth ? null : '100%', height: imageHeight ? null : '100%'}}>
-          <Animatedview entryanimation={props.animation} style={[{
+          <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={[{
                 height: imageHeight,
                 width: imageWidth,
                 borderRadius: shapeStyles.picture?.borderRadius

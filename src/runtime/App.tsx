@@ -240,7 +240,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   setTimezone(timezone: any){
     AppI18nService.setTimezone(timezone);
   }
-  
+
   get spinner() {
     return AppSpinnerService;
   }
@@ -403,7 +403,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   o.modalStyle,
                   { elevation: o.elevationIndex,
                     zIndex: o.elevationIndex })}>
-                    <Animatedview entryanimation={o.animation || 'fadeIn'}
+                    <Animatedview entryanimation={o.animation || 'fadeIn'} delay={o.animationdelay}
                       ref={ref => {
                         this.animatedRef = ref;
                         AppModalService.animatedRefs[i] = ref;
@@ -492,7 +492,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
                         {commonPartial}
                     </View>
-                    {this.appConfig.url ? 
+                    {this.appConfig.url ?
                       (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
                       : null}
                   </FixedViewContainer>

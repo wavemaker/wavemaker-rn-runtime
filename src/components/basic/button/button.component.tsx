@@ -33,11 +33,11 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
     return iconclass || iconurl
       ? (<WmIcon
           {...this.getTestPropsForLabel('icon')}
-          styles={this.styles.icon} 
-          name={`${name}_icon`} 
+          styles={this.styles.icon}
+          name={`${name}_icon`}
           iconclass={iconclass}
           iconsize={iconsize}
-          iconurl={iconurl} 
+          iconurl={iconurl}
           iconheight={iconheight}
           iconmargin={iconmargin}
           iconwidth={iconwidth}
@@ -60,7 +60,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
   renderWidget(props: WmButtonProps) {
     return (
       <>
-      <Animatedview entryanimation={props.animation}
+      <Animatedview entryanimation={props.animation} delay={props.animationdelay}
         style={[
           this.styles.root,
           {

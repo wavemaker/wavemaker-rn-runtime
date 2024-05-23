@@ -52,7 +52,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
         iconwidth,
         badgevalue,
       } = props;
-     
+
     if (this.styles.icon && this.styles.icon.text) {
       this.styles.icon.text.color = this.styles.text.color;
     }
@@ -60,7 +60,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     const icon = (iconclass || iconurl) && (
       <WmIcon
         id={this.getTestId('icon')}
-        styles={this.styles.icon} 
+        styles={this.styles.icon}
         name={name + '_icon'}
         iconclass={iconclass}
         iconurl={iconurl}
@@ -68,20 +68,20 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
         iconmargin={iconmargin}
         iconwidth={iconwidth}
       />
-    );    
+    );
     //@ts-ignore
     const badge = badgevalue != undefined ? (<Badge style={this.styles.badge}>{badgevalue}</Badge>): null;
     return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
-          (<Animatedview entryanimation={props.animation} style={{width: this.styles.root.width, height: this.styles.root.height, justifyContent: 'center'}}>
+          (<Animatedview entryanimation={props.animation} delay={props.animationdelay} style={{width: this.styles.root.width, height: this.styles.root.height, justifyContent: 'center'}}>
             <Tappable {...this.getTestPropsForAction()} target={this} styles={[this.styles.root, this.styles.root.width && this.styles.root.height ? { width: '100%', height: '100%'} : null, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}
               onTap={props.hyperlink || props.onTap ? (e: SyntheticEvent) => this.onTap(navigationService, e) : undefined}>
               {this._background}
               {props.iconposition === 'top' && icon}
               {props.iconposition === 'left' && icon}
               {props.caption ? (<Text style={this.styles.text}
-              {...this.getTestPropsForLabel('caption')} 
+              {...this.getTestPropsForLabel('caption')}
               {...getAccessibilityProps(AccessibilityWidgetType.ANCHOR, props)}
               numberOfLines={props.nooflines}>{props.caption}</Text>) : null}
               {props.iconposition === 'right' && icon}

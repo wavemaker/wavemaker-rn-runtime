@@ -59,6 +59,7 @@ export default class WmAlertdialog extends BaseComponent<WmAlertdialogProps, WmA
         iconmargin={props.iconmargin}
         iconwidth={props.iconwidth}
         animation={props.animation}
+        animationdelay={props.animationdelay}
         closable={props.closable}
         modal={props.modal}
         styles={this.styles.dialog}
