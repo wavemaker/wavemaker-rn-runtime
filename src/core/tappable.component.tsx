@@ -20,6 +20,7 @@ interface TappableProps {
     onTouchStart? : (e: any) => void;
     onTouchEnd? : (e: any) => void;
     rippleColor?: string;
+    accessibilityProps?: any;
 }
 
 export class SyntheticEvent {
@@ -146,6 +147,7 @@ export class Tappable extends React.Component<TappableProps, any> {
                     // accessible: false,
                     testID: this.props.testID
                 }} 
+                {...this.props.accessibilityProps}
                 disabled={get(target?.proxy, 'disabled')}
                 style={this.props.styles}
                 onPress={(e?: GestureResponderEvent) => {

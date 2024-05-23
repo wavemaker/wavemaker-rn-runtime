@@ -8,4 +8,5 @@ export default class WmCheckboxProps extends BaseProps {
   readonly: boolean = null as any;
   onFieldChange: any;
   invokeEvent?: Function;
+  hint?: string = undefined;
 }

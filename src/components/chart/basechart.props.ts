@@ -50,6 +50,6 @@ export default class BaseChartComponentProps extends BaseProps {
   autoadjustlabels: boolean = false;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
-  accessibilityrole?: AccessibilityRole = 'none';
+  accessibilityrole?: AccessibilityRole;
   renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
 }

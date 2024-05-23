@@ -43,12 +43,14 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
         <View style={this.styles.leftSection}>
         {props.showDrawerButton && (<WmIcon
           id={this.getTestId('leftnavbtn')}
+          hint={'menu'}
           styles={this.theme.mergeStyle({}, this.styles.action, this.styles.leftnavIcon)}
           iconclass={props.leftnavpaneliconclass}
           onTap={this.onDrawerBtnPress}
           />)}
         {props.backbutton && (<WmIcon
           id={this.getTestId('backbtn')}
+          hint={'back'}
           styles={this.theme.mergeStyle({}, this.styles.action, this.styles.backIcon)}
           iconclass={props.backbuttoniconclass}
           caption={props.backbuttonlabel}
