@@ -21,6 +21,6 @@ export default class BaseDatasetProps extends BaseProps {
   triggerValidation?: any;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
-  accessibilityrole?: AccessibilityRole = "none";
+  accessibilityrole?: AccessibilityRole;
   accessibilitylabelledby?: string = undefined;
 }

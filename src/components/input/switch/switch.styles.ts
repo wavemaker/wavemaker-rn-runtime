@@ -23,7 +23,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       text: {
         fontWeight: '500',
         fontSize: 16,
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        userSelect: 'none',
       },
     loadingIcon: {
       root: {

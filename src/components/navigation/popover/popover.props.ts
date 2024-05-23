@@ -23,5 +23,5 @@ export default class WmPopoverProps extends BaseProps {
   iconmargin?: number = null as any;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
-  accessibilityrole?: AccessibilityRole = "none";
+  accessibilityrole?: AccessibilityRole;
 }
