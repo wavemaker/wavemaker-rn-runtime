@@ -57,7 +57,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     return (
       <Tappable 
         {...this.getTestPropsForAction(index + '')}
-        {...getAccessibilityProps(AccessibilityWidgetType.SWITCH, {...this.state.props, selected: isSelected})}
+        accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.SWITCH, {selected: isSelected, hint: props?.hint})}}
         onTap={this.state.props.disabled ? undefined : this.onTap.bind(this, null, item)}
         styles={[
           this.styles.button,

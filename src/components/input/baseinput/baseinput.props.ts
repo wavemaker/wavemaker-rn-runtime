@@ -17,7 +17,7 @@ export default class BaseInputProps extends BaseProps {
   triggerValidation?: any;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
-  accessibilityrole?: AccessibilityRole = "none";
+  accessibilityrole?: AccessibilityRole;
   accessibilitylabelledby?: string = undefined;
   maskchar: string = null as any;
   displayformat: string = null as any;

@@ -57,5 +57,6 @@ export default class BaseChartComponentProps extends BaseProps {
   tooltipcenteroffsety?: number = undefined;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
-  accessibilityrole?: AccessibilityRole = 'none';
+  accessibilityrole?: AccessibilityRole;
+  renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
 }

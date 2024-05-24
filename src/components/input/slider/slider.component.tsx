@@ -8,6 +8,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmSliderProps from './slider.props';
 import { DEFAULT_CLASS, WmSliderStyles } from './slider.styles';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export class WmSliderState extends BaseComponentState<WmSliderProps> {
   track?: {
@@ -129,7 +130,8 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
           activeOpacity={1} 
           style={this.styles.track}
           onLayout={this.onLayoutChange}
-          {...this.getTestProps()}>
+          {...this.getTestProps()}
+          {...getAccessibilityProps(AccessibilityWidgetType.SLIDER, props)}>
             <Animated.View style={[this.styles.minimumTrack, {
               width: width,
               transform: [{
@@ -149,10 +151,13 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
       </GestureDetector>
       <GestureDetector gesture={this.knobGesture}>
         <Animated.View style={[this.styles.thumb, {
-          transform: [{
-            translateX: this.position
-          }]
-        }]}>
+            transform: [{
+              translateX: this.position
+            }]
+          }]}
+          accessible={true}
+          accessibilityLabel={'Thumb'}
+          >
           <BackgroundComponent
             size={(this.styles.thumb as any).backgroundSize || 'contain'}
             position={(this.styles.thumb as any).backgroundPosition}

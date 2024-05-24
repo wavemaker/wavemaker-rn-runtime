@@ -44,6 +44,7 @@ export enum AccessibilityWidgetType {
   POVOVER = 'popover',
   WEBVIEW = 'webview',
   LINECHART = 'linechart',
+  SLIDER = 'slider',
 };
 
   
@@ -99,7 +100,8 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.NAV:
     case AccessibilityWidgetType.POVOVER:
     case AccessibilityWidgetType.WEBVIEW:
-    case AccessibilityWidgetType.LINECHART:  
+    case AccessibilityWidgetType.LINECHART:
+    case AccessibilityWidgetType.SLIDER:
     case AccessibilityWidgetType.VIDEO: {
       props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
       props.accessibilityHint = accessibilityProps.hint;
@@ -171,6 +173,8 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     }
 
     case AccessibilityWidgetType.CHECKBOX: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
+      props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityState = {
         disabled: accessibilityProps.readonly ||  accessibilityProps.disabled,
         checked: accessibilityProps.checked,
@@ -179,6 +183,8 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     }
 
     case AccessibilityWidgetType.SWITCH: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
+      props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityState = {
         disabled: accessibilityProps.disabled,
         selected: accessibilityProps.selected,

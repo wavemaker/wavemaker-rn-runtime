@@ -55,7 +55,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     return (
       <TouchableOpacity {...this.getTestPropsForAction(index + '')}
         style={this.styles.item}
-        onPress={this.onPress.bind(this, item)} key={item.key} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {...props, checked: item.selected})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${displayText}`}>
+        onPress={this.onPress.bind(this, item)} key={item.key} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {hint: props?.hint, checked: item.selected})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${displayText}`}>
         <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled}/>
         {!isEmpty(this.state.template) && this.props.renderitempartial ?
            this.props.renderitempartial(item.dataObject, index, this.state.template) :

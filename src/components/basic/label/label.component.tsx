@@ -118,6 +118,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
           return (<Tappable target={this}>
             <Text style={ this.state.parts.length <= 1 ? this.styles.text : {flexWrap: "wrap", textAlign: this.styles.text.textAlign}}
               {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
+              {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
               numberOfLines={props.nooflines} ellipsizeMode="tail">
               {this.state.parts?.length === 1 ? this.state.props.caption : this.state.parts?.map((part, index) => {
                 const isLink = !isNil(part.link);
@@ -144,7 +145,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
                       }
                       this.invokeEventCallback('onTap', [null, this.proxy]);
                     }}
-                    {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
+                    // {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
                   >
                     {toString(part.text)}
                     {props.required && this.getAsterisk()}

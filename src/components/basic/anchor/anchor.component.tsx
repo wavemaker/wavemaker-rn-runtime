@@ -61,6 +61,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
       <WmIcon
         id={this.getTestId('icon')}
         styles={this.styles.icon} 
+        hint={props?.hint}
         name={name + '_icon'}
         iconclass={iconclass}
         iconurl={iconurl}

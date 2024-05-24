@@ -308,10 +308,14 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }}</ModalConsumer>);
   }
 
-  addTouchableOpacity(props: WmDatetimeProps, children: React.ReactNode, styles?: any) : React.ReactNode{
+  addTouchableOpacity(props: WmDatetimeProps, children: React.JSX.Element, styles?: any) : React.ReactNode{
+    const hint = children?.props?.hint;
+    const accessibilityProps = hint ? {accessible: true, accessibilityHint: hint} : {};
+
     return (
       <TouchableOpacity 
         {...this.getTestPropsForAction()} 
+        {...accessibilityProps}
         style={styles} onPress={() => {
         if (!props.readonly) {
           this.onFocus();
@@ -360,12 +364,13 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                 (<WmIcon iconclass="wi wi-clear"
                 styles={{color: this.styles.text.color, ...this.styles.clearIcon}}
                 id={this.getTestId('clearicon')}
+                accessibilitylabel={`clear ${props?.mode}`}
                 onTap={() => {
                   this.onDateChange(null as any, null as any);
                   this.clearBtnClicked = true;
                 }}/>)) || null}
               {this.addTouchableOpacity(props, (
-                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}}/>
+                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}} hint={props?.hint}/>
               ))}
             </View>
           {

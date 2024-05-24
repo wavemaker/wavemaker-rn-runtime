@@ -91,10 +91,6 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
        * https://github.com/naoufal/react-native-accordion/pull/19/files
        */
       <View
-        {...getAccessibilityProps(
-          AccessibilityWidgetType.SELECT,
-          props
-        )}
         style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, { backgroundColor: props.disabled ? this.styles.disabledText.backgroundColor : this.styles.root.backgroundColor}]}
         ref={(ref) => {
           this.view = ref as View;
@@ -107,6 +103,10 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               this.widgetRef = ref;
             }}
             {...this.getTestPropsForInput()}
+            {...getAccessibilityProps(
+              AccessibilityWidgetType.SELECT,
+              props
+            )}
             onPress={this.onPress.bind(this)}>
             {this.state.props.displayValue || props.placeholder || ' '}
           </Text>
@@ -114,6 +114,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
             styles={this.styles.arrowButton}
             iconclass={'wi wi-keyboard-arrow-down'}
             onTap={this.onPress.bind(this)}
+            hint={props?.hint}
           />
       </View>
     );

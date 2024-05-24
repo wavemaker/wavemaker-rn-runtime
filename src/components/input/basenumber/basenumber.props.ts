@@ -15,6 +15,6 @@ export default class BaseNumberProps extends BaseProps {
   decimalPlaces: number = 2;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
-  accessibilityrole?: AccessibilityRole = "none";
+  accessibilityrole?: AccessibilityRole;
   accessibilitylabelledby?: string = undefined;
 }

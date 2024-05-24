@@ -24,6 +24,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
   private prepareIcon({
     iconclass,
     iconurl,
+    hint,
     name,
     iconsize,
     iconheight,
@@ -33,6 +34,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
     return iconclass || iconurl
       ? (<WmIcon
           {...this.getTestPropsForLabel('icon')}
+          hint={hint}
           styles={this.styles.icon} 
           name={`${name}_icon`} 
           iconclass={iconclass}
@@ -71,10 +73,10 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             overflow: 'hidden'
           }
         ]}
-        accessibilityProps={{...getAccessibilityProps(
-          AccessibilityWidgetType.BUTTON,
-          props
-        )}}
+        // accessibilityProps={{...getAccessibilityProps(
+        //   AccessibilityWidgetType.BUTTON,
+        //   props
+        // )}}
         >
         {this._background}
         <Tappable
@@ -88,7 +90,11 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
           }}
           rippleColor = {this.styles.root.rippleColor}
           target={this}
-          {...this.getTestPropsForAction()}>
+          {...this.getTestPropsForAction()}
+          accessibilityProps={{...getAccessibilityProps(
+            AccessibilityWidgetType.BUTTON,
+            props
+          )}}>
           <View
             style={[
               this.styles.content,
