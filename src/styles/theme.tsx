@@ -1,7 +1,7 @@
 import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, isFunction, get, reverse } from 'lodash';
 import React from 'react';
 import { camelCase } from 'lodash-es';
-import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';
+import { TextStyle, ViewStyle, ImageStyle, ImageBackground, Dimensions } from 'react-native';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core/viewport';
@@ -201,6 +201,19 @@ export class Theme {
             style['paddingBottom'] = style['paddingBottom'] || style['padding'];
             delete style['padding'];
         }
+        let screenWidth = Dimensions.get('window').width;
+        let screenHeight = Dimensions.get('window').height;
+        Object.keys(style).forEach((k, i) => {
+            let stylePropertyValue = style[k]
+            if(typeof stylePropertyValue === 'string' && stylePropertyValue.endsWith('vw')) {
+                stylePropertyValue = stylePropertyValue.replace('vw','')
+                style[k] = Number(stylePropertyValue)/100 * screenWidth
+            }
+            if((typeof stylePropertyValue === 'string' && stylePropertyValue.endsWith('vh'))) {
+                stylePropertyValue = stylePropertyValue.replace('vh','')
+                style[k] = Number(stylePropertyValue)/100 * screenHeight
+            }
+        })
         Object.keys(style).forEach((k, i) => this.cleanseStyleProperties(style[k]));
     }
 
