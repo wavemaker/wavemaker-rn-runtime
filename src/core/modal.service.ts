@@ -11,6 +11,7 @@ export interface ModalOptions {
     onOpen?: () => void;
     isModal?: boolean;
     animation: string;
+    animationdelay: number;
 }
 
 export interface ModalService {
