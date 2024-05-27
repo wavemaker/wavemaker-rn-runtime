@@ -245,7 +245,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     let icon = this.renderIcon(props);
     let iterationCount: any = props.iterationcount ? (props.iterationcount != 'infinite' ? parseInt(props.iterationcount): 'infinite') : undefined;
     return (
-      <Tappable target={this} rippleColor = {this.styles.root.rippleColor} {...this.getTestPropsForAction()}>
+      <Tappable target={this} rippleColor = {this.styles.root.rippleColor} {...this.getTestPropsForAction()} accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.ICON, props)}}>
         <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root} iterationCount={iterationCount}>
           {this._background}
           {(props.iconposition === 'left' && icon) || null}
