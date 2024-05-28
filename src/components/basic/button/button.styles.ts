@@ -21,7 +21,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           paddingLeft: 24,
           paddingRight: 24,
           alignSelf: 'flex-start',
-          height: 40
       },
       content: {
         flexDirection: 'row',
