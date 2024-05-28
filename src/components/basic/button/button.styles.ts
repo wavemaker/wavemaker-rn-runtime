@@ -22,7 +22,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           paddingRight: 24,
           alignSelf: 'flex-start',
           rippleColor: themeVariables.rippleColor,
-          height: 40
       },
       content: {
         flexDirection: 'row',
