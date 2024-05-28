@@ -44,7 +44,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return selectedItem === $item;
   }
 
-  private onSelect($item: any, $index: number | string, triggerTapEvent = false) {
+  private onSelect($item: any, $index: number | string, $event?: any) {
     const props = this.state.props;
     let selectedItem = null as any;
     let eventName = 'onSelect';
@@ -80,6 +80,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           resolve(null);
         });
       });
+    } else {
+      return Promise.resolve(null);
     }
   }
 

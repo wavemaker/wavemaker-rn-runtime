@@ -3,7 +3,7 @@ import { isString } from 'lodash-es';
 import { LayoutChangeEvent, TouchableOpacity, Text, View, ScrollView, Dimensions, Animated, PanResponder } from 'react-native';
 import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
-import { TapEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import { SyntheticEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.component';
 

@@ -52,6 +52,7 @@ export default class WmConfirmdialog extends BaseComponent<WmConfirmdialogProps,
         iconmargin={props.iconmargin}
         iconwidth={props.iconwidth}
         animation={props.animation}
+        animationdelay={props.animationdelay}
         closable={props.closable}
         modal={props.modal}
         styles={this.styles.dialog}

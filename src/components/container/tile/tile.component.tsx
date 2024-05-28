@@ -16,7 +16,7 @@ export default class WmTile extends BaseComponent<WmTileProps, WmTileState, WmTi
 
   renderWidget(props: WmTileProps) {
     return (<Tappable {...this.getTestPropsForAction()} target={this}>
-      <Animatedview entryanimation={props.animation} style={this.styles.root}>{this._background}{props.children}</Animatedview>
+      <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root}>{this._background}{props.children}</Animatedview>
     </Tappable>);
   }
 }
