@@ -70,7 +70,8 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingBottom: 0,
             paddingLeft: 0,
             paddingRight: 0,
-            overflow: 'hidden'
+            overflow: 'hidden',
+            flexDirection: 'column'
           }
         ]}
         // accessibilityProps={{...getAccessibilityProps(
@@ -86,7 +87,6 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingLeft: this.styles.root.paddingLeft,
             paddingRight: this.styles.root.paddingRight,
             width: '100%',
-            height: '100%',
             justifyContent: 'center',
           }}
           rippleColor = {this.styles.root.rippleColor}
