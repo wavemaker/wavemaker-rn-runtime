@@ -230,11 +230,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           if (!($old && $old.length)
             && $new && $new.length
             && this.loadDataOnDemand) {
-              this.updateState({
-                props: {
-                  dataset: [...$new]
-                }
-              } as WmListState);
+              this.propertyProvider.set('dataset', [...$new]);
           }
           const data = isArray($new) ? $new : (!isEmpty($new) && isDefined($new) ? [$new] : []);
           this.updateState({
