@@ -491,11 +491,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 this.isRTL ? this.theme.getStyle(this.defaultClass + '-rtl') : null,
                 classname && this.theme.getStyle(classname),
                 props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
-                this.props.styles,
-                {
+                this.theme.cleanseStyleProperties(this.props.styles),
+                this.theme.cleanseStyleProperties({
                     root: this.styleOverrides,
                     text: this.styleOverrides
-                });
+                }));
             if (this.styles.root.hasOwnProperty('_background')) {
                 delete this.styles.root.backgroundColor;
             }
