@@ -68,7 +68,7 @@ export class BaseProps extends StyleProps {
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
     public styles: L = null as any;
     public hideMode = HideMode.ADD_TO_DOM;
-    public propertyProvider: PropsProvider<T>;
+    private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T, S, L>;
     public initialized = false;
     public cleanup = [] as Function[];
