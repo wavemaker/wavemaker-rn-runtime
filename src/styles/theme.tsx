@@ -172,7 +172,7 @@ export class Theme {
 
     cleanseStyleProperties(style: any) {
         if (!(style && isObject(style)) || isString(style) || isArray(style)) {
-            return;
+            return style;
         }
         style = style as any;
         if (isObject(style) && !isArray(style)) {
@@ -215,6 +215,7 @@ export class Theme {
             }
         })
         Object.keys(style).forEach((k, i) => this.cleanseStyleProperties(style[k]));
+        return style;
     }
 
     getStyle(name: string) {
