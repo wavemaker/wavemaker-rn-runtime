@@ -465,7 +465,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   getxAxisVal(dataObj: {[key: string] : any}, xKey: string, index: number, xaxisDatakeyArr: Array<any>) {
     const value: any = get(dataObj, xKey);
     if (moment(value).isValid() || isNaN(value) || typeof value === 'string' || typeof value === 'number') {
-      xaxisDatakeyArr.push(value);
+      xaxisDatakeyArr.push(value.replace("\\n","\n"));
       return index;
     }
     return value;
