@@ -2,6 +2,7 @@ import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 import { AccessibilityRole } from 'react-native';
 export default class WmAnchorProps extends BaseProps {
     animation?: string = null as any;
+    animationdelay?: number = null as any;
     caption? = 'Link';
     hyperlink?: string = null as any;
     encodeurl?: boolean = false;

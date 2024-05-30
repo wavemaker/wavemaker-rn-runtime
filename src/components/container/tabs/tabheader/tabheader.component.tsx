@@ -8,6 +8,7 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmSkeleton, { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
+import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
 
 export class WmTabheaderState extends BaseComponentState<WmTabheaderProps> {
 }
@@ -109,7 +110,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
             return (
               <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key} styles={{flex: 1}}>
                 <View onLayout={this.setHeaderPositon.bind(this, i)} style={[
-                  this.styles.header, 
+                  this.styles.header,
                   isSelected ? this.styles.activeHeader : null]}>
                   {
                     createSkeleton(this.theme, { root: { borderRadius: 4 }} as WmSkeletonStyles, {
@@ -153,15 +154,18 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
             return (
               <Tappable onTap={this.onTabSelection.bind(this, i)}
                 {...this.getTestPropsForAction(i +'')}
-                key={header.key} 
+                key={header.key}
                 styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
                 <View onLayout={this.setHeaderPositon.bind(this, i)} accessible={true} accessibilityRole='header'>
                   <View style={[
                     this.styles.header,
                     {flexGrow: undefined},
                     isSelected ? this.styles.activeHeader : null]}>
+                    <WmIcon
+                      styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeaderIcon : null)}
+                      iconclass={header.icon}></WmIcon>
                     <Text numberOfLines={1} style={[
-                      this.styles.headerText, 
+                      this.styles.headerText,
                       isSelected ? this.styles.activeHeaderText : null]}
                       {...this.getTestPropsForLabel(i + '_title')}
                     >{header.title}</Text>
@@ -198,6 +202,6 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
         </Animated.View>
       </Animated.View>
       </View>
-    ); 
+    );
   }
 }

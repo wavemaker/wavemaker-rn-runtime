@@ -1,5 +1,7 @@
+import { DeviceVariable } from "../device-variable";
+
 export interface Operation {
-  invoke(params?: Input, onSuccess?: Function, onError?: Function, operation?: string): Promise<Output>;
+  invoke(params?: Input, onSuccess?: Function, onError?: Function, operation?: string, variable?: DeviceVariable): Promise<Output>;
 }
 
 export interface Input {

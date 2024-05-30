@@ -146,7 +146,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
       <View style={[this.styles.headerWrapper, isNumberTextLayout ?
         {paddingRight: isActiveStep ? 0 : 5, paddingLeft: index === this.state.currentStep + 1 ? 0 : 5}: {}]} key={index+1}>
         <TouchableOpacity style={this.styles.stepWrapper}
-                          onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep}
+                          onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep || !this.state.props.headernavigation}
                           accessibilityRole='header'>
             <View style={this.getStepStyle(index)}>
               {index >= this.state.currentStep && !this.state.isDone &&

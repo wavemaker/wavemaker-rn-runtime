@@ -2,6 +2,7 @@ import { Platform } from 'react-native';
 import moment from "moment";
 import * as FileSystem from "expo-file-system";
 import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber} from 'lodash';
+import ThemeVariables from '../styles/theme.variables';
 
 declare const window: any;
 const GROUP_BY_OPTIONS = {
@@ -368,4 +369,133 @@ export function removeUndefinedKeys(obj: any) {
   }
 
   return obj;
+}
+// * get total number of days in a month of a year
+function getDaysInMonth(month: number, year: number) {
+  return new Date(year, month, 0).getDate();
+}
+
+export const getDates = (
+  month = 0, // zero-based
+  year = new Date().getFullYear(),
+) => {
+  const daysInMonth = getDaysInMonth(month, year);
+  const dates = Array.from({length: daysInMonth}, (v, i) => i + 1);
+
+  return dates;
+};
+
+export const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+export const getMonths = () => {
+  const months = monthNames.map(name => name.substring(0, 3));
+
+  return months;
+};
+
+export const getYearRange = (
+  startYear: number = 1950,
+  endYear: number = 2060,
+) => {
+  const years = [];
+  for (let year = startYear; year <= endYear; ++year) {
+    years.push(year);
+  }
+
+  return years;
+};
+
+export const getDateObject = (date: number, month: number, year: number) => {
+  // * month is zero-based
+  return new Date(year, month, date);
+};
+
+export const getHours = () => {
+  const hours = [];
+  for (let hour = 1; hour <= 12; ++hour) {
+    const paddedHour = String(hour).padStart(2, '0');
+    hours.push(paddedHour);
+  }
+
+  return hours;
+}
+
+export const get24Hours = () => {
+  const hours = [];
+  for (let hour = 0; hour <= 23; ++hour) {
+    const paddedHour = String(hour).padStart(2, '0');
+    hours.push(paddedHour);
+  }
+
+  return hours;
+}
+
+export const getMinutes = () => {
+  const minutes = [];
+  for (let minute = 0; minute <= 59; ++minute) {
+    const paddedMinute = String(minute).padStart(2, '0');
+    minutes.push(paddedMinute);
+  }
+
+  return minutes;
+}
+
+export const getTimeIndicators = () => {
+  return ['AM', 'PM'];
+}
+
+export const getDateTimeObject = (date: number, month: number, year: number, hour: number, minute: number) => {
+  // * month is zero-based
+  return new Date(year, month, date, hour, minute);
+};
+
+export const getGradientStartEnd = (angle: string) => {
+  const angleLowerCase = angle?.toLowerCase();
+  let start = { x: 0, y: 1 };
+  let end = { x: 1, y: 1 };
+
+  if (angle === '0deg' || angleLowerCase === 'to top') {
+    end.x = 0;
+    end.y = 0;
+  } else if (angle === '90deg' || angleLowerCase === 'to right') {
+    start.x = 0;
+  } else if (angle === '180deg' || angleLowerCase === 'to bottom') {
+    start.y = 0;
+    end.x = 0;
+    end.y = 1;
+  } else if (angle === '270deg' || angleLowerCase === 'to left') {
+    start.x = 1;
+    end.x = 0;
+  } else {
+    // other angle
+  }
+
+  return {start, end}
+}
+
+export const parseLinearGradient = (gradient: string) => {
+  let angle = '', color1 = '', color2 = '';
+  const linearGradientRegex = /linear-gradient\(([^,]+),\s*([^,]+),\s*([^)]+)\)/;
+  const hasLinearGradient = linearGradientRegex.test(gradient);
+
+  const matches = gradient?.match(linearGradientRegex);
+  angle = matches?.[1] || '90deg';
+  const {start, end} = getGradientStartEnd(angle)
+  color1 = matches?.[2] || ThemeVariables.INSTANCE.primaryColor;
+  color2 = matches?.[3] || ThemeVariables.INSTANCE.primaryColor;
+
+  return {hasLinearGradient, color1, color2, start, end};
 }

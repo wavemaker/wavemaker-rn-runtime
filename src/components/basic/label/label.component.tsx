@@ -70,7 +70,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     for (let i = 0; i < captionSplit.length; i++) {
       const isLink = linkRegex.test(captionSplit[i]);
       let part: PartType = {};
-      
+
       const isNextTextALink = linkRegex.test(captionSplit[i + 1]);
       if (isLink) {
         part.text = captionSplit[i - 1] ?? '';
@@ -104,14 +104,14 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
         ...this.styles.root,
         width: skeletonWidth as DimensionValue,
         height: skeletonHeight as DimensionValue
-      });  
+      });
     }
   }
 
   renderWidget(props: WmLabelProps) {
     const linkStyles = this.theme.mergeStyle({text: this.styles.text}, this.styles.link);
     return !isNil(props.caption) ? (
-      <Animatedview entryanimation={props.animation} style={this.styles.root}>
+      <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root}>
         {this._background}
         <NavigationServiceConsumer>
         {(navigationService: NavigationService) => {
@@ -133,7 +133,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
                     {...this.getTestPropsForLabel(isLink ? `link_${index}` : `caption_${index}`)}
                     selectable={this.styles.text.userSelect === 'text'}
                     onPress={() => {
-                      if (part.link) { 
+                      if (part.link) {
                         if (part.link.startsWith('http:')
                           || part.link.startsWith('https:')
                           || part.link.startsWith('#')) {

@@ -2,6 +2,7 @@ import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export default class WmDialogProps extends BaseProps {
   animation: string = null as any;
+  animationdelay?: number = null as any;
   show? = false;
   children = null as any;
   closable?= true;

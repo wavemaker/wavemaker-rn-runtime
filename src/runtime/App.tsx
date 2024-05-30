@@ -14,7 +14,7 @@ import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
 import ConstantService from '@wavemaker/app-rn-runtime/core/constant.service';
-import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
+import NetworkService, { NetworkState } from '@wavemaker/app-rn-runtime/core/network.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
@@ -125,6 +125,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
     this.refresh();
   });
 
+  public networkStatus = {} as NetworkState;
+
   constructor(props: any) {
     super(props);
     SplashScreen.preventAutoHideAsync();
@@ -162,6 +164,12 @@ export default abstract class BaseApp extends React.Component implements Navigat
         refreshAfterWait = true;
       }
     }
+    this.cleanup.push(
+      NetworkService.notifier.subscribe('onNetworkStateChange', (networkState: NetworkState) => {
+        this.networkStatus = {...networkState};
+        this.refresh();
+      }
+    ));
   }
 
   subscribe(event: string, fn: Function) {
@@ -228,7 +236,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   setTimezone(timezone: any){
     AppI18nService.setTimezone(timezone);
   }
-  
+
   get spinner() {
     return AppSpinnerService;
   }
@@ -393,7 +401,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   o.modalStyle,
                   { elevation: o.elevationIndex,
                     zIndex: o.elevationIndex })}>
-                    <Animatedview entryanimation={o.animation || 'fadeIn'}
+                    <Animatedview entryanimation={o.animation || 'fadeIn'} delay={o.animationdelay}
                       ref={ref => {
                         this.animatedRef = ref;
                         AppModalService.animatedRefs[i] = ref;
@@ -485,7 +493,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         {this.renderDisplayManager()}
                     </View>
                     </KeyboardAvoidingView>
-                    {this.appConfig.url ? 
+                    {this.appConfig.url ?
                       (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
                       : null}
                   </ThemeProvider>
