@@ -1,5 +1,5 @@
 import { BaseNavProps } from '@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.props';
-import { TapEvent } from "@wavemaker/app-rn-runtime/core/tappable.component";
+import { SyntheticEvent } from "@wavemaker/app-rn-runtime/core/tappable.component";
 import {
   NavigationDataItem
 } from "@wavemaker/app-rn-runtime/components/navigation/basenav/basenav.component";
@@ -9,5 +9,5 @@ export default class WmNavbarProps extends BaseNavProps {
   layout: string = '';
   children?: any = [] as any;
   indent = 0;
-  onSelect? = ($event: TapEvent, target: any, $item: NavigationDataItem) => {};  ischildnav? = false;
+  onSelect? = ($event: SyntheticEvent, target: any, $item: NavigationDataItem) => {};  ischildnav? = false;
 }
