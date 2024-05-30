@@ -50,7 +50,8 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingLeft: 0,
             paddingRight: 0,
             overflow: 'hidden',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            flex: 1
           }
         ]}>
         {this._background}
@@ -61,6 +62,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingLeft: this.styles.root.paddingLeft,
             paddingRight: this.styles.root.paddingRight,
             width: '100%',
+            height: this.styles.root.height ? '100%' : null,
             justifyContent: 'center',
           }}
         >
