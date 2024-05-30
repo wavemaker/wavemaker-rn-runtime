@@ -207,6 +207,10 @@ export default class ThemeVariables {
     inputInvalidBorderColor = this.dangerColor;
     inputPlaceholderColor = this.defaultColorB;
 
+    //wheel picker variables
+    wheelSelectedColor  = '#1d1d1b';
+    wheelColor = '#737373';
+
     //floating label
     floatingLabelColor = 'var(--inputPlaceholderColor)';
     activeFloatingLabelColor = 'var(--primaryColor)';
@@ -470,5 +474,11 @@ export default class ThemeVariables {
     //Tool tip
     tooltipBgColor = Color("#fff").fade(0.6).rgb().toString();
     tooltipBorderColor = '#404040';
+
+    // Wheel Picker
+    wheelHighlightBorder = 'var(--primaryColor)';
+    wheelSelectedTextColor = 'var(--wheelSelectedColor)';
+    wheelTextColor = 'var(--wheelColor)';
+
     static INSTANCE = new ThemeVariables();
 }

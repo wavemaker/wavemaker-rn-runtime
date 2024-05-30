@@ -59,9 +59,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             backgroundColor: 'rgba(0, 0, 0, 0.3)',
         },
         popover: {
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
             width: '100%',
             minHeight: 240,
-            maxHeight: Dimensions.get('window').height - 120,
+            maxHeight: Dimensions.get('window').height - 120
         },
         modalContent: {
             position: 'absolute',

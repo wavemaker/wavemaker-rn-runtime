@@ -10,7 +10,17 @@ export type WmSliderStyles = BaseStyles & {
     minimumTrack: ViewStyle,
     maximumTrack: ViewStyle,
     thumb: ViewStyle,
-    disabled: ViewStyle
+    disabled: ViewStyle,
+    markerWrapper: ViewStyle,
+    markerLabel: TextStyle,
+    mark: ViewStyle,
+    trackStyle: ViewStyle,
+    markerStyle: ViewStyle,
+    markerLabelStyle: TextStyle,
+    minimumTrackStyle: ViewStyle,
+    maximumTrackStyle: ViewStyle,
+    activeTrackStyle: ViewStyle,
+    tooltip: ViewStyle;
 };
 
 export const DEFAULT_CLASS = 'app-slider';
@@ -59,7 +69,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         thumb: {
             height: 20,
             width: 20,
-            marginLeft: -8,
+            position: 'absolute',
+            left: 0,
+            marginLeft: -10,
             marginTop: -20,
             borderRadius: 16,
             backgroundColor: themeVariables.thumbTintColor,
@@ -68,7 +80,28 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         disabled: {
             pointerEvents: 'none'
-        }
+        },
+        markerWrapper: {
+            position: 'absolute',
+        },
+        markerLabel: {
+            position: 'absolute',
+            bottom: 15,
+        },
+        mark: {
+            position: 'absolute',
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            bottom: 0,
+        },
+        trackStyle: {},
+        markerStyle: {},
+        markerLabelStyle: {},
+        minimumTrackStyle: {},
+        maximumTrackStyle: {},
+        activeTrackStyle: {},
+        tooltip: {},
+        tooltipLabel: {},
+        tooltipTriangle: {},
     }) as WmSliderStyles;
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

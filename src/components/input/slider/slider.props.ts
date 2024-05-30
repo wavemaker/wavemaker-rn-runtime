@@ -1,10 +1,15 @@
-import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { TooltipDirection } from '../../basic/tooltip/tooltip.props';
+import BaseDatasetProps from '../basedataset/basedataset.props';
 
-export default class WmSliderProps extends BaseProps {
-    datavalue: any;
+export default class WmSliderProps extends BaseDatasetProps {
+    range?: boolean = false;
     minvalue: number = 0;
     maxvalue: number = 100;
     step?: number = 1;
-    readonly? = false;
-    onFieldChange?: any;
+    datatype: 'number' | 'dataset' = "number";
+    showmarkers = false;
+    showtooltip? = false;
+    tooltipdirection?: TooltipDirection = "up";
+    markerlabeltext?: Array<string | number> = [];
+    getToolTipExpression?: (item: number) => string;
 }
