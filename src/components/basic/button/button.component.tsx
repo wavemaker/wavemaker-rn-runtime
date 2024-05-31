@@ -71,9 +71,9 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingLeft: 0,
             paddingRight: 0,
             overflow: 'hidden',
-            flexDirection: 'column',
-            flex: 1
-          }
+            flexDirection: 'column'
+          },
+          this.styles.root.height == "100%" ? {flex: 1}:{}
         ]}
         // accessibilityProps={{...getAccessibilityProps(
         //   AccessibilityWidgetType.BUTTON,
