@@ -64,6 +64,11 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
       }
     },
   });
+  
+  getDefaultStyles() {
+    const isActionSheet = this.state.props.type === 'action-sheet';
+    return this.theme.getStyle(`${this.defaultClass} ${isActionSheet ? 'app-popover-action-sheet' : ''}`);
+  }
 
   private computePosition = (e: LayoutChangeEvent) => {
     const position = {} as PopoverPosition;
