@@ -54,7 +54,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
-    addStyle('popover-action-sheet', '', {
+    addStyle('app-popover-action-sheet', '', {
         modal: {
             backgroundColor: 'rgba(0, 0, 0, 0.3)',
         },
