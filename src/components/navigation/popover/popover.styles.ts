@@ -65,6 +65,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             right: 0,
             width: '100%',
             minHeight: 240,
+            elevation: 4,
             maxHeight: Dimensions.get('window').height - 120
         },
         modalContent: {
