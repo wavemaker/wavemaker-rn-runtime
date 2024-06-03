@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { ResizeMode, Video } from 'expo-av';
+import { ResizeMode, Video, AVPlaybackStatus } from 'expo-av';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmVideoProps from './video.props';
@@ -32,11 +32,13 @@ export default class WmVideo extends BaseComponent<WmVideoProps, WmVideoState, W
     return resource;
   }
 
-  componentDidMount(): void {
-    if (this.state.props.autoplay) {
-      this.video?.playAsync();
+   handlePlaybackStatus = (status: AVPlaybackStatus) => {
+    if ('isPlaying' in status && typeof status === 'object') {
+      console.log(status.isPlaying? 'Playing' : 'Paused');
+    } else if ('error' in status) {
+      console.error(`Encountered a fatal error during playback: ${status.error}`);
     }
-  }
+  };
 
   renderWidget(props: WmVideoProps) {
     return (
@@ -46,6 +48,8 @@ export default class WmVideo extends BaseComponent<WmVideoProps, WmVideoState, W
           {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
           ref={(video) => { this.video = video; }}
           style={{ width: '100%', height: '100%', flex: 1 }}
+          shouldPlay={props.autoplay}
+          onPlaybackStatusUpdate={this.handlePlaybackStatus}
           source={this.getSource(
             props.mp4format
             || props.webmformat) as any}
