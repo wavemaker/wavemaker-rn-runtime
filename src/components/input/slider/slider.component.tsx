@@ -75,8 +75,10 @@ export default class WmSlider extends BaseComponent<WmSliderProps, WmSliderState
         }
       case 'maxvalue':
       case 'minvalue': 
-        this.setProp('datavalue', this.getDataValue() || 0)
-        this.computePosition(this.state.props.datavalue);
+        if (this.initialized) {
+          this.setProp('datavalue', this.getDataValue() || 0)
+          this.computePosition(this.state.props.datavalue);
+        }
     }
   }
 
