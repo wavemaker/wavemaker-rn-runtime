@@ -20,6 +20,7 @@ class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, a
     return (<Drawer.Navigator
       initialRouteName="pages"
       drawerContent={this.props.content}
+      useLegacyImplementation={false}
       screenOptions={{
           drawerType: this.props.type,
           headerShown: false,

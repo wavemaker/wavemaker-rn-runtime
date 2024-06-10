@@ -78,7 +78,7 @@ export type AccessibilityPropsType = {
 
 export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, accessibilityProps: AccessibilityPropsType | any) => {
   let props: AccessibilityPropsType = {accessible: true};
-  if (!_isScreenReaderEnabled) {
+  if (!_isScreenReaderEnabled || isWebPreviewMode()) {
     return {};
   }
   switch (widgetType) {

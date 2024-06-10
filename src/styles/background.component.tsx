@@ -263,7 +263,8 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
                 style={this.props.style}
                 size={psresult.size}
                 position={psresult.position}
-                middle={psresult.resizeMode === 'center'} children={undefined}>   
+                middle={psresult.resizeMode === 'center'}> 
+                <></> 
             </LinearGradient>
         );
     }
