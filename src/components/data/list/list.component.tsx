@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent} from 'react-native';
+import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity} from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
@@ -7,7 +7,8 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
-import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { Swipeable } from 'react-native-gesture-handler';
+import WmListActionTemplate from './list-action-template/list-action-template.component';
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
@@ -28,6 +29,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private endThreshold = -1;
   private loadingData = false;
   private hasMoreData = true;
+  public leftActionTemplate?: WmListActionTemplate;
+  public rightActionTemplate?: WmListActionTemplate;
 
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
@@ -89,6 +92,22 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const navigation = this.state.props.navigation;
     return navigation === 'Scroll' || navigation === 'On-Demand';
   }
+
+  renderLeftActions = () => {
+    return this.leftActionTemplate ? (
+        <>
+        {this.leftActionTemplate.getTemplate()}
+        </>
+    ) : null;
+  };
+
+  renderRightActions = () => {
+    return this.rightActionTemplate ? (
+        <>
+        {this.rightActionTemplate.getTemplate()}
+        </>
+    ) : null;
+  };
 
   private loadData() {
     if (this.loadingData) {
@@ -319,6 +338,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const cols = this. getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
     return (index < this.state.maxRecordsToShow || isHorizontal) ? (
+      <Swipeable
+      renderLeftActions={() => this.renderLeftActions()}
+      renderRightActions={() => this.renderRightActions()}>
       <View style={[
         this.styles.item,
         props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
@@ -345,6 +367,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           ) : null}
         </Tappable>
       </View>
+      </Swipeable>
       ) : null;
   }
 
