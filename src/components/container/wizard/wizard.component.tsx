@@ -129,7 +129,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             <Text style={this.styles.stepSubTitle}>
               {item.props.subtitle || 'Step Sub Title'}</Text>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end', flex: 1 }}>
             {this.renderMenuPopover()}
           </View>
         </View>
