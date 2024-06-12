@@ -71,29 +71,25 @@ export default class WmLiveForm extends WmForm {
       return false;
     }
     if (this.props.onBeforeservicecall) {
-      this.invokeEventCallback('onBeforeservicecall', [ null, this.proxy, formData ]);
+      this.invokeEventCallback('onBeforeservicecall', [ null, operationType, formData ]);
     }
     if (this.props.formSubmit) {
       this.props.formSubmit({inputFields: formData}, operationType, ((data: any) => {
-        this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
-        this.onResultCb(get(data, 'params'), 'success');
+        this.onResultCb(data, 'success', operationType);
       }), ((error: any) => {
-        this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
-        this.onResultCb(error, '');
+        this.onResultCb(error, '', operationType);
       }));
-    } else {
-      this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
     }
   }
 
-  onResultCb(response: any, status: string, event?: any) {
-    this.invokeEventCallback('onResult', [ null, this.proxy, response ]);
+  onResultCb(response: any, status: string, operationType: string, event?: any) {
+    this.invokeEventCallback('onResult', [ null, operationType, response ]);
     if (status) {
-      this.invokeEventCallback('onSuccess', [ null, this.proxy, response ]);
+      this.invokeEventCallback('onSuccess', [ null, operationType, response ]);
       this.props.formSuccess && this.props.formSuccess();
       !this.props.onSuccess && this.state.props.postmessage && this.toggleMessage('success', this.state.props.postmessage);
     } else {
-      this.invokeEventCallback('onError', [ null, this.proxy, response ]);
+      this.invokeEventCallback('onError', [ null, operationType, response ]);
       !this.props.onError && this.toggleMessage('error', this.state.props.errormessage || get(response, 'message') || response);
     }
   }
