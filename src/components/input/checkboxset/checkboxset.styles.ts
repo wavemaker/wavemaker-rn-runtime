@@ -33,6 +33,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     item: {
       flexDirection: 'row',
       alignContent: 'center',
+      marginRight: -20,
       marginTop: 8
     } as AllStyle,
     skeleton: {

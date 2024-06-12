@@ -5,4 +5,10 @@ export default class WmCheckboxsetProps extends BaseDatasetProps {
   displayValue: any = '';
   required: boolean = false;
   renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
+  itemsperrow =  {
+    xs: 1,
+    sm: 1,
+    md: 1,
+    lg: 1,
+ };
 }
