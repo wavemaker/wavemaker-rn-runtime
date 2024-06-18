@@ -30,6 +30,7 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
   loading: boolean = true;
   chartHeight: number = 0;
   chartWidth: number = 0;
+  totalHeight: number = 0;
   chartMinY: number | undefined = undefined;
   chartMinX: number | undefined = undefined;
   chartMaxY: number | undefined = undefined;
@@ -63,6 +64,8 @@ const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 
 export abstract class BaseChartComponent<T extends BaseChartComponentProps, S extends BaseChartComponentState<T>, L extends BaseChartComponentStyles> extends BaseComponent<T, S, L> {
   protected screenWidth: number = screenWidth;
+  protected isHeightPercent: boolean = false;
+  protected isWidthtPercent: boolean = false;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultProps, defaultState);
     if (!props.theme) {
@@ -77,6 +80,22 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
 
   componentDidMount() {
     super.componentDidMount();
+  }
+
+  onViewLayoutChange = (e: LayoutChangeEvent) => {
+    let viewWidth = e.nativeEvent.layout.width;
+    let viewHeight = e.nativeEvent.layout.height;
+    if (viewWidth !== this.state.chartWidth) {
+      this.updateState({
+        chartWidth: Number(viewWidth),
+        totalHeight: Number(viewHeight)
+      } as any)
+    }
+  }
+
+  getLayoutValues(){
+    this.isHeightPercent =  _.isString(this.styles.root.height) && (this.styles.root.height as string).endsWith('%');
+    this.isWidthtPercent = _.isString(this.styles.root.width) && (this.styles.root.width as string).endsWith('%');
   }
 
   abbreviateNumber(number: any) {
@@ -465,7 +484,12 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   getxAxisVal(dataObj: {[key: string] : any}, xKey: string, index: number, xaxisDatakeyArr: Array<any>) {
     const value: any = get(dataObj, xKey);
     if (moment(value).isValid() || isNaN(value) || typeof value === 'string' || typeof value === 'number') {
-      xaxisDatakeyArr.push(value.replace("\\n","\n"));
+      if (typeof value === "string"){
+        xaxisDatakeyArr.push(value.replace("\\n","\n"));
+      }
+      else{
+        xaxisDatakeyArr.push(value);
+      }
       return index;
     }
     return value;
