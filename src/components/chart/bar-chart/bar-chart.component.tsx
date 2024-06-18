@@ -18,10 +18,7 @@ import { DEFAULT_CLASS, WmBarChartStyles } from './bar-chart.styles';
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
 import { min } from 'moment';
 
-export class WmBarChartState extends BaseChartComponentState<WmBarChartProps> {
-  chartWidth = 0;
-  totalHeight = 0;
-}
+export class WmBarChartState extends BaseChartComponentState<WmBarChartProps> {}
 
 export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBarChartState, WmBarChartStyles> {
 
@@ -55,14 +52,6 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
           }
         }]}/>
     });
-}
-  onViewLayoutChange = (e: LayoutChangeEvent) => {
-    console.log(e.nativeEvent.layout)
-    let viewWidth = e.nativeEvent.layout.width;
-    this.updateState({
-      chartWidth: Number(viewWidth),
-      totalHeight: Number(e.nativeEvent?.layout.height)
-    } as WmBarChartState)
   }
 
 onSelect(event: any, data: any){
@@ -86,11 +75,12 @@ onSelect(event: any, data: any){
     if (!this.state.data.length) {
       return null;
     }
+    this.getLayoutValues();
     let mindomain={x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined, y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined};
     return (<View
       {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
       style={this.styles.root}
-      onLayout={this.onViewLayoutChange}
+      onLayout={this.onViewLayoutChange.bind(this)}
     >
       {this.getTooltip()}
       <View>
@@ -101,8 +91,8 @@ onSelect(event: any, data: any){
           <Text style={this.styles.subHeading}>{props.subheading}</Text>
         </View>
       <VictoryChart theme={this.state.theme}
-                          height={(this.state.totalHeight || this.styles.root.height) as number}
-                          width={this.state.chartWidth || this.screenWidth}               
+                          height={(this.styles.root.height) as number}
+                          width={this.isWidthtPercent ? this.state.chartWidth : this.screenWidth}
                           minDomain={mindomain}
                           padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}>
       {this.getLegendView()}
