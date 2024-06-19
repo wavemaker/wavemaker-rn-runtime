@@ -32,6 +32,13 @@ export class HttpService implements HttpClientService {
       url = variable.config.baseUrl + options.url;
     }
 
+    if (!isWebPreviewMode() 
+      && variable.serviceType === "JavaService"
+      && !(url.startsWith('http://') || url.startsWith("https://"))) {
+        options.url = options.url.replace('./', '');
+        url = options.url;
+    }
+
     const methodType: string = serviceInfo?.methodType || options.method.toLowerCase();
     const isNonDataMethod: boolean = WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(methodType.toUpperCase()) > -1;
     const axiosConfig = {
