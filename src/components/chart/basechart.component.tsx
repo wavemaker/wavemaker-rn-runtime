@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions } from 'react-native';
+import { Dimensions, View, Text, LayoutChangeEvent, LayoutRectangle} from 'react-native';
 import moment from "moment";
 import {forEach, get, isArray, isEmpty, isObject, maxBy, minBy, set, trim, orderBy} from "lodash-es";
 import { ScatterSymbolType } from "victory-core";
@@ -13,6 +13,7 @@ import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, BaseChartComponentStyles} from "./basechart.styles";
 import _ from "lodash";
 import { constructSampleData, getChartType } from "./staticdata";
+import { isWebPreviewMode } from "@wavemaker/app-rn-runtime/core/utils";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -33,6 +34,15 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
   chartMinX: number | undefined = undefined;
   chartMaxY: number | undefined = undefined;
   chartMaxX: number | undefined = undefined;
+  tooltipXPosition = 0;
+  tooltipYPosition = 0;
+  tooltipXaxis = 0;
+  tooltipYaxis = 0;
+  tooltipoffsetx: number = 50;
+  tooltipoffsety: number = 60;
+  isTooltipOpen: boolean = false;
+  selectedItem: any = {}
+  template: string = "";
 }
 
 const screenWidth = Dimensions.get("window").width;
@@ -58,6 +68,11 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     if (!props.theme) {
       this.applyTheme(props);
     }
+    this.subscribe('globaltouch', (event: any) => {
+      this.updateState({
+        isTooltipOpen: false
+      } as any)
+    });
   }
 
   componentDidMount() {
@@ -181,33 +196,63 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                         dependentAxis />;
   }
   
-  getTooltip(props: BaseChartComponentProps) {
-    const tooltipContainer = this.styles.tooltipContainer;
-    const xaxis = props.xaxisdatakey;
-    return (
-      <VictoryVoronoiContainer
-      voronoiDimension="x"
-      labels={({ datum }) => `${props.dataset[datum.x][xaxis]} \n Value ${datum.y} `}
-      voronoiBlacklist={this.state.data.map((item: any, i: number) => props.name + '_' + i)}
-      labelComponent={
-        <VictoryTooltip
-          style={[{fill: this.styles.tooltipXText.color,...this.styles.tooltipXText},{fill: this.styles.tooltipYText.color,...this.styles.tooltipYText}]}
-          orientation={props.tooltiporientation}
-          pointerLength={props.tooltippointerlength}
-          pointerWidth={props.tooltippointerwidth}
-          flyoutHeight={props.tooltipheight}
-          flyoutWidth={props.tooltipwidth}
-          flyoutStyle={{fill: tooltipContainer.backgroundColor, stroke: tooltipContainer.borderColor,  strokeWidth: tooltipContainer.borderWidth,...this.styles.tooltipContainer}}
-          flyoutPadding={{top: tooltipContainer.paddingTop, bottom: tooltipContainer.paddingBottom, left: tooltipContainer.paddingLeft, right: tooltipContainer.paddingRight}}
-          cornerRadius={tooltipContainer.borderRadius}
-          centerOffset={{ x: props.tooltipcenteroffsetx, y: props.tooltipcenteroffsety}}
-          constrainToVisibleArea
-        />
-      }
-    />
-    );
+  setTooltipTemplate(partialName: any) {
+    this.updateState({ template: partialName} as any);
   }
- 
+
+  setTooltipPosition(nativeEvent: any){
+    let xCoordinate = isWebPreviewMode() ? nativeEvent.offsetX : nativeEvent.locationX;
+    let yCoordinate = isWebPreviewMode() ? nativeEvent.offsetY : nativeEvent.locationY;
+    this.updateState({
+      tooltipXPosition: xCoordinate - this.state.tooltipoffsetx,
+      tooltipYPosition:  yCoordinate - this.state.tooltipoffsety,
+    } as any)
+  }
+
+  setTooltipPartialLayout(event: LayoutChangeEvent){
+    let tooltipLayout = event.nativeEvent.layout;
+    this.updateState({
+      tooltipoffsetx: tooltipLayout.width/2,
+      tooltipoffsety: tooltipLayout.height
+    } as any)
+  }
+  
+  renderPointer(){
+    return (
+      <View 
+      style={[
+        {
+          transform: [
+            { rotate: '180deg' }
+          ],
+          bottom: -10,
+          left: this.state.tooltipoffsetx - this.styles.tooltipPointer.borderBottomWidth/2
+        },
+        this.styles.tooltipPointer
+      ]}
+    />
+    )
+  }
+
+  getTooltip() {
+    return this.state.isTooltipOpen ? (
+      !isEmpty(this.state.template) && this.props.renderitempartial ?
+      <View onLayout={this.setTooltipPartialLayout.bind(this)} style={{ position: "absolute", top: this.state.tooltipYPosition as number, left: this.state.tooltipXPosition as number , zIndex: 99}}>
+           {this.props.renderitempartial(this.state.selectedItem, this.state.selectedItem.index, this.state.template)}
+           {this.renderPointer()}
+      </View> : (
+      <View style={[
+        { position: "absolute", top: this.state.tooltipYPosition as number, left: this.state.tooltipXPosition as number},
+        this.styles.tooltipContainer
+      ]}>
+        <View>
+        <Text style={[{ fontSize: 16, fontWeight: 'bold' },this.styles.tooltipXText]}>{this.state.tooltipXaxis}</Text>
+        <Text style={this.styles.tooltipXText}>{this.state.tooltipYaxis}</Text>
+        </View>
+        {this.renderPointer()}
+      </View>)
+    ) : null;
+  }  
 
   // X/Y Domain properties are supported only for Column and Area charts
   isAxisDomainSupported(type: string) {
@@ -420,7 +465,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   getxAxisVal(dataObj: {[key: string] : any}, xKey: string, index: number, xaxisDatakeyArr: Array<any>) {
     const value: any = get(dataObj, xKey);
     if (moment(value).isValid() || isNaN(value) || typeof value === 'string' || typeof value === 'number') {
-      xaxisDatakeyArr.push(value);
+      xaxisDatakeyArr.push(value.replace("\\n","\n"));
       return index;
     }
     return value;

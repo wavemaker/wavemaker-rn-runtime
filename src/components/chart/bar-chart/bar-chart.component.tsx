@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, LayoutChangeEvent } from 'react-native';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import {
   VictoryChart,
@@ -18,7 +18,10 @@ import { DEFAULT_CLASS, WmBarChartStyles } from './bar-chart.styles';
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
 import { min } from 'moment';
 
-export class WmBarChartState extends BaseChartComponentState<WmBarChartProps> {}
+export class WmBarChartState extends BaseChartComponentState<WmBarChartProps> {
+  chartWidth = 0;
+  totalHeight = 0;
+}
 
 export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBarChartState, WmBarChartStyles> {
 
@@ -53,12 +56,28 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         }]}/>
     });
 }
+  onViewLayoutChange = (e: LayoutChangeEvent) => {
+    console.log(e.nativeEvent.layout)
+    let viewWidth = e.nativeEvent.layout.width;
+    this.updateState({
+      chartWidth: Number(viewWidth),
+      totalHeight: Number(e.nativeEvent?.layout.height)
+    } as WmBarChartState)
+  }
 
 onSelect(event: any, data: any){
   let value = data.data[data.index].y;
   let label = this.state.xaxisDatakeyArr[data.datum.x];
   let selectedItem = this.props.dataset[data.index];
-  let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+  const nativeEvent = event.nativeEvent;
+    this.setTooltipPosition(nativeEvent);
+    let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+    this.updateState({
+      tooltipXaxis: label,
+      tooltipYaxis: value,
+      isTooltipOpen: true,
+      selectedItem: {...selectedItem, index: data.index},
+    } as WmBarChartState)
   this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
 }
 
@@ -71,7 +90,9 @@ onSelect(event: any, data: any){
     return (<View
       {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
       style={this.styles.root}
+      onLayout={this.onViewLayoutChange}
     >
+      {this.getTooltip()}
       <View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
@@ -80,13 +101,10 @@ onSelect(event: any, data: any){
           <Text style={this.styles.subHeading}>{props.subheading}</Text>
         </View>
       <VictoryChart theme={this.state.theme}
-                          height={this.styles.root.height as number}
-                          width={this.styles.root.width as number || this.screenWidth}               
+                          height={(this.state.totalHeight || this.styles.root.height) as number}
+                          width={this.state.chartWidth || this.screenWidth}               
                           minDomain={mindomain}
-                          padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
-                          containerComponent={
-                            this.getTooltip(props)
-                          }>
+                          padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}>
       {this.getLegendView()}
       {this.getXaxis()}
       {this.getYAxis()}

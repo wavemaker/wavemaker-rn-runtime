@@ -28,6 +28,7 @@ export type BaseChartComponentStyles = BaseStyles & {
   legendText: TextStyle,
   legenedDot: ViewStyle,
   tooltipContainer: any,
+  tooltipPointer: any
   tooltipXText: any,
   tooltipYText: any,
   bar: any;
@@ -84,16 +85,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     xTickLabels: {} as any,
     yTickLabels: {} as any,
     barChart: {},
-    tooltipContainer:{
-      backgroundColor: themeVariables.tooltipBgColor,
-      borderColor: themeVariables.tooltipBorderColor,
-      borderWidth: 1,
-      paddingTop: 10,
-      paddingBottom: 10,
-      paddingLeft: 6,
-      paddingRight: 6,
-      borderRadius: 5,
-    },
     tooltipXText:{},
     tooltipYText:{},
     bar:{
@@ -101,7 +92,34 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderTopRightRadius: 0,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0
-    }
+    },
+    tooltipContainer: {
+      position: 'absolute', 
+      backgroundColor: themeVariables.tooltipBgColor, 
+      flex: 1, 
+      width: 100,
+      height: 60,
+      opacity: 0.9, 
+      borderRadius: 12, 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      elevation: 2,
+      zIndex: 99
+    } as any,
+    tooltipPointer: {
+      position: 'absolute',
+      width: 0,
+      height: 0,
+      backgroundColor: themeVariables.transparent,
+      borderStyle: 'solid',
+      borderLeftWidth: 8,
+      borderRightWidth: 8,
+      borderBottomWidth: 12,
+      borderLeftColor: themeVariables.transparent,
+      borderRightColor: themeVariables.transparent,
+      borderBottomColor: themeVariables.tooltipBgColor,
+      overflow: 'hidden',
+    } as any
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

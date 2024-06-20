@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Platform } from 'react-native';
+import { Text, View, Platform, LayoutChangeEvent } from 'react-native';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import {
   VictoryChart,
@@ -18,7 +18,10 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import {InterpolationPropType} from "victory-core";
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
-export class WmLineChartState extends BaseChartComponentState<WmLineChartProps> {}
+export class WmLineChartState extends BaseChartComponentState<WmLineChartProps> {
+  chartWidth = 0;
+  totalHeight = 0;
+}
 
 export default class WmLineChart extends BaseChartComponent<WmLineChartProps, WmLineChartState, WmLineChartStyles> {
 
@@ -30,9 +33,27 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
     let value = data.data[data.index].y;
     let label = this.state.xaxisDatakeyArr[data.datum.x];
     let selectedItem = this.props.dataset[data.index];
+    const nativeEvent = event.nativeEvent;
+    this.setTooltipPosition(nativeEvent);
     let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+    this.updateState({
+      tooltipXaxis: label,
+      tooltipYaxis: value,
+      isTooltipOpen: true,
+      selectedItem: {...selectedItem, index: data.index},
+    } as WmLineChartState)
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
   }
+
+  onViewLayoutChange = (e: LayoutChangeEvent) => {
+    console.log(e.nativeEvent.layout)
+    let viewWidth = e.nativeEvent.layout.width;
+    this.updateState({
+      chartWidth: Number(viewWidth),
+      totalHeight: Number(e.nativeEvent?.layout.height)
+    } as WmLineChartState)
+  }
+
 
   renderWidget(props: WmLineChartProps) {
     this.invokeEventCallback('onBeforerender', [this.proxy, null]);
@@ -40,7 +61,8 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
       return null;
     }
     return (
-    <View style={this.styles.root} {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}>
+    <View style={this.styles.root} {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)} onLayout={this.onViewLayoutChange}>
+      {this.getTooltip()}
       <View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           { props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
@@ -50,12 +72,9 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
       </View>
       <VictoryChart
         theme={this.state.theme}
-        height={this.styles.root.height as number}
-        width={this.styles.root.width as number || this.screenWidth}
+        height={(this.state.totalHeight || this.styles.root.height) as number}
+        width={this.state.chartWidth || this.screenWidth}
         padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
-        containerComponent={
-          this.getTooltip(props)
-        }
       >
         {this.getLegendView()}
         {this.getXaxis()}
