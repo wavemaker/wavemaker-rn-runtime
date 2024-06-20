@@ -6,6 +6,7 @@ import WmSearchProps from './search.props';
 import { DEFAULT_CLASS, WmSearchStyles } from './search.styles';
 import { ModalConsumer, ModalOptions, ModalService} from "@wavemaker/app-rn-runtime/core/modal.service";
 import { DataProvider } from '@wavemaker/app-rn-runtime/components/basic/search/local-data-provider';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 import {
   BaseDatasetComponent,
@@ -21,6 +22,7 @@ import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 export class WmSearchState extends BaseDatasetState<WmSearchProps> {
   isOpened: boolean = false;
   modalOptions = {} as ModalOptions;
+  template: string = "";
   position = {
     top: 0,
     left: 0
@@ -275,6 +277,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
                ref.selectionStart = ref.selectionEnd = this.cursor;
              }}}
             {...this.getTestPropsForInput()}
+            {...getAccessibilityProps(AccessibilityWidgetType.SEARCH, props)}
             placeholderTextColor={this.styles.placeholderText.color as any}
             placeholder={props.placeholder || 'Search'}
             autoFocus={props.autofocus}
@@ -313,8 +316,11 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     return (
       <Tappable onTap={this.onItemSelect.bind(this, item)} {...this.getTestProps(`action${index}`)}>
         <View  style={this.styles.searchItem}>
+          {!isEmpty(this.state.template) && this.props.renderitempartial ?
+           this.props.renderitempartial(item.dataObject, index, this.state.template) : (<>
           <WmPicture id={this.getTestId(`picture${index}`)} styles={imageStyles} name={props.name + '_image'}  picturesource={item.imgSrc}></WmPicture>
           <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.searchItemText}>{item.displayexp || item.displayfield}</Text>
+          </>)}
         </View>
       </Tappable>
     );
@@ -355,6 +361,10 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
         break;
     }
     super.onPropertyChange(name, $new, $old);
+  }
+
+  setTemplate(partialName: any) {
+    this.updateState({ template: partialName} as WmSearchState);
   }
 
   renderWidget(props: WmSearchProps) {

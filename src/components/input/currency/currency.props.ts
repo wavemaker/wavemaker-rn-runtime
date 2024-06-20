@@ -3,4 +3,5 @@ import BaseNumberProps from '@wavemaker/app-rn-runtime/components/input/basenumb
 export default class WmCurrencyProps extends BaseNumberProps {
   currency: any;
   placeholder: string = '';
+  floatinglabel?: string;
 }

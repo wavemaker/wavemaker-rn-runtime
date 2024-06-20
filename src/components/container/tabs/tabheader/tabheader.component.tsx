@@ -114,7 +114,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                   {
                     createSkeleton(this.theme, { root: { borderRadius: 4 }} as WmSkeletonStyles, {
                       ...this.styles.root,
-                      width: this.styles.root?.width || "100%",
+                      width: this.styles.root?.width || "80%",
                       height: this.styles.root?.height || this.styles.activeHeaderText?.fontSize || 16
                     })
                   }
@@ -155,7 +155,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                 {...this.getTestPropsForAction(i +'')}
                 key={header.key} 
                 styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
-                <View onLayout={this.setHeaderPositon.bind(this, i)}>
+                <View onLayout={this.setHeaderPositon.bind(this, i)} accessible={true} accessibilityRole='header'>
                   <View style={[
                     this.styles.header,
                     {flexGrow: undefined},

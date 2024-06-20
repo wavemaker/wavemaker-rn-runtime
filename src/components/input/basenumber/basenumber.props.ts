@@ -1,3 +1,4 @@
+import {AccessibilityRole} from "react-native";
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export default class BaseNumberProps extends BaseProps {
@@ -12,4 +13,8 @@ export default class BaseNumberProps extends BaseProps {
   required: boolean = false;
   triggerValidation: any;
   decimalPlaces: number = 2;
+  accessibilitylabel?: string = undefined;
+  hint?: string = undefined;
+  accessibilityrole?: AccessibilityRole;
+  accessibilitylabelledby?: string = undefined;
 }

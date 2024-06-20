@@ -356,3 +356,16 @@ export const isFullPathUrl = (url: string) => {
   || url.startsWith('https:') 
   || url.startsWith('file:'));
 };
+
+export function removeUndefinedKeys(obj: any) {
+  for (const key in obj) {
+    if (obj[key] === undefined) {
+      delete obj[key];
+    } else if (typeof obj[key] === 'object') {
+      // * if the value is an object, recursively call the function
+      removeUndefinedKeys(obj[key]);
+    }
+  }
+
+  return obj;
+}

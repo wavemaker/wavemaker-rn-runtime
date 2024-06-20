@@ -12,9 +12,11 @@ export type WmListStyles = BaseStyles & {
     title: WmLabelStyles,
     subheading: WmLabelStyles,
     emptyMessage: WmLabelStyles,
+    onDemandMessage: WmLabelStyles,
     item: AllStyle,
     selectedItem: AllStyle,
-    selectedIcon: WmIconStyles
+    selectedIcon: WmIconStyles,
+    group: AllStyle,
 };
 
 export const DEFAULT_CLASS = 'app-list';
@@ -79,6 +81,19 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 color: themeVariables.listSubTitleColor
             }
         } as WmLabelStyles,
+        onDemandMessage: {
+            root: {
+                paddingVertical: 8,
+                width: '100%'
+            } as ViewStyle,
+            text: {
+                textAlign: 'center',
+                color: themeVariables.listSubTitleColor
+            }
+        } as WmLabelStyles,
+        group: {
+            marginBottom: 16,
+        },
         item: {
             ...BASE_THEME.getStyle('elevate1').root,
             shadowColor: 'rgba(0, 0, 0, 0.3)',

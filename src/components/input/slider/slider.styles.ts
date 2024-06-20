@@ -57,10 +57,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             borderBottomRightRadius: 4,
         },
         thumb: {
-            height: 16,
-            width: 16,
+            height: 20,
+            width: 20,
             marginLeft: -8,
-            marginTop: -18,
+            marginTop: -20,
             borderRadius: 16,
             backgroundColor: themeVariables.thumbTintColor,
             backgroundSize: '100% 100%',

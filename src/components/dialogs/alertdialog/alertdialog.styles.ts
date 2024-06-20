@@ -30,7 +30,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                marginLeft: 4
             },
             text : {
-              fontsize: 16
+                textTransform: 'capitalize',
+                fontSize: 16
             }
         } as any as WmButtonStyles,
         message: {

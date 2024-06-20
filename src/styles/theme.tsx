@@ -1,5 +1,6 @@
 import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, isFunction, get, reverse } from 'lodash';
-import React, { ReactNode } from 'react';
+import React from 'react';
+import { camelCase } from 'lodash-es';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground } from 'react-native';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
@@ -72,6 +73,19 @@ export class Theme {
     public notify(event: ThemeEvent): void {
         this.eventNotifer.notify(event, []);
         this.children.forEach(t => t.notify(event));
+    }
+
+    private replaceVariables(val: string) {
+        if(isString(val)) { 
+            (val.match(/_*var\([^\)]*\)/g) || []).forEach((s) => {
+                const variableName = s.substring(4, s.length - 1);
+                val = val.replace(s, (ThemeVariables.INSTANCE as any)[variableName]
+                    || (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
+                    || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]);
+                val = this.replaceVariables(val);
+            });
+        }
+        return val; 
     }
 
     clearCache() {
@@ -161,6 +175,11 @@ export class Theme {
             return;
         }
         style = style as any;
+        if (isObject(style) && !isArray(style)) {
+            Object.keys(style).forEach(k => {
+                style[k] = this.replaceVariables(style[k]);
+            });
+        }
         if (!isNil(style['shadowRadius'])) {
             if (style['shadowRadius'] <= 0) {
                 style['shadowColor'] = 'transparent';
@@ -226,6 +245,34 @@ export class Theme {
             this.parent.children.splice(i, 1);
         }
     }
+    
+    getTextStyle(s: any) {
+        if (!s) {
+            return {};
+        }
+        return {
+            color: s.color,
+            fontFamily: s.fontFamily,
+            fontSize: s.fontSize,
+            fontStyle: s.fontStyle,
+            fontWeight: s.fontWeight,
+            includeFontPadding: s.includeFontPadding,
+            fontVariant: s.fontVariant,
+            letterSpacing: s.letterSpacing,
+            lineHeight: s.lineHeight,
+            textAlign: s.textAlign,
+            textAlignVertical: s.textAlignVertical,
+            textDecorationColor: s.textDecorationColor,
+            textDecorationStyle: s.textDecorationStyle,
+            textShadowColor: s.textShadowColor,
+            textShadowOffset: s.textShadowOffset,
+            textShadowRadius: s.textShadowRadius,
+            textTransform: s.textTransform,
+            verticalAlign: s.verticalAlign,
+            writingDirection: s.writingDirection,
+            userSelect: s.userSelect,
+        } as TextStyle;
+    }
 
     reset(styles?: NamedStyles<any>) {
         this.styles = {};
@@ -252,7 +299,7 @@ export type BackgroundImageStyle = {
     backgroundSize: string | number
 };
 
-export type AllStyle = (ViewStyle & TextStyle & ImageStyle & {userSelect?: 'none'| 'text'});
+export type AllStyle = (ViewStyle & TextStyle & ImageStyle & {userSelect?: 'none'| 'text'} & {rippleColor?: string});
 
 const ThemeContext = React.createContext<Theme>(null as any);
 

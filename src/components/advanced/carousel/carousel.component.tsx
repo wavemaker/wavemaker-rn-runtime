@@ -5,6 +5,7 @@ import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extracto
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import * as SwipeAnimation from '@wavemaker/app-rn-runtime/gestures/swipe.animation';
+import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmCarouselProps from './carousel.props';
 import { DEFAULT_CLASS, WmCarouselStyles } from './carousel.styles';
@@ -267,13 +268,6 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             return (
               <Animated.View key={this.generateItemKey(item, index, props)}
                 onLayout={this.addSlideLayout.bind(this, index)}
-                onTouchEnd={() => {
-                  this.onSlideChange(index + 1);
-                  const position = this.slidesLayout
-                    .filter((l , i) => i < index)
-                    .reduce((s, l) => s + l.width, 0);
-                  this.animationView?.setPosition(-1 * position);
-                }}
                 style={[
                   {height: props.type === 'dynamic' ? undefined : '100%'},
                   this.styles.slide,
@@ -289,7 +283,15 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
                       }
                     ]
                   } : null]}>
-                {this.renderItem(item, index)}
+                <Tappable onTap={() => {
+                  this.onSlideChange(index + 1);
+                  const position = this.slidesLayout
+                    .filter((l , i) => i < index)
+                    .reduce((s, l) => s + l.width, 0);
+                  this.animationView?.setPosition(-1 * position);
+                }} rippleColor={this.styles.root.rippleColor}>
+                  {this.renderItem(item, index)}
+                </Tappable>
               </Animated.View>
             );
           })}
@@ -300,12 +302,14 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
               id={this.getTestId('prev_icon')}
               iconclass="wi wi-chevron-left fa-2x"
               styles={styles.prevBtn}
-              onTap={this.prev}/>
+              onTap={this.prev}
+              accessibilitylabel='back'/>
             <WmIcon
               id={this.getTestId('next_icon')}
               iconclass="wi wi-chevron-right fa-2x"
               styles={styles.nextBtn}
-              onTap={this.next}/>
+              onTap={this.next}
+              accessibilitylabel='next'/>
           </View>): null}
           {hasDots && data ? this.renderPagination(data) : null}
       </View>);

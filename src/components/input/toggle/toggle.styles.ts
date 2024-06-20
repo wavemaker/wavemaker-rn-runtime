@@ -1,7 +1,6 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { Platform, ViewStyle } from 'react-native';
-import Color from 'color';
+import { ViewStyle } from 'react-native';
 
 export type WmToggleStyles = BaseStyles & {
   handle: ViewStyle
@@ -14,16 +13,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         width: 52,
         height: 32,
         flexDirection: 'row',
-        justifyContent: 'flex-start',
         alignItems: 'center',
-        borderRadius: 18,
+        borderRadius: 18
       },
       text: {},
       handle: {
-        width: 20,
-        height: 20,
+        width: 16,
+        height: 16,
         borderRadius: 18,
-        // backgroundColor: themeVariables.toggleHandleColor,
+        marginLeft : 8,
+        marginRight: 0,
         backgroundSize: '100% 100%',
         backgroundPosition: 'center'
       }
@@ -33,12 +32,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle(DEFAULT_CLASS + '-on', '', {
     root : {
       backgroundColor: themeVariables.toggleOnColor,
-      justifyContent: 'flex-end',
     },
     handle: {
-      width: 24,
-      height: 24,
-      marginRight:4,
       backgroundColor: themeVariables.toggleHandleColor,
     }
   } as WmToggleStyles);
@@ -49,9 +44,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderWidth: 2
     },
     handle: {
-      width: 16,
-      height: 16,
-      marginLeft: 6,
       backgroundColor: themeVariables.toggleHandleDisableColor,
     }
   } as WmToggleStyles);

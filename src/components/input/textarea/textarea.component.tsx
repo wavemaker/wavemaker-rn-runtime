@@ -8,6 +8,7 @@ import {
 } from '@wavemaker/app-rn-runtime/components/input/baseinput/baseinput.component';
 import { WMTextInput } from '@wavemaker/app-rn-runtime/core/components/textinput.component';
 import { isNull } from 'lodash';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 export class WmTextareaState extends BaseInputState<WmTextareaProps> {}
 
@@ -17,12 +18,25 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
     super(props, DEFAULT_CLASS, new WmTextareaProps(), new WmTextareaState());
   }
 
+  public getStyleClassName(): string | undefined {
+    const classes = [];
+    if (this.state.props.floatinglabel) {
+      classes.push('app-textarea-with-label'); 
+    }
+    classes.push(super.getStyleClassName());
+    return classes.join(' ');
+  }
+
   renderWidget(props: WmTextareaProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return ( <WMTextInput
       {...this.getTestPropsForInput()}
+      {...getAccessibilityProps(
+        AccessibilityWidgetType.TEXTAREA,
+        props
+      )}
       ref={(ref: any) => {this.widgetRef = ref;
         // @ts-ignore
         if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {
@@ -35,6 +49,9 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       numberOfLines={4}
       keyboardType={this.state.keyboardType}
       {...opts}
+      floatingLabel={props.floatinglabel}
+      floatingLabelStyle={this.styles.floatingLabel}
+      activeFloatingLabelStyle={this.styles.activeFloatingLabel}
       autoComplete={props.autocomplete ? 'username' : 'off'}
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}

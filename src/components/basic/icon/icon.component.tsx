@@ -1,7 +1,9 @@
 import React from 'react';
-import { Animated, DimensionValue, Easing, Text } from 'react-native';
+import { Animated, DimensionValue, Easing, Text, Image, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
+import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils'; 
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 import WmIconProps from './icon.props';
 import { DEFAULT_CLASS, WmIconStyles } from './icon.styles';
@@ -45,6 +47,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   spinValue = new Animated.Value(0);
   pulseValue = new Animated.Value(0);
   public stopAnimation = true; 
+  private _iconSource = null as any;
 
   constructor(props: WmIconProps) {
     super(props, DEFAULT_CLASS, new WmIconProps());
@@ -134,20 +137,68 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     });
   }
 
+  getElementToShow(props: WmIconProps, iconSrc: any) {
+
+    const { iconmargin, iconheight, iconwidth } = props;
+    let width, height;
+    let elementToshow, source;
+
+    if (iconwidth) width = iconwidth;
+    else if (iconheight) width = iconheight;
+    else width = 12;
+    if (iconheight) height = iconheight;
+    else if (iconwidth) height = iconwidth;
+    else height = 12;
+
+    if (isFullPathUrl(iconSrc)) {
+      source = {
+        uri: iconSrc
+      };
+    } else {
+      source = iconSrc;
+    }
+    elementToshow = <Image testID={this.getTestId('icon')}
+      style={{
+        margin: iconmargin ?? 0,
+        height: height,
+        width: width
+      }}
+      source={source}/>;
+    return elementToshow;
+  }
+
+  loadIcon(iconImage: string | undefined) {
+    if (!iconImage || !this.loadAsset) {
+      return null;
+    }
+    const iconImageSrc = this.loadAsset(iconImage);
+    if (iconImageSrc && typeof iconImageSrc !== 'function') {
+      return iconImageSrc;
+    }
+    return null;
+  }
+
   renderIcon(props: WmIconProps) {
+    let iconJsx = null;
+    this._iconSource =  this._iconSource || this.loadIcon(props.iconurl);
+    const iconSrc: any = this._iconSource 
+    if (iconSrc) {
+      return this.getElementToShow(props, iconSrc);
+    }
     const iconDef = this.state.iconDef;
     if (!iconDef) {
       return null;
     }
-    let icon = null;
-    const style = [{
-      color: this.styles.root.color || this.styles.text.color
-    }, this.styles.icon, {transform: [{rotate: iconDef.rotate}]}];
+    const { root, text, icon } = this.styles;
+    const style = [{ color: root.color || text.color },
+    icon,
+    { transform: [{ rotate: iconDef.rotate }] }];
+
     const customIcon = this.getCustomIcon(props, style);
     const iconSize = props.iconsize || this.styles.root.fontSize || this.styles.text.fontSize || iconDef.size;
     if (props.show && iconDef && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
-      icon = (<FontAwesome name={customIcon ? '' : iconDef.type}
+      iconJsx = (<FontAwesome name={customIcon ? '' : iconDef.type}
         style={style}
         size={iconSize}>
           {customIcon}
@@ -162,37 +213,43 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
         return null;
       }
       //@ts-ignore type information is not matching
-      icon = WMCustomIcon ? (<WMCustomIcon name={customIcon ? '' : iconDef.type}
+      iconJsx = WMCustomIcon ? (<WMCustomIcon name={customIcon ? '' : iconDef.type}
         style={style}
         size={iconSize}>
         {customIcon}
       </WMCustomIcon>) : null;
     }
-    if (icon && iconDef.animation === 'spin') {
+    if (iconJsx && iconDef.animation === 'spin') {
       const rotate = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg']});
       const animation = { transform: [{ rotate }] };
       this.stopAnimation = false;
-      return (<Animated.View style={animation}>{icon}</Animated.View>);
-    } else if (icon && iconDef.animation === 'pulse') {
+      return (<Animated.View style={animation}>{iconJsx}</Animated.View>);
+    } else if (iconJsx && iconDef.animation === 'pulse') {
       const opacity = this.spinValue.interpolate({ inputRange: [0, 1], outputRange: [0, 1]});
       const animation = { opacity: opacity };
       this.stopAnimation = false;
-      return (<Animated.View style={animation}>{icon}</Animated.View>);
+      return (<Animated.View style={animation}>{iconJsx}</Animated.View>);
     } else {
       this.stopAnimation = true;
     }
-    return icon;
+    return (
+      <View
+        // {...getAccessibilityProps(AccessibilityWidgetType.ICON, this.props)}
+      >
+        {iconJsx}
+      </View>
+    );
   }
 
   renderWidget(props: WmIconProps) {
     let icon = this.renderIcon(props);
     let iterationCount: any = props.iterationcount ? (props.iterationcount != 'infinite' ? parseInt(props.iterationcount): 'infinite') : undefined;
     return (
-      <Tappable target={this}  {...this.getTestPropsForAction()}>
+      <Tappable target={this} rippleColor = {this.styles.root.rippleColor} {...this.getTestPropsForAction()} accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.ICON, props)}}>  
         <Animatedview entryanimation={props.animation} style={this.styles.root} iterationCount={iterationCount}>
           {this._background}
           {(props.iconposition === 'left' && icon) || null}
-          {(props.caption && (<Text {...this.getTestPropsForLabel('caption')}style={this.styles.text}>{props.caption}</Text>)) || null}
+          {(props.caption && (<Text {...this.getTestPropsForLabel('caption')}style={this.styles.text} accessibilityRole={props?.accessibilityrole ? props?.accessibilityrole : 'text'}>{props.caption}</Text>)) || null}
           {(props.iconposition === 'right' && icon) || null}
         </Animatedview>
       </Tappable>

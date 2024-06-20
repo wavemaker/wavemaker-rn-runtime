@@ -12,7 +12,7 @@ import ThemeFactory  from "@wavemaker/app-rn-runtime/components/chart/theme/char
 import BaseChartComponentProps from "./basechart.props";
 import { DEFAULT_CLASS, BaseChartComponentStyles} from "./basechart.styles";
 import _ from "lodash";
-
+import { constructSampleData, getChartType } from "./staticdata";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -37,7 +37,7 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
 
 const screenWidth = Dimensions.get("window").width;
 
-const shapes: {[key: string]: ScatterSymbolType} = {
+const shapes: {[key: string]: any} = {
   'circle': 'circle',
   'cross': 'cross',
   'diamond': 'diamond',
@@ -46,7 +46,7 @@ const shapes: {[key: string]: ScatterSymbolType} = {
   'square': 'square',
   'star': 'star',
   'triangle-down': 'triangleDown',
-  'triangle-up': 'triangleUp'
+  'triangle-up': 'triangleUp',
 };
 
 const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
@@ -118,9 +118,14 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     const maxIndex = this.state.xaxisDatakeyArr.length - 1;
     const props = this.state.props;
     const getTickValueLabel = props.xtickexpr as any;
+    let height = this.styles.root.height || 250;
+    let yaxislabeldistance = props.yaxislabeldistance ? props.yaxislabeldistance : height as number - 20;
+    if (height && typeof height === 'string') {
+      height = parseInt(height);
+    }
     return <VictoryAxis crossAxis={false} label={(props.xaxislabel || props.xaxisdatakey || "name") + (props.xunits ? `(${props.xunits})` : '')}
                         style={{
-                          axisLabel: this.theme.mergeStyle(this.styles.axisLabel, this.styles.yAxisLabel, {padding: props.yaxislabeldistance}),
+                          axisLabel: this.theme.mergeStyle(this.styles.axisLabel, this.styles.yAxisLabel),
                           grid: props.hidegridxaxis ?
                               { stroke: null } :  this.theme.mergeStyle(this.styles.grid, this.styles.xGrid),
                           axis: props.showxaxis === false ?
@@ -129,7 +134,8 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           tickLabels: this.theme.mergeStyle(this.styles.tickLabels, this.styles.xTickLabels)
                         }}
                         fixLabelOverlap= {props.autoadjustlabels?true:false}
-                        tickLabelComponent={<VictoryLabel angle={props.labelangle || 0} />} theme={this.state.theme}
+                        axisLabelComponent={<VictoryLabel y={yaxislabeldistance}/>}
+                        tickLabelComponent={<VictoryLabel y={props.offsetyaxis ? props.offsetyaxis : height as number - 30} angle={props.labelangle || 0}/>} theme={this.state.theme}
                         tickCount={this.state.xaxisDatakeyArr.length} 
                         invertAxis={this.isRTL}
                         tickFormat= {(d, i, ticks) => {
@@ -151,9 +157,10 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       return null;
     }
     const getTickValueLabel = props.ytickexpr as any;
+    let xaxislabeldistance = props.xaxislabeldistance ? props.xaxislabeldistance : 20
     return <VictoryAxis crossAxis={false} label={(props.yaxislabel || props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
                         style={{
-                          axisLabel: this.theme.mergeStyle(this.styles.axisLabel, this.styles.yAxisLabel, {padding: props.yaxislabeldistance}),
+                          axisLabel: this.theme.mergeStyle(this.styles.axisLabel, this.styles.yAxisLabel),
                           grid: props.hidegridyaxis ? { stroke: null } : this.theme.mergeStyle(this.styles.grid, this.styles.yGrid),
                           axis: props.showxaxis === false ?
                           { stroke: 'none' } :  this.theme.mergeStyle(this.styles.axis, this.styles.yAxis),
@@ -161,6 +168,8 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           tickLabels: this.theme.mergeStyle(this.styles.tickLabels, this.styles.yTickLabels)
                         }}
                         fixLabelOverlap= {props.autoadjustlabels?true:false}
+                        axisLabelComponent={<VictoryLabel x={xaxislabeldistance}/>}
+                        tickLabelComponent={<VictoryLabel x={props.offsetxaxis ? props.offsetxaxis : 50}/>} 
                         theme={this.state.theme}
                         tickFormat= {(d, i, ticks) => {
                           if (getTickValueLabel) {
@@ -168,6 +177,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           }
                           return this.abbreviateNumber(d);
                         }}
+                        orientation={this.isRTL?"right":"left"}
                         dependentAxis />;
   }
   
@@ -176,6 +186,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     const xaxis = props.xaxisdatakey;
     return (
       <VictoryVoronoiContainer
+      voronoiDimension="x"
       labels={({ datum }) => `${props.dataset[datum.x][xaxis]} \n Value ${datum.y} `}
       voronoiBlacklist={this.state.data.map((item: any, i: number) => props.name + '_' + i)}
       labelComponent={
@@ -336,6 +347,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     let themeToUse;
     if (typeof themeName === 'string') {
       if (!colorsToUse.length) {
+        colorsToUse = props.customcolors as string[];
+      }
+      if(props.customcolors===undefined) {
         colorsToUse = ThemeFactory.getColorsObj(themeName);
       }
       themeToUse = ThemeFactory.getTheme(themeName, props.styles, colorsToUse);
@@ -405,7 +419,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   // If date string is bound to xaxis then we are pushing the x values as indexes.
   getxAxisVal(dataObj: {[key: string] : any}, xKey: string, index: number, xaxisDatakeyArr: Array<any>) {
     const value: any = get(dataObj, xKey);
-    if (moment(value, true).isValid() || isNaN(value)) {
+    if (moment(value).isValid() || isNaN(value) || typeof value === 'string' || typeof value === 'number') {
       xaxisDatakeyArr.push(value);
       return index;
     }
@@ -418,7 +432,11 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     let yaxis = props.yaxisdatakey;
     let xaxisDatakeyArr: Array<any> = [];
     let datasets: any = [];
-
+    if (dataset.length === 0) {
+      dataset = constructSampleData(getChartType(this.props), yaxis?.split(','), this.props.shape);
+      xaxis = "x";
+      yaxis = "y";
+    }
     if (xaxis && yaxis) {
       let yPts = yaxis.split(',');
       yPts.forEach((y: any) => {
@@ -543,3 +561,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     }
   }
 }
+function getDataType(widgetContext: { yaxisdatakey: string | null | undefined; shape: any; }): any {
+  throw new Error("Function not implemented.");
+}
+

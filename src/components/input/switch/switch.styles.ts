@@ -22,7 +22,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       text: {
         fontWeight: '500',
         fontSize: 16,
-        textTransform: 'capitalize'
+        textTransform: 'uppercase',
+        userSelect: 'none',
       },
     loadingIcon: {
       root: {
@@ -41,7 +42,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       fontSize: 14,
       minWidth: 64,
       minHeight: 40,
-      borderRadius: 0,
+      paddingLeft: 16,
+      paddingRight: 16,
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+      borderTopRightRadius: 0,
       borderColor: themeVariables.switchBorderColor,
       borderWidth: 1,
       borderRightWidth: 0,
@@ -56,16 +62,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderColor: themeVariables.switchBorderColor
     } as AllStyle,
     firstButton: {
-      borderTopLeftRadius: 6,
-      borderBottomLeftRadius: 6,
+      borderTopLeftRadius: 18,
+      borderBottomLeftRadius: 18,
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0
     } as AllStyle,
     lastButton: {
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
-      borderTopRightRadius: 6,
-      borderBottomRightRadius: 6,
+      borderTopRightRadius: 18,
+      borderBottomRightRadius: 18,
       borderRightWidth: 1
     } as AllStyle
   });

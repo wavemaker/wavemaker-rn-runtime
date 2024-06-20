@@ -65,7 +65,6 @@ export default class WmSkeleton extends BaseComponent<WmSkeletonProps, WmSkeleto
 
   constructor(props: WmSkeletonProps) {
     super(props, DEFAULT_CLASS, new WmSkeletonProps(), new WmSkeletonState());
-    this.state = new WmSkeletonState();
   }
 
   componentDidMount(): void {

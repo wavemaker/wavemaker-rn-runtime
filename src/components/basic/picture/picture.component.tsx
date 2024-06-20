@@ -5,7 +5,8 @@ import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import ImageSizeEstimator from '@wavemaker/app-rn-runtime/core/imageSizeEstimator';
-import { isFullPathUrl, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 import WmPictureProps from './picture.props';
 import { DEFAULT_CLASS, WmPictureStyles } from './picture.styles';
@@ -125,7 +126,15 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       source = imgSrc;
     }
     if (this.state.naturalImageWidth) {
-      elementToshow = <Image testID={this.getTestId('picture')} style={[this.styles.picture, shapeStyles.picture]} resizeMode={props.resizemode} source={source}/>;
+      elementToshow = (
+        <Image
+          testID={this.getTestId('picture')}
+          style={[this.styles.picture, shapeStyles.picture]}
+          resizeMode={props.resizemode}
+          source={source}
+          {...getAccessibilityProps(AccessibilityWidgetType.PICTURE, props)}
+        />
+      );
     }
     return elementToshow;
   }
@@ -165,6 +174,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         height: '100%'}]} onLayout={this.onViewLayoutChange}>
         <Tappable 
           {...this.getTestPropsForAction()}
+          rippleColor={this.styles.root.rippleColor}
           target={this} styles={{width: imageWidth ? null : '100%', height: imageHeight ? null : '100%'}}>
           <Animatedview entryanimation={props.animation} style={[{
                 height: imageHeight,

@@ -13,7 +13,7 @@ export class WmContainerState extends PartialHostState<WmContainerProps> {
 
 export default class WmContainer extends PartialHost<WmContainerProps, WmContainerState, WmContainerStyles> {
   constructor(props: WmContainerProps) {
-    super(props, DEFAULT_CLASS, new WmContainerProps());
+    super(props, DEFAULT_CLASS, new WmContainerProps(), new WmContainerState());
   }
 
   renderWidget(props: WmContainerProps) {

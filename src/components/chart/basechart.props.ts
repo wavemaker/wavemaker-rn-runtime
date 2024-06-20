@@ -1,4 +1,5 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { AccessibilityRole } from 'react-native';
 
 export default class BaseChartComponentProps extends BaseProps {
   xaxisdatakey: string = '';
@@ -14,8 +15,10 @@ export default class BaseChartComponentProps extends BaseProps {
   staggerlabels: boolean = false;
   yaxislabel: string = '';
   yunits: string = '';
-  yaxislabeldistance: number = 60;
-  xaxislabeldistance: number = 30;
+  yaxislabeldistance?: number = undefined;
+  xaxislabeldistance?: number = undefined;
+  offsetxaxis?: number = undefined;
+  offsetyaxis?: number = undefined;
   customcolors: string | Array<string> = '';
   legendheight: number = 0;
   labellegendheight: number = 0;
@@ -52,4 +55,8 @@ export default class BaseChartComponentProps extends BaseProps {
   tooltippointerwidth?: number = undefined;
   tooltipcenteroffsetx?: number = undefined;
   tooltipcenteroffsety?: number = undefined;
+  accessibilitylabel?: string = undefined;
+  hint?: string = undefined;
+  accessibilityrole?: AccessibilityRole;
+  renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
 }

@@ -17,10 +17,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root: {
             color: themeVariables.linkDefaultColor,
             flexDirection: 'row',
-            alignItems: 'center'
+            alignItems: 'center',
+            overflow: 'visible'
         },
         text: {
             paddingLeft: 8,
+            paddingRight: 8,
             color: themeVariables.linkDefaultColor,
             fontSize: 18, 
             textDecorationLine: 'underline',

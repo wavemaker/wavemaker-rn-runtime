@@ -63,10 +63,19 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
     const props = this.state.props;
     return (
       <TouchableOpacity
-            {...this.getTestPropsForAction(`header`)}
-            style={[this.styles.header]}
-              onPress={this.onPanelPress.bind(this)}>
-        {props.iconclass ? <WmIcon styles={this.styles.icon} name={props.name + '_icon'} iconclass={props.iconclass}></WmIcon>: null}
+        {...this.getTestPropsForAction(`header`)}
+        style={[this.styles.header]}
+        onPress={this.onPanelPress.bind(this)}
+        accessibilityRole='header'>
+      {props.iconclass || props.iconurl ? 
+        <WmIcon styles={this.styles.icon} 
+        name={props.name + '_icon'}
+        iconclass={props.iconclass}
+        iconheight={props.iconheight}
+        iconwidth={props.iconwidth}
+        iconmargin={props.iconmargin}
+        iconurl={props.iconurl}
+        /> : null}
         <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
           <Text style={[
             this.styles.text,

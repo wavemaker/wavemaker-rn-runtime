@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { isDefined, widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
-import { debounce, find, forEach, isNil, get, set, cloneDeep } from 'lodash';
+import { debounce, find, forEach, isNil, get, set, cloneDeep, isEmpty } from 'lodash';
 
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -25,6 +25,7 @@ export class WmFormState extends BaseComponentState<WmFormProps> {
   message: string = '';
   showInlineMsg: boolean = false;
   isUpdateMode: boolean = true;
+  dynamicForm: any;
 }
 export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFormStyles> {
   public formFields: Array<WmFormField> = []; // contains array of direct widget elements [WmText, WmNumber, WmCurrent]
@@ -103,7 +104,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     this.formFields = formFields;
     this.formWidgets = formWidgets;
 
-    formFields.forEach((f: WmFormField) => {
+    formFields?.forEach((f: WmFormField) => {
       if (f.props.name) {
         set(this.formfields, f.props.name, f);
       }
@@ -117,7 +118,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     // setting default form dataoutput.
     if (!this.formdataoutput) {
       this.formdataoutput = {};
-      formFields.forEach((w: WmFormField) => {
+      formFields?.forEach((w: WmFormField) => {
         const name = get(w.props, 'formKey') || w.props.name;
         if (name) {
           set(this.formdataoutput, name, w.props.datavalue);
@@ -251,6 +252,28 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     this._debouncedSubmitForm();
   }
 
+  // Function to generate and compile the form fields from the metadata
+  generateFormFields() {
+    let userFields;
+    let fields = this.state.props.metadata ? this.state.props.metadata.data || this.state.props.metadata : [];
+
+    if (isEmpty(fields)) {
+      return;
+    }
+
+    if (this.props.onBeforerender) {
+      userFields = this.invokeEventCallback('onBeforerender', [fields,  this.proxy]);
+      if (userFields) {
+        fields = userFields;
+      }
+    }
+
+    this.updateState({
+      dynamicForm:  this.props.generateComponent(fields, this.props.name)
+    } as WmFormState);
+
+  }
+
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
       case 'formdata':
@@ -267,6 +290,9 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         this.formFields?.forEach((w: WmFormField) => {
           this._updateFieldOnDataSourceChange(w, this.formFields);
         });
+        break;
+      case 'metadata':
+        this.generateFormFields();
         break;
     }
   }
@@ -287,7 +313,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
       const onValidate = get(field, 'props.onValidate');
       onValidate && onValidate(field);
-      if (!val && field?.state.props.required) {
+      if (!val && field?.state.props.required && ((field?.props.primaryKey && field?.props.generator === 'assigned') || !field?.props.primaryKey)) {
         isValid = false;
         const msg = get(field.defaultValidatorMessages, 'required') || field.state.props.validationmessage;
         field.updateState({ isValid: isValid, props: {
@@ -394,7 +420,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
                 <View style={{flex: 1, flexDirection: 'row'}}>
                   <WmIcon  id={this.getTestId('icon')} styles={this.styles.listIcon} iconclass={props.iconclass}></WmIcon>
                   <View>
-                    <WmLabel id={this.getTestId('title')} styles={this.styles.title} caption={props.title}></WmLabel>
+                    <WmLabel id={this.getTestId('title')} styles={this.styles.title} caption={props.title} accessibilityrole='header'></WmLabel>
                     <WmLabel id={this.getTestId('description')} styles={this.styles.subheading} caption={props.subheading}></WmLabel>
                   </View>
                 </View>
@@ -402,7 +428,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
             ) : null}
             {this.state.showInlineMsg ? <WmMessage type={this.state.type} caption={this.state.message} hideclose={false} onClose={this.onMsgClose.bind(this)}></WmMessage> : null
             }
-            {props.children}
+            { props.metadata && this.state.dynamicForm }
+            { props.children}
           </View>
         }
         }

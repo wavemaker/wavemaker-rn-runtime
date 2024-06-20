@@ -13,6 +13,7 @@ import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-run
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
@@ -102,6 +103,10 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               this.widgetRef = ref;
             }}
             {...this.getTestPropsForInput()}
+            {...getAccessibilityProps(
+              AccessibilityWidgetType.SELECT,
+              props
+            )}
             onPress={this.onPress.bind(this)}>
             {this.state.props.displayValue || props.placeholder || ' '}
           </Text>
@@ -109,6 +114,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
             styles={this.styles.arrowButton}
             iconclass={'wi wi-keyboard-arrow-down'}
             onTap={this.onPress.bind(this)}
+            hint={props?.hint}
           />
       </View>
     );
@@ -128,7 +134,10 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   renderSelectItem(item: any, index: number, isPlaceholder: boolean, isLast: boolean) {
     let selected = this.isSelected(item);
     return (
-      <Tappable  {...this.getTestPropsForAction(index + '')} onTap={this.onItemSelect.bind(this, item, isPlaceholder)}>
+      <Tappable  {...this.getTestPropsForAction(index + '')} onTap={this.onItemSelect.bind(this, item, isPlaceholder)} {...getAccessibilityProps(
+        AccessibilityWidgetType.SELECT,
+        {...this.props, expanded: this.state.isOpened}
+      )}>
         <View style={[this.styles.selectItem, isLast ?  this.styles.lastSelectItem  : null, selected ? this.styles.selectedItem : null ]}>
           <Text  {...this.getTestPropsForLabel(index + '')} style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : selected ? this.styles.selectedItemText.color : this.styles.selectItemText.color}]}>
             {isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)}

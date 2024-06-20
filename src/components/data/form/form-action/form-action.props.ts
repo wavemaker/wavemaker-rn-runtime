@@ -8,4 +8,5 @@ export default class WmFormActionProps extends BaseProps {
   iconclass: any;
   updateMode: boolean = true;
   formAction: Function = null as any;
+  iconposition? = 'left';
 }

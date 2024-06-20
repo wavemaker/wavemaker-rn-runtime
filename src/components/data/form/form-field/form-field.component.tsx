@@ -21,14 +21,24 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   private _asyncValidatorFn: any;
   constructor(props: WmFormFieldProps) {
     super(props, DEFAULT_CLASS, new WmFormFieldProps(), new WmFormFieldState());
+    if (!this.form) {
+      this.form = props.formScope && props.formScope();
+    }
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+    this.formwidget = (this.props.formKey && this.form?.formWidgets[this.props.formKey])
+      || (this.props.name && this.form?.formWidgets[this.props.name]);
+    this.form?.registerFormFields(this.form.formFields, this.form.formWidgets);
   }
 
   onFieldChangeEvt(name: string, $new: any, $old: any, isDefault: boolean) {
     this.notifyChanges();
-    this.validateFormField();
     if (!isEqual($old, $new)) {
       this.updateState({ props: { datavalue: $new }} as WmFormFieldState, () => {
         !isDefault && this.invokeEventCallback('onChange', [undefined, this, $new, $old]);
+        this.validateFormField();
       });
       if (this.form) {
         this.form.updateDataOutput.call(this.form, get(this.props, 'formKey', this.props.name), $new);
@@ -201,11 +211,18 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
 
   }
 
+  get value(){
+    return this.state.props.datavalue;
+  }
+
   renderWidget(props: WmFormFieldProps) {
     var childrenWithProps = React.Children.map(props.renderFormFields(this.proxy).props.children, (child) => {
       return React.cloneElement(child, {
           datavalue: props.datavalue,
+          value: this.value,
           isValid: this.state.isValid,
+          maskchar: props.maskchar,
+          displayformat: props.displayformat,
           invokeEvent: this.invokeEventCallback.bind(this),
           triggerValidation: this.validateFormField.bind(this),
           onFieldChange: this.onFieldChangeEvt.bind(this),

@@ -1,5 +1,5 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
-
+import { AccessibilityRole } from 'react-native';
 export default class WmProgressCircleProps extends BaseProps {
   type: 'default' | 'success' | 'info' | 'warning' | 'error' = 'default';
   datavalue: number = 30;
@@ -8,4 +8,6 @@ export default class WmProgressCircleProps extends BaseProps {
   captionplacement: string = 'inside';
   title: string = '';
   subtitle: string = '';
+  accessibilitylabel?: string = undefined;
+  accessibilityrole?: AccessibilityRole = 'progressbar';
 }

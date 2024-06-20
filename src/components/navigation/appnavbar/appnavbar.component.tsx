@@ -1,5 +1,7 @@
 import React from 'react';
 import { Text, View, BackHandler } from 'react-native';
+import { Badge } from 'react-native-paper';
+
 import { isAndroid } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -33,18 +35,22 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   }
 
   renderWidget(props: WmAppNavbarProps) {
+    //@ts-ignore
+    const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>): null;
     return (
       <View style={this.styles.root}>
         {this._background}
         <View style={this.styles.leftSection}>
         {props.showDrawerButton && (<WmIcon
           id={this.getTestId('leftnavbtn')}
+          hint={'menu'}
           styles={this.theme.mergeStyle({}, this.styles.action, this.styles.leftnavIcon)}
           iconclass={props.leftnavpaneliconclass}
           onTap={this.onDrawerBtnPress}
           />)}
         {props.backbutton && (<WmIcon
           id={this.getTestId('backbtn')}
+          hint={'back'}
           styles={this.theme.mergeStyle({}, this.styles.action, this.styles.backIcon)}
           iconclass={props.backbuttoniconclass}
           caption={props.backbuttonlabel}
@@ -56,7 +62,8 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
             id={this.getTestId('picture')}
             styles={this.styles.image}
             picturesource={props.imgsrc} />)}
-          <Text style={this.styles.content} {...this.getTestPropsForLabel('title')}>{props.title}</Text>
+          <Text style={this.styles.content} {...this.getTestPropsForLabel('title')} accessibilityRole='header'>{props.title}</Text>
+          {badge}
         </View>
         <View style={this.styles.rightSection}>
           {props.searchbutton && (<WmIcon
