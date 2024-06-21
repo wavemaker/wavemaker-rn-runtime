@@ -75,7 +75,6 @@ onSelect(event: any, data: any){
     if (!this.state.data.length) {
       return null;
     }
-    this.getLayoutValues();
     let mindomain={x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined, y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined};
     return (<View
       {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
@@ -92,7 +91,7 @@ onSelect(event: any, data: any){
         </View>
       <VictoryChart theme={this.state.theme}
                           height={(this.styles.root.height) as number}
-                          width={this.isWidthtPercent ? this.state.chartWidth : this.screenWidth}
+                          width={this.state.chartWidth || this.screenWidth}
                           minDomain={mindomain}
                           padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}>
       {this.getLegendView()}

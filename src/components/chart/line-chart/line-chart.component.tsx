@@ -49,7 +49,6 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
     if (!this.state.data?.length) {
       return null;
     }
-    this.getLayoutValues();
     return (
     <View style={this.styles.root} {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)} onLayout={this.onViewLayoutChange}>
       {this.getTooltip()}
@@ -63,7 +62,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
       <VictoryChart
         theme={this.state.theme}
         height={(this.styles.root.height) as number}
-        width={this.isWidthtPercent ? this.state.chartWidth : this.screenWidth}
+        width={this.state.chartWidth || this.screenWidth}
         padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
       >
         {this.getLegendView()}
