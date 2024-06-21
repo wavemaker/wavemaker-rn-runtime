@@ -43,7 +43,6 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
     if (!this.state.data?.length) {
       return null;
     }
-    this.getLayoutValues()
     return (<View
       {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
       style={this.styles.root}
@@ -53,7 +52,7 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
       <VictoryChart
         theme={this.state.theme}
         height={this.styles.root.height as number}
-        width={this.isWidthtPercent ? this.state.chartWidth : this.screenWidth}
+        width={this.state.chartWidth || this.screenWidth}
         padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
       >
         <VictoryLegend
