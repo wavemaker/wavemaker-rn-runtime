@@ -64,8 +64,6 @@ const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 
 export abstract class BaseChartComponent<T extends BaseChartComponentProps, S extends BaseChartComponentState<T>, L extends BaseChartComponentStyles> extends BaseComponent<T, S, L> {
   protected screenWidth: number = screenWidth;
-  protected isHeightPercent: boolean = false;
-  protected isWidthtPercent: boolean = false;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultProps, defaultState);
     if (!props.theme) {
@@ -82,7 +80,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     super.componentDidMount();
   }
 
-  onViewLayoutChange = (e: LayoutChangeEvent) => {
+  onViewLayoutChange(e: LayoutChangeEvent){
     let viewWidth = e.nativeEvent.layout.width;
     let viewHeight = e.nativeEvent.layout.height;
     if (viewWidth !== this.state.chartWidth) {
@@ -93,10 +91,6 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     }
   }
 
-  getLayoutValues(){
-    this.isHeightPercent =  _.isString(this.styles.root.height) && (this.styles.root.height as string).endsWith('%');
-    this.isWidthtPercent = _.isString(this.styles.root.width) && (this.styles.root.width as string).endsWith('%');
-  }
 
   abbreviateNumber(number: any) {
     if (typeof number !== 'number') {
