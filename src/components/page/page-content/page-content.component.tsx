@@ -1,11 +1,12 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPageContentProps from './page-content.props';
 import { DEFAULT_CLASS, WmPageContentStyles } from './page-content.styles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, ScrollView} from 'react-native';
+import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler'
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTabpaneProps from './tabpane.props';
