@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, DimensionValue, TouchableOpacity } from 'react-native';
 import { RadioButton } from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import WmRadiosetProps from './radioset.props';
 import { DEFAULT_CLASS, WmRadiosetStyles } from './radioset.styles';

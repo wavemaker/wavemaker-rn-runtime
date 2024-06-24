@@ -1,6 +1,6 @@
 import React from 'react';
 import { isString } from 'lodash-es';
-import { LayoutChangeEvent, TouchableOpacity, Text, View, ScrollView, Dimensions } from 'react-native';
+import { LayoutChangeEvent, TouchableOpacity, Text, View, Dimensions, Animated, PanResponder } from 'react-native';
 import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import { SyntheticEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -11,6 +11,7 @@ import WmPopoverProps from './popover.props';
 import { DEFAULT_CLASS, WmPopoverStyles } from './popover.styles';
 import WmContainer from '../../container/container.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { ScrollView, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export class WmPopoverState extends BaseComponentState<WmPopoverProps> {
   isOpened: boolean = false;

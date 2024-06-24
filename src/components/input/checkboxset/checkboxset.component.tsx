@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, DimensionValue } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { find, forEach, isEqual,  isEmpty } from 'lodash';
 import { Checkbox } from 'react-native-paper';
-import { ScrollView } from 'react-native-gesture-handler';
 import WmCheckboxsetProps from './checkboxset.props';
 import {
   DEFAULT_CLASS,
