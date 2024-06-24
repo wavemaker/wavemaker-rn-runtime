@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, DimensionValue, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, DimensionValue, TouchableOpacity } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 
 import WmRadiosetProps from './radioset.props';
@@ -40,7 +40,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
       this.invokeEventCallback('onChange', [ undefined, this.proxy, selectedValue, oldValue ]);
     });
   }
-
+  
   renderChild(item: any, index: any, colWidth: DimensionValue) {
     const displayText = item.displayexp || item.displayfield;
     const value = this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield;
@@ -86,12 +86,10 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
   renderWidget(props: WmRadiosetProps) {
     const items = this.state.dataItems;
     return (
-      <ScrollView style={this.styles.root}>
-        <ScrollView horizontal={true}>
+        <View style={this.styles.root}>
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderRadioButtons(items)}
-        </ScrollView>
-      </ScrollView>
+        </View>
     );
   }
 }
