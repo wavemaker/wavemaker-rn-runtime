@@ -64,7 +64,9 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
       this.hide = () => {};
       if (this.isDefaultValue && this.state.props.displayValue === '') {
         this.validate(this.state.props.displayValue);
-        this.props.triggerValidation && this.props.triggerValidation();
+        setTimeout(() => {
+          this.props.triggerValidation && this.props.triggerValidation();
+        }, 0);
       }
       this.invokeEventCallback('onBlur', [{}, this.proxy]);
       this.setState({ isOpened: false, modalOptions: {} as ModalOptions } as WmSelectState);

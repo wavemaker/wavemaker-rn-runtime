@@ -94,7 +94,7 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
 
   renderPane(content: React.ReactNode) {
     const expanded = this.state.props.expanded;
-    return isWebPreviewMode() ? 
+    return isWebPreviewMode() || this.styles.header.display == "none" ? 
       (<View style={expanded ? {} : {maxHeight: 0, overflow: 'hidden'}}>
         {content}
       </View>) :

@@ -26,7 +26,15 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
     let value = data.data[data.index].y;
     let label = this.state.xaxisDatakeyArr[data.datum.x];
     let selectedItem = this.props.dataset[data.index];
+    const nativeEvent = event.nativeEvent;
+    this.setTooltipPosition(nativeEvent);
     let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+    this.updateState({
+      tooltipXaxis: label,
+      tooltipYaxis: value,
+      isTooltipOpen: true,
+      selectedItem: {...selectedItem, index: data.index},
+    } as WmBubbleChartState)
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
   }
 
@@ -38,15 +46,14 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
     return (<View
       {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
       style={this.styles.root}
+      onLayout={this.onViewLayoutChange.bind(this)}
     >
+      {this.getTooltip()}
       <VictoryChart
         theme={this.state.theme}
         height={this.styles.root.height as number}
-        width={this.styles.root.width as number || this.screenWidth}
+        width={this.state.chartWidth || this.screenWidth}
         padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
-        containerComponent={
-          this.getTooltip(props)
-        }
       >
         <VictoryLegend
           name={'legend'}
@@ -64,7 +71,7 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
         return <VictoryScatter
           colorScale={this.state.colors}
           style={{
-            data: { fill: this.state.colors[i], opacity: ({ datum }) => datum.opacity }
+            data: { fill: this.state.colors[i], opacity: ({ datum }: any) => datum.opacity }
           }}
           key={props.name + '_bubble_' + i}
           name={props.name + '_bubble_' + i}

@@ -35,11 +35,6 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
     onFragmentReady() {
       return super.onFragmentReady().then(() => {
         this.onContentReady();
-        const parent: any = this.props.parent;
-        if (parent) {
-          parent.Widgets = this.Widgets;
-          parent.Variables = this.fragmentVariables;
-        }
         this.invokeEventCallback('onLoad', [this]);
       });
     }
@@ -61,6 +56,17 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
       if (parent) {
         delete (parent as any).Widgets;
         delete (parent as any).Variables;
+      }
+    }
+
+    componentDidUpdate(prevProps: Readonly<PartialProps>, prevState: Readonly<PartialState>, snapshot?: any): void {
+      super.componentDidUpdate(prevProps, prevState, snapshot);
+      const parent: any = this.props.parent;
+      if (parent) {
+        parent.pageParams = (this as any).pageParams;
+        parent.partialParams  = (this as any).pageParams;
+        parent.Widgets = this.Widgets;
+        parent.Variables = this.fragmentVariables;
       }
     }
 

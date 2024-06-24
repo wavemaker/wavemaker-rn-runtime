@@ -35,11 +35,11 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
       ? (<WmIcon
           {...this.getTestPropsForLabel('icon')}
           hint={hint}
-          styles={this.styles.icon} 
-          name={`${name}_icon`} 
+          styles={this.styles.icon}
+          name={`${name}_icon`}
           iconclass={iconclass}
           iconsize={iconsize}
-          iconurl={iconurl} 
+          iconurl={iconurl}
           iconheight={iconheight}
           iconmargin={iconmargin}
           iconwidth={iconwidth}
@@ -70,8 +70,10 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingBottom: 0,
             paddingLeft: 0,
             paddingRight: 0,
-            overflow: 'hidden'
-          }
+            overflow: 'hidden',
+            flexDirection: 'column'
+          },
+          this.styles.root.height == "100%" ? {flex: 1}:{}
         ]}
         // accessibilityProps={{...getAccessibilityProps(
         //   AccessibilityWidgetType.BUTTON,
@@ -85,7 +87,8 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingBottom: this.styles.root.paddingBottom,
             paddingLeft: this.styles.root.paddingLeft,
             paddingRight: this.styles.root.paddingRight,
-            height: '100%',
+            width: '100%',
+            height: this.styles.root.height ? '100%' : null,
             justifyContent: 'center',
           }}
           rippleColor = {this.styles.root.rippleColor}
