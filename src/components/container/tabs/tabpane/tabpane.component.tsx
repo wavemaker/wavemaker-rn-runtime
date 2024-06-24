@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTabpaneProps from './tabpane.props';
@@ -66,9 +67,9 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
   }
 
   renderWidget(props: WmTabpaneProps) {
-    return (<View style={this.styles.root}>
+    return (<ScrollView style={this.styles.root} onScroll={(event) => {this.notify('scroll', [event])}}>
         {this._background}
         {this.renderContent(props)}
-      </View>);
+      </ScrollView>);
   }
 }
