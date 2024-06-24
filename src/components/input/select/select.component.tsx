@@ -1,5 +1,6 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { find, isEmpty } from 'lodash';
 
 import WmSelectProps from './select.props';

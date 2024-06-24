@@ -1,6 +1,7 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { Platform, TouchableOpacity, View, ViewStyle, StatusBar, KeyboardAvoidingView } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
@@ -400,12 +401,14 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         AppModalService.animatedRefs[i] = ref;
                       }}
                       style={[styles.appModalContent, o.contentStyle]}>
-                      <View
-                        onStartShouldSetResponder={evt => true}
-                        onResponderEnd={(e) => e.stopPropagation()}
-                        style={{width: '100%', 'alignItems': 'center'}}>
-                        {this.getProviders(o.content)}
-                      </View>
+                      <GestureHandlerRootView style={{width: '100%', alignItems: 'center'}}>
+                        <View
+                          onStartShouldSetResponder={evt => true}
+                          onResponderEnd={(e) => e.stopPropagation()}
+                          style={{width: '100%', alignItems: 'center'}}>
+                            {this.getProviders(o.content)}
+                        </View>
+                      </GestureHandlerRootView>
                     </Animatedview>
               </View>
             )}
@@ -473,6 +476,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}
                   style={{ flex: 1 }}>
                     <View style={styles.container}>
+                      <GestureHandlerRootView style={styles.container}>
                       <AppNavigator
                         app={this}
                         landingPage={(this.props as any).pageName}
@@ -484,6 +488,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         {this.renderToasters()}
                         {this.renderDialogs()}
                         {this.renderDisplayManager()}
+                      </GestureHandlerRootView>
                     </View>
                     </KeyboardAvoidingView>
                     {this.appConfig.url ? 
