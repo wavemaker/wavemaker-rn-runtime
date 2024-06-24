@@ -4,8 +4,8 @@ import {
   NativeSyntheticEvent,
   Text,
   View,
-  ScrollView,
 } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import WmWheelPickerProps from './wheelpicker.props';
 import { DEFAULT_CLASS, WmWheelPickerStyles } from './wheelpicker.styles';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
