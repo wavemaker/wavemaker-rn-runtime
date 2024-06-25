@@ -115,7 +115,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
 
   animatePagination(index: number) {
     const prevIndex = this.state.activeIndex;
-    const margin = ((this.styles.dotStyle?.marginLeft as number)|| 0) + 
+    const margin = ((this.styles.dotStyle?.marginLeft as number)|| 0) +
     ((this.styles.dotStyle?.marginRight as number)|| 0)
     const width = (this.styles.dotStyle?.width as number)|| 2;
     const size = margin + width;
@@ -160,7 +160,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
           ...options
         }),
       ]).start();
-    } 
+    }
   }
 
   onSlideChange = (index: number) => {
@@ -207,7 +207,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         {
           data.map((item: any, index: number) => {
             return index >= minIndex && index <= maxIndex ? (
-              <View key={'dots_' + this.generateItemKey(item, index, this.state.props)} 
+              <View key={'dots_' + this.generateItemKey(item, index, this.state.props)}
                 style={[this.styles.dotStyle]}>
               </View>) : null;
           })
@@ -238,6 +238,9 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     const hasNavs = props.controls === 'both' || props.controls ==='navs';
     const hasDots = props.controls === 'both' || props.controls ==='indicators';
     let styles = this.styles;
+    if (props.type === 'static') {
+      props.children = isArray(props.children) ? props.children : [props.children];
+    }
     let data = props.type === 'dynamic' ? props.dataset : props.children;
     data = isArray(data) ? data : [];
     this.noOfSlides = data?.length || 0;
@@ -251,7 +254,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     return (
       <View style={styles.root}>
         {this._background}
-        <SwipeAnimation.View 
+        <SwipeAnimation.View
             enableGestures={props.enablegestures && this.noOfSlides > 1}
             style={{
               height: props.type === 'dynamic' ? undefined : '100%',
