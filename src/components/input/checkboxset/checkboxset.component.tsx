@@ -1,12 +1,13 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, DimensionValue } from 'react-native';
-import { find, forEach, isEqual,  isEmpty } from 'lodash';
+import { find, forEach, isEqual, isEmpty } from 'lodash';
 import { Checkbox } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
+
 import WmCheckboxsetProps from './checkboxset.props';
 import {
   DEFAULT_CLASS,
-  
+
   WmCheckboxsetStyles,
 } from './checkboxset.styles';
 import {
@@ -49,7 +50,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
       });
   }
 
-  renderChild(item: any, index: any,colWidth: DimensionValue) { 
+  renderChild(item: any, index: any,colWidth: DimensionValue) {
     const props = this.state.props;
     const displayText = item.displayexp || item.displayfield;
     return (
