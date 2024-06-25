@@ -9,25 +9,58 @@ export interface Formatter {
 }
 
 export class DateToStringFormatter implements DateFormatter {
-
     public format(input: Date, format: string): string {
-        if (!input) {
-            return '';
-        }
-        if (format === 'timestamp') {
-            return input.getTime() + '';
-        }
-        format = format.replace(/d/g, 'D');
-        const _moment = moment(input, [
-            "M/D/YYYY", "M-D-YYYY", "M.D.YYYY",
-            "M/DD/YYYY", "M-DD-YYYY", "M.DD.YYYY",
-            "YYYY/M/D", "YYYY-M-D", "YYYY.M.D",
-            "MM/D/YYYY", "MM-D-YYYY", "MM.D.YYYY",
-            "M/D/YY", "M-D-YY", "M.D.YY", "D MMM YYYY",
-            "MM/DD/YYYY", "MM-DD-YYYY", "MM.DD.YYYY",
-            "YYYY/MM/DD", "YYYY-MM-DD", "YYYY.MM.DD",
-            "MM/DD/YY", "MM-DD-YY", "MM.DD.YY", "DD MMM YYYY"
+       
+        if (!input) return '';
+
+        format = format.replaceAll('y', 'Y').replaceAll('d', 'D').replaceAll('E','d');
+        let _moment = moment(input, [
+            moment.ISO_8601,
+            "YYYY",
+            "YYYY-MM",
+            "YYYYMMDD",
+            "YYYY-MM-DD",
+            "YYYY-MM-DDTHH",
+            "YYYY-MM-DDTHH:mm",
+            "YYYY-MM-DDTHH:mm:ss",
+            "YYYY-MM-DDTHH:mm:ss.SSS",
+            "YYYY-MM-DD HH:mm:ss",
+            "MM/DD/YYYY",
+            "MM-DD-YYYY",
+            "YYYY/MM/DD",
+            "DD/MM/YYYY",
+            "DD-MM-YYYY",
+            "YYYY/MM",
+            "D MMM YYYY",
+            "MMM D YYYY",
+            "MMMM D YYYY",
+            "D MMMM YYYY",
+            "D-MMM-YYYY",
+            "D/MMM/YYYY",
+            "YYYY-WWW", 
+            "YYYY-WWW-E",
+            "YYYY-DDD",
+            "YYYY-DDDTHH",
+            "YYYY-DDDTHH:mm",
+            "YYYY-DDDTHH:mm:ss",
+            "YYYY-DDDTHH:mm:ss.SSS",
+            "YYYY-DDD HH:mm:ss",
+            "YYYY-MM-DDTHH:mm:ssZ",
+            "YYYY-MM-DDTHH:mm:ss+00:00",
+            "YYYY-MM-DDTHH:mm:ss-00:00",
+            "YYYY-MM-DDTHH:mm:ss.SSSZ",
+            "YYYY-MM-DDTHH:mm:ss.SSS+00:00",
+            "YYYY-MM-DDTHH:mm:ss.SSS-00:00",
+            "ddd, DD MMM YYYY HH:mm:ss ZZ",
+            "DD MMM YYYY HH:mm:ss ZZ",
         ], true);
+
+        if (format === 'timestamp')
+            return Math.floor(_moment.valueOf() / 1000).toString();
+
+        if (format === 'UTC')
+            return moment.utc(input).toString();
+
         return _moment.isValid() ? _moment.format(format) : input.toString();
     }
 }
