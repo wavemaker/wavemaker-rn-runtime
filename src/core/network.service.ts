@@ -167,7 +167,7 @@ class NetworkService {
     public async start(appConfig: AppConfig): Promise<any> {
         this.appConfig = appConfig;
         networkState.noServiceRequired = !appConfig.url;
-        networkState.isConnected = (await StorageService.getItem(IS_CONNECTED_KEY)) === 'true';
+        networkState.isConnected = (await StorageService.getItem(IS_CONNECTED_KEY)) !== 'false';
         this._autoConnect = (await StorageService.getItem(AUTO_CONNECT_KEY)) !== 'false';
         const state = await Network.getNetworkStateAsync();
         networkState.isNetworkAvailable = !!state.isConnected;
