@@ -257,7 +257,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         <SwipeAnimation.View
             enableGestures={props.enablegestures && this.noOfSlides > 1}
             style={{
-              height: props.type === 'dynamic' ? undefined : '100%',
+              flex: 1
             }}
             direction='horizontal'
             ref={(r) => {this.animationView = r}}
