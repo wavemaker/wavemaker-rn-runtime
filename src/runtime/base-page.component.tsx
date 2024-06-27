@@ -86,6 +86,10 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       }, 10);
     }
 
+    getDefaultStyles() {
+        return 'app-page';
+    }
+
     onAttach() {
       super.onAttach();
       this.setDrawerContent();

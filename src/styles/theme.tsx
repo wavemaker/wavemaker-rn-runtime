@@ -1,13 +1,15 @@
-import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, isFunction, get, reverse } from 'lodash';
+import { cloneDeep, uniq, sortBy, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, isFunction, get, reverse } from 'lodash';
 import React from 'react';
-import { camelCase } from 'lodash-es';
+import { camelCase, last } from 'lodash-es';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground, Dimensions } from 'react-native';
+import { WmComponentNode } from '@wavemaker/app-rn-runtime/core/wm-component-tree';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 import MediaQueryList from './MediaQueryList';
 import ThemeVariables from './theme.variables';
 import { getErrorMessage, getStyleReference, isValidStyleProp } from './style-prop.validator';
+import { Selector, parseSelector } from './selector';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
 
 declare const matchMedia: any, window: any;
@@ -36,6 +38,68 @@ export enum ThemeEvent {
     CHANGE ='change'
 };
 
+interface StyleEntry {
+    __meta?: {
+        position: number,
+        themeName: string,
+        name: string,
+        selector: Selector
+    }
+}
+
+class StyleStore {
+
+    private position = 0;
+    private styles = new Map<string, StyleEntry[]>();
+
+    constructor(private themeName: string) {
+
+    }
+
+    set(selector: string, style: any) {
+        let mSelector = selector;
+        if (!(selector.startsWith('.') || selector.startsWith('wm-'))) {
+            // to handle old selectors
+            mSelector = '.' + selector;
+        }
+        style = deepCopy({}, style);
+        style.__meta = {
+            position: this.position++,
+            themeName: this.themeName,
+            name: selector,
+            selector: parseSelector(mSelector) 
+        };
+        const clases = last(mSelector.trim().split(' '))?.split(':')[0].split('.');
+        clases?.forEach(c => {
+            if (c) {
+                const styles = this.styles.get(c) || [];
+                styles.push(style)
+                this.styles.set(c, styles);
+            }
+        });
+    }
+
+    getMatchingStyles(node: WmComponentNode): StyleEntry[] {
+        const classname = node.classname;
+        const clases = [node.type, ...classname.trim().split(' ')];
+        let filteredStyles = [] as StyleEntry[];
+        clases?.forEach((c) => {
+            if (c) {
+                filteredStyles.push(...(this.styles.get(c) || []));
+            }
+        });
+        filteredStyles = sortBy(uniq(filteredStyles), s => s.__meta?.position || 0);
+        return filteredStyles
+        .filter((s: any) => {
+            if (!!s.__meta.selector.select(node) 
+                && (!s['@media'] || matchMedia(s['@media']).matches)) {
+                return true;
+            }
+            return false;
+        });
+    }
+}
+
 export class Theme {
     public static BASE = new Theme(null as any, 'default');
 
@@ -46,15 +110,13 @@ export class Theme {
     }
 
 
+    private styleStore: StyleStore;
+
     private eventNotifer = new EventNotifier();
 
     private children: Theme[] = [];
 
-    private styles: any = {};
-
-    private cache: any = {};
-
-    private traceEnabled = false;
+    public traceEnabled = false;
 
     private styleGenerators: styleGeneratorFn<any>[] = [];
 
@@ -64,6 +126,7 @@ export class Theme {
         } else {
             this.traceEnabled = isWebPreviewMode();
         }
+        this.styleStore = new StyleStore(name);
     }
 
     public subscribe(event: ThemeEvent, fn: Function) {
@@ -89,7 +152,6 @@ export class Theme {
     }
 
     clearCache() {
-        this.cache = {};
         this.children.forEach((t) => t.clearCache());
     }
 
@@ -110,32 +172,44 @@ export class Theme {
         }
     }
 
-    private addStyle<T extends NamedStyles<any>>(name: string, extend: string, style: T) {
-        this.styles[name] = deepCopy(this.getStyle(extend), this.styles[name], style);
-    }
-
-    private addTrace(styleName: string, mergedChildstyle: any, childStyle: any, parentStyle?: any) {
-        if (!this.traceEnabled) {
+    public addStyle<T extends NamedStyles<any>>(name: string, extend: string, style: T) {
+        if (!name) {
             return;
         }
-        let addTrace = !isEmpty(childStyle);
-        forEach(mergedChildstyle, (v: any, k: string) => {
+        if (this !== Theme.BASE && isWebPreviewMode()) {
+            this.checkStyleProperties('', style);
+        }
+        const styles = deepCopy(this.getStyle(extend, false), this.getStyle(name, false), style) as StyleEntry;
+        this.addTrace(`@${this.name}:${name}`, styles);
+        this.styleStore.set(name, styles);
+        
+    }
+
+    private addTrace(styleName: string, style: any) {
+        let addTrace = !isEmpty(style);
+        forEach(style, (v: any, k: string) => {
             if (v && !isString(v) && !isArray(v) && isObject(v)) {
                 addTrace = false;
-                this.addTrace(styleName + '.' + k, v, childStyle && childStyle[k], parentStyle && parentStyle[k])
+                this.addTrace(styleName + '.' + k, v);
             }
         });
         if (addTrace) {
-            mergedChildstyle['__trace'] = [
+            style['__trace'] = [
                 {
                     name: styleName,
-                    value: childStyle
-                },
-                ...(parentStyle?.__trace|| [])
+                    value: style
+                }
             ];
-        } else {
-            mergedChildstyle['__trace'] = [...(parentStyle?.__trace|| [])];
         }
+    }
+
+    private removeTrace(style: any) {
+        forEach(style, (v: any, k: string) => {
+            if (v && !isString(v) && !isArray(v) && isObject(v)) {
+                this.removeTrace(v);
+            }
+        });
+        delete style['__trace'];
     }
 
     private flatten(style: any, prefix = "", result = {} as any) {
@@ -177,7 +251,7 @@ export class Theme {
         style = style as any;
         if (isObject(style) && !isArray(style)) {
             Object.keys(style).forEach(k => {
-                style[k] = this.replaceVariables(style[k]);
+                (style as any)[k] = this.replaceVariables((style as any)[k]);
             });
         }
         if (!isNil(style['shadowRadius'])) {
@@ -218,35 +292,50 @@ export class Theme {
         return style;
     }
 
-    getStyle(name: string) {
-        let style = this.cache[name];
-        if (style) {
-            return style;
-        }
-        if (!name) {
-            return {};
-        }
-        if (name.indexOf(' ') > 0) {
-            style = this.mergeStyle(...(name.split(' ').map(c => this.getStyle(c))));
+
+    getStyle(name: string | WmComponentNode, fromParentAlso = true) {
+        let node : WmComponentNode;
+        if (!name){
+            return;
+        } 
+        if (isString(name)) {
+            node = new WmComponentNode({
+                type: 'unknown',
+                classname: name
+            })
         } else {
-            const parentStyle = this.parent && this.parent.getStyle(name);
-            const mediaQuery = (this.styles[name] || {})['@media'];
-            let clonedStyle = {};
-            if (!mediaQuery || matchMedia(mediaQuery).matches) {
-                clonedStyle = cloneDeep(this.styles[name]);
-                this.cleanseStyleProperties(clonedStyle);
-            }
-            if (this !== Theme.BASE && isWebPreviewMode()) {
-                this.checkStyleProperties('', clonedStyle);
-            }
-            style = deepCopy(parentStyle, clonedStyle);
-            this.addTrace(`@${this.name}:${name}`, style, clonedStyle, parentStyle);
+            node = name;
         }
-        this.cache[name] = style;
-        return style;
+        const matchingStyles = this.getStyleByNode(node, fromParentAlso).sort((s1, s2) => {
+            const sw1 = s1?.__meta?.selector?.specificityWeight;
+            const sw2 = s2?.__meta?.selector?.specificityWeight;
+            if (sw1 && sw2) {
+                return sw1.compare(sw2);
+            }
+            if (sw1) {
+                return 1;
+            }
+            if (sw2) {
+                return -1;
+            }
+            return 0;
+        });
+        const style = deepCopy(...matchingStyles);
+        delete style['__meta'];
+        if (!this.traceEnabled) {
+            this.removeTrace(style);
+        }
+        return this.cleanseStyleProperties(style);
     }
 
-    $new(name = "", styles = {} as NamedStyles<any>) {
+    private getStyleByNode(node: WmComponentNode, fromParentAlso = true) {
+        const parentStyles: any[] = (fromParentAlso && this.parent) ? 
+            this.parent.getStyleByNode(node, fromParentAlso) : [];
+        let styles = this.styleStore.getMatchingStyles(node)
+        return [...parentStyles, ...styles];
+    }
+
+    $new(name = "", styles = [] as any[]) {
         const newTheme = new Theme(this, name);
         newTheme.reset(styles);
         this.children.push(newTheme);
@@ -288,13 +377,13 @@ export class Theme {
         } as TextStyle;
     }
 
-    reset(styles?: NamedStyles<any>) {
-        this.styles = {};
+    reset(styles?: any[]) {
+        this.styleStore = new StyleStore(this.name);
         this.clearCache();
         if (styles) {
             this.registerStyle((themeVariables, addStyle) => {
-                Object.keys(styles).forEach(k => {
-                    addStyle(k, '', styles[k] as any);
+                styles.forEach((o: any) => {
+                    addStyle(o.selector, '', o.style as any);
                 });
             });
         } else {

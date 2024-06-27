@@ -69,6 +69,10 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
         parent.Variables = this.fragmentVariables;
       }
     }
+ 
+    getDefaultStyles() {
+        return 'app-partial';
+    }
 
     abstract renderPartial(): ReactNode;
 

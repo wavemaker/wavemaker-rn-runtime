@@ -20,3 +20,14 @@ configure({ adapter: new Adapter() });*/
 /*jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
 
 jest.mock('react-native-gesture-handler', () => {});*/
+
+jest.mock('expo-file-system', () => {
+  return {
+    readAsStringAsync: () => {}
+  };
+});
+jest.mock('expo-font', () => {
+  return {
+    isLoaded: () => true
+  };
+})

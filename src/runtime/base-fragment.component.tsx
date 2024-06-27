@@ -7,7 +7,7 @@ import { Formatter } from '@wavemaker/app-rn-runtime/core/formatters';
 import { TestIdPrefixProvider, TextIdPrefixConsumer } from '@wavemaker/app-rn-runtime/core/testid.provider';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { toBoolean, toNumber, isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
-import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener, ParentContext } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable';
 import { default as _viewPort, EVENTS as viewportEvents } from '@wavemaker/app-rn-runtime/core/viewport';
@@ -364,23 +364,32 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
           .forEach(value => this.Variables[value]?.invokeOnParamChange());
       }
       return this.isVisible() ? (
-      <ThemeProvider value={this.theme}>
-        <TextIdPrefixConsumer>
-            {(testIdPrefix) => {
-              this.testIdPrefix = testIdPrefix || '';
-              return (
-              <TestIdPrefixProvider value={this.generateTestIdPrefix() || ''}>
-                <ToastConsumer>
-                {(toastService: ToastService) => {
-                  this.toaster = toastService;
-                  return this.renderWidget(this.props);
-                }}
-              </ToastConsumer>
-              </TestIdPrefixProvider>);
-            }}
-        </TextIdPrefixConsumer>
-
-      </ThemeProvider>) : null;
+      <ParentContext.Consumer>
+        {(parent) => {
+        this.setParent(parent);
+        let theme = this.theme;
+        this.componentNode.classname = this.getDefaultStyles() + ' ' + (this.state.props.classname || '');
+        return (
+      <ParentContext.Provider value={this}>
+        <ThemeProvider value={theme}>
+          <TextIdPrefixConsumer>
+              {(testIdPrefix) => {
+                this.testIdPrefix = testIdPrefix || '';
+                return (
+                <TestIdPrefixProvider value={this.generateTestIdPrefix() || ''}>
+                  <ToastConsumer>
+                  {(toastService: ToastService) => {
+                    this.toaster = toastService;
+                    return this.renderWidget(this.props);
+                  }}
+                </ToastConsumer>
+                </TestIdPrefixProvider>);
+              }}
+          </TextIdPrefixConsumer>
+        </ThemeProvider>
+      </ParentContext.Provider>);
+      }}
+      </ParentContext.Consumer>) : null;
     }
 }
 

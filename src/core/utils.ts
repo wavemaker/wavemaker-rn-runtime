@@ -25,6 +25,8 @@ const _deepCopy = (o1: any, ...o2: any) => {
                 const v = o[k];
                 if (v && !isString(v) && !isArray(v) && typeof v === 'object') {
                     o1[k] = _deepCopy(o1[k] || {}, o[k]);
+                } else if(isArray(v) && isArray(o1[k])) {
+                  o1[k] = [...v, ...o1[k]]
                 } else {
                     o1[k] = _deepCopy(v);
                 }

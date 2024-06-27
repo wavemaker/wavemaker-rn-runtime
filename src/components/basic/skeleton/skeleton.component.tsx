@@ -68,10 +68,12 @@ export default class WmSkeleton extends BaseComponent<WmSkeletonProps, WmSkeleto
   }
 
   componentDidMount(): void {
+    super.componentDidMount();
     this.animationRunner.start();
   }
 
   componentWillUnmount(): void {
+    super.componentWillUnmount();
     this.animationRunner.stop();
   }
 

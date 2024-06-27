@@ -19,6 +19,7 @@ import { FixedView } from './fixed-view.component';
 import { TextIdPrefixConsumer } from './testid.provider';
 import { isScreenReaderEnabled } from './accessibility';
 import { Tappable, TappableContext } from './tappable.component';
+import { WmComponentNode } from './wm-component-tree';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -87,11 +88,15 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public testIdPrefix = '';
     private _showView = true;
     public closestTappable?: Tappable;
+    public componentNode: WmComponentNode;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
         this.state = (defaultState || {} as S);
         this.notifier.name = this.props.name || '';
+        this.componentNode = new WmComponentNode({
+            instance: this
+        });
         this.propertyProvider = new PropsProvider<T>(
             assign({show: true}, defaultProps),
             assign({}, markupProps),
@@ -192,7 +197,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
      
     getDefaultStyles() {
-        return this.theme.getStyle(this.defaultClass);
+        return this.defaultClass;
     }
 
     reset() {
@@ -275,6 +280,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.props.listener.onComponentDestroy(this.proxy);
         }
         this.cleanup.forEach(f => f && f());
+        this.parent?.componentNode?.remove(this.componentNode);
         this.notifier.destroy();
         this.notifier.notify('destroy', []);
     }
@@ -325,9 +331,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.parentListenerDestroyers.map(fn => fn());
     }
 
-    private setParent(parent: BaseComponent<any, any, any>) {
+    public setParent(parent: BaseComponent<any, any, any>) {
         if (parent && this.parent !== parent)  {
             this.parent = parent;
+            this.parent.componentNode.add(this.componentNode);
             this.notifier.setParent(parent.notifier);
             this.parentListenerDestroyers = [
                 this.parent.subscribe('forceUpdate', () => {
@@ -482,15 +489,18 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 || !this._showView) {
                 return null;
             }
-            const classname = this.getStyleClassName();
-            this.styles =  this.theme.mergeStyle(
+            const classname = [
                 this.getDefaultStyles(),
-                {text: this.theme.getStyle('app-' + selectedLocale)},
-                {text: this.theme.getStyle(this.defaultClass + '-' + selectedLocale)},
-                props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
-                this.isRTL ? this.theme.getStyle(this.defaultClass + '-rtl') : null,
-                classname && this.theme.getStyle(classname),
-                props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
+                'app-' + selectedLocale,
+                this.defaultClass + '-' + selectedLocale,
+                props.disabled ? this.defaultClass + '-disabled' : '',
+                this.isRTL ? this.defaultClass + '-rtl' : '',
+                this.getStyleClassName() || '',
+                props.showindevice ? 'd-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' '): '']
+            .join(' ').replace(/\s+/, ' ').trim();
+            this.componentNode.classname = classname;
+            this.styles =  this.theme.mergeStyle(
+                this.theme.getStyle(this.componentNode),
                 this.theme.cleanseStyleProperties(this.props.styles),
                 this.theme.cleanseStyleProperties({
                     root: this.styleOverrides,
