@@ -28,8 +28,6 @@ export class DateToStringFormatter implements DateFormatter {
             "MM/DD/YYYY",
             "MM-DD-YYYY",
             "YYYY/MM/DD",
-            "DD/MM/YYYY",
-            "DD-MM-YYYY",
             "YYYY/MM",
             "D MMM YYYY",
             "MMM D YYYY",
