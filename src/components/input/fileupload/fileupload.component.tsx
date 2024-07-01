@@ -36,10 +36,10 @@ export default class WmFileupload extends BaseComponent<WmFileuploadProps, WmFil
     DocumentPicker.getDocumentAsync(namedParameters).then((response: any) => {
       let selectedFile;
       if (Platform.OS !== 'web') {
-        selectedFile = response;
+        selectedFile = response.assets[0];
         selectedFile.type = selectedFile.mimeType;
       } else {
-        selectedFile = response.file;
+        selectedFile = [response.assets[0].file];
       }
       this.invokeEventCallback('onBeforeselect', [null, this.proxy, selectedFile]);
 
