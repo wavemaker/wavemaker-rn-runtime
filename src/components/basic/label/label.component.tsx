@@ -148,10 +148,10 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
                     // {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
                   >
                     {toString(part.text)}
-                    {props.required && this.getAsterisk()}
                   </Text>
                 );
               })}
+               {props.required && this.getAsterisk()}
             </Text>
           </Tappable>)}}
         </NavigationServiceConsumer>
