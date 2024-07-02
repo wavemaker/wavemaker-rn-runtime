@@ -1,13 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {
-      "@wavemaker/app-rn-runtime": ["./src/index"],
-      "@wavemaker/app-rn-runtime/*": ["./src/*"],
-      "@wavemaker/variables/*": [
-        "./.yalc/@wavemaker/variables/src/*"
-      ],
-    },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
@@ -28,8 +21,5 @@
     "strict": true,
     "target": "esnext"
   },
-  "include": [
-    "src/**/*",
-    "typings/**/*.d.ts"
-  ]
+  "include": ["typings/**/*.d.ts"]
 }

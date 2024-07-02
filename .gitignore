@@ -68,3 +68,5 @@ dist/
 # plugins
 src/components/plugins
 test/components/plugins
+
+# **/__snapshots__/

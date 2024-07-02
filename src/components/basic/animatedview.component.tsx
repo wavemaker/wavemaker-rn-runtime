@@ -7,7 +7,7 @@ export default class AnimatedviewProps {
   entryanimation?: string = null as any;
   children?: any;
   duration?: number = null as any;
-  iterationCount?:any;
+  iterationCount?: any;
   style?: any;
   exitanimation?: string = null as any;
   accessibilityProps?: any;
@@ -48,79 +48,79 @@ const AnimationMap: any = {
   zoomInDown: 'zoomOutUp',
   zoomInLeft: 'zoomOutRight',
   zoomInRight: 'zoomOutLeft',
-  zoomInUp: 'zoomOutDown'
+  zoomInUp: 'zoomOutDown',
 };
 
 const CustomAnimationMap: any = {
   flipInY: {
     0: {
-        transform: [{rotateY: "0deg"}]
+      transform: [{ rotateY: '0deg' }],
     },
     1: {
-        transform: [{rotateY: "360deg"}]
-    }
+      transform: [{ rotateY: '360deg' }],
+    },
   },
   flipInX: {
     0: {
-        transform: [{rotateX: "0deg"}]
+      transform: [{ rotateX: '0deg' }],
     },
     1: {
-        transform: [{rotateX: "360deg"}]
-    }
+      transform: [{ rotateX: '360deg' }],
+    },
   },
   flipOutY: {
     0: {
-        transform: [{rotateY: "3600deg"}]
+      transform: [{ rotateY: '3600deg' }],
     },
     1: {
-        transform: [{rotateY: "0deg"}]
-    }
+      transform: [{ rotateY: '0deg' }],
+    },
   },
   flipOutX: {
     0: {
-        transform: [{rotateX: "360deg"}]
+      transform: [{ rotateX: '360deg' }],
     },
     1: {
-        transform: [{rotateX: "0deg"}]
-    }
+      transform: [{ rotateX: '0deg' }],
+    },
   },
-  slideInDown : {
+  slideInDown: {
     from: { translateY: -20 },
-    to: { translateY: 0 }
+    to: { translateY: 0 },
   },
-  slideInUp : {
+  slideInUp: {
     from: { translateY: 20 },
-    to: { translateY: 0 }
+    to: { translateY: 0 },
   },
   slideOutUp: {
     from: { translateY: 0 },
-    to: { translateY: -20 }
+    to: { translateY: -20 },
   },
-  slideOutDown : {
+  slideOutDown: {
     from: { translateY: 0 },
-    to: { translateY: 20 }
+    to: { translateY: 20 },
   },
   fadeInDown: {
     from: { opacity: 0, translateY: -20 },
-    to: { opacity: 1, translateY: 0 }
+    to: { opacity: 1, translateY: 0 },
   },
   fadeInUp: {
     from: { opacity: 0, translateY: 20 },
-    to: { opacity: 1, translateY: 0 }
+    to: { opacity: 1, translateY: 0 },
   },
   fadeOutDown: {
     from: { opacity: 1, translateY: 0 },
-    to: { opacity: 0, translateY: 20 }
+    to: { opacity: 0, translateY: 20 },
   },
   fadeOutUp: {
     from: { opacity: 1, translateY: 0 },
-    to: { opacity: 0, translateY: -20 }
-  }
+    to: { opacity: 0, translateY: -20 },
+  },
 };
 
 export class Animatedview extends React.Component<AnimatedviewProps> {
   static defaultProps: AnimatedviewProps = {
-    duration: 200
+    duration: 200,
   };
 
   private view: Animatable.View = null as any;
@@ -131,7 +131,9 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
   }
 
   triggerEntry() {
-    return (this as any).view.animate(this.props.entryanimation, this.props.duration).then((endState: any) => endState.finished)
+    return (this as any).view
+      .animate(this.props.entryanimation, this.props.duration)
+      .then((endState: any) => endState.finished);
   }
 
   triggerExit() {
@@ -139,27 +141,47 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
       return;
     }
     if (this.props.exitanimation) {
-      return (this as any).view.animate(this.props.exitanimation, this.props.duration, 1).then((endState: any) => endState.finished)
+      return (this as any).view
+        .animate(this.props.exitanimation, this.props.duration, 1)
+        .then((endState: any) => endState.finished);
     } else {
-      return (this as any).view.animate(AnimationMap[this.props.entryanimation || ''], this.props.duration, 1).then((endState: any) => endState.finished)
+      return (this as any).view
+        .animate(
+          AnimationMap[this.props.entryanimation || ''],
+          this.props.duration,
+          1
+        )
+        .then((endState: any) => endState.finished);
     }
   }
 
   // @ts-ignore
-  handleViewRef = (ref: Animatable.View<ViewProps, ViewStyle>) => this.view = ref;
+  handleViewRef = (ref: Animatable.View<ViewProps, ViewStyle>) => {
+    this.view = ref;
+  };
 
   render() {
     return this.props.entryanimation ? (
-     <Animatable.View
-       animation={this.props.entryanimation}
-       duration={this.props.duration}
-       useNativeDriver={true}
-       style={this.props.style}
-       iterationCount={this.props.iterationCount}
-       ref={this.handleViewRef}
-       {...this.props.accessibilityProps}>
+      <Animatable.View
+        animation={this.props.entryanimation}
+        duration={this.props.duration}
+        useNativeDriver={true}
+        style={this.props.style}
+        iterationCount={this.props.iterationCount}
+        ref={this.handleViewRef}
+        {...this.props.accessibilityProps}
+        testID="animatableView"
+      >
         {this.props.children}
       </Animatable.View>
-    ): (<View style={this.props.style} {...this.props.accessibilityProps}>{this.props.children}</View>);
+    ) : (
+      <View
+        style={this.props.style}
+        {...this.props.accessibilityProps}
+        testID="non_animatableView"
+      >
+        {this.props.children}
+      </View>
+    );
   }
 }
