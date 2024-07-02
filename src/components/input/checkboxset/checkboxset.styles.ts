@@ -8,6 +8,7 @@ export type WmCheckboxsetStyles = BaseStyles & {
   item: AllStyle;
   skeleton: WmSkeletonStyles;
   checkicon: WmIconStyles;
+  checkedItem: AllStyle;
   uncheckicon: WmIconStyles;
 };
 
@@ -30,6 +31,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       lineHeight: 40,
       fontFamily: themeVariables.baseFont
     } as AllStyle,
+    checkedItem: {} as AllStyle,
     item: {
       flexDirection: 'row',
       alignContent: 'center',
