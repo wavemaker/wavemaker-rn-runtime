@@ -54,7 +54,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     const displayText = item.displayexp || item.displayfield;
     return (
       <TouchableOpacity {...this.getTestPropsForAction(index + '')}
-      style={[this.styles.item, {width: colWidth}]}
+      style={[this.styles.item, item.selected ? this.styles.checkedItem : null, {width: colWidth}]}
         onPress={this.onPress.bind(this, item)} key={item.key}>
         <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled}/>
         <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.text}>{displayText}</Text>
