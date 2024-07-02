@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { isNull } from 'lodash';
+import { isNull, isEqual } from 'lodash';
 
 import WmNumberProps from './number.props';
 import { DEFAULT_CLASS, WmNumberStyles } from './number.styles';
@@ -28,6 +28,23 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
     }
     classes.push(super.getStyleClassName());
     return classes.join(' ');
+  }
+
+  componentDidUpdate(prevProps: WmNumberProps, prevState: WmNumberState, snapshot?: any) {
+    super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, snapshot);
+
+    // * update field value if datavalue has changed
+    if (
+      !isEqual(prevProps?.datavalue, this.props?.datavalue) &&
+      !isEqual(
+        this.state.textValue?.toString(),
+        this.props?.datavalue?.toString()
+      )
+    ) {
+      this.updateState({
+        textValue: this.props.datavalue?.toString(),
+      } as WmNumberState);
+    }
   }
 
   renderWidget(props: WmNumberProps) {
