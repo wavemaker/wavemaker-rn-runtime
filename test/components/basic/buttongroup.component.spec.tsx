@@ -15,7 +15,6 @@ const renderWithTheme = (component: React.ReactElement) => {
   return render(<ThemeProvider value={mockTheme}>{component}</ThemeProvider>);
 };
 
-//skeleton ,width, children,vertical , show ,default
 describe('WmButtongroup', () => {
   it('renders correctly with default props', () => {
     const props = {
@@ -30,10 +29,10 @@ describe('WmButtongroup', () => {
     const props = {
       vertical: true,
     };
-    const { getByTestId } = render(<WmButtongroup {...props} />);
-    const buttonGroup = getByTestId('buttonGroupRoot');
+    const tree = render(<WmButtongroup {...props} />);
+    const buttonGroupRoot = tree.root
 
-    expect(buttonGroup.props.style).toContainEqual({ flexDirection: 'column' });
+    expect(buttonGroupRoot.props.style).toContainEqual({ flexDirection: 'column' });
   });
 
   it('renders skeleton when `showskeleton` is true', () => {
@@ -68,11 +67,11 @@ describe('WmButtongroup', () => {
       vertical: false,
       show: false,
     };
-    const { getByTestId } = render(<WmButtongroup {...props} />);
-    const buttonGroup = getByTestId('buttonGroupRoot');
+    const tree = render(<WmButtongroup {...props} />);
+    const buttonGroupRoot = tree.root
 
-    expect(buttonGroup.props.style[0].width).toBe(0);
-    expect(buttonGroup.props.style[0].height).toBe(0);
+    expect(buttonGroupRoot.props.style[0].width).toBe(0);
+    expect(buttonGroupRoot.props.style[0].height).toBe(0);
   });
 
   it('renders with given width', () => {
@@ -85,10 +84,10 @@ describe('WmButtongroup', () => {
         },
       },
     };
-    const { getByTestId } = render(<WmButtongroup {...props} />);
-    const buttonGroup = getByTestId('buttonGroupRoot');
-
-    expect(buttonGroup.props.style[0].width).toBe(width);
+   
+    const tree = render(<WmButtongroup {...props} />);
+    const buttonGroupRoot = tree.root
+    expect(buttonGroupRoot.props.style[0].width).toBe(width);
   });
 
   it('renders children correctly', () => {
@@ -115,9 +114,10 @@ describe('WmButtongroup', () => {
         },
       },
     };
-    const { getByTestId } = render(<WmButtongroup {...props} />);
-    const buttonGroup = getByTestId('buttonGroupRoot');
-    expect(buttonGroup.props.style[0].backgroundColor).toBe(bgColor);
+
+    const tree = render(<WmButtongroup {...props} />);
+    const buttonGroupRoot = tree.root
+    expect(buttonGroupRoot.props.style[0].backgroundColor).toBe(bgColor);
   });
 
   it('applies styles correctly based on props and themes', () => {
@@ -126,10 +126,10 @@ describe('WmButtongroup', () => {
       children: <></>,
     };
 
-    const { getByTestId } = render(<WmButtongroup {...props} />);
-    const buttonGroup = getByTestId('buttongroup');
+    const tree = render(<WmButtongroup {...props} />);
+    const buttonGroupRoot = tree.root
 
-    expect(buttonGroup.props.style).toContainEqual({
+    expect(buttonGroupRoot.props.style).toContainEqual({
       borderColor: mockTheme.buttonGrpBorderColor,
       backgroundColor: mockTheme.buttonGrpBgColor,
     });

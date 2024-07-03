@@ -37,7 +37,6 @@ export default class WmButtongroup extends BaseComponent<
           this.styles.root,
           { flexDirection: props.vertical ? 'column' : 'row' },
         ]}
-        testID="buttonGroupRoot"
       >
         {this._background}
         {props.children}

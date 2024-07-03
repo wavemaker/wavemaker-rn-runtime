@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WmButtongroup renders correctly with default props 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "alignSelf": "flex-start",
+        "backgroundColor": "#ffffff",
+        "borderColor": "#cccccc",
+        "borderRadius": 100,
+        "borderStyle": "solid",
+        "borderWidth": 1,
+        "flexDirection": "row",
+        "overflow": "hidden",
+      },
+      {
+        "flexDirection": "row",
+      },
+    ]
+  }
+/>
+`;
+
+exports[`WmButtongroup renders skeleton when \`showskeleton\` is true 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "overflow": "hidden",
+    }
+  }
+/>
+`;
+
+exports[`WmButtongroup should render skeleton with root width and height when skeleton width and height are not provided 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "overflow": "hidden",
+    }
+  }
+/>
+`;

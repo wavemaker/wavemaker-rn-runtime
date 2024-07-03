@@ -38,7 +38,7 @@ export default class WmLogin extends BaseComponent<
 
   renderWidget(props: WmLoginProps) {
     return (
-      <View style={this.styles.root} testID="login_component">
+      <View style={this.styles.root}>
         {this._background}
         {this.state.errorMsg && (
           <Text

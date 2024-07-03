@@ -22,10 +22,8 @@ describe('WmLogin', () => {
   it('renders correctly with default props', () => {
     const props: WmLoginProps = { children: <></>, onLogin: jest.fn() };
 
-    const { getByTestId } = render(<WmLogin {...props} />);
-    const loginComponent = getByTestId('login_component');
-
-    expect(loginComponent).toBeTruthy();
+    const tree = render(<WmLogin {...props} />);
+    expect(tree).toMatchSnapshot();
   });
 
   it('calls onLogin function when doLogin is executed', () => {
@@ -114,10 +112,10 @@ describe('WmLogin', () => {
       show: false,
     };
 
-    const { getByTestId } = render(<WmLogin {...props} />);
-    const loginComp = getByTestId('login_component');
-    expect(loginComp.props.style.width).toBe(0);
-    expect(loginComp.props.style.height).toBe(0);
+    const tree = render(<WmLogin {...props} />);
+    const rootElement = tree.root;
+    expect(rootElement.props.style.width).toBe(0);
+    expect(rootElement.props.style.height).toBe(0);
   });
 
   it('should render width and height', () => {
@@ -133,9 +131,10 @@ describe('WmLogin', () => {
         },
       },
     };
-    const { getByTestId } = render(<WmLogin {...props} />);
-    const loginEle = getByTestId('login_component');
-    expect(loginEle.props.style.width).toBe(width);
-    expect(loginEle.props.style.height).toBe(height);
+    const tree = render(<WmLogin {...props} />);
+    const rootElement = tree.root;
+
+    expect(rootElement.props.style.width).toBe(width);
+    expect(rootElement.props.style.height).toBe(height);
   });
 });
