@@ -258,10 +258,8 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
         { position: "absolute", top: this.state.tooltipYPosition as number, left: this.state.tooltipXPosition as number},
         this.styles.tooltipContainer
       ]}>
-        <View>
         <Text style={[{ fontSize: 16, fontWeight: 'bold' },this.styles.tooltipXText]}>{this.state.tooltipXaxis}</Text>
         <Text style={this.styles.tooltipXText}>{this.state.tooltipYaxis}</Text>
-        </View>
         {this.renderPointer()}
       </View>)
     ) : null;
