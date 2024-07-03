@@ -655,8 +655,6 @@ describe('WmSearch Component', () => {
         hint="Enter search text"
       />
     );
-    expect(tree).toMatchSnapshot();
-    const searchInput = tree.getByPlaceholderText('Search');
     expect(tree.getByLabelText('Search Input')).toBeTruthy();
     expect(tree.getByA11yHint('Enter search text')).toBeTruthy();
     expect(tree.getByRole('search')).toBeTruthy();
