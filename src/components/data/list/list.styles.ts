@@ -97,8 +97,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         item: {
             ...BASE_THEME.getStyle('elevate1').root,
             shadowColor: 'rgba(0, 0, 0, 0.3)',
-            flexDirection: 'row',
-            flex: 1,
             paddingLeft: 4,
             paddingRight: 4,
             paddingTop: 4,

@@ -82,6 +82,14 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
     let selectedItem = this.props.dataset[data.index];
     let selectedChartItem = data.slice;
     selectedChartItem["data"] = {x: label, y: value, color: data.style.fill, _dataObj: selectedItem}
+    const nativeEvent = event.nativeEvent;
+    this.setTooltipPosition(nativeEvent);
+    this.updateState({
+      tooltipXaxis: label,
+      tooltipYaxis: value,
+      isTooltipOpen: true,
+      selectedItem: {...selectedItem, index: data.index},
+    } as WmPieChartState)
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
   }
 
@@ -133,6 +141,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
               dotStyle={this.styles.legenedDot}></Legend>
           </View>) : null }
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+        {this.getTooltip()}
           <View style={{flex: 1}}>
             {chartWidth ? (
             <Svg

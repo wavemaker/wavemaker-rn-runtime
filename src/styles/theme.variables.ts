@@ -2,7 +2,7 @@ import Color, { rgb } from "color";
 import { Dimensions, StatusBar } from "react-native";
 
 export default class ThemeVariables {
-    
+
     primaryColor = '#4263eb';
     primaryColor1 = Color(this.primaryColor).lighten(0.2).rgb().toString();
     primaryColor2 = Color(this.primaryColor).lighten(0.4).rgb().toString();
@@ -51,7 +51,7 @@ export default class ThemeVariables {
     baseFont = 'Roboto';
     tabbarInactiveColor  = '#d8d8d8';
     maxModalHeight = Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0);
-    maxWidth = Dimensions.get("window").width; 
+    maxWidth = Dimensions.get("window").width;
 
      //rippleColor
      rippleColor = this.transparent
@@ -239,7 +239,7 @@ export default class ThemeVariables {
     checkedIconColor = 'var(--defaultColorF)';
     checkedBorderColor = 'var(--primaryColor)';
     uncheckedBorderColor = 'var(--defaultColor9)';
-    
+
     //form
     formBorderColor = this.widgetBorderColor;
     formTitleColor = this.defaultTextColor;
@@ -416,7 +416,7 @@ export default class ThemeVariables {
     chipActiveTextColor = this.defaultColorF;
     chipDefaultTextColor = this.defaultColorA;
     chipborderColor = this.defaultColorD;
-    chipContainerColor = this.defaultColorF; 
+    chipContainerColor = this.defaultColorF;
     chipIconColor = this.primaryColor;
     chipSelectedOutlineColor = this.defaultColor6;
     chipSelectedContainerColor = this.defaultColor7;
@@ -468,7 +468,6 @@ export default class ThemeVariables {
     audioPlayerFgColor = this.defaultColor3;
 
     //Tool tip
-    tooltipBgColor = Color("#fff").fade(0.6).rgb().toString();
-    tooltipBorderColor = '#404040';
+    tooltipBgColor = "#e7f9fd";
     static INSTANCE = new ThemeVariables();
 }

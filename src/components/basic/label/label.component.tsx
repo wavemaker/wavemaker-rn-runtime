@@ -120,7 +120,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
               {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
               {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
               numberOfLines={props.nooflines} ellipsizeMode="tail">
-              {this.state.parts?.length === 1 ? this.state.props.caption : this.state.parts?.map((part, index) => {
+              {this.state.parts?.length === 1 ? toString(this.state.props.caption) : this.state.parts?.map((part, index) => {
                 const isLink = !isNil(part.link);
                 return (
                   <Text
