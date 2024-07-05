@@ -299,11 +299,11 @@ describe('WmLabel Component', () => {
   });
 
   it('should trigger onTouchStart callback with WmLabel instance as one of the arguments', async () => {
-    const onTapMock = jest.fn();
+    // const onTapMock = jest.fn();
     const onTouchStartMock = jest.fn();
     const tree = render(
       <WmLabel
-        onTap={onTapMock}
+        // onTap={onTapMock}
         onTouchstart={onTouchStartMock}
         caption="Touchstart"
       />
@@ -319,11 +319,11 @@ describe('WmLabel Component', () => {
   });
 
   it('should trigger onTouchEnd callback with WmLabel instance as one of the arguments', async () => {
-    const onTapMock = jest.fn();
+    // const onTapMock = jest.fn();
     const onTouchEndMock = jest.fn();
     const tree = render(
       <WmLabel
-        onTap={onTapMock}
+        // onTap={onTapMock}
         onTouchend={onTouchEndMock}
         caption="Touchend"
       />

@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WmProgressBar Component should render with default properties 1`] = `
+<View
+  style={{}}
+>
+  <View
+    style={
+      {
+        "root": {
+          "height": "100%",
+          "width": "100%",
+        },
+      }
+    }
+  >
+    <View
+      accessibilityRole="progressbar"
+      accessibilityState={
+        {
+          "busy": true,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": 100,
+          "min": 0,
+          "now": 30,
+        }
+      }
+      accessible={true}
+      onLayout={[Function]}
+      style={false}
+      testID="progress-bar"
+    >
+      <View
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "rgba(66, 99, 235, 0.2)",
+            "height": 4,
+            "opacity": 1,
+            "overflow": "hidden",
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
