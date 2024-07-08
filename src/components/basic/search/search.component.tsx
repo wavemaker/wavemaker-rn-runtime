@@ -1,5 +1,6 @@
 import React from 'react';
-import { Keyboard, Platform, ScrollView, Text, TextInput, View } from 'react-native';
+import { Keyboard, Platform, Text, TextInput, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { find, isNull } from 'lodash';
 
 import WmSearchProps from './search.props';

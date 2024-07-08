@@ -78,7 +78,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       wizardBody: {
         alignSelf: 'flex-start',
         paddingTop: 10,
-        flex: 1,
         width: '100%',
         borderWidth: 0,
         borderTopWidth: 1,

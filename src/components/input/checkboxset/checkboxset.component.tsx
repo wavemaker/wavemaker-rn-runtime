@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, DimensionValue, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, DimensionValue } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { find, forEach, isEqual,  isEmpty } from 'lodash';
 import WmCheckboxsetProps from './checkboxset.props';
 import {
@@ -52,7 +53,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     const displayText = item.displayexp || item.displayfield;
     return (
       <TouchableOpacity {...this.getTestPropsForAction(index + '')}
-        style={[this.styles.item, {width: colWidth}]}
+        style={[this.styles.item, item.selected ? this.styles.checkedItem : null, {width: colWidth}]}
         onPress={this.onPress.bind(this, item)} key={item.key} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {hint: props?.hint, checked: item.selected})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${displayText}`}>
         <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled}/>
         {!isEmpty(this.state.template) && this.props.renderitempartial ?

@@ -41,7 +41,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     } as WmLabelStyles,
     listIcon: {
       root: {
-        fontSize: themeVariables.heading4FontSize,
+        fontSize: 18,
         marginRight: 8
       }
     } as WmIconStyles,

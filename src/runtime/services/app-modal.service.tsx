@@ -3,6 +3,7 @@ import { BackHandler } from "react-native";
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { isAndroid, isWebPreviewMode } from "@wavemaker/app-rn-runtime/core/utils";
 
 class AppModalService implements ModalService {
     public modalOptions = {} as ModalOptions;
@@ -13,12 +14,14 @@ class AppModalService implements ModalService {
     animatedRefs: any = [];
 
     private clearBackButtonPress() {
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+      if (isAndroid() && !isWebPreviewMode()) {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+      }
     }
 
     private setBackButtonPress() {
       this.clearBackButtonPress();
-      if (this.modalsOpened.length > 0) {
+      if (isAndroid() && !isWebPreviewMode() && this.modalsOpened.length > 0) {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
       }
     }

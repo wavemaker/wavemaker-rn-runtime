@@ -46,12 +46,13 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
     return (<View
       {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
       style={this.styles.root}
+      onLayout={this.onViewLayoutChange.bind(this)}
     >
       {this.getTooltip()}
       <VictoryChart
         theme={this.state.theme}
         height={this.styles.root.height as number}
-        width={this.styles.root.width as number || this.screenWidth}
+        width={this.state.chartWidth || this.screenWidth}
         padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
       >
         <VictoryLegend

@@ -18,10 +18,7 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import {InterpolationPropType} from "victory-core";
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
-export class WmLineChartState extends BaseChartComponentState<WmLineChartProps> {
-  chartWidth = 0;
-  totalHeight = 0;
-}
+export class WmLineChartState extends BaseChartComponentState<WmLineChartProps> {}
 
 export default class WmLineChart extends BaseChartComponent<WmLineChartProps, WmLineChartState, WmLineChartStyles> {
 
@@ -45,14 +42,6 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
   }
 
-  onViewLayoutChange = (e: LayoutChangeEvent) => {
-    console.log(e.nativeEvent.layout)
-    let viewWidth = e.nativeEvent.layout.width;
-    this.updateState({
-      chartWidth: Number(viewWidth),
-      totalHeight: Number(e.nativeEvent?.layout.height)
-    } as WmLineChartState)
-  }
 
 
   renderWidget(props: WmLineChartProps) {
@@ -72,7 +61,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
       </View>
       <VictoryChart
         theme={this.state.theme}
-        height={(this.state.totalHeight || this.styles.root.height) as number}
+        height={(this.styles.root.height) as number}
         width={this.state.chartWidth || this.screenWidth}
         padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
       >

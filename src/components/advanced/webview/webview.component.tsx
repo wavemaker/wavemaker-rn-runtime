@@ -7,6 +7,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmWebviewProps from './webview.props';
 import { DEFAULT_CLASS, WebviewStyles } from './webview.styles';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
+import { isAndroid, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 class WmWebViewState extends BaseComponentState<WmWebviewProps> {
   currentTarget = {
@@ -25,12 +26,16 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
   constructor(props: WmWebviewProps) {
     super(props, DEFAULT_CLASS, new WmWebviewProps());
     this.hideMode = HideMode.DONOT_ADD_TO_DOM;
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
+    if (isAndroid() && !isWebPreviewMode()) {
+      BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
+    }
   }
 
   componentWillUnmount() {
     super.componentWillUnmount();
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+    if (isAndroid() && !isWebPreviewMode()) {
+      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+    }
   }
 
   handleBackButtonPress = (): boolean => {

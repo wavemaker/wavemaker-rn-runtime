@@ -63,24 +63,34 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
     if ( this.state.data.length > 0 ) {
       const negativeValues = cloneDeep(this.getNegativeValuesArray());
       const data = this.getData();
-      let currentValue = 0;
-      let cornerRadius: any;
-
+      let currentValue = 0;      
       return data.map((d: any, i: number) => {
         let d1: any = [];
+        d.index = d.x;
         d.x = 0;
         d.y = d.y - currentValue;
         d1.push(d);
         currentValue = d.y < 0 && i === negativeValues.length -1 ? 0 : d.y + currentValue;
+        let cornerRadius: any;
         if (i === 0) {
-          cornerRadius = {top: 0, bottom: -5};
-        }
-        if (i === data.length - 1) {
-          cornerRadius = {top: -5, bottom: -5};
+          cornerRadius = { bottom: 10 };
+        } else if (i === data.length - 1) {
+          cornerRadius = { top: 10 };
+        } else {
+          cornerRadius = 0;
         }
         return <VictoryBar key={props.name + '_' + i}
-                           cornerRadius={cornerRadius}
-                           data={d1}/>
+                          cornerRadius={cornerRadius}
+                          barWidth={this.state.props.thickness}
+                          data={d1}
+                          events={[
+                            {
+                              target: 'data',
+                              eventHandlers: Platform.OS === 'web'
+                                ? { onClick: this.onSelect.bind(this) }
+                                : { onPress: this.onSelect.bind(this) }
+                            }
+                          ]}/>
       });
     }
   }
@@ -170,17 +180,20 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
   }
 
   onSelect(event: any, data: any){
-    let value = data.data[data.index].y;
-    let label = this.state.xaxisDatakeyArr[data.datum.x];
-    let selectedItem = this.props.dataset[data.index];
-    let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
+    let props = this.state.props
+    let index = data.datum.index
+    let yaxisKey = props.yaxisdatakey;
+    let label = this.state.xaxisDatakeyArr[index];
+    let value = props.dataset[index][yaxisKey];
+    let selectedItem = props.dataset[index];
+    let selectedChartItem = [{series: 0, x: index, y: value,_dataObj: selectedItem}, index];
     const nativeEvent = event.nativeEvent;
     this.setTooltipPosition(nativeEvent);
     this.updateState({
       tooltipXaxis: label,
       tooltipYaxis: value,
       isTooltipOpen: true,
-      selectedItem: {...selectedItem, index: data.index},
+      selectedItem: {...selectedItem, index: index},
     } as WmStackChartState)
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
   }
@@ -229,25 +242,16 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
                          style={{
                            tickLabels: { fill: this.state.props.showyaxis === false ? 'transparent' : '#000000',  fontSize: 12, padding: this.state.props.thickness/2 + 5},
                            axisLabel: { padding: (15 + this.state.props.thickness/2) },
-                           grid: {stroke: 'none'}
+                           grid: {stroke: 'none'},
+                           axis: {stroke: 'none'},
+                           ticks: {stroke: 'none'}
                          }}
                          theme={this.state.theme}
                          tickValues={this.getTickValues()}
-                         tickFormat={(t) => this.state.props.yunits ? `${this.abbreviateNumber(t)}${this.state.props.yunits}` : `${this.abbreviateNumber(t)}`} dependentAxis />
+                         tickFormat={(t: any) => this.state.props.yunits ? `${this.abbreviateNumber(t)}${this.state.props.yunits}` : `${this.abbreviateNumber(t)}`} dependentAxis />
             <VictoryStack
               colorScale={this.updateColors()}
               horizontal={true}
-              style={{
-                data: { strokeWidth: this.state.props.thickness }
-              }}
-              events={[{
-                target: 'data',
-                eventHandlers: Platform.OS == "web" ? {
-                  onClick: this.onSelect.bind(this)
-                }:{
-                  onPress: this.onSelect.bind(this)
-                }
-              }]}
             >
               {
                 this.getBarChart(props)

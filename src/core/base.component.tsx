@@ -1,7 +1,7 @@
 import { assign, isUndefined, isNil } from 'lodash';
 import React, { ReactNode } from 'react';
 import { AccessibilityInfo, Platform, TextStyle, ViewStyle } from 'react-native';
-import { AnimatableProperties } from 'react-native-animatable';
+import { AnimatableProps } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { StyleProps, getStyleName } from '@wavemaker/app-rn-runtime/styles/style-props';
@@ -27,7 +27,7 @@ export const ParentContext = React.createContext(null as any);
 
 export class BaseComponentState<T extends BaseProps> {
     public animationId?: number = 0;
-    public animatableProps?: AnimatableProperties<ViewStyle> = undefined;
+    public animatableProps?: AnimatableProps<ViewStyle> = undefined;
     public props = {} as T;
     public hide? = false;
 }
@@ -177,7 +177,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.i18nService.isRTLLocale();
     }
 
-    public animate(props: AnimatableProperties<ViewStyle>) {
+    public animate(props: AnimatableProps<ViewStyle>) {
         this.setState({
             animationId: Date.now(),
             animatableProps: props

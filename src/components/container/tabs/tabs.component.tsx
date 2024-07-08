@@ -202,7 +202,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
             width: '100%',
             flex: 1
           }, this.styles.root.height ?
-          (isWebPreviewMode() ? {'overflow-x': 'hidden','overflow-y': 'auto'} as any : {overflow: 'scroll'})
+          (isWebPreviewMode() ? {'overflowX': 'hidden','overflowY': 'auto'} as any : {overflow: 'scroll'})
           : {
             overflow: 'hidden',
             maxHeight: this.tabPaneHeights[this.state.selectedTabIndex],
