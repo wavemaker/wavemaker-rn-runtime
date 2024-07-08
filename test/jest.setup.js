@@ -96,3 +96,20 @@ jest.mock(
     });
   }
 );
+
+jest.mock(
+  'react-native/Libraries/Components/AccessibilityInfo/AccessibilityInfo',
+  () => {
+    const originalModule = jest.requireActual(
+      'react-native/Libraries/Components/AccessibilityInfo/AccessibilityInfo'
+    );
+    return {
+      _esModule: true,
+      default: {
+        ...originalModule,
+        addEventListener: jest.fn(),
+        isScreenReaderEnabled: jest.fn(() => Promise.resolve(true)),
+      },
+    };
+  }
+);

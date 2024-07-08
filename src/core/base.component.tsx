@@ -230,7 +230,6 @@ export abstract class BaseComponent<
   reset() {}
 
   updateState(newPartialState: S, callback?: () => void) {
-    console.log('in update state ====');
     if (this.destroyed) {
       return;
     }
