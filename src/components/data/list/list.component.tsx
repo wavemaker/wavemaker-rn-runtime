@@ -340,7 +340,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return (index < this.state.maxRecordsToShow || isHorizontal) ? (
       <Swipeable
       renderLeftActions={() => this.renderLeftActions()}
-      renderRightActions={() => this.renderRightActions()}>
+      renderRightActions={() => this.renderRightActions()} containerStyle={ cols ? { width: round(100/cols) + "%" , flex: null } as any :{}}>
       <View style={[
         this.styles.item,
         props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
