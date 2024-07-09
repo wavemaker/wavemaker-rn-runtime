@@ -318,25 +318,16 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
           onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
           styles={
-            [
+            [{display: 'flex', flexDirection : 'row'},
               cols ? {
                 width: '100%'
               } : null,
-              cols || isHorizontal? {
-                paddingRight: (isNil(this.styles.item.marginRight) 
-                  ? this.styles.item.margin : this.styles.item.marginRight) || 4
-              }: null
             ]
           }>
-          <View style={[
-              this.styles.item,
-              props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-              this.isSelected(item) ? this.styles.selectedItem : {}]}>
-            { props.renderItem(item, index, this)}
-            { this.isSelected(item) ? (
-              <WmIcon id={this.getTestId('icon' + index)}iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
-            ) : null}
-          </View>
+          {props.renderItem(item, index, this)}
+          {this.isSelected(item) ? (
+            <WmIcon id={this.getTestId('icon' + index)} iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
+          ) : null}
         </Tappable>
       </View>
       ) : null;
