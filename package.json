@@ -49,6 +49,7 @@
     "url": "http://wavemaker.com/issues"
   },
   "homepage": "http://wavemaker.com#readme",
+  "bundledDependencies": true,
   "dependencies": {
     "@expo/vector-icons": "13.0.0",
     "@react-native-async-storage/async-storage": "1.18.2",
