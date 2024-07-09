@@ -97,19 +97,23 @@ jest.mock(
   }
 );
 
+
+const appConfig = {
+  app: {
+    toastsOpened: 1,
+  },
+  refresh: ()=>{}
+}
+
 jest.mock(
-  'react-native/Libraries/Components/AccessibilityInfo/AccessibilityInfo',
+  '@wavemaker/app-rn-runtime/core/injector',
   () => {
-    const originalModule = jest.requireActual(
-      'react-native/Libraries/Components/AccessibilityInfo/AccessibilityInfo'
-    );
+    const actualInjector = jest.requireActual('@wavemaker/app-rn-runtime/core/injector');
     return {
-      _esModule: true,
-      default: {
-        ...originalModule,
-        addEventListener: jest.fn(),
-        isScreenReaderEnabled: jest.fn(() => Promise.resolve(true)),
-      },
-    };
+      ...actualInjector,
+      get: jest.fn().mockImplementation(()=>{
+        return appConfig;
+      })
+    }
   }
-);
+)
