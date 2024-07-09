@@ -319,14 +319,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
           onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
           styles={
-            [
+            [{display: 'flex', flexDirection : 'row'},
               cols ? {
                 width: '100%'
               } : null,
-              cols || isHorizontal ? {
-                paddingRight: (isNil(this.styles.item.marginRight)
-                  ? this.styles.item.margin : this.styles.item.marginRight) || 4
-              } : null
             ]
           }>
           {props.renderItem(item, index, this)}
