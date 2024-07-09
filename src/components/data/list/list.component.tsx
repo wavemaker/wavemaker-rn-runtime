@@ -311,7 +311,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       <View style={[
         this.styles.item,
         props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-        this.isSelected(item) ? this.styles.selectedItem : {}]}>
+        this.isSelected(item) ? this.styles.selectedItem : {}, cols ? {width: round(100/cols) + "%" as any, flex: null} : {}]}>
         <Tappable
           {...this.getTestPropsForAction(`item${index}`)}
           onTap={() => this.onSelect(item, index, true)}
