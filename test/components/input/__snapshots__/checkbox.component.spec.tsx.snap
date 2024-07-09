@@ -1,0 +1,197 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WmCheckbox Unit tests does not respond to press events when disabled 1`] = `
+<View
+  accessibilityLabel="Checkbox for Test Checkbox"
+  accessibilityRole="checkbox"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": false,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignContent": "center",
+      "flexDirection": "row",
+      "opacity": 0.8,
+    }
+  }
+>
+  <View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "alignSelf": "flex-start",
+          "flexDirection": "row",
+        }
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessible={true}
+      >
+        <View>
+          <Text
+            size={12}
+            style={
+              [
+                {
+                  "color": undefined,
+                },
+                {
+                  "paddingLeft": 0,
+                  "paddingRight": 8,
+                },
+                {
+                  "transform": [
+                    {
+                      "rotate": "0deg",
+                    },
+                  ],
+                },
+              ]
+            }
+          >
+            check
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <Text
+    style={
+      {
+        "alignSelf": "center",
+        "color": "#aaaaaa",
+        "fontFamily": "Roboto",
+        "fontSize": 16,
+        "marginLeft": 8,
+        "userSelect": "text",
+      }
+    }
+  >
+    Test Checkbox
+  </Text>
+</View>
+`;
+
+exports[`WmCheckbox Unit tests renders correctly with default props 1`] = `
+<View
+  accessibilityLabel="Checkbox for Test Checkbox"
+  accessibilityRole="checkbox"
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": false,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignContent": "center",
+      "flexDirection": "row",
+      "opacity": 1,
+    }
+  }
+>
+  <View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "alignSelf": "flex-start",
+          "flexDirection": "row",
+        }
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessible={true}
+      >
+        <View>
+          <Text
+            size={12}
+            style={
+              [
+                {
+                  "color": undefined,
+                },
+                {
+                  "paddingLeft": 0,
+                  "paddingRight": 8,
+                },
+                {
+                  "transform": [
+                    {
+                      "rotate": "0deg",
+                    },
+                  ],
+                },
+              ]
+            }
+          >
+            check
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <Text
+    style={
+      {
+        "alignSelf": "center",
+        "color": "#888888",
+        "fontFamily": "Roboto",
+        "fontSize": 16,
+        "marginLeft": 8,
+        "userSelect": "text",
+      }
+    }
+  >
+    Test Checkbox
+  </Text>
+</View>
+`;
