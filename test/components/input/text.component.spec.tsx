@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import {act, fireEvent, render, waitFor} from '@testing-library/react-native';
 import WmText from '@wavemaker/app-rn-runtime/components/input/text/text.component';
-import { TextInput } from 'react-native';
+import { Platform, TextInput } from 'react-native';
 
 const defaultProps = {
   id: 'wmText',
@@ -166,4 +166,37 @@ describe('Text component', () => {
     const input = getByPlaceholderText('Enter text');
     expect(input.props.autoComplete).toBe('off');
   });
+
+  test('should have default value for native platform', () => {
+    const tree = render(<WmText {...defaultProps} datavalue="sample text"/>)
+    expect(tree.UNSAFE_getByType(TextInput).props.defaultValue).toBe("sample text");
+    expect(tree).toMatchSnapshot();
+  })
+
+  test('should have default web for native platform', () => {
+    (Platform as any).OS = 'web';
+
+    const tree = render(<WmText {...defaultProps} datavalue="sample text"/>)
+    expect(tree.UNSAFE_getByType(TextInput).props.value).toBe("sample text");
+    expect(tree).toMatchSnapshot();
+  })
+
+  test('should not show component when show prop is false', () => {
+    const tree = render(<WmText {...defaultProps} show={false}/>)
+    expect(tree).toMatchSnapshot();
+
+    const styleArr = tree.getByPlaceholderText("Enter text").props.style[0];
+    const style = {};
+    styleArr.forEach(item => {
+      if(!item) return;
+      Object.keys(item).forEach(key => {
+        style[key] = item[key]
+      })
+    })
+
+    expect(style).toMatchObject({
+      height: 0,
+      width:0
+    })
+  })
 });
