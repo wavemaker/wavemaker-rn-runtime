@@ -59,26 +59,46 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
     }
   }
 
+  getLegendColors(){
+    if (this.state.colors.length === 1 ) {
+      return this.state.colors[0];
+  } else {
+      let colorCodes = cloneDeep(this.state.colors);
+      if ( this.state.data.length > 0 ) {
+        const orderedData = orderBy(this.state.data[0], 'y', 'asc');;
+        this.state.data[0].map((d: any, i: number) => {
+          let index = findIndex(orderedData, d);
+          colorCodes[index] = this.state.colors[i];
+        })
+        return colorCodes;
+      }
+   }
+ }
+
   getBarChart(props: WmStackChartProps) {
     if ( this.state.data.length > 0 ) {
       const negativeValues = cloneDeep(this.getNegativeValuesArray());
       const data = this.getData();
-      let currentValue = 0;      
+      let currentValue = 0;
+      const yValues = data.map((d: any) => d.y);
+      const minValue = Math.min(...yValues);
+      const maxValue = Math.max(...yValues);
+
       return data.map((d: any, i: number) => {
+        let cornerRadius: any;
+        if (d.y === minValue) {
+          cornerRadius = d.y > 0 ? { bottom: 10 } : { top: 10 };
+        } else if (d.y === maxValue) {
+          cornerRadius = d.y > 0 ? { top: 10 } : { bottom: 10 };
+        } else {
+          cornerRadius = 0;
+        }        
         let d1: any = [];
         d.index = d.x;
         d.x = 0;
         d.y = d.y - currentValue;
         d1.push(d);
         currentValue = d.y < 0 && i === negativeValues.length -1 ? 0 : d.y + currentValue;
-        let cornerRadius: any;
-        if (i === 0) {
-          cornerRadius = { bottom: 10 };
-        } else if (i === data.length - 1) {
-          cornerRadius = { top: 10 };
-        } else {
-          cornerRadius = 0;
-        }
         return <VictoryBar key={props.name + '_' + i}
                           cornerRadius={cornerRadius}
                           barWidth={this.state.props.thickness}
@@ -237,7 +257,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
               data={[]}
               theme={this.state.theme}
             />
-            {this.getLegendView(this.updateColors())}
+            {this.getLegendView(this.getLegendColors())}
             <VictoryAxis crossAxis
                          style={{
                            tickLabels: { fill: this.state.props.showyaxis === false ? 'transparent' : '#000000',  fontSize: 12, padding: this.state.props.thickness/2 + 5},
