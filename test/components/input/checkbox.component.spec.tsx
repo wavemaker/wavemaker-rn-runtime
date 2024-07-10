@@ -7,7 +7,6 @@ import {
 } from '@testing-library/react-native';
 import WmCheckbox from '@wavemaker/app-rn-runtime/components/input/checkbox/checkbox.component';
 import WmCheckboxProps from '../../../src/components/input/checkbox/checkbox.props';
-import '@testing-library/jest-native/extend-expect';
 
 // jest.mock(
 //   '@wavemaker/app-rn-runtime/components/basic/icon/icon.component',
