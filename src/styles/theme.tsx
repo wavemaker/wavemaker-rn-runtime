@@ -43,6 +43,7 @@ interface StyleEntry {
         position: number,
         themeName: string,
         name: string,
+        classes: string[],
         selector: Selector
     }
 }
@@ -56,6 +57,10 @@ class StyleStore {
 
     }
 
+    filter(fn: (s: StyleEntry) => Boolean) {
+        return flatten([...this.styles.values()]).filter(fn);
+    }
+
     set(selector: string, style: any) {
         let mSelector = selector;
         if (!(selector.startsWith('.') || selector.startsWith('wm-'))) {
@@ -67,6 +72,7 @@ class StyleStore {
             position: this.position++,
             themeName: this.themeName,
             name: selector,
+            classes: selector.split(/[\s]+/).flatMap(s => s.match(/\.[\d\w-_]*/g)),
             selector: parseSelector(mSelector) 
         };
         const clases = last(mSelector.trim().split(' '))?.split(':')[0].split('.');
@@ -76,6 +82,25 @@ class StyleStore {
                 styles.push(style)
                 this.styles.set(c, styles);
             }
+        });
+    }
+
+    hasMatchingStyles(node: WmComponentNode): boolean {
+        const classname = node.classname;
+        const clases = [node.type, ...classname.trim().split(' ')];
+        let filteredStyles = [] as StyleEntry[];
+        clases?.forEach((c) => {
+            if (c) {
+                filteredStyles.push(...(this.styles.get(c) || []));
+            }
+        });
+        return !!filteredStyles
+        .find((s: any) => {
+            if (!!s.__meta.selector.select(node) 
+                && (!s['@media'] || matchMedia(s['@media']).matches)) {
+                return true;
+            }
+            return false;
         });
     }
 
@@ -101,6 +126,7 @@ class StyleStore {
 }
 
 export class Theme {
+    public static EMPTY = new Theme(null as any, 'empty');
     public static BASE = new Theme(null as any, 'default');
 
     static {
@@ -292,6 +318,21 @@ export class Theme {
         return style;
     }
 
+    private filterStyle(filter: (s: StyleEntry) => boolean): StyleEntry[] {
+        const parentStyles = this.parent?.filterStyle(filter) || [];
+        const styles = this.styleStore.filter(filter);
+        return [...parentStyles, ...styles];
+    }
+
+    public filterTheme(filter: (s: StyleEntry) => boolean): Theme {
+        const filteredTheme = Theme.EMPTY.$new('');
+        this.filterStyle(filter).forEach(s => {
+            if (s.__meta) {
+                filteredTheme.styleStore.set(s.__meta.name, s);
+            }
+        });
+        return filteredTheme;
+    }
 
     getStyle(name: string | WmComponentNode, fromParentAlso = true) {
         let node : WmComponentNode;
@@ -326,6 +367,12 @@ export class Theme {
             this.removeTrace(style);
         }
         return this.cleanseStyleProperties(style);
+    }
+
+    public hasMatchingStyles(node: WmComponentNode, fromParentAlso = true): boolean {
+        const parentHas = (fromParentAlso && this.parent) ? 
+            this.parent.hasMatchingStyles(node, fromParentAlso) : false;
+        return parentHas || this.styleStore.hasMatchingStyles(node);
     }
 
     private getStyleByNode(node: WmComponentNode, fromParentAlso = true) {

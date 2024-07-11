@@ -1,3 +1,4 @@
+import { uniq } from "lodash-es";
 import { BaseComponent } from "./base.component";
 
 export class WmComponentNode {
@@ -23,28 +24,33 @@ export class WmComponentNode {
 
     set classname(val: string) {
         if (val != this._classnameVal) {
+            const classesToFind = new Map(uniq([
+                ...val?.split('.') || [], 
+                ...this._classnameVal?.split('.') || []])
+                .filter(c => c)
+                .map((c) => ['.' + c.trim(), true]));
             this._classnameVal = val || '';
             this._classnameMap = new Map();
             val?.split(' ').filter(c => !!c).forEach(c => {
                 this._classnameMap.set(c, true);
             });
-            this.refresh();
+            const themeToMatch = this.instance?.theme
+                .filterTheme(s => !!s.__meta?.classes.filter(c => classesToFind.has(c)));
+            this.refresh((node) => {
+                return !!themeToMatch?.hasMatchingStyles(node);
+            });
         }
     }
 
-    private refreshSiblings() {
-        // refresh siblings
-        this.parent?.children?.forEach((c) => {
-            c?.instance?.refresh();
-        });
-    }
-
-    private refresh() {
-        this.refreshSiblings();
-        this.instance?.refresh();
-        this.children?.forEach((c) => {
-            c?.refresh();
-        });
+    private refresh(only?: (node: WmComponentNode) => boolean) {
+        if (!only || only(this)) {
+            this.instance?.refresh();
+        }
+        if (only) {
+            this.children?.forEach((c) => {
+                c?.refresh(only);
+            });
+        }
     }
 
     get classname() {
