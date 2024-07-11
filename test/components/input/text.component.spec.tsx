@@ -198,5 +198,32 @@ describe('Text component', () => {
       height: 0,
       width:0
     })
-  })
+  });
+
+  test('should have keyboardType as numeric for type as number', () => {
+    const { getByPlaceholderText } = render(
+      <WmText {...defaultProps} type='number' />
+    );
+
+    const input = getByPlaceholderText('Enter text');
+    expect(input.props.keyboardType).toBe('numeric')
+  });
+
+  test('should have keyboardType as phone-pad for type as tel', () => {
+    const { getByPlaceholderText } = render(
+      <WmText {...defaultProps} type='tel' />
+    );
+
+    const input = getByPlaceholderText('Enter text');
+    expect(input.props.keyboardType).toBe('phone-pad')
+  });
+
+  test('should have keyboardType as email-address for type as email', () => {
+    const { getByPlaceholderText } = render(
+      <WmText {...defaultProps} type='email' />
+    );
+
+    const input = getByPlaceholderText('Enter text');
+    expect(input.props.keyboardType).toBe('email-address')
+  });
 });
