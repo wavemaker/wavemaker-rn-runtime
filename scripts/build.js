@@ -29,11 +29,18 @@ async function postBuild(runtimeVersion) {
     console.log('Post Build successful!!!');
 }
 
-async function prepareNpmPackages() {
+async function prepareNpmPackages(runtimeVersion) {
     fs.copySync(`${projectDir}/dist/module`, `${projectDir}/dist/npm-packages/app-rn-runtime`, {
         filter: p => !p.startsWith('/node_modules/')
     });
-    await execa('tar', ['-czf', 'dist/npm-packages/app-rn-runtime.tar.gz', '-C', 'dist/npm-packages', 'app-rn-runtime']);
+    //this check is required for repeat builds in local builds to avoid unnecessary copy time
+    if(!fs.existsSync(`${projectDir}/node_modules/.bin`)) {
+      fs.copySync(`${projectDir}/node_modules`, `${projectDir}/dist/npm-packages/app-rn-runtime/node_modules`);
+    }
+    await execa('npm', ['pack'], {
+        'cwd': `${projectDir}/dist/npm-packages/app-rn-runtime`
+    });
+    fs.copySync(`${projectDir}/dist/npm-packages/app-rn-runtime/wavemaker-app-rn-runtime-${runtimeVersion}.tgz`, `${projectDir}/dist/npm-packages/wavemaker-app-rn-runtime-${runtimeVersion}.tgz`);
 }
 
 async function pushToLocalRepo() {
@@ -58,7 +65,7 @@ yargs(hideBin(process.argv)).command('post-build',
     }, (argv) => {
         postBuild(argv.runtimeVersion).then(() => {
             if (argv.production) {
-                return prepareNpmPackages();
+                return prepareNpmPackages(argv.runtimeVersion);
             } else {
                 return pushToLocalRepo();
             }
