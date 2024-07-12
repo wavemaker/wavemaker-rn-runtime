@@ -163,11 +163,18 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
       return;
     }
 
-    this.updateState({
-      props: {
-        datavalue: model || Number(value)
+    new Promise((resolve) => {
+      if (props.hastwowaybinding) {
+        this.setProp("datavalue", value);
+        resolve(true);
+      } else {
+        this.updateState({
+          props: {
+            datavalue: model || Number(value)
+          }
+        } as S, () => resolve(true));
       }
-    } as S, () => {
+    }).then(() => {
       !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, model, oldValue]);
       if (source === 'blur') {
         this.invokeEventCallback('onBlur', [event, this.proxy]);

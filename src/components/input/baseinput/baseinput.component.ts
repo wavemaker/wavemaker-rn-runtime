@@ -95,18 +95,23 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     if (props.autotrim && props.datavalue && isString(props.datavalue)) {
       value = value.trim();
     }
-
-    this.updateState({
-      props: {
-        datavalue: value
+    new Promise((resolve) => {
+      if (props.hastwowaybinding) {
+        this.setProp("datavalue", value);
+        resolve(true);
+      } else {
+        this.updateState({
+          props: {
+            datavalue: value
+          }
+        } as S, () => resolve(true));
       }
-    } as S, () => {
-        !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
-        if (source === 'blur') {
-          this.invokeEventCallback('onBlur', [ event, this.proxy]);
-        }
+    }).then(() => {
+      !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
+      if (source === 'blur') {
+        this.invokeEventCallback('onBlur', [ event, this.proxy]);
+      }
     })
-
   }
 
   onBlur(event: any) {
