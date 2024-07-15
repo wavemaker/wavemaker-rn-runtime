@@ -7,6 +7,7 @@ import { WMTextInput } from '@wavemaker/app-rn-runtime/core/components/textinput
 import { BaseInputComponent, BaseInputState } from "@wavemaker/app-rn-runtime/components/input/baseinput/baseinput.component";
 import { isNull } from 'lodash';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { createSkeleton } from '../../basic/skeleton/skeleton.component';
 
 export class WmTextState extends BaseInputState<WmTextProps> {
 }
@@ -24,6 +25,12 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
     }
     classes.push(super.getStyleClassName());
     return classes.join(' ');
+  }
+
+  public renderSkeleton(props: WmTextProps): React.ReactNode { 
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root
+    })
   }
 
   renderWidget(props: WmTextProps) {

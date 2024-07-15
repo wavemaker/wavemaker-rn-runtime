@@ -2,6 +2,7 @@ import { Platform, TextStyle } from 'react-native';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
+import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
 
 export type WmSearchStyles = BaseStyles & {
   focusedText: TextStyle,
@@ -15,6 +16,7 @@ export type WmSearchStyles = BaseStyles & {
   searchInputWrapper: AllStyle;
   placeholderText: AllStyle;
   invalid: AllStyle;
+  skeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-search';
@@ -124,7 +126,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       placeholderText: {
         color: themeVariables.inputPlaceholderColor
-      }
+      },
+      skeleton: {
+        root: {
+          width: '100%',
+          height: '100%',
+        }
+      } as any as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

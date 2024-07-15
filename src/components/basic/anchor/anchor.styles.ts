@@ -8,6 +8,7 @@ export type WmAnchorStyles = BaseStyles & {
     badge: AllStyle,
     icon: WmIconStyles
     skeleton: WmSkeletonStyles
+    badgeSkeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-anchor';
@@ -51,7 +52,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 height: 20,
                 borderRadius: 4
             }
-        } as any as WmSkeletonStyles
+        } as any as WmSkeletonStyles,
+        badgeSkeleton: {
+            root: {
+                backgroundColor: themeVariables.lightGrayColor 
+            }
+          }  as WmSkeletonStyles
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

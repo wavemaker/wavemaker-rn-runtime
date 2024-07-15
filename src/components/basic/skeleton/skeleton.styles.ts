@@ -1,6 +1,6 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { ViewStyle } from 'react-native';
+import { ColorValue, ViewStyle } from 'react-native';
 
 export type WmSkeletonStyles = BaseStyles & {
     animatedView: AllStyle;

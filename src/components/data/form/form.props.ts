@@ -21,4 +21,5 @@ export default class WmFormProps extends BaseProps {
   onError: Function = () => {};
   onBeforerender: Function = () => {};
   generateComponent: Function = (metadata:any) => {};
+  showinfoskeleton: boolean = false;
 }

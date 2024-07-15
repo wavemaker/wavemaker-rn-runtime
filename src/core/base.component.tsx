@@ -19,6 +19,7 @@ import { FixedView } from './fixed-view.component';
 import { TextIdPrefixConsumer } from './testid.provider';
 import { isScreenReaderEnabled } from './accessibility';
 import { Tappable, TappableContext } from './tappable.component';
+import { WmSkeletonStyles } from '../components/basic/skeleton/skeleton.styles';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -61,8 +62,9 @@ export class BaseProps extends StyleProps {
     classname?: string = null as any;
     listener?: LifecycleListener = null as any;
     showindevice?: ('xs'|'sm'|'md'|'lg'|'xl'|'xxl')[] = null as any;
-    showskeleton?: boolean = false;
+    showskeleton?: boolean = undefined;
     deferload?: boolean = false;
+    showskeletonchildren?: boolean = true;
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
@@ -450,8 +452,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                             return (<ParentContext.Consumer>
                                 {(parent) => {
                                     this.setParent(parent);
-                                    this._showSkeleton = this.parent?._showSkeleton 
-                                        || !!this.state.props.showskeleton;
+                                    this._showSkeleton = this.state.props.showskeleton !== false 
+                                        && (this.parent?._showSkeleton || this.state.props.showskeleton === true);
                                     return (
                                         <ParentContext.Provider value={this}>
                                             <ThemeConsumer>
@@ -469,7 +471,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 </TextIdPrefixConsumer>)}}
         </TappableContext.Consumer>); 
     }
-      
+    
     public render(): ReactNode {
         const props = this.state.props;
         this.isFixed = false;

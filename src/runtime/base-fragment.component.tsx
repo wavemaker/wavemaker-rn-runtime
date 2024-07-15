@@ -278,16 +278,16 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.cleanup.push(...variables.map(v => {
           return ((v as BaseVariable<any>)
             .subscribe(VariableEvents.BEFORE_INVOKE, () => {
-              spinnerService.show({
+              /*spinnerService.show({
                 message: get(v, 'config.spinnerMessage'),
                 spinner: this.App.appConfig.spinner
-              });
+              });*/
             }))
       }));
       this.cleanup.push(...variables.map(v => {
         return ((v as BaseVariable<any>)
           .subscribe(VariableEvents.AFTER_INVOKE, () => {
-            spinnerService.hide();
+            //spinnerService.hide();
           }));
       }));
     }

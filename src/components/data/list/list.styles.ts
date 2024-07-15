@@ -3,6 +3,7 @@ import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmLabelStyles } from '@wavemaker/app-rn-runtime/components/basic/label/label.styles';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export type WmListStyles = BaseStyles & {
     heading: AllStyle,
@@ -17,6 +18,7 @@ export type WmListStyles = BaseStyles & {
     selectedItem: AllStyle,
     selectedIcon: WmIconStyles,
     group: AllStyle,
+    skeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-list';
@@ -120,7 +122,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 color: themeVariables.primaryColor,
                 fontSize: 16
             }
-        } as WmIconStyles
+        } as WmIconStyles,
+        skeleton: {
+            root: {
+                shadowColor: 'transparent',
+                paddingTop: 0,
+                paddingBottom: 0,    
+                paddingLeft: 0,
+                paddingRight: 0,    
+            }
+        } as any as WmSkeletonStyles
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

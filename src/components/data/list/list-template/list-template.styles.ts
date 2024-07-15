@@ -1,7 +1,10 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
-export type WmListTemplateStyles = BaseStyles & {};
+export type WmListTemplateStyles = BaseStyles & {
+    skeleton: WmSkeletonStyles
+};
 
 export const DEFAULT_CLASS = 'app-list-template';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
@@ -9,7 +12,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root: {
             backgroundColor: themeVariables.listHeaderBgColor,
         },
-        text: {}
+        text: {},
+        skeleton: {
+            root: {
+                backgroundColor: themeVariables.lightGrayColor,
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingTop: 16,
+                paddingBottom: 16,
+                flex: 1
+            }
+        } as any as WmSkeletonStyles
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

@@ -12,6 +12,8 @@ import WmListActionTemplate from './list-action-template/list-action-template.co
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
+import { createSkeleton } from '../../basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 
 export class WmListState extends BaseComponentState<WmListProps> {
@@ -337,12 +339,18 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderItem(item: any, index: number, props: WmListProps) {
     const cols = this. getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
+    
+    const styles = this._showSkeleton ? {
+      ...this.styles.item,
+      ...this.styles.skeleton.root
+    } : this.styles.item
+
     return (index < this.state.maxRecordsToShow || isHorizontal) ? (
       <Swipeable
       renderLeftActions={() => this.renderLeftActions()}
       renderRightActions={() => this.renderRightActions()} containerStyle={ cols ? { width: round(100/cols) + "%" , flex: null } as any :{}}>
       <View style={[
-        this.styles.item,
+        styles,
         props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
         this.isSelected(item) ? this.styles.selectedItem : {}]}>
         <Tappable
@@ -428,7 +436,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               scrollEnabled={isHorizontal}
               horizontal = {isHorizontal}
-              data={isEmpty(v.data[0]) ? []: v.data}
+              data={this._showSkeleton? [{}, {}, {}] : (isEmpty(v.data[0]) ? []: v.data)}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
               {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}>
@@ -447,7 +455,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     </View>);
   }
 
-  private getSectionListData() {
+  private getSectionListData(props: WmListProps) {
     if (this._showSkeleton) {
       return [{
         key: '',
@@ -467,7 +475,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
         horizontal = {isHorizontal}
         contentContainerStyle={this.styles.root}
-        sections={this.getSectionListData()}
+        sections={this.getSectionListData(props)}
         renderSectionHeader={({ section: {key, data}}) => {
           return this.renderHeader(props, key);
         }}

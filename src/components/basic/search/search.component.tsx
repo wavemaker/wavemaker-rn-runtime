@@ -1,5 +1,5 @@
 import React from 'react';
-import { Keyboard, Platform, Text, TextInput, View } from 'react-native';
+import { DimensionValue, Keyboard, Platform, Text, TextInput, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { find, isNull } from 'lodash';
 
@@ -19,6 +19,7 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import { get, isArray, isEmpty, isObject } from "lodash-es";
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
+import { createSkeleton } from '../skeleton/skeleton.component';
 
 export class WmSearchState extends BaseDatasetState<WmSearchProps> {
   isOpened: boolean = false;
@@ -258,6 +259,16 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       this.invokeEventCallback('onSubmit', [null, this]);
     }
     this.hide();
+  }
+
+  public renderSkeleton(props: WmSearchProps): React.ReactNode {
+    const {skeletonwidth, skeletonheight} = this.props;
+    
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root,
+      width: skeletonwidth as DimensionValue,
+      height: skeletonheight as DimensionValue,
+    })
   }
 
   renderSearchBar() {

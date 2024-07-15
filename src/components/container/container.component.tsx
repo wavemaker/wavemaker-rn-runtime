@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewStyle } from 'react-native';
+import { ColorValue, View, ViewStyle } from 'react-native';
 
 import WmContainerProps from './container.props';
 import { DEFAULT_CLASS, WmContainerStyles } from './container.styles';
@@ -21,8 +21,14 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       width: this.styles.root.width ? '100%' : undefined,
       height: this.styles.root.height ? '100%' : undefined
     };
+
+    const styles: ViewStyle = this._showSkeleton ? {
+      ...this.styles.root,
+      ...this.styles.skeleton.root
+    } : this.styles.root
+
     return (
-      <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root}>
+      <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={styles}>
         {this._background}
         <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions}>
             <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View>

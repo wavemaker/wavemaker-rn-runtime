@@ -34,12 +34,23 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     this.invokeEventCallback('onTap', [e, this.proxy]);
   }
 
-  public renderSkeleton(props: WmAnchorProps){
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root,
-      width: this.props.skeletonwidth || this.styles.root.width,
-      height: this.props.skeletonheight || this.styles.root.height
-    });
+  // public renderSkeleton(props: WmAnchorProps){
+  //   return createSkeleton(this.theme, this.styles.skeleton, {
+  //     ...this.styles.root,
+  //     width: this.props.skeletonwidth || this.styles.root.width,
+  //     height: this.props.skeletonheight || this.styles.root.height
+  //   });
+  // }
+  
+  renderBadge() {
+    const { badgevalue } = this.props;
+    if(this._showSkeleton) {
+      return createSkeleton(this.theme, this.styles.badgeSkeleton, {
+        ...this.styles.badge,
+        marginTop: -50
+      })
+    }
+    return badgevalue != undefined ? (<Badge style={this.styles.badge}>{badgevalue}</Badge>): null;
   }
 
   renderWidget(props: WmAnchorProps) {
@@ -71,7 +82,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
       />
     );
     //@ts-ignore
-    const badge = badgevalue != undefined ? (<Badge style={this.styles.badge}>{badgevalue}</Badge>): null;
+    // const badge = badgevalue != undefined ? (<Badge style={this.styles.badge}>{badgevalue}</Badge>): null;
     return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
@@ -86,7 +97,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
               {...getAccessibilityProps(AccessibilityWidgetType.ANCHOR, props)}
               numberOfLines={props.nooflines}>{props.caption}</Text>) : null}
               {props.iconposition === 'right' && icon}
-              {badge}
+              {this.renderBadge()}
             </Tappable>
           </Animatedview>)
       }

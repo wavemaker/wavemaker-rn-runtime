@@ -3,13 +3,15 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import { WmPictureStyles } from '@wavemaker/app-rn-runtime/components/basic/picture/picture.styles';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { WmLabelStyles } from '@wavemaker/app-rn-runtime/components/basic/label/label.styles';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export type WmCardStyles = BaseStyles & {
     heading: AllStyle,
     cardIcon: WmIconStyles,
     title: WmLabelStyles,
     subheading: WmLabelStyles,
-    picture: WmPictureStyles
+    picture: WmPictureStyles,
+    skeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-card';
@@ -53,7 +55,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             root : {
                 width: '100%'
             }
-        } as any as WmPictureStyles
+        } as any as WmPictureStyles,
+        skeleton: {
+            root: {
+
+            }
+        } as any as WmSkeletonStyles
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

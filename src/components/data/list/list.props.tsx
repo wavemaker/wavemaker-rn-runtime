@@ -37,5 +37,6 @@ export default class WmListProps extends BaseProps {
        sm: 1,
        md: 1,
        lg: 1,
-    }
+    };
+    numberofskeletonitems: number = 3;
 }

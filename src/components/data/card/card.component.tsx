@@ -56,8 +56,14 @@ export default class WmCard extends BaseComponent<WmCardProps, WmCardState, WmCa
   }
 
   renderWidget(props: WmCardProps) {
+   
+    const styles = this._showSkeleton ? {
+      ...this.styles.root,
+      ...this.styles.skeleton.root
+    } : this.styles.root
+    
     return (
-      <View style={this.styles.root}>
+      <View style={styles}>
         {this._background}
         <Tappable {...this.getTestPropsForAction()} target={this} styles={{width: '100%', height: this.styles.root.height ? '100%' : null}}>
             {this.renderHeader(props)}

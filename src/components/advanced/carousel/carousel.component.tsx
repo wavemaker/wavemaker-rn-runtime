@@ -9,6 +9,7 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmCarouselProps from './carousel.props';
 import { DEFAULT_CLASS, WmCarouselStyles } from './carousel.styles';
+import { createSkeleton } from '../../basic/skeleton/skeleton.component';
 
 export class WmCarouselState extends BaseComponentState<WmCarouselProps> {
   activeIndex = 1;
@@ -232,6 +233,24 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         </Animated.View>
       </View>
     </View>);
+  }
+
+  public renderSkeleton(props: WmCarouselProps): React.ReactNode | null {
+    if(props.showskeletonchildren) {
+      return <View>
+        {
+          createSkeleton(this.theme, this.styles.skeleton, {
+            ...this.styles.root
+          })
+        }
+        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'center', padding: 15, gap: 4}}>
+          {createSkeleton(this.theme, this.styles.dotSkeleton, {})}
+          {createSkeleton(this.theme,this.styles.dotSkeleton, {})}
+          {createSkeleton(this.theme, this.styles.dotSkeleton, {})}
+        </View>
+      </View>
+    }
+    return null;
   }
 
   renderWidget(props: WmCarouselProps) {
