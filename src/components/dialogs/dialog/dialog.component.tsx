@@ -69,9 +69,9 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
         modalService.showModal(this.prepareModalOptions((
           <AssetProvider value={this.loadAsset}>
             <ThemeProvider value={this.theme}>
-              <View style={this.styles.root}>
+              <View style={this.styles.root} testID='wm-dialog'>
               {this._background}
-                {props.showheader ? (<View style={this.styles.header}>
+                {props.showheader ? (<View style={this.styles.header} testID='wm-dialog-header'>
                   <View style={this.styles.headerLabel}>
                   {props.iconclass || props.iconurl ? 
                     <WmIcon id={this.getTestId('icon')}
