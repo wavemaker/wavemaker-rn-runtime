@@ -61,6 +61,16 @@ class AppI18nService implements I18nService{
         });
     }
 
+    // app defaults support same as web  
+    get appDefaults(){
+      return {
+        dateFormat : this.dateFormat,
+        timeFormat : this.timeFormat,
+        currencyCode:  this.currencyCode,
+        dateTimeFormat: this.dateTimeFormat
+      }
+    }
+
     setTimezone(timezone: string){
       this.timezone = timezone;
     }
