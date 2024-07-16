@@ -8,7 +8,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles = defineStyles<WmVideoStyles>({
         root: {
             height: 300,
-            width : 374
+            width : "100%"
         },
         text: {}
     });
