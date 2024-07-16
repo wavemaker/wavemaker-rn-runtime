@@ -6,7 +6,10 @@ export type WmVideoStyles = BaseStyles & {};
 export const DEFAULT_CLASS = 'app-video';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles = defineStyles<WmVideoStyles>({
-        root: {},
+        root: {
+            height: 300,
+            width : 374
+        },
         text: {}
     });
     addStyle(DEFAULT_CLASS, '', defaultStyles);

@@ -9,8 +9,6 @@ export default class WmVideoProps extends BaseProps {
     oggformat: string = null as any;
     subtitlelang = 'en';
     subtitlesource: string = null as any;
-    height: number = 300
-    width : number = 370;
     videoposter = 'resources/images/imagelists/default-image.png';
     videopreload = 'none';
     videosupportmessage = 'Your browser does not support the video tag.';

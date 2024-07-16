@@ -41,9 +41,8 @@ export default class WmVideo extends BaseComponent<WmVideoProps, WmVideoState, W
   };
 
   renderWidget(props: WmVideoProps) {
-    const { height, width } = props;
     return (
-      <View style={this.styles.root?.height && this.styles.root?.width ? this.styles.root : { height, width }}>
+      <View style={this.styles.root}>
         {this._background}
         <Video
           {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
