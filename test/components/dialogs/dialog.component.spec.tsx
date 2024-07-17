@@ -23,6 +23,8 @@ const renderComponent = (props: any = {}) => {
   };
   const loadAsset = (path) => path;
 
+  AppModalService.modalsOpened = [];
+
   return render(
     <ModalProvider value={AppModalService}>
       <AssetProvider value={loadAsset}>
@@ -32,11 +34,36 @@ const renderComponent = (props: any = {}) => {
   );
 };
 
-// const ChildrenComponent = () => (
-//   <View>
-//     <Text>Children Component</Text>
-//   </View>
-// );
+const ChildrenComponent = () => (
+  <View>
+    <Text>Children Component</Text>
+  </View>
+);
+
+
+const appConfig = {
+  app: {
+    toastsOpened: 1,
+  },
+  refresh: () => {},
+};
+
+jest.mock('@wavemaker/app-rn-runtime/core/injector', () => {
+  const actualInjector = jest.requireActual(
+    '@wavemaker/app-rn-runtime/core/injector'
+  );
+  return {
+    ...actualInjector,
+    get: jest.fn().mockImplementation(() => {
+      return appConfig;
+    }),
+    FOCUSED_ELEMENT: {
+      get: jest.fn().mockImplementation(() => ({
+        blur: jest.fn(),
+      })),
+    },
+  };
+});
 
 describe('Test Dialog component', () => {
   afterEach(() => {
@@ -47,11 +74,9 @@ describe('Test Dialog component', () => {
   //The render tree will always be null
   //The dom is assigned to AppModalService.
   test('renders correctly with default props', () => {
-    const { toJSON } = renderComponent();
-
+    renderComponent();
     const renderOptions = AppModalService.modalsOpened[0];
 
-    expect(toJSON()).toMatchSnapshot();
     expect(
       renderOptions.content.props.children.props.children.props.testID
     ).toBeTruthy();
@@ -72,15 +97,14 @@ describe('Test Dialog component', () => {
 
   test('should render header icon when iconclass is given in props', () => {
     renderComponent({ iconclass: 'fa fa-info' });
+
     const renderOptions = AppModalService.modalsOpened[0];
     const parentContainer = renderOptions.content.props.children.props.children;
     const headerComponent = parentContainer.props.children[1];
+    const iconComponent = headerComponent.props?.children[0]?.props?.children;
 
     expect(headerComponent.props.testID).toBeTruthy();
     expect(headerComponent.props.testID).toBe('wm-dialog-header');
-
-    const iconComponent = headerComponent.props?.children[0]?.props?.children;
-
     expect(iconComponent).toBeTruthy();
     expect(iconComponent.props.id).toBe('test-dialog_icon');
     expect(iconComponent.props.caption).toBe('Test Title');
@@ -241,21 +265,16 @@ describe('Test Dialog component', () => {
     const updateStateMock = jest.spyOn(WmDialog.prototype, 'updateState');
 
     renderComponent({ ref: customRef, closable: true });
-
     const renderOptions = AppModalService.modalsOpened[0];
-    const parentContainer = renderOptions.content.props.children.props.children;
-    const headerComponent = parentContainer.props.children[1];
-
-    expect(headerComponent.props.testID).toBeTruthy();
-    expect(headerComponent.props.testID).toBe('wm-dialog-header');
-
-    const closeButtonComponent = headerComponent.props?.children[1];
-
-    // Since components are not being rendered rather assigned to an object
-    // we are manually calling the onTap method instead of firing press event.
-    act(() => {
-      closeButtonComponent.props.onTap();
-    });
+    const Component = () => {
+      return (
+        <>
+          {renderOptions.content}
+        </>
+      )
+    }
+    const {getByText} = render(<Component/>)
+    fireEvent(getByText('close'), 'press');
 
     await waitFor(() => {
       expect(updateStateMock).toHaveBeenCalled();
@@ -273,21 +292,18 @@ describe('Test Dialog component', () => {
     });
   });
 
-  // test('should renders children inside the dialog', () => {
-  //   renderComponent({iconclass: 'fa fa-info', children: <ChildrenComponent/>});
-  //   const renderOptions = AppModalService.modalsOpened[0];
-  //   const parentContainer = renderOptions.content.props.children.props.children;
-  //   const childrenComponent = parentContainer.props.children[2];
+  test('should renders children inside the dialog', () => {
+    renderComponent({iconclass: 'fa fa-info', children: <ChildrenComponent/>});
+    const renderOptions = AppModalService.modalsOpened[0];
+    const Component = () => {
+      return (
+        <>
+          {renderOptions.content}
+        </>
+      )
+    }
+    const tree = render(<Component/>)
 
-  //   console.log(childrenComponent);
-
-  //   const tree = render(<ChildrenComponent/>)
-  //   console.log(tree.toJSON());
-
-  //   // const iconComponent = headerComponent.props?.children[0]?.props?.children;
-
-  //   // expect(iconComponent).toBeTruthy();
-  //   // expect(iconComponent.props.id).toBe('test-dialog_icon');
-  //   // expect(iconComponent.props.caption).toBe('Test Title');
-  // });
+    expect(tree.getByText("Children Component")).toBeDefined();
+  });
 });
