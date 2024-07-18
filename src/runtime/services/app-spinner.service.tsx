@@ -46,7 +46,6 @@ export class AppSpinnerService implements SpinnerService {
   }
 
   hide() {
-    this.skeleton = false;
     if (this.count > 0) {
       this.count--;
     } else {
@@ -57,6 +56,7 @@ export class AppSpinnerService implements SpinnerService {
         if (!this.count && this.destroy) {
           this.destroy.call(this.displayManager);
           this.destroy = null;
+          this.skeleton = false;
         }
       }, 300);
     }
