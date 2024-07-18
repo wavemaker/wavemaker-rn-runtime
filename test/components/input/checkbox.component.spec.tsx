@@ -1,12 +1,211 @@
-import React, { ReactNode } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
-import { shallow } from 'enzyme';
-import renderer from 'react-test-renderer';
+import React, { ReactNode, createRef } from 'react';
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react-native';
 import WmCheckbox from '@wavemaker/app-rn-runtime/components/input/checkbox/checkbox.component';
+import WmCheckboxProps from '../../../src/components/input/checkbox/checkbox.props';
 
-describe('Test Checkbox component', () => {
-    test('Check validity of sample component', () => {
-      const tree = renderer.create(<WmCheckbox name="test_Checkbox"/>).toJSON();
-      expect(tree).toMatchSnapshot();
+// jest.mock(
+//   '@wavemaker/app-rn-runtime/components/basic/icon/icon.component',
+//   () => 'WmIcon'
+// );
+
+describe('WmCheckbox Unit tests', () => {
+  let defaultProps: WmCheckboxProps;
+
+  beforeEach(() => {
+    defaultProps = new WmCheckboxProps();
+    defaultProps.caption = 'Test Checkbox';
+    // defaultProps.datavalue = false;
+    defaultProps.checkedvalue = 'yes';
+    defaultProps.uncheckedvalue = 'no';
+    // defaultProps.readonly = false;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  // Check Rendering with Default Props
+  it('renders correctly with default props', () => {
+    render(<WmCheckbox {...defaultProps} />);
+    expect(screen).toMatchSnapshot();
+    expect(screen.getByText('Test Checkbox')).toBeTruthy();
+  });
+
+  // Checked and Unchecked Value Handling
+  it('handles checked and unchecked values correctly', async () => {
+    const { rerender } = render(
+      <WmCheckbox {...defaultProps} datavalue="yes" />
+    );
+    const checkbox = screen.getByRole('checkbox');
+    expect(checkbox.props.accessibilityState.checked).toBe(true);
+
+    rerender(<WmCheckbox {...defaultProps} datavalue="no" />);
+    await waitFor(() => {
+      expect(checkbox.props.accessibilityState.checked).toBe(false);
     });
+  });
+
+  // Disabled and Readonly Handling
+  it('does not respond to press events when disabled', async () => {
+    render(<WmCheckbox {...defaultProps} disabled={true} />);
+    const checkbox = screen.getByRole('checkbox');
+    const invokeEventCallbackMock = jest.spyOn(
+      WmCheckbox.prototype,
+      'invokeEventCallback'
+    );
+    fireEvent.press(checkbox);
+    await waitFor(() => {
+      expect(checkbox.props.accessibilityState.checked).not.toBe(true);
+      expect(invokeEventCallbackMock).not.toHaveBeenCalled();
+      expect(checkbox.props.accessibilityState.disabled).toBe(true);
+    });
+  });
+
+  it('does not respond to press events when readonly', async () => {
+    render(<WmCheckbox {...defaultProps} readonly={true} datavalue="yes" />);
+    const invokeEventCallback = jest.spyOn(
+      WmCheckbox.prototype,
+      'invokeEventCallback'
+    );
+
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.press(checkbox);
+    await waitFor(() => {});
+    expect(checkbox.props.accessibilityState.checked).toBe(true);
+    expect(invokeEventCallback).not.toHaveBeenCalledWith('onFocus', [
+      null,
+      expect.anything(),
+    ]);
+  });
+
+  // Accessibility Props
+  it('applies accessibility props correctly', () => {
+    render(<WmCheckbox {...defaultProps} disabled={false} datavalue="yes" />);
+    const checkbox = screen.getByRole('checkbox');
+    expect(screen.getByLabelText('Checkbox for Test Checkbox')).toBeTruthy();
+    expect(checkbox).toBeTruthy();
+    expect(checkbox.props.accessibilityState.checked).toBe(true);
+    expect(checkbox.props.accessibilityState.disabled).toBe(false);
+  });
+
+  // Validation
+  it('validates correctly using validateField utility', async () => {
+    const validateMock = jest.spyOn(WmCheckbox.prototype, 'validate');
+    const updateStateMock = jest.spyOn(WmCheckbox.prototype, 'updateState');
+    render(<WmCheckbox {...defaultProps} required={true} datavalue="no" />);
+    fireEvent.press(screen.getByRole('checkbox'));
+    await waitFor(() => {
+      expect(validateMock).toHaveBeenCalled();
+      expect(updateStateMock).toHaveBeenCalledWith({
+        isValid: true,
+        errorType: undefined,
+      });
+    });
+  });
+
+  // User Interaction (onPress)
+  it('handles onPress event correctly', async () => {
+    const invokeEventCallbackMock = jest.spyOn(
+      WmCheckbox.prototype,
+      'invokeEventCallback'
+    );
+    const updateStateMock = jest.spyOn(WmCheckbox.prototype, 'updateState');
+    const props = {
+      ...defaultProps,
+      datavalue: 'no',
+    };
+    render(<WmCheckbox {...props} />);
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.press(checkbox);
+
+    await waitFor(() => {
+      expect(invokeEventCallbackMock).toHaveBeenCalledWith('onBlur', [
+        null,
+        expect.anything(),
+      ]);
+      expect(updateStateMock).toHaveBeenCalledWith({ isChecked: true });
+    });
+
+    expect(invokeEventCallbackMock).toHaveBeenCalledWith('onChange', [
+      null,
+      expect.anything(),
+      'yes',
+      'no',
+    ]);
+    expect(invokeEventCallbackMock).toHaveBeenCalledWith('onTap', [
+      null,
+      expect.anything(),
+    ]);
+    expect(invokeEventCallbackMock).toHaveBeenCalledWith('onFocus', [
+      null,
+      expect.anything(),
+    ]);
+  });
+
+  // Icon and Text Rendering
+  it('renders icon and text correctly', () => {
+    render(<WmCheckbox {...defaultProps} />);
+
+    expect(screen.getByText('Test Checkbox')).toBeTruthy();
+    expect(screen.getByText('check')).toBeTruthy();
+  });
+
+  // Disabled State Styles
+  it('applies correct styles when disabled', () => {
+    render(<WmCheckbox {...defaultProps} disabled={true} />);
+    const checkbox = screen.getByRole('checkbox');
+    // Check if disabled styles are applied correctly
+    expect(checkbox.props.style).toMatchObject({ opacity: 0.8 });
+  });
+
+  // Initialization and State
+  it('sets initial state correctly based on datavalue', () => {
+    const ref = createRef();
+    const { getByRole } = render(
+      <WmCheckbox {...defaultProps} datavalue="yes" ref={ref} />
+    );
+    const checkbox = getByRole('checkbox');
+    expect(ref.current.state.isChecked).toBe(true);
+  });
+
+  // Internal Methods
+  it('calls internal methods correctly', async () => {
+    const ref = createRef();
+    const onFieldChange = jest.fn();
+    render(
+      <WmCheckbox
+        {...defaultProps}
+        ref={ref}
+        onFieldChange={onFieldChange}
+        datavalue="no"
+      />
+    );
+    const setCheckedMock = jest.spyOn(WmCheckbox.prototype, 'setChecked');
+    const updateStateMock = jest.spyOn(WmCheckbox.prototype, 'updateState');
+
+    fireEvent.press(screen.getByRole('checkbox'));
+
+    await waitFor(() => {
+      expect(setCheckedMock).toHaveBeenCalled();
+      expect(onFieldChange).toHaveBeenCalledWith('datavalue', 'yes', 'no');
+    });
+    expect(ref.current.state.isChecked).toBe(true);
+
+    fireEvent.press(screen.getByRole('checkbox'));
+
+    await waitFor(() => {
+      expect(setCheckedMock).toHaveBeenCalled();
+      expect(ref.current.state.isChecked).toBe(false);
+    });
+
+    ref.current.updateDatavalue(true);
+    expect(updateStateMock).toHaveBeenCalledWith({
+      props: { datavalue: true },
+    });
+  });
 });
