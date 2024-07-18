@@ -19,7 +19,8 @@ async function postBuild(runtimeVersion) {
     });
     packageData.main = 'index';
     packageData.module = 'index';
-    packageData['devDependencies']['@wavemaker/variables'] = runtimeVersion;
+    //there is this dependency already present in the dependencies. why again in devDependencies?
+    // packageData['devDependencies']['@wavemaker/variables'] = runtimeVersion;
     packageData.exports = {
       "./": "./"
     };
@@ -33,10 +34,12 @@ async function prepareNpmPackages(runtimeVersion) {
     fs.copySync(`${projectDir}/dist/module`, `${projectDir}/dist/npm-packages/app-rn-runtime`, {
         filter: p => !p.startsWith('/node_modules/')
     });
-    //this check is required for repeat builds in local builds to avoid unnecessary copy time
-    if(!fs.existsSync(`${projectDir}/dist/npm-packages/app-rn-runtime/node_modules/.bin`)) {
-      fs.copySync(`${projectDir}/node_modules`, `${projectDir}/dist/npm-packages/app-rn-runtime/node_modules`);
-    }
+    await execa('npm', ['install'], {
+        'cwd': `${projectDir}/dist/npm-packages/app-rn-runtime`
+    });
+    await execa('npm', ['shrinkwrap'], {
+        'cwd': `${projectDir}/dist/npm-packages/app-rn-runtime`
+    });
     await execa('npm', ['pack'], {
         'cwd': `${projectDir}/dist/npm-packages/app-rn-runtime`
     });
