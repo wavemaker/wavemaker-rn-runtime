@@ -1,0 +1,969 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Background Component should apply image natural width and height when size is falsy 1`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="repeat"
+        source={
+          {
+            "uri": "http://example.com/image.jpg",
+          }
+        }
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            {
+              "minHeight": 200,
+              "minWidth": 100,
+            },
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Background Component should apply resizeMode as repeat 1`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "height": "100%",
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="repeat"
+        source={
+          {
+            "uri": "http://example.com/image.jpg",
+          }
+        }
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            null,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Background Component should apply resizeMode correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="center"
+        source={
+          {
+            "uri": "http://example.com/image.jpg",
+          }
+        }
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            {
+              "minHeight": 200,
+              "minWidth": 100,
+            },
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Background Component should render gradient when image prop contains linear-gradient 1`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        null,
+      ]
+    }
+  >
+    <ViewManagerAdapter_ExpoLinearGradient
+      colors={
+        [
+          4283197087,
+          4282079640,
+        ]
+      }
+      endPoint={
+        [
+          1,
+          0,
+        ]
+      }
+      locations={
+        [
+          null,
+          null,
+        ]
+      }
+      startPoint={
+        [
+          0,
+          1,
+        ]
+      }
+      style={
+        [
+          {
+            "height": "100%",
+            "width": "100%",
+          },
+          undefined,
+          {
+            "borderRadius": undefined,
+            "position": "absolute",
+          },
+        ]
+      }
+      testID="wm-expo-linear-gradient"
+    />
+  </View>
+</View>
+`;
+
+exports[`Background Component should render image when valid image full path is provided 1`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "height": "100%",
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="repeat"
+        source={
+          {
+            "uri": "http://example.com/image.jpg",
+          }
+        }
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            null,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Background Component should render with different repeat props 1`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "height": 200,
+            "width": 100,
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="cover"
+        source={
+          {
+            "uri": "http://example.com/image.jpg",
+          }
+        }
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            null,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Background Component should render with different repeat props 2`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "height": 200,
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="repeat"
+        source={
+          {
+            "uri": "http://example.com/image.jpg",
+          }
+        }
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            null,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Background Component should render with different repeat props 3`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "height": "100%",
+            "width": 100,
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="repeat"
+        source={
+          {
+            "uri": "http://example.com/image.jpg",
+          }
+        }
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            null,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Background Component should render with image file present in project directory 1`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "height": "100%",
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="repeat"
+        source="resources/images/american-impressionism.png"
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            null,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Background Component should set resizeMode based on size prop as "contain" 1`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="contain"
+        source={
+          {
+            "uri": "http://example.com/image.jpg",
+          }
+        }
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            null,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Background Component should update image source if props change 1`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "height": "50%",
+            "width": "80%",
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="repeat"
+        source="example.com/image.jpg"
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            null,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Background Component should update image source if props change 2`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "height": "100%",
+            "width": "20%",
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="repeat"
+        source="example.com/new-image.jpg"
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            null,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Background Component source should not have "url" prefix of the image string 1`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "alignItems": undefined,
+          "flexDirection": "row",
+          "justifyContent": undefined,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "position": "absolute",
+          },
+          undefined,
+          {
+            "height": "100%",
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Image
+        resizeMode="repeat"
+        source={
+          {
+            "uri": "http://example.com/image.jpg",
+          }
+        }
+        style={
+          [
+            {
+              "height": "100%",
+              "width": "100%",
+            },
+            null,
+          ]
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
