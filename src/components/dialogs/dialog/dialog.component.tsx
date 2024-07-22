@@ -74,7 +74,7 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
               {this._background}
                 {props.showheader ? (<View style={this.styles.header}>
                   <View style={this.styles.headerLabel}>
-                  {props.iconclass || props.iconurl ?
+                  {props.iconclass || props.iconurl || props.title ?
                     <WmIcon id={this.getTestId('icon')}
                      caption={props.title}
                      accessibilityrole='header'
