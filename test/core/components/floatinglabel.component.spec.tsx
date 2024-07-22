@@ -181,7 +181,6 @@ describe('FloatingLabel Component', () => {
       translateY: -1 * fontSize,
       scale: 0.8,
     });
+    jest.useRealTimers();
   });
-
-  jest.useRealTimers();
 });
