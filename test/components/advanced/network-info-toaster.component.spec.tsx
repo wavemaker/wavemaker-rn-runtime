@@ -57,9 +57,14 @@ jest.mock('@wavemaker/app-rn-runtime/core/network.service', () => ({
 
 describe('WmNetworkInfoToaster Component', () => {
   beforeEach(() => {
-    cleanup();
-    jest.clearAllMocks();
+    jest.useFakeTimers();
   });
+
+  afterEach(() => {
+    cleanup();
+    jest.useRealTimers();
+    jest.clearAllMocks();
+  })
 
   test('should return null when network network status is same as previous', () => {
     const tree = renderComponent();
@@ -109,6 +114,35 @@ describe('WmNetworkInfoToaster Component', () => {
     expect(content.children).not.toBeNull();
     expect(firstChildren.props.children).toBe('Network Not Available');
     expect(secondChildren.props.children).toBe('Hide Network Info');
+  });
+
+  test('shows correct message for service connected', async () => {
+    (NetworkService.getState as jest.Mock).mockReturnValueOnce({
+      isConnected: true,
+      isConnecting: false,
+      isServiceAvailable: true,
+      isNetworkAvailable: true,
+    });
+    
+    const customRef = createRef();
+    const updateStateMock = jest.spyOn(
+      WmNetworkInfoToaster.prototype,
+      'updateState'
+    );
+    renderComponent({ ref: customRef });
+
+    await waitFor(() => {
+      expect(updateStateMock).toHaveBeenCalled();
+      expect(updateStateMock).toHaveBeenCalledWith({
+        newtworkState: {
+          isConnected: false,
+          isConnecting: false,
+          isServiceAvailable: false,
+          isNetworkAvailable: false,
+        },
+        showToast: true,
+      });
+    });
   });
 
   test('shows correct message when service available is true', async () => {
@@ -229,35 +263,6 @@ describe('WmNetworkInfoToaster Component', () => {
     expect(content.children).not.toBeNull();
     expect(firstChildren.props.children).toBe('Service Not Available');
     expect(secondChildren.props.children).toBe('Hide Network Info');
-  });
-
-  test('shows correct message for service connected', async () => {
-    (NetworkService.getState as jest.Mock).mockReturnValueOnce({
-      isConnected: true,
-      isConnecting: false,
-      isServiceAvailable: true,
-      isNetworkAvailable: true,
-    });
-    
-    const customRef = createRef();
-    const updateStateMock = jest.spyOn(
-      WmNetworkInfoToaster.prototype,
-      'updateState'
-    );
-    renderComponent({ ref: customRef });
-
-    await waitFor(() => {
-      expect(updateStateMock).toHaveBeenCalled();
-      expect(updateStateMock).toHaveBeenCalledWith({
-        newtworkState: {
-          isConnected: false,
-          isConnecting: false,
-          isServiceAvailable: false,
-          isNetworkAvailable: false,
-        },
-        showToast: true,
-      });
-    });
   });
   
   test('should hide toaster when onClose is called', async () => {

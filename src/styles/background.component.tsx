@@ -110,6 +110,7 @@ export class LinearGradient extends React.Component<LinearGradientProps, LinearG
                         alignItems: 'center'
                     } : null]}>
                     <ExpoLinearGradient
+                        testID='wm-expo-linear-gradient'
                         colors={this.state.colors}
                         locations={this.state.locations}
                         start={this.state.start}
