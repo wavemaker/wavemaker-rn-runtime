@@ -30,8 +30,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     } as WmIconStyles,
     image: {} as WmPictureStyles,
     lottie: {
-      width: 100,
-      height: 100,
+      position: 'absolute',
+      width: 150,
+      height: 150,
       alignSelf: 'center',
       justifyContent: 'center'
     }
