@@ -1,0 +1,369 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Legend Component should render Legend component correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "justifyContent": "center",
+      },
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "padding": 4,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": 12,
+            "width": 12,
+          },
+          undefined,
+          {
+            "backgroundColor": "red",
+          },
+        ]
+      }
+    />
+    <Text
+      style={
+        [
+          {
+            "paddingLeft": 4,
+          },
+          undefined,
+        ]
+      }
+    >
+      Category 1
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "padding": 4,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": 12,
+            "width": 12,
+          },
+          undefined,
+          {
+            "backgroundColor": "blue",
+          },
+        ]
+      }
+    />
+    <Text
+      style={
+        [
+          {
+            "paddingLeft": 4,
+          },
+          undefined,
+        ]
+      }
+    >
+      Category 2
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "padding": 4,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": 12,
+            "width": 12,
+          },
+          undefined,
+          {
+            "backgroundColor": "green",
+          },
+        ]
+      }
+    />
+    <Text
+      style={
+        [
+          {
+            "paddingLeft": 4,
+          },
+          undefined,
+        ]
+      }
+    >
+      Category 3
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Legend Component should render with horizontal orientation 1`] = `
+<View
+  style={
+    [
+      {
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "justifyContent": "center",
+      },
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "padding": 4,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": 12,
+            "width": 12,
+          },
+          undefined,
+          {
+            "backgroundColor": "red",
+          },
+        ]
+      }
+    />
+    <Text
+      style={
+        [
+          {
+            "paddingLeft": 4,
+          },
+          undefined,
+        ]
+      }
+    >
+      Category 1
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "padding": 4,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": 12,
+            "width": 12,
+          },
+          undefined,
+          {
+            "backgroundColor": "blue",
+          },
+        ]
+      }
+    />
+    <Text
+      style={
+        [
+          {
+            "paddingLeft": 4,
+          },
+          undefined,
+        ]
+      }
+    >
+      Category 2
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "padding": 4,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": 12,
+            "width": 12,
+          },
+          undefined,
+          {
+            "backgroundColor": "green",
+          },
+        ]
+      }
+    />
+    <Text
+      style={
+        [
+          {
+            "paddingLeft": 4,
+          },
+          undefined,
+        ]
+      }
+    >
+      Category 3
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Legend Component should render with vertical orientation 1`] = `
+<View
+  style={
+    [
+      {
+        "flexDirection": "column",
+        "justifyContent": "center",
+      },
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "padding": 4,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": 12,
+            "width": 12,
+          },
+          undefined,
+          {
+            "backgroundColor": "red",
+          },
+        ]
+      }
+    />
+    <Text
+      style={
+        [
+          {
+            "paddingLeft": 4,
+          },
+          undefined,
+        ]
+      }
+    >
+      Category 1
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "padding": 4,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": 12,
+            "width": 12,
+          },
+          undefined,
+          {
+            "backgroundColor": "blue",
+          },
+        ]
+      }
+    />
+    <Text
+      style={
+        [
+          {
+            "paddingLeft": 4,
+          },
+          undefined,
+        ]
+      }
+    >
+      Category 2
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "padding": 4,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": 12,
+            "width": 12,
+          },
+          undefined,
+          {
+            "backgroundColor": "green",
+          },
+        ]
+      }
+    />
+    <Text
+      style={
+        [
+          {
+            "paddingLeft": 4,
+          },
+          undefined,
+        ]
+      }
+    >
+      Category 3
+    </Text>
+  </View>
+</View>
+`;
