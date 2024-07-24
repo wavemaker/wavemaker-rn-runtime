@@ -25,7 +25,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmSelectStyles = defineStyles({
     root: {
       flexDirection: 'row',
-      padding: 12,
+      padding: 6,
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: themeVariables.inputBorderColor,
