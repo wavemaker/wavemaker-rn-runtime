@@ -476,9 +476,9 @@ export default class ThemeVariables {
     tooltipBorderColor = '#404040';
 
     // Wheel Picker
-    wheelHighlightBorder = '@primaryColor';
-    wheelSelectedTextColor = '@wheelSelectedColor';
-    wheelTextColor = '@wheelColor';
+    wheelHighlightBorder = 'var(--primaryColor)';
+    wheelSelectedTextColor = 'var(--wheelSelectedColor)';
+    wheelTextColor = 'var(--wheelColor)';
 
     static INSTANCE = new ThemeVariables();
 }
