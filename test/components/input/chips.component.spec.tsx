@@ -132,8 +132,6 @@ describe('WmChips', () => {
     expect(selectedChip.parent?.parent?.props.accessibilityState.selected).toBe(
       true
     );
-
-    // check selected color as well
   });
 
   // Prop Update Handling
