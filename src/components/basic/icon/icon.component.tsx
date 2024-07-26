@@ -201,7 +201,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
       iconJsx = (<FontAwesome name={customIcon ? '' : iconDef.type}
         style={style}
         size={iconSize}
-        testID={this.getTestId('icon')}>
+        {...this.getTestProps('icon')}>
           {customIcon}
         </FontAwesome>);
     } else if (props.show && iconDef) {
@@ -217,7 +217,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
       iconJsx = WMCustomIcon ? (<WMCustomIcon name={customIcon ? '' : iconDef.type}
         style={style}
         size={iconSize}
-        testID={this.getTestId('icon')}>
+        {...this.getTestProps('icon')}>
         {customIcon}
       </WMCustomIcon>) : null;
     }

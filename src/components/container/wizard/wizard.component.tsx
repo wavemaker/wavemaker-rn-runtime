@@ -105,7 +105,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
               return (
               <TouchableWithoutFeedback key={'wizard_menu_item_'+index} onPress={()=>{this.popOverRef.hide();}}>
                 <View style={[this.styles.stepMenu, currentMenuItem?this.styles.activeStepMenu:{}]}>
-                  <WmIcon caption={caption} iconclass={currentMenuItem? "wi wi-radio-button-checked" : 'wi wi-radio-button-unchecked'} styles={currentMenuItem?this.styles.stepMenuActiveIcon:this.styles.stepMenuIcon}/>
+                  <WmIcon id={this.getTestId('icon')} caption={caption} iconclass={currentMenuItem? "wi wi-radio-button-checked" : 'wi wi-radio-button-unchecked'} styles={currentMenuItem?this.styles.stepMenuActiveIcon:this.styles.stepMenuIcon}/>
                   <WmLabel caption={item} styles={currentMenuItem?this.styles.stepMenuActiveLabel:this.styles.stepMenuLabel}/>
                 </View>
               </TouchableWithoutFeedback>
