@@ -71,7 +71,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
       />
     );    
     //@ts-ignore
-    const badge = badgevalue != undefined ? (<Badge style={this.styles.badge}>{badgevalue}</Badge>): null;
+    const badge = badgevalue != undefined ? (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{badgevalue}</Badge>): null;
     return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>

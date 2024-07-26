@@ -128,7 +128,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     if (this.state.naturalImageWidth) {
       elementToshow = (
         <Image
-          testID={this.getTestId('picture')}
+          {...this.getTestProps('picture')}
           style={[this.styles.picture, shapeStyles.picture]}
           resizeMode={props.resizemode}
           source={source}

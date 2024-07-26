@@ -8,6 +8,8 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmSkeleton, { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
+import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
+
 
 export class WmTabheaderState extends BaseComponentState<WmTabheaderProps> {
 }
@@ -160,6 +162,10 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                     this.styles.header,
                     {flexGrow: undefined},
                     isSelected ? this.styles.activeHeader : null]}>
+                    <WmIcon
+                      id={this.getTestId('headericon')}
+                      styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeaderIcon : null)}
+                      iconclass={header.icon}></WmIcon>
                     <Text numberOfLines={1} style={[
                       this.styles.headerText, 
                       isSelected ? this.styles.activeHeaderText : null]}

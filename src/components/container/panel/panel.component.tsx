@@ -53,9 +53,9 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
   expandCollapseIcon(isExpanded: boolean) {
     const widgetProps = this.state.props;
     //@ts-ignore
-    const badge = widgetProps.badgevalue != undefined ? (<Badge style={[this.styles.badge, this.styles[widgetProps.badgetype || 'default']]}>{widgetProps.badgevalue}</Badge>): null;
+    const badge = widgetProps.badgevalue != undefined ? (<Badge style={[this.styles.badge, this.styles[widgetProps.badgetype || 'default']]} {...this.getTestProps('badge')}>{widgetProps.badgevalue}</Badge>): null;
     const iconclass = isExpanded ? 'wi wi-chevron-up' : 'wi wi-chevron-down';
-    const expandCollapseIcon = widgetProps.collapsible ? (<WmIcon name={'expand_collapse_icon'} styles={this.styles.toggleIcon} iconclass={iconclass}></WmIcon>) : null;
+    const expandCollapseIcon = widgetProps.collapsible ? (<WmIcon id={this.getTestId('collapseicon')} name={'expand_collapse_icon'} styles={this.styles.toggleIcon} iconclass={iconclass}></WmIcon>) : null;
     return (<View style={{flexDirection: 'row', alignItems: 'center'}}>{badge}{expandCollapseIcon}</View>);
   }
 
@@ -68,7 +68,8 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
         onPress={this.onPanelPress.bind(this)}
         accessibilityRole='header'>
       {props.iconclass || props.iconurl ? 
-        <WmIcon styles={this.styles.icon} 
+        <WmIcon styles={this.styles.icon}
+        id={this.getTestId('icon')} 
         name={props.name + '_icon'}
         iconclass={props.iconclass}
         iconheight={props.iconheight}

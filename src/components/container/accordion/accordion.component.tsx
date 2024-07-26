@@ -86,7 +86,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                 isExpanded ? this.styles.activeHeader : {}]}
                 onPress={this.toggle.bind(this, index + 1, !isExpanded)}>
           {this.expandCollapseIcon(item, index, false, showIconOnLeft, true, isExpanded)}
-          {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
+          {item.props.iconclass ? <WmIcon id={this.getTestId('icon')} styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
           <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
             <Text style={[
               this.styles.text,

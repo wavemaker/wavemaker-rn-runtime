@@ -370,7 +370,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                   this.clearBtnClicked = true;
                 }}/>)) || null}
               {this.addTouchableOpacity(props, (
-                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}} hint={props?.hint}/>
+                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}} hint={props?.hint} id={this.getTestId('calendericon')}/>
               ))}
             </View>
           {
