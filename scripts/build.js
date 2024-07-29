@@ -4,6 +4,7 @@ const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const tar = require('tar');
 const execa = require('execa');
+const path = require("path");
 
 async function updatePackageVersion(packagePath, key, version) {
     let content = fs.readFileSync(packagePath, 'utf8');
@@ -31,19 +32,20 @@ async function postBuild(runtimeVersion) {
 }
 
 async function prepareNpmPackages(runtimeVersion) {
-    fs.copySync(`${projectDir}/dist/module`, `${projectDir}/dist/npm-packages/app-rn-runtime`, {
-        filter: p => !p.startsWith('/node_modules/')
-    });
-    await execa('npm', ['install'], {
-        'cwd': `${projectDir}/dist/npm-packages/app-rn-runtime`
-    });
-    await execa('npm', ['shrinkwrap'], {
-        'cwd': `${projectDir}/dist/npm-packages/app-rn-runtime`
-    });
-    await execa('npm', ['pack'], {
-        'cwd': `${projectDir}/dist/npm-packages/app-rn-runtime`
-    });
-    fs.copySync(`${projectDir}/dist/npm-packages/app-rn-runtime/wavemaker-app-rn-runtime-${runtimeVersion}.tgz`, `${projectDir}/dist/npm-packages/wavemaker-app-rn-runtime-${runtimeVersion}.tgz`);
+  let tarballName = `wavemaker-app-rn-runtime-${runtimeVersion}.tgz`
+  fs.copySync(`${projectDir}/dist/module`, `${projectDir}/dist/npm-packages/package`, {
+    filter: p => !p.startsWith('/node_modules/')
+  });
+  await execa('npm', ['install'], {
+    'cwd': `${projectDir}/dist/npm-packages/package`
+  });
+  fs.rmSync(`${projectDir}/dist/npm-packages/package/node_modules`, {recursive: true, force: true})
+  await execa('tar', ['-czf', `dist/npm-packages/${tarballName}`, '-C', 'dist/npm-packages', 'package'], {
+    'cwd': `${projectDir}`
+  });
+  let tarballPath = path.join(__dirname, `../dist/npm-packages/${tarballName}`)
+  const {stdout} = await execa('node', ['../process-npm-package-stats.js', `--path=${tarballPath}`, '--packageName=@wavemaker/app-rn-runtime', `--publishVersion=${runtimeVersion}`]);
+  console.log(stdout);
 }
 
 async function pushToLocalRepo() {
