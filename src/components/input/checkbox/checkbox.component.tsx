@@ -49,13 +49,11 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
   }
 
   onPress() {
-    if (!this.state.props.readonly) {
-      this.invokeEventCallback('onFocus', [null, this.proxy]);
-    }
-    this.invokeEventCallback('onTap', [null, this.proxy]);
-    if (this.state.props.disabled) {
+    if (this.state.props.disabled || this.state.props.readonly) {
       return;
     }
+    this.invokeEventCallback('onFocus', [null, this.proxy]);
+    this.invokeEventCallback('onTap', [null, this.proxy]);
     const oldValue = this.state.props.datavalue;
     const value = !this.state.isChecked;
     this.validate(value);

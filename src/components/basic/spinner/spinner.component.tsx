@@ -85,7 +85,7 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
     Lottie = Lottie?.default || Lottie;
     return (
       Platform.OS == 'web' ? <Lottie animationData={this.addClasstoLottie(props.lottie)} loop={true} play={true} style={this.styles.lottie} /> : <LottieView
-        testID={this.getTestId('lottie')}
+        {...this.getTestProps('loader')}
         source={this.addClasstoLottie(props.lottie)}
         resizeMode='contain'
         autoPlay={true}

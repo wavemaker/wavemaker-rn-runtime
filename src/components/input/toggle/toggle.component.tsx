@@ -101,14 +101,12 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
       }}
       {...getAccessibilityProps(AccessibilityWidgetType.TOGGLE, {...this.props, selected: this.state.isSwitchOn})}
       onPress={() => {
-        if (this.props.disabled) {
+        if (this.props.disabled || this.props.readonly) {
           return;
         }
         // Added setTimeout to smooth animation
         setTimeout(() => {
-          if (!props.readonly) {
-            this.invokeEventCallback('onFocus', [null, this]);
-          }
+          this.invokeEventCallback('onFocus', [null, this]);
           this.invokeEventCallback('onTap', [null, this]);
         }, 500);
         this.onToggleSwitch(!this.state.isSwitchOn);

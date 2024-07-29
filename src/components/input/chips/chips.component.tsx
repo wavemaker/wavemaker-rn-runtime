@@ -189,7 +189,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         style={[this.styles.chip, isSelected ? this.styles.activeChip : null]}
         key={'chipitem_'+ index}
         onPress={() => {
-          if (this.state.props.disabled) {
+          if (this.state.props.disabled || this.state.props.readonly) {
             return;
           }
           if (this.isDefaultView()) {

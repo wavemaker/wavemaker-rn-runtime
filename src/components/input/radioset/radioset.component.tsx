@@ -25,10 +25,10 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
   }
 
   onPress(item: any) {
-    this.invokeEventCallback('onTap', [null, this.proxy]);
     if (this.state.props.disabled || this.state.props.readonly) {
       return;
     }
+    this.invokeEventCallback('onTap', [null, this.proxy]);
     item.selected = true;
     let selectedValue: any = "";
     const selectedItem = find(this.state.dataItems, d => isEqual(d.key, item.key));
