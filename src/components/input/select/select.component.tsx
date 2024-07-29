@@ -15,6 +15,7 @@ import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.c
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
@@ -86,6 +87,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
 
   renderSelect() {
     const props = this.state.props;
+    const select = this.styles.root as any;
     return (
       /*
        * onLayout function is required.
@@ -97,6 +99,14 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
           this.view = ref as View;
         }}
         onLayout={() => {}}>
+          {select.backgroundImage ? (<BackgroundComponent
+            image={select.backgroundImage}
+            position={select.backgroundPosition || 'center'}
+            size={select.backgroundSize || 'contain'}
+            repeat={select.backgroundRepeat || 'no-repeat'}
+            resizeMode={select.backgroundResizeMode}
+            style={{borderRadius: this.styles.root.borderRadius}}
+          ></BackgroundComponent>) : null }
           <Text
             style={[this.styles.text,
               this.state.props.displayValue ? {} : {color: this.styles.placeholderText.color}]}
@@ -177,6 +187,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   renderWidget(props: WmSelectProps) {
     return (
       <View>
+        {this._background}
         {this.renderSelect()}
         {this.state.isOpened ? (
           <ModalConsumer>
