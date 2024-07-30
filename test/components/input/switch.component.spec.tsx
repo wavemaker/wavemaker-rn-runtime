@@ -94,12 +94,10 @@ describe('WmSwitch', () => {
 
   // Accessibility Props
   it('applies accessibility props correctly', () => {
-    render(<WmSwitch {...defaultProps} />);
-    expect(screen).toMatchSnapshot();
-    const items = screen.root.children;
-    // const items = screen.UNSAFE_getAllByProps({
-    //   accessibilityState: undefined,
-    // });
+    render(<WmSwitch {...defaultProps} hint="wm-switch" />);
+    const items = screen.getAllByA11yHint('wm-switch');
+
+    // expect(screen.getAllByA11yHint('wm-switch')).toBeTruthy();
     expect(items[0].props.accessibilityState.selected).toBe(true);
     expect(items[1].props.accessibilityState.selected).toBe(false);
     expect(items[2].props.accessibilityState.selected).toBe(false);

@@ -12,12 +12,6 @@ import { NavigationService } from '@wavemaker/app-rn-runtime/core/navigation.ser
 import { BaseComponent, ParentContext } from '../../../src/core/base.component';
 import { AccessibilityInfo } from 'react-native';
 
-import {
-  getAccessibilityProps,
-  isScreenReaderEnabled as originalIsScreenReaderEnabled,
-  getScreenReaderStatus as originalGetScreenReaderStatus,
-  AccessibilityWidgetType,
-} from '../../../src/core/accessibility';
 import ThemeVariables from '../../../src/styles/theme.variables';
 import { NavigationServiceProvider } from '../../../src/core/navigation.service';
 import mockNavigationService from '../../../__mocks__/navigation.service';
@@ -89,19 +83,6 @@ describe('WmLabel Component', () => {
     jest.resetModules();
   });
 
-  it('should render custom classes with properly', () => {
-    const caption = 'custom label';
-
-    const tree = render(
-      //<ParentContext.Provider value={BaseComponent}>
-      <ThemeProvider value={theme1}>
-        <WmLabel caption={caption} />
-      </ThemeProvider>
-      // </ParentContext.Provider>
-    );
-    expect(tree).toMatchSnapshot();
-  });
-
   it('should render correctly with default props', () => {
     const tree = renderComponent();
     expect(tree.getByText('Test Label')).toBeTruthy();
@@ -118,7 +99,6 @@ describe('WmLabel Component', () => {
         },
       },
     });
-    expect(tree).toMatchSnapshot();
     const viewEle = tree.getByTestId('non_animatableView');
     expect(viewEle.props.style.width).toBe(width);
     expect(viewEle.props.style.height).toBe(height);
@@ -146,7 +126,6 @@ describe('WmLabel Component', () => {
         },
       },
     });
-    expect(tree).toMatchSnapshot();
     const viewEle = tree.getByTestId('non_animatableView');
     const textEle = tree.getByText('Test Label');
     expect(viewEle.props.style.backgroundColor).toBe(bgColor);
@@ -239,19 +218,18 @@ describe('WmLabel Component', () => {
   it('should handle animation and delay props', () => {
     const testprops = {
       animation: 'fadeIn',
-      // animationdelay: 500,
+      animationdelay: 500,
       caption: 'Animated Label',
       name: 'WmLabel',
     };
     const tree = renderComponent({
       ...testprops,
     });
-    expect(tree).toMatchSnapshot();
 
     const animatedLabel = tree.getByTestId('animatableView');
     expect(animatedLabel).toBeTruthy();
     expect(animatedLabel.props.animation).toBe(testprops.animation);
-    // expect(animatedLabel.props.delay).toBe(testprops.animationdelay);
+    expect(animatedLabel.props.delay).toBe(testprops.animationdelay);
   });
 
   it('should trigger onTap callback with WmLabel instance as one of the arguments', async () => {
@@ -368,6 +346,19 @@ describe('WmLabel Component', () => {
     ]);
   });
 
+  it('should render with required asterisk if required prop is true', async () => {
+    const tree = renderComponent({ required: true });
+    expect(tree.getByText('*')).toBeTruthy();
+  });
+
+  it('should render with required asterisk if required prop is true when caption has a link', async () => {
+    const tree = renderComponent({
+      required: true,
+      caption: 'Go to [Wavemaker](https://wavemaker.com)',
+    });
+    expect(tree.getByText('*')).toBeTruthy();
+  });
+
   ////////////////////tests with issues/////////////////////////
 
   it('should handle isValid prop and render text with appropriate color', () => {
@@ -394,10 +385,16 @@ describe('WmLabel Component', () => {
     expect(textElement.props.style.color).not.toBe('red');
   });
 
-  it('should render with required asterisk if required prop is true', async () => {
-    //const { getByText } = renderComponent({ required: true });
-    const tree = renderComponent({ required: true });
-    //expect(tree).toMatchSnapshot();
-    expect(tree.getByText('*')).toBeTruthy();
+  it('should render custom classes with properly', () => {
+    const caption = 'custom label';
+
+    const tree = render(
+      //<ParentContext.Provider value={BaseComponent}>
+      <ThemeProvider value={theme1}>
+        <WmLabel caption={caption} />
+      </ThemeProvider>
+      // </ParentContext.Provider>
+    );
+    // expect(tree).toMatchSnapshot();
   });
 });

@@ -74,7 +74,7 @@ describe('Test Tile component', () => {
   it('should handle animation and delay props', () => {
     const props = {
       animation: 'fadeIn',
-      // animationdelay: 500,
+      animationdelay: 500,
       children: <></>,
     };
     render(<WmTile {...props} />);
@@ -82,7 +82,7 @@ describe('Test Tile component', () => {
     const animatedView = screen.getByTestId('animatableView');
     expect(animatedView).toBeTruthy();
     expect(animatedView.props.animation).toBe(props.animation);
-    // expect(animatedLabel.props.delay).toBe(testprops.animationdelay);
+    expect(animatedView.props.delay).toBe(props.animationdelay);
   });
 
   it('should trigger onTap callback with WmLabel instance as one of the arguments', async () => {
