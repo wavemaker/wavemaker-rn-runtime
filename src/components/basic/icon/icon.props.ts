@@ -2,6 +2,7 @@ import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 import { AccessibilityRole } from 'react-native';
 export default class WmIconProps extends BaseProps {
   animation?: string = null as any;
+  animationdelay?: number = null as any;
   iterationcount?: any;
   iconclass?: string = 'wm-sl-l sl-user';
   iconposition? = 'left';
@@ -16,5 +17,5 @@ export default class WmIconProps extends BaseProps {
   iconmargin?: number = null as any;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
-  accessibilityrole?: AccessibilityRole = 'none';
+  accessibilityrole?: AccessibilityRole;
 }

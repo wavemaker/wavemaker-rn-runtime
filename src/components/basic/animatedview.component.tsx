@@ -7,6 +7,7 @@ export default class AnimatedviewProps {
   entryanimation?: string = null as any;
   children?: any;
   duration?: number = null as any;
+  delay?: number = null as any;
   iterationCount?: any;
   style?: any;
   exitanimation?: string = null as any;
@@ -165,6 +166,7 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
       <Animatable.View
         animation={this.props.entryanimation}
         duration={this.props.duration}
+        delay={this.props.delay}
         useNativeDriver={true}
         style={this.props.style}
         iterationCount={this.props.iterationCount}

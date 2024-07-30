@@ -1,6 +1,6 @@
 import React from 'react';
 import { isString } from 'lodash-es';
-import { LayoutChangeEvent, TouchableOpacity, Text, View, ScrollView, Dimensions, Animated, PanResponder } from 'react-native';
+import { LayoutChangeEvent, TouchableOpacity, Text, View, Dimensions, Animated, PanResponder } from 'react-native';
 import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import { SyntheticEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -11,6 +11,7 @@ import WmPopoverProps from './popover.props';
 import { DEFAULT_CLASS, WmPopoverStyles } from './popover.styles';
 import WmContainer from '../../container/container.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { ScrollView, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export class WmPopoverState extends BaseComponentState<WmPopoverProps> {
   isOpened: boolean = false;
@@ -63,6 +64,11 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
       }
     },
   });
+  
+  getDefaultStyles() {
+    const isActionSheet = this.state.props.type === 'action-sheet';
+    return this.theme.getStyle(`${this.defaultClass} ${isActionSheet ? 'app-popover-action-sheet' : ''}`);
+  }
 
   private computePosition = (e: LayoutChangeEvent) => {
     const position = {} as PopoverPosition;
@@ -85,7 +91,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
 
   public renderPopoverContent (props : WmPopoverProps , styles : WmPopoverStyles, dimensions: any) {
     return (
-      <ScrollView style={this.theme.mergeStyle(styles.popover, dimensions)} 
+      <ScrollView style={props.type === "action-sheet" ? {dimensions} : this.theme.mergeStyle(styles.popover, dimensions)} 
       onScroll={(event) => {this.notify('scroll', [event])}}
       scrollEventThrottle={48}
       accessible={props.type !== "dropdown"} accessibilityViewIsModal>
@@ -181,7 +187,9 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
             {(modalService: ModalService) => {
               modalService.showModal(this.prepareModalOptions(props.type === 'action-sheet' ?  (
                 <Animated.View style= {[styles.popover,{ height: this.dragY }]} {...this.panResponder.panHandlers}>
+                  <GestureHandlerRootView>
                  {this.renderPopoverContent(props, styles, dimensions)}
+                 </GestureHandlerRootView>
                   </Animated.View>
               ): (this.renderPopoverContent(props, styles, dimensions)), styles, modalService));
               return null;

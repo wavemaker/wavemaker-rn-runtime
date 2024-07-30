@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { widgetsWithUndefinedValue } from '@wavemaker/app-rn-runtime/core/utils';
-import { isEqual, get, find, cloneDeep, forEach, keys } from 'lodash';
+import { isEqual, isNil, get, find, cloneDeep, forEach, keys } from 'lodash';
 
 import WmFormFieldProps from './form-field.props';
 import { DEFAULT_CLASS, WmFormFieldStyles } from './form-field.styles';
@@ -226,7 +226,9 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           invokeEvent: this.invokeEventCallback.bind(this),
           triggerValidation: this.validateFormField.bind(this),
           onFieldChange: this.onFieldChangeEvt.bind(this),
-          formRef: props.formRef });
+          formRef: props.formRef,
+          ...(!isNil(props?.placeholder) ? { placeholder: props.placeholder } : {})
+         });
     });
     return (
       <View style={this.styles.root}>{this._background}{childrenWithProps}

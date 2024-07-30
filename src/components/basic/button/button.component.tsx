@@ -24,6 +24,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
   private prepareIcon({
     iconclass,
     iconurl,
+    hint,
     name,
     iconsize,
     iconheight,
@@ -33,11 +34,12 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
     return iconclass || iconurl
       ? (<WmIcon
           {...this.getTestPropsForLabel('icon')}
-          styles={this.styles.icon} 
-          name={`${name}_icon`} 
+          hint={hint}
+          styles={this.styles.icon}
+          name={`${name}_icon`}
           iconclass={iconclass}
           iconsize={iconsize}
-          iconurl={iconurl} 
+          iconurl={iconurl}
           iconheight={iconheight}
           iconmargin={iconmargin}
           iconwidth={iconwidth}
@@ -60,7 +62,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
   renderWidget(props: WmButtonProps) {
     return (
       <>
-      <Animatedview entryanimation={props.animation}
+      <Animatedview entryanimation={props.animation} delay={props.animationdelay}
         style={[
           this.styles.root,
           {
@@ -68,13 +70,15 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingBottom: 0,
             paddingLeft: 0,
             paddingRight: 0,
-            overflow: 'hidden'
-          }
+            overflow: 'hidden',
+            flexDirection: 'column'
+          },
+          this.styles.root.height == "100%" ? {flex: 1}:{}
         ]}
-        accessibilityProps={{...getAccessibilityProps(
-          AccessibilityWidgetType.BUTTON,
-          props
-        )}}
+        // accessibilityProps={{...getAccessibilityProps(
+        //   AccessibilityWidgetType.BUTTON,
+        //   props
+        // )}}
         >
         {this._background}
         <Tappable
@@ -84,12 +88,16 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingLeft: this.styles.root.paddingLeft,
             paddingRight: this.styles.root.paddingRight,
             width: '100%',
-            height: '100%',
+            height: this.styles.root.height ? '100%' : null,
             justifyContent: 'center',
           }}
           rippleColor = {this.styles.root.rippleColor}
           target={this}
-          {...this.getTestPropsForAction()}>
+          {...this.getTestPropsForAction()}
+          accessibilityProps={{...getAccessibilityProps(
+            AccessibilityWidgetType.BUTTON,
+            props
+          )}}>
           <View
             style={[
               this.styles.content,

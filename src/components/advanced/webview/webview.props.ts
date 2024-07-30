@@ -8,5 +8,5 @@ export default class WmWebviewProps extends BaseProps {
   onLoad?: ($event: any, $widget: WmWebview) => void = null as any;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
-  accessibilityrole?: AccessibilityRole = "none";
+  accessibilityrole?: AccessibilityRole;
 }

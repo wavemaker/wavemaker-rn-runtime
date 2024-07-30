@@ -11,6 +11,7 @@ export default class WmListProps extends BaseProps {
     subheading: string = null as any;
     dataset = [] as any;
     maxnumberofitems = 50;
+    children? = null as any;
     renderItem: any = () => (<View/>);
     loadingicon: string = null as any;
     loadingdatamsg = 'Loading...';

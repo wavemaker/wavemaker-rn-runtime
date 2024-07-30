@@ -2,7 +2,7 @@ import React from 'react';
 import { Animated, DimensionValue, Easing, Text, Image, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils'; 
+import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 import WmIconProps from './icon.props';
@@ -46,7 +46,7 @@ export class WmIconState extends BaseComponentState<WmIconProps> {
 export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIconStyles> {
   spinValue = new Animated.Value(0);
   pulseValue = new Animated.Value(0);
-  public stopAnimation = true; 
+  public stopAnimation = true;
   private _iconSource = null as any;
 
   constructor(props: WmIconProps) {
@@ -181,7 +181,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   renderIcon(props: WmIconProps) {
     let iconJsx = null;
     this._iconSource =  this._iconSource || this.loadIcon(props.iconurl);
-    const iconSrc: any = this._iconSource 
+    const iconSrc: any = this._iconSource
     if (iconSrc) {
       return this.getElementToShow(props, iconSrc);
     }
@@ -234,7 +234,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     }
     return (
       <View
-        {...getAccessibilityProps(AccessibilityWidgetType.ICON, this.props)}
+        // {...getAccessibilityProps(AccessibilityWidgetType.ICON, this.props)}
       >
         {iconJsx}
       </View>
@@ -245,11 +245,11 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     let icon = this.renderIcon(props);
     let iterationCount: any = props.iterationcount ? (props.iterationcount != 'infinite' ? parseInt(props.iterationcount): 'infinite') : undefined;
     return (
-      <Tappable target={this} rippleColor = {this.styles.root.rippleColor} {...this.getTestPropsForAction()}>  
-        <Animatedview entryanimation={props.animation} style={this.styles.root} iterationCount={iterationCount}>
+      <Tappable target={this} rippleColor = {this.styles.root.rippleColor} {...this.getTestPropsForAction()} accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.ICON, props)}}>
+        <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root} iterationCount={iterationCount}>
           {this._background}
           {(props.iconposition === 'left' && icon) || null}
-          {(props.caption && (<Text {...this.getTestPropsForLabel('caption')}style={this.styles.text}>{props.caption}</Text>)) || null}
+          {(props.caption && (<Text {...this.getTestPropsForLabel('caption')}style={this.styles.text} accessibilityRole={props?.accessibilityrole ? props?.accessibilityrole : 'text'}>{props.caption}</Text>)) || null}
           {(props.iconposition === 'right' && icon) || null}
         </Animatedview>
       </Tappable>

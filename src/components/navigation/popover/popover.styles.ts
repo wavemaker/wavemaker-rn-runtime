@@ -54,7 +54,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
-    addStyle('popover-action-sheet', '', {
+    addStyle('app-popover-action-sheet', '', {
         modal: {
             backgroundColor: 'rgba(0, 0, 0, 0.3)',
         },
@@ -65,6 +65,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             right: 0,
             width: '100%',
             minHeight: 240,
+            elevation: 4,
             maxHeight: Dimensions.get('window').height - 120
         },
         modalContent: {

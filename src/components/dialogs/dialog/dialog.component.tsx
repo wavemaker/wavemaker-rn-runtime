@@ -59,6 +59,7 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
     o.isModal = !!this.state.props.modal;
     o.centered = true;
     o.animation = this.state.props.animation;
+    o.animationdelay = this.state.props.animationdelay || 0;
     this._close = () => modalService.hideModal(this.state.modalOptions);
     return o;
   }
@@ -73,7 +74,7 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
               {this._background}
                 {props.showheader ? (<View style={this.styles.header} testID='wm-dialog-header'>
                   <View style={this.styles.headerLabel}>
-                  {props.iconclass || props.iconurl ? 
+                  {props.iconclass || props.iconurl ?
                     <WmIcon id={this.getTestId('icon')}
                      caption={props.title}
                      accessibilityrole='header'

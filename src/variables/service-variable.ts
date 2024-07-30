@@ -16,6 +16,7 @@ export interface ServiceVariableConfig extends VariableConfig {
   onResult: any;
   onBeforeDatasetReady: any;
   inFlightBehavior: string;
+  controller: string;
   getServiceInfo: Function;
 }
 
@@ -41,6 +42,8 @@ export class ServiceVariable extends _ServiceVariable {
       _context: config._context,
       operation: config.operation,
       operationId: config.operationId,
+      operationType: config.operationType,
+      controller: config.controller,
       serviceInfo: config.getServiceInfo(),
       httpClientService: httpService,
       inFlightBehavior: config.inFlightBehavior,
@@ -99,8 +102,8 @@ export class ServiceVariable extends _ServiceVariable {
     return new Promise((resolve, reject) => {
       this.invoke({
         page: page
-      }, 
-      (dataset: any) => resolve(dataset), 
+      },
+      (dataset: any) => resolve(dataset),
       reject);
     });
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, LayoutChangeEvent } from 'react-native';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import {
   VictoryChart,
@@ -52,7 +52,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
           }
         }]}/>
     });
-}
+  }
 
 onSelect(event: any, data: any){
   let value = data.data[data.index].y;
@@ -79,6 +79,7 @@ onSelect(event: any, data: any){
     return (<View
       {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
       style={this.styles.root}
+      onLayout={this.onViewLayoutChange.bind(this)}
     >
       {this.getTooltip()}
       <View>
@@ -89,8 +90,8 @@ onSelect(event: any, data: any){
           <Text style={this.styles.subHeading}>{props.subheading}</Text>
         </View>
       <VictoryChart theme={this.state.theme}
-                          height={this.styles.root.height as number}
-                          width={this.styles.root.width as number || this.screenWidth}               
+                          height={(this.styles.root.height) as number}
+                          width={this.state.chartWidth || this.screenWidth}
                           minDomain={mindomain}
                           padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}>
       {this.getLegendView()}

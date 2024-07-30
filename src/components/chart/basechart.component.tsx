@@ -30,6 +30,7 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
   loading: boolean = true;
   chartHeight: number = 0;
   chartWidth: number = 0;
+  totalHeight: number = 0;
   chartMinY: number | undefined = undefined;
   chartMinX: number | undefined = undefined;
   chartMaxY: number | undefined = undefined;
@@ -78,6 +79,18 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   componentDidMount() {
     super.componentDidMount();
   }
+
+  onViewLayoutChange(e: LayoutChangeEvent){
+    let viewWidth = e.nativeEvent.layout.width;
+    let viewHeight = e.nativeEvent.layout.height;
+    if (viewWidth !== this.state.chartWidth) {
+      this.updateState({
+        chartWidth: Number(viewWidth),
+        totalHeight: Number(viewHeight)
+      } as any)
+    }
+  }
+
 
   abbreviateNumber(number: any) {
     if (typeof number !== 'number') {
@@ -245,10 +258,8 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
         { position: "absolute", top: this.state.tooltipYPosition as number, left: this.state.tooltipXPosition as number},
         this.styles.tooltipContainer
       ]}>
-        <View>
         <Text style={[{ fontSize: 16, fontWeight: 'bold' },this.styles.tooltipXText]}>{this.state.tooltipXaxis}</Text>
         <Text style={this.styles.tooltipXText}>{this.state.tooltipYaxis}</Text>
-        </View>
         {this.renderPointer()}
       </View>)
     ) : null;
@@ -465,7 +476,12 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   getxAxisVal(dataObj: {[key: string] : any}, xKey: string, index: number, xaxisDatakeyArr: Array<any>) {
     const value: any = get(dataObj, xKey);
     if (moment(value).isValid() || isNaN(value) || typeof value === 'string' || typeof value === 'number') {
-      xaxisDatakeyArr.push(value);
+      if (typeof value === "string"){
+        xaxisDatakeyArr.push(value.replace("\\n","\n"));
+      }
+      else{
+        xaxisDatakeyArr.push(value);
+      }
       return index;
     }
     return value;

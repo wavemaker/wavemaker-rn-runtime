@@ -7,7 +7,7 @@ export const DEFAULT_CLASS = 'app-wizardstep';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmWizardstepStyles = defineStyles({
         root: {
-            height: '100%'
+            flex: 1,
         },
         text: {}
     });

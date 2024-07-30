@@ -49,7 +49,13 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
       this.onSlideChange(this.state.activeIndex - 1);
     },
     onUpper: (e) => {
-      this.onSlideChange(this.state.activeIndex + 1);
+      if(this.noOfSlides < this.state.activeIndex + 1){
+        this.onSlideChange(1);
+        this.animationView?.setPosition(0);
+      }
+      else{
+        this.onSlideChange(this.state.activeIndex + 1);
+      }
     }
   } as SwipeAnimation.Handlers;
 
@@ -246,9 +252,9 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
       <View style={styles.root}>
         {this._background}
         <SwipeAnimation.View 
-            enableGestures={props.enablegestures}
+            enableGestures={props.enablegestures && this.noOfSlides > 1}
             style={{
-              height: props.type === 'dynamic' ? undefined : '100%',
+              flex: 1
             }}
             direction='horizontal'
             ref={(r) => {this.animationView = r}}
@@ -289,7 +295,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
                     .filter((l , i) => i < index)
                     .reduce((s, l) => s + l.width, 0);
                   this.animationView?.setPosition(-1 * position);
-                }} rippleColor={this.styles.root.rippleColor}>
+                }} rippleColor={this.styles.root.rippleColor} styles={{height: "100%"}}>
                   {this.renderItem(item, index)}
                 </Tappable>
               </Animated.View>

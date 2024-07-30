@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Animated, Easing, LayoutChangeEvent } from 'react-native';
+import { TouchableOpacity, Animated, Easing, LayoutChangeEvent, View } from 'react-native';
 
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -114,29 +114,37 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
         this.onToggleSwitch(!this.state.isSwitchOn);
       }}{...this.getTestPropsForAction()}
       style={styles.root}>
-        {this._background}
-        <Animated.View
-         style={[
-          styles.handle,
-          {
-            transform: [
+       {styles.root.animation && styles.root.animation === 'none' ? (
+          <View style={styles.handle}>
+            <BackgroundComponent
+              size={styles.handle.backgroundSize || 'contain'}
+              position={styles.handle.backgroundPosition}
+              image={styles.handle.backgroundImage}
+              repeat={styles.handle.backgroundRepeat || 'no-repeat'}
+            />
+          </View>
+          ): ( <Animated.View
+            style={[
+              styles.handle,
               {
-                translateX: this.animationValue.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, this.state.viewWidth - (this.styles.handle.width as number+ 18)],
-                }),
+                transform: [
+                  {
+                    translateX: this.animationValue.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, this.state.viewWidth - (this.styles.handle.width as number + 18)],
+                    }),
+                  },
+                  { scale: this.scaleValue }
+                ],
               },
-              {scale : this.scaleValue}
-            ],
-          },
-        ]}>
-          <BackgroundComponent
-            size={styles.handle.backgroundSize || 'contain'}
-            position={styles.handle.backgroundPosition}
-            image={styles.handle.backgroundImage}
-            repeat={styles.handle.backgroundRepeat || 'no-repeat'}>  
-          </BackgroundComponent>
-        </Animated.View>
+            ]}>
+            <BackgroundComponent
+              size={styles.handle.backgroundSize || 'contain'}
+              position={styles.handle.backgroundPosition}
+              image={styles.handle.backgroundImage}
+              repeat={styles.handle.backgroundRepeat || 'no-repeat'}
+            />
+          </Animated.View>)}
       </TouchableOpacity>
     );
   }

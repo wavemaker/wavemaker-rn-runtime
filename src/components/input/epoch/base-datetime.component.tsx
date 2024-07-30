@@ -91,6 +91,10 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       return null;
     }
   }
+  
+   momentPattern(pattern : String) {
+    return pattern?.replaceAll('y', 'Y').replaceAll('d', 'D');
+}
 
   onPropertyChange(name: string, $new: any, $old: any) {
     super.onPropertyChange(name, $new, $old);
@@ -105,16 +109,16 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
         }
       case 'datepattern':
       case 'outputformat':
-        if (props.datavalue && props.outputformat && props.datepattern) {
+        if (props.datavalue && this.momentPattern(props.outputformat as String) && this.momentPattern(props.datepattern as String)) {
           let datavalue: any = props.datavalue;
           if (datavalue === CURRENT_DATE || datavalue === CURRENT_TIME) {
             datavalue = new Date() as any;
           }
-          const date = isString(datavalue) ? this.parse(datavalue as string, props.outputformat) : datavalue;
+          const date = isString(datavalue) ? this.parse(datavalue as string, this.momentPattern(props.outputformat as String)) : datavalue;
           datavalue = this.convertTimezone(datavalue);
           this.updateState({
             dateValue : date,
-            displayValue: this.format(datavalue?datavalue:date as any, props.datepattern)
+            displayValue: this.format(datavalue?datavalue:date as any, this.momentPattern(props.datepattern as String))
           } as BaseDatetimeState);
         } else {
           this.updateState({
@@ -129,7 +133,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           const minDateVal = ($new === CURRENT_DATE || $new === CURRENT_TIME) ? new Date() : props.mindate;
           this.updateState({
             props: {
-              mindate: moment(minDateVal, props.datepattern).toDate()
+              mindate: moment(minDateVal, this.momentPattern(props.datepattern as String)).toDate()
             }
           } as BaseDatetimeState);
         }
@@ -139,7 +143,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           const maxDateVal = ($new === CURRENT_DATE || $new === CURRENT_TIME) ? new Date() : props.maxdate;
           this.updateState({
             props: {
-              maxdate: moment(maxDateVal, props.datepattern).toDate()
+              maxdate: moment(maxDateVal, this.momentPattern(props.datepattern as String)).toDate()
             }
           } as BaseDatetimeState);
         }
@@ -161,7 +165,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       isFocused: false,
       showDatePicker: !!this.modes.length,
       props: {
-        datavalue: this.format(date, this.state.props.outputformat as string),
+        datavalue: this.format(date,  this.momentPattern(this.state.props.outputformat as String) as string),
         timestamp: this.format(date, 'timestamp')
       }
     } as BaseDatetimeState);
@@ -321,10 +325,14 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }}</ModalConsumer>);
   }
 
-  addTouchableOpacity(props: WmDatetimeProps, children: React.ReactNode, styles?: any) : React.ReactNode{
+  addTouchableOpacity(props: WmDatetimeProps, children: React.JSX.Element, styles?: any) : React.ReactNode{
+    const hint = children?.props?.hint;
+    const accessibilityProps = hint ? {accessible: true, accessibilityHint: hint} : {};
+
     return (
       <TouchableOpacity 
         {...this.getTestPropsForAction()} 
+        {...accessibilityProps}
         style={styles} onPress={() => {
         if (!props.readonly) {
           this.onFocus();
@@ -373,12 +381,13 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                 (<WmIcon iconclass="wi wi-clear"
                 styles={{color: this.styles.text.color, ...this.styles.clearIcon}}
                 id={this.getTestId('clearicon')}
+                accessibilitylabel={`clear ${props?.mode}`}
                 onTap={() => {
                   this.onDateChange(null as any, null as any);
                   this.clearBtnClicked = true;
                 }}/>)) || null}
               {this.addTouchableOpacity(props, (
-                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}}/>
+                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}} hint={props?.hint}/>
               ))}
             </View>
           {

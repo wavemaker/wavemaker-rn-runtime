@@ -9,6 +9,7 @@ import WmSliderProps from './slider.props';
 import { DEFAULT_CLASS, WmSliderStyles } from './slider.styles';
 import { isDefined, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { BaseDatasetComponent, BaseDatasetState } from '../basedataset/basedataset.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export type SliderGestureType = 'track' | 'lowThumb' | 'highThumb';
 
@@ -369,6 +370,8 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
                 ],
               },
             ]}
+            accessible={true}
+            accessibilityLabel={(isRangeSlider && this.highPosition) ? 'Low thumb' : 'Thumb'}
           >
             <BackgroundComponent
               size={(this.styles.thumb as any).backgroundSize}
@@ -413,6 +416,8 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
                   ],
                 }
               ]}
+              accessible={true}
+              accessibilityLabel={'High thumb'}
               >
               <BackgroundComponent
                 size={(this.styles.thumb as any).backgroundSize}
@@ -522,6 +527,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
           style={[this.styles.track, this.styles.trackStyle]}
           onLayout={this.onLayoutChange}
           {...this.getTestProps()}
+          {...getAccessibilityProps(AccessibilityWidgetType.SLIDER, props)}
         >
           <Animated.View
             style={[

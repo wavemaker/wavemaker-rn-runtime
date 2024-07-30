@@ -1,5 +1,6 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { find, isEmpty } from 'lodash';
 
 import WmSelectProps from './select.props';
@@ -64,7 +65,9 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
       this.hide = () => {};
       if (this.isDefaultValue && this.state.props.displayValue === '') {
         this.validate(this.state.props.displayValue);
-        this.props.triggerValidation && this.props.triggerValidation();
+        setTimeout(() => {
+          this.props.triggerValidation && this.props.triggerValidation();
+        }, 0);
       }
       this.invokeEventCallback('onBlur', [{}, this.proxy]);
       this.setState({ isOpened: false, modalOptions: {} as ModalOptions } as WmSelectState);
@@ -91,10 +94,6 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
        * https://github.com/naoufal/react-native-accordion/pull/19/files
        */
       <View
-        {...getAccessibilityProps(
-          AccessibilityWidgetType.SELECT,
-          props
-        )}
         style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, { backgroundColor: props.disabled ? this.styles.disabledText.backgroundColor : this.styles.root.backgroundColor}]}
         ref={(ref) => {
           this.view = ref as View;
@@ -107,6 +106,10 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               this.widgetRef = ref;
             }}
             {...this.getTestPropsForInput()}
+            {...getAccessibilityProps(
+              AccessibilityWidgetType.SELECT,
+              props
+            )}
             onPress={this.onPress.bind(this)}>
             {this.state.props.displayValue || props.placeholder || ' '}
           </Text>
@@ -114,6 +117,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
             styles={this.styles.arrowButton}
             iconclass={'wi wi-keyboard-arrow-down'}
             onTap={this.onPress.bind(this)}
+            hint={props?.hint}
           />
       </View>
     );

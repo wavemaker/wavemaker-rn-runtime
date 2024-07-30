@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Platform } from 'react-native';
+import { Text, View, Platform, LayoutChangeEvent } from 'react-native';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import {
   VictoryChart,
@@ -42,13 +42,15 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
   }
 
+
+
   renderWidget(props: WmLineChartProps) {
     this.invokeEventCallback('onBeforerender', [this.proxy, null]);
     if (!this.state.data?.length) {
       return null;
     }
     return (
-    <View style={this.styles.root} {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}>
+    <View style={this.styles.root} {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)} onLayout={this.onViewLayoutChange}>
       {this.getTooltip()}
       <View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -59,8 +61,8 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
       </View>
       <VictoryChart
         theme={this.state.theme}
-        height={this.styles.root.height as number}
-        width={this.styles.root.width as number || this.screenWidth}
+        height={(this.styles.root.height) as number}
+        width={this.state.chartWidth || this.screenWidth}
         padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
       >
         {this.getLegendView()}

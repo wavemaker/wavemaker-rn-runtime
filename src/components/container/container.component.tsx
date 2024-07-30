@@ -22,9 +22,9 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       height: this.styles.root.height ? '100%' : undefined
     };
     return (
-      <Animatedview entryanimation={props.animation} style={this.styles.root}>
+      <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root}>
         {this._background}
-        <Tappable {...this.getTestPropsForAction()} target={this} styles={{width: '100%'}}>
+        <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions}>
             <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View>
         </Tappable>
       </Animatedview>
