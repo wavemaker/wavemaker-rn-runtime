@@ -38,7 +38,7 @@ jest.mock(
       _esModule: true,
       default: {
         ...originalModule,
-        addEventListener: jest.fn(),
+        addEventListener: jest.fn().mockReturnValue({remove: null}),
         isScreenReaderEnabled: jest.fn(() => Promise.resolve(true)),
       },
     };
@@ -96,3 +96,39 @@ jest.mock(
     });
   }
 );
+
+jest.mock('@wavemaker/app-rn-runtime/core/injector', () => {
+  const actualInjector = jest.requireActual(
+    '@wavemaker/app-rn-runtime/core/injector'
+  );
+  return {
+    ...actualInjector,
+    get: jest.fn().mockImplementation(() => {
+      return {
+        app: {
+          toastsOpened: 1,
+        },
+        refresh: () => {},
+      };
+    }),
+    FOCUSED_ELEMENT: {
+      get: jest.fn().mockImplementation(() => ({
+        blur: jest.fn(),
+      })),
+    },
+    I18nService: {
+      ...actualInjector.I18nService,
+      get: jest.fn().mockImplementation(() => ({
+        defaultSupportedLocale: 'en',
+        selectedLocale: 'en',
+        dateFormat: 'MMM d, y',
+        timeFormat: 'h:mm:ss a',
+        dateTimeFormat: 'MMM d, y h:mm:ss a',
+        currencyCode: 'USD',
+        timezone: '',
+        isRTLLocale:jest.fn().mockReturnValue(false),
+        getSelectedLocale: jest.fn().mockReturnValue('en')
+      })),
+    },
+  };
+});

@@ -1,5 +1,10 @@
 import React from 'react';
-import { cleanup, fireEvent, render, waitFor } from '@testing-library/react-native';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react-native';
 import WmAlertdialog from '@wavemaker/app-rn-runtime/components/dialogs/alertdialog/alertdialog.component';
 import WmDialog from '@wavemaker/app-rn-runtime/components/dialogs/dialog/dialog.component';
 import AppModalService from '@wavemaker/app-rn-runtime/runtime/services/app-modal.service';
@@ -16,68 +21,40 @@ const defaultProps = {
 };
 
 const renderComponent = async (props = {}) => {
-  const loadAsset = path => path;
+  const loadAsset = (path) => path;
   AppModalService.modalsOpened = [];
 
   const tree = render(
     <ModalProvider value={AppModalService}>
       <AssetProvider value={loadAsset}>
-        <WmAlertdialog {...defaultProps} {...props}/>
+        <WmAlertdialog {...defaultProps} {...props} />
       </AssetProvider>
     </ModalProvider>
-  )
+  );
 
   const instance = tree.UNSAFE_getByType(WmAlertdialog).instance;
   instance.open();
   await timer();
 
   return tree;
-}
+};
 
 const timer = (time = 100) =>
   new Promise((resolve: any, reject) => {
     setTimeout(() => resolve(), time);
   });
 
-const appConfig = {
-  app: {
-    toastsOpened: 1,
-  },
-  refresh: () => {},
-};
-
-jest.mock('@wavemaker/app-rn-runtime/core/injector', () => {
-  const actualInjector = jest.requireActual(
-    '@wavemaker/app-rn-runtime/core/injector'
-  );
-  return {
-    ...actualInjector,
-    get: jest.fn().mockImplementation(() => {
-      return appConfig;
-    }),
-    FOCUSED_ELEMENT: {
-      get: jest.fn().mockImplementation(() => ({
-        blur: jest.fn(),
-      })),
-    },
-  };
-});
-
-const Component = ({children}) => (
-  <>
-    {children}
-  </>
-)
+const Component = ({ children }) => <>{children}</>;
 
 describe('Alertdialog component', () => {
-  afterEach(()=>{
+  afterEach(() => {
     cleanup();
-  })
+  });
 
-  test('should render WmAlertdialog with default props', async() => {
-    await renderComponent({message: 'test alert message'});
+  test('should render WmAlertdialog with default props', async () => {
+    await renderComponent({ message: 'test alert message' });
     const renderOptions = AppModalService.modalsOpened[0];
-    const subTree = render(<Component children={renderOptions.content}/>)
+    const subTree = render(<Component children={renderOptions.content} />);
 
     expect(subTree.getByTestId('wm-dialog')).toBeDefined();
     expect(subTree.getByTestId('wm-dialog-header')).toBeDefined();
@@ -86,25 +63,25 @@ describe('Alertdialog component', () => {
   });
 
   test('should render custom ok button text', async () => {
-    await renderComponent({oktext: "test ok button"});
+    await renderComponent({ oktext: 'test ok button' });
     const renderOptions = AppModalService.modalsOpened[0];
-    const subTree = render(<Component children={renderOptions.content}/>)
+    const subTree = render(<Component children={renderOptions.content} />);
 
-    expect(subTree.getByText("test ok button")).toBeDefined();
-  })
+    expect(subTree.getByText('test ok button')).toBeDefined();
+  });
 
   test('should render custom title', async () => {
-    await renderComponent({title: "test title"});
+    await renderComponent({ title: 'test title' });
     const renderOptions = AppModalService.modalsOpened[0];
-    const subTree = render(<Component children={renderOptions.content}/>)
+    const subTree = render(<Component children={renderOptions.content} />);
 
-    expect(subTree.getByText("test title")).toBeDefined();
-  })
+    expect(subTree.getByText('test title')).toBeDefined();
+  });
 
   test('should render with custom icon', async () => {
-    await renderComponent({iconclass: 'wi wi-test_help'});
+    await renderComponent({ iconclass: 'wi wi-test_help' });
     const renderOptions = AppModalService.modalsOpened[0];
-    const subTree = render(<Component children={renderOptions.content}/>) 
+    const subTree = render(<Component children={renderOptions.content} />);
 
     expect(subTree.getByText('test_help')).toBeDefined();
   });
@@ -117,9 +94,9 @@ describe('Alertdialog component', () => {
   });
 
   test('should be closable when closable prop is true', async () => {
-    await renderComponent({closable: true});
+    await renderComponent({ closable: true });
     const renderOptions = AppModalService.modalsOpened[0];
-    const subTree = render(<Component children={renderOptions.content}/>) 
+    const subTree = render(<Component children={renderOptions.content} />);
 
     expect(subTree.getByText('close')).toBeDefined();
   });
@@ -138,26 +115,34 @@ describe('Alertdialog component', () => {
         color: 'purple',
       },
     };
-    await renderComponent({styles: {customStyles}});
+    await renderComponent({ styles: { customStyles } });
     const renderOptions = AppModalService.modalsOpened[0];
-    const {getByTestId, getByText} = render(<Component children={renderOptions.content}/>) 
+    const { getByTestId, getByText } = render(
+      <Component children={renderOptions.content} />
+    );
 
-    expect(getByTestId('wm-dialog').props.style).toMatchObject({backgroundColor: 'blue'})
-    expect(getByText('Ok').props.style).toMatchObject({backgroundColor: 'green'});
-    expect(getByText('This is an alert message!').props.style).toMatchObject({color: 'purple'})
+    expect(getByTestId('wm-dialog').props.style).toMatchObject({
+      backgroundColor: 'blue',
+    });
+    expect(getByText('Ok').props.style).toMatchObject({
+      backgroundColor: 'green',
+    });
+    expect(getByText('This is an alert message!').props.style).toMatchObject({
+      color: 'purple',
+    });
   });
 
   test('should render with animation if animation prop is provided', async () => {
-    await renderComponent({animation: 'fadeIn'})
+    await renderComponent({ animation: 'fadeIn' });
     const renderOptions = AppModalService.modalsOpened[0];
-    
+
     expect(renderOptions.animation).toBe('fadeIn');
   });
 
   test('should have modal property set as per prop value', async () => {
-    await renderComponent({modal: false})
+    await renderComponent({ modal: false });
     const renderOptions = AppModalService.modalsOpened[0];
-    
+
     expect(renderOptions.isModal).toBe(false);
   });
 
@@ -167,9 +152,9 @@ describe('Alertdialog component', () => {
       iconwidth: 20,
       iconheight: 30,
     };
-    await renderComponent({...iconurlProps});
+    await renderComponent({ ...iconurlProps });
     const renderOptions = AppModalService.modalsOpened[0];
-    const subTree = render(<Component children={renderOptions.content}/>) 
+    const subTree = render(<Component children={renderOptions.content} />);
 
     expect(subTree.getByTestId('alert_dialog_icon_icon')).toBeTruthy();
     expect(
@@ -186,15 +171,19 @@ describe('Alertdialog component', () => {
   test('should set the default message if not provided', async () => {
     await renderComponent();
     const renderOptions = AppModalService.modalsOpened[0];
-    const {getByText} = render(<Component children={renderOptions.content}/>) 
+    const { getByText } = render(
+      <Component children={renderOptions.content} />
+    );
 
     expect(getByText('I am an alert box!')).toBeDefined();
   });
 
   test('should close the dialog when close button is pressed', async () => {
-    await renderComponent({closable: true});
+    await renderComponent({ closable: true });
     const renderOptions = AppModalService.modalsOpened[0];
-    const {getByText} = render(<Component children={renderOptions.content}/>) 
+    const { getByText } = render(
+      <Component children={renderOptions.content} />
+    );
 
     expect(getByText('close')).toBeDefined();
     fireEvent(getByText('close'), 'press');
@@ -202,36 +191,52 @@ describe('Alertdialog component', () => {
     await timer(500); // there is a timer in AppModalService
 
     expect(AppModalService.modalsOpened[0]).toBeUndefined();
-  })
+  });
 
   test('should close dialog when ok button is pressed', async () => {
-    const alertInvokeEventCallbackMock = jest.spyOn(WmAlertdialog.prototype, 'invokeEventCallback');
-    const dialogInvokeEventCallbackMock = jest.spyOn(WmDialog.prototype, 'invokeEventCallback');
+    const alertInvokeEventCallbackMock = jest.spyOn(
+      WmAlertdialog.prototype,
+      'invokeEventCallback'
+    );
+    const dialogInvokeEventCallbackMock = jest.spyOn(
+      WmDialog.prototype,
+      'invokeEventCallback'
+    );
     await renderComponent();
     const renderOptions = AppModalService.modalsOpened[0];
-    const {getByText} = render(<Component children={renderOptions.content}/>);
+    const { getByText } = render(
+      <Component children={renderOptions.content} />
+    );
 
     fireEvent(getByText('Ok'), 'press');
-    await timer(500); 
-    
-    expect(alertInvokeEventCallbackMock).toHaveBeenCalledWith('onOk', expect.arrayContaining([null]));
-    expect(dialogInvokeEventCallbackMock).toHaveBeenCalledWith('onClose', expect.arrayContaining([null]));
-    expect(AppModalService.modalsOpened[0]).toBeUndefined();
-  })
+    await timer(500);
 
-  test('should open and close the dialog using open and close methods', async() => {
-    const {UNSAFE_getByType} = render(
+    expect(alertInvokeEventCallbackMock).toHaveBeenCalledWith(
+      'onOk',
+      expect.arrayContaining([null])
+    );
+    expect(dialogInvokeEventCallbackMock).toHaveBeenCalledWith(
+      'onClose',
+      expect.arrayContaining([null])
+    );
+    expect(AppModalService.modalsOpened[0]).toBeUndefined();
+  });
+
+  test('should open and close the dialog using open and close methods', async () => {
+    const { UNSAFE_getByType } = render(
       <ModalProvider value={AppModalService}>
         <AssetProvider value={(path) => path}>
-          <WmAlertdialog {...defaultProps}/>
+          <WmAlertdialog {...defaultProps} />
         </AssetProvider>
       </ModalProvider>
     );
     const instance = UNSAFE_getByType(WmAlertdialog).instance;
     instance.open();
     await timer();
-    
-    const subTree = render(<Component children={AppModalService.modalsOpened[0].content}/>)
+
+    const subTree = render(
+      <Component children={AppModalService.modalsOpened[0].content} />
+    );
 
     expect(AppModalService.modalsOpened[0]).toBeDefined();
     expect(subTree.getByTestId('wm-dialog')).toBeDefined();

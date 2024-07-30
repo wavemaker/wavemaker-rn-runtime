@@ -18,29 +18,6 @@ import AppModalService from '@wavemaker/app-rn-runtime/runtime/services/app-moda
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 import { Platform } from 'react-native';
 
-// Mock necessary modules and functions
-
-// jest.mock('@wavemaker/app-rn-runtime/core/asset.provider', () => ({
-//   AssetProvider: ({ children }: { children: React.ReactNode }) => children,
-// }));
-
-jest.mock('@wavemaker/app-rn-runtime/core/injector', () => {
-  const actualInjector = jest.requireActual(
-    '@wavemaker/app-rn-runtime/core/injector'
-  );
-  return {
-    ...actualInjector,
-    get: jest.fn().mockImplementation(() => {
-      return appConfig;
-    }),
-    FOCUSED_ELEMENT: {
-      get: jest.fn().mockImplementation(() => ({
-        blur: jest.fn(),
-      })),
-    },
-  };
-});
-
 const dataItems = [
   {
     name: 'name0',
@@ -61,12 +38,6 @@ const timer = (time = 100) =>
     setTimeout(() => resolve(), time);
   });
 
-const appConfig = {
-  app: {
-    toastsOpened: 1,
-  },
-  refresh: () => {},
-};
 const loadAsset = (path) => path;
 
 const defaultProps: WmSearchProps = {

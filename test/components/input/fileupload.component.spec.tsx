@@ -10,10 +10,6 @@ import {
 import * as DocumentPicker from 'expo-document-picker';
 import { Platform } from 'react-native';
 
-// jest.mock(
-//   '@wavemaker/app-rn-runtime/components/basic/button/button.component',
-//   () => 'WmButton'
-// );
 jest.mock('expo-document-picker');
 
 const timer = (time = 100) =>
@@ -29,6 +25,17 @@ describe('WmFileupload', () => {
     size: 12345,
     type: 'success',
     mimeType: 'text/plain',
+  };
+
+  const mockDocumentPickerResponse = {
+    assets: [{ mockDocumentPickerResult }],
+    canceled: false,
+    output: {},
+  };
+  const mockDocumentPickerResponseWeb = {
+    assets: [{ file: mockDocumentPickerResult }],
+    canceled: false,
+    output: {},
   };
 
   beforeEach(() => {
@@ -50,7 +57,9 @@ describe('WmFileupload', () => {
 
   // File Selection Handling
   it('handles file selection correctly', async () => {
-    DocumentPicker.getDocumentAsync.mockResolvedValue(mockDocumentPickerResult);
+    DocumentPicker.getDocumentAsync.mockResolvedValue(
+      mockDocumentPickerResponse
+    );
 
     render(<WmFileupload {...defaultProps} />);
     const button = screen.getByText('Upload');
@@ -74,7 +83,9 @@ describe('WmFileupload', () => {
     const onSelect = jest.fn();
     const props = { ...defaultProps, onBeforeselect, onSelect };
 
-    DocumentPicker.getDocumentAsync.mockResolvedValue(mockDocumentPickerResult);
+    DocumentPicker.getDocumentAsync.mockResolvedValue(
+      mockDocumentPickerResponse
+    );
 
     render(<WmFileupload {...props} />);
     const button = screen.getByText('Upload');
@@ -143,9 +154,9 @@ describe('WmFileupload', () => {
     Platform.OS = 'web';
     const onSelect = jest.fn();
     const onBeforeselect = jest.fn();
-    DocumentPicker.getDocumentAsync.mockResolvedValue({
-      file: mockDocumentPickerResult,
-    });
+    DocumentPicker.getDocumentAsync.mockResolvedValue(
+      mockDocumentPickerResponseWeb
+    );
 
     render(
       <WmFileupload

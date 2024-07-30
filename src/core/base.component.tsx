@@ -104,7 +104,7 @@ export abstract class BaseComponent<
   public _background = (<></>);
   private styleOverrides = {} as any;
   public loadAsset: (path: string) => number | string = null as any;
-  //private i18nService = injector.I18nService.get();
+  private i18nService = injector.I18nService.get();
   public testIdPrefix = '';
   private _showView = true;
   public closestTappable?: Tappable;
@@ -180,13 +180,13 @@ export abstract class BaseComponent<
         this.forceUpdate();
       })
     );
-    // this.cleanup.push(
-    //   AccessibilityInfo.addEventListener('screenReaderChanged', () => {
-    //     setTimeout(() => {
-    //       this.forceUpdate();
-    //     }, 100);
-    //   }).remove
-    // );
+    this.cleanup.push(
+      AccessibilityInfo.addEventListener('screenReaderChanged', () => {
+        setTimeout(() => {
+          this.forceUpdate();
+        }, 100);
+      }).remove
+    );
     this.cleanup.push(() => {
       this.destroyParentListeners();
     });
@@ -201,8 +201,7 @@ export abstract class BaseComponent<
   }
 
   public get isRTL() {
-    //return this.i18nService.isRTLLocale();
-    return false;
+    return this.i18nService.isRTLLocale();
   }
 
   public animate(props: AnimatableProps<ViewStyle>) {
@@ -539,7 +538,7 @@ export abstract class BaseComponent<
   public render(): ReactNode {
     const props = this.state.props;
     this.isFixed = false;
-    const selectedLocale = 'en'; //this.i18nService.getSelectedLocale();
+    const selectedLocale = this.i18nService.getSelectedLocale();
     return this.getDependenciesFromContext(() => {
       WIDGET_LOGGER.info(
         () => `${this.props.name || this.constructor.name} is rendering.`

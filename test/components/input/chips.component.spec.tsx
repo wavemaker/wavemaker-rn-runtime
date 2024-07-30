@@ -22,32 +22,9 @@ const timer = (time = 100) =>
     setTimeout(() => resolve(), time);
   });
 
-const appConfig = {
-  app: {
-    toastsOpened: 1,
-  },
-  refresh: () => {},
-};
 const loadAsset = (path) => path;
 
 AppModalService.modalsOpened = [];
-
-jest.mock('@wavemaker/app-rn-runtime/core/injector', () => {
-  const actualInjector = jest.requireActual(
-    '@wavemaker/app-rn-runtime/core/injector'
-  );
-  return {
-    ...actualInjector,
-    get: jest.fn().mockImplementation(() => {
-      return appConfig;
-    }),
-    FOCUSED_ELEMENT: {
-      get: jest.fn().mockImplementation(() => ({
-        blur: jest.fn(),
-      })),
-    },
-  };
-});
 
 describe('WmChips', () => {
   let defaultProps: WmChipsProps;

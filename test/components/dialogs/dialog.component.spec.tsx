@@ -40,31 +40,6 @@ const ChildrenComponent = () => (
   </View>
 );
 
-
-const appConfig = {
-  app: {
-    toastsOpened: 1,
-  },
-  refresh: () => {},
-};
-
-jest.mock('@wavemaker/app-rn-runtime/core/injector', () => {
-  const actualInjector = jest.requireActual(
-    '@wavemaker/app-rn-runtime/core/injector'
-  );
-  return {
-    ...actualInjector,
-    get: jest.fn().mockImplementation(() => {
-      return appConfig;
-    }),
-    FOCUSED_ELEMENT: {
-      get: jest.fn().mockImplementation(() => ({
-        blur: jest.fn(),
-      })),
-    },
-  };
-});
-
 describe('Test Dialog component', () => {
   afterEach(() => {
     cleanup();
@@ -210,7 +185,7 @@ describe('Test Dialog component', () => {
     renderComponent({ ref: customRef });
 
     act(() => {
-      customRef.current.state.props.show = false
+      customRef.current.state.props.show = false;
     });
 
     act(() => {
@@ -267,13 +242,9 @@ describe('Test Dialog component', () => {
     renderComponent({ ref: customRef, closable: true });
     const renderOptions = AppModalService.modalsOpened[0];
     const Component = () => {
-      return (
-        <>
-          {renderOptions.content}
-        </>
-      )
-    }
-    const {getByText} = render(<Component/>)
+      return <>{renderOptions.content}</>;
+    };
+    const { getByText } = render(<Component />);
     fireEvent(getByText('close'), 'press');
 
     await waitFor(() => {
@@ -293,17 +264,16 @@ describe('Test Dialog component', () => {
   });
 
   test('should renders children inside the dialog', () => {
-    renderComponent({iconclass: 'fa fa-info', children: <ChildrenComponent/>});
+    renderComponent({
+      iconclass: 'fa fa-info',
+      children: <ChildrenComponent />,
+    });
     const renderOptions = AppModalService.modalsOpened[0];
     const Component = () => {
-      return (
-        <>
-          {renderOptions.content}
-        </>
-      )
-    }
-    const tree = render(<Component/>)
+      return <>{renderOptions.content}</>;
+    };
+    const tree = render(<Component />);
 
-    expect(tree.getByText("Children Component")).toBeDefined();
+    expect(tree.getByText('Children Component')).toBeDefined();
   });
 });

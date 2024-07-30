@@ -36,35 +36,11 @@ const timer = (time = 100) =>
     setTimeout(() => resolve(), time);
   });
 
-const appConfig = {
-  app: {
-    toastsOpened: 1,
-  },
-  refresh: () => {},
-};
-
-jest.mock('@wavemaker/app-rn-runtime/core/injector', () => {
-  const actualInjector = jest.requireActual(
-    '@wavemaker/app-rn-runtime/core/injector'
-  );
-  return {
-    ...actualInjector,
-    get: jest.fn().mockImplementation(() => {
-      return appConfig;
-    }),
-    FOCUSED_ELEMENT: {
-      get: jest.fn().mockImplementation(() => ({
-        blur: jest.fn(),
-      })),
-    },
-  };
-});
-
 describe('Test Confirmdialog component', () => {
   //The render tree will always be null
   //The dom is assigned to AppModalService.
   test('should render WmConfirmdialog with default props', async () => {
-    const {UNSAFE_getByType} = renderComponent();
+    const { UNSAFE_getByType } = renderComponent();
     const instance = UNSAFE_getByType(WmConfirmdialog).instance;
     instance.open();
     await timer();
@@ -89,7 +65,7 @@ describe('Test Confirmdialog component', () => {
       'invokeEventCallback'
     );
     const dialogCloseMock = jest.spyOn(WmDialog.prototype, 'close');
-    const {UNSAFE_getByType} = renderComponent();
+    const { UNSAFE_getByType } = renderComponent();
     const instance = UNSAFE_getByType(WmConfirmdialog).instance;
     instance.open();
     await timer();
@@ -124,7 +100,7 @@ describe('Test Confirmdialog component', () => {
       'invokeEventCallback'
     );
     const dialogCloseMock = jest.spyOn(WmDialog.prototype, 'close');
-    const {UNSAFE_getByType} = renderComponent();
+    const { UNSAFE_getByType } = renderComponent();
     const instance = UNSAFE_getByType(WmConfirmdialog).instance;
     instance.open();
     await timer();
@@ -154,7 +130,9 @@ describe('Test Confirmdialog component', () => {
   });
 
   test('should render with custom icon', async () => {
-    const {UNSAFE_getByType} = renderComponent({ iconclass: 'wm-sl-l sl-check' });
+    const { UNSAFE_getByType } = renderComponent({
+      iconclass: 'wm-sl-l sl-check',
+    });
     const instance = UNSAFE_getByType(WmConfirmdialog).instance;
     instance.open();
     await timer();
@@ -178,7 +156,7 @@ describe('Test Confirmdialog component', () => {
   });
 
   test('should call onOpened when the dialog is opened', async () => {
-    const {UNSAFE_getByType} = renderComponent();
+    const { UNSAFE_getByType } = renderComponent();
     const instance = UNSAFE_getByType(WmConfirmdialog).instance;
     instance.open();
     // there is a setTimeout of 500ms in AppModalService showLastModal
@@ -204,7 +182,7 @@ describe('Test Confirmdialog component', () => {
         color: 'purple',
       },
     };
-    const {UNSAFE_getByType} = renderComponent({ styles: customStyles });
+    const { UNSAFE_getByType } = renderComponent({ styles: customStyles });
     const instance = UNSAFE_getByType(WmConfirmdialog).instance;
     instance.open();
     await timer();
@@ -230,7 +208,7 @@ describe('Test Confirmdialog component', () => {
   });
 
   test('should render with animation if animation prop is provided', async () => {
-    const {UNSAFE_getByType} = renderComponent({ animation: 'bounce' });
+    const { UNSAFE_getByType } = renderComponent({ animation: 'bounce' });
     const instance = UNSAFE_getByType(WmConfirmdialog).instance;
     instance.open();
     await timer();
@@ -240,7 +218,7 @@ describe('Test Confirmdialog component', () => {
   });
 
   test('should have modal property set as per prop value', async () => {
-    const {UNSAFE_getByType} = renderComponent({ modal: false });
+    const { UNSAFE_getByType } = renderComponent({ modal: false });
     const instance = UNSAFE_getByType(WmConfirmdialog).instance;
     instance.open();
     await timer();
@@ -250,7 +228,7 @@ describe('Test Confirmdialog component', () => {
   });
 
   test('should render icon using URL if iconurl prop is provided', async () => {
-    const {UNSAFE_getByType} = renderComponent({
+    const { UNSAFE_getByType } = renderComponent({
       iconurl: 'https://example.com/icon.png',
       iconwidth: 20,
       iconheight: 30,
@@ -280,7 +258,7 @@ describe('Test Confirmdialog component', () => {
   });
 
   test('should set the default message if not provided', async () => {
-    const {UNSAFE_getByType} = renderComponent();
+    const { UNSAFE_getByType } = renderComponent();
     const instance = UNSAFE_getByType(WmConfirmdialog).instance;
     instance.open();
     await timer();
@@ -295,7 +273,7 @@ describe('Test Confirmdialog component', () => {
   });
 
   test('should render message when provided', async () => {
-    const {UNSAFE_getByType} = renderComponent({ message: 'test message' });
+    const { UNSAFE_getByType } = renderComponent({ message: 'test message' });
     const instance = UNSAFE_getByType(WmConfirmdialog).instance;
     instance.open();
     await timer();
