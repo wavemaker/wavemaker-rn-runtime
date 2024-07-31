@@ -139,7 +139,7 @@ describe('Lottie component', () => {
     ]);
   });
 
-  test('should invoke event callback with onPlay when autoplay prop is true in web lottie', async () => {
+  test('should invoke event callback with onPlay when autoplay prop is true in native lottie', async () => {
     (Platform as any).OS = 'ios'; // Set platform to ios
 
     const customRef = createRef();
@@ -185,7 +185,7 @@ describe('Lottie component', () => {
     ]);
   });
 
-  test('should invoke event callback with onReady when autoplay prop is false in web lottie', async () => {
+  test('should invoke event callback with onPlay when autoplay prop is false in native lottie', async () => {
     (Platform as any).OS = 'ios'; // Set platform to ios
 
     const customRef = createRef();
@@ -200,7 +200,7 @@ describe('Lottie component', () => {
       expect(tree).toMatchSnapshot();
     });
 
-    expect(invokeEventCallbackMock).toHaveBeenCalledWith('onReady', [
+    expect(invokeEventCallbackMock).toHaveBeenCalledWith('onPlay', [
       null,
       customRef.current.proxy,
     ]);

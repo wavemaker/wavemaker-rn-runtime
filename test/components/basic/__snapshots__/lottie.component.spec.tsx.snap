@@ -1,0 +1,247 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Lottie component renders lottie player correctly on native 1`] = `
+<View
+  style={{}}
+>
+  <LottieAnimationView
+    autoPlay={true}
+    cacheComposition={true}
+    colorFilters={[]}
+    enableMergePathsAndroidForKitKatAndAbove={false}
+    loop={true}
+    onAnimationFailure={[Function]}
+    onAnimationFinish={[Function]}
+    onAnimationLoaded={[Function]}
+    progress={0}
+    resizeMode="contain"
+    sourceJson="{"url":"lottieAnimation.json"}"
+    speed={1}
+    textFiltersAndroid={[]}
+    textFiltersIOS={[]}
+    useNativeLooping={false}
+  />
+</View>
+`;
+
+exports[`Lottie component renders lottie player correctly on web 1`] = `
+<View
+  style={{}}
+/>
+`;
+
+exports[`Lottie component should call onAnimationFinish in native lottie 1`] = `
+<View
+  style={{}}
+>
+  <LottieAnimationView
+    autoPlay={true}
+    cacheComposition={true}
+    colorFilters={[]}
+    enableMergePathsAndroidForKitKatAndAbove={false}
+    loop={true}
+    onAnimationFailure={[Function]}
+    onAnimationFinish={[Function]}
+    onAnimationLoaded={[Function]}
+    progress={0}
+    resizeMode="contain"
+    sourceJson="{"url":"lottieAnimation.json"}"
+    speed={1}
+    textFiltersAndroid={[]}
+    textFiltersIOS={[]}
+    useNativeLooping={false}
+  />
+</View>
+`;
+
+exports[`Lottie component should call onComplete in web lottie 1`] = `
+<View
+  style={{}}
+/>
+`;
+
+exports[`Lottie component should call reset and play method in Lottie when reset method in the component is called for native lottie 1`] = `
+<View
+  style={{}}
+>
+  <LottieAnimationView
+    autoPlay={true}
+    cacheComposition={true}
+    colorFilters={[]}
+    enableMergePathsAndroidForKitKatAndAbove={false}
+    loop={true}
+    onAnimationFailure={[Function]}
+    onAnimationFinish={[Function]}
+    onAnimationLoaded={[Function]}
+    progress={0}
+    resizeMode="contain"
+    sourceJson="{"url":"lottieAnimation.json"}"
+    speed={1}
+    textFiltersAndroid={[]}
+    textFiltersIOS={[]}
+    useNativeLooping={false}
+  />
+</View>
+`;
+
+exports[`Lottie component should call reset method in the component when play method in the component is called while isCompleted state is true 1`] = `
+<View
+  style={{}}
+>
+  <LottieAnimationView
+    autoPlay={true}
+    cacheComposition={true}
+    colorFilters={[]}
+    enableMergePathsAndroidForKitKatAndAbove={false}
+    loop={true}
+    onAnimationFailure={[Function]}
+    onAnimationFinish={[Function]}
+    onAnimationLoaded={[Function]}
+    progress={0}
+    resizeMode="contain"
+    sourceJson="{"url":"lottieAnimation.json"}"
+    speed={1}
+    textFiltersAndroid={[]}
+    textFiltersIOS={[]}
+    useNativeLooping={false}
+  />
+</View>
+`;
+
+exports[`Lottie component should invoke event callback with onPause event when pause method in the component is called 1`] = `
+<View
+  style={{}}
+>
+  <LottieAnimationView
+    autoPlay={true}
+    cacheComposition={true}
+    colorFilters={[]}
+    enableMergePathsAndroidForKitKatAndAbove={false}
+    loop={true}
+    onAnimationFailure={[Function]}
+    onAnimationFinish={[Function]}
+    onAnimationLoaded={[Function]}
+    progress={0}
+    resizeMode="contain"
+    sourceJson="{"url":"lottieAnimation.json"}"
+    speed={1}
+    textFiltersAndroid={[]}
+    textFiltersIOS={[]}
+    useNativeLooping={false}
+  />
+</View>
+`;
+
+exports[`Lottie component should invoke event callback with onPlay event and sate isCompleted state to false when reset method in the component is called 1`] = `
+<View
+  style={{}}
+>
+  <LottieAnimationView
+    autoPlay={true}
+    cacheComposition={true}
+    colorFilters={[]}
+    enableMergePathsAndroidForKitKatAndAbove={false}
+    loop={true}
+    onAnimationFailure={[Function]}
+    onAnimationFinish={[Function]}
+    onAnimationLoaded={[Function]}
+    progress={0}
+    resizeMode="contain"
+    sourceJson="{"url":"lottieAnimation.json"}"
+    speed={1}
+    textFiltersAndroid={[]}
+    textFiltersIOS={[]}
+    useNativeLooping={false}
+  />
+</View>
+`;
+
+exports[`Lottie component should invoke event callback with onPlay event when play method in the component is called 1`] = `
+<View
+  style={{}}
+>
+  <LottieAnimationView
+    autoPlay={true}
+    cacheComposition={true}
+    colorFilters={[]}
+    enableMergePathsAndroidForKitKatAndAbove={false}
+    loop={true}
+    onAnimationFailure={[Function]}
+    onAnimationFinish={[Function]}
+    onAnimationLoaded={[Function]}
+    progress={0}
+    resizeMode="contain"
+    sourceJson="{"url":"lottieAnimation.json"}"
+    speed={1}
+    textFiltersAndroid={[]}
+    textFiltersIOS={[]}
+    useNativeLooping={false}
+  />
+</View>
+`;
+
+exports[`Lottie component should invoke event callback with onPlay when autoplay prop is false in native lottie 1`] = `
+<View
+  style={{}}
+>
+  <LottieAnimationView
+    autoPlay={true}
+    cacheComposition={true}
+    colorFilters={[]}
+    enableMergePathsAndroidForKitKatAndAbove={false}
+    loop={true}
+    onAnimationFailure={[Function]}
+    onAnimationFinish={[Function]}
+    onAnimationLoaded={[Function]}
+    progress={0}
+    resizeMode="contain"
+    sourceJson="{"url":"lottieAnimation.json"}"
+    speed={1}
+    textFiltersAndroid={[]}
+    textFiltersIOS={[]}
+    useNativeLooping={false}
+  />
+</View>
+`;
+
+exports[`Lottie component should invoke event callback with onPlay when autoplay prop is true in native lottie 1`] = `
+<View
+  style={{}}
+>
+  <LottieAnimationView
+    autoPlay={true}
+    cacheComposition={true}
+    colorFilters={[]}
+    enableMergePathsAndroidForKitKatAndAbove={false}
+    loop={true}
+    onAnimationFailure={[Function]}
+    onAnimationFinish={[Function]}
+    onAnimationLoaded={[Function]}
+    progress={0}
+    resizeMode="contain"
+    sourceJson="{"url":"lottieAnimation.json"}"
+    speed={1}
+    textFiltersAndroid={[]}
+    textFiltersIOS={[]}
+    useNativeLooping={false}
+  />
+</View>
+`;
+
+exports[`Lottie component should invoke event callback with onPlay when autoplay prop is true in web lottie 1`] = `
+<View
+  style={{}}
+/>
+`;
+
+exports[`Lottie component should invoke event callback with onReady when autoplay prop is false in web lottie 1`] = `
+<View
+  style={{}}
+/>
+`;
+
+exports[`Lottie component should render children as null when loadAsset is not provided through context 1`] = `
+<View
+  style={{}}
+/>
+`;
