@@ -103,7 +103,7 @@ describe('WmTooltip component', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  test('applies the correct styles from the theme', () => {
+  test('should apply the style prop correctly', () => {
     const themeTooltipStyle = {
       root: {
         backgroundColor: 'pink',
@@ -125,8 +125,6 @@ describe('WmTooltip component', () => {
         triangleComponentStyle[key] = item[key];
       });
     });
-
-    console.log(triangleComponentStyle);
 
     expect(tree.toJSON().props.style).toMatchObject({
       backgroundColor: 'pink',
