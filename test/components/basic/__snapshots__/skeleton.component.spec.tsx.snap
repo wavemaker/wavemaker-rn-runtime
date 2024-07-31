@@ -303,7 +303,7 @@ exports[`Test Skeleton component renders WmSkeleton with custom layout 1`] = `
 </View>
 `;
 
-exports[`Test Skeleton component should not render gradient component when animate state is false:  1`] = `
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  1`] = `
 <View
   onLayout={[Function]}
   style={
