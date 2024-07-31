@@ -37,11 +37,11 @@ describe('WmIcon Component', () => {
       iconclass: 'fa fa-edit',
     });
 
-    const iconComponent = tree.getByText('edit');
+    const iconComponent = tree.queryByText('edit');
 
-    expect(iconComponent).toBeTruthy();
+    expect(iconComponent).not.toBeNull();
     expect(iconComponent).toHaveProperty('children', ['edit']);
-    expect(iconComponent.type).toBe('Text');
+    expect(iconComponent?.type).toBe('Text');
     expect(tree).toMatchSnapshot();
   });
 
@@ -50,11 +50,11 @@ describe('WmIcon Component', () => {
       iconclass: 'wi wi-edit',
     });
 
-    const iconComponent = tree.getByText('edit');
+    const iconComponent = tree.queryByText('edit');
 
-    expect(iconComponent).toBeTruthy();
+    expect(iconComponent).not.toBeNull();
     expect(iconComponent).toHaveProperty('children', ['edit']);
-    expect(iconComponent.type).toBe('Text');
+    expect(iconComponent?.type).toBe('Text');
     expect(tree).toMatchSnapshot();
   });
 
@@ -63,11 +63,11 @@ describe('WmIcon Component', () => {
       iconclass: 'wm-sl-l sl-edit',
     });
 
-    const iconComponent = tree.getByText('edit');
+    const iconComponent = tree.queryByText('edit');
 
-    expect(iconComponent).toBeTruthy();
+    expect(iconComponent).not.toBeNull();
     expect(iconComponent).toHaveProperty('children', ['edit']);
-    expect(iconComponent.type).toBe('Text');
+    expect(iconComponent?.type).toBe('Text');
     expect(tree).toMatchSnapshot();
   });
 
@@ -76,11 +76,11 @@ describe('WmIcon Component', () => {
       iconclass: 'wm-sl-r sl-edit',
     });
 
-    const iconComponent = tree.getByText('edit');
+    const iconComponent = tree.queryByText('edit');
 
-    expect(iconComponent).toBeTruthy();
+    expect(iconComponent).not.toBeNull();
     expect(iconComponent).toHaveProperty('children', ['edit']);
-    expect(iconComponent.type).toBe('Text');
+    expect(iconComponent?.type).toBe('Text');
     expect(tree).toMatchSnapshot();
   });
 
@@ -130,7 +130,6 @@ describe('WmIcon Component', () => {
       caption: 'test-button',
     });
 
-    expect(tree.getByText('test-button')).toBeTruthy();
     expect(tree.getByText('test-button')).toBeDefined();
     expect(tree).toMatchSnapshot();
   });
@@ -143,8 +142,37 @@ describe('WmIcon Component', () => {
       caption: 'test-button',
     });
 
-    expect(tree.getByText('test-button')).toBeTruthy();
+    const startingIndex = 1; // as first component is background component;
+    const childrenComponents = tree.getByTestId('non_animatableView').children;
+
     expect(tree.getByText('test-button')).toBeDefined();
+    expect(childrenComponents[startingIndex].props).toMatchObject({
+      children: 'test-button',
+    });
+    expect(
+      childrenComponents[startingIndex + 1].props.children.props
+    ).toMatchObject({ name: 'edit' });
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('caption should display left to the icon when iconposition is "left"', () => {
+    const tree = renderComponent({
+      iconclass: 'fa fa-edit',
+      iconposition: 'left',
+      accessibilitylabel: 'icon',
+      caption: 'test-button',
+    });
+
+    const startingIndex = 1; // as first component is background component;
+    const childrenComponents = tree.getByTestId('non_animatableView').children;
+
+    expect(tree.getByText('test-button')).toBeDefined();
+    expect(
+      childrenComponents[startingIndex].props.children.props
+    ).toMatchObject({ name: 'edit' });
+    expect(childrenComponents[startingIndex + 1].props).toMatchObject({
+      children: 'test-button',
+    });
     expect(tree).toMatchSnapshot();
   });
 
@@ -153,7 +181,7 @@ describe('WmIcon Component', () => {
       iconclass: 'fa',
       iconposition: 'right',
       accessibilitylabel: 'icon',
-      name: "test-wm",
+      name: 'test-wm',
     });
 
     expect(tree).toMatchSnapshot();
@@ -165,7 +193,7 @@ describe('WmIcon Component', () => {
       iconclass: 'wi',
       iconposition: 'right',
       accessibilitylabel: 'icon',
-      name: "test-wm",
+      name: 'test-wm',
     });
 
     expect(tree).toMatchSnapshot();
@@ -177,7 +205,7 @@ describe('WmIcon Component', () => {
       iconclass: 'wm-sl-r',
       iconposition: 'right',
       accessibilitylabel: 'icon',
-      name: "test-wm",
+      name: 'test-wm',
     });
 
     expect(tree).toMatchSnapshot();
@@ -189,7 +217,7 @@ describe('WmIcon Component', () => {
       iconclass: 'wm-sl-l',
       iconposition: 'right',
       accessibilitylabel: 'icon',
-      name: "test-wm",
+      name: 'test-wm',
     });
 
     expect(tree).toMatchSnapshot();
@@ -203,23 +231,22 @@ describe('WmIcon Component', () => {
       iconposition: '',
       caption: 'test-button',
     });
-    expect(tree).toMatchSnapshot();
 
-    expect(tree.getByText('test-button')).toBeTruthy();
+    expect(tree).toMatchSnapshot();
     expect(tree.getByText('test-button')).toBeDefined();
     expect(tree.queryByText('edit')).toBeNull();
   });
 
-  test('accessibility label as "test-label" should be present when accessibilitylabel prop is set to "test-label"', () => {
-    const tree = renderComponent({
-      iconclass: 'fa fa-edit',
-      accessibilitylabel: 'test-label',
-      onTap: () => {},
-    });
+  // test('accessibility label as "test-label" should be present when accessibilitylabel prop is set to "test-label"', () => {
+  //   const tree = renderComponent({
+  //     iconclass: 'fa fa-edit',
+  //     accessibilitylabel: 'test-label',
+  //     onTap: () => {},
+  //   });
 
-    expect(tree).toMatchSnapshot();
-    expect(tree.getByLabelText('test-label')).toBeTruthy();
-  });
+  //   expect(tree).toMatchSnapshot();
+  //   expect(tree.getByLabelText('test-label')).toBeTruthy();
+  // });
 
   test('should not render icon when iconclass is falsy ', () => {
     const tree = renderComponent({
@@ -230,17 +257,24 @@ describe('WmIcon Component', () => {
 
     expect(tree).toMatchSnapshot();
     expect(tree.UNSAFE_queryByType(Text)).toBeNull();
-  })
+  });
 
-  test('should render icon with accessibilityrole when accessibilityrole is passed in props', () => {
+  // should render accessibility props even when onTap is not passed
+  test('should render icon with accessibility props when passed', () => {
     const tree = renderComponent({
       iconclass: 'fa fa-edit',
       accessibilitylabel: 'test-label',
       accessibilityrole: 'wm-icon-ar',
+      hint: 'this is icon',
       caption: 'icon-caption',
-      onTap: () => {},
+      // onTap: () => {},
     });
 
+    expect(tree.getByLabelText('test-label')).toBeDefined();
+    expect(tree.getByAccessibilityHint('this is icon')).toBeDefined();
+    expect(tree.toJSON().props).toMatchObject({
+      accessibilityRole: 'wm-icon-ar',
+    });
     expect(tree).toMatchSnapshot();
   });
 
@@ -254,9 +288,27 @@ describe('WmIcon Component', () => {
     });
 
     expect(tree).toMatchSnapshot();
-  })
-});
+  });
 
-// Add more test cases as needed
-// Test that the icon rotates to the correct angle when animation is set to 'spin'.
-// Test that the icon pulses with the correct opacity when animation is set to 'pulse'.
+  test('should render with animations as spin', () => {
+    const tree = renderComponent({
+      animation: 'spin',
+    });
+
+    expect(tree.getByTestId('animatableView').props).toMatchObject({
+      animation: 'spin',
+    });
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render with animations as pulse', () => {
+    const tree = renderComponent({
+      animation: 'pulse',
+    });
+
+    expect(tree.getByTestId('animatableView').props).toMatchObject({
+      animation: 'pulse',
+    });
+    expect(tree).toMatchSnapshot();
+  });
+});
