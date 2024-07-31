@@ -92,6 +92,28 @@ describe('Test Currency component', () => {
     // Should remain unchanged if invalid
     expect(onChangeTextMock).toHaveBeenCalledWith('123.45', 'currency');
   });
+
+  test('should not accept negative number', async () => {
+    const updateStateMock = jest.spyOn(WmCurrency.prototype, 'updateState');
+    const onChangeTextMock = jest.spyOn(WmCurrency.prototype, 'onChangeText');
+    const customRef = createRef<WmCurrency>();
+    const { getByPlaceholderText } = render(<WmCurrency {...defaultProps} ref={customRef}/>);
+    const input = getByPlaceholderText(defaultProps.placeholder);
+
+    fireEvent.changeText(input, '-123.45');
+    fireEvent(input, 'blur', {
+      target: {
+        value: null,
+      },
+    });
+
+    // Check if the value is set correctly
+    expect(onChangeTextMock).toHaveBeenCalledWith('-123.45', 'currency');
+    await waitFor(()=>{
+      expect(customRef.current.state.textValue).toBe(null);
+    })
+  });
+
   test('should validate number correctly, only supports "e" as a character', () => {
     const onChangeTextMock = jest.spyOn(WmCurrency.prototype, 'onChangeText');
     const { getByPlaceholderText } = render(<WmCurrency {...defaultProps} />);
