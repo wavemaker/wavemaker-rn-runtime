@@ -155,7 +155,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   onDateChange($event: DateTimePickerEvent, date?: Date) {
-    console.log('value of selected date', this.format(date,  this.momentPattern(this.state.props.outputformat as String) as string))
     this.validate(date);
     this.modes.shift();
     this.updateState({
