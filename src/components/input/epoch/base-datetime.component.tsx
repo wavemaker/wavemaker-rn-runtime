@@ -159,6 +159,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   onDateChange($event: DateTimePickerEvent, date?: Date) {
+    console.log('value of selected date', this.format(date,  this.momentPattern(this.state.props.outputformat as String) as string))
     this.validate(date);
     this.modes.shift();
     this.updateState({
@@ -352,6 +353,8 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   renderWidget(props: WmDatetimeProps) {
+    const is12HourFormat = props?.datepattern && /hh:mm(:ss|:sss)? a/.test(props.datepattern);
+    const is24Hour = is12HourFormat ? false : props.is24hour;
     return ( 
         this.addTouchableOpacity(props, (
         <View style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
@@ -400,6 +403,8 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             <WmDatePickerModal
               isVisible={this.state.showDatePickerModal}
               onClose={() => this.updateState({showDatePickerModal: false} as BaseDatetimeState)}
+              minDate={props.mindate}
+              maxDate={props.maxdate}
               selectedDate={this.state.dateValue}
               onSelect={(date: Date) => {
                 this.onDateChange(null as any, date);
@@ -429,7 +434,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           {(Platform.OS !== 'web' && props.iswheelpicker && this.state.showTimePickerModal) && (
             <WmTimePickerModal
               selectedDateTime={this.state.dateValue}
-              is24Hour={props.is24hour}
+              is24Hour={is24Hour}
               isVisible={this.state.showTimePickerModal}
               onClose={() => this.updateState({isFocused: false, showTimePickerModal: false} as BaseDatetimeState)}
               onSelect={(time: Date) => {

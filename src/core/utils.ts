@@ -376,13 +376,17 @@ function getDaysInMonth(month: number, year: number) {
 }
 
 export const getDates = (
+  startDate: number,
+  endDate: number,
   month = 0, // zero-based
   year = new Date().getFullYear(),
 ) => {
   const daysInMonth = getDaysInMonth(month, year);
   const dates = Array.from({length: daysInMonth}, (v, i) => i + 1);
 
-  return dates;
+  const datesInRange = dates.filter(date => date >= startDate);
+
+  return datesInRange;
 };
 
 export const monthNames = [
@@ -400,11 +404,19 @@ export const monthNames = [
   'December',
 ];
 
-export const getMonths = () => {
+export const getMonths = (startMonth: number, endMonth: number) => {
   const months = monthNames.map(name => name.substring(0, 3));
+  const monthRange = months.filter((_, index) => index >= startMonth)
 
-  return months;
+  return monthRange;
 };
+
+export const getMonthIndex = (monthName: string, shortName: boolean = true) => {
+  const months = shortName ? monthNames.map(name => name.substring(0, 3)) : monthNames;
+  const monthNumber = months.findIndex((name) => name === monthName);
+
+  return monthNumber;
+}
 
 export const getYearRange = (
   startYear: number = 1950,
