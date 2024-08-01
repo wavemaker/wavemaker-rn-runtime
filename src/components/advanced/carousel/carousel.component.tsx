@@ -12,6 +12,7 @@ import { DEFAULT_CLASS, WmCarouselStyles } from './carousel.styles';
 
 export class WmCarouselState extends BaseComponentState<WmCarouselProps> {
   activeIndex = 1;
+  swipeIntervalIds = [] as any;
 }
 
 export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouselState, WmCarouselStyles> {
@@ -81,13 +82,17 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   }
 
   autoPlay() {
-    const props = this.state.props;
+    const props = this.state.props;    
     this.stopPlay && this.stopPlay();
     if (props.animation === 'auto' && props.animationinterval) {
       const intervalId = setInterval(() => {
         this.next();
       }, props.animationinterval * 1000);
       this.stopPlay = () => clearInterval(intervalId);
+        const intervals = {
+          stopPlay: this.stopPlay
+        }
+      this.updateState({swipeIntervalIds: [...this.state.swipeIntervalIds, intervals]} as any);
     } else {
       setTimeout(() => {
         this.onSlideChange(1);
@@ -95,6 +100,17 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
       }, 1000);
     }
   }
+
+  stopAnimation(){  
+   this.state.swipeIntervalIds.forEach((interval: any) => {
+    interval.stopPlay();
+   });
+  }
+
+  startAnimation(){
+   this.autoPlay();
+  }
+  
 
   onPropertyChange(name: string, $new: any, $old: any): void {
       super.onPropertyChange(name, $new, $old);
