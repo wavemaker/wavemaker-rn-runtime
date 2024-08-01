@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Video component renders component with default props 1`] = `
+<View
+  style={{}}
+>
+  <View
+    style={
+      [
+        {
+          "overflow": "hidden",
+          "pointerEvents": "box-none",
+        },
+        {
+          "flex": 1,
+          "height": "100%",
+          "width": "100%",
+        },
+      ]
+    }
+  >
+    <ViewManagerAdapter_ExpoVideoView
+      accessible={true}
+      onError={[Function]}
+      onFullscreenUpdate={[Function]}
+      onLoad={[Function]}
+      onLoadStart={[Function]}
+      onReadyForDisplay={[Function]}
+      onStatusUpdate={[Function]}
+      resizeMode="mock"
+      status={
+        {
+          "isLooping": false,
+          "isMuted": false,
+          "shouldPlay": false,
+        }
+      }
+      style={
+        [
+          {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+          undefined,
+        ]
+      }
+      testID="undefined_video"
+      useNativeControls={false}
+      videoStyle={
+        [
+          {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+          undefined,
+        ]
+      }
+    />
+  </View>
+</View>
+`;

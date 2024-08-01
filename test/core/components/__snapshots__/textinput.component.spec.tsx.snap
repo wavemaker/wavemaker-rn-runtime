@@ -1,0 +1,434 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextInput Component should format input based on displayformat 1`] = `
+[
+  <TextInput
+    activeFloatingLabelStyle={{}}
+    allowContentSelection={false}
+    caretHidden={false}
+    contextMenuHidden={true}
+    cursorColor="transparent"
+    defaultValue=""
+    displayformat="99-999"
+    floatingLabelStyle={{}}
+    maskchar=""
+    onBlur={[Function]}
+    onChange={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    onSelectionChange={[Function]}
+    placeholder=""
+    selection={null}
+    selectionColor="transparent"
+    style={
+      [
+        undefined,
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "color": "transparent",
+          "zIndex": 1,
+        },
+      ]
+    }
+  />,
+  <View
+    style={
+      [
+        undefined,
+        {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "marginTop": 0,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "color": undefined,
+          "display": "flex",
+          "fontFamily": undefined,
+          "fontSize": undefined,
+          "fontWeight": undefined,
+          "padding": 0,
+          "width": undefined,
+        }
+      }
+    >
+      __-___
+    </Text>
+  </View>,
+]
+`;
+
+exports[`TextInput Component should not allow content selection if allowContentSelection is false when platform is android 1`] = `
+<TextInput
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={false}
+  caretHidden={true}
+  contextMenuHidden={true}
+  displayformat=""
+  floatingLabelStyle={{}}
+  maskchar=""
+  onBlur={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  selection={
+    {
+      "end": 2,
+      "start": 2,
+    }
+  }
+  style={
+    [
+      undefined,
+      {},
+    ]
+  }
+/>
+`;
+
+exports[`TextInput Component should not render custom cursor when displayformat value is passed 1`] = `
+[
+  <TextInput
+    activeFloatingLabelStyle={{}}
+    allowContentSelection={false}
+    caretHidden={false}
+    contextMenuHidden={true}
+    cursorColor="transparent"
+    defaultValue=""
+    displayCursor={true}
+    displayformat="99-99"
+    floatingLabelStyle={{}}
+    maskchar=""
+    onBlur={[Function]}
+    onChange={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    onSelectionChange={[Function]}
+    placeholder=""
+    selection={null}
+    selectionColor="transparent"
+    style={
+      [
+        undefined,
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "color": "transparent",
+          "zIndex": 1,
+        },
+      ]
+    }
+  />,
+  <View
+    style={
+      [
+        undefined,
+        {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "marginTop": 0,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "color": undefined,
+          "display": "flex",
+          "fontFamily": undefined,
+          "fontSize": undefined,
+          "fontWeight": undefined,
+          "padding": 0,
+          "width": undefined,
+        }
+      }
+    >
+      __-__
+    </Text>
+  </View>,
+]
+`;
+
+exports[`TextInput Component should not render custom cursor when maskchar prop is falsy 1`] = `
+<TextInput
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={false}
+  caretHidden={false}
+  contextMenuHidden={true}
+  displayCursor={true}
+  displayformat=""
+  floatingLabelStyle={{}}
+  maskchar=""
+  onBlur={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  selection={null}
+  style={
+    [
+      undefined,
+      {},
+    ]
+  }
+/>
+`;
+
+exports[`TextInput Component should not render custom cursor when testinput is not focused 1`] = `
+[
+  <TextInput
+    activeFloatingLabelStyle={{}}
+    allowContentSelection={false}
+    caretHidden={false}
+    contextMenuHidden={true}
+    cursorColor="transparent"
+    defaultValue=""
+    displayCursor={true}
+    displayformat=""
+    floatingLabelStyle={{}}
+    maskchar="*"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    onSelectionChange={[Function]}
+    placeholder="Enter text"
+    selection={null}
+    selectionColor="transparent"
+    style={
+      [
+        undefined,
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "color": "transparent",
+          "zIndex": 1,
+        },
+      ]
+    }
+  />,
+  <View
+    style={
+      [
+        undefined,
+        {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "marginTop": 0,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "color": undefined,
+          "display": "flex",
+          "fontFamily": undefined,
+          "fontSize": undefined,
+          "fontWeight": undefined,
+          "padding": 0,
+          "width": undefined,
+        }
+      }
+    />
+  </View>,
+]
+`;
+
+exports[`TextInput Component should render correctly with default props 1`] = `
+<TextInput
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={false}
+  caretHidden={false}
+  contextMenuHidden={true}
+  displayformat=""
+  floatingLabelStyle={{}}
+  maskchar=""
+  onBlur={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  selection={null}
+  style={
+    [
+      undefined,
+      {},
+    ]
+  }
+/>
+`;
+
+exports[`TextInput Component should render custom cursor 1`] = `
+[
+  <TextInput
+    activeFloatingLabelStyle={{}}
+    allowContentSelection={false}
+    caretHidden={false}
+    contextMenuHidden={true}
+    cursorColor="transparent"
+    defaultValue=""
+    displayCursor={true}
+    displayformat=""
+    floatingLabelStyle={{}}
+    maskchar="*"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    onSelectionChange={[Function]}
+    placeholder="Enter text"
+    selection={null}
+    selectionColor="transparent"
+    style={
+      [
+        undefined,
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "color": "transparent",
+          "zIndex": 1,
+        },
+      ]
+    }
+  />,
+  <View
+    style={
+      [
+        undefined,
+        {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "marginTop": 0,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "color": undefined,
+          "display": "flex",
+          "fontFamily": undefined,
+          "fontSize": undefined,
+          "fontWeight": undefined,
+          "padding": 0,
+          "width": undefined,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#000000",
+          "height": 14,
+          "marginHorizontal": 1,
+          "opacity": 0.5,
+          "width": 2,
+        }
+      }
+      testID="wm-custom-cursor"
+    />
+  </View>,
+]
+`;
+
+exports[`TextInput Component should show floating label when focused 1`] = `
+[
+  <View
+    collapsable={false}
+    pointerEvents="none"
+    style={
+      {
+        "position": "absolute",
+        "transform": [
+          {
+            "translateY": 0,
+          },
+          {
+            "translateX": 0,
+          },
+          {
+            "scale": 1,
+          },
+        ],
+        "width": 160,
+        "zIndex": 1,
+      }
+    }
+  >
+    <Text
+      ellipsizeMode="tail"
+      style={
+        {
+          "color": undefined,
+          "fontFamily": undefined,
+          "fontSize": undefined,
+          "fontStyle": undefined,
+          "fontVariant": undefined,
+          "fontWeight": undefined,
+          "includeFontPadding": undefined,
+          "letterSpacing": undefined,
+          "lineHeight": undefined,
+          "textAlign": undefined,
+          "textAlignVertical": undefined,
+          "textDecorationColor": undefined,
+          "textDecorationStyle": undefined,
+          "textShadowColor": undefined,
+          "textShadowOffset": undefined,
+          "textShadowRadius": undefined,
+          "textTransform": undefined,
+          "userSelect": undefined,
+          "verticalAlign": undefined,
+          "writingDirection": undefined,
+        }
+      }
+    >
+      Floating Label
+    </Text>
+  </View>,
+  <TextInput
+    activeFloatingLabelStyle={{}}
+    allowContentSelection={false}
+    caretHidden={false}
+    contextMenuHidden={true}
+    displayformat=""
+    floatingLabel="Floating Label"
+    floatingLabelStyle={{}}
+    maskchar=""
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    onSelectionChange={[Function]}
+    placeholder=""
+    selection={null}
+    style={
+      [
+        undefined,
+        {},
+      ]
+    }
+  />,
+]
+`;

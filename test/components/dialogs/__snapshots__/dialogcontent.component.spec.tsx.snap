@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Dialogcontent component should not show component when show is false 1`] = `
+<RCTScrollView
+  collapsable={false}
+  contentContainerStyle={
+    [
+      {
+        "height": 0,
+        "transform": [
+          {
+            "scale": 0,
+          },
+        ],
+        "width": 0,
+      },
+      {
+        "maxHeight": undefined,
+      },
+    ]
+  }
+  handlerTag={4}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+  onScroll={[Function]}
+  scrollEventThrottle={48}
+  style={
+    {
+      "maxHeight": undefined,
+    }
+  }
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
+  }
+>
+  <View>
+    <Text>
+      Test Children component
+    </Text>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`Test Dialogcontent component should render component 1`] = `
+<RCTScrollView
+  collapsable={false}
+  contentContainerStyle={
+    [
+      {
+        "maxHeight": 1143,
+        "minHeight": 80,
+        "paddingBottom": 16,
+        "paddingLeft": 16,
+        "paddingRight": 16,
+        "paddingTop": 16,
+      },
+      {
+        "maxHeight": undefined,
+      },
+    ]
+  }
+  handlerTag={1}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+  onScroll={[Function]}
+  scrollEventThrottle={48}
+  style={
+    {
+      "maxHeight": 1143,
+    }
+  }
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
+  }
+>
+  <View />
+</RCTScrollView>
+`;
+
+exports[`Test Dialogcontent component should render component with children 1`] = `
+<RCTScrollView
+  collapsable={false}
+  contentContainerStyle={
+    [
+      {
+        "maxHeight": 1143,
+        "minHeight": 80,
+        "paddingBottom": 16,
+        "paddingLeft": 16,
+        "paddingRight": 16,
+        "paddingTop": 16,
+      },
+      {
+        "maxHeight": undefined,
+      },
+    ]
+  }
+  handlerTag={2}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+  onScroll={[Function]}
+  scrollEventThrottle={48}
+  style={
+    {
+      "maxHeight": 1143,
+    }
+  }
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
+  }
+>
+  <View>
+    <Text>
+      Test Children component
+    </Text>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`Test Dialogcontent component should render component with custom style 1`] = `
+<RCTScrollView
+  contentContainerStyle={
+    [
+      {
+        "maxHeight": 1143,
+        "minHeight": 80,
+        "paddingBottom": 16,
+        "paddingLeft": 16,
+        "paddingRight": 16,
+        "paddingTop": 16,
+      },
+      {
+        "maxHeight": undefined,
+      },
+    ]
+  }
+  onScroll={[Function]}
+  scrollEventThrottle={48}
+  style={
+    {
+      "maxHeight": 1143,
+    }
+  }
+>
+  <View>
+    <Text>
+      Test Children component
+    </Text>
+  </View>
+</RCTScrollView>
+`;

@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom component applies theme styles 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "green",
+    }
+  }
+>
+  <Text>
+    Custom Content
+  </Text>
+</View>
+`;
+
+exports[`Custom component children should be null or empty when renderview return null 1`] = `
+<View
+  style={{}}
+/>
+`;
+
+exports[`Custom component renders the WmCustom component with given props 1`] = `
+<View
+  style={{}}
+>
+  <Text>
+    Custom Content
+  </Text>
+</View>
+`;
+
+exports[`Custom component should render skeleton when showskeleton is true 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 4,
+      "height": "10px",
+      "overflow": "hidden",
+      "width": "10px",
+    }
+  }
+/>
+`;
+
+exports[`Custom component should render skeleton with root style when showskeleton is true and, skeletonheight and skeletonwidth is not provided or falsy value 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 4,
+      "height": "125px",
+      "overflow": "hidden",
+      "width": "122px",
+    }
+  }
+/>
+`;
+
+exports[`Custom component should render the WmCustom component with children component 1`] = `
+<View
+  style={{}}
+>
+  <View>
+    <Text>
+      Custom Content
+    </Text>
+    <Text>
+      <Text>
+        Children component
+      </Text>
+    </Text>
+  </View>
+</View>
+`;

@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test List component Check validity of sample component 1`] = `
+<View
+  style={
+    {
+      "width": "100%",
+    }
+  }
+>
+  <View
+    onLayout={[Function]}
+    style={{}}
+  >
+    <View
+      style={
+        {
+          "alignSelf": "center",
+          "color": "#666666",
+          "flex": 1,
+          "fontSize": 16,
+          "lineHeight": 18,
+        }
+      }
+      testID="non_animatableView"
+    >
+      <View>
+        <Text
+          accessibilityLabel="No data found"
+          accessibilityRole="text"
+          accessible={true}
+          ellipsizeMode="tail"
+          style={
+            {
+              "color": "#888888",
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "userSelect": "text",
+            }
+          }
+        >
+          No data found
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

@@ -1,0 +1,1365 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Anchor component handles icon related styles and properties correctly 1`] = `
+<View
+  style={
+    {
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
+    }
+  }
+  testID="non_animatableView"
+>
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "color": "#151420",
+          "flexDirection": "row",
+          "overflow": "visible",
+        },
+        null,
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <Image
+          source={
+            {
+              "uri": "https://docs.wavemaker.com/learn/img/WM_blue_logo.png",
+            }
+          }
+          style={
+            {
+              "height": 20,
+              "margin": 10,
+              "width": 20,
+            }
+          }
+          testID="test-anchor_icon_icon"
+        />
+      </View>
+    </View>
+    <Text
+      accessibilityLabel="anchor"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+    >
+      Link
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Anchor component renders icon as per given iconClass and iconPosition 1`] = `
+<View
+  animation="bounce"
+  collapsable={false}
+  delay={null}
+  duration={200}
+  style={
+    {
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
+    }
+  }
+  testID="animatableView"
+  useNativeDriver={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "color": "#151420",
+            "flexDirection": "row",
+            "overflow": "visible",
+          },
+          null,
+          {
+            "flexDirection": "column",
+          },
+        ],
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              size={16}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+            >
+              home
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      accessibilityLabel="wm-icon"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+    >
+      Click here
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Anchor component should not render caption when falsy value is passed in caption 1`] = `
+<View
+  animation="bounce"
+  collapsable={false}
+  delay={null}
+  duration={200}
+  style={
+    {
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
+    }
+  }
+  testID="animatableView"
+  useNativeDriver={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "color": "#151420",
+            "flexDirection": "row",
+            "overflow": "visible",
+          },
+          null,
+          {
+            "flexDirection": "row",
+          },
+        ],
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              size={16}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+            >
+              link
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      collapsable={false}
+      numberOfLines={1}
+      style={
+        {
+          "alignSelf": "flex-start",
+          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+          "borderRadius": 10,
+          "color": "#151420",
+          "fontSize": 10,
+          "fontWeight": "bold",
+          "height": 20,
+          "lineHeight": 10,
+          "marginLeft": 0,
+          "marginTop": -12,
+          "minWidth": 20,
+          "opacity": 1,
+          "overflow": "hidden",
+          "paddingHorizontal": 3,
+          "textAlign": "center",
+          "textAlignVertical": "center",
+        }
+      }
+    >
+      5
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Anchor component should render accessibility properties correctly 1`] = `
+<View
+  animation="bounce"
+  collapsable={false}
+  delay={null}
+  duration={200}
+  style={
+    {
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
+    }
+  }
+  testID="animatableView"
+  useNativeDriver={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "color": "#151420",
+            "flexDirection": "row",
+            "overflow": "visible",
+          },
+          null,
+          {
+            "flexDirection": "column",
+          },
+        ],
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              size={16}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+            >
+              home
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      accessibilityHint="Go to example.com"
+      accessibilityLabel="Anchor"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+    >
+      Click here
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Anchor component should render anchor component 1`] = `
+<View
+  animation="bounce"
+  collapsable={false}
+  delay={null}
+  duration={200}
+  style={
+    {
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
+    }
+  }
+  testID="animatableView"
+  useNativeDriver={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "color": "#151420",
+            "flexDirection": "row",
+            "overflow": "visible",
+          },
+          null,
+          {
+            "flexDirection": "row",
+          },
+        ],
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              size={16}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+            >
+              link
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      accessibilityLabel="Click here"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+    >
+      Click here
+    </Text>
+    <Text
+      collapsable={false}
+      numberOfLines={1}
+      style={
+        {
+          "alignSelf": "flex-start",
+          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+          "borderRadius": 10,
+          "color": "#151420",
+          "fontSize": 10,
+          "fontWeight": "bold",
+          "height": 20,
+          "lineHeight": 10,
+          "marginLeft": 0,
+          "marginTop": -12,
+          "minWidth": 20,
+          "opacity": 1,
+          "overflow": "hidden",
+          "paddingHorizontal": 3,
+          "textAlign": "center",
+          "textAlignVertical": "center",
+        }
+      }
+    >
+      5
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Anchor component should render caption with default value as "Link" 1`] = `
+<View
+  animation="bounce"
+  collapsable={false}
+  delay={null}
+  duration={200}
+  style={
+    {
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
+    }
+  }
+  testID="animatableView"
+  useNativeDriver={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "color": "#151420",
+            "flexDirection": "row",
+            "overflow": "visible",
+          },
+          null,
+          {
+            "flexDirection": "row",
+          },
+        ],
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              size={16}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+            >
+              link
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      accessibilityLabel="Link"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+    >
+      Link
+    </Text>
+    <Text
+      collapsable={false}
+      numberOfLines={1}
+      style={
+        {
+          "alignSelf": "flex-start",
+          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+          "borderRadius": 10,
+          "color": "#151420",
+          "fontSize": 10,
+          "fontWeight": "bold",
+          "height": 20,
+          "lineHeight": 10,
+          "marginLeft": 0,
+          "marginTop": -12,
+          "minWidth": 20,
+          "opacity": 1,
+          "overflow": "hidden",
+          "paddingHorizontal": 3,
+          "textAlign": "center",
+          "textAlignVertical": "center",
+        }
+      }
+    >
+      5
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Anchor component should render icon to the right of caption when iconposition is "right" 1`] = `
+<View
+  animation="bounce"
+  collapsable={false}
+  delay={null}
+  duration={200}
+  style={
+    {
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
+    }
+  }
+  testID="animatableView"
+  useNativeDriver={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "color": "#151420",
+            "flexDirection": "row",
+            "overflow": "visible",
+          },
+          null,
+          {
+            "flexDirection": "row",
+          },
+        ],
+      ]
+    }
+  >
+    <Text
+      accessibilityLabel="Click here"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+    >
+      Click here
+    </Text>
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              size={16}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+            >
+              link
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      collapsable={false}
+      numberOfLines={1}
+      style={
+        {
+          "alignSelf": "flex-start",
+          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+          "borderRadius": 10,
+          "color": "#151420",
+          "fontSize": 10,
+          "fontWeight": "bold",
+          "height": 20,
+          "lineHeight": 10,
+          "marginLeft": 0,
+          "marginTop": -12,
+          "minWidth": 20,
+          "opacity": 1,
+          "overflow": "hidden",
+          "paddingHorizontal": 3,
+          "textAlign": "center",
+          "textAlignVertical": "center",
+        }
+      }
+    >
+      5
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 4,
+      "height": "100",
+      "overflow": "hidden",
+      "width": "50",
+    }
+  }
+/>
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 4,
+      "height": 80,
+      "overflow": "hidden",
+      "width": 80,
+    }
+  }
+/>
+`;
+
+exports[`Test Anchor component should render the badge correctly for badge value 1`] = `
+<View
+  animation="bounce"
+  collapsable={false}
+  delay={null}
+  duration={200}
+  style={
+    {
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
+    }
+  }
+  testID="animatableView"
+  useNativeDriver={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "color": "#151420",
+            "flexDirection": "row",
+            "overflow": "visible",
+          },
+          null,
+          {
+            "flexDirection": "row",
+          },
+        ],
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              size={16}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+            >
+              link
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      accessibilityLabel="Click here"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+    >
+      Click here
+    </Text>
+    <Text
+      collapsable={false}
+      numberOfLines={1}
+      style={
+        {
+          "alignSelf": "flex-start",
+          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+          "borderRadius": 10,
+          "color": "#151420",
+          "fontSize": 10,
+          "fontWeight": "bold",
+          "height": 20,
+          "lineHeight": 10,
+          "marginLeft": 0,
+          "marginTop": -12,
+          "minWidth": 20,
+          "opacity": 1,
+          "overflow": "hidden",
+          "paddingHorizontal": 3,
+          "textAlign": "center",
+          "textAlignVertical": "center",
+        }
+      }
+    >
+      10
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Anchor component show render icon along with caption in anchor when iconclass and iconposition is provided in props 1`] = `
+<View
+  style={
+    {
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
+    }
+  }
+  testID="non_animatableView"
+>
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "color": "#151420",
+          "flexDirection": "row",
+          "overflow": "visible",
+        },
+        null,
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              size={16}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+            >
+              link
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      accessibilityLabel="Test caption"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+    >
+      Test caption
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Anchor component tappable component in anchor should take 100% of width and height when root height and with is provided  1`] = `
+<View
+  animation="bounce"
+  collapsable={false}
+  delay={null}
+  duration={200}
+  style={
+    {
+      "height": 80,
+      "justifyContent": "center",
+      "width": 80,
+    }
+  }
+  testID="animatableView"
+  useNativeDriver={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "color": "#151420",
+            "flexDirection": "row",
+            "height": 80,
+            "overflow": "visible",
+            "width": 80,
+          },
+          {
+            "height": "100%",
+            "width": "100%",
+          },
+          {
+            "flexDirection": "row",
+          },
+        ],
+      ]
+    }
+  >
+    <Text
+      accessibilityLabel="Click here"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+    >
+      Click here
+    </Text>
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              size={16}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+            >
+              link
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      collapsable={false}
+      numberOfLines={1}
+      style={
+        {
+          "alignSelf": "flex-start",
+          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+          "borderRadius": 10,
+          "color": "#151420",
+          "fontSize": 10,
+          "fontWeight": "bold",
+          "height": 20,
+          "lineHeight": 10,
+          "marginLeft": 0,
+          "marginTop": -12,
+          "minWidth": 20,
+          "opacity": 1,
+          "overflow": "hidden",
+          "paddingHorizontal": 3,
+          "textAlign": "center",
+          "textAlignVertical": "center",
+        }
+      }
+    >
+      5
+    </Text>
+  </View>
+</View>
+`;

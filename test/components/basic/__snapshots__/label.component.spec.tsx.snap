@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WmLabel Component should render a multiline skeleton 1`] = `
+<View
+  style={
+    {
+      "width": "50",
+    }
+  }
+>
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": "100",
+        "marginBottom": 10,
+        "overflow": "hidden",
+        "width": "100%",
+      }
+    }
+  />
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": "100",
+        "marginBottom": 10,
+        "overflow": "hidden",
+        "width": "70%",
+      }
+    }
+  />
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": "100",
+        "marginBottom": 10,
+        "overflow": "hidden",
+        "width": "40%",
+      }
+    }
+  />
+</View>
+`;
+
+exports[`WmLabel Component should render a skeleton with given width and height 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 4,
+      "height": "100",
+      "overflow": "hidden",
+      "width": "50",
+    }
+  }
+/>
+`;
+
+exports[`WmLabel Component should render skeleton with root width and height when skeleton width and height are not provided 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 4,
+      "height": 70,
+      "overflow": "hidden",
+      "width": 50,
+    }
+  }
+/>
+`;

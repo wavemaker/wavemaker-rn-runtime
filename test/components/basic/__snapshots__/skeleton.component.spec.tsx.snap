@@ -1,0 +1,316 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Skeleton component applies custom styles to skeleton 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "blue",
+      "overflow": "hidden",
+    }
+  }
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "red",
+        "bottom": 0,
+        "flex": 1,
+        "height": "100%",
+        "left": 0,
+        "marginBottom": -10,
+        "marginTop": -10,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "paddingTop": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+        "transform": [
+          {
+            "translateX": 40,
+          },
+          {
+            "rotate": "-20deg",
+          },
+        ],
+        "width": 60,
+      }
+    }
+  >
+    <ViewManagerAdapter_ExpoLinearGradient
+      colors={
+        [
+          0,
+          4294967295,
+          0,
+        ]
+      }
+      endPoint={
+        [
+          1,
+          0,
+        ]
+      }
+      locations={
+        [
+          0,
+          0.5,
+          1,
+        ]
+      }
+      startPoint={
+        [
+          0,
+          0,
+        ]
+      }
+      style={
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "green",
+            "elevation": 5,
+            "height": "100%",
+            "marginBottom": 0,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
+            "opacity": 0.6,
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+            "shadowColor": "#ffffff",
+            "shadowOffset": {
+              "height": 10,
+              "width": 0,
+            },
+            "shadowOpacity": 0.4,
+            "width": "100%",
+          },
+          {
+            "backgroundColor": "red",
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test Skeleton component renders WmSkeleton correctly with default props 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "overflow": "hidden",
+    }
+  }
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "bottom": 0,
+        "flex": 1,
+        "height": "100%",
+        "left": 0,
+        "marginBottom": -10,
+        "marginTop": -10,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "paddingTop": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+        "transform": [
+          {
+            "translateX": 40,
+          },
+          {
+            "rotate": "-20deg",
+          },
+        ],
+        "width": 60,
+      }
+    }
+  >
+    <ViewManagerAdapter_ExpoLinearGradient
+      colors={
+        [
+          0,
+          4294967295,
+          0,
+        ]
+      }
+      endPoint={
+        [
+          1,
+          0,
+        ]
+      }
+      locations={
+        [
+          0,
+          0.5,
+          1,
+        ]
+      }
+      startPoint={
+        [
+          0,
+          0,
+        ]
+      }
+      style={
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "elevation": 5,
+            "height": "100%",
+            "marginBottom": 0,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
+            "opacity": 0.6,
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+            "shadowColor": "#ffffff",
+            "shadowOffset": {
+              "height": 10,
+              "width": 0,
+            },
+            "shadowOpacity": 0.4,
+            "width": "100%",
+          },
+          {
+            "backgroundColor": "#eeeeee",
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test Skeleton component renders WmSkeleton with custom layout 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "height": "100px",
+      "overflow": "hidden",
+      "width": "125px",
+    }
+  }
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "bottom": 0,
+        "flex": 1,
+        "height": "100%",
+        "left": 0,
+        "marginBottom": -10,
+        "marginTop": -10,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "paddingTop": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+        "transform": [
+          {
+            "translateX": 40,
+          },
+          {
+            "rotate": "-20deg",
+          },
+        ],
+        "width": 60,
+      }
+    }
+  >
+    <ViewManagerAdapter_ExpoLinearGradient
+      colors={
+        [
+          0,
+          4294967295,
+          0,
+        ]
+      }
+      endPoint={
+        [
+          1,
+          0,
+        ]
+      }
+      locations={
+        [
+          0,
+          0.5,
+          1,
+        ]
+      }
+      startPoint={
+        [
+          0,
+          0,
+        ]
+      }
+      style={
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "elevation": 5,
+            "height": "100%",
+            "marginBottom": 0,
+            "marginLeft": 0,
+            "marginRight": 0,
+            "marginTop": 0,
+            "opacity": 0.6,
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+            "shadowColor": "#ffffff",
+            "shadowOffset": {
+              "height": 10,
+              "width": 0,
+            },
+            "shadowOpacity": 0.4,
+            "width": "100%",
+          },
+          {
+            "backgroundColor": "#eeeeee",
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state is false:  1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "overflow": "hidden",
+    }
+  }
+/>
+`;

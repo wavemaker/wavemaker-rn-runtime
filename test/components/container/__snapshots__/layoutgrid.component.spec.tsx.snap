@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Layoutgrid component Check validity of sample component 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "column",
+      "width": "100%",
+    }
+  }
+/>
+`;
