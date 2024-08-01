@@ -260,7 +260,7 @@ describe('Test Toggle component', () => {
     const tree = render(<WmToggle {...baseProps} />);
     const { getByTestId, rerender } = tree;
     let toggleComponent = getByTestId('wm-toggle_a');
-    let animatedViewStyleArr = (toggleComponent.children[1] as any).props.style;
+    let animatedViewStyleArr = (toggleComponent.children[0] as any).props.style;
     let animatedViewStyle = {};
     animatedViewStyleArr.forEach(item => {
       if(!item) return;
@@ -288,7 +288,7 @@ describe('Test Toggle component', () => {
     })
 
     toggleComponent = getByTestId('wm-toggle_a');
-    animatedViewStyleArr = (toggleComponent.children[1] as any).props.style;
+    animatedViewStyleArr = (toggleComponent.children[0] as any).props.style;
     animatedViewStyle = {};
 
     animatedViewStyleArr.forEach(item => {
@@ -308,6 +308,21 @@ describe('Test Toggle component', () => {
       })
     })
   });
+
+  test('should set the value of width based on layout change', () => {
+    const setStateMock = jest.spyOn(WmToggle.prototype, 'setState');
+    const tree = render(<WmToggle {...baseProps}/>);
+
+    fireEvent(tree.root, 'layout', {
+      nativeEvent: {
+        layout: {
+          width: 50
+        }
+      }
+    })
+
+    expect(setStateMock).toHaveBeenCalledWith({viewWidth: 50})
+  })
 
   // test('should apply animations correctly', async () => {
   //   jest.useFakeTimers();
