@@ -16,7 +16,6 @@ exports[`Test Webview component should handle onLoad callback when content is lo
     }
   >
     <RNCWebView
-      accessibilityRole="none"
       accessible={true}
       cacheEnabled={true}
       fraudulentWebsiteWarningEnabled={true}
@@ -77,7 +76,6 @@ exports[`Test Webview component should render WmWebview component with given src
     }
   >
     <RNCWebView
-      accessibilityRole="none"
       accessible={true}
       cacheEnabled={true}
       fraudulentWebsiteWarningEnabled={true}

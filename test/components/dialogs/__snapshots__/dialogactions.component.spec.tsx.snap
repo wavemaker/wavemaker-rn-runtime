@@ -57,7 +57,7 @@ exports[`Dialogactions component should render component with custom style 1`] =
   style={
     {
       "alignItems": "center",
-      "borderColor": "#cccccc",
+      "borderColor": "#404040",
       "borderStyle": "solid",
       "flexDirection": "row",
       "justifyContent": "flex-end",

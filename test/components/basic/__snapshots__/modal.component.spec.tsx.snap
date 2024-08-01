@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal component applies default styles if no custom styles provided 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+    }
+  }
+>
+  <Modal
+    animationType="slide"
+    hardwareAccelerated={false}
+    style={
+      {
+        "borderColor": "rgba(0, 0, 0, 0)",
+        "borderWidth": 0,
+      }
+    }
+    transparent={true}
+    visible={true}
+  >
+    <Text>
+      Modal Content
+    </Text>
+  </Modal>
+</View>
+`;
+
+exports[`Modal component applies styles correctly from props 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "rgba(0, 0, 0, 0.5)",
+    }
+  }
+>
+  <Modal
+    animationType="slide"
+    hardwareAccelerated={false}
+    style={
+      {
+        "borderColor": "red",
+        "borderWidth": 2,
+      }
+    }
+    transparent={true}
+    visible={true}
+  >
+    <Text>
+      Modal Content
+    </Text>
+  </Modal>
+</View>
+`;
+
+exports[`Modal component applies the correct animation type 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "rgba(0, 0, 0, 0.5)",
+    }
+  }
+>
+  <Modal
+    animationType="fade"
+    hardwareAccelerated={false}
+    style={
+      {
+        "borderColor": "red",
+        "borderWidth": 2,
+      }
+    }
+    transparent={true}
+    visible={true}
+  >
+    <Text>
+      Modal Content
+    </Text>
+  </Modal>
+</View>
+`;
+
+exports[`Modal component renders centered modal when centered styles are applied 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "alignSelf": "center",
+      "backgroundColor": "rgba(0, 0, 0, 0.5)",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <Modal
+    animationType="slide"
+    hardwareAccelerated={false}
+    style={
+      {
+        "alignSelf": "center",
+        "borderColor": "blue",
+        "borderWidth": 2,
+      }
+    }
+    transparent={true}
+    visible={true}
+  >
+    <Text>
+      Modal Content
+    </Text>
+  </Modal>
+</View>
+`;
+
+exports[`Modal component renders children correctly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "rgba(0, 0, 0, 0.5)",
+    }
+  }
+>
+  <Modal
+    animationType="slide"
+    hardwareAccelerated={false}
+    style={
+      {
+        "borderColor": "red",
+        "borderWidth": 2,
+      }
+    }
+    transparent={true}
+    visible={true}
+  >
+    <Text>
+      Custom Modal Content
+    </Text>
+  </Modal>
+</View>
+`;
+
+exports[`Modal component renders the WmModal with given props 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "rgba(0, 0, 0, 0.5)",
+    }
+  }
+>
+  <Modal
+    animationType="slide"
+    hardwareAccelerated={false}
+    style={
+      {
+        "borderColor": "red",
+        "borderWidth": 2,
+      }
+    }
+    transparent={true}
+    visible={true}
+  >
+    <Text>
+      Modal Content
+    </Text>
+  </Modal>
+</View>
+`;

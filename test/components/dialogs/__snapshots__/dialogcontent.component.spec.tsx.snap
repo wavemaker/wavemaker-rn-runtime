@@ -2,6 +2,7 @@
 
 exports[`Test Dialogcontent component should not show component when show is false 1`] = `
 <RCTScrollView
+  collapsable={false}
   contentContainerStyle={
     [
       {
@@ -18,12 +19,23 @@ exports[`Test Dialogcontent component should not show component when show is fal
       },
     ]
   }
+  handlerTag={4}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
   onScroll={[Function]}
   scrollEventThrottle={48}
   style={
     {
       "maxHeight": undefined,
     }
+  }
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
   }
 >
   <View>
@@ -36,6 +48,7 @@ exports[`Test Dialogcontent component should not show component when show is fal
 
 exports[`Test Dialogcontent component should render component 1`] = `
 <RCTScrollView
+  collapsable={false}
   contentContainerStyle={
     [
       {
@@ -51,12 +64,23 @@ exports[`Test Dialogcontent component should render component 1`] = `
       },
     ]
   }
+  handlerTag={1}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
   onScroll={[Function]}
   scrollEventThrottle={48}
   style={
     {
       "maxHeight": 1143,
     }
+  }
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
   }
 >
   <View />
@@ -65,6 +89,7 @@ exports[`Test Dialogcontent component should render component 1`] = `
 
 exports[`Test Dialogcontent component should render component with children 1`] = `
 <RCTScrollView
+  collapsable={false}
   contentContainerStyle={
     [
       {
@@ -80,12 +105,23 @@ exports[`Test Dialogcontent component should render component with children 1`] 
       },
     ]
   }
+  handlerTag={2}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
   onScroll={[Function]}
   scrollEventThrottle={48}
   style={
     {
       "maxHeight": 1143,
     }
+  }
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
   }
 >
   <View>

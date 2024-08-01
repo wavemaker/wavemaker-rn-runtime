@@ -1,0 +1,353 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Number component should have default value for native platform 1`] = `
+<TextInput
+  accessibilityState={
+    {
+      "disabled": false,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": null,
+      "min": null,
+    }
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue="sample text"
+  editable={true}
+  floatingLabelStyle={{}}
+  keyboardType="numeric"
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter amount"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {},
+      ],
+      {},
+    ]
+  }
+/>
+`;
+
+exports[`Number component should have default web for native platform 1`] = `
+<TextInput
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  editable={true}
+  floatingLabelStyle={{}}
+  keyboardType="numeric"
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter amount"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {},
+      ],
+      {},
+    ]
+  }
+  value="sample text"
+/>
+`;
+
+exports[`Number component should isValid false when input number is above maxvalue 1`] = `
+<TextInput
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  editable={true}
+  floatingLabelStyle={{}}
+  keyboardType="numeric"
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter amount"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {},
+      ],
+      {},
+    ]
+  }
+  value=""
+/>
+`;
+
+exports[`Number component should isValid false when input number is above maxvalue 2`] = `
+<TextInput
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  editable={true}
+  floatingLabelStyle={{}}
+  keyboardType="numeric"
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter amount"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {
+          "borderBottomColor": "#dc3545",
+        },
+      ],
+      {},
+    ]
+  }
+  value="50011"
+/>
+`;
+
+exports[`Number component should not show component when show prop is false 1`] = `
+<TextInput
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  editable={true}
+  floatingLabelStyle={{}}
+  keyboardType="numeric"
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter amount"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "height": 0,
+          "transform": [
+            {
+              "scale": 0,
+            },
+          ],
+          "width": 0,
+        },
+        {},
+      ],
+      {},
+    ]
+  }
+  value=""
+/>
+`;
+
+exports[`Number component should render correctly with default props 1`] = `
+[
+  <View
+    collapsable={false}
+    pointerEvents="none"
+    style={
+      {
+        "color": "#bbbbbb",
+        "fontSize": 14,
+        "left": 16,
+        "position": "absolute",
+        "top": 12,
+        "transform": [
+          {
+            "translateY": 0,
+          },
+          {
+            "translateX": 0,
+          },
+          {
+            "scale": 1,
+          },
+        ],
+        "width": 160,
+        "zIndex": 1,
+      }
+    }
+  >
+    <Text
+      ellipsizeMode="tail"
+      style={
+        {
+          "color": "#bbbbbb",
+          "fontFamily": undefined,
+          "fontSize": 14,
+          "fontStyle": undefined,
+          "fontVariant": undefined,
+          "fontWeight": undefined,
+          "includeFontPadding": undefined,
+          "letterSpacing": undefined,
+          "lineHeight": undefined,
+          "textAlign": undefined,
+          "textAlignVertical": undefined,
+          "textDecorationColor": undefined,
+          "textDecorationStyle": undefined,
+          "textShadowColor": undefined,
+          "textShadowOffset": undefined,
+          "textShadowRadius": undefined,
+          "textTransform": undefined,
+          "userSelect": undefined,
+          "verticalAlign": undefined,
+          "writingDirection": undefined,
+        }
+      }
+    >
+      Amount
+    </Text>
+  </View>,
+  <TextInput
+    accessibilityState={
+      {
+        "disabled": false,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": null,
+        "min": null,
+      }
+    }
+    accessible={true}
+    activeFloatingLabelStyle={
+      {
+        "color": "#4263eb",
+      }
+    }
+    allowContentSelection={true}
+    autoFocus={null}
+    caretHidden={false}
+    contextMenuHidden={false}
+    defaultValue=""
+    editable={true}
+    floatingLabel="Amount"
+    floatingLabelStyle={
+      {
+        "color": "#bbbbbb",
+        "fontSize": 14,
+        "left": 16,
+        "position": "absolute",
+        "top": 12,
+      }
+    }
+    keyboardType="numeric"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    onKeyPress={[Function]}
+    onSelectionChange={[Function]}
+    placeholder=""
+    placeholderTextColor="#bbbbbb"
+    selection={null}
+    style={
+      [
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "minHeight": 48,
+            "paddingBottom": 8,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 8,
+          },
+          {},
+        ],
+        {},
+      ]
+    }
+  />,
+]
+`;
