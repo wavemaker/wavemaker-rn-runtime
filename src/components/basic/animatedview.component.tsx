@@ -164,6 +164,6 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
        >
         {this.props.children}
       </Animatable.View>
-    ): (<View style={this.props.style} {...this.props.accessibilityProps}>{this.props.children} testID="non_animatableView"</View>);
+    ): (<View style={this.props.style} {...this.props.accessibilityProps} testID="non_animatableView">{this.props.children}</View>);
   }
 }
