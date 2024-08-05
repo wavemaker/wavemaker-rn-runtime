@@ -32,6 +32,7 @@ export type BaseChartComponentStyles = BaseStyles & {
   tooltipXText: any,
   tooltipYText: any,
   bar: any;
+  centerLabel: VictoryStyleObject
 };
 
 export const DEFAULT_CLASS = 'app-chart';
@@ -119,7 +120,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderRightColor: themeVariables.transparent,
       borderBottomColor: themeVariables.tooltipBgColor,
       overflow: 'hidden',
-    } as any
+    } as any,
+    centerLabel: {
+      color: themeVariables.chartTitleColor,
+      fontSize: 20,
+    }
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
