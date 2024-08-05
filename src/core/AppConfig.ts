@@ -26,4 +26,10 @@ export default interface AppConfig {
     getServiceDefinitions: any;
     loggedInUser: any;
     selectedLocale: string;
+    diagnostics: {
+        appStartTime: number,
+        appReadyTime: number,
+        pageStartTime: number,
+        pageReadyTime: number
+    }
 }
