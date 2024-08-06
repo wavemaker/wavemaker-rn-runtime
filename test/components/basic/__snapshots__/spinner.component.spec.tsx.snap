@@ -11,6 +11,7 @@ exports[`Spinner component renders lottie player correctly on web 1`] = `
   }
 >
   <Text
+    accessibilityLabel="test-spinner_l"
     style={
       {
         "fontFamily": "Roboto",
@@ -19,6 +20,7 @@ exports[`Spinner component renders lottie player correctly on web 1`] = `
         "userSelect": "text",
       }
     }
+    testID="test-spinner_l"
   >
     Loading...
   </Text>
@@ -48,6 +50,7 @@ exports[`Spinner component renders with image when image is provided 1`] = `
     />
   </View>
   <Text
+    accessible={false}
     style={
       {
         "fontFamily": "Roboto",
@@ -56,6 +59,7 @@ exports[`Spinner component renders with image when image is provided 1`] = `
         "userSelect": "text",
       }
     }
+    testID="test-spinner_l"
   >
     Loading...
   </Text>
@@ -148,6 +152,7 @@ exports[`Spinner component should render component with default props 1`] = `
       >
         <View>
           <Text
+            accessible={false}
             size={30}
             style={
               [
@@ -167,6 +172,7 @@ exports[`Spinner component should render component with default props 1`] = `
                 },
               ]
             }
+            testID="test-spinner_icon_icon"
           >
             circle-o-notch
           </Text>
@@ -175,6 +181,7 @@ exports[`Spinner component should render component with default props 1`] = `
     </View>
   </View>
   <Text
+    accessible={false}
     style={
       {
         "fontFamily": "Roboto",
@@ -183,6 +190,7 @@ exports[`Spinner component should render component with default props 1`] = `
         "userSelect": "text",
       }
     }
+    testID="test-spinner_l"
   >
     Loading...
   </Text>
@@ -224,6 +232,7 @@ exports[`Spinner component should render component with icon when iconclass is p
       >
         <View>
           <Text
+            accessible={false}
             size={30}
             style={
               [
@@ -243,6 +252,7 @@ exports[`Spinner component should render component with icon when iconclass is p
                 },
               ]
             }
+            testID="test-spinner_icon_icon"
           >
             edit
           </Text>
@@ -251,6 +261,7 @@ exports[`Spinner component should render component with icon when iconclass is p
     </View>
   </View>
   <Text
+    accessible={false}
     style={
       {
         "fontFamily": "Roboto",
@@ -259,6 +270,7 @@ exports[`Spinner component should render component with icon when iconclass is p
         "userSelect": "text",
       }
     }
+    testID="test-spinner_l"
   >
     Loading...
   </Text>

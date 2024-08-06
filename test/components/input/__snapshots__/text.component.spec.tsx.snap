@@ -56,11 +56,13 @@ exports[`Text component should have default value for native platform 1`] = `
       {},
     ]
   }
+  testID="wmText_i"
 />
 `;
 
 exports[`Text component should have default web for native platform 1`] = `
 <TextInput
+  accessibilityLabel="wmText_i"
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoComplete="username"
@@ -108,6 +110,7 @@ exports[`Text component should have default web for native platform 1`] = `
       {},
     ]
   }
+  testID="wmText_i"
   value="sample text"
 />
 `;
@@ -176,6 +179,7 @@ exports[`Text component should impose displayformat accurately 1`] = `
         },
       ]
     }
+    testID="wmText_i"
   />,
   <View
     style={
@@ -233,6 +237,7 @@ exports[`Text component should impose displayformat accurately 1`] = `
 
 exports[`Text component should not show component when show prop is false 1`] = `
 <TextInput
+  accessibilityLabel="wmText_i"
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoComplete="username"
@@ -276,6 +281,7 @@ exports[`Text component should not show component when show prop is false 1`] = 
       {},
     ]
   }
+  testID="wmText_i"
   value=""
 />
 `;
@@ -336,6 +342,7 @@ exports[`Text component should render correctly with default props 1`] = `
       {},
     ]
   }
+  testID="wmText_i"
 />
 `;
 
@@ -465,6 +472,7 @@ exports[`Text component should show floating label when focused 1`] = `
         {},
       ]
     }
+    testID="wmText_i"
   />,
 ]
 `;

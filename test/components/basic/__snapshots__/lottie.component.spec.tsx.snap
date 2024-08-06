@@ -17,6 +17,12 @@ exports[`Lottie component renders lottie player correctly on native 1`] = `
     resizeMode="contain"
     sourceJson="{"url":"lottieAnimation.json"}"
     speed={1}
+    style={
+      {
+        "height": 64,
+        "width": "100%",
+      }
+    }
     textFiltersAndroid={[]}
     textFiltersIOS={[]}
     useNativeLooping={false}
@@ -47,6 +53,12 @@ exports[`Lottie component should call onAnimationFinish in native lottie 1`] = `
     resizeMode="contain"
     sourceJson="{"url":"lottieAnimation.json"}"
     speed={1}
+    style={
+      {
+        "height": 64,
+        "width": "100%",
+      }
+    }
     textFiltersAndroid={[]}
     textFiltersIOS={[]}
     useNativeLooping={false}
@@ -77,6 +89,12 @@ exports[`Lottie component should call reset and play method in Lottie when reset
     resizeMode="contain"
     sourceJson="{"url":"lottieAnimation.json"}"
     speed={1}
+    style={
+      {
+        "height": 64,
+        "width": "100%",
+      }
+    }
     textFiltersAndroid={[]}
     textFiltersIOS={[]}
     useNativeLooping={false}
@@ -101,6 +119,12 @@ exports[`Lottie component should call reset method in the component when play me
     resizeMode="contain"
     sourceJson="{"url":"lottieAnimation.json"}"
     speed={1}
+    style={
+      {
+        "height": 64,
+        "width": "100%",
+      }
+    }
     textFiltersAndroid={[]}
     textFiltersIOS={[]}
     useNativeLooping={false}
@@ -125,6 +149,12 @@ exports[`Lottie component should invoke event callback with onPause event when p
     resizeMode="contain"
     sourceJson="{"url":"lottieAnimation.json"}"
     speed={1}
+    style={
+      {
+        "height": 64,
+        "width": "100%",
+      }
+    }
     textFiltersAndroid={[]}
     textFiltersIOS={[]}
     useNativeLooping={false}
@@ -149,6 +179,12 @@ exports[`Lottie component should invoke event callback with onPlay event and sat
     resizeMode="contain"
     sourceJson="{"url":"lottieAnimation.json"}"
     speed={1}
+    style={
+      {
+        "height": 64,
+        "width": "100%",
+      }
+    }
     textFiltersAndroid={[]}
     textFiltersIOS={[]}
     useNativeLooping={false}
@@ -173,6 +209,12 @@ exports[`Lottie component should invoke event callback with onPlay event when pl
     resizeMode="contain"
     sourceJson="{"url":"lottieAnimation.json"}"
     speed={1}
+    style={
+      {
+        "height": 64,
+        "width": "100%",
+      }
+    }
     textFiltersAndroid={[]}
     textFiltersIOS={[]}
     useNativeLooping={false}
@@ -197,6 +239,12 @@ exports[`Lottie component should invoke event callback with onPlay when autoplay
     resizeMode="contain"
     sourceJson="{"url":"lottieAnimation.json"}"
     speed={1}
+    style={
+      {
+        "height": 64,
+        "width": "100%",
+      }
+    }
     textFiltersAndroid={[]}
     textFiltersIOS={[]}
     useNativeLooping={false}
@@ -221,6 +269,12 @@ exports[`Lottie component should invoke event callback with onPlay when autoplay
     resizeMode="contain"
     sourceJson="{"url":"lottieAnimation.json"}"
     speed={1}
+    style={
+      {
+        "height": 64,
+        "width": "100%",
+      }
+    }
     textFiltersAndroid={[]}
     textFiltersIOS={[]}
     useNativeLooping={false}

@@ -15,6 +15,7 @@ exports[`WmIcon Component caption should display left to the icon when iconposit
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -34,6 +35,7 @@ exports[`WmIcon Component caption should display left to the icon when iconposit
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -41,6 +43,7 @@ exports[`WmIcon Component caption should display left to the icon when iconposit
     </View>
     <Text
       accessibilityRole="text"
+      accessible={false}
       style={
         {
           "fontFamily": "Roboto",
@@ -48,6 +51,7 @@ exports[`WmIcon Component caption should display left to the icon when iconposit
           "userSelect": "text",
         }
       }
+      testID="unit-test_wm-icon_caption"
     >
       test-button
     </Text>
@@ -69,6 +73,7 @@ exports[`WmIcon Component caption should display left to the icon when iconposit
   >
     <Text
       accessibilityRole="text"
+      accessible={false}
       style={
         {
           "fontFamily": "Roboto",
@@ -76,12 +81,14 @@ exports[`WmIcon Component caption should display left to the icon when iconposit
           "userSelect": "text",
         }
       }
+      testID="unit-test_wm-icon_caption"
     >
       test-button
     </Text>
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -101,6 +108,7 @@ exports[`WmIcon Component caption should display left to the icon when iconposit
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -125,6 +133,7 @@ exports[`WmIcon Component caption should display next to the icon when caption p
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -144,6 +153,7 @@ exports[`WmIcon Component caption should display next to the icon when caption p
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -151,6 +161,7 @@ exports[`WmIcon Component caption should display next to the icon when caption p
     </View>
     <Text
       accessibilityRole="text"
+      accessible={false}
       style={
         {
           "fontFamily": "Roboto",
@@ -158,6 +169,7 @@ exports[`WmIcon Component caption should display next to the icon when caption p
           "userSelect": "text",
         }
       }
+      testID="unit-test_wm-icon_caption"
     >
       test-button
     </Text>
@@ -205,6 +217,7 @@ exports[`WmIcon Component clicking the icon triggers the expected action 1`] = `
       undefined,
     ]
   }
+  testID="unit-test_wm-icon_a"
 >
   <View
     style={
@@ -219,6 +232,7 @@ exports[`WmIcon Component clicking the icon triggers the expected action 1`] = `
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -238,6 +252,7 @@ exports[`WmIcon Component clicking the icon triggers the expected action 1`] = `
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -293,6 +308,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -312,6 +328,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
               },
             ]
           }
+          testID="unit-test_test-wm_icon"
         />
       </View>
     </View>
@@ -334,6 +351,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -353,6 +371,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
               },
             ]
           }
+          testID="unit-test_test-wm_icon"
         />
       </View>
     </View>
@@ -375,6 +394,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -394,6 +414,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
               },
             ]
           }
+          testID="unit-test_test-wm_icon"
         />
       </View>
     </View>
@@ -416,6 +437,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -435,6 +457,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
               },
             ]
           }
+          testID="unit-test_test-wm_icon"
         />
       </View>
     </View>
@@ -457,6 +480,7 @@ exports[`WmIcon Component icon size changes correctly when iconsize prop is prov
     <View>
       <View>
         <Text
+          accessible={false}
           size={40}
           style={
             [
@@ -476,6 +500,7 @@ exports[`WmIcon Component icon size changes correctly when iconsize prop is prov
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -499,6 +524,7 @@ exports[`WmIcon Component only caption should display when iconposition prop is 
   >
     <Text
       accessibilityRole="text"
+      accessible={false}
       style={
         {
           "fontFamily": "Roboto",
@@ -506,6 +532,7 @@ exports[`WmIcon Component only caption should display when iconposition prop is 
           "userSelect": "text",
         }
       }
+      testID="unit-test_wm-icon_caption"
     >
       test-button
     </Text>
@@ -528,6 +555,7 @@ exports[`WmIcon Component renders the icon with stream line light icon class 1`]
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -547,6 +575,7 @@ exports[`WmIcon Component renders the icon with stream line light icon class 1`]
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -571,6 +600,7 @@ exports[`WmIcon Component renders the icon with stream line regular icon class 1
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -590,6 +620,7 @@ exports[`WmIcon Component renders the icon with stream line regular icon class 1
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -614,6 +645,7 @@ exports[`WmIcon Component renders the icon with the correct icon class 1`] = `
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -633,6 +665,7 @@ exports[`WmIcon Component renders the icon with the correct icon class 1`] = `
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -657,6 +690,7 @@ exports[`WmIcon Component renders the icon with waveicon class 1`] = `
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -676,6 +710,7 @@ exports[`WmIcon Component renders the icon with waveicon class 1`] = `
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -725,6 +760,7 @@ exports[`WmIcon Component should not render icon when iconclass is falsy  1`] = 
       undefined,
     ]
   }
+  testID="unit-test_wm-icon_a"
 >
   <View
     style={
@@ -780,6 +816,7 @@ exports[`WmIcon Component should render only caption when iconclass is falsy and
       undefined,
     ]
   }
+  testID="unit-test_wm-icon_a"
 >
   <View
     style={
@@ -793,6 +830,7 @@ exports[`WmIcon Component should render only caption when iconclass is falsy and
   >
     <Text
       accessibilityRole="wm-icon-ar"
+      accessible={false}
       style={
         {
           "fontFamily": "Roboto",
@@ -800,6 +838,7 @@ exports[`WmIcon Component should render only caption when iconclass is falsy and
           "userSelect": "text",
         }
       }
+      testID="unit-test_wm-icon_caption"
     >
       icon-caption
     </Text>
@@ -827,6 +866,7 @@ exports[`WmIcon Component should render with animations as pulse 1`] = `
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -846,6 +886,7 @@ exports[`WmIcon Component should render with animations as pulse 1`] = `
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           user
         </Text>
@@ -875,6 +916,7 @@ exports[`WmIcon Component should render with animations as spin 1`] = `
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -894,6 +936,7 @@ exports[`WmIcon Component should render with animations as spin 1`] = `
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           user
         </Text>

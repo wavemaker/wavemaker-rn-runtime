@@ -159,6 +159,7 @@ exports[`Test Anchor component renders icon as per given iconClass and iconPosit
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -178,6 +179,7 @@ exports[`Test Anchor component renders icon as per given iconClass and iconPosit
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               home
             </Text>
@@ -289,6 +291,7 @@ exports[`Test Anchor component should not render caption when falsy value is pas
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -308,6 +311,7 @@ exports[`Test Anchor component should not render caption when falsy value is pas
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -316,6 +320,7 @@ exports[`Test Anchor component should not render caption when falsy value is pas
       </View>
     </View>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -338,6 +343,7 @@ exports[`Test Anchor component should not render caption when falsy value is pas
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -426,6 +432,7 @@ exports[`Test Anchor component should render accessibility properties correctly 
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -445,6 +452,7 @@ exports[`Test Anchor component should render accessibility properties correctly 
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               home
             </Text>
@@ -557,6 +565,7 @@ exports[`Test Anchor component should render anchor component 1`] = `
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -576,6 +585,7 @@ exports[`Test Anchor component should render anchor component 1`] = `
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -603,6 +613,7 @@ exports[`Test Anchor component should render anchor component 1`] = `
       Click here
     </Text>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -625,6 +636,7 @@ exports[`Test Anchor component should render anchor component 1`] = `
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -713,6 +725,7 @@ exports[`Test Anchor component should render caption with default value as "Link
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -732,6 +745,7 @@ exports[`Test Anchor component should render caption with default value as "Link
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -759,6 +773,7 @@ exports[`Test Anchor component should render caption with default value as "Link
       Link
     </Text>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -781,6 +796,7 @@ exports[`Test Anchor component should render caption with default value as "Link
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -869,6 +885,7 @@ exports[`Test Anchor component should render icon to the left of caption when ic
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -888,6 +905,7 @@ exports[`Test Anchor component should render icon to the left of caption when ic
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -915,6 +933,7 @@ exports[`Test Anchor component should render icon to the left of caption when ic
       Click here
     </Text>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -937,6 +956,7 @@ exports[`Test Anchor component should render icon to the left of caption when ic
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -1044,6 +1064,7 @@ exports[`Test Anchor component should render icon to the right of caption when i
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -1063,6 +1084,7 @@ exports[`Test Anchor component should render icon to the right of caption when i
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -1071,6 +1093,7 @@ exports[`Test Anchor component should render icon to the right of caption when i
       </View>
     </View>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -1093,6 +1116,7 @@ exports[`Test Anchor component should render icon to the right of caption when i
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -1181,6 +1205,7 @@ exports[`Test Anchor component should render icon to the top of caption when ico
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -1200,6 +1225,7 @@ exports[`Test Anchor component should render icon to the top of caption when ico
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -1227,6 +1253,7 @@ exports[`Test Anchor component should render icon to the top of caption when ico
       Click here
     </Text>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -1249,6 +1276,7 @@ exports[`Test Anchor component should render icon to the top of caption when ico
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -1382,6 +1410,7 @@ exports[`Test Anchor component should render the badge correctly for badge value
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -1401,6 +1430,7 @@ exports[`Test Anchor component should render the badge correctly for badge value
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -1428,6 +1458,7 @@ exports[`Test Anchor component should render the badge correctly for badge value
       Click here
     </Text>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -1450,6 +1481,7 @@ exports[`Test Anchor component should render the badge correctly for badge value
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       10
     </Text>
@@ -1498,6 +1530,7 @@ exports[`Test Anchor component show render icon along with caption in anchor whe
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -1517,6 +1550,7 @@ exports[`Test Anchor component show render icon along with caption in anchor whe
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -1652,6 +1686,7 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -1671,6 +1706,7 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -1679,6 +1715,7 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
       </View>
     </View>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -1701,6 +1738,7 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       5
     </Text>
