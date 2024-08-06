@@ -11,6 +11,8 @@ import {
 import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { TouchableOpacity, View } from 'react-native';
+import { NavigationServiceProvider } from '../../../src/core/navigation.service';
+import mockNavigationService from '../../__mocks__/navigation.service';
 
 // jest.mock(
 //   '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.component',
@@ -60,12 +62,17 @@ describe('WmNavItem', () => {
     const onSelectMock = jest.fn();
     const onSelectItemMock = jest.spyOn(WmNavItem.prototype, 'onSelectItem');
     const props = { ...defaultProps, view: 'anchor', onSelect: onSelectMock };
-    render(<WmNavItem {...props} />);
+    render(
+      <NavigationServiceProvider value={mockNavigationService}>
+        <WmNavItem {...props} />
+      </NavigationServiceProvider>
+    );
     const anchor = screen.getByText('Home');
     fireEvent.press(anchor);
 
     await waitFor(() => {
       expect(onSelectItemMock).toHaveBeenCalled();
+      expect(mockNavigationService.openUrl).toHaveBeenCalled();
     });
   });
 

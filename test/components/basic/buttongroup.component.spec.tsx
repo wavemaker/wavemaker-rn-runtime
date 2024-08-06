@@ -4,6 +4,7 @@ import WmButtongroupProps from '../../../src/components/basic/buttongroup/button
 import WmButtongroup from '@wavemaker/app-rn-runtime/components/basic/buttongroup/buttongroup.component';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
+import { Text } from 'react-native';
 
 // Mock theme
 const mockTheme = {
@@ -30,9 +31,11 @@ describe('WmButtongroup', () => {
       vertical: true,
     };
     const tree = render(<WmButtongroup {...props} />);
-    const buttonGroupRoot = tree.root
+    const buttonGroupRoot = tree.root;
 
-    expect(buttonGroupRoot.props.style).toContainEqual({ flexDirection: 'column' });
+    expect(buttonGroupRoot.props.style).toContainEqual({
+      flexDirection: 'column',
+    });
   });
 
   it('renders skeleton when `showskeleton` is true', () => {
@@ -41,9 +44,13 @@ describe('WmButtongroup', () => {
       showskeleton: true,
       skeletonwidth: 90,
       skeletonheight: 40,
+      children: <Text>Child Element</Text>,
     };
     const tree = render(<WmButtongroup {...props} />);
+    expect(tree.queryByText('Child Element')).toBeNull();
     expect(tree).toMatchSnapshot();
+    expect(tree.root.props.style.height).toBe(props.skeletonheight);
+    expect(tree.root.props.style.width).toBe(props.skeletonwidth);
   });
 
   it('should render skeleton with root width and height when skeleton width and height are not provided', () => {
@@ -60,6 +67,8 @@ describe('WmButtongroup', () => {
     };
     const tree = render(<WmButtongroup {...props} />);
     expect(tree).toMatchSnapshot();
+    expect(tree.root.props.style.height).toBe(height);
+    expect(tree.root.props.style.width).toBe(width);
   });
 
   it('should have width and height to be 0 when show is false', () => {
@@ -68,7 +77,7 @@ describe('WmButtongroup', () => {
       show: false,
     };
     const tree = render(<WmButtongroup {...props} />);
-    const buttonGroupRoot = tree.root
+    const buttonGroupRoot = tree.root;
 
     expect(buttonGroupRoot.props.style[0].width).toBe(0);
     expect(buttonGroupRoot.props.style[0].height).toBe(0);
@@ -84,9 +93,9 @@ describe('WmButtongroup', () => {
         },
       },
     };
-   
+
     const tree = render(<WmButtongroup {...props} />);
-    const buttonGroupRoot = tree.root
+    const buttonGroupRoot = tree.root;
     expect(buttonGroupRoot.props.style[0].width).toBe(width);
   });
 
@@ -116,7 +125,7 @@ describe('WmButtongroup', () => {
     };
 
     const tree = render(<WmButtongroup {...props} />);
-    const buttonGroupRoot = tree.root
+    const buttonGroupRoot = tree.root;
     expect(buttonGroupRoot.props.style[0].backgroundColor).toBe(bgColor);
   });
 
@@ -127,7 +136,7 @@ describe('WmButtongroup', () => {
     };
 
     const tree = render(<WmButtongroup {...props} />);
-    const buttonGroupRoot = tree.root
+    const buttonGroupRoot = tree.root;
 
     expect(buttonGroupRoot.props.style).toContainEqual({
       borderColor: mockTheme.buttonGrpBorderColor,

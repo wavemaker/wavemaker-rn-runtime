@@ -186,6 +186,8 @@ describe('WmLabel Component', () => {
 
   it('should update parts when caption prop changes', () => {
     const { getByText, rerender } = renderComponent();
+    expect(getByText('Test Label')).toBeTruthy();
+
     rerender(<WmLabel {...defaultProps} caption="New Caption" />);
     expect(getByText('New Caption')).toBeTruthy();
   });

@@ -9,6 +9,8 @@ import {
 } from '@testing-library/react-native';
 import WmNavItem from '@wavemaker/app-rn-runtime/components/navigation/navitem/navitem.component';
 import WmNavbarProps from '../../../src/components/navigation/navbar/navbar.props';
+import { NavigationServiceProvider } from '../../../src/core/navigation.service';
+import mockNavigationService from '../../__mocks__/navigation.service';
 
 // jest.mock(
 //   '@wavemaker/app-rn-runtime/components/navigation/navitem/navitem.component',
@@ -68,6 +70,12 @@ describe('WmNavbar', () => {
   // Prop Update Handling
   it('responds to prop updates correctly', async () => {
     const { rerender } = render(<WmNavbar {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Home')).toBeTruthy();
+      expect(screen.getByText('About')).toBeTruthy();
+    });
+
     const newDataset = [
       {
         key: '1',
@@ -132,11 +140,17 @@ describe('WmNavbar', () => {
   it('calls onSelect callback when an item is selected', async () => {
     const onSelectMock = jest.fn();
     const props = { ...defaultProps, onSelect: onSelectMock };
-    render(<WmNavbar {...props} />);
+
+    render(
+      <NavigationServiceProvider value={mockNavigationService}>
+        <WmNavbar {...props} />
+      </NavigationServiceProvider>
+    );
     const anchor = screen.getByText('Home');
     fireEvent.press(anchor);
     await waitFor(() => {
       expect(onSelectMock).toHaveBeenCalled();
+      expect(mockNavigationService.openUrl).toHaveBeenCalled();
     });
   });
 

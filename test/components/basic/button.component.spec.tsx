@@ -1,7 +1,12 @@
 import React, { ReactNode } from 'react';
 import { AccessibilityInfo, Text, TouchableOpacity } from 'react-native';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
-import { fireEvent, render, waitFor } from '@testing-library/react-native';
+import {
+  fireEvent,
+  render,
+  waitFor,
+  screen,
+} from '@testing-library/react-native';
 import WmButtonProps from '../../../src/components/basic/button/button.props';
 import { forEach } from 'lodash-es';
 import { FontAwesome } from '@expo/vector-icons';
@@ -56,6 +61,8 @@ describe('Button component property binding tests', () => {
 
   it('should update parts when caption prop changes', () => {
     const { getByText, rerender } = renderComponent();
+    expect(getByText('Test Button')).toBeTruthy();
+
     rerender(<WmButton {...defaultProps} caption="New Caption" />);
     expect(getByText('New Caption')).toBeTruthy();
   });
@@ -173,11 +180,13 @@ describe('Button component property binding tests', () => {
   });
 
   it('should handle empty or null caption gracefully', () => {
-    const { queryByText, rerender } = renderComponent();
+    const { rerender, queryByTestId } = renderComponent();
+
     rerender(<WmButton {...defaultProps} caption="" />);
-    expect(queryByText('')).toBeNull();
+    expect(queryByTestId('test_button_caption')).toBeNull();
+
     rerender(<WmButton {...defaultProps} caption={null} />);
-    expect(queryByText('')).toBeNull();
+    expect(queryByTestId('test_button_caption')).toBeNull();
   });
 
   it('should render with a given badge value', () => {

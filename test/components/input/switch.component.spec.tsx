@@ -211,6 +211,20 @@ describe('WmSwitch', () => {
     );
     const onChangeMock = jest.spyOn(WmSwitch.prototype, 'onChange');
     const items = screen.root.children;
+    // pressing 1st time
+
+    fireEvent(textItem, 'press');
+
+    await waitFor(() => {
+      expect(onChangeMock).toHaveBeenCalledWith('yes');
+      expect(invokeEventCallbackMock).toHaveBeenCalledTimes(1);
+    });
+    expect(items[0].props.styles).toContainEqual(
+      expect.objectContaining({
+        backgroundColor: ref.current.styles.selectedButton.backgroundColor,
+      })
+    );
+    // pressing 2nd time
     fireEvent(textItem, 'press');
 
     await waitFor(() => {
