@@ -511,3 +511,43 @@ export const parseLinearGradient = (gradient: string) => {
 
   return {hasLinearGradient, color1, color2, start, end};
 }
+
+export const validateInputOnDevice = (value: string, type: 'number' | 'currency') => {
+  const isCurrencyField = type === 'currency';
+  let isValidText = true;
+  let validText = value;
+  
+  // * no alphabets except E, may contain E only once
+  if (/[a-df-zA-DF-Z]/.test(value) || !/^[^eE]*[eE]?[^eE]*$/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/[a-df-zA-DF-Z]/g, '');
+    validText = validText.replace(/([eE])\1+/g, 'e');
+  }
+
+  // * currency only: check for negative number
+  if (isCurrencyField && (Number(value) < 0 || /-/g.test(value))) {
+    isValidText = false;
+    validText = validText.replace(/-/g, '');
+  }
+
+  // * number only: not more than one minus and doesn't end with minus (-)
+  if (!isCurrencyField && (Number(value.match(/-/g)?.length) > 1) || /\w-/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/-/g, '');
+    validText = validText.replace(/\w-/g, '');
+  }
+
+  // * check for more than one decimal point
+  if (/^\d*\.\d*\..*$/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/\.(?=\.*\.)/g, '');
+  }
+
+  // * check for spaces and comma
+  if (/[\s,]/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/[\s,]/, '');
+  }
+
+  return {isValidText, validText};
+}
