@@ -8,7 +8,7 @@ export default class AnimatedviewProps {
   children?: any;
   duration?: number = null as any;
   delay?: number = null as any;
-  iterationCount?: any;
+  iterationCount?:any;
   style?: any;
   exitanimation?: string = null as any;
   accessibilityProps?: any;
@@ -163,27 +163,19 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
 
   render() {
     return this.props.entryanimation ? (
-      <Animatable.View
-        animation={this.props.entryanimation}
-        duration={this.props.duration}
-        delay={this.props.delay}
-        useNativeDriver={true}
-        style={this.props.style}
-        iterationCount={this.props.iterationCount}
-        ref={this.handleViewRef}
-        {...this.props.accessibilityProps}
-        testID="animatableView"
-      >
+     <Animatable.View
+       animation={this.props.entryanimation}
+       duration={this.props.duration}
+       delay={this.props.delay}
+       useNativeDriver={true}
+       style={this.props.style}
+       iterationCount={this.props.iterationCount}
+       ref={this.handleViewRef}
+       {...this.props.accessibilityProps}
+       testID="animatableView"
+       >
         {this.props.children}
       </Animatable.View>
-    ) : (
-      <View
-        style={this.props.style}
-        {...this.props.accessibilityProps}
-        testID="non_animatableView"
-      >
-        {this.props.children}
-      </View>
-    );
+    ): (<View style={this.props.style} {...this.props.accessibilityProps} testID="non_animatableView">{this.props.children}</View>);
   }
 }

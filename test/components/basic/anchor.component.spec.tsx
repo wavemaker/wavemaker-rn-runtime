@@ -11,7 +11,6 @@ import {
 import mockNavigationService from '../../../__mocks__/navigation.service';
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 import * as WmUtils from '@wavemaker/app-rn-runtime/core/utils';
-// import WmSkeleton from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 import * as accessibilityUtils from '@wavemaker/app-rn-runtime/core/accessibility';
 
 const renderComponent = (props = {}) => {

@@ -9,7 +9,7 @@ import {
 import WmVideo from '@wavemaker/app-rn-runtime/components/basic/video/video.component';
 import WmVideoProps from '../../../src/components/basic/video/video.props';
 import { AssetConsumer, AssetProvider } from '../../../src/core/asset.provider';
-import { Video } from 'expo-av';
+import { AVPlaybackStatus, Video } from 'expo-av';
 
 // Mock Expo Video component
 // jest.mock('expo-av', () => ({
@@ -70,26 +70,13 @@ describe('Test Video component', () => {
 
   // Autoplay Functionality
   it('autoplays the video when autoplay is true', () => {
-    const componentDidMountSpy = jest.spyOn(
-      WmVideo.prototype,
-      'componentDidMount'
-    );
-    const playAsyncMock = jest.spyOn(Video.prototype, 'playAsync');
     renderComponent({
       name: 'test',
       mp4format: 'https://example.com/video.mp4',
       autoplay: true,
     });
     const video = screen.getByTestId('test_video');
-    // expect(Video).toHaveBeenCalledWith(
-    //   expect.objectContaining({
-    //     shouldPlay: true,
-    //   }),
-    //   {}
-    // );
-    expect(componentDidMountSpy).toHaveBeenCalled();
-    expect(playAsyncMock).toHaveBeenCalled();
-    componentDidMountSpy.mockRestore();
+    expect(video.props.status.shouldPlay).toBe(true);
   });
 
   // Accessibility Props

@@ -105,7 +105,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
               return (
               <TouchableWithoutFeedback key={'wizard_menu_item_'+index} onPress={()=>{this.popOverRef.hide();}}>
                 <View style={[this.styles.stepMenu, currentMenuItem?this.styles.activeStepMenu:{}]}>
-                  <WmIcon caption={caption} iconclass={currentMenuItem? "wi wi-radio-button-checked" : 'wi wi-radio-button-unchecked'} styles={currentMenuItem?this.styles.stepMenuActiveIcon:this.styles.stepMenuIcon}/>
+                  <WmIcon id={this.getTestId('icon')} caption={caption} iconclass={currentMenuItem? "wi wi-radio-button-checked" : 'wi wi-radio-button-unchecked'} styles={currentMenuItem?this.styles.stepMenuActiveIcon:this.styles.stepMenuIcon}/>
                   <WmLabel caption={item} styles={currentMenuItem?this.styles.stepMenuActiveLabel:this.styles.stepMenuLabel}/>
                 </View>
               </TouchableWithoutFeedback>
@@ -121,12 +121,12 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
       <View style={[this.styles.headerWrapper]} key={index + 1}>
         <View style={this.styles.stepWrapper}>
           <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center', flexDirection:'row' }}>
-            <WmProgressCircle minvalue={0} maxvalue={this.steps.length} datavalue={index + 1} captionplacement={'inside'} type={this.props.progresstype} title={progressTitle} subtitle={''} styles={this.styles.progressCircle} />
+            <WmProgressCircle id={this.getTestId('progress')} minvalue={0} maxvalue={this.steps.length} datavalue={index + 1} captionplacement={'inside'} type={this.props.progresstype} title={progressTitle} subtitle={''} styles={this.styles.progressCircle}/>
           </View>
         <View style={{ flex: 2, justifyContent: 'center', flexDirection: 'column' }}>
-            <Text style={this.styles.stepTitle}>
+            <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
               {item.props.title || 'Step Title'}</Text>
-            <Text style={this.styles.stepSubTitle}>
+            <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1)+ '_subtitle')}>
               {item.props.subtitle || 'Step Sub Title'}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end', flex: 1 }}>
@@ -150,13 +150,13 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                           accessibilityRole='header'>
             <View style={this.getStepStyle(index)}>
               {index >= this.state.currentStep && !this.state.isDone &&
-                <Text style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter}>{index+1}</Text>}
+                <Text style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&
-                <WmIcon styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
+                <WmIcon id={this.getTestId('status')} styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
                         iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
             </View>
             {(isActiveStep) &&
-              <Text style={this.styles.stepTitle}>
+              <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
               {item.state.props.title || 'Step Title'}</Text> }
             {this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}

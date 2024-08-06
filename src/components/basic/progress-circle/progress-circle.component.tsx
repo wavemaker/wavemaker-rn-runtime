@@ -46,8 +46,9 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
     return (
     <View style={styles.root} onLayout={this.onLayout.bind(this)} {...getAccessibilityProps(AccessibilityWidgetType.PROGRESSCIRCLE, props)}>
       {this._background}
-      <Tappable {...this.getTestPropsForAction()} target={this} styles={{root:{width: '100%', height: '100%'}}}>
+      <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}}>
         <AnimatedCircularProgress
+         {...this.getTestPropsForAction('progresscircle')}
           fill={value}
           width={styles.progressValue.height}
           backgroundWidth={styles.progressValue.height}
@@ -57,8 +58,8 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
           backgroundColor={styles.progressCircle.backgroundColor}
           size={this.state.radius}>
             {(fill) => (<View style={{alignItems: 'center'}}>
-                          <Text style={styles.text}>{ showText ? props.title || value : '' }</Text>
-                          {showText && props.subtitle ? (<Text style={styles.subTitle}>{ props.subtitle }</Text>) : null}
+                          <Text style={styles.text} {...this.getTestPropsForLabel('title')}>{ showText ? props.title || value : '' }</Text>
+                          {showText && props.subtitle ? (<Text style={styles.subTitle} {...this.getTestPropsForLabel('subtitle')}>{ props.subtitle }</Text>) : null}
                         </View>)}  
         </AnimatedCircularProgress>
       </Tappable>

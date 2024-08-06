@@ -162,6 +162,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                     {flexGrow: undefined},
                     isSelected ? this.styles.activeHeader : null]}>
                     <WmIcon
+                      id={this.getTestId('headericon')}
                       styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeaderIcon : null)}
                       iconclass={header.icon}></WmIcon>
                     <Text numberOfLines={1} style={[

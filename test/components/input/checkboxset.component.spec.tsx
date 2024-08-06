@@ -93,10 +93,11 @@ describe('WmCheckboxset', () => {
 
   // Accessibility Props
   it('applies accessibility props correctly', () => {
-    render(<WmCheckboxset {...defaultProps} />);
+    render(<WmCheckboxset {...defaultProps} hint="wm-checkboxset" />);
     expect(screen.getByLabelText('Checkbox for name0')).toBeTruthy();
     expect(screen.getByLabelText('Checkbox for name1')).toBeTruthy();
     expect(screen.getByLabelText('Checkbox for name2')).toBeTruthy();
+    expect(screen.getAllByA11yHint('wm-checkboxset')).toBeTruthy();
   });
 
   // Validation and Event Handling

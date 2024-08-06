@@ -32,7 +32,7 @@ const WmCursor = React.memo((props: {
   }, []);
   return (
     <Animated.View 
-    testID='wm-custom-cursor'
+    testID="wm-custom-cursor"
     style={{
       backgroundColor: props.color,
       width: 2,

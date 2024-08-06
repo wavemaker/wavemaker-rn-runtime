@@ -352,6 +352,8 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   renderWidget(props: WmDatetimeProps) {
+    const is12HourFormat = props?.datepattern && /hh:mm(:ss|:sss)? a/.test(props.datepattern);
+    const is24Hour = is12HourFormat ? false : props.is24hour;
     return ( 
         this.addTouchableOpacity(props, (
         <View style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
@@ -387,7 +389,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                   this.clearBtnClicked = true;
                 }}/>)) || null}
               {this.addTouchableOpacity(props, (
-                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}} hint={props?.hint}/>
+                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}} hint={props?.hint} id={this.getTestId('calendericon')}/>
               ))}
             </View>
           {
@@ -400,6 +402,8 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             <WmDatePickerModal
               isVisible={this.state.showDatePickerModal}
               onClose={() => this.updateState({showDatePickerModal: false} as BaseDatetimeState)}
+              minDate={props.mindate}
+              maxDate={props.maxdate}
               selectedDate={this.state.dateValue}
               onSelect={(date: Date) => {
                 this.onDateChange(null as any, date);
@@ -429,7 +433,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           {(Platform.OS !== 'web' && props.iswheelpicker && this.state.showTimePickerModal) && (
             <WmTimePickerModal
               selectedDateTime={this.state.dateValue}
-              is24Hour={props.is24hour}
+              is24Hour={is24Hour}
               isVisible={this.state.showTimePickerModal}
               onClose={() => this.updateState({isFocused: false, showTimePickerModal: false} as BaseDatetimeState)}
               onSelect={(time: Date) => {

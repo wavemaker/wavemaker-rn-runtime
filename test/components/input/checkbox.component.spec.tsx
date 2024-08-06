@@ -85,10 +85,18 @@ describe('WmCheckbox Unit tests', () => {
 
   // Accessibility Props
   it('applies accessibility props correctly', () => {
-    render(<WmCheckbox {...defaultProps} disabled={false} datavalue="yes" />);
+    render(
+      <WmCheckbox
+        {...defaultProps}
+        disabled={false}
+        datavalue="yes"
+        hint="wm-checkbox"
+      />
+    );
     const checkbox = screen.getByRole('checkbox');
     expect(screen.getByLabelText('Checkbox for Test Checkbox')).toBeTruthy();
     expect(checkbox).toBeTruthy();
+    expect(screen.getByA11yHint('wm-checkbox')).toBeTruthy();
     expect(checkbox.props.accessibilityState.checked).toBe(true);
     expect(checkbox.props.accessibilityState.disabled).toBe(false);
   });

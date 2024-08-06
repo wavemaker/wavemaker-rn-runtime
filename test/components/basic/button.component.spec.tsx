@@ -8,7 +8,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const defaultProps: WmButtonProps = {
   //animation: 'fadeIn',
-  //animationdelay: 200,
+  // animationdelay: 200,
   caption: 'Test Button',
   skeletonheight: undefined,
   skeletonwidth: undefined,
@@ -76,16 +76,15 @@ describe('Button component property binding tests', () => {
   it('should handle animation props', () => {
     const tree = renderComponent({
       animation: 'fadeIn',
-      // animationdelay: 500,
+      animationdelay: 500,
       caption: 'Animated Button',
       name: 'WmButton',
     });
-    expect(tree).toMatchSnapshot();
 
     const animatedButton = tree.getByTestId('animatableView');
     expect(animatedButton).toBeTruthy();
     expect(animatedButton.props.animation).toBe('fadeIn');
-    // expect(animatedButton.props.delay).toBe(500);
+    expect(animatedButton.props.delay).toBe(500);
   });
 
   it('should trigger onTap callback', async () => {

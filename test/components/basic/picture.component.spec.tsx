@@ -213,7 +213,6 @@ describe('Picture component', () => {
   // test('should render component with width and height extracted from Image component of react-native', async () => {
   //   const height = 122;
   //   const width = 123;
-
   //   // const lodashMock = jest.spyOn(lodash, 'isNumber').mockReturnValue(true);
   //   jest.spyOn(Image, 'resolveAssetSource').mockReturnValue({
   //     height,

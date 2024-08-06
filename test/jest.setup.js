@@ -24,6 +24,8 @@ jest.mock('react-native-gesture-handler', () => {});*/
 //import '@testing-library/react-native/extend-expect';
 //import 'react-native-gesture-handler/jestSetup';
 
+import * as AccessibilityConfig from '../src/core/accessibility';
+
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')
 );
@@ -132,3 +134,6 @@ jest.mock('@wavemaker/app-rn-runtime/core/injector', () => {
     },
   };
 });
+
+jest.spyOn(AccessibilityConfig, 'isScreenReaderEnabled').mockReturnValue(false);
+
