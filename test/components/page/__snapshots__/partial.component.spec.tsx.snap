@@ -2,10 +2,6 @@
 
 exports[`Test Partial component Check validity of sample component 1`] = `
 <View
-  style={
-    {
-      "width": "100%",
-    }
-  }
+  style={Object {}}
 />
 `;

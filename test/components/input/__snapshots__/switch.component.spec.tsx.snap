@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WmSwitch renders correctly with default props 1`] = `
+exports[`WmSwitch applies accessibility props correctly 1`] = `
 <View
   style={
     {
@@ -20,7 +20,7 @@ exports[`WmSwitch renders correctly with default props 1`] = `
         "checked": undefined,
         "disabled": false,
         "expanded": undefined,
-        "selected": false,
+        "selected": undefined,
       }
     }
     accessibilityValue={
@@ -75,7 +75,11 @@ exports[`WmSwitch renders correctly with default props 1`] = `
             "borderTopLeftRadius": 18,
             "borderTopRightRadius": 0,
           },
-          null,
+          {
+            "backgroundColor": "#4263eb",
+            "borderColor": "#cccccc",
+            "color": "#ffffff",
+          },
         ],
       ]
     }
@@ -85,19 +89,17 @@ exports[`WmSwitch renders correctly with default props 1`] = `
         style={
           [
             {
-              "fontFamily": "Roboto",
               "fontSize": 16,
               "fontWeight": "500",
               "textTransform": "uppercase",
-              "userSelect": "none",
             },
             {
-              "color": "#151420",
+              "color": "#ffffff",
             },
           ]
         }
       >
-        yes
+        Yes
       </Text>
     </View>
   </View>
@@ -108,7 +110,7 @@ exports[`WmSwitch renders correctly with default props 1`] = `
         "checked": undefined,
         "disabled": false,
         "expanded": undefined,
-        "selected": false,
+        "selected": undefined,
       }
     }
     accessibilityValue={
@@ -191,7 +193,7 @@ exports[`WmSwitch renders correctly with default props 1`] = `
               "fontSize": 16,
               "fontWeight": "500",
               "textTransform": "uppercase",
-              "userSelect": "none",
+              "userSelect": "text",
             },
             {
               "color": "#151420",
@@ -199,7 +201,7 @@ exports[`WmSwitch renders correctly with default props 1`] = `
           ]
         }
       >
-        no
+        No
       </Text>
     </View>
   </View>
@@ -210,7 +212,7 @@ exports[`WmSwitch renders correctly with default props 1`] = `
         "checked": undefined,
         "disabled": false,
         "expanded": undefined,
-        "selected": false,
+        "selected": undefined,
       }
     }
     accessibilityValue={
@@ -280,7 +282,302 @@ exports[`WmSwitch renders correctly with default props 1`] = `
               "fontSize": 16,
               "fontWeight": "500",
               "textTransform": "uppercase",
-              "userSelect": "none",
+              "userSelect": "text",
+            },
+            {
+              "color": "#151420",
+            },
+          ]
+        }
+      >
+        Maybe
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`WmSwitch renders correctly with default props 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "row",
+      "minHeight": 24,
+      "paddingBottom": 4,
+      "paddingLeft": 4,
+      "paddingRight": 4,
+      "paddingTop": 4,
+    }
+  }
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "backgroundColor": "#ffffff",
+            "borderBottomLeftRadius": 0,
+            "borderBottomRightRadius": 0,
+            "borderColor": "#cccccc",
+            "borderRightWidth": 0,
+            "borderTopLeftRadius": 0,
+            "borderTopRightRadius": 0,
+            "borderWidth": 1,
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "height": 40,
+            "justifyContent": "center",
+            "minWidth": 64,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+          },
+          {
+            "borderBottomLeftRadius": 18,
+            "borderBottomRightRadius": 0,
+            "borderTopLeftRadius": 18,
+            "borderTopRightRadius": 0,
+          },
+          null,
+        ],
+      ]
+    }
+  >
+    <View>
+      <Text
+        style={
+          [
+            {
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "textTransform": "uppercase",
+              "userSelect": "text",
+            },
+            {
+              "color": "#151420",
+            },
+          ]
+        }
+      >
+        yes
+      </Text>
+    </View>
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "backgroundColor": "#ffffff",
+            "borderBottomLeftRadius": 0,
+            "borderBottomRightRadius": 0,
+            "borderColor": "#cccccc",
+            "borderRightWidth": 0,
+            "borderTopLeftRadius": 0,
+            "borderTopRightRadius": 0,
+            "borderWidth": 1,
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "height": 40,
+            "justifyContent": "center",
+            "minWidth": 64,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+          },
+          {
+            "alignItems": "center",
+            "backgroundColor": "#ffffff",
+            "borderBottomLeftRadius": 0,
+            "borderBottomRightRadius": 0,
+            "borderColor": "#cccccc",
+            "borderRightWidth": 0,
+            "borderTopLeftRadius": 0,
+            "borderTopRightRadius": 0,
+            "borderWidth": 1,
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "height": 40,
+            "justifyContent": "center",
+            "minWidth": 64,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+          },
+          null,
+        ],
+      ]
+    }
+  >
+    <View>
+      <Text
+        style={
+          [
+            {
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "textTransform": "uppercase",
+              "userSelect": "text",
+            },
+            {
+              "color": "#151420",
+            },
+          ]
+        }
+      >
+        no
+      </Text>
+    </View>
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "backgroundColor": "#ffffff",
+            "borderBottomLeftRadius": 0,
+            "borderBottomRightRadius": 0,
+            "borderColor": "#cccccc",
+            "borderRightWidth": 0,
+            "borderTopLeftRadius": 0,
+            "borderTopRightRadius": 0,
+            "borderWidth": 1,
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "height": 40,
+            "justifyContent": "center",
+            "minWidth": 64,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+          },
+          {
+            "borderBottomLeftRadius": 0,
+            "borderBottomRightRadius": 18,
+            "borderRightWidth": 1,
+            "borderTopLeftRadius": 0,
+            "borderTopRightRadius": 18,
+          },
+          null,
+        ],
+      ]
+    }
+  >
+    <View>
+      <Text
+        style={
+          [
+            {
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "fontWeight": "500",
+              "textTransform": "uppercase",
+              "userSelect": "text",
             },
             {
               "color": "#151420",

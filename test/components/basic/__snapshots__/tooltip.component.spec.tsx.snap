@@ -1,89 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WmTooltip component applies the correct styles from the theme 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "pink",
-      "position": "relative",
-    }
-  }
->
-  <View
-    collapsable={false}
-    style={
-      {
-        "alignItems": "center",
-        "backgroundColor": "yellow",
-        "borderRadius": 20,
-        "elevation": 3,
-        "justifyContent": "center",
-        "left": -30,
-        "minHeight": 25,
-        "minWidth": 60,
-        "paddingHorizontal": 10,
-        "position": "absolute",
-        "shadowColor": "#000",
-        "shadowOffset": {
-          "height": 1,
-          "width": 0,
-        },
-        "shadowOpacity": 0.22,
-        "shadowRadius": 2.22,
-        "top": -60,
-      }
-    }
-  >
-    <Text
-      style={
-        [
-          {},
-        ]
-      }
-    >
-      Tooltip Text
-    </Text>
-    <View
-      style={
-        [
-          {
-            "backgroundColor": "purple",
-            "borderBottomColor": "lightblue",
-            "borderBottomWidth": 12,
-            "borderLeftColor": "transparent",
-            "borderLeftWidth": 8,
-            "borderRightColor": "transparent",
-            "borderRightWidth": 8,
-            "borderStyle": "solid",
-            "height": 0,
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": 0,
-          },
-          {
-            "transform": [
-              {
-                "rotate": "180deg",
-              },
-            ],
-          },
-          {
-            "bottom": -10,
-          },
-          {},
-          {
-            "borderBottomColor": "yellow",
-          },
-        ]
-      }
-    />
-  </View>
-  <Text>
-    Hover over me
-  </Text>
-</View>
-`;
-
 exports[`WmTooltip component does not render tooltip when showTooltip is false 1`] = `
 <View
   style={
@@ -756,6 +672,90 @@ exports[`WmTooltip component renders the tooltip in the correct direction - up 1
           {},
           {
             "borderBottomColor": "lightblue",
+          },
+        ]
+      }
+    />
+  </View>
+  <Text>
+    Hover over me
+  </Text>
+</View>
+`;
+
+exports[`WmTooltip component should apply the style prop correctly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "pink",
+      "position": "relative",
+    }
+  }
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "yellow",
+        "borderRadius": 20,
+        "elevation": 3,
+        "justifyContent": "center",
+        "left": -30,
+        "minHeight": 25,
+        "minWidth": 60,
+        "paddingHorizontal": 10,
+        "position": "absolute",
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": 1,
+          "width": 0,
+        },
+        "shadowOpacity": 0.22,
+        "shadowRadius": 2.22,
+        "top": -60,
+      }
+    }
+  >
+    <Text
+      style={
+        [
+          {},
+        ]
+      }
+    >
+      Tooltip Text
+    </Text>
+    <View
+      style={
+        [
+          {
+            "backgroundColor": "purple",
+            "borderBottomColor": "lightblue",
+            "borderBottomWidth": 12,
+            "borderLeftColor": "transparent",
+            "borderLeftWidth": 8,
+            "borderRightColor": "transparent",
+            "borderRightWidth": 8,
+            "borderStyle": "solid",
+            "height": 0,
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": 0,
+          },
+          {
+            "transform": [
+              {
+                "rotate": "180deg",
+              },
+            ],
+          },
+          {
+            "bottom": -10,
+          },
+          {},
+          {
+            "borderBottomColor": "yellow",
           },
         ]
       }

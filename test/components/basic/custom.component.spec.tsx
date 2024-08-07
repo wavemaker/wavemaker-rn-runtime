@@ -2,29 +2,6 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { cleanup, render, waitFor } from '@testing-library/react-native';
 import WmCustom from '@wavemaker/app-rn-runtime/components/basic/custom/custom.component';
-import BASE_THEME, {
-  ThemeProvider,
-} from '@wavemaker/app-rn-runtime/styles/theme';
-
-jest.mock(
-  '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component',
-  () => {
-    const { View } = require('react-native');
-    const originalModule = jest.requireActual(
-      '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component'
-    );
-    const { WmSkeletonState, createSkeleton } = originalModule;
-
-    return {
-      _esModule: true,
-      default: jest.fn().mockImplementation((props) => {
-          return <View testID="test-wm-skeleton"><WmSkeletonState {...props}/></View>;
-        }),
-      createSkeleton: jest.fn().mockImplementation(createSkeleton),
-    };
-  }
-);
-
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
@@ -36,11 +13,7 @@ const renderComponent = (props = {}) => {
     name: 'wm-custom',
     accessibilitylabel: 'wm-custom-label',
   };
-  return render(
-    <ThemeProvider value={BASE_THEME}>
-      <WmCustom {...defaultProps} {...props} />
-    </ThemeProvider>
-  );
+  return render(<WmCustom {...defaultProps} {...props} />);
 };
 
 describe('Custom component', () => {
@@ -140,14 +113,12 @@ describe('Custom component', () => {
       root: { backgroundColor: 'green' },
     };
     const tree = render(
-      <ThemeProvider value={BASE_THEME}>
-        <WmCustom
-          id="test-custom"
-          renderview={(props) => <Text>{props.text}</Text>}
-          text="Custom Content"
-          styles={themeStyles}
-        />
-      </ThemeProvider>
+      <WmCustom
+        id="test-custom"
+        renderview={(props) => <Text>{props.text}</Text>}
+        text="Custom Content"
+        styles={themeStyles}
+      />
     );
     const rootElement = tree.toJSON();
     expect(rootElement.props.style).toEqual(

@@ -1,46 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WmIcon Component accessibility label as "test-label" should be present when accessibilitylabel prop is set to "test-label" 1`] = `
-<View
-  accessibilityLabel="test-label"
-  accessibilityState={
-    {
-      "busy": undefined,
-      "checked": undefined,
-      "disabled": false,
-      "expanded": undefined,
-      "selected": undefined,
-    }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    [
-      {
-        "overflow": "hidden",
-      },
-      undefined,
-    ]
-  }
->
+exports[`WmIcon Component caption should display left to the icon when iconposition is "left" 1`] = `
+<View>
   <View
     style={
       {
@@ -54,6 +15,7 @@ exports[`WmIcon Component accessibility label as "test-label" should be present 
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -73,11 +35,26 @@ exports[`WmIcon Component accessibility label as "test-label" should be present 
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
       </View>
     </View>
+    <Text
+      accessibilityRole="text"
+      accessible={false}
+      style={
+        {
+          "fontFamily": "Roboto",
+          "paddingLeft": 8,
+          "userSelect": "text",
+        }
+      }
+      testID="unit-test_wm-icon_caption"
+    >
+      test-button
+    </Text>
   </View>
 </View>
 `;
@@ -96,6 +73,7 @@ exports[`WmIcon Component caption should display left to the icon when iconposit
   >
     <Text
       accessibilityRole="text"
+      accessible={false}
       style={
         {
           "fontFamily": "Roboto",
@@ -103,12 +81,14 @@ exports[`WmIcon Component caption should display left to the icon when iconposit
           "userSelect": "text",
         }
       }
+      testID="unit-test_wm-icon_caption"
     >
       test-button
     </Text>
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -128,6 +108,7 @@ exports[`WmIcon Component caption should display left to the icon when iconposit
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -152,6 +133,7 @@ exports[`WmIcon Component caption should display next to the icon when caption p
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -171,6 +153,7 @@ exports[`WmIcon Component caption should display next to the icon when caption p
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -178,6 +161,7 @@ exports[`WmIcon Component caption should display next to the icon when caption p
     </View>
     <Text
       accessibilityRole="text"
+      accessible={false}
       style={
         {
           "fontFamily": "Roboto",
@@ -185,6 +169,7 @@ exports[`WmIcon Component caption should display next to the icon when caption p
           "userSelect": "text",
         }
       }
+      testID="unit-test_wm-icon_caption"
     >
       test-button
     </Text>
@@ -232,6 +217,7 @@ exports[`WmIcon Component clicking the icon triggers the expected action 1`] = `
       undefined,
     ]
   }
+  testID="unit-test_wm-icon_a"
 >
   <View
     style={
@@ -246,6 +232,7 @@ exports[`WmIcon Component clicking the icon triggers the expected action 1`] = `
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -265,6 +252,7 @@ exports[`WmIcon Component clicking the icon triggers the expected action 1`] = `
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -320,6 +308,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -339,6 +328,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
               },
             ]
           }
+          testID="unit-test_test-wm_icon"
         />
       </View>
     </View>
@@ -361,6 +351,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -380,6 +371,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
               },
             ]
           }
+          testID="unit-test_test-wm_icon"
         />
       </View>
     </View>
@@ -402,6 +394,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -421,6 +414,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
               },
             ]
           }
+          testID="unit-test_test-wm_icon"
         />
       </View>
     </View>
@@ -443,6 +437,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -462,6 +457,7 @@ exports[`WmIcon Component icon should component should get type or value as empt
               },
             ]
           }
+          testID="unit-test_test-wm_icon"
         />
       </View>
     </View>
@@ -484,6 +480,7 @@ exports[`WmIcon Component icon size changes correctly when iconsize prop is prov
     <View>
       <View>
         <Text
+          accessible={false}
           size={40}
           style={
             [
@@ -503,6 +500,7 @@ exports[`WmIcon Component icon size changes correctly when iconsize prop is prov
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -526,6 +524,7 @@ exports[`WmIcon Component only caption should display when iconposition prop is 
   >
     <Text
       accessibilityRole="text"
+      accessible={false}
       style={
         {
           "fontFamily": "Roboto",
@@ -533,6 +532,7 @@ exports[`WmIcon Component only caption should display when iconposition prop is 
           "userSelect": "text",
         }
       }
+      testID="unit-test_wm-icon_caption"
     >
       test-button
     </Text>
@@ -555,6 +555,7 @@ exports[`WmIcon Component renders the icon with stream line light icon class 1`]
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -574,6 +575,7 @@ exports[`WmIcon Component renders the icon with stream line light icon class 1`]
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -598,6 +600,7 @@ exports[`WmIcon Component renders the icon with stream line regular icon class 1
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -617,6 +620,7 @@ exports[`WmIcon Component renders the icon with stream line regular icon class 1
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -641,6 +645,7 @@ exports[`WmIcon Component renders the icon with the correct icon class 1`] = `
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -660,6 +665,7 @@ exports[`WmIcon Component renders the icon with the correct icon class 1`] = `
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -684,6 +690,7 @@ exports[`WmIcon Component renders the icon with waveicon class 1`] = `
     <View>
       <View>
         <Text
+          accessible={false}
           size={12}
           style={
             [
@@ -703,6 +710,7 @@ exports[`WmIcon Component renders the icon with waveicon class 1`] = `
               },
             ]
           }
+          testID="unit-test_wm-icon_icon"
         >
           edit
         </Text>
@@ -752,6 +760,7 @@ exports[`WmIcon Component should not render icon when iconclass is falsy  1`] = 
       undefined,
     ]
   }
+  testID="unit-test_wm-icon_a"
 >
   <View
     style={
@@ -763,101 +772,6 @@ exports[`WmIcon Component should not render icon when iconclass is falsy  1`] = 
     }
     testID="non_animatableView"
   />
-</View>
-`;
-
-exports[`WmIcon Component should render icon with accessibilityrole when accessibilityrole is passed in props 1`] = `
-<View
-  accessibilityLabel="test-label"
-  accessibilityRole="wm-icon-ar"
-  accessibilityState={
-    {
-      "busy": undefined,
-      "checked": undefined,
-      "disabled": false,
-      "expanded": undefined,
-      "selected": undefined,
-    }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
-    }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onFocus={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    [
-      {
-        "overflow": "hidden",
-      },
-      undefined,
-    ]
-  }
->
-  <View
-    style={
-      {
-        "alignItems": "center",
-        "alignSelf": "flex-start",
-        "flexDirection": "row",
-      }
-    }
-    testID="non_animatableView"
-  >
-    <View>
-      <View>
-        <Text
-          size={12}
-          style={
-            [
-              {
-                "color": undefined,
-              },
-              {
-                "paddingLeft": 0,
-                "paddingRight": 8,
-              },
-              {
-                "transform": [
-                  {
-                    "rotate": "0deg",
-                  },
-                ],
-              },
-            ]
-          }
-        >
-          edit
-        </Text>
-      </View>
-    </View>
-    <Text
-      accessibilityRole="wm-icon-ar"
-      style={
-        {
-          "fontFamily": "Roboto",
-          "paddingLeft": 8,
-          "userSelect": "text",
-        }
-      }
-    >
-      icon-caption
-    </Text>
-  </View>
 </View>
 `;
 
@@ -902,6 +816,7 @@ exports[`WmIcon Component should render only caption when iconclass is falsy and
       undefined,
     ]
   }
+  testID="unit-test_wm-icon_a"
 >
   <View
     style={
@@ -915,6 +830,7 @@ exports[`WmIcon Component should render only caption when iconclass is falsy and
   >
     <Text
       accessibilityRole="wm-icon-ar"
+      accessible={false}
       style={
         {
           "fontFamily": "Roboto",
@@ -922,9 +838,110 @@ exports[`WmIcon Component should render only caption when iconclass is falsy and
           "userSelect": "text",
         }
       }
+      testID="unit-test_wm-icon_caption"
     >
       icon-caption
     </Text>
+  </View>
+</View>
+`;
+
+exports[`WmIcon Component should render with animations as pulse 1`] = `
+<View>
+  <View
+    animation="pulse"
+    collapsable={false}
+    delay={null}
+    duration={200}
+    style={
+      {
+        "alignItems": "center",
+        "alignSelf": "flex-start",
+        "flexDirection": "row",
+      }
+    }
+    testID="animatableView"
+    useNativeDriver={true}
+  >
+    <View>
+      <View>
+        <Text
+          accessible={false}
+          size={12}
+          style={
+            [
+              {
+                "color": undefined,
+              },
+              {
+                "paddingLeft": 0,
+                "paddingRight": 8,
+              },
+              {
+                "transform": [
+                  {
+                    "rotate": "0deg",
+                  },
+                ],
+              },
+            ]
+          }
+          testID="unit-test_wm-icon_icon"
+        >
+          user
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`WmIcon Component should render with animations as spin 1`] = `
+<View>
+  <View
+    animation="spin"
+    collapsable={false}
+    delay={null}
+    duration={200}
+    style={
+      {
+        "alignItems": "center",
+        "alignSelf": "flex-start",
+        "flexDirection": "row",
+      }
+    }
+    testID="animatableView"
+    useNativeDriver={true}
+  >
+    <View>
+      <View>
+        <Text
+          accessible={false}
+          size={12}
+          style={
+            [
+              {
+                "color": undefined,
+              },
+              {
+                "paddingLeft": 0,
+                "paddingRight": 8,
+              },
+              {
+                "transform": [
+                  {
+                    "rotate": "0deg",
+                  },
+                ],
+              },
+            ]
+          }
+          testID="unit-test_wm-icon_icon"
+        >
+          user
+        </Text>
+      </View>
+    </View>
   </View>
 </View>
 `;

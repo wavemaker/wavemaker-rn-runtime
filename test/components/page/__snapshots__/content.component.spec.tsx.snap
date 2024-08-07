@@ -3,7 +3,7 @@
 exports[`Test Content component Check validity of sample component 1`] = `
 <View
   style={
-    {
+    Object {
       "flex": 1,
     }
   }

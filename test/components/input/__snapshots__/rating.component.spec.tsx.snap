@@ -14,7 +14,6 @@ exports[`WmRating renders correctly with default props 1`] = `
   }
 >
   <View
-    accessibilityLabel=""
     accessibilityState={
       {
         "busy": undefined,
@@ -63,14 +62,16 @@ exports[`WmRating renders correctly with default props 1`] = `
       }
       testID="non_animatableView"
     >
-      <View>
+      <View
+        accessible={true}
+      >
         <View>
           <Text
             size={32}
             style={
               [
                 {
-                  "color": "#aaaaaa",
+                  "color": undefined,
                 },
                 {
                   "paddingLeft": 0,
@@ -93,7 +94,6 @@ exports[`WmRating renders correctly with default props 1`] = `
     </View>
   </View>
   <View
-    accessibilityLabel=""
     accessibilityState={
       {
         "busy": undefined,
@@ -142,14 +142,16 @@ exports[`WmRating renders correctly with default props 1`] = `
       }
       testID="non_animatableView"
     >
-      <View>
+      <View
+        accessible={true}
+      >
         <View>
           <Text
             size={32}
             style={
               [
                 {
-                  "color": "#aaaaaa",
+                  "color": undefined,
                 },
                 {
                   "paddingLeft": 0,
@@ -172,7 +174,6 @@ exports[`WmRating renders correctly with default props 1`] = `
     </View>
   </View>
   <View
-    accessibilityLabel=""
     accessibilityState={
       {
         "busy": undefined,
@@ -221,14 +222,16 @@ exports[`WmRating renders correctly with default props 1`] = `
       }
       testID="non_animatableView"
     >
-      <View>
+      <View
+        accessible={true}
+      >
         <View>
           <Text
             size={32}
             style={
               [
                 {
-                  "color": "#aaaaaa",
+                  "color": undefined,
                 },
                 {
                   "paddingLeft": 0,
@@ -251,7 +254,6 @@ exports[`WmRating renders correctly with default props 1`] = `
     </View>
   </View>
   <View
-    accessibilityLabel=""
     accessibilityState={
       {
         "busy": undefined,
@@ -300,14 +302,16 @@ exports[`WmRating renders correctly with default props 1`] = `
       }
       testID="non_animatableView"
     >
-      <View>
+      <View
+        accessible={true}
+      >
         <View>
           <Text
             size={32}
             style={
               [
                 {
-                  "color": "#aaaaaa",
+                  "color": undefined,
                 },
                 {
                   "paddingLeft": 0,
@@ -330,7 +334,6 @@ exports[`WmRating renders correctly with default props 1`] = `
     </View>
   </View>
   <View
-    accessibilityLabel=""
     accessibilityState={
       {
         "busy": undefined,
@@ -379,14 +382,16 @@ exports[`WmRating renders correctly with default props 1`] = `
       }
       testID="non_animatableView"
     >
-      <View>
+      <View
+        accessible={true}
+      >
         <View>
           <Text
             size={32}
             style={
               [
                 {
-                  "color": "#aaaaaa",
+                  "color": undefined,
                 },
                 {
                   "paddingLeft": 0,

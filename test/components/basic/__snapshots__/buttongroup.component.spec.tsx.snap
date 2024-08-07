@@ -29,11 +29,7 @@ exports[`WmButtongroup renders skeleton when \`showskeleton\` is true 1`] = `
   style={
     {
       "backgroundColor": "#eeeeee",
-      "borderColor": "#cccccc",
-      "borderRadius": 100,
-      "height": 40,
       "overflow": "hidden",
-      "width": 90,
     }
   }
 />
@@ -45,11 +41,7 @@ exports[`WmButtongroup should render skeleton with root width and height when sk
   style={
     {
       "backgroundColor": "#eeeeee",
-      "borderColor": "#cccccc",
-      "borderRadius": 100,
-      "height": 70,
       "overflow": "hidden",
-      "width": 50,
     }
   }
 />

@@ -10,7 +10,7 @@ import {
 // import * as lodash from 'lodash-es';
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 import { defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import BASE_THEME  from '@wavemaker/app-rn-runtime/styles/theme';
+import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 
 const renderComponent = (props = {}) => {
@@ -35,34 +35,52 @@ const renderComponent = (props = {}) => {
   );
 };
 
+const getStyleObject = (styleArr, styleObj) => {
+  if (!styleArr) return;
+
+  if (!Array.isArray(styleArr)) {
+    Object.keys(styleArr).forEach((key) => {
+      styleObj[key] = styleArr[key];
+    });
+
+    return;
+  }
+
+  styleArr.forEach((item) => {
+    getStyleObject(item, styleObj);
+  });
+
+  return styleObj;
+};
+
 describe('Picture component', () => {
   afterEach(() => {
-    const DEFAULT_CLASS = 'app-picture'
+    const DEFAULT_CLASS = 'app-picture';
     BASE_THEME.registerStyle((themeVariables, addStyle) => {
       const defaultStyles = defineStyles({
         root: {
           overflow: 'hidden',
           width: 270,
-          rippleColor: themeVariables.transparent
+          rippleColor: themeVariables.transparent,
         },
         text: {},
         picture: {
           width: '100%',
-          height: '100%'
+          height: '100%',
         },
         skeleton: {
           root: {
             width: '100%',
-            height: 128
-          }
-        }
+            height: 128,
+          },
+        },
       });
-    
+
       addStyle(DEFAULT_CLASS, '', defaultStyles);
       addStyle('rounded-image', '', {
         picture: {
-          borderRadius: 6
-        }
+          borderRadius: 6,
+        },
       });
       addStyle('thumbnail-image', '', {
         root: {
@@ -74,21 +92,25 @@ describe('Picture component', () => {
           paddingTop: 8,
           paddingBottom: 8,
           paddingLeft: 8,
-          paddingRight: 8
-        }
+          paddingRight: 8,
+        },
       });
     });
 
     cleanup();
   });
 
-  beforeEach(()=>{
+  beforeEach(() => {
     jest.clearAllMocks();
-  })
+  });
 
   test('should not render component when image source is falsy', async () => {
     const customRef = createRef();
-    const tree = renderComponent({ ref: customRef, pictureplaceholder: null, picturesource: null });
+    const tree = renderComponent({
+      ref: customRef,
+      pictureplaceholder: null,
+      picturesource: null,
+    });
 
     await waitFor(() => {
       expect(tree.toJSON()).toBeNull();
@@ -98,9 +120,9 @@ describe('Picture component', () => {
 
   test('should render image when full path is not present', async () => {
     const customRef = createRef();
-    const tree = renderComponent({ 
+    const tree = renderComponent({
       ref: customRef,
-      pictureplaceholder: 'WaveMaker-Logo-1.svg'
+      pictureplaceholder: 'WaveMaker-Logo-1.svg',
     });
     act(() => {
       customRef.current.setState({
@@ -128,10 +150,10 @@ describe('Picture component', () => {
 
   test('should render image with source from picturesource when both picturesource and pictureplaceholder is present', async () => {
     const customRef = createRef();
-    const tree = renderComponent({ 
+    const tree = renderComponent({
       ref: customRef,
       pictureplaceholder: 'placeholder-image.png',
-      picturesource: 'WaveMaker-Logo-1.svg'
+      picturesource: 'WaveMaker-Logo-1.svg',
     });
     act(() => {
       customRef.current.setState({
@@ -153,7 +175,9 @@ describe('Picture component', () => {
 
     await waitFor(() => {
       expect(tree.getByTestId('wm_picture')).toBeTruthy();
-      expect(tree.getByTestId('wm_picture').props.source).toBe('WaveMaker-Logo-1.svg');
+      expect(tree.getByTestId('wm_picture').props.source).toBe(
+        'WaveMaker-Logo-1.svg'
+      );
       expect(tree).toMatchSnapshot();
     });
   });
@@ -185,12 +209,10 @@ describe('Picture component', () => {
     });
   });
 
-
   // TODO: Check why updateStateMock is called only once but it should call twice.
   // test('should render component with width and height extracted from Image component of react-native', async () => {
   //   const height = 122;
   //   const width = 123;
-    
   //   // const lodashMock = jest.spyOn(lodash, 'isNumber').mockReturnValue(true);
   //   jest.spyOn(Image, 'resolveAssetSource').mockReturnValue({
   //     height,
@@ -198,10 +220,10 @@ describe('Picture component', () => {
   //     scale: 1,
   //     uri: ''
   //   })
-    
+
   //   const customRef = createRef();
-  //   const tree = renderComponent({ 
-  //     ref: customRef, 
+  //   const tree = renderComponent({
+  //     ref: customRef,
   //     // isSvg: true,
   //     picturesource: 1,
   //     pictureplaceholder: null,
@@ -241,14 +263,16 @@ describe('Picture component', () => {
 
   test('should render component style according to root style', async () => {
     const customRef = createRef();
-    const tree = renderComponent({ 
+    const tree = renderComponent({
       ref: customRef,
       styles: {
         root: {
-          height: '100',
-        }
-      }
+          height: '104',
+          backgroundColor: '#000',
+        },
+      },
     });
+
     act(() => {
       customRef.current.setState({
         naturalImageWidth: 10,
@@ -267,8 +291,15 @@ describe('Picture component', () => {
       },
     });
 
+    const componentStyleArr = tree.toJSON().props.style;
+    const componentStyle = getStyleObject(componentStyleArr, {});
+
     await waitFor(() => {
       expect(tree.getByTestId('wm_picture')).toBeTruthy();
+      expect(componentStyle).toMatchObject({
+        height: '104',
+        backgroundColor: '#000',
+      });
       expect(tree).toMatchSnapshot();
     });
   });
@@ -359,15 +390,15 @@ describe('Picture component', () => {
     const naturalImageWidth = 10;
     const naturalImageHeight = 10;
     const nativeHeight = 100;
-    
+
     const customRef = createRef();
-    const tree = renderComponent({ 
+    const tree = renderComponent({
       ref: customRef,
       styles: {
         root: {
-          height: '100%'
-        }
-      }
+          height: '100%',
+        },
+      },
     });
     const updateStateMock = jest.spyOn(customRef.current, 'updateState');
 
@@ -375,7 +406,7 @@ describe('Picture component', () => {
       customRef.current.setState({
         naturalImageWidth: naturalImageWidth,
         naturalImageHeight: naturalImageHeight,
-        imageWidth: 100
+        imageWidth: 100,
       });
     });
 
@@ -393,24 +424,24 @@ describe('Picture component', () => {
       expect(tree.getByTestId('wm_picture')).toBeTruthy();
       expect(updateStateMock).toHaveBeenCalledWith({
         imageHeight: nativeHeight,
-        imageWidth: (nativeHeight * naturalImageWidth) / naturalImageHeight
-      })
+        imageWidth: (nativeHeight * naturalImageWidth) / naturalImageHeight,
+      });
       expect(tree).toMatchSnapshot();
     });
   });
 
-  test('should render update state for onLayout change when native layout height and width is falsy', async () => {
+  test('should not update state when native layout height and width are falsy', async () => {
     const naturalImageWidth = 10;
     const naturalImageHeight = 10;
-    
+
     const customRef = createRef();
-    const tree = renderComponent({ 
+    const tree = renderComponent({
       ref: customRef,
       styles: {
         root: {
-          height: '100%'
-        }
-      }
+          height: '100%',
+        },
+      },
     });
     const updateStateMock = jest.spyOn(customRef.current, 'updateState');
 
@@ -418,7 +449,7 @@ describe('Picture component', () => {
       customRef.current.setState({
         naturalImageWidth: naturalImageWidth,
         naturalImageHeight: naturalImageHeight,
-        imageWidth: 100
+        imageWidth: 100,
       });
     });
 
@@ -432,7 +463,7 @@ describe('Picture component', () => {
 
     await waitFor(() => {
       expect(tree.getByTestId('wm_picture')).toBeTruthy();
-      expect(updateStateMock).not.toHaveBeenCalled()
+      expect(updateStateMock).not.toHaveBeenCalled();
       expect(tree).toMatchSnapshot();
     });
   });
@@ -696,7 +727,7 @@ describe('Picture component', () => {
     const tree = renderComponent({
       showskeleton: true,
       skeletonheight: 200,
-      skeletonwidth: 125
+      skeletonwidth: 125,
     });
 
     expect(tree.toJSON().props.style).toMatchObject({
@@ -711,11 +742,11 @@ describe('Picture component', () => {
       addStyle('rounded-image', '', {
         picture: {
           height: 125,
-          width: 125
-        }
-      })
+          width: 125,
+        },
+      });
     });
-    
+
     const customRef = createRef();
     const tree = renderComponent({
       ref: customRef,
@@ -726,9 +757,9 @@ describe('Picture component', () => {
       styles: {
         root: {
           height: null,
-          width: null
-        }
-      }
+          width: null,
+        },
+      },
     });
 
     act(() => {
@@ -753,9 +784,9 @@ describe('Picture component', () => {
       addStyle('thumbnail-image', '', {
         root: {
           height: 125,
-          width: 125
-        }
-      })
+          width: 125,
+        },
+      });
     });
 
     const customRef = createRef();
@@ -768,9 +799,9 @@ describe('Picture component', () => {
       styles: {
         root: {
           height: null,
-          width: null
-        }
-      }
+          width: null,
+        },
+      },
     });
 
     act(() => {
@@ -795,9 +826,9 @@ describe('Picture component', () => {
       addStyle('thumbnail-image', '', {
         root: {
           height: 125,
-          width: 125
-        }
-      })
+          width: 125,
+        },
+      });
     });
 
     const customRef = createRef();
@@ -810,9 +841,9 @@ describe('Picture component', () => {
       styles: {
         root: {
           height: null,
-          width: null
-        }
-      }
+          width: null,
+        },
+      },
     });
 
     act(() => {

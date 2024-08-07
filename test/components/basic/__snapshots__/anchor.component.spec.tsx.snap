@@ -70,6 +70,7 @@ exports[`Test Anchor component handles icon related styles and properties correc
           "userSelect": "text",
         }
       }
+      testID="test-anchor_caption"
     >
       Link
     </Text>
@@ -142,6 +143,7 @@ exports[`Test Anchor component renders icon as per given iconClass and iconPosit
         ],
       ]
     }
+    testID="test-anchor_a"
   >
     <View>
       <View
@@ -157,6 +159,7 @@ exports[`Test Anchor component renders icon as per given iconClass and iconPosit
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -176,6 +179,7 @@ exports[`Test Anchor component renders icon as per given iconClass and iconPosit
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               home
             </Text>
@@ -198,6 +202,7 @@ exports[`Test Anchor component renders icon as per given iconClass and iconPosit
           "userSelect": "text",
         }
       }
+      testID="test-anchor_caption"
     >
       Click here
     </Text>
@@ -270,6 +275,7 @@ exports[`Test Anchor component should not render caption when falsy value is pas
         ],
       ]
     }
+    testID="test-anchor_a"
   >
     <View>
       <View
@@ -285,6 +291,7 @@ exports[`Test Anchor component should not render caption when falsy value is pas
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -304,6 +311,7 @@ exports[`Test Anchor component should not render caption when falsy value is pas
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -312,6 +320,7 @@ exports[`Test Anchor component should not render caption when falsy value is pas
       </View>
     </View>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -334,6 +343,7 @@ exports[`Test Anchor component should not render caption when falsy value is pas
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -406,6 +416,7 @@ exports[`Test Anchor component should render accessibility properties correctly 
         ],
       ]
     }
+    testID="test-anchor_a"
   >
     <View>
       <View
@@ -421,6 +432,7 @@ exports[`Test Anchor component should render accessibility properties correctly 
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -440,6 +452,7 @@ exports[`Test Anchor component should render accessibility properties correctly 
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               home
             </Text>
@@ -463,6 +476,7 @@ exports[`Test Anchor component should render accessibility properties correctly 
           "userSelect": "text",
         }
       }
+      testID="test-anchor_caption"
     >
       Click here
     </Text>
@@ -535,6 +549,7 @@ exports[`Test Anchor component should render anchor component 1`] = `
         ],
       ]
     }
+    testID="test-anchor_a"
   >
     <View>
       <View
@@ -550,6 +565,7 @@ exports[`Test Anchor component should render anchor component 1`] = `
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -569,6 +585,7 @@ exports[`Test Anchor component should render anchor component 1`] = `
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -591,10 +608,12 @@ exports[`Test Anchor component should render anchor component 1`] = `
           "userSelect": "text",
         }
       }
+      testID="test-anchor_caption"
     >
       Click here
     </Text>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -617,6 +636,7 @@ exports[`Test Anchor component should render anchor component 1`] = `
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -689,6 +709,7 @@ exports[`Test Anchor component should render caption with default value as "Link
         ],
       ]
     }
+    testID="test-anchor_a"
   >
     <View>
       <View
@@ -704,6 +725,7 @@ exports[`Test Anchor component should render caption with default value as "Link
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -723,6 +745,7 @@ exports[`Test Anchor component should render caption with default value as "Link
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -745,10 +768,12 @@ exports[`Test Anchor component should render caption with default value as "Link
           "userSelect": "text",
         }
       }
+      testID="test-anchor_caption"
     >
       Link
     </Text>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -771,6 +796,167 @@ exports[`Test Anchor component should render caption with default value as "Link
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
+    >
+      5
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Anchor component should render icon to the left of caption when iconposition is "left" 1`] = `
+<View
+  animation="bounce"
+  collapsable={false}
+  delay={null}
+  duration={200}
+  style={
+    {
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
+    }
+  }
+  testID="animatableView"
+  useNativeDriver={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "color": "#151420",
+            "flexDirection": "row",
+            "overflow": "visible",
+          },
+          null,
+          {
+            "flexDirection": "row",
+          },
+        ],
+      ]
+    }
+    testID="test-anchor_a"
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={16}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="test-anchor_icon_icon"
+            >
+              link
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      accessibilityLabel="Click here"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+      testID="test-anchor_caption"
+    >
+      Click here
+    </Text>
+    <Text
+      accessible={false}
+      collapsable={false}
+      numberOfLines={1}
+      style={
+        {
+          "alignSelf": "flex-start",
+          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+          "borderRadius": 10,
+          "color": "#151420",
+          "fontSize": 10,
+          "fontWeight": "bold",
+          "height": 20,
+          "lineHeight": 10,
+          "marginLeft": 0,
+          "marginTop": -12,
+          "minWidth": 20,
+          "opacity": 1,
+          "overflow": "hidden",
+          "paddingHorizontal": 3,
+          "textAlign": "center",
+          "textAlignVertical": "center",
+        }
+      }
+      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -843,6 +1029,7 @@ exports[`Test Anchor component should render icon to the right of caption when i
         ],
       ]
     }
+    testID="test-anchor_a"
   >
     <Text
       accessibilityLabel="Click here"
@@ -859,6 +1046,7 @@ exports[`Test Anchor component should render icon to the right of caption when i
           "userSelect": "text",
         }
       }
+      testID="test-anchor_caption"
     >
       Click here
     </Text>
@@ -876,6 +1064,7 @@ exports[`Test Anchor component should render icon to the right of caption when i
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -895,6 +1084,7 @@ exports[`Test Anchor component should render icon to the right of caption when i
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -903,6 +1093,7 @@ exports[`Test Anchor component should render icon to the right of caption when i
       </View>
     </View>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -925,6 +1116,167 @@ exports[`Test Anchor component should render icon to the right of caption when i
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
+    >
+      5
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Anchor component should render icon to the top of caption when iconposition is "top" 1`] = `
+<View
+  animation="bounce"
+  collapsable={false}
+  delay={null}
+  duration={200}
+  style={
+    {
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
+    }
+  }
+  testID="animatableView"
+  useNativeDriver={true}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": false,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      [
+        {
+          "overflow": "hidden",
+        },
+        [
+          {
+            "alignItems": "center",
+            "color": "#151420",
+            "flexDirection": "row",
+            "overflow": "visible",
+          },
+          null,
+          {
+            "flexDirection": "column",
+          },
+        ],
+      ]
+    }
+    testID="test-anchor_a"
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={16}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="test-anchor_icon_icon"
+            >
+              link
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      accessibilityLabel="Click here"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+      testID="test-anchor_caption"
+    >
+      Click here
+    </Text>
+    <Text
+      accessible={false}
+      collapsable={false}
+      numberOfLines={1}
+      style={
+        {
+          "alignSelf": "flex-start",
+          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+          "borderRadius": 10,
+          "color": "#151420",
+          "fontSize": 10,
+          "fontWeight": "bold",
+          "height": 20,
+          "lineHeight": 10,
+          "marginLeft": 0,
+          "marginTop": -12,
+          "minWidth": 20,
+          "opacity": 1,
+          "overflow": "hidden",
+          "paddingHorizontal": 3,
+          "textAlign": "center",
+          "textAlignVertical": "center",
+        }
+      }
+      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -957,6 +1309,21 @@ exports[`Test Anchor component should render skeleton when showskeleton is true 
       "height": 80,
       "overflow": "hidden",
       "width": 80,
+    }
+  }
+/>
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 4,
+      "height": 88,
+      "overflow": "hidden",
+      "width": 89,
     }
   }
 />
@@ -1027,6 +1394,7 @@ exports[`Test Anchor component should render the badge correctly for badge value
         ],
       ]
     }
+    testID="test-anchor_a"
   >
     <View>
       <View
@@ -1042,6 +1410,7 @@ exports[`Test Anchor component should render the badge correctly for badge value
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -1061,6 +1430,7 @@ exports[`Test Anchor component should render the badge correctly for badge value
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -1083,10 +1453,12 @@ exports[`Test Anchor component should render the badge correctly for badge value
           "userSelect": "text",
         }
       }
+      testID="test-anchor_caption"
     >
       Click here
     </Text>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -1109,6 +1481,7 @@ exports[`Test Anchor component should render the badge correctly for badge value
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       10
     </Text>
@@ -1157,6 +1530,7 @@ exports[`Test Anchor component show render icon along with caption in anchor whe
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -1176,6 +1550,7 @@ exports[`Test Anchor component show render icon along with caption in anchor whe
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -1198,6 +1573,7 @@ exports[`Test Anchor component show render icon along with caption in anchor whe
           "userSelect": "text",
         }
       }
+      testID="test-anchor_caption"
     >
       Test caption
     </Text>
@@ -1213,9 +1589,9 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
   duration={200}
   style={
     {
-      "height": 80,
+      "height": 81,
       "justifyContent": "center",
-      "width": 80,
+      "width": 83,
     }
   }
   testID="animatableView"
@@ -1261,9 +1637,9 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
             "alignItems": "center",
             "color": "#151420",
             "flexDirection": "row",
-            "height": 80,
+            "height": 81,
             "overflow": "visible",
-            "width": 80,
+            "width": 83,
           },
           {
             "height": "100%",
@@ -1275,6 +1651,7 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
         ],
       ]
     }
+    testID="test-anchor_a"
   >
     <Text
       accessibilityLabel="Click here"
@@ -1291,6 +1668,7 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
           "userSelect": "text",
         }
       }
+      testID="test-anchor_caption"
     >
       Click here
     </Text>
@@ -1308,6 +1686,7 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
         <View>
           <View>
             <Text
+              accessible={false}
               size={16}
               style={
                 [
@@ -1327,6 +1706,7 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
                   },
                 ]
               }
+              testID="test-anchor_icon_icon"
             >
               link
             </Text>
@@ -1335,6 +1715,7 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
       </View>
     </View>
     <Text
+      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -1357,6 +1738,7 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
           "textAlignVertical": "center",
         }
       }
+      testID="test-anchor_badge"
     >
       5
     </Text>

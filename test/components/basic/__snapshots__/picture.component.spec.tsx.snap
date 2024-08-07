@@ -414,6 +414,83 @@ exports[`Picture component should not render the component when show props is fa
 </View>
 `;
 
+exports[`Picture component should not update state when native layout height and width are falsy 1`] = `
+<View
+  style={
+    [
+      {
+        "height": undefined,
+        "width": 100,
+      },
+      {
+        "height": "100%",
+        "overflow": "hidden",
+        "rippleColor": "transparent",
+        "width": 270,
+      },
+      undefined,
+      undefined,
+    ]
+  }
+>
+  <View
+    onLayout={[Function]}
+    style={
+      [
+        {
+          "height": "100%",
+          "overflow": "hidden",
+          "width": "100%",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        {
+          "height": "100%",
+          "width": null,
+        }
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "borderRadius": undefined,
+              "height": undefined,
+              "width": 100,
+            },
+          ]
+        }
+        testID="non_animatableView"
+      >
+        <Image
+          accessibilityRole="image"
+          accessible={true}
+          resizeMode="stretch"
+          source={
+            {
+              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+            }
+          }
+          style={
+            [
+              {
+                "height": "100%",
+                "width": "100%",
+              },
+              undefined,
+            ]
+          }
+          testID="wm_picture"
+        />
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
 exports[`Picture component should render Image component style according to shape prop as circle 1`] = `
 <View
   style={
@@ -748,7 +825,8 @@ exports[`Picture component should render component style according to root style
         "width": 100,
       },
       {
-        "height": "100",
+        "backgroundColor": "#000",
+        "height": "104",
         "overflow": "hidden",
         "rippleColor": "transparent",
         "width": 270,
@@ -1065,81 +1143,4 @@ exports[`Picture component should render skeleton when showskeleton prop is true
     }
   }
 />
-`;
-
-exports[`Picture component should render update state for onLayout change when native layout height and width is falsy 1`] = `
-<View
-  style={
-    [
-      {
-        "height": undefined,
-        "width": 100,
-      },
-      {
-        "height": "100%",
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
-  <View
-    onLayout={[Function]}
-    style={
-      [
-        {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
-        },
-      ]
-    }
-  >
-    <View
-      style={
-        {
-          "height": "100%",
-          "width": null,
-        }
-      }
-    >
-      <View
-        style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": undefined,
-              "width": 100,
-            },
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <Image
-          accessibilityRole="image"
-          accessible={true}
-          resizeMode="stretch"
-          source={
-            {
-              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-            }
-          }
-          style={
-            [
-              {
-                "height": "100%",
-                "width": "100%",
-              },
-              undefined,
-            ]
-          }
-          testID="wm_picture"
-        />
-      </View>
-    </View>
-  </View>
-</View>
 `;

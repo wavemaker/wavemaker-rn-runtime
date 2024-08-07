@@ -101,6 +101,7 @@ exports[`Test Currency component should have default value for native platform 1
           {},
         ]
       }
+      testID="undefined_i"
     />
   </View>
 </View>
@@ -159,6 +160,7 @@ exports[`Test Currency component should have default web for native platform 1`]
     }
   >
     <TextInput
+      accessibilityLabel="undefined_i"
       activeFloatingLabelStyle={{}}
       allowContentSelection={true}
       caretHidden={false}
@@ -199,6 +201,7 @@ exports[`Test Currency component should have default web for native platform 1`]
           {},
         ]
       }
+      testID="undefined_i"
       value="sample text"
     />
   </View>
@@ -258,6 +261,7 @@ exports[`Test Currency component should isValid false when input number is above
     }
   >
     <TextInput
+      accessibilityLabel="undefined_i"
       activeFloatingLabelStyle={{}}
       allowContentSelection={true}
       caretHidden={false}
@@ -298,6 +302,7 @@ exports[`Test Currency component should isValid false when input number is above
           {},
         ]
       }
+      testID="undefined_i"
       value=""
     />
   </View>
@@ -357,6 +362,7 @@ exports[`Test Currency component should isValid false when input number is above
     }
   >
     <TextInput
+      accessibilityLabel="undefined_i"
       activeFloatingLabelStyle={{}}
       allowContentSelection={true}
       caretHidden={false}
@@ -399,6 +405,7 @@ exports[`Test Currency component should isValid false when input number is above
           {},
         ]
       }
+      testID="undefined_i"
       value="50011"
     />
   </View>
@@ -458,6 +465,7 @@ exports[`Test Currency component should not show component when show prop is fal
     }
   >
     <TextInput
+      accessibilityLabel="undefined_i"
       activeFloatingLabelStyle={{}}
       allowContentSelection={true}
       caretHidden={false}
@@ -498,6 +506,7 @@ exports[`Test Currency component should not show component when show prop is fal
           {},
         ]
       }
+      testID="undefined_i"
       value=""
     />
   </View>
@@ -676,6 +685,7 @@ exports[`Test Currency component should render correctly with default props 1`] 
           {},
         ]
       }
+      testID="undefined_i"
     />
   </View>
 </View>

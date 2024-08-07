@@ -8,10 +8,10 @@ import {
   render,
   waitFor,
 } from '@testing-library/react-native';
-import mockNavigationService from '../../__mocks__/navigation.service';
+import mockNavigationService from '../../../__mocks__/navigation.service';
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 import * as WmUtils from '@wavemaker/app-rn-runtime/core/utils';
-import WmSkeleton from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import * as accessibilityUtils from '@wavemaker/app-rn-runtime/core/accessibility';
 
 const renderComponent = (props = {}) => {
   const loadAsset = (path) => path;
@@ -25,7 +25,30 @@ const renderComponent = (props = {}) => {
   );
 };
 
+const getStyleObject = (styleArr, styleObj) => {
+  if(!styleArr) return;
+
+  if(!Array.isArray(styleArr)){
+    Object.keys(styleArr).forEach(key => {
+      styleObj[key] = styleArr[key];
+    });
+
+    return;
+  }
+
+  styleArr.forEach(item => {
+    getStyleObject(item, styleObj);
+  });
+
+  return styleObj;
+}
+
 describe('Test Anchor component', () => {
+  beforeEach(()=>{
+    jest
+      .spyOn(accessibilityUtils, 'isScreenReaderEnabled')
+      .mockReturnValue(false);
+  })
   afterEach(() => cleanup());
 
   test('should render anchor component', () => {
@@ -55,8 +78,8 @@ describe('Test Anchor component', () => {
     });
 
     expect(tree).toMatchSnapshot();
-    expect(tree.getByText('link')).toBeTruthy();
-    expect(tree.getByText('Test caption')).toBeTruthy();
+    expect(tree.queryByText('link')).not.toBeNull();
+    expect(tree.queryByText('Test caption')).not.toBeNull();
   });
 
   test('should not trigger navigation when there is no hyperlink', () => {
@@ -87,6 +110,39 @@ describe('Test Anchor component', () => {
       onTap: onTapMock,
     });
     fireEvent.press(tree.getByText('Click here'));
+
+    waitFor(() => {
+      expect(onTapMock).toHaveBeenCalled();
+    });
+  });
+
+  test('should triggers onDoubleTap event prop', () => {
+    const onTapMock = jest.fn();
+    const tree = renderComponent({
+      id: 'test-anchor',
+      iconclass: 'fa fa-link',
+      iconposition: 'left',
+      caption: 'Click here',
+      onDoubleTap: onTapMock
+    });
+    fireEvent.press(tree.getByText('Click here'));
+    fireEvent.press(tree.getByText('Click here'));
+
+    waitFor(() => {
+      expect(onTapMock).toHaveBeenCalled();
+    });
+  });
+
+  test('should triggers onLongTap event prop', () => {
+    const onTapMock = jest.fn();
+    const tree = renderComponent({
+      id: 'test-anchor',
+      iconclass: 'fa fa-link',
+      iconposition: 'left',
+      caption: 'Click here',
+      onLongTap: onTapMock
+    });
+    fireEvent(tree.getByText('Click here'), 'longPress');
 
     waitFor(() => {
       expect(onTapMock).toHaveBeenCalled();
@@ -140,11 +196,14 @@ describe('Test Anchor component', () => {
       skeletonwidth: '50',
       name: 'wm-anchor',
     });
+
+    expect(tree.queryByTestId('test-anchor_caption')).toBeNull();
     expect(tree).toMatchSnapshot();
   });
 
+
   //TODO: find a way to set animate state as true in WmSkeleton component.
-  test('should render skeleton when showskeleton is true and should take roots height and width', async () => {
+  test('should render skeleton when showskeleton is true and should take roots height and width', async () => {    
     const tree = renderComponent({
       showskeleton: true,
       name: 'wm-anchor',
@@ -156,11 +215,26 @@ describe('Test Anchor component', () => {
       },
     });
 
-    await waitFor(() => {
+    await waitFor(()=>{
       expect(tree).toMatchSnapshot();
       expect(tree.toJSON().props.style.height).toBe(80);
       expect(tree.toJSON().props.style.width).toBe(80);
+    })
+  });
+
+  test('should render skeleton when showskeleton is true with skeletonheight and skeletonwidth', async () => {    
+    const tree = renderComponent({
+      showskeleton: true,
+      skeletonheight: 88,
+      skeletonwidth: 89,
+      name: 'wm-anchor',
     });
+
+    await waitFor(()=>{
+      expect(tree).toMatchSnapshot();
+      expect(tree.toJSON().props.style.height).toBe(88);
+      expect(tree.toJSON().props.style.width).toBe(89);
+    })
   });
 
   test('should not render when show props is "false', () => {
@@ -172,7 +246,7 @@ describe('Test Anchor component', () => {
       show: false,
     });
 
-    expect(tree.toJSON().props.style).toMatchObject({ width: 0, height: 0 });
+    expect(tree.toJSON().props.style).toMatchObject({width: 0, height: 0});
   });
 
   test('should render the badge correctly for badge value', () => {
@@ -190,7 +264,6 @@ describe('Test Anchor component', () => {
     });
     const badgeElement = tree.getByText('10');
 
-    expect(badgeElement).toBeTruthy();
     expect(badgeElement).toHaveProperty('children', ['10']);
     expect(tree).toMatchSnapshot();
   });
@@ -208,9 +281,8 @@ describe('Test Anchor component', () => {
       iconposition: 'top',
       accessibilitylabel: 'wm-icon',
     });
-    const iconComponent = tree.getByText('home');
 
-    expect(iconComponent).toBeTruthy();
+    expect(tree.queryByText('home')).not.toBeNull();
     expect(tree).toMatchSnapshot();
   });
 
@@ -228,11 +300,11 @@ describe('Test Anchor component', () => {
       accessibilitylabel: 'Anchor',
       hint: 'Go to example.com',
     });
-    const anchorComponent = tree.getByA11yHint('Go to example.com');
+    const anchorComponent = tree.queryByA11yHint('Go to example.com');
 
-    expect(anchorComponent).toBeTruthy();
-    expect(tree.getByLabelText('Anchor')).toBeTruthy();
-    expect(tree.getByAccessibilityHint('Go to example.com')).toBeTruthy();
+    expect(anchorComponent).not.toBeNull();
+    expect(tree.queryByLabelText('Anchor')).not.toBeNull();
+    expect(tree.queryByAccessibilityHint('Go to example.com')).not.toBeNull();
     expect(tree).toMatchSnapshot();
   });
 
@@ -300,7 +372,7 @@ describe('Test Anchor component', () => {
     });
 
     expect(tree).toMatchSnapshot();
-    expect(tree.getByText('Link')).toBeTruthy(); // default value of caption is "Link".
+    expect(tree.queryByText('Link')).not.toBeNull(); // default value of caption is "Link".
   });
 
   test('should not render caption when falsy value is passed in caption', async () => {
@@ -333,6 +405,62 @@ describe('Test Anchor component', () => {
       onTap: jest.fn(),
     });
 
+    const startingIndex = 1; // as first component is background component;
+    const anchorChildren = tree.getByTestId('test-anchor_a').children;
+    const anchorStyleArr = tree.getByTestId('test-anchor_a').props.style;
+    const anchorStyle = getStyleObject(anchorStyleArr, {});
+
+    expect(anchorStyle).toMatchObject({flexDirection: 'row'})
+    expect(anchorChildren[startingIndex].props.accessibilityLabel).toBe('Click here');
+    expect(anchorChildren[startingIndex + 1].props.iconclass).toBe('fa fa-link');
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render icon to the left of caption when iconposition is "left"', () => {
+    const tree = renderComponent({
+      id: 'test-anchor',
+      iconclass: 'fa fa-link',
+      iconposition: 'left',
+      caption: 'Click here',
+      animation: 'bounce',
+      skeletonwidth: '100%',
+      skeletonheight: '100%',
+      badgevalue: 5,
+      onTap: jest.fn(),
+    });
+
+    const startingIndex = 1; // as first component is background component;
+    const anchorChildren = tree.getByTestId('test-anchor_a').children;
+    const anchorStyleArr = tree.getByTestId('test-anchor_a').props.style;
+    const anchorStyle = getStyleObject(anchorStyleArr, {});
+
+    expect(anchorStyle).toMatchObject({flexDirection: 'row'})
+    expect(anchorChildren[startingIndex].props.iconclass).toBe('fa fa-link');
+    expect(anchorChildren[startingIndex + 1].props.accessibilityLabel).toBe('Click here');
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render icon to the top of caption when iconposition is "top"', () => {
+    const tree = renderComponent({
+      id: 'test-anchor',
+      iconclass: 'fa fa-link',
+      iconposition: 'top',
+      caption: 'Click here',
+      animation: 'bounce',
+      skeletonwidth: '100%',
+      skeletonheight: '100%',
+      badgevalue: 5,
+      onTap: jest.fn(),
+    });
+
+    const startingIndex = 1; // as first component is background component;
+    const anchorChildren = tree.getByTestId('test-anchor_a').children;
+    const anchorStyleArr = tree.getByTestId('test-anchor_a').props.style;
+    const anchorStyle = getStyleObject(anchorStyleArr, {});
+
+    expect(anchorStyle).toMatchObject({flexDirection: 'column'})
+    expect(anchorChildren[startingIndex].props.iconclass).toBe('fa fa-link');
+    expect(anchorChildren[startingIndex + 1].props.accessibilityLabel).toBe('Click here');
     expect(tree).toMatchSnapshot();
   });
 
@@ -347,12 +475,16 @@ describe('Test Anchor component', () => {
       onTap: jest.fn(),
       styles: {
         root: {
-          height: 80,
-          width: 80,
+          height: 81,
+          width: 83,
         },
       },
     });
 
+    expect(tree.toJSON().props.style).toMatchObject({
+      height: 81,
+      width: 83
+    });
     expect(tree).toMatchSnapshot();
   });
 });

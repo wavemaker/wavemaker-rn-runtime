@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Text component should have default value for native platform 1`] = `
+exports[`Test Textarea component should have default value for native platform 1`] = `
 <TextInput
   accessibilityState={
     {
@@ -15,20 +15,19 @@ exports[`Text component should have default value for native platform 1`] = `
   caretHidden={false}
   contextMenuHidden={false}
   defaultValue="sample text"
-  displayformat={null}
   editable={true}
   floatingLabelStyle={{}}
-  maskchar={null}
   maxLength={null}
+  multiline={true}
+  numberOfLines={4}
   onBlur={[Function]}
   onChange={[Function]}
   onChangeText={[Function]}
   onFocus={[Function]}
   onKeyPress={[Function]}
   onSelectionChange={[Function]}
-  placeholder="Enter text"
+  placeholder="Place your text"
   placeholderTextColor="#bbbbbb"
-  secureTextEntry={false}
   selection={null}
   style={
     [
@@ -40,15 +39,16 @@ exports[`Text component should have default value for native platform 1`] = `
           "borderStyle": "solid",
           "borderWidth": 1,
           "fontFamily": "Roboto",
-          "minHeight": 42,
-          "paddingBottom": 8,
-          "paddingLeft": 16,
-          "paddingRight": 16,
-          "paddingTop": 8,
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
         },
         {
           "fontFamily": "Roboto",
           "fontSize": 16,
+          "textAlignVertical": "top",
           "userSelect": "text",
         },
         {},
@@ -56,33 +56,30 @@ exports[`Text component should have default value for native platform 1`] = `
       {},
     ]
   }
-  testID="wmText_i"
 />
 `;
 
-exports[`Text component should have default web for native platform 1`] = `
+exports[`Test Textarea component should have default web for native platform 1`] = `
 <TextInput
-  accessibilityLabel="wmText_i"
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoComplete="username"
   autoFocus={null}
   caretHidden={false}
   contextMenuHidden={false}
-  displayformat={null}
   editable={true}
   floatingLabelStyle={{}}
-  maskchar={null}
   maxLength={null}
+  multiline={true}
+  numberOfLines={4}
   onBlur={[Function]}
   onChange={[Function]}
   onChangeText={[Function]}
   onFocus={[Function]}
   onKeyPress={[Function]}
   onSelectionChange={[Function]}
-  placeholder="Enter text"
+  placeholder="Place your text"
   placeholderTextColor="#bbbbbb"
-  secureTextEntry={false}
   selection={null}
   style={
     [
@@ -94,15 +91,16 @@ exports[`Text component should have default web for native platform 1`] = `
           "borderStyle": "solid",
           "borderWidth": 1,
           "fontFamily": "Roboto",
-          "minHeight": 42,
-          "paddingBottom": 8,
-          "paddingLeft": 16,
-          "paddingRight": 16,
-          "paddingTop": 8,
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
         },
         {
           "fontFamily": "Roboto",
           "fontSize": 16,
+          "textAlignVertical": "top",
           "userSelect": "text",
         },
         {},
@@ -110,154 +108,31 @@ exports[`Text component should have default web for native platform 1`] = `
       {},
     ]
   }
-  testID="wmText_i"
   value="sample text"
 />
 `;
 
-exports[`Text component should impose displayformat accurately 1`] = `
-[
-  <TextInput
-    accessibilityState={
-      {
-        "disabled": false,
-      }
-    }
-    accessible={true}
-    activeFloatingLabelStyle={{}}
-    allowContentSelection={true}
-    autoComplete="username"
-    autoFocus={null}
-    caretHidden={false}
-    contextMenuHidden={false}
-    cursorColor="transparent"
-    defaultValue="1231231234"
-    displayformat="999-999-9999"
-    editable={true}
-    floatingLabelStyle={{}}
-    maskchar={null}
-    maxLength={null}
-    onBlur={[Function]}
-    onChange={[Function]}
-    onChangeText={[Function]}
-    onFocus={[Function]}
-    onKeyPress={[Function]}
-    onSelectionChange={[Function]}
-    placeholder=""
-    placeholderTextColor="#bbbbbb"
-    secureTextEntry={false}
-    selection={null}
-    selectionColor="transparent"
-    style={
-      [
-        [
-          {
-            "backgroundColor": "#ffffff",
-            "borderColor": "#dddddd",
-            "borderRadius": 6,
-            "borderStyle": "solid",
-            "borderWidth": 1,
-            "fontFamily": "Roboto",
-            "minHeight": 42,
-            "paddingBottom": 8,
-            "paddingLeft": 16,
-            "paddingRight": 16,
-            "paddingTop": 8,
-          },
-          {
-            "fontFamily": "Roboto",
-            "fontSize": 16,
-            "userSelect": "text",
-          },
-          {},
-        ],
-        {
-          "backgroundColor": "transparent",
-          "borderColor": "transparent",
-          "color": "transparent",
-          "zIndex": 1,
-        },
-      ]
-    }
-    testID="wmText_i"
-  />,
-  <View
-    style={
-      [
-        [
-          {
-            "backgroundColor": "#ffffff",
-            "borderColor": "#dddddd",
-            "borderRadius": 6,
-            "borderStyle": "solid",
-            "borderWidth": 1,
-            "fontFamily": "Roboto",
-            "minHeight": 42,
-            "paddingBottom": 8,
-            "paddingLeft": 16,
-            "paddingRight": 16,
-            "paddingTop": 8,
-          },
-          {
-            "fontFamily": "Roboto",
-            "fontSize": 16,
-            "userSelect": "text",
-          },
-          {},
-        ],
-        {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "marginTop": -42,
-        },
-      ]
-    }
-  >
-    <Text
-      style={
-        {
-          "backgroundColor": "transparent",
-          "borderColor": "transparent",
-          "color": undefined,
-          "display": "flex",
-          "fontFamily": "Roboto",
-          "fontSize": 16,
-          "fontWeight": undefined,
-          "padding": 0,
-          "width": undefined,
-        }
-      }
-    >
-      123-123-1234
-    </Text>
-  </View>,
-]
-`;
-
-exports[`Text component should not show component when show prop is false 1`] = `
+exports[`Test Textarea component should not show component when show prop is false 1`] = `
 <TextInput
-  accessibilityLabel="wmText_i"
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoComplete="username"
   autoFocus={null}
   caretHidden={false}
   contextMenuHidden={false}
-  displayformat={null}
   editable={true}
   floatingLabelStyle={{}}
-  maskchar={null}
   maxLength={null}
+  multiline={true}
+  numberOfLines={4}
   onBlur={[Function]}
   onChange={[Function]}
   onChangeText={[Function]}
   onFocus={[Function]}
   onKeyPress={[Function]}
   onSelectionChange={[Function]}
-  placeholder="Enter text"
+  placeholder="Place your text"
   placeholderTextColor="#bbbbbb"
-  secureTextEntry={false}
   selection={null}
   style={
     [
@@ -274,6 +149,7 @@ exports[`Text component should not show component when show prop is false 1`] = 
         {
           "fontFamily": "Roboto",
           "fontSize": 16,
+          "textAlignVertical": "top",
           "userSelect": "text",
         },
         {},
@@ -281,12 +157,11 @@ exports[`Text component should not show component when show prop is false 1`] = 
       {},
     ]
   }
-  testID="wmText_i"
   value=""
 />
 `;
 
-exports[`Text component should render correctly with default props 1`] = `
+exports[`Test Textarea component should render correctly with default props 1`] = `
 <TextInput
   accessibilityState={
     {
@@ -301,20 +176,19 @@ exports[`Text component should render correctly with default props 1`] = `
   caretHidden={false}
   contextMenuHidden={false}
   defaultValue=""
-  displayformat={null}
   editable={true}
   floatingLabelStyle={{}}
-  maskchar={null}
   maxLength={null}
+  multiline={true}
+  numberOfLines={4}
   onBlur={[Function]}
   onChange={[Function]}
   onChangeText={[Function]}
   onFocus={[Function]}
   onKeyPress={[Function]}
   onSelectionChange={[Function]}
-  placeholder="Enter text"
+  placeholder="Place your text"
   placeholderTextColor="#bbbbbb"
-  secureTextEntry={false}
   selection={null}
   style={
     [
@@ -326,15 +200,16 @@ exports[`Text component should render correctly with default props 1`] = `
           "borderStyle": "solid",
           "borderWidth": 1,
           "fontFamily": "Roboto",
-          "minHeight": 42,
-          "paddingBottom": 8,
-          "paddingLeft": 16,
-          "paddingRight": 16,
-          "paddingTop": 8,
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
         },
         {
           "fontFamily": "Roboto",
           "fontSize": 16,
+          "textAlignVertical": "top",
           "userSelect": "text",
         },
         {},
@@ -342,11 +217,63 @@ exports[`Text component should render correctly with default props 1`] = `
       {},
     ]
   }
-  testID="wmText_i"
 />
 `;
 
-exports[`Text component should show floating label when focused 1`] = `
+exports[`Test Textarea component should render with default placeholder when placeholder passed as props is falsy 1`] = `
+<TextInput
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoComplete="username"
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  editable={true}
+  floatingLabelStyle={{}}
+  maxLength={null}
+  multiline={true}
+  numberOfLines={4}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Place your text"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
+        {},
+      ],
+      {},
+    ]
+  }
+  value=""
+/>
+`;
+
+exports[`Test Textarea component should show floating label when focused 1`] = `
 [
   <View
     collapsable={false}
@@ -401,7 +328,7 @@ exports[`Text component should show floating label when focused 1`] = `
         }
       }
     >
-      Floating Label
+      sample label
     </Text>
   </View>,
   <TextInput
@@ -422,9 +349,8 @@ exports[`Text component should show floating label when focused 1`] = `
     caretHidden={false}
     contextMenuHidden={false}
     defaultValue=""
-    displayformat={null}
     editable={true}
-    floatingLabel="Floating Label"
+    floatingLabel="sample label"
     floatingLabelStyle={
       {
         "color": "#bbbbbb",
@@ -434,8 +360,9 @@ exports[`Text component should show floating label when focused 1`] = `
         "top": 12,
       }
     }
-    maskchar={null}
     maxLength={null}
+    multiline={true}
+    numberOfLines={4}
     onBlur={[Function]}
     onChange={[Function]}
     onChangeText={[Function]}
@@ -444,7 +371,6 @@ exports[`Text component should show floating label when focused 1`] = `
     onSelectionChange={[Function]}
     placeholder=""
     placeholderTextColor="#bbbbbb"
-    secureTextEntry={false}
     selection={null}
     style={
       [
@@ -456,15 +382,17 @@ exports[`Text component should show floating label when focused 1`] = `
             "borderStyle": "solid",
             "borderWidth": 1,
             "fontFamily": "Roboto",
-            "minHeight": 48,
-            "paddingBottom": 8,
-            "paddingLeft": 16,
-            "paddingRight": 16,
-            "paddingTop": 8,
+            "minHeight": 160,
+            "paddingBottom": 12,
+            "paddingLeft": 12,
+            "paddingRight": 12,
+            "paddingTop": 12,
           },
           {
             "fontFamily": "Roboto",
             "fontSize": 16,
+            "paddingTop": 24,
+            "textAlignVertical": "top",
             "userSelect": "text",
           },
           {},
@@ -472,7 +400,6 @@ exports[`Text component should show floating label when focused 1`] = `
         {},
       ]
     }
-    testID="wmText_i"
   />,
 ]
 `;

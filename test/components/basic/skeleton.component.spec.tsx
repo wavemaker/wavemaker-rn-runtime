@@ -1,5 +1,8 @@
 import React, { createRef } from 'react';
-import WmSkeleton, { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { LinearGradient } from 'expo-linear-gradient';
+import WmSkeleton, {
+  createSkeleton,
+} from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 import WmSkeletonState from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.props';
 import BASE_THEME, {
   ThemeProvider,
@@ -7,6 +10,7 @@ import BASE_THEME, {
 import {
   act,
   cleanup,
+  fireEvent,
   render,
   waitFor,
 } from '@testing-library/react-native';
@@ -31,50 +35,53 @@ describe('Test Skeleton component', () => {
     cleanup();
   });
 
-  afterAll(()=>{
+  afterAll(() => {
     jest.clearAllMocks();
-  })
+  });
 
   test('should not visible when show prop is false', () => {
     const tree = renderComponent({
-      show: false
+      show: false,
     });
 
-    expect(tree).toBeFalsy();
-  })
+    expect(tree.toJSON().props.style).toMatchObject({
+      height: 0,
+      width: 0,
+    });
+    expect(tree).toMatchSnapshot();
+  });
 
-  test('renders WmSkeleton correctly with default props', async () => {    
+  test('renders WmSkeleton correctly with default props', async () => {
     const testRef = createRef();
     const tree = renderComponent({
       ref: testRef,
     });
+    testRef.current.skeletonloaderRef = {
+      measure: (callback) => {
+        callback(0, 0, 30, 30, 0, 0);
+      },
+    };
 
-    act(() => {
-      testRef.current.setState({ animate: true });
-    });
+    fireEvent(tree.root, 'layout');
 
     await waitFor(() => {
+      expect(tree.UNSAFE_getByType(LinearGradient)).toBeDefined();
       expect(tree).toMatchSnapshot();
     });
   });
 
-
-  test('should not render gradient component when animate state is false: ', async () => {
+  test('should not render gradient component when animate state remains false: ', async () => {
     const testRef = createRef();
     const tree = renderComponent({
       ref: testRef,
-    });
-
-    act(() => {
-      testRef.current.setState({ animate: false });
     });
 
     await waitFor(() => {
       expect(tree).toMatchSnapshot();
       expect(tree.toJSON().children).toBeNull();
-      expect(tree.UNSAFE_queryByType('ViewManagerAdapter_ExpoLinearGradient')).toBeFalsy();
+      expect(tree.UNSAFE_queryByType(LinearGradient)).toBeFalsy();
     });
-  })
+  });
 
   test('renders WmSkeleton with custom layout', () => {
     const testRef = createRef();
@@ -89,9 +96,13 @@ describe('Test Skeleton component', () => {
     };
     const tree = renderComponent(customProps);
 
-    act(() => {
-      testRef.current.setState({ animate: true });
-    });
+    testRef.current.skeletonloaderRef = {
+      measure: (callback) => {
+        callback(0, 0, 30, 30, 0, 0);
+      },
+    };
+
+    fireEvent(tree.root, 'layout');
 
     expect(tree).toMatchSnapshot();
     expect(tree.root.props.style.width).toBe('125px');
@@ -105,12 +116,15 @@ describe('Test Skeleton component', () => {
     };
     const tree = renderComponent(customProps);
 
-    act(() => {
-      testRef.current.setState({ animate: true });
-    });
-    const gradientElement = tree.UNSAFE_getByType(
-      'ViewManagerAdapter_ExpoLinearGradient'
-    );
+    testRef.current.skeletonloaderRef = {
+      measure: (callback) => {
+        callback(0, 0, 30, 30, 0, 0);
+      },
+    };
+
+    fireEvent(tree.root, 'layout');
+
+    const gradientElement = tree.UNSAFE_getByType(LinearGradient);
     expect(gradientElement).toBeTruthy();
   });
 
@@ -126,15 +140,18 @@ describe('Test Skeleton component', () => {
       styles: customStyles,
     });
 
-    act(() => {
-      testRef.current.setState({ animate: true });
-    });
+    testRef.current.skeletonloaderRef = {
+      measure: (callback) => {
+        callback(0, 0, 30, 30, 0, 0);
+      },
+    };
+
+    fireEvent(tree.root, 'layout');
 
     const skeletonElement = tree.toJSON();
     const animatedElement = skeletonElement.children[0];
-    const gradientElementStyleArr = tree.UNSAFE_getByType(
-      'ViewManagerAdapter_ExpoLinearGradient'
-    ).props.style;
+    const gradientElementStyleArr =
+      tree.UNSAFE_getByType(LinearGradient).props.style;
     const gradientElementStyle = {};
     gradientElementStyleArr.forEach((item) => {
       Object.keys(item).forEach((key) => {
