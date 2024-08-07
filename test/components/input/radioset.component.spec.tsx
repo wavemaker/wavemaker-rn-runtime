@@ -10,6 +10,11 @@ import {
   waitFor,
 } from '@testing-library/react-native';
 
+const timer = (time = 100) =>
+  new Promise((resolve: any, reject) => {
+    setTimeout(() => resolve(), time);
+  });
+
 describe('WmRadioset', () => {
   let defaultProps;
 
@@ -123,17 +128,22 @@ describe('WmRadioset', () => {
   });
 
   // Custom Render Item Partial
-  it('renders custom item partial correctly', () => {
+  it('renders custom item partial correctly', async () => {
+    const ref = createRef();
     const renderItemPartial = jest
       .fn()
       .mockReturnValue(<Text>Custom Partial</Text>);
     const props = {
       ...defaultProps,
       renderitempartial: renderItemPartial,
-      template: 'custom-template',
+      ref,
     };
     render(<WmRadioset {...props} />);
-    expect(screen.getByText('Custom Partial')).toBeTruthy();
+    ref.current.setTemplate(<Text>Custom Partial</Text>);
+
+    await timer();
+    expect(renderItemPartial).toHaveBeenCalled();
+    expect(screen.getAllByText('Custom Partial')).toBeTruthy();
   });
 
   // Handling multiple columns

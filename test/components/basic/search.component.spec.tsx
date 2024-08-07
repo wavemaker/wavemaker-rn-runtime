@@ -87,6 +87,13 @@ function renderComponentWithWrappers(props = {}) {
   );
 }
 
+function mapValues(response) {
+  return response.map((item) => ({
+    name: item.displayfield,
+    dataValue: item.datafield,
+  }));
+}
+
 describe('WmSearch Component', () => {
   const invokeEventCallback = jest.spyOn(
     WmSearch.prototype,
@@ -563,13 +570,6 @@ describe('WmSearch Component', () => {
       expect(received.toString()).toBe(resolvedDataItems.dataSet.toString());
     });
   });
-
-  function mapValues(response) {
-    return response.map((item) => ({
-      name: item.displayfield,
-      dataValue: item.datafield,
-    }));
-  }
 
   it('should render search items when type is autocomplete', async () => {
     // AppModalService.modalsOpened = [];

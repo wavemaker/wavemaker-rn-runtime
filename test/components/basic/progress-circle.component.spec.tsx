@@ -112,7 +112,12 @@ describe('WmProgressCircle', () => {
 
   it('hides text when caption placement is hidden', () => {
     render(<WmProgressCircle captionplacement="hidden" />);
-    expect(screen.queryByText('')).toBeNull();
+    const asdf = screen.getByTestId('undefined_title');
+    const animatedProgressChild = screen
+      .UNSAFE_getByType(AnimatedCircularProgress)
+      .props.children();
+    const textElements = animatedProgressChild.props.children;
+    expect(textElements[0].props.children).toBe('');
   });
 
   it('should trigger onTap callback with WmProgressCircle instance as one of the arguments', async () => {

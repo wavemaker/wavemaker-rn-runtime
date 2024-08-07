@@ -76,6 +76,13 @@ describe('WmRating', () => {
     const { rerender } = render(
       <WmRating {...defaultProps} iconcolor="red" datavalue="dataValue2" />
     );
+
+    expect(
+      screen.UNSAFE_getAllByType(WmIcon)[2].props.styles.text
+    ).toMatchObject({
+      color: 'red',
+    });
+
     rerender(<WmRating {...defaultProps} datavalue="dataValue3" />);
     await waitFor(() => {
       expect(
@@ -154,8 +161,8 @@ describe('WmRating', () => {
     };
 
     render(<WmRating {...props} datavalue="dataValue1" />);
-    const checkbox = screen.getAllByText('star-border')[0];
-    fireEvent.press(checkbox);
+    const starItem = screen.getAllByText('star-border')[0];
+    fireEvent.press(starItem);
     await waitFor(() => {
       expect(onFieldChangeMock).toHaveBeenCalled();
       expect(onFieldChangeMock).toHaveBeenCalledWith(

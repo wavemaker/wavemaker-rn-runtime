@@ -1,5 +1,11 @@
 import React from 'react';
-import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
+import {
+  act,
+  fireEvent,
+  render,
+  waitFor,
+  screen,
+} from '@testing-library/react-native';
 import WmProgressBar from '@wavemaker/app-rn-runtime/components/basic/progress-bar/progress-bar.component';
 import WmProgressBarProps from '../../../src/components/basic/progress-bar/progress-bar.props';
 import ThemeVariables from '../../../src/styles/theme.variables';
@@ -101,17 +107,11 @@ describe('WmProgressBar Component', () => {
         },
       },
     };
-    const { getByRole } = render(<WmProgressBar {...props} />);
-    act(() => {
-      jest.runAllTimers();
-    });
-    const progressBar = getByRole('progressbar');
-    expect(progressBar).toBeTruthy();
-    const progressBarChildView = progressBar._fiber.stateNode.children[1];
-    expect(progressBarChildView.props.colors).toBe([
-      rgba(255, 0, 0, 1),
-      rgba(0, 0, 255, 1),
-    ]);
+    const tree = render(<WmProgressBar {...props} />);
+
+    expect(tree.root.props.style.progressBar.backgroundColor).toBe(
+      'linear-gradient(90deg, rgba(255,0,0,1), rgba(0,0,255,1))'
+    );
   });
 
   it('should handle datavalue greater than maxvalue', () => {

@@ -273,15 +273,15 @@ describe('WmSelect', () => {
 
   // show property
   it('handles show property correctly', () => {
-    render(
+    const tree = render(
       <WmSelect
         {...defaultProps}
         accessibilitylabel="Select an option"
         show={false}
       />
     );
-    const searchParent = screen.getByLabelText('Select an option');
-    expect(searchParent.props.style[0].width).toBe(0);
-    expect(searchParent.props.style[0].height).toBe(0);
+
+    expect(tree.root.props.children[1].props.style[0].width).toBe(0);
+    expect(tree.root.props.children[1].props.style[0].height).toBe(0);
   });
 });
