@@ -68,49 +68,64 @@ export class WmWheelDatePicker extends Component<
     }
   }
 
-  getMinValue = (minValue: string | Date, type: 'date' | 'month' | 'year') => {
-    const currentMonth = moment(minValue).format('M');
-    const currentYear = moment(minValue).format('YYYY');
+  getValue = (minDate: Date, maxDate: Date, type: 'date' | 'month' | 'year') => {
+    const currentMonth = moment(maxDate).format('M');
+    const currentYear = moment(maxDate).format('YYYY');
     const selectedMonth = moment(this.localSelectedDate).format('M');
     const selectedYear = moment(this.localSelectedDate).format('YYYY');
     const isFutureMonth = Number(selectedMonth) > Number(currentMonth);
     const isFutureYear = Number(selectedYear) > Number(currentYear);
-
-    if (!(minValue instanceof Date)) return START_DATE[type];
+    const isPastMonth = Number(selectedMonth) < Number(currentMonth);
+    const isPastYear = Number(selectedYear) < Number(currentYear);
+    let selectedMinValue = 0;
+    let selectedMaxValue = 0;
+    let selectedValueIndex = 0;
 
     switch(type) {
       case 'date':
-        const dateValue =
+        const minDateValue =
           isFutureYear
             ? 1
             : isFutureMonth
               ? 1
-              : new Date(minValue).getDate();
-        // this.selectedDateIndex = dateIndex;
-        return dateValue;
+              : new Date(minDate).getDate();
+        const maxDateValue = isPastYear
+          ? 31
+          : isPastMonth
+            ? 31
+            : new Date(maxDate).getDate();
+        const selectedDateIndex = isPastYear
+          ? this.selectedDateIndex
+          : isPastMonth
+            ? this.selectedDateIndex
+            : new Date(maxDate).getDate() - 1;
+
+        selectedMinValue = minDateValue;
+        selectedMaxValue = maxDateValue;
+        selectedValueIndex = selectedDateIndex;
+        break;
       case 'month':
-        const monthValue = isFutureYear ? 0 : new Date(minValue).getMonth();
-        // this.selectedMonthIndex = 11;
-        return monthValue;
+        const minMonthValue = isFutureYear ? 0 : new Date(minDate).getMonth();
+        const maxMonthValue = isPastYear ? 11 : new Date(maxDate).getMonth();
+        const selectedMonthIndex = isPastYear
+          ? this.selectedMonthIndex
+          : new Date(maxDate).getMonth();
+
+        selectedMinValue = minMonthValue;
+        selectedMaxValue = maxMonthValue;
+        selectedValueIndex = selectedMonthIndex;
+        break;
       case 'year':
-        return new Date(minValue).getFullYear();
-      default:
-        return 0;
+        selectedMinValue = new Date(minDate).getFullYear();
+        selectedMaxValue = new Date(maxDate).getFullYear();
+        selectedValueIndex = this.selectedYearIndex;
+        break;
     }
-  }
 
-  getMaxValue = (maxValue: string | Date | undefined, type: 'date' | 'month' | 'year') => {
-    if (!(maxValue instanceof Date)) return END_DATE[type];
-
-    switch(type) {
-      case 'date':
-        return new Date(maxValue).getDate();
-      case 'month':
-        return new Date(maxValue).getMonth();
-      case 'year':
-        return new Date(maxValue).getFullYear();
-      default:
-        return 0;
+    return {
+      selectedMinValue,
+      selectedMaxValue,
+      selectedValueIndex
     }
   }
 
@@ -136,17 +151,34 @@ export class WmWheelDatePicker extends Component<
     }
 
     const {props} = this;
-    const minDate = props.minDate;
-    const maxDate = props.maxDate;
+    const minDate = props.minDate ? new Date(props.minDate) : getDateObject(1, 0, 1950);
+    const maxDate = props.maxDate ? new Date(props.maxDate) : getDateObject(31, 11, 2060);
     // * date range
-    const minDateNum = minDate ? this.getMinValue(minDate, 'date') : 1;
-    const maxDateNum = maxDate ? this.getMaxValue(maxDate, 'date') : 31;
-    const minYear = minDate ? this.getMinValue(minDate, 'year') : 1950;
-    const maxYear = maxDate ? this.getMaxValue(maxDate, 'year') : 2060;
+    // const minDateNum = minDate ? this.getMinValue(minDate, 'date') : 1;
+    // const maxDateNum = maxDate ? this.getMaxValue(minDateNum, maxDate, 'date') : 31;
+    let minDateNum = START_DATE['date'];
+    let maxDateNum = END_DATE['date'];
+    let minYear = START_DATE['year'];
+    let maxYear = END_DATE['year'];
+    // const minYear = minDate ? this.getMinValue(minDate, 'year') : 1950;
+    // const maxYear = maxDate ? this.getMaxValue(minDateNum, maxDate, 'year') : 2060;
 
-    const selectedDate = getDates(minDateNum, maxDateNum)[this.selectedDateIndex];
-    const selectedMonthIndex = this.monthValue;
-    const selectedYear = getYearRange(minYear, maxYear)[this.selectedYearIndex];
+    const {selectedMinValue: minDateValue, selectedMaxValue: maxDateValue, selectedValueIndex: dateIndex} = this.getValue(minDate, maxDate, 'date');
+    const {selectedValueIndex: monthIndex} = this.getValue(minDate, maxDate, 'month');
+    const {selectedMinValue: minYearValue, selectedMaxValue: maxYearValue, selectedValueIndex: yearIndex} = this.getValue(minDate, maxDate, 'year');
+    minDateNum = minDateValue;
+    maxDateNum = maxDateValue;
+    minYear = minYearValue;
+    maxYear = maxYearValue;
+
+    // console.log('index ==>', dateIndex, monthIndex, yearIndex)
+    // TODO: start here
+    // const selectedDate = getDates(minDateNum, maxDateNum)[this.selectedDateIndex];
+    // const selectedMonthIndex = this.monthValue;
+    // const selectedYear = getYearRange(minYear, maxYear)[this.selectedYearIndex];
+    const selectedDate = getDates(minDateNum, maxDateNum)[dateIndex];
+    const selectedMonthIndex = monthIndex;
+    const selectedYear = getYearRange(minYear, maxYear)[yearIndex];
 
     const dateObj = getDateObject(
       selectedDate,
@@ -161,15 +193,34 @@ export class WmWheelDatePicker extends Component<
   // TODO: cache this func for performance improvement
   getPickerData(type: 'date' | 'month' | 'year') {
     const {props} = this;
-    const minDate = props.minDate;
-    const maxDate = props.maxDate;
-    const minDateNum = minDate ? this.getMinValue(minDate, 'date') : 1;
-    const maxDateNum = maxDate ? this.getMaxValue(maxDate, 'date') : 31;
-    const minMonth = minDate ? this.getMinValue(minDate, 'month') : 0;
-    const maxMonth = maxDate ? this.getMaxValue(maxDate, 'month') : 11;
-    const minYear = minDate ? this.getMinValue(minDate, 'year') : 1950;
-    const maxYear = maxDate ? this.getMaxValue(maxDate, 'year') : 2060;
+    const minDate = props.minDate ? new Date(props.minDate) : getDateObject(1, 0, 1950);
+    const maxDate = props.maxDate ? new Date(props.maxDate) : getDateObject(31, 11, 2060);
+    let minDateNum = START_DATE['date'];
+    let maxDateNum = END_DATE['date'];
+    let minMonth = START_DATE['month'];
+    let maxMonth = END_DATE['month'];
+    let minYear = START_DATE['year'];
+    let maxYear = END_DATE['year'];
 
+    const {selectedMinValue: minDateValue, selectedMaxValue: maxDateValue} = this.getValue(minDate, maxDate, 'date');
+    const {selectedMinValue: minMonthValue, selectedMaxValue: maxMonthValue} = this.getValue(minDate, maxDate, 'month');
+    const {selectedMinValue: minYearValue, selectedMaxValue: maxYearValue} = this.getValue(minDate, maxDate, 'year');
+    minDateNum = minDateValue;
+    maxDateNum = maxDateValue;
+    minMonth = minMonthValue;
+    maxMonth = maxMonthValue;
+    minYear = minYearValue;
+    maxYear = maxYearValue;
+    // const minDateNum = minDate ? this.getMinValue(minDate, 'date') : 1;
+    // const maxDateNum = maxDate ? this.getMaxValue(minDateNum, maxDate, 'date') : 31;
+    // const minMonth = minDate ? this.getMinValue(minDate, 'month') : 0;
+    // const maxMonth = maxDate ? this.getMaxValue(minDateNum, maxDate, 'month') : 11;
+    // const minYear = minDate ? this.getMinValue(minDate, 'year') : 1950;
+    // const maxYear = maxDate ? this.getMaxValue(minDateNum, maxDate, 'year') : 2060;
+
+    // console.log('values date==>', minDateNum, maxDateNum)
+    // console.log('values month==>', minMonth, maxMonth)
+    // console.log('values year==>', minYear, maxYear)
     switch (type) {
       case "date":
         const dateData = getDates(minDateNum, maxDateNum);
