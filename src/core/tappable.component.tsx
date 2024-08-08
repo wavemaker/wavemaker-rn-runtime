@@ -1,11 +1,13 @@
 import { BaseComponent } from "@wavemaker/app-rn-runtime/core/base.component";
 import React from "react";
-import { GestureResponderEvent, Platform, View } from "react-native";
+import { GestureResponderEvent, Platform, View, TouchableOpacity } from "react-native";
 import { get } from "lodash";
 import injector from "./injector";
 import { TouchableRipple } from "react-native-paper";
 import ThemeVariables from "../styles/theme.variables";
 
+export const TappableContext = React.createContext<Tappable>(null as any);
+import { UIPreferencesConsumer, UI_PREFERENCES } from "./ui-preferences.context";
 
 interface TappableProps {
     testID?: string;
@@ -45,7 +47,7 @@ export class Tappable extends React.Component<TappableProps, any> {
         super(props);
     }
 
-    onPress(e?: GestureResponderEvent): void {        
+    onPress(e: TapEvent): void {   
         this.lastPress = Date.now();
         const target = this.props.target;
         if (!Tappable.CURRENT_EVENT) {
@@ -84,7 +86,7 @@ export class Tappable extends React.Component<TappableProps, any> {
         }
     }
 
-    onLongTap(e?: GestureResponderEvent): void {
+    onLongTap(e: TapEvent): void {
         const syntheticEvent = Tappable.CURRENT_EVENT;
         this.props.onLongTap && this.props.onLongTap(e || syntheticEvent);
         setTimeout(() => {
@@ -93,7 +95,7 @@ export class Tappable extends React.Component<TappableProps, any> {
         this.isLongTap = true;
     }
     
-    onPressOut(e?: GestureResponderEvent): void {
+    onPressOut(e: TapEvent): void {
         const syntheticEvent = Tappable.CURRENT_EVENT;
         this.props.onTouchEnd && this.props.onTouchEnd(e || syntheticEvent);
         setTimeout(() => {
@@ -104,6 +106,26 @@ export class Tappable extends React.Component<TappableProps, any> {
 
     render() {
         const target = this.props.target;
+        const commonProps = {
+            ...(Platform.OS === 'android' || Platform.OS === 'web') ? {
+                accessibilityLabel: this.props.testID,
+                testID: this.props.testID
+            }: {
+                // accessible: false,
+                testID: this.props.testID
+            },
+            ...this.props.accessibilityProps,
+            disabled:get(target?.proxy, 'disabled'),
+            style:this.props.styles,
+            onPress:(e?: GestureResponderEvent) => {
+                if ((e?.target as any)?.tagName === 'INPUT') {
+                    return;
+                }
+                this.onPress(new TapEvent())
+            },
+            onLongPress:(e?: GestureResponderEvent) => this.onLongTap(new TapEvent()),
+            onPressOut:(e?: GestureResponderEvent) => this.onPressOut(new TapEvent())
+        };
         if (target?.props.onTap 
             || target?.props.onLongtap 
             || target?.props.onDoubletap 
@@ -111,24 +133,17 @@ export class Tappable extends React.Component<TappableProps, any> {
             || this.props.onLongTap 
             || this.props.onDoubleTap) {
             return (
-            <TouchableRipple
-                rippleColor={this.props.rippleColor}
-                borderless = {true}
-                 {...(Platform.OS === 'android' || Platform.OS === 'web') ? {
-                    accessibilityLabel: this.props.testID,
-                    testID: this.props.testID
-                }: {
-                    // accessible: false,
-                    testID: this.props.testID
-                }} 
-                {...this.props.accessibilityProps}
-                disabled={get(target?.proxy, 'disabled')}
-                style={this.props.styles}
-                onPress={() => this.onPress()}
-                onLongPress={() => this.onLongTap()}
-                onPressOut={() => this.onPressOut()}>
-                    <>{this.props.children}</>
-                </TouchableRipple>
+            <UIPreferencesConsumer>
+                {(preferences: UI_PREFERENCES) => {
+                    return preferences.enableRipple ? (
+                    <TouchableRipple rippleColor={this.props.rippleColor} borderless={true} {...commonProps}>
+                        <>{this.props.children}</>
+                    </TouchableRipple>): (
+                    <TouchableOpacity {...commonProps}>
+                        <>{this.props.children}</>
+                    </TouchableOpacity>);
+                }}
+            </UIPreferencesConsumer>
             );
         }
         return (<View style={this.props.styles}>{this.props.children}</View>);
