@@ -2,6 +2,8 @@ import { Platform } from 'react-native';
 import moment from "moment";
 import * as FileSystem from "expo-file-system";
 import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber} from 'lodash';
+import ThemeVariables from '../styles/theme.variables';
+
 
 declare const window: any;
 const GROUP_BY_OPTIONS = {
@@ -471,4 +473,98 @@ export const getTimeIndicators = () => {
 export const getDateTimeObject = (date: number, month: number, year: number, hour: number, minute: number) => {
   // * month is zero-based
   return new Date(year, month, date, hour, minute);
+};
+
+export const getGradientStartEnd = (angle: string) => {
+  const angleLowerCase = angle?.toLowerCase();
+  let start = { x: 0, y: 1 };
+  let end = { x: 1, y: 1 };
+
+  if (angle === '0deg' || angleLowerCase === 'to top') {
+    end.x = 0;
+    end.y = 0;
+  } else if (angle === '90deg' || angleLowerCase === 'to right') {
+    start.x = 0;
+  } else if (angle === '180deg' || angleLowerCase === 'to bottom') {
+    start.y = 0;
+    end.x = 0;
+    end.y = 1;
+  } else if (angle === '270deg' || angleLowerCase === 'to left') {
+    start.x = 1;
+    end.x = 0;
+  } else {
+    // other angle
+  }
+
+  return {start, end}
+}
+
+export const parseLinearGradient = (gradient: string) => {
+  let angle = '', color1 = '', color2 = '';
+  const linearGradientRegex = /linear-gradient\(([^,]+),\s*([^,]+),\s*([^)]+)\)/;
+  const hasLinearGradient = linearGradientRegex.test(gradient);
+
+  const matches = gradient?.match(linearGradientRegex);
+  angle = matches?.[1] || '90deg';
+  const {start, end} = getGradientStartEnd(angle)
+  color1 = matches?.[2] || ThemeVariables.INSTANCE.primaryColor;
+  color2 = matches?.[3] || ThemeVariables.INSTANCE.primaryColor;
+
+  return {hasLinearGradient, color1, color2, start, end};
+}
+
+export const validateInputOnDevice = (value: string, type: 'number' | 'currency') => {
+  const isCurrencyField = type === 'currency';
+  let isValidText = true;
+  let validText = value;
+  
+  // * no alphabets except E, may contain E only once
+  if (/[a-df-zA-DF-Z]/.test(value) || !/^[^eE]*[eE]?[^eE]*$/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/[a-df-zA-DF-Z]/g, '');
+    validText = validText.replace(/([eE])\1+/g, 'e');
+  }
+
+  // * currency only: check for negative number
+  if (isCurrencyField && (Number(value) < 0 || /-/g.test(value))) {
+    isValidText = false;
+    validText = validText.replace(/-/g, '');
+  }
+
+  // * number only: not more than one minus and doesn't end with minus (-)
+  if (!isCurrencyField && (Number(value.match(/-/g)?.length) > 1) || /\w-/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/-/g, '');
+    validText = validText.replace(/\w-/g, '');
+  }
+
+  // * check for more than one decimal point
+  if (/^\d*\.\d*\..*$/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/\.(?=\.*\.)/g, '');
+  }
+
+  // * check for spaces and comma
+  if (/[\s,]/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/[\s,]/, '');
+  }
+
+  return {isValidText, validText};
+}
+
+export const isDateFormatAsPerPattern = (
+  datePattern?: string,
+  dateString?: string | Date
+) => {
+  try {
+    // * format dateString as per datePattern
+    const date = moment(dateString, datePattern, true);
+
+    // * check date is valid and matches the format
+    return date.isValid() && typeof dateString === 'string' && dateString?.toUpperCase() === date.format(datePattern)?.toUpperCase();
+  } catch (error) {
+    // * if not able to parse date string
+    return false;
+  }
 };
