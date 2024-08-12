@@ -157,7 +157,7 @@ export class Tappable extends React.Component<TappableProps, any> {
             return (
             <UIPreferencesConsumer>
                 {(preferences: UI_PREFERENCES) => {
-                    return preferences.enableRipple ? (
+                    return preferences.enableRipple != false ? (
                     <TouchableRipple rippleColor={this.props.rippleColor} borderless={true} {...commonProps}>
                         <>{this.props.children}</>
                     </TouchableRipple>): (
