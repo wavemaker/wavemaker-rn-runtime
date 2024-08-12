@@ -52,4 +52,5 @@ export default class BaseChartComponentProps extends BaseProps {
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole;
   renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
+  ynumberformat?: string = '';
 }
