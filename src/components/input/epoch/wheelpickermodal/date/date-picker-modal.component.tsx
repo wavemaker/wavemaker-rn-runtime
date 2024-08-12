@@ -26,7 +26,7 @@ export class WmDatePickerModal extends BaseComponent<
   }
 
   renderWidget() {
-    const { isVisible, minDate, maxDate, onClose, onCancel, onSelect } = this.props;
+    const { isVisible, onClose, onCancel, onSelect } = this.props;
     const { selectedDate } = this.state;
     const { styles } = this;
 
@@ -45,8 +45,6 @@ export class WmDatePickerModal extends BaseComponent<
           <View style={styles.container}>
             <Text style={styles.header}>Select Date</Text>
             <WmWheelDatePicker
-              minDate={minDate}
-              maxDate={maxDate}
               selectedDate={this.props.selectedDate || selectedDate}
               onDateChange={(date) => {
                 this.setState({ selectedDate: date });

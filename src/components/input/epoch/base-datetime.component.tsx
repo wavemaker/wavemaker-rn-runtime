@@ -434,8 +434,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             <WmDatePickerModal
               isVisible={this.state.showDatePickerModal}
               onClose={() => this.updateState({showDatePickerModal: false} as BaseDatetimeState)}
-              minDate={props.mindate}
-              maxDate={props.maxdate}
               selectedDate={this.state.dateValue}
               onSelect={(date: Date) => {
                 this.onDateChange(null as any, date);
