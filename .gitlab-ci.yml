@@ -3,7 +3,7 @@ stages:
         - jira_next_release
         - jira_hotfix_release
         - jira_verification_merge
-
+        - coverage_test
 jira_feature_dev:
   stage: jira_feature_dev
   tags:
