@@ -33,10 +33,14 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
 
   constructor(props: WmWizardProps) {
     super(props, DEFAULT_CLASS, new WmWizardProps());
-    const steps = props.children;
+  }
+
+  updateDefaultStep() {
+    const steps = this.steps;
+    const props = this.props;
     let defaultStepIndex = 0;
     if (isArray(steps) && props.defaultstep) {
-      steps.map((item: any, index: any) => {
+      steps && steps.map((item: any, index: any) => {
         if (props.defaultstep === item.props.name) {
           defaultStepIndex = index;
         }
@@ -52,7 +56,17 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
 
   componentDidMount() {
     super.componentDidMount();
-    this.showActiveStep();
+    if (this.props.defaultstep) {
+      this.updateDefaultStep();
+    }
+  }
+
+  componentDidUpdate(prevProps: Readonly<WmWizardProps>, prevState: Readonly<WmWizardState>, snapshot?: any): void {
+    super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, snapshot);
+    // * when a variable is bind to default step
+    if (this.props.defaultstep && prevProps.defaultstep !== this.props.defaultstep) {
+      this.updateDefaultStep();
+    }
   }
 
   showActiveStep() {

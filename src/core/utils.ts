@@ -551,3 +551,19 @@ export const validateInputOnDevice = (value: string, type: 'number' | 'currency'
 
   return {isValidText, validText};
 }
+
+export const isDateFormatAsPerPattern = (
+  datePattern?: string,
+  dateString?: string | Date
+) => {
+  try {
+    // * format dateString as per datePattern
+    const date = moment(dateString, datePattern, true);
+
+    // * check date is valid and matches the format
+    return date.isValid() && typeof dateString === 'string' && dateString?.toUpperCase() === date.format(datePattern)?.toUpperCase();
+  } catch (error) {
+    // * if not able to parse date string
+    return false;
+  }
+};

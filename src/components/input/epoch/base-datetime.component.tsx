@@ -10,7 +10,7 @@ import { DEFAULT_CLASS, WmDatetimeStyles } from './datetime/datetime.styles';
 import WebDatePicker from './date-picker.component';
 import { isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
-import { validateField } from '@wavemaker/app-rn-runtime/core/utils';
+import { isDateFormatAsPerPattern, validateField } from '@wavemaker/app-rn-runtime/core/utils';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { FloatingLabel } from '@wavemaker/app-rn-runtime/core/components/floatinglabel.component';
 import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
@@ -131,9 +131,24 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       case 'mindate':
         if (isString($new)) {
           const minDateVal = ($new === CURRENT_DATE || $new === CURRENT_TIME) ? new Date() : props.mindate;
+          // * check if supplied mindate is as per datepattern
+          const isMinMatchingPattern = minDateVal
+            ? isDateFormatAsPerPattern(this.momentPattern(props.datepattern as String), minDateVal)
+            : false;
+          // * min date formatted as per datepattern
+          const minDatePatternFormatted = minDateVal && isMinMatchingPattern ? moment(
+            moment(
+              minDateVal,
+              this.momentPattern(props.datepattern as String)
+            ).format('YYYY-MM-DD')
+          ) : null;
+          // * min date formatted as per ISO, if mindate supplied is not as per datepattern
+          const formattedMinDate = minDatePatternFormatted && isMinMatchingPattern
+            ? minDatePatternFormatted.toDate()
+            : moment(minDateVal).toDate();
           this.updateState({
             props: {
-              mindate: moment(minDateVal, this.momentPattern(props.datepattern as String)).toDate()
+              mindate: formattedMinDate
             }
           } as BaseDatetimeState);
         }
@@ -141,10 +156,26 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       case 'maxdate':
         if (isString($new)) {
           const maxDateVal = ($new === CURRENT_DATE || $new === CURRENT_TIME) ? new Date() : props.maxdate;
+          // * check if supplied maxdate is as per datepattern
+          const isMaxMatchingPattern = maxDateVal
+            ? isDateFormatAsPerPattern(this.momentPattern(props.datepattern as String), maxDateVal)
+            : false;
+          // * max date formatted as per datepattern
+          const maxDatePatternFormatted = maxDateVal && isMaxMatchingPattern ? moment(
+            moment(
+              maxDateVal,
+              this.momentPattern(props.datepattern as String)
+            ).format('YYYY-MM-DD')
+          ) : null;
+          // * max date formatted as per ISO, if maxdate supplied is not as per datepattern
+          const formattedMaxDate = maxDatePatternFormatted && isMaxMatchingPattern
+          ? maxDatePatternFormatted.toDate()
+          : moment(maxDateVal).toDate();
+
           this.updateState({
             props: {
-              maxdate: moment(maxDateVal, this.momentPattern(props.datepattern as String)).toDate()
-            }
+              maxdate: formattedMaxDate,
+            },
           } as BaseDatetimeState);
         }
         break;
