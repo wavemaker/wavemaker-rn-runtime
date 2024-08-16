@@ -56,7 +56,17 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
 
   componentDidMount() {
     super.componentDidMount();
-    this.updateDefaultStep();
+    if (this.props.defaultstep) {
+      this.updateDefaultStep();
+    }
+  }
+
+  componentDidUpdate(prevProps: Readonly<WmWizardProps>, prevState: Readonly<WmWizardState>, snapshot?: any): void {
+    super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, snapshot);
+    // * when a variable is bind to default step
+    if (this.props.defaultstep && prevProps.defaultstep !== this.props.defaultstep) {
+      this.updateDefaultStep();
+    }
   }
 
   showActiveStep() {
