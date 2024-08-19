@@ -36,10 +36,9 @@ async function prepareNpmPackages(runtimeVersion) {
   fs.copySync(`${projectDir}/dist/module`, `${projectDir}/dist/npm-packages/package`, {
     filter: p => !p.startsWith('/node_modules/')
   });
-  await execa('npm', ['install'], {
+  await execa('npm', ['install', '--package-lock-only'], {
     'cwd': `${projectDir}/dist/npm-packages/package`
   });
-  fs.rmSync(`${projectDir}/dist/npm-packages/package/node_modules`, {recursive: true, force: true})
   await execa('tar', ['-czf', `dist/npm-packages/${tarballName}`, '-C', 'dist/npm-packages', 'package'], {
     'cwd': `${projectDir}`
   });
