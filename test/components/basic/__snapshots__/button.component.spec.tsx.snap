@@ -1,37 +1,107 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Button component Check validity of sample component 1`] = `
+exports[`Button component property binding tests should render a skeleton with given width and height 1`] = `
 <View
-  accessible={true}
-  focusable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
+  onLayout={[Function]}
   style={
-    Object {
-      "backgroundColor": "blue",
-      "margin": 5,
-      "opacity": 1,
-      "paddingBottom": 5,
-      "paddingLeft": 10,
-      "paddingRight": 10,
-      "paddingTop": 5,
+    {
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 32,
+      "height": "100",
+      "overflow": "hidden",
+      "width": "50",
     }
   }
+/>
+`;
+
+exports[`Button component property binding tests should render correctly with default props 1`] = `
+<View
+  style={
+    [
+      {
+        "alignSelf": "flex-start",
+        "borderRadius": 32,
+        "minHeight": 40,
+        "paddingBottom": 12,
+        "paddingLeft": 24,
+        "paddingRight": 24,
+        "paddingTop": 12,
+        "rippleColor": "transparent",
+      },
+      {
+        "flexDirection": "column",
+        "overflow": "hidden",
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "paddingTop": 0,
+      },
+      {},
+    ]
+  }
+  testID="non_animatableView"
 >
-  <Text
+  <View
     style={
-      Object {
-        "color": "#ffffff",
-        "textAlign": "center",
+      {
+        "height": null,
+        "justifyContent": "center",
+        "paddingBottom": 12,
+        "paddingLeft": 24,
+        "paddingRight": 24,
+        "paddingTop": 12,
+        "width": "100%",
       }
     }
   >
-    test_label
-  </Text>
+    <View
+      style={
+        [
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "center",
+          },
+          {
+            "flexDirection": "row",
+          },
+        ]
+      }
+    >
+      <Text
+        accessible={false}
+        importantForAccessibility="no"
+        style={
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 14,
+            "fontWeight": "500",
+            "textAlign": "center",
+            "textTransform": "capitalize",
+            "userSelect": "text",
+          }
+        }
+        testID="test_button_caption"
+      >
+        Test Button
+      </Text>
+    </View>
+  </View>
 </View>
+`;
+
+exports[`Button component property binding tests should render skeleton with root width and height when skeleton width and height are not provided 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 32,
+      "height": 70,
+      "overflow": "hidden",
+      "width": 50,
+    }
+  }
+/>
 `;

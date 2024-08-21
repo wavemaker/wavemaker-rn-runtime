@@ -31,7 +31,7 @@ exports[`WmProgressBar Component should render with default properties 1`] = `
       accessible={true}
       onLayout={[Function]}
       style={false}
-      testID="progress-bar"
+      testID="undefined_progressbar"
     >
       <View
         collapsable={false}

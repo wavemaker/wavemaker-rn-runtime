@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Gridcolumn component Check validity of sample component 1`] = `
+<View
+  style={
+    [
+      {
+        "width": "100%",
+      },
+      undefined,
+      {},
+    ]
+  }
+/>
+`;

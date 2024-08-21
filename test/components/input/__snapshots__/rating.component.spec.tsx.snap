@@ -14,6 +14,7 @@ exports[`WmRating renders correctly with default props 1`] = `
   }
 >
   <View
+    accessibilityLabel=""
     accessibilityState={
       {
         "busy": undefined,
@@ -51,6 +52,7 @@ exports[`WmRating renders correctly with default props 1`] = `
         undefined,
       ]
     }
+    testID="undefined_star0_a"
   >
     <View
       style={
@@ -62,16 +64,15 @@ exports[`WmRating renders correctly with default props 1`] = `
       }
       testID="non_animatableView"
     >
-      <View
-        accessible={true}
-      >
+      <View>
         <View>
           <Text
+            accessible={false}
             size={32}
             style={
               [
                 {
-                  "color": undefined,
+                  "color": "#aaaaaa",
                 },
                 {
                   "paddingLeft": 0,
@@ -86,6 +87,7 @@ exports[`WmRating renders correctly with default props 1`] = `
                 },
               ]
             }
+            testID="undefined_star0_icon"
           >
             star-border
           </Text>
@@ -94,6 +96,7 @@ exports[`WmRating renders correctly with default props 1`] = `
     </View>
   </View>
   <View
+    accessibilityLabel=""
     accessibilityState={
       {
         "busy": undefined,
@@ -131,6 +134,7 @@ exports[`WmRating renders correctly with default props 1`] = `
         undefined,
       ]
     }
+    testID="undefined_star1_a"
   >
     <View
       style={
@@ -142,16 +146,15 @@ exports[`WmRating renders correctly with default props 1`] = `
       }
       testID="non_animatableView"
     >
-      <View
-        accessible={true}
-      >
+      <View>
         <View>
           <Text
+            accessible={false}
             size={32}
             style={
               [
                 {
-                  "color": undefined,
+                  "color": "#aaaaaa",
                 },
                 {
                   "paddingLeft": 0,
@@ -166,6 +169,7 @@ exports[`WmRating renders correctly with default props 1`] = `
                 },
               ]
             }
+            testID="undefined_star1_icon"
           >
             star-border
           </Text>
@@ -174,6 +178,7 @@ exports[`WmRating renders correctly with default props 1`] = `
     </View>
   </View>
   <View
+    accessibilityLabel=""
     accessibilityState={
       {
         "busy": undefined,
@@ -211,6 +216,7 @@ exports[`WmRating renders correctly with default props 1`] = `
         undefined,
       ]
     }
+    testID="undefined_star2_a"
   >
     <View
       style={
@@ -222,16 +228,15 @@ exports[`WmRating renders correctly with default props 1`] = `
       }
       testID="non_animatableView"
     >
-      <View
-        accessible={true}
-      >
+      <View>
         <View>
           <Text
+            accessible={false}
             size={32}
             style={
               [
                 {
-                  "color": undefined,
+                  "color": "#aaaaaa",
                 },
                 {
                   "paddingLeft": 0,
@@ -246,6 +251,7 @@ exports[`WmRating renders correctly with default props 1`] = `
                 },
               ]
             }
+            testID="undefined_star2_icon"
           >
             star-border
           </Text>
@@ -254,6 +260,7 @@ exports[`WmRating renders correctly with default props 1`] = `
     </View>
   </View>
   <View
+    accessibilityLabel=""
     accessibilityState={
       {
         "busy": undefined,
@@ -291,6 +298,7 @@ exports[`WmRating renders correctly with default props 1`] = `
         undefined,
       ]
     }
+    testID="undefined_star3_a"
   >
     <View
       style={
@@ -302,16 +310,15 @@ exports[`WmRating renders correctly with default props 1`] = `
       }
       testID="non_animatableView"
     >
-      <View
-        accessible={true}
-      >
+      <View>
         <View>
           <Text
+            accessible={false}
             size={32}
             style={
               [
                 {
-                  "color": undefined,
+                  "color": "#aaaaaa",
                 },
                 {
                   "paddingLeft": 0,
@@ -326,6 +333,7 @@ exports[`WmRating renders correctly with default props 1`] = `
                 },
               ]
             }
+            testID="undefined_star3_icon"
           >
             star-border
           </Text>
@@ -334,6 +342,7 @@ exports[`WmRating renders correctly with default props 1`] = `
     </View>
   </View>
   <View
+    accessibilityLabel=""
     accessibilityState={
       {
         "busy": undefined,
@@ -371,6 +380,7 @@ exports[`WmRating renders correctly with default props 1`] = `
         undefined,
       ]
     }
+    testID="undefined_star4_a"
   >
     <View
       style={
@@ -382,16 +392,15 @@ exports[`WmRating renders correctly with default props 1`] = `
       }
       testID="non_animatableView"
     >
-      <View
-        accessible={true}
-      >
+      <View>
         <View>
           <Text
+            accessible={false}
             size={32}
             style={
               [
                 {
-                  "color": undefined,
+                  "color": "#aaaaaa",
                 },
                 {
                   "paddingLeft": 0,
@@ -406,6 +415,7 @@ exports[`WmRating renders correctly with default props 1`] = `
                 },
               ]
             }
+            testID="undefined_star4_icon"
           >
             star-border
           </Text>

@@ -2,15 +2,39 @@
 
 exports[`WmRadioset renders correctly with default props 1`] = `
 <RCTScrollView
+  collapsable={false}
+  handlerTag={1}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
   style={
     {
       "color": "#4263eb",
     }
   }
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
+  }
 >
   <View>
     <RCTScrollView
+      collapsable={false}
+      handlerTag={2}
+      handlerType="NativeViewGestureHandler"
       horizontal={true}
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      waitFor={
+        [
+          {
+            "current": null,
+          },
+        ]
+      }
     >
       <View>
         <View
@@ -52,7 +76,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                     "text": undefined,
                   }
                 }
-                accessible={true}
+                accessible={false}
                 collapsable={false}
                 focusable={true}
                 onClick={[Function]}
@@ -72,6 +96,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                     "width": "100%",
                   }
                 }
+                testID="undefined_a"
               >
                 <View>
                   <View
@@ -79,17 +104,21 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                       {
                         "alignItems": "center",
                         "alignSelf": "flex-start",
+                        "borderColor": "#4263eb",
+                        "borderRadius": 10,
+                        "borderStyle": "solid",
+                        "borderWidth": 2,
                         "flexDirection": "row",
+                        "height": 20,
+                        "width": 20,
                       }
                     }
                     testID="non_animatableView"
                   >
-                    <View
-                      accessibilityLabel="Radio button for name0"
-                      accessible={true}
-                    >
+                    <View>
                       <View>
                         <Text
+                          accessible={false}
                           size={12}
                           style={
                             [
@@ -97,6 +126,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                                 "color": undefined,
                               },
                               {
+                                "opacity": 0,
                                 "paddingLeft": 0,
                                 "paddingRight": 8,
                               },
@@ -109,6 +139,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                               },
                             ]
                           }
+                          testID="undefined_icon"
                         >
                           fiber-manual-record
                         </Text>
@@ -117,6 +148,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                   </View>
                 </View>
                 <Text
+                  accessible={false}
                   style={
                     {
                       "alignSelf": "center",
@@ -126,6 +158,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                       "marginLeft": 8,
                     }
                   }
+                  testID="undefined_caption"
                 >
                   name0
                 </Text>
@@ -148,7 +181,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                     "text": undefined,
                   }
                 }
-                accessible={true}
+                accessible={false}
                 collapsable={false}
                 focusable={true}
                 onClick={[Function]}
@@ -168,6 +201,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                     "width": "100%",
                   }
                 }
+                testID="undefined_a"
               >
                 <View>
                   <View
@@ -175,17 +209,21 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                       {
                         "alignItems": "center",
                         "alignSelf": "flex-start",
+                        "borderColor": "#4263eb",
+                        "borderRadius": 10,
+                        "borderStyle": "solid",
+                        "borderWidth": 2,
                         "flexDirection": "row",
+                        "height": 20,
+                        "width": 20,
                       }
                     }
                     testID="non_animatableView"
                   >
-                    <View
-                      accessibilityLabel="Radio button for name2"
-                      accessible={true}
-                    >
+                    <View>
                       <View>
                         <Text
+                          accessible={false}
                           size={12}
                           style={
                             [
@@ -193,6 +231,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                                 "color": undefined,
                               },
                               {
+                                "opacity": 0,
                                 "paddingLeft": 0,
                                 "paddingRight": 8,
                               },
@@ -205,6 +244,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                               },
                             ]
                           }
+                          testID="undefined_icon"
                         >
                           fiber-manual-record
                         </Text>
@@ -213,6 +253,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                   </View>
                 </View>
                 <Text
+                  accessible={false}
                   style={
                     {
                       "alignSelf": "center",
@@ -222,6 +263,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                       "marginLeft": 8,
                     }
                   }
+                  testID="undefined_caption"
                 >
                   name2
                 </Text>
@@ -264,7 +306,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                     "text": undefined,
                   }
                 }
-                accessible={true}
+                accessible={false}
                 collapsable={false}
                 focusable={true}
                 onClick={[Function]}
@@ -284,6 +326,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                     "width": "100%",
                   }
                 }
+                testID="undefined_a"
               >
                 <View>
                   <View
@@ -291,26 +334,33 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                       {
                         "alignItems": "center",
                         "alignSelf": "flex-start",
+                        "borderColor": "#4263eb",
+                        "borderRadius": 10,
+                        "borderStyle": "solid",
+                        "borderWidth": 2,
                         "flexDirection": "row",
+                        "height": 20,
+                        "width": 20,
                       }
                     }
                     testID="non_animatableView"
                   >
-                    <View
-                      accessibilityLabel="Radio button for name1"
-                      accessible={true}
-                    >
+                    <View>
                       <View>
                         <Text
-                          size={12}
+                          accessible={false}
+                          size={16}
                           style={
                             [
                               {
                                 "color": undefined,
                               },
                               {
+                                "color": "#4263eb",
+                                "paddingBottom": 0,
                                 "paddingLeft": 0,
-                                "paddingRight": 8,
+                                "paddingRight": 0,
+                                "paddingTop": 0,
                               },
                               {
                                 "transform": [
@@ -321,6 +371,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                               },
                             ]
                           }
+                          testID="undefined_icon"
                         >
                           fiber-manual-record
                         </Text>
@@ -329,6 +380,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                   </View>
                 </View>
                 <Text
+                  accessible={false}
                   style={
                     {
                       "alignSelf": "center",
@@ -338,6 +390,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                       "marginLeft": 8,
                     }
                   }
+                  testID="undefined_caption"
                 >
                   name1
                 </Text>

@@ -1,0 +1,256 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WmMessage renders correctly with default props 1`] = `
+<View
+  animation="fadeIn"
+  collapsable={false}
+  delay={null}
+  duration={200}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#28a745",
+      "borderColor": "transparent",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 1,
+      "flexDirection": "row",
+      "paddingBottom": 8,
+      "paddingLeft": 8,
+      "paddingRight": 8,
+      "paddingTop": 8,
+    }
+  }
+  testID="animatableView"
+  useNativeDriver={true}
+>
+  <View>
+    <View
+      style={
+        {
+          "alignItems": "flex-start",
+          "alignSelf": "flex-start",
+          "color": "#ffffff",
+          "flexDirection": "row",
+          "fontSize": 20,
+        }
+      }
+      testID="non_animatableView"
+    >
+      <View>
+        <View>
+          <Text
+            accessible={false}
+            size={20}
+            style={
+              [
+                {
+                  "color": "#ffffff",
+                },
+                {
+                  "paddingLeft": 0,
+                  "paddingRight": 8,
+                },
+                {
+                  "transform": [
+                    {
+                      "rotate": "0deg",
+                    },
+                  ],
+                },
+              ]
+            }
+            testID="undefined_icon_icon"
+          >
+            check
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "alignContent": "center",
+        "color": "#ffffff",
+        "flex": 1,
+        "flexDirection": "column",
+        "justifyContent": "flex-start",
+        "paddingLeft": 16,
+      }
+    }
+  >
+    <Text
+      accessibilityLabel="Message"
+      accessibilityRole="alert"
+      accessible={true}
+      style={
+        {
+          "color": "#ffffff",
+          "fontSize": 14,
+          "fontWeight": "bold",
+          "paddingBottom": 4,
+        }
+      }
+      testID="undefined_title"
+    >
+      Success
+    </Text>
+    <Text
+      accessibilityLabel="Message"
+      accessibilityRole="alert"
+      accessible={true}
+      style={
+        {
+          "color": "#ffffff",
+          "fontFamily": "Roboto",
+          "fontSize": 12,
+          "userSelect": "text",
+        }
+      }
+      testID="undefined_caption"
+    >
+      Message
+    </Text>
+  </View>
+  <View
+    style={
+      [
+        {
+          "alignSelf": "center",
+          "borderRadius": 0,
+          "minHeight": 40,
+          "paddingBottom": 12,
+          "paddingHorizontal": 0,
+          "paddingLeft": 8,
+          "paddingRight": 0,
+          "paddingTop": 12,
+          "rippleColor": "transparent",
+        },
+        {
+          "flexDirection": "column",
+          "overflow": "hidden",
+          "paddingBottom": 0,
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+        },
+        {},
+      ]
+    }
+    testID="non_animatableView"
+  >
+    <View
+      accessibilityLabel={null}
+      accessibilityRole="button"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          {
+            "height": null,
+            "justifyContent": "center",
+            "paddingBottom": 12,
+            "paddingLeft": 8,
+            "paddingRight": 0,
+            "paddingTop": 12,
+            "width": "100%",
+          },
+        ]
+      }
+      testID="undefined_close_a"
+    >
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+            },
+            {
+              "flexDirection": "row",
+            },
+          ]
+        }
+      >
+        <View>
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "alignSelf": "auto",
+                "color": "#ffffff",
+                "flexDirection": "row",
+                "paddingLeft": -8,
+                "paddingRight": -8,
+              }
+            }
+            testID="non_animatableView"
+          >
+            <View>
+              <View>
+                <Text
+                  accessible={false}
+                  size={16}
+                  style={
+                    [
+                      {
+                        "color": "#ffffff",
+                      },
+                      {
+                        "paddingLeft": 0,
+                        "paddingRight": 8,
+                      },
+                      {
+                        "transform": [
+                          {
+                            "rotate": "0deg",
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                  testID="undefined_close_icon_icon"
+                >
+                  close
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

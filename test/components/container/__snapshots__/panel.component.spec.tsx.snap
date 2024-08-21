@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Panel component Check validity of sample component 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 0,
+      "paddingBottom": 12,
+      "paddingLeft": 12,
+      "paddingRight": 12,
+      "paddingTop": 12,
+    }
+  }
+>
+  <View
+    accessibilityRole="header"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "#ffffff",
+        "borderColor": "#ffffff",
+        "borderStyle": "solid",
+        "borderTopLeftRadius": 6,
+        "borderTopRightRadius": 6,
+        "borderWidth": 0,
+        "flexDirection": "row",
+        "opacity": 1,
+        "paddingHorizontal": 8,
+        "paddingVertical": 4,
+      }
+    }
+    testID="test_Panel_header"
+  >
+    <View
+      style={
+        {
+          "flex": 1,
+          "flexDirection": "column",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          [
+            {
+              "color": "#333333",
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "fontWeight": "bold",
+              "userSelect": "text",
+            },
+            {
+              "paddingHorizontal": 16,
+            },
+          ]
+        }
+        testID="test_Panel_header_title"
+      >
+        Title
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+        }
+      }
+    />
+  </View>
+  <View
+    animatedStyle={
+      {
+        "value": {
+          "maxHeight": 0,
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "maxHeight": 0,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+    >
+      <View />
+    </View>
+  </View>
+</View>
+`;

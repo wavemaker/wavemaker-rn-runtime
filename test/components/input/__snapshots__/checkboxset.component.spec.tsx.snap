@@ -2,11 +2,35 @@
 
 exports[`WmCheckboxset handles multiple columns correctly 1`] = `
 <RCTScrollView
+  collapsable={false}
+  handlerTag={17}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
   style={{}}
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
+  }
 >
   <View>
     <RCTScrollView
+      collapsable={false}
+      handlerTag={18}
+      handlerType="NativeViewGestureHandler"
       horizontal={true}
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      waitFor={
+        [
+          {
+            "current": null,
+          },
+        ]
+      }
     >
       <View>
         <View
@@ -57,6 +81,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                 "width": "50%",
               }
             }
+            testID="undefined_0"
           >
             <View>
               <View
@@ -64,16 +89,20 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                   {
                     "alignItems": "center",
                     "alignSelf": "flex-start",
+                    "borderColor": "#999999",
+                    "borderRadius": 4,
+                    "borderWidth": 2,
                     "flexDirection": "row",
+                    "height": 20,
+                    "width": 20,
                   }
                 }
                 testID="non_animatableView"
               >
-                <View
-                  accessible={true}
-                >
+                <View>
                   <View>
                     <Text
+                      accessible={false}
                       size={12}
                       style={
                         [
@@ -81,6 +110,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                             "color": undefined,
                           },
                           {
+                            "color": "transparent",
                             "paddingLeft": 0,
                             "paddingRight": 8,
                           },
@@ -93,6 +123,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                           },
                         ]
                       }
+                      testID="undefined_icon"
                     >
                       check
                     </Text>
@@ -101,6 +132,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
               </View>
             </View>
             <Text
+              accessible={false}
               style={
                 {
                   "alignSelf": "center",
@@ -111,6 +143,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                   "userSelect": "text",
                 }
               }
+              testID="undefined_0"
             >
               name0
             </Text>
@@ -155,6 +188,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                 "width": "50%",
               }
             }
+            testID="undefined_1"
           >
             <View>
               <View
@@ -162,16 +196,20 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                   {
                     "alignItems": "center",
                     "alignSelf": "flex-start",
+                    "borderColor": "#999999",
+                    "borderRadius": 4,
+                    "borderWidth": 2,
                     "flexDirection": "row",
+                    "height": 20,
+                    "width": 20,
                   }
                 }
                 testID="non_animatableView"
               >
-                <View
-                  accessible={true}
-                >
+                <View>
                   <View>
                     <Text
+                      accessible={false}
                       size={12}
                       style={
                         [
@@ -179,6 +217,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                             "color": undefined,
                           },
                           {
+                            "color": "transparent",
                             "paddingLeft": 0,
                             "paddingRight": 8,
                           },
@@ -191,6 +230,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                           },
                         ]
                       }
+                      testID="undefined_icon"
                     >
                       check
                     </Text>
@@ -199,6 +239,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
               </View>
             </View>
             <Text
+              accessible={false}
               style={
                 {
                   "alignSelf": "center",
@@ -209,6 +250,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                   "userSelect": "text",
                 }
               }
+              testID="undefined_1"
             >
               name2
             </Text>
@@ -253,6 +295,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                 "width": "50%",
               }
             }
+            testID="undefined_2"
           >
             <View>
               <View
@@ -260,16 +303,20 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                   {
                     "alignItems": "center",
                     "alignSelf": "flex-start",
+                    "borderColor": "#999999",
+                    "borderRadius": 4,
+                    "borderWidth": 2,
                     "flexDirection": "row",
+                    "height": 20,
+                    "width": 20,
                   }
                 }
                 testID="non_animatableView"
               >
-                <View
-                  accessible={true}
-                >
+                <View>
                   <View>
                     <Text
+                      accessible={false}
                       size={12}
                       style={
                         [
@@ -277,6 +324,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                             "color": undefined,
                           },
                           {
+                            "color": "transparent",
                             "paddingLeft": 0,
                             "paddingRight": 8,
                           },
@@ -289,6 +337,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                           },
                         ]
                       }
+                      testID="undefined_icon"
                     >
                       check
                     </Text>
@@ -297,6 +346,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
               </View>
             </View>
             <Text
+              accessible={false}
               style={
                 {
                   "alignSelf": "center",
@@ -307,6 +357,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                   "userSelect": "text",
                 }
               }
+              testID="undefined_2"
             >
               name1
             </Text>

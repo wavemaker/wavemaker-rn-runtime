@@ -2,7 +2,12 @@
 
 exports[`Test Video component renders component with default props 1`] = `
 <View
-  style={{}}
+  style={
+    {
+      "height": 300,
+      "width": "100%",
+    }
+  }
 >
   <View
     style={
@@ -20,7 +25,6 @@ exports[`Test Video component renders component with default props 1`] = `
     }
   >
     <ViewManagerAdapter_ExpoVideoView
-      accessibilityRole="none"
       accessible={true}
       onError={[Function]}
       onFullscreenUpdate={[Function]}
@@ -33,6 +37,7 @@ exports[`Test Video component renders component with default props 1`] = `
         {
           "isLooping": false,
           "isMuted": false,
+          "shouldPlay": false,
         }
       }
       style={

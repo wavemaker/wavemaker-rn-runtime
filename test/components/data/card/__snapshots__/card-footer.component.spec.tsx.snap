@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test CardFooter component Check validity of sample component 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "borderColor": "#dddddd",
+      "borderStyle": "solid",
+      "borderTopWidth": 1,
+      "paddingBottom": 8,
+      "paddingLeft": 8,
+      "paddingRight": 8,
+      "paddingTop": 8,
+      "width": "100%",
+    }
+  }
+/>
+`;

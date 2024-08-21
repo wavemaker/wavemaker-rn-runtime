@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Card component Check validity of sample component 1`] = `
+<View
+  style={
+    {
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      {
+        "height": null,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "flexDirection": "row",
+        }
+      }
+    />
+  </View>
+</View>
+`;
