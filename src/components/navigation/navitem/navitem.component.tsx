@@ -46,7 +46,7 @@ export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemSt
       child = (
         <>
         <TouchableOpacity 
-          id={this.getTestId('navlink')}
+          {...this.getTestPropsForAction('navitem')}
           onPress={() => {
             this.updateState({collapsed: !this.state.collapsed} as WmNavItemState);
           }}>

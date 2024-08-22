@@ -74,7 +74,7 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
     return (
       <TouchableOpacity {...this.getTestPropsForAction()} style={this.styles.root} onPress={this.onPress.bind(this)} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {hint: props?.hint, checked: this.state.isChecked})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${props.caption}`}>
           {this._background}
-          <WmIcon iconclass="wi wi-check" styles={this.state.isChecked ? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled}/>
+          <WmIcon iconclass="wi wi-check" styles={this.state.isChecked ? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled} id={this.getTestId('checkbox')}/>
           <Text {...this.getTestPropsForLabel()} style={this.styles.text}>{props.caption}</Text>
       </TouchableOpacity>
     );

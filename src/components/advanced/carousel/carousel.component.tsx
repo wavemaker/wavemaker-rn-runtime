@@ -207,7 +207,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         {
           data.map((item: any, index: number) => {
             return index >= minIndex && index <= maxIndex ? (
-              <View key={'dots_' + this.generateItemKey(item, index, this.state.props)} 
+              <View key={'dots_' + this.generateItemKey(item, index, this.state.props)} {...this.getTestPropsForAction('indicator'+index)}
                 style={[this.styles.dotStyle]}>
               </View>) : null;
           })
