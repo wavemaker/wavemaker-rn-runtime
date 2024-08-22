@@ -76,6 +76,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   renderAccordionpane(item: any, index: any, accordionpanes: any[] = []) {
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     const isExpanded = this.state.isExpanded[index];
+    const titleIconStyles = this.theme.mergeStyle(this.styles.icon, this.styles.titleIcon)
     return item.props.show != false ? (
       <View style={this.styles.pane} key={item.props.title}>
         <TouchableOpacity key={'accordionpane_' + (index + 1)}
@@ -86,7 +87,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                 isExpanded ? this.styles.activeHeader : {}]}
                 onPress={this.toggle.bind(this, index + 1, !isExpanded)}>
           {this.expandCollapseIcon(item, index, false, showIconOnLeft, true, isExpanded)}
-          {item.props.iconclass ? <WmIcon id={this.getTestId('icon')} styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
+          {item.props.iconclass ? <WmIcon id={this.getTestId('icon')} styles={titleIconStyles} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
           <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
             <Text style={[
               this.styles.text,
