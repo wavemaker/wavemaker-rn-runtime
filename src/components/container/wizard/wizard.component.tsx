@@ -162,7 +162,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         <TouchableOpacity style={this.styles.stepWrapper}
                           onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep || !this.state.props.headernavigation}
                           accessibilityRole='header'>
-            <View style={this.getStepStyle(index)}>
+            <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
               {index >= this.state.currentStep && !this.state.isDone &&
                 <Text style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&

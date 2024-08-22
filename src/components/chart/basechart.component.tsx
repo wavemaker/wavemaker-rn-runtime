@@ -567,7 +567,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
 
   protected renderLoadingIcon() {
     const props = this.state.props;
-    return (<WmIcon styles={this.styles.loadingIcon}
+    return (<WmIcon id={this.getTestId('loadericon')} styles={this.styles.loadingIcon}
     iconclass={props.loadingicon}
     caption={props.loadingdatamsg}></WmIcon>);
   }

@@ -44,11 +44,10 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
     const styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-circle`), this.styles);
     const showText = props.captionplacement !== 'hidden';
     return (
-    <View style={styles.root} onLayout={this.onLayout.bind(this)} {...getAccessibilityProps(AccessibilityWidgetType.PROGRESSCIRCLE, props)}>
+    <View style={styles.root} onLayout={this.onLayout.bind(this)} {...getAccessibilityProps(AccessibilityWidgetType.PROGRESSCIRCLE, props)} {...this.getTestPropsForAction('progresscircle')}>
       {this._background}
       <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}}>
         <AnimatedCircularProgress
-         {...this.getTestPropsForAction('progresscircle')}
           fill={value}
           width={styles.progressValue.height}
           backgroundWidth={styles.progressValue.height}
