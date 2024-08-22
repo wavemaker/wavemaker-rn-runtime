@@ -17,7 +17,8 @@ export type WmAccordionStyles = BaseStyles & {
   header: AllStyle,
   activeHeader: AllStyle,
   activeHeaderTitle: TextStyle,
-  subheading: AllStyle
+  subheading: AllStyle,
+  titleIcon: WmIconStyles
 };
 
 export const DEFAULT_CLASS = 'app-accordion';
@@ -111,6 +112,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           borderColor: themeVariables.accordionIconColor,
           backgroundColor: themeVariables.transparent
       },
+      titleIcon: {} as WmIconStyles,
       default: {},
       success: {
         backgroundColor: themeVariables.labelSuccessColor
