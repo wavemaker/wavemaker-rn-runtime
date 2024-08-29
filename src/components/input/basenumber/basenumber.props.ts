@@ -18,4 +18,5 @@ export default class BaseNumberProps extends BaseProps {
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole;
   accessibilitylabelledby?: string = undefined;
+  displayValue?: string;
 }

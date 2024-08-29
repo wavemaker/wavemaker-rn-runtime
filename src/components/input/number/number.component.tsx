@@ -61,6 +61,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
       }}
       onChange={this.invokeChange.bind(this)}
       allowContentSelection={this.styles.text.userSelect === 'text'}
+      customDisplayValue={props.displayValue}
     />);
   }
 }

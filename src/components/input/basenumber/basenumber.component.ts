@@ -323,6 +323,11 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         } else {
           this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
         }
+        break;
+      case 'displayValue': 
+        this.updateState({
+          displayValue: $new,
+        } as any)
     }
   }
 }
