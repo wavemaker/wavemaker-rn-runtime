@@ -49,7 +49,8 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     maskchar: string,
     floatingLabel: string
     floatingLabelStyle:  TextStyle,
-    activeFloatingLabelStyle: TextStyle
+    activeFloatingLabelStyle: TextStyle,
+    customDisplayValue?: string
   }), 
     ref: ForwardedRef<TextInput>) => {
     const [selectRange, setSelectRange] = useState<SelectRange>(null as any);
@@ -141,7 +142,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     }, [iMask, value, displayValue, props.onChangeText]);
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     const opts = {} as any;
-    opts[valueExpr] = value.current;
+    opts[valueExpr] = props.customDisplayValue ?? value.current;
     const textStyle = Object.assign({}, ...isArray(props.style) ? props.style: [props.style]);
     const hideInput = props.displayformat || props.maskchar;
     return (
@@ -157,7 +158,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
         ) : null}
         <TextInput
           {...props}
-          {...hideInput ? opts: {}}
+          {...hideInput || props.customDisplayValue ? opts: {}}
           placeholder={props.floatingLabel || displayValue ? '' : props.placeholder }
           style={[props.style, hideInput ? {
             color: 'transparent', 

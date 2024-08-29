@@ -13,6 +13,7 @@ const defaultProps = {
   readonly: false,
   disabled: false,
   decimalPlaces: 2,
+  name:'wm-text-input'
 };
 
 describe('Number component', () => {
@@ -282,4 +283,26 @@ describe('Number component', () => {
       expect(tree).toMatchSnapshot();
     });
   });
+
+  test('should render the displayValue text when it is passed in props', async () => {
+    Platform.OS = 'ios'
+    const tree = render(
+      <WmNumber
+        {...defaultProps}
+        maxvalue={1000}
+        updateon='default'
+        displayValue='500%'
+      />
+    );
+    const input = tree.getByPlaceholderText('Enter amount');
+
+    fireEvent.changeText(input, '200');
+    fireEvent(input, 'blur', {
+      target: {
+        value: null,
+      },
+    });
+
+    expect(input.props.defaultValue).toBe('500%');
+  })
 });
