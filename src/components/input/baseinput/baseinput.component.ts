@@ -56,6 +56,11 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
         } else {
           this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
         }
+        break;
+      case 'displayValue': 
+      this.updateState({
+        displayValue: $new,
+      } as any)
     }
   }
 
