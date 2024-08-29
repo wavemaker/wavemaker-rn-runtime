@@ -22,5 +22,4 @@ export default class BaseInputProps extends BaseProps {
   accessibilitylabelledby?: string = undefined;
   maskchar: string = null as any;
   displayformat: string = null as any;
-  displayValue?: string;
 }
