@@ -85,6 +85,7 @@ describe('WmLabel Component', () => {
 
   it('should render correctly with default props', () => {
     const tree = renderComponent();
+    expect(tree).toMatchSnapshot();
     expect(tree.getByText('Test Label')).toBeTruthy();
   });
 

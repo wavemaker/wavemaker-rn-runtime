@@ -56,11 +56,13 @@ exports[`Test Textarea component should have default value for native platform 1
       {},
     ]
   }
+  testID="wmTextarea_i"
 />
 `;
 
 exports[`Test Textarea component should have default web for native platform 1`] = `
 <TextInput
+  accessibilityLabel="wmTextarea_i"
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoComplete="username"
@@ -108,12 +110,14 @@ exports[`Test Textarea component should have default web for native platform 1`]
       {},
     ]
   }
+  testID="wmTextarea_i"
   value="sample text"
 />
 `;
 
 exports[`Test Textarea component should not show component when show prop is false 1`] = `
 <TextInput
+  accessibilityLabel="wmTextarea_i"
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoComplete="username"
@@ -157,6 +161,7 @@ exports[`Test Textarea component should not show component when show prop is fal
       {},
     ]
   }
+  testID="wmTextarea_i"
   value=""
 />
 `;
@@ -217,11 +222,13 @@ exports[`Test Textarea component should render correctly with default props 1`] 
       {},
     ]
   }
+  testID="wmTextarea_i"
 />
 `;
 
 exports[`Test Textarea component should render with default placeholder when placeholder passed as props is falsy 1`] = `
 <TextInput
+  accessibilityLabel="wmTextarea_i"
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoComplete="username"
@@ -269,6 +276,7 @@ exports[`Test Textarea component should render with default placeholder when pla
       {},
     ]
   }
+  testID="wmTextarea_i"
   value=""
 />
 `;
@@ -400,6 +408,7 @@ exports[`Test Textarea component should show floating label when focused 1`] = `
         {},
       ]
     }
+    testID="wmTextarea_i"
   />,
 ]
 `;

@@ -23,14 +23,6 @@ const defaultProps = {
   deferload: false,
 };
 
-jest.mock('@wavemaker/app-rn-runtime/core/injector', () => {
-  return {
-    FOCUSED_ELEMENT: {
-      set: jest.fn()
-    }
-  }
-})
-
 describe('Test Textarea component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -161,12 +153,15 @@ describe('Test Textarea component', () => {
     expect(skeleton).toBeNull();
   });
 
-  test('renders with accessibility properties', () => {
+  test('renders with accessibility properties', async () => {
     const { getByLabelText } = render(
       <WmTextarea {...defaultProps} accessibilitylabel="Textarea input" />
     );
-    const input = getByLabelText('Textarea input');
-    expect(input.props.accessibilityLabel).toBe('Textarea input');
+
+    await waitFor(() => {
+      const input = getByLabelText('Textarea input');
+      expect(input.props.accessibilityLabel).toBe('Textarea input');
+    });
   });
 
   test('should auto complete username if autocomplete prop is provided', () => {
@@ -187,54 +182,55 @@ describe('Test Textarea component', () => {
 
   test('should have keyboardType as numeric for type as number', () => {
     const { getByPlaceholderText } = render(
-      <WmTextarea {...defaultProps} type='number' />
+      <WmTextarea {...defaultProps} type="number" />
     );
 
     const input = getByPlaceholderText('Place your text');
-    expect(input.props.keyboardType).toBe('numeric')
+    expect(input.props.keyboardType).toBe('numeric');
   });
 
   test('should have keyboardType as phone-pad for type as tel', () => {
     const { getByPlaceholderText } = render(
-      <WmTextarea {...defaultProps} type='tel' />
+      <WmTextarea {...defaultProps} type="tel" />
     );
 
     const input = getByPlaceholderText('Place your text');
-    expect(input.props.keyboardType).toBe('phone-pad')
+    expect(input.props.keyboardType).toBe('phone-pad');
   });
 
   test('should have keyboardType as email-address for type as email', () => {
     const { getByPlaceholderText } = render(
-      <WmTextarea {...defaultProps} type='email' />
+      <WmTextarea {...defaultProps} type="email" />
     );
 
     const input = getByPlaceholderText('Place your text');
-    expect(input.props.keyboardType).toBe('email-address')
+    expect(input.props.keyboardType).toBe('email-address');
   });
 
   test('should not show component when show prop is false', () => {
-    const tree = render(<WmTextarea {...defaultProps} show={false}/>)
+    const tree = render(<WmTextarea {...defaultProps} show={false} />);
     expect(tree).toMatchSnapshot();
 
-    const styleArr = tree.getByPlaceholderText("Place your text").props.style[0];
+    const styleArr =
+      tree.getByPlaceholderText('Place your text').props.style[0];
     const style = {};
-    styleArr.forEach(item => {
-      if(!item) return;
-      Object.keys(item).forEach(key => {
-        style[key] = item[key]
-      })
-    })
+    styleArr.forEach((item) => {
+      if (!item) return;
+      Object.keys(item).forEach((key) => {
+        style[key] = item[key];
+      });
+    });
 
     expect(style).toMatchObject({
       height: 0,
-      width:0
-    })
+      width: 0,
+    });
   });
 
   test('should render with default placeholder when placeholder passed as props is falsy', () => {
-    const tree = render(<WmTextarea {...defaultProps} placeholder=''/>);
+    const tree = render(<WmTextarea {...defaultProps} placeholder="" />);
 
     expect(tree.getByPlaceholderText('Place your text')).toBeTruthy();
     expect(tree).toMatchSnapshot();
-  })
+  });
 });
