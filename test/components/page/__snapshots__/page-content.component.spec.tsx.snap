@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test PageContent component Check validity of sample component 1`] = `
+exports[`Test PageContent component should render pageContent component 1`] = `
 <View
   style={
     {

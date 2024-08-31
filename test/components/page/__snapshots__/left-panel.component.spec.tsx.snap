@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test LeftPanel component Check validity of sample component 1`] = `
+exports[`Test LeftPanel component should render the left-panel component 1`] = `
 <RCTScrollView
   collapsable={false}
   contentContainerStyle={
