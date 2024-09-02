@@ -220,6 +220,21 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       return inlineStyles;
     }
 
+    getFormFieldStyles(formField: any, type: string){
+      let suffix = ''
+      switch(type){
+        case 'label' :
+          suffix = '_formLabel'
+          break
+        case 'commonField' :
+          suffix = '-input'
+          break
+        default :
+          ''
+      }
+      return formField?.classname?.trim()?.split(' ')?.map((s:string) => s.trim() + suffix).join(' ');
+    }
+
     resetAppLocale() {
       this.appLocale = this.appConfig.appLocale.messages;
       Object.values(this.fragments).forEach((f: any) => (f as BaseFragment<any, any>).resetAppLocale());
