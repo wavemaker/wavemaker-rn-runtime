@@ -113,15 +113,103 @@ exports[`WmDate Component should render date widget when wheel picker is false a
                 "fontSize": 16,
                 "userSelect": "text",
               },
-              {
-                "color": "#bbbbbb",
-              },
+              {},
             ]
           }
           testID="date1_l"
         >
-          Select date
+          2024-08-14
         </Text>
+      </View>
+      <View
+        accessibilityLabel="clear date"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            undefined,
+          ]
+        }
+        testID="date1_clearicon_a"
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "backgroundColor": "#f6f6f6",
+              "borderRadius": 16,
+              "flexDirection": "row",
+              "height": 24,
+              "justifyContent": "center",
+              "marginRight": 4,
+              "width": 24,
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessibilityLabel="date1_clearicon_icon"
+                size={12}
+                style={
+                  [
+                    {
+                      "color": undefined,
+                    },
+                    {
+                      "fontSize": 16,
+                      "fontWeight": "bold",
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="date1_clearicon_icon"
+              >
+                clear
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
       <View
         accessibilityLabel="date1_a"
@@ -207,7 +295,7 @@ exports[`WmDate Component should render date widget when wheel picker is false a
     <RNDateTimePicker
       accessibilityState={{}}
       accessible={true}
-      date={1725282101125}
+      date={1723573800000}
       displayIOS="default"
       enabled={true}
       is24Hour={true}
@@ -332,15 +420,103 @@ exports[`WmDate Component should render date widget when wheel picker is false a
                 "fontSize": 16,
                 "userSelect": "text",
               },
-              {
-                "color": "#bbbbbb",
-              },
+              {},
             ]
           }
           testID="date1_l"
         >
-          Select date
+          2024-08-14
         </Text>
+      </View>
+      <View
+        accessibilityLabel="clear date"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            undefined,
+          ]
+        }
+        testID="date1_clearicon_a"
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "backgroundColor": "#f6f6f6",
+              "borderRadius": 16,
+              "flexDirection": "row",
+              "height": 24,
+              "justifyContent": "center",
+              "marginRight": 4,
+              "width": 24,
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={12}
+                style={
+                  [
+                    {
+                      "color": undefined,
+                    },
+                    {
+                      "fontSize": 16,
+                      "fontWeight": "bold",
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="date1_clearicon_icon"
+              >
+                clear
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
       <View
         accessibilityState={
@@ -444,7 +620,7 @@ exports[`WmDate Component should render date widget when wheel picker is false a
   }
 >
   <RNDateTimePicker
-    date={1725282101432}
+    date={1723573800000}
     displayIOS="spinner"
     enabled={true}
     is24Hour={true}

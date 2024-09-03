@@ -463,7 +463,15 @@ describe('WmDate Component', () => {
   it('should render date widget when wheel picker is false and platform is android', async () => {
     Platform.OS = 'android';
 
-    render(<WmDate {...props} name="date1" iswheelpicker={false} />);
+    render(
+      <WmDate
+        {...props}
+        name="date1"
+        iswheelpicker={false}
+        datavalue="2024-08-14"
+        datepattern="yyyy-MM-dd"
+      />
+    );
     const dateInput = screen.getAllByTestId('date1_a')[0];
 
     fireEvent.press(dateInput);
@@ -478,7 +486,13 @@ describe('WmDate Component', () => {
     render(
       <ModalProvider value={AppModalService}>
         <AssetProvider value={loadAsset}>
-          <WmDate {...props} name="date1" iswheelpicker={false} />
+          <WmDate
+            {...props}
+            name="date1"
+            iswheelpicker={false}
+            datavalue="2024-08-14"
+            datepattern="yyyy-MM-dd"
+          />
         </AssetProvider>
       </ModalProvider>
     );
@@ -533,6 +547,15 @@ describe('WmDate Component', () => {
 
     let subTree = render(<Content />);
 
+    AppModalService.animatedRefs = [
+      {
+        triggerExit: () => {},
+      },
+      {
+        triggerExit: () => {},
+      },
+    ];
+
     const saveButton = subTree.getByText('save');
     fireEvent.press(saveButton);
     await timer(300);
@@ -577,6 +600,15 @@ describe('WmDate Component', () => {
     };
 
     let subTree = render(<Content />);
+
+    AppModalService.animatedRefs = [
+      {
+        triggerExit: () => {},
+      },
+      {
+        triggerExit: () => {},
+      },
+    ];
 
     const cancelButton = subTree.getByLabelText('close');
     fireEvent.press(cancelButton);
