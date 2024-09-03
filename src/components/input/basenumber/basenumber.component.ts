@@ -66,24 +66,25 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     return isValidText;
   }
 
-  onChangeText(value: string, type: 'number' | 'currency') {
-    const isValidTextOnDevice = this.validateOnDevice(value, type);
+  onChangeText(value: string, type: 'number' | 'currency', shouldFormateToNumber?: boolean) {
+    const newValue = shouldFormateToNumber ? `${this.parseNumber(value.replace(/[^0-9.]/g, ''))}` : value;
+    const isValidTextOnDevice = this.validateOnDevice(newValue, type);
     if (!isValidTextOnDevice) {
       return;
     }
 
-    const decimalPlacesInNumber = countDecimalDigits(value);
+    const decimalPlacesInNumber = countDecimalDigits(newValue);
 
     if (this.props.decimalPlaces < decimalPlacesInNumber) {
       return;
     }
 
     this.updateState({
-        textValue: value
+        textValue: newValue
       } as S, () => {
         if (this.state.props.updateon === 'default') {
-          this.validate(value);
-          this.updateDatavalue(value, null);
+          this.validate(newValue);
+          this.updateDatavalue(newValue, null);
         }
       }
     );
@@ -182,8 +183,8 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     });
   }
 
-  onBlur(event: any) {
-    let newVal = event.target.value || this.state.textValue;
+  onBlur(event: any, isDisplayValuePresent?: boolean) {
+    let newVal = isDisplayValuePresent ? this.state.textValue : event.target.value || this.state.textValue;
     this.validate(newVal);
     if (newVal === '' || newVal == undefined) {
       setTimeout(() => {
