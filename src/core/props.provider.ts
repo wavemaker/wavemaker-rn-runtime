@@ -19,7 +19,7 @@ export class PropsProvider<T extends BaseProps> {
                 let value = (this.defaultProps as any)[propName];
                 if (this.overriddenProps.hasOwnProperty(propName)) {
                     value = this.overriddenProps[propName];
-                } else if (this.oldProps.hasOwnProperty(propName) && this.oldProps[propName] !== null) {
+                } else if (this.oldProps.hasOwnProperty(propName)) {
                     value = this.oldProps[propName];
                 }
                 return value;
@@ -44,8 +44,8 @@ export class PropsProvider<T extends BaseProps> {
     setDefault(propName: string, value: any) {
         (this.defaultProps as any)[propName] = value;
     }
-    overrideProps(propName: string, value: any) {
-        (this.defaultProps as any)[propName] = value;
+    overrideProp(propName: string, value: any) {
+        (this.overriddenProps as any)[propName] = value;
     }
 
     check(nextProps?: T) {

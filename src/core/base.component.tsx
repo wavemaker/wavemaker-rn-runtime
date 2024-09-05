@@ -132,7 +132,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 if (this.propertyProvider.has(propName)) {
                     // @ts-ignore
                     const props = {} as any;
-                    this.propertyProvider.overrideProps(propName, value);
+                    this.propertyProvider.overrideProp(propName, value);
                     props[propName] = value;
                     this.updateState({
                         props: props
