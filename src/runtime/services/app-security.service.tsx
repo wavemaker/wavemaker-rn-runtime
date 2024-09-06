@@ -9,6 +9,7 @@ import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
 import { SecurityService } from '@wavemaker/app-rn-runtime/core/security.service';
 
 import WebProcessService from './webprocess.service';
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 declare const window: any;
 
@@ -46,6 +47,23 @@ class AppSecurityService implements SecurityService {
 
     constructor() {
       axios.interceptors.request.use((config: InternalAxiosRequestConfig) => this.onBeforeServiceCall(config));
+    }
+
+    getRegex = (str: string) =>{
+      const wm_xsrf_token_index = str.indexOf('wm_xsrf_token') + 13;  // 13 is the length of 'wm_xsrf_token' string
+      let index = wm_xsrf_token_index;
+
+      while(str[index] !== ':'){
+        index++;
+      }
+  
+      const regExp = str.substring(wm_xsrf_token_index, index);
+      return new RegExp(regExp, "g");
+    }
+  
+    formateData = (data: string) => {
+      const regex = this.getRegex(data)
+      return JSON.parse(data.replace(regex, "\""));
     }
 
     onBeforeServiceCall(config: InternalAxiosRequestConfig) {
@@ -114,6 +132,14 @@ class AppSecurityService implements SecurityService {
     }
 
     public load(baseURL: string) {
+      if (isWebPreviewMode()) {
+        const token = document?.cookie?.split(';').filter(item => item.includes('wm_xsrf_token'))
+        if (token && token.length > 0) {
+          const wm_xsrf_token = token[0].split('=')[1];
+          wm_xsrf_token && StorageService.setItem(XSRF_COOKIE_NAME, wm_xsrf_token);
+        }
+      }
+
       return Promise.resolve().then(() => {
         if (networkService.isConnected()) {
           return axios.get(baseURL + '/services/security/info')
@@ -172,7 +198,9 @@ class AppSecurityService implements SecurityService {
             WebProcessService.execute('LOGIN', '/services/security/ssologin', false, true)
             .then((output: any) => {
               if (output) {
-                return JSON.parse(output.data && output.data.replace(/&quot;/g, "\""));
+                if(output.data){
+                  return this.formateData(`${output.data}`);
+                }
               }
               return Promise.reject();
             }).then((output: any) => {
