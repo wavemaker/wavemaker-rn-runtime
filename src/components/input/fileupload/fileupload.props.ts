@@ -6,6 +6,7 @@ export default class WmFileuploadProps extends BaseProps {
   iconsize: number = 16;
   caption: string = 'Upload';
   selectedFiles?: any;
+  contenttype?: string;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
 }
