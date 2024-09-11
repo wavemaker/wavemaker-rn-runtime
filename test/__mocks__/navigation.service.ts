@@ -1,5 +1,5 @@
 // navigationServiceMock.js
-import NavigationService from '../src/core/navigation.service';
+import NavigationService from '@wavemaker/app-rn-runtime/core/navigation.service';
 
 const mockNavigationService = {
   goToPage: jest.fn(() => Promise.resolve()),

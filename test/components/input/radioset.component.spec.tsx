@@ -1,7 +1,7 @@
 import React, { ReactNode, createRef } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import WmRadioset from '@wavemaker/app-rn-runtime/components/input/radioset/radioset.component';
-import WmRadiosetProps from '../../../src/components/input/radioset/radioset.props';
+import WmRadiosetProps from '@wavemaker/app-rn-runtime/components/input/radioset/radioset.props';
 
 import {
   render,

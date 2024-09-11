@@ -3,7 +3,7 @@ import { Text, TouchableOpacity } from 'react-native';
 import WmLogin from '@wavemaker/app-rn-runtime/components/advanced/login/login.component';
 
 import { render, fireEvent, act, waitFor } from '@testing-library/react-native';
-import WmLoginProps from '../../../src/components/advanced/login/login.props';
+import WmLoginProps from '@wavemaker/app-rn-runtime/components/advanced/login/login.props';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { AxiosError, AxiosResponse } from 'axios';
 import ThemeVariables from '../../../src/styles/theme.variables';

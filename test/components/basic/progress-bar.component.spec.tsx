@@ -7,7 +7,7 @@ import {
   screen,
 } from '@testing-library/react-native';
 import WmProgressBar from '@wavemaker/app-rn-runtime/components/basic/progress-bar/progress-bar.component';
-import WmProgressBarProps from '../../../src/components/basic/progress-bar/progress-bar.props';
+import WmProgressBarProps from '@wavemaker/app-rn-runtime/components/basic/progress-bar/progress-bar.props';
 import ThemeVariables from '../../../src/styles/theme.variables';
 import Color from 'color';
 

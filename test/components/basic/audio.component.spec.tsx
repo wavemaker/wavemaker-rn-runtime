@@ -1,7 +1,7 @@
 import React, { ReactNode, createRef } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import WmAudio from '@wavemaker/app-rn-runtime/components/basic/audio/audio.component';
-import WmAudioProps from '../../../src/components/basic/audio/audio.props';
+import WmAudioProps from '@wavemaker/app-rn-runtime/components/basic/audio/audio.props';
 import {
   render,
   screen,

@@ -10,7 +10,7 @@ import { Text } from 'react-native';
 
 import '@testing-library/jest-native/extend-expect';
 import WmProgressCircle from '@wavemaker/app-rn-runtime/components/basic/progress-circle/progress-circle.component';
-import WmProgressCircleProps from '../../../src/components/basic/progress-circle/progress-circle.props';
+import WmProgressCircleProps from '@wavemaker/app-rn-runtime/components/basic/progress-circle/progress-circle.props';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { Tappable } from '../../../src/core/tappable.component';
 import Color from 'color';

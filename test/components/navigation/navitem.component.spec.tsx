@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import WmNavItem from '@wavemaker/app-rn-runtime/components/navigation/navitem/navitem.component';
-import WmNavItemProps from '../../../src/components/navigation/navitem/navitem.props';
+import WmNavItemProps from '@wavemaker/app-rn-runtime/components/navigation/navitem/navitem.props';
 
 import {
   render,

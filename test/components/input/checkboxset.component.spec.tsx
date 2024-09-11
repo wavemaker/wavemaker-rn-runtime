@@ -1,7 +1,7 @@
 import React, { ReactNode, createRef } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import WmCheckboxset from '@wavemaker/app-rn-runtime/components/input/checkboxset/checkboxset.component';
-import WmCheckboxsetProps from '../../../src/components/input/checkboxset/checkboxset.props';
+import WmCheckboxsetProps from '@wavemaker/app-rn-runtime/components/input/checkboxset/checkboxset.props';
 import {
   render,
   screen,

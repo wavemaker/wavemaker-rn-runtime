@@ -7,7 +7,7 @@ import {
   waitFor,
 } from '@testing-library/react-native';
 import WmChips from '@wavemaker/app-rn-runtime/components/input/chips/chips.component';
-import WmChipsProps from '../../../src/components/input/chips/chips.props';
+import WmChipsProps from '@wavemaker/app-rn-runtime/components/input/chips/chips.props';
 
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmSearch from '@wavemaker/app-rn-runtime/components/basic/search/search.component';

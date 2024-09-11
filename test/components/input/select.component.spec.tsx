@@ -1,7 +1,7 @@
 import React, { ReactNode, createRef } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import WmSelect from '@wavemaker/app-rn-runtime/components/input/select/select.component';
-import WmSelectProps from '../../../src/components/input/select/select.props';
+import WmSelectProps from '@wavemaker/app-rn-runtime/components/input/select/select.props';
 import {
   render,
   screen,

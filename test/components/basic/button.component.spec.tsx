@@ -7,7 +7,7 @@ import {
   waitFor,
   screen,
 } from '@testing-library/react-native';
-import WmButtonProps from '../../../src/components/basic/button/button.props';
+import WmButtonProps from '@wavemaker/app-rn-runtime/components/basic/button/button.props';
 import { forEach } from 'lodash-es';
 import { FontAwesome } from '@expo/vector-icons';
 
