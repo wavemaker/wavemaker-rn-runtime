@@ -256,6 +256,17 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               } as WmListState);
           }
           const data = isArray($new) ? $new : (!isEmpty($new) && isDefined($new) ? [$new] : []);
+          if(props.orderby) {
+           const orderbyData = data && getGroupedData(data, props.groupby, props.match, props.orderby, props.dateformat, this);
+           this.updateState({
+            groupedData: (orderbyData[0] ? [{
+              key: 'key',
+              data: orderbyData[0].data
+            }] : [])
+          } as WmListState, () => {
+            this.keyExtractor?.clear();
+          });
+          } else {
           this.updateState({
             groupedData: (data[0] || props.direction === 'horizontal' ? [{
               key: 'key',
@@ -265,6 +276,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             this.keyExtractor?.clear();
           });
         }
+      }
         this.itemWidgets = [];
         if (props.selectfirstitem) {
           this.selectFirstItem();
