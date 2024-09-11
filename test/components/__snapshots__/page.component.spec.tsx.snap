@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Page component Check validity of sample component 1`] = `
+exports[`Test Page component should render page component 1`] = `
 <View
   onMoveShouldSetResponder={[Function]}
   onMoveShouldSetResponderCapture={[Function]}

@@ -96,7 +96,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                     "width": "100%",
                   }
                 }
-                testID="undefined_a"
+                testID="undefined_radio0"
               >
                 <View>
                   <View
@@ -139,7 +139,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                               },
                             ]
                           }
-                          testID="undefined_icon"
+                          testID="undefined_radiobutton0_icon"
                         >
                           fiber-manual-record
                         </Text>
@@ -158,7 +158,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                       "marginLeft": 8,
                     }
                   }
-                  testID="undefined_caption"
+                  testID="undefined_caption0"
                 >
                   name0
                 </Text>
@@ -201,7 +201,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                     "width": "100%",
                   }
                 }
-                testID="undefined_a"
+                testID="undefined_radio1"
               >
                 <View>
                   <View
@@ -244,7 +244,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                               },
                             ]
                           }
-                          testID="undefined_icon"
+                          testID="undefined_radiobutton1_icon"
                         >
                           fiber-manual-record
                         </Text>
@@ -263,7 +263,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                       "marginLeft": 8,
                     }
                   }
-                  testID="undefined_caption"
+                  testID="undefined_caption1"
                 >
                   name2
                 </Text>
@@ -326,7 +326,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                     "width": "100%",
                   }
                 }
-                testID="undefined_a"
+                testID="undefined_radio0"
               >
                 <View>
                   <View
@@ -371,7 +371,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                               },
                             ]
                           }
-                          testID="undefined_icon"
+                          testID="undefined_radiobutton0_icon"
                         >
                           fiber-manual-record
                         </Text>
@@ -390,7 +390,7 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                       "marginLeft": 8,
                     }
                   }
-                  testID="undefined_caption"
+                  testID="undefined_caption0"
                 >
                   name1
                 </Text>

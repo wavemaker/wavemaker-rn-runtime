@@ -123,7 +123,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                           },
                         ]
                       }
-                      testID="undefined_icon"
+                      testID="undefined_item0_icon"
                     >
                       check
                     </Text>
@@ -230,7 +230,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                           },
                         ]
                       }
-                      testID="undefined_icon"
+                      testID="undefined_item1_icon"
                     >
                       check
                     </Text>
@@ -337,7 +337,7 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
                           },
                         ]
                       }
-                      testID="undefined_icon"
+                      testID="undefined_item2_icon"
                     >
                       check
                     </Text>

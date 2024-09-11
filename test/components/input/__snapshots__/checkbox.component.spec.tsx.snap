@@ -179,7 +179,7 @@ exports[`WmCheckbox Unit tests renders correctly with default props 1`] = `
                 },
               ]
             }
-            testID="undefined_icon"
+            testID="null_checkbox_icon"
           >
             check
           </Text>

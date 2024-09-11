@@ -79,7 +79,7 @@ exports[`WmSwitch renders correctly with default props 1`] = `
         ],
       ]
     }
-    testID="undefined_0"
+    testID="undefined_button0"
   >
     <View>
       <Text
@@ -98,7 +98,7 @@ exports[`WmSwitch renders correctly with default props 1`] = `
             },
           ]
         }
-        testID="undefined_0"
+        testID="undefined_label0"
       >
         yes
       </Text>
@@ -184,7 +184,7 @@ exports[`WmSwitch renders correctly with default props 1`] = `
         ],
       ]
     }
-    testID="undefined_1"
+    testID="undefined_button1"
   >
     <View>
       <Text
@@ -203,7 +203,7 @@ exports[`WmSwitch renders correctly with default props 1`] = `
             },
           ]
         }
-        testID="undefined_1"
+        testID="undefined_label1"
       >
         no
       </Text>
@@ -276,7 +276,7 @@ exports[`WmSwitch renders correctly with default props 1`] = `
         ],
       ]
     }
-    testID="undefined_2"
+    testID="undefined_button2"
   >
     <View>
       <Text
@@ -295,7 +295,7 @@ exports[`WmSwitch renders correctly with default props 1`] = `
             },
           ]
         }
-        testID="undefined_2"
+        testID="undefined_label2"
       >
         maybe
       </Text>
