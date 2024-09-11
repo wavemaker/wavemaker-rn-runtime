@@ -56,7 +56,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     const isSelected = this.state.props.datafield === 'All Fields' ? isEqual(props.datavalue, item.datafield) : this.state.props.datavalue === item.datafield;
     return (
       <Tappable
-        {...this.getTestPropsForAction(index + '')}
+        {...this.getTestPropsForAction('button'+index)}
         accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.SWITCH, {selected: isSelected, hint: props?.hint})}}
         onTap={this.state.props.disabled ? undefined : this.onTap.bind(this, null, item)}
         styles={[
@@ -72,7 +72,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
               caption={displayText}></WmIcon>)
             : (<View>
                 <Text
-                  {...this.getTestPropsForLabel('' + index)}
+                  {...this.getTestPropsForLabel('label' + index)}
                   style={[ isSelected ?  this.styles.selectedButtonText : this.styles.text,
                     {color: isSelected ? this.styles.selectedButton.color : this.styles.button.color }]}>
                   {displayText}

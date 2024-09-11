@@ -189,4 +189,24 @@ describe('TextInput Component', () => {
     expect(tree).toMatchSnapshot();
     expect(tree.queryByTestId('wm-custom-cursor')).toBeNull();
   })
+
+  test('should render the customDisplayValue text when it is passed in props', async () => {
+    Platform.OS = 'ios'
+    const tree = render(
+      <WMTextInput
+        {...defaultProps}
+        customDisplayValue='500%'
+      />
+    );
+    const input = tree.UNSAFE_getByType(TextInput);
+
+    fireEvent.changeText(input, '200');
+    fireEvent(input, 'blur', {
+      target: {
+        value: null,
+      },
+    });
+
+    expect(input.props.defaultValue).toBe('500%');
+  })
 });

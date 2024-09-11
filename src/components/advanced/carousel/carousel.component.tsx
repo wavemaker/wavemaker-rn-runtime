@@ -81,6 +81,9 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   }
 
   autoPlay() {
+    if(!this.initialized){
+      return;
+    }
     const props = this.state.props;
     this.stopPlay && this.stopPlay();
     if (props.animation === 'auto' && props.animationinterval) {
@@ -95,6 +98,14 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
       }, 1000);
     }
   }
+
+  stopAnimation(){  
+    this.stopPlay();
+  }
+  startAnimation() {
+      this.autoPlay();
+  }
+  
 
   onPropertyChange(name: string, $new: any, $old: any): void {
       super.onPropertyChange(name, $new, $old);
@@ -207,7 +218,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         {
           data.map((item: any, index: number) => {
             return index >= minIndex && index <= maxIndex ? (
-              <View key={'dots_' + this.generateItemKey(item, index, this.state.props)} 
+              <View key={'dots_' + this.generateItemKey(item, index, this.state.props)} {...this.getTestPropsForAction('indicator'+index)}
                 style={[this.styles.dotStyle]}>
               </View>) : null;
           })
@@ -232,6 +243,11 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         </Animated.View>
       </View>
     </View>);
+  }
+
+  componentDidMount(): void {
+    super.componentDidMount();
+    this.autoPlay();
   }
 
   renderWidget(props: WmCarouselProps) {

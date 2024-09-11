@@ -147,12 +147,13 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   renderSelectItem(item: any, index: number, isPlaceholder: boolean, isLast: boolean) {
     let selected = this.isSelected(item);
     return (
-      <Tappable  {...this.getTestPropsForAction(index + '')} onTap={this.onItemSelect.bind(this, item, isPlaceholder)} {...getAccessibilityProps(
+      <Tappable {...this.getTestPropsForAction('selectitem'+index)} onTap={this.onItemSelect.bind(this, item, isPlaceholder)} 
+      accessibilityProps={{...getAccessibilityProps(
         AccessibilityWidgetType.SELECT,
         {...this.props, expanded: this.state.isOpened}
-      )}>
+      )}}>
         <View style={[this.styles.selectItem, isLast ?  this.styles.lastSelectItem  : null, selected ? this.styles.selectedItem : null ]}>
-          <Text  {...this.getTestPropsForLabel(index + '')} style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : selected ? this.styles.selectedItemText.color : this.styles.selectItemText.color}]}>
+          <Text  {...this.getTestPropsForLabel('label'+index)} style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : selected ? this.styles.selectedItemText.color : this.styles.selectItemText.color}]}>
             {isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)}
           </Text>
           <WmIcon id={this.getTestId('checkicon' + index)} iconclass='wi wi-check' styles={this.theme.mergeStyle(this.styles.checkIcon, {

@@ -52,13 +52,13 @@ exports[`Number component should have default value for native platform 1`] = `
       {},
     ]
   }
-  testID="undefined_i"
+  testID="wm-text-input_i"
 />
 `;
 
 exports[`Number component should have default web for native platform 1`] = `
 <TextInput
-  accessibilityLabel="undefined_i"
+  accessibilityLabel="wm-text-input_i"
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoFocus={null}
@@ -96,14 +96,14 @@ exports[`Number component should have default web for native platform 1`] = `
       {},
     ]
   }
-  testID="undefined_i"
+  testID="wm-text-input_i"
   value="sample text"
 />
 `;
 
 exports[`Number component should isValid false when input number is above maxvalue 1`] = `
 <TextInput
-  accessibilityLabel="undefined_i"
+  accessibilityLabel="wm-text-input_i"
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoFocus={null}
@@ -141,14 +141,14 @@ exports[`Number component should isValid false when input number is above maxval
       {},
     ]
   }
-  testID="undefined_i"
+  testID="wm-text-input_i"
   value=""
 />
 `;
 
 exports[`Number component should isValid false when input number is above maxvalue 2`] = `
 <TextInput
-  accessibilityLabel="undefined_i"
+  accessibilityLabel="wm-text-input_i"
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoFocus={null}
@@ -188,14 +188,14 @@ exports[`Number component should isValid false when input number is above maxval
       {},
     ]
   }
-  testID="undefined_i"
+  testID="wm-text-input_i"
   value="50011"
 />
 `;
 
 exports[`Number component should not show component when show prop is false 1`] = `
 <TextInput
-  accessibilityLabel="undefined_i"
+  accessibilityLabel="wm-text-input_i"
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoFocus={null}
@@ -230,7 +230,7 @@ exports[`Number component should not show component when show prop is false 1`] 
       {},
     ]
   }
-  testID="undefined_i"
+  testID="wm-text-input_i"
   value=""
 />
 `;
@@ -357,7 +357,7 @@ exports[`Number component should render correctly with default props 1`] = `
         {},
       ]
     }
-    testID="undefined_i"
+    testID="wm-text-input_i"
   />,
 ]
 `;

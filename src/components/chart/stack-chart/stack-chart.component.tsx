@@ -122,25 +122,54 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
 
   getArcChart(props: WmStackChartProps) {
     if ( this.state.data.length > 0 ) {
-      let data = cloneDeep(this.state.data[0]);
-      const colorScaleArray = this.getColorCodes();
-      const maxValue = Math.max(...data.map((o: any) => o.y));
-      data = orderBy(data, 'y', 'desc');
+      let data = this.getData()
+      let negativeValues = cloneDeep(this.getNegativeValuesArray());
+      let currentValue = 0;
+      let prevValue = 0
+      data = data.map((d: any, i: number) => {
+        d.y = d.y - currentValue
+        prevValue = d.y
+        d.y = Math.abs(d.y)
+        d.index = d.x
+        currentValue = prevValue < 0 && i === negativeValues.length -1 ? 0 : prevValue + currentValue;
+        return d
+      })
+      data.reverse()
+      if(negativeValues.length > 1){
+        const portionToReverse = data.slice(-(negativeValues.length));
+        const reversedPortion = portionToReverse.reverse();
+        data = [...data.slice(0, -(negativeValues.length)), ...reversedPortion];
+      }
       const radius = Math.min(this.state.chartWidth/2, this.state.chartHeight - 50);
+      const angles = data.map((d: any, i: number) => {
+        let total = data.reduce((sum: number, item: any) => sum + item.y, 0);
+        return Math.round((d.y / total) * 160);
+      });
+      let startAngle = 80
       return data.map((d: any, i: number) => {
         let d1: any = [];
         d1.push(d);
-        d1.push({x: d.x, y: maxValue - d.y})
+        if (i != 0) {
+          startAngle = startAngle - angles[i - 1] + (angles[i - 1] / 10)
+        }
         return <VictoryPie key={props.name + '_' + i}
                            radius={radius}
-                           colorScale={[colorScaleArray[i], '#fff0']}
-                           startAngle={-80}
-                           endAngle={80}
+                           colorScale={[this.state.colors[d.index], '#fff0']}
+                           startAngle={angles ? startAngle : -80}
+                           endAngle={-80}
                            cornerRadius={100}
                            standalone={false}
                            origin={{x: (this.state.chartWidth/2), y: (this.state.chartHeight - 50)}}
                            innerRadius={radius - this.state.props.thickness}
                            labels={[]}
+                           events={[{
+                            target: 'data',
+                            eventHandlers: Platform.OS == "web" ? {
+                              onClick: this.onSelect.bind(this)
+                            }:{
+                              onPress: this.onSelect.bind(this)
+                            }
+                          }]}
                            data={d1}/>
       });
     }

@@ -49,10 +49,10 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
       <TouchableOpacity style={[
         this.styles.item,
         item.selected ? this.styles.selectedItem : null,
-        {width: colWidth}]} onPress={this.onPress.bind(this, item)} key={item.key} {...this.getTestPropsForAction()}>
-          <WmIcon {...this.getTestProps('' + index)} iconclass="wi wi-fiber-manual-record" styles={item.selected ? this.styles.checkedRadio : this.styles.uncheckedRadio} disabled={this.state.props.readonly || this.state.props.disabled} accessibilitylabel={`Radio button for ${displayText}`}></WmIcon>
+        {width: colWidth}]} onPress={this.onPress.bind(this, item)} key={item.key} {...this.getTestPropsForAction("radio"+index)}>
+          <WmIcon id={this.getTestId('radiobutton' + index)} iconclass="wi wi-fiber-manual-record" styles={item.selected ? this.styles.checkedRadio : this.styles.uncheckedRadio} disabled={this.state.props.readonly || this.state.props.disabled}></WmIcon>
           {!isEmpty(this.state.template) && this.props.renderitempartial ?
-          this.props.renderitempartial(item.dataObject, index, this.state.template) : <Text style={this.styles.radioLabel} {...this.getTestPropsForLabel('caption')}>{displayText}</Text>}
+          this.props.renderitempartial(item.dataObject, index, this.state.template) : <Text style={this.styles.radioLabel} {...this.getTestPropsForLabel('caption'+index)}>{displayText}</Text>}
       </TouchableOpacity>)
   }
 

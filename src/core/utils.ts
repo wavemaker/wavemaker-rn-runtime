@@ -2,6 +2,7 @@ import { Platform } from 'react-native';
 import moment from "moment";
 import * as FileSystem from "expo-file-system";
 import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber} from 'lodash';
+import * as mime from 'react-native-mime-types';
 import ThemeVariables from '../styles/theme.variables';
 
 declare const window: any;
@@ -566,4 +567,23 @@ export const isDateFormatAsPerPattern = (
     // * if not able to parse date string
     return false;
   }
+};
+
+export const getMimeType = (extensions?: string) => {
+  if (!extensions) return '*/*';
+  let hasInvalidExtension = false;
+  let wildCards = ['image/*', 'audio/*', 'video/*'];
+  let extensionList = extensions.split(' ');
+  let mimeType = extensionList
+    .map((extension: string) => {
+      let type = mime.lookup(extension);
+      let isWildCardExtension = wildCards.includes(extension);
+      // * invalid extension, also not in wildcards
+      hasInvalidExtension = !type && !isWildCardExtension;
+      return type ? type : isWildCardExtension ? extension : '';
+    })
+    .filter((type) => type);
+
+  if (hasInvalidExtension) return '*/*';
+  return mimeType;
 };
