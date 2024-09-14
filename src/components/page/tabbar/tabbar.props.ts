@@ -1,10 +1,12 @@
 import { BaseNavProps } from '../../navigation/basenav/basenav.props';
+import WmTabbar from './tabbar.component';
 
 export default class WmTabbarProps extends BaseNavProps {
-  morebuttoniconclass = 'wi wi-more-horiz';
-  morebuttonlabel = 'more';
+  morebuttoniconclass? = 'wi wi-more-horiz';
+  morebuttonlabel? = 'more';
   itemchildren?: string = 'children';
-  isActive = (item: any) => false;
+  isActive? = (item: any) => false;
+  onSelect? : (event: any, widget: WmTabbar) => any;
   dataset?: any = [{
       'label' : 'Home',
       'icon'  : 'wm-sl-r sl-home'
