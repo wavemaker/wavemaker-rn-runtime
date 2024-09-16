@@ -43,7 +43,7 @@ const timer = (time = 100) =>
     setTimeout(() => resolve(), time);
   });
 
-describe('Test Popover component', () => {
+describe('Popover component tests', () => {
   afterEach(() => {
     cleanup();
     jest.clearAllMocks();
@@ -89,42 +89,6 @@ describe('Test Popover component', () => {
     });
     expect(tree.getByText('home-2')).toBeTruthy();
   });
-
-  // it('should render WmIcon when iconurl is provided', () => {
-  //   const tree = renderComponent({
-  //     iconurl: 'https://img.icons8.com/2266EE/search',
-  //     iconposition: 'left',
-  //   });
-  //   const iconComponent = tree.getByTestId('test_Popover_trigger_a');
-  //   expect(iconComponent).not.toBeNull();
-  //   expect(iconComponent).toBeDefined();
-  // });
-
-  // it('should render provided icon with flexdirection as row when iconPosition is left', () => {
-  //   const tree = renderComponent({
-  //     iconposition: 'left',
-  //   });
-  //   const viewEle = tree.UNSAFE_getByType(Tappable);
-  //   expect(viewEle.props.styles[2].flexDirection).toBe('row');
-  // });
-
-  // it('should render provided icon with flexdirection as row when iconPosition is right', () => {
-  //   const tree = renderComponent({
-  //     iconposition: 'right',
-  //   });
-  //   expect(tree.UNSAFE_getByType(Tappable).props.styles[2].flexDirection).toBe(
-  //     'row'
-  //   );
-  // });
-
-  // it('should render provided icon with flexdirection as column when iconPosition is top', () => {
-  //   const tree = renderComponent({
-  //     iconposition: 'top',
-  //   });
-  //   expect(tree.UNSAFE_getByType(Tappable).props.styles[2].flexDirection).toBe(
-  //     'column'
-  //   );
-  // });
 
   it('should render popover content when the clickable link is tapped', async () => {
     const renderPopoverContentMock = jest.spyOn(
@@ -321,7 +285,7 @@ describe('Test Popover component', () => {
   });
 
   //onLoad Event
-  it('should invoke onLoad callback when popover content is loaded', async () => {
+  it('should invoke onLoad callback when popover content is loaded if content source is from partial', async () => {
     const onLoadMock = jest.fn();
 
     //render

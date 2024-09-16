@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Popover component should render the popover component 1`] = `
+exports[`Popover component tests should render the popover component 1`] = `
 <View
   accessibilityLabel="Link"
   accessible={true}
