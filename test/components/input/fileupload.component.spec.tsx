@@ -1,6 +1,6 @@
 import React, { ReactNode, createRef } from 'react';
 import WmFileupload from '@wavemaker/app-rn-runtime/components/input/fileupload/fileupload.component';
-import WmFileuploadProps from '../../../src/components/input/fileupload/fileupload.props';
+import WmFileuploadProps from '@wavemaker/app-rn-runtime/components/input/fileupload/fileupload.props';
 import {
   render,
   screen,

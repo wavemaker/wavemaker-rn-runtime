@@ -1,7 +1,7 @@
 import React, { ReactNode, createRef } from 'react';
 import renderer from 'react-test-renderer';
 import WmRating from '@wavemaker/app-rn-runtime/components/input/rating/rating.component';
-import WmRatingProps from '../../../src/components/input/rating/rating.props';
+import WmRatingProps from '@wavemaker/app-rn-runtime/components/input/rating/rating.props';
 import {
   render,
   screen,

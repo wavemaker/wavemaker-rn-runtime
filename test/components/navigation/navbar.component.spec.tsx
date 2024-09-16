@@ -8,7 +8,7 @@ import {
   waitFor,
 } from '@testing-library/react-native';
 import WmNavItem from '@wavemaker/app-rn-runtime/components/navigation/navitem/navitem.component';
-import WmNavbarProps from '../../../src/components/navigation/navbar/navbar.props';
+import WmNavbarProps from '@wavemaker/app-rn-runtime/components/navigation/navbar/navbar.props';
 import { NavigationServiceProvider } from '../../../src/core/navigation.service';
 import mockNavigationService from '../../__mocks__/navigation.service';
 

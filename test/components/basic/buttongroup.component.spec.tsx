@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import WmButtongroupProps from '../../../src/components/basic/buttongroup/buttongroup.props';
+import WmButtongroupProps from '@wavemaker/app-rn-runtime/components/basic/buttongroup/buttongroup.props';
 import WmButtongroup from '@wavemaker/app-rn-runtime/components/basic/buttongroup/buttongroup.component';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';

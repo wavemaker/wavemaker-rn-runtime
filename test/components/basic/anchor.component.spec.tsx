@@ -8,7 +8,7 @@ import {
   render,
   waitFor,
 } from '@testing-library/react-native';
-import mockNavigationService from '../../../__mocks__/navigation.service';
+import mockNavigationService from '@/__mocks__/navigation.service';
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 import * as WmUtils from '@wavemaker/app-rn-runtime/core/utils';
 import * as accessibilityUtils from '@wavemaker/app-rn-runtime/core/accessibility';

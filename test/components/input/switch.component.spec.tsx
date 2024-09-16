@@ -9,7 +9,7 @@ import {
   waitFor,
 } from '@testing-library/react-native';
 import '@testing-library/jest-native/extend-expect';
-import WmSwitchProps from '../../../src/components/input/switch/switch.props';
+import WmSwitchProps from '@wavemaker/app-rn-runtime/components/input/switch/switch.props';
 import { Tappable } from '../../../src/core/tappable.component';
 
 // Mock React Native components and WmIcon

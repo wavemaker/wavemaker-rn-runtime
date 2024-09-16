@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/message.component';
-import WmMessageProps from '../../../src/components/basic/message/message.props';
+import WmMessageProps from '@wavemaker/app-rn-runtime/components/basic/message/message.props';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';

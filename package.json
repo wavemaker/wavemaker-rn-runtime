@@ -31,6 +31,7 @@
     "copy-resources": "mkdir -p ./dist && cp -r ./lib/module ./dist && cp ./package.json ./dist/module",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "build": "bob build && node ./scripts/build.js post-build",
+    "build:test": "cd ./test && tsc",
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
@@ -178,7 +179,7 @@
       "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|@wavemaker|@wavemaker/app-rn-runtime/components/basic/modal/modal.component|expo-linear-gradient|react-native-gesture-handler|@react-native-community|@react-native-community/datetimepicker|react-native-reanimated|d3-shape|victory-native|victory-.*)"
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|@wavemaker|@wavemaker/app-rn-runtime/components/basic/modal/modal.component|expo-linear-gradient|react-native-gesture-handler|@react-native-community|@react-native-community/datetimepicker|react-native-reanimated|d3*|victory-native|victory-.*)"
     ],
     "moduleNameMapper": {
       "^lodash-es$": "lodash",

@@ -89,6 +89,9 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   }
 
   goToTab(index = this.state.selectedTabIndex) {
+    if (index < 0 || index >= this.tabPanes.length) {
+      return;
+    }
     const position = -1 * index * (this.tabLayout?.width || 0);
     if(this.animationView) {
       this.animationView.setPosition(position)

@@ -10,10 +10,10 @@ import {
 import WmSearch, {
   WmSearchState,
 } from '@wavemaker/app-rn-runtime/components/basic/search/search.component';
-import WmSearchProps from '../../../src/components/basic/search/search.props';
+import WmSearchProps from '@wavemaker/app-rn-runtime/components/basic/search/search.props';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { TextInput } from 'react-native';
-import { DataProvider } from '../../../src/components/basic/search/local-data-provider';
+import { DataProvider } from '@wavemaker/app-rn-runtime/components/basic/search/local-data-provider';
 import AppModalService from '@wavemaker/app-rn-runtime/runtime/services/app-modal.service';
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 import { Platform } from 'react-native';

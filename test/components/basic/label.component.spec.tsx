@@ -3,10 +3,10 @@ import { Text, TouchableOpacity, StyleSheet, TextStyle } from 'react-native';
 import renderer from 'react-test-renderer';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 
-//import WmLabel from '../../../src/components/basic/label/label.component';
+//import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
-import WmLabelProps from '../../../src/components/basic/label/label.props';
+import WmLabelProps from '@wavemaker/app-rn-runtime/components/basic/label/label.props';
 
 import { NavigationService } from '@wavemaker/app-rn-runtime/core/navigation.service';
 import { BaseComponent, ParentContext } from '../../../src/core/base.component';

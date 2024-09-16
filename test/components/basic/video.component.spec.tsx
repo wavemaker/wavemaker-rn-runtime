@@ -7,7 +7,7 @@ import {
   waitFor,
 } from '@testing-library/react-native';
 import WmVideo from '@wavemaker/app-rn-runtime/components/basic/video/video.component';
-import WmVideoProps from '../../../src/components/basic/video/video.props';
+import WmVideoProps from '@wavemaker/app-rn-runtime/components/basic/video/video.props';
 import { AssetConsumer, AssetProvider } from '../../../src/core/asset.provider';
 import { AVPlaybackStatus, Video } from 'expo-av';
 
