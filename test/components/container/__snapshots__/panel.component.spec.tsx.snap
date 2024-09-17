@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Panel component Check validity of sample component 1`] = `
+exports[`Test Panel component displays the badge correctly 1`] = `
 <View
   style={
     {
@@ -14,6 +14,7 @@ exports[`Test Panel component Check validity of sample component 1`] = `
       "paddingTop": 12,
     }
   }
+  testID="wm-panel"
 >
   <View
     accessibilityRole="header"
@@ -58,7 +59,7 @@ exports[`Test Panel component Check validity of sample component 1`] = `
         "paddingVertical": 4,
       }
     }
-    testID="test_Panel_header"
+    testID="test-panel_header"
   >
     <View
       style={
@@ -85,9 +86,20 @@ exports[`Test Panel component Check validity of sample component 1`] = `
             },
           ]
         }
-        testID="test_Panel_header_title"
+        testID="test-panel_header_title"
       >
-        Title
+        Panel Title
+      </Text>
+      <Text
+        accessible={false}
+        style={
+          {
+            "paddingHorizontal": 16,
+          }
+        }
+        testID="test-panel_subheader"
+      >
+        Panel Subheading
       </Text>
     </View>
     <View
@@ -97,7 +109,77 @@ exports[`Test Panel component Check validity of sample component 1`] = `
           "flexDirection": "row",
         }
       }
-    />
+    >
+      <Text
+        accessible={false}
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "center",
+            "backgroundColor": "#888888",
+            "borderRadius": 10,
+            "color": "#ffffff",
+            "fontSize": 10,
+            "height": 20,
+            "lineHeight": 10,
+            "marginRight": 8,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+        testID="test-panel_badge"
+      >
+        99+
+      </Text>
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "flex-start",
+              "flexDirection": "row",
+              "fontSize": 16,
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": undefined,
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-panel_collapseicon_icon"
+              >
+                chevron-up
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
   </View>
   <View
     animatedStyle={
@@ -118,7 +200,1481 @@ exports[`Test Panel component Check validity of sample component 1`] = `
     <View
       onLayout={[Function]}
     >
-      <View />
+      <View>
+        <Text>
+          Panel Content
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Panel component displays the icon correctly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 0,
+      "paddingBottom": 12,
+      "paddingLeft": 12,
+      "paddingRight": 12,
+      "paddingTop": 12,
+    }
+  }
+  testID="wm-panel"
+>
+  <View
+    accessibilityRole="header"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "#ffffff",
+        "borderColor": "#ffffff",
+        "borderStyle": "solid",
+        "borderTopLeftRadius": 6,
+        "borderTopRightRadius": 6,
+        "borderWidth": 0,
+        "flexDirection": "row",
+        "opacity": 1,
+        "paddingHorizontal": 8,
+        "paddingVertical": 4,
+      }
+    }
+    testID="test-panel_header"
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "auto",
+            "flexDirection": "row",
+            "fontSize": 32,
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={32}
+              style={
+                [
+                  {
+                    "color": undefined,
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="test-panel_icon_icon"
+            >
+              chevron-down
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        {
+          "flex": 1,
+          "flexDirection": "column",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          [
+            {
+              "color": "#333333",
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "fontWeight": "bold",
+              "userSelect": "text",
+            },
+            {
+              "paddingHorizontal": 16,
+            },
+          ]
+        }
+        testID="test-panel_header_title"
+      >
+        Panel Title
+      </Text>
+      <Text
+        accessible={false}
+        style={
+          {
+            "paddingHorizontal": 16,
+          }
+        }
+        testID="test-panel_subheader"
+      >
+        Panel Subheading
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "center",
+            "backgroundColor": "#888888",
+            "borderRadius": 10,
+            "color": "#ffffff",
+            "fontSize": 10,
+            "height": 20,
+            "lineHeight": 10,
+            "marginRight": 8,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+        testID="test-panel_badge"
+      >
+        99+
+      </Text>
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "flex-start",
+              "flexDirection": "row",
+              "fontSize": 16,
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": undefined,
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-panel_collapseicon_icon"
+              >
+                chevron-up
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    animatedStyle={
+      {
+        "value": {
+          "maxHeight": 0,
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "maxHeight": 0,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+    >
+      <View>
+        <Text>
+          Panel Content
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Panel component does not toggle expanded state, when not collapsible 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 0,
+      "paddingBottom": 12,
+      "paddingLeft": 12,
+      "paddingRight": 12,
+      "paddingTop": 12,
+    }
+  }
+  testID="wm-panel"
+>
+  <View
+    accessibilityRole="header"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "#ffffff",
+        "borderColor": "#ffffff",
+        "borderStyle": "solid",
+        "borderTopLeftRadius": 6,
+        "borderTopRightRadius": 6,
+        "borderWidth": 0,
+        "flexDirection": "row",
+        "opacity": 1,
+        "paddingHorizontal": 8,
+        "paddingVertical": 4,
+      }
+    }
+    testID="test-panel_header"
+  >
+    <View
+      style={
+        {
+          "flex": 1,
+          "flexDirection": "column",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          [
+            {
+              "color": "#333333",
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "fontWeight": "bold",
+              "userSelect": "text",
+            },
+            {
+              "paddingHorizontal": 16,
+            },
+          ]
+        }
+        testID="test-panel_header_title"
+      >
+        Panel Title
+      </Text>
+      <Text
+        accessible={false}
+        style={
+          {
+            "paddingHorizontal": 16,
+          }
+        }
+        testID="test-panel_subheader"
+      >
+        Panel Subheading
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "center",
+            "backgroundColor": "#888888",
+            "borderRadius": 10,
+            "color": "#ffffff",
+            "fontSize": 10,
+            "height": 20,
+            "lineHeight": 10,
+            "marginRight": 8,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+        testID="test-panel_badge"
+      >
+        99+
+      </Text>
+    </View>
+  </View>
+  <View
+    animatedStyle={
+      {
+        "value": {
+          "maxHeight": 0,
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "maxHeight": 0,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+    >
+      <View>
+        <Text>
+          Panel Content
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Panel component handles collapse functionality 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 0,
+      "paddingBottom": 12,
+      "paddingLeft": 12,
+      "paddingRight": 12,
+      "paddingTop": 12,
+    }
+  }
+  testID="wm-panel"
+>
+  <View
+    accessibilityRole="header"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "#ffffff",
+        "borderColor": "#ffffff",
+        "borderStyle": "solid",
+        "borderTopLeftRadius": 6,
+        "borderTopRightRadius": 6,
+        "borderWidth": 0,
+        "flexDirection": "row",
+        "opacity": 1,
+        "paddingHorizontal": 8,
+        "paddingVertical": 4,
+      }
+    }
+    testID="test-panel_header"
+  >
+    <View
+      style={
+        {
+          "flex": 1,
+          "flexDirection": "column",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          [
+            {
+              "color": "#333333",
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "fontWeight": "bold",
+              "userSelect": "text",
+            },
+            {
+              "paddingHorizontal": 16,
+            },
+          ]
+        }
+        testID="test-panel_header_title"
+      >
+        Panel Title
+      </Text>
+      <Text
+        accessible={false}
+        style={
+          {
+            "paddingHorizontal": 16,
+          }
+        }
+        testID="test-panel_subheader"
+      >
+        Panel Subheading
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "center",
+            "backgroundColor": "#888888",
+            "borderRadius": 10,
+            "color": "#ffffff",
+            "fontSize": 10,
+            "height": 20,
+            "lineHeight": 10,
+            "marginRight": 8,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+        testID="test-panel_badge"
+      >
+        99+
+      </Text>
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "flex-start",
+              "flexDirection": "row",
+              "fontSize": 16,
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": undefined,
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-panel_collapseicon_icon"
+              >
+                chevron-up
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    animatedStyle={
+      {
+        "value": {
+          "maxHeight": 0,
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "maxHeight": 0,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+    >
+      <View>
+        <Text>
+          Panel Content
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Panel component handles expand functionality 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 0,
+      "paddingBottom": 12,
+      "paddingLeft": 12,
+      "paddingRight": 12,
+      "paddingTop": 12,
+    }
+  }
+  testID="wm-panel"
+>
+  <View
+    accessibilityRole="header"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "#ffffff",
+        "borderColor": "#ffffff",
+        "borderStyle": "solid",
+        "borderTopLeftRadius": 6,
+        "borderTopRightRadius": 6,
+        "borderWidth": 0,
+        "flexDirection": "row",
+        "opacity": 1,
+        "paddingHorizontal": 8,
+        "paddingVertical": 4,
+      }
+    }
+    testID="test-panel_header"
+  >
+    <View
+      style={
+        {
+          "flex": 1,
+          "flexDirection": "column",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          [
+            {
+              "color": "#333333",
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "fontWeight": "bold",
+              "userSelect": "text",
+            },
+            {
+              "paddingHorizontal": 16,
+            },
+          ]
+        }
+        testID="test-panel_header_title"
+      >
+        Panel Title
+      </Text>
+      <Text
+        accessible={false}
+        style={
+          {
+            "paddingHorizontal": 16,
+          }
+        }
+        testID="test-panel_subheader"
+      >
+        Panel Subheading
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "center",
+            "backgroundColor": "#888888",
+            "borderRadius": 10,
+            "color": "#ffffff",
+            "fontSize": 10,
+            "height": 20,
+            "lineHeight": 10,
+            "marginRight": 8,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+        testID="test-panel_badge"
+      >
+        99+
+      </Text>
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "flex-start",
+              "flexDirection": "row",
+              "fontSize": 16,
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": undefined,
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-panel_collapseicon_icon"
+              >
+                chevron-down
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    animatedStyle={
+      {
+        "value": {
+          "maxHeight": 0,
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "maxHeight": 0,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+    >
+      <View>
+        <Text>
+          Panel Content
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Panel component renders children components 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 0,
+      "paddingBottom": 12,
+      "paddingLeft": 12,
+      "paddingRight": 12,
+      "paddingTop": 12,
+    }
+  }
+  testID="wm-panel"
+>
+  <View
+    accessibilityRole="header"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "#ffffff",
+        "borderColor": "#ffffff",
+        "borderStyle": "solid",
+        "borderTopLeftRadius": 6,
+        "borderTopRightRadius": 6,
+        "borderWidth": 0,
+        "flexDirection": "row",
+        "opacity": 1,
+        "paddingHorizontal": 8,
+        "paddingVertical": 4,
+      }
+    }
+    testID="test-panel_header"
+  >
+    <View
+      style={
+        {
+          "flex": 1,
+          "flexDirection": "column",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          [
+            {
+              "color": "#333333",
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "fontWeight": "bold",
+              "userSelect": "text",
+            },
+            {
+              "paddingHorizontal": 16,
+            },
+          ]
+        }
+        testID="test-panel_header_title"
+      >
+        Panel Title
+      </Text>
+      <Text
+        accessible={false}
+        style={
+          {
+            "paddingHorizontal": 16,
+          }
+        }
+        testID="test-panel_subheader"
+      >
+        Panel Subheading
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "center",
+            "backgroundColor": "#888888",
+            "borderRadius": 10,
+            "color": "#ffffff",
+            "fontSize": 10,
+            "height": 20,
+            "lineHeight": 10,
+            "marginRight": 8,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+        testID="test-panel_badge"
+      >
+        99+
+      </Text>
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "flex-start",
+              "flexDirection": "row",
+              "fontSize": 16,
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": undefined,
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-panel_collapseicon_icon"
+              >
+                chevron-up
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    animatedStyle={
+      {
+        "value": {
+          "maxHeight": 0,
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "maxHeight": 0,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+    >
+      <View>
+        <Text>
+          Panel Content
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Panel component renders panel properly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 0,
+      "paddingBottom": 12,
+      "paddingLeft": 12,
+      "paddingRight": 12,
+      "paddingTop": 12,
+    }
+  }
+  testID="wm-panel"
+>
+  <View
+    accessibilityRole="header"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "#ffffff",
+        "borderColor": "#ffffff",
+        "borderStyle": "solid",
+        "borderTopLeftRadius": 6,
+        "borderTopRightRadius": 6,
+        "borderWidth": 0,
+        "flexDirection": "row",
+        "opacity": 1,
+        "paddingHorizontal": 8,
+        "paddingVertical": 4,
+      }
+    }
+    testID="test-panel_header"
+  >
+    <View
+      style={
+        {
+          "flex": 1,
+          "flexDirection": "column",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          [
+            {
+              "color": "#333333",
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "fontWeight": "bold",
+              "userSelect": "text",
+            },
+            {
+              "paddingHorizontal": 16,
+            },
+          ]
+        }
+        testID="test-panel_header_title"
+      >
+        Panel Title
+      </Text>
+      <Text
+        accessible={false}
+        style={
+          {
+            "paddingHorizontal": 16,
+          }
+        }
+        testID="test-panel_subheader"
+      >
+        Panel Subheading
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "center",
+            "backgroundColor": "#888888",
+            "borderRadius": 10,
+            "color": "#ffffff",
+            "fontSize": 10,
+            "height": 20,
+            "lineHeight": 10,
+            "marginRight": 8,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+        testID="test-panel_badge"
+      >
+        99+
+      </Text>
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "flex-start",
+              "flexDirection": "row",
+              "fontSize": 16,
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": undefined,
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-panel_collapseicon_icon"
+              >
+                chevron-up
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    animatedStyle={
+      {
+        "value": {
+          "maxHeight": 0,
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "maxHeight": 0,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+    >
+      <View>
+        <Text>
+          Panel Content
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Panel component renders the panel title and subheading properly 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 0,
+      "paddingBottom": 12,
+      "paddingLeft": 12,
+      "paddingRight": 12,
+      "paddingTop": 12,
+    }
+  }
+  testID="wm-panel"
+>
+  <View
+    accessibilityRole="header"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "#ffffff",
+        "borderColor": "#ffffff",
+        "borderStyle": "solid",
+        "borderTopLeftRadius": 6,
+        "borderTopRightRadius": 6,
+        "borderWidth": 0,
+        "flexDirection": "row",
+        "opacity": 1,
+        "paddingHorizontal": 8,
+        "paddingVertical": 4,
+      }
+    }
+    testID="test-panel_header"
+  >
+    <View
+      style={
+        {
+          "flex": 1,
+          "flexDirection": "column",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        style={
+          [
+            {
+              "color": "#333333",
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "fontWeight": "bold",
+              "userSelect": "text",
+            },
+            {
+              "paddingHorizontal": 16,
+            },
+          ]
+        }
+        testID="test-panel_header_title"
+      >
+        Panel Title
+      </Text>
+      <Text
+        accessible={false}
+        style={
+          {
+            "paddingHorizontal": 16,
+          }
+        }
+        testID="test-panel_subheader"
+      >
+        Panel Subheading
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Text
+        accessible={false}
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "center",
+            "backgroundColor": "#888888",
+            "borderRadius": 10,
+            "color": "#ffffff",
+            "fontSize": 10,
+            "height": 20,
+            "lineHeight": 10,
+            "marginRight": 8,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+        testID="test-panel_badge"
+      >
+        99+
+      </Text>
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "flex-start",
+              "flexDirection": "row",
+              "fontSize": 16,
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": undefined,
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-panel_collapseicon_icon"
+              >
+                chevron-up
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    animatedStyle={
+      {
+        "value": {
+          "maxHeight": 0,
+        },
+      }
+    }
+    collapsable={false}
+    style={
+      {
+        "maxHeight": 0,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+    >
+      <View>
+        <Text>
+          Panel Content
+        </Text>
+      </View>
     </View>
   </View>
 </View>
