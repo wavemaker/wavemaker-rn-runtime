@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { DimensionValue, Platform } from 'react-native';
 
 import WmTextProps from './text.props';
 import { DEFAULT_CLASS, WmTextStyles } from './text.styles';
@@ -7,6 +7,7 @@ import { WMTextInput } from '@wavemaker/app-rn-runtime/core/components/textinput
 import { BaseInputComponent, BaseInputState } from "@wavemaker/app-rn-runtime/components/input/baseinput/baseinput.component";
 import { isNull } from 'lodash';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmTextState extends BaseInputState<WmTextProps> {
 }
@@ -24,6 +25,28 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
     }
     classes.push(super.getStyleClassName());
     return classes.join(' ');
+  }
+
+  public renderSkeleton(props: WmTextProps): React.ReactNode { 
+    let skeletonWidth, skeletonHeight;
+    
+    if(this.props.skeletonwidth == "0") {
+      skeletonWidth = 0
+    } else {
+      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
+    }
+
+    if(this.props.skeletonheight == "0") {
+      skeletonHeight = 0
+    } else {
+      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
+    }
+
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root,
+      width: skeletonWidth as DimensionValue,
+      height: skeletonHeight as DimensionValue
+    })
   }
 
   renderWidget(props: WmTextProps) {
