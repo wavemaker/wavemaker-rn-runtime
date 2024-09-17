@@ -52,10 +52,23 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
   }
 
   public renderSkeleton(prop: WmButtonProps) {
+    let skeletonWidth, skeletonHeight;
+    if(this.props.skeletonwidth == "0") {
+      skeletonWidth = 0
+    } else {
+      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
+    }
+
+    if(this.props.skeletonheight == "0") {
+      skeletonHeight = 0
+    } else {
+      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
+    }
+    
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
-      width: (this.props.skeletonwidth || this.styles.root.width)as DimensionValue,
-      height: (this.props.skeletonheight || this.styles.root.height) as DimensionValue
+      width: skeletonWidth as DimensionValue,
+      height: skeletonHeight as DimensionValue
     });
   }
 

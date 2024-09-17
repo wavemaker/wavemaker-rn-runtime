@@ -7,6 +7,7 @@ import { WmProgressCircleStyles } from '@wavemaker/app-rn-runtime/components/bas
 import { WmPopoverStyles } from '@wavemaker/app-rn-runtime/components/navigation/popover/popover.styles';
 import { WmLabelStyles } from '@wavemaker/app-rn-runtime/components/basic/label/label.styles';
 import { TextStyle } from 'react-native';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmWizardStyles = BaseStyles & {
   wizardHeader: AllStyle,
@@ -38,7 +39,8 @@ export type WmWizardStyles = BaseStyles & {
   stepMenuLabel: WmLabelStyles,
   stepMenuActiveLabel: WmLabelStyles
   stepMenuIcon: WmIconStyles,
-  stepMenuActiveIcon: WmIconStyles
+  stepMenuActiveIcon: WmIconStyles,
+  skeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-wizard';
@@ -194,6 +196,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       activeStepCounter: {
         color: themeVariables.wizardActiveStepColor
       },
+      skeleton: {  
+        root: {
+        }
+      } as WmSkeletonStyles,
       stepCounter: {
         fontSize: 15,
         color: themeVariables.wizardStepColor

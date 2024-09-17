@@ -13,7 +13,7 @@ import {VictoryAxis, VictoryChart, VictoryLegend, VictoryLine, VictoryScatter} f
 import { ScatterSymbolType } from "victory-core";
 import {Svg} from "react-native-svg";
 import {get} from "lodash-es";
-import WmIcon from '../../basic/icon/icon.component';
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 export class WmBubbleChartState extends BaseChartComponentState<WmBubbleChartProps> {}
 

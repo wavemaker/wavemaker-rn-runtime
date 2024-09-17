@@ -1,8 +1,10 @@
 import BASE_THEME, { AllStyle }  from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { WmSkeletonStyles } from '../basic/skeleton/skeleton.styles';
 
 export type WmContainerStyles = BaseStyles & {
-    content: AllStyle
+    content: AllStyle,
+    skeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-container';
@@ -12,7 +14,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         text: {},
         content: {
             flexDirection: 'column'
-        }
+        },
+        skeleton: {
+            root: {
+                borderColor: 'transparent',
+                shadowColor: 'transparent',
+                backgroundColor: 'transparent',
+            },
+        } as any as WmSkeletonStyles
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

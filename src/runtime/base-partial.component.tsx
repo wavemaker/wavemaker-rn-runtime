@@ -1,9 +1,13 @@
+import React from 'react';
 import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmPartial from '@wavemaker/app-rn-runtime/components/page/partial/partial.component';
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
 import { ReactNode } from 'react';
 import BasePrefab from './base-prefab.component';
 import { Watcher } from './watcher';
+import { View } from 'react-native';
+import WmLottie from '../components/basic/lottie/lottie.component';
+
 export interface PartialProps extends FragmentProps {
   serviceDefinitions: any;
   prefab: any;
@@ -69,7 +73,7 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
         parent.Variables = this.fragmentVariables;
       }
     }
-
+    
     abstract renderPartial(): ReactNode;
 
     renderWidget(props: PartialProps) {

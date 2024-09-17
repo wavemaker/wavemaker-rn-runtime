@@ -20,7 +20,10 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
 
   componentDidMount() {
     const wizard = (this.parent) as WmWizard;
-    wizard.addWizardStep(this);
+    // When skeleton is enabled in the wizard component, the parent would be WMSkeleton which doesnot have addWizardStep function
+    if(wizard.addWizardStep) {
+      wizard.addWizardStep(this);
+    }
     super.componentDidMount();
   }
 

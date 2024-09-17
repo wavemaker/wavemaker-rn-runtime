@@ -102,13 +102,13 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
         props.autoclose === 'always' && this.hide()
       }} style={styles.popoverContent.root}>
         <WmContainer
-          styles={styles.popoverContent}
-          onLoad={() => this.invokeEventCallback('onLoad', [this])}
-          {... props.renderPartial ? {
-            renderPartial : (p: any, onLoad: Function) => {
-              return props.renderPartial && props.renderPartial(props, onLoad);
-            }
-          } : {}}>
+            styles={styles.popoverContent}
+            onLoad={() => this.invokeEventCallback('onLoad', [this])}
+            {...props.renderPartial ? {
+              renderPartial: (p: any, onLoad: Function) => {
+                return props.renderPartial && props.renderPartial(props, onLoad);
+              }
+            } : {}}>
             {props.renderPartial ? null : props.children}
         </WmContainer>
       </TouchableOpacity>

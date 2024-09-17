@@ -4,6 +4,7 @@ import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { VictoryStyleObject } from "victory-core";
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
+import { WmSkeletonStyles } from '../basic/skeleton/skeleton.styles';
 
 
 export type BaseChartComponentStyles = BaseStyles & {
@@ -32,7 +33,8 @@ export type BaseChartComponentStyles = BaseStyles & {
   tooltipXText: any,
   tooltipYText: any,
   bar: any;
-  centerLabel: VictoryStyleObject
+  centerLabel: VictoryStyleObject,
+  skeleton?: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-chart';
@@ -124,7 +126,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     centerLabel: {
       color: themeVariables.chartTitleColor,
       fontSize: 20,
-    }
+    },
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
