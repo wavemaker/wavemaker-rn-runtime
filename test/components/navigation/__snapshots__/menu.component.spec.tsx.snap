@@ -1,6 +1,650 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Menu component Check validity of sample component 1`] = `
+exports[`Test Menu component should apply custom styles  1`] = `
+<View
+  accessibilityLabel=""
+  accessible={true}
+  onLayout={[Function]}
+  style={
+    {
+      "alignSelf": "flex-start",
+      "backgroundColor": "red",
+      "paddingBottom": 8,
+      "paddingLeft": 8,
+      "paddingRight": 8,
+      "paddingTop": 8,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="non_animatableView"
+  >
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "row",
+            },
+          ],
+        ]
+      }
+      testID="test_menu_trigger_a"
+    >
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "color": "#666666",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#666666",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test_menu_trigger_icon_icon"
+              >
+                caret-down
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Menu component should close menu when menu item is pressed 1`] = `
+<RCTScrollView
+  accessibilityViewIsModal={true}
+  accessible={false}
+  collapsable={false}
+  handlerTag={2}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+  onScroll={[Function]}
+  scrollEventThrottle={48}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderTopLeftRadius": 0,
+      "borderTopRightRadius": 0,
+      "maxWidth": 640,
+      "width": 160,
+    }
+  }
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
+  }
+>
+  <View>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={false}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "flex": 1,
+          "opacity": 1,
+        }
+      }
+      testID="test_menu_outercontent"
+    >
+      <View
+        style={
+          {
+            "flex": 1,
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View
+          style={
+            {
+              "height": undefined,
+              "width": undefined,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "height": undefined,
+                  "width": undefined,
+                },
+                {
+                  "flexDirection": "column",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 4,
+                  "width": 160,
+                }
+              }
+            >
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem0_a"
+                  >
+                    <Text
+                      accessibilityLabel="Menu Item 1"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem0_caption"
+                    >
+                      Menu Item 1
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem1_a"
+                  >
+                    <Text
+                      accessibilityLabel=" Menu Item 2"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem1_caption"
+                    >
+                       Menu Item 2
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem2_a"
+                  >
+                    <Text
+                      accessibilityLabel=" Menu Item 3"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem2_caption"
+                    >
+                       Menu Item 3
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`Test Menu component should not display when show is false 1`] = `
+<View
+  accessibilityLabel=""
+  accessible={true}
+  onLayout={[Function]}
+  style={
+    {
+      "alignSelf": "flex-start",
+      "height": 0,
+      "paddingBottom": 8,
+      "paddingLeft": 8,
+      "paddingRight": 8,
+      "paddingTop": 8,
+      "transform": [
+        {
+          "scale": 0,
+        },
+      ],
+      "width": 0,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="non_animatableView"
+  >
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "row",
+            },
+          ],
+        ]
+      }
+      testID="test_menu_trigger_a"
+    >
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "color": "#666666",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#666666",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test_menu_trigger_icon_icon"
+              >
+                caret-down
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Menu component should render component 1`] = `
 <View
   accessibilityLabel=""
   accessible={true}
@@ -74,7 +718,7 @@ exports[`Test Menu component Check validity of sample component 1`] = `
           ],
         ]
       }
-      testID="test_Menu_menu_trigger_a"
+      testID="test_menu_trigger_a"
     >
       <View>
         <View
@@ -111,7 +755,7 @@ exports[`Test Menu component Check validity of sample component 1`] = `
                     },
                   ]
                 }
-                testID="test_Menu_menu_trigger_icon_icon"
+                testID="test_menu_trigger_icon_icon"
               >
                 caret-down
               </Text>
@@ -122,4 +766,1447 @@ exports[`Test Menu component Check validity of sample component 1`] = `
     </View>
   </View>
 </View>
+`;
+
+exports[`Test Menu component should render component with caption 1`] = `
+<View
+  accessibilityLabel="wm-menu"
+  accessible={true}
+  onLayout={[Function]}
+  style={
+    {
+      "alignSelf": "flex-start",
+      "paddingBottom": 8,
+      "paddingLeft": 8,
+      "paddingRight": 8,
+      "paddingTop": 8,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="non_animatableView"
+  >
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "row",
+            },
+          ],
+        ]
+      }
+      testID="test_menu_trigger_a"
+    >
+      <Text
+        accessibilityLabel="wm-menu"
+        accessibilityRole="link"
+        accessible={true}
+        style={
+          {
+            "color": "#666666",
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "fontWeight": "bold",
+            "paddingLeft": 8,
+            "paddingRight": 12,
+            "textDecorationLine": "none",
+            "userSelect": "text",
+          }
+        }
+        testID="test_menu_trigger_caption"
+      >
+        wm-menu
+      </Text>
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "color": "#666666",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#666666",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test_menu_trigger_icon_icon"
+              >
+                caret-down
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Menu component should render custom dataset 1`] = `
+<RCTScrollView
+  accessibilityViewIsModal={true}
+  accessible={false}
+  collapsable={false}
+  handlerTag={4}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+  onScroll={[Function]}
+  scrollEventThrottle={48}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderTopLeftRadius": 0,
+      "borderTopRightRadius": 0,
+      "maxWidth": 640,
+      "width": 160,
+    }
+  }
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
+  }
+>
+  <View>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={false}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "flex": 1,
+          "opacity": 1,
+        }
+      }
+      testID="test_menu_outercontent"
+    >
+      <View
+        style={
+          {
+            "flex": 1,
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View
+          style={
+            {
+              "height": undefined,
+              "width": undefined,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "height": undefined,
+                  "width": undefined,
+                },
+                {
+                  "flexDirection": "column",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 4,
+                  "width": 160,
+                }
+              }
+            >
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem0_a"
+                  >
+                    <View>
+                      <View
+                        style={
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "center",
+                            "flexDirection": "row",
+                            "fontSize": 24,
+                            "paddingLeft": 22,
+                          }
+                        }
+                        testID="non_animatableView"
+                      >
+                        <View>
+                          <View>
+                            <Text
+                              accessible={false}
+                              size={24}
+                              style={
+                                [
+                                  {
+                                    "color": "#666666",
+                                  },
+                                  {
+                                    "color": "#666666",
+                                    "paddingLeft": 0,
+                                    "paddingRight": 8,
+                                  },
+                                  {
+                                    "transform": [
+                                      {
+                                        "rotate": "0deg",
+                                      },
+                                    ],
+                                  },
+                                ]
+                              }
+                              testID="test_menuitem0_icon_icon"
+                            >
+                              edit
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                    <Text
+                      accessibilityLabel="WM Item 1"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem0_caption"
+                    >
+                      WM Item 1
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem1_a"
+                  >
+                    <View>
+                      <View
+                        style={
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "center",
+                            "flexDirection": "row",
+                            "fontSize": 24,
+                            "paddingLeft": 22,
+                          }
+                        }
+                        testID="non_animatableView"
+                      >
+                        <View>
+                          <View>
+                            <Text
+                              accessible={false}
+                              size={24}
+                              style={
+                                [
+                                  {
+                                    "color": "#666666",
+                                  },
+                                  {
+                                    "color": "#666666",
+                                    "paddingLeft": 0,
+                                    "paddingRight": 8,
+                                  },
+                                  {
+                                    "transform": [
+                                      {
+                                        "rotate": "0deg",
+                                      },
+                                    ],
+                                  },
+                                ]
+                              }
+                              testID="test_menuitem1_icon_icon"
+                            >
+                              create
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                    <Text
+                      accessibilityLabel="WM Item 2"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem1_caption"
+                    >
+                      WM Item 2
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem2_a"
+                  >
+                    <View>
+                      <View
+                        style={
+                          {
+                            "alignItems": "center",
+                            "alignSelf": "center",
+                            "flexDirection": "row",
+                            "fontSize": 24,
+                            "paddingLeft": 22,
+                          }
+                        }
+                        testID="non_animatableView"
+                      >
+                        <View>
+                          <View>
+                            <Text
+                              accessible={false}
+                              size={24}
+                              style={
+                                [
+                                  {
+                                    "color": "#666666",
+                                  },
+                                  {
+                                    "color": "#666666",
+                                    "paddingLeft": 0,
+                                    "paddingRight": 8,
+                                  },
+                                  {
+                                    "transform": [
+                                      {
+                                        "rotate": "0deg",
+                                      },
+                                    ],
+                                  },
+                                ]
+                              }
+                              testID="test_menuitem2_icon_icon"
+                            >
+                              delete
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                    <Text
+                      accessibilityLabel="WM Item 3"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem2_caption"
+                    >
+                      WM Item 3
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`Test Menu component should show items on menu press 1`] = `
+<RCTScrollView
+  accessibilityViewIsModal={true}
+  accessible={false}
+  collapsable={false}
+  handlerTag={1}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+  onScroll={[Function]}
+  scrollEventThrottle={48}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderTopLeftRadius": 0,
+      "borderTopRightRadius": 0,
+      "maxWidth": 640,
+      "width": 160,
+    }
+  }
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
+  }
+>
+  <View>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={false}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "flex": 1,
+          "opacity": 1,
+        }
+      }
+      testID="test_menu_outercontent"
+    >
+      <View
+        style={
+          {
+            "flex": 1,
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View
+          style={
+            {
+              "height": undefined,
+              "width": undefined,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "height": undefined,
+                  "width": undefined,
+                },
+                {
+                  "flexDirection": "column",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 4,
+                  "width": 160,
+                }
+              }
+            >
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem0_a"
+                  >
+                    <Text
+                      accessibilityLabel="Menu Item 1"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem0_caption"
+                    >
+                      Menu Item 1
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem1_a"
+                  >
+                    <Text
+                      accessibilityLabel=" Menu Item 2"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem1_caption"
+                    >
+                       Menu Item 2
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem2_a"
+                  >
+                    <Text
+                      accessibilityLabel=" Menu Item 3"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem2_caption"
+                    >
+                       Menu Item 3
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`Test Menu component should trigger onSelect function when menu item is pressed 1`] = `
+<RCTScrollView
+  accessibilityViewIsModal={true}
+  accessible={false}
+  collapsable={false}
+  handlerTag={3}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+  onScroll={[Function]}
+  scrollEventThrottle={48}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderTopLeftRadius": 0,
+      "borderTopRightRadius": 0,
+      "maxWidth": 640,
+      "width": 160,
+    }
+  }
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
+  }
+>
+  <View>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={false}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "flex": 1,
+          "opacity": 1,
+        }
+      }
+      testID="test_menu_outercontent"
+    >
+      <View
+        style={
+          {
+            "flex": 1,
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View
+          style={
+            {
+              "height": undefined,
+              "width": undefined,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "height": undefined,
+                  "width": undefined,
+                },
+                {
+                  "flexDirection": "column",
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                {
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 4,
+                  "width": 160,
+                }
+              }
+            >
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem0_a"
+                  >
+                    <Text
+                      accessibilityLabel="Menu Item 1"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem0_caption"
+                    >
+                      Menu Item 1
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem1_a"
+                  >
+                    <Text
+                      accessibilityLabel=" Menu Item 2"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem1_caption"
+                    >
+                       Menu Item 2
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <View
+                  style={
+                    {
+                      "height": 48,
+                      "justifyContent": "center",
+                      "width": undefined,
+                    }
+                  }
+                  testID="non_animatableView"
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "alignItems": "flex-start",
+                            "borderBottomColor": "#cccccc",
+                            "borderBottomWidth": 0,
+                            "borderStyle": "solid",
+                            "color": "#151420",
+                            "flexDirection": "row",
+                            "flexGrow": 1,
+                            "height": 48,
+                            "justifyContent": "flex-start",
+                            "overflow": "visible",
+                            "paddingTop": 8,
+                          },
+                          null,
+                          {
+                            "flexDirection": "row",
+                          },
+                        ],
+                      ]
+                    }
+                    testID="test_menuitem2_a"
+                  >
+                    <Text
+                      accessibilityLabel=" Menu Item 3"
+                      accessibilityRole="link"
+                      accessible={true}
+                      style={
+                        {
+                          "color": "#666666",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "paddingLeft": 8,
+                          "paddingRight": 8,
+                          "paddingTop": 4,
+                          "textDecorationLine": "none",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="test_menuitem2_caption"
+                    >
+                       Menu Item 3
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
 `;
