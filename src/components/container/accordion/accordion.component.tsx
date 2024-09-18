@@ -5,15 +5,20 @@ import { isArray } from 'lodash';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmAccordionProps from './accordion.props';
-import { DEFAULT_CLASS, WmAccordionStyles } from './accordion.styles';
+import {  DEFAULT_CLASS, WmAccordionStyles } from './accordion.styles';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmAccordionpane from './accordionpane/accordionpane.component';
 import { isDefined } from '@wavemaker/app-rn-runtime/core/utils';
+
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
+import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 
 export class WmAccordionState extends BaseComponentState<WmAccordionProps> {
   lastExpandedIndex = -1;
   isExpanded = [] as boolean[];
 }
+
 
 export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccordionState, WmAccordionStyles> {
   public accordionPanes = [] as WmAccordionpane[];
@@ -76,6 +81,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   renderAccordionpane(item: any, index: any, accordionpanes: any[] = []) {
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     const isExpanded = this.state.isExpanded[index];
+    const titleIconStyles = this.theme.mergeStyle(this.styles.icon, this.styles.titleIcon)
     return item.props.show != false ? (
       <View style={this.styles.pane} key={item.props.title}>
         <TouchableOpacity key={'accordionpane_' + (index + 1)}
@@ -86,19 +92,37 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                 isExpanded ? this.styles.activeHeader : {}]}
                 onPress={this.toggle.bind(this, index + 1, !isExpanded)}>
           {this.expandCollapseIcon(item, index, false, showIconOnLeft, true, isExpanded)}
-          {item.props.iconclass ? <WmIcon styles={this.styles.icon} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
+          {item.props.iconclass ? <WmIcon id={this.getTestId('icon')} styles={titleIconStyles} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
           <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
-            <Text style={[
-              this.styles.text,
-              this.styles.heading,
-              isExpanded ? this.styles.activeHeaderTitle : {}]}
-              {...this.getTestPropsForAction(`header${index}_title`)}
-              accessibilityRole='header'>
-                {isDefined(item.props.title) ? item.props.title : 'Title'}
-            </Text>
+            {this._showSkeleton ? 
+             <WmLabel 
+               showskeleton={true}
+               styles={{
+                root: [
+                  this.styles.text,
+                  this.styles.heading
+                ]
+              }} 
+              caption={isDefined(item.props.title) ? item.props.title : 'Title'}/> :  
+             <Text 
+                style={[
+                  this.styles.text,
+                  this.styles.heading,
+                  isExpanded ? this.styles.activeHeaderTitle : {}]}
+                  {...this.getTestPropsForAction(`header${index}_title`)}
+                  accessibilityRole='header'>
+                    {isDefined(item.props.title) ? item.props.title : 'Title'}
+            </Text>} 
             {item.props.description ? 
-              (<Text style={this.styles.subheading}
-                {...this.getTestPropsForAction(`header${index}_description`)}>{item.props.description}</Text>) : null }
+              (this._showSkeleton ? 
+              <WmLabel 
+                styles={{root: this.styles.subheading}} 
+                showskeleton={true} 
+                caption={item.props.description} /> : 
+              <Text style={this.styles.subheading}
+                {...this.getTestPropsForAction(`header${index}_description`)}>
+                  {item.props.description}
+               </Text>) : null }
           </View>
           {this.expandCollapseIcon(item, index, true, !showIconOnLeft, true, isExpanded)}
         </TouchableOpacity>
@@ -149,12 +173,38 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
       this.toggle(this.state.props.defaultpaneindex + 1);
   }
 
+  protected getBackground(): React.JSX.Element | null {
+    return this._showSkeleton ? null : this._background
+  } 
+  
+  public renderSkeleton(props: WmAccordionProps): React.ReactNode {
+    const accordionpanes = props.children;
+      if(!props.showskeletonchildren) {
+        const skeletonStyles: WmSkeletonStyles = this.props?.styles?.skeleton || { root: {}, text: {}  } as WmSkeletonStyles
+        return createSkeleton(this.theme, skeletonStyles, {
+          ...this.styles.root
+        }, (<View style={[this.styles.root, { opacity: 0 }]}>
+           {accordionpanes
+              ? isArray(accordionpanes) && accordionpanes.length
+                ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index, accordionpanes))
+                : this.renderAccordionpane(accordionpanes, 0)
+              : null}
+        </View>))
+      }
+      return null;
+    }
+
+
   renderWidget(props: WmAccordionProps) {
     const accordionpanes = props.children;
     const expandedId = this.state.lastExpandedIndex || 0;
+    const styles = this._showSkeleton ? {
+      ...this.styles.root,
+      ...this.styles.skeleton?.root
+    } : this.styles.root
     return (
-        <View style={this.styles.root}>
-          {this._background}
+        <View style={styles}>
+          {this.getBackground()}
             {accordionpanes
               ? isArray(accordionpanes) && accordionpanes.length
                 ? accordionpanes.map((item: any, index: any) => this.renderAccordionpane(item, index, accordionpanes))

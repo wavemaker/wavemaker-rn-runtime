@@ -1,6 +1,6 @@
 import { BaseComponent } from "@wavemaker/app-rn-runtime/core/base.component";
 import React from "react";
-import { GestureResponderEvent, Platform, View } from "react-native";
+import { GestureResponderEvent, Platform, View, TouchableOpacity } from "react-native";
 import { get } from "lodash";
 import injector from "./injector";
 import { TouchableRipple } from "react-native-paper";
@@ -8,6 +8,7 @@ import ThemeVariables from "../styles/theme.variables";
 import { isDefined } from "./utils";
 
 export const TappableContext = React.createContext<Tappable>(null as any);
+import { UIPreferencesConsumer, UI_PREFERENCES } from "./ui-preferences.context";
 
 interface TappableProps {
     testID?: string;
@@ -127,6 +128,26 @@ export class Tappable extends React.Component<TappableProps, any> {
 
     render() {
         const target = this.props.target;
+        const commonProps = {
+            ...(Platform.OS === 'android' || Platform.OS === 'web') ? {
+                accessibilityLabel: this.props.testID,
+                testID: this.props.testID
+            }: {
+                // accessible: false,
+                testID: this.props.testID
+            },
+            ...this.props.accessibilityProps,
+            disabled:get(target?.proxy, 'disabled'),
+            style:this.props.styles,
+            onPress:(e?: GestureResponderEvent) => {
+                if ((e?.target as any)?.tagName === 'INPUT') {
+                    return;
+                }
+                this.onPress(new SyntheticEvent())
+            },
+            onLongPress:(e?: GestureResponderEvent) => this.onLongTap(new SyntheticEvent()),
+            onPressOut:(e?: GestureResponderEvent) => this.onPressOut(new SyntheticEvent())
+        };
         if (target?.props.onTap 
             || target?.props.onLongtap 
             || target?.props.onDoubletap 
@@ -134,34 +155,17 @@ export class Tappable extends React.Component<TappableProps, any> {
             || this.props.onLongTap 
             || this.props.onDoubleTap) {
             return (
-                <TappableContext.Consumer>{(parent) => {
-                    this.setParent(parent);
-                    return( <TappableContext.Provider value={this}>
-                    <TouchableRipple
-                rippleColor={this.props.rippleColor}
-                borderless = {true}
-                 {...(Platform.OS === 'android' || Platform.OS === 'web') ? {
-                    accessibilityLabel: this.props.testID,
-                    testID: this.props.testID
-                }: {
-                    // accessible: false,
-                    testID: this.props.testID
-                }} 
-                {...this.props.accessibilityProps}
-                disabled={get(target?.proxy, 'disabled')}
-                style={this.props.styles}
-                onPress={(e?: GestureResponderEvent) => {
-                    if ((e?.target as any)?.tagName === 'INPUT') {
-                        return;
-                    }
-                    this.onPress(new SyntheticEvent())
+            <UIPreferencesConsumer>
+                {(preferences: UI_PREFERENCES) => {
+                    return preferences.enableRipple != false ? (
+                    <TouchableRipple rippleColor={this.props.rippleColor} borderless={true} {...commonProps}>
+                        <>{this.props.children}</>
+                    </TouchableRipple>): (
+                    <TouchableOpacity {...commonProps}>
+                        <>{this.props.children}</>
+                    </TouchableOpacity>);
                 }}
-                onLongPress={(e?: GestureResponderEvent) => this.onLongTap(new SyntheticEvent())}
-                onPressOut={(e?: GestureResponderEvent) => this.onPressOut(new SyntheticEvent())}>
-                    <>{this.props.children}</>
-                </TouchableRipple>
-                </TappableContext.Provider>)}}</TappableContext.Consumer>
-            
+            </UIPreferencesConsumer>
             );
         }
         return (<View style={this.props.styles}>{this.props.children}</View>);

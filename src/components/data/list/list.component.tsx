@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity} from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
+import {getGroupedData, getNumberOfEmptyObjects, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
@@ -256,6 +256,17 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               } as WmListState);
           }
           const data = isArray($new) ? $new : (!isEmpty($new) && isDefined($new) ? [$new] : []);
+          if(props.orderby) {
+           const orderbyData = data && getGroupedData(data, props.groupby, props.match, props.orderby, props.dateformat, this);
+           this.updateState({
+            groupedData: (orderbyData[0] ? [{
+              key: 'key',
+              data: orderbyData[0].data
+            }] : [])
+          } as WmListState, () => {
+            this.keyExtractor?.clear();
+          });
+          } else {
           this.updateState({
             groupedData: (data[0] || props.direction === 'horizontal' ? [{
               key: 'key',
@@ -265,6 +276,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             this.keyExtractor?.clear();
           });
         }
+      }
         this.itemWidgets = [];
         if (props.selectfirstitem) {
           this.selectFirstItem();
@@ -337,12 +349,18 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderItem(item: any, index: number, props: WmListProps) {
     const cols = this. getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
+    
+    const styles = this._showSkeleton ? {
+      ...this.styles.item,
+      ...this.styles.skeleton.root
+    } : this.styles.item
+
     return (index < this.state.maxRecordsToShow || isHorizontal) ? (
       <Swipeable
       renderLeftActions={() => this.renderLeftActions()}
-      renderRightActions={() => this.renderRightActions()}>
+      renderRightActions={() => this.renderRightActions()} containerStyle={ cols ? { width: round(100/cols) + "%" , flex: null } as any :{}}>
       <View style={[
-        this.styles.item,
+        styles,
         props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
         this.isSelected(item) ? this.styles.selectedItem : {}]}>
         <Tappable
@@ -428,7 +446,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               scrollEnabled={isHorizontal}
               horizontal = {isHorizontal}
-              data={isEmpty(v.data[0]) ? []: v.data}
+              data={this._showSkeleton? [...getNumberOfEmptyObjects(this.props.numberofskeletonitems as number ?? 3)] : (isEmpty(v.data[0]) ? []: v.data)}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
               {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}>
@@ -447,11 +465,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     </View>);
   }
 
-  private getSectionListData() {
+  private getSectionListData(props: WmListProps) {
     if (this._showSkeleton) {
       return [{
         key: '',
-        data: [{}, {}, {}]
+        data: [...getNumberOfEmptyObjects(this.props.numberofskeletonitems as number ?? 3)]
       }];
     } else if (this.state.groupedData
         && this.state.groupedData[0]
@@ -467,7 +485,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
         horizontal = {isHorizontal}
         contentContainerStyle={this.styles.root}
-        sections={this.getSectionListData()}
+        sections={this.getSectionListData(props)}
         renderSectionHeader={({ section: {key, data}}) => {
           return this.renderHeader(props, key);
         }}

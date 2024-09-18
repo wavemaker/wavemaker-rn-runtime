@@ -3,6 +3,7 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { TextStyle, ViewStyle, Platform } from 'react-native';
 import Color from 'color';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmAccordionStyles = BaseStyles & {
   icon: WmIconStyles,
@@ -17,9 +18,11 @@ export type WmAccordionStyles = BaseStyles & {
   header: AllStyle,
   activeHeader: AllStyle,
   activeHeaderTitle: TextStyle,
-  subheading: AllStyle
+  subheading: AllStyle,
+  titleIcon: WmIconStyles,
+  skeleton: WmSkeletonStyles
 };
-
+ 
 export const DEFAULT_CLASS = 'app-accordion';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmAccordionStyles = defineStyles({
@@ -111,6 +114,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           borderColor: themeVariables.accordionIconColor,
           backgroundColor: themeVariables.transparent
       },
+      titleIcon: {} as WmIconStyles,
       default: {},
       success: {
         backgroundColor: themeVariables.labelSuccessColor
@@ -126,7 +130,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       primary: {
         backgroundColor: themeVariables.labelPrimaryColor
-      }
+      },
+      skeleton: {
+        root: {
+        },
+        text: {}
+      } as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

@@ -1,0 +1,278 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spinner component renders lottie player correctly on web 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "center",
+    }
+  }
+>
+  <Text
+    accessibilityLabel="test-spinner_l"
+    style={
+      {
+        "fontFamily": "Roboto",
+        "fontSize": 16,
+        "paddingLeft": 8,
+        "userSelect": "text",
+      }
+    }
+    testID="test-spinner_l"
+  >
+    Loading...
+  </Text>
+</View>
+`;
+
+exports[`Spinner component renders with image when image is provided 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "center",
+    }
+  }
+>
+  <View>
+    <Text>
+      test-spinner_picture
+    </Text>
+    <Image
+      source={
+        {
+          "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+        }
+      }
+    />
+  </View>
+  <Text
+    accessible={false}
+    style={
+      {
+        "fontFamily": "Roboto",
+        "fontSize": 16,
+        "paddingLeft": 8,
+        "userSelect": "text",
+      }
+    }
+    testID="test-spinner_l"
+  >
+    Loading...
+  </Text>
+</View>
+`;
+
+exports[`Spinner component renders with lottie when lottie is provided 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "center",
+    }
+  }
+>
+  <LottieAnimationView
+    autoPlay={true}
+    cacheComposition={true}
+    colorFilters={[]}
+    enableMergePathsAndroidForKitKatAndAbove={false}
+    loop={true}
+    onAnimationFailure={[Function]}
+    onAnimationFinish={[Function]}
+    onAnimationLoaded={[Function]}
+    progress={0}
+    resizeMode="contain"
+    sourceName="lottieAnimationData.json"
+    speed={1}
+    style={
+      {
+        "alignSelf": "center",
+        "height": 100,
+        "justifyContent": "center",
+        "width": 100,
+      }
+    }
+    testID="test-spinner_lottie"
+    textFiltersAndroid={[]}
+    textFiltersIOS={[]}
+    useNativeLooping={false}
+  />
+  <Text
+    style={
+      {
+        "fontFamily": "Roboto",
+        "fontSize": 16,
+        "paddingLeft": 8,
+        "userSelect": "text",
+      }
+    }
+  >
+    Loading...
+  </Text>
+</View>
+`;
+
+exports[`Spinner component should render component with default props 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "center",
+    }
+  }
+>
+  <View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "alignSelf": "flex-start",
+          "flexDirection": "row",
+        }
+      }
+      testID="non_animatableView"
+    >
+      <View
+        collapsable={false}
+        style={
+          {
+            "transform": [
+              {
+                "rotate": "0deg",
+              },
+            ],
+          }
+        }
+      >
+        <View>
+          <Text
+            accessible={false}
+            size={30}
+            style={
+              [
+                {
+                  "color": "#4263eb",
+                },
+                {
+                  "paddingLeft": 0,
+                  "paddingRight": 8,
+                },
+                {
+                  "transform": [
+                    {
+                      "rotate": "0deg",
+                    },
+                  ],
+                },
+              ]
+            }
+            testID="test-spinner_icon_icon"
+          >
+            circle-o-notch
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <Text
+    accessible={false}
+    style={
+      {
+        "fontFamily": "Roboto",
+        "fontSize": 16,
+        "paddingLeft": 8,
+        "userSelect": "text",
+      }
+    }
+    testID="test-spinner_l"
+  >
+    Loading...
+  </Text>
+</View>
+`;
+
+exports[`Spinner component should render component with icon when iconclass is provided 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "center",
+    }
+  }
+>
+  <View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "alignSelf": "flex-start",
+          "flexDirection": "row",
+        }
+      }
+      testID="non_animatableView"
+    >
+      <View
+        collapsable={false}
+        style={
+          {
+            "transform": [
+              {
+                "rotate": "0deg",
+              },
+            ],
+          }
+        }
+      >
+        <View>
+          <Text
+            accessible={false}
+            size={30}
+            style={
+              [
+                {
+                  "color": "#4263eb",
+                },
+                {
+                  "paddingLeft": 0,
+                  "paddingRight": 8,
+                },
+                {
+                  "transform": [
+                    {
+                      "rotate": "0deg",
+                    },
+                  ],
+                },
+              ]
+            }
+            testID="test-spinner_icon_icon"
+          >
+            edit
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <Text
+    accessible={false}
+    style={
+      {
+        "fontFamily": "Roboto",
+        "fontSize": 16,
+        "paddingLeft": 8,
+        "userSelect": "text",
+      }
+    }
+    testID="test-spinner_l"
+  >
+    Loading...
+  </Text>
+</View>
+`;

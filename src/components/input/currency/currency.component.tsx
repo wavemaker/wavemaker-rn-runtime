@@ -11,6 +11,7 @@ import {
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
 import { isNull } from "lodash";
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { countDecimalDigits, validateInputOnDevice } from '@wavemaker/app-rn-runtime/core/utils';
 export class WmCurrencyState extends BaseNumberState<WmCurrencyProps> {
   currencySymbol: any;
 }
@@ -77,7 +78,17 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         onFocus={this.onFocus.bind(this)}
         onKeyPress={this.validateInputEntry.bind(this)}
         onChangeText={(text) => {
-          this.onChangeText.bind(this)(text, 'currency');
+          const {isValidText, validText} = validateInputOnDevice(text, "currency");
+          const decimalPlaces = props.decimalPlaces;
+          const decimalPlacesInNumber = countDecimalDigits(validText);
+          const restrictDecimalRegex = new RegExp(`(\\.\\d{${decimalPlaces}})\\d*`);
+          const updatedCurrencyText = validText.replace(restrictDecimalRegex, '$1');
+
+          if (!isValidText || decimalPlaces < decimalPlacesInNumber) {
+            (this.widgetRef as any)?.setNativeProps({ text: updatedCurrencyText });
+          }
+
+          this.onChangeText.bind(this)(updatedCurrencyText, 'currency');
         }}
         onChange={this.invokeChange.bind(this)}
         allowContentSelection={this.styles.text.userSelect === 'text'}

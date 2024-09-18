@@ -1,0 +1,295 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Navbar component should not render Icon when searchbutton is false 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#4263eb",
+      "flexDirection": "row",
+      "height": 80,
+      "paddingBottom": 12,
+      "paddingHorizontal": 12,
+      "paddingLeft": 12,
+      "paddingRight": 12,
+      "paddingTop": 12,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      accessibilityHint="back"
+      accessibilityLabel=""
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          undefined,
+        ]
+      }
+      testID="test_Navbar_backbtn_a"
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "flexDirection": "row",
+            "rippleColor": "transparent",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={24}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "color": "#151420",
+                    "fontSize": 32,
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="test_Navbar_backbtn_icon"
+            >
+              back
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Text
+      accessibilityRole="header"
+      accessible={false}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 24,
+          "fontWeight": "500",
+          "textAlign": "center",
+          "textTransform": "capitalize",
+        }
+      }
+      testID="test_Navbar_title"
+    />
+  </View>
+  <View
+    style={
+      {
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "flex-end",
+      }
+    }
+  />
+</View>
+`;
+
+exports[`Test Navbar component should render app-navbar component 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#4263eb",
+      "flexDirection": "row",
+      "height": 80,
+      "paddingBottom": 12,
+      "paddingHorizontal": 12,
+      "paddingLeft": 12,
+      "paddingRight": 12,
+      "paddingTop": 12,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      accessibilityHint="back"
+      accessibilityLabel=""
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          undefined,
+        ]
+      }
+      testID="test_Navbar_backbtn_a"
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "flexDirection": "row",
+            "rippleColor": "transparent",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={24}
+              style={
+                [
+                  {
+                    "color": "#151420",
+                  },
+                  {
+                    "color": "#151420",
+                    "fontSize": 32,
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="test_Navbar_backbtn_icon"
+            >
+              back
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Text
+      accessibilityRole="header"
+      accessible={false}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 24,
+          "fontWeight": "500",
+          "textAlign": "center",
+          "textTransform": "capitalize",
+        }
+      }
+      testID="test_Navbar_title"
+    />
+  </View>
+  <View
+    style={
+      {
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "flex-end",
+      }
+    }
+  />
+</View>
+`;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, Platform, TouchableWithoutFeedback } from 'react-native';
 import { isArray, merge } from 'lodash';
-import { BaseComponent, BaseComponentState, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
+import {  BaseComponent, BaseComponentState, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmWizardProps from './wizard.props';
 import { DEFAULT_CLASS, WmWizardStyles } from './wizard.styles';
@@ -12,6 +12,8 @@ import WmWizardstep from './wizardstep/wizardstep.component';
 import WmProgressCircle from '@wavemaker/app-rn-runtime/components/basic/progress-circle/progress-circle.component';
 import WmPopover from '@wavemaker/app-rn-runtime/components/navigation/popover/popover.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmWizardState extends BaseComponentState<WmWizardProps> {
   currentStep: number = 0;
@@ -33,10 +35,14 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
 
   constructor(props: WmWizardProps) {
     super(props, DEFAULT_CLASS, new WmWizardProps());
-    const steps = props.children;
+  }
+
+  updateDefaultStep() {
+    const steps = this.steps;
+    const props = this.props;
     let defaultStepIndex = 0;
     if (isArray(steps) && props.defaultstep) {
-      steps.map((item: any, index: any) => {
+      steps && steps.map((item: any, index: any) => {
         if (props.defaultstep === item.props.name) {
           defaultStepIndex = index;
         }
@@ -52,7 +58,17 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
 
   componentDidMount() {
     super.componentDidMount();
-    this.showActiveStep();
+    if (this.props.defaultstep) {
+      this.updateDefaultStep();
+    }
+  }
+
+  componentDidUpdate(prevProps: Readonly<WmWizardProps>, prevState: Readonly<WmWizardState>, snapshot?: any): void {
+    super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, snapshot);
+    // * when a variable is bind to default step
+    if (this.props.defaultstep && prevProps.defaultstep !== this.props.defaultstep) {
+      this.updateDefaultStep();
+    }
   }
 
   showActiveStep() {
@@ -105,7 +121,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
               return (
               <TouchableWithoutFeedback key={'wizard_menu_item_'+index} onPress={()=>{this.popOverRef.hide();}}>
                 <View style={[this.styles.stepMenu, currentMenuItem?this.styles.activeStepMenu:{}]}>
-                  <WmIcon caption={caption} iconclass={currentMenuItem? "wi wi-radio-button-checked" : 'wi wi-radio-button-unchecked'} styles={currentMenuItem?this.styles.stepMenuActiveIcon:this.styles.stepMenuIcon}/>
+                  <WmIcon id={this.getTestId('icon')} caption={caption} iconclass={currentMenuItem? "wi wi-radio-button-checked" : 'wi wi-radio-button-unchecked'} styles={currentMenuItem?this.styles.stepMenuActiveIcon:this.styles.stepMenuIcon}/>
                   <WmLabel caption={item} styles={currentMenuItem?this.styles.stepMenuActiveLabel:this.styles.stepMenuLabel}/>
                 </View>
               </TouchableWithoutFeedback>
@@ -121,12 +137,12 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
       <View style={[this.styles.headerWrapper]} key={index + 1}>
         <View style={this.styles.stepWrapper}>
           <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center', flexDirection:'row' }}>
-            <WmProgressCircle minvalue={0} maxvalue={this.steps.length} datavalue={index + 1} captionplacement={'inside'} type={this.props.progresstype} title={progressTitle} subtitle={''} styles={this.styles.progressCircle} />
+            <WmProgressCircle id={this.getTestId('progress')} minvalue={0} maxvalue={this.steps.length} datavalue={index + 1} captionplacement={'inside'} type={this.props.progresstype} title={progressTitle} subtitle={''} styles={this.styles.progressCircle}/>
           </View>
         <View style={{ flex: 2, justifyContent: 'center', flexDirection: 'column' }}>
-            <Text style={this.styles.stepTitle}>
+            <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
               {item.props.title || 'Step Title'}</Text>
-            <Text style={this.styles.stepSubTitle}>
+            <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1)+ '_subtitle')}>
               {item.props.subtitle || 'Step Sub Title'}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'flex-end', flex: 1 }}>
@@ -148,15 +164,15 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         <TouchableOpacity style={this.styles.stepWrapper}
                           onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep || !this.state.props.headernavigation}
                           accessibilityRole='header'>
-            <View style={this.getStepStyle(index)}>
+            <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
               {index >= this.state.currentStep && !this.state.isDone &&
-                <Text style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter}>{index+1}</Text>}
+                <Text style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&
-                <WmIcon styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
+                <WmIcon id={this.getTestId('status')} styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
                         iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
             </View>
             {(isActiveStep) &&
-              <Text style={this.styles.stepTitle}>
+              <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
               {item.state.props.title || 'Step Title'}</Text> }
             {this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
@@ -211,14 +227,35 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     this.next('skip');
   }
 
+  getBackground(): React.JSX.Element | null {
+    return this._showSkeleton ? null : this._background
+  } 
+  
+  public renderSkeleton(props: WmWizardProps): React.ReactNode {
+      if(!props.showskeletonchildren) {
+        const skeletonStyles: WmSkeletonStyles = this.props?.styles?.skeleton || { root: {}, text: {}  } as WmSkeletonStyles
+        return createSkeleton(this.theme, skeletonStyles, {
+          ...this.styles.root
+        }, (<View style={[this.styles.root, { opacity: 0 }]}>
+          {props.children}
+        </View>))
+      }
+      return null;
+    }
+
+
   renderWidget(props: WmWizardProps) {
     this.numberOfSteps = this.steps.length;
     const activeStep = this.steps[this.state.currentStep];
     const isSkippable = activeStep && activeStep.state.props.enableskip;
     const isProgressCircleHeader = this.state.props.classname?.includes('progress-circle-header');
+    const styles = this._showSkeleton ? {
+      ...this.styles.root,
+      ...this.styles.skeleton.root
+    } : this.styles.root
     return (
-      <View style={this.styles.root}>
-        {this._background}
+      <View style={styles}>
+        {this.getBackground()}
         <View style={this.styles.wizardHeader}>
           {activeStep && isProgressCircleHeader ? (this.renderProgressCircleHeader(activeStep, this.state.currentStep)) : (this.steps ? this.steps.map((step, i) => this.renderWizardHeader(step, i)) : null)}
         </View>

@@ -41,6 +41,17 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
       height: this.props.skeletonheight || this.styles.root.height
     });
   }
+  
+  renderBadge() {
+    const { badgevalue } = this.props;
+    if(this._showSkeleton) {
+      return createSkeleton(this.theme, this.styles.badgeSkeleton, {
+        ...this.styles.badge,
+       // marginTop: -50
+      })
+    }
+    return badgevalue != undefined ? (<Badge style={this.styles.badge}>{badgevalue}</Badge>): null;
+  }
 
   renderWidget(props: WmAnchorProps) {
       const {
@@ -70,8 +81,6 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
         iconwidth={iconwidth}
       />
     );
-    //@ts-ignore
-    const badge = badgevalue != undefined ? (<Badge style={this.styles.badge}>{badgevalue}</Badge>): null;
     return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
@@ -86,7 +95,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
               {...getAccessibilityProps(AccessibilityWidgetType.ANCHOR, props)}
               numberOfLines={props.nooflines}>{props.caption}</Text>) : null}
               {props.iconposition === 'right' && icon}
-              {badge}
+              {this.renderBadge()}
             </Tappable>
           </Animatedview>)
       }

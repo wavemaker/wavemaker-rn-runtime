@@ -1,0 +1,414 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Textarea component should have default value for native platform 1`] = `
+<TextInput
+  accessibilityState={
+    {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoComplete="username"
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue="sample text"
+  editable={true}
+  floatingLabelStyle={{}}
+  maxLength={null}
+  multiline={true}
+  numberOfLines={4}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Place your text"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmTextarea_i"
+/>
+`;
+
+exports[`Test Textarea component should have default web for native platform 1`] = `
+<TextInput
+  accessibilityLabel="wmTextarea_i"
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoComplete="username"
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  editable={true}
+  floatingLabelStyle={{}}
+  maxLength={null}
+  multiline={true}
+  numberOfLines={4}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Place your text"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmTextarea_i"
+  value="sample text"
+/>
+`;
+
+exports[`Test Textarea component should not show component when show prop is false 1`] = `
+<TextInput
+  accessibilityLabel="wmTextarea_i"
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoComplete="username"
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  editable={true}
+  floatingLabelStyle={{}}
+  maxLength={null}
+  multiline={true}
+  numberOfLines={4}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Place your text"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "height": 0,
+          "transform": [
+            {
+              "scale": 0,
+            },
+          ],
+          "width": 0,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmTextarea_i"
+  value=""
+/>
+`;
+
+exports[`Test Textarea component should render correctly with default props 1`] = `
+<TextInput
+  accessibilityState={
+    {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoComplete="username"
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue=""
+  editable={true}
+  floatingLabelStyle={{}}
+  maxLength={null}
+  multiline={true}
+  numberOfLines={4}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Place your text"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmTextarea_i"
+/>
+`;
+
+exports[`Test Textarea component should render with default placeholder when placeholder passed as props is falsy 1`] = `
+<TextInput
+  accessibilityLabel="wmTextarea_i"
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoComplete="username"
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  editable={true}
+  floatingLabelStyle={{}}
+  maxLength={null}
+  multiline={true}
+  numberOfLines={4}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Place your text"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmTextarea_i"
+  value=""
+/>
+`;
+
+exports[`Test Textarea component should show floating label when focused 1`] = `
+[
+  <View
+    collapsable={false}
+    pointerEvents="none"
+    style={
+      {
+        "color": "#4263eb",
+        "fontSize": 14,
+        "left": 16,
+        "position": "absolute",
+        "top": 12,
+        "transform": [
+          {
+            "translateY": 0,
+          },
+          {
+            "translateX": 0,
+          },
+          {
+            "scale": 1,
+          },
+        ],
+        "width": 160,
+        "zIndex": 1,
+      }
+    }
+  >
+    <Text
+      ellipsizeMode="tail"
+      style={
+        {
+          "color": "#4263eb",
+          "fontFamily": undefined,
+          "fontSize": 14,
+          "fontStyle": undefined,
+          "fontVariant": undefined,
+          "fontWeight": undefined,
+          "includeFontPadding": undefined,
+          "letterSpacing": undefined,
+          "lineHeight": undefined,
+          "textAlign": undefined,
+          "textAlignVertical": undefined,
+          "textDecorationColor": undefined,
+          "textDecorationStyle": undefined,
+          "textShadowColor": undefined,
+          "textShadowOffset": undefined,
+          "textShadowRadius": undefined,
+          "textTransform": undefined,
+          "userSelect": undefined,
+          "verticalAlign": undefined,
+          "writingDirection": undefined,
+        }
+      }
+    >
+      sample label
+    </Text>
+  </View>,
+  <TextInput
+    accessibilityState={
+      {
+        "disabled": false,
+      }
+    }
+    accessible={true}
+    activeFloatingLabelStyle={
+      {
+        "color": "#4263eb",
+      }
+    }
+    allowContentSelection={true}
+    autoComplete="username"
+    autoFocus={null}
+    caretHidden={false}
+    contextMenuHidden={false}
+    defaultValue=""
+    editable={true}
+    floatingLabel="sample label"
+    floatingLabelStyle={
+      {
+        "color": "#bbbbbb",
+        "fontSize": 14,
+        "left": 16,
+        "position": "absolute",
+        "top": 12,
+      }
+    }
+    maxLength={null}
+    multiline={true}
+    numberOfLines={4}
+    onBlur={[Function]}
+    onChange={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    onKeyPress={[Function]}
+    onSelectionChange={[Function]}
+    placeholder=""
+    placeholderTextColor="#bbbbbb"
+    selection={null}
+    style={
+      [
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "fontFamily": "Roboto",
+            "minHeight": 160,
+            "paddingBottom": 12,
+            "paddingLeft": 12,
+            "paddingRight": 12,
+            "paddingTop": 12,
+          },
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "paddingTop": 24,
+            "textAlignVertical": "top",
+            "userSelect": "text",
+          },
+          {},
+        ],
+        {},
+      ]
+    }
+    testID="wmTextarea_i"
+  />,
+]
+`;

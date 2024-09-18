@@ -12,8 +12,6 @@ import { ToastConsumer, ToastService } from '@wavemaker/app-rn-runtime/core/toas
 
 import WmFormProps from './form.props';
 import { DEFAULT_CLASS, WmFormStyles } from './form.styles';
-import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.component';
-import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 import { isDataSetWidget } from '@wavemaker/app-rn-runtime/core/utils';
 import WmFormAction, {
   WmFormActionState
@@ -373,7 +371,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     }
     this.formdataoutput = current;
     this.updateState({ props: { dataoutput: current }} as WmFormState);
-    this.parentFormRef && this.parentFormRef.updateDataOutput(undefined, this.formdataoutput);
+    this.parentFormRef && this.parentFormRef.updateDataOutput && this.parentFormRef.updateDataOutput(undefined, this.formdataoutput);
     this.updateState({
       props: {
         dataoutput: this.formdataoutput

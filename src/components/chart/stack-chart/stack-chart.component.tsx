@@ -59,26 +59,46 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
     }
   }
 
+  getLegendColors(){
+    if (this.state.colors.length === 1 ) {
+      return this.state.colors[0];
+  } else {
+      let colorCodes = cloneDeep(this.state.colors);
+      if ( this.state.data.length > 0 ) {
+        const orderedData = orderBy(this.state.data[0], 'y', 'asc');;
+        this.state.data[0].map((d: any, i: number) => {
+          let index = findIndex(orderedData, d);
+          colorCodes[index] = this.state.colors[i];
+        })
+        return colorCodes;
+      }
+   }
+ }
+
   getBarChart(props: WmStackChartProps) {
     if ( this.state.data.length > 0 ) {
       const negativeValues = cloneDeep(this.getNegativeValuesArray());
       const data = this.getData();
-      let currentValue = 0;      
+      let currentValue = 0;
+      const yValues = data.map((d: any) => d.y);
+      const minValue = Math.min(...yValues);
+      const maxValue = Math.max(...yValues);
+
       return data.map((d: any, i: number) => {
+        let cornerRadius: any;
+        if (d.y === minValue) {
+          cornerRadius = d.y > 0 ? { bottom: 10 } : { top: 10 };
+        } else if (d.y === maxValue) {
+          cornerRadius = d.y > 0 ? { top: 10 } : { bottom: 10 };
+        } else {
+          cornerRadius = 0;
+        }        
         let d1: any = [];
         d.index = d.x;
         d.x = 0;
         d.y = d.y - currentValue;
         d1.push(d);
         currentValue = d.y < 0 && i === negativeValues.length -1 ? 0 : d.y + currentValue;
-        let cornerRadius: any;
-        if (i === 0) {
-          cornerRadius = { bottom: 10 };
-        } else if (i === data.length - 1) {
-          cornerRadius = { top: 10 };
-        } else {
-          cornerRadius = 0;
-        }
         return <VictoryBar key={props.name + '_' + i}
                           cornerRadius={cornerRadius}
                           barWidth={this.state.props.thickness}
@@ -102,25 +122,54 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
 
   getArcChart(props: WmStackChartProps) {
     if ( this.state.data.length > 0 ) {
-      let data = cloneDeep(this.state.data[0]);
-      const colorScaleArray = this.getColorCodes();
-      const maxValue = Math.max(...data.map((o: any) => o.y));
-      data = orderBy(data, 'y', 'desc');
+      let data = this.getData()
+      let negativeValues = cloneDeep(this.getNegativeValuesArray());
+      let currentValue = 0;
+      let prevValue = 0
+      data = data.map((d: any, i: number) => {
+        d.y = d.y - currentValue
+        prevValue = d.y
+        d.y = Math.abs(d.y)
+        d.index = d.x
+        currentValue = prevValue < 0 && i === negativeValues.length -1 ? 0 : prevValue + currentValue;
+        return d
+      })
+      data.reverse()
+      if(negativeValues.length > 1){
+        const portionToReverse = data.slice(-(negativeValues.length));
+        const reversedPortion = portionToReverse.reverse();
+        data = [...data.slice(0, -(negativeValues.length)), ...reversedPortion];
+      }
       const radius = Math.min(this.state.chartWidth/2, this.state.chartHeight - 50);
+      const angles = data.map((d: any, i: number) => {
+        let total = data.reduce((sum: number, item: any) => sum + item.y, 0);
+        return Math.round((d.y / total) * 160);
+      });
+      let startAngle = 80
       return data.map((d: any, i: number) => {
         let d1: any = [];
         d1.push(d);
-        d1.push({x: d.x, y: maxValue - d.y})
+        if (i != 0) {
+          startAngle = startAngle - angles[i - 1] + (angles[i - 1] / 10)
+        }
         return <VictoryPie key={props.name + '_' + i}
                            radius={radius}
-                           colorScale={[colorScaleArray[i], '#fff0']}
-                           startAngle={-80}
-                           endAngle={80}
+                           colorScale={[this.state.colors[d.index], '#fff0']}
+                           startAngle={angles ? startAngle : -80}
+                           endAngle={-80}
                            cornerRadius={100}
                            standalone={false}
                            origin={{x: (this.state.chartWidth/2), y: (this.state.chartHeight - 50)}}
                            innerRadius={radius - this.state.props.thickness}
                            labels={[]}
+                           events={[{
+                            target: 'data',
+                            eventHandlers: Platform.OS == "web" ? {
+                              onClick: this.onSelect.bind(this)
+                            }:{
+                              onPress: this.onSelect.bind(this)
+                            }
+                          }]}
                            data={d1}/>
       });
     }
@@ -237,7 +286,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
               data={[]}
               theme={this.state.theme}
             />
-            {this.getLegendView(this.updateColors())}
+            {this.getLegendView(this.getLegendColors())}
             <VictoryAxis crossAxis
                          style={{
                            tickLabels: { fill: this.state.props.showyaxis === false ? 'transparent' : '#000000',  fontSize: 12, padding: this.state.props.thickness/2 + 5},

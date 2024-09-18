@@ -45,7 +45,10 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
 
   componentDidMount() {
     const tabs = (this.parent) as WmTabs;
-    tabs.addTabPane(this.proxy as WmTabpane);
+    // When skeleton is enabled in the tabs component, the parent would be WMSkeleton which doesnot have addTabPane function
+    if(tabs.addTabPane) {
+      tabs.addTabPane(this.proxy as WmTabpane);
+    }
     super.componentDidMount();
   }
 

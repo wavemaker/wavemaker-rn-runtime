@@ -1,7 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Partial component Check validity of sample component 1`] = `
+exports[`Test Partial component should render partial component 1`] = `
 <View
-  style={Object {}}
+  style={
+    {
+      "width": "100%",
+    }
+  }
 />
 `;

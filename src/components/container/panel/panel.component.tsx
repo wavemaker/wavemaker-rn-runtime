@@ -9,6 +9,9 @@ import WmPanelProps from './panel.props';
 import { DEFAULT_CLASS, WmPanelStyles } from './panel.styles';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { CollapsiblePane } from './collapsible-pane.component';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 
 export class WmPanelState extends BaseComponentState<WmPanelProps> {
   isPartialLoaded = false;
@@ -53,9 +56,9 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
   expandCollapseIcon(isExpanded: boolean) {
     const widgetProps = this.state.props;
     //@ts-ignore
-    const badge = widgetProps.badgevalue != undefined ? (<Badge style={[this.styles.badge, this.styles[widgetProps.badgetype || 'default']]}>{widgetProps.badgevalue}</Badge>): null;
+    const badge = widgetProps.badgevalue != undefined ? (<Badge style={[this.styles.badge, this.styles[widgetProps.badgetype || 'default']]} {...this.getTestProps('badge')}>{widgetProps.badgevalue}</Badge>): null;
     const iconclass = isExpanded ? 'wi wi-chevron-up' : 'wi wi-chevron-down';
-    const expandCollapseIcon = widgetProps.collapsible ? (<WmIcon name={'expand_collapse_icon'} styles={this.styles.toggleIcon} iconclass={iconclass}></WmIcon>) : null;
+    const expandCollapseIcon = widgetProps.collapsible ? (<WmIcon id={this.getTestId('collapseicon')} name={'expand_collapse_icon'} styles={this.styles.toggleIcon} iconclass={iconclass}></WmIcon>) : null;
     return (<View style={{flexDirection: 'row', alignItems: 'center'}}>{badge}{expandCollapseIcon}</View>);
   }
 
@@ -68,7 +71,8 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
         onPress={this.onPanelPress.bind(this)}
         accessibilityRole='header'>
       {props.iconclass || props.iconurl ? 
-        <WmIcon styles={this.styles.icon} 
+        <WmIcon styles={this.styles.icon}
+        id={this.getTestId('icon')} 
         name={props.name + '_icon'}
         iconclass={props.iconclass}
         iconheight={props.iconheight}
@@ -77,15 +81,31 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
         iconurl={props.iconurl}
         /> : null}
         <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
-          <Text style={[
-            this.styles.text,
-            this.styles.heading]}
-            {...this.getTestPropsForAction(`header_title`)}>
-              {isUndefined(props.title) ? 'Title' : props.title}
-          </Text>
+          {
+            this._showSkeleton ? 
+            <WmLabel 
+            showskeleton={true}
+            styles={{root: [
+              this.styles.text,
+              this.styles.heading]}} caption={isUndefined(props.title) ? 'Title' : props.title}/> : 
+            <Text style={[
+              this.styles.text,
+              this.styles.heading]}
+              {...this.getTestPropsForAction(`header_title`)}>
+                {isUndefined(props.title) ? 'Title' : props.title}
+            </Text>
+          }
           {props.subheading ? 
-            (<Text style={this.styles.subheading}
-              {...this.getTestPropsForAction(`subheader`)}>{props.subheading}</Text>) : null }
+            (this._showSkeleton ? 
+            <WmLabel  
+              showskeleton={true} 
+              styles={{root: this.styles.subheading}} 
+              caption={props.subheading} /> :
+             <Text 
+               style={this.styles.subheading}
+              {...this.getTestPropsForAction(`subheader`)}>
+                {props.subheading}
+              </Text> ) : null }
         </View>
         {this.expandCollapseIcon(props.expanded)}
       </TouchableOpacity>
@@ -103,9 +123,35 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
       </CollapsiblePane>);
   }
 
+  protected getBackground(): React.JSX.Element | null {
+    return this._showSkeleton ? null : this._background
+  } 
+  
+  public renderSkeleton(props: WmPanelProps): React.ReactNode {
+      if(!props.showskeletonchildren) {
+        const skeletonStyles: WmSkeletonStyles = this.props?.styles?.skeleton || { root: {}, text: {}  } as WmSkeletonStyles
+        return createSkeleton(this.theme, skeletonStyles, {
+          ...this.styles.root
+        }, (<View style={[this.styles.root, { opacity: 0 }]}>
+                {this.renderHeader()}
+                {this.renderPane((
+                  <>
+                  {this.renderContent(props)}
+                  <View>{props.children}</View>
+                  </>
+                ))}
+        </View>))
+      }
+      return null;
+    }
+
   renderWidget(props: WmPanelProps) {
-    return (<View style={this.styles.root}>
-      {this._background}
+    const styles = this._showSkeleton ? {
+      ...this.styles.root,
+      ...this.styles.skeleton.root
+    } : this.styles.root
+    return (<View style={styles}>
+      {this.getBackground()}
       {this.renderHeader()}
       {this.renderPane((
         <>

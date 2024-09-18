@@ -47,7 +47,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
   }
 
   setPosition() {
-    const selectedTabIndex = this.state.props.selectedTabIndex;
+    const selectedTabIndex = this.state.props.selectedTabIndex ? this.state.props.selectedTabIndex : 0
     let toIndicatorPosition = 0;
     let toIndicatorWidth = this.headersLayout[selectedTabIndex]?.width || 0;
     let toHeaderScrollPosition = this.headerScrollPositionValue;
@@ -156,12 +156,13 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                 {...this.getTestPropsForAction(i +'')}
                 key={header.key}
                 styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
-                <View onLayout={this.setHeaderPositon.bind(this, i)} accessible={true} accessibilityRole='header'>
+                <View onLayout={this.setHeaderPositon.bind(this, i)}>
                   <View style={[
                     this.styles.header,
                     {flexGrow: undefined},
                     isSelected ? this.styles.activeHeader : null]}>
                     <WmIcon
+                      id={this.getTestId(i + 'icon')}
                       styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeaderIcon : null)}
                       iconclass={header.icon}></WmIcon>
                     <Text numberOfLines={1} style={[

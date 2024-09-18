@@ -15,6 +15,7 @@ import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.c
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
@@ -88,6 +89,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
 
   renderSelect() {
     const props = this.state.props;
+    const select = this.styles.root as any;
     return (
       /*
        * onLayout function is required.
@@ -99,6 +101,14 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
           this.view = ref as View;
         }}
         onLayout={() => {}}>
+          {select.backgroundImage ? (<BackgroundComponent
+            image={select.backgroundImage}
+            position={select.backgroundPosition || 'center'}
+            size={select.backgroundSize || 'contain'}
+            repeat={select.backgroundRepeat || 'no-repeat'}
+            resizeMode={select.backgroundResizeMode}
+            style={{borderRadius: this.styles.root.borderRadius}}
+          ></BackgroundComponent>) : null }
           <Text
             style={[this.styles.text,
               this.state.props.displayValue ? {} : {color: this.styles.placeholderText.color}]}
@@ -137,12 +147,13 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   renderSelectItem(item: any, index: number, isPlaceholder: boolean, isLast: boolean) {
     let selected = this.isSelected(item);
     return (
-      <Tappable  {...this.getTestPropsForAction(index + '')} onTap={this.onItemSelect.bind(this, item, isPlaceholder)} {...getAccessibilityProps(
+      <Tappable {...this.getTestPropsForAction('selectitem'+index)} onTap={this.onItemSelect.bind(this, item, isPlaceholder)} 
+      accessibilityProps={{...getAccessibilityProps(
         AccessibilityWidgetType.SELECT,
         {...this.props, expanded: this.state.isOpened}
-      )}>
+      )}}>
         <View style={[this.styles.selectItem, isLast ?  this.styles.lastSelectItem  : null, selected ? this.styles.selectedItem : null ]}>
-          <Text  {...this.getTestPropsForLabel(index + '')} style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : selected ? this.styles.selectedItemText.color : this.styles.selectItemText.color}]}>
+          <Text  {...this.getTestPropsForLabel('label'+index)} style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : selected ? this.styles.selectedItemText.color : this.styles.selectItemText.color}]}>
             {isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)}
           </Text>
           <WmIcon id={this.getTestId('checkicon' + index)} iconclass='wi wi-check' styles={this.theme.mergeStyle(this.styles.checkIcon, {
@@ -179,6 +190,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   renderWidget(props: WmSelectProps) {
     return (
       <View>
+        {this._background}
         {this.renderSelect()}
         {this.state.isOpened ? (
           <ModalConsumer>

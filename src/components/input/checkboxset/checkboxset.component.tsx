@@ -14,6 +14,8 @@ import {
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
+import { getNumberOfEmptyObjects } from '@wavemaker/app-rn-runtime/core/utils';
+import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 
 export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {
   isValid: boolean = true;
@@ -26,10 +28,10 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
   }
 
   onPress(item: any) {
-    this.invokeEventCallback('onTap', [null, this.proxy]);
     if (this.state.props.disabled || this.state.props.readonly) {
       return;
     }
+    this.invokeEventCallback('onTap', [null, this.proxy]);
     item.selected = !item.selected;
     const selectedValue: any = [];
     const selectedItem = find(this.state.dataItems, d => isEqual(d.key, item.key));
@@ -55,7 +57,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
       <TouchableOpacity {...this.getTestPropsForAction(index + '')}
         style={[this.styles.item, item.selected ? this.styles.checkedItem : null, {width: colWidth}]}
         onPress={this.onPress.bind(this, item)} key={item.key} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {hint: props?.hint, checked: item.selected})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${displayText}`}>
-        <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled}/>
+        <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled} id={this.getTestId('item'+index)}/>
         {!isEmpty(this.state.template) && this.props.renderitempartial ?
            this.props.renderitempartial(item.dataObject, index, this.state.template) :
         <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.text}>{displayText}</Text>}
@@ -108,6 +110,19 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
         : null}
     </View>)
   }
+
+  public renderSkeleton(props: WmCheckboxsetProps): React.ReactNode {
+    const noOfColumns = props.itemsperrow.xs || 1;
+    const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
+
+    return [...getNumberOfEmptyObjects(props.numberofskeletonitems as number ?? 3)].map(_ => {
+      return <View style={[this.styles.item, {width: colWidth}]}>
+        <WmIcon styles={this.styles.checkicon}/>
+        <WmLabel styles={{ root: this.styles.text }}/>
+      </View>
+    })
+  }
+
   renderWidget(props: WmCheckboxsetProps) {
     const items = this.state.dataItems;
     return (

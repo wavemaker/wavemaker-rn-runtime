@@ -110,7 +110,7 @@ export default class WmLottie extends BaseComponent<WmLottieProps, WmLottieState
       loop={props.loop}
       play={props.autoplay}
       speed={props.speed}
-      style={this.styles.lottie}
+      style={this.styles.content}
       onComplete={() => {
         this.updateState({
           isCompleted: true
@@ -127,7 +127,7 @@ export default class WmLottie extends BaseComponent<WmLottieProps, WmLottieState
           autoPlay={props.autoplay}
           speed={props.speed}
           loop={props.loop}
-          style={this.styles.lottie} 
+          style={this.styles.content}
           onAnimationFinish={() => {
             this.updateState({
               isCompleted: true

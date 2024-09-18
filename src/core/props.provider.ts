@@ -44,6 +44,10 @@ export class PropsProvider<T extends BaseProps> {
     setDefault(propName: string, value: any) {
         (this.defaultProps as any)[propName] = value;
     }
+    overrideProp(propName: string, value: any) {
+        (this.overriddenProps as any)[propName] = value;
+        this.isDirty = true;
+    }
 
     check(nextProps?: T) {
         if (!nextProps) {

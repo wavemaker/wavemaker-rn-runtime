@@ -62,8 +62,9 @@ export class BaseProps extends StyleProps {
     classname?: string = null as any;
     listener?: LifecycleListener = null as any;
     showindevice?: ('xs'|'sm'|'md'|'lg'|'xl'|'xxl')[] = null as any;
-    showskeleton?: boolean = false;
+    showskeleton?: boolean = undefined;
     deferload?: boolean = false;
+    showskeletonchildren?: boolean = true;
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
@@ -137,6 +138,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 if (this.propertyProvider.has(propName)) {
                     // @ts-ignore
                     const props = {} as any;
+                    this.propertyProvider.overrideProp(propName, value);
                     props[propName] = value;
                     this.updateState({
                         props: props
@@ -310,7 +312,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     isVisible() {
         const show = this.state.props.show;
-        return show !== false && show !== 'false' && show !== '0' && !isNil(show);
+        return show !== false && show !== 'false' && show !== '0' && !isNil(show) && show !== "";
     }
 
     protected abstract renderWidget(props: T): ReactNode;
@@ -331,7 +333,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.parentListenerDestroyers.map(fn => fn());
     }
 
-    public setParent(parent: BaseComponent<any, any, any>) {
+    protected setParent(parent: BaseComponent<any, any, any>) {
         if (parent && this.parent !== parent)  {
             this.parent = parent;
             this.parent.componentNode.add(this.componentNode);
@@ -457,8 +459,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                             return (<ParentContext.Consumer>
                                 {(parent) => {
                                     this.setParent(parent);
-                                    this._showSkeleton = this.parent?._showSkeleton 
-                                        || !!this.state.props.showskeleton;
+                                    this._showSkeleton = this.state.props.showskeleton !== false 
+                                        && (this.parent?._showSkeleton || this.state.props.showskeleton === true);
                                     return (
                                         <ParentContext.Provider value={this}>
                                             <ThemeConsumer>
@@ -476,7 +478,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 </TextIdPrefixConsumer>)}}
         </TappableContext.Consumer>); 
     }
-      
+    
     public render(): ReactNode {
         const props = this.state.props;
         this.isFixed = false;

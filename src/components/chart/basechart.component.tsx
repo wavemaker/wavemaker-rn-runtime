@@ -14,6 +14,7 @@ import { DEFAULT_CLASS, BaseChartComponentStyles} from "./basechart.styles";
 import _ from "lodash";
 import { constructSampleData, getChartType } from "./staticdata";
 import { isWebPreviewMode } from "@wavemaker/app-rn-runtime/core/utils";
+import WmLottie from "../basic/lottie/lottie.component";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -83,7 +84,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   onViewLayoutChange(e: LayoutChangeEvent){
     let viewWidth = e.nativeEvent.layout.width;
     let viewHeight = e.nativeEvent.layout.height;
-    if (viewWidth !== this.state.chartWidth) {
+    if (this?.state && viewWidth !== this.state.chartWidth) {
       this.updateState({
         chartWidth: Number(viewWidth),
         totalHeight: Number(viewHeight)
@@ -140,6 +141,28 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     return Math.abs(value) - _min > 0 ? value - .1 : _min - 1;
   };
 
+  setYAxisFormat(yVal: any, ynumberformat: string){
+    const matchFixed = ynumberformat.match(/\.([0-9])f/);
+    const matchExponential = ynumberformat.match(/\.([0-9])g/);
+    if (matchFixed) {
+        return yVal.toFixed(parseInt(matchFixed[1], 10));
+    } else if (matchExponential) {
+        return yVal.toExponential(parseInt(matchExponential[1], 10));
+    }
+    switch (ynumberformat) {
+      case '%':
+          return (yVal * 100).toFixed(0) + '%';
+      case 'Billion':
+          return (yVal / 1e9).toFixed(1) + 'B';
+      case 'Million':
+          return (yVal / 1e6).toFixed(1) + 'M';
+      case 'Thousand':
+          return (yVal / 1e3).toFixed(1) + 'K';
+      case ',r':
+          return yVal.toLocaleString();
+    }
+  }
+
   // x axis with vertical lines having grid stroke colors
   getXaxis() {
     const minIndex = 0;
@@ -185,6 +208,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       return null;
     }
     const getTickValueLabel = props.ytickexpr as any;
+    const ynumberformat = props.ynumberformat;
     let xaxislabeldistance = props.xaxislabeldistance ? props.xaxislabeldistance : 20
     return <VictoryAxis crossAxis={false} label={(props.yaxislabel || props.yaxisdatakey) + (props.yunits ? `(${props.yunits})` : '')}
                         style={{
@@ -202,6 +226,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                         tickFormat= {(d: number, i: number, ticks: any) => {
                           if (getTickValueLabel) {
                             return getTickValueLabel(d, i, (ticks || []).length);
+                          }
+                          if (ynumberformat) {
+                            return this.setYAxisFormat(d, ynumberformat);
                           }
                           return this.abbreviateNumber(d);
                         }}
@@ -248,6 +275,8 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   }
 
   getTooltip() {
+    const ynumberformat = this.state.props.ynumberformat;
+    let yAxisData = ynumberformat ? this.setYAxisFormat(this.state.tooltipYaxis, ynumberformat) : this.state.tooltipYaxis;
     return this.state.isTooltipOpen ? (
       !isEmpty(this.state.template) && this.props.renderitempartial ?
       <View onLayout={this.setTooltipPartialLayout.bind(this)} style={{ position: "absolute", top: this.state.tooltipYPosition as number, left: this.state.tooltipXPosition as number , zIndex: 99}}>
@@ -259,7 +288,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
         this.styles.tooltipContainer
       ]}>
         <Text style={[{ fontSize: 16, fontWeight: 'bold' },this.styles.tooltipXText]}>{this.state.tooltipXaxis}</Text>
-        <Text style={this.styles.tooltipXText}>{this.state.tooltipYaxis}</Text>
+        <Text style={this.styles.tooltipXText}>{yAxisData}</Text>
         {this.renderPointer()}
       </View>)
     ) : null;
@@ -539,7 +568,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
 
   protected renderLoadingIcon() {
     const props = this.state.props;
-    return (<WmIcon styles={this.styles.loadingIcon}
+    return (<WmIcon id={this.getTestId('loadericon')} styles={this.styles.loadingIcon}
     iconclass={props.loadingicon}
     caption={props.loadingdatamsg}></WmIcon>);
   }
@@ -620,6 +649,15 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
         } as S);
         break;
     }
+  }
+
+  public renderSkeleton(props: T): React.ReactNode {
+    if(props.skeletonanimationresource) {
+      return <View style={[{width: '100%'}, this.styles?.root]}>
+      <WmLottie styles={{ content: {...this.styles?.root, ...this.styles?.skeleton?.root} }} source={props.skeletonanimationresource} loop={true} autoplay={true} speed={this.props.skeletonanimationspeed}/>
+    </View>
+    }
+    return null;
   }
 }
 function getDataType(widgetContext: { yaxisdatakey: string | null | undefined; shape: any; }): any {

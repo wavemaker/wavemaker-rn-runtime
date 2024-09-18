@@ -4,6 +4,8 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmLinearlayoutProps from './linearlayout.props';
 import { DEFAULT_CLASS, WmLinearlayoutStyles } from './linearlayout.styles';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 const ALIGNMENT_MAP = {
   'top':  'flex-start',
@@ -38,9 +40,33 @@ export default class WmLinearlayout extends BaseComponent<WmLinearlayoutProps, W
     return s;
   }
 
+  protected getBackground(): React.JSX.Element | null {
+    return this._showSkeleton ? null : this._background
+  } 
+  
+  public renderSkeleton(props: WmLinearlayoutProps): React.ReactNode {
+      if(!props.showskeletonchildren) {
+        const skeletonStyles: WmSkeletonStyles = this.props?.styles?.skeleton || { root: {}, text: {}  } as WmSkeletonStyles
+        return createSkeleton(this.theme, skeletonStyles, {
+          ...this.styles.root
+        }, (<View style={[this.styles.root, { opacity: 0 }]}>
+          {props.children}
+        </View>))
+      }
+      return null;
+    }
+
+
   renderWidget(props: WmLinearlayoutProps) {
-    return (<View style={{...this.getStyles(props), ...this.styles.root}}>
-      {this._background}{props.children}
+
+    const rootStyles = {...this.getStyles(props), ...this.styles.root}
+    const styles = this._showSkeleton ? {
+      ...rootStyles,
+      ...this.styles.skeleton.root
+    } : rootStyles
+
+    return (<View style={styles}>
+      {this.getBackground()}{props.children}
       </View>); 
   }
 }

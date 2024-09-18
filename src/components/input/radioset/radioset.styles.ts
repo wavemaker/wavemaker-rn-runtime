@@ -1,6 +1,6 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 
 export type WmRadiosetStyles = BaseStyles & {
@@ -51,7 +51,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root: {
           width: '100%',
           height: 16,
-          borderRadius: 4
+          borderRadius: 4,
         }
       } as any as WmSkeletonStyles,
       uncheckedRadio: {

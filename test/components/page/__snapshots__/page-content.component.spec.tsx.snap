@@ -1,13 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test PageContent component Check validity of sample component 1`] = `
-<RCTScrollView
+exports[`Test PageContent component should render pageContent component 1`] = `
+<View
   style={
-    Object {
-      "flex": 1,
+    {
+      "backgroundColor": "#eeeeee",
+      "height": "100%",
+      "width": "100%",
     }
   }
 >
-  <View />
-</RCTScrollView>
+  <RCTScrollView
+    collapsable={false}
+    contentContainerStyle={
+      [
+        {
+          "backgroundColor": "#eeeeee",
+          "minHeight": "100%",
+          "paddingBottom": 8,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "paddingTop": 8,
+        },
+        {
+          "backgroundColor": "transparent",
+        },
+      ]
+    }
+    handlerTag={1}
+    handlerType="NativeViewGestureHandler"
+    onGestureHandlerEvent={[Function]}
+    onGestureHandlerStateChange={[Function]}
+    onScroll={[Function]}
+    scrollEventThrottle={48}
+    showsVerticalScrollIndicator={true}
+    waitFor={
+      [
+        {
+          "current": null,
+        },
+      ]
+    }
+  >
+    <View />
+  </RCTScrollView>
+</View>
 `;

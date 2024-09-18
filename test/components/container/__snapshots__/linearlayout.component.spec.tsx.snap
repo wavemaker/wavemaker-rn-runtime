@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Linearlayout component Check validity of sample component 1`] = `
+<View
+  style={
+    {
+      "alignItems": "flex-start",
+      "display": "flex",
+      "flexDirection": "row",
+      "justifyContent": "flex-start",
+      "width": "100%",
+    }
+  }
+/>
+`;

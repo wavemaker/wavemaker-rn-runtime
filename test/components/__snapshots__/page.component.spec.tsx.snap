@@ -1,10 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Page component Check validity of sample component 1`] = `
+exports[`Test Page component should render page component 1`] = `
 <View
+  onMoveShouldSetResponder={[Function]}
+  onMoveShouldSetResponderCapture={[Function]}
+  onResponderEnd={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderReject={[Function]}
+  onResponderRelease={[Function]}
+  onResponderStart={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  onStartShouldSetResponderCapture={[Function]}
   style={
-    Object {
-      "flex": 1,
+    {
+      "bottom": 0,
+      "flexDirection": "column",
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
     }
   }
 />

@@ -12,4 +12,5 @@ export default class WmCarouselProps extends BaseProps {
   renderSlide?: ($item: any, $index: number, carousel: any) => React.ReactNode;
   enablegestures  = true;
   maxnoofdots = 20;
+  showskeletonchildren?: boolean = false;
 }

@@ -13,6 +13,8 @@ import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.compon
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 import { find, forEach, isEqual } from 'lodash-es';
 import { isEmpty } from 'lodash';
+import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
+import { getNumberOfEmptyObjects } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmRadiosetState extends BaseDatasetState<WmRadiosetProps> {
   template: string = '';
@@ -25,10 +27,10 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
   }
 
   onPress(item: any) {
-    this.invokeEventCallback('onTap', [null, this.proxy]);
     if (this.state.props.disabled || this.state.props.readonly) {
       return;
     }
+    this.invokeEventCallback('onTap', [null, this.proxy]);
     item.selected = true;
     let selectedValue: any = "";
     const selectedItem = find(this.state.dataItems, d => isEqual(d.key, item.key));
@@ -49,10 +51,10 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
       <TouchableOpacity style={[
         this.styles.item,
         item.selected ? this.styles.selectedItem : null,
-        {width: colWidth}]} onPress={this.onPress.bind(this, item)} key={item.key} {...this.getTestPropsForAction()}>
-          <WmIcon {...this.getTestProps('' + index)} iconclass="wi wi-fiber-manual-record" styles={item.selected ? this.styles.checkedRadio : this.styles.uncheckedRadio} disabled={this.state.props.readonly || this.state.props.disabled} accessibilitylabel={`Radio button for ${displayText}`}></WmIcon>
+        {width: colWidth}]} onPress={this.onPress.bind(this, item)} key={item.key} {...this.getTestPropsForAction("radio"+index)}>
+          <WmIcon id={this.getTestId('radiobutton' + index)} iconclass="wi wi-fiber-manual-record" styles={item.selected ? this.styles.checkedRadio : this.styles.uncheckedRadio} disabled={this.state.props.readonly || this.state.props.disabled}></WmIcon>
           {!isEmpty(this.state.template) && this.props.renderitempartial ?
-          this.props.renderitempartial(item.dataObject, index, this.state.template) : <Text style={this.styles.radioLabel} {...this.getTestPropsForLabel('caption')}>{displayText}</Text>}
+          this.props.renderitempartial(item.dataObject, index, this.state.template) : <Text style={this.styles.radioLabel} {...this.getTestPropsForLabel('caption'+index)}>{displayText}</Text>}
       </TouchableOpacity>)
   }
 
@@ -86,6 +88,19 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
         {items && items.length ?
           items.map((item: any, index: any) => this.renderChild(item, index, colWidth)): null}
       </View>)
+  }
+
+  public renderSkeleton(props: WmRadiosetProps): React.ReactNode {
+    const noOfColumns = props.itemsperrow.xs || 1;
+    const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
+
+    return [...getNumberOfEmptyObjects(props.numberofskeletonitems as number ?? 5)].map(_ => {
+      return <View style={[this.styles.item, {width: colWidth}]}>
+        <WmIcon styles={this.styles.checkedRadio}/>
+        <WmLabel styles={{ skeleton: this.styles.skeleton }}/>
+      </View>
+    })
+
   }
 
   renderWidget(props: WmRadiosetProps) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { get, filter, isNil } from 'lodash';
 
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
@@ -20,14 +20,21 @@ import spinnerService from '@wavemaker/app-rn-runtime/runtime/services/app-spinn
 import AppI18nService from './services/app-i18n.service';
 import { Watcher } from './watcher';
 import WmFormAction from '@wavemaker/app-rn-runtime/components/data/form/form-action/form-action.component';
+import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.component';
+import { WmSkeletonStyles } from '../components/basic/skeleton/skeleton.styles';
 
-export class FragmentProps extends BaseProps {
-
+export class SkeletonAnimationProps extends BaseProps {
+  skeletonanimationresource = "";
+  skeletonanimationspeed = 1;
 }
+
+export class FragmentProps extends SkeletonAnimationProps {}
 
 export interface FragmentState<T extends FragmentProps> extends BaseComponentState<T> {}
 
-export type FragmentStyles = BaseStyles & {};
+export type FragmentStyles = BaseStyles & {
+  skeleton?: WmSkeletonStyles
+};
 export default abstract class BaseFragment<P extends FragmentProps, S extends FragmentState<P>> extends BaseComponent<P, S, FragmentStyles> implements LifecycleListener {
     public App: App;
     public onReady: Function = () => {};
@@ -39,7 +46,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public theme: Theme = BASE_THEME;
     public appLocale: any = {};
     private startUpVariables: string[] = [];
-    private startUpVariablesLoaded = false;
+    protected startUpVariablesLoaded = false;
     private startUpActions: string[] = [];
     private autoUpdateVariables: string[] = [];
     private cleanUpVariablesandActions: BaseVariable<any>[] = [];
@@ -220,6 +227,21 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       return inlineStyles;
     }
 
+    getFormFieldStyles(formField: any, type: string){
+      let suffix = ''
+      switch(type){
+        case 'label' :
+          suffix = '_formLabel'
+          break
+        case 'commonField' :
+          suffix = '-input'
+          break
+        default :
+          ''
+      }
+      return formField?.classname?.trim()?.split(' ')?.map((s:string) => s.trim() + suffix).join(' ');
+    }
+
     resetAppLocale() {
       this.appLocale = this.appConfig.appLocale.messages;
       Object.values(this.fragments).forEach((f: any) => (f as BaseFragment<any, any>).resetAppLocale());
@@ -391,6 +413,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       }}
       </ParentContext.Consumer>) : null;
     }
+
 }
 
 

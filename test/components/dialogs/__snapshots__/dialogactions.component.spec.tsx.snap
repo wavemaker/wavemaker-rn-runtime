@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dialogactions component should not show component when show is false 1`] = `
+<View
+  style={
+    {
+      "height": 0,
+      "transform": [
+        {
+          "scale": 0,
+        },
+      ],
+      "width": 0,
+    }
+  }
+>
+  <Text>
+    Test children component
+  </Text>
+</View>
+`;
+
+exports[`Dialogactions component should render component 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "borderColor": "#cccccc",
+      "borderStyle": "solid",
+      "flexDirection": "row",
+      "justifyContent": "flex-end",
+    }
+  }
+/>
+`;
+
+exports[`Dialogactions component should render component with children 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "borderColor": "#cccccc",
+      "borderStyle": "solid",
+      "flexDirection": "row",
+      "justifyContent": "flex-end",
+    }
+  }
+>
+  <Text>
+    Test children component
+  </Text>
+</View>
+`;
+
+exports[`Dialogactions component should render component with custom style 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "borderColor": "#404040",
+      "borderStyle": "solid",
+      "flexDirection": "row",
+      "justifyContent": "flex-end",
+    }
+  }
+>
+  <Text>
+    Test children component
+  </Text>
+</View>
+`;

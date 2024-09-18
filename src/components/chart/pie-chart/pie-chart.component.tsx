@@ -174,7 +174,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
               />
               <VictoryLabel
                 textAnchor="middle"
-                style={this.styles.title as any}
+                style={{ ...this.styles.centerLabel, fill: this.styles.centerLabel.color }}
                 x={origin.x} y={origin.y}
                 text={props.centerlabel}
               />

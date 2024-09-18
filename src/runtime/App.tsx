@@ -90,7 +90,8 @@ const SUPPORTED_SERVICES = {
   Utils: Utils,
   CONSTANTS: ConstantService,
   StorageService: StorageService,
-  AppDisplayManagerService: AppDisplayManagerService
+  AppDisplayManagerService: AppDisplayManagerService,
+  i18nService: AppI18nService
 };
 
 export default abstract class BaseApp extends React.Component implements NavigationService {

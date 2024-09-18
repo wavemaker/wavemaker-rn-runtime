@@ -8,6 +8,7 @@ import WmPrefabContainer from '@wavemaker/app-rn-runtime/components/prefab/prefa
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
 import axios from 'axios';
 import { Watcher } from './watcher';
+import WmLottie from '../components/basic/lottie/lottie.component';
 
 
 export interface PrefabProps extends FragmentProps {
@@ -92,7 +93,7 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
     }
 
     abstract renderPrefab(): React.ReactNode;
-
+    
     renderWidget(props: PrefabProps) {
       return (
         <PartialProvider value={this.partialService}>

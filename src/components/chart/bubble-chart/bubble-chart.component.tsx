@@ -13,6 +13,7 @@ import {VictoryAxis, VictoryChart, VictoryLegend, VictoryLine, VictoryScatter} f
 import { ScatterSymbolType } from "victory-core";
 import {Svg} from "react-native-svg";
 import {get} from "lodash-es";
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 export class WmBubbleChartState extends BaseChartComponentState<WmBubbleChartProps> {}
 
@@ -49,6 +50,13 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
       onLayout={this.onViewLayoutChange.bind(this)}
     >
       {this.getTooltip()}
+      <View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          { props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
+          <Text style={this.styles.title}>{props.title}</Text>
+        </View>
+        <Text style={this.styles.subHeading}>{props.subheading}</Text>
+      </View>
       <VictoryChart
         theme={this.state.theme}
         height={this.styles.root.height as number}
@@ -58,7 +66,6 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
         <VictoryLegend
           name={'legend'}
           containerComponent={<Svg />}
-          title={[props.title, props.subheading]}
           orientation="horizontal"
           gutter={20}
           data={[]}

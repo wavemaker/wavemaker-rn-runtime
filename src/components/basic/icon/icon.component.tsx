@@ -130,10 +130,21 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   }
 
   public renderSkeleton(props: WmIconProps) {
+    let skeletonWidth = (this.props.skeletonwidth || this.props.iconsize || this.styles.root.width) as DimensionValue;
+    let skeletonHeight =  (this.props.skeletonheight || this.props.iconsize || this.styles.root.height) as DimensionValue
+
+    if(this.props.skeletonheight == "0") {
+      skeletonWidth = 0
+    }
+    
+    if(this.props.skeletonheight == "0") {
+      skeletonHeight = 0
+    }
+    
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
-      width: (this.props.skeletonwidth || this.props.iconsize || this.styles.root.width) as DimensionValue,
-      height: (this.props.skeletonheight || this.props.iconsize || this.styles.root.height) as DimensionValue
+      width: skeletonWidth,
+      height: skeletonHeight
     });
   }
 
@@ -200,7 +211,8 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
       //@ts-ignore type information is not matching
       iconJsx = (<FontAwesome name={customIcon ? '' : iconDef.type}
         style={style}
-        size={iconSize}>
+        size={iconSize}
+        {...this.getTestProps('icon')}>
           {customIcon}
         </FontAwesome>);
     } else if (props.show && iconDef) {
@@ -215,7 +227,8 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
       //@ts-ignore type information is not matching
       iconJsx = WMCustomIcon ? (<WMCustomIcon name={customIcon ? '' : iconDef.type}
         style={style}
-        size={iconSize}>
+        size={iconSize}
+        {...this.getTestProps('icon')}>
         {customIcon}
       </WMCustomIcon>) : null;
     }

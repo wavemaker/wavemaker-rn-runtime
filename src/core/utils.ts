@@ -2,6 +2,7 @@ import { Platform } from 'react-native';
 import moment from "moment";
 import * as FileSystem from "expo-file-system";
 import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber} from 'lodash';
+import * as mime from 'react-native-mime-types';
 import ThemeVariables from '../styles/theme.variables';
 
 declare const window: any;
@@ -378,13 +379,17 @@ function getDaysInMonth(month: number, year: number) {
 }
 
 export const getDates = (
+  startDate: number,
+  endDate: number,
   month = 0, // zero-based
   year = new Date().getFullYear(),
 ) => {
   const daysInMonth = getDaysInMonth(month, year);
   const dates = Array.from({length: daysInMonth}, (v, i) => i + 1);
 
-  return dates;
+  const datesInRange = dates.filter(date => date >= startDate);
+
+  return datesInRange;
 };
 
 export const monthNames = [
@@ -402,11 +407,19 @@ export const monthNames = [
   'December',
 ];
 
-export const getMonths = () => {
+export const getMonths = (startMonth: number, endMonth: number) => {
   const months = monthNames.map(name => name.substring(0, 3));
+  const monthRange = months.filter((_, index) => index >= startMonth)
 
-  return months;
+  return monthRange;
 };
+
+export const getMonthIndex = (monthName: string, shortName: boolean = true) => {
+  const months = shortName ? monthNames.map(name => name.substring(0, 3)) : monthNames;
+  const monthNumber = months.findIndex((name) => name === monthName);
+
+  return monthNumber;
+}
 
 export const getYearRange = (
   startYear: number = 1950,
@@ -500,4 +513,83 @@ export const parseLinearGradient = (gradient: string) => {
   color2 = matches?.[3] || ThemeVariables.INSTANCE.primaryColor;
 
   return {hasLinearGradient, color1, color2, start, end};
+}
+
+export const validateInputOnDevice = (value: string, type: 'number' | 'currency') => {
+  const isCurrencyField = type === 'currency';
+  let isValidText = true;
+  let validText = value;
+  
+  // * no alphabets except E, may contain E only once
+  if (/[a-df-zA-DF-Z]/.test(value) || !/^[^eE]*[eE]?[^eE]*$/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/[a-df-zA-DF-Z]/g, '');
+    validText = validText.replace(/([eE])\1+/g, 'e');
+  }
+
+  // * currency only: check for negative number
+  if (isCurrencyField && (Number(value) < 0 || /-/g.test(value))) {
+    isValidText = false;
+    validText = validText.replace(/-/g, '');
+  }
+
+  // * number only: not more than one minus and doesn't end with minus (-)
+  if (!isCurrencyField && (Number(value.match(/-/g)?.length) > 1) || /\w-/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/-/g, '');
+    validText = validText.replace(/\w-/g, '');
+  }
+
+  // * check for more than one decimal point
+  if (/^\d*\.\d*\..*$/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/\.(?=\.*\.)/g, '');
+  }
+
+  // * check for spaces and comma
+  if (/[\s,]/.test(value)) {
+    isValidText = false;
+    validText = validText.replace(/[\s,]/, '');
+  }
+
+  return {isValidText, validText};
+}
+
+export const isDateFormatAsPerPattern = (
+  datePattern?: string,
+  dateString?: string | Date
+) => {
+  try {
+    // * format dateString as per datePattern
+    const date = moment(dateString, datePattern, true);
+
+    // * check date is valid and matches the format
+    return date.isValid() && typeof dateString === 'string' && dateString?.toUpperCase() === date.format(datePattern)?.toUpperCase();
+  } catch (error) {
+    // * if not able to parse date string
+    return false;
+  }
+};
+
+export const getMimeType = (extensions?: string) => {
+  if (!extensions) return '*/*';
+  let hasInvalidExtension = false;
+  let wildCards = ['image/*', 'audio/*', 'video/*'];
+  let extensionList = extensions.split(' ');
+  let mimeType = extensionList
+    .map((extension: string) => {
+      let type = mime.lookup(extension);
+      let isWildCardExtension = wildCards.includes(extension);
+      // * invalid extension, also not in wildcards
+      hasInvalidExtension = !type && !isWildCardExtension;
+      return type ? type : isWildCardExtension ? extension : '';
+    })
+    .filter((type) => type);
+
+  if (hasInvalidExtension) return '*/*';
+  return mimeType;
+};
+
+export function getNumberOfEmptyObjects(noOfItems: number) {
+  return Array.from({ length: noOfItems }, () => ({}));
 }

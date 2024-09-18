@@ -33,7 +33,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
   }: any) {
     return iconclass || iconurl
       ? (<WmIcon
-          {...this.getTestPropsForLabel('icon')}
+          id={this.getTestId('icon')}
           hint={hint}
           styles={this.styles.icon}
           name={`${name}_icon`}
@@ -48,14 +48,27 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
 
   private prepareBadge(props: any) {
     //@ts-ignore
-    return (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>);
+    return (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{props.badgevalue}</Badge>);
   }
 
   public renderSkeleton(prop: WmButtonProps) {
+    let skeletonWidth, skeletonHeight;
+    if(this.props.skeletonwidth == "0") {
+      skeletonWidth = 0
+    } else {
+      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
+    }
+
+    if(this.props.skeletonheight == "0") {
+      skeletonHeight = 0
+    } else {
+      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
+    }
+    
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
-      width: (this.props.skeletonwidth || this.styles.root.width)as DimensionValue,
-      height: (this.props.skeletonheight || this.styles.root.height) as DimensionValue
+      width: skeletonWidth as DimensionValue,
+      height: skeletonHeight as DimensionValue
     });
   }
 

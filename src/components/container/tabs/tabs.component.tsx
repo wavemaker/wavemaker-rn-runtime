@@ -8,6 +8,8 @@ import WmTabsProps from './tabs.props';
 import { DEFAULT_CLASS, WmTabsStyles } from './tabs.styles';
 import WmTabpane from './tabpane/tabpane.component';
 import WmTabheader from './tabheader/tabheader.component';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmTabsState extends BaseComponentState<WmTabsProps> {
   tabsShown: boolean[] = [];
@@ -89,6 +91,9 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   }
 
   goToTab(index = this.state.selectedTabIndex) {
+    if (index < 0 || index >= this.tabPanes.length) {
+      return;
+    }
     const position = -1 * index * (this.tabLayout?.width || 0);
     if(this.animationView) {
       this.animationView.setPosition(position)
@@ -125,7 +130,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     });
   }
 
-  public renderSkeleton(props: WmTabsProps){
+  public renderSkeletonContent(props: WmTabsProps) {
     const tabPanes =  React.Children.toArray(this.props.children)
     .filter((item: any, index: number) => item.props.show != false);
     const headerData = tabPanes.map((p: any, i: number) =>
@@ -163,8 +168,19 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         </View>
       </View>
     </View>
-
     )
+  }
+
+  public renderSkeleton(props: WmTabsProps){
+    if(!this.props.showskeletonchildren) {
+      const skeletonStyles: WmSkeletonStyles = this.props?.styles?.skeleton || { root: {}, text: {}  } as WmSkeletonStyles
+      return createSkeleton(this.theme, skeletonStyles, {
+        ...this.styles.root
+      }, (<View style={[this.styles.root, { opacity: 0 }]}>
+        {this.renderSkeletonContent(props)}
+      </View>)) 
+    }
+    return this.renderSkeletonContent(props);
   }
 
   public onPropertyChange(name: string, $new: any, $old: any): void {
@@ -181,14 +197,23 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     }
   }
 
+  getBackground(): React.JSX.Element | null {
+    return this._showSkeleton ? null : this._background
+  } 
+
+
   renderWidget(props: WmTabsProps) {
     const tabPanes =  React.Children.toArray(props.children)
       .filter((item: any, index: number) => item.props.show != false);
     const headerData = tabPanes.map((p: any, i: number) =>
       ({title: p.props.title || 'Tab Title',  icon: p.props.paneicon || '', key:  `tab-${p.props.title}-${i}`}));
+    const styles = this._showSkeleton ? {
+      ...this.styles.root,
+      ...this.styles.skeleton.root
+    } : this.styles.root
     return (
-      <View style={this.styles.root}>
-        {this._background}
+      <View style={styles}>
+        {this.getBackground()}
         <View onLayout={this.setTabLayout.bind(this)} style={{width: '100%'}}></View>
         <WmTabheader
           id={this.getTestId('headers')}

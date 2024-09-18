@@ -3,6 +3,7 @@ import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export default class BaseNumberProps extends BaseProps {
   datavalue: any;
+  hastwowaybinding = false;
   minvalue: number = null as any;
   maxvalue: number = null as any;
   step: number = 1;
@@ -17,4 +18,5 @@ export default class BaseNumberProps extends BaseProps {
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole;
   accessibilitylabelledby?: string = undefined;
+  displayValue?: string;
 }

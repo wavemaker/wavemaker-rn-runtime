@@ -36,7 +36,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
 
   renderWidget(props: WmAppNavbarProps) {
     //@ts-ignore
-    const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge}>{props.badgevalue}</Badge>): null;
+    const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{props.badgevalue}</Badge>): null;
     return (
       <View style={this.styles.root}>
         {this._background}

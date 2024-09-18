@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Container component Check validity of sample component 1`] = `
+<View
+  style={{}}
+  testID="non_animatableView"
+>
+  <View
+    style={
+      {
+        "height": undefined,
+        "width": undefined,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": undefined,
+            "width": undefined,
+          },
+          {
+            "flexDirection": "column",
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;
