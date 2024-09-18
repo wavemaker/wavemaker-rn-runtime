@@ -386,24 +386,35 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
           .forEach(value => this.Variables[value]?.invokeOnParamChange());
       }
       return this.isVisible() ? (
-      <ThemeProvider value={this.theme}>
-        <TextIdPrefixConsumer>
-            {(testIdPrefix) => {
-              this.testIdPrefix = testIdPrefix || '';
-              return (
-              <TestIdPrefixProvider value={this.generateTestIdPrefix() || ''}>
-                <ToastConsumer>
-                {(toastService: ToastService) => {
-                  this.toaster = toastService;
-                  return this.renderWidget(this.props);
-                }}
-              </ToastConsumer>
-              </TestIdPrefixProvider>);
-            }}
-        </TextIdPrefixConsumer>
-
-      </ThemeProvider>) : null;
+      <ParentContext.Consumer>
+        {(parent) => {
+        this.setParent(parent);
+        this._showSkeleton = this.state.props.showskeleton !== false 
+        && (this.parent?._showSkeleton || this.state.props.showskeleton === true);
+        let theme = this.theme;
+        return (
+      <ParentContext.Provider value={this}>
+        <ThemeProvider value={theme}>
+          <TextIdPrefixConsumer>
+              {(testIdPrefix) => {
+                this.testIdPrefix = testIdPrefix || '';
+                return (
+                <TestIdPrefixProvider value={this.generateTestIdPrefix() || ''}>
+                  <ToastConsumer>
+                  {(toastService: ToastService) => {
+                    this.toaster = toastService;
+                    return this.renderWidget(this.props);
+                  }}
+                </ToastConsumer>
+                </TestIdPrefixProvider>);
+              }}
+          </TextIdPrefixConsumer>
+        </ThemeProvider>
+      </ParentContext.Provider>);
+      }}
+      </ParentContext.Consumer>) : null;
     }
+
 
 }
 
