@@ -15,4 +15,3 @@ export default class WmWizardProps extends BaseProps {
   popovericonclass: string = 'fa fa-caret-down';
   headernavigation: boolean = true
 }
-

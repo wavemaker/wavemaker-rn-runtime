@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, Platform, TouchableWithoutFeedback } from 'react-native';
 import { isArray, merge } from 'lodash';
-import {  BaseComponent, BaseComponentState, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmWizardProps from './wizard.props';
 import { DEFAULT_CLASS, WmWizardStyles } from './wizard.styles';
@@ -12,8 +12,6 @@ import WmWizardstep from './wizardstep/wizardstep.component';
 import WmProgressCircle from '@wavemaker/app-rn-runtime/components/basic/progress-circle/progress-circle.component';
 import WmPopover from '@wavemaker/app-rn-runtime/components/navigation/popover/popover.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
-import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
-import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmWizardState extends BaseComponentState<WmWizardProps> {
   currentStep: number = 0;
@@ -227,35 +225,14 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     this.next('skip');
   }
 
-  getBackground(): React.JSX.Element | null {
-    return this._showSkeleton ? null : this._background
-  } 
-  
-  public renderSkeleton(props: WmWizardProps): React.ReactNode {
-      if(!props.showskeletonchildren) {
-        const skeletonStyles: WmSkeletonStyles = this.props?.styles?.skeleton || { root: {}, text: {}  } as WmSkeletonStyles
-        return createSkeleton(this.theme, skeletonStyles, {
-          ...this.styles.root
-        }, (<View style={[this.styles.root, { opacity: 0 }]}>
-          {props.children}
-        </View>))
-      }
-      return null;
-    }
-
-
   renderWidget(props: WmWizardProps) {
     this.numberOfSteps = this.steps.length;
     const activeStep = this.steps[this.state.currentStep];
     const isSkippable = activeStep && activeStep.state.props.enableskip;
     const isProgressCircleHeader = this.state.props.classname?.includes('progress-circle-header');
-    const styles = this._showSkeleton ? {
-      ...this.styles.root,
-      ...this.styles.skeleton.root
-    } : this.styles.root
     return (
-      <View style={styles}>
-        {this.getBackground()}
+      <View style={this.styles.root}>
+        {this._background}
         <View style={this.styles.wizardHeader}>
           {activeStep && isProgressCircleHeader ? (this.renderProgressCircleHeader(activeStep, this.state.currentStep)) : (this.steps ? this.steps.map((step, i) => this.renderWizardHeader(step, i)) : null)}
         </View>

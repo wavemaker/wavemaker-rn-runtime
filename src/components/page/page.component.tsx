@@ -5,7 +5,6 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmPageProps from './page.props';
 import { DEFAULT_CLASS, WmPageStyles } from './page.styles';
-import WmLottie from '../basic/lottie/lottie.component';
 
 export class WmPageState extends BaseComponentState<WmPageProps> {}
 
@@ -20,6 +19,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   constructor(props: WmPageProps) {
     super(props, DEFAULT_CLASS, );
   }
+
   renderWidget(props: WmPageProps) {
     return (
       <View style={this.styles.root} {...this.panResponder.panHandlers}>

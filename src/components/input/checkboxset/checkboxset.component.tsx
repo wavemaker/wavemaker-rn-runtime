@@ -14,8 +14,6 @@ import {
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
-import { getNumberOfEmptyObjects } from '@wavemaker/app-rn-runtime/core/utils';
-import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 
 export class WmCheckboxsetState extends BaseDatasetState<WmCheckboxsetProps> {
   isValid: boolean = true;
@@ -110,19 +108,6 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
         : null}
     </View>)
   }
-
-  public renderSkeleton(props: WmCheckboxsetProps): React.ReactNode {
-    const noOfColumns = props.itemsperrow.xs || 1;
-    const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
-
-    return [...getNumberOfEmptyObjects(props.numberofskeletonitems as number ?? 3)].map(_ => {
-      return <View style={[this.styles.item, {width: colWidth}]}>
-        <WmIcon styles={this.styles.checkicon}/>
-        <WmLabel styles={{ root: this.styles.text }}/>
-      </View>
-    })
-  }
-
   renderWidget(props: WmCheckboxsetProps) {
     const items = this.state.dataItems;
     return (

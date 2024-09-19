@@ -1,5 +1,5 @@
 import React from 'react';
-import { DimensionValue, Platform } from 'react-native';
+import { Platform, TextInput, View } from 'react-native';
 import WmTextareaProps from './textarea.props';
 import { DEFAULT_CLASS, WmTextareaStyles } from './textarea.styles';
 import {
@@ -9,7 +9,6 @@ import {
 import { WMTextInput } from '@wavemaker/app-rn-runtime/core/components/textinput.component';
 import { isNull } from 'lodash';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
-import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmTextareaState extends BaseInputState<WmTextareaProps> {}
 
@@ -26,27 +25,6 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
     }
     classes.push(super.getStyleClassName());
     return classes.join(' ');
-  }
-
-  public renderSkeleton(props: WmTextareaProps): React.ReactNode {
-    let skeletonWidth, skeletonHeight;
-    if(this.props.skeletonwidth == "0") {
-      skeletonWidth = 0
-    } else {
-      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
-    }
-
-    if(this.props.skeletonheight == "0") {
-      skeletonHeight = 0
-    } else {
-      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
-    }
-
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root,
-      width: skeletonWidth as DimensionValue,
-      height: skeletonHeight as DimensionValue
-    });
   }
 
   renderWidget(props: WmTextareaProps) {

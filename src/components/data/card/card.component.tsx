@@ -10,8 +10,6 @@ import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/pictur
 
 import WmCardProps from './card.props';
 import { DEFAULT_CLASS, WmCardStyles } from './card.styles';
-import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
-import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmCardState extends BaseComponentState<WmCardProps> {}
 
@@ -57,20 +55,8 @@ export default class WmCard extends BaseComponent<WmCardProps, WmCardState, WmCa
       </View>);
   }
 
-  public renderSkeleton(props: WmCardProps): React.ReactNode {
-    if(!props.showskeletonchildren) {
-      const skeletonStyles: WmSkeletonStyles = this.props?.styles?.skeleton || { root: {}, text: {}  } as WmSkeletonStyles
-      return createSkeleton(this.theme, skeletonStyles, {
-        ...this.styles.root
-      }, (<View style={[this.styles.root, { opacity: 0 }]}>
-        {props.children}
-      </View>))
-    }
-    return null;
-  }
-
   renderWidget(props: WmCardProps) {
-       return (
+    return (
       <View style={this.styles.root}>
         {this._background}
         <Tappable {...this.getTestPropsForAction()} target={this} styles={{width: '100%', height: this.styles.root.height ? '100%' : null}}>

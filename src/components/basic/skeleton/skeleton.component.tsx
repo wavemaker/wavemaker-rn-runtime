@@ -101,7 +101,6 @@ export default class WmSkeleton extends BaseComponent<WmSkeletonProps, WmSkeleto
     return (
       <View ref={(ref) => { this.skeletonloaderRef = ref; }} onLayout={this.onLayoutChange}
         style={this.styles.root} >
-        {props.children}
         {this.state.animate ?
           <Animated.View
             style={[
@@ -126,7 +125,7 @@ export default class WmSkeleton extends BaseComponent<WmSkeletonProps, WmSkeleto
   }
 }
 
-export const createSkeleton = (theme: Theme, skeletonStyles: WmSkeletonStyles, wrapper: ViewStyle, children?: React.ReactNode) => {
+export const createSkeleton = (theme: Theme, skeletonStyles: WmSkeletonStyles, wrapper: ViewStyle) => {
   const style = {} as ViewStyle;
   const addStyleProp = (propName: any) => {
     if (!isUndefined((wrapper as any)[propName])) {
@@ -141,5 +140,5 @@ export const createSkeleton = (theme: Theme, skeletonStyles: WmSkeletonStyles, w
   addStyleProp('marginBottom');
   addStyleProp('marginLeft');
   addStyleProp('marginRight');
-  return(<WmSkeleton styles={theme.mergeStyle(skeletonStyles, {root: style})} children={children}/>);
+  return(<WmSkeleton styles={theme.mergeStyle(skeletonStyles, {root: style})}/>);
 };

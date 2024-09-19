@@ -14,7 +14,6 @@ import { DEFAULT_CLASS, BaseChartComponentStyles} from "./basechart.styles";
 import _ from "lodash";
 import { constructSampleData, getChartType } from "./staticdata";
 import { isWebPreviewMode } from "@wavemaker/app-rn-runtime/core/utils";
-import WmLottie from "../basic/lottie/lottie.component";
 
 export class BaseChartComponentState <T extends BaseChartComponentProps> extends BaseComponentState<T> {
   data: any = [];
@@ -649,15 +648,6 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
         } as S);
         break;
     }
-  }
-
-  public renderSkeleton(props: T): React.ReactNode {
-    if(props.skeletonanimationresource) {
-      return <View style={[{width: '100%'}, this.styles?.root]}>
-      <WmLottie styles={{ content: {...this.styles?.root, ...this.styles?.skeleton?.root} }} source={props.skeletonanimationresource} loop={true} autoplay={true} speed={this.props.skeletonanimationspeed}/>
-    </View>
-    }
-    return null;
   }
 }
 function getDataType(widgetContext: { yaxisdatakey: string | null | undefined; shape: any; }): any {

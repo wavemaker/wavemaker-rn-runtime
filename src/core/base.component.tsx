@@ -19,7 +19,6 @@ import { FixedView } from './fixed-view.component';
 import { TextIdPrefixConsumer } from './testid.provider';
 import { isScreenReaderEnabled } from './accessibility';
 import { Tappable, TappableContext } from './tappable.component';
-import { WmSkeletonStyles } from '../components/basic/skeleton/skeleton.styles';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -62,9 +61,8 @@ export class BaseProps extends StyleProps {
     classname?: string = null as any;
     listener?: LifecycleListener = null as any;
     showindevice?: ('xs'|'sm'|'md'|'lg'|'xl'|'xxl')[] = null as any;
-    showskeleton?: boolean = undefined;
+    showskeleton?: boolean = false;
     deferload?: boolean = false;
-    showskeletonchildren?: boolean = true;
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
@@ -328,7 +326,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.parentListenerDestroyers.map(fn => fn());
     }
 
-    protected setParent(parent: BaseComponent<any, any, any>) {
+    private setParent(parent: BaseComponent<any, any, any>) {
         if (parent && this.parent !== parent)  {
             this.parent = parent;
             this.notifier.setParent(parent.notifier);
@@ -453,8 +451,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                             return (<ParentContext.Consumer>
                                 {(parent) => {
                                     this.setParent(parent);
-                                    this._showSkeleton = this.state.props.showskeleton !== false 
-                                        && (this.parent?._showSkeleton || this.state.props.showskeleton === true);
+                                    this._showSkeleton = this.parent?._showSkeleton 
+                                        || !!this.state.props.showskeleton;
                                     return (
                                         <ParentContext.Provider value={this}>
                                             <ThemeConsumer>
@@ -472,7 +470,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 </TextIdPrefixConsumer>)}}
         </TappableContext.Consumer>); 
     }
-    
+      
     public render(): ReactNode {
         const props = this.state.props;
         this.isFixed = false;

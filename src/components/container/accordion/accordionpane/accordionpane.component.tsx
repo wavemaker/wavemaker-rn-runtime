@@ -47,10 +47,7 @@ export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps,
 
   componentDidMount() {
     const accordion = (this.parent) as WmAccordion;
-    // When skeleton is enabled in the accordion component, the parent would be WMSkeleton which doesnot have addAccordionPane function
-    if(accordion.addAccordionPane) {
-      accordion.addAccordionPane(this);
-    }
+    accordion.addAccordionPane(this);
     super.componentDidMount();
   }
 

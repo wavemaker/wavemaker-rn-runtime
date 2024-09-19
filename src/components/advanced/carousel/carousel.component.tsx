@@ -9,7 +9,6 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmCarouselProps from './carousel.props';
 import { DEFAULT_CLASS, WmCarouselStyles } from './carousel.styles';
-import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmCarouselState extends BaseComponentState<WmCarouselProps> {
   activeIndex = 1;
@@ -214,50 +213,36 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     if (maxIndex === data.length) {
       minIndex = maxIndex - maxNoOfDots;
     }
-    const dotStyle = this._showSkeleton ? {
-      ...this.styles.dotStyle,
-      ...this.styles.dotSkeleton
-    } : this.styles.dotStyle
     return (<View style={this.styles.dotsWrapperStyle}>
       <View style={{flexDirection: this.isRTL ? 'row-reverse' : 'row'}}>
         {
           data.map((item: any, index: number) => {
             return index >= minIndex && index <= maxIndex ? (
               <View key={'dots_' + this.generateItemKey(item, index, this.state.props)} {...this.getTestPropsForAction('indicator'+index)}
-                style={[dotStyle]}>
+                style={[this.styles.dotStyle]}>
               </View>) : null;
           })
         }
-        {
-          this._showSkeleton ? null : <Animated.View style={[
-            this.styles.dotStyle,
-            this.styles.activeDotStyle, {
-              width: undefined,
-              height: undefined,
-              transform: [{
-                translateX: this.dotPosition
-              }]
-            }, this.isRTL ? { right: 0 } : { left: 0}]}>
-              <Animated.View style={[{
-                width: 1,
-                height: 1
-              }, {
-                // This is failing in Android
-                // minWidth: this.dotScale
-              }]}>
-          </Animated.View>
-          </Animated.View>
-        }
+        <Animated.View style={[
+          this.styles.dotStyle,
+          this.styles.activeDotStyle, {
+            width: undefined,
+            height: undefined,
+            transform: [{
+              translateX: this.dotPosition
+            }]
+          }, this.isRTL ? { right: 0 } : { left: 0}]}>
+            <Animated.View style={[{
+              width: 1,
+              height: 1
+            }, {
+              // This is failing in Android
+              // minWidth: this.dotScale
+            }]}>
+        </Animated.View>
+        </Animated.View>
       </View>
     </View>);
-  }
-
-  public renderSkeleton(props: WmCarouselProps): React.ReactNode | null {
-    return <View>
-      {
-      createSkeleton(this.theme, this.styles.skeleton, {...this.styles.root, height: this.styles.skeleton.root?.height})}
-      {this.renderPagination([{}, {}, {}])}
-    </View>
   }
 
   componentDidMount(): void {

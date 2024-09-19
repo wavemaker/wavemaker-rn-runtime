@@ -52,8 +52,7 @@ export default class ThemeVariables {
     tabbarInactiveColor  = '#d8d8d8';
     maxModalHeight = Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0);
     maxWidth = Dimensions.get("window").width; 
-    skeletonBackgroundColor = "#F4F5F8";
-    
+
      //rippleColor
      rippleColor = this.transparent
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity} from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import {getGroupedData, getNumberOfEmptyObjects, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
+import {getGroupedData, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
@@ -349,18 +349,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderItem(item: any, index: number, props: WmListProps) {
     const cols = this. getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
-    
-    const styles = this._showSkeleton ? {
-      ...this.styles.item,
-      ...this.styles.skeleton.root
-    } : this.styles.item
-
     return (index < this.state.maxRecordsToShow || isHorizontal) ? (
       <Swipeable
       renderLeftActions={() => this.renderLeftActions()}
       renderRightActions={() => this.renderRightActions()} containerStyle={ cols ? { width: round(100/cols) + "%" , flex: null } as any :{}}>
       <View style={[
-        styles,
+        this.styles.item,
         props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
         this.isSelected(item) ? this.styles.selectedItem : {}]}>
         <Tappable
@@ -446,7 +440,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               scrollEnabled={isHorizontal}
               horizontal = {isHorizontal}
-              data={this._showSkeleton? [...getNumberOfEmptyObjects(this.props.numberofskeletonitems as number ?? 3)] : (isEmpty(v.data[0]) ? []: v.data)}
+              data={isEmpty(v.data[0]) ? []: v.data}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
               {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}>
@@ -465,11 +459,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     </View>);
   }
 
-  private getSectionListData(props: WmListProps) {
+  private getSectionListData() {
     if (this._showSkeleton) {
       return [{
         key: '',
-        data: [...getNumberOfEmptyObjects(this.props.numberofskeletonitems as number ?? 3)]
+        data: [{}, {}, {}]
       }];
     } else if (this.state.groupedData
         && this.state.groupedData[0]
@@ -485,7 +479,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
         horizontal = {isHorizontal}
         contentContainerStyle={this.styles.root}
-        sections={this.getSectionListData(props)}
+        sections={this.getSectionListData()}
         renderSectionHeader={({ section: {key, data}}) => {
           return this.renderHeader(props, key);
         }}

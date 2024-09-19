@@ -1,10 +1,7 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
-export type WmTileStyles = BaseStyles & {
-  skeleton: WmSkeletonStyles
-};
+export type WmTileStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-tile';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
@@ -16,12 +13,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderColor: themeVariables.transparent,
         padding: 12
       },
-      text: {},
-      skeleton: {
-        root:{
-          width: '100%',
-        },
-      } as any as WmSkeletonStyles
+      text: {}
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

@@ -13,8 +13,6 @@ import WmSkeleton, { createSkeleton } from '../../basic/skeleton/skeleton.compon
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 import { find, forEach, isEqual } from 'lodash-es';
 import { isEmpty } from 'lodash';
-import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
-import { getNumberOfEmptyObjects } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmRadiosetState extends BaseDatasetState<WmRadiosetProps> {
   template: string = '';
@@ -88,19 +86,6 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
         {items && items.length ?
           items.map((item: any, index: any) => this.renderChild(item, index, colWidth)): null}
       </View>)
-  }
-
-  public renderSkeleton(props: WmRadiosetProps): React.ReactNode {
-    const noOfColumns = props.itemsperrow.xs || 1;
-    const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
-
-    return [...getNumberOfEmptyObjects(props.numberofskeletonitems as number ?? 5)].map(_ => {
-      return <View style={[this.styles.item, {width: colWidth}]}>
-        <WmIcon styles={this.styles.checkedRadio}/>
-        <WmLabel styles={{ skeleton: this.styles.skeleton }}/>
-      </View>
-    })
-
   }
 
   renderWidget(props: WmRadiosetProps) {

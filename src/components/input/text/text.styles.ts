@@ -1,7 +1,7 @@
 import BASE_THEME, {AllStyle, Theme} from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import {ColorValue} from "react-native";
-import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export type WmTextStyles = BaseStyles & {
   invalid: AllStyle;

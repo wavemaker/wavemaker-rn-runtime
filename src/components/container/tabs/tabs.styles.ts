@@ -2,12 +2,10 @@ import { ViewStyle } from 'react-native';
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmTabheaderStyles } from './tabheader/tabheader.styles';
-import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmTabsStyles = BaseStyles & {
   tabHeader: WmTabheaderStyles,
-  tabContent: ViewStyle,
-  skeleton: WmSkeletonStyles
+  tabContent: ViewStyle
 };
 
 export const DEFAULT_CLASS = 'app-tabs';
@@ -22,11 +20,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       text: {},
       tabContent: {},
-      tabHeader: {} as WmTabheaderStyles,
-      skeleton: { 
-        root: {
-        }
-      } as WmSkeletonStyles
+      tabHeader: {} as WmTabheaderStyles
   });
   addStyle(DEFAULT_CLASS, '', defaultStyles);
   addStyle('tabs-with-arrow-indicator', '', {

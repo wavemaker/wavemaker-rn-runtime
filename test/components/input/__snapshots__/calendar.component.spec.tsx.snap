@@ -456,7 +456,7 @@ exports[`Test Calendar component Check validity of sample component 1`] = `
       extraData={
         MonthViewState {
           "currentYear": null,
-          "selectedDate": "2024-09-17T19:23:44.303Z",
+          "selectedDate": "2024-09-02T13:01:54.847Z",
           "viewMode": "day",
         }
       }
@@ -610,7 +610,7 @@ exports[`Test Calendar component Check validity of sample component 1`] = `
                 {
                   "alignItems": "center",
                   "backgroundColor": "#ffffff",
-                  "borderColor": "transparent",
+                  "borderColor": "#4263eb",
                   "borderRadius": 26,
                   "borderWidth": 1,
                   "height": 38,
@@ -644,7 +644,9 @@ exports[`Test Calendar component Check validity of sample component 1`] = `
                         "fontSize": 16,
                         "fontWeight": "400",
                       },
-                      {},
+                      {
+                        "backgroundColor": "#4263eb",
+                      },
                       {},
                       {},
                       undefined,
@@ -1896,7 +1898,7 @@ exports[`Test Calendar component Check validity of sample component 1`] = `
                 {
                   "alignItems": "center",
                   "backgroundColor": "#ffffff",
-                  "borderColor": "#4263eb",
+                  "borderColor": "transparent",
                   "borderRadius": 26,
                   "borderWidth": 1,
                   "height": 38,
@@ -1930,9 +1932,7 @@ exports[`Test Calendar component Check validity of sample component 1`] = `
                         "fontSize": 16,
                         "fontWeight": "400",
                       },
-                      {
-                        "backgroundColor": "#4263eb",
-                      },
+                      {},
                       {},
                       {},
                       undefined,

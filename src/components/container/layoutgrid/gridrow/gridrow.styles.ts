@@ -1,10 +1,7 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
-export type WmGridRowStyles = BaseStyles & {
-  skeleton: WmSkeletonStyles;
-};
+export type WmGridRowStyles = BaseStyles & {};
 
 export const DEFAULT_CLASS = 'app-gridrow';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
@@ -14,12 +11,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           width: '100%',
           flexWrap: 'wrap'
       },
-      text: {},
-      skeleton: {
-        root: {
-          borderColor: 'transparent'
-        } 
-      } as any as WmSkeletonStyles
+      text: {}
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

@@ -1,6 +1,5 @@
 import BASE_THEME, { NamedStyles } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmPartialStyles = BaseStyles & {};
 
@@ -10,12 +9,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root: {
             width: "100%"
         },
-        text: {},
-        skeleton: {
-            root: {
-                height: 200
-            }
-        } as WmSkeletonStyles
+        text: {}
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

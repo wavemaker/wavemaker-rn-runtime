@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import { get, filter, isNil } from 'lodash';
 
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
@@ -7,7 +7,7 @@ import { Formatter } from '@wavemaker/app-rn-runtime/core/formatters';
 import { TestIdPrefixProvider, TextIdPrefixConsumer } from '@wavemaker/app-rn-runtime/core/testid.provider';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { toBoolean, toNumber, isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
-import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener, ParentContext } from '@wavemaker/app-rn-runtime/core/base.component';
+import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable';
 import { default as _viewPort, EVENTS as viewportEvents } from '@wavemaker/app-rn-runtime/core/viewport';
@@ -20,21 +20,14 @@ import spinnerService from '@wavemaker/app-rn-runtime/runtime/services/app-spinn
 import AppI18nService from './services/app-i18n.service';
 import { Watcher } from './watcher';
 import WmFormAction from '@wavemaker/app-rn-runtime/components/data/form/form-action/form-action.component';
-import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.component';
-import { WmSkeletonStyles } from '../components/basic/skeleton/skeleton.styles';
 
-export class SkeletonAnimationProps extends BaseProps {
-  skeletonanimationresource = "";
-  skeletonanimationspeed = 1;
+export class FragmentProps extends BaseProps {
+
 }
-
-export class FragmentProps extends SkeletonAnimationProps {}
 
 export interface FragmentState<T extends FragmentProps> extends BaseComponentState<T> {}
 
-export type FragmentStyles = BaseStyles & {
-  skeleton?: WmSkeletonStyles
-};
+export type FragmentStyles = BaseStyles & {};
 export default abstract class BaseFragment<P extends FragmentProps, S extends FragmentState<P>> extends BaseComponent<P, S, FragmentStyles> implements LifecycleListener {
     public App: App;
     public onReady: Function = () => {};
@@ -46,7 +39,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public theme: Theme = BASE_THEME;
     public appLocale: any = {};
     private startUpVariables: string[] = [];
-    protected startUpVariablesLoaded = false;
+    private startUpVariablesLoaded = false;
     private startUpActions: string[] = [];
     private autoUpdateVariables: string[] = [];
     private cleanUpVariablesandActions: BaseVariable<any>[] = [];
@@ -404,7 +397,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
       </ThemeProvider>) : null;
     }
-
 }
 
 

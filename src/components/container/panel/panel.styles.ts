@@ -2,14 +2,12 @@ import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { Platform } from 'react-native';
-import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmPanelStyles = BaseStyles & {
   icon: WmIconStyles,
   badge: AllStyle,
   header: AllStyle,
-  subheading: AllStyle,
-  skeleton: WmSkeletonStyles
+  subheading: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-panel';
@@ -77,11 +75,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       primary: {
         backgroundColor: themeVariables.labelPrimaryColor
-      },
-      skeleton: {
-        root: {
-        }
-      } as WmSkeletonStyles, 
+      }
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

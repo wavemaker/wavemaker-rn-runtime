@@ -1,8 +1,7 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
-import { SkeletonAnimationProps } from '@wavemaker/app-rn-runtime/runtime/base-fragment.component';
 import { AccessibilityRole } from 'react-native';
 
-export default class BaseChartComponentProps extends SkeletonAnimationProps {
+export default class BaseChartComponentProps extends BaseProps {
   xaxisdatakey: string = '';
   yaxisdatakey: string = '';
   iconclass = '';

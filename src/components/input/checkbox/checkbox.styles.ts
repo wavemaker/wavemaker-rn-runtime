@@ -1,7 +1,7 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
-import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
+import { WmIconStyles } from '../../basic/icon/icon.styles';
 
 export type WmCheckboxStyles = BaseStyles & {
   skeleton: WmSkeletonStyles;

@@ -2,7 +2,7 @@ import { ViewStyle } from 'react-native';
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
-import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
+import { WmButtonStyles } from '../../basic/button/button.styles';
 
 export type WmDialogStyles = BaseStyles & {
     modal: ViewStyle,

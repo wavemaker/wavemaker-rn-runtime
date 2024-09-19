@@ -1,13 +1,10 @@
 import React from 'react';
-import { View } from 'react-native'
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTileProps from './tile.props';
 import { DEFAULT_CLASS, WmTileStyles } from './tile.styles';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
-import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
-import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmTileState extends BaseComponentState<WmTileProps> {}
 
@@ -16,28 +13,10 @@ export default class WmTile extends BaseComponent<WmTileProps, WmTileState, WmTi
   constructor(props: WmTileProps) {
     super(props, DEFAULT_CLASS, new WmTileProps());
   }
-    
-  public renderSkeleton(props: WmTileProps): React.ReactNode {
-    if(!props.showskeletonchildren) {
-      const skeletonStyles: WmSkeletonStyles = this.props?.styles?.skeleton || { root: {}, text: {}  } as WmSkeletonStyles
-      return createSkeleton(this.theme, skeletonStyles, {
-        ...this.styles.root
-      }, (<View style={[this.styles.root, { opacity: 0 }]}>
-        {props.children}
-      </View>))
-    }
-    return null;
-  }
 
-  getBackground(): React.JSX.Element | null {
-    return this._showSkeleton ? null : this._background
-  } 
-  
   renderWidget(props: WmTileProps) {
-
     return (<Tappable {...this.getTestPropsForAction()} target={this}>
-      <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root}>{this.getBackground()}{props.children}</Animatedview>
+      <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root}>{this._background}{props.children}</Animatedview>
     </Tappable>);
   }
 }
-

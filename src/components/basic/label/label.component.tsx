@@ -88,20 +88,8 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   }
 
   public renderSkeleton(props: WmLabelProps){
-
-    let skeletonWidth, skeletonHeight;
-    if(this.props.skeletonwidth == "0") {
-      skeletonWidth = 0
-    } else {
-      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
-    }
-
-    if(this.props.skeletonheight == "0") {
-      skeletonHeight = 0
-    } else {
-      skeletonHeight = this.props.skeletonheight || this.styles.root?.height || this.styles.text.fontSize;
-    }
-    
+    const skeletonWidth = this.props.skeletonwidth || this.styles.root?.width;
+    const skeletonHeight = this.props.skeletonheight || this.styles.root?.height || this.styles.text.fontSize;
     if(this.props.multilineskeleton) {
       return (<View style={{
         width: skeletonWidth as DimensionValue

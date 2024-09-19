@@ -9,5 +9,4 @@ export default class WmRadiosetProps extends BaseDatasetProps {
     lg: 1,
  };
  renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
- numberofskeletonitems?: number | string
 }
