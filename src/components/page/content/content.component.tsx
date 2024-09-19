@@ -20,7 +20,7 @@ export default class WmContent extends BaseComponent<WmContentProps, WmContentSt
     return (
       <SafeAreaInsetsContext.Consumer>
       {(insets = {top: 0, bottom: 0, left: 0, right: 0}) => {  
-         const keyboardOffset = Platform.OS === 'ios' ? insets?.bottom : 0;
+         const keyboardOffset = insets?.bottom;
           return (
             <View style={this.styles.root}>
               <KeyboardAvoidingView 
