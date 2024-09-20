@@ -45,6 +45,8 @@ const loadAsset = (path) => path;
 AppModalService.modalsOpened = [];
 
 function renderComponentWithWrappers(props = {}) {
+  AppModalService.modalsOpened = [];
+
   return render(
     <SafeAreaProvider>
       <ModalProvider value={AppModalService}>
@@ -551,9 +553,6 @@ describe('WmDate Component', () => {
       {
         triggerExit: () => {},
       },
-      {
-        triggerExit: () => {},
-      },
     ];
 
     const saveButton = subTree.getByText('save');
@@ -602,9 +601,6 @@ describe('WmDate Component', () => {
     let subTree = render(<Content />);
 
     AppModalService.animatedRefs = [
-      {
-        triggerExit: () => {},
-      },
       {
         triggerExit: () => {},
       },

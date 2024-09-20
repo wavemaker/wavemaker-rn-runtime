@@ -37,7 +37,7 @@ const timer = (time = 100) =>
     setTimeout(() => resolve(), time);
   });
 
-const loadAsset = (path) => path;
+const loadAsset = (path: any) => path;
 
 const defaultProps = {
   placeholder: 'Select an option',
@@ -62,6 +62,8 @@ const defaultProps = {
 AppModalService.modalsOpened = [];
 
 function renderComponentWithWrappers(props = {}) {
+  AppModalService.modalsOpened = [];
+
   return render(
     <ModalProvider value={AppModalService}>
       <AssetProvider value={loadAsset}>
@@ -93,6 +95,7 @@ describe('WmSelect', () => {
   it('renders correctly with default props', () => {
     render(<WmSelect {...defaultProps} name="select1" />);
     expect(screen.getByText('Select an option')).toBeTruthy();
+    expect(screen).toMatchSnapshot();
   });
 
   // Disabled State
@@ -216,7 +219,6 @@ describe('WmSelect', () => {
     const select = tree.getByText('Select an option');
     const selectParent = tree.getByRole('select');
 
-    // expect(tree).toMatchSnapshot();
     fireEvent.press(select);
 
     await timer(200);
@@ -226,7 +228,12 @@ describe('WmSelect', () => {
       return <>{renderOptions.content}</>;
     };
     const subTree = render(<Content />);
-    // expect(subTree).toMatchSnapshot();
+
+    AppModalService.animatedRefs = [
+      {
+        triggerExit: () => {},
+      },
+    ];
     const option = subTree.getByText('name0');
 
     fireEvent.press(option);
@@ -236,9 +243,8 @@ describe('WmSelect', () => {
     expect(onChangeEventMock).toHaveBeenCalled();
     expect(onChangefnMock).toHaveBeenCalled();
     console.log(ref.current.state);
-    // expect(tree).toMatchSnapshot();
     await waitFor(() => {
-      expect(tree.getByText('name0')).toBeTruthy();
+      expect(screen.getByText('name0')).toBeTruthy();
     });
   });
 
@@ -272,14 +278,23 @@ describe('WmSelect', () => {
   });
 
   // show property
-  it('handles show property correctly', () => {
+  it('handles show property correctly', async () => {
+    const ref = createRef();
     const tree = render(
       <WmSelect
         {...defaultProps}
         accessibilitylabel="Select an option"
-        show={false}
+        show={true}
+        ref={ref}
       />
     );
+
+    await timer(100);
+    expect(tree.root.props.children[1].props.style[0].width).not.toBe(0);
+    expect(tree.root.props.children[1].props.style[0].height).not.toBe(0);
+
+    ref.current.proxy.show = false;
+    await timer(100);
 
     expect(tree.root.props.children[1].props.style[0].width).toBe(0);
     expect(tree.root.props.children[1].props.style[0].height).toBe(0);
