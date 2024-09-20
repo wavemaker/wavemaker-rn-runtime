@@ -254,6 +254,132 @@ describe('Test Tabs component', () => {
     );
   });
 
+  test('should render skeleton loader when showskeleton is "true"', () => {
+    const tree = render(
+      <WmTabs name="test_tabs" showskeleton={true}>
+        <WmTabpane name="tab1" title="Red"></WmTabpane>
+        <WmTabpane
+          name="tab2"
+          title="Green"
+          renderPartial={() => {
+            return <Text>TEST_COMPONENT</Text>;
+          }}
+        ></WmTabpane>
+      </WmTabs>
+    );
+    expect(tree).toMatchSnapshot();
+    expect(screen.queryByText('Red')).toBeNull();
+    expect(screen.queryByText('Green')).toBeNull();
+  });
+
+  test('handles show property correctly', async () => {
+    const ref = createRef();
+    const tree = render(
+      <WmTabs name="test_Popover" show={true} ref={ref}>
+        <WmTabpane name="tab1" title="Red"></WmTabpane>
+        <WmTabpane
+          name="tab2"
+          title="Green"
+          renderPartial={() => {
+            return <Text>TEST_COMPONENT</Text>;
+          }}
+        ></WmTabpane>
+      </WmTabs>
+    );
+
+    expect(tree.root.props.style.width).not.toBe(0);
+    expect(tree.root.props.style.height).not.toBe(0);
+
+    ref.current.proxy.show = false;
+
+    await timer(300);
+
+    expect(tree.root.props.style.width).toBe(0);
+    expect(tree.root.props.style.height).toBe(0);
+  });
+
+  it('should handle tablayout change event', () => {
+    const ref = createRef();
+    const tree = render(
+      <WmTabs name="test_Popover" ref={ref}>
+        <WmTabpane name="tab1" title="Red"></WmTabpane>
+        <WmTabpane
+          name="tab2"
+          title="Green"
+          renderPartial={() => {
+            return <Text>TEST_COMPONENT</Text>;
+          }}
+        ></WmTabpane>
+      </WmTabs>
+    );
+    const nativeEvent = {
+      layout: {
+        width: 100,
+        height: 100,
+      },
+    };
+    const viewEle = tree.root.children[1];
+    fireEvent(viewEle, 'layout', {
+      nativeEvent: nativeEvent,
+    });
+
+    expect(ref.current.proxy.tabLayout.toString()).toBe(nativeEvent.toString());
+  });
+
+  it('should set tab pane heights when layout change event is triggered', () => {
+    const ref = createRef();
+    const tree = render(
+      <WmTabs name="test_Popover" ref={ref}>
+        <WmTabpane name="tab1" title="Red"></WmTabpane>
+        <WmTabpane
+          name="tab2"
+          title="Green"
+          renderPartial={() => {
+            return <Text>TEST_COMPONENT</Text>;
+          }}
+        ></WmTabpane>
+      </WmTabs>
+    );
+    const nativeEvent = {
+      layout: {
+        width: 100,
+        height: 100,
+      },
+    };
+    const viewEle = tree.UNSAFE_getAllByType(WmTabpane)[0].parent;
+    fireEvent(viewEle, 'layout', {
+      nativeEvent: nativeEvent,
+    });
+
+    expect(ref.current.proxy.tabPaneHeights.toString()).toBe(
+      nativeEvent.layout.height.toString()
+    );
+  });
+
+  it('should handle tabheader layout change events', () => {
+    const ref = createRef();
+    const tree = render(<WmTabheader name="test_Popover" ref={ref} />);
+    const nativeEvent = {
+      layout: {
+        width: 100,
+        height: 100,
+      },
+    };
+
+    // ref.current.proxy.setHeaderPanelPositon({ nativeEvent: nativeEvent });
+    ref.current.proxy.setHeaderPanelPositon(nativeEvent);
+    ref.current.proxy.setHeaderPositon(1, nativeEvent);
+    // ref.current.proxy.setHeaderPositon(1, { nativeEvent: nativeEvent });
+
+    expect(ref.current.proxy.headerPanelLayout.toString()).toBe(
+      nativeEvent.toString()
+    );
+
+    expect(ref.current.proxy.headersLayout[1].toString()).toBe(
+      nativeEvent.toString()
+    );
+  });
+
   // test('should navigate to next and previous', async () => {
   //   const {tree, ref: {tabs, tab1, tab2, tab3}} = getBasicTabs();
   //   expect(tabs.current?.selectedTabPane === tab1.current?.proxy).toBeTruthy();
