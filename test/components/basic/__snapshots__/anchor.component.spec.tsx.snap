@@ -1286,32 +1286,129 @@ exports[`Test Anchor component should render icon to the top of caption when ico
 
 exports[`Test Anchor component should render skeleton when showskeleton is true 1`] = `
 <View
-  onLayout={[Function]}
   style={
     {
-      "backgroundColor": "#eeeeee",
-      "borderRadius": 4,
-      "height": "100",
-      "overflow": "hidden",
-      "width": "50",
+      "height": undefined,
+      "justifyContent": "center",
+      "width": undefined,
     }
   }
-/>
+  testID="non_animatableView"
+>
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "color": "#151420",
+          "flexDirection": "row",
+          "overflow": "visible",
+        },
+        null,
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      accessibilityLabel="Link"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+      testID="wm-anchor_caption"
+    >
+      Link
+    </Text>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "backgroundColor": "#F4F5F8",
+          "marginLeft": 0,
+          "marginTop": -12,
+          "overflow": "hidden",
+        }
+      }
+    />
+  </View>
+</View>
 `;
 
 exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 1`] = `
 <View
-  onLayout={[Function]}
   style={
     {
-      "backgroundColor": "#eeeeee",
-      "borderRadius": 4,
       "height": 80,
-      "overflow": "hidden",
+      "justifyContent": "center",
       "width": 80,
     }
   }
-/>
+  testID="non_animatableView"
+>
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "color": "#151420",
+          "flexDirection": "row",
+          "height": 80,
+          "overflow": "visible",
+          "width": 80,
+        },
+        {
+          "height": "100%",
+          "width": "100%",
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      accessibilityLabel="Link"
+      accessibilityRole="link"
+      accessible={true}
+      style={
+        {
+          "color": "#151420",
+          "fontFamily": "Roboto",
+          "fontSize": 18,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "textDecorationLine": "underline",
+          "userSelect": "text",
+        }
+      }
+      testID="wm-anchor_caption"
+    >
+      Link
+    </Text>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "backgroundColor": "#F4F5F8",
+          "marginLeft": 0,
+          "marginTop": -12,
+          "overflow": "hidden",
+        }
+      }
+    />
+  </View>
+</View>
 `;
 
 exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 1`] = `

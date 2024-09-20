@@ -587,3 +587,7 @@ export const getMimeType = (extensions?: string) => {
   if (hasInvalidExtension) return '*/*';
   return mimeType;
 };
+
+export function getNumberOfEmptyObjects(noOfItems: number) {
+  return Array.from({ length: noOfItems }, () => ({}));
+}

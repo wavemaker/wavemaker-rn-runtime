@@ -16,3 +16,4 @@ export default class WmPanelProps extends BaseProps {
   iconwidth?: number = null as any;
   iconmargin?: number = null as any;
 }
+

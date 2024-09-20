@@ -5,3 +5,4 @@ export default class WmTileProps extends BaseProps {
   animationdelay?: number = null as any;
   children: any;
 }
+

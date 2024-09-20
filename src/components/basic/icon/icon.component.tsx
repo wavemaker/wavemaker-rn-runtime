@@ -130,10 +130,21 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
   }
 
   public renderSkeleton(props: WmIconProps) {
+    let skeletonWidth = (this.props.skeletonwidth || this.props.iconsize || this.styles.root.width) as DimensionValue;
+    let skeletonHeight =  (this.props.skeletonheight || this.props.iconsize || this.styles.root.height) as DimensionValue
+
+    if(this.props.skeletonheight == "0") {
+      skeletonWidth = 0
+    }
+    
+    if(this.props.skeletonheight == "0") {
+      skeletonHeight = 0
+    }
+    
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
-      width: (this.props.skeletonwidth || this.props.iconsize || this.styles.root.width) as DimensionValue,
-      height: (this.props.skeletonheight || this.props.iconsize || this.styles.root.height) as DimensionValue
+      width: skeletonWidth,
+      height: skeletonHeight
     });
   }
 

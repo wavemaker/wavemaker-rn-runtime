@@ -1,5 +1,313 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Test Tabs component should render skeleton loader when showskeleton is "true" 1`] = `
+<View
+  style={
+    [
+      {
+        "borderBottomWidth": 1,
+        "borderColor": "#cccccc",
+        "borderStyle": "solid",
+        "elevation": 0,
+        "minHeight": 240,
+      },
+      {
+        "borderBottomWidth": 0,
+      },
+    ]
+  }
+>
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "width": "100%",
+      }
+    }
+  />
+  <View
+    collapsable={false}
+    onLayout={[Function]}
+    style={
+      {
+        "transform": [
+          {
+            "translateX": 0,
+          },
+        ],
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "flexDirection": "row",
+          "minWidth": "100%",
+          "overflow": "visible",
+        }
+      }
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "flex": 1,
+            },
+          ]
+        }
+      >
+        <View
+          onLayout={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "#ffffff",
+                "flexDirection": "row",
+                "flexGrow": 1,
+                "justifyContent": "center",
+                "minHeight": 48,
+                "minWidth": 80,
+                "paddingBottom": 16,
+                "paddingTop": 16,
+                "paddingVertical": 12,
+              },
+              {
+                "backgroundColor": "#ffffff",
+              },
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "backgroundColor": "#eeeeee",
+                "borderRadius": 4,
+                "height": 16,
+                "overflow": "hidden",
+                "width": "80%",
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "flex": 1,
+            },
+          ]
+        }
+      >
+        <View
+          onLayout={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "#ffffff",
+                "flexDirection": "row",
+                "flexGrow": 1,
+                "justifyContent": "center",
+                "minHeight": 48,
+                "minWidth": 80,
+                "paddingBottom": 16,
+                "paddingTop": 16,
+                "paddingVertical": 12,
+              },
+              null,
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "backgroundColor": "#eeeeee",
+                "borderRadius": 4,
+                "height": 16,
+                "overflow": "hidden",
+                "width": "80%",
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#4263eb",
+          "height": 2,
+          "marginTop": -2,
+          "transform": [
+            {
+              "translateX": 0,
+            },
+            {
+              "scaleX": 0,
+            },
+          ],
+          "width": 100,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "overflow": "hidden",
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "flexDirection": "row",
+          "flexWrap": "nowrap",
+        }
+      }
+    >
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "alignSelf": "flex-start",
+            "width": "100%",
+          }
+        }
+      >
+        <RCTScrollView
+          collapsable={false}
+          handlerTag={24}
+          handlerType="NativeViewGestureHandler"
+          onGestureHandlerEvent={[Function]}
+          onGestureHandlerStateChange={[Function]}
+          onScroll={[Function]}
+          style={
+            {
+              "backgroundColor": "#ffffff",
+            }
+          }
+          waitFor={
+            [
+              {
+                "current": null,
+              },
+            ]
+          }
+        >
+          <View />
+        </RCTScrollView>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "alignSelf": "flex-start",
+            "width": "100%",
+          }
+        }
+      >
+        <RCTScrollView
+          collapsable={false}
+          handlerTag={25}
+          handlerType="NativeViewGestureHandler"
+          onGestureHandlerEvent={[Function]}
+          onGestureHandlerStateChange={[Function]}
+          onScroll={[Function]}
+          style={
+            {
+              "backgroundColor": "#ffffff",
+            }
+          }
+          waitFor={
+            [
+              {
+                "current": null,
+              },
+            ]
+          }
+        >
+          <View>
+            <Text>
+              TEST_COMPONENT
+            </Text>
+          </View>
+        </RCTScrollView>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
 exports[`Test Tabs component should render the Tabs component 1`] = `
 <View
   style={

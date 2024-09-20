@@ -6,3 +6,4 @@ export default class WmAccordionProps extends BaseProps {
   defaultpaneindex: number = 0;
   closeothers = true;
 }
+

@@ -25,4 +25,6 @@ export default class WmSearchProps extends BaseDatasetProps {
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole = 'search';
   renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
+  skeletonheight?: string = null as any;
+  skeletonwidth?: string = null as any;
 }
