@@ -106,6 +106,8 @@ describe('Test Tabs component', () => {
 
   test('should render the tabs when content is from partial', async () => {
     const tab2 = createRef<WmTabpane>();
+    const onLoadMock = jest.fn();
+
     const tree = render(
       <WmTabs name="test_tabs">
         <WmTabpane name="tab1" title="Red"></WmTabpane>
@@ -113,14 +115,17 @@ describe('Test Tabs component', () => {
           name="tab2"
           title="Green"
           ref={tab2}
-          renderPartial={() => {
+          onLoad={onLoadMock}
+          renderPartial={(props, onLoad) => {
+            onLoad();
             return <Text>TEST_COMPONENT</Text>;
           }}
         ></WmTabpane>
       </WmTabs>
     );
     timer(1000);
-    expect(tree.getByText('TEST_COMPONENT')).not.toBeNull();
+    expect(tree.getByText('TEST_COMPONENT')).toBeTruthy();
+    expect(onLoadMock).toHaveBeenCalled();
   });
 
   test('should render skeleton loader when showskeleton is "true"', () => {
