@@ -329,7 +329,6 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   // @ts-ignore
   handleSubmit(event?: any) {
-    console.log("Inside handleSubmit");
     event?.preventDefault();
     const formData = cloneDeep(this.state.props.dataoutput || this.formdataoutput);
 
