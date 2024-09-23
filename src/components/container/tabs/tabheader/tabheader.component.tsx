@@ -47,7 +47,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
   }
 
   setPosition() {
-    const selectedTabIndex = this.state.props.selectedTabIndex ?? 0;
+    const selectedTabIndex = this.state.props.selectedTabIndex ? this.state.props.selectedTabIndex : 0
     let toIndicatorPosition = 0;
     let toIndicatorWidth = this.headersLayout[selectedTabIndex]?.width || 0;
     let toHeaderScrollPosition = this.headerScrollPositionValue;
