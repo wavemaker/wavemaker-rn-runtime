@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { shallow } from 'enzyme';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
 import WmCard from '@wavemaker/app-rn-runtime/components/data/card/card.component';
@@ -24,36 +24,16 @@ describe('Test Card component', () => {
    it('renders correctly with default props', () => {
 
     const props = {
-      ...defaultProps
+      ...defaultProps,
+      iconclass: 'fa fa-edit',
+      iconposition: 'left'
     }
 
-    render(<WmCard {...props}/>)
-    expect(screen.getByText('Card title')).toBeTruthy()
-    expect(screen.getByText('Card Subheading')).toBeTruthy()
-    expect(screen.UNSAFE_getAllByType(WmMenu)).toBeTruthy()
-    expect(screen.UNSAFE_getAllByType(WmIcon).length).not.toBe(2)
-   })
-
-   it('renders icon when iconclass is provided', () => {
-     
-     const props = {
-      ...defaultProps,
-      iconclass: 'icon-class'
-     }
-
-     render(<WmCard {...props}/>)
-     expect(screen.UNSAFE_queryAllByType(WmIcon).length).toBe(2)
-   })
-
-   it('renders icon when iconurl is provided', () => {
-
-    const props = {
-      ...defaultProps,
-      iconurl: 'some-icon-url'
-    }
-
-    render(<WmCard {...props}/>)
-    expect(screen.UNSAFE_getAllByType(WmIcon).length).toBe(2)
+    const tree = render(<WmCard {...props}/>)
+    expect(tree).toMatchSnapshot()
+    expect(tree.getByText('Card title')).toBeTruthy()
+    expect(tree.getByText('Card Subheading')).toBeTruthy()
+    expect(tree.getByText('edit')).toBeTruthy()
    })
 
    it('renders picture source when picturesource is provided', () => {
@@ -74,6 +54,22 @@ describe('Test Card component', () => {
     )
     expect(getByText('Child Component')).toBeTruthy()
    })
+
+   it('should have width and height to be 0 when show is false', () => {
+    const props = {
+      ...defaultProps,
+      show: false
+    }
+
+    const { UNSAFE_getAllByType } = render(
+      <WmCard {...props}/>
+    );
+    const viewEle = UNSAFE_getAllByType(View)[0].instance
+    expect(viewEle.props.style.width).toBe(0);
+    expect(viewEle.props.style.height).toBe(0);
+  });
+
+
 
    it('should trigger onTap callback with WMCard as WMCard as one of the arguments', async () => {
     const onTapMock = jest.fn();

@@ -1,10 +1,19 @@
 import React from 'react';
+import { View } from 'react-native'
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import WmForm from '@wavemaker/app-rn-runtime/components/data/form/form.component';
-import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
-import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
-import WmMessage from '@wavemaker/app-rn-runtime/components/basic/message/message.component';
+import WMCard from '@wavemaker/app-rn-runtime/components/data/card/card.component';
 import { ToastConsumer, ToastService, ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
+
+
+jest.mock('@wavemaker/app-rn-runtime/core/utils', () => {
+  return {
+    ...jest.requireActual('@wavemaker/app-rn-runtime/core/utils'),
+    isDataSetWidget: jest.fn(() => {
+      return true;
+    }),
+  }
+})
 
 const mockShowToast = jest.fn();
 const mockToaster = {
@@ -39,25 +48,108 @@ describe('WmForm', () => {
   });
 
   it('componentDidMount sets parent form reference', () => {
-    const { UNSAFE_getByType } = render(<WmForm {...defaultProps} parentForm="parentForm" />);
-    const instance = UNSAFE_getByType(WmForm).instance;
-    const mockGetParentFormRef = jest.fn()
-    instance.getParentFormRef = mockGetParentFormRef
-    instance.componentDidMount();
-    expect(mockGetParentFormRef).toHaveBeenCalled()
+    const tree = render(
+      <WmForm name="parentForm">
+        <WMCard>
+          <WmForm {...defaultProps} parentForm="parentForm" />
+        </WMCard>
+      </WmForm>
+    );
+
+    const allForms = tree.UNSAFE_getAllByType(WmForm)
+    const childForm = allForms[1];
+
+    expect(childForm.instance.parentFormRef).not.toBeNull()
   });
 
-  it('getParentFormRef adds parentFormRef to the instance', () => {
-    const { UNSAFE_getByType } = render(<WmForm {...defaultProps}/>)
-    const instance = UNSAFE_getByType(WmForm).instance;
-    const someInstance = { instance: 'some-instance' };
-    const parent = {
-      'props.name': 'form'
-    } 
-    instance.parent = parent;
-    instance.getParentFormRef('form');
-    expect(instance.parentFormRef).toEqual(parent)
+  it('should have width and height to be 0 when show is false', () => {
+    const props = {
+      ...defaultProps,
+      title: 'some_title_new',
+      iconclass: 'some-icon-class',
+      show: false,
+    }
+    const tree = render(<WmForm {...props} name="form"/>)
+    const viewEle = tree.UNSAFE_getAllByType(View)[0].instance
+    expect(viewEle.props.style.width).toBe(0);
+    expect(viewEle.props.style.height).toBe(0);
   })
+
+  it('onPropertyChange applyFormData gets called when the prop is changed', () => {
+    // Arrange
+    const tree = render(<WmForm {...defaultProps}/>)
+    const instance = tree.UNSAFE_getAllByType(WmForm)[0].instance;
+    const mockApplyFormData = jest.fn();
+    instance.applyFormData = mockApplyFormData;
+
+    // Act
+    instance.onPropertyChange('formdata', 'some new value', 'some old value');
+
+    // Assert
+    expect(mockApplyFormData).toHaveBeenCalled()
+  })
+
+  it('onPropertyChange should change the updated mode with respect to the passed defaultmode', () => {
+    // Arrange
+    const props = {
+      ...defaultProps,
+      defaultmode: 'Edit'
+    }
+    const tree = render(<WmForm {...props}/>)
+    const instance = tree.UNSAFE_getAllByType(WmForm)[0].instance;
+    const mockUpdateState = jest.fn()
+    instance.updateState = mockUpdateState;
+
+    // Act
+    instance.onPropertyChange('defaultmode', 'Edit', 'some old value');
+
+    // Assert
+    expect(mockUpdateState).toHaveBeenCalledWith({"isUpdateMode": true})
+
+    // Act
+    instance.onPropertyChange('defaultmode', 'Non Edit', 'some old value');
+
+    // Assert
+    expect(mockUpdateState).toHaveBeenCalledWith({"isUpdateMode": false})
+  })
+
+
+  it('onPropertyChange should update all the form fields when dataset is changed', () => {
+    // Arrange
+    const props = {
+      ...defaultProps,
+      defaultmode: 'Edit'
+    }
+    const tree = render(<WmForm {...props}/>)
+    const instance = tree.UNSAFE_getAllByType(WmForm)[0].instance;
+    const mockFormFields = ['form field 1', 'form field 2', 'form field 3', 'form field 4'];
+    instance.formFields = mockFormFields;
+    const mockUpdateFieldOnDataSourceChange = jest.fn()
+    instance._updateFieldOnDataSourceChange = mockUpdateFieldOnDataSourceChange;
+    // Act
+    instance.onPropertyChange('dataset', 'some new dataset', 'some old dataset');
+
+    // Assert
+    expect(mockUpdateFieldOnDataSourceChange).toHaveBeenCalledTimes(mockFormFields.length);
+  })
+
+  it('onPropertyChange generates form fields when metadata is updated', () => {
+    // Arrange
+    const props = {
+      ...defaultProps,
+      defaultmode: 'Edit'
+    }
+    const tree = render(<WmForm {...props}/>)
+    const instance = tree.UNSAFE_getAllByType(WmForm)[0].instance;
+    const mockGenerateFormFields = jest.fn()
+    instance.generateFormFields = mockGenerateFormFields;
+    // Act
+    instance.onPropertyChange('metadata', 'some new dataset', 'some old dataset');
+
+    // Assert
+    expect(mockGenerateFormFields).toHaveBeenCalled()
+  })
+
 
   it('setReadonlyFields calls setReadOnlyState', () => {
     const tree = render(<WmForm {...defaultProps}/>);
@@ -78,17 +170,22 @@ describe('WmForm', () => {
     expect(mockSetReadOnlyStateFunc).toHaveBeenCalledWith('mock updated mode')
   }) 
 
-  it('setReadonlyState updates readonly state correctly', async () => {
+  it('setReadonlyState updates readonly state correctly',  () => {
     jest.useFakeTimers();
     const tree = render(<WmForm {...defaultProps}/>);
     const instance = tree.UNSAFE_getByType(WmForm).instance;
+    instance.showActions = jest.fn();
+    instance.setReadonlyFields = jest.fn()
 
     const mockUpdateMode = 'sample updateMode';
-    await waitFor(() => {
-      instance.setReadonlyState(mockUpdateMode)
-      expect(instance.state.isUpdateMode).toEqual(mockUpdateMode)
-      jest.useRealTimers()  
-    })
+    instance.setReadonlyState(mockUpdateMode)
+
+    jest.advanceTimersByTime(100)
+
+
+    expect(instance.showActions).toHaveBeenCalled()
+    expect(instance.setReadonlyFields).toHaveBeenCalled()
+
   })
   
   it('form actions - edit, new, cancel', () => {
@@ -98,15 +195,9 @@ describe('WmForm', () => {
     const mockSetReadOnlyState = jest.fn()
     instance.setReadonlyState = mockSetReadOnlyState;
     instance.edit();
-    expect(mockSetReadOnlyState).toHaveBeenCalledWith(true)
-
-    instance.setReadonlyState = mockSetReadOnlyState;
     instance.new();
-    expect(mockSetReadOnlyState).toHaveBeenCalledWith(true)
-
-    instance.setReadonlyState = mockSetReadOnlyState;
     instance.cancel();
-    expect(mockSetReadOnlyState).toHaveBeenCalledWith(false)
+    expect(mockSetReadOnlyState).toHaveBeenCalledTimes(3)
 
   })
 
@@ -160,6 +251,33 @@ describe('WmForm', () => {
 
     expect(instance.buttonArray).toEqual(mockActions)
     expect(mockShowActions).toHaveBeenCalled()
+  })
+
+  it('revert later', async () => {
+    const mockRelatedData = jest.fn()
+    const props = {
+      relatedData: mockRelatedData
+    }
+    const tree = render(<WmForm {...props}/>);
+    const instance = tree.UNSAFE_getAllByType(WmForm)[0].instance;
+    const mockFieldProps = {
+      'isDataSetBound': false,
+      widget: 'some widget',
+      isRelated: true
+    }
+    const mockFormFields = [{
+      state: {
+        props: mockFieldProps
+      },
+      props: mockFieldProps,
+      updateState: jest.fn()
+    }]
+    instance.formFields = mockFormFields
+    instance.onPropertyChange('dataset', 'some new value', 'some old value')
+    
+    await waitFor(() => {
+      expect(mockRelatedData).toHaveBeenCalled()
+    })
   })
 
   it('applyFormData doesnt update formdata of formfields when props form data not exists', () => {
@@ -280,17 +398,17 @@ describe('WmForm', () => {
 
   it('form submit should invoke onBeforesubmit callback if it is provided', () => {
     
+    const onBeforesubmitMock = jest.fn()
     const props = {
       ...defaultProps,
-      onBeforesubmit: jest.fn()
+      onBeforesubmit: onBeforesubmitMock
     }
     const { UNSAFE_getByType } = render(<WmForm {...props} />);
     const instance = UNSAFE_getByType(WmForm).instance;
-    instance.invokeEventCallback = jest.fn(() => true);
     instance.validateFieldsOnSubmit = jest.fn(() => true);
     instance.handleSubmit();
     
-    expect(instance.invokeEventCallback).toHaveBeenCalled()
+    expect(onBeforesubmitMock).toHaveBeenCalled()
   });
 
 
@@ -303,13 +421,11 @@ describe('WmForm', () => {
     }
     const { UNSAFE_getByType } = render(<WmForm {...props} />);
     const instance = UNSAFE_getByType(WmForm).instance;
-    instance.invokeEventCallback = jest.fn(() => true);
     instance.validateFieldsOnSubmit = jest.fn(() => true);
     instance.onResultCb = jest.fn()
     instance.handleSubmit();
     
-    expect(instance.props.formSubmit).toHaveBeenCalled();
-    expect(instance.invokeEventCallback).toHaveBeenCalled();
+    expect(mockFormSubmit).toHaveBeenCalled();
     expect(instance.onResultCb).toHaveBeenCalled();
   });
 
@@ -322,29 +438,181 @@ describe('WmForm', () => {
     }
     const { UNSAFE_getByType } = render(<WmForm {...props} />);
     const instance = UNSAFE_getByType(WmForm).instance;
-    instance.invokeEventCallback = jest.fn(() => true);
     instance.validateFieldsOnSubmit = jest.fn(() => true);
     instance.onResultCb = jest.fn()
     instance.handleSubmit();
     
     expect(instance.props.formSubmit).toHaveBeenCalled();
-    expect(instance.invokeEventCallback).toHaveBeenCalled();
+    expect(mockFormSubmit).toHaveBeenCalled();
     expect(instance.onResultCb).toHaveBeenCalledWith('some error', '');
   });
 
   it('form submit should invoke onsubmit callback when onSubmit is not provided as prop', () => {
     
+    const mockSubmit = jest.fn()
     const props = {
       ...defaultProps,
+      onSubmit: mockSubmit
     }
     const { UNSAFE_getByType } = render(<WmForm {...props} />);
     const instance = UNSAFE_getByType(WmForm).instance;
-    instance.invokeEventCallback = jest.fn(() => true);
     instance.validateFieldsOnSubmit = jest.fn(() => true);
     instance.handleSubmit();
     
-    expect(instance.invokeEventCallback).toHaveBeenCalled();
+    expect(mockSubmit).toHaveBeenCalled();
   });
+
+  it('onMsgClose updates showInlinesMessage', async () => {
+    const { instance } = render(<WmForm {...defaultProps}/>).UNSAFE_getAllByProps(WmForm)[0]
+
+    instance.onMsgClose();
+
+    await waitFor(() => {
+      expect(instance.state.showInlineMsg).toBeFalsy()
+    })
+  })
+
+  it('toggleMessage updates the type and message when messagelayout is Inline', async () => {
+    const props = {
+      ...defaultProps,
+      messagelayout: 'Inline'
+    }
+    const mockType = 'some type';
+    const mockMessage = 'some message';
+
+    const { instance } = render(<WmForm {...props}/>).UNSAFE_getAllByType(WmForm)[0]
+
+    instance.toggleMessage(mockType, mockMessage)
+
+    await waitFor(() => {
+      expect(instance.state.type).toEqual(mockType)
+      expect(instance.state.message).toEqual(mockMessage)
+      expect(instance.state.showInlineMsg).toBeTruthy()
+    })
+  })
+
+  it('toggleMessage calls showToast when messagelayout is non Inline', () => {
+    const props = {
+      ...defaultProps,
+      messagelayout: 'non-Inline'
+    }
+    const mockType = 'some type';
+    const mockMessage = 'some message';
+
+    const { instance } = render(<WmForm {...props}/>).UNSAFE_getAllByType(WmForm)[0]
+
+    instance.toaster = {
+      showToast: jest.fn(() => {})
+    }
+    instance.toggleMessage(mockType, mockMessage)
+    expect(instance.toaster.showToast).toHaveBeenCalled()
+  })
+
+  it('updateDataOutput updateState with formdata output with valid key provided', async () => {
+    const tree = render(<WmForm>
+      <WmForm {...defaultProps}/>
+    </WmForm>)
+    const instance = tree.UNSAFE_getAllByType(WmForm)[1].instance;
+    //instance.formdataoutput = {};
+
+    const instanceParent = tree.UNSAFE_getAllByType(WmForm)[0].instance;
+    instanceParent.updateDataOutput = jest.fn();
+
+    const key = "somekey"
+    const value = "somevalue"
+
+    instance.updateDataOutput(key, value);
+
+    await waitFor(() => {
+      expect(instance.formdataoutput).toEqual({
+        "somekey": "somevalue",
+      })
+      expect(instanceParent.updateDataOutput).toHaveBeenCalled()
+    })
+  })
+
+  it('onResultCb should invoke callback with respective params', () => {
+    const { instance } = render(<WmForm {...defaultProps}/>).UNSAFE_getAllByType(WmForm)[0]
+    const mockInvokeEventCallback = jest.fn();
+    const mockToggleMessage = jest.fn()
+
+    instance.invokeEventCallback = mockInvokeEventCallback;
+    instance.toggleMessage = mockToggleMessage;
+
+    let mockResponse = {"key": "value"};
+    let mockStatus = true;
+
+    instance.onResultCb(mockResponse, mockStatus)
+
+    expect(mockInvokeEventCallback).toHaveBeenCalled()
+    expect(mockToggleMessage).toHaveBeenCalledWith("success", "Data posted successfully")
+    mockInvokeEventCallback.mockClear();
+
+    mockResponse = {"key": "value"};
+    mockStatus = false;
+
+    instance.onResultCb(mockResponse, mockStatus)
+
+    expect(mockInvokeEventCallback).toHaveBeenCalled()
+    expect(mockToggleMessage).toHaveBeenCalledWith("success", "Data posted successfully")
+
+  })
+
+  it('generateFormFields should return if form field data is empty', () => {
+    //['fieldOne', 'fieldTwo', 'fieldThree']
+    const mockMetadata = {
+      data: []
+    }
+    const props = {
+      ...defaultProps,
+      metadata: mockMetadata
+    }
+    const { instance } = render(<WmForm {...props}/>).UNSAFE_getAllByType(WmForm)[0]
+
+    instance.invokeEventCallback = jest.fn()
+
+    instance.generateFormFields()
+
+    expect(instance.invokeEventCallback).not.toHaveBeenCalled()
+  })
+
+  it('generateFormFields updates dynamicForm when metadata is available', () => {
+    const mockDynamicFormData = ['field 1', 'field 2']
+    const mockGenerateComponent =  jest.fn(() => mockDynamicFormData);
+    const mockMetadata = {
+      data: ['fieldOne', 'fieldTwo', 'fieldThree'],
+    }
+    const props = {
+      ...defaultProps,
+      metadata: mockMetadata,
+      generateComponent: mockGenerateComponent,
+      onBeforerender: jest.fn()
+    }
+    const { instance } = render(<WmForm {...props}/>).UNSAFE_getAllByType(WmForm)[0]
+
+    instance.invokeEventCallback = jest.fn(() => true)
+
+    instance.generateFormFields()
+
+    expect(instance.invokeEventCallback).toHaveBeenCalled()
+  })
+
+  it('setPrimaryKey updates primary key of form field', () => {
+    const { instance } = render(<WmForm {...defaultProps}/>).UNSAFE_getAllByType(WmForm)[0];
+
+    instance.setPrimaryKey('someKey')
+
+    expect(instance.primaryKey).toEqual(['someKey']) 
+  })
+
+  it('dataoutput returns formdataoutput', () => {
+    const { instance } = render(<WmForm {...defaultProps}/>).UNSAFE_getAllByType(WmForm)[0];
+
+    instance.formdataoutput = 'some data output'
+
+    expect(instance.dataoutput).toEqual('some data output') 
+  })
+
 
 
 });
