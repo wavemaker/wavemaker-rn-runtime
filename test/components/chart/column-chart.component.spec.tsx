@@ -56,6 +56,8 @@ describe('Test BarChart component', () => {
         subheading={baseProps.subheading}
       />
     ).toJSON();
+    expect(screen).toMatchSnapshot();
+
     expect(tree).not.toBeNull();
   });
 
@@ -165,7 +167,6 @@ describe('Test BarChart component', () => {
     render(
       <WmColumnChart {...baseProps} show="false" accessibilityrole="BarChart" />
     );
-    expect(screen).toMatchSnapshot();
     const viewEle = screen.getByRole('BarChart');
     expect(viewEle.props.style.width).toBe(0);
     expect(viewEle.props.style.height).toBe(0);
@@ -187,7 +188,6 @@ describe('Test BarChart component', () => {
       },
     };
 
-    expect(screen).toMatchSnapshot();
     const dataSet1 = {
       data: baseProps.dataset.map((item: any, index: number) => ({
         y: item.value,
@@ -335,5 +335,26 @@ describe('Test BarChart component', () => {
 
     const expectedLabel = xaxislabel + `(${xunits})`;
     expect(xaxis[0].props.label).toBe(expectedLabel);
+  });
+
+  it('should render chart component with default data when dataset is empty', () => {
+    const SAMPLE_DATA = {
+      group1: '01/01/2001',
+      group2: '01/01/2002',
+      group3: '01/01/2003',
+    };
+
+    const tree = render(
+      <WmColumnChart
+        xaxisdatakey="x"
+        yaxisdatakey="y"
+        dataset={[]}
+        type="Column"
+      />
+    );
+
+    const viewEle2 = tree.UNSAFE_getByType(VictoryBar);
+    expect(viewEle2.props.data[0].y).toBe(3);
+    expect(viewEle2.props.data[0].x).toBe(0);
   });
 });
