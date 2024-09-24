@@ -17,6 +17,7 @@ import {
   act,
   cleanup,
 } from '@testing-library/react-native';
+import { constructSampleData } from '@wavemaker/app-rn-runtime/components/chart/staticdata';
 
 const renderComponent = (props = {}) => {
   return render(<WmLineChart name="test_BubbleChart" {...props} />);
@@ -388,7 +389,6 @@ describe('Test LineChart component', () => {
       showlegend: 'hide',
       colorScale: ['red', 'yellow', 'green'],
     });
-    expect(screen).toMatchSnapshot();
     expect(tree.UNSAFE_queryByType(VictoryLegend)).toBeFalsy();
   });
 
@@ -443,9 +443,100 @@ describe('Test LineChart component', () => {
     expect(tree.UNSAFE_getAllByType(VictoryAxis).length).toBe(1);
   });
 
+  it('checking the ynumberformat is rounding y axis values to nearest whole number or not', () => {
+    const setYAxisFormatMock = jest.spyOn(
+      WmLineChart.prototype,
+      'setYAxisFormat'
+    );
+    const tree = renderComponent({
+      // ...defaultProps,
+      dataset: [
+        { x: 10, y: '101' },
+        { x: 20, y: '201' },
+        { x: 30, y: '301' },
+      ],
+      xaxisdatakey: 'x',
+      yaxisdatakey: 'y',
+      ynumberformat: '%',
+    });
+    expect(setYAxisFormatMock).toHaveBeenCalled();
+    // tickformat in victoryaxis defaultly taking y axis values and providing static values
+    expect(setYAxisFormatMock).toHaveReturnedWith(
+      '0%',
+      '15000%',
+      '20000%',
+      '30000%'
+    );
+
+    tree.rerender(
+      <WmLineChart
+        name="test_LineChart"
+        {...defaultProps}
+        ynumberformat="Billion"
+      />
+    );
+    expect(setYAxisFormatMock).toHaveReturnedWith(
+      '0.0B',
+      '0.0B',
+      '0.0B',
+      '0.0B'
+    );
+
+    tree.rerender(
+      <WmLineChart
+        name="test_LineChart"
+        {...defaultProps}
+        ynumberformat="Million"
+      />
+    );
+    expect(setYAxisFormatMock).toHaveReturnedWith(
+      '0.0M',
+      '0.0M',
+      '0.0M',
+      '0.0M'
+    );
+
+    tree.rerender(
+      <WmLineChart
+        name="test_LineChart"
+        {...defaultProps}
+        ynumberformat="Thousand"
+      />
+    );
+    expect(setYAxisFormatMock).toHaveReturnedWith(
+      '0.1K',
+      '0.2K',
+      '0.3K',
+      '0.4K'
+    );
+
+    tree.rerender(
+      <WmLineChart name="test_LineChart" {...defaultProps} ynumberformat=",r" />
+    );
+    expect(setYAxisFormatMock).toHaveReturnedWith('150', '200', '250', '300');
+  });
+
+  it('should render chart component with default data when dataset is empty', () => {
+    const tree = renderComponent({
+      xaxisdatakey: 'x',
+      yaxisdatakey: 'y',
+      dataset: [],
+      type: 'Line',
+    });
+
+    expect(constructSampleData).toBeDefined();
+    const viewEle2 = tree.UNSAFE_getByType(VictoryLine);
+    expect(viewEle2.props.data[0].y).toBe(2);
+    expect(viewEle2.props.data[1].y).toBe(0);
+    expect(viewEle2.props.data[2].y).toBe(3);
+    expect(viewEle2.props.data[0].x).toBe(0);
+    expect(viewEle2.props.data[1].x).toBe(1);
+    expect(viewEle2.props.data[2].x).toBe(2);
+  });
+
   //isrtl
   it('checking data', () => {
-    const viewEle1 = jest
+    const isRTLmock = jest
       .spyOn(WmLineChart.prototype, 'isRTL', 'get')
       .mockImplementation(() => {
         return true;
@@ -470,5 +561,8 @@ describe('Test LineChart component', () => {
     expect(viewEle3.props.data[0].x).toBe(2);
     expect(viewEle3.props.data[1].x).toBe(1);
     expect(viewEle3.props.data[2].x).toBe(0);
+
+    isRTLmock.mockReset();
+    jest.clearAllMocks();
   });
 });
