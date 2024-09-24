@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Layoutgrid component Check validity of sample component 1`] = `
+exports[`Test Layoutgrid component renders children correctly 1`] = `
 <View
   style={
     {
@@ -8,5 +8,36 @@ exports[`Test Layoutgrid component Check validity of sample component 1`] = `
       "width": "100%",
     }
   }
+  testID="layoutgrid"
+>
+  <View>
+    <Text>
+      Child Component
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Test Layoutgrid component renders layout grid properly 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "column",
+      "width": "100%",
+    }
+  }
+  testID="layoutgrid"
+/>
+`;
+
+exports[`Test Layoutgrid component should render a skeleton with given width and height 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "column",
+      "width": "100%",
+    }
+  }
+  testID="layoutgrid"
 />
 `;
