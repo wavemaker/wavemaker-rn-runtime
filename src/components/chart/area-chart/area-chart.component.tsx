@@ -68,6 +68,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
         {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
         style={this.styles.root}
         onLayout={this.onViewLayoutChange.bind(this)}
+        key={`${props.title}_area_chart`}
       >
         {this.getTooltip()}
         <View>
