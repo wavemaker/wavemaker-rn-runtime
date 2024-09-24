@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test LineChart component showlegend set to hidden 1`] = `
+exports[`Test LineChart component should render when default props was given 1`] = `
 <View
   accessible={true}
   onLayout={[Function]}
@@ -116,6 +116,113 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
             }
           }
         >
+          <RNSVGRect
+            fill={null}
+            height="54.6"
+            propList={
+              [
+                "fill",
+              ]
+            }
+            vectorEffect={1}
+            width="92.8"
+            x="0"
+            y="0"
+          />
+          <RNSVGPath
+            d="M 62, 42
+      m -4.8, 0
+      a 4.8, 4.8 0 1,0 9.6,0
+      a 4.8, 4.8 0 1,0 -9.6,0"
+            fill={
+              {
+                "payload": 4280252340,
+                "type": 0,
+              }
+            }
+            propList={
+              [
+                "fill",
+              ]
+            }
+          />
+          <RNSVGText
+            content={null}
+            dx={
+              [
+                "0",
+              ]
+            }
+            dy={[]}
+            fill={
+              {
+                "payload": 4278190080,
+                "type": 0,
+              }
+            }
+            font={{}}
+            name="legendData-labels-0"
+            rotate={[]}
+            x={
+              [
+                "76.4",
+              ]
+            }
+            y={
+              [
+                "46.26",
+              ]
+            }
+          >
+            <RNSVGTSpan
+              content="y"
+              dx={
+                [
+                  "0",
+                ]
+              }
+              dy={
+                [
+                  "0",
+                ]
+              }
+              fill={
+                {
+                  "payload": 4279571488,
+                  "type": 0,
+                }
+              }
+              font={
+                {
+                  "fontFamily": "Helvetica Neue",
+                  "fontSize": "12",
+                  "letterSpacing": "normal",
+                  "textAnchor": "start",
+                }
+              }
+              propList={
+                [
+                  "fill",
+                ]
+              }
+              rotate={[]}
+              x={
+                [
+                  "76.4",
+                ]
+              }
+              y={[]}
+            />
+          </RNSVGText>
+        </RNSVGGroup>
+        <RNSVGGroup
+          fill={
+            {
+              "payload": 4278190080,
+              "type": 0,
+            }
+          }
+        >
           <RNSVGLine
             fill={
               {
@@ -162,7 +269,7 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
               }
             }
             font={{}}
-            name="chart-axis-0-axisLabel-0"
+            name="chart-axis-1-axisLabel-0"
             rotate={[]}
             x={
               [
@@ -300,7 +407,7 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
                 }
               }
               font={{}}
-              name="chart-axis-0-tickLabels-0"
+              name="chart-axis-1-tickLabels-0"
               rotate={[]}
               x={
                 [
@@ -519,7 +626,7 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
                 }
               }
               font={{}}
-              name="chart-axis-0-tickLabels-2"
+              name="chart-axis-1-tickLabels-2"
               rotate={[]}
               x={
                 [
@@ -738,7 +845,7 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
                 }
               }
               font={{}}
-              name="chart-axis-0-tickLabels-4"
+              name="chart-axis-1-tickLabels-4"
               rotate={[]}
               x={
                 [
@@ -866,7 +973,7 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
                 155,
               ]
             }
-            name="chart-axis-1-axisLabel-0"
+            name="chart-axis-2-axisLabel-0"
             rotate={[]}
             x={
               [
@@ -1004,7 +1111,7 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
                 }
               }
               font={{}}
-              name="chart-axis-1-tickLabels-0"
+              name="chart-axis-2-tickLabels-0"
               rotate={[]}
               x={
                 [
@@ -1152,7 +1259,7 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
                 }
               }
               font={{}}
-              name="chart-axis-1-tickLabels-1"
+              name="chart-axis-2-tickLabels-1"
               rotate={[]}
               x={
                 [
@@ -1300,7 +1407,7 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
                 }
               }
               font={{}}
-              name="chart-axis-1-tickLabels-2"
+              name="chart-axis-2-tickLabels-2"
               rotate={[]}
               x={
                 [
@@ -1448,7 +1555,7 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
                 }
               }
               font={{}}
-              name="chart-axis-1-tickLabels-3"
+              name="chart-axis-2-tickLabels-3"
               rotate={[]}
               x={
                 [
@@ -1521,7 +1628,7 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
           }
         >
           <RNSVGGroup
-            clipPath="victory-clip-31"
+            clipPath="victory-clip-2"
             fill={
               {
                 "payload": 4278190080,
@@ -1545,7 +1652,7 @@ exports[`Test LineChart component showlegend set to hidden 1`] = `
                       "type": 0,
                     }
                   }
-                  name="victory-clip-31"
+                  name="victory-clip-2"
                 >
                   <RNSVGRect
                     fill={
