@@ -29,3 +29,93 @@ exports[`Test Container component Check validity of sample component 1`] = `
   </View>
 </View>
 `;
+
+exports[`Test Container component render skeleton if showskeleton is true and showskeletonchildren is false 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "overflow": "hidden",
+    }
+  }
+>
+  <View
+    style={
+      [
+        {},
+        {
+          "opacity": 0,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        {
+          "height": undefined,
+          "width": undefined,
+        }
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "height": undefined,
+              "width": undefined,
+            },
+            {
+              "flexDirection": "column",
+            },
+          ]
+        }
+      >
+        <Text>
+          hii
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Container component render skeleton if showskeleton is true and showskeletonchildren is true 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderColor": "transparent",
+      "shadowColor": "transparent",
+    }
+  }
+  testID="non_animatableView"
+>
+  <View
+    style={
+      {
+        "height": undefined,
+        "width": undefined,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": undefined,
+            "width": undefined,
+          },
+          {
+            "flexDirection": "column",
+          },
+        ]
+      }
+    >
+      <Text>
+        hii
+      </Text>
+    </View>
+  </View>
+</View>
+`;
