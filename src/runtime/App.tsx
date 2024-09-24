@@ -1,6 +1,6 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, View, ViewStyle, StatusBar, KeyboardAvoidingView } from 'react-native';
+import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
@@ -482,9 +482,6 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 (<SafeAreaView  style={{flex: 1}}>
                   <StatusBar />
                   <ThemeProvider value={this.appConfig.theme}>
-
-                  <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}
-                  style={{ flex: 1 }}>
                   <FixedViewContainer>
                     <View style={styles.container}>
                       <GestureHandlerRootView style={styles.container}>
@@ -505,7 +502,6 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   {this.renderToasters()}
                   {this.renderDialogs()}
                   {this.renderDisplayManager()}
-                  </KeyboardAvoidingView>
                   </ThemeProvider>
                 </SafeAreaView>))
               )
