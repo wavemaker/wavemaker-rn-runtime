@@ -625,4 +625,33 @@ describe('Test PieChart component', () => {
       expect(viewEle1.props.theme.legend.gutter).toBe(10);
     });
   });
+
+  it('should render chart component with default data when dataset is empty', () => {
+    const SAMPLE_DATA1 = {
+      group1: 'Europe',
+      group2: 'Asia',
+      group3: 'America',
+      group4: 'Australia',
+    };
+
+    const { getByText } = renderComponent({
+      xaxisdatakey: 'x',
+      yaxisdatakey: 'y',
+      dataset: [],
+      type: 'Pie',
+    });
+
+    fireEvent(screen.root, 'layout', {
+      nativeEvent: {
+        layout: {
+          width: 500,
+        },
+      },
+    });
+    // expect(tree).toMatchSnapshot();
+    expect(getByText(SAMPLE_DATA1.group1)).toBeTruthy();
+    expect(getByText(SAMPLE_DATA1.group2)).toBeTruthy();
+    expect(getByText(SAMPLE_DATA1.group3)).toBeTruthy();
+    expect(getByText(SAMPLE_DATA1.group4)).toBeTruthy();
+  });
 });

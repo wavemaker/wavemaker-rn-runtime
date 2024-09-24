@@ -377,4 +377,24 @@ describe('Test BarChart component', () => {
     const viewEle = tree.UNSAFE_getByType(VictoryChart);
     expect(screen).toMatchSnapshot();
   });
+
+  it('should render chart component with default data when dataset is empty', () => {
+    const tree = render(
+      <WmBarChart
+        {...baseProps}
+        xaxisdatakey="x"
+        yaxisdatakey="y"
+        dataset={[]}
+        type="Bar"
+      />
+    );
+
+    const viewEle2 = tree.UNSAFE_getByType(VictoryBar);
+    expect(viewEle2.props.data[0].y).toBe(2000000);
+    expect(viewEle2.props.data[1].y).toBe(1000000);
+    expect(viewEle2.props.data[2].y).toBe(3000000);
+    expect(viewEle2.props.data[0].x).toBe(0);
+    expect(viewEle2.props.data[1].x).toBe(1);
+    expect(viewEle2.props.data[2].x).toBe(2);
+  });
 });
