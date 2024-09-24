@@ -8,7 +8,7 @@ exports[`Test Layoutgrid component renders children correctly 1`] = `
       "width": "100%",
     }
   }
-  testID="wm-layoutgrid"
+  testID="layoutgrid"
 >
   <View>
     <Text>
@@ -26,6 +26,18 @@ exports[`Test Layoutgrid component renders layout grid properly 1`] = `
       "width": "100%",
     }
   }
-  testID="wm-layoutgrid"
+  testID="layoutgrid"
+/>
+`;
+
+exports[`Test Layoutgrid component should render a skeleton with given width and height 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "column",
+      "width": "100%",
+    }
+  }
+  testID="layoutgrid"
 />
 `;

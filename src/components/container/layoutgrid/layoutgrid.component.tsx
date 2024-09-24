@@ -40,7 +40,7 @@ export default class WmLayoutgrid extends BaseComponent<WmLayoutgridProps, WmLay
       ...this.styles.skeleton.root
     } : this.styles.root
     return (
-      <View style={styles}>{this.getBackground()}{props.children}</View>
+      <View style={styles} testID={this.getTestId()}>{this.getBackground()}{props.children}</View>
     ); 
   }
 }

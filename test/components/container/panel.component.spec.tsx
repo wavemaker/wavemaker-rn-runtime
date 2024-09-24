@@ -1,13 +1,28 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { fireEvent, render } from '@testing-library/react-native';
+import { Platform, Text } from 'react-native';
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import WmPanel from '@wavemaker/app-rn-runtime/components/container/panel/panel.component';
 import WmPanelProps from '@wavemaker/app-rn-runtime/components/container/panel/panel.props';
 
-const renderComponent = (props?: Partial<WmPanelProps>) => {
+const fireEventLayoutFun = (component: any) => {
+  return fireEvent(component.root, 'layout', {
+    nativeEvent: {
+      layout: {
+        x: 100,
+        y: 100,
+        px: 100,
+        py: 100,
+        width: 200,
+        height: 200,
+      },
+    },
+  });
+};
+
+const renderComponent = (props?: Partial<WmPanelProps> | any) => {
   const defaultProps = {
-    id: 'test-panel',
-    name: 'test-panel',
+    id: 'panel',
+    name: 'panel',
     title: 'Panel Title',
     subheading: 'Panel Subheading',
     collapsible: true,
@@ -22,7 +37,7 @@ const renderComponent = (props?: Partial<WmPanelProps>) => {
 
   return render(
     <WmPanel {...defaultProps} {...props}>
-    {props?.children || defaultProps?.children}
+      {props?.children || defaultProps?.children}
     </WmPanel>
   );
 };
@@ -31,7 +46,7 @@ describe('Test Panel component', () => {
   test('renders panel properly', () => {
     const tree = renderComponent();
 
-    expect(tree.getByTestId('wm-panel')).toBeTruthy();
+    expect(tree.getByTestId('panel')).toBeTruthy();
     expect(tree).toMatchSnapshot();
   });
 
@@ -39,7 +54,6 @@ describe('Test Panel component', () => {
     const tree = renderComponent();
 
     expect(tree.getByText('Panel Content')).toBeTruthy();
-    expect(tree).toMatchSnapshot();
   });
 
   test('renders the panel title and subheading properly', () => {
@@ -50,7 +64,6 @@ describe('Test Panel component', () => {
 
     const subheading = tree.getByText('Panel Subheading');
     expect(subheading).toBeTruthy();
-    expect(tree).toMatchSnapshot();
   });
 
   test('handles collapse functionality', async () => {
@@ -61,12 +74,11 @@ describe('Test Panel component', () => {
       onCollapse,
     };
     const tree = renderComponent(props);
-    const header = tree.getByTestId('test-panel_header');
+    const header = tree.getByTestId('panel_header');
 
     fireEvent.press(header);
     expect(onCollapse).toHaveBeenCalled();
-
-    expect(tree).toMatchSnapshot();
+    expect(tree.getByText('chevron-up')).toBeTruthy();
   });
 
   test('handles expand functionality', async () => {
@@ -77,12 +89,11 @@ describe('Test Panel component', () => {
       onExpand,
     };
     const tree = renderComponent(props);
-    const header = tree.getByTestId('test-panel_header');
+    const header = tree.getByTestId('panel_header');
 
     fireEvent.press(header);
     expect(onExpand).toHaveBeenCalled();
-
-    expect(tree).toMatchSnapshot();
+    expect(tree.getByText('chevron-down')).toBeTruthy();
   });
 
   it('does not toggle expanded state, when not collapsible', () => {
@@ -90,27 +101,64 @@ describe('Test Panel component', () => {
     const onCollapse = jest.fn();
     const tree = renderComponent({ collapsible: false });
 
-    fireEvent.press(tree.getByTestId('test-panel_header'));
+    fireEvent.press(tree.getByTestId('panel_header'));
     expect(onExpand).not.toHaveBeenCalled();
     expect(onCollapse).not.toHaveBeenCalled();
-    expect(tree).toMatchSnapshot();
+  });
+
+  it('should invoke onLoad callback when panel content is loaded', async () => {
+    const onLoadMock = jest.fn();
+
+    const tree = renderComponent({
+      onLoad: onLoadMock,
+      renderPartial: (props: any, onLoad: any) => {
+        onLoad();
+      },
+    });
+
+    fireEventLayoutFun(tree);
+    await waitFor(() => {
+      expect(onLoadMock).toHaveBeenCalled();
+    });
   });
 
   test('displays the badge correctly', () => {
     const tree = renderComponent();
-    const badge = tree.getByTestId('test-panel_badge');
+    const badge = tree.getByTestId('panel_badge');
     expect(badge).toBeTruthy();
     expect(badge.props.children).toBe('99+');
-    expect(tree).toMatchSnapshot();
   });
 
   test('displays the icon correctly', () => {
     const tree = renderComponent({
-      iconclass: 'wi wi-chevron-down',
+      iconclass: 'wi wi-edit',
     });
 
-    const icon = tree.getByTestId('test-panel_collapseicon_icon');
-    expect(icon).toBeTruthy();
+    expect(tree.getByText('edit')).toBeTruthy();
+  });
+
+  it('collapsible pane works properly', () => {
+    Platform.OS = 'ios';
+
+    const tree = renderComponent({
+      styles: {
+        header: {
+          display: 'block',
+        },
+      },
+      children: <Text>Collapsible Pane Content</Text>,
+    });
+
+    expect(tree.getByText('Collapsible Pane Content')).toBeTruthy();
+  });
+
+  it('should render a skeleton with given width and height', () => {
+    const tree = renderComponent({
+      showskeleton: true,
+      skeletonheight: '100',
+      skeletonwidth: '50',
+    });
+
     expect(tree).toMatchSnapshot();
   });
 });
