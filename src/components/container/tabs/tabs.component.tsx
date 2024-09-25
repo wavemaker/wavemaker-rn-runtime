@@ -172,7 +172,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   }
 
   public renderSkeleton(props: WmTabsProps){
-    if(!this.props.showskeletonchildren) {
+    if(!props.showskeletonchildren) {
       const skeletonStyles: WmSkeletonStyles = this.props?.styles?.skeleton || { root: {}, text: {}  } as WmSkeletonStyles
       return createSkeleton(this.theme, skeletonStyles, {
         ...this.styles.root
