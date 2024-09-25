@@ -58,7 +58,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         } as any as WmPictureStyles,
         skeleton: {
             root: {
-
             }
         } as any as WmSkeletonStyles
     });
