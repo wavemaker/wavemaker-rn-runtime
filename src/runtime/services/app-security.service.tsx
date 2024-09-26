@@ -229,9 +229,20 @@ class AppSecurityService implements SecurityService {
     public appLogout(options: any) {
       return axios.post(options.baseURL + '/j_spring_security_logout', null, {
           withCredentials: true
-      }).catch(() => {}).then(() => {
-          this.isLoggedIn = false;
-          this.redirectToLogin();
+      })
+      .catch(() => {})
+      .then((response) => {
+          if(response?.data?.result){
+            return axios.get(`${response?.data?.result}`);
+          }
+          return Promise.reject();
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+      .then(()=>{
+        this.isLoggedIn = false;
+        this.redirectToLogin();
       });
     }
 
