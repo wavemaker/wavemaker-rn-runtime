@@ -13,7 +13,7 @@ export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {
 }
 
 export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneState, WmTabpaneStyles> {
-
+  public paneId: string = "";
   constructor(props: WmTabpaneProps) {
     super(props, DEFAULT_CLASS, new WmTabpaneProps(), new WmTabpaneState());
     this.subscribe('scroll', (event: any) => {
@@ -50,6 +50,11 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
       tabs.addTabPane(this.proxy as WmTabpane);
     }
     super.componentDidMount();
+  }
+
+  componentWillUnmount() {
+    const tabs = (this.parent) as WmTabs;
+    tabs.removeTabPane(this);
   }
 
   _onSelect() {

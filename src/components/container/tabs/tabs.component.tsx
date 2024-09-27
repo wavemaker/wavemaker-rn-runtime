@@ -74,11 +74,20 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   }
 
   addTabPane(tabPane: WmTabpane) {
-    const i = this.tabPanes.findIndex(t => t.props.name === tabPane.props.name);
+    tabPane.paneId = `tabPane${this.newIndex++}`;
+    const i = this.tabPanes.findIndex(t => t.paneId === tabPane.paneId);
     if (i >= 0) {
       this.tabPanes[i] = tabPane;
     } else {
-      this.tabPanes[this.newIndex++] = tabPane;
+      this.tabPanes.push(tabPane)
+    }
+  }
+
+  removeTabPane(tabPane: WmTabpane) {
+    const i = this.tabPanes.findIndex(t => t.paneId === tabPane.paneId);
+    if (i >= 0) {
+      this.tabPanes.splice(i, 1); 
+      this.newIndex--;
     }
   }
 
