@@ -2,7 +2,9 @@ import BASE_THEME, { NamedStyles } from '@wavemaker/app-rn-runtime/styles/theme'
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
-export type WmPartialStyles = BaseStyles & {};
+export type WmPartialStyles = BaseStyles & {
+    skeleton: WmSkeletonStyles
+};
 
 export const DEFAULT_CLASS = 'app-partial';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
