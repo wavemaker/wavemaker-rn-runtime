@@ -129,8 +129,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       skeleton: {
         root: {
-          width: '100%',
-          height: '100%',
+          height: 56
         }
       } as any as WmSkeletonStyles
   });

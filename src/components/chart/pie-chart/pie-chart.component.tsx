@@ -126,7 +126,9 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
     return (
       <View style={[{opacity: this.state.opacity}, this.styles.root]}
         {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
-        onLayout={this.onViewLayoutChange}>
+        onLayout={this.onViewLayoutChange}
+        key={`${props.title}_pie_chart`}
+        >
         <View onLayout={this.onInfoViewLayoutChange}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }

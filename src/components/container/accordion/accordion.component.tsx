@@ -29,14 +29,22 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   }
 
   addAccordionPane(accordionPane: WmAccordionpane) {
-    const i = this.accordionPanes.findIndex(t => t.props.title === accordionPane.props.title);
+    const i = this.accordionPanes.findIndex(t => {
+      return t.paneId === accordionPane.paneId});
     if (i >= 0) {
       this.accordionPanes[i] = accordionPane;
     } else {
-      this.accordionPanes[this.newIndex++] = accordionPane;
+      accordionPane.paneId = `accordionPane${this.newIndex++}`;
+      this.accordionPanes.push(accordionPane);
     }
-    if (!(this.state.isExpanded?.find((v) => v))) {
-      this.toggle(this.state.props.defaultpaneindex + 1);
+    this.toggle(this.state.props.defaultpaneindex + 1);
+  }
+
+  removeAccordionPane(accordionPane: WmAccordionpane){
+    const index = this.accordionPanes.findIndex(t => t.paneId === accordionPane.paneId);
+    if (index >= 0) {
+      this.accordionPanes.splice(index, 1); 
+      this.newIndex--;
     }
   }
 
@@ -134,8 +142,9 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
   toggle(index: number, expand = true) {
     let expandedId = expand ? index : -1;
     let collapseId = expand ? -1 : index;
-    if (expand && this.state.isExpanded[expandedId - 1]
-        || !expand && this.state.isExpanded[collapseId - 1] === false) {
+    const expandedPane = expandedId ? this.accordionPanes[expandedId - 1]: null;
+    if (expand && this.state.isExpanded[expandedId - 1] && !expandedPane?.state.collapsed
+        || !expand && this.state.isExpanded[collapseId - 1] === false && expandedPane?.state.collapsed) {
         return;
     }
     if (collapseId < 0 && this.state.props.closeothers) {
@@ -144,7 +153,6 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const collapsedPane = this.accordionPanes[collapseId -1];
     collapsedPane?.hide();
     Promise.resolve().then(() => {
-      const expandedPane = expandedId ? this.accordionPanes[expandedId - 1]: null;
       expandedPane?.show();
       this.setState((state) => {
         if (collapseId > 0 && collapsedPane) {

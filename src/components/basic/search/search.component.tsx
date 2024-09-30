@@ -262,13 +262,14 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   }
 
   public renderSkeleton(props: WmSearchProps): React.ReactNode {
-    const {skeletonwidth, skeletonheight} = this.props;
-    
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root,
-      width: skeletonwidth as DimensionValue,
-      height: skeletonheight as DimensionValue,
-    })
+  
+    const rootStyle = {
+      ...this.styles.searchInputWrapper, 
+      ...this.styles.root, 
+      ...this.styles.text
+    }
+
+    return createSkeleton(this.theme, this.styles.skeleton, rootStyle)
   }
 
   renderSearchBar() {

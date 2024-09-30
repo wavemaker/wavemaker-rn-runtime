@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Accordionpane component check for render wmaccordionpane correctly with default props 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderColor": "#eeeeee",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 0,
+      "width": "100%",
+    }
+  }
+/>
+`;

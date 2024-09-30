@@ -417,5 +417,6 @@ export const ThemeConsumer = ThemeContext.Consumer;
     addStyle('border-warning', '', { root: { borderColor: themeVariables.warningColor }});
 
     addStyle('hide-context-menu', '', { text: { userSelect: 'none' }});
+    addStyle('hide-context-menu-input', '', { text: { userSelect: 'none' }});
 });
 

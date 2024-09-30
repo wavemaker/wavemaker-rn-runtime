@@ -15,7 +15,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         text: {},
         skeleton: {
             root: {
-                backgroundColor: themeVariables.skeletonBackgroundColor,
+                backgroundColor: themeVariables.skeletonBgColor,
                 paddingLeft: 10,
                 paddingRight: 10,
                 paddingTop: 16,

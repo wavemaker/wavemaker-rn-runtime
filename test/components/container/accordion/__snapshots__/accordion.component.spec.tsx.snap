@@ -1,0 +1,1255 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WmAccordion Component check for render wmaccordion correctly with default props 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderColor": "#eeeeee",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 0,
+      "width": "100%",
+    }
+  }
+/>
+`;
+
+exports[`WmAccordion Component render skeleton if showskeleton is true and showskeletonchildren is false 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 6,
+      "overflow": "hidden",
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      [
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "#eeeeee",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 0,
+          "width": "100%",
+        },
+        {
+          "opacity": 0,
+        },
+      ]
+    }
+  >
+    <View
+      style={{}}
+    >
+      <View
+        accessibilityLabel="accordion1_header0"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "0": [
+              [
+                {
+                  "backgroundColor": "#ffffff",
+                  "borderBottomWidth": 1,
+                  "borderColor": "#eeeeee",
+                  "borderStyle": "solid",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "paddingBottom": 8,
+                  "paddingLeft": 8,
+                  "paddingRight": 8,
+                  "paddingTop": 8,
+                },
+                {
+                  "borderTopLeftRadius": 6,
+                  "borderTopRightRadius": 6,
+                },
+                null,
+                {},
+              ],
+              {
+                "opacity": 1,
+              },
+            ],
+            "1": {
+              "opacity": 1,
+            },
+          }
+        }
+        testID="accordion1_header0"
+      >
+        <View
+          style={
+            {
+              "flexDirection": "row",
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 24,
+              "height": 24,
+              "overflow": "hidden",
+              "width": 24,
+            }
+          }
+        />
+        <View
+          style={
+            {
+              "flex": 1,
+              "flexDirection": "column",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "backgroundColor": "#eeeeee",
+                "borderRadius": 4,
+                "height": 16,
+                "overflow": "hidden",
+                "width": "100%",
+              }
+            }
+          />
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "backgroundColor": "#eeeeee",
+                "borderRadius": 4,
+                "height": 16,
+                "overflow": "hidden",
+                "width": "100%",
+              }
+            }
+          />
+        </View>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text
+            accessibilityLabel="accordion1_badge0"
+            collapsable={false}
+            numberOfLines={1}
+            style={
+              {
+                "0": [
+                  {
+                    "backgroundColor": "#dc3545",
+                    "borderRadius": 10,
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontSize": 10,
+                    "height": 20,
+                    "lineHeight": 10,
+                    "minWidth": 20,
+                    "opacity": 1,
+                    "paddingHorizontal": 3,
+                  },
+                  {
+                    "alignSelf": "flex-end",
+                    "overflow": "hidden",
+                    "textAlign": "center",
+                    "textAlignVertical": "center",
+                  },
+                  {
+                    "alignContent": "center",
+                    "borderColor": "#bbbbbb",
+                    "borderRadius": 12,
+                    "borderStyle": "solid",
+                    "borderWidth": 2,
+                    "color": "#bbbbbb",
+                    "fontSize": 14,
+                    "height": 24,
+                    "marginRight": 4,
+                    "width": 24,
+                  },
+                ],
+                "1": {
+                  "opacity": 1,
+                },
+              }
+            }
+            testID="accordion1_badge0"
+          >
+            badge1
+          </Text>
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "backgroundColor": "#eeeeee",
+                "borderRadius": 24,
+                "height": 24,
+                "overflow": "hidden",
+                "width": 24,
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        accessibilityLabel="accordionpane1_content_label1"
+        style={
+          {
+            "maxHeight": 0,
+            "overflow": "hidden",
+          }
+        }
+        testID="accordionpane1_content_label1"
+      />
+    </View>
+    <View
+      style={{}}
+    >
+      <View
+        accessibilityLabel="accordion1_header1"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "0": [
+              [
+                {
+                  "backgroundColor": "#ffffff",
+                  "borderBottomWidth": 1,
+                  "borderColor": "#eeeeee",
+                  "borderStyle": "solid",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "paddingBottom": 8,
+                  "paddingLeft": 8,
+                  "paddingRight": 8,
+                  "paddingTop": 8,
+                },
+                null,
+                null,
+                {},
+              ],
+              {
+                "opacity": 1,
+              },
+            ],
+            "1": {
+              "opacity": 1,
+            },
+          }
+        }
+        testID="accordion1_header1"
+      >
+        <View
+          style={
+            {
+              "flexDirection": "row",
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 24,
+              "height": 24,
+              "overflow": "hidden",
+              "width": 24,
+            }
+          }
+        />
+        <View
+          style={
+            {
+              "flex": 1,
+              "flexDirection": "column",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "backgroundColor": "#eeeeee",
+                "borderRadius": 4,
+                "height": 16,
+                "overflow": "hidden",
+                "width": "100%",
+              }
+            }
+          />
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "backgroundColor": "#eeeeee",
+                "borderRadius": 4,
+                "height": 16,
+                "overflow": "hidden",
+                "width": "100%",
+              }
+            }
+          />
+        </View>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text
+            accessibilityLabel="accordion1_badge1"
+            collapsable={false}
+            numberOfLines={1}
+            style={
+              {
+                "0": [
+                  {
+                    "backgroundColor": "#dc3545",
+                    "borderRadius": 10,
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontSize": 10,
+                    "height": 20,
+                    "lineHeight": 10,
+                    "minWidth": 20,
+                    "opacity": 1,
+                    "paddingHorizontal": 3,
+                  },
+                  {
+                    "alignSelf": "flex-end",
+                    "overflow": "hidden",
+                    "textAlign": "center",
+                    "textAlignVertical": "center",
+                  },
+                  {
+                    "alignContent": "center",
+                    "borderColor": "#bbbbbb",
+                    "borderRadius": 12,
+                    "borderStyle": "solid",
+                    "borderWidth": 2,
+                    "color": "#bbbbbb",
+                    "fontSize": 14,
+                    "height": 24,
+                    "marginRight": 4,
+                    "width": 24,
+                  },
+                ],
+                "1": {
+                  "opacity": 1,
+                },
+              }
+            }
+            testID="accordion1_badge1"
+          >
+            badge2
+          </Text>
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "backgroundColor": "#eeeeee",
+                "borderRadius": 24,
+                "height": 24,
+                "overflow": "hidden",
+                "width": 24,
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        accessibilityLabel="accordionpane2_content_label2"
+        style={
+          {
+            "maxHeight": 0,
+            "overflow": "hidden",
+          }
+        }
+        testID="accordionpane2_content_label2"
+      />
+    </View>
+    <View
+      style={{}}
+    >
+      <View
+        accessibilityLabel="accordion1_header2"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "0": [
+              [
+                {
+                  "backgroundColor": "#ffffff",
+                  "borderBottomWidth": 1,
+                  "borderColor": "#eeeeee",
+                  "borderStyle": "solid",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "paddingBottom": 8,
+                  "paddingLeft": 8,
+                  "paddingRight": 8,
+                  "paddingTop": 8,
+                },
+                null,
+                {
+                  "borderBottomLeftRadius": 6,
+                  "borderBottomRightRadius": 6,
+                  "borderBottomWidth": 0,
+                },
+                {},
+              ],
+              {
+                "opacity": 1,
+              },
+            ],
+            "1": {
+              "opacity": 1,
+            },
+          }
+        }
+        testID="accordion1_header2"
+      >
+        <View
+          style={
+            {
+              "flexDirection": "row",
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 24,
+              "height": 24,
+              "overflow": "hidden",
+              "width": 24,
+            }
+          }
+        />
+        <View
+          style={
+            {
+              "flex": 1,
+              "flexDirection": "column",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "backgroundColor": "#eeeeee",
+                "borderRadius": 4,
+                "height": 16,
+                "overflow": "hidden",
+                "width": "100%",
+              }
+            }
+          />
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "backgroundColor": "#eeeeee",
+                "borderRadius": 4,
+                "height": 16,
+                "overflow": "hidden",
+                "width": "100%",
+              }
+            }
+          />
+        </View>
+        <View
+          style={
+            {
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text
+            accessibilityLabel="accordion1_badge2"
+            collapsable={false}
+            numberOfLines={1}
+            style={
+              {
+                "0": [
+                  {
+                    "backgroundColor": "#dc3545",
+                    "borderRadius": 10,
+                    "color": "rgba(255, 255, 255, 1)",
+                    "fontSize": 10,
+                    "height": 20,
+                    "lineHeight": 10,
+                    "minWidth": 20,
+                    "opacity": 1,
+                    "paddingHorizontal": 3,
+                  },
+                  {
+                    "alignSelf": "flex-end",
+                    "overflow": "hidden",
+                    "textAlign": "center",
+                    "textAlignVertical": "center",
+                  },
+                  {
+                    "alignContent": "center",
+                    "borderColor": "#bbbbbb",
+                    "borderRadius": 12,
+                    "borderStyle": "solid",
+                    "borderWidth": 2,
+                    "color": "#bbbbbb",
+                    "fontSize": 14,
+                    "height": 24,
+                    "marginRight": 4,
+                    "width": 24,
+                  },
+                ],
+                "1": {
+                  "opacity": 1,
+                },
+              }
+            }
+            testID="accordion1_badge2"
+          >
+            badge3
+          </Text>
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "backgroundColor": "#eeeeee",
+                "borderRadius": 24,
+                "height": 24,
+                "overflow": "hidden",
+                "width": 24,
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        accessibilityLabel="accordionpane3_content_label3"
+        style={
+          {
+            "maxHeight": 0,
+            "overflow": "hidden",
+          }
+        }
+        testID="accordionpane3_content_label3"
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`WmAccordion Component render skeleton if showskeleton is true and showskeletonchildren is true 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderColor": "#eeeeee",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 0,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={{}}
+  >
+    <View
+      accessibilityLabel="accordion1_header0"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "0": [
+            [
+              {
+                "backgroundColor": "#ffffff",
+                "borderBottomWidth": 1,
+                "borderColor": "#eeeeee",
+                "borderStyle": "solid",
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "paddingBottom": 8,
+                "paddingLeft": 8,
+                "paddingRight": 8,
+                "paddingTop": 8,
+              },
+              {
+                "borderTopLeftRadius": 6,
+                "borderTopRightRadius": 6,
+              },
+              null,
+              {},
+            ],
+            {
+              "opacity": 1,
+            },
+          ],
+          "1": {
+            "opacity": 1,
+          },
+        }
+      }
+      testID="accordion1_header0"
+    >
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      />
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "backgroundColor": "#eeeeee",
+            "borderRadius": 24,
+            "height": 24,
+            "overflow": "hidden",
+            "width": 24,
+          }
+        }
+      />
+      <View
+        style={
+          {
+            "flex": 1,
+            "flexDirection": "column",
+            "justifyContent": "center",
+          }
+        }
+      >
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 4,
+              "height": 16,
+              "overflow": "hidden",
+              "width": "100%",
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 4,
+              "height": 16,
+              "overflow": "hidden",
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text
+          accessibilityLabel="accordion1_badge0"
+          collapsable={false}
+          numberOfLines={1}
+          style={
+            {
+              "0": [
+                {
+                  "backgroundColor": "#dc3545",
+                  "borderRadius": 10,
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontSize": 10,
+                  "height": 20,
+                  "lineHeight": 10,
+                  "minWidth": 20,
+                  "opacity": 1,
+                  "paddingHorizontal": 3,
+                },
+                {
+                  "alignSelf": "flex-end",
+                  "overflow": "hidden",
+                  "textAlign": "center",
+                  "textAlignVertical": "center",
+                },
+                {
+                  "alignContent": "center",
+                  "borderColor": "#bbbbbb",
+                  "borderRadius": 12,
+                  "borderStyle": "solid",
+                  "borderWidth": 2,
+                  "color": "#bbbbbb",
+                  "fontSize": 14,
+                  "height": 24,
+                  "marginRight": 4,
+                  "width": 24,
+                },
+              ],
+              "1": {
+                "opacity": 1,
+              },
+            }
+          }
+          testID="accordion1_badge0"
+        >
+          badge1
+        </Text>
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 24,
+              "height": 24,
+              "overflow": "hidden",
+              "width": 24,
+            }
+          }
+        />
+      </View>
+    </View>
+    <View
+      accessibilityLabel="accordionpane1_content_label1"
+      style={
+        {
+          "maxHeight": 0,
+          "overflow": "hidden",
+        }
+      }
+      testID="accordionpane1_content_label1"
+    />
+  </View>
+  <View
+    style={{}}
+  >
+    <View
+      accessibilityLabel="accordion1_header1"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "0": [
+            [
+              {
+                "backgroundColor": "#ffffff",
+                "borderBottomWidth": 1,
+                "borderColor": "#eeeeee",
+                "borderStyle": "solid",
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "paddingBottom": 8,
+                "paddingLeft": 8,
+                "paddingRight": 8,
+                "paddingTop": 8,
+              },
+              null,
+              null,
+              {},
+            ],
+            {
+              "opacity": 1,
+            },
+          ],
+          "1": {
+            "opacity": 1,
+          },
+        }
+      }
+      testID="accordion1_header1"
+    >
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      />
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "backgroundColor": "#eeeeee",
+            "borderRadius": 24,
+            "height": 24,
+            "overflow": "hidden",
+            "width": 24,
+          }
+        }
+      />
+      <View
+        style={
+          {
+            "flex": 1,
+            "flexDirection": "column",
+            "justifyContent": "center",
+          }
+        }
+      >
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 4,
+              "height": 16,
+              "overflow": "hidden",
+              "width": "100%",
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 4,
+              "height": 16,
+              "overflow": "hidden",
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text
+          accessibilityLabel="accordion1_badge1"
+          collapsable={false}
+          numberOfLines={1}
+          style={
+            {
+              "0": [
+                {
+                  "backgroundColor": "#dc3545",
+                  "borderRadius": 10,
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontSize": 10,
+                  "height": 20,
+                  "lineHeight": 10,
+                  "minWidth": 20,
+                  "opacity": 1,
+                  "paddingHorizontal": 3,
+                },
+                {
+                  "alignSelf": "flex-end",
+                  "overflow": "hidden",
+                  "textAlign": "center",
+                  "textAlignVertical": "center",
+                },
+                {
+                  "alignContent": "center",
+                  "borderColor": "#bbbbbb",
+                  "borderRadius": 12,
+                  "borderStyle": "solid",
+                  "borderWidth": 2,
+                  "color": "#bbbbbb",
+                  "fontSize": 14,
+                  "height": 24,
+                  "marginRight": 4,
+                  "width": 24,
+                },
+              ],
+              "1": {
+                "opacity": 1,
+              },
+            }
+          }
+          testID="accordion1_badge1"
+        >
+          badge2
+        </Text>
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 24,
+              "height": 24,
+              "overflow": "hidden",
+              "width": 24,
+            }
+          }
+        />
+      </View>
+    </View>
+    <View
+      accessibilityLabel="accordionpane2_content_label2"
+      style={
+        {
+          "maxHeight": 0,
+          "overflow": "hidden",
+        }
+      }
+      testID="accordionpane2_content_label2"
+    />
+  </View>
+  <View
+    style={{}}
+  >
+    <View
+      accessibilityLabel="accordion1_header2"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "0": [
+            [
+              {
+                "backgroundColor": "#ffffff",
+                "borderBottomWidth": 1,
+                "borderColor": "#eeeeee",
+                "borderStyle": "solid",
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "paddingBottom": 8,
+                "paddingLeft": 8,
+                "paddingRight": 8,
+                "paddingTop": 8,
+              },
+              null,
+              {
+                "borderBottomLeftRadius": 6,
+                "borderBottomRightRadius": 6,
+                "borderBottomWidth": 0,
+              },
+              {},
+            ],
+            {
+              "opacity": 1,
+            },
+          ],
+          "1": {
+            "opacity": 1,
+          },
+        }
+      }
+      testID="accordion1_header2"
+    >
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      />
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "backgroundColor": "#eeeeee",
+            "borderRadius": 24,
+            "height": 24,
+            "overflow": "hidden",
+            "width": 24,
+          }
+        }
+      />
+      <View
+        style={
+          {
+            "flex": 1,
+            "flexDirection": "column",
+            "justifyContent": "center",
+          }
+        }
+      >
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 4,
+              "height": 16,
+              "overflow": "hidden",
+              "width": "100%",
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 4,
+              "height": 16,
+              "overflow": "hidden",
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text
+          accessibilityLabel="accordion1_badge2"
+          collapsable={false}
+          numberOfLines={1}
+          style={
+            {
+              "0": [
+                {
+                  "backgroundColor": "#dc3545",
+                  "borderRadius": 10,
+                  "color": "rgba(255, 255, 255, 1)",
+                  "fontSize": 10,
+                  "height": 20,
+                  "lineHeight": 10,
+                  "minWidth": 20,
+                  "opacity": 1,
+                  "paddingHorizontal": 3,
+                },
+                {
+                  "alignSelf": "flex-end",
+                  "overflow": "hidden",
+                  "textAlign": "center",
+                  "textAlignVertical": "center",
+                },
+                {
+                  "alignContent": "center",
+                  "borderColor": "#bbbbbb",
+                  "borderRadius": 12,
+                  "borderStyle": "solid",
+                  "borderWidth": 2,
+                  "color": "#bbbbbb",
+                  "fontSize": 14,
+                  "height": 24,
+                  "marginRight": 4,
+                  "width": 24,
+                },
+              ],
+              "1": {
+                "opacity": 1,
+              },
+            }
+          }
+          testID="accordion1_badge2"
+        >
+          badge3
+        </Text>
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 24,
+              "height": 24,
+              "overflow": "hidden",
+              "width": 24,
+            }
+          }
+        />
+      </View>
+    </View>
+    <View
+      accessibilityLabel="accordionpane3_content_label3"
+      style={
+        {
+          "maxHeight": 0,
+          "overflow": "hidden",
+        }
+      }
+      testID="accordionpane3_content_label3"
+    />
+  </View>
+</View>
+`;

@@ -29,8 +29,12 @@ export default class WmPrefabContainer extends BaseComponent<WmPrefabContainerPr
   }
 
   renderWidget(props: WmPrefabContainerProps) {
+    const styles = this._showSkeleton ? {
+      ...this.styles.root,
+      ...this.styles.skeleton.root
+    } : this.styles.root
     return (
-      <View style={this.styles.root}>
+      <View style={styles}>
         {this._background}
         {props.children}
       </View>

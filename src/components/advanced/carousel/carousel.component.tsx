@@ -216,7 +216,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     }
     const dotStyle = this._showSkeleton ? {
       ...this.styles.dotStyle,
-      ...this.styles.dotSkeleton
+      ...this.styles.dotSkeleton.root
     } : this.styles.dotStyle
     return (<View style={this.styles.dotsWrapperStyle}>
       <View style={{flexDirection: this.isRTL ? 'row-reverse' : 'row'}}>
@@ -253,9 +253,8 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   }
 
   public renderSkeleton(props: WmCarouselProps): React.ReactNode | null {
-    return <View>
-      {
-      createSkeleton(this.theme, this.styles.skeleton, {...this.styles.root, height: this.styles.skeleton.root?.height})}
+    return <View style={[this.styles.root, {...this.styles.skeleton.root}]}>
+       {this.renderItem({}, 0)}
       {this.renderPagination([{}, {}, {}])}
     </View>
   }

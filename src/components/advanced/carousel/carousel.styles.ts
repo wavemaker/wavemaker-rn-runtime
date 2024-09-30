@@ -112,7 +112,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         skeleton: {
             root: {
                 width: '100%',
-                height: 200,                      
             },
             text: {}
         } as any as WmSkeletonStyles,
@@ -121,7 +120,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 width: 10,
                 height: 10,
                 borderRadius: 5,
-                backgroundColor: themeVariables.carouselDotColor    
+                opacity: 1,
+                backgroundColor: themeVariables.skeletonAnimatedBgColor    
             }
         } as any as WmSkeletonStyles
     } as WmCarouselStyles);

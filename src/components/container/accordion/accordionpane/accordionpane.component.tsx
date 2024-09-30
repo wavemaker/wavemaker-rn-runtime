@@ -14,7 +14,7 @@ export class WmAccordionpaneState extends BaseComponentState<WmAccordionpaneProp
 }
 
 export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps, WmAccordionpaneState, WmAccordionpaneStyles> {
-
+  public paneId: string = "";
   constructor(props: WmAccordionpaneProps) {
     super(props, DEFAULT_CLASS, new WmAccordionpaneProps(), new WmAccordionpaneState());
   }
@@ -52,6 +52,11 @@ export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps,
       accordion.addAccordionPane(this);
     }
     super.componentDidMount();
+  }
+
+  componentWillUnmount() {
+    const accordion = (this.parent) as WmAccordion;
+    accordion.removeAccordionPane(this);
   }
 
   onPartialLoad() {
