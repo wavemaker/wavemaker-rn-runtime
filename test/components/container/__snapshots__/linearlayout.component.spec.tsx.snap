@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Linearlayout component renders correctly with default props 1`] = `
+exports[`Linearlayout component tests renders correctly with default props 1`] = `
 <View
   style={
     {
@@ -14,92 +14,20 @@ exports[`Test Linearlayout component renders correctly with default props 1`] = 
 />
 `;
 
-exports[`Test Linearlayout component should render the items in a reversed horizontal row 1`] = `
+exports[`Linearlayout component tests should render children properly 1`] = `
 <View
   style={
     {
       "alignItems": "flex-start",
       "display": "flex",
-      "flexDirection": "row-reverse",
+      "flexDirection": "row",
       "justifyContent": "flex-start",
       "width": "100%",
     }
   }
 >
-  <Text
+  <View
     testID="child-1"
-  >
-    Sample Text 1
-  </Text>
-  <Text
-    testID="child-2"
-  >
-    Sample Text 2
-  </Text>
-  <Text
-    testID="child-3"
-  >
-    Sample Text 3
-  </Text>
-</View>
-`;
-
-exports[`Test Linearlayout component should render the items in a reversed vertical column 1`] = `
-<View
-  style={
-    {
-      "alignItems": "flex-start",
-      "display": "flex",
-      "flexDirection": "column-reverse",
-      "justifyContent": "flex-start",
-      "width": "100%",
-    }
-  }
->
-  <Text
-    testID="child-1"
-  >
-    Sample Text 1
-  </Text>
-  <Text
-    testID="child-2"
-  >
-    Sample Text 2
-  </Text>
-  <Text
-    testID="child-3"
-  >
-    Sample Text 3
-  </Text>
-</View>
-`;
-
-exports[`Test Linearlayout component should render the items in a vertical column 1`] = `
-<View
-  style={
-    {
-      "alignItems": "flex-start",
-      "display": "flex",
-      "flexDirection": "column",
-      "justifyContent": "flex-start",
-      "width": "100%",
-    }
-  }
->
-  <Text
-    testID="child-1"
-  >
-    Sample Text 1
-  </Text>
-  <Text
-    testID="child-2"
-  >
-    Sample Text 2
-  </Text>
-  <Text
-    testID="child-3"
-  >
-    Sample Text 3
-  </Text>
+  />
 </View>
 `;
