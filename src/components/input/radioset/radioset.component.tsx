@@ -84,7 +84,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     const noOfColumns = props.itemsperrow.xs || 1;
     const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
     return(
-      <View style={[{ width: '100%' }, noOfColumns === 1 ? {} : this.styles.group]}>
+      <View style={noOfColumns === 1 ? {} : this.styles.group}>
         {items && items.length ?
           items.map((item: any, index: any) => this.renderChild(item, index, colWidth)): null}
       </View>)
@@ -107,7 +107,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     const items = this.state.dataItems;
     return (
       <ScrollView style={this.styles.root}>
-        <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
+        <ScrollView horizontal={true}>
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderRadioButtons(items)}
         </ScrollView>

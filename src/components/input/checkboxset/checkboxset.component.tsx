@@ -104,7 +104,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     const props = this.state.props;
     const noOfColumns = props.itemsperrow.xs || 1;
     const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
-    return(<View style = {[{ width: '100%' }, noOfColumns === 1 ? {} : {flexWrap: 'wrap', flexDirection: 'row'}]}>
+    return(<View style = {noOfColumns === 1 ? {} : {flexWrap: 'wrap', flexDirection: 'row'}}>
       {items && items.length
         ? items.map((item: any, index: any) => this.renderChild(item, index, colWidth))
         : null}
@@ -127,7 +127,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     const items = this.state.dataItems;
     return (
       <ScrollView style={this.styles.root}>
-        <ScrollView horizontal={true} contentContainerStyle={{ flex: 1}}>
+        <ScrollView horizontal={true}>
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderCheckboxses(items)}
         </ScrollView>
