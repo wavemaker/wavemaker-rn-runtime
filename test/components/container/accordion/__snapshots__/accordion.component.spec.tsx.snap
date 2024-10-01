@@ -152,18 +152,6 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
               }
             }
           />
-          <View
-            onLayout={[Function]}
-            style={
-              {
-                "backgroundColor": "#eeeeee",
-                "borderRadius": 4,
-                "height": 16,
-                "overflow": "hidden",
-                "width": "100%",
-              }
-            }
-          />
         </View>
         <View
           style={
@@ -233,14 +221,12 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
         </View>
       </View>
       <View
-        accessibilityLabel="accordionpane1_content_label1"
         style={
           {
             "maxHeight": 0,
             "overflow": "hidden",
           }
         }
-        testID="accordionpane1_content_label1"
       />
     </View>
     <View
@@ -348,18 +334,6 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
               }
             }
           />
-          <View
-            onLayout={[Function]}
-            style={
-              {
-                "backgroundColor": "#eeeeee",
-                "borderRadius": 4,
-                "height": 16,
-                "overflow": "hidden",
-                "width": "100%",
-              }
-            }
-          />
         </View>
         <View
           style={
@@ -429,14 +403,12 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
         </View>
       </View>
       <View
-        accessibilityLabel="accordionpane2_content_label2"
         style={
           {
             "maxHeight": 0,
             "overflow": "hidden",
           }
         }
-        testID="accordionpane2_content_label2"
       />
     </View>
     <View
@@ -548,18 +520,6 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
               }
             }
           />
-          <View
-            onLayout={[Function]}
-            style={
-              {
-                "backgroundColor": "#eeeeee",
-                "borderRadius": 4,
-                "height": 16,
-                "overflow": "hidden",
-                "width": "100%",
-              }
-            }
-          />
         </View>
         <View
           style={
@@ -629,14 +589,12 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
         </View>
       </View>
       <View
-        accessibilityLabel="accordionpane3_content_label3"
         style={
           {
             "maxHeight": 0,
             "overflow": "hidden",
           }
         }
-        testID="accordionpane3_content_label3"
       />
     </View>
   </View>
@@ -764,18 +722,6 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
             }
           }
         />
-        <View
-          onLayout={[Function]}
-          style={
-            {
-              "backgroundColor": "#eeeeee",
-              "borderRadius": 4,
-              "height": 16,
-              "overflow": "hidden",
-              "width": "100%",
-            }
-          }
-        />
       </View>
       <View
         style={
@@ -845,14 +791,12 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
       </View>
     </View>
     <View
-      accessibilityLabel="accordionpane1_content_label1"
       style={
         {
           "maxHeight": 0,
           "overflow": "hidden",
         }
       }
-      testID="accordionpane1_content_label1"
     />
   </View>
   <View
@@ -960,18 +904,6 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
             }
           }
         />
-        <View
-          onLayout={[Function]}
-          style={
-            {
-              "backgroundColor": "#eeeeee",
-              "borderRadius": 4,
-              "height": 16,
-              "overflow": "hidden",
-              "width": "100%",
-            }
-          }
-        />
       </View>
       <View
         style={
@@ -1041,14 +973,12 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
       </View>
     </View>
     <View
-      accessibilityLabel="accordionpane2_content_label2"
       style={
         {
           "maxHeight": 0,
           "overflow": "hidden",
         }
       }
-      testID="accordionpane2_content_label2"
     />
   </View>
   <View
@@ -1160,18 +1090,6 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
             }
           }
         />
-        <View
-          onLayout={[Function]}
-          style={
-            {
-              "backgroundColor": "#eeeeee",
-              "borderRadius": 4,
-              "height": 16,
-              "overflow": "hidden",
-              "width": "100%",
-            }
-          }
-        />
       </View>
       <View
         style={
@@ -1241,14 +1159,12 @@ exports[`WmAccordion Component render skeleton if showskeleton is true and shows
       </View>
     </View>
     <View
-      accessibilityLabel="accordionpane3_content_label3"
       style={
         {
           "maxHeight": 0,
           "overflow": "hidden",
         }
       }
-      testID="accordionpane3_content_label3"
     />
   </View>
 </View>

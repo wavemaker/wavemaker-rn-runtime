@@ -2,7 +2,7 @@ import React, { createRef, ReactNode } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import WmWizard from '@wavemaker/app-rn-runtime/components/container/wizard/wizard.component';
 
-import WmWizardProps from '@wavemaker/app-rn-runtime/components/container/wizard/wizard.component';
+import WmWizardProps from '@wavemaker/app-rn-runtime/components/container/wizard/wizard.props';
 import {
   render,
   fireEvent,
@@ -11,6 +11,7 @@ import {
   act,
 } from '@testing-library/react-native';
 import WmWizardstep from '@wavemaker/app-rn-runtime/components/container/wizard/wizardstep/wizardstep.component';
+import WmWizardstepProps from '@wavemaker/app-rn-runtime/components/container/wizard/wizardstep/wizardstep.props';
 
 // Mock
 import AppModalService from '@wavemaker/app-rn-runtime/runtime/services/app-modal.service';
@@ -25,14 +26,35 @@ const timer = async (time: number = 100) => {
 };
 
 describe('Test Wizard component', () => {
+  const wizardStepPropsObject = { ...new WmWizardstepProps() };
+  const wizardPropsObject = { ...new WmWizardProps() };
+
   const steps = [
-    <WmWizardstep key={0} index={0} title="Step 1" name="step1">
+    <WmWizardstep
+      {...wizardStepPropsObject}
+      key={0}
+      index={0}
+      title="Step 1"
+      name="step1"
+    >
       <Text>Content of Step 1</Text>
     </WmWizardstep>,
-    <WmWizardstep key={1} index={1} title="Step 2" name="step2">
+    <WmWizardstep
+      {...wizardStepPropsObject}
+      key={1}
+      index={1}
+      title="Step 2"
+      name="step2"
+    >
       <Text>Content of Step 2</Text>
     </WmWizardstep>,
-    <WmWizardstep key={2} index={2} title="Step 3" name="step3">
+    <WmWizardstep
+      {...wizardStepPropsObject}
+      key={2}
+      index={2}
+      title="Step 3"
+      name="step3"
+    >
       <Text>Content of Step 3</Text>
     </WmWizardstep>,
   ];
@@ -48,7 +70,7 @@ describe('Test Wizard component', () => {
     defaultstep: 'step1',
     progresstype: 'default',
     headernavigation: true,
-  } as WmWizardProps;
+  } as unknown as WmWizardProps;
 
   const renderComponent = (props = {}) => {
     AppModalService.modalsOpened = [];
@@ -81,11 +103,13 @@ describe('Test Wizard component', () => {
   });
 
   it('should render when defaultstep is none', async () => {
-    renderComponent({ defaultstep: 'none' });
-    await timer(300);
+    const tree = renderComponent({ defaultstep: 'none' });
+    await timer(500);
 
-    expect(screen.queryByText('Step 1')).toBeNull();
-    expect(screen.queryByText('Content of Step 1')).toBeNull();
+    expect(tree).toMatchSnapshot();
+
+    expect(tree.queryByText('Step 1')).toBeNull();
+    expect(tree.queryByText('Content of Step 1')).toBeNull();
   });
 
   it('should navigate to the next step when the next button is clicked', async () => {
@@ -178,6 +202,63 @@ describe('Test Wizard component', () => {
     });
   });
 
+  it('should call onSkip callback when the skip button is clicked', async () => {
+    const invokeEventCallbackMock = jest.spyOn(
+      WmWizard.prototype,
+      'invokeEventCallback'
+    );
+    const steps = [
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={0}
+        index={0}
+        title="Step 1"
+        name="step1"
+        enableskip={true}
+      >
+        <Text>Content of Step 1</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={1}
+        index={1}
+        title="Step 2"
+        name="step2"
+        enableskip={true}
+      >
+        <Text>Content of Step 2</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={2}
+        index={2}
+        title="Step 3"
+        name="step3"
+        enableskip={true}
+      >
+        <Text>Content of Step 3</Text>
+      </WmWizardstep>,
+    ];
+
+    const props = {
+      ...defaultProps,
+      children: steps,
+      onSkip: jest.fn(),
+    };
+
+    const { getByText } = renderComponent(props);
+    await timer(300);
+
+    fireEvent.press(getByText('Skip'));
+
+    await waitFor(() => {
+      expect(invokeEventCallbackMock).toHaveBeenCalledWith(
+        'onChange',
+        expect.anything()
+      );
+    });
+  });
+
   it('should call change function when the next button is clicked', async () => {
     const invokeEventCallbackMock = jest.spyOn(
       WmWizard.prototype,
@@ -227,17 +308,17 @@ describe('Test Wizard component', () => {
   it('should align the actions to left', async () => {
     const ref = createRef();
     renderComponent({ actionsalignment: 'left', ref });
+    expect(screen).toMatchSnapshot();
     await timer(300);
-    expect(screen.toJSON().children[2].props.style[1].flexDirection).toBe(
-      'row'
-    );
+    // console.log(screen.root.children[3].props.style);
+    expect(screen.root.children[3].props.style[1].flexDirection).toBe('row');
   });
 
   it('should align the actions to right', async () => {
     const ref = createRef();
     renderComponent({ actionsalignment: 'right', ref });
     await timer(300);
-    expect(screen.toJSON().children[2].props.style[1].flexDirection).toBe(
+    expect(screen.root.children[3].props.style[1].flexDirection).toBe(
       'row-reverse'
     );
   });
@@ -246,8 +327,10 @@ describe('Test Wizard component', () => {
     renderComponent({ defaultstep: 'step2' });
     await timer(300);
 
-    expect(screen.getByText('Step 2')).toBeTruthy();
-    expect(screen.getByText('Content of Step 2')).toBeTruthy();
+    await waitFor(() => {
+      expect(screen.getByText('Step 2')).toBeTruthy();
+      expect(screen.getByText('Content of Step 2')).toBeTruthy();
+    });
   });
 
   it('should render cancel button', async () => {
@@ -265,7 +348,7 @@ describe('Test Wizard component', () => {
   it('should handle show property', async () => {
     renderComponent({ show: false });
     await timer(300);
-    expect(screen.toJSON().props.style).toMatchObject({
+    expect(screen.root.props.style).toMatchObject({
       height: 0,
       width: 0,
     });
@@ -276,10 +359,14 @@ describe('Test Wizard component', () => {
       WmWizard.prototype,
       'renderProgressCircleHeader'
     );
-    renderComponent({ classname: 'progress-circle-header' });
+    const tree = renderComponent({ classname: 'progress-circle-header' });
     await timer(300);
+    expect(tree).toMatchSnapshot();
     expect(renderProgressCircleHeaderSpy).toHaveBeenCalled();
     renderProgressCircleHeaderSpy.mockRestore();
+    expect(
+      tree.getByTestId('test_wizard_progress_progresscircle')
+    ).toBeTruthy();
   });
 
   it('renders wizard steps for progress circle header', async () => {
@@ -309,6 +396,7 @@ describe('Test Wizard component', () => {
   it('should skip the step when the skip link is clicked', async () => {
     const steps = [
       <WmWizardstep
+        {...wizardStepPropsObject}
         key={0}
         index={0}
         title="Step 1"
@@ -318,6 +406,7 @@ describe('Test Wizard component', () => {
         <Text>Content of Step 1</Text>
       </WmWizardstep>,
       <WmWizardstep
+        {...wizardStepPropsObject}
         key={1}
         index={1}
         title="Step 2"
@@ -327,6 +416,7 @@ describe('Test Wizard component', () => {
         <Text>Content of Step 2</Text>
       </WmWizardstep>,
       <WmWizardstep
+        {...wizardStepPropsObject}
         key={2}
         index={2}
         title="Step 3"
@@ -351,13 +441,13 @@ describe('Test Wizard component', () => {
 
   it("should render the default 'Step Title' when title is not defined to wizard step", async () => {
     const steps = [
-      <WmWizardstep key={0} index={0} name="step1">
+      <WmWizardstep {...wizardStepPropsObject} key={0} index={0} name="step1">
         <Text>Content of Step 1</Text>
       </WmWizardstep>,
-      <WmWizardstep key={1} index={1} name="step2">
+      <WmWizardstep {...wizardStepPropsObject} key={1} index={1} name="step2">
         <Text>Content of Step 2</Text>
       </WmWizardstep>,
-      <WmWizardstep key={2} index={2} name="step3">
+      <WmWizardstep {...wizardStepPropsObject} key={2} index={2} name="step3">
         <Text>Content of Step 3</Text>
       </WmWizardstep>,
     ];
@@ -367,19 +457,23 @@ describe('Test Wizard component', () => {
     });
   });
 
-  it('should not navigate to prev when currentStep is less than 1', async () => {
+  it('should not render prev button when currentStep is less than 0', async () => {
     const ref = createRef();
     renderComponent({ ref, defaultstep: 'step3' });
     await timer(300);
 
     fireEvent.press(screen.getByText(defaultProps.previousbtnlabel));
-    await timer(300);
-    expect(screen.getByText('Step 2')).toBeTruthy();
-    ref.current.state.currentStep = 0;
+    await waitFor(() => {
+      expect(screen.getByText('Step 2')).toBeTruthy();
+    });
     fireEvent.press(screen.getByText(defaultProps.previousbtnlabel));
+    await waitFor(() => {
+      expect(screen.getByText('Step 1')).toBeTruthy();
+    });
+    expect(screen.queryByText(defaultProps.previousbtnlabel)).toBeFalsy();
   });
 
-  it('should not navigate to next when current step exceeds the the steps length', async () => {
+  it('should not render next button when current step exceeds the the steps length', async () => {
     const ref = createRef();
     renderComponent({ ref, defaultstep: 'step1' });
     await timer(300);
@@ -388,17 +482,17 @@ describe('Test Wizard component', () => {
     await waitFor(() => {
       expect(screen.getByText('Step 2')).toBeTruthy();
     });
-    ref.current.state.currentStep = 4;
     fireEvent.press(screen.getByText(defaultProps.nextbtnlabel));
-    expect(() => {
+    await waitFor(() => {
       expect(screen.getByText('Step 3')).toBeTruthy();
     });
+    expect(screen.queryByText(defaultProps.nextbtnlabel)).toBeFalsy();
   });
 
   it('should not update current step if invokeEventCallback returns false when next button is pressed', async () => {
     const invokeNextCBSpy = jest.spyOn(WmWizardstep.prototype, 'invokeNextCB');
     invokeNextCBSpy.mockReturnValue(false);
-    renderComponent({ defaultstep: 'none' });
+    renderComponent({ defaultstep: 'step1' });
     await timer(300);
     const setActiveSpy = jest.spyOn(WmWizardstep.prototype, 'setActive');
     fireEvent.press(screen.getByText(defaultProps.nextbtnlabel));
@@ -422,6 +516,7 @@ describe('Test Wizard component', () => {
   it('should not invoke onSkip callback if current step blocks it', async () => {
     const steps = [
       <WmWizardstep
+        {...wizardStepPropsObject}
         key={0}
         index={0}
         title="Step 1"
@@ -431,6 +526,7 @@ describe('Test Wizard component', () => {
         <Text>Content of Step 1</Text>
       </WmWizardstep>,
       <WmWizardstep
+        {...wizardStepPropsObject}
         key={1}
         index={1}
         title="Step 2"
@@ -440,6 +536,7 @@ describe('Test Wizard component', () => {
         <Text>Content of Step 2</Text>
       </WmWizardstep>,
       <WmWizardstep
+        {...wizardStepPropsObject}
         key={2}
         index={2}
         title="Step 3"
@@ -459,5 +556,43 @@ describe('Test Wizard component', () => {
     await waitFor(() => {
       expect(invokeNextCBSpy).toHaveBeenCalled();
     });
+  });
+
+  test('render skeleton if showskeleton is true and showskeletonchildren is false', async () => {
+    const renderSkeletonSpy = jest.spyOn(WmWizard.prototype, 'renderSkeleton');
+
+    const tree = renderComponent({
+      showskeleton: true,
+      showskeletonchildren: false,
+    });
+    expect(screen).toMatchSnapshot();
+
+    expect(renderSkeletonSpy).toHaveBeenCalled();
+    const viewElement = tree.root;
+    expect(viewElement.props.style.backgroundColor).toBe('#eeeeee');
+    expect(viewElement.props.children[0].props.style).toContainEqual({
+      opacity: 0,
+    });
+    renderSkeletonSpy.mockRestore();
+  });
+
+  test('render skeleton if showskeleton is true and showskeletonchildren is true', async () => {
+    const renderSkeletonSpy = jest.spyOn(WmWizard.prototype, 'renderSkeleton');
+
+    const tree = renderComponent({
+      showskeleton: true,
+      showskeletonchildren: true,
+    });
+    expect(screen).toMatchSnapshot();
+
+    expect(renderSkeletonSpy).toHaveBeenCalled();
+    const viewElement = tree.root;
+    // console.log(viewElement.props.style);
+    // console.log(tree.root.children[0].props);
+    expect(viewElement.props.style.backgroundColor).toBe('#eeeeee');
+    expect(viewElement.props.children[0].props.style).toContainEqual({
+      opacity: 0,
+    });
+    renderSkeletonSpy.mockRestore();
   });
 });

@@ -60,6 +60,7 @@ describe('Test LineChart component', () => {
       ...defaultProps,
     });
     expect(tree).toBeDefined();
+    expect(tree).toMatchSnapshot();
   });
 
   //events - on before and on transform

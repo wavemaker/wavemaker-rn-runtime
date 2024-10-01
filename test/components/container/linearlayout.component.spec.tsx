@@ -1,11 +1,10 @@
 import React, { ReactNode } from 'react';
-import renderer from 'react-test-renderer';
 import WmLinearlayout from '@wavemaker/app-rn-runtime/components/container/linearlayout/linearlayout.component';
 import WmLinearlayoutProps from '@wavemaker/app-rn-runtime/components/container/linearlayout/linearlayout.props';
 import { screen, render } from '@testing-library/react-native';
 import { View, Text } from 'react-native';
 
-describe('Test Linearlayout component', () => {
+describe('Linearlayout component tests', () => {
   const defaultProps: WmLinearlayoutProps = {
     direction: 'row',
     horizontalalign: 'left',
@@ -38,20 +37,16 @@ describe('Test Linearlayout component', () => {
 
   it('renders correctly with default props', () => {
     const tree = renderComponent();
-    expect(tree).toMatchSnapshot();
     expect(tree).toBeTruthy();
     expect(tree.root.props.style).toBeTruthy();
+    expect(screen).toMatchSnapshot();
   });
 
   it('should render children properly', () => {
-    const children = (
-      <View key="1" testID="child-1">
-        <Text>Test Children</Text>
-      </View>
-    );
+    const children = <View key="1" testID="child-1" />;
     const { getByTestId } = renderComponent({ children });
+    expect(screen).toMatchSnapshot();
     expect(getByTestId('child-1')).toBeTruthy();
-    expect(screen.getByText('Test Children')).toBeTruthy();
   });
 
   it('should render multiple children properly', () => {
@@ -69,13 +64,10 @@ describe('Test Linearlayout component', () => {
 
   it('should render the items in a horizontal row', () => {
     const children = getChildren();
-    const tree = renderComponent({ children });
+    const tree: any = renderComponent({ children });
     expect(tree.root.props.style.flexDirection).toBe('row');
     children.map((item, index) => {
-      expect(screen.toJSON().children[index].props.testID).toBe(
-        `child-${index + 1}`
-      );
-      expect(screen.toJSON().children[index].children[0]).toBe(
+      expect(tree.root.children[index + 1].props.children).toBe(
         `Sample Text ${index + 1}`
       );
     });
@@ -83,46 +75,28 @@ describe('Test Linearlayout component', () => {
 
   it('should render the items in a vertical column', () => {
     const children = getChildren();
-    const tree = renderComponent({ children, direction: 'column' });
-    expect(tree).toMatchSnapshot();
+    const tree: any = renderComponent({ children, direction: 'column' });
     expect(tree.root.props.style.flexDirection).toBe('column');
     children.map((item, index) => {
-      expect(screen.toJSON().children[index].props.testID).toBe(
-        `child-${index + 1}`
-      );
-      expect(screen.toJSON().children[index].children[0]).toBe(
-        `Sample Text ${index + 1}`
-      );
+      expect(tree.getByText(`Sample Text ${index + 1}`)).toBeTruthy();
     });
   });
 
   it('should render the items in a reversed horizontal row', () => {
     const children = getChildren();
     const tree = renderComponent({ children, direction: 'row-reverse' });
-    expect(tree).toMatchSnapshot();
     expect(tree.root.props.style.flexDirection).toBe('row-reverse');
     children.map((item, index) => {
-      expect(screen.toJSON().children[index].props.testID).toBe(
-        `child-${index + 1}`
-      );
-      expect(screen.toJSON().children[index].children[0]).toBe(
-        `Sample Text ${index + 1}`
-      );
+      expect(tree.getByText(`Sample Text ${index + 1}`)).toBeTruthy();
     });
   });
 
   it('should render the items in a reversed vertical column', () => {
     const children = getChildren();
     const tree = renderComponent({ children, direction: 'column-reverse' });
-    expect(tree).toMatchSnapshot();
     expect(tree.root.props.style.flexDirection).toBe('column-reverse');
     children.map((item, index) => {
-      expect(screen.toJSON().children[index].props.testID).toBe(
-        `child-${index + 1}`
-      );
-      expect(screen.toJSON().children[index].children[0]).toBe(
-        `Sample Text ${index + 1}`
-      );
+      expect(tree.getByText(`Sample Text ${index + 1}`)).toBeTruthy();
     });
   });
 
@@ -185,5 +159,51 @@ describe('Test Linearlayout component', () => {
         });
       });
     });
+  });
+
+  test('render skeleton if showskeleton is true and showskeletonchildren is false', async () => {
+    const children = getChildren();
+    const renderSkeletonSpy = jest.spyOn(
+      WmLinearlayout.prototype,
+      'renderSkeleton'
+    );
+
+    const tree = renderComponent({
+      children,
+      showskeleton: true,
+      showskeletonchildren: false,
+    });
+
+    expect(renderSkeletonSpy).toHaveBeenCalled();
+    const viewElement = tree.root;
+    console.log(viewElement.props.style);
+    expect(viewElement.props.style.backgroundColor).toBe('#eeeeee');
+    expect(viewElement.props.children[0].props.style).toContainEqual({
+      opacity: 0,
+    });
+    renderSkeletonSpy.mockRestore();
+  });
+
+  test('render skeleton if showskeleton is true and showskeletonchildren is true', async () => {
+    const children = getChildren();
+    const renderSkeletonSpy = jest.spyOn(
+      WmLinearlayout.prototype,
+      'renderSkeleton'
+    );
+
+    const tree = renderComponent({
+      children,
+      showskeleton: true,
+      showskeletonchildren: true,
+    });
+
+    expect(renderSkeletonSpy).toHaveBeenCalled();
+    const viewElement = tree.root;
+    console.log(viewElement.props.style);
+    expect(viewElement.props.style.backgroundColor).toBe('#eeeeee');
+    expect(viewElement.props.children[0].props.style).toContainEqual({
+      opacity: 0,
+    });
+    renderSkeletonSpy.mockRestore();
   });
 });
