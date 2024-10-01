@@ -54,7 +54,9 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
 
   componentWillUnmount() {
     const tabs = (this.parent) as WmTabs;
-    tabs.removeTabPane(this);
+    if(tabs.removeTabPane) {
+      tabs.removeTabPane(this)
+    }
   }
 
   _onSelect() {
