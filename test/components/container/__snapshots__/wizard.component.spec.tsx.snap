@@ -90,7 +90,6 @@ exports[`Test Wizard component Check validity of sample component 1`] = `
             ]
           }
           testID="test_wizard_step0"
-<<<<<<< HEAD
         >
           <Text
             accessible={false}
@@ -105,9 +104,6 @@ exports[`Test Wizard component Check validity of sample component 1`] = `
             1
           </Text>
         </View>
-=======
-        />
->>>>>>> 7d4313f4 (WMS-26364 | add and update: wizard,linear layout, and charts component unit tests)
       </View>
       <View
         style={
