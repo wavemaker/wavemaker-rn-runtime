@@ -60,7 +60,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
         <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled} id={this.getTestId('item'+index)}/>
         {!isEmpty(this.state.template) && this.props.renderitempartial ?
            this.props.renderitempartial(item.dataObject, index, this.state.template) :
-        <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.text}>{displayText}</Text>}
+        <Text {...this.getTestPropsForLabel(index + '')} style={[this.styles.text, item.selected ? this.styles.selectedLabel: null]}>{displayText}</Text>}
       </TouchableOpacity>)
   }
 
