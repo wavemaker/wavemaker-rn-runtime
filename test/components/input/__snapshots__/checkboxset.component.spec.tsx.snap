@@ -134,14 +134,17 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
             <Text
               accessible={false}
               style={
-                {
-                  "alignSelf": "center",
-                  "color": "#888888",
-                  "fontFamily": "Roboto",
-                  "fontSize": 16,
-                  "marginLeft": 8,
-                  "userSelect": "text",
-                }
+                [
+                  {
+                    "alignSelf": "center",
+                    "color": "#888888",
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "marginLeft": 8,
+                    "userSelect": "text",
+                  },
+                  null,
+                ]
               }
               testID="undefined_0"
             >
@@ -241,14 +244,17 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
             <Text
               accessible={false}
               style={
-                {
-                  "alignSelf": "center",
-                  "color": "#888888",
-                  "fontFamily": "Roboto",
-                  "fontSize": 16,
-                  "marginLeft": 8,
-                  "userSelect": "text",
-                }
+                [
+                  {
+                    "alignSelf": "center",
+                    "color": "#888888",
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "marginLeft": 8,
+                    "userSelect": "text",
+                  },
+                  null,
+                ]
               }
               testID="undefined_1"
             >
@@ -348,14 +354,17 @@ exports[`WmCheckboxset handles multiple columns correctly 1`] = `
             <Text
               accessible={false}
               style={
-                {
-                  "alignSelf": "center",
-                  "color": "#888888",
-                  "fontFamily": "Roboto",
-                  "fontSize": 16,
-                  "marginLeft": 8,
-                  "userSelect": "text",
-                }
+                [
+                  {
+                    "alignSelf": "center",
+                    "color": "#888888",
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "marginLeft": 8,
+                    "userSelect": "text",
+                  },
+                  null,
+                ]
               }
               testID="undefined_2"
             >
