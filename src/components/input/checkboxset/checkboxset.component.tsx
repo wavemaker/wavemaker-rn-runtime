@@ -60,7 +60,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
         <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled} id={this.getTestId('item'+index)}/>
         {!isEmpty(this.state.template) && this.props.renderitempartial ?
            this.props.renderitempartial(item.dataObject, index, this.state.template) :
-        <Text {...this.getTestPropsForLabel(index + '')} style={this.styles.text}>{displayText}</Text>}
+        <Text {...this.getTestPropsForLabel(index + '')} style={[this.styles.text, item.selected ? this.styles.selectedLabel: null]}>{displayText}</Text>}
       </TouchableOpacity>)
   }
 
@@ -104,7 +104,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     const props = this.state.props;
     const noOfColumns = props.itemsperrow.xs || 1;
     const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
-    return(<View style = {[{ width: '100%' }, noOfColumns === 1 ? {} : {flexWrap: 'wrap', flexDirection: 'row'}]}>
+    return(<View style = {noOfColumns === 1 ? {} : {flexWrap: 'wrap', flexDirection: 'row'}}>
       {items && items.length
         ? items.map((item: any, index: any) => this.renderChild(item, index, colWidth))
         : null}
@@ -127,7 +127,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     const items = this.state.dataItems;
     return (
       <ScrollView style={this.styles.root}>
-        <ScrollView horizontal={true} contentContainerStyle={{ flex: 1}}>
+        <ScrollView horizontal={true}>
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderCheckboxses(items)}
         </ScrollView>

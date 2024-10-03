@@ -54,7 +54,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
         {width: colWidth}]} onPress={this.onPress.bind(this, item)} key={item.key} {...this.getTestPropsForAction("radio"+index)}>
           <WmIcon id={this.getTestId('radiobutton' + index)} iconclass="wi wi-fiber-manual-record" styles={item.selected ? this.styles.checkedRadio : this.styles.uncheckedRadio} disabled={this.state.props.readonly || this.state.props.disabled}></WmIcon>
           {!isEmpty(this.state.template) && this.props.renderitempartial ?
-          this.props.renderitempartial(item.dataObject, index, this.state.template) : <Text style={this.styles.radioLabel} {...this.getTestPropsForLabel('caption'+index)}>{displayText}</Text>}
+          this.props.renderitempartial(item.dataObject, index, this.state.template) : <Text style={[this.styles.radioLabel, item.selected ? this.styles.selectedLabel : null]} {...this.getTestPropsForLabel('caption'+index)}>{displayText}</Text>}
       </TouchableOpacity>)
   }
 
@@ -84,7 +84,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     const noOfColumns = props.itemsperrow.xs || 1;
     const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
     return(
-      <View style={[{ width: '100%' }, noOfColumns === 1 ? {} : this.styles.group]}>
+      <View style={noOfColumns === 1 ? {} : this.styles.group}>
         {items && items.length ?
           items.map((item: any, index: any) => this.renderChild(item, index, colWidth)): null}
       </View>)
@@ -107,7 +107,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     const items = this.state.dataItems;
     return (
       <ScrollView style={this.styles.root}>
-        <ScrollView horizontal={true} contentContainerStyle={{ flex: 1 }}>
+        <ScrollView horizontal={true}>
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderRadioButtons(items)}
         </ScrollView>
