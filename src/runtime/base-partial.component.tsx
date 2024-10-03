@@ -14,6 +14,7 @@ export interface PartialProps extends FragmentProps {
   parent: any;
   onLoad?: Function;
   parentWatcher: Watcher;
+  invokeVariables: boolean;
 }
 
 export interface PartialState extends FragmentState<PartialProps> {}
@@ -37,6 +38,9 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
     }
 
     onFragmentReady() {
+      if(this.props.invokeVariables === false) {
+        return Promise.resolve();
+      }
       return super.onFragmentReady().then(() => {
         this.onContentReady();
         this.invokeEventCallback('onLoad', [this]);
