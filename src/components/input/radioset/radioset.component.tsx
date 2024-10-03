@@ -54,7 +54,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
         {width: colWidth}]} onPress={this.onPress.bind(this, item)} key={item.key} {...this.getTestPropsForAction("radio"+index)}>
           <WmIcon id={this.getTestId('radiobutton' + index)} iconclass="wi wi-fiber-manual-record" styles={item.selected ? this.styles.checkedRadio : this.styles.uncheckedRadio} disabled={this.state.props.readonly || this.state.props.disabled}></WmIcon>
           {!isEmpty(this.state.template) && this.props.renderitempartial ?
-          this.props.renderitempartial(item.dataObject, index, this.state.template) : <Text style={this.styles.radioLabel} {...this.getTestPropsForLabel('caption'+index)}>{displayText}</Text>}
+          this.props.renderitempartial(item.dataObject, index, this.state.template) : <Text style={[this.styles.radioLabel, item.selected ? this.styles.selectedLabel : null]} {...this.getTestPropsForLabel('caption'+index)}>{displayText}</Text>}
       </TouchableOpacity>)
   }
 
