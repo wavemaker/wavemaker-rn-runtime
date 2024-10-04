@@ -10,6 +10,7 @@ import Injector from '@wavemaker/app-rn-runtime/core/injector';
 export class BaseInputState <T extends BaseInputProps> extends BaseComponentState<T> {
   keyboardType: any = 'default';
   isValid: boolean = true;
+  isInputFocused: boolean = false;
   textValue: string = '';
   isDefault = false;
   errorType: string = '';
@@ -117,7 +118,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   onBlur(event: any) {
     Injector.FOCUSED_ELEMENT.remove();
     this.isTouched = true;
-    let newVal = this.state.textValue;
+    let newVal = this.state.textValue || '';
     let oldVal = this.state.props.datavalue || '';
     this.validate(newVal);
     if (newVal === '' || newVal == undefined) {
@@ -131,6 +132,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
       } else {
         this.invokeEventCallback('onBlur', [event, this.proxy]);
       }
+      this.setState({ isInputFocused: false })
     }
   }
 
@@ -150,7 +152,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
       this.invokeEventCallback('onFocus', [ event, this.proxy]);
       this.closestTappable?.triggerTap();
     }, 250);
-
+    this.setState({ isInputFocused: true })
   }
 
   onKeyPress(event: any) {
