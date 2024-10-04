@@ -4,6 +4,7 @@ import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/ske
 
 export type WmTextareaStyles = BaseStyles & {
   invalid: AllStyle;
+  focused: AllStyle;
   placeholderText: AllStyle;
   floatingLabel: AllStyle;
   activeFloatingLabel: AllStyle;
@@ -31,6 +32,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       activeFloatingLabel: {},
       invalid: {
         borderBottomColor: 'red'
+      },
+      focused : {
+        borderColor: themeVariables.inputFocusBorderColor,
       },
       placeholderText: {
         color: themeVariables.inputPlaceholderColor
