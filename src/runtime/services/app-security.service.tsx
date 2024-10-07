@@ -233,9 +233,14 @@ class AppSecurityService implements SecurityService {
       .catch(() => {})
       .then((response) => {
           if(response?.data?.result){
-            return axios.get(`${response?.data?.result}`, {
-              withCredentials: true,
-            });
+            if (isWebPreviewMode()) {
+              location.href = response.data.result;
+              return new Promise(r => setTimeout(r, 5000));
+            } else {
+              return axios.get(`${response?.data?.result}`, {
+                withCredentials: true,
+              });
+            }
           }
           return Promise.reject();
       })
