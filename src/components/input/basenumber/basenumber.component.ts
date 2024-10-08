@@ -193,9 +193,9 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         this.props.triggerValidation && this.props.triggerValidation();
       },10)
     }
-    if (this.state.props.updateon === 'blur') {
+    if (this.state.props.updateon === 'blur' || this.state.props.updateon === 'default') {
       let oldVal = this.state.props.datavalue || '';
-      if (oldVal !== newVal) {
+      if (oldVal !== newVal && this.state.props.updateon === 'blur') {
         this.updateDatavalue(newVal, event, 'blur');
       } else {
         this.invokeEventCallback('onBlur', [event, this.proxy]);
