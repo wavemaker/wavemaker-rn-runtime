@@ -126,8 +126,8 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
         this.props.triggerValidation && this.props.triggerValidation();
       },10)
     }
-    if (this.state.props.updateon === 'blur') {
-      if (oldVal !== newVal) {
+    if (this.state.props.updateon === 'blur' || this.state.props.updateon === 'default') {
+      if (oldVal !== newVal && this.state.props.updateon === 'blur') {
         this.updateDatavalue(newVal, event, 'blur');
       } else {
         this.invokeEventCallback('onBlur', [event, this.proxy]);
