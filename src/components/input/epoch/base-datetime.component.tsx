@@ -8,7 +8,7 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import WmDatetimeProps from './datetime/datetime.props';
 import { DEFAULT_CLASS, WmDatetimeStyles } from './datetime/datetime.styles';
 import WebDatePicker from './date-picker.component';
-import { isNumber, isString } from 'lodash-es';
+import { isEqual, isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { isDateFormatAsPerPattern, validateField } from '@wavemaker/app-rn-runtime/core/utils';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
@@ -102,7 +102,9 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     switch(name) {
       //@ts-ignore
       case 'datavalue':
-        this.invokeEventCallback('onChange', [null, this, $new, $old]);
+        if (!isEqual($old, $new)){
+          this.invokeEventCallback('onChange', [null, this, $new, $old]);
+        }
         this.prevDatavalue = $old;
         if (props.datavalue === CURRENT_TIME) {
           this.monitorAndUpdateCurrentTime();
