@@ -3,6 +3,8 @@ export interface Drawer {
     getContent: () => React.ReactNode;
     setAnimation: (animation: string) => void;
     getAnimation: () => string;
+    getWidth: () => number;
+    setWidth: (width: number) => void;
 }
 
 export default interface AppConfig {

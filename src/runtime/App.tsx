@@ -63,6 +63,7 @@ const MIN_TIME_BETWEEN_REFRESH_CYCLES = 200;
 class DrawerImpl implements Drawer {
   content: ReactNode;
   animation: string = 'slide-in';
+  width: number = 8
 
   constructor(private onChange: () => void) {
 
@@ -84,6 +85,14 @@ class DrawerImpl implements Drawer {
 
   getAnimation() {
     return this.animation;
+  }
+
+  setWidth(width: number){
+    this.width = width
+  }
+
+  getWidth(){
+    return this.width
   }
 }
 const SUPPORTED_SERVICES = {
@@ -491,7 +500,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         landingPageParams={(this.props as any)?.pageName && this.props}
                         hideDrawer={this.appConfig.drawer?.getContent() === null}
                         drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
-                        drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                        drawerAnimation={this.appConfig.drawer?.getAnimation()}
+                        drawerWidth={this.appConfig.drawer?.getWidth()}></AppNavigator>
                         {commonPartial}
                       </GestureHandlerRootView>
                     </View>

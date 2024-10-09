@@ -11,8 +11,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             backgroundColor: themeVariables.navbarBackgroundColor,
             elevation: 1,
             borderTopRightRadius: 16,
-            borderBottomRightRadius: 16,
-            maxWidth: 360
+            borderBottomRightRadius: 16
         },
         text: {}
     });

@@ -14,6 +14,7 @@ declare const window: any;
 export interface AppNavigatorProps {
   drawerContent: () => ReactNode;
   drawerAnimation: string;
+  drawerWidth: number
   hideDrawer: boolean;
   landingPage?: string;
   landingPageParams?: any;
@@ -108,6 +109,7 @@ export const AppNavigator = (props: AppNavigatorProps) => {
     landingPage={appConfig.landingPage}></AppStackNavigator>);
   const leftNav = (<AppDrawerNavigator
       type={props.drawerAnimation === 'slide-over' ? 'front' : 'slide'}
+      width={props.drawerWidth}
       hide={props.hideDrawer}
       content={() => (props.drawerContent && props.drawerContent())  || (<View/>)}
       rootComponent={stack}/>);

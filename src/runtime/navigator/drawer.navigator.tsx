@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { Dimensions } from 'react-native';
 const Drawer = createDrawerNavigator();
 
 interface AppDrawerNavigatorProps {
@@ -8,6 +9,7 @@ interface AppDrawerNavigatorProps {
   hide: boolean,
   type: any;
   rootComponent: React.ReactNode;
+  width: number;
 }
 
 class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, any> {
@@ -17,6 +19,10 @@ class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, a
   }
 
   render(){
+    let proportion =  12 / Number(this.props.width);
+    let drawerWidth = 100 / Number(proportion);
+    let screenWidth = Dimensions.get('window').width;
+    drawerWidth = (screenWidth * drawerWidth) / 100;
     return (<Drawer.Navigator
       initialRouteName="pages"
       drawerContent={this.props.content}
@@ -25,7 +31,10 @@ class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, a
           drawerType: this.props.type,
           headerShown: false,
           gestureHandlerProps: { enabled: !this.props.hide },
-          drawerStyle: { backgroundColor:  ThemeVariables.INSTANCE.pageContentBgColor }
+          drawerStyle: {
+            backgroundColor: ThemeVariables.INSTANCE.pageContentBgColor,
+            ...(drawerWidth && { width: drawerWidth })
+          }
       }}>
       <Drawer.Screen name="pages">
         {(_props) => this.props.rootComponent}

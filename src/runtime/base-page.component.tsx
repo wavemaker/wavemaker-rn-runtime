@@ -29,6 +29,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     private hasTabbar = false;
     private drawerContent = null as React.ReactNode;
     private drawerType = '';
+    private drawerWidth = 8;
 
     constructor(props: PageProps) {
       super(props);
@@ -64,7 +65,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       (this.props as PageProps).navigation.toggleDrawer();
     }
 
-    setDrawerContent(content = this.drawerContent, drawerType = this.drawerType) {
+    setDrawerContent(content = this.drawerContent, drawerType = this.drawerType, drawerWidth = this.drawerWidth) {
       if (!content) {
         return;
       }
@@ -82,6 +83,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
               </NavigationServiceProvider>));
           }, 500);
           this.appConfig.drawer?.setAnimation(drawerType);
+          this.appConfig.drawer?.setWidth(drawerWidth)
         }
       }, 10);
     }
