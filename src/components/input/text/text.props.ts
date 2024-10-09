@@ -5,4 +5,5 @@ export default class WmTextProps extends BaseInputProps {
   placeholder: string = 'Enter text';
   skeletonheight?: string = null as any;
   skeletonwidth?: string = null as any;
+  autocapitalize?: string = 'none';
 }
