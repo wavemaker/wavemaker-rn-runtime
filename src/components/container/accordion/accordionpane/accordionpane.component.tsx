@@ -56,7 +56,9 @@ export default class WmAccordionpane extends BaseComponent<WmAccordionpaneProps,
 
   componentWillUnmount() {
     const accordion = (this.parent) as WmAccordion;
-    accordion.removeAccordionPane(this);
+    if(accordion.removeAccordionPane) {
+      accordion.removeAccordionPane(this);
+    }
   }
 
   onPartialLoad() {
