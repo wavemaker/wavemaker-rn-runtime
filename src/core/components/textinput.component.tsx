@@ -47,7 +47,10 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     maskchar: string,
     floatingLabel: string
     floatingLabelStyle:  TextStyle,
-    activeFloatingLabelStyle: TextStyle
+    activeFloatingLabelStyle: TextStyle,
+    customDisplayValue?: string,
+    isInputFocused: boolean
+    autocapitalize?: string
   }), 
     ref: ForwardedRef<TextInput>) => {
     const [selectRange, setSelectRange] = useState<SelectRange>(null as any);
@@ -187,6 +190,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
             onChange : () => {}
           }: {}}
           contextMenuHidden={!props.allowContentSelection}
+          autoCapitalize={props.autocapitalize}
         ></TextInput>
         {
           hideInput ? (
