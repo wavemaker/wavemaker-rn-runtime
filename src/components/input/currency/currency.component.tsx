@@ -67,8 +67,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         }}
         keyboardType="numeric"
         placeholderTextColor={this.styles.placeholderText.color as any}
-        isInputFocused={ this.state.isInputFocused }
-        style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isInputFocused ? this.styles.focused : {}]}
+        style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
         {...opts}
         floatingLabel={props.floatinglabel}
         floatingLabelStyle={this.styles.floatingLabel}
