@@ -5,7 +5,6 @@ import { Platform } from 'react-native';
 export type WmCurrencyStyles = BaseStyles & {
   label: AllStyle;
   invalid: AllStyle;
-  focused: AllStyle;
   floatingLabel: AllStyle;
   activeFloatingLabel: AllStyle;
   placeholderText: AllStyle;
@@ -59,9 +58,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       invalid: {
         borderBottomColor: themeVariables.inputInvalidBorderColor
-      },
-      focused : {
-        borderColor: themeVariables.inputFocusBorderColor,
       },
       placeholderText: {
         color: themeVariables.inputPlaceholderColor

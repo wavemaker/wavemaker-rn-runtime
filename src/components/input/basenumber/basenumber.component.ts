@@ -8,7 +8,6 @@ import { countDecimalDigits, validateField } from '@wavemaker/app-rn-runtime/cor
 
 export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentState<T> {
   isValid: boolean = true;
-  isInputFocused: boolean = false;
   textValue: string = '';
   isDefault = false;
   errorType = '';
@@ -185,8 +184,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   }
 
   onBlur(event: any, isDisplayValuePresent?: boolean) {
-    const textVal = this.state.textValue || '';
-    let newVal = isDisplayValuePresent ? textVal : event.target.value || textVal;
+    let newVal = isDisplayValuePresent ? this.state.textValue : event.target.value || this.state.textValue;
     this.validate(newVal);
     if (newVal === '' || newVal == undefined) {
       setTimeout(() => {
@@ -200,13 +198,11 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
       } else {
         this.invokeEventCallback('onBlur', [event, this.proxy]);
       }
-      this.setState({ isInputFocused: false});
     }
   }
 
   onFocus(event: any) {
     this.invokeEventCallback('onFocus', [ event, this.proxy]);
-    this.setState({ isInputFocused: true});
   }
 
   /**

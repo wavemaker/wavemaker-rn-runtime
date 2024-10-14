@@ -66,8 +66,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
           ref.selectionStart = ref.selectionEnd = this.cursor;
         }}}
       placeholderTextColor={this.styles.placeholderText.color as any}
-      isInputFocused={ this.state.isInputFocused }
-      style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isInputFocused ? this.styles.focused : {}]}
+      style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
       multiline={true}
       numberOfLines={4}
       keyboardType={this.state.keyboardType}
