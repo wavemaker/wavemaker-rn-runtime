@@ -32,7 +32,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       fontFamily: themeVariables.baseFont
     } as AllStyle,
     checkedItem: {} as AllStyle,
-    selectedLabel: {} as AllStyle,
     item: {
       flexDirection: 'row',
       alignContent: 'center',
