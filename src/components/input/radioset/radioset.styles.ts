@@ -40,7 +40,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         marginTop: 8
       } as AllStyle,
       selectedItem: {} as AllStyle,
-      selectedLabel: {} as AllStyle,
       radioLabel: {
           alignSelf: 'center',
           fontFamily: themeVariables.baseFont,
