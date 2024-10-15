@@ -6,6 +6,7 @@ const Drawer = createDrawerNavigator();
 interface AppDrawerNavigatorProps {
   content: (props: any) => ReactNode;
   hide: boolean,
+  drawerStyle: any;
   type: any;
   rootComponent: React.ReactNode;
 }
@@ -25,7 +26,7 @@ class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, a
           drawerType: this.props.type,
           headerShown: false,
           gestureHandlerProps: { enabled: !this.props.hide },
-          drawerStyle: { backgroundColor:  ThemeVariables.INSTANCE.pageContentBgColor }
+          drawerStyle: { backgroundColor:  ThemeVariables.INSTANCE.pageContentBgColor, ...this.props.drawerStyle}
       }}>
       <Drawer.Screen name="pages">
         {(_props) => this.props.rootComponent}
