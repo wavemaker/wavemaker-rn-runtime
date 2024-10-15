@@ -103,8 +103,7 @@ export default class WmLottie extends BaseComponent<WmLottieProps, WmLottieState
   }
 
   private renderWebLottie(props: WmLottieProps) {
-    let Lottie = Platform.OS == 'web' ? require('react-lottie-player') : null;
-    Lottie = Lottie?.default || Lottie;
+    const Lottie = require('react-lottie-player');
     return (<Lottie 
       animationData={this.state.animationData}
       ref= {this.lottie}
