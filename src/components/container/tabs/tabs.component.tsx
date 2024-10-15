@@ -171,8 +171,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
               style={{width: '100%', alignSelf: 'flex-start'}}
               onLayout={this.setTabPaneHeights.bind(this, i)}>
               {/* {this.state.tabsShown[i] ? p : null} */}
-              {React.cloneElement(p, { "invokeVariables": false })}
-              {/* {p} */}
+              {p}
             </View>);
           })}
         </View>
