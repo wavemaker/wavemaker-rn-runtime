@@ -208,5 +208,17 @@ describe('TextInput Component', () => {
     });
 
     expect(input.props.defaultValue).toBe('500%');
+  });
+
+  test('should apply autoCapitalize prop in InputText component', async () => {
+    Platform.OS = 'ios'
+    const tree = render(
+      <WMTextInput
+        {...defaultProps}
+        autoCapitalize='characters'
+      />
+    );
+    const input = tree.UNSAFE_getByType(TextInput);
+    expect(input.props.autoCapitalize).toBe('characters')
   })
 });

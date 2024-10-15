@@ -226,4 +226,17 @@ describe('Text component', () => {
     const input = getByPlaceholderText('Enter text');
     expect(input.props.keyboardType).toBe('email-address')
   });
+
+  test('should assign autoCapitalize prop in textinput component', () => {
+    Platform.OS = 'ios';
+    const { getByPlaceholderText } = render(
+      <WmText 
+        {...defaultProps} 
+        autocapitalize='characters' 
+      />
+    );
+
+    const input = getByPlaceholderText("Enter text");
+    expect(input.props.autoCapitalize).toBe("characters")
+  });
 });
