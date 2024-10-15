@@ -50,11 +50,11 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     floatingLabel: string
     floatingLabelStyle:  TextStyle,
     activeFloatingLabelStyle: TextStyle,
-    customDisplayValue?: string,
-    isInputFocused: boolean
+    customDisplayValue?: string
   }), 
     ref: ForwardedRef<TextInput>) => {
     const [selectRange, setSelectRange] = useState<SelectRange>(null as any);
+    const [isInputFocused, setIsInputFocused] = useState(false);
     const [iMask, setIMask] = useState(null as any);
     const [displayCursor, setDisplayCursor] = useState(false);
     const value = useRef(props.value || '');
@@ -149,11 +149,11 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
       <>
         {props.floatingLabel ? (
           <FloatingLabel
-            moveUp={!!(value.current || props.isInputFocused || displayValue)}
+            moveUp={!!(value.current || isInputFocused || displayValue)}
             label={props.floatingLabel ?? props.placeholder} 
             style={{
               ...(props.floatingLabelStyle || []),
-              ...(props.isInputFocused ? (props.activeFloatingLabelStyle || {}) : {})
+              ...(isInputFocused ? (props.activeFloatingLabelStyle || {}) : {})
             }}/>
         ) : null}
         <TextInput
@@ -168,11 +168,13 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
           } : {}]}
           onFocus={(e) => {
             props.onFocus?.(e);
+            setIsInputFocused(true);
             setDisplayCursor(true);
             element.current = e.target;
           }}
           onBlur={(e) => {
             props?.onBlur?.(e);
+            setIsInputFocused(false);
             setDisplayCursor(false);
           }}
           ref={ref}
