@@ -220,5 +220,29 @@ describe('TextInput Component', () => {
     );
     const input = tree.UNSAFE_getByType(TextInput);
     expect(input.props.autoCapitalize).toBe('characters')
-  })
+  });
+
+  test('should change the text to capital weh autoCapitalize prop is set to characters', async () => {
+    console.log("platform is: ", Platform.OS);
+    const { UNSAFE_getByType, getByText } = render(
+      <WMTextInput 
+        {...defaultProps} 
+       autoCapitalize='characters'
+      />
+    );
+
+    const input = UNSAFE_getByType(TextInput);
+
+    fireEvent(input, 'changeText', 'hello');
+    fireEvent(input, 'blur', {
+      target: {
+        value: null,
+      },
+    });
+
+    expect(input.props.autoCapitalize).toBe("characters")
+    await waitFor(()=>{
+      expect(defaultProps.onChangeText).toHaveBeenCalledWith('HELLO');
+    })
+  });
 });
