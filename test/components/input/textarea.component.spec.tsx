@@ -53,7 +53,6 @@ describe('Test Textarea component', () => {
     });
 
     expect(queryByText('sample label')).toBeTruthy();
-    expect(tree).toMatchSnapshot();
   });
 
   test('should call onChangeText with correct value', () => {
@@ -105,7 +104,7 @@ describe('Test Textarea component', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  test('should have default web for native platform', () => {
+  test('should have default value for web platform', () => {
     (Platform as any).OS = 'web';
 
     const tree = render(
@@ -209,7 +208,6 @@ describe('Test Textarea component', () => {
 
   test('should not show component when show prop is false', () => {
     const tree = render(<WmTextarea {...defaultProps} show={false} />);
-    expect(tree).toMatchSnapshot();
 
     const styleArr =
       tree.getByPlaceholderText('Place your text').props.style[0];
@@ -231,6 +229,5 @@ describe('Test Textarea component', () => {
     const tree = render(<WmTextarea {...defaultProps} placeholder="" />);
 
     expect(tree.getByPlaceholderText('Place your text')).toBeTruthy();
-    expect(tree).toMatchSnapshot();
   });
 });

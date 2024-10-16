@@ -22,6 +22,7 @@ exports[`Number component should have default value for native platform 1`] = `
   defaultValue="sample text"
   editable={true}
   floatingLabelStyle={{}}
+  isInputFocused={false}
   keyboardType="numeric"
   onBlur={[Function]}
   onChange={[Function]}
@@ -48,6 +49,7 @@ exports[`Number component should have default value for native platform 1`] = `
           "paddingTop": 8,
         },
         {},
+        {},
       ],
       {},
     ]
@@ -56,7 +58,7 @@ exports[`Number component should have default value for native platform 1`] = `
 />
 `;
 
-exports[`Number component should have default web for native platform 1`] = `
+exports[`Number component should have default value for web platform 1`] = `
 <TextInput
   accessibilityLabel="wm-text-input_i"
   activeFloatingLabelStyle={{}}
@@ -66,6 +68,7 @@ exports[`Number component should have default web for native platform 1`] = `
   contextMenuHidden={false}
   editable={true}
   floatingLabelStyle={{}}
+  isInputFocused={false}
   keyboardType="numeric"
   onBlur={[Function]}
   onChange={[Function]}
@@ -91,6 +94,7 @@ exports[`Number component should have default web for native platform 1`] = `
           "paddingRight": 16,
           "paddingTop": 8,
         },
+        {},
         {},
       ],
       {},
@@ -98,140 +102,6 @@ exports[`Number component should have default web for native platform 1`] = `
   }
   testID="wm-text-input_i"
   value="sample text"
-/>
-`;
-
-exports[`Number component should isValid false when input number is above maxvalue 1`] = `
-<TextInput
-  accessibilityLabel="wm-text-input_i"
-  activeFloatingLabelStyle={{}}
-  allowContentSelection={true}
-  autoFocus={null}
-  caretHidden={false}
-  contextMenuHidden={false}
-  editable={true}
-  floatingLabelStyle={{}}
-  keyboardType="numeric"
-  onBlur={[Function]}
-  onChange={[Function]}
-  onChangeText={[Function]}
-  onFocus={[Function]}
-  onKeyPress={[Function]}
-  onSelectionChange={[Function]}
-  placeholder="Enter amount"
-  placeholderTextColor="#bbbbbb"
-  selection={null}
-  style={
-    [
-      [
-        {
-          "backgroundColor": "#ffffff",
-          "borderColor": "#dddddd",
-          "borderRadius": 6,
-          "borderStyle": "solid",
-          "borderWidth": 1,
-          "minHeight": 42,
-          "paddingBottom": 8,
-          "paddingLeft": 16,
-          "paddingRight": 16,
-          "paddingTop": 8,
-        },
-        {},
-      ],
-      {},
-    ]
-  }
-  testID="wm-text-input_i"
-  value=""
-/>
-`;
-
-exports[`Number component should isValid false when input number is above maxvalue 2`] = `
-<TextInput
-  accessibilityLabel="wm-text-input_i"
-  activeFloatingLabelStyle={{}}
-  allowContentSelection={true}
-  autoFocus={null}
-  caretHidden={false}
-  contextMenuHidden={false}
-  editable={true}
-  floatingLabelStyle={{}}
-  keyboardType="numeric"
-  onBlur={[Function]}
-  onChange={[Function]}
-  onChangeText={[Function]}
-  onFocus={[Function]}
-  onKeyPress={[Function]}
-  onSelectionChange={[Function]}
-  placeholder="Enter amount"
-  placeholderTextColor="#bbbbbb"
-  selection={null}
-  style={
-    [
-      [
-        {
-          "backgroundColor": "#ffffff",
-          "borderColor": "#dddddd",
-          "borderRadius": 6,
-          "borderStyle": "solid",
-          "borderWidth": 1,
-          "minHeight": 42,
-          "paddingBottom": 8,
-          "paddingLeft": 16,
-          "paddingRight": 16,
-          "paddingTop": 8,
-        },
-        {
-          "borderBottomColor": "#dc3545",
-        },
-      ],
-      {},
-    ]
-  }
-  testID="wm-text-input_i"
-  value="50011"
-/>
-`;
-
-exports[`Number component should not show component when show prop is false 1`] = `
-<TextInput
-  accessibilityLabel="wm-text-input_i"
-  activeFloatingLabelStyle={{}}
-  allowContentSelection={true}
-  autoFocus={null}
-  caretHidden={false}
-  contextMenuHidden={false}
-  editable={true}
-  floatingLabelStyle={{}}
-  keyboardType="numeric"
-  onBlur={[Function]}
-  onChange={[Function]}
-  onChangeText={[Function]}
-  onFocus={[Function]}
-  onKeyPress={[Function]}
-  onSelectionChange={[Function]}
-  placeholder="Enter amount"
-  placeholderTextColor="#bbbbbb"
-  selection={null}
-  style={
-    [
-      [
-        {
-          "height": 0,
-          "transform": [
-            {
-              "scale": 0,
-            },
-          ],
-          "width": 0,
-        },
-        {},
-      ],
-      {},
-    ]
-  }
-  testID="wm-text-input_i"
-  value=""
 />
 `;
 
@@ -327,6 +197,7 @@ exports[`Number component should render correctly with default props 1`] = `
         "top": 12,
       }
     }
+    isInputFocused={false}
     keyboardType="numeric"
     onBlur={[Function]}
     onChange={[Function]}
@@ -352,6 +223,7 @@ exports[`Number component should render correctly with default props 1`] = `
             "paddingRight": 16,
             "paddingTop": 8,
           },
+          {},
           {},
         ],
         {},

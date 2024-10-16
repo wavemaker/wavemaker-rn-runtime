@@ -1,6 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test CarouselTemplate component Check validity of sample component 1`] = `
+exports[`WmCarouselTemplate Component should render children components correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "width": "100%",
+      },
+      {
+        "height": undefined,
+      },
+    ]
+  }
+>
+  <View>
+    <Text>
+      Carousel Item
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`WmCarouselTemplate Component should render the component without crashing 1`] = `
 <View
   style={
     [

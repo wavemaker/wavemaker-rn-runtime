@@ -1,5 +1,108 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Test Currency component should have default value for "platform=web" 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "borderColor": "#dddddd",
+      "borderRadius": 6,
+      "borderStyle": "solid",
+      "borderWidth": 1,
+      "flexDirection": "row",
+      "minHeight": 42,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "backgroundColor": "#4263eb",
+        "borderBottomLeftRadius": 6,
+        "borderTopLeftRadius": 6,
+        "minHeight": 42,
+        "paddingBottom": 8,
+        "paddingLeft": 16,
+        "paddingRight": 16,
+        "paddingTop": 8,
+        "width": 48,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#ffffff",
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "fontWeight": "bold",
+          "marginVertical": 0.7,
+          "textAlign": "center",
+          "textAlignVertical": "center",
+        }
+      }
+    >
+      $
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <TextInput
+      accessibilityLabel="undefined_i"
+      activeFloatingLabelStyle={{}}
+      allowContentSelection={true}
+      caretHidden={false}
+      contextMenuHidden={false}
+      editable={true}
+      floatingLabelStyle={{}}
+      isInputFocused={false}
+      keyboardType="numeric"
+      onBlur={[Function]}
+      onChange={[Function]}
+      onChangeText={[Function]}
+      onFocus={[Function]}
+      onKeyPress={[Function]}
+      onSelectionChange={[Function]}
+      placeholder="Enter amount"
+      placeholderTextColor="#bbbbbb"
+      selection={null}
+      style={
+        [
+          [
+            {
+              "borderColor": "transparent",
+              "borderStyle": "solid",
+              "borderWidth": 1,
+              "flex": 1,
+              "minHeight": 42,
+              "paddingBottom": 8,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 8,
+            },
+            {
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "userSelect": "text",
+            },
+            {},
+            {},
+          ],
+          {},
+        ]
+      }
+      testID="undefined_i"
+      value="sample text"
+    />
+  </View>
+</View>
+`;
+
 exports[`Test Currency component should have default value for native platform 1`] = `
 <View
   style={
@@ -67,6 +170,7 @@ exports[`Test Currency component should have default value for native platform 1
       defaultValue="sample text"
       editable={true}
       floatingLabelStyle={{}}
+      isInputFocused={false}
       keyboardType="numeric"
       onBlur={[Function]}
       onChange={[Function]}
@@ -97,417 +201,12 @@ exports[`Test Currency component should have default value for native platform 1
               "userSelect": "text",
             },
             {},
-          ],
-          {},
-        ]
-      }
-      testID="undefined_i"
-    />
-  </View>
-</View>
-`;
-
-exports[`Test Currency component should have default web for native platform 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "#ffffff",
-      "borderColor": "#dddddd",
-      "borderRadius": 6,
-      "borderStyle": "solid",
-      "borderWidth": 1,
-      "flexDirection": "row",
-      "minHeight": 42,
-    }
-  }
->
-  <View
-    style={
-      {
-        "backgroundColor": "#4263eb",
-        "borderBottomLeftRadius": 6,
-        "borderTopLeftRadius": 6,
-        "minHeight": 42,
-        "paddingBottom": 8,
-        "paddingLeft": 16,
-        "paddingRight": 16,
-        "paddingTop": 8,
-        "width": 48,
-      }
-    }
-  >
-    <Text
-      style={
-        {
-          "color": "#ffffff",
-          "fontFamily": "Roboto",
-          "fontSize": 16,
-          "fontWeight": "bold",
-          "marginVertical": 0.7,
-          "textAlign": "center",
-          "textAlignVertical": "center",
-        }
-      }
-    >
-      $
-    </Text>
-  </View>
-  <View
-    style={
-      {
-        "flex": 1,
-      }
-    }
-  >
-    <TextInput
-      accessibilityLabel="undefined_i"
-      activeFloatingLabelStyle={{}}
-      allowContentSelection={true}
-      caretHidden={false}
-      contextMenuHidden={false}
-      editable={true}
-      floatingLabelStyle={{}}
-      keyboardType="numeric"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onChangeText={[Function]}
-      onFocus={[Function]}
-      onKeyPress={[Function]}
-      onSelectionChange={[Function]}
-      placeholder="Enter amount"
-      placeholderTextColor="#bbbbbb"
-      selection={null}
-      style={
-        [
-          [
-            {
-              "borderColor": "transparent",
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "minHeight": 42,
-              "paddingBottom": 8,
-              "paddingLeft": 16,
-              "paddingRight": 16,
-              "paddingTop": 8,
-            },
-            {
-              "fontFamily": "Roboto",
-              "fontSize": 16,
-              "userSelect": "text",
-            },
             {},
           ],
           {},
         ]
       }
       testID="undefined_i"
-      value="sample text"
-    />
-  </View>
-</View>
-`;
-
-exports[`Test Currency component should isValid false when input number is above maxvalue 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "#ffffff",
-      "borderColor": "#dddddd",
-      "borderRadius": 6,
-      "borderStyle": "solid",
-      "borderWidth": 1,
-      "flexDirection": "row",
-      "minHeight": 42,
-    }
-  }
->
-  <View
-    style={
-      {
-        "backgroundColor": "#4263eb",
-        "borderBottomLeftRadius": 6,
-        "borderTopLeftRadius": 6,
-        "minHeight": 42,
-        "paddingBottom": 8,
-        "paddingLeft": 16,
-        "paddingRight": 16,
-        "paddingTop": 8,
-        "width": 48,
-      }
-    }
-  >
-    <Text
-      style={
-        {
-          "color": "#ffffff",
-          "fontFamily": "Roboto",
-          "fontSize": 16,
-          "fontWeight": "bold",
-          "marginVertical": 0.7,
-          "textAlign": "center",
-          "textAlignVertical": "center",
-        }
-      }
-    >
-      $
-    </Text>
-  </View>
-  <View
-    style={
-      {
-        "flex": 1,
-      }
-    }
-  >
-    <TextInput
-      accessibilityLabel="undefined_i"
-      activeFloatingLabelStyle={{}}
-      allowContentSelection={true}
-      caretHidden={false}
-      contextMenuHidden={false}
-      editable={true}
-      floatingLabelStyle={{}}
-      keyboardType="numeric"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onChangeText={[Function]}
-      onFocus={[Function]}
-      onKeyPress={[Function]}
-      onSelectionChange={[Function]}
-      placeholder="Enter amount"
-      placeholderTextColor="#bbbbbb"
-      selection={null}
-      style={
-        [
-          [
-            {
-              "borderColor": "transparent",
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "minHeight": 42,
-              "paddingBottom": 8,
-              "paddingLeft": 16,
-              "paddingRight": 16,
-              "paddingTop": 8,
-            },
-            {
-              "fontFamily": "Roboto",
-              "fontSize": 16,
-              "userSelect": "text",
-            },
-            {},
-          ],
-          {},
-        ]
-      }
-      testID="undefined_i"
-      value=""
-    />
-  </View>
-</View>
-`;
-
-exports[`Test Currency component should isValid false when input number is above maxvalue 2`] = `
-<View
-  style={
-    {
-      "backgroundColor": "#ffffff",
-      "borderColor": "#dddddd",
-      "borderRadius": 6,
-      "borderStyle": "solid",
-      "borderWidth": 1,
-      "flexDirection": "row",
-      "minHeight": 42,
-    }
-  }
->
-  <View
-    style={
-      {
-        "backgroundColor": "#4263eb",
-        "borderBottomLeftRadius": 6,
-        "borderTopLeftRadius": 6,
-        "minHeight": 42,
-        "paddingBottom": 8,
-        "paddingLeft": 16,
-        "paddingRight": 16,
-        "paddingTop": 8,
-        "width": 48,
-      }
-    }
-  >
-    <Text
-      style={
-        {
-          "color": "#ffffff",
-          "fontFamily": "Roboto",
-          "fontSize": 16,
-          "fontWeight": "bold",
-          "marginVertical": 0.7,
-          "textAlign": "center",
-          "textAlignVertical": "center",
-        }
-      }
-    >
-      $
-    </Text>
-  </View>
-  <View
-    style={
-      {
-        "flex": 1,
-      }
-    }
-  >
-    <TextInput
-      accessibilityLabel="undefined_i"
-      activeFloatingLabelStyle={{}}
-      allowContentSelection={true}
-      caretHidden={false}
-      contextMenuHidden={false}
-      editable={true}
-      floatingLabelStyle={{}}
-      keyboardType="numeric"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onChangeText={[Function]}
-      onFocus={[Function]}
-      onKeyPress={[Function]}
-      onSelectionChange={[Function]}
-      placeholder="Enter amount"
-      placeholderTextColor="#bbbbbb"
-      selection={null}
-      style={
-        [
-          [
-            {
-              "borderColor": "transparent",
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "minHeight": 42,
-              "paddingBottom": 8,
-              "paddingLeft": 16,
-              "paddingRight": 16,
-              "paddingTop": 8,
-            },
-            {
-              "fontFamily": "Roboto",
-              "fontSize": 16,
-              "userSelect": "text",
-            },
-            {
-              "borderBottomColor": "#dc3545",
-            },
-          ],
-          {},
-        ]
-      }
-      testID="undefined_i"
-      value="50011"
-    />
-  </View>
-</View>
-`;
-
-exports[`Test Currency component should not show component when show prop is false 1`] = `
-<View
-  style={
-    {
-      "height": 0,
-      "transform": [
-        {
-          "scale": 0,
-        },
-      ],
-      "width": 0,
-    }
-  }
->
-  <View
-    style={
-      {
-        "backgroundColor": "#4263eb",
-        "borderBottomLeftRadius": 6,
-        "borderTopLeftRadius": 6,
-        "minHeight": 42,
-        "paddingBottom": 8,
-        "paddingLeft": 16,
-        "paddingRight": 16,
-        "paddingTop": 8,
-        "width": 48,
-      }
-    }
-  >
-    <Text
-      style={
-        {
-          "color": "#ffffff",
-          "fontFamily": "Roboto",
-          "fontSize": 16,
-          "fontWeight": "bold",
-          "marginVertical": 0.7,
-          "textAlign": "center",
-          "textAlignVertical": "center",
-        }
-      }
-    >
-      $
-    </Text>
-  </View>
-  <View
-    style={
-      {
-        "flex": 1,
-      }
-    }
-  >
-    <TextInput
-      accessibilityLabel="undefined_i"
-      activeFloatingLabelStyle={{}}
-      allowContentSelection={true}
-      caretHidden={false}
-      contextMenuHidden={false}
-      editable={true}
-      floatingLabelStyle={{}}
-      keyboardType="numeric"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onChangeText={[Function]}
-      onFocus={[Function]}
-      onKeyPress={[Function]}
-      onSelectionChange={[Function]}
-      placeholder="Enter amount"
-      placeholderTextColor="#bbbbbb"
-      selection={null}
-      style={
-        [
-          [
-            {
-              "borderColor": "transparent",
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "minHeight": 42,
-              "paddingBottom": 8,
-              "paddingLeft": 16,
-              "paddingRight": 16,
-              "paddingTop": 8,
-            },
-            {
-              "fontFamily": "Roboto",
-              "fontSize": 16,
-              "userSelect": "text",
-            },
-            {},
-          ],
-          {},
-        ]
-      }
-      testID="undefined_i"
-      value=""
     />
   </View>
 </View>
@@ -651,6 +350,7 @@ exports[`Test Currency component should render correctly with default props 1`] 
           "top": 12,
         }
       }
+      isInputFocused={false}
       keyboardType="numeric"
       onBlur={[Function]}
       onChange={[Function]}
@@ -680,6 +380,7 @@ exports[`Test Currency component should render correctly with default props 1`] 
               "fontSize": 16,
               "userSelect": "text",
             },
+            {},
             {},
           ],
           {},

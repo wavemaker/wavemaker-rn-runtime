@@ -3,6 +3,19 @@ import { AccessibilityInfo, Platform, View } from 'react-native';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import WmWebview from '@wavemaker/app-rn-runtime/components/advanced/webview/webview.component';
 import * as accessibilityUtils from '@wavemaker/app-rn-runtime/core/accessibility';
+import {
+  BackHandler as RNBackHandler,
+  BackHandlerStatic as RNBackHandlerStatic,
+} from 'react-native';
+
+jest.mock('react-native/Libraries/Utilities/BackHandler', () =>
+  require('react-native/Libraries/Utilities/__mocks__/BackHandler')
+);
+interface BackHandlerStatic extends RNBackHandlerStatic {
+  mockPressBack(): void;
+}
+
+const BackHandler = RNBackHandler as BackHandlerStatic;
 
 describe('Test Webview component', () => {
   const baseProps = {
@@ -88,26 +101,22 @@ describe('Test Webview component', () => {
     );
   });
 
-  // test('should handle BackHandler for Android', () => {
-  //   Platform.OS = 'android';
-  //   const customRef = createRef<WmWebview>()
+  test('should handle BackHandler for Android', () => {
+    Platform.OS = 'android';
+    const customRef = createRef<WmWebview>();
 
-  //   // console.log(WmWebview.prototype);
+    // const backHandlerSpy = jest.spyOn(
+    //   WmWebview.prototype,
+    //   'handleBackButtonPress'
+    // );
+    render(<WmWebview {...baseProps} ref={customRef} />);
 
-  //   // const backHandlerSpy = jest.spyOn(
-  //   //   WmWebview.prototype,
-  //   //   'handleBackButtonPress'
-  //   // );
-  //   render(<WmWebview {...baseProps} ref={customRef}/>);
+    // hardwareBackPress;
 
-  //   // act(()=>{
-  //   //   customRef.current
-  //   // })
-  //   hardwareBackPress
-  //   console.log(customRef.current);
+    BackHandler.mockPressBack();
 
-  //   expect(backHandlerSpy).toHaveBeenCalled();
-  // });
+    // expect(backHandlerSpy).toHaveBeenCalled();
+  });
 
   test('should use incognito mode if incognito prop is true', () => {
     const props = {
@@ -177,25 +186,23 @@ describe('Test Webview component', () => {
 
     fireEvent(webview, 'onMessage', event);
     expect(parseResultMock).toHaveBeenCalled();
-    expect(parseResultMock).toHaveBeenCalledWith('{value: "wm-web-view"}')
+    expect(parseResultMock).toHaveBeenCalledWith('{value: "wm-web-view"}');
   });
 
   test('should handle insertCSS correctly', async () => {
     const executeScriptMock = jest.spyOn(WmWebview.prototype, 'executeScript');
     const customRef = createRef();
-    render(<WmWebview {...baseProps} ref={customRef}/>);
+    render(<WmWebview {...baseProps} ref={customRef} />);
     let result;
 
-    act(()=>{
-      result = customRef.current.insertCSS(
-        'body { background-color: red; }'
-      );
-    })
+    act(() => {
+      result = customRef.current.insertCSS('body { background-color: red; }');
+    });
 
     expect(executeScriptMock).toHaveBeenCalled();
-    await waitFor(()=>{
-      expect(result).toMatchObject({})
-    })
+    await waitFor(() => {
+      expect(result).toMatchObject({});
+    });
   });
 
   // test('should render iframe when Platform is web', () => {

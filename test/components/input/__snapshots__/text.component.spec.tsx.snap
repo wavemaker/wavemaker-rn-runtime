@@ -63,7 +63,7 @@ exports[`Text component should have default value for native platform 1`] = `
 />
 `;
 
-exports[`Text component should have default web for native platform 1`] = `
+exports[`Text component should have default value for web platform 1`] = `
 <TextInput
   accessibilityLabel="wmText_i"
   activeFloatingLabelStyle={{}}

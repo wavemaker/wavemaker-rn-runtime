@@ -1438,7 +1438,7 @@ exports[`Test Wizard component should render Progress Circle Header 1`] = `
                         strokeWidth="8"
                       />
                       <RNSVGPath
-                        d="M 5.9992810307272295 5.037913343676404 A 1 1 0 0 0 5 4"
+                        d="M 5.999425566299171 5.033890078600996 A 1 1 0 0 0 5 4"
                         fill={
                           {
                             "payload": 0,
