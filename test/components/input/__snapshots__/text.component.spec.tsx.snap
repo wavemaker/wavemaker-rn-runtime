@@ -1,0 +1,499 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text component should have default value for native platform 1`] = `
+<TextInput
+  accessibilityState={
+    {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoCapitalize="none"
+  autoComplete="username"
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue="sample text"
+  displayformat={null}
+  editable={true}
+  floatingLabelStyle={{}}
+  isInputFocused={false}
+  maskchar={null}
+  maxLength={null}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  placeholderTextColor="#bbbbbb"
+  secureTextEntry={false}
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmText_i"
+/>
+`;
+
+exports[`Text component should have default web for native platform 1`] = `
+<TextInput
+  accessibilityLabel="wmText_i"
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoCapitalize="none"
+  autoComplete="username"
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  displayformat={null}
+  editable={true}
+  floatingLabelStyle={{}}
+  isInputFocused={false}
+  maskchar={null}
+  maxLength={null}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  placeholderTextColor="#bbbbbb"
+  secureTextEntry={false}
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmText_i"
+  value="sample text"
+/>
+`;
+
+exports[`Text component should impose displayformat accurately 1`] = `
+[
+  <TextInput
+    accessibilityState={
+      {
+        "disabled": false,
+      }
+    }
+    accessible={true}
+    activeFloatingLabelStyle={{}}
+    allowContentSelection={true}
+    autoCapitalize="none"
+    autoComplete="username"
+    autoFocus={null}
+    caretHidden={false}
+    contextMenuHidden={false}
+    cursorColor="transparent"
+    defaultValue="1231231234"
+    displayformat="999-999-9999"
+    editable={true}
+    floatingLabelStyle={{}}
+    isInputFocused={false}
+    maskchar={null}
+    maxLength={null}
+    onBlur={[Function]}
+    onChange={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    onKeyPress={[Function]}
+    onSelectionChange={[Function]}
+    placeholder=""
+    placeholderTextColor="#bbbbbb"
+    secureTextEntry={false}
+    selection={null}
+    selectionColor="transparent"
+    style={
+      [
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "fontFamily": "Roboto",
+            "minHeight": 42,
+            "paddingBottom": 8,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 8,
+          },
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+          {},
+        ],
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "color": "transparent",
+          "zIndex": 1,
+        },
+      ]
+    }
+    testID="wmText_i"
+  />,
+  <View
+    style={
+      [
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "fontFamily": "Roboto",
+            "minHeight": 42,
+            "paddingBottom": 8,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 8,
+          },
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+          {},
+        ],
+        {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "marginTop": -42,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        {
+          "backgroundColor": "transparent",
+          "borderColor": "transparent",
+          "color": undefined,
+          "display": "flex",
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "fontWeight": undefined,
+          "padding": 0,
+          "width": undefined,
+        }
+      }
+    >
+      123-123-1234
+    </Text>
+  </View>,
+]
+`;
+
+exports[`Text component should not show component when show prop is false 1`] = `
+<TextInput
+  accessibilityLabel="wmText_i"
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoCapitalize="none"
+  autoComplete="username"
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  displayformat={null}
+  editable={true}
+  floatingLabelStyle={{}}
+  isInputFocused={false}
+  maskchar={null}
+  maxLength={null}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  placeholderTextColor="#bbbbbb"
+  secureTextEntry={false}
+  selection={null}
+  style={
+    [
+      [
+        {
+          "height": 0,
+          "transform": [
+            {
+              "scale": 0,
+            },
+          ],
+          "width": 0,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmText_i"
+  value=""
+/>
+`;
+
+exports[`Text component should render correctly with default props 1`] = `
+<TextInput
+  accessibilityState={
+    {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoCapitalize="none"
+  autoComplete="username"
+  autoFocus={null}
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue=""
+  displayformat={null}
+  editable={true}
+  floatingLabelStyle={{}}
+  isInputFocused={false}
+  maskchar={null}
+  maxLength={null}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  placeholderTextColor="#bbbbbb"
+  secureTextEntry={false}
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmText_i"
+/>
+`;
+
+exports[`Text component should show floating label when focused 1`] = `
+[
+  <View
+    collapsable={false}
+    pointerEvents="none"
+    style={
+      {
+        "color": "#4263eb",
+        "fontSize": 14,
+        "left": 16,
+        "position": "absolute",
+        "top": 12,
+        "transform": [
+          {
+            "translateY": 0,
+          },
+          {
+            "translateX": 0,
+          },
+          {
+            "scale": 1,
+          },
+        ],
+        "width": 160,
+        "zIndex": 1,
+      }
+    }
+  >
+    <Text
+      ellipsizeMode="tail"
+      style={
+        {
+          "color": "#4263eb",
+          "fontFamily": undefined,
+          "fontSize": 14,
+          "fontStyle": undefined,
+          "fontVariant": undefined,
+          "fontWeight": undefined,
+          "includeFontPadding": undefined,
+          "letterSpacing": undefined,
+          "lineHeight": undefined,
+          "textAlign": undefined,
+          "textAlignVertical": undefined,
+          "textDecorationColor": undefined,
+          "textDecorationStyle": undefined,
+          "textShadowColor": undefined,
+          "textShadowOffset": undefined,
+          "textShadowRadius": undefined,
+          "textTransform": undefined,
+          "userSelect": undefined,
+          "verticalAlign": undefined,
+          "writingDirection": undefined,
+        }
+      }
+    >
+      Floating Label
+    </Text>
+  </View>,
+  <TextInput
+    accessibilityState={
+      {
+        "disabled": false,
+      }
+    }
+    accessible={true}
+    activeFloatingLabelStyle={
+      {
+        "color": "#4263eb",
+      }
+    }
+    allowContentSelection={true}
+    autoCapitalize="none"
+    autoComplete="username"
+    autoFocus={null}
+    caretHidden={false}
+    contextMenuHidden={false}
+    defaultValue=""
+    displayformat={null}
+    editable={true}
+    floatingLabel="Floating Label"
+    floatingLabelStyle={
+      {
+        "color": "#bbbbbb",
+        "fontSize": 14,
+        "left": 16,
+        "position": "absolute",
+        "top": 12,
+      }
+    }
+    isInputFocused={true}
+    maskchar={null}
+    maxLength={null}
+    onBlur={[Function]}
+    onChange={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    onKeyPress={[Function]}
+    onSelectionChange={[Function]}
+    placeholder=""
+    placeholderTextColor="#bbbbbb"
+    secureTextEntry={false}
+    selection={null}
+    style={
+      [
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "fontFamily": "Roboto",
+            "minHeight": 48,
+            "paddingBottom": 8,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 8,
+          },
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+          {
+            "borderColor": "transparent",
+          },
+        ],
+        {},
+      ]
+    }
+    testID="wmText_i"
+  />,
+]
+`;

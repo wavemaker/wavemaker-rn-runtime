@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import React, { ReactNode } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
+=======
+import React, { createRef } from 'react';
+import {act, fireEvent, render, userEvent, waitFor} from '@testing-library/react-native';
+>>>>>>> 5472d1b6 (WMS-26669 | update: handle autoCapitalize property for web view)
 import WmText from '@wavemaker/app-rn-runtime/components/input/text/text.component';
 
 describe('Test Text component', () => {
@@ -232,7 +237,7 @@ describe('Test Text component', () => {
     expect(input.props.autoCapitalize).toBe("characters")
   });
 
-  test('should change the text to capital when autoCapitalize prop is set to characters', async () => {
+  test('should change the text to capital weh autoCapitalize prop is set to characters', async () => {
     const { getByPlaceholderText } = render(
       <WmText 
         {...defaultProps} 
@@ -251,6 +256,7 @@ describe('Test Text component', () => {
       expect(input.props.defaultValue).toBe("HELLO")
     })
   });
+<<<<<<< HEAD
 
   test('should update the state when hastwowaybinding is enabled', async () => {
     injector.FOCUSED_ELEMENT.remove = jest.fn();
@@ -299,4 +305,6 @@ describe('Test Text component', () => {
 
     expect(invokeEventCallbackMock).toHaveBeenCalledWith('onChange', expect.arrayContaining(['hello']));
   });
+=======
+>>>>>>> 5472d1b6 (WMS-26669 | update: handle autoCapitalize property for web view)
 });

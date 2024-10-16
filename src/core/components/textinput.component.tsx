@@ -182,6 +182,10 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
           onSelectionChange={onSelectionChange}
           caretHidden={!!selectRange?.end}
           onChangeText={(text) => {
+            if(props.autoCapitalize && props.autoCapitalize === 'characters') {
+              onChangeText(text.toUpperCase());
+              return;
+            }
             onChangeText(text);
           }}
           {...hideInput ? {
