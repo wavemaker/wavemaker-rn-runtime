@@ -1,31 +1,114 @@
-import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import React, { createRef } from 'react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react-native';
 import WmCarousel from '@wavemaker/app-rn-runtime/components/advanced/carousel/carousel.component';
 import { View, Text } from 'react-native';
 
+import TimingAnimation from 'react-native/Libraries/Animated/animations/TimingAnimation';
+
+jest.mock('react-native/Libraries/Animated/Easing', () => {
+  const originalModule = jest.requireActual(
+    'react-native/Libraries/Animated/Easing'
+  );
+  return {
+    _esModule: true,
+    default: {
+      ...originalModule,
+      linear: jest.fn(() => 'linear-mock'),
+      ease: jest.fn(() => 'ease-mock'),
+      bounce: jest.fn(() => 'bounce-mock'),
+      in: jest.fn(() => 'in-mock'),
+      out: jest.fn(() => 'out-mock'),
+      inOut: jest.fn(() => 'inOut-mock'),
+      bezier: jest.fn(),
+      // Add other methods you use if needed
+    },
+  };
+});
+
+jest.mock('react-native/Libraries/Animated/animations/TimingAnimation', () => {
+  const originalModule = jest.requireActual(
+    'react-native/Libraries/Animated/animations/TimingAnimation'
+  );
+
+  // Create a mock class that extends the original
+  class MockTimingAnimation extends originalModule.default {
+    constructor(config) {
+      super(config);
+      this._easing = jest.fn(originalModule.default.prototype._easing);
+    }
+
+    // You can add or override more methods here if needed
+    start = jest.fn(originalModule.default.prototype.start);
+    // start(fromValue, onUpdate, onEnd) {
+    //   onUpdate(this._toValue);
+    //   onEnd({ finished: true });
+    // }
+    onUpdate = jest.fn(originalModule.default.prototype.onUpdate);
+    stop = jest.fn(originalModule.default.prototype.stop);
+  }
+
+  return {
+    __esModule: true,
+    default: MockTimingAnimation,
+  };
+});
+
+import { Easing } from 'react-native';
+
+jest.mock('react-native/Libraries/Animated/nodes/AnimatedInterpolation', () => {
+  return {
+    __esModule: true,
+    default: jest.fn((parent, config) => ({
+      _parent: parent,
+      _config: {
+        inputRange: [0, 1],
+        outputRange: [0, 1],
+        easing: jest.fn(),
+        extrapolate: 'extend',
+        extrapolateLeft: 'extend',
+        extrapolateRight: 'extend',
+        ...config,
+      },
+      interpolate: jest.fn(),
+      __getValue: jest.fn(),
+      __attach: jest.fn(),
+      __detach: jest.fn(),
+      __getNativeConfig: jest.fn(),
+    })),
+  };
+});
+
 const renderComponent = (props = {}) => {
-  return render(<WmCarousel {...props} />);
+  return render(<WmCarousel {...props} name="test_carousel" />);
 };
 
+const timer = (time = 100) =>
+  new Promise((resolve: any, reject) => {
+    setTimeout(() => resolve(), time);
+  });
+
 describe('WmCarousel Component', () => {
-  
   it('should render without crashing', () => {
     const { toJSON } = renderComponent();
     expect(toJSON()).toMatchSnapshot();
   });
 
   it('should render children components correctly', () => {
-    renderComponent({
-      children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
-      ]
-    });
     const tree = renderComponent({
       children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
-      ]
+        <View key="slide1">
+          <Text>Slide 1</Text>
+        </View>,
+        <View key="slide2">
+          <Text>Slide 2</Text>
+        </View>,
+      ],
     });
     const childElementWithLayout = tree.toJSON().children[0];
 
@@ -37,189 +120,290 @@ describe('WmCarousel Component', () => {
         },
       },
     });
-    expect(screen.getByText('Slide 1')).toBeTruthy();
-    expect(screen.getByText('Slide 2')).toBeTruthy();
+    expect(tree.getByText('Slide 1')).toBeTruthy();
+    expect(tree.getByText('Slide 2')).toBeTruthy();
   });
-
-  it('should apply the correct styles to the root element', () => {
-  const tree = renderComponent();
-  const rootEle = tree.root;
-
-  expect(rootEle).toHaveStyle({
-    position: 'relative',
-  });
-});
 
   it('should render pagination dots when indicators are enabled', () => {
     renderComponent({
       controls: 'indicators',
       children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
-      ]
+        <View key="slide1">
+          <Text>Slide 1</Text>
+        </View>,
+        <View key="slide2">
+          <Text>Slide 2</Text>
+        </View>,
+      ],
     });
 
-    expect(screen.getByText('Slide 1')).toBeTruthy();
-    expect(screen.getByText('Slide 2')).toBeTruthy();
+    expect(screen.getByTestId('test_carousel_indicator0')).toBeTruthy();
+    expect(screen.getByTestId('test_carousel_indicator1')).toBeTruthy();
   });
 
-  it('should navigate to the next slide on next button click', () => {
+  it('should navigate to the next slide on press of any item inside carousel content', async () => {
+    const ref = createRef();
+    const onChangeMock = jest.fn();
     const { getByLabelText } = renderComponent({
+      ref,
+      animation: 'none',
       controls: 'navs',
+      onChange: onChangeMock,
       children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
-      ]
+        <View key="slide1">
+          <Text>Slide 1</Text>
+        </View>,
+        <View key="slide2">
+          <Text>Slide 2</Text>
+        </View>,
+      ],
     });
 
-    const nextButton = getByLabelText('next');
-    fireEvent.press(nextButton);
+    const slide1Content = screen.getByText('Slide 1');
+
+    await timer(1000); // timer added because of the settimeout present in autoPlay() else condition
+
+    await act(async () => {
+      fireEvent.press(slide1Content);
+      await timer(300);
+    });
     expect(screen.getByText('Slide 2')).toBeTruthy();
-  });
 
-  it('should navigate to the previous slide on previous button click', () => {
-    const { getByLabelText } = renderComponent({
-      controls: 'navs',
-      children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
-      ]
-    });
-
-    const nextButton = getByLabelText('next');
-    fireEvent.press(nextButton); // Go to slide 2 first
-    const prevButton = getByLabelText('back');
-    fireEvent.press(prevButton); // Go back to slide 1
-    expect(screen.getByText('Slide 1')).toBeTruthy();
+    expect(ref.current.state.activeIndex).toBe(2);
+    expect(onChangeMock).toHaveBeenCalledWith(ref.current.proxy, 2, 1);
   });
 
   it('should enable controls (both nav and indicators) when controls are set to "both"', () => {
     renderComponent({
       controls: 'both',
       children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
-      ]
+        <View key="slide1">
+          <Text>Slide 1</Text>
+        </View>,
+        <View key="slide2">
+          <Text>Slide 2</Text>
+        </View>,
+      ],
     });
 
     expect(screen.getByLabelText('next')).toBeTruthy();
     expect(screen.getByLabelText('back')).toBeTruthy();
+    expect(screen.getByTestId('test_carousel_indicator0')).toBeTruthy();
+    expect(screen.getByTestId('test_carousel_indicator1')).toBeTruthy();
   });
 
-  it('should enable auto-play when animation is "auto" and animationInterval is set', async () => {
-    jest.useFakeTimers();
-    renderComponent({
-      animation: 'auto',
-      animationinterval: 1,
-      children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
-      ]
-    });
-
-    expect(screen.getByText('Slide 1')).toBeTruthy();
-    jest.advanceTimersByTime(1000); // Move to the next slide after 1 second
-    expect(screen.getByText('Slide 2')).toBeTruthy();
-    jest.useRealTimers();
-  });
-
-  it('should change active slide when swipe gestures are triggered', () => {
-    const { getByTestId } = renderComponent({
-      children: [
-        <View key="slide1" testID="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2" testID="slide2"><Text>Slide 2</Text></View>,
-      ]
-    });
-
-    const animatedView = getByTestId('slide1');
-    fireEvent(animatedView, 'swipeLeft');
-    fireEvent(animatedView, 'swipeRight');
-
-    expect(screen.getByText('Slide 1')).toBeTruthy();
-    expect(screen.getByText('Slide 2')).toBeTruthy();
-  });
-
-  it('should invoke onChange callback when slide changes', async () => {
+  it('should navigate to the next slide on next button click', async () => {
+    const ref = createRef();
     const onChangeMock = jest.fn();
-    renderComponent({
+    const { getByLabelText } = renderComponent({
+      ref,
+      animation: 'none',
+      controls: 'navs',
       onChange: onChangeMock,
       children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
-      ]
+        <View key="slide1">
+          <Text>Slide 1</Text>
+        </View>,
+        <View key="slide2">
+          <Text>Slide 2</Text>
+        </View>,
+      ],
     });
-    fireEvent(screen.getByText('Slide 1'), 'swipeLeft');
-    await waitFor(() => {
-      expect(onChangeMock).toHaveBeenCalledTimes(1);
-      expect(onChangeMock).toHaveBeenCalledWith(expect.any(Object), 2, 1);
+    const carouselItem0 = screen.getByTestId('carousel_item_0');
+    const carouselItem1 = screen.getByTestId('carousel_item_1');
+
+    act(() => {
+      fireEvent(carouselItem0, 'layout', {
+        nativeEvent: {
+          layout: {
+            x: 100,
+            y: 100,
+            width: 200,
+            height: 200,
+          },
+        },
+      });
     });
+
+    await timer(1000);
+    const nextButton = getByLabelText('next');
+    await act(async () => {
+      fireEvent.press(nextButton);
+      await timer(500);
+    });
+    expect(screen.getByText('Slide 2')).toBeTruthy();
+
+    expect(onChangeMock).toHaveBeenCalledWith(ref.current.proxy, 2, 1);
+    expect(ref.current.state.activeIndex).toBe(2);
+
+    await act(async () => {
+      fireEvent.press(nextButton); //should go back to first slide
+      await timer(500);
+    });
+
+    expect(onChangeMock).toHaveBeenCalledWith(ref.current.proxy, 1, 2);
+    expect(ref.current.state.activeIndex).toBe(1);
   });
 
-  it('should disable auto-play when stopPlay is called', async () => {
-    const stopPlayMock = jest.fn();
-    const component = renderComponent({
-      stopPlay: stopPlayMock,
-      animation: 'auto',
-      animationinterval: 1,
+  it('should navigate to the previous slide on previous button click', async () => {
+    const ref = createRef();
+    const onChangeMock = jest.fn();
+    const { getByLabelText } = renderComponent({
+      ref,
+      animation: 'none',
+      controls: 'navs',
+      onChange: onChangeMock,
       children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
-      ]
-    });
-
-    component.unmount();
-    await waitFor(() => {
-      expect(stopPlayMock).toHaveBeenCalled();
-    });
-  });
-
-  it('should change slides based on animation property', async () => {
-    const { getByText, rerender } = renderComponent({
-      animation: 'slide',
-      children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
-      ]
-    });
-
-    rerender(<WmCarousel animation="auto" />);
-    expect(getByText('Slide 1')).toBeTruthy();
-  });
-  it('should call autoPlay when animation is auto and interval is set', () => {
-    jest.useFakeTimers();
-    const nextMock = jest.spyOn(WmCarousel.prototype, 'next');
-
-    renderComponent({
-      animation: 'auto',
-      animationinterval: 1,
-      children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
+        <View key="slide1">
+          <Text>Slide 1</Text>
+        </View>,
+        <View key="slide2">
+          <Text>Slide 2</Text>
+        </View>,
       ],
     });
 
-    // Start autoPlay
-    const instance = screen.UNSAFE_getByType(WmCarousel).instance;
+    const carouselItem0 = screen.getByTestId('carousel_item_0');
+    const carouselItem1 = screen.getByTestId('carousel_item_1');
 
-    // Pre-set the activeIndex to be less than the children length for the first call
-    instance.setState({ activeIndex: 0 });
+    act(() => {
+      fireEvent(carouselItem0, 'layout', {
+        nativeEvent: {
+          layout: {
+            x: 100,
+            y: 100,
+            width: 200,
+            height: 200,
+          },
+        },
+      });
+    });
 
-    instance.autoPlay();
+    await timer(1000);
 
-    // Check that the interval is set and next is called after 1 second
-    expect(nextMock).not.toHaveBeenCalled();
-    jest.advanceTimersByTime(1000);
-    expect(nextMock).toHaveBeenCalledTimes(1);
+    const nextButton = getByLabelText('next');
+    await act(async () => {
+      fireEvent.press(nextButton); // Go to slide 2 first
+      await timer(500);
+    });
 
-    jest.advanceTimersByTime(1000);
-    expect(nextMock).toHaveBeenCalledTimes(2);
+    expect(onChangeMock).toHaveBeenCalledWith(ref.current.proxy, 2, 1);
+    expect(ref.current.state.activeIndex).toBe(2);
 
-    // Cleanup
-    instance.stopAnimation();
-    jest.clearAllTimers();
-    nextMock.mockRestore();
-});
+    const prevButton = getByLabelText('back');
+    await act(async () => {
+      fireEvent.press(prevButton); // Go back to slide 1
+      await timer(500);
+    });
 
+    expect(screen.getByText('Slide 1')).toBeTruthy();
+    expect(onChangeMock).toHaveBeenCalledWith(ref.current.proxy, 1, 2);
+    expect(ref.current.state.activeIndex).toBe(1);
+  });
+
+  it('should auto-play when animation is "auto" and animationInterval is set', async () => {
+    const ref = createRef();
+    const onChangeMock = jest.fn();
+    renderComponent({
+      ref,
+      onChange: onChangeMock,
+      animation: 'auto',
+      animationinterval: 0.5,
+      children: [
+        <View key="slide1">
+          <Text>Slide 1</Text>
+        </View>,
+        <View key="slide2">
+          <Text>Slide 2</Text>
+        </View>,
+        <View key="slide3">
+          <Text>Slide 3</Text>
+        </View>,
+      ],
+    });
+
+    expect(screen.getByText('Slide 1')).toBeTruthy();
+    expect(screen.getByText('Slide 2')).toBeTruthy();
+    const carouselItem0 = screen.getByTestId('carousel_item_0');
+    const carouselItem1 = screen.getByTestId('carousel_item_1');
+    const carouselItem2 = screen.getByTestId('carousel_item_2');
+
+    act(() => {
+      fireEvent(carouselItem0, 'layout', {
+        nativeEvent: {
+          layout: {
+            x: 100,
+            y: 100,
+            width: 200,
+            height: 200,
+          },
+        },
+      });
+    });
+
+    await act(async () => {
+      await timer(1600);
+    });
+    expect(onChangeMock).toHaveBeenCalledWith(ref.current.proxy, 2, 1);
+    expect(ref.current.state.activeIndex).toBe(2);
+
+    act(() => {
+      fireEvent(carouselItem1, 'layout', {
+        nativeEvent: {
+          layout: {
+            x: 100,
+            y: 100,
+            width: 200,
+            height: 200,
+          },
+        },
+      });
+    });
+
+    await act(async () => {
+      await timer(700);
+    });
+    expect(onChangeMock).toHaveBeenCalledWith(ref.current.proxy, 3, 2);
+
+    act(() => {
+      fireEvent(carouselItem2, 'layout', {
+        nativeEvent: {
+          layout: {
+            x: 100,
+            y: 100,
+            width: 200,
+            height: 200,
+          },
+        },
+      });
+    });
+
+    await act(async () => {
+      await timer(600);
+    });
+    expect(onChangeMock).toHaveBeenCalledWith(ref.current.proxy, 1, 3);
+    expect(ref.current.state.activeIndex).toBe(1);
+  }, 10000);
+
+  // it('should change active slide when swipe gestures are triggered', () => {
+  //   const { getByTestId } = renderComponent({
+  //     children: [
+  //       <View key="slide1" testID="slide1">
+  //         <Text>Slide 1</Text>
+  //       </View>,
+  //       <View key="slide2" testID="slide2">
+  //         <Text>Slide 2</Text>
+  //       </View>,
+  //     ],
+  //   });
+  //   expect(screen).toMatchSnapshot();
+  //   const animatedView = getByTestId('slide1');
+  //   fireEvent(animatedView, 'swipeLeft');
+  //   fireEvent(animatedView, 'swipeRight');
+
+  //   expect(screen.getByText('Slide 1')).toBeTruthy();
+  //   expect(screen.getByText('Slide 2')).toBeTruthy();
+  // });
 
   it('should clear interval when stopAnimation is called', () => {
     jest.useFakeTimers();
@@ -229,8 +413,12 @@ describe('WmCarousel Component', () => {
       animation: 'auto',
       animationinterval: 1,
       children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
+        <View key="slide1">
+          <Text>Slide 1</Text>
+        </View>,
+        <View key="slide2">
+          <Text>Slide 2</Text>
+        </View>,
       ],
     });
 
@@ -246,25 +434,19 @@ describe('WmCarousel Component', () => {
     clearIntervalMock.mockRestore();
   });
 
-  it('should call autoPlay when startAnimation is called', () => {
-    const autoPlayMock = jest.spyOn(WmCarousel.prototype, 'autoPlay');
-
-    renderComponent({
-      animation: 'auto',
-      animationinterval: 1,
-      children: [
-        <View key="slide1"><Text>Slide 1</Text></View>,
-        <View key="slide2"><Text>Slide 2</Text></View>,
-      ],
+  it('should apply the correct styles to the root element', () => {
+    const tree = renderComponent({
+      styles: {
+        root: {
+          rippleColor: '#893334',
+        },
+      },
     });
+    const rootEle = tree.root;
 
-    // Start the animation
-    const instance = screen.UNSAFE_getByType(WmCarousel).instance;
-    instance.startAnimation();
-
-    // Check that autoPlay is called
-    expect(autoPlayMock).toHaveBeenCalled();
-
-    autoPlayMock.mockRestore();
+    expect(rootEle).toHaveStyle({
+      position: 'relative',
+      rippleColor: '#893334',
+    });
   });
 });
