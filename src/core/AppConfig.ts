@@ -11,7 +11,7 @@ export default interface AppConfig {
     appProperties: any;
     appLocale: any;
     url: string;
-    leftNavStyle: any;
+    leftNavWidth: any;
     loadApp: boolean;
     refresh: (complete?: boolean) => void,
     currentPage?: any;
