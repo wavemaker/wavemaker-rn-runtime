@@ -242,7 +242,6 @@ describe('WmSelect', () => {
 
     expect(onChangeEventMock).toHaveBeenCalled();
     expect(onChangefnMock).toHaveBeenCalled();
-    console.log(ref.current.state);
     await waitFor(() => {
       expect(screen.getByText('name0')).toBeTruthy();
     });

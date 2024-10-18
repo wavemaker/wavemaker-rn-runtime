@@ -310,7 +310,6 @@ describe('Test Wizard component', () => {
     renderComponent({ actionsalignment: 'left', ref });
     expect(screen).toMatchSnapshot();
     await timer(300);
-    // console.log(screen.root.children[3].props.style);
     expect(screen.root.children[3].props.style[1].flexDirection).toBe('row');
   });
 
@@ -587,8 +586,6 @@ describe('Test Wizard component', () => {
 
     expect(renderSkeletonSpy).toHaveBeenCalled();
     const viewElement = tree.root;
-    // console.log(viewElement.props.style);
-    // console.log(tree.root.children[0].props);
     expect(viewElement.props.style.backgroundColor).toBe('#eeeeee');
     expect(viewElement.props.children[0].props.style).toContainEqual({
       opacity: 0,

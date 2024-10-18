@@ -158,7 +158,6 @@ describe('WmAudio component', () => {
   // Slider Handling
   it('handles slider correctly', async () => {
     const ref = createRef();
-    console.log('__proto__', Sound.prototype);
     const mockSetPositionAsync = jest.spyOn(
       Sound.prototype,
       'setPositionAsync'

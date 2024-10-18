@@ -10,18 +10,17 @@ const renderComponent = (props = {}) => {
 };
 
 describe('WmCarouselTemplate Component', () => {
-  
   it('should render the component without crashing', () => {
     const tree = renderComponent().toJSON();
-    expect(tree).toMatchSnapshot();  // Ensure it matches the snapshot
-    expect(tree).not.toBeNull();     // The component should not be null
-    expect(tree).toBeDefined();      // The component should be defined
+    expect(tree).toMatchSnapshot(); // Ensure it matches the snapshot
+    expect(tree).not.toBeNull(); // The component should not be null
+    expect(tree).toBeDefined(); // The component should be defined
   });
 
   it('should render the root element with default styles when height is provided', () => {
     const mockStyles = {
       root: {
-        height: '50%',  // Simulating height being passed in the styles
+        height: '50%', // Simulating height being passed in the styles
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
@@ -32,7 +31,7 @@ describe('WmCarouselTemplate Component', () => {
     const tree = renderComponent({ styles: mockStyles });
 
     // Access the root View element
-    const viewEle = tree.UNSAFE_getByType(View);  // Get the root View component
+    const viewEle = tree.UNSAFE_getByType(View); // Get the root View component
     expect(viewEle).toBeDefined();
     expect(viewEle).toHaveStyle({
       height: '50%',
@@ -53,15 +52,14 @@ describe('WmCarouselTemplate Component', () => {
     });
 
     const rootView = tree.root.props.style;
-    console.log(rootView)
     // Check if child text is rendered
     expect(tree.getByText('Carousel Item')).toBeTruthy();
-    expect(tree).toMatchSnapshot()
+    expect(tree).toMatchSnapshot();
   });
 
   it('should render the background component if it exists', () => {
     const tree = renderComponent();
-    const backgroundEle = tree.UNSAFE_getByType(BackgroundComponent);  // Check for the background component
-    expect(backgroundEle).toBeDefined();  // It should be defined if present
+    const backgroundEle = tree.UNSAFE_getByType(BackgroundComponent); // Check for the background component
+    expect(backgroundEle).toBeDefined(); // It should be defined if present
   });
 });

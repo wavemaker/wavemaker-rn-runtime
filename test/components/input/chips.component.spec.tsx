@@ -234,7 +234,6 @@ describe('WmChips', () => {
       expect(screen.getByLabelText('Chips Component')).toBeTruthy();
       expect(screen.getByAccessibilityHint('chips')).toBeTruthy();
     });
-    // console.log('state.props ===', ref.current.state);
   });
 
   it('should be able to select chip when searchable is false', () => {

@@ -176,7 +176,6 @@ describe('Linearlayout component tests', () => {
 
     expect(renderSkeletonSpy).toHaveBeenCalled();
     const viewElement = tree.root;
-    console.log(viewElement.props.style);
     expect(viewElement.props.style.backgroundColor).toBe('#eeeeee');
     expect(viewElement.props.children[0].props.style).toContainEqual({
       opacity: 0,
@@ -199,7 +198,6 @@ describe('Linearlayout component tests', () => {
 
     expect(renderSkeletonSpy).toHaveBeenCalled();
     const viewElement = tree.root;
-    console.log(viewElement.props.style);
     expect(viewElement.props.style.backgroundColor).toBe('#eeeeee');
     expect(viewElement.props.children[0].props.style).toContainEqual({
       opacity: 0,
