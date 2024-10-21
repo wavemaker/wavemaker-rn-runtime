@@ -47,7 +47,8 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
       floatingLabel={props.floatinglabel}
       floatingLabelStyle={this.styles.floatingLabel}
       activeFloatingLabelStyle={this.styles.activeFloatingLabel}
-      style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid]}
+      isInputFocused={ this.state.isInputFocused }
+      style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isInputFocused ? this.styles.focused : {}]}
       keyboardType="numeric"
       placeholderTextColor={this.styles.placeholderText.color as any}
       autoFocus={props.autofocus}

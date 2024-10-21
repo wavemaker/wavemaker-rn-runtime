@@ -50,11 +50,12 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     floatingLabel: string
     floatingLabelStyle:  TextStyle,
     activeFloatingLabelStyle: TextStyle,
-    customDisplayValue?: string
+    customDisplayValue?: string,
+    isInputFocused: boolean
+    autoCapitalize?: string
   }), 
     ref: ForwardedRef<TextInput>) => {
     const [selectRange, setSelectRange] = useState<SelectRange>(null as any);
-    const [isInputFocused, setIsInputFocused] = useState(false);
     const [iMask, setIMask] = useState(null as any);
     const [displayCursor, setDisplayCursor] = useState(false);
     const value = useRef(props.value || '');
@@ -149,11 +150,11 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
       <>
         {props.floatingLabel ? (
           <FloatingLabel
-            moveUp={!!(value.current || isInputFocused || displayValue)}
+            moveUp={!!(value.current || props.isInputFocused || displayValue)}
             label={props.floatingLabel ?? props.placeholder} 
             style={{
               ...(props.floatingLabelStyle || []),
-              ...(isInputFocused ? (props.activeFloatingLabelStyle || {}) : {})
+              ...(props.isInputFocused ? (props.activeFloatingLabelStyle || {}) : {})
             }}/>
         ) : null}
         <TextInput
@@ -168,13 +169,11 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
           } : {}]}
           onFocus={(e) => {
             props.onFocus?.(e);
-            setIsInputFocused(true);
             setDisplayCursor(true);
             element.current = e.target;
           }}
           onBlur={(e) => {
             props?.onBlur?.(e);
-            setIsInputFocused(false);
             setDisplayCursor(false);
           }}
           ref={ref}
@@ -182,6 +181,10 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
           onSelectionChange={onSelectionChange}
           caretHidden={!!selectRange?.end}
           onChangeText={(text) => {
+            if(props.autoCapitalize && props.autoCapitalize === 'characters') {
+              onChangeText(text.toUpperCase());
+              return;
+            }
             onChangeText(text);
           }}
           {...hideInput ? {
@@ -190,6 +193,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
             onChange : () => {}
           }: {}}
           contextMenuHidden={!props.allowContentSelection}
+          autoCapitalize={props.autoCapitalize}
         ></TextInput>
         {
           hideInput ? (

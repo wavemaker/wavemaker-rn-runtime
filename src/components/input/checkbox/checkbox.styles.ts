@@ -61,6 +61,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             color: 'transparent',
           }
       } as WmIconStyles,
+      checkedItem: {} as AllStyle,
+      selectedLabel: {} as AllStyle,
       });
 
 

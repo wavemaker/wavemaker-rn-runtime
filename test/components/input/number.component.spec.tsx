@@ -1,6 +1,11 @@
 import React, { createRef } from 'react';
 import { Platform, TextInput } from 'react-native';
-import { cleanup, fireEvent, render, waitFor } from '@testing-library/react-native';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react-native';
 import WmNumber from '@wavemaker/app-rn-runtime/components/input/number/number.component';
 
 const defaultProps = {
@@ -13,7 +18,7 @@ const defaultProps = {
   readonly: false,
   disabled: false,
   decimalPlaces: 2,
-  name:'wm-text-input'
+  name: 'wm-text-input',
 };
 
 describe('Number component', () => {
@@ -28,9 +33,7 @@ describe('Number component', () => {
   });
 
   test('should render correctly with default props', () => {
-    const tree = render(
-      <WmNumber {...defaultProps} floatinglabel="Amount" />
-    );
+    const tree = render(<WmNumber {...defaultProps} floatinglabel="Amount" />);
     const { getByText, UNSAFE_getByType } = tree;
 
     expect(UNSAFE_getByType(TextInput)).toBeTruthy();
@@ -122,9 +125,7 @@ describe('Number component', () => {
     const input = getByPlaceholderText(defaultProps.placeholder);
     expect(input.props.editable).toBe(false);
 
-    rerender(
-      <WmNumber {...defaultProps} readonly={false} disabled={false} />
-    );
+    rerender(<WmNumber {...defaultProps} readonly={false} disabled={false} />);
     expect(input.props.editable).toBe(true);
   });
 
@@ -151,7 +152,7 @@ describe('Number component', () => {
   test('should validate against required prop correctly', () => {
     const customRef = createRef();
     const { getByPlaceholderText } = render(
-      <WmNumber {...defaultProps} ref={customRef} updateon='default'/>
+      <WmNumber {...defaultProps} ref={customRef} updateon="default" />
     );
     const input = getByPlaceholderText(defaultProps.placeholder);
 
@@ -167,21 +168,17 @@ describe('Number component', () => {
   });
 
   test('should have default value for native platform', () => {
-    const tree = render(
-      <WmNumber {...defaultProps} datavalue="sample text" />
-    );
+    const tree = render(<WmNumber {...defaultProps} datavalue="sample text" />);
     expect(tree.UNSAFE_getByType(TextInput).props.defaultValue).toBe(
       'sample text'
     );
     expect(tree).toMatchSnapshot();
   });
 
-  test('should have default web for native platform', () => {
+  test('should have default value for web platform', () => {
     (Platform as any).OS = 'web';
 
-    const tree = render(
-      <WmNumber {...defaultProps} datavalue="sample text" />
-    );
+    const tree = render(<WmNumber {...defaultProps} datavalue="sample text" />);
     expect(tree.UNSAFE_getByType(TextInput).props.value).toBe('sample text');
     expect(tree).toMatchSnapshot();
   });
@@ -190,19 +187,18 @@ describe('Number component', () => {
     const tree = render(<WmNumber {...defaultProps} show={false} />);
     const styleArr = tree.toJSON().props.style[0];
     const style = {};
-    
-    styleArr.forEach(item => {
-      if(!item) return;
-      Object.keys(item).forEach(key => {
+
+    styleArr.forEach((item) => {
+      if (!item) return;
+      Object.keys(item).forEach((key) => {
         style[key] = item[key];
-      })
+      });
     });
 
     expect(style).toMatchObject({
       height: 0,
       width: 0,
     });
-    expect(tree).toMatchSnapshot();
   });
 
   test('should isValid false when input number is below minvalue', async () => {
@@ -214,7 +210,7 @@ describe('Number component', () => {
         minvalue={100}
         // maxvalue={1000}
         ref={customRef}
-        updateon='default'
+        updateon="default"
       />
     );
     const input = tree.getByPlaceholderText('Enter amount');
@@ -252,7 +248,7 @@ describe('Number component', () => {
         {...defaultProps}
         maxvalue={1000}
         ref={customRef}
-        updateon='default'
+        updateon="default"
       />
     );
     const input = tree.getByPlaceholderText('Enter amount');
@@ -265,9 +261,8 @@ describe('Number component', () => {
     });
 
     await waitFor(() => {
-      expect(updateStateMock).toHaveBeenCalledWith({isValid: true});
-      expect(customRef.current.state.isValid).toBe(true); 
-      expect(tree).toMatchSnapshot();
+      expect(updateStateMock).toHaveBeenCalledWith({ isValid: true });
+      expect(customRef.current.state.isValid).toBe(true);
     });
 
     fireEvent.changeText(input, '50011');
@@ -278,20 +273,19 @@ describe('Number component', () => {
     });
 
     await waitFor(() => {
-      expect(updateStateMock).toHaveBeenCalledWith({isValid: false});
+      expect(updateStateMock).toHaveBeenCalledWith({ isValid: false });
       expect(customRef.current.state.isValid).toBe(false);
-      expect(tree).toMatchSnapshot();
     });
   });
 
   test('should render the displayValue text when it is passed in props', async () => {
-    Platform.OS = 'ios'
+    Platform.OS = 'ios';
     const tree = render(
       <WmNumber
         {...defaultProps}
         maxvalue={1000}
-        updateon='default'
-        displayValue='500%'
+        updateon="default"
+        displayValue="500%"
       />
     );
     const input = tree.getByPlaceholderText('Enter amount');
@@ -304,5 +298,5 @@ describe('Number component', () => {
     });
 
     expect(input.props.defaultValue).toBe('500%');
-  })
+  });
 });

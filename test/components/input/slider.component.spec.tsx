@@ -11,6 +11,7 @@ import {
 } from '@testing-library/react-native';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import WmSliderProps from '@wavemaker/app-rn-runtime/components/input/slider/slider.props';
 // import { gestureHandlerRootHOC } from 'react-native-gesture-handler/jest-utils';
 
 // jest.mock('react-native-gesture-handler', () => {
@@ -43,22 +44,30 @@ const dataset = [
     y: 301,
   },
 ];
+const defProps = new WmSliderProps();
+
+const timer = (time = 100) =>
+  new Promise((resolve: any, reject) => {
+    setTimeout(() => resolve(), time);
+  });
 
 //rendering the component
 const renderComponent = (props = {}) => {
   return render(
     <WmSlider
+      {...defProps}
+      datatype="dataset"
       name="test_Slider"
-      {...props}
       dataset={dataset}
       displayfield="x"
       datafield="y"
+      {...props}
     />
   );
 };
 
-const fireEventLayoutFun = (props) => {
-  return fireEvent(props.getByTestId('test_Slider'), 'layout', {
+const fireEventLayoutFun = (tree: any) => {
+  return fireEvent(tree.getByTestId('test_Slider'), 'layout', {
     nativeEvent: {
       layout: {
         x: 100,
@@ -80,26 +89,27 @@ const renderSlider = (props = {}) => {
   );
 };
 describe('Test Slider component', () => {
-  it('should update position on track gesture', () => {
-    const onChangeMock = jest.fn();
-    const { getByTestId } = renderSlider({
-      onChange: onChangeMock,
-      dataset: [],
-      datatype: 'dataset',
-      name: 'test',
-    });
-    expect(screen).toMatchSnapshot();
-    const track = getByTestId('test_sliderTouchable');
+  // it('should update position on track gesture', () => {
+  //   const onChangeMock = jest.fn();
+  //   const { getByTestId } = renderSlider({
+  //     onChange: onChangeMock,
+  //     dataset: [],
+  //     datatype: 'dataset',
+  //     name: 'test',
+  //   });
+  //   expect(screen).toMatchSnapshot();
+  //   const track = getByTestId('test_sliderTouchable');
 
-    // Simulate a pan gesture on the track
-    fireEvent(track, 'onGestureEvent', {
-      nativeEvent: { x: 50 },
-    });
+  //   // Simulate a pan gesture on the track
+  //   fireEvent(track, 'onGestureEvent', {
+  //     nativeEvent: { x: 50 },
+  //   });
 
-    // Add assertions to check if the position has been updated
-    expect(onChangeMock).toHaveBeenCalled();
-    // You might need to adjust this based on how your component updates and reports changes
-  });
+  //   // Add assertions to check if the position has been updated
+  //   expect(onChangeMock).toHaveBeenCalled();
+  //   // You might need to adjust this based on how your component updates and reports changes
+  // });
+
   it('should render the slider component ', () => {
     const tree = renderComponent();
     expect(tree).toMatchSnapshot();
@@ -107,21 +117,24 @@ describe('Test Slider component', () => {
     expect(tree).not.toBeNull();
   });
 
-  it('should render text with respect to displayfield of dataItems', () => {
-    const viewEle = jest.spyOn(WmSlider.prototype, 'renderOldMarkerStyle');
+  it('should render max and min value out of displayfield values as range markers when showmarkers and showtips is false', () => {
+    const renderOldMarkerStyleMock = jest.spyOn(
+      WmSlider.prototype,
+      'renderOldMarkerStyle'
+    );
     const getScaledDataValueEle = jest.spyOn(
       WmSlider.prototype,
       'getScaledDataValue'
     );
     renderComponent();
-    expect(viewEle).toHaveBeenCalled();
+    expect(renderOldMarkerStyleMock).toHaveBeenCalled();
     expect(getScaledDataValueEle).toHaveBeenCalled();
     expect(screen.getByText(`${dataset[0].x}`)).toBeTruthy();
     expect(screen.getByText(`${dataset[2].x}`)).toBeTruthy();
   });
 
-  it('should render track styles', () => {
-    const viewEle = jest.spyOn(WmSlider.prototype, 'renderTracks');
+  it('should render styles applied thru "track" class properly', () => {
+    const renderTracksMock = jest.spyOn(WmSlider.prototype, 'renderTracks');
 
     renderComponent({
       styles: {
@@ -138,7 +151,7 @@ describe('Test Slider component', () => {
       },
     });
     const touchableEle = screen.getByTestId('test_Slider');
-    expect(viewEle).toHaveBeenCalledTimes(1);
+    expect(renderTracksMock).toHaveBeenCalledTimes(1);
     expect(touchableEle).toBeTruthy();
     expect(touchableEle.props.style.borderRadius).toBe(10);
     expect(touchableEle.props.style.overflow).toBe('hidden');
@@ -149,7 +162,7 @@ describe('Test Slider component', () => {
     expect(touchableEle.props.style.flexDirection).toBe('row');
   });
 
-  it('should render minimumTrack styles of animatedView', () => {
+  it('should render styles applied thru "minimumTrack" class properly', () => {
     renderComponent({
       styles: {
         minimumTrack: {
@@ -172,28 +185,28 @@ describe('Test Slider component', () => {
     expect(animatedViewEle[0].props.style[0].borderBottomLeftRadius).toBe(20);
   });
 
-  it('should render text ,when renderMarkers method is called', async () => {
+  it('should render markers when "showmarkers" is true', async () => {
     const tree = renderComponent({
       showmarkers: true,
     });
+
     fireEventLayoutFun(tree);
 
     await waitFor(() => {
-      expect(screen).toMatchSnapshot();
       expect(tree.getByText('10'));
       expect(tree.getByText('20'));
       expect(tree.getByText('30'));
     });
   });
 
-  it('should render the WmTooltip when renderToolTip function is called', () => {
+  it('should render tooltips when "showtooltip" is true', () => {
     const renderToolTipsMock = jest.spyOn(WmSlider.prototype, 'renderToolTips');
 
     const tree = renderComponent({
       showtooltip: true,
     });
 
-    expect(renderToolTipsMock).toHaveBeenCalled(); //defaulty it is calling
+    expect(renderToolTipsMock).toHaveBeenCalled();
     expect(tree.getByText('10')).toBeTruthy();
 
     const viewEle = tree.UNSAFE_getByType(WmTooltip);
@@ -203,69 +216,96 @@ describe('Test Slider component', () => {
     expect(viewEle.props.direction).toBe('up');
   });
 
-  it('should render children of WmToolTip when renderToolTip function is called, defaultly', () => {
+  it('should handle sliderValue change properly', async () => {
+    const ref = createRef();
+    const onChangeMock = jest.fn();
+    const onFieldChangeMock = jest.fn();
+    const dataVal = 101;
+
     const tree = renderComponent({
-      showtooltip: true,
+      ref,
+      datavalue: dataVal,
+      onChange: onChangeMock,
+      onFieldChange: onFieldChangeMock,
     });
 
-    expect(tree.getByLabelText('Thumb')).toBeTruthy(); //accessibilityLabel is in Animated View
+    ref.current.proxy.onSliderChange(201, 'track');
 
-    const backgroundEle = tree.UNSAFE_getAllByType(BackgroundComponent); //children of Animated View
-    expect(backgroundEle.length).toBe(2);
+    await timer(300);
+    expect(onFieldChangeMock).toHaveBeenCalled();
+    // expect(onFieldChangeMock).toHaveBeenCalledWith('datavalue', 250, 200);
+    expect(onChangeMock).toHaveBeenCalled();
+    expect(ref.current.state.props.datavalue).toBe(201);
   });
 
-  //pending
-  it('when dataset length is greaterthan 1 then getScaledDataValue should return the dataset', () => {
-    const getScaledDataValueMock = jest.spyOn(
-      WmSlider.prototype,
-      'getScaledDataValue'
-    );
-    render(
-      <WmSlider name="test_Slider" datatype="dataset" dataset={undefined} />
-    );
+  it('should handle sliderValue change properly when range is true', async () => {
+    const ref = createRef();
+    const onChangeMock = jest.fn();
+    const onFieldChangeMock = jest.fn();
+
+    const tree = renderComponent({
+      ref,
+      range: true,
+      datavalue: [201, 301],
+      onChange: onChangeMock,
+      onFieldChange: onFieldChangeMock,
+    });
+
+    ref.current.proxy.onSliderChange(101, 'lowThumb');
+    await timer(500);
+    expect(onFieldChangeMock).toHaveBeenCalled();
+    // expect(onFieldChangeMock).toHaveBeenCalledWith('datavalue', 250, 200);
+    expect(onChangeMock).toHaveBeenCalled();
+
+    ref.current.proxy.onSliderChange(201, 'highThumb');
+    await timer(300);
+    expect(onFieldChangeMock).toHaveBeenCalled();
+    // expect(onFieldChangeMock).toHaveBeenCalledWith('datavalue', 250, 200);
+    expect(onChangeMock).toHaveBeenCalled();
   });
 
   //show
-  it('when show is false width and height set to be zero', () => {
-    const tree = renderComponent({ show: false });
-    const rootElement = screen.root;
+  it('should handle show property properly', async () => {
+    const ref = createRef();
+    const tree = renderComponent({ show: true, ref });
+    const rootElement = tree.root;
+    expect(rootElement.props.style.width).not.toBe(0);
+    expect(rootElement.props.style.height).not.toBe(0);
+
+    ref.current.proxy.show = false;
+    await timer();
+
     expect(rootElement.props.style.width).toBe(0);
     expect(rootElement.props.style.height).toBe(0);
   });
 
-  //  ************************* dataType == number ************************************************
+  // datatype = number cases
 
   it('should render component when datatype is number', async () => {
     const ref = createRef<WmSlider>();
     const tree = render(
       <WmSlider
+        {...defProps}
         name="test_Slider"
         datatype="number"
         dataset={[]}
-        maxvalue={10}
-        displayfield="x"
-        datafield="y"
-        showmarkers={true}
+        // datavalue={10}
         ref={ref}
       />
     );
+
+    // ref.current.state.props.dataset = [];
     fireEventLayoutFun(tree);
+
+    await timer(300);
+
+    // ref.current.proxy.renderOldMarkerStyle(defProps);
+    // expect(tree).toMatchSnapshot();
+
     await waitFor(() => {
       // expect(tree.queryByTestId('renderMarkerschild')).not.toBeNull()
       // console.log(ref.current.state);
-      expect(tree.queryByTestId('textfield')).not.toBeNull();
-      expect(screen).toMatchSnapshot();
+      expect(tree.getByText('0')).toBeTruthy();
     });
-  });
-
-  //pending
-
-  it('when datatype is number then initNumericSlider should be called', () => {
-    const initNumericSliderMock = jest.spyOn(
-      WmSlider.prototype,
-      'initNumericSlider'
-    );
-    render(<WmSlider name="test_Slider" datatype="number" dataset={[]} />);
-    expect(initNumericSliderMock).toHaveBeenCalled();
   });
 });

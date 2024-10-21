@@ -74,7 +74,6 @@ export class PropsProvider<T extends BaseProps> {
 
     // sets the property. But, value gets overriden when the original prop changes.
     set(name: string, value: any) {
-        this.oldProps[name] = value;
         const oldValue = this.oldProps[name];
         if(oldValue !== value) {
             this.oldProps[name] = value;

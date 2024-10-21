@@ -73,6 +73,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public hideMode = HideMode.ADD_TO_DOM;
     private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T, S, L>;
+    public _INSTANCE: BaseComponent<T, S, L>;
     public initialized = false;
     public cleanup = [] as Function[];
     public theme = BASE_THEME;
@@ -122,6 +123,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             });
         //@ts-ignore
         this.state.props =this.propertyProvider.get();
+        this._INSTANCE = this;
         //@ts-ignore
         this._showView = !this.props.deferload;
         this.propertyProvider.check();

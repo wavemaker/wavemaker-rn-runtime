@@ -71,7 +71,8 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           floatingLabelStyle={this.styles.floatingLabel}
           activeFloatingLabelStyle={this.styles.activeFloatingLabel}
           placeholderTextColor={this.styles.placeholderText.color as any}
-          style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
+          isInputFocused={ this.state.isInputFocused }
+          style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isInputFocused ? this.styles.focused : {}]}
           keyboardType={this.state.keyboardType}
           autoComplete={props.autocomplete ? 'username' : 'off'}
           autoFocus={props.autofocus}
@@ -87,6 +88,7 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           onChangeText={this.onChangeText.bind(this)}
           onChange={this.invokeChange.bind(this)}
           allowContentSelection={this.styles.text.userSelect === 'text'}
+          autoCapitalize={props.autocapitalize}
         />
     );
   }

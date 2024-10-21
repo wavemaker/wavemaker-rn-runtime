@@ -8,6 +8,7 @@ import { countDecimalDigits, validateField } from '@wavemaker/app-rn-runtime/cor
 
 export class BaseNumberState <T extends BaseNumberProps> extends BaseComponentState<T> {
   isValid: boolean = true;
+  isInputFocused: boolean = false;
   textValue: string = '';
   isDefault = false;
   errorType = '';
@@ -184,25 +185,28 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
   }
 
   onBlur(event: any, isDisplayValuePresent?: boolean) {
-    let newVal = isDisplayValuePresent ? this.state.textValue : event.target.value || this.state.textValue;
+    const textVal = this.state.textValue || '';
+    let newVal = isDisplayValuePresent ? textVal : event.target.value || textVal;
     this.validate(newVal);
     if (newVal === '' || newVal == undefined) {
       setTimeout(() => {
         this.props.triggerValidation && this.props.triggerValidation();
       },10)
     }
-    if (this.state.props.updateon === 'blur') {
+    if (this.state.props.updateon === 'blur' || this.state.props.updateon === 'default') {
       let oldVal = this.state.props.datavalue || '';
-      if (oldVal !== newVal) {
+      if (oldVal !== newVal && this.state.props.updateon === 'blur') {
         this.updateDatavalue(newVal, event, 'blur');
       } else {
         this.invokeEventCallback('onBlur', [event, this.proxy]);
       }
+      this.setState({ isInputFocused: false});
     }
   }
 
   onFocus(event: any) {
     this.invokeEventCallback('onFocus', [ event, this.proxy]);
+    this.setState({ isInputFocused: true});
   }
 
   /**

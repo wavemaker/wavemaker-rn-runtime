@@ -21,7 +21,8 @@ import AppI18nService from './services/app-i18n.service';
 import { Watcher } from './watcher';
 import WmFormAction from '@wavemaker/app-rn-runtime/components/data/form/form-action/form-action.component';
 import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.component';
-import { WmSkeletonStyles } from '../components/basic/skeleton/skeleton.styles';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
+import WmLeftPanel from '@wavemaker/app-rn-runtime/components/page/left-panel/left-panel.component';
 
 export class SkeletonAnimationProps extends BaseProps {
   skeletonanimationresource = "";
@@ -180,6 +181,9 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.Widgets[id] = w;
       if (w instanceof BaseFragment && w !== this) {
         this.fragments[id] = w;
+      }
+      if (w instanceof WmLeftPanel) {
+        this.appConfig.leftNavWidth = w._INSTANCE.styles?.root?.width;
       }
     }
 

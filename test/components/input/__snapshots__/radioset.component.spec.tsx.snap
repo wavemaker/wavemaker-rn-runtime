@@ -150,13 +150,16 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                 <Text
                   accessible={false}
                   style={
-                    {
-                      "alignSelf": "center",
-                      "color": "#888888",
-                      "fontFamily": "Roboto",
-                      "fontSize": 16,
-                      "marginLeft": 8,
-                    }
+                    [
+                      {
+                        "alignSelf": "center",
+                        "color": "#888888",
+                        "fontFamily": "Roboto",
+                        "fontSize": 16,
+                        "marginLeft": 8,
+                      },
+                      null,
+                    ]
                   }
                   testID="undefined_caption0"
                 >
@@ -255,13 +258,16 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                 <Text
                   accessible={false}
                   style={
-                    {
-                      "alignSelf": "center",
-                      "color": "#888888",
-                      "fontFamily": "Roboto",
-                      "fontSize": 16,
-                      "marginLeft": 8,
-                    }
+                    [
+                      {
+                        "alignSelf": "center",
+                        "color": "#888888",
+                        "fontFamily": "Roboto",
+                        "fontSize": 16,
+                        "marginLeft": 8,
+                      },
+                      null,
+                    ]
                   }
                   testID="undefined_caption1"
                 >
@@ -382,13 +388,16 @@ exports[`WmRadioset renders correctly with default props 1`] = `
                 <Text
                   accessible={false}
                   style={
-                    {
-                      "alignSelf": "center",
-                      "color": "#888888",
-                      "fontFamily": "Roboto",
-                      "fontSize": 16,
-                      "marginLeft": 8,
-                    }
+                    [
+                      {
+                        "alignSelf": "center",
+                        "color": "#888888",
+                        "fontFamily": "Roboto",
+                        "fontSize": 16,
+                        "marginLeft": 8,
+                      },
+                      {},
+                    ]
                   }
                   testID="undefined_caption0"
                 >

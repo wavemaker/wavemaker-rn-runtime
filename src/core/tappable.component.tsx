@@ -10,6 +10,7 @@ import { isDefined } from "./utils";
 export const TappableContext = React.createContext<Tappable>(null as any);
 import { UIPreferencesConsumer, UI_PREFERENCES } from "./ui-preferences.context";
 
+export const ParentTappableContext = React.createContext<Tappable>(null as any);
 interface TappableProps {
     testID?: string;
     children?: any
@@ -158,9 +159,13 @@ export class Tappable extends React.Component<TappableProps, any> {
             <UIPreferencesConsumer>
                 {(preferences: UI_PREFERENCES) => {
                     return preferences.enableRipple != false ? (
+                        <ParentTappableContext.Consumer>{(parent) => {
+                            this.setParent(parent);
+                            return( <ParentTappableContext.Provider value={this}>
                     <TouchableRipple rippleColor={this.props.rippleColor} borderless={true} {...commonProps}>
                         <>{this.props.children}</>
-                    </TouchableRipple>): (
+                    </TouchableRipple>
+                    </ParentTappableContext.Provider>)}}</ParentTappableContext.Consumer>): (
                     <TouchableOpacity {...commonProps}>
                         <>{this.props.children}</>
                     </TouchableOpacity>);
