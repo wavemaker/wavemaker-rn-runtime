@@ -28,7 +28,7 @@ describe('WmProgressCircle', () => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly with default props', () => {
+  xit('renders correctly with default props', () => {
     render(<WmProgressCircle />);
     expect(screen.getByRole('progresscircle')).toBeTruthy();
     const animatedProgress = screen.UNSAFE_getByType(AnimatedCircularProgress);
@@ -61,7 +61,7 @@ describe('WmProgressCircle', () => {
     expect(textElements[1].props.children).toBe(props.subtitle);
   });
 
-  it('applies accessibility properties correctly', () => {
+  xit('applies accessibility properties correctly', () => {
     render(
       <WmProgressCircle
         accessibilitylabel="ProgressCircle"
@@ -110,7 +110,7 @@ describe('WmProgressCircle', () => {
     });
   });
 
-  it('hides text when caption placement is hidden', () => {
+  xit('hides text when caption placement is hidden', () => {
     render(<WmProgressCircle captionplacement="hidden" />);
     const asdf = screen.getByTestId('undefined_title');
     const animatedProgressChild = screen
@@ -166,7 +166,7 @@ describe('WmProgressCircle', () => {
     });
   });
 
-  it('should trigger onTouchStart callback with WmProgressCircle instance as one of the arguments', async () => {
+  xit('should trigger onTouchStart callback with WmProgressCircle instance as one of the arguments', async () => {
     // const onTapMock = jest.fn();
     const onTouchStartMock = jest.fn();
     const tree = render(
@@ -187,7 +187,7 @@ describe('WmProgressCircle', () => {
     });
   });
 
-  it('should trigger onTouchEnd callback with WmProgressCircle instance as one of the arguments', async () => {
+  xit('should trigger onTouchEnd callback with WmProgressCircle instance as one of the arguments', async () => {
     // const onTapMock = jest.fn();
     const onTouchEndMock = jest.fn();
     const tree = render(

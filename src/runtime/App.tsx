@@ -52,6 +52,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import BasePartial from './base-partial.component';
 import BasePage from './base-page.component';
 import { WmMemo } from './memo.component';
+import { BaseVariable, VariableEvents } from '../variables/base-variable';
 
 declare const window: any;
 
@@ -93,7 +94,7 @@ const SUPPORTED_SERVICES = {
   AppDisplayManagerService: AppDisplayManagerService,
   i18nService: AppI18nService
 };
-
+(global as any)['axios'] = axios;
 export default abstract class BaseApp extends React.Component implements NavigationService {
 
   Actions: any = {};
@@ -273,11 +274,13 @@ export default abstract class BaseApp extends React.Component implements Navigat
         config.headers = config.headers || {};
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
         console.log('onBeforeService call invoked on ' + config.url);
+        this.notify('beforeServiceCall', config);
         return this.onBeforeServiceCall(config);
       }),
       axios.interceptors.response.use(
         (response: AxiosResponse) => {
           this.onServiceSuccess(response.data, response);
+          this.notify('afterServiceCall', response.config, response);
           return response;
         },(error: AxiosError<any>) => {
           let errorDetails: any = error.response, errMsg;
@@ -293,6 +296,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
           if (error.response?.config.url?.startsWith(this.appConfig.url) && !error.response?.config.url?.includes('/services/') && error.response?.status === 401) {
             this.appConfig.currentPage?.pageName !== 'Login' && this.appConfig.currentPage?.goToPage('Login');
           }
+          this.notify('afterServiceCall', error.config, error);
           return Promise.reject(error)
         })
     ];
@@ -319,13 +323,23 @@ export default abstract class BaseApp extends React.Component implements Navigat
     AppSpinnerService.show({
       spinner: this.appConfig.spinner
     });
-    this.triggerStartUpVariables()
+    this.cleanup.push(...Object.values(this.Variables).map((v: any) => {
+      return v.subscribe(VariableEvents.BEFORE_INVOKE, () => {
+        this.notify(VariableEvents.BEFORE_INVOKE, v);
+      });
+    }));
+    this.cleanup.push(...Object.values(this.Variables).map((v: any) => {
+      return v.subscribe(VariableEvents.AFTER_INVOKE, () => {
+        this.notify(VariableEvents.AFTER_INVOKE, v);
+      });
+    }));
+    this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
+    return this.triggerStartUpVariables()
     .then(() => {
       this.onAppVariablesReady();
       this.isStarted = true;
       this.forceUpdate();
     }, () => {});
-    this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
   }
 
   componentWillUnmount(): void {

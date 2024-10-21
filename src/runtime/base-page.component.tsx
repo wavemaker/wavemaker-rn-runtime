@@ -48,6 +48,9 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
             AppSecurityService.redirectToLogin(this.toHashURL());
           }
         });
+      if (this.App.appConfig.diagnostics.pageStartTime < 0) {
+        this.App.appConfig.diagnostics.pageStartTime = Date.now();
+      }
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {
@@ -89,12 +92,16 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     onAttach() {
       super.onAttach();
       this.setDrawerContent();
+      this.App.appConfig.diagnostics.pageReadyTime = Date.now();
+      this.App.notify('pageAttached', this);
     }
 
     onFragmentReady() {
       return super.onFragmentReady().then(() => {
         this.onContentReady();
         this.App.triggerPageReady(this.pageName, this.proxy as BasePage);
+        this.App.appConfig.diagnostics.pageReadyTime = Date.now(); 
+        this.App.notify('pageReady', this);
         AppSpinnerService.hide();
         this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
           if (this.appConfig.currentPage !== this) {
@@ -108,12 +115,14 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
     componentWillUnmount() {
       super.componentWillUnmount();
+      this.App.notify('pageDestroyed', this);
     }
 
     goToPage(pageName: string, params: any, clearCahe = false) {
       const navigation = (this.props as PageProps).navigation;
       const _params = clone(params);
       _params && delete _params['pageName'];
+      this.App.appConfig.diagnostics.pageStartTime = Date.now();
       if (pageName !== this.pageName || !isEqual(_params || null, this.pageParams || null)) {
         if (pageName === this.pageName) {
           navigation.push(pageName, _params);
@@ -151,6 +160,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
     goBack() {
       const navigation = (this.props as PageProps).navigation;
+      this.App.appConfig.diagnostics.pageStartTime = Date.now();
       if (navigation.canGoBack()) {
         navigation.goBack();
       } else if (window && window.history) {

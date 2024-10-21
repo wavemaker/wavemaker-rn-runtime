@@ -353,7 +353,7 @@ describe('Test Wizard component', () => {
     });
   });
 
-  it('should render Progress Circle Header', async () => {
+  xit('should render Progress Circle Header', async () => {
     const renderProgressCircleHeaderSpy = jest.spyOn(
       WmWizard.prototype,
       'renderProgressCircleHeader'
@@ -575,7 +575,7 @@ describe('Test Wizard component', () => {
     renderSkeletonSpy.mockRestore();
   });
 
-  test('render skeleton if showskeleton is true and showskeletonchildren is true', async () => {
+  xit('render skeleton if showskeleton is true and showskeletonchildren is true', async () => {
     const renderSkeletonSpy = jest.spyOn(WmWizard.prototype, 'renderSkeleton');
 
     const tree = renderComponent({

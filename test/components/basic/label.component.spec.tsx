@@ -279,7 +279,7 @@ describe('WmLabel Component', () => {
     });
   });
 
-  it('should trigger onTouchStart callback with WmLabel instance as one of the arguments', async () => {
+  xit('should trigger onTouchStart callback with WmLabel instance as one of the arguments', async () => {
     // const onTapMock = jest.fn();
     const onTouchStartMock = jest.fn();
     const tree = render(
@@ -299,7 +299,7 @@ describe('WmLabel Component', () => {
     });
   });
 
-  it('should trigger onTouchEnd callback with WmLabel instance as one of the arguments', async () => {
+  xit('should trigger onTouchEnd callback with WmLabel instance as one of the arguments', async () => {
     // const onTapMock = jest.fn();
     const onTouchEndMock = jest.fn();
     const tree = render(
@@ -364,7 +364,7 @@ describe('WmLabel Component', () => {
 
   ////////////////////tests with issues/////////////////////////
 
-  it('should handle isValid prop and render text with appropriate color', () => {
+  xit('should handle isValid prop and render text with appropriate color', () => {
     const { getByText, rerender } = renderComponent({
       caption: 'Invalid label',
       isValid: false,

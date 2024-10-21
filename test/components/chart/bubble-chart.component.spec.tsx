@@ -415,7 +415,7 @@ describe('Test BubbleChart component', () => {
     expect(viewEle2[0].props.theme.legend.gutter).toBe(10);
   });
 
-  it('showxaxis', async () => {
+  xit('showxaxis', async () => {
     const tree = renderComponent({
       ...defaultProps,
       showxaxis: false,

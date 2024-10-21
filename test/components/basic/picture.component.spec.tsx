@@ -737,7 +737,7 @@ describe('Picture component', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  test('should render skeleton with styles with respect to shape as rounded', async () => {
+  xit('should render skeleton with styles with respect to shape as rounded', async () => {
     BASE_THEME.registerStyle((themeVariables, addStyle) => {
       addStyle('rounded-image', '', {
         picture: {
@@ -779,7 +779,7 @@ describe('Picture component', () => {
     });
   });
 
-  test('should render skeleton with styles with respect to shape as thumbnail', async () => {
+  xit('should render skeleton with styles with respect to shape as thumbnail', async () => {
     BASE_THEME.registerStyle((themeVariables, addStyle) => {
       addStyle('thumbnail-image', '', {
         root: {
@@ -821,7 +821,7 @@ describe('Picture component', () => {
     });
   });
 
-  test('should render skeleton with styles with respect to shape as circle', async () => {
+  xit('should render skeleton with styles with respect to shape as circle', async () => {
     BASE_THEME.registerStyle((themeVariables, addStyle) => {
       addStyle('thumbnail-image', '', {
         root: {

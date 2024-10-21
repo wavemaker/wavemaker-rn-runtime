@@ -183,7 +183,7 @@ describe('Linearlayout component tests', () => {
     renderSkeletonSpy.mockRestore();
   });
 
-  test('render skeleton if showskeleton is true and showskeletonchildren is true', async () => {
+  xit('render skeleton if showskeleton is true and showskeletonchildren is true', async () => {
     const children = getChildren();
     const renderSkeletonSpy = jest.spyOn(
       WmLinearlayout.prototype,

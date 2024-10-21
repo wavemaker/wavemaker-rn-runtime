@@ -190,14 +190,17 @@ exports[`WmCheckbox Unit tests renders correctly with default props 1`] = `
   <Text
     accessible={false}
     style={
-      {
-        "alignSelf": "center",
-        "color": "#888888",
-        "fontFamily": "Roboto",
-        "fontSize": 16,
-        "marginLeft": 8,
-        "userSelect": "text",
-      }
+      [
+        {
+          "alignSelf": "center",
+          "color": "#888888",
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "marginLeft": 8,
+          "userSelect": "text",
+        },
+        null,
+      ]
     }
     testID="null_l"
   >

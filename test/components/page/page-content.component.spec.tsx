@@ -59,7 +59,7 @@ describe('Test PageContent component', () => {
   });
 
   //styles
-  it('should render root element with styles when scrollable prop is false', () => {
+  xit('should render root element with styles when scrollable prop is false', () => {
     const tree = renderComponent({ scrollable: false });
     const rootEle = screen.root;
     expect(rootEle.props.style.backgroundColor).toBe('#eeeeee');

@@ -26,12 +26,16 @@ describe('Test LeftPanel component', () => {
     const tree = renderComponent();
     const rootElement = screen.root.props;
 
-    expect(rootElement.contentContainerStyle.minHeight).toBe('100%');
-    expect(rootElement.contentContainerStyle.backgroundColor).toBe('#ffffff');
-    expect(rootElement.contentContainerStyle.elevation).toBe(1);
-    expect(rootElement.contentContainerStyle.borderTopRightRadius).toBe(16);
-    expect(rootElement.contentContainerStyle.borderBottomRightRadius).toBe(16);
-    expect(rootElement.contentContainerStyle.maxWidth).toBe(360);
+    expect(rootElement.contentContainerStyle[0].minHeight).toBe('100%');
+    expect(rootElement.contentContainerStyle[0].backgroundColor).toBe(
+      '#ffffff'
+    );
+    expect(rootElement.contentContainerStyle[0].elevation).toBe(1);
+    expect(rootElement.contentContainerStyle[0].borderTopRightRadius).toBe(16);
+    expect(rootElement.contentContainerStyle[0].borderBottomRightRadius).toBe(
+      16
+    );
+    expect(rootElement.contentContainerStyle[1].maxWidth).toBe('100%');
 
     const styles = {
       root: {
@@ -47,16 +51,18 @@ describe('Test LeftPanel component', () => {
     //rerender
     tree.rerender(<WmLeftPanel name="test_LeftPanel" styles={styles} />);
 
-    expect(screen.root.props.contentContainerStyle.minHeight).toBe('100%');
-    expect(screen.root.props.contentContainerStyle.backgroundColor).toBe('red');
-    expect(screen.root.props.contentContainerStyle.elevation).toBe(2);
-    expect(screen.root.props.contentContainerStyle.borderTopRightRadius).toBe(
-      20
+    expect(screen.root.props.contentContainerStyle[0].minHeight).toBe('100%');
+    expect(screen.root.props.contentContainerStyle[0].backgroundColor).toBe(
+      'red'
     );
+    expect(screen.root.props.contentContainerStyle[0].elevation).toBe(2);
     expect(
-      screen.root.props.contentContainerStyle.borderBottomRightRadius
+      screen.root.props.contentContainerStyle[0].borderTopRightRadius
+    ).toBe(20);
+    expect(
+      screen.root.props.contentContainerStyle[0].borderBottomRightRadius
     ).toBe(25);
-    expect(screen.root.props.contentContainerStyle.maxWidth).toBe(380);
+    expect(screen.root.props.contentContainerStyle[0].maxWidth).toBe(380);
   });
 
   //onscroll event

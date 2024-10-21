@@ -11,7 +11,7 @@ export default interface AppConfig {
     appProperties: any;
     appLocale: any;
     url: string;
-    leftNavStyle: any;
+    leftNavWidth: any;
     loadApp: boolean;
     refresh: (complete?: boolean) => void,
     currentPage?: any;
@@ -27,4 +27,10 @@ export default interface AppConfig {
     getServiceDefinitions: any;
     loggedInUser: any;
     selectedLocale: string;
+    diagnostics: {
+        appStartTime: number,
+        appReadyTime: number,
+        pageStartTime: number,
+        pageReadyTime: number
+    }
 }

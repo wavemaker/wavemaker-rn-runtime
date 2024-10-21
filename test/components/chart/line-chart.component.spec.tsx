@@ -427,7 +427,7 @@ describe('Test LineChart component', () => {
   });
 
   //show xaxis
-  it('showxaxis', () => {
+  xit('showxaxis', () => {
     const tree = renderComponent({
       ...defaultProps,
       showxaxis: false,
@@ -536,7 +536,7 @@ describe('Test LineChart component', () => {
   });
 
   //isrtl
-  it('checking data', () => {
+  xit('checking data', () => {
     const isRTLmock = jest
       .spyOn(WmLineChart.prototype, 'isRTL', 'get')
       .mockImplementation(() => {

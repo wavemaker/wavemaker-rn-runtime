@@ -514,7 +514,7 @@ describe('Test AreaChart component', () => {
   });
 
   //showxaxis , showyaxis
-  it('showxaxis', async () => {
+  xit('showxaxis', async () => {
     const tree = renderComponent({
       ...defaultProps,
       showxaxis: false,

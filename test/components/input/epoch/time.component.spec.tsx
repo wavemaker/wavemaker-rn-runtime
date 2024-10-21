@@ -253,7 +253,11 @@ describe('WmTime Component', () => {
     props.datepattern = 'hh:mm:ss a';
 
     const ref = createRef();
-    const currTime = '0' + new Date().toLocaleTimeString();
+    const hourValue = +new Date().toLocaleTimeString().substring(0, 2);
+    const currTime =
+      hourValue >= 10
+        ? new Date().toLocaleTimeString()
+        : '0' + new Date().toLocaleTimeString();
 
     render(<WmTime {...props} name="time1" ref={ref} />);
 
@@ -299,8 +303,11 @@ describe('WmTime Component', () => {
     window['navigator'] = { userAgent: userAgent };
 
     const ref = createRef();
-
-    const currTime = '0' + new Date().toLocaleTimeString();
+    const hourValue = +new Date().toLocaleTimeString().substring(0, 2);
+    const currTime =
+      hourValue >= 10
+        ? new Date().toLocaleTimeString()
+        : '0' + new Date().toLocaleTimeString();
 
     const tree = renderComponentWithWrappers({
       ...props,

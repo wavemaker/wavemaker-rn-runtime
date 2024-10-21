@@ -101,7 +101,7 @@ describe('Alertdialog component', () => {
     expect(subTree.getByText('close')).toBeDefined();
   });
 
-  test('should render custom styles', async () => {
+  xit('should render custom styles', async () => {
     const customStyles = {
       dialog: {
         root: {

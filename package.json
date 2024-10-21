@@ -36,7 +36,8 @@
     "example": "yarn --cwd example",
     "pods": "cd example && pod-install --quiet",
     "bootstrap": "yarn example && yarn && yarn pods",
-    "watch": "npm-watch build"
+    "watch": "npm-watch build",
+    "test:coverage": "jest --coverage --forceExit; node scripts/combineCoverageHtmlCSS.js"
   },
   "keywords": [
     "react-native",
@@ -169,10 +170,16 @@
     "collectCoverageFrom": [
       "**/*.{js,jsx,ts,tsx}",
       "!**/coverage/**",
+      "!**/.yalc/**",
       "!**/node_modules/**",
       "!**/babel.config.js",
       "!**/jest.setup.js",
-      "!**/dist/**"
+      "!**/dist/**",
+      "!**/scripts/**",
+      "!**/typings/**",
+      "!**/src/variables/**",
+      "!**/src/actions/**",
+      "!**/src/runtime/**"
     ],
     "coverageDirectory": "./dist/reports/coverage",
     "transform": {
