@@ -1,0 +1,286 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WmCarousel Component should render without crashing 1`] = `
+<View
+  style={
+    {
+      "position": "relative",
+      "rippleColor": "transparent",
+    }
+  }
+>
+  <View
+    collapsable={false}
+    onLayout={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "row",
+        "flexWrap": "nowrap",
+        "transform": [
+          {
+            "translateX": 0,
+          },
+        ],
+      }
+    }
+  />
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "height": 64,
+        "justifyContent": "space-between",
+        "marginTop": -64,
+        "position": "absolute",
+        "top": "50%",
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      accessibilityLabel="back"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          undefined,
+        ]
+      }
+      testID="test_carousel_prev_icon_a"
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "backgroundColor": "rgba(255, 255, 255, 0.4)",
+            "borderColor": "transparent",
+            "borderRadius": 48,
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "height": 48,
+            "justifyContent": "center",
+            "marginLeft": 12,
+            "rippleColor": "transparent",
+            "width": 48,
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={32}
+              style={
+                [
+                  {
+                    "color": undefined,
+                  },
+                  {
+                    "color": "#ffffff",
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="test_carousel_prev_icon_icon"
+            >
+              chevron-left
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      accessibilityLabel="next"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          undefined,
+        ]
+      }
+      testID="test_carousel_next_icon_a"
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "backgroundColor": "rgba(255, 255, 255, 0.4)",
+            "borderColor": "transparent",
+            "borderRadius": 48,
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "height": 48,
+            "justifyContent": "center",
+            "marginRight": 12,
+            "rippleColor": "transparent",
+            "width": 48,
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={32}
+              style={
+                [
+                  {
+                    "color": undefined,
+                  },
+                  {
+                    "color": "#ffffff",
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="test_carousel_next_icon_icon"
+            >
+              chevron-right
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "transparent",
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "opacity": 1,
+        "paddingBottom": 4,
+        "paddingTop": 4,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "flexDirection": "row",
+        }
+      }
+    >
+      <View
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#ffffff",
+            "borderRadius": 10,
+            "height": undefined,
+            "left": 0,
+            "marginLeft": 2,
+            "marginRight": 2,
+            "opacity": 1,
+            "paddingBottom": 4,
+            "paddingLeft": 4,
+            "paddingRight": 4,
+            "paddingTop": 4,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": undefined,
+          }
+        }
+      >
+        <View
+          collapsable={false}
+          style={
+            {
+              "height": 1,
+              "width": 1,
+            }
+          }
+        />
+      </View>
+    </View>
+  </View>
+</View>
+`;

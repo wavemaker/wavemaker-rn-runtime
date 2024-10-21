@@ -1,6 +1,6 @@
 import { assign, isUndefined, isNil } from 'lodash';
 import React, { ReactNode } from 'react';
-import { AccessibilityInfo, Platform, TextStyle, ViewStyle } from 'react-native';
+import { AccessibilityInfo, Platform, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { AnimatableProps } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
@@ -19,7 +19,7 @@ import { FixedView } from './fixed-view.component';
 import { TextIdPrefixConsumer } from './testid.provider';
 import { isScreenReaderEnabled } from './accessibility';
 import { Tappable, TappableContext } from './tappable.component';
-import { WmSkeletonStyles } from '../components/basic/skeleton/skeleton.styles';
+import { WmComponentNode } from './wm-component-tree';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -30,6 +30,7 @@ export class BaseComponentState<T extends BaseProps> {
     public animatableProps?: AnimatableProps<ViewStyle> = undefined;
     public props = {} as T;
     public hide? = false;
+    public highlight? = false;
 }
 
 export type BaseStyles = NamedStyles<any> & {
@@ -72,6 +73,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public hideMode = HideMode.ADD_TO_DOM;
     private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T, S, L>;
+    public _INSTANCE: BaseComponent<T, S, L>;
     public initialized = false;
     public cleanup = [] as Function[];
     public theme = BASE_THEME;
@@ -88,12 +90,17 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private i18nService = injector.I18nService.get();
     public testIdPrefix = '';
     private _showView = true;
-    public closestTappable?: Tappable;
+    public closestTappable?: Tappable;   
+    public componentNode: WmComponentNode;
+
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
         this.state = (defaultState || {} as S);
         this.notifier.name = this.props.name || '';
+        this.componentNode = new WmComponentNode({
+            instance: this
+        });
         this.propertyProvider = new PropsProvider<T>(
             assign({show: true}, defaultProps),
             assign({}, markupProps),
@@ -116,6 +123,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             });
         //@ts-ignore
         this.state.props =this.propertyProvider.get();
+        this._INSTANCE = this;
         //@ts-ignore
         this._showView = !this.props.deferload;
         this.propertyProvider.check();
@@ -278,6 +286,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.props.listener.onComponentDestroy(this.proxy);
         }
         this.cleanup.forEach(f => f && f());
+        this.parent?.componentNode?.remove(this.componentNode);
         this.notifier.destroy();
         this.notifier.notify('destroy', []);
     }
@@ -331,6 +340,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     protected setParent(parent: BaseComponent<any, any, any>) {
         if (parent && this.parent !== parent)  {
             this.parent = parent;
+            this.parent.componentNode.add(this.componentNode);
             this.notifier.setParent(parent.notifier);
             this.parentListenerDestroyers = [
                 this.parent.subscribe('forceUpdate', () => {
@@ -379,6 +389,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private setBackground() {
         const bgStyle = this.styles.root as any;
         this._background = (
+            <>
             <BackgroundComponent 
                 image={bgStyle.backgroundImage}
                 position={bgStyle.backgroundPosition}
@@ -387,6 +398,20 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 resizeMode={bgStyle.backgroundResizeMode}
                 style={{borderRadius: this.styles.root.borderRadius}}>
             </BackgroundComponent>
+            {this.state.highlight ? (<View onTouchStart={() => {
+                this.setState({
+                    highlight: false
+                })
+            }} style={[{
+                borderWidth: 2,
+                overflow: 'hidden',
+                backgroundColor: '#FFFF0033', 
+                borderColor: 'orange',
+                borderStyle: 'dashed',
+                zIndex: 1000,
+                borderRadius: 0,
+            }, StyleSheet.absoluteFill]}></View>) : null}
+            </>
         );
         delete (this.styles.root as any)['backgroundImage'];
         delete (this.styles.root as any)['backgroundPosition'];

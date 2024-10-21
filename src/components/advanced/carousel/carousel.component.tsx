@@ -304,6 +304,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             return (
               <Animated.View key={this.generateItemKey(item, index, props)}
                 onLayout={this.addSlideLayout.bind(this, index)}
+                testID={`carousel_item_${index}`}
                 style={[
                   {height: props.type === 'dynamic' ? undefined : '100%'},
                   this.styles.slide,

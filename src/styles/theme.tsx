@@ -66,6 +66,12 @@ export class Theme {
         }
     }
 
+    public enableTrace(flag: boolean) {
+        this.traceEnabled = flag;
+        this.reset();
+        this.children.forEach(t => t.enableTrace(flag));
+    }
+
     public subscribe(event: ThemeEvent, fn: Function) {
         return this.eventNotifer.subscribe(event, fn);
     }

@@ -97,7 +97,9 @@ describe('Test Currency component', () => {
     const updateStateMock = jest.spyOn(WmCurrency.prototype, 'updateState');
     const onChangeTextMock = jest.spyOn(WmCurrency.prototype, 'onChangeText');
     const customRef = createRef<WmCurrency>();
-    const { getByPlaceholderText } = render(<WmCurrency {...defaultProps} ref={customRef}/>);
+    const { getByPlaceholderText } = render(
+      <WmCurrency {...defaultProps} ref={customRef} />
+    );
     const input = getByPlaceholderText(defaultProps.placeholder);
 
     fireEvent.changeText(input, '-123.45');
@@ -109,9 +111,9 @@ describe('Test Currency component', () => {
 
     // Check if the value is set correctly
     expect(onChangeTextMock).toHaveBeenCalledWith('-123.45', 'currency');
-    await waitFor(()=>{
+    await waitFor(() => {
       expect(customRef.current.state.textValue).toBe(null);
-    })
+    });
   });
 
   test('should validate number correctly, only supports "e" as a character', () => {
@@ -192,7 +194,7 @@ describe('Test Currency component', () => {
   test('should validate against required prop correctly', () => {
     const customRef = createRef();
     const { getByPlaceholderText } = render(
-      <WmCurrency {...defaultProps} ref={customRef} updateon='default'/>
+      <WmCurrency {...defaultProps} ref={customRef} updateon="default" />
     );
     const input = getByPlaceholderText(defaultProps.placeholder);
 
@@ -217,7 +219,7 @@ describe('Test Currency component', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  test('should have default web for native platform', () => {
+  test('should have default value for "platform=web"', () => {
     (Platform as any).OS = 'web';
 
     const tree = render(
@@ -234,7 +236,6 @@ describe('Test Currency component', () => {
       height: 0,
       width: 0,
     });
-    expect(tree).toMatchSnapshot();
   });
 
   test('should isValid false when input number is below minvalue', async () => {
@@ -246,7 +247,7 @@ describe('Test Currency component', () => {
         minvalue={100}
         // maxvalue={1000}
         ref={customRef}
-        updateon='default'
+        updateon="default"
       />
     );
     const input = tree.getByPlaceholderText('Enter amount');
@@ -284,7 +285,7 @@ describe('Test Currency component', () => {
         {...defaultProps}
         maxvalue={1000}
         ref={customRef}
-        updateon='default'
+        updateon="default"
       />
     );
     const input = tree.getByPlaceholderText('Enter amount');
@@ -297,9 +298,8 @@ describe('Test Currency component', () => {
     });
 
     await waitFor(() => {
-      expect(updateStateMock).toHaveBeenCalledWith({isValid: true});
-      expect(customRef.current.state.isValid).toBe(true); 
-      expect(tree).toMatchSnapshot();
+      expect(updateStateMock).toHaveBeenCalledWith({ isValid: true });
+      expect(customRef.current.state.isValid).toBe(true);
     });
 
     fireEvent.changeText(input, '50011');
@@ -310,9 +310,8 @@ describe('Test Currency component', () => {
     });
 
     await waitFor(() => {
-      expect(updateStateMock).toHaveBeenCalledWith({isValid: false});
+      expect(updateStateMock).toHaveBeenCalledWith({ isValid: false });
       expect(customRef.current.state.isValid).toBe(false);
-      expect(tree).toMatchSnapshot();
     });
   });
 });

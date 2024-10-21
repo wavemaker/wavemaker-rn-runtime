@@ -16,6 +16,22 @@ export class StorageService {
   removeItem(key: string, callback?: (error?: Error | null) => void): Promise<void> {
     return AsyncStorage.removeItem(this.getKey(key), callback);
   }
+
+  async getAll() {
+    const keys = await AsyncStorage.getAllKeys();
+    const entries = await Promise.all(keys.map(async k => {
+      const v = await AsyncStorage.getItem(k);
+      return {
+        key: k,
+        value: v
+      };
+    }));
+    const o = {} as any;
+    entries.forEach((e) => {
+      o[e.key] = e.value;
+    });
+    return o;
+  }
 }
 
 export default new StorageService();
