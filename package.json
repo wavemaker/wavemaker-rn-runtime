@@ -25,7 +25,7 @@
     "!**/__mocks__"
   ],
   "scripts": {
-    "test": "jest -u --coverage",
+    "test": "jest --coverage",
     "test:theme": "jest \"test/styles/theme.spec.ts\"",
     "typescript": "tsc --noEmit",
     "copy-resources": "mkdir -p ./dist && cp -r ./lib/module ./dist && cp ./package.json ./dist/module",
