@@ -2,6 +2,7 @@ import React, { createRef } from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import WmText from '@wavemaker/app-rn-runtime/components/input/text/text.component';
 import { Platform, TextInput } from 'react-native';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 
 const defaultProps = {
   id: 'wmText',
@@ -280,6 +281,7 @@ describe('Text component', () => {
   });
 
   test('should update the state when hastwowaybinding is enabled', async () => {
+    injector.FOCUSED_ELEMENT.remove = jest.fn();
     const tree = render(
       <WmText 
         {...defaultProps} 
