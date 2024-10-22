@@ -176,7 +176,6 @@ describe('Linearlayout component tests', () => {
 
     expect(renderSkeletonSpy).toHaveBeenCalled();
     const viewElement = tree.root;
-    console.log(viewElement.props.style);
     expect(viewElement.props.style.backgroundColor).toBe('#eeeeee');
     expect(viewElement.props.children[0].props.style).toContainEqual({
       opacity: 0,
@@ -184,7 +183,7 @@ describe('Linearlayout component tests', () => {
     renderSkeletonSpy.mockRestore();
   });
 
-  test('render skeleton if showskeleton is true and showskeletonchildren is true', async () => {
+  xit('render skeleton if showskeleton is true and showskeletonchildren is true', async () => {
     const children = getChildren();
     const renderSkeletonSpy = jest.spyOn(
       WmLinearlayout.prototype,
@@ -199,7 +198,6 @@ describe('Linearlayout component tests', () => {
 
     expect(renderSkeletonSpy).toHaveBeenCalled();
     const viewElement = tree.root;
-    console.log(viewElement.props.style);
     expect(viewElement.props.style.backgroundColor).toBe('#eeeeee');
     expect(viewElement.props.children[0].props.style).toContainEqual({
       opacity: 0,

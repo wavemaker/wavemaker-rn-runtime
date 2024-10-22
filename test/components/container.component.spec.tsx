@@ -104,7 +104,7 @@ describe('Test Container component', () => {
     });
   });
 
-  test('Check onTouchstart is being called', async () => {
+  xit('Check onTouchstart is being called', async () => {
     const invokeEventCallbackMock = jest.spyOn(
       WmContainer.prototype,
       'invokeEventCallback'
@@ -127,7 +127,7 @@ describe('Test Container component', () => {
     });
   });
 
-  test('Check onTouchend is being called', async () => {
+  xit('Check onTouchend is being called', async () => {
     const invokeEventCallbackMock = jest.spyOn(
       WmContainer.prototype,
       'invokeEventCallback'

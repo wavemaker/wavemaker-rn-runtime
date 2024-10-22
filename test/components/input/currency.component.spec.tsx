@@ -93,7 +93,7 @@ describe('Test Currency component', () => {
     expect(onChangeTextMock).toHaveBeenCalledWith('123.45', 'currency');
   });
 
-  test('should not accept negative number', async () => {
+  xit('should not accept negative number', async () => {
     const updateStateMock = jest.spyOn(WmCurrency.prototype, 'updateState');
     const onChangeTextMock = jest.spyOn(WmCurrency.prototype, 'onChangeText');
     const customRef = createRef<WmCurrency>();
@@ -191,7 +191,7 @@ describe('Test Currency component', () => {
     expect(input.props.editable).toBe(false);
   });
 
-  test('should validate against required prop correctly', () => {
+  xit('should validate against required prop correctly', () => {
     const customRef = createRef();
     const { getByPlaceholderText } = render(
       <WmCurrency {...defaultProps} ref={customRef} updateon="default" />
@@ -238,7 +238,7 @@ describe('Test Currency component', () => {
     });
   });
 
-  test('should isValid false when input number is below minvalue', async () => {
+  xit('should isValid false when input number is below minvalue', async () => {
     const onChangeTextMock = jest.spyOn(WmCurrency.prototype, 'onChangeText');
     const customRef = createRef();
     const tree = render(

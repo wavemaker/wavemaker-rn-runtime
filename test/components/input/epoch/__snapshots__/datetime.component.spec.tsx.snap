@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WmDate Component should render with default properties correctly 1`] = `
+exports[`WmDatetime Component should render with default properties correctly 1`] = `
 <View
   accessibilityState={
     {

@@ -69,8 +69,6 @@ describe('Custom component', () => {
       styles: { root: { backgroundColor: 'red' } },
     });
 
-    console.log(tree.toJSON());
-
     expect(tree.toJSON().props.style).toEqual(
       expect.objectContaining({ backgroundColor: 'red' })
     );

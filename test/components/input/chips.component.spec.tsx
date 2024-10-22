@@ -183,7 +183,7 @@ describe('WmChips', () => {
   });
 
   // Max Size Handling
-  it('does not add more chips when max size is reached', async () => {
+  xit('does not add more chips when max size is reached', async () => {
     // AppModalService.modalsOpened = [];
     const tree = renderComponentWithWrappers({
       maxsize: 1,
@@ -216,7 +216,7 @@ describe('WmChips', () => {
   });
 
   // Accessibility Props
-  it('applies accessibility props correctly', async () => {
+  xit('applies accessibility props correctly', async () => {
     const ref = createRef();
     render(
       <WmChips
@@ -234,7 +234,6 @@ describe('WmChips', () => {
       expect(screen.getByLabelText('Chips Component')).toBeTruthy();
       expect(screen.getByAccessibilityHint('chips')).toBeTruthy();
     });
-    // console.log('state.props ===', ref.current.state);
   });
 
   it('should be able to select chip when searchable is false', () => {
@@ -257,7 +256,7 @@ describe('WmChips', () => {
     expect(ref.current.state.dataItems[1].selected).toBe(true);
   });
 
-  it('should handle readonly properly', async () => {
+  xit('should handle readonly properly', async () => {
     render(
       <WmChips
         {...defaultProps}

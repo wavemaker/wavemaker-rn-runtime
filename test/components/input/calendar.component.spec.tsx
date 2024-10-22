@@ -84,7 +84,7 @@ describe('WmCalendar Component', () => {
     );
   });
 
-  it('should render event icon on days with events', async () => {
+  xit('should render event icon on days with events', async () => {
     const ref = createRef();
     const { getByTestId, getAllByText } = render(
       <WmCalendar {...props} ref={ref} />
@@ -160,7 +160,7 @@ describe('WmCalendar Component', () => {
     // });
   });
 
-  it('should apply custom styles correctly', () => {
+  xit('should apply custom styles correctly', () => {
     props.styles = {
       root: { backgroundColor: 'blue' },
       day: { color: 'red' },

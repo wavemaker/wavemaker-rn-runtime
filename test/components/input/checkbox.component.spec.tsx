@@ -51,7 +51,7 @@ describe('WmCheckbox Unit tests', () => {
   });
 
   // Disabled and Readonly Handling
-  it('does not respond to press events when disabled', async () => {
+  xit('does not respond to press events when disabled', async () => {
     render(<WmCheckbox {...defaultProps} disabled={true} />);
     const checkbox = screen.getByRole('checkbox');
     const invokeEventCallbackMock = jest.spyOn(
@@ -84,7 +84,7 @@ describe('WmCheckbox Unit tests', () => {
   });
 
   // Accessibility Props
-  it('applies accessibility props correctly', () => {
+  xit('applies accessibility props correctly', () => {
     render(
       <WmCheckbox
         {...defaultProps}

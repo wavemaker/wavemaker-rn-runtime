@@ -19,7 +19,7 @@ exports[`Test Dialogcontent component should not show component when show is fal
       },
     ]
   }
-  handlerTag={4}
+  handlerTag={3}
   handlerType="NativeViewGestureHandler"
   onGestureHandlerEvent={[Function]}
   onGestureHandlerStateChange={[Function]}

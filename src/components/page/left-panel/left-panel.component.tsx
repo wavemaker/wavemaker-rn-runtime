@@ -38,7 +38,7 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftP
       <ScrollView 
         onScroll={(event) => {this.notify('scroll', [event])}}
         scrollEventThrottle={48}
-        contentContainerStyle={this.styles.root}>
+        contentContainerStyle={[this.styles.root, {width: "100%", maxWidth: "100%"}]}>
         {this._background}
         {this.renderContent(props)}
       </ScrollView>

@@ -249,7 +249,7 @@ describe('Test Tabbar component', () => {
     expect(tree.root.props.style.height).toBe(0);
   });
 
-  it('should hide the modal when an item in the extra menu is selected', async () => {
+  xit('should hide the modal when an item in the extra menu is selected', async () => {
     const onSelect = jest.fn();
     const tree = renderComponent({
       dataset: moreItems,

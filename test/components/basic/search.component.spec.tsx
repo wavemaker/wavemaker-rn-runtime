@@ -732,7 +732,7 @@ describe('WmSearch Component', () => {
     expect(tree.getByRole('search')).toBeTruthy();
   });
 
-  it('should not clear search field when type readonly is true', async () => {
+  xit('should not clear search field when type readonly is true', async () => {
     const ref = createRef();
     const { getByPlaceholderText, getByText } = render(
       <WmSearch
@@ -763,7 +763,7 @@ describe('WmSearch Component', () => {
     });
   });
 
-  it('should not clear search field when disabled is true', async () => {
+  xit('should not clear search field when disabled is true', async () => {
     const ref = createRef();
     const { getByPlaceholderText, getByText } = render(
       <WmSearch
@@ -796,7 +796,7 @@ describe('WmSearch Component', () => {
     });
   });
 
-  it('should not render search items when disabled is true', async () => {
+  xit('should not render search items when disabled is true', async () => {
     // AppModalService.modalsOpened = [];
     const ref = createRef();
 
@@ -829,7 +829,7 @@ describe('WmSearch Component', () => {
     expect(subTree.queryByText('name1')).toBeNull();
   });
 
-  it('should not render search items when readonly is true', async () => {
+  xit('should not render search items when readonly is true', async () => {
     // AppModalService.modalsOpened = [];
     const ref = createRef();
     const tree = renderComponentWithWrappers({

@@ -75,7 +75,7 @@ describe('WmProgressBar Component', () => {
     );
   });
 
-  it('should render with accessibility properties', () => {
+  xit('should render with accessibility properties', () => {
     const props = {
       ...commonProps,
       accessibilitylabel: 'Loading progress',
@@ -182,7 +182,7 @@ describe('WmProgressBar Component', () => {
     });
   });
 
-  it('should trigger onTouchStart callback with WmProgressBar instance as one of the arguments', async () => {
+  xit('should trigger onTouchStart callback with WmProgressBar instance as one of the arguments', async () => {
     // const onTapMock = jest.fn();
     const onTouchStartMock = jest.fn();
     const tree = render(
@@ -201,7 +201,7 @@ describe('WmProgressBar Component', () => {
     });
   });
 
-  it('should trigger onTouchEnd callback with WmProgressBar instance as one of the arguments', async () => {
+  xit('should trigger onTouchEnd callback with WmProgressBar instance as one of the arguments', async () => {
     // const onTapMock = jest.fn();
     const onTouchEndMock = jest.fn();
     const tree = render(

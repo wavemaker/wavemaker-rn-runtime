@@ -34,15 +34,15 @@ describe('TextInput Component', () => {
     const input = tree.UNSAFE_getByType(TextInput);
     act(() => {
       fireEvent(input, 'focus', {
-        target: null
+        target: null,
       });
     });
-    expect(tree).toMatchSnapshot()
+    expect(tree).toMatchSnapshot();
     expect(tree.getByText('Floating Label')).toBeTruthy();
   });
 
   test('should call onChangeText with the correct value', () => {
-    const { getByPlaceholderText } = render(<WMTextInput {...defaultProps}/>);
+    const { getByPlaceholderText } = render(<WMTextInput {...defaultProps} />);
     const input = getByPlaceholderText('Enter text');
     act(() => {
       fireEvent.changeText(input, 'test');
@@ -51,14 +51,13 @@ describe('TextInput Component', () => {
   });
 
   test('should call onFocus and onBlur when input is focused and blurred', () => {
-    const { getByPlaceholderText } = render(<WMTextInput {...defaultProps}/>);
+    const { getByPlaceholderText } = render(<WMTextInput {...defaultProps} />);
     const input = getByPlaceholderText('Enter text');
-    console.log(input);
     act(() => {
       fireEvent(input, 'focus', {
         event: {
-            target: null
-        }
+          target: null,
+        },
       });
     });
     expect(defaultProps.onFocus).toHaveBeenCalled();
@@ -71,7 +70,7 @@ describe('TextInput Component', () => {
 
   test('should mask characters if maskchar is provided', () => {
     const { getByPlaceholderText, queryByText } = render(
-      <WMTextInput {...defaultProps} maskchar="*"/>
+      <WMTextInput {...defaultProps} maskchar="*" />
     );
     const input = getByPlaceholderText('Enter text');
 
@@ -88,11 +87,9 @@ describe('TextInput Component', () => {
       displayformat: '99-999',
     };
 
-    const tree = render(
-      <WMTextInput {...propsWithFormat}/>
-    );
+    const tree = render(<WMTextInput {...propsWithFormat} />);
 
-    expect(tree).toMatchSnapshot()
+    expect(tree).toMatchSnapshot();
 
     const input = tree.UNSAFE_getByType(TextInput);
 
@@ -105,7 +102,7 @@ describe('TextInput Component', () => {
 
   test('should not allow content selection if allowContentSelection is false when platform is android', async () => {
     (Platform as any).OS = 'android';
-    const tree = render(<WMTextInput {...defaultProps}/>);
+    const tree = render(<WMTextInput {...defaultProps} />);
     const input = tree.getByPlaceholderText('Enter text');
 
     act(() => {
@@ -114,9 +111,9 @@ describe('TextInput Component', () => {
       });
     });
 
-    await waitFor(()=>{
-        expect(tree).toMatchSnapshot();
-    })
+    await waitFor(() => {
+      expect(tree).toMatchSnapshot();
+    });
 
     expect(input.props).toHaveProperty('caretHidden', true);
     expect(input.props).toHaveProperty('contextMenuHidden', true);
@@ -131,7 +128,7 @@ describe('TextInput Component', () => {
 
   test('should hide cursor when hideInput is true', () => {
     const { UNSAFE_getByType } = render(
-      <WMTextInput {...defaultProps} displayformat="99-99"/>
+      <WMTextInput {...defaultProps} displayformat="99-99" />
     );
     const input = UNSAFE_getByType(TextInput);
     expect(input.props).toHaveProperty('selectionColor', 'transparent');
@@ -140,7 +137,7 @@ describe('TextInput Component', () => {
 
   test('updates correctly on prop change', () => {
     const { getByPlaceholderText, rerender } = render(
-      <WMTextInput {...defaultProps} value="Initial"/>
+      <WMTextInput {...defaultProps} value="Initial" />
     );
     const input = getByPlaceholderText('Enter text');
 
@@ -149,54 +146,63 @@ describe('TextInput Component', () => {
   });
 
   test('should render custom cursor', () => {
-    const tree = render(<WMTextInput {...defaultProps} displayCursor={true} maskchar="*"/>)
-    
+    const tree = render(
+      <WMTextInput {...defaultProps} displayCursor={true} maskchar="*" />
+    );
+
     fireEvent(tree.getByPlaceholderText('Enter text'), 'focus', {
-        target: null
+      target: null,
     });
 
     expect(tree).toMatchSnapshot();
     expect(tree.getByTestId('wm-custom-cursor')).toBeTruthy();
-  })
+  });
 
   test('should not render custom cursor when testinput is not focused', () => {
-    const tree = render(<WMTextInput {...defaultProps} displayCursor={true} maskchar="*"/>)
-    
+    const tree = render(
+      <WMTextInput {...defaultProps} displayCursor={true} maskchar="*" />
+    );
+
     fireEvent(tree.getByPlaceholderText('Enter text'), 'blur');
 
     expect(tree).toMatchSnapshot();
     expect(tree.queryByTestId('wm-custom-cursor')).toBeNull();
-  })
+  });
 
   test('should not render custom cursor when maskchar prop is falsy', () => {
-    const tree = render(<WMTextInput {...defaultProps} displayCursor={true} maskchar=''/>)
-    
+    const tree = render(
+      <WMTextInput {...defaultProps} displayCursor={true} maskchar="" />
+    );
+
     fireEvent(tree.getByPlaceholderText('Enter text'), 'focus', {
-        target: null
+      target: null,
     });
 
     expect(tree).toMatchSnapshot();
     expect(tree.queryByTestId('wm-custom-cursor')).toBeNull();
-  })
+  });
 
   test('should not render custom cursor when displayformat value is passed', () => {
-    const tree = render(<WMTextInput {...defaultProps} displayCursor={true} displayformat="99-99"/>)
-    
-    fireEvent(tree.UNSAFE_getByType(TextInput), 'focus', {
-        target: null
-    });
-
-    expect(tree).toMatchSnapshot();
-    expect(tree.queryByTestId('wm-custom-cursor')).toBeNull();
-  })
-
-  test('should render the customDisplayValue text when it is passed in props', async () => {
-    Platform.OS = 'ios'
     const tree = render(
       <WMTextInput
         {...defaultProps}
-        customDisplayValue='500%'
+        displayCursor={true}
+        displayformat="99-99"
       />
+    );
+
+    fireEvent(tree.UNSAFE_getByType(TextInput), 'focus', {
+      target: null,
+    });
+
+    expect(tree).toMatchSnapshot();
+    expect(tree.queryByTestId('wm-custom-cursor')).toBeNull();
+  });
+
+  test('should render the customDisplayValue text when it is passed in props', async () => {
+    Platform.OS = 'ios';
+    const tree = render(
+      <WMTextInput {...defaultProps} customDisplayValue="500%" />
     );
     const input = tree.UNSAFE_getByType(TextInput);
 
@@ -211,24 +217,18 @@ describe('TextInput Component', () => {
   });
 
   test('should apply autoCapitalize prop in InputText component', async () => {
-    Platform.OS = 'ios'
+    Platform.OS = 'ios';
     const tree = render(
-      <WMTextInput
-        {...defaultProps}
-        autoCapitalize='characters'
-      />
+      <WMTextInput {...defaultProps} autoCapitalize="characters" />
     );
     const input = tree.UNSAFE_getByType(TextInput);
-    expect(input.props.autoCapitalize).toBe('characters')
+    expect(input.props.autoCapitalize).toBe('characters');
   });
 
   test('should change the text to capital weh autoCapitalize prop is set to characters', async () => {
-    console.log("platform is: ", Platform.OS);
+    console.log('platform is: ', Platform.OS);
     const { UNSAFE_getByType, getByText } = render(
-      <WMTextInput 
-        {...defaultProps} 
-       autoCapitalize='characters'
-      />
+      <WMTextInput {...defaultProps} autoCapitalize="characters" />
     );
 
     const input = UNSAFE_getByType(TextInput);

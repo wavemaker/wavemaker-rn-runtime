@@ -107,6 +107,7 @@ export const AppNavigator = (props: AppNavigatorProps) => {
     pages={appConfig.pages || []}
     landingPage={appConfig.landingPage}></AppStackNavigator>);
   const leftNav = (<AppDrawerNavigator
+      drawerWidth={props.app.appConfig.leftNavWidth}
       type={props.drawerAnimation === 'slide-over' ? 'front' : 'slide'}
       hide={props.hideDrawer}
       content={() => (props.drawerContent && props.drawerContent())  || (<View/>)}

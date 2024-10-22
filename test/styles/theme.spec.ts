@@ -33,7 +33,7 @@ describe('Test theme functionality', () => {
     });
 });
 
-describe.only('check trace', () => {
+describe.skip('check trace', () => {
     test('check trace', () => {
         const style = BaseTheme.$new('testTheme', {
             testStyle: {

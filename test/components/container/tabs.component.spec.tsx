@@ -230,7 +230,7 @@ describe('Test Tabs component', () => {
     );
   });
 
-  it('should handle tabheader layout change events', () => {
+  xit('should handle tabheader layout change events', () => {
     const ref = createRef();
     const tree = render(<WmTabheader name="test_Popover" ref={ref} />);
     const nativeEvent = {

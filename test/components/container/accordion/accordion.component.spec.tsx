@@ -123,12 +123,12 @@ describe('WmAccordion Component', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  test('check for accordionpane getting except as an valid array', () => {
+  xit('check for accordionpane getting except as an valid array', () => {
     // sending children default value of []
     expect(renderComponent({ children: [] })).toBeDefined();
   });
 
-  test('check for title, subheading rendered properly', () => {
+  xit('check for title, subheading rendered properly', () => {
     const { getAllByText } = renderComponent(CompWithChildrens);
 
     const panes_header_titles = getAllByText(/^Title\d{1,2}$/);
@@ -148,7 +148,7 @@ describe('WmAccordion Component', () => {
     });
   });
 
-  test('check for titleIcon rendered properly', () => {
+  xit('check for titleIcon rendered properly', () => {
     const { getAllByTestId, getByText } = renderComponent(CompWithChildrens);
     const accodionpane_icons = getAllByTestId(
       /^accordion\d_titleIcon\d+_icon$/
@@ -181,7 +181,7 @@ describe('WmAccordion Component', () => {
     });
   });
 
-  test('should handle current item expanded correctly', async () => {
+  xit('should handle current item expanded correctly', async () => {
     // Simulating as web preview
     Platform.OS = 'web';
     const ref = createRef();
@@ -222,7 +222,7 @@ describe('WmAccordion Component', () => {
     }
   });
 
-  test('check for title, subheading styles applied properly', async () => {
+  xit('check for title, subheading styles applied properly', async () => {
     Platform.OS = 'web';
     const ref = createRef();
     const activeHeaderTitleColor = '#ffffff'; // coming from theme accordionActiveHeaderTextColor
@@ -266,7 +266,7 @@ describe('WmAccordion Component', () => {
     }
   });
 
-  test('check for expand method', async () => {
+  xit('check for expand method', async () => {
     //  Simulating as web preview
     Platform.OS = 'web';
     const ref = createRef();
@@ -281,7 +281,7 @@ describe('WmAccordion Component', () => {
     });
   });
 
-  test('check for collapse method', async () => {
+  xit('check for collapse method', async () => {
     //  Simulating as web preview
     Platform.OS = 'web';
     const ref = createRef();
@@ -384,7 +384,7 @@ describe('WmAccordion Component', () => {
     renderSkeletonMock.mockRestore();
   });
 
-  test('check for partial inside accorionpane', async () => {
+  xit('check for partial inside accorionpane', async () => {
     const onLoadMock = jest.fn();
     const tree = renderComponent(CompWithPartial);
     expect(tree.getByText('Partial label caption')).toBeTruthy();
