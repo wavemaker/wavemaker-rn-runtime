@@ -278,4 +278,28 @@ describe('Text component', () => {
       expect(input.props.defaultValue).toBe("HELLO")
     })
   });
+
+  test('should update the state when hastwowaybinding is enabled', async () => {
+    const tree = render(
+      <WmText 
+        {...defaultProps} 
+        updateon='blur'
+        hastwowaybinding={true}
+        datavalue={"hello"}
+      />
+    );
+
+    const input = tree.getByPlaceholderText("Enter text");
+
+    await waitFor(()=>{
+      expect(input.props.defaultValue).toBe("hello")
+    })
+
+    fireEvent(input, 'changeText', 'hello world');
+    await new Promise((resolve: any, reject) => setTimeout(()=>{resolve()}, 800));
+    fireEvent(input, 'blur')
+    await new Promise((resolve: any, reject) => setTimeout(()=>{resolve()}, 800));
+
+    expect(input.props.defaultValue).toBe("hello world")
+  });
 });
