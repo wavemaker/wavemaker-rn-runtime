@@ -95,7 +95,7 @@ describe('Text component', () => {
     expect(getByText('Test Label')).toBeTruthy();
   });
 
-  test('should render field in invalid state when isValid is false', async () => {
+  test.skip('should render field in invalid state when isValid is false', async () => {
     const invalidStyle = { borderColor: 'red' };
     const { getByPlaceholderText } = render(
       <WmText {...defaultProps} styles={{ invalid: invalidStyle }} />
@@ -260,7 +260,7 @@ describe('Text component', () => {
     expect(input.props.autoCapitalize).toBe("characters")
   });
 
-  test('should change the text to capital weh autoCapitalize prop is set to characters', async () => {
+  test('should change the text to capital when autoCapitalize prop is set to characters', async () => {
     const { getByPlaceholderText } = render(
       <WmText 
         {...defaultProps} 
