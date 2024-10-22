@@ -50,6 +50,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
       isInputFocused={ this.state.isInputFocused }
       style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isInputFocused ? this.styles.focused : {}]}
       keyboardType="numeric"
+      background={this._background}
       placeholderTextColor={this.styles.placeholderText.color as any}
       autoFocus={props.autofocus}
       editable={props.disabled || props.readonly ? false : true}

@@ -79,6 +79,7 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           editable={props.disabled || props.readonly ? false : true}
           secureTextEntry={props.type === 'password' && !props.maskchar ? true : false}
           displayformat={props.displayformat}
+          background={this._background}
           maskchar={props.maskchar}
           maxLength={props.maxchars}
           placeholder={props.placeholder}

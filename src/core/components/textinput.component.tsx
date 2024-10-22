@@ -52,7 +52,8 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     activeFloatingLabelStyle: TextStyle,
     customDisplayValue?: string,
     isInputFocused: boolean
-    autoCapitalize?: string
+    autoCapitalize?: string,
+    background?: React.ReactNode
   }), 
     ref: ForwardedRef<TextInput>) => {
     const [selectRange, setSelectRange] = useState<SelectRange>(null as any);
@@ -148,6 +149,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     const hideInput = props.displayformat || props.maskchar;
     return (
       <>
+        {props.background}
         {props.floatingLabel ? (
           <FloatingLabel
             moveUp={!!(value.current || props.isInputFocused || displayValue)}
