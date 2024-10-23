@@ -24,7 +24,7 @@ export default class WmContent extends BaseComponent<WmContentProps, WmContentSt
           return (
             <View style={this.styles.root}>
               <KeyboardAvoidingView 
-                behavior="position"
+                behavior={Platform.OS === "ios" ? "padding" : undefined}
                 keyboardVerticalOffset={keyboardOffset}
                 style={{ flex: 1 }}>
                 {this._background}
