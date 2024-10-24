@@ -46,7 +46,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         paddingTop: 8,
         paddingBottom: 8,
         paddingLeft: 16,
-        paddingRight: 16
+        paddingRight: 16,
+        display: 'flex',
+        justifyContent: 'center'
       },
       label: {
         marginVertical: 0.7,
