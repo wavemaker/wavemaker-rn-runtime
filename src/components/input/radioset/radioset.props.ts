@@ -8,5 +8,6 @@ export default class WmRadiosetProps extends BaseDatasetProps {
     md: 1,
     lg: 1,
  };
+ radiosetscroll: boolean = true;
  renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
 }

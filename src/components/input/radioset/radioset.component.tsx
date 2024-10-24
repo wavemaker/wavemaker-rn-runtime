@@ -42,17 +42,19 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     });
   }
 
-  renderChild(item: any, index: any, colWidth: DimensionValue) {
+  renderChild(item: any, index: any, colWidth?: DimensionValue) {
     const displayText = item.displayexp || item.displayfield;
     const value = this.state.props.datafield === 'All Fields' ? this.getItemKey(item.datafield) : item.datafield;
+    const itemStyle = colWidth  ? [{ width: colWidth }, this.styles.item] 
+    : [this.styles.noscrollitem];
     return (
       <TouchableOpacity style={[
-        this.styles.item,
-        item.selected ? this.styles.selectedItem : null,
-        {width: colWidth}]} onPress={this.onPress.bind(this, item)} key={item.key} {...this.getTestPropsForAction()}>
-          <WmIcon {...this.getTestProps('' + index)} iconclass="wi wi-fiber-manual-record" styles={item.selected ? this.styles.checkedRadio : this.styles.uncheckedRadio} disabled={this.state.props.readonly || this.state.props.disabled} accessibilitylabel={`Radio button for ${displayText}`}></WmIcon>
+        itemStyle,
+         item.selected ? this.styles.selectedItem : null]}
+         onPress={this.onPress.bind(this, item)} key={item.key} {...this.getTestPropsForAction("radio"+index)}>
+          <WmIcon id={this.getTestId('radiobutton' + index)} iconclass="wi wi-fiber-manual-record" styles={item.selected ? this.styles.checkedRadio : this.styles.uncheckedRadio} disabled={this.state.props.readonly || this.state.props.disabled}></WmIcon>
           {!isEmpty(this.state.template) && this.props.renderitempartial ?
-          this.props.renderitempartial(item.dataObject, index, this.state.template) : <Text style={this.styles.radioLabel} {...this.getTestPropsForLabel('caption')}>{displayText}</Text>}
+          this.props.renderitempartial(item.dataObject, index, this.state.template) : <Text style={[this.styles.radioLabel, item.selected ? this.styles.selectedLabel : null]} {...this.getTestPropsForLabel('caption'+index)}>{displayText}</Text>}
       </TouchableOpacity>)
   }
 
@@ -81,22 +83,33 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     const props = this.state.props;
     const noOfColumns = props.itemsperrow.xs || 1;
     const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
-    return(
-      <View style={this.styles.group}>
+    return props.radiosetscroll ? (
+      <View style={noOfColumns === 1 ? {} : this.styles.group}>
         {items && items.length ?
           items.map((item: any, index: any) => this.renderChild(item, index, colWidth)): null}
-      </View>)
+      </View>
+      ) : (
+       <View style={[this.styles.group]}>
+          {items && items.length ?
+           items.map((item: any, index: any) => this.renderChild(item, index)): null}
+       </View>
+      )
   }
 
   renderWidget(props: WmRadiosetProps) {
     const items = this.state.dataItems;
-    return (
+    return props.radiosetscroll ? (
       <ScrollView style={this.styles.root}>
         <ScrollView horizontal={true}>
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderRadioButtons(items)}
         </ScrollView>
       </ScrollView>
+    ) : (
+      <View style={[this.styles.root]}>
+        {props.groupby && this.renderGroupby()}
+        {!props.groupby && this.renderRadioButtons(items)}
+      </View>
     );
   }
 }
