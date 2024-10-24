@@ -304,4 +304,27 @@ describe('Text component', () => {
 
     expect(input.props.defaultValue).toBe("hello world")
   });
+
+  test('should update the text after some time when updateon prop is lazy', async () => {
+    const invokeEventCallbackMock = jest.spyOn(
+      WmText.prototype,
+      'invokeEventCallback'
+    );
+
+    const { getByPlaceholderText } = render(
+      <WmText 
+        {...defaultProps} 
+        updateon='lazy'
+      />
+    );
+
+    const input = getByPlaceholderText('Enter text');
+
+    fireEvent(input, 'changeText', 'hello');
+    expect(invokeEventCallbackMock).not.toHaveBeenCalled();
+
+    await new Promise((resolve: any, reject) => setTimeout(()=>{resolve()}, 200));
+
+    expect(invokeEventCallbackMock).toHaveBeenCalledWith('onChange', expect.arrayContaining(['hello']));
+  });
 });
