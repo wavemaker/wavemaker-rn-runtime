@@ -310,7 +310,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
        </View>
         {props.showSearchIcon && props.type === 'search' ? <WmButton styles={this.styles.searchButton}
                   id={this.getTestId('search')}
-                  iconclass={'wm-sl-l sl-search'} onTap={this.searchIconPress.bind(this)}></WmButton> : null}
+                  iconclass={props.iconclass} onTap={this.searchIconPress.bind(this)}></WmButton> : null}
       </View>
     );
   }

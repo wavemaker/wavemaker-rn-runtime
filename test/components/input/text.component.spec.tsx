@@ -1,13 +1,8 @@
 import React, { createRef } from 'react';
-import {
-  act,
-  fireEvent,
-  render,
-  userEvent,
-  waitFor,
-} from '@testing-library/react-native';
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import WmText from '@wavemaker/app-rn-runtime/components/input/text/text.component';
 import { Platform, TextInput } from 'react-native';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
 
 const defaultProps = {
   id: 'wmText',
@@ -100,7 +95,7 @@ describe('Text component', () => {
     expect(getByText('Test Label')).toBeTruthy();
   });
 
-  xit('should render field in invalid state when isValid is false', async () => {
+  test.skip('should render field in invalid state when isValid is false', async () => {
     const invalidStyle = { borderColor: 'red' };
     const { getByPlaceholderText } = render(
       <WmText {...defaultProps} styles={{ invalid: invalidStyle }} />
@@ -144,19 +139,19 @@ describe('Text component', () => {
     expect(getByText('123-123-1234')).toBeTruthy();
   });
 
-  xit('should mask characters accurately when maskchar is provided', async () => {
+  test('should mask characters accurately when maskchar is provided', async () => {
     const maskchar = '*';
     const { getByPlaceholderText, getByText } = render(
-      <WmText {...defaultProps} maskchar={maskchar} updateon="default" />
+      <WmText {...defaultProps} maskchar={maskchar} updateon='default'/>
     );
     const input = getByPlaceholderText('Enter text');
     act(() => {
       fireEvent.changeText(input, '123456');
     });
 
-    await waitFor(() => {
+    await waitFor(()=>{
       expect(getByText('******')).toBeTruthy();
-    });
+    })
   });
 
   test('should hide skeleton when showSkeleton is false', () => {
@@ -255,30 +250,81 @@ describe('Text component', () => {
   test('should assign autoCapitalize prop in textinput component', () => {
     Platform.OS = 'ios';
     const { getByPlaceholderText } = render(
-      <WmText {...defaultProps} autocapitalize="characters" />
+      <WmText 
+        {...defaultProps} 
+        autocapitalize='characters' 
+      />
     );
 
-    const input = getByPlaceholderText('Enter text');
-    expect(input.props.autoCapitalize).toBe('characters');
+    const input = getByPlaceholderText("Enter text");
+    expect(input.props.autoCapitalize).toBe("characters")
   });
 
   test('should change the text to capital when autoCapitalize prop is set to characters', async () => {
     const { getByPlaceholderText } = render(
-      <WmText
-        {...defaultProps}
-        autocapitalize="characters"
-        updateon="default"
+      <WmText 
+        {...defaultProps} 
+        autocapitalize='characters' 
+        updateon='default'
+      />
+    );
+
+    const input = getByPlaceholderText("Enter text");
+
+    fireEvent(input, 'changeText', 'hello');
+
+    expect(input.props.autoCapitalize).toBe("characters")
+
+    await waitFor(()=>{
+      expect(input.props.defaultValue).toBe("HELLO")
+    })
+  });
+
+  test('should update the state when hastwowaybinding is enabled', async () => {
+    injector.FOCUSED_ELEMENT.remove = jest.fn();
+    const tree = render(
+      <WmText 
+        {...defaultProps} 
+        updateon='blur'
+        hastwowaybinding={true}
+        datavalue={"hello"}
+      />
+    );
+
+    const input = tree.getByPlaceholderText("Enter text");
+
+    await waitFor(()=>{
+      expect(input.props.defaultValue).toBe("hello")
+    })
+
+    fireEvent(input, 'changeText', 'hello world');
+    await new Promise((resolve: any, reject) => setTimeout(()=>{resolve()}, 800));
+    fireEvent(input, 'blur')
+    await new Promise((resolve: any, reject) => setTimeout(()=>{resolve()}, 800));
+
+    expect(input.props.defaultValue).toBe("hello world")
+  });
+
+  test('should update the text after some time when updateon prop is lazy', async () => {
+    const invokeEventCallbackMock = jest.spyOn(
+      WmText.prototype,
+      'invokeEventCallback'
+    );
+
+    const { getByPlaceholderText } = render(
+      <WmText 
+        {...defaultProps} 
+        updateon='lazy'
       />
     );
 
     const input = getByPlaceholderText('Enter text');
 
     fireEvent(input, 'changeText', 'hello');
+    expect(invokeEventCallbackMock).not.toHaveBeenCalled();
 
-    expect(input.props.autoCapitalize).toBe('characters');
+    await new Promise((resolve: any, reject) => setTimeout(()=>{resolve()}, 200));
 
-    await waitFor(() => {
-      expect(input.props.defaultValue).toBe('HELLO');
-    });
+    expect(invokeEventCallbackMock).toHaveBeenCalledWith('onChange', expect.arrayContaining(['hello']));
   });
 });
