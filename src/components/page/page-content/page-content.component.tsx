@@ -40,7 +40,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
         <SafeAreaInsetsContext.Consumer>
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
           const keyboardOffset = insets?.bottom || 0;
-          const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + 100 : 0;
+          const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + 100 : keyboardOffset;
           return (
             <KeyboardAvoidingView
               behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -64,7 +64,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
           <SafeAreaInsetsContext.Consumer>
             {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
               const keyboardOffset = insets?.bottom || 0;
-              const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + 100 : 0;
+              const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + 100 : keyboardOffset;
               return (
                 <KeyboardAvoidingView
                   behavior={Platform.OS === 'ios' ? 'padding' : undefined}
