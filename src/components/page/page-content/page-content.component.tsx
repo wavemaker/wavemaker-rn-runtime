@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -8,6 +8,7 @@ import WmPageContentProps from './page-content.props';
 import { DEFAULT_CLASS, WmPageContentStyles } from './page-content.styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.component';
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
 
@@ -33,24 +34,49 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   renderWidget(props: WmPageContentProps) {
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
     //     return ((props.scrollable || isWebPreviewMode()) && !this._showSkeleton) ? (
-    return (props.scrollable || isWebPreviewMode()) ? (
-      <View style={{height: '100%', width: '100%', backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
+      return (props.scrollable || isWebPreviewMode()) ? (
+        <View style={{height: '100%', width: '100%', backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
         {this._background}
-        <ScrollView contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
-          showsVerticalScrollIndicator={showScrollbar}
-          onScroll={(event) => {this.notify('scroll', [event])}}
-          scrollEventThrottle={48}>
-          {props.children}
-        </ScrollView>
-      </View>
-    ) : (
-      <View style={[this.styles.root, 
-        {backgroundColor: this._showSkeleton ? 
-        this.styles.skeleton.root.backgroundColor : 
-        this.styles.root.backgroundColor}]}>
-        {this._background}
-        {props.children}
-      </View>
-    ); 
+        <SafeAreaInsetsContext.Consumer>
+        {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+          const keyboardOffset = insets?.bottom || 0;
+          const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + 100 : 0;
+          return (
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+              keyboardVerticalOffset={verticalOffset}
+              style={{ flex: 1 }}>
+              <ScrollView contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
+                showsVerticalScrollIndicator={showScrollbar}
+                onScroll={(event) => {this.notify('scroll', [event])}}
+                scrollEventThrottle={48}>
+                {props.children}
+              </ScrollView>
+            </KeyboardAvoidingView>
+          )}}
+      </SafeAreaInsetsContext.Consumer>
+      </View>      
+      ) : (
+        <View style={[this.styles.root,
+            {backgroundColor: this._showSkeleton ?
+              this.styles.skeleton.root.backgroundColor : 
+              this.styles.root.backgroundColor}]}>
+          <SafeAreaInsetsContext.Consumer>
+            {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+              const keyboardOffset = insets?.bottom || 0;
+              const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + 100 : 0;
+              return (
+                <KeyboardAvoidingView
+                  behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                  keyboardVerticalOffset={verticalOffset}
+                  style={{ flex: 1 }}>
+                  {this._background}
+                  {props.children}
+                </KeyboardAvoidingView>
+              )}}
+          </SafeAreaInsetsContext.Consumer>
+        </View>
+      );
+    }
   }
-}
+      
