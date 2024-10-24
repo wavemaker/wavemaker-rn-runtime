@@ -299,4 +299,33 @@ describe('Number component', () => {
 
     expect(input.props.defaultValue).toBe('500%');
   });
+
+  test('should update the state when hastwowaybinding is enabled', async () => {
+    const tree = render(
+      <WmNumber 
+        {...defaultProps} 
+        updateon='blur'
+        hastwowaybinding={true}
+        datavalue={"1000"}
+      />
+    );
+
+    const input = tree.getByPlaceholderText("Enter amount");
+
+    await waitFor(()=>{
+      expect(input.props.defaultValue).toBe("1000")
+    })
+
+    fireEvent(input, 'changeText', '10003');
+    fireEvent(input, 'blur', {
+      target: {
+        value: null,
+      },
+    })
+    
+    expect(input.props.defaultValue).toBe("1000");
+    await waitFor(()=>{
+      expect(input.props.defaultValue).toBe("10003")
+    })
+  });
 });
