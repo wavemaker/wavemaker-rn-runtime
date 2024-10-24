@@ -26,7 +26,7 @@ export class WmDatePickerModal extends BaseComponent<
   }
 
   renderWidget() {
-    const { isVisible, minDate, maxDate, onClose, onCancel, onSelect, dateheadertitle, dateconfirmationtitle, datecanceltitle } = this.props;
+    const { isVisible, onClose, onCancel, onSelect, dateheadertitle, dateconfirmationtitle, datecanceltitle } = this.props;
     const { selectedDate } = this.state;
     const { styles } = this;
 

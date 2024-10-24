@@ -18,6 +18,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   public widgetRef: TextInput | null = null;
   isTouched: boolean = false;
   private cursor: any = 0;
+  private timer: ReturnType<typeof setTimeout> | null = null;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultProps, defaultState);
   }
@@ -62,19 +63,46 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   onChange(event: any) {
     if (this.state.props.updateon === 'default') {
       this.updateDatavalue(event.target.value, event);
+    }else if(this.state.props.updateon === 'lazy') {
+      if(this.timer !== null) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      this.timer = setTimeout(() => {
+        this.updateDatavalue(event.target.value, event);
+      }, 100)
     }
   }
 
   onChangeText(value: any) {
-    this.updateState({
-        textValue: value
-      } as S, () => {
-        if (this.state.props.updateon === 'default') {
+    if(this.state.props.updateon === 'lazy') {
+      if(this.timer !== null) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      this.timer = setTimeout(() => {
+        this.updateState({
+          textValue: value
+        } as S, () => {
           this.validate(value);
           this.updateDatavalue(value, null);
+          }
+        );
+      }, 100)
+    }
+    else {
+      this.updateState({
+          textValue: value
+        } as S, () => {
+          if (this.state.props.updateon === 'default') {
+            this.validate(value);
+            this.updateDatavalue(value, null);
+          }
         }
-      }
-    );
+      );
+    }
   }
 
   invokeChange(e: any) {
