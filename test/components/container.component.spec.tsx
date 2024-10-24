@@ -10,6 +10,11 @@ import {
   waitFor,
   screen,
 } from '@testing-library/react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+
+const renderComponent = (props = {}) => {
+  return render(<WmContainer name="test_Container" {...props} />);
+};
 
 describe('Test Container component', () => {
   const defaultProps: WmContainerProps = {
@@ -232,5 +237,18 @@ describe('Test Container component', () => {
     await waitFor(() => {
       expect(onLoadMock).toHaveBeenCalled();
     });
+  });
+
+  it('should render scrollView when scrollable prop is true', () => {
+    renderComponent({ scrollable: true });
+    const viewEle = screen.UNSAFE_queryByType(ScrollView);
+    expect(viewEle).not.toBeNull();
+    expect(viewEle).toBeDefined();
+  });
+
+  it('should not render scrollView when scrollable prop is false', () => {
+    renderComponent({ scrollable: false });
+    const viewEle = screen.UNSAFE_queryByType(ScrollView);
+    expect(viewEle).toBeNull();
   });
 });
