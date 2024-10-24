@@ -15,25 +15,13 @@ export default class WmContent extends BaseComponent<WmContentProps, WmContentSt
   constructor(props: WmContentProps) {
     super(props, DEFAULT_CLASS, );
   }
-
+  
   renderWidget(props: WmContentProps) {
     return (
-      <SafeAreaInsetsContext.Consumer>
-      {(insets = {top: 0, bottom: 0, left: 0, right: 0}) => {  
-         const keyboardOffset = insets?.bottom;
-          return (
-            <View style={this.styles.root}>
-              <KeyboardAvoidingView 
-                behavior="position"
-                keyboardVerticalOffset={keyboardOffset}
-                style={{ flex: 1 }}>
-                {this._background}
-                {props.children}
-              </KeyboardAvoidingView>
-            </View>
-          );
-        }}
-      </SafeAreaInsetsContext.Consumer>
-    );
+      <View style={this.styles.root}>
+        {this._background}
+        {props.children}
+      </View>
+    ); 
   }
 }

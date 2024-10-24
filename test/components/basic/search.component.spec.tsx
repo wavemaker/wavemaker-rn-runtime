@@ -903,4 +903,11 @@ describe('WmSearch Component', () => {
 
     Platform.OS = originalPlatform;
   });
+
+  it('should render with custom icon when iconclass prop is set', async () => {
+    render(<WmSearch {...defaultProps} iconclass='fa fa-edit'/>);
+    
+    expect(screen.getByText('edit')).toBeTruthy();
+    expect(screen).toMatchSnapshot();
+  });
 });

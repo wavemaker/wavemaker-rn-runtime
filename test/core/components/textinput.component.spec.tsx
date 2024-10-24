@@ -240,9 +240,9 @@ describe('TextInput Component', () => {
       },
     });
 
-    expect(input.props.autoCapitalize).toBe('characters');
-    await waitFor(() => {
+    expect(input.props.autoCapitalize).toBe("characters")
+    await waitFor(()=>{
       expect(defaultProps.onChangeText).toHaveBeenCalledWith('HELLO');
-    });
+    })
   });
 });
