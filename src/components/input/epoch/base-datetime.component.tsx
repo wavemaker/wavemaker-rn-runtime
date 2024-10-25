@@ -102,9 +102,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     switch(name) {
       //@ts-ignore
       case 'datavalue':
-        if (!isEqual($old, $new)){
-          this.invokeEventCallback('onChange', [null, this, $new, $old]);
-        }
         this.prevDatavalue = $old;
         if (props.datavalue === CURRENT_TIME) {
           this.monitorAndUpdateCurrentTime();
@@ -192,16 +189,18 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   onDateChange($event: DateTimePickerEvent, date?: Date) {
+    const prevDate = this.format(this.state.dateValue,  this.momentPattern(this.state.props.outputformat as String) as string) || undefined;
     this.validate(date);
     this.modes.shift();
+    const newDate = this.format(date,  this.momentPattern(this.state.props.outputformat as String) as string)
     this.updateState({
       isFocused: false,
       showDatePicker: !!this.modes.length,
       props: {
-        datavalue: this.format(date,  this.momentPattern(this.state.props.outputformat as String) as string),
+        datavalue: newDate,
         timestamp: this.format(date, 'timestamp')
       }
-    } as BaseDatetimeState);
+    } as BaseDatetimeState, () => this.invokeEventCallback('onChange', [null, this, newDate, prevDate]));
   }
 
   onBlur() {
