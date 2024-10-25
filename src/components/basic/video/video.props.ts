@@ -16,4 +16,6 @@ export default class WmVideoProps extends BaseProps {
     accessibilitylabel?: string = undefined;
     hint?: string = undefined;
     accessibilityrole?: AccessibilityRole;
+    skeletonheight?: string = null as any;
+    skeletonwidth?: string = null as any;
 }
