@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { DimensionValue, Text, View } from 'react-native';
 import { ResizeMode, Video, AVPlaybackStatus } from 'expo-av';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -8,6 +8,7 @@ import { DEFAULT_CLASS, WmVideoStyles } from './video.styles';
 import { isString } from 'lodash-es';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
+import { createSkeleton } from '../skeleton/skeleton.component';
 
 export class WmVideoState extends BaseComponentState<WmVideoProps> {}
 
@@ -39,6 +40,28 @@ export default class WmVideo extends BaseComponent<WmVideoProps, WmVideoState, W
       console.error(`Encountered a fatal error during playback: ${status.error}`);
     }
   };
+
+  public renderSkeleton(props: WmVideoProps){
+
+    let skeletonWidth, skeletonHeight;
+    if(this.props.skeletonwidth == "0") {
+      skeletonWidth = 0
+    } else {
+      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
+    }
+
+    if(this.props.skeletonheight == "0") {
+      skeletonHeight = 0
+    } else {
+      skeletonHeight = this.props.skeletonheight || this.styles.root?.height || this.styles.text.fontSize;
+    }
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root,
+      width: skeletonWidth as DimensionValue,
+      height: skeletonHeight as DimensionValue
+    }); 
+   
+  }
 
   renderWidget(props: WmVideoProps) {
     return (
