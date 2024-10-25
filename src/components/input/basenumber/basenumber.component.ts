@@ -168,6 +168,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     new Promise((resolve) => {
       if (props.hastwowaybinding) {
         this.setProp("datavalue", value);
+        this.updateState({props: { "datavalue": value }} as S);
         resolve(true);
       } else {
         this.updateState({
