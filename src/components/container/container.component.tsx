@@ -8,6 +8,7 @@ import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animate
 import { PartialHost, PartialHostState } from './partial-host.component';
 import { createSkeleton } from '../basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '../basic/skeleton/skeleton.styles';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export class WmContainerState extends PartialHostState<WmContainerProps> {
   isPartialLoaded = false;
@@ -56,7 +57,12 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={styles}>
         {this.getBackground()}
         <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions}>
-            <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View>
+            {!props.scrollable ? <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View> : 
+            <ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
+            onScroll={(event) => {this.notify('scroll', [event])}}
+            scrollEventThrottle={48}>
+            {this.renderContent(props)}
+          </ScrollView>}
         </Tappable>
       </Animatedview>
     );

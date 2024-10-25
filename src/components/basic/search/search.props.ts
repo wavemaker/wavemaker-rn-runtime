@@ -27,4 +27,5 @@ export default class WmSearchProps extends BaseDatasetProps {
   renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
   skeletonheight?: string = null as any;
   skeletonwidth?: string = null as any;
+  iconclass?: string = 'wm-sl-l sl-search';
 }

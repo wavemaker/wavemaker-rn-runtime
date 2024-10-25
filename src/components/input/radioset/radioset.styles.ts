@@ -39,6 +39,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         marginRight: -20,
         marginTop: 8
       } as AllStyle,
+      noscrollitem:{
+        flexDirection: 'row',
+        alignContent: 'center',
+        marginTop: 8, 
+        marginLeft: 16 
+      } as AllStyle,
       selectedItem: {} as AllStyle,
       selectedLabel: {} as AllStyle,
       radioLabel: {

@@ -129,6 +129,7 @@ export class LiveVariable extends _LiveVariable {
   }
 
   listRecords(options? : any, onSuccess?: Function, onError?: Function) {
+    this.notify(VariableEvents.BEFORE_INVOKE, [this]);
     this.filters = this.config.filterProvider && this.config.filterProvider();
     if (options) {
       this.filters = deepCopy({} as any, this.filters, options.filterFields ? options.filterFields : options);
@@ -137,6 +138,22 @@ export class LiveVariable extends _LiveVariable {
     options.filterFields = this.filters;
     this.setFilterExpValue(this.filters);
     return super.listRecords(options, onSuccess, onError);
+  }
+
+
+  updateRecord(options?: any, success?: any, error?: any) {
+    this.notify(VariableEvents.BEFORE_INVOKE, [this]);
+    return super.updateRecord(options, success, error);
+  }
+
+  insertRecord(options?: any, success?: any, error?: any) {
+    this.notify(VariableEvents.BEFORE_INVOKE, [this]);
+    return super.insertRecord(options, success, error);
+  }
+
+  deleteRecord(options?: any, success?: any, error?: any) {
+    this.notify(VariableEvents.BEFORE_INVOKE, [this]);
+    return super.deleteRecord(options, success, error);
   }
 
 }
