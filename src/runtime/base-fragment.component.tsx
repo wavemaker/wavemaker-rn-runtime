@@ -325,6 +325,15 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         return ((v as BaseVariable<any>)
           .subscribe(VariableEvents.AFTER_INVOKE, () => this.App.refresh()));
       }));
+      (Object.values({...this.fragmentVariables, ...this.fragmentActions} as BaseVariable<any>))
+      .map(v => {
+        (v as BaseVariable<any>).subscribe(VariableEvents.BEFORE_INVOKE, () => {
+          this.App.notify(VariableEvents.BEFORE_INVOKE, v);
+        });
+        (v as BaseVariable<any>).subscribe(VariableEvents.AFTER_INVOKE, () => {
+          this.App.notify(VariableEvents.AFTER_INVOKE, v);
+        });
+      });
       this.initVariableSpinner();
       this.cleanUpVariablesandActions.push(...Object.values({...this.fragmentVariables, ...this.fragmentActions} as BaseVariable<any>));
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());

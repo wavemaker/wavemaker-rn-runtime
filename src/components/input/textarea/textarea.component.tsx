@@ -70,6 +70,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isInputFocused ? this.styles.focused : {}]}
       multiline={true}
       numberOfLines={4}
+      background={this._background}
       keyboardType={this.state.keyboardType}
       {...opts}
       floatingLabel={props.floatinglabel}
