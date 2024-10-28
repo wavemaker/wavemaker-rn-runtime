@@ -162,6 +162,12 @@ describe('WmRadioset', () => {
     expect(instance.state.template).toBe('custom-template');
   });
 
+  it('check the radiosetscroll prop works correctly', () => {
+    const props = { ...defaultProps, radiosetscroll: false };
+    render(<WmRadioset {...props} />);
+    expect(screen).toMatchSnapshot();
+  });
+
   // Error State Handling
   xit('handles validation errors correctly', () => {
     const ref = createRef();
