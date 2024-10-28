@@ -192,9 +192,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     setProp(propName: string, value: any) {
         this.propertyProvider.set(propName, value);
-        const newProps: any = {}
-        newProps[propName] = value;
-        this.updateState({props: { ...newProps }} as S);
+        this.updateState({props: {}} as S);
     }
 
     setPropDefault(propName: string, value: any) {

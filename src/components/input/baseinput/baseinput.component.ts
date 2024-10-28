@@ -72,7 +72,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
 
       this.timer = setTimeout(() => {
         this.updateDatavalue(event.target.value, event);
-      }, 100)
+      }, 300)
     }
   }
 
@@ -91,7 +91,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
           this.updateDatavalue(value, null);
           }
         );
-      }, 100)
+      }, 300)
     }
     else {
       this.updateState({
@@ -127,6 +127,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     new Promise((resolve) => {
       if (props.hastwowaybinding) {
         this.setProp("datavalue", value);
+        this.updateState({props: { "datavalue": value }} as S);
         resolve(true);
       } else {
         this.updateState({
