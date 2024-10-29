@@ -48,7 +48,11 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
   setActive() {
     this.updateState({
       active: true
-    } as WmWizardstepState);
+    } as WmWizardstepState, () => {
+      if(this.state.showContent) {
+        this.invokeEventCallback('onLoad', [this]);
+      }
+    });
   }
 
   setInActive() {
