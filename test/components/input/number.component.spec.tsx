@@ -328,4 +328,31 @@ describe('Number component', () => {
       expect(input.props.defaultValue).toBe("10003")
     })
   });
+
+   //skeleton loader
+   test('should render skeleton with respect to showskeletonwidth and showskeletonheight when show skeleton is true', () => {
+    const renderSkeletonMock = jest.spyOn(WmNumber.prototype, 'renderSkeleton');
+    const tree = render(<WmNumber {...defaultProps} showskeleton={true} skeletonwidth='100' skeletonheight='50' />)
+    expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
+    const root = tree.root;
+    expect(tree).toMatchSnapshot();
+    expect(root.props.style.borderRadius).toBe(6);
+    expect(root.props.style.paddingLeft).toBe(16);
+    expect(root.props.style.paddingBottom).toBe(8);
+    expect(root.props.style.width).toBe('100');
+    expect(root.props.style.height).toBe('50');
+  })
+
+  test('should render skeleton with respect to provided styles when show skeleton is true', () => {
+    const renderSkeletonMock = jest.spyOn(WmNumber.prototype, 'renderSkeleton');
+    const tree = render(<WmNumber {...defaultProps} showskeleton={true}  />)
+    expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
+    const root = tree.root;
+    expect(tree).toMatchSnapshot();
+    expect(root.props.style.borderRadius).toBe(6);
+    expect(root.props.style.paddingLeft).toBe(16);
+    expect(root.props.style.paddingBottom).toBe(8);
+    expect(root.props.style.width).toBe('100%');
+  })
+  
 });

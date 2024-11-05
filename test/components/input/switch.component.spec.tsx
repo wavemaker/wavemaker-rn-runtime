@@ -237,4 +237,16 @@ describe('WmSwitch', () => {
       })
     );
   });
+
+  it('should render skeleton when showskeleton is true', async () => {
+    const renderSkeletonMock = jest.spyOn(WmSwitch.prototype, 'renderSkeleton');
+    const tree = render(<WmSwitch {...defaultProps} showskeleton={true}/>);
+    const viewEle  = tree.root;
+    await waitFor(()=>{
+      expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
+    })
+    expect(viewEle.children.length).toBe(3);
+    expect(viewEle.props.style.display).toBe('flex');
+    expect(viewEle.props.style.flexDirection).toBe('row');
+  })
 });

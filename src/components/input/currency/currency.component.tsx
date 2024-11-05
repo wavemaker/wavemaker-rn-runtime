@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, DimensionValue } from 'react-native';
 
 import WmCurrencyProps from './currency.props';
 import { CURRENCY_INFO } from '@wavemaker/app-rn-runtime/core/currency-constants';
@@ -12,6 +12,8 @@ import {
 import { isNull } from "lodash";
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { countDecimalDigits, validateInputOnDevice } from '@wavemaker/app-rn-runtime/core/utils';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+
 export class WmCurrencyState extends BaseNumberState<WmCurrencyProps> {
   currencySymbol: any;
 }
@@ -43,6 +45,28 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     }
     classes.push(super.getStyleClassName());
     return classes.join(' ');
+  }
+
+  public renderSkeleton(props: WmCurrencyProps): React.ReactNode { 
+    let skeletonWidth, skeletonHeight;
+    
+    if(this.props.skeletonwidth == "0") {
+      skeletonWidth = 0
+    } else {
+      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
+    }
+
+    if(this.props.skeletonheight == "0") {
+      skeletonHeight = 0
+    } else {
+      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
+    }
+
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root,
+      width: skeletonWidth as DimensionValue,
+      height: skeletonHeight as DimensionValue
+    })
   }
 
   renderWidget(props: WmCurrencyProps) {

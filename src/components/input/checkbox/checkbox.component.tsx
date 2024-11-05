@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { DimensionValue, Text, TouchableOpacity, View } from 'react-native';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -8,6 +8,7 @@ import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 import WmCheckboxProps from './checkbox.props';
 import { DEFAULT_CLASS, WmCheckboxStyles } from './checkbox.styles';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmCheckboxState extends BaseComponentState<WmCheckboxProps> {
   isChecked: boolean = false;
@@ -68,6 +69,55 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
         }
         this.invokeEventCallback('onBlur', [ null, this.proxy ]);
       });
+  }
+
+  public renderSkeleton(props: WmCheckboxProps): React.ReactNode {
+    let skeletonWidth, skeletonHeight;
+    if(this.props.skeletonwidth === "0") {
+      skeletonWidth = 0
+    } else {
+      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
+    }
+
+    if(this.props.skeletonheight === "0") {
+      skeletonHeight = 0
+    } else {
+      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
+    }
+    const createSkeletonFun = (skeletonWidth:any, skeletonHeight:any, skeletonStyles:any) => {
+      return createSkeleton(this.theme, skeletonStyles, {
+        ...this.styles.root,
+        width: skeletonWidth as DimensionValue,
+        height: skeletonHeight as DimensionValue
+      })
+    }
+
+    const  handleAction = (skeletonWidth:any,skeletonHeight:any) => {
+      if (this.state.props.caption) {
+       return (
+        <View style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
+          {
+            createSkeletonFun(skeletonWidth,skeletonHeight,this.styles.skeleton)
+          }
+          {
+            createSkeletonFun(skeletonWidth, skeletonHeight, {
+              root:{
+                width:100,
+                height:16,
+                borderRadius: 4,
+                marginLeft:8,
+              }
+            })
+          }
+        </View>
+       )
+      } else {
+        return createSkeletonFun(skeletonWidth, skeletonHeight, this.styles.skeleton)
+      }
+    };
+    return (
+      <>{handleAction(skeletonWidth,skeletonHeight)}</>
+    )
   }
 
   renderWidget(props: WmCheckboxProps) {

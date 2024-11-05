@@ -1,5 +1,5 @@
-import React from 'react';
-import {Text, View} from "react-native";
+import React, { useRef } from 'react';
+import {DimensionValue, LayoutChangeEvent, Text, View} from "react-native";
 import { isEqual, find } from 'lodash';
 
 import WmSwitchProps from './switch.props';
@@ -8,6 +8,7 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import { BaseDatasetComponent, BaseDatasetState } from '../basedataset/basedataset.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmSwitchState extends BaseDatasetState<WmSwitchProps> {}
 
@@ -44,6 +45,50 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     this.invokeEventCallback('onTap', [ event, this.proxy ]);
   }
 
+  public renderSkeleton(props: WmSwitchProps): React.ReactNode {
+    const items = this.state.dataItems;
+    let skeletonWidth:any, skeletonHeight:any;
+    if(this.props.skeletonwidth == "0") {
+      skeletonWidth = 0
+    } else {
+      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
+    }
+
+    if(this.props.skeletonheight == "0") {
+      skeletonHeight = 0
+    } else {
+      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
+    }
+    
+    const createSkeletonFun = (skeletonWidth:any, skeletonHeight:any,skeletonStyles:any) => {
+      return (
+        createSkeleton(this.theme, skeletonStyles, {
+          ...this.styles.root,
+          width: skeletonWidth as DimensionValue,
+          height: skeletonHeight as DimensionValue
+        }))} 
+
+    return (items && items.length ?
+      <View style={{display:'flex', flexDirection:'row'}}>{items.map((item: any, index: any) => 
+        index === 0 ?createSkeletonFun(skeletonWidth, skeletonHeight,{root: {
+          width:64,
+          height: 40,
+          paddingLeft: 16,
+          paddingRight: 16,
+          borderTopLeftRadius:18,
+          borderBottomLeftRadius:18,
+       }})
+        : index === items.length-1 ? createSkeletonFun(skeletonWidth, skeletonHeight,{root: {
+          width:64,
+          height: 40,
+          paddingLeft: 16,
+          paddingRight: 16,
+          borderTopRightRadius:18,
+          borderBottomRightRadius:18,
+       }})
+        : createSkeletonFun(skeletonWidth, skeletonHeight,this.styles.skeleton)
+      )}</View>   : null)
+  }
   renderChild(item: any, index: any) {
     let btnClass = 'button';
     const props = this.state.props;

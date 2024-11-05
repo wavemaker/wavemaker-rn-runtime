@@ -25,8 +25,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         skeleton: {
           root: {
-            width: '100%',
-            height: 16
+            width: 20,
+            height: 20,
+            borderRadius: 4,
           }
         } as any as WmSkeletonStyles,
         checkicon : {

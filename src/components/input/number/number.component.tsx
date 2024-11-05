@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { DimensionValue, Platform } from 'react-native';
 import { isNull } from 'lodash';
 
 import WmNumberProps from './number.props';
@@ -10,6 +10,7 @@ import {
   BaseNumberState
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmNumberState extends BaseNumberState<WmNumberProps> {
   keyboardType: any;
@@ -28,6 +29,28 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
     }
     classes.push(super.getStyleClassName());
     return classes.join(' ');
+  }
+
+  public renderSkeleton(props: WmNumberProps): React.ReactNode { 
+    let skeletonWidth, skeletonHeight;
+    
+    if(this.props.skeletonwidth == "0") {
+      skeletonWidth = 0
+    } else {
+      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
+    }
+
+    if(this.props.skeletonheight == "0") {
+      skeletonHeight = 0
+    } else {
+      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
+    }
+
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root,
+      width: skeletonWidth as DimensionValue,
+      height: skeletonHeight as DimensionValue
+    })
   }
 
   renderWidget(props: WmNumberProps) {
