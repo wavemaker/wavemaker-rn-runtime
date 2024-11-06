@@ -218,7 +218,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   renderWidget(props: WmFormFieldProps) {
     var childrenWithProps = React.Children.map(props.renderFormFields(this.proxy).props.children, (child) => {
       return React.cloneElement(child, {
-          datavalue: props.datavalue,
+          datavalue: props.datavalue || child?.props?.datavalue,
           value: this.value,
           isValid: this.state.isValid,
           maskchar: props.maskchar,
