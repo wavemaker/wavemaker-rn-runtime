@@ -191,6 +191,11 @@ export default abstract class BaseApp extends React.Component implements Navigat
     return this.commonPartial?.Widgets;
   }
 
+  async onBeforePageLeave(currentPage: string, nextPage: string){
+    //method can be override by the user from studio;
+    return true;
+  }
+
   goToPage(pageName: string, params: any)  {
     return this.appConfig.currentPage?.goToPage(pageName, params);
   }
@@ -493,7 +498,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
           <SafeAreaInsetsContext.Consumer>
             {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
               (this.getProviders(
-                (<SafeAreaView  style={{flex: 1}}>
+                (<SafeAreaView  style={{flex: 1}}> 
                   <StatusBar />
                   <ThemeProvider value={this.appConfig.theme}>
                   <FixedViewContainer>
