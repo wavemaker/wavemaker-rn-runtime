@@ -17,6 +17,17 @@ exports[`Number component should have default value for native platform 1`] = `
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
+          {
+            "borderRadius": 6,
+          }
+        }
+      />
+    </React.Fragment>
+  }
   caretHidden={false}
   contextMenuHidden={false}
   defaultValue="sample text"
@@ -64,6 +75,17 @@ exports[`Number component should have default value for web platform 1`] = `
   activeFloatingLabelStyle={{}}
   allowContentSelection={true}
   autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
+          {
+            "borderRadius": 6,
+          }
+        }
+      />
+    </React.Fragment>
+  }
   caretHidden={false}
   contextMenuHidden={false}
   editable={true}
@@ -183,6 +205,17 @@ exports[`Number component should render correctly with default props 1`] = `
     }
     allowContentSelection={true}
     autoFocus={null}
+    background={
+      <React.Fragment>
+        <BackgroundComponent
+          style={
+            {
+              "borderRadius": 6,
+            }
+          }
+        />
+      </React.Fragment>
+    }
     caretHidden={false}
     contextMenuHidden={false}
     defaultValue=""
