@@ -4,6 +4,7 @@ const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const tar = require('tar');
 const execa = require('execa');
+const path = require("path");
 
 async function updatePackageVersion(packagePath, key, version) {
     let content = fs.readFileSync(packagePath, 'utf8');
@@ -19,7 +20,8 @@ async function postBuild(runtimeVersion) {
     });
     packageData.main = 'index';
     packageData.module = 'index';
-    packageData['devDependencies']['@wavemaker/variables'] = runtimeVersion;
+    //there is this dependency already present in the dependencies. why again in devDependencies?
+    // packageData['devDependencies']['@wavemaker/variables'] = runtimeVersion;
     packageData.exports = {
       "./": "./"
     };
@@ -29,11 +31,20 @@ async function postBuild(runtimeVersion) {
     console.log('Post Build successful!!!');
 }
 
-async function prepareNpmPackages() {
-    fs.copySync(`${projectDir}/dist/module`, `${projectDir}/dist/npm-packages/app-rn-runtime`, {
-        filter: p => !p.startsWith('/node_modules/')
-    });
-    await execa('tar', ['-czf', 'dist/npm-packages/app-rn-runtime.tar.gz', '-C', 'dist/npm-packages', 'app-rn-runtime']);
+async function prepareNpmPackages(runtimeVersion) {
+  let tarballName = `wavemaker-app-rn-runtime-${runtimeVersion}.tgz`
+  fs.copySync(`${projectDir}/dist/module`, `${projectDir}/dist/npm-packages/package`, {
+    filter: p => !p.startsWith('/node_modules/')
+  });
+  await execa('npm', ['install', '--package-lock-only'], {
+    'cwd': `${projectDir}/dist/npm-packages/package`
+  });
+  await execa('tar', ['-czf', `dist/npm-packages/${tarballName}`, '-C', 'dist/npm-packages', 'package'], {
+    'cwd': `${projectDir}`
+  });
+  let tarballPath = path.join(__dirname, `../dist/npm-packages/${tarballName}`)
+  const {stdout} = await execa('node', ['../process-npm-package-stats.js', `--path=${tarballPath}`, '--packageName=@wavemaker/app-rn-runtime', `--publishVersion=${runtimeVersion}`]);
+  console.log(stdout);
 }
 
 async function pushToLocalRepo() {
@@ -58,7 +69,7 @@ yargs(hideBin(process.argv)).command('post-build',
     }, (argv) => {
         postBuild(argv.runtimeVersion).then(() => {
             if (argv.production) {
-                return prepareNpmPackages();
+                return prepareNpmPackages(argv.runtimeVersion);
             } else {
                 return pushToLocalRepo();
             }

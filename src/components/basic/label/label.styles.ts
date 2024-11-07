@@ -70,6 +70,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle('label-warning', '', getLabelStyles(themeVariables.labelWarningColor, themeVariables.labelWarningContrastColor));
   addStyle('label-test', '', getLabelStyles('yellow', 'red'));
   addStyle('label-test1', '', getLabelStyles('blue', 'orange'));
+  addStyle('label-test111', '', getLabelStyles('grey', 'red'));
+  addStyle('label-test11112', '', getLabelStyles('green', 'yellow'));
 
   const getTextStyles = (color: string) => {
     return {
