@@ -159,7 +159,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     if (value === oldValue) {
       return;
     }
-    const validNumber = this.isValidNumber(model) || value == oldValue + '.';
+    const validNumber = this.isValidNumber(model) || value === oldValue + '.';
     if (!validNumber) {
       this.invokeEventCallback('onError', [ event, this.proxy, value, oldValue ]);
       return;
@@ -262,11 +262,11 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
    */
   private getValueInRange(value: number): number {
     const props = this.state.props;
-    if (!isNil(value) && !isNaN(props.minvalue) && value < props.minvalue) {
+    if (props.minvalue && !isNil(value) && !isNaN(props.minvalue) && value < props.minvalue) {
       this.updateState({ errorType: 'minvalue'} as S);
       return props.minvalue;
     }
-    if (!isNil(value) && !isNaN(props.maxvalue) && value > props.maxvalue) {
+    if (props.maxvalue && !isNil(value) && !isNaN(props.maxvalue) && value > props.maxvalue) {
       this.updateState({ errorType: 'maxvalue'} as S);
       return props.maxvalue;
     }

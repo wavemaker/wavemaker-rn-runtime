@@ -6,4 +6,6 @@ export default class WmAudioProps extends BaseProps {
     autoplay = false;
     loop = false;
     muted = false;
+    skeletonheight?: string = null as any;
+    skeletonwidth?: string = null as any;
 }

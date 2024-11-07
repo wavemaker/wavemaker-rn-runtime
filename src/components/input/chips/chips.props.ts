@@ -10,4 +10,6 @@ export default class WmChipsProps extends BaseDatasetProps {
   maxsize: number = null as any;
   inputposition: string = 'last';
   invokeEvent?: Function;
+  skeletonheight?: string = null as any;
+  skeletonwidth?: string = null as any;
 }

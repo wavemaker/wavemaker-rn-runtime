@@ -118,7 +118,27 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       this.App.notify('pageDestroyed', this);
     }
 
-    goToPage(pageName: string, params: any, clearCahe = false) {
+    async canNavigate (currentPage: string, nextPage: string) {
+      let navigate = true;
+      navigate = await this.onBeforePageLeave(currentPage, nextPage);
+      if(!navigate){
+        navigate = await this.App.onBeforePageLeave(currentPage, nextPage);
+      }
+
+      return navigate;
+    }
+
+    async onBeforePageLeave(currentPage: string, nextPage: string) {
+      //method can be override by the user from studio;
+      return true;
+    }
+
+    async goToPage(pageName: string, params: any, clearCahe = false) {
+      const isNavigable = await this.canNavigate(this.pageName, pageName)
+      if(!isNavigable){
+        return Promise.resolve();
+      }
+
       const navigation = (this.props as PageProps).navigation;
       const _params = clone(params);
       _params && delete _params['pageName'];
@@ -158,8 +178,18 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       return hash + (paramStr ? `?${paramStr}` : '');
     }
 
-    goBack() {
+    async goBack() {
       const navigation = (this.props as PageProps).navigation;
+      const routes = navigation.getState()?.routes;
+      let isNavigable = true;
+
+      if(navigation.canGoBack()){
+        isNavigable = await this.canNavigate(this.pageName, routes[routes.length - 2].name)
+      }
+      if(!isNavigable){
+        return Promise.resolve();
+      }
+
       this.App.appConfig.diagnostics.pageStartTime = Date.now();
       if (navigation.canGoBack()) {
         navigation.goBack();

@@ -3,6 +3,7 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import { WmSliderStyles } from '../../input/slider/slider.styles';
 import { WmIconStyles } from '../icon/icon.styles';
 import Color from 'color';
+import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
 
 export type WmAudioStyles = BaseStyles & {
     playIcon: WmIconStyles
@@ -10,6 +11,7 @@ export type WmAudioStyles = BaseStyles & {
     muteIcon: WmIconStyles
     unmuteIcon: WmIconStyles
     slider: WmSliderStyles
+    skeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-audio';
@@ -65,7 +67,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             thumb: {
                 backgroundColor: themeVariables.defaultColor3
             }
-        } as WmSliderStyles
+        } as WmSliderStyles,
+        skeleton: {
+            root: {
+                height: 16,
+                borderRadius:4,
+                width:240
+            }
+          } as WmSkeletonStyles
     } as WmAudioStyles);
     addStyle(DEFAULT_CLASS, '', defaultStyles);
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, DimensionValue } from 'react-native';
 import { LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import { clone, findIndex, get, isUndefined, pull, forEach, filter, find, isEqual, merge } from 'lodash';
 import WmChipsProps from './chips.props';
@@ -12,6 +12,7 @@ import {
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmChipsState extends BaseDatasetState<WmChipsProps> {
   chipsList: any = [];
@@ -213,6 +214,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     )
   }
 
+  // <View style={[this.styles.chipLabel, isSelected ? this.styles.activeChipLabel : null,{width:100, height:16, borderRadius:4}]}></View>
   updateDefaultQueryModel() {
       if (this.state.dataItems && this.state.dataItems.length && this.isDefaultQuery) {
           const selectedItems = filter(this.state.dataItems, (item) => item.selected);
@@ -235,6 +237,36 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     if (prevState.chipsList !== this.state.chipsList) {
       this.searchRef?.computePosition();
     }
+  } 
+  public renderSkeleton(props: WmChipsProps): React.ReactNode {
+    const dataset =typeof(this.state.props?.dataset) === 'string' ? this.state.props?.dataset?.trim().split(",") : [];
+      let skeletonWidth:any, skeletonHeight:any;
+      
+      if(this.props.skeletonwidth == "0") {
+        skeletonWidth = 0;
+      } else {
+        skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
+      }
+  
+      if(this.props.skeletonheight == "0") {
+        skeletonHeight = 0
+      } else {
+        skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
+      }
+      return (
+        <View style={[this.styles.chip,{display:'flex',flexDirection:'row',flexWrap:'wrap',justifyContent:'flex-start',borderWidth:0}]}> 
+          {
+            dataset.map(()=>{
+              return (
+                  createSkeleton(this.theme, this.styles.skeleton, {
+                    ...this.styles.root,
+                    width: skeletonWidth as DimensionValue,
+                    height: skeletonHeight as DimensionValue
+                  }))
+            })
+          }
+        </View>
+      ) 
   }
 
   renderWidget(props: WmChipsProps) {

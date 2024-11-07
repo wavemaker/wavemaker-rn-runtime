@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Animated, Easing, LayoutChangeEvent, View } from 'react-native';
+import { TouchableOpacity, Animated, Easing, LayoutChangeEvent, View, DimensionValue } from 'react-native';
 
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -8,6 +8,7 @@ import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-r
 
 import WmToggleProps from './toggle.props';
 import { DEFAULT_CLASS, WmToggleStyles } from './toggle.styles';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmToggleState extends BaseComponentState<WmToggleProps> {
   isSwitchOn: boolean = false;
@@ -89,6 +90,27 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     this.setState({
       viewWidth: width,
     } as WmToggleState);
+  }
+
+  public renderSkeleton(props: WmToggleProps): React.ReactNode {
+      let skeletonWidth, skeletonHeight;
+      if(this.props.skeletonwidth == "0") {
+        skeletonWidth = 0
+      } else {
+        skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
+      }
+  
+      if(this.props.skeletonheight == "0") {
+        skeletonHeight = 0
+      } else {
+        skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
+      }
+      
+      return createSkeleton(this.theme, this.styles.skeleton, {
+        ...this.styles.root,
+        width: skeletonWidth as DimensionValue,
+        height: skeletonHeight as DimensionValue
+      });
   }
 
   renderWidget(props: WmToggleProps) {

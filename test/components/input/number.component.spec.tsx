@@ -50,7 +50,7 @@ describe('Number component', () => {
     expect(onChangeTextMock).toHaveBeenCalledWith('123.45', 'number');
   });
 
-  xit('should validate number correctly', () => {
+  test('should validate number correctly', () => {
     const onChangeTextMock = jest.spyOn(WmNumber.prototype, 'onChangeText');
     const { getByPlaceholderText } = render(<WmNumber {...defaultProps} />);
     const input = getByPlaceholderText(defaultProps.placeholder);
@@ -63,7 +63,7 @@ describe('Number component', () => {
     });
 
     // Check if the value is set correctly
-    expect(onChangeTextMock).toHaveBeenCalledWith('123.45', 'number');
+    expect(onChangeTextMock).toHaveBeenCalledWith('123.45', 'number', false);
 
     // Check invalid values
     fireEvent.changeText(input, '12.34563');
@@ -74,9 +74,10 @@ describe('Number component', () => {
     });
 
     // Should remain unchanged if invalid
-    expect(onChangeTextMock).toHaveBeenCalledWith('123.45', 'number');
+    expect(onChangeTextMock).toHaveBeenCalledWith('123.45', 'number', false);
   });
-  xit('should validate number correctly, only supports "e" as a character', () => {
+
+  it('should validate number correctly, only supports "e" as a character', () => {
     const onChangeTextMock = jest.spyOn(WmNumber.prototype, 'onChangeText');
     const { getByPlaceholderText } = render(<WmNumber {...defaultProps} />);
     const input = getByPlaceholderText(defaultProps.placeholder);
@@ -88,7 +89,7 @@ describe('Number component', () => {
       },
     });
 
-    expect(onChangeTextMock).toHaveBeenCalledWith('123.45', 'number');
+    expect(onChangeTextMock).toHaveBeenCalledWith('123.45', 'number', false);
 
     fireEvent.changeText(input, '10e');
     fireEvent(input, 'blur', {
@@ -97,7 +98,7 @@ describe('Number component', () => {
       },
     });
 
-    expect(onChangeTextMock).toHaveBeenCalledWith('10e', 'number');
+    expect(onChangeTextMock).toHaveBeenCalledWith('10e', 'number', false);
 
     fireEvent.changeText(input, '10a');
     fireEvent(input, 'blur', {
@@ -106,7 +107,7 @@ describe('Number component', () => {
       },
     });
 
-    expect(onChangeTextMock).toHaveBeenCalledWith('10e', 'number');
+    expect(onChangeTextMock).toHaveBeenCalledWith('10e', 'number', false);
 
     fireEvent.changeText(input, '$$');
     fireEvent(input, 'blur', {
@@ -115,7 +116,7 @@ describe('Number component', () => {
       },
     });
 
-    expect(onChangeTextMock).toHaveBeenCalledWith('10e', 'number');
+    expect(onChangeTextMock).toHaveBeenCalledWith('10e', 'number', false);
   });
 
   test('should enable input if disabled and readonly props are falsy', () => {
@@ -149,14 +150,14 @@ describe('Number component', () => {
     expect(input.props.editable).toBe(false);
   });
 
-  xit('should validate against required prop correctly', () => {
+  xit('should validate against required prop correctly', async () => {
     const customRef = createRef();
     const { getByPlaceholderText } = render(
-      <WmNumber {...defaultProps} ref={customRef} updateon="default" />
+      <WmNumber {...defaultProps} ref={customRef} updateon="blur" />
     );
     const input = getByPlaceholderText(defaultProps.placeholder);
 
-    fireEvent.changeText(input, '');
+    fireEvent.changeText(input, 'a');
     fireEvent(input, 'blur', {
       target: {
         value: null,
@@ -201,7 +202,7 @@ describe('Number component', () => {
     });
   });
 
-  xit('should isValid false when input number is below minvalue', async () => {
+  test('should isValid false when input number is below minvalue', async () => {
     const onChangeTextMock = jest.spyOn(WmNumber.prototype, 'onChangeText');
     const customRef = createRef();
     const tree = render(
@@ -223,7 +224,7 @@ describe('Number component', () => {
     });
 
     await waitFor(() => {
-      expect(onChangeTextMock).toHaveBeenCalledWith('500', 'number');
+      expect(onChangeTextMock).toHaveBeenCalledWith('500', 'number', false);
       expect(customRef.current.state.isValid).toBe(true);
     });
 
@@ -235,7 +236,7 @@ describe('Number component', () => {
     });
 
     await waitFor(() => {
-      expect(onChangeTextMock).toHaveBeenCalledWith('10', 'number');
+      expect(onChangeTextMock).toHaveBeenCalledWith('10', 'number', false);
       expect(customRef.current.state.isValid).toBe(false);
     });
   });

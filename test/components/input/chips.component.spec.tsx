@@ -1,5 +1,5 @@
 import React, { ReactNode, createRef } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import {
   render,
   screen,
@@ -22,13 +22,13 @@ const timer = (time = 100) =>
     setTimeout(() => resolve(), time);
   });
 
-const loadAsset = (path) => path;
+const loadAsset = (path: any) => path;
 
 AppModalService.modalsOpened = [];
 
 describe('WmChips', () => {
   let defaultProps: WmChipsProps;
-  let datasetProps;
+  let datasetProps: React.JSX.IntrinsicAttributes & React.JSX.IntrinsicClassAttributes<WmChips> & Readonly<WmChipsProps>;
 
   beforeEach(() => {
     defaultProps = new WmChipsProps();
@@ -335,4 +335,12 @@ describe('WmChips', () => {
       ).toBe(true);
     });
   });
+    //skeleton loader
+    it('should render skeleton when show skeleton is true', () => {
+      const renderSkeletonMock = jest.spyOn(WmChips.prototype, 'renderSkeleton');
+      const tree = render(<WmChips {...defaultProps} {...datasetProps} showskeleton={true} skeletonwidth='100' skeletonheight='50'/>);
+      expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
+      const viewEles = tree.UNSAFE_getAllByType(View); 
+      expect(viewEles.length).toBe(1);
+    })
 });
