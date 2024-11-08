@@ -69,10 +69,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             }
         } as WmSliderStyles,
         skeleton: {
-            root: {
+            text: {
+                width: 200,
                 height: 16,
-                borderRadius:4,
-                width:240
+                borderRadius: 4
             }
           } as WmSkeletonStyles
     } as WmAudioStyles);

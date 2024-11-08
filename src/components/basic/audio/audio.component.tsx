@@ -10,6 +10,7 @@ import { DEFAULT_CLASS, WmAudioStyles } from './audio.styles';
 import WmIcon from '../icon/icon.component';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { createSkeleton } from '../skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
 
 export class WmAudioState extends BaseComponentState<WmAudioProps> {
   playing = false;
@@ -211,23 +212,11 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
     this.stop();
   }
 
-  public renderSkeletonFun(): React.ReactNode {
-    let skeletonWidth, skeletonHeight;
-    if(this.props.skeletonwidth == "0") {
-      skeletonWidth = 0
-    } else {
-      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
-    }
-    if(this.props.skeletonheight == "0") {
-      skeletonHeight = 0
-    } else {
-      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
-    }
+  public renderTextSkeleton(): React.ReactNode {
       return (
-        createSkeleton(this.theme, this.styles.skeleton, {
-          ...this.styles.root,
-          width: skeletonWidth as DimensionValue,
-          height: skeletonHeight as DimensionValue
+        createSkeleton(this.theme, {} as WmSkeletonStyles, {
+          ...this.styles.text,
+          ...this.styles.skeleton.text
         }
         )
       )
@@ -248,7 +237,7 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
           styles={this.styles.pauseIcon}
           onTap={() => this.pause()}></WmIcon>)}
         {
-          this._showSkeleton ? this.renderSkeletonFun() : 
+          this._showSkeleton ? this.renderTextSkeleton() : 
           <>
             <Text style={this.styles.text}>
             {`${this.formatTime(this.state.currentTime)} / ${this.formatTime(this.state.totalTime)}`}
