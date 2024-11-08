@@ -32,7 +32,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root: {
           width: 52,
           height: 32,
-          borderRadius: 4
+          borderRadius: 18,
         }
       } as WmSkeletonStyles
   });

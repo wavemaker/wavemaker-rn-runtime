@@ -13,6 +13,7 @@ import { isNull } from "lodash";
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { countDecimalDigits, validateInputOnDevice } from '@wavemaker/app-rn-runtime/core/utils';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export class WmCurrencyState extends BaseNumberState<WmCurrencyProps> {
   currencySymbol: any;
@@ -48,24 +49,9 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
   }
 
   public renderSkeleton(props: WmCurrencyProps): React.ReactNode { 
-    let skeletonWidth, skeletonHeight;
-    
-    if(this.props.skeletonwidth == "0") {
-      skeletonWidth = 0
-    } else {
-      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
-    }
-
-    if(this.props.skeletonheight == "0") {
-      skeletonHeight = 0
-    } else {
-      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
-    }
-
-    return createSkeleton(this.theme, this.styles.skeleton, {
+    return createSkeleton(this.theme, {} as WmSkeletonStyles, {
       ...this.styles.root,
-      width: skeletonWidth as DimensionValue,
-      height: skeletonHeight as DimensionValue
+      ...this.styles.skeleton.root,
     })
   }
 

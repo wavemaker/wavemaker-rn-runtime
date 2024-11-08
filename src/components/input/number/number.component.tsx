@@ -11,6 +11,7 @@ import {
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export class WmNumberState extends BaseNumberState<WmNumberProps> {
   keyboardType: any;
@@ -32,24 +33,8 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
   }
 
   public renderSkeleton(props: WmNumberProps): React.ReactNode { 
-    let skeletonWidth, skeletonHeight;
-    
-    if(this.props.skeletonwidth == "0") {
-      skeletonWidth = 0
-    } else {
-      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
-    }
-
-    if(this.props.skeletonheight == "0") {
-      skeletonHeight = 0
-    } else {
-      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
-    }
-
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root,
-      width: skeletonWidth as DimensionValue,
-      height: skeletonHeight as DimensionValue
+    return createSkeleton(this.theme, {} as WmSkeletonStyles, {
+      ...this.styles.skeleton.root,
     })
   }
 

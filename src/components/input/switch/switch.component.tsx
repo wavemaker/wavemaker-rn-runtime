@@ -9,6 +9,7 @@ import { BaseDatasetComponent, BaseDatasetState } from '../basedataset/basedatas
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export class WmSwitchState extends BaseDatasetState<WmSwitchProps> {}
 
@@ -44,51 +45,6 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     this.onChange(value);
     this.invokeEventCallback('onTap', [ event, this.proxy ]);
   }
-
-  public renderSkeleton(props: WmSwitchProps): React.ReactNode {
-    const items = this.state.dataItems;
-    let skeletonWidth:any, skeletonHeight:any;
-    if(this.props.skeletonwidth == "0") {
-      skeletonWidth = 0
-    } else {
-      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
-    }
-
-    if(this.props.skeletonheight == "0") {
-      skeletonHeight = 0
-    } else {
-      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
-    }
-    
-    const createSkeletonFun = (skeletonWidth:any, skeletonHeight:any,skeletonStyles:any) => {
-      return (
-        createSkeleton(this.theme, skeletonStyles, {
-          ...this.styles.root,
-          width: skeletonWidth as DimensionValue,
-          height: skeletonHeight as DimensionValue
-        }))} 
-
-    return (items && items.length ?
-      <View style={{display:'flex', flexDirection:'row'}}>{items.map((item: any, index: any) => 
-        index === 0 ?createSkeletonFun(skeletonWidth, skeletonHeight,{root: {
-          width:64,
-          height: 40,
-          paddingLeft: 16,
-          paddingRight: 16,
-          borderTopLeftRadius:18,
-          borderBottomLeftRadius:18,
-       }})
-        : index === items.length-1 ? createSkeletonFun(skeletonWidth, skeletonHeight,{root: {
-          width:64,
-          height: 40,
-          paddingLeft: 16,
-          paddingRight: 16,
-          borderTopRightRadius:18,
-          borderBottomRightRadius:18,
-       }})
-        : createSkeletonFun(skeletonWidth, skeletonHeight,this.styles.skeleton)
-      )}</View>   : null)
-  }
   renderChild(item: any, index: any) {
     let btnClass = 'button';
     const props = this.state.props;
@@ -116,22 +72,34 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
               iconclass={item.icon}
               caption={displayText}></WmIcon>)
             : (<View>
-                <Text
+                {
+                  this._showSkeleton ? createSkeleton(this.theme, {} as WmSkeletonStyles, {
+                    ...this.styles.text,
+                    ...this.styles.skeleton.text
+                  }) : <Text
                   {...this.getTestPropsForLabel('label' + index)}
                   style={[ isSelected ?  this.styles.selectedButtonText : this.styles.text,
                     {color: isSelected ? this.styles.selectedButton.color : this.styles.button.color }]}>
                   {displayText}
                 </Text>
+                }
               </View>)}
       </Tappable>
     );
   };
 
-  renderWidget(props: WmSwitchProps) {
+  renderItems() {
     const items = this.state.dataItems;
+    if(this._showSkeleton) {
+      return [{}, {}, {}].map((item: any, index: any) => this.renderChild(item, index))
+    }
+    return items && items.length ?
+      items.map((item: any, index: any) => this.renderChild(item, index)): null
+  }
+
+  renderWidget(props: WmSwitchProps) {
     return (<View style={this.styles.root}>
-      {items && items.length ?
-        items.map((item: any, index: any) => this.renderChild(item, index)): null}
+      {this.renderItems()}
     </View>);
   }
 }

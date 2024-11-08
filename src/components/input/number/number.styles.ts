@@ -43,14 +43,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       activeFloatingLabel: {},
       skeleton: {
         root:{
-          width: '100%',
-          borderRadius: 18,
+          borderRadius: 6,
           paddingLeft: 16,
           paddingRight: 16,
           minHeight: 42,
           paddingTop: 8,
           paddingBottom: 8,
-        }
+          width: '100%',
+          height: 40
+        },
+        
       } as any as WmSkeletonStyles,
   });
 

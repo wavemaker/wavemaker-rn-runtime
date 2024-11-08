@@ -28,6 +28,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             width: 20,
             height: 20,
             borderRadius: 4,
+          },
+          icon: {
+            width: 20,
+            height: 20,
+            borderRadius: 4,
+          },
+          label: {
+            width: 200,
+            borderRadius: 4,
+            height: 16
           }
         } as any as WmSkeletonStyles,
         checkicon : {

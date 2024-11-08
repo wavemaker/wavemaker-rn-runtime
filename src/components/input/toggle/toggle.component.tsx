@@ -93,23 +93,9 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
   }
 
   public renderSkeleton(props: WmToggleProps): React.ReactNode {
-      let skeletonWidth, skeletonHeight;
-      if(this.props.skeletonwidth == "0") {
-        skeletonWidth = 0
-      } else {
-        skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
-      }
-  
-      if(this.props.skeletonheight == "0") {
-        skeletonHeight = 0
-      } else {
-        skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
-      }
       
       return createSkeleton(this.theme, this.styles.skeleton, {
-        ...this.styles.root,
-        width: skeletonWidth as DimensionValue,
-        height: skeletonHeight as DimensionValue
+        ...this.styles.skeleton.root,
       });
   }
 

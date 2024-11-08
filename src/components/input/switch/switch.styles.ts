@@ -88,8 +88,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         height: 40,
         paddingLeft: 16,
         paddingRight: 16,
+      },
+      text: {
+        width: 30,
+        height: 10,
+        borderRadius: 4
       }
-    } as WmSkeletonStyles
+    } as any as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
