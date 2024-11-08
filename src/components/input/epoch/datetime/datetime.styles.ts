@@ -3,6 +3,7 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { TextStyle, Platform, ViewStyle } from 'react-native';
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmDatetimeStyles = BaseStyles & {
     focused: AllStyle,
@@ -16,7 +17,8 @@ export type WmDatetimeStyles = BaseStyles & {
     actionWrapper: ViewStyle,
     selectBtn: WmButtonStyles,
     cancelBtn: WmButtonStyles,
-    dialog: AllStyle
+    dialog: AllStyle,
+    skeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-datetime';
@@ -103,7 +105,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 paddingLeft: 12,
                 paddingRight: 12,
             }
-        }
+        },
+        skeleton: {
+            root:{
+              height: 16,
+              borderRadius: 4,
+              marginRight:16,
+              width:'80%' 
+            }
+          } as any as WmSkeletonStyles,
     }) as any as WmDatetimeStyles;
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { DimensionValue, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { find, isEmpty } from 'lodash';
 
@@ -16,6 +16,7 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
@@ -87,6 +88,14 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     this?.widgetRef?.focus();
   }
 
+  private renderSkeletonForText(){
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root,
+      width: this.props.skeletonwidth as DimensionValue|| this.styles.root.width,
+      height: this.props.skeletonheight as DimensionValue|| this.styles.root.height
+    });
+  }
+
   renderSelect() {
     const props = this.state.props;
     const select = this.styles.root as any;
@@ -109,7 +118,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
             resizeMode={select.backgroundResizeMode}
             style={{borderRadius: this.styles.root.borderRadius}}
           ></BackgroundComponent>) : null }
-          <Text
+          {this._showSkeleton && (this.state.props.displayValue || props.placeholder)? this.renderSkeletonForText() : <Text
             style={[this.styles.text,
               this.state.props.displayValue ? {} : {color: this.styles.placeholderText.color}]}
             ref={(ref) => {
@@ -122,7 +131,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
             )}
             onPress={this.onPress.bind(this)}>
             {this.state.props.displayValue || props.placeholder || ' '}
-          </Text>
+          </Text>}
           <WmButton
             styles={this.styles.arrowButton}
             iconclass={'wi wi-keyboard-arrow-down'}

@@ -2,6 +2,7 @@ import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { TextStyle } from 'react-native';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmCalendarStyles = BaseStyles & {
     calendar: AllStyle,
@@ -22,7 +23,8 @@ export type WmCalendarStyles = BaseStyles & {
     selectedDayText: AllStyle
     eventDay1: AllStyle,
     eventDay2: AllStyle,
-    eventDay3: AllStyle
+    eventDay3: AllStyle,
+    skeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-calendar';
@@ -139,7 +141,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             root: {
                 color: themeVariables.calendarNextYearIconColor
             }
-        } as WmIconStyles
+        } as WmIconStyles,
+        skeleton: {
+            root: {
+              borderRadius:4,
+              display:'flex',
+              flexDirection:'column',
+              margin:8,
+            }
+          } as WmSkeletonStyles,
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

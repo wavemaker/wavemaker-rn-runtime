@@ -214,7 +214,6 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     )
   }
 
-  // <View style={[this.styles.chipLabel, isSelected ? this.styles.activeChipLabel : null,{width:100, height:16, borderRadius:4}]}></View>
   updateDefaultQueryModel() {
       if (this.state.dataItems && this.state.dataItems.length && this.isDefaultQuery) {
           const selectedItems = filter(this.state.dataItems, (item) => item.selected);

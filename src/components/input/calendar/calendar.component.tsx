@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { DimensionValue, View } from 'react-native';
 import { isString } from 'lodash';
 import moment, { Moment } from 'moment';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -8,6 +8,7 @@ import { MonthView } from './views/month-view';
 import WmCalendarProps from './calendar.props';
 import { DEFAULT_CLASS, WmCalendarStyles } from './calendar.styles';
 import WmIcon from '../../basic/icon/icon.component';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component'
 
 export class WmCalendarState extends BaseComponentState<WmCalendarProps> {
   selectedDate: Moment = moment();
@@ -90,7 +91,24 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
     super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, snapshot);
     this.invokeEventCallback('onViewrender', [this, null]);
   }
-
+  public renderSkeleton(props: WmCalendarProps): React.ReactNode {
+    const getMultiSkeleton = (width:any, height:any) => {
+      return (
+        createSkeleton(this.theme, this.styles.skeleton, {
+          ...this.styles.root,
+          width: width as DimensionValue,
+          height: height as DimensionValue,
+        }))} 
+    return (
+    <View style={{display:'flex', flexDirection:'column', backgroundColor:'#fff'}}>
+    <View style={{display:'flex', flexDirection:'row',alignItems:'center'}}>
+        {getMultiSkeleton(this.props.skeletonwidth || '10%', this.props.skeletonheight || 28)}
+        {getMultiSkeleton(this.props.skeletonwidth || '68%', this.props.skeletonheight || 16)}
+        {getMultiSkeleton(this.props.skeletonwidth || '10%', this.props.skeletonheight || 28)}
+        </View>
+        {getMultiSkeleton(this.props.skeletonwidth || '96%', this.props.skeletonheight || 320)}
+    </View>)
+  } 
   renderWidget(props: WmCalendarProps) {
     this.invokeEventCallback('onBeforerender', [null, this]);
     return (
