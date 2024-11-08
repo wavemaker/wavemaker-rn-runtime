@@ -18,6 +18,7 @@ import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.c
 import WmDatePickerModal from './wheelpickermodal/date/date-picker-modal.component';
 import WmTimePickerModal from './wheelpickermodal/time/time-picker-modal.component';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   showDatePicker = false;
@@ -385,23 +386,9 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   public renderTextSkeleton() {
-    let skeletonWidth, skeletonHeight;
-    if(this.props.skeletonwidth == "0") {
-      skeletonWidth = 0
-    } else {
-      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
-    }
-
-    if(this.props.skeletonheight == "0") {
-      skeletonHeight = 0
-    } else {
-      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
-    }
-    
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root,
-      width: this.props.skeletonwidth ? skeletonWidth as DimensionValue : this.styles.skeleton.root.width,
-      height: this.props.skeletonheight ? skeletonHeight as DimensionValue : this.styles.skeleton.root.height,
+    return createSkeleton(this.theme, {} as WmSkeletonStyles, {
+      ...this.styles.text,
+      ...this.styles.placeholderText
     });
   }
 

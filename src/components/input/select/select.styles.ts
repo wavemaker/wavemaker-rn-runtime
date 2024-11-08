@@ -114,6 +114,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderRadius: 4,
         marginRight:8,
         padding:0
+      },
+      arrowButton: {
+        root: {
+          width: 24,
+          height: 24,
+          borderRadius: 12  
+        }
       }
     } as any as WmSkeletonStyles,
   });

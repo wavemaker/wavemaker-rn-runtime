@@ -17,6 +17,7 @@ import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
@@ -89,10 +90,10 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   }
 
   private renderSkeletonForText(){
-    return createSkeleton(this.theme, this.styles.skeleton, {
-      ...this.styles.root,
-      width: this.props.skeletonwidth as DimensionValue|| this.styles.root.width,
-      height: this.props.skeletonheight as DimensionValue|| this.styles.root.height
+    return createSkeleton(this.theme, {} as WmSkeletonStyles, {
+      width: 100,
+      height: 16,
+      borderRadius: 8
     });
   }
 
@@ -105,7 +106,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
        * https://github.com/naoufal/react-native-accordion/pull/19/files
        */
       <View
-        style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, { backgroundColor: props.disabled ? this.styles.disabledText.backgroundColor : this.styles.root.backgroundColor}]}
+        style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, { backgroundColor: props.disabled ? this.styles.disabledText.backgroundColor : this.styles.root.backgroundColor}, 
+          this._showSkeleton ? { justifyContent: 'space-between' } : {}]}
         ref={(ref) => {
           this.view = ref as View;
         }}
@@ -133,7 +135,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
             {this.state.props.displayValue || props.placeholder || ' '}
           </Text>}
           <WmButton
-            styles={this.styles.arrowButton}
+            styles={this._showSkeleton ? this.styles.skeleton.arrowButton : this.styles.arrowButton}
             iconclass={'wi wi-keyboard-arrow-down'}
             onTap={this.onPress.bind(this)}
             hint={props?.hint}
