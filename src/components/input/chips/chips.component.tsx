@@ -13,6 +13,7 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import WmLabel from '../../basic/label/label.component';
 
 export class WmChipsState extends BaseDatasetState<WmChipsProps> {
   chipsList: any = [];
@@ -207,8 +208,8 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
           }
         }}>
         {isSelected && this.isDefaultView() ? <WmIcon id={this.getTestId('checkicon')} iconclass={'wm-sl-l sl-check'} iconsize={16} styles={merge({}, this.styles.doneIcon, {icon: {color: isSelected ? this.styles.activeChipLabel.color : null}})}></WmIcon> : null}
-        <WmPicture id={this.getTestId('chip'+ index + 'picture')} styles={this.styles.imageStyles} picturesource={item.imgSrc} shape='circle'></WmPicture>
-        <Text {...this.getTestPropsForAction('chip'+ index+'label')}style={[this.styles.chipLabel, isSelected ? this.styles.activeChipLabel : null]}>{item.displayexp || item.displayfield}</Text>
+        { this._showSkeleton ? null : <WmPicture id={this.getTestId('chip'+ index + 'picture')} styles={this.styles.imageStyles} picturesource={item.imgSrc} shape='circle'></WmPicture>}
+        { this._showSkeleton ? <WmLabel styles={{root: {width: 50}}}/> :  <Text {...this.getTestPropsForAction('chip'+ index+'label')}style={[this.styles.chipLabel, isSelected ? this.styles.activeChipLabel : null]}>{item.displayexp || item.displayfield}</Text>}
         {!this.isDefaultView() && !this.state.props.disabled ? <WmIcon id={this.getTestId('clearbtn')} iconclass={'wi wi-clear'} iconsize={16} styles={this.styles.clearIcon} onTap={() => this.removeItem(item, index)}></WmIcon> : null}
       </TouchableOpacity>
     )
@@ -237,35 +238,12 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
       this.searchRef?.computePosition();
     }
   } 
-  public renderSkeleton(props: WmChipsProps): React.ReactNode {
-    const dataset =typeof(this.state.props?.dataset) === 'string' ? this.state.props?.dataset?.trim().split(",") : [];
-      let skeletonWidth:any, skeletonHeight:any;
-      
-      if(this.props.skeletonwidth == "0") {
-        skeletonWidth = 0;
-      } else {
-        skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
-      }
-  
-      if(this.props.skeletonheight == "0") {
-        skeletonHeight = 0
-      } else {
-        skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
-      }
-      return (
-        <View style={[this.styles.chip,{display:'flex',flexDirection:'row',flexWrap:'wrap',justifyContent:'flex-start',borderWidth:0}]}> 
-          {
-            dataset.map(()=>{
-              return (
-                  createSkeleton(this.theme, this.styles.skeleton, {
-                    ...this.styles.root,
-                    width: skeletonWidth as DimensionValue,
-                    height: skeletonHeight as DimensionValue
-                  }))
-            })
-          }
-        </View>
-      ) 
+  renderSkeleton(): React.ReactNode {
+    return (<View style={this.styles.root}>
+      <View style={this.styles.chipsWrapper}>{ 
+      [{}, {}, {}].map((item: any, index: any) => this.renderChip(item, index)) }
+      </View>
+      </View>)
   }
 
   renderWidget(props: WmChipsProps) {
