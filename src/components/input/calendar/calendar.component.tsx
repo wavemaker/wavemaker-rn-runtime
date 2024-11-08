@@ -9,6 +9,7 @@ import WmCalendarProps from './calendar.props';
 import { DEFAULT_CLASS, WmCalendarStyles } from './calendar.styles';
 import WmIcon from '../../basic/icon/icon.component';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component'
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export class WmCalendarState extends BaseComponentState<WmCalendarProps> {
   selectedDate: Moment = moment();
@@ -91,24 +92,19 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
     super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, snapshot);
     this.invokeEventCallback('onViewrender', [this, null]);
   }
+
   public renderSkeleton(props: WmCalendarProps): React.ReactNode {
-    const getMultiSkeleton = (width:any, height:any) => {
-      return (
-        createSkeleton(this.theme, this.styles.skeleton, {
-          ...this.styles.root,
-          width: width as DimensionValue,
-          height: height as DimensionValue,
-        }))} 
     return (
-    <View style={{display:'flex', flexDirection:'column', backgroundColor:'#fff'}}>
-    <View style={{display:'flex', flexDirection:'row',alignItems:'center'}}>
-        {getMultiSkeleton(this.props.skeletonwidth || '10%', this.props.skeletonheight || 28)}
-        {getMultiSkeleton(this.props.skeletonwidth || '68%', this.props.skeletonheight || 16)}
-        {getMultiSkeleton(this.props.skeletonwidth || '10%', this.props.skeletonheight || 28)}
-        </View>
-        {getMultiSkeleton(this.props.skeletonwidth || '96%', this.props.skeletonheight || 320)}
-    </View>)
+    <View style={[this.styles.root, this.styles.skeleton.root]}>
+      <View style={this.styles.skeleton.header}>
+        {createSkeleton(this.theme, {} as WmSkeletonStyles, {width: '10%', height: 28,borderRadius: 4})}
+        {createSkeleton(this.theme, {} as WmSkeletonStyles, {width: '68%', height: 16, borderRadius: 4})}
+        {createSkeleton(this.theme, {}as WmSkeletonStyles, {width: '10%', height: 28, borderRadius: 4})}
+      </View>
+      {createSkeleton(this.theme, {} as WmSkeletonStyles, {width: '96%', margin: 8, height: 320, borderRadius: 4})}
+      </View>)
   } 
+
   renderWidget(props: WmCalendarProps) {
     this.invokeEventCallback('onBeforerender', [null, this]);
     return (

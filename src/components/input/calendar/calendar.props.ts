@@ -5,6 +5,4 @@ export default class WmCalendarProps extends BaseProps {
   datavalue: string | number = null as any;
   eventstart: string = null as any;
   view: 'day' | 'month' | 'year' = 'day';
-  skeletonheight?: string = null as any;
-  skeletonwidth?: string = null as any;
 }

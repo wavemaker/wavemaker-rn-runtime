@@ -144,12 +144,21 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         } as WmIconStyles,
         skeleton: {
             root: {
-              borderRadius:4,
-              display:'flex',
-              flexDirection:'column',
-              margin:8,
-            }
-          } as WmSkeletonStyles,
+                display:'flex', 
+                justifyContent: 'center',
+                backgroundColor:'#fff',
+                paddingHorizontal: 8,
+                alignItems: 'center',
+            },
+            header: {
+                width: '100%',
+                display:'flex', 
+                flexDirection:'row', 
+                alignItems: 'center',
+                justifyContent: 'space-around',
+                marginBottom: 16
+            } 
+          } as any as  WmSkeletonStyles ,
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
