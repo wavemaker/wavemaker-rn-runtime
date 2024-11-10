@@ -208,3 +208,47 @@ exports[`WmCheckbox Unit tests renders correctly with default props 1`] = `
   </Text>
 </View>
 `;
+
+exports[`WmCheckbox Unit tests should render skeleton with respect to provided styles when show skeleton is true 1`] = `
+<View
+  style={
+    [
+      {
+        "alignContent": "center",
+        "flexDirection": "row",
+      },
+      {
+        "borderRadius": 4,
+        "height": 20,
+        "width": 20,
+      },
+    ]
+  }
+>
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 32,
+        "overflow": "hidden",
+        "width": 32,
+      }
+    }
+  />
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 16,
+        "marginLeft": 8,
+        "overflow": "hidden",
+        "width": "100%",
+      }
+    }
+  />
+</View>
+`;

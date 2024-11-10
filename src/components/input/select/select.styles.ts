@@ -3,6 +3,7 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import { WmButtonStyles } from '@wavemaker/app-rn-runtime/components/basic/button/button.styles';
 import { Platform } from 'react-native';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmSelectStyles = BaseStyles & {
   arrowButton: WmButtonStyles;
@@ -18,6 +19,7 @@ export type WmSelectStyles = BaseStyles & {
   disabledText: AllStyle;
   placeholderText: AllStyle;
   invalid: AllStyle;
+  skeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-select';
@@ -104,6 +106,23 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         backgroundColor: 'transparent'
       }
     } as WmButtonStyles,
+    skeleton: {
+      root:{
+        minWidth: 0,
+        width:120,
+        height: 16,
+        borderRadius: 4,
+        marginRight:8,
+        padding:0
+      },
+      arrowButton: {
+        root: {
+          width: 24,
+          height: 24,
+          borderRadius: 12  
+        }
+      }
+    } as any as WmSkeletonStyles,
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

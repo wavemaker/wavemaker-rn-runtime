@@ -8,7 +8,7 @@ import {
 } from '@testing-library/react-native';
 import WmCurrency from '@wavemaker/app-rn-runtime/components/input/currency/currency.component';
 import { CURRENCY_INFO } from '@wavemaker/app-rn-runtime/core/currency-constants';
-import { Platform, TextInput } from 'react-native';
+import { Platform, TextInput, View } from 'react-native';
 
 const defaultProps = {
   currency: 'USD',
@@ -314,4 +314,17 @@ describe('Test Currency component', () => {
       expect(customRef.current.state.isValid).toBe(false);
     });
   });
+
+   //skeleton loader
+   test('should render skeleton with respect to showskeletonwidth and showskeletonheight when show skeleton is true', () => {
+    const renderSkeletonMock = jest.spyOn(WmCurrency.prototype, 'renderSkeleton');
+    const tree = render(<WmCurrency {...defaultProps} showskeleton={true} skeletonwidth='100' skeletonheight='50' />)
+    expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
+    const root = tree.root;
+    expect(root.props.style.borderRadius).toBe(6);
+    expect(root.props.style.paddingLeft).toBe(16);
+    expect(root.props.style.paddingBottom).toBe(8);
+    expect(root.props.style.width).toBe('100');
+    expect(root.props.style.height).toBe('50');
+  })
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform, TouchableOpacity, ViewStyle } from 'react-native';
+import { View, Text, Platform, TouchableOpacity, ViewStyle, DimensionValue } from 'react-native';
 import moment from 'moment';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -17,6 +17,8 @@ import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import WmDatePickerModal from './wheelpickermodal/date/date-picker-modal.component';
 import WmTimePickerModal from './wheelpickermodal/time/time-picker-modal.component';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export class BaseDatetimeState extends BaseComponentState<WmDatetimeProps> {
   showDatePicker = false;
@@ -383,6 +385,14 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     return 'wm-sl-l sl-calendar';
   }
 
+  public renderTextSkeleton() {
+    return createSkeleton(this.theme, {} as WmSkeletonStyles, {
+      ...this.styles.text,
+      ...this.styles.placeholderText
+    });
+  }
+
+
   renderWidget(props: WmDatetimeProps) {
     const is12HourFormat = props?.datepattern && /hh:mm(:ss|:sss)? a/.test(props.datepattern);
     const is24Hour = is12HourFormat ? false : props.is24hour;
@@ -401,7 +411,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
               />
           ) : null}
             <View style={this.styles.container}>
-              {this.addTouchableOpacity(props, (
+              {this._showSkeleton   ? this.renderTextSkeleton() : this.addTouchableOpacity(props, (
                 <Text style={[
                   this.styles.text,
                   this.state.displayValue ? {} : this.styles.placeholderText

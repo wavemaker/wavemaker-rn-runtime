@@ -1,6 +1,8 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Platform } from 'react-native';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
+import { height } from 'react-native-size-scaling';
 
 export type WmCurrencyStyles = BaseStyles & {
   label: AllStyle;
@@ -9,6 +11,7 @@ export type WmCurrencyStyles = BaseStyles & {
   floatingLabel: AllStyle;
   activeFloatingLabel: AllStyle;
   placeholderText: AllStyle;
+  skeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-currency';
@@ -68,6 +71,18 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       placeholderText: {
         color: themeVariables.inputPlaceholderColor
       },
+      skeleton: {
+        root: {
+          borderRadius: 6,
+          paddingLeft: 16,
+          paddingRight: 16,
+          minHeight: 42,
+          paddingTop: 8,
+          paddingBottom: 8,
+          width: '100%',
+          height: 40
+        }
+      } as any as WmSkeletonStyles,
       floatingLabel: {},
       activeFloatingLabel: {}
   });

@@ -4,6 +4,7 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import { WmSearchStyles } from '@wavemaker/app-rn-runtime/components/basic/search/search.styles';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
 import { WmPictureStyles } from '@wavemaker/app-rn-runtime/components/basic/picture/picture.styles';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export type WmChipsStyles = BaseStyles & {
   chip: AllStyle;
@@ -15,7 +16,8 @@ export type WmChipsStyles = BaseStyles & {
   activeChipLabel: TextStyle;
   clearIcon: WmIconStyles;
   doneIcon: WmIconStyles;
-  imageStyles: WmPictureStyles
+  imageStyles: WmPictureStyles;
+  skeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-chips';
@@ -94,7 +96,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           width: 32,
           height: 32
         }
-      } as WmPictureStyles
+      } as WmPictureStyles,
+      skeleton: {
+        root:{
+          width: 80,
+          borderRadius: 8,
+          padding:4,
+          minHeight: 32,
+        }
+      } as any as WmSkeletonStyles,
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

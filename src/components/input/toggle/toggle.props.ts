@@ -12,4 +12,6 @@ export default class WmToggleProps extends BaseProps {
   accessibilityrole?: AccessibilityRole = "togglebutton";
   accessibilitylabelledby?: string = undefined;
   invokeEvent?: Function;
+  skeletonheight?: string = null as any;
+  skeletonwidth?: string = null as any;
 }
