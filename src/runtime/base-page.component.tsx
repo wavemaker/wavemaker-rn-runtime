@@ -121,11 +121,13 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     async canNavigate (currentPage: string, nextPage: string) {
       let navigate = true;
       navigate = await this.onBeforePageLeave(currentPage, nextPage);
-      if(!navigate){
+      if(navigate !== false){
         navigate = await this.App.onBeforePageLeave(currentPage, nextPage);
       }
 
-      return navigate;
+      if(navigate !== false) navigate = true;
+
+      return navigate; 
     }
 
     async onBeforePageLeave(currentPage: string, nextPage: string) {
