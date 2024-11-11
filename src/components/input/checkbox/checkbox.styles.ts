@@ -7,6 +7,8 @@ export type WmCheckboxStyles = BaseStyles & {
   skeleton: WmSkeletonStyles;
   checkicon: WmIconStyles;
   uncheckicon: WmIconStyles;
+  iconSkeleton: WmSkeletonStyles;
+  labelSkeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-checkbox';
@@ -29,12 +31,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             height: 20,
             borderRadius: 4,
           },
-          icon: {
+        } as any as WmSkeletonStyles,
+        iconSkeleton: {
+          root: {
             width: 20,
             height: 20,
             borderRadius: 4,
-          },
-          label: {
+          }
+        } as any as WmSkeletonStyles,
+        labelSkeleton: {
+          root: {
             width: 200,
             borderRadius: 4,
             height: 16

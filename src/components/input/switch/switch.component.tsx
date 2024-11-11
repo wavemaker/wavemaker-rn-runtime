@@ -75,7 +75,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
                 {
                   this._showSkeleton ? createSkeleton(this.theme, {} as WmSkeletonStyles, {
                     ...this.styles.text,
-                    ...this.styles.skeleton.text
+                    ...this.styles.textSkeleton.root
                   }) : <Text
                   {...this.getTestPropsForLabel('label' + index)}
                   style={[ isSelected ?  this.styles.selectedButtonText : this.styles.text,
