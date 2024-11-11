@@ -388,7 +388,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   public renderTextSkeleton() {
     return createSkeleton(this.theme, {} as WmSkeletonStyles, {
       ...this.styles.text,
-      ...this.styles.placeholderText
+      ...this.styles.skeleton.root
     });
   }
 

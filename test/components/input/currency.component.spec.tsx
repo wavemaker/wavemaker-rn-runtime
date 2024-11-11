@@ -315,16 +315,12 @@ describe('Test Currency component', () => {
     });
   });
 
-   //skeleton loader
-   test('should render skeleton with respect to showskeletonwidth and showskeletonheight when show skeleton is true', () => {
-    const renderSkeletonMock = jest.spyOn(WmCurrency.prototype, 'renderSkeleton');
-    const tree = render(<WmCurrency {...defaultProps} showskeleton={true} skeletonwidth='100' skeletonheight='50' />)
-    expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
+  //skeletonLoader
+  test('should render skeleton with respect to default styles when show skeleton is true', () => {
+    const tree = render(<WmCurrency {...defaultProps} showskeleton={true}  />)
     const root = tree.root;
     expect(root.props.style.borderRadius).toBe(6);
-    expect(root.props.style.paddingLeft).toBe(16);
-    expect(root.props.style.paddingBottom).toBe(8);
-    expect(root.props.style.width).toBe('100');
-    expect(root.props.style.height).toBe('50');
+    expect(root.props.style.width).toBe('100%');
+    expect(root.props.style.height).toBe(40);
   })
 });

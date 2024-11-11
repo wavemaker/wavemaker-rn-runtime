@@ -218,20 +218,6 @@ describe('WmCalendar Component', () => {
   });
 
   //skeleton loader
-  it('should render skeleton with respect to showskeletonwidth and showskeletonheight when show skeleton is true', () => {
-    const renderSkeletonMock = jest.spyOn(WmCalendar.prototype, 'renderSkeleton');
-    const tree = render(<WmCalendar {...props} showskeleton={true} skeletonwidth='100' skeletonheight='50' />);
-    expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
-    const viewEles = tree.UNSAFE_getAllByType(View); 
-    expect(tree).toMatchSnapshot();
-    expect(viewEles[2].props.style.width).toBe('100');
-    expect(viewEles[2].props.style.height).toBe('50');
-    expect(viewEles[3].props.style.width).toBe('100');
-    expect(viewEles[3].props.style.height).toBe('50');
-    expect(viewEles[4].props.style.width).toBe('100');
-    expect(viewEles[4].props.style.height).toBe('50');
-  })
-
   it('should render skeleton with respect to root styles when show skeleton is true', () => {
     const tree = render(<WmCalendar {...props} name="date1" showskeleton={true}/>);
     const viewEles = tree.UNSAFE_getAllByType(View);

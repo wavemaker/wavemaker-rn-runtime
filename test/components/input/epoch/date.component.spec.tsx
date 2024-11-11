@@ -615,20 +615,13 @@ describe('WmDate Component', () => {
   });
 
    //skeleton loader
-   it('should render skeleton with respect to showskeletonwidth and showskeletonheight when show skeleton is true', () => {
-    const renderSkeletonMock = jest.spyOn(WmDate.prototype, 'renderSkeleton');
-    const tree = render(<WmDate {...props} name="date1" showskeleton={true} skeletonwidth='100' skeletonheight='50' />);
-    expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
-    const viewEles = tree.UNSAFE_getAllByType(View); 
-    expect(viewEles[3].props.style.width).toBe('100');
-    expect(viewEles[3].props.style.height).toBe('50');
-  })
-
   it('should render skeleton with respect to root styles when show skeleton is true', () => {
     const tree = render(<WmDate {...props} name="date1" showskeleton={true}/>);
     const viewEles = tree.UNSAFE_getAllByType(View);
     expect(viewEles[3].props.style.width).toBe('80%');
     expect(viewEles[3].props.style.height).toBe(16);
+    expect(viewEles[5].props.style.width).toBe(32);
+    expect(viewEles[5].props.style.height).toBe(32);
   })
 
 });

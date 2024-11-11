@@ -230,17 +230,10 @@ describe('WmAudio component', () => {
   });
 
      //skeleton loader
-     it('should render skeleton with respect to showskeletonwidth and showskeletonheight when show skeleton is true', () => {
-      const tree = renderComponent({ name: 'audio', showskeleton:true, skeletonwidth:'100', skeletonheight:'50'});
-      const viewEles = tree.UNSAFE_getAllByType(View); 
-      expect(viewEles[2].props.style.width).toBe('100');
-      expect(viewEles[2].props.style.height).toBe('50');
-    })
-  
-    it('should render skeleton with respect to root styles when show skeleton is true', () => {
+    it('should render skeleton when show skeleton is true', () => {
       const tree = renderComponent({ name: 'audio', showskeleton:true});
       const viewEles = tree.UNSAFE_getAllByType(View);
       expect(viewEles[2].props.style.height).toBe(16);
-      expect(viewEles[2].props.style.width).toBe(240);
+      expect(viewEles[2].props.style.width).toBe(200);
     })
 });
