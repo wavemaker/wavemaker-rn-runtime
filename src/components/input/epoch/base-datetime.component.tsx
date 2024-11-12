@@ -470,6 +470,9 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                   showDatePickerModal: false
                 } as BaseDatetimeState, () => this.onBlur());
               }}
+              dateheadertitle={props.dateheadertitle}
+              dateconfirmationtitle={props.dateconfirmationtitle}
+              datecanceltitle={props.datecanceltitle}
             />
           )}
           {(Platform.OS !== 'web' && props.iswheelpicker && this.state.showTimePickerModal) && (
@@ -495,6 +498,9 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                   this.modes.shift();
                 });
               }}
+              timeheadertitle={props.timeheadertitle}
+              timeconfirmationtitle={props.timeconfirmationtitle}
+              timecanceltitle={props.timecanceltitle}
             />
           )}
         </View>
