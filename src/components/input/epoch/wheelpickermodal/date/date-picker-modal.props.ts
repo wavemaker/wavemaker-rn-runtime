@@ -6,4 +6,7 @@ export default class WmDatePickerModalProps extends BaseProps {
   onClose?: () => void;
   onSelect?: (date: Date) => void;
   onCancel?: () => void;
+  dateheadertitle?: string = "Select Date";
+  dateconfirmationtitle?: string = "Select";
+  datecanceltitle?: string = "Cancel";
 }

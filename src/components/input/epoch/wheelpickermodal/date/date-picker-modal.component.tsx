@@ -26,7 +26,7 @@ export class WmDatePickerModal extends BaseComponent<
   }
 
   renderWidget() {
-    const { isVisible, onClose, onCancel, onSelect } = this.props;
+    const { isVisible, minDate, maxDate, onClose, onCancel, onSelect, dateheadertitle, dateconfirmationtitle, datecanceltitle } = this.props;
     const { selectedDate } = this.state;
     const { styles } = this;
 
@@ -43,7 +43,7 @@ export class WmDatePickerModal extends BaseComponent<
             <View style={styles.flex1} />
           </TouchableWithoutFeedback>
           <View style={styles.container}>
-            <Text style={styles.header}>Select Date</Text>
+            <Text style={styles.header}>{dateheadertitle}</Text>
             <WmWheelDatePicker
               selectedDate={this.props.selectedDate || selectedDate}
               onDateChange={(date) => {
@@ -53,12 +53,12 @@ export class WmDatePickerModal extends BaseComponent<
             <View style={styles.buttonWrapper}>
               <WmButton
                 styles={styles.cancelBtn}
-                caption="Cancel"
+                caption={datecanceltitle}
                 onTap={onCancel}
               />
               <WmButton
                 styles={styles.selectBtn}
-                caption="Select"
+                caption={dateconfirmationtitle}
                 onTap={() => onSelect?.(selectedDate || this.props.selectedDate || new Date())}
               />
             </View>
