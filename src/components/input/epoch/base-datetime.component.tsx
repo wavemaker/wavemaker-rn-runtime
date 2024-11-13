@@ -385,14 +385,17 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     return 'wm-sl-l sl-calendar';
   }
 
-  public renderTextSkeleton() {
-    return createSkeleton(this.theme, {} as WmSkeletonStyles, {
-      ...this.styles.text,
-      ...this.styles.skeleton.root
-    });
-  }
-
-
+  public renderSkeleton(props: WmDatetimeProps): React.ReactNode {
+    return (
+      this.state.props.floatinglabel || this.state.displayValue || this.state.props.placeholder ? 
+      <View style={{display:'flex',...this.styles.container,...this.styles.root}}>{createSkeleton(this.theme, {} as WmSkeletonStyles, {
+        ...this.styles.skeleton.root
+      })}{createSkeleton(this.theme, {} as WmSkeletonStyles, {
+        ...this.styles.skeleton.icon
+      })}
+      </View> : null
+    )}
+    
   renderWidget(props: WmDatetimeProps) {
     const is12HourFormat = props?.datepattern && /hh:mm(:ss|:sss)? a/.test(props.datepattern);
     const is24Hour = is12HourFormat ? false : props.is24hour;
@@ -411,7 +414,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
               />
           ) : null}
             <View style={this.styles.container}>
-              {this._showSkeleton   ? this.renderTextSkeleton() : this.addTouchableOpacity(props, (
+              {this.addTouchableOpacity(props, (
                 <Text style={[
                   this.styles.text,
                   this.state.displayValue ? {} : this.styles.placeholderText

@@ -48,11 +48,11 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     return classes.join(' ');
   }
 
-  public renderSkeleton(props: WmCurrencyProps): React.ReactNode { 
-    return createSkeleton(this.theme, {} as WmSkeletonStyles, {
-      ...this.styles.root,
+  public renderTextSkeleton(props:any): React.ReactNode { 
+    return this.props.floatinglabel  ?   <>{createSkeleton(this.theme, {} as WmSkeletonStyles, {...props})}</>
+    : <>{createSkeleton(this.theme, {} as WmSkeletonStyles, {
       ...this.styles.skeleton.root,
-    })
+    })}</>
   }
 
   renderWidget(props: WmCurrencyProps) {
@@ -60,10 +60,11 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (<View style={this.styles.root}>
-      <View style={this.styles.labelWrapper}>
-        <Text style={this.styles.label}>{this.state.currencySymbol}</Text>
+      <View style={{...this._showSkeleton && !this.props.floatinglabel ? this.styles.skeleton.labelWrapper : this.styles.labelWrapper}}>
+        {this._showSkeleton ? <>{this.renderTextSkeleton(this.styles.skeleton.text)}</> :
+         <Text style={this.styles.label}>{this.state.currencySymbol}</Text>}
       </View>
-      <View style={{flex: 1}}>
+      {this._showSkeleton ? <>{this.renderTextSkeleton(this.styles.skeleton.animatedView)}</> :<View style={{flex: 1}}>
       <WMTextInput
         {...this.getTestPropsForInput()}
         {...getAccessibilityProps(AccessibilityWidgetType.CURRENCY, props)}
@@ -105,7 +106,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         onChange={this.invokeChange.bind(this)}
         allowContentSelection={this.styles.text.userSelect === 'text'}
       />
-      </View>
+      </View> }
     </View>);
   }
 }

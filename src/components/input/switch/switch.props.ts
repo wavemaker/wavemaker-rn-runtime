@@ -5,6 +5,4 @@ export default class WmSwitchProps extends BaseDatasetProps {
   dataset: any = 'yes, no, maybe';
   dataItems: any;
   invokeEvent?: Function;
-  skeletonheight?: string = null as any;
-  skeletonwidth?: string = null as any;
 }
