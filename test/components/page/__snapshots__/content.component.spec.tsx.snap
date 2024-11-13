@@ -7,22 +7,5 @@ exports[`Test Content component should render the content component 1`] = `
       "flex": 1,
     }
   }
->
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "flex": 1,
-      }
-    }
-  >
-    <View
-      style={
-        {
-          "bottom": 0,
-        }
-      }
-    />
-  </View>
-</View>
+/>
 `;
