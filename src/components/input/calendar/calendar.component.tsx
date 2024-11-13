@@ -96,7 +96,7 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
   public renderSkeleton(props: WmCalendarProps): React.ReactNode {
     return (
     <View style={[this.styles.root, this.styles.skeleton.root]}>
-      <View style={this.styles.skeleton.header}>
+      <View style={this.styles.headerSkeleton.root}>
         {createSkeleton(this.theme, {} as WmSkeletonStyles, {width: '10%', height: 28,borderRadius: 4})}
         {createSkeleton(this.theme, {} as WmSkeletonStyles, {width: '68%', height: 16, borderRadius: 4})}
         {createSkeleton(this.theme, {}as WmSkeletonStyles, {width: '10%', height: 28, borderRadius: 4})}

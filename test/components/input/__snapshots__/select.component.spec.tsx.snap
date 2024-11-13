@@ -245,10 +245,10 @@ exports[`WmSelect should render skeleton with respect to root styles when show s
       style={
         {
           "backgroundColor": "#eeeeee",
-          "borderRadius": 12,
-          "height": 24,
+          "borderRadius": 32,
+          "height": 48,
           "overflow": "hidden",
-          "width": 24,
+          "width": 96,
         }
       }
     />

@@ -21,4 +21,10 @@ export default class WmDatetimeProps extends BaseProps {
   accessibilitylabelledby?: string = undefined;
   iswheelpicker?: boolean = true;
   is24hour?: boolean = true;
+  dateheadertitle?: string = "Select Date";
+  dateconfirmationtitle?: string = "Select";
+  datecanceltitle?: string = "Cancel";
+  timeheadertitle?: string = "Select Time";
+  timeconfirmationtitle?: string = "Select";
+  timecanceltitle?: string = "Cancel";
 }

@@ -25,6 +25,7 @@ export type WmCalendarStyles = BaseStyles & {
     eventDay2: AllStyle,
     eventDay3: AllStyle,
     skeleton: WmSkeletonStyles;
+    headerSkeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-calendar';
@@ -150,7 +151,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 paddingHorizontal: 8,
                 alignItems: 'center',
             },
-            header: {
+          } as any as  WmSkeletonStyles ,
+        headerSkeleton: {
+            root: {
                 width: '100%',
                 display:'flex', 
                 flexDirection:'row', 
@@ -158,7 +161,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 justifyContent: 'space-around',
                 marginBottom: 16
             } 
-          } as any as  WmSkeletonStyles ,
+        } as any as WmSkeletonStyles
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

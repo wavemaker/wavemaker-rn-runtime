@@ -4512,7 +4512,7 @@ exports[`WmCalendar Component should render without crashing 1`] = `
       extraData={
         MonthViewState {
           "currentYear": null,
-          "selectedDate": "2024-11-13T12:39:58.175Z",
+          "selectedDate": "2024-11-13T12:44:24.411Z",
           "viewMode": "day",
         }
       }
