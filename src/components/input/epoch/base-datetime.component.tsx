@@ -388,9 +388,11 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   public renderSkeleton(props: WmDatetimeProps): React.ReactNode {
     return (
       this.state.props.floatinglabel || this.state.displayValue || this.state.props.placeholder ? 
-      <View style={{display:'flex',...this.styles.container,...this.styles.root}}>{createSkeleton(this.theme, {} as WmSkeletonStyles, {
+      <View style={{display:'flex',...this.styles.container,...this.styles.root}}>
+        {createSkeleton(this.theme, {} as WmSkeletonStyles, {
         ...this.styles.skeleton.root
-      })}{createSkeleton(this.theme, {} as WmSkeletonStyles, {
+      })}
+      {createSkeleton(this.theme, {} as WmSkeletonStyles, {
         ...this.styles.skeleton.icon
       })}
       </View> : null
