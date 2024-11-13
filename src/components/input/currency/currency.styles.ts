@@ -11,6 +11,9 @@ export type WmCurrencyStyles = BaseStyles & {
   activeFloatingLabel: AllStyle;
   placeholderText: AllStyle;
   skeleton: WmSkeletonStyles;
+  skeletonLabel: WmSkeletonStyles;
+  skeletonTextInputWrapper:  WmSkeletonStyles;
+  skeletonLabelWrapper:  WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-currency';
@@ -76,21 +79,27 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           width: '100%',
           height: '100%',
         },
-        text:{
+      } as any as WmSkeletonStyles,
+      skeletonLabel: {
+        root: {
           width:20,
           height:28,
           borderRadius:4,
           display:'flex',
           justifyContent:'center',
           alignItems:'center'
-        },
-        animatedView: {
+        }
+      } as any as WmSkeletonStyles,
+      skeletonTextInputWrapper: {
+        root: {
           width:80,
           height:16,
           borderRadius:4,
           marginLeft:16
-        },
-        labelWrapper:{
+        }
+      } as any as WmSkeletonStyles,
+      skeletonLabelWrapper: {
+        root: {
           minHeight:42,
           width:'100%',
           borderWidth:0,

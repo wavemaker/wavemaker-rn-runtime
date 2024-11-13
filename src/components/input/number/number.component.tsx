@@ -34,7 +34,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
 
   public renderTextSkeleton(): React.ReactNode { 
     return this.props.floatinglabel  ?   
-      <View style={{...this.styles.root}}>{createSkeleton(this.theme, {} as WmSkeletonStyles, {...this.styles.skeleton.animatedView})}</View>
+      <View style={{...this.styles.root}}>{createSkeleton(this.theme, {} as WmSkeletonStyles, {...this.styles.skeletonLabel.root})}</View>
     :<>{createSkeleton(this.theme, {} as WmSkeletonStyles, {
       ...this.styles.skeleton.root,
     })}</> 

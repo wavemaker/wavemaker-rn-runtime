@@ -9,6 +9,7 @@ export type WmNumberStyles = BaseStyles & {
   floatingLabel: AllStyle;
   activeFloatingLabel: AllStyle;
   skeleton: WmSkeletonStyles;
+  skeletonLabel: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-number';
@@ -52,14 +53,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           width: '100%',
           height: 40,
         },
-        animatedView:{
+      } as any as WmSkeletonStyles,
+      skeletonLabel: {
+        root: {
           bottom: 12,
           left: 16,
           width:80,
           height:16,
           borderRadius:4
         }
-      } as any as WmSkeletonStyles,
+      } as any as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

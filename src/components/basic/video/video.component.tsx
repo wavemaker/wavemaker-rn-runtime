@@ -42,7 +42,7 @@ export default class WmVideo extends BaseComponent<WmVideoProps, WmVideoState, W
   };
 
   public renderSkeleton(props: WmVideoProps): React.ReactNode {
-    return createSkeleton(this.theme, {} as any, {
+    return createSkeleton(this.theme, this.styles.skeleton , {
       ...this.styles.root
     });
   }
