@@ -399,6 +399,39 @@ describe('WmDatetime Component', () => {
     expect(tree.getByText(ref.current.state.displayValue)).toBeTruthy();
   });
 
+  it('should render header, cancel and confirmation text as per the received props', async () => {
+    Platform.OS = 'ios';
+    const ref = createRef();
+
+    renderComponentWithWrappers({
+      ...props,
+      ref,
+      name: 'datetime1',
+      datepattern: 'MMM d y, hh:mm a',
+      locale: 'en',
+      dateheadertitle: 'Select a date',
+      datecanceltitle: 'Close',
+      dateconfirmationtitle: 'Okay',
+      timeheadertitle: 'Select a time',
+      timecanceltitle: 'Close',
+      timeconfirmationtitle: 'Okay'
+    });
+
+    const datetimeInput = screen.getAllByTestId('datetime1_a')[0];
+    fireEvent.press(datetimeInput);
+
+    await timer(300);
+    expect(screen.getByText('Select a date'));
+    expect(screen.getByText('Close'));
+    expect(screen.getByText('Okay'));
+
+    fireEvent.press(screen.getByText('Okay'));
+    await timer(300);
+    expect(screen.getByText('Select a time'));
+    expect(screen.getByText('Close'));
+    expect(screen.getByText('Okay'));
+  });
+
    //skeleton loader
    it('should render skeleton with respect to root styles when show skeleton is true', () => {
     const tree = render(<WmDatetime {...props} name="datetime1" showskeleton={true}/>);
