@@ -117,9 +117,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       arrowButton: {
         root: {
-          width: 24,
-          height: 24,
-          borderRadius: 12  
+          width: 30,
+          height: 29,
+          borderRadius: 100  
         }
       }
     } as any as WmSkeletonStyles,

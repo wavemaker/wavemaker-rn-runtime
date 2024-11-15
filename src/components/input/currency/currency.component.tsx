@@ -51,6 +51,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
   public renderTextSkeleton(props:any): React.ReactNode { 
     return this.props.floatinglabel  ?   <>{createSkeleton(this.theme, {} as WmSkeletonStyles, {...props})}</>
     : <>{createSkeleton(this.theme, {} as WmSkeletonStyles, {
+      ...this.styles.root,
       ...this.styles.skeleton.root,
     })}</>
   }
@@ -59,8 +60,8 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
-    return (<View style={this.styles.root}>
-      <View style={{...this._showSkeleton && !this.props.floatinglabel ? this.styles.skeleton.labelWrapper : this.styles.labelWrapper}}>
+    return (<View style={{...this._showSkeleton && !this.state.props.floatinglabel ? this.styles.skeleton.root : this.styles.root}}>
+      <View style={{...this._showSkeleton ? this.state.props.floatinglabel ? this.styles.skeleton.labelWrapper :null : this.styles.labelWrapper}}>
         {this._showSkeleton ? <>{this.renderTextSkeleton(this.styles.skeleton.text)}</> :
          <Text style={this.styles.label}>{this.state.currencySymbol}</Text>}
       </View>

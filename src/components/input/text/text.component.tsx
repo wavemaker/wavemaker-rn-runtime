@@ -33,13 +33,13 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
     if(this.props.skeletonwidth == "0") {
       skeletonWidth = 0
     } else {
-      skeletonWidth = this.props.skeletonwidth || this.styles.root?.width
+      skeletonWidth = this.props.skeletonwidth || this.styles.skeleton.root?.width
     }
 
     if(this.props.skeletonheight == "0") {
       skeletonHeight = 0
     } else {
-      skeletonHeight = this.props.skeletonheight || this.styles.root?.height;
+      skeletonHeight = this.props.skeletonheight || this.styles.skeleton.root?.height;
     }
 
     return createSkeleton(this.theme, this.styles.skeleton, {

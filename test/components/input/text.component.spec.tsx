@@ -327,4 +327,13 @@ describe('Text component', () => {
 
     expect(invokeEventCallbackMock).toHaveBeenCalledWith('onChange', expect.arrayContaining(['hello']));
   });
+
+  //skeletonloader
+  test('should show skeleton when showSkeleton is true', () => {
+    const tree= render(
+      <WmText {...defaultProps} showskeleton={true} />
+    );
+    expect(tree.root.props.style.width).toBe('100%');
+    expect(tree.root.props.style.height).toBe(48);
+  });
 });

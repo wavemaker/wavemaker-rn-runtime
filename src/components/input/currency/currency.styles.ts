@@ -72,28 +72,30 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       skeleton: {
         root:{
-          borderRadius: 6,
+          borderRadius: 6,       
           width: '100%',
-          height: '100%',
+          height: 42,
+          flexDirection: 'row'
         },
         text:{
-          width:20,
-          height:28,
+          width:36,
+          height:34,
           borderRadius:4,
-          display:'flex',
-          justifyContent:'center',
-          alignItems:'center'
         },
         animatedView: {
           width:80,
           height:16,
           borderRadius:4,
-          marginLeft:16
+          marginLeft:16,
+          marginTop:8
         },
         labelWrapper:{
-          minHeight:42,
-          width:'100%',
-          borderWidth:0,
+          backgroundColor: themeVariables.primaryColor,
+          paddingHorizontal:8,
+          justifyContent:'center',
+          alignItems:'center',
+          borderTopLeftRadius: 6,
+          borderBottomLeftRadius: 6,
         }
       } as any as WmSkeletonStyles,
       floatingLabel: {},

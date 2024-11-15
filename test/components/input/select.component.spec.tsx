@@ -307,7 +307,7 @@ describe('WmSelect', () => {
     const viewEles = tree.UNSAFE_getAllByType(View);
     expect(viewEles[2].props.style.width).toBe(100);
     expect(viewEles[2].props.style.height).toBe(16);
-    expect(viewEles[3].props.style.width).toBe(24);
-    expect(viewEles[3].props.style.height).toBe(24);
+    expect(viewEles[3].props.style.width).toBe(30);
+    expect(viewEles[3].props.style.height).toBe(29);
   })
 });

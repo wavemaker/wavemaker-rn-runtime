@@ -36,6 +36,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
     return this.props.floatinglabel  ?   
       <View style={{...this.styles.root}}>{createSkeleton(this.theme, {} as WmSkeletonStyles, {...this.styles.skeleton.animatedView})}</View>
     :<>{createSkeleton(this.theme, {} as WmSkeletonStyles, {
+      ...this.styles.root,
       ...this.styles.skeleton.root,
     })}</> 
   }

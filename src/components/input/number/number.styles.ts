@@ -50,7 +50,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           paddingTop: 8,
           paddingBottom: 8,
           width: '100%',
-          height: 40,
+          height: 42,
         },
         animatedView:{
           bottom: 12,

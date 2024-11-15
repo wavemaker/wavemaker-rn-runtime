@@ -336,7 +336,7 @@ describe('Number component', () => {
     const root = tree.root;
     expect(root.props.style.borderRadius).toBe(6);
     expect(root.props.style.width).toBe('100%');
-    expect(root.props.style.height).toBe(40);
+    expect(root.props.style.height).toBe(42);
   })
   
 });
