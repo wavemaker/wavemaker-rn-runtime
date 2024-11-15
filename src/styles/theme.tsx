@@ -1,4 +1,4 @@
-import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, isFunction, get, reverse } from 'lodash';
+import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, get, reverse, isNumber } from 'lodash';
 import React from 'react';
 import { camelCase } from 'lodash-es';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground, Dimensions } from 'react-native';
@@ -81,14 +81,20 @@ export class Theme {
         this.children.forEach(t => t.notify(event));
     }
 
-    private replaceVariables(val: string) {
+    private replaceVariables(val: any) {
         if(isString(val)) { 
             (val.match(/_*var\([^\)]*\)/g) || []).forEach((s) => {
                 const variableName = s.substring(4, s.length - 1);
-                val = val.replace(s, (ThemeVariables.INSTANCE as any)[variableName]
-                    || (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
-                    || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]);
-                val = this.replaceVariables(val);
+                const variableValue = (ThemeVariables.INSTANCE as any)[variableName]
+                || (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
+                || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))];
+                val = val.replace(s, variableValue);
+                if (isNumber(variableValue) 
+                    && val.trim() === (variableValue + '')) {
+                    val = variableValue;
+                } else {
+                    val = this.replaceVariables(val);
+                }
             });
         }
         return val; 
