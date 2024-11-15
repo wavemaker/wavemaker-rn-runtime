@@ -179,7 +179,10 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
 
   onFocus() {
     this.isFocused = true;
-    if (!this.state.props.disabled && this.state.props.type === 'autocomplete') {
+    if (
+      !(this.state.props.disabled || this.state.props.readonly) &&
+      this.state.props.type === 'autocomplete'
+    ) {
       this.cursor = this.state.props.query?.length || 0;
       this.updateFilteredData(this.state.props.query || '');
     }
@@ -304,7 +307,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
             onBlur={this.onBlur.bind(this)}
             {...opts}>
          </TextInput>
-         {props.showclear && this.state.props.query ? <WmButton onTap={this.clearSearch.bind(this)}
+         {(props.showclear && !(this.state.props.disabled || this.state.props.readonly)) && this.state.props.query ? <WmButton onTap={this.clearSearch.bind(this)}
                    id={this.getTestId('clear')}
                    styles={this.styles.clearButton} iconclass={'wi wi-clear'}></WmButton> : null}
        </View>
