@@ -1,5 +1,5 @@
-import React from 'react';
-import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, Text, View } from 'react-native';
+import React, { createRef } from 'react';
+import { Animated, Easing, LayoutChangeEvent, LayoutRectangle, Text, View, ScrollView } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTabheaderProps from './tabheader.props';
@@ -22,6 +22,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
   private indicatorPosition = new Animated.Value(0);
   private reverseIndicatorWidth = new Animated.Value(0);
   private indicatorWidth = new Animated.Value(0);
+  private listRef: any = createRef();
 
   constructor(props: WmTabheaderProps) {
     super(props, DEFAULT_CLASS, new WmTabheaderProps(), new WmTabheaderState());
@@ -68,6 +69,16 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
     toHeaderScrollPosition = Math.min(maxScrollPosition, toHeaderScrollPosition);
     let positionIndicator = (toIndicatorPosition - (100 - toIndicatorWidth) / 2);
     let position = this.isRTL?-positionIndicator:positionIndicator;
+
+    const positionX = selectedTabIndex === 0 ? 0 : 
+      ((toIndicatorPosition + (this.headersLayout[selectedTabIndex].width/2)) - (this.headerPanelLayout?.width || 0) / 2);
+
+    this.listRef.current?.scrollTo({
+      x: positionX,
+      y: 0,
+      Animated: true
+    });
+
     Animated.parallel([
       Animated.timing(this.headerScrollPosition, {
         useNativeDriver: true,
@@ -139,14 +150,21 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
   renderWidget(props: WmTabheaderProps) {
     this.setPosition();
     const arrowIndicator = this.styles.arrowIndicator as any;
+
+    console.log("selected index: ", this.state.props.selectedTabIndex);
+
     return (
-      <View style={{overflow: 'hidden', zIndex: 16}}>
-      <Animated.View style={{
-        transform: [{
-          translateX: this.headerScrollPosition
-        }]
-      }}
-      onLayout={this.setHeaderPanelPositon.bind(this)}>
+      <View 
+        style={{overflow: 'hidden', zIndex: 16}}
+        {...this.getTestProps('tabheader')}
+      >
+      <ScrollView
+        ref={this.listRef}
+        horizontal={true}
+        onLayout={this.setHeaderPanelPositon.bind(this)}
+        showsHorizontalScrollIndicator={false}
+      >
+      <View>
         <View style={this.styles.root}>
           {this._background}
           {props.data.map((header ,i) => {
@@ -190,18 +208,22 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
             },
             this.styles.arrowIndicator
           ]}>
-            {arrowIndicator.backgroundImage ? (<BackgroundComponent
-            image={arrowIndicator.backgroundImage}
-            position={arrowIndicator.backgroundPosition}
-            size={arrowIndicator.backgroundSize}
-            repeat={arrowIndicator.backgroundRepeat}
-            resizeMode={arrowIndicator.backgroundResizeMode}
-            style={{borderRadius: this.styles.root.borderRadius}}
-          ></BackgroundComponent>) : null }
+            {
+            arrowIndicator.backgroundImage ? (
+              <BackgroundComponent
+              image={arrowIndicator.backgroundImage}
+              position={arrowIndicator.backgroundPosition}
+              size={arrowIndicator.backgroundSize}
+              repeat={arrowIndicator.backgroundRepeat}
+              resizeMode={arrowIndicator.backgroundResizeMode}
+              style={{borderRadius: this.styles.root.borderRadius}}
+              ></BackgroundComponent>
+            ) : null }
             <View style={this.styles.arrowIndicatorDot}></View>
           </Animated.View>
         </Animated.View>
-      </Animated.View>
+        </View>
+      </ScrollView>
       </View>
     );
   }
