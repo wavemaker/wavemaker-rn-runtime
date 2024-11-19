@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform, View } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker';
+// import * as DocumentPicker from 'expo-document-picker';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -39,9 +39,11 @@ export default class WmFileupload extends BaseComponent<WmFileuploadProps, WmFil
     super(props, DEFAULT_CLASS, new WmFileuploadProps());
   }
 
-  onTap(props: WmFileuploadProps) {
-    namedParameters.type = getMimeType(props.contenttype);
-    DocumentPicker.getDocumentAsync(namedParameters).then((response: any) => {
+  async onTap(props: WmFileuploadProps) {
+    namedParameters.type = await getMimeType(props.contenttype);
+    const DocumentPicker = await import('expo-document-picker');
+
+    await DocumentPicker.getDocumentAsync(namedParameters).then((response: any) => {
       let selectedFile;
       if (Platform.OS !== 'web') {
         selectedFile = response.assets[0];

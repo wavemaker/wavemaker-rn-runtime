@@ -1,7 +1,7 @@
-import * as Location from 'expo-location';
-import * as Contacts from 'expo-contacts';
-import * as Calendar from 'expo-calendar';
-import * as Camera from 'expo-camera';
+// import * as Location from 'expo-location';
+// import * as Contacts from 'expo-contacts';
+// import * as Calendar from 'expo-calendar';
+// import * as Camera from 'expo-camera';
 import { Platform } from 'react-native';
 
 const rejectionMsgMap = new Map<string, string>();
@@ -16,25 +16,51 @@ interface objectMap {
   [key: string]: Array<string>
 }
 
-export default {
-  requestPermissions: (type: string) => {
+async function getPermissionQuery(type: string) {
+  try {
+    const Camera = await import('expo-camera');
     let query;
     if (type === 'location') {
       // requestPermissionsAsync is deprecated and requestForegroundPermissionsAsync is available only in sdk 41+
-      query = Location.requestForegroundPermissionsAsync();
+      const Location = await import('expo-location');
+      if (Location) {
+        query = await Location.requestForegroundPermissionsAsync();
+      }
     } else if (type === 'video') {
-      query = Promise.all([Camera.requestCameraPermissionsAsync(), Camera.requestMicrophonePermissionsAsync()]);
+      if (Camera) {
+        query = Promise.all([Camera.requestCameraPermissionsAsync(), Camera.requestMicrophonePermissionsAsync()]);
+      }
     } else if (type === 'image' || type === 'camera') {
-      query = Camera.requestCameraPermissionsAsync();
+      if (Camera) {
+        query = await Camera.requestCameraPermissionsAsync();
+      }
     } else if (type === 'contacts') {
-      query = Contacts.requestPermissionsAsync();
+      const Contacts = await import('expo-contacts');
+      if (Contacts) {
+        query = await Contacts.requestPermissionsAsync();
+      }
     } else if (type === 'calendar') {
-      if (Platform.OS === 'ios') {
-        query = Promise.all([Calendar.requestCalendarPermissionsAsync(), Calendar.requestRemindersPermissionsAsync()]);
-      } else {
-        query = Calendar.requestCalendarPermissionsAsync();
+      const Calendar = await import('expo-calendar');
+      if (Calendar) {
+        if (Platform.OS === 'ios') {
+          query = Promise.all([Calendar.requestCalendarPermissionsAsync(), Calendar.requestRemindersPermissionsAsync()]);
+        } else {
+          query = await Calendar.requestCalendarPermissionsAsync();
+        }
       }
     }
+
+    return query;
+  } catch (error) {
+    console.log('Failed to get permission query', error);
+    return null;
+  }
+}
+
+export default {
+  requestPermissions: async (type: string) => {
+  try {
+    const query = getPermissionQuery(type);
     if (!query) {
       return Promise.reject('no supported permission type.');
     }
@@ -52,5 +78,8 @@ export default {
       console.log('permission is not enabled ', error);
       return Promise.reject();
     });
+  } catch (error) {
+    console.log('Error in requesting permission', error);
+  }
   }
 }

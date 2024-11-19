@@ -1,8 +1,8 @@
 import { Platform } from 'react-native';
 import moment from "moment";
-import * as FileSystem from "expo-file-system";
+// import * as FileSystem from "expo-file-system";
 import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber} from 'lodash';
-import * as mime from 'react-native-mime-types';
+// import * as mime from 'react-native-mime-types';
 import ThemeVariables from '../styles/theme.variables';
 
 declare const window: any;
@@ -343,8 +343,13 @@ export const formatCompactNumber = (number: number) => {
   return (isNegative ? '-' : '') + formattedNumber;
 }
 
-export const toBase64 = function(path: string) {
-  return FileSystem.readAsStringAsync(path, { encoding: 'base64' });
+export const toBase64 = async function(path: string) {
+  const FileSystem = await import('expo-file-system');
+  if (FileSystem) {
+    return await FileSystem.readAsStringAsync(path, { encoding: 'base64' });
+  }
+
+  return null;
 };
 
 const DATASET_WIDGETS = new Set([ 'select', 'checkboxset', 'radioset', 'switch', 'autocomplete', 'chips', 'typeahead', 'rating']);
@@ -569,8 +574,9 @@ export const isDateFormatAsPerPattern = (
   }
 };
 
-export const getMimeType = (extensions?: string) => {
+export const getMimeType = async (extensions?: string) => {
   if (!extensions) return '*/*';
+  const mime = (await import('react-native-mime-types')).default;
   let hasInvalidExtension = false;
   let wildCards = ['image/*', 'audio/*', 'video/*'];
   let extensionList = extensions.split(' ');
