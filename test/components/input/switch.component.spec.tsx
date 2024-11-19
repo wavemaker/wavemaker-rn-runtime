@@ -11,6 +11,7 @@ import {
 import '@testing-library/jest-native/extend-expect';
 import WmSwitchProps from '@wavemaker/app-rn-runtime/components/input/switch/switch.props';
 import { Tappable } from '../../../src/core/tappable.component';
+import { View } from 'react-native';
 
 // Mock React Native components and WmIcon
 // jest.mock('react-native', () => ({
@@ -238,15 +239,14 @@ describe('WmSwitch', () => {
     );
   });
 
-  it('should render skeleton when showskeleton is true', async () => {
-    const renderSkeletonMock = jest.spyOn(WmSwitch.prototype, 'renderSkeleton');
+  it('should render skeleton with default styles when showskeleton is true',  () => {
     const tree = render(<WmSwitch {...defaultProps} showskeleton={true}/>);
-    const viewEle  = tree.root;
-    await waitFor(()=>{
-      expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
-    })
-    expect(viewEle.children.length).toBe(3);
-    expect(viewEle.props.style.display).toBe('flex');
-    expect(viewEle.props.style.flexDirection).toBe('row');
-  })
+    const viewEles = tree.UNSAFE_getAllByType(View);
+    expect(viewEles[3].props.style.width).toBe(30);
+    expect(viewEles[3].props.style.height).toBe(10);
+    expect(viewEles[6].props.style.width).toBe(30);
+    expect(viewEles[6].props.style.height).toBe(10);
+    expect(viewEles[9].props.style.width).toBe(30);
+    expect(viewEles[9].props.style.height).toBe(10);
+ })
 });

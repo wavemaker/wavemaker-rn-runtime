@@ -12,6 +12,17 @@ exports[`Test Textarea component should have default value for native platform 1
   allowContentSelection={true}
   autoComplete="username"
   autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
+          {
+            "borderRadius": 6,
+          }
+        }
+      />
+    </React.Fragment>
+  }
   caretHidden={false}
   contextMenuHidden={false}
   defaultValue="sample text"
@@ -69,6 +80,17 @@ exports[`Test Textarea component should have default value for web platform 1`] 
   allowContentSelection={true}
   autoComplete="username"
   autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
+          {
+            "borderRadius": 6,
+          }
+        }
+      />
+    </React.Fragment>
+  }
   caretHidden={false}
   contextMenuHidden={false}
   editable={true}
@@ -131,6 +153,17 @@ exports[`Test Textarea component should render correctly with default props 1`] 
   allowContentSelection={true}
   autoComplete="username"
   autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
+          {
+            "borderRadius": 6,
+          }
+        }
+      />
+    </React.Fragment>
+  }
   caretHidden={false}
   contextMenuHidden={false}
   defaultValue=""

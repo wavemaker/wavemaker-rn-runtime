@@ -337,10 +337,9 @@ describe('WmChips', () => {
   });
     //skeleton loader
     it('should render skeleton when show skeleton is true', () => {
-      const renderSkeletonMock = jest.spyOn(WmChips.prototype, 'renderSkeleton');
-      const tree = render(<WmChips {...defaultProps} {...datasetProps} showskeleton={true} skeletonwidth='100' skeletonheight='50'/>);
-      expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
-      const viewEles = tree.UNSAFE_getAllByType(View); 
-      expect(viewEles.length).toBe(1);
+      const {getByTestId} = render(<WmChips {...defaultProps} {...datasetProps} showskeleton={true}/>);
+      expect(getByTestId('null_chip0').children[0].props.styles.root.width).toBe(50);
+      expect(getByTestId('null_chip1').children[0].props.styles.root.width).toBe(50);
+      expect(getByTestId('null_chip2').children[0].props.styles.root.width).toBe(50);
     })
 });

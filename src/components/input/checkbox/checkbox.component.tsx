@@ -74,10 +74,9 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
 
   public renderSkeleton(props: WmCheckboxProps): React.ReactNode {
     return <View style={[this.styles.root, this.styles.skeleton.root]}>
-        <WmIcon styles={{ root: {...this.styles.checkicon, ...this.styles.skeleton.icon} }}/>
-        <WmLabel styles={{ root: {...this.styles.text, ...this.styles.skeleton.label} }}/>
+        <WmIcon styles={{ root: {...this.styles.checkicon, ...this.styles.iconSkeleton.root} }}/>
+        <WmLabel styles={{ root: {...this.styles.text, ...this.styles.labelSkeleton.root} }}/>
       </View>
-
   }
 
   renderWidget(props: WmCheckboxProps) {

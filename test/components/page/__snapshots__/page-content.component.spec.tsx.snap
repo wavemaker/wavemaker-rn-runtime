@@ -10,39 +10,53 @@ exports[`Test PageContent component should render pageContent component 1`] = `
     }
   }
 >
-  <RCTScrollView
-    collapsable={false}
-    contentContainerStyle={
+  <View
+    onLayout={[Function]}
+    style={
       [
         {
-          "backgroundColor": "#eeeeee",
-          "minHeight": "100%",
-          "paddingBottom": 8,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "paddingTop": 8,
+          "flex": 1,
         },
         {
-          "backgroundColor": "transparent",
-        },
-      ]
-    }
-    handlerTag={1}
-    handlerType="NativeViewGestureHandler"
-    onGestureHandlerEvent={[Function]}
-    onGestureHandlerStateChange={[Function]}
-    onScroll={[Function]}
-    scrollEventThrottle={48}
-    showsVerticalScrollIndicator={true}
-    waitFor={
-      [
-        {
-          "current": null,
+          "paddingBottom": 0,
         },
       ]
     }
   >
-    <View />
-  </RCTScrollView>
+    <RCTScrollView
+      collapsable={false}
+      contentContainerStyle={
+        [
+          {
+            "backgroundColor": "#eeeeee",
+            "minHeight": "100%",
+            "paddingBottom": 8,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "paddingTop": 8,
+          },
+          {
+            "backgroundColor": "transparent",
+          },
+        ]
+      }
+      handlerTag={1}
+      handlerType="NativeViewGestureHandler"
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      onScroll={[Function]}
+      scrollEventThrottle={48}
+      showsVerticalScrollIndicator={true}
+      waitFor={
+        [
+          {
+            "current": null,
+          },
+        ]
+      }
+    >
+      <View />
+    </RCTScrollView>
+  </View>
 </View>
 `;

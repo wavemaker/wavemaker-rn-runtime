@@ -2,7 +2,7 @@ import WmTime from '@wavemaker/app-rn-runtime/components/input/epoch/time/time.c
 import WmTimeProps from '@wavemaker/app-rn-runtime/components/input/epoch/time/time.props';
 
 import React, { ReactNode, createRef } from 'react';
-import { Modal, Platform, Text, TouchableOpacity } from 'react-native';
+import { Modal, Platform, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import AppModalService from '@wavemaker/app-rn-runtime/runtime/services/app-modal.service';
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
@@ -383,4 +383,14 @@ describe('WmTime Component', () => {
     expect(onBlurMock).toHaveBeenCalled();
     expect(triggerValidationMock).toHaveBeenCalled();
   });
+
+   //skeleton loader
+   it('should render skeleton with respect to root styles when show skeleton is true', () => {
+    const tree = render(<WmTime {...props} name="time1" showskeleton={true}/>);
+    const viewEles = tree.UNSAFE_getAllByType(View);
+    expect(viewEles[1].props.style.width).toBe('80%');
+    expect(viewEles[1].props.style.height).toBe(16);
+    expect(viewEles[2].props.style.width).toBe(32);
+    expect(viewEles[2].props.style.height).toBe(32);
+  })
 });

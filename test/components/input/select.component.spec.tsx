@@ -300,17 +300,14 @@ describe('WmSelect', () => {
     expect(tree.root.props.children[1].props.style[0].height).toBe(0);
   });
 
-  it('should render skeleton with respect to showskeletonwidth and showskeletonheight when show skeleton is true',  () => {
-    const tree = render(<WmSelect {...defaultProps} showskeleton={true} skeletonwidth='100' skeletonheight='50' />);
-    const viewEles = tree.UNSAFE_getAllByType(View);
-    expect(viewEles[2].props.style.width).toBe('100');
-    expect(viewEles[2].props.style.height).toBe('50');
-  })
-
+//skeleton loader
   it('should render skeleton with respect to root styles when show skeleton is true',  () => {
     const tree = render(<WmSelect {...defaultProps} showskeleton={true} />);
+    expect(tree).toMatchSnapshot();
     const viewEles = tree.UNSAFE_getAllByType(View);
-    expect(viewEles[2].props.style.width).toBe(120);
+    expect(viewEles[2].props.style.width).toBe(100);
     expect(viewEles[2].props.style.height).toBe(16);
+    expect(viewEles[3].props.style.width).toBe(24);
+    expect(viewEles[3].props.style.height).toBe(24);
   })
 });

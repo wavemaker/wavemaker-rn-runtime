@@ -112,6 +112,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
               borderRadius: 4,
               marginRight:16,
               width:'80%' 
+            },
+            icon:{
+                width:32,
+                height:32,
+                borderRadius:4
             }
           } as any as WmSkeletonStyles,
     }) as any as WmDatetimeStyles;
