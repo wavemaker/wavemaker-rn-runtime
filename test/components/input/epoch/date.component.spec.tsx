@@ -618,10 +618,10 @@ describe('WmDate Component', () => {
   it('should render skeleton with respect to root styles when show skeleton is true', () => {
     const tree = render(<WmDate {...props} name="date1" showskeleton={true}/>);
     const viewEles = tree.UNSAFE_getAllByType(View);
-    expect(viewEles[3].props.style.width).toBe('80%');
-    expect(viewEles[3].props.style.height).toBe(16);
-    expect(viewEles[5].props.style.width).toBe(32);
-    expect(viewEles[5].props.style.height).toBe(32);
+    expect(viewEles[1].props.style.width).toBe('80%');
+    expect(viewEles[1].props.style.height).toBe(16);
+    expect(viewEles[2].props.style.width).toBe(32);
+    expect(viewEles[2].props.style.height).toBe(32);
   })
 
 });

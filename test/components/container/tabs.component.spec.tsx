@@ -230,9 +230,13 @@ describe('Test Tabs component', () => {
     );
   });
 
-  xit('should handle tabheader layout change events', () => {
+  it('should handle tabheader layout change events', () => {
     const ref = createRef();
-    const tree = render(<WmTabheader name="test_Popover" ref={ref} />);
+    const tree = render(<WmTabheader name="test_Popover" ref={ref} data={[
+      {title: 'tab1', icon: 'fa fa-edit', key: 'tab1'},
+      {title: 'tab2', icon: 'fa fa-edit', key: 'tab2'},
+      {title: 'tab3', icon: 'fa fa-edit', key: 'tab3'},
+    ]}/>);
     const nativeEvent = {
       layout: {
         width: 100,
@@ -240,17 +244,15 @@ describe('Test Tabs component', () => {
       },
     };
 
-    // ref.current.proxy.setHeaderPanelPositon({ nativeEvent: nativeEvent });
-    ref.current.proxy.setHeaderPanelPositon(nativeEvent);
-    ref.current.proxy.setHeaderPositon(1, nativeEvent);
-    // ref.current.proxy.setHeaderPositon(1, { nativeEvent: nativeEvent });
+    ref.current.proxy.setHeaderPanelPositon({ nativeEvent: nativeEvent });
+    ref.current.proxy.setHeaderPositon(1, { nativeEvent: nativeEvent });
 
-    expect(ref.current.proxy.headerPanelLayout.toString()).toBe(
-      nativeEvent.toString()
+    expect(ref.current.proxy.headerPanelLayout).toMatchObject(
+      nativeEvent.layout
     );
 
-    expect(ref.current.proxy.headersLayout[1].toString()).toBe(
-      nativeEvent.toString()
+    expect(ref.current.proxy.headersLayout[1]).toMatchObject(
+      nativeEvent.layout
     );
   });
 

@@ -8,6 +8,7 @@ import { DEFAULT_CLASS, WmVideoStyles } from './video.styles';
 import { isString } from 'lodash-es';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
 export class WmVideoState extends BaseComponentState<WmVideoProps> {}
 
@@ -39,6 +40,12 @@ export default class WmVideo extends BaseComponent<WmVideoProps, WmVideoState, W
       console.error(`Encountered a fatal error during playback: ${status.error}`);
     }
   };
+
+  public renderSkeleton(props: WmVideoProps): React.ReactNode {
+    return createSkeleton(this.theme, this.styles.skeleton , {
+      ...this.styles.root
+    });
+  }
 
   renderWidget(props: WmVideoProps) {
     return (

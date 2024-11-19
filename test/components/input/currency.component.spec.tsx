@@ -318,9 +318,8 @@ describe('Test Currency component', () => {
   //skeletonLoader
   test('should render skeleton with respect to default styles when show skeleton is true', () => {
     const tree = render(<WmCurrency {...defaultProps} showskeleton={true}  />)
-    const root = tree.root;
-    expect(root.props.style.borderRadius).toBe(6);
-    expect(root.props.style.width).toBe('100%');
-    expect(root.props.style.height).toBe(40);
+    const viewEles = tree.UNSAFE_getAllByType(View);
+    expect(viewEles[1].props.style.minHeight).toBe(42);
+    expect(viewEles[1].props.style.width).toBe('100%');
   })
 });

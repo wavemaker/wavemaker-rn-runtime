@@ -24,6 +24,7 @@ exports[`WmSelect renders correctly with default props 1`] = `
         {
           "backgroundColor": "#ffffff",
         },
+        {},
       ]
     }
   >

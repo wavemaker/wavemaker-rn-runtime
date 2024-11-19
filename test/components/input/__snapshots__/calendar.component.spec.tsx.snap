@@ -4512,7 +4512,7 @@ exports[`WmCalendar Component should render without crashing 1`] = `
       extraData={
         MonthViewState {
           "currentYear": null,
-          "selectedDate": "2024-11-11T11:48:49.456Z",
+          "selectedDate": "2024-11-13T12:44:24.411Z",
           "viewMode": "day",
         }
       }
@@ -5816,7 +5816,7 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                 {
                   "alignItems": "center",
                   "backgroundColor": "#ffffff",
-                  "borderColor": "#4263eb",
+                  "borderColor": "transparent",
                   "borderRadius": 26,
                   "borderWidth": 1,
                   "height": 38,
@@ -5850,9 +5850,7 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                         "fontSize": 16,
                         "fontWeight": "400",
                       },
-                      {
-                        "backgroundColor": "#4263eb",
-                      },
+                      {},
                       {},
                       {},
                       undefined,
@@ -5861,50 +5859,6 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                 >
                   11
                 </Text>
-                <View>
-                  <View
-                    style={
-                      {
-                        "alignItems": "center",
-                        "alignSelf": "flexStart",
-                        "flexDirection": "row",
-                        "marginTop": -8,
-                      }
-                    }
-                    testID="non_animatableView"
-                  >
-                    <View>
-                      <View>
-                        <Text
-                          accessible={false}
-                          size={8}
-                          style={
-                            [
-                              {
-                                "color": undefined,
-                              },
-                              {
-                                "color": "rgb(229, 234, 252)",
-                                "paddingLeft": 0,
-                                "paddingRight": 8,
-                              },
-                              {
-                                "transform": [
-                                  {
-                                    "rotate": "0deg",
-                                  },
-                                ],
-                              },
-                            ]
-                          }
-                          testID="undefined_icon"
-                        >
-                          circle
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
               </View>
             </View>
             <View
@@ -6018,7 +5972,7 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                 {
                   "alignItems": "center",
                   "backgroundColor": "#ffffff",
-                  "borderColor": "transparent",
+                  "borderColor": "#4263eb",
                   "borderRadius": 26,
                   "borderWidth": 1,
                   "height": 38,
@@ -6052,7 +6006,9 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                         "fontSize": 16,
                         "fontWeight": "400",
                       },
-                      {},
+                      {
+                        "backgroundColor": "#4263eb",
+                      },
                       {},
                       {},
                       undefined,
@@ -6061,6 +6017,50 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                 >
                   13
                 </Text>
+                <View>
+                  <View
+                    style={
+                      {
+                        "alignItems": "center",
+                        "alignSelf": "flexStart",
+                        "flexDirection": "row",
+                        "marginTop": -8,
+                      }
+                    }
+                    testID="non_animatableView"
+                  >
+                    <View>
+                      <View>
+                        <Text
+                          accessible={false}
+                          size={8}
+                          style={
+                            [
+                              {
+                                "color": undefined,
+                              },
+                              {
+                                "color": "rgb(229, 234, 252)",
+                                "paddingLeft": 0,
+                                "paddingRight": 8,
+                              },
+                              {
+                                "transform": [
+                                  {
+                                    "rotate": "0deg",
+                                  },
+                                ],
+                              },
+                            ]
+                          }
+                          testID="undefined_icon"
+                        >
+                          circle
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
               </View>
             </View>
             <View
