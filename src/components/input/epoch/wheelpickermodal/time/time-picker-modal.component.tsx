@@ -26,7 +26,7 @@ export class WmTimePickerModal extends BaseComponent<
   }
 
   renderWidget(props: WmTimePickerModalProps) {
-    const { is24Hour, isVisible, onClose, onCancel, onSelect } = this.props;
+    const { is24Hour, isVisible, onClose, onCancel, onSelect, timeheadertitle, timeconfirmationtitle, timecanceltitle } = this.props;
     const { selectedTime } = this.state;
     const { styles } = this;
 
@@ -43,7 +43,7 @@ export class WmTimePickerModal extends BaseComponent<
             <View style={styles.flex1} />
           </TouchableWithoutFeedback>
           <View style={styles.container}>
-            <Text style={styles.header}>Select Time</Text>
+            <Text style={styles.header}>{timeheadertitle}</Text>
             <WmWheelTimePicker
               selectedTime={this.props.selectedDateTime || selectedTime}
               is24Hour={is24Hour}
@@ -54,12 +54,12 @@ export class WmTimePickerModal extends BaseComponent<
             <View style={styles.buttonWrapper}>
               <WmButton
                 styles={styles.cancelBtn}
-                caption="Cancel"
+                caption={timecanceltitle}
                 onTap={onCancel}
               />
               <WmButton
                 styles={styles.selectBtn}
-                caption="Select"
+                caption={timeconfirmationtitle}
                 onTap={() => onSelect?.(selectedTime || this.props.selectedDateTime || new Date().setSeconds(0))}
               />
             </View>

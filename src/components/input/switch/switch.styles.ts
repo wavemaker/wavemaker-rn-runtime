@@ -11,7 +11,8 @@ export type WmSwitchStyles = BaseStyles & {
   selectedButtonText: AllStyle,
   firstButton: AllStyle,
   lastButton: AllStyle,
-  skeleton: WmSkeletonStyles
+  skeleton: WmSkeletonStyles,
+  textSkeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-switch';
@@ -89,7 +90,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         paddingLeft: 16,
         paddingRight: 16,
       },
-      text: {
+    } as any as WmSkeletonStyles,
+    textSkeleton: {
+      root: {
         width: 30,
         height: 10,
         borderRadius: 4

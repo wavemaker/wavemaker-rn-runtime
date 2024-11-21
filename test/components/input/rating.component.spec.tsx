@@ -9,6 +9,7 @@ import {
   waitFor,
 } from '@testing-library/react-native';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import { View } from 'react-native';
 
 // Mock Icon Component
 // jest.mock(
@@ -267,4 +268,16 @@ describe('WmRating', () => {
     );
     expect(getDisplayExpressionMock).toBeCalledWith(dataInput[2]);
   });
+
+  //skeleton Loader
+  it('should render skeletonLoader with default styles when showSkeleton is true', () =>{ 
+    const {UNSAFE_getAllByType} = render(<WmRating {...defaultProps} showskeleton={true}/>);
+    const skeletonEles = UNSAFE_getAllByType(View);
+    expect(skeletonEles[1].props.style.width).toBe(32);
+    expect(skeletonEles[1].props.style.height).toBe(32);
+    expect(skeletonEles[2].props.style.width).toBe(32);
+    expect(skeletonEles[2].props.style.height).toBe(32);
+    expect(skeletonEles[3].props.style.width).toBe(32);
+    expect(skeletonEles[3].props.style.height).toBe(32);
+  })
 });

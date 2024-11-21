@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WmChips renders correctly with default props and type as search 1`] = `
+<View
+  style={
+    {
+      "flexWrap": "wrap",
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "flexDirection": "column",
+            "width": "100%",
+          },
+          {
+            "flexDirection": "column-reverse",
+          },
+        ]
+      }
+    >
+      <View>
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "borderRadius": 28,
+              "flexDirection": "row",
+              "marginBottom": 8,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "flex": 1,
+                "flexDirection": "row",
+                "justifyContent": "center",
+              }
+            }
+          >
+            <TextInput
+              accessibilityRole="search"
+              accessible={true}
+              autoFocus={false}
+              defaultValue=""
+              editable={true}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onLayout={[Function]}
+              placeholder="Search chips..."
+              placeholderTextColor="#bbbbbb"
+              style={
+                [
+                  {
+                    "backgroundColor": "#dddddd",
+                    "borderBottomLeftRadius": 28,
+                    "borderBottomRightRadius": 4,
+                    "borderColor": "#dddddd",
+                    "borderRightWidth": 1,
+                    "borderTopLeftRadius": 28,
+                    "borderTopRightRadius": 4,
+                    "borderWidth": 1,
+                    "fontFamily": "Roboto",
+                    "minHeight": 56,
+                    "paddingBottom": 8,
+                    "paddingLeft": 24,
+                    "paddingRight": 14,
+                    "paddingTop": 8,
+                    "userSelect": "text",
+                    "width": "100%",
+                  },
+                  {},
+                  null,
+                ]
+              }
+              testID="null_search_i"
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          {
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;

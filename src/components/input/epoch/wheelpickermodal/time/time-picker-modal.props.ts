@@ -7,4 +7,7 @@ export default class WmTimePickerModalProps extends BaseProps {
   onClose?: () => void;
   onSelect?: (time: Date) => void;
   onCancel?: () => void;
+  timeheadertitle?: string = "Select Time";
+  timeconfirmationtitle?: string = "Select";
+  timecanceltitle?: string = "Cancel";
 }

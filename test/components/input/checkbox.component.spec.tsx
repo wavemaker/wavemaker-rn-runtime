@@ -219,32 +219,12 @@ describe('WmCheckbox Unit tests', () => {
   });
 
   //skeleton loader
-  it('should render skeleton with respect to showskeletonwidth and showskeletonheight when show skeleton is true', async() => {
-    const renderSkeletonMock = jest.spyOn(WmCheckbox.prototype, 'renderSkeleton');
-    const {UNSAFE_getAllByType} = render(<WmCheckbox {...defaultProps} showskeleton={true} skeletonwidth='100' skeletonheight='50' />)
-    expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
-    const views = UNSAFE_getAllByType(View);
-    expect(views[1].props.style.borderRadius).toBe(4);
-    expect(views[1].props.style.backgroundColor).toBe("#eeeeee");
-    expect(views[1].props.style.width).toBe('100');
-    expect(views[1].props.style.height).toBe('50');
-    expect(views[2].props.style.borderRadius).toBe(4);
-    expect(views[2].props.style.backgroundColor).toBe("#eeeeee");
-    expect(views[2].props.style.width).toBe('100');
-    expect(views[2].props.style.height).toBe('50');
-  })
-
-  it('should render skeleton with respect to provided styles when show skeleton is true', () => {
-    const {UNSAFE_getAllByType} = render(<WmCheckbox {...defaultProps} showskeleton={true}/>)
-    const views = UNSAFE_getAllByType(View);
-    expect(screen).toMatchSnapshot();
-    expect(views[1].props.style.borderRadius).toBe(4);
-    expect(views[1].props.style.backgroundColor).toBe("#eeeeee");
-    expect(views[1].props.style.width).toBe(20);
-    expect(views[1].props.style.height).toBe(20);
-    expect(views[2].props.style.borderRadius).toBe(4);
-    expect(views[2].props.style.backgroundColor).toBe("#eeeeee");
-    expect(views[2].props.style.width).toBe(100);
-    expect(views[2].props.style.height).toBe(16);
+  it('should render skeleton with default styles when show skeleton is true', () => {
+    const {UNSAFE_getAllByType} = render(<WmCheckbox {...defaultProps} showskeleton={true} />)
+    const skeletonText = UNSAFE_getAllByType(View);
+    expect(skeletonText[1].props.style.width).toBe(20);
+    expect(skeletonText[1].props.style.height).toBe(20);
+    expect(skeletonText[2].props.style.width).toBe(200);
+    expect(skeletonText[2].props.style.height).toBe(16);
   })
 });

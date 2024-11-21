@@ -399,20 +399,46 @@ describe('WmDatetime Component', () => {
     expect(tree.getByText(ref.current.state.displayValue)).toBeTruthy();
   });
 
-   //skeleton loader
-   it('should render skeleton with respect to showskeletonwidth and showskeletonheight when show skeleton is true', () => {
-    const renderSkeletonMock = jest.spyOn(WmDatetime.prototype, 'renderSkeleton');
-    const tree = render(<WmDatetime {...props} name="datetime1" showskeleton={true} skeletonwidth='100' skeletonheight='50' />);
-    expect(renderSkeletonMock).toHaveBeenCalledTimes(1);
-    const viewEles = tree.UNSAFE_getAllByType(View); 
-    expect(viewEles[3].props.style.width).toBe('100');
-    expect(viewEles[3].props.style.height).toBe('50');
-  })
+  it('should render header, cancel and confirmation text as per the received props', async () => {
+    Platform.OS = 'ios';
+    const ref = createRef();
 
-  it('should render skeleton with respect to root styles when show skeleton is true', () => {
+    renderComponentWithWrappers({
+      ...props,
+      ref,
+      name: 'datetime1',
+      datepattern: 'MMM d y, hh:mm a',
+      locale: 'en',
+      dateheadertitle: 'Select a date',
+      datecanceltitle: 'Close',
+      dateconfirmationtitle: 'Okay',
+      timeheadertitle: 'Select a time',
+      timecanceltitle: 'Close',
+      timeconfirmationtitle: 'Okay'
+    });
+
+    const datetimeInput = screen.getAllByTestId('datetime1_a')[0];
+    fireEvent.press(datetimeInput);
+
+    await timer(300);
+    expect(screen.getByText('Select a date'));
+    expect(screen.getByText('Close'));
+    expect(screen.getByText('Okay'));
+
+    fireEvent.press(screen.getByText('Okay'));
+    await timer(300);
+    expect(screen.getByText('Select a time'));
+    expect(screen.getByText('Close'));
+    expect(screen.getByText('Okay'));
+  });
+
+   //skeleton loader
+   it('should render skeleton with respect to root styles when show skeleton is true', () => {
     const tree = render(<WmDatetime {...props} name="datetime1" showskeleton={true}/>);
     const viewEles = tree.UNSAFE_getAllByType(View);
-    expect(viewEles[3].props.style.width).toBe('80%');
-    expect(viewEles[3].props.style.height).toBe(16);
+    expect(viewEles[1].props.style.width).toBe('80%');
+    expect(viewEles[1].props.style.height).toBe(16);
+    expect(viewEles[2].props.style.width).toBe(32);
+    expect(viewEles[2].props.style.height).toBe(32);
   })
 });

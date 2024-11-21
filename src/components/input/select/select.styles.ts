@@ -20,6 +20,8 @@ export type WmSelectStyles = BaseStyles & {
   placeholderText: AllStyle;
   invalid: AllStyle;
   skeleton: WmSkeletonStyles;
+  arrowButtonSkeleton: WmSkeletonStyles;
+  textSkeleton: WmSkeletonStyles;
 };
 
 export const DEFAULT_CLASS = 'app-select';
@@ -114,15 +116,22 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderRadius: 4,
         marginRight:8,
         padding:0
-      },
-      arrowButton: {
-        root: {
-          width: 24,
-          height: 24,
-          borderRadius: 12  
-        }
       }
     } as any as WmSkeletonStyles,
+    arrowButtonSkeleton: {
+      root: {
+        width: 24,
+        height: 24,
+        borderRadius: 12  
+      }
+    } as any as WmSkeletonStyles,
+    textSkeleton: {
+      root: {
+        width: 100,
+        height: 16,
+        borderRadius: 8  
+      }
+    } as any as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

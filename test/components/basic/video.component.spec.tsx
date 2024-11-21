@@ -149,4 +149,15 @@ describe('Test Video component', () => {
       uri: 'https://example.com/poster.png',
     });
   });
+
+  //skeleton loader
+  it('handles different mp4 video source URL correctly', async () => {
+    renderComponent({
+      name: 'test',
+      showskeleton:true
+    });
+    const root = screen.root;
+    expect(root.props.style.width).toBe('100%');
+    expect(root.props.style.height).toBe(300);
+  });
 });

@@ -91,9 +91,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
 
   private renderSkeletonForText(){
     return createSkeleton(this.theme, {} as WmSkeletonStyles, {
-      width: 100,
-      height: 16,
-      borderRadius: 8
+      ...this.styles.textSkeleton.root
     });
   }
 
@@ -135,7 +133,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
             {this.state.props.displayValue || props.placeholder || ' '}
           </Text>}
           <WmButton
-            styles={this._showSkeleton ? this.styles.skeleton.arrowButton : this.styles.arrowButton}
+            styles={this._showSkeleton ? this.styles.arrowButtonSkeleton.root : this.styles.arrowButton}
             iconclass={'wi wi-keyboard-arrow-down'}
             onTap={this.onPress.bind(this)}
             hint={props?.hint}

@@ -106,8 +106,9 @@ describe('WmSearch Component', () => {
   });
 
   afterEach(() => {
-    // AppModalService.modalsOpened = [];
+    AppModalService.modalsOpened = [];
     jest.clearAllMocks();
+    jest.resetModules();
     cleanup();
   });
 
@@ -155,7 +156,6 @@ describe('WmSearch Component', () => {
       />
     );
     const searchInput = getByPlaceholderText('Search');
-    // const onFocus = jest.spyOn(WmSearch.prototype, 'onFocus');
 
     fireEvent(searchInput, 'onFocus');
     await waitFor(() => {
@@ -169,6 +169,76 @@ describe('WmSearch Component', () => {
       null,
       expect.anything(),
     ]);
+  });
+
+  it('should not render search items when disabled is true', async () => {
+    AppModalService.modalsOpened = [];
+    const ref = createRef();
+
+    const tree = renderComponentWithWrappers({
+      type: 'search',
+      ref,
+      disabled: true,
+    });
+
+    ref.current.view = {
+      measure: (callback: Function) => {
+        callback(0, 0, 100, 50, 10, 20);
+      },
+    } as any;
+
+    const searchInput = tree.getByPlaceholderText('Search');
+
+    fireEvent(searchInput, 'onFocus');
+    fireEvent.changeText(searchInput, 'name1');
+    await act(async () => {
+      await ref.current.computePosition();
+    });
+
+    await timer(500);
+
+    const renderOptions = AppModalService.modalOptions; //[0];
+    const Content = () => {
+      return <>{renderOptions.content}</>;
+    };
+    const subTree = render(<Content />);
+    expect(subTree.queryByText('name1')).toBeNull();
+  });
+
+  it('should not render search items when readonly is true', async () => {
+    // AppModalService.modalsOpened = [];
+    const ref = createRef();
+    const tree = renderComponentWithWrappers({
+      type: 'autocomplete',
+      ref,
+      readonly: true,
+    });
+    ref.current.view = {
+      measure: (callback: Function) => {
+        callback(0, 0, 100, 50, 10, 20);
+      },
+    } as any;
+
+    const searchInput = tree.getByPlaceholderText('Search');
+
+    fireEvent(searchInput, 'onFocus');
+    await act(async () => {
+      await ref.current.computePosition();
+    });
+
+    await timer(500);
+
+    // const renderOptions = AppModalService.modalsOpened[0];
+    const renderOptions = AppModalService.modalOptions;
+    const Content = () => {
+      return <>{renderOptions.content}</>;
+    };
+    const subTree = render(<Content />);
+
+    expect(subTree.queryByText('name1')).toBeNull();
+    expect(subTree.queryByText('name2')).toBeNull();
+    expect(subTree.queryByText('name0')).toBeNull();
+    expect(subTree.queryByText(ref.current.props.datacompletemsg)).toBeNull();
   });
 
   it('should call respective callbacks when an item is selected', async () => {
@@ -732,9 +802,9 @@ describe('WmSearch Component', () => {
     expect(tree.getByRole('search')).toBeTruthy();
   });
 
-  xit('should not clear search field when type readonly is true', async () => {
+  it('should not render clear button when type readonly is true', async () => {
     const ref = createRef();
-    const { getByPlaceholderText, getByText } = render(
+    const { queryByText, getByPlaceholderText } = render(
       <WmSearch
         {...defaultProps}
         query="name"
@@ -745,27 +815,22 @@ describe('WmSearch Component', () => {
         datafield="dataValue"
         displaylabel="name"
         readonly={true}
+        datavalue={'dataValue1'}
       />
     );
-    const searchInput = getByPlaceholderText('Search');
-    fireEvent.changeText(searchInput, 'name2');
+    const clearButton = queryByText('clear');
 
-    fireEvent.press(getByText('clear'));
-
-    await timer(300);
-    await waitFor(() => {
-      expect(invokeEventCallback).not.toHaveBeenCalledTimes(1);
-      expect(invokeEventCallback).not.toHaveBeenCalledWith('onClear', [
-        null,
-        expect.anything(),
-      ]);
-      expect(invokeEventCallback.mock.calls.length).toBe(0);
-    });
+    expect(clearButton).toBe(null);
+    expect(getByPlaceholderText('Search').props.defaultValue).toBe(
+      'dataValue1'
+    );
   });
 
-  xit('should not clear search field when disabled is true', async () => {
+  it('should not render clear button when type disabled is true', async () => {
+    AppModalService.modalsOpened = [];
+
     const ref = createRef();
-    const { getByPlaceholderText, getByText } = render(
+    const { queryByText, getByPlaceholderText } = render(
       <WmSearch
         {...defaultProps}
         query="name"
@@ -777,92 +842,15 @@ describe('WmSearch Component', () => {
         displaylabel="name"
         type="autocomplete"
         disabled={true}
+        datavalue={'dataValue1'}
       />
     );
-    const searchInput = getByPlaceholderText('Search');
-    fireEvent.changeText(searchInput, 'name2');
-    const updateFilteredDataMock = jest.spyOn(
-      WmSearch.prototype,
-      'updateFilteredData'
+
+    const clearButton = queryByText('clear');
+    expect(clearButton).toBe(null);
+    expect(getByPlaceholderText('Search').props.defaultValue).toBe(
+      'dataValue1'
     );
-    fireEvent.press(getByText('clear'));
-    await waitFor(() => {
-      expect(invokeEventCallback).not.toHaveBeenCalledWith('onClear', [
-        null,
-        expect.anything(),
-      ]);
-      expect(updateFilteredDataMock).not.toHaveBeenCalledWith('');
-      expect(ref.current.state.data.length).toBe(1);
-    });
-  });
-
-  xit('should not render search items when disabled is true', async () => {
-    // AppModalService.modalsOpened = [];
-    const ref = createRef();
-
-    const tree = renderComponentWithWrappers({
-      type: 'search',
-      ref,
-      disabled: true,
-    });
-    ref.current.view = {
-      measure: (callback: Function) => {
-        callback(0, 0, 100, 50, 10, 20);
-      },
-    } as any;
-
-    const searchInput = tree.getByPlaceholderText('Search');
-
-    fireEvent(searchInput, 'onFocus');
-    fireEvent.changeText(searchInput, 'name1');
-    await act(async () => {
-      await ref.current.computePosition();
-    });
-
-    await timer(500);
-
-    const renderOptions = AppModalService.modalOptions; //[0];
-    const Content = () => {
-      return <>{renderOptions.content}</>;
-    };
-    const subTree = render(<Content />);
-    expect(subTree.queryByText('name1')).toBeNull();
-  });
-
-  xit('should not render search items when readonly is true', async () => {
-    // AppModalService.modalsOpened = [];
-    const ref = createRef();
-    const tree = renderComponentWithWrappers({
-      type: 'autocomplete',
-      ref,
-      readonly: true,
-    });
-    ref.current.view = {
-      measure: (callback: Function) => {
-        callback(0, 0, 100, 50, 10, 20);
-      },
-    } as any;
-
-    const searchInput = tree.getByPlaceholderText('Search');
-
-    fireEvent(searchInput, 'onFocus');
-    await act(async () => {
-      await ref.current.computePosition();
-    });
-
-    await timer(500);
-
-    // const renderOptions = AppModalService.modalsOpened[0];
-    const renderOptions = AppModalService.modalOptions;
-    const Content = () => {
-      return <>{renderOptions.content}</>;
-    };
-    const subTree = render(<Content />);
-
-    expect(subTree.queryByText('name1')).toBeNull();
-    expect(subTree.queryByText('name2')).toBeNull();
-    expect(subTree.queryByText('name0')).toBeNull();
-    expect(subTree.queryByText(ref.current.props.datacompletemsg)).toBeNull();
   });
 
   it('should handle layout change and update width accordingly', async () => {
@@ -905,8 +893,8 @@ describe('WmSearch Component', () => {
   });
 
   it('should render with custom icon when iconclass prop is set', async () => {
-    render(<WmSearch {...defaultProps} iconclass='fa fa-edit'/>);
-    
+    render(<WmSearch {...defaultProps} iconclass="fa fa-edit" />);
+
     expect(screen.getByText('edit')).toBeTruthy();
     expect(screen).toMatchSnapshot();
   });

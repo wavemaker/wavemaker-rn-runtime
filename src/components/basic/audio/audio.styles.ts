@@ -11,7 +11,7 @@ export type WmAudioStyles = BaseStyles & {
     muteIcon: WmIconStyles
     unmuteIcon: WmIconStyles
     slider: WmSliderStyles
-    skeleton: WmSkeletonStyles
+    textSkeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-audio';
@@ -68,13 +68,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 backgroundColor: themeVariables.defaultColor3
             }
         } as WmSliderStyles,
-        skeleton: {
-            text: {
+        textSkeleton: {
+            root: {
                 width: 200,
                 height: 16,
                 borderRadius: 4
             }
-          } as WmSkeletonStyles
+          } as any as WmSkeletonStyles
     } as WmAudioStyles);
     addStyle(DEFAULT_CLASS, '', defaultStyles);
 });
