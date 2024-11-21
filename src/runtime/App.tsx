@@ -1,6 +1,6 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
+import { Platform, TouchableOpacity, View, ViewStyle, StatusBar, KeyboardAvoidingView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView, EdgeInsets } from 'react-native-safe-area-context';
@@ -406,7 +406,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }}/>;
   }
 
-  renderDialogs(insets: EdgeInsets | null): ReactNode {
+  renderDialogs(): ReactNode {
     return <WmMemo watcher={this.watcher} render={(watch) => {
       watch(() => last(AppModalService.modalsOpened)?.content);
       this.modalsOpened = AppModalService.modalsOpened.length;
@@ -425,7 +425,6 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   { 
                     elevation: o.elevationIndex,
                     zIndex: o.elevationIndex,
-                    top: insets?.top
                   })}>
                     <Animatedview entryanimation={o.animation || 'fadeIn'} delay={o.animationdelay}
                       ref={ref => {
@@ -504,6 +503,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 (<SafeAreaView  style={{flex: 1}}> 
                   <StatusBar />
                   <ThemeProvider value={this.appConfig.theme}>
+                  <View style={{ flex: 1 }}>
                   <FixedViewContainer>
                     <View style={styles.container}>
                       <GestureHandlerRootView style={styles.container}>
@@ -522,8 +522,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
                       : null}
                   </FixedViewContainer>
                   {this.renderToasters()}
-                  {this.renderDialogs(insets)}
+                  {this.renderDialogs()}
                   {this.renderDisplayManager()}
+                  </View>
                   </ThemeProvider>
                 </SafeAreaView>))
               )
