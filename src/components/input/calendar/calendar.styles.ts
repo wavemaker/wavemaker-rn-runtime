@@ -126,13 +126,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         prevMonthBtn: {
             root: {
                 color: themeVariables.calendarPrevMonthIconColor
-            }
-        } as WmIconStyles,
+            }, 
+            text: {}
+        } as any,
         nextMonthBtn: {
             root: {
                 color: themeVariables.calendarNextMonthIconColor
-            }
-        } as WmIconStyles,
+            }, 
+            text: {}
+        } as any,
         prevYearBtn: {
             root: {
                 color: themeVariables.calendarPrevYearIconColor
@@ -170,12 +172,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             root: {
                 transform: [ {rotateY: '180deg'}]
             }
-        } as WmIconStyles,
+        } as any,
         nextMonthBtn: {
             root: {
                 transform: [ {rotateY: '180deg'}]            
             }
-        } as WmIconStyles,
+        } as any,
         monthText: {
             padding: 2
         },
