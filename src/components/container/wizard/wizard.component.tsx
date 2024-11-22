@@ -169,7 +169,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
               { wizardStepCountVisibility &&
                 <Text style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')}>{index+1}</Text>}
               {(index < this.state.currentStep || this.state.isDone) &&
-                <WmIcon id={this.getTestId('status')} styles={merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}})}
+                <WmIcon id={this.getTestId('status')} styles={merge({}, {icon: {color: this.styles.activeStep.color}}, this.styles.stepIcon)}
                         iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
             </View> : <WmLabel showskeleton={true} styles={{root: {...this.getStepStyle(index)[0]}}}/>}
             {(isActiveStep) &&
