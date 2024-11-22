@@ -6,6 +6,19 @@ const tar = require('tar');
 const execa = require('execa');
 const path = require("path");
 
+async function createPackageLock(path) {
+  await execa('npm', ['install', '--package-lock-only'], {
+    'cwd': path
+  });
+  const expoPackageJSON = fs.readJSONSync(`${path}/package-lock.json`);
+  Object.values(expoPackageJSON.packages || {}).map(v => {
+    delete v.resolved;
+  });
+  fs.writeJSONSync(`${path}/package-lock.json`, expoPackageJSON, {
+    spaces: 4
+  });
+}
+
 async function updatePackageVersion(packagePath, key, version) {
     let content = fs.readFileSync(packagePath, 'utf8');
     content = content.replace(new RegExp(`"${key}"\\s*:\\s*"[^"]*"`), `"${key}": "${version}"`);
@@ -36,9 +49,8 @@ async function prepareNpmPackages(runtimeVersion) {
   fs.copySync(`${projectDir}/dist/module`, `${projectDir}/dist/npm-packages/package`, {
     filter: p => !p.startsWith('/node_modules/')
   });
-  await execa('npm', ['install', '--package-lock-only'], {
-    'cwd': `${projectDir}/dist/npm-packages/package`
-  });
+  // generate package lock
+  await createPackageLock(`${projectDir}/dist/npm-packages/package`);
   await execa('tar', ['-czf', `dist/npm-packages/${tarballName}`, '-C', 'dist/npm-packages', 'package'], {
     'cwd': `${projectDir}`
   });
