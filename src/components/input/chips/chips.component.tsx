@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, DimensionValue } from 'react-native';
 import { LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
-import { clone, findIndex, get, isUndefined, pull, forEach, filter, find, isEqual, merge, isArray } from 'lodash';
+import { clone, findIndex, get, isUndefined, pull, forEach, filter, find, isEqual, merge, isArray, isString } from 'lodash';
 import WmChipsProps from './chips.props';
 import { DEFAULT_CLASS, WmChipsStyles } from './chips.styles';
 import WmSearch from '@wavemaker/app-rn-runtime/components/basic/search/search.component';
@@ -61,6 +61,9 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
               dataValueItems = [datavalue];
             }
           }
+          dataValueItems = dataValueItems.map((item: any) =>
+            isString(item) ? item.trim() : item
+          );
           if (dataValueItems.length >= $new) {
             dataValueItems = dataValueItems.slice(0, $new);
             let updatedItems = this.state.dataItems.map((item: any) => ({

@@ -195,7 +195,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
           this.initNumericSlider();
         }
       case 'datavalue':
-        if (isNumber($new) && isNumber($old)) {
+        if (!isEqual($new, $old)) {
           this.invokeEventCallback('onChange', [null, this, $new, $old]);
         }
         break;
