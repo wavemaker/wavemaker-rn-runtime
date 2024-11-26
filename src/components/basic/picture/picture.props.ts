@@ -14,4 +14,5 @@ export default class WmPictureProps extends BaseProps {
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole = 'image';
+  fastload?: boolean = false;
 }
