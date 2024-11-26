@@ -75,6 +75,7 @@
     "expo-font": "13.0.1",
     "expo-linear-gradient": "14.0.1",
     "expo-modules-core": "2.0.3",
+    "expo-video": "2.0.1",
     "fast-xml-parser": "4.3.6",
     "imask": "7.6.0",
     "lodash-es": "4.17.21",
