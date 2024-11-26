@@ -153,12 +153,21 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     });
   }
 
+  showImage = (imageElement: any, props: WmPictureProps) => {
+    if(props.fastload){
+      return imageElement;
+    }
+    return this.state.imageWidth ? imageElement : null
+  }
+
   renderWidget(props: WmPictureProps) {
     const imageWidth = this.state.imageWidth;
     const imageHeight = this.state.imageHeight;
     const shapeStyles = this.createShape(props.shape, imageWidth);
     this._pictureSource =  this._pictureSource || this.loadImage(props.picturesource);
-    this._picturePlaceHolder = this._picturePlaceHolder || this.loadImage(props.pictureplaceholder);
+    this._picturePlaceHolder = props.fastload ? 
+      (this._pictureSource || this._picturePlaceHolder || this.loadImage(props.pictureplaceholder)) :
+      (this._picturePlaceHolder || this.loadImage(props.pictureplaceholder));
     const imgSrc: any = this._pictureSource || this._picturePlaceHolder;
     let elementToshow;
     if (imgSrc) {
@@ -181,7 +190,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
                 width: imageWidth,
                 borderRadius: shapeStyles.picture?.borderRadius
               }]}>
-              {this.state.imageWidth ? elementToshow : null}
+                {this.showImage(elementToshow, props)}
             </Animatedview>
           </Tappable>
         </View>
