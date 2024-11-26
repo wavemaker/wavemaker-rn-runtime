@@ -332,6 +332,15 @@ describe('Test Toggle component', () => {
     expect(setStateMock).toHaveBeenCalledWith({ viewWidth: 50 });
   });
 
+   //skeleton loader
+  test('should render skeleton with respect to provided styles when show skeleton is true', () => {
+    const tree = render(<WmToggle {...baseProps} showskeleton={true}  />)
+    const root = tree.root;
+    expect(root.props.style.width).toBe(52);
+    expect(root.props.style.height).toBe(32);
+    expect(root.props.style.borderRadius).toBe(18);
+  })
+  
   // test('should apply animations correctly', async () => {
   //   jest.useFakeTimers();
 

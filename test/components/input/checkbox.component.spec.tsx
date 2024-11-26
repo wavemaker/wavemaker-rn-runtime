@@ -7,6 +7,7 @@ import {
 } from '@testing-library/react-native';
 import WmCheckbox from '@wavemaker/app-rn-runtime/components/input/checkbox/checkbox.component';
 import WmCheckboxProps from '@wavemaker/app-rn-runtime/components/input/checkbox/checkbox.props';
+import { View } from 'react-native';
 
 // jest.mock(
 //   '@wavemaker/app-rn-runtime/components/basic/icon/icon.component',
@@ -216,4 +217,14 @@ describe('WmCheckbox Unit tests', () => {
       props: { datavalue: true },
     });
   });
+
+  //skeleton loader
+  it('should render skeleton with default styles when show skeleton is true', () => {
+    const {UNSAFE_getAllByType} = render(<WmCheckbox {...defaultProps} showskeleton={true} />)
+    const skeletonText = UNSAFE_getAllByType(View);
+    expect(skeletonText[1].props.style.width).toBe(20);
+    expect(skeletonText[1].props.style.height).toBe(20);
+    expect(skeletonText[2].props.style.width).toBe(200);
+    expect(skeletonText[2].props.style.height).toBe(16);
+  })
 });

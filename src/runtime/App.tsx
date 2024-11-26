@@ -501,6 +501,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 (<SafeAreaView  style={{flex: 1}}> 
                   <StatusBar />
                   <ThemeProvider value={this.appConfig.theme}>
+                  <View style={{ flex: 1 }}>
                   <FixedViewContainer>
                     <View style={styles.container}>
                       <GestureHandlerRootView style={styles.container}>
@@ -521,6 +522,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   {this.renderToasters()}
                   {this.renderDialogs()}
                   {this.renderDisplayManager()}
+                  </View>
                   </ThemeProvider>
                 </SafeAreaView>))
               )

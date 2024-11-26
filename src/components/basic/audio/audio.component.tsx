@@ -1,15 +1,16 @@
 import React from 'react';
-import { Platform, Text, View } from 'react-native';
+import { DimensionValue, Platform, Text, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { isString } from 'lodash-es';
 import { Audio } from 'expo-av';
 import { Sound } from 'expo-av/build/Audio';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-
 import WmAudioProps from './audio.props';
 import { DEFAULT_CLASS, WmAudioStyles } from './audio.styles';
 import WmIcon from '../icon/icon.component';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import { createSkeleton } from '../skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
 
 export class WmAudioState extends BaseComponentState<WmAudioProps> {
   playing = false;
@@ -211,6 +212,15 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
     this.stop();
   }
 
+  public renderTextSkeleton(): React.ReactNode {
+      return (
+        createSkeleton(this.theme, {} as WmSkeletonStyles, {
+          ...this.styles.text,
+          ...this.styles.textSkeleton.root
+        }
+        )
+      )
+  } 
   renderWidget(props: WmAudioProps) {
     return props.controls ? (
       <View style={this.styles.root}>
@@ -226,23 +236,28 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
           iconclass="wi wi-pause fa-2x"
           styles={this.styles.pauseIcon}
           onTap={() => this.pause()}></WmIcon>)}
-        <Text style={this.styles.text}>
-          {`${this.formatTime(this.state.currentTime)} / ${this.formatTime(this.state.totalTime)}`}
-        </Text>
-        <Slider
-          testID={this.getTestId('slider')}
-          step={1}
-          style={{flex: 1}}
-          value={this.state.currentTime}
-          disabled={isWebPreviewMode()}
-          onValueChange={this.onSeekChange.bind(this)}
-          minimumValue={0}
-          inverted={this.isRTL && (Platform.OS=="android" || Platform.OS=="web")}
-          maximumValue={this.state.totalTime || 1}
-          thumbTintColor={this.styles.slider.thumb.backgroundColor as string}
-          minimumTrackTintColor={this.styles.slider.minimumTrack.backgroundColor as string}
-          maximumTrackTintColor={this.styles.slider.maximumTrack.backgroundColor as string}
-        />
+        {
+          this._showSkeleton ? this.renderTextSkeleton() : 
+          <>
+            <Text style={this.styles.text}>
+            {`${this.formatTime(this.state.currentTime)} / ${this.formatTime(this.state.totalTime)}`}
+            </Text>
+            <Slider
+            testID={this.getTestId('slider')}
+            step={1}
+            style={{flex: 1}}
+            value={this.state.currentTime}
+            disabled={isWebPreviewMode()}
+            onValueChange={this.onSeekChange.bind(this)}
+            minimumValue={0}
+            inverted={this.isRTL && (Platform.OS=="android" || Platform.OS=="web")}
+            maximumValue={this.state.totalTime || 1}
+            thumbTintColor={this.styles.slider.thumb.backgroundColor as string}
+            minimumTrackTintColor={this.styles.slider.minimumTrack.backgroundColor as string}
+            maximumTrackTintColor={this.styles.slider.maximumTrack.backgroundColor as string}
+            />
+          </>
+        }
         {!props.muted ? (<WmIcon name={props.name + "_mute"}
           id={this.getTestId('mute')}
           iconclass="wi wi-volume-up fa-2x"

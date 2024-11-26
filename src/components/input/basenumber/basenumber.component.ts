@@ -167,8 +167,18 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
 
     new Promise((resolve) => {
       if (props.hastwowaybinding) {
-        this.setProp("datavalue", value);
-        this.updateState({props: { "datavalue": value }} as S);
+        const newProps: any = {
+          props: {
+            datavalue: model || Number(value)
+          }
+        }
+        if(this.state.props.updateon === 'blur'){
+          newProps.textValue = model || Number(value)
+        }
+
+        this.updateState({...newProps} as S)
+
+        setImmediate(()=> this.setProp("datavalue", value));
         resolve(true);
       } else {
         this.updateState({

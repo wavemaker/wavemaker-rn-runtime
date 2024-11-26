@@ -12,6 +12,7 @@ import WmListActionTemplate from './list-action-template/list-action-template.co
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
+import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 
 
 export class WmListState extends BaseComponentState<WmListProps> {
@@ -353,8 +354,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const styles = this._showSkeleton ? {
       ...this.styles.item,
       ...this.styles.skeleton.root
-    } : this.styles.item
-
+    } : this.styles.item as any
     return (index < this.state.maxRecordsToShow || isHorizontal) ? (
       <Swipeable
       renderLeftActions={() => this.renderLeftActions()}
@@ -363,6 +363,16 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         styles,
         props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
         this.isSelected(item) ? this.styles.selectedItem : {}]}>
+        {styles.backgroundImage ? (
+          <BackgroundComponent
+          image={styles.backgroundImage}
+          position={styles.backgroundPosition || 'center'}
+          size={styles.backgroundSize || 'cover'}
+          repeat={styles.backgroundRepeat || 'no-repeat'}
+          resizeMode={styles.backgroundResizeMode || 'cover'}
+          style={{ borderRadius: this.styles.item.borderRadius }}
+        />
+        ) : null}
         <Tappable
           {...this.getTestPropsForAction(`item${index}`)}
           onTap={($event) => this.onSelect(item, index, $event)}

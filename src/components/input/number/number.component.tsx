@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { DimensionValue, Platform, View } from 'react-native';
 import { isNull } from 'lodash';
 
 import WmNumberProps from './number.props';
@@ -10,6 +10,8 @@ import {
   BaseNumberState
 } from '@wavemaker/app-rn-runtime/components/input/basenumber/basenumber.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export class WmNumberState extends BaseNumberState<WmNumberProps> {
   keyboardType: any;
@@ -30,11 +32,20 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
     return classes.join(' ');
   }
 
+  public renderTextSkeleton(): React.ReactNode { 
+    return this.props.floatinglabel  ?   
+      <View style={{...this.styles.root}}>{createSkeleton(this.theme, {} as WmSkeletonStyles, {...this.styles.skeletonLabel.root})}</View>
+    :<>{createSkeleton(this.theme, {} as WmSkeletonStyles, {
+      ...this.styles.skeleton.root,
+    })}</> 
+  }
+
   renderWidget(props: WmNumberProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
-    return (<WMTextInput
+    return (this._showSkeleton ? this.renderTextSkeleton() : 
+    <WMTextInput
       {...this.getTestPropsForInput()}
       {...getAccessibilityProps(AccessibilityWidgetType.NUMBER, props)}
       ref={(ref: any) => {this.widgetRef = ref;

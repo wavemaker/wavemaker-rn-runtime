@@ -1,5 +1,5 @@
 import React, { createRef, ReactNode } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import WmCalendar from '@wavemaker/app-rn-runtime/components/input/calendar/calendar.component';
 import WmCalendarProps from '@wavemaker/app-rn-runtime/components/input/calendar/calendar.props';
 import {
@@ -216,4 +216,16 @@ describe('WmCalendar Component', () => {
     expect(tree.root.props.style.width).toBe(0);
     expect(tree.root.props.style.height).toBe(0);
   });
+
+  //skeleton loader
+  it('should render skeleton with respect to root styles when show skeleton is true', () => {
+    const tree = render(<WmCalendar {...props} name="date1" showskeleton={true}/>);
+    const viewEles = tree.UNSAFE_getAllByType(View);
+    expect(viewEles[2].props.style.width).toBe('10%');
+    expect(viewEles[2].props.style.height).toBe(28);
+    expect(viewEles[3].props.style.width).toBe('68%');
+    expect(viewEles[3].props.style.height).toBe(16);
+    expect(viewEles[4].props.style.width).toBe('10%');
+    expect(viewEles[4].props.style.height).toBe(28);
+  })
 });

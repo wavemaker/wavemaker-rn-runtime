@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { DimensionValue, View } from 'react-native';
 import { isString } from 'lodash';
 import moment, { Moment } from 'moment';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -8,6 +8,8 @@ import { MonthView } from './views/month-view';
 import WmCalendarProps from './calendar.props';
 import { DEFAULT_CLASS, WmCalendarStyles } from './calendar.styles';
 import WmIcon from '../../basic/icon/icon.component';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component'
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export class WmCalendarState extends BaseComponentState<WmCalendarProps> {
   selectedDate: Moment = moment();
@@ -90,6 +92,18 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
     super.componentDidUpdate && super.componentDidUpdate(prevProps, prevState, snapshot);
     this.invokeEventCallback('onViewrender', [this, null]);
   }
+
+  public renderSkeleton(props: WmCalendarProps): React.ReactNode {
+    return (
+    <View style={[this.styles.root, this.styles.skeleton.root]}>
+      <View style={this.styles.headerSkeleton.root}>
+        {createSkeleton(this.theme, {} as WmSkeletonStyles, {width: '10%', height: 28,borderRadius: 4})}
+        {createSkeleton(this.theme, {} as WmSkeletonStyles, {width: '68%', height: 16, borderRadius: 4})}
+        {createSkeleton(this.theme, {}as WmSkeletonStyles, {width: '10%', height: 28, borderRadius: 4})}
+      </View>
+      {createSkeleton(this.theme, {} as WmSkeletonStyles, {width: '96%', margin: 8, height: 320, borderRadius: 4})}
+      </View>)
+  } 
 
   renderWidget(props: WmCalendarProps) {
     this.invokeEventCallback('onBeforerender', [null, this]);

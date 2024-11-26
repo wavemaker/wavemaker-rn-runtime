@@ -1,5 +1,5 @@
 import React, { ReactNode, createRef } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import WmAudio from '@wavemaker/app-rn-runtime/components/basic/audio/audio.component';
 import WmAudioProps from '@wavemaker/app-rn-runtime/components/basic/audio/audio.props';
 import {
@@ -228,4 +228,12 @@ describe('WmAudio component', () => {
       );
     });
   });
+
+     //skeleton loader
+    it('should render skeleton when show skeleton is true', () => {
+      const tree = renderComponent({ name: 'audio', showskeleton:true});
+      const viewEles = tree.UNSAFE_getAllByType(View);
+      expect(viewEles[2].props.style.height).toBe(16);
+      expect(viewEles[2].props.style.width).toBe(200);
+    })
 });

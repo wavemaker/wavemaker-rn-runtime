@@ -1,5 +1,5 @@
 import React, { ReactNode, createRef } from 'react';
-import { Modal, Platform, Text, TouchableOpacity } from 'react-native';
+import { Modal, Platform, Text, TouchableOpacity, View } from 'react-native';
 import WmDate from '@wavemaker/app-rn-runtime/components/input/epoch/date/date.component';
 import WmWheelScrollPicker from '@wavemaker/app-rn-runtime/components/input/epoch/wheelpicker/wheelpicker.component';
 import WmDateProps from '@wavemaker/app-rn-runtime/components/input/epoch/date/date.props';
@@ -613,4 +613,15 @@ describe('WmDate Component', () => {
     expect(onBlurMock).toHaveBeenCalled();
     expect(triggerValidationMock).toHaveBeenCalled();
   });
+
+   //skeleton loader
+  it('should render skeleton with respect to root styles when show skeleton is true', () => {
+    const tree = render(<WmDate {...props} name="date1" showskeleton={true}/>);
+    const viewEles = tree.UNSAFE_getAllByType(View);
+    expect(viewEles[1].props.style.width).toBe('80%');
+    expect(viewEles[1].props.style.height).toBe(16);
+    expect(viewEles[2].props.style.width).toBe(32);
+    expect(viewEles[2].props.style.height).toBe(32);
+  })
+
 });

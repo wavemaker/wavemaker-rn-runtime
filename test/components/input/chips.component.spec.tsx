@@ -1,5 +1,5 @@
 import React, { ReactNode, createRef } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import {
   render,
   screen,
@@ -22,13 +22,15 @@ const timer = (time = 100) =>
     setTimeout(() => resolve(), time);
   });
 
-const loadAsset = (path) => path;
+const loadAsset = (path: any) => path;
 
 AppModalService.modalsOpened = [];
 
 describe('WmChips', () => {
   let defaultProps: WmChipsProps;
-  let datasetProps;
+  let datasetProps: React.JSX.IntrinsicAttributes &
+    React.JSX.IntrinsicClassAttributes<WmChips> &
+    Readonly<WmChipsProps>;
 
   beforeEach(() => {
     defaultProps = new WmChipsProps();
@@ -82,6 +84,7 @@ describe('WmChips', () => {
     expect(screen.getByPlaceholderText('Search chips...')).toBeTruthy();
     let searchInput = screen.UNSAFE_getByType(WmSearch);
     expect(searchInput.props.type).toBe('search');
+    expect(screen).toMatchSnapshot();
   });
 
   it('renders correctly with default props and type as autocomplete', async () => {
@@ -183,12 +186,17 @@ describe('WmChips', () => {
   });
 
   // Max Size Handling
-  xit('does not add more chips when max size is reached', async () => {
+  it('does not add more chips when max size is reached', async () => {
     // AppModalService.modalsOpened = [];
     const tree = renderComponentWithWrappers({
       maxsize: 1,
       datavalue: 'name2',
     });
+    expect(tree.getByPlaceholderText('Max size reached')).toBeTruthy();
+
+    fireEvent.press(tree.getByText('clear'));
+    await timer(300);
+
     const searchInput = tree.getByPlaceholderText('Search chips...');
     const search = tree.UNSAFE_getByType(WmSearch);
     search.instance.view = {
@@ -209,9 +217,9 @@ describe('WmChips', () => {
     fireEvent.press(subTree.getByText('name1'));
     await timer(300);
     await waitFor(() => {
-      expect(tree.getByText('name2')).toBeTruthy();
-      // expect(tree.getByText('name1')).toBeTruthy();
-      expect(tree.queryByText('name1')).toBeNull();
+      expect(tree.getByText('name1')).toBeTruthy();
+      expect(tree.queryByText('name2')).toBeNull();
+      expect(tree.getByPlaceholderText('Max size reached')).toBeTruthy();
     });
   });
 
@@ -222,7 +230,7 @@ describe('WmChips', () => {
       <WmChips
         {...defaultProps}
         {...datasetProps}
-        searchable={false}
+        searchable={true}
         ref={ref}
         accessibilitylabel="Chips Component"
         hint="chips"
@@ -256,7 +264,7 @@ describe('WmChips', () => {
     expect(ref.current.state.dataItems[1].selected).toBe(true);
   });
 
-  xit('should handle readonly properly', async () => {
+  it('should handle readonly properly', async () => {
     render(
       <WmChips
         {...defaultProps}
@@ -265,7 +273,8 @@ describe('WmChips', () => {
         readonly={true}
       />
     );
-    fireEvent.press(screen.getByText('clear'));
+    expect(screen.queryByText('clear')).toBeNull();
+
     await timer(300);
     await waitFor(() => {
       expect(screen.getByText('name1')).toBeTruthy();
@@ -334,5 +343,20 @@ describe('WmChips', () => {
         selectedChip.parent?.parent?.props.accessibilityState.selected
       ).toBe(true);
     });
+  });
+  //skeleton loader
+  it('should render skeleton when show skeleton is true', () => {
+    const { getByTestId } = render(
+      <WmChips {...defaultProps} {...datasetProps} showskeleton={true} />
+    );
+    expect(getByTestId('null_chip0').children[0].props.styles.root.width).toBe(
+      50
+    );
+    expect(getByTestId('null_chip1').children[0].props.styles.root.width).toBe(
+      50
+    );
+    expect(getByTestId('null_chip2').children[0].props.styles.root.width).toBe(
+      50
+    );
   });
 });

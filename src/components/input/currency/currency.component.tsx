@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, DimensionValue } from 'react-native';
 
 import WmCurrencyProps from './currency.props';
 import { CURRENCY_INFO } from '@wavemaker/app-rn-runtime/core/currency-constants';
@@ -12,6 +12,9 @@ import {
 import { isNull } from "lodash";
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { countDecimalDigits, validateInputOnDevice } from '@wavemaker/app-rn-runtime/core/utils';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
+
 export class WmCurrencyState extends BaseNumberState<WmCurrencyProps> {
   currencySymbol: any;
 }
@@ -45,15 +48,23 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     return classes.join(' ');
   }
 
+  public renderTextSkeleton(props:any): React.ReactNode { 
+    return this.props.floatinglabel  ?   <>{createSkeleton(this.theme, {} as WmSkeletonStyles, {...props})}</>
+    : <>{createSkeleton(this.theme, {} as WmSkeletonStyles, {
+      ...this.styles.skeleton.root,
+    })}</>
+  }
+
   renderWidget(props: WmCurrencyProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (<View style={this.styles.root}>
-      <View style={this.styles.labelWrapper}>
-        <Text style={this.styles.label}>{this.state.currencySymbol}</Text>
+      <View style={ (this._showSkeleton && !this.props.floatinglabel) ?  this.styles.skeletonLabelWrapper.root : this.styles.labelWrapper }>
+        {this._showSkeleton ? <>{this.renderTextSkeleton(this.styles.skeletonLabel.root)}</> :
+         <Text style={this.styles.label}>{this.state.currencySymbol}</Text>}
       </View>
-      <View style={{flex: 1}}>
+      {this._showSkeleton ? <>{this.renderTextSkeleton(this.styles.skeletonTextInputWrapper.root)}</> :<View style={{flex: 1}}>
       <WMTextInput
         {...this.getTestPropsForInput()}
         {...getAccessibilityProps(AccessibilityWidgetType.CURRENCY, props)}
@@ -95,7 +106,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         onChange={this.invokeChange.bind(this)}
         allowContentSelection={this.styles.text.userSelect === 'text'}
       />
-      </View>
+      </View> }
     </View>);
   }
 }

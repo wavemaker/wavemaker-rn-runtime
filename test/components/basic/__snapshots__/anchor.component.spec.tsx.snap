@@ -320,7 +320,6 @@ exports[`Test Anchor component should not render caption when falsy value is pas
       </View>
     </View>
     <Text
-      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -343,7 +342,6 @@ exports[`Test Anchor component should not render caption when falsy value is pas
           "textAlignVertical": "center",
         }
       }
-      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -613,7 +611,6 @@ exports[`Test Anchor component should render anchor component 1`] = `
       Click here
     </Text>
     <Text
-      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -636,7 +633,6 @@ exports[`Test Anchor component should render anchor component 1`] = `
           "textAlignVertical": "center",
         }
       }
-      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -773,7 +769,6 @@ exports[`Test Anchor component should render caption with default value as "Link
       Link
     </Text>
     <Text
-      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -796,7 +791,6 @@ exports[`Test Anchor component should render caption with default value as "Link
           "textAlignVertical": "center",
         }
       }
-      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -933,7 +927,6 @@ exports[`Test Anchor component should render icon to the left of caption when ic
       Click here
     </Text>
     <Text
-      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -956,7 +949,6 @@ exports[`Test Anchor component should render icon to the left of caption when ic
           "textAlignVertical": "center",
         }
       }
-      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -1093,7 +1085,6 @@ exports[`Test Anchor component should render icon to the right of caption when i
       </View>
     </View>
     <Text
-      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -1116,7 +1107,6 @@ exports[`Test Anchor component should render icon to the right of caption when i
           "textAlignVertical": "center",
         }
       }
-      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -1253,7 +1243,6 @@ exports[`Test Anchor component should render icon to the top of caption when ico
       Click here
     </Text>
     <Text
-      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -1276,7 +1265,6 @@ exports[`Test Anchor component should render icon to the top of caption when ico
           "textAlignVertical": "center",
         }
       }
-      testID="test-anchor_badge"
     >
       5
     </Text>
@@ -1286,129 +1274,32 @@ exports[`Test Anchor component should render icon to the top of caption when ico
 
 exports[`Test Anchor component should render skeleton when showskeleton is true 1`] = `
 <View
+  onLayout={[Function]}
   style={
     {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 4,
+      "height": "100",
+      "overflow": "hidden",
+      "width": "50",
     }
   }
-  testID="non_animatableView"
->
-  <View
-    style={
-      [
-        {
-          "alignItems": "center",
-          "color": "#151420",
-          "flexDirection": "row",
-          "overflow": "visible",
-        },
-        null,
-        {
-          "flexDirection": "row",
-        },
-      ]
-    }
-  >
-    <Text
-      accessibilityLabel="Link"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
-        }
-      }
-      testID="wm-anchor_caption"
-    >
-      Link
-    </Text>
-    <View
-      onLayout={[Function]}
-      style={
-        {
-          "backgroundColor": "#F4F5F8",
-          "marginLeft": 0,
-          "marginTop": -12,
-          "overflow": "hidden",
-        }
-      }
-    />
-  </View>
-</View>
+/>
 `;
 
 exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 1`] = `
 <View
+  onLayout={[Function]}
   style={
     {
+      "backgroundColor": "#eeeeee",
+      "borderRadius": 4,
       "height": 80,
-      "justifyContent": "center",
+      "overflow": "hidden",
       "width": 80,
     }
   }
-  testID="non_animatableView"
->
-  <View
-    style={
-      [
-        {
-          "alignItems": "center",
-          "color": "#151420",
-          "flexDirection": "row",
-          "height": 80,
-          "overflow": "visible",
-          "width": 80,
-        },
-        {
-          "height": "100%",
-          "width": "100%",
-        },
-        {
-          "flexDirection": "row",
-        },
-      ]
-    }
-  >
-    <Text
-      accessibilityLabel="Link"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
-        }
-      }
-      testID="wm-anchor_caption"
-    >
-      Link
-    </Text>
-    <View
-      onLayout={[Function]}
-      style={
-        {
-          "backgroundColor": "#F4F5F8",
-          "marginLeft": 0,
-          "marginTop": -12,
-          "overflow": "hidden",
-        }
-      }
-    />
-  </View>
-</View>
+/>
 `;
 
 exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 1`] = `
@@ -1555,7 +1446,6 @@ exports[`Test Anchor component should render the badge correctly for badge value
       Click here
     </Text>
     <Text
-      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -1578,7 +1468,6 @@ exports[`Test Anchor component should render the badge correctly for badge value
           "textAlignVertical": "center",
         }
       }
-      testID="test-anchor_badge"
     >
       10
     </Text>
@@ -1812,7 +1701,6 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
       </View>
     </View>
     <Text
-      accessible={false}
       collapsable={false}
       numberOfLines={1}
       style={
@@ -1835,7 +1723,6 @@ exports[`Test Anchor component tappable component in anchor should take 100% of 
           "textAlignVertical": "center",
         }
       }
-      testID="test-anchor_badge"
     >
       5
     </Text>

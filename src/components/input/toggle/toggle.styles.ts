@@ -1,9 +1,11 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { ViewStyle } from 'react-native';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmToggleStyles = BaseStyles & {
-  handle: ViewStyle
+  handle: ViewStyle,
+  skeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-toggle';
@@ -25,7 +27,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         marginRight: 0,
         backgroundSize: '100% 100%',
         backgroundPosition: 'center'
-      }
+      },
+      skeleton: {
+        root: {
+          width: 52,
+          height: 32,
+          borderRadius: 18,
+        }
+      } as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

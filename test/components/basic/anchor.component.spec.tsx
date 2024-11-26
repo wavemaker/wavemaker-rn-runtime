@@ -8,7 +8,7 @@ import {
   render,
   waitFor,
 } from '@testing-library/react-native';
-import mockNavigationService from '@/__mocks__/navigation.service';
+import mockNavigationService from '../../__mocks__/navigation.service';
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 import * as WmUtils from '@wavemaker/app-rn-runtime/core/utils';
 import * as accessibilityUtils from '@wavemaker/app-rn-runtime/core/accessibility';
@@ -26,29 +26,29 @@ const renderComponent = (props = {}) => {
 };
 
 const getStyleObject = (styleArr, styleObj) => {
-  if(!styleArr) return;
+  if (!styleArr) return;
 
-  if(!Array.isArray(styleArr)){
-    Object.keys(styleArr).forEach(key => {
+  if (!Array.isArray(styleArr)) {
+    Object.keys(styleArr).forEach((key) => {
       styleObj[key] = styleArr[key];
     });
 
     return;
   }
 
-  styleArr.forEach(item => {
+  styleArr.forEach((item) => {
     getStyleObject(item, styleObj);
   });
 
   return styleObj;
-}
+};
 
 describe('Test Anchor component', () => {
-  beforeEach(()=>{
+  beforeEach(() => {
     jest
       .spyOn(accessibilityUtils, 'isScreenReaderEnabled')
       .mockReturnValue(false);
-  })
+  });
   afterEach(() => cleanup());
 
   test('should render anchor component', () => {
@@ -123,7 +123,7 @@ describe('Test Anchor component', () => {
       iconclass: 'fa fa-link',
       iconposition: 'left',
       caption: 'Click here',
-      onDoubleTap: onTapMock
+      onDoubleTap: onTapMock,
     });
     fireEvent.press(tree.getByText('Click here'));
     fireEvent.press(tree.getByText('Click here'));
@@ -140,7 +140,7 @@ describe('Test Anchor component', () => {
       iconclass: 'fa fa-link',
       iconposition: 'left',
       caption: 'Click here',
-      onLongTap: onTapMock
+      onLongTap: onTapMock,
     });
     fireEvent(tree.getByText('Click here'), 'longPress');
 
@@ -201,9 +201,8 @@ describe('Test Anchor component', () => {
     expect(tree).toMatchSnapshot();
   });
 
-
   //TODO: find a way to set animate state as true in WmSkeleton component.
-  test('should render skeleton when showskeleton is true and should take roots height and width', async () => {    
+  test('should render skeleton when showskeleton is true and should take roots height and width', async () => {
     const tree = renderComponent({
       showskeleton: true,
       name: 'wm-anchor',
@@ -215,14 +214,14 @@ describe('Test Anchor component', () => {
       },
     });
 
-    await waitFor(()=>{
+    await waitFor(() => {
       expect(tree).toMatchSnapshot();
       expect(tree.toJSON().props.style.height).toBe(80);
       expect(tree.toJSON().props.style.width).toBe(80);
-    })
+    });
   });
 
-  test('should render skeleton when showskeleton is true with skeletonheight and skeletonwidth', async () => {    
+  test('should render skeleton when showskeleton is true with skeletonheight and skeletonwidth', async () => {
     const tree = renderComponent({
       showskeleton: true,
       skeletonheight: 88,
@@ -230,11 +229,11 @@ describe('Test Anchor component', () => {
       name: 'wm-anchor',
     });
 
-    await waitFor(()=>{
+    await waitFor(() => {
       expect(tree).toMatchSnapshot();
       expect(tree.toJSON().props.style.height).toBe(88);
       expect(tree.toJSON().props.style.width).toBe(89);
-    })
+    });
   });
 
   test('should not render when show props is "false', () => {
@@ -246,7 +245,7 @@ describe('Test Anchor component', () => {
       show: false,
     });
 
-    expect(tree.toJSON().props.style).toMatchObject({width: 0, height: 0});
+    expect(tree.toJSON().props.style).toMatchObject({ width: 0, height: 0 });
   });
 
   test('should render the badge correctly for badge value', () => {
@@ -410,9 +409,13 @@ describe('Test Anchor component', () => {
     const anchorStyleArr = tree.getByTestId('test-anchor_a').props.style;
     const anchorStyle = getStyleObject(anchorStyleArr, {});
 
-    expect(anchorStyle).toMatchObject({flexDirection: 'row'})
-    expect(anchorChildren[startingIndex].props.accessibilityLabel).toBe('Click here');
-    expect(anchorChildren[startingIndex + 1].props.iconclass).toBe('fa fa-link');
+    expect(anchorStyle).toMatchObject({ flexDirection: 'row' });
+    expect(anchorChildren[startingIndex].props.accessibilityLabel).toBe(
+      'Click here'
+    );
+    expect(anchorChildren[startingIndex + 1].props.iconclass).toBe(
+      'fa fa-link'
+    );
     expect(tree).toMatchSnapshot();
   });
 
@@ -434,9 +437,11 @@ describe('Test Anchor component', () => {
     const anchorStyleArr = tree.getByTestId('test-anchor_a').props.style;
     const anchorStyle = getStyleObject(anchorStyleArr, {});
 
-    expect(anchorStyle).toMatchObject({flexDirection: 'row'})
+    expect(anchorStyle).toMatchObject({ flexDirection: 'row' });
     expect(anchorChildren[startingIndex].props.iconclass).toBe('fa fa-link');
-    expect(anchorChildren[startingIndex + 1].props.accessibilityLabel).toBe('Click here');
+    expect(anchorChildren[startingIndex + 1].props.accessibilityLabel).toBe(
+      'Click here'
+    );
     expect(tree).toMatchSnapshot();
   });
 
@@ -458,9 +463,11 @@ describe('Test Anchor component', () => {
     const anchorStyleArr = tree.getByTestId('test-anchor_a').props.style;
     const anchorStyle = getStyleObject(anchorStyleArr, {});
 
-    expect(anchorStyle).toMatchObject({flexDirection: 'column'})
+    expect(anchorStyle).toMatchObject({ flexDirection: 'column' });
     expect(anchorChildren[startingIndex].props.iconclass).toBe('fa fa-link');
-    expect(anchorChildren[startingIndex + 1].props.accessibilityLabel).toBe('Click here');
+    expect(anchorChildren[startingIndex + 1].props.accessibilityLabel).toBe(
+      'Click here'
+    );
     expect(tree).toMatchSnapshot();
   });
 
@@ -483,7 +490,7 @@ describe('Test Anchor component', () => {
 
     expect(tree.toJSON().props.style).toMatchObject({
       height: 81,
-      width: 83
+      width: 83,
     });
     expect(tree).toMatchSnapshot();
   });

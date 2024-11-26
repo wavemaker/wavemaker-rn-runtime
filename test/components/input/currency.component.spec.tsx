@@ -8,7 +8,7 @@ import {
 } from '@testing-library/react-native';
 import WmCurrency from '@wavemaker/app-rn-runtime/components/input/currency/currency.component';
 import { CURRENCY_INFO } from '@wavemaker/app-rn-runtime/core/currency-constants';
-import { Platform, TextInput } from 'react-native';
+import { Platform, TextInput, View } from 'react-native';
 
 const defaultProps = {
   currency: 'USD',
@@ -314,4 +314,12 @@ describe('Test Currency component', () => {
       expect(customRef.current.state.isValid).toBe(false);
     });
   });
+
+  //skeletonLoader
+  test('should render skeleton with respect to default styles when show skeleton is true', () => {
+    const tree = render(<WmCurrency {...defaultProps} showskeleton={true}  />)
+    const viewEles = tree.UNSAFE_getAllByType(View);
+    expect(viewEles[1].props.style.minHeight).toBe(42);
+    expect(viewEles[1].props.style.width).toBe('100%');
+  })
 });

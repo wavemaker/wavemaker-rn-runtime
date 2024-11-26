@@ -2,6 +2,7 @@ import BASE_THEME, {AllStyle} from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import {WmIconStyles} from "@wavemaker/app-rn-runtime/components/basic/icon/icon.styles";
 import { Platform } from 'react-native';
+import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmSwitchStyles = BaseStyles & {
   loadingIcon: WmIconStyles,
@@ -9,7 +10,9 @@ export type WmSwitchStyles = BaseStyles & {
   selectedButton: AllStyle,
   selectedButtonText: AllStyle,
   firstButton: AllStyle,
-  lastButton: AllStyle
+  lastButton: AllStyle,
+  skeleton: WmSkeletonStyles,
+  textSkeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-switch';
@@ -79,7 +82,22 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderTopRightRadius: 18,
       borderBottomRightRadius: 18,
       borderRightWidth: 1
-    } as AllStyle
+    } as AllStyle,
+    skeleton: {
+      root: {
+        width:64,
+        height: 40,
+        paddingLeft: 16,
+        paddingRight: 16,
+      },
+    } as any as WmSkeletonStyles,
+    textSkeleton: {
+      root: {
+        width: 30,
+        height: 10,
+        borderRadius: 4
+      }
+    } as any as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

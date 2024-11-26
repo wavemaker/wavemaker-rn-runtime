@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { DimensionValue, Text, TouchableOpacity, View } from 'react-native';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -8,6 +8,8 @@ import {unStringify, validateField} from '@wavemaker/app-rn-runtime/core/utils';
 import WmCheckboxProps from './checkbox.props';
 import { DEFAULT_CLASS, WmCheckboxStyles } from './checkbox.styles';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
+import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import WmLabel from '../../basic/label/label.component';
 
 export class WmCheckboxState extends BaseComponentState<WmCheckboxProps> {
   isChecked: boolean = false;
@@ -70,6 +72,13 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
       });
   }
 
+  public renderSkeleton(props: WmCheckboxProps): React.ReactNode {
+    return <View style={[this.styles.root, this.styles.skeleton.root]}>
+        <WmIcon styles={{ root: {...this.styles.checkicon, ...this.styles.iconSkeleton.root} }}/>
+        <WmLabel styles={{ root: {...this.styles.text, ...this.styles.labelSkeleton.root} }}/>
+      </View>
+  }
+
   renderWidget(props: WmCheckboxProps) {
     return (
       <TouchableOpacity {...this.getTestPropsForAction()} style={[this.styles.root, this.state.isChecked ? this.styles.checkedItem : null]} onPress={this.onPress.bind(this)} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {hint: props?.hint, checked: this.state.isChecked})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${props.caption}`}>
@@ -80,3 +89,6 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
     );
   }
 }
+
+
+

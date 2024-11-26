@@ -44,10 +44,6 @@ class AppModalService implements ModalService {
     private showLastModal() {
         this.modalOptions = this.modalsOpened.length ? this.modalsOpened[this.modalsOpened.length - 1] : {} as ModalOptions;
         this.refresh();
-        // widgets in dialog are not accessible. Hence adding setTimeout
-        setTimeout(() => {
-          this.modalOptions.onOpen && this.modalOptions.onOpen();
-        },500);
         this.setBackButtonPress();
     }
 
@@ -61,6 +57,10 @@ class AppModalService implements ModalService {
           options.elevationIndex = parseInt(this.getAppConfig().app.toastsOpened + this.modalsOpened.length + 1);
           this.modalsOpened.push(options);
             this.showLastModal();
+             // widgets in dialog are not accessible. Hence adding setTimeout
+        setTimeout(() => {
+          this.modalOptions.onOpen && this.modalOptions.onOpen();
+        },500);
         }
     }
 
