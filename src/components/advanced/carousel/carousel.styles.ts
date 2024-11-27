@@ -88,11 +88,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         dotsWrapperStyle:{
             opacity: 1,
             backgroundColor: themeVariables.carouselDotWrapperBgColor,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
             paddingTop: 4,
-            paddingBottom: 4
+            paddingBottom: 4,
+            overflow: 'hidden',
         },
         activeDotStyle: {
             position: 'absolute',
@@ -101,12 +99,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             padding: 4
         },
         dotStyle: {
-            width: 8,
-            height: 8,
-            borderRadius: 10,
+            width: 10,
+            height: 10,
+            borderRadius: 5,
             opacity: 0.2,
-            marginLeft: 2,
-            marginRight: 2,
+            marginLeft: 4,
+            marginRight: 4,
             backgroundColor: themeVariables.carouselDotColor
         },
         skeleton: {
