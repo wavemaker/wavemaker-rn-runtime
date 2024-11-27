@@ -20,8 +20,8 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   private slidesLayout: LayoutRectangle[] = [];
   private keyExtractor = new DefaultKeyExtractor();
   stopPlay: Function = null as any;
-  private dotScale = new Animated.Value(0);
   private dotPosition = new Animated.Value(0);
+  private wrapperPosition = new Animated.Value(0);
   private animationView: SwipeAnimation.View | null = null as any;
   private animationHandlers = {
     bounds: (e) => {
@@ -126,52 +126,37 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
 
   animatePagination(index: number) {
     const prevIndex = this.state.activeIndex;
-    const margin = ((this.styles.dotStyle?.marginLeft as number)|| 0) +
+    const maxNoOfDots = this.state.props.maxnoofdots;
+    const margin = ((this.styles.dotStyle?.marginLeft as number)|| 0) + 
     ((this.styles.dotStyle?.marginRight as number)|| 0)
     const width = (this.styles.dotStyle?.width as number)|| 2;
     const size = margin + width;
-    const position = Math.max(index - 1, 0)  * size;
-    const scale = Math.abs(index - prevIndex) * size;
+    const multiplier = this.isRTL ? -1 : 1;
     const options = {
       useNativeDriver: true,
-      duration: 200,
-      easing: Easing.out(Easing.linear)
+      duration: 100,
+      easing: Easing.out(Easing.linear),
     };
-    if (prevIndex < index) {
-      Animated.sequence([
-        Animated.timing(this.dotScale, {
-          toValue: scale,
-          ...options
-        }),
-        Animated.parallel([
-          Animated.timing(this.dotScale, {
-              toValue:  0,
-              ...options
-          }),
-          Animated.timing(this.dotPosition, {
-              toValue:  (this.isRTL ? -1: 1) * position,
-              ...options
-          })
-        ])
-      ]).start();
-    } else if (prevIndex > index) {
-      Animated.sequence([
-        Animated.parallel([
-          Animated.timing(this.dotScale, {
-              toValue:  scale,
-              ...options
-          }),
-          Animated.timing(this.dotPosition, {
-              toValue:  (this.isRTL ? -1: 1) * position,
-              ...options
-          })
-        ]),
-        Animated.timing(this.dotScale, {
-          toValue: 0,
-          ...options
-        }),
-      ]).start();
+    const shouldAnimate = !(maxNoOfDots >= this.state.props.dataset.length) && index > 3 && index <= this.state.props.dataset.length - 2;
+    if (shouldAnimate) {
+      const newTranslateX = multiplier * -(index - 3) * (width + margin);
+      Animated.timing(this.wrapperPosition, {
+        toValue: newTranslateX,
+        ...options,
+      }).start();
     }
+    if (index == 1 && prevIndex == this.state.props.dataset.length) {
+      Animated.timing(this.wrapperPosition, {
+        toValue: 0,
+        ...options,
+      }).start();
+    }   
+    if (prevIndex < index || prevIndex > index) {
+      Animated.timing(this.dotPosition, {
+        toValue: multiplier * size * Math.max(index - 1, 0),
+        ...options,
+      }).start();
+    } 
   }
 
   onSlideChange = (index: number) => {
@@ -208,41 +193,63 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
 
   renderPagination(data: any) {
     const maxNoOfDots = this.state.props.maxnoofdots;
+    const activeIndex = this.state.activeIndex - 1;
+    const dotMargin = ((this.styles.dotStyle?.marginLeft as number)|| 0) + 
+    ((this.styles.dotStyle?.marginRight as number)|| 0);
+    const wrapperWidth = (this.styles.dotStyle.width as any * maxNoOfDots) + (dotMargin * maxNoOfDots);
     let minIndex = Math.max(this.state.activeIndex - maxNoOfDots + 1, 0);
     let maxIndex = Math.min(minIndex + maxNoOfDots - 1, data.length);
     if (maxIndex === data.length) {
       minIndex = maxIndex - maxNoOfDots;
     }
-    return (<View style={this.styles.dotsWrapperStyle}>
-      <View style={{flexDirection: this.isRTL ? 'row-reverse' : 'row'}}>
-        {
-          data.map((item: any, index: number) => {
-            return index >= minIndex && index <= maxIndex ? (
-              <View key={'dots_' + this.generateItemKey(item, index, this.state.props)}
-                style={[this.styles.dotStyle]}>
-              </View>) : null;
-          })
-        }
-        <Animated.View style={[
-          this.styles.dotStyle,
-          this.styles.activeDotStyle, {
-            width: undefined,
-            height: undefined,
-            transform: [{
-              translateX: this.dotPosition
-            }]
-          }, this.isRTL ? { right: 0 } : { left: 0}]}>
-            <Animated.View style={[{
-              width: 1,
-              height: 1
-            }, {
-              // This is failing in Android
-              // minWidth: this.dotScale
-            }]}>
-        </Animated.View>
-        </Animated.View>
-      </View>
-    </View>);
+    const dotStyle = this._showSkeleton ? {
+      ...this.styles.dotStyle,
+      ...this.styles.dotSkeleton.root
+    } : this.styles.dotStyle
+    return (<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        <View style={[this.styles.dotsWrapperStyle, { width: wrapperWidth }]}>
+          <Animated.View
+            style={{
+              flexDirection: this.isRTL ? 'row-reverse' : 'row',
+              alignItems: 'center',
+              transform: [{ translateX: this.wrapperPosition }],
+            }}
+          >
+            {data.map((item: any, index: number) => {
+              const isActive = index === activeIndex;
+              let scale = 1;
+              if (activeIndex <= 2) {
+                scale = index <= 2 ? 1 : 1 - 0.1 * (index - 2);
+              } else if (activeIndex >= data.length - 3) {
+                  scale = index >= data.length - 3 ? 1 : 1 - 0.1 * ((data.length - 3) - index);
+              } else {
+                  scale = index === activeIndex ? 1 : (Math.abs(index - activeIndex) === 1 ? 0.9 : 0.8);
+              }
+              const animatedScale = new Animated.Value(scale);
+              Animated.timing(animatedScale, {
+                toValue: scale,
+                duration: 100,
+                easing: Easing.out(Easing.ease),
+                useNativeDriver: true,
+              }).start();
+              return (
+                <Animated.View
+                  key={'dots_' + this.generateItemKey(item, index, this.state.props)}
+                  {...this.getTestPropsForAction('indicator' + index)}
+                  style={[
+                    dotStyle,
+                    {                
+                      opacity: isActive ? 1 : 0.8,
+                      transform: [{scale: animatedScale
+                      }]
+                    },
+                  ]}
+                />
+              );
+            })}
+          </Animated.View>
+        </View>
+      </View>);
   }
 
   componentDidMount(): void {

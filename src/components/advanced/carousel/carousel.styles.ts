@@ -2,6 +2,7 @@ import { ViewStyle } from 'react-native';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
+import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
 
 export type WmCarouselStyles = BaseStyles & {
     btnPanel: AllStyle,
@@ -14,6 +15,8 @@ export type WmCarouselStyles = BaseStyles & {
     dotsWrapperStyle: AllStyle,
     dotStyle: AllStyle,
     activeDotStyle: AllStyle
+    skeleton: WmSkeletonStyles
+    dotSkeleton: WmSkeletonStyles
 };
 export const DEFAULT_CLASS = 'app-carousel';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
@@ -85,11 +88,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         dotsWrapperStyle:{
             opacity: 1,
             backgroundColor: themeVariables.carouselDotWrapperBgColor,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
             paddingTop: 4,
-            paddingBottom: 4
+            paddingBottom: 4,
+            overflow: 'hidden',
         },
         activeDotStyle: {
             position: 'absolute',
@@ -98,14 +99,30 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             padding: 4
         },
         dotStyle: {
-            width: 8,
-            height: 8,
-            borderRadius: 10,
+            width: 10,
+            height: 10,
+            borderRadius: 5,
             opacity: 0.2,
-            marginLeft: 2,
-            marginRight: 2,
+            marginLeft: 4,
+            marginRight: 4,
             backgroundColor: themeVariables.carouselDotColor
-        }
+        },
+        skeleton: {
+            root: {
+                width: '100%',
+            },
+            text: {}
+        } as any as WmSkeletonStyles,
+        dotSkeleton: {
+            root: {
+                width: 10,
+                height: 10,
+                borderRadius: 5,
+                opacity: 1,
+                backgroundColor: themeVariables.skeletonAnimatedBgColor    
+            }
+        } as any as WmSkeletonStyles
+
     } as WmCarouselStyles);
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
