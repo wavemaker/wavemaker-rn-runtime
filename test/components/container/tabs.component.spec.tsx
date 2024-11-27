@@ -1,5 +1,5 @@
 import React, { createRef, ReactNode, useRef } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, TouchableOpacity } from 'react-native';
 import {
   render,
   fireEvent,
@@ -254,6 +254,36 @@ describe('Test Tabs component', () => {
     expect(ref.current.proxy.headersLayout[1]).toMatchObject(
       nativeEvent.layout
     );
+  });
+
+  it('should disable scroll when shouldScroll prop is false', () => {
+    const ref = createRef();
+    const tree = render(<WmTabheader name="test_Popover" shouldScroll={false} ref={ref} data={[
+      {title: 'tab1', icon: 'fa fa-edit', key: 'tab1'},
+      {title: 'tab2', icon: 'fa fa-edit', key: 'tab2'},
+      {title: 'tab3', icon: 'fa fa-edit', key: 'tab3'},
+    ]}/>);
+    const nativeEvent = {
+      layout: {
+        width: 100,
+        height: 100,
+      },
+    };
+
+    ref.current.proxy.setHeaderPanelPositon({ nativeEvent: nativeEvent });
+    ref.current.proxy.setHeaderPositon(1, { nativeEvent: nativeEvent });
+
+    const scrollComponent = tree.UNSAFE_getByType(ScrollView);
+
+    expect(ref.current.proxy.headerPanelLayout).toMatchObject(
+      nativeEvent.layout
+    );
+
+    expect(ref.current.proxy.headersLayout[1]).toMatchObject(
+      nativeEvent.layout
+    );
+
+    expect(scrollComponent.props.scrollEnabled).toBe(false)
   });
 
   // test('should navigate to next and previous', async () => {
