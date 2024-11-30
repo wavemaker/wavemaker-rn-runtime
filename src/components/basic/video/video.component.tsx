@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { ResizeMode, Video, AVPlaybackStatus } from 'expo-av';
+import { VideoView, createVideoPlayer } from 'expo-video';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmVideoProps from './video.props';
@@ -48,10 +49,12 @@ export default class WmVideo extends BaseComponent<WmVideoProps, WmVideoState, W
   }
 
   renderWidget(props: WmVideoProps) {
+    const player = createVideoPlayer({uri: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"})
+    if(props.autoplay || true ) player.play()
     return (
       <View style={this.styles.root}>
         {this._background}
-        <Video
+        {/* <Video
           {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
           ref={(video) => { this.video = video; }}
           style={{ width: '100%', height: '100%', flex: 1 }}
@@ -65,6 +68,21 @@ export default class WmVideo extends BaseComponent<WmVideoProps, WmVideoState, W
           resizeMode={ResizeMode.CONTAIN}
           isLooping={props.loop}
           isMuted={props.muted}
+          testID={this.getTestId('video')}
+        /> */}
+        <VideoView 
+          {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
+          // ref={(video) => { this.video = video; }}
+          style={{ width: '100%', height: '100%', flex: 1 }}
+          player={player}
+          // statusChange={this.handlePlaybackStatus}
+          // videoSource={this.getSource(props.mp4format || props.webmformat) as any}
+          // videoSource={{uri: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"}}
+          // posterSource={ this.getSource(props.videoposter) as any } // not available
+          nativeControls={props.controls}
+          contentFit={'contain'}
+          // loop={props.loop}
+          // muted={props.muted}
           testID={this.getTestId('video')}
         />
       </View>); 
