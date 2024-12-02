@@ -50,7 +50,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         btnPanel: {
             position: 'absolute',
             top: '50%',
-            marginTop: -64,
+            marginTop: -36,
             height: 64,
             flexDirection: 'row',
             alignItems: 'center',
