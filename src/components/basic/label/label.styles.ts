@@ -73,6 +73,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle('label-test111', '', getLabelStyles('grey', 'red'));
   addStyle('label-test11112', '', getLabelStyles('green', 'yellow'));
   addStyle('label-test12311', '', getLabelStyles('violet', 'pink'));
+  addStyle('label-test11112', '', getLabelStyles('green', 'black'));
 
   const getTextStyles = (color: string) => {
     return {
