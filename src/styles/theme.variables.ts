@@ -391,7 +391,7 @@ export default class ThemeVariables {
     wizardStepActiveColor = this.primaryColor;
     wizardStepDoneColor = this.successColor;
     wizardStepDoneTextColor = this.defaultColorF;
-    wizardStepIconColor = this.defaultColor9;
+    wizardStepIconColor = this.defaultColorF;
     wizardStepColor = this.defaultColor9;
     wizardActiveStepColor = this.defaultColorF;
     wizardDoneStepColor = this.defaultColorF;
