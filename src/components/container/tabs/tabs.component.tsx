@@ -143,7 +143,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     const tabPanes =  React.Children.toArray(this.props.children)
     .filter((item: any, index: number) => item.props.show != false);
     const headerData = tabPanes.map((p: any, i: number) =>
-      ({title: p.props.title || 'Tab Title', icon: '', key:  `tab-${p.props.title}-${i}`}));
+      ({title: p.props.title, icon: '', key:  `tab-${p.props.title}-${i}`}));
     return(
       <View style={[this.styles.root, { borderBottomWidth: 0}]}>
       <View onLayout={this.setTabLayout.bind(this)} style={{width: '100%'}}></View>
@@ -216,7 +216,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     const tabPanes =  React.Children.toArray(props.children)
       .filter((item: any, index: number) => item.props.show != false);
     const headerData = tabPanes.map((p: any, i: number) =>
-      ({title: p.props.title || 'Tab Title',  icon: p.props.paneicon || '', key:  `tab-${p.props.title}-${i}`}));
+      ({title: p.props.title,  icon: p.props.paneicon || '', key:  `tab-${p.props.title}-${i}`}));
     const styles = this._showSkeleton ? {
       ...this.styles.root,
       ...this.styles.skeleton.root
