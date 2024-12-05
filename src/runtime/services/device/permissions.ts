@@ -18,14 +18,14 @@ interface objectMap {
 
 export default {
   requestPermissions: (type: string) => {
-    let query;
+    let query: any ; 
     if (type === 'location') {
       // requestPermissionsAsync is deprecated and requestForegroundPermissionsAsync is available only in sdk 41+
       query = Location.requestForegroundPermissionsAsync();
     } else if (type === 'video') {
-      query = Promise.all([Camera.requestCameraPermissionsAsync(), Camera.requestMicrophonePermissionsAsync()]);
+      query = Promise.all([Camera.useCameraPermissions(), Camera.useMicrophonePermissions()]);
     } else if (type === 'image' || type === 'camera') {
-      query = Camera.requestCameraPermissionsAsync();
+      query = Camera.useCameraPermissions();
     } else if (type === 'contacts') {
       query = Contacts.requestPermissionsAsync();
     } else if (type === 'calendar') {

@@ -66,6 +66,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           translateY: -2
         }]
       }
-    } as WmTabheaderStyles
+    } as any as WmTabheaderStyles
   });
 });

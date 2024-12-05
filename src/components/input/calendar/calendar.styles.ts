@@ -170,12 +170,13 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             root: {
                 transform: [ {rotateY: '180deg'}]
             }
-        } as WmIconStyles,
+        } as any,
         nextMonthBtn: {
             root: {
                 transform: [ {rotateY: '180deg'}]            
-            }
-        } as WmIconStyles,
+            }, 
+            text: {}
+        } as any,
         monthText: {
             padding: 2
         },
