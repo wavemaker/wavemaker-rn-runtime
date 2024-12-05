@@ -77,7 +77,9 @@ const styles = {
 export interface CameraVideoInput extends Input {}
 
 export class CameraService {
-  private type= CameraType.back;
+  // todo expo52
+  // private type= CameraType.back;
+  private type: CameraType = "back";
 
   constructor(private displayManager: DisplayManager) {
   }
@@ -135,14 +137,18 @@ class CameraViewProps {
 class CameraViewState {
     recording: boolean = false;
     showActionBtns: boolean = false;
-    cameraType: CameraType = CameraType.back;
+    // todo expo52
+    // cameraType: CameraType = CameraType.back;
+    cameraType: CameraType = "back";
     isCaptured: boolean = false;
     closeView: boolean = false;
     cameraContent: CameraOutput = {} as CameraOutput;
 }
 
 export class CameraView extends React.Component<CameraViewProps, CameraViewState> {
-  private camera: Camera = {} as Camera;
+  // todo expo52
+  // private camera: Camera = {} as Camera;
+  private camera = Camera as any;
 
   constructor(props: CameraViewProps) {
     super(props);
@@ -286,11 +292,13 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
         {this.state.isCaptured ? (
           this.getPreviewTemplate(actions)
         ) : (
-          <Camera type={CameraType[this.state.cameraType]} ref={(ref: Camera) => { this.camera = ref; }}
-              style={{flex: 1}}
-              onCameraReady={() => {}}>
-
-          </Camera>)}
+          // todo expo52
+          // <Camera type={CameraType[this.state.cameraType]} ref={(ref: Camera) => { this.camera = ref; }}
+          //     style={{flex: 1}}
+          //     onCameraReady={() => {}}>
+          // </Camera>
+          <></>
+        )}
         {actions}
       </View>)
   }

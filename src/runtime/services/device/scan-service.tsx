@@ -1,6 +1,6 @@
 import { Camera } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+// import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as Application from 'expo-application';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
@@ -91,44 +91,47 @@ export class ScanService {
     return new Promise((resolve, reject) => {
       permissionManager.requestPermissions('camera').then(() => {
         const destroy = this.displayManager.show({
-          content: (<Camera
-            barCodeScannerSettings={barcodeFormat ? {
-              barCodeTypes: [BarCodeScanner.Constants.BarCodeType[barcodeFormat]],
-            }: undefined}
-            onBarCodeScanned={(result) => {
-              destroy.call(this.displayManager);
-              resolve(result);
-            }}
-            style={StyleSheet.absoluteFillObject}
-          >
-            <View style={styles.topWrapper}>
-            </View>
-            <View style={styles.centerWrapper}>
-              <View style={styles.leftWrapper}/>
-              <View style={styles.focused}/>
-              <View style={styles.rightWrapper}/>
-            </View>
-            <View style={styles.bottomWrapper}>
+          // todo expo52
+          content: <></>
+          // (<Camera
+          //   barCodeScannerSettings={barcodeFormat ? {
+          //     barCodeTypes: [BarCodeScanner.Constants.BarCodeType[barcodeFormat]],
+          //   }: undefined}
+          //   onBarCodeScanned={(result) => {
+          //     destroy.call(this.displayManager);
+          //     resolve(result);
+          //   }}
+          //   style={StyleSheet.absoluteFillObject}
+          // >
+          //   <View style={styles.topWrapper}>
+          //   </View>
+          //   <View style={styles.centerWrapper}>
+          //     <View style={styles.leftWrapper}/>
+          //     <View style={styles.focused}/>
+          //     <View style={styles.rightWrapper}/>
+          //   </View>
+          //   <View style={styles.bottomWrapper}>
               
-              <View style={styles.closeWrapper}>
-                  <TouchableOpacity
-                      {... this.getTestProps('close_button')}
-                      onPress={() => {
-                        destroy.call(this.displayManager);
-                      }}>
-                      <Ionicons name='close-circle' size={48} color='white' />
-                  </TouchableOpacity>
-              </View>
-            </View>
-          </Camera>)
+          //     <View style={styles.closeWrapper}>
+          //         <TouchableOpacity
+          //             {... this.getTestProps('close_button')}
+          //             onPress={() => {
+          //               destroy.call(this.displayManager);
+          //             }}>
+          //             <Ionicons name='close-circle' size={48} color='white' />
+          //         </TouchableOpacity>
+          //     </View>
+          //   </View>
+          // </Camera>)
         });
       }, reject)
     }).then((response: any) => {
       let format;
       if (response.type) {
-        const values = Object.values(BarCodeScanner.Constants.BarCodeType);
-        const index = values.indexOf(response.type);
-        format = index > -1 ? Object.keys(BarCodeScanner.Constants.BarCodeType)[index] : '';
+        // todo expo52
+        // const values = Object.values(BarCodeScanner.Constants.BarCodeType);
+        // const index = values.indexOf(response.type);
+        // format = index > -1 ? Object.keys(BarCodeScanner.Constants.BarCodeType)[index] : '';
       }
       return Promise.resolve({
         text: response.data,
