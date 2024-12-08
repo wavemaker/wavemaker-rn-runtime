@@ -238,7 +238,11 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   triggerPageReady(activePageName: string, activePageScope: BasePage) {
-    this.onPageReady(activePageName, activePageScope);
+    try {
+      this.onPageReady(activePageName, activePageScope);
+    } catch(e) {
+      console.error(e);
+    }
   }
 
   onPageReady(activePageName: string, activePageScope: BasePage) {

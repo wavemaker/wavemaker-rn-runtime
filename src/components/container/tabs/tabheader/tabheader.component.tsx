@@ -47,6 +47,16 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
     }
   }
 
+  scrollPosition(selectedTabIndex: number, totalWidth: number, toIndicatorPosition: number) {
+    const initialPosition = this.isRTL ? totalWidth : 0;
+    const baseWidth = this.isRTL ? totalWidth - toIndicatorPosition : toIndicatorPosition;
+    const elementWidth  = this.isRTL ? -1 * (this.headersLayout[selectedTabIndex].width/2) : this.headersLayout[selectedTabIndex].width/2
+    const positionX = selectedTabIndex === 0 ? initialPosition : 
+      ((baseWidth + (elementWidth)) - (this.headerPanelLayout?.width || 0) / 2);
+
+    return positionX
+  }
+
   setPosition() {
     const selectedTabIndex = this.state.props.selectedTabIndex ? this.state.props.selectedTabIndex : 0
     let toIndicatorPosition = 0;
@@ -70,8 +80,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
     let positionIndicator = (toIndicatorPosition - (100 - toIndicatorWidth) / 2);
     let position = this.isRTL?-positionIndicator:positionIndicator;
 
-    const positionX = selectedTabIndex === 0 ? 0 : 
-      ((toIndicatorPosition + (this.headersLayout[selectedTabIndex].width/2)) - (this.headerPanelLayout?.width || 0) / 2);
+    const positionX = this.scrollPosition(selectedTabIndex, totalWidth, toIndicatorPosition)
 
     this.listRef.current?.scrollTo({
       x: positionX,
@@ -150,9 +159,6 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
   renderWidget(props: WmTabheaderProps) {
     this.setPosition();
     const arrowIndicator = this.styles.arrowIndicator as any;
-
-    console.log("selected index: ", this.state.props.selectedTabIndex);
-
     return (
       <View 
         style={{overflow: 'hidden', zIndex: 16}}
@@ -163,6 +169,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
         horizontal={true}
         onLayout={this.setHeaderPanelPositon.bind(this)}
         showsHorizontalScrollIndicator={false}
+        scrollEnabled={props.shouldScroll}
       >
       <View>
         <View style={this.styles.root}>

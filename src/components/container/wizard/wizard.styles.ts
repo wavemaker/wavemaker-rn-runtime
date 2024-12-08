@@ -175,6 +175,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           text: {
             color: themeVariables.wizardStepIconColor,
             fontSize: 15
+          },
+          icon: {
+            color: themeVariables.wizardStepIconColor
           }
       } as WmIconStyles,
       skipLink: {

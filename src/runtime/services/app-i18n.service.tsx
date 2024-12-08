@@ -39,6 +39,7 @@ class AppI18nService implements I18nService{
     setRTL(locale?: string){
       const flag = this.isRTLLocale(locale);
       const needsRestart = !isWebPreviewMode() && I18nManager.isRTL !== flag;
+      I18nManager.allowRTL(flag);
       I18nManager.forceRTL(flag);
       return needsRestart; 
     }

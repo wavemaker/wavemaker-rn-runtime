@@ -100,7 +100,11 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     onContentReady() {
-      this.onReady();
+      try {
+        this.onReady();
+      } catch(e) {
+        console.error(e);
+      }
       this.appConfig.refresh();
       this.targetWidget && this.targetWidget.invokeEventCallback('onLoad', [null, this.proxy]);
       this.onContentReady = () => {};
