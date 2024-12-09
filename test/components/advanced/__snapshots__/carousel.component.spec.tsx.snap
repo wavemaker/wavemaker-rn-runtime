@@ -33,7 +33,7 @@ exports[`WmCarousel Component should render without crashing 1`] = `
         "flexDirection": "row",
         "height": 64,
         "justifyContent": "space-between",
-        "marginTop": -64,
+        "marginTop": -36,
         "position": "absolute",
         "top": "50%",
         "width": "100%",
