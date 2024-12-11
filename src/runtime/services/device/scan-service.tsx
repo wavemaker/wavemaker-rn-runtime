@@ -1,6 +1,5 @@
-import { Camera } from 'expo-camera';
+import { CameraView } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
-import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as Application from 'expo-application';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
@@ -67,6 +66,23 @@ const styles = StyleSheet.create({
   },
 });
 
+const BarCodeType: any = [
+  { 0: 'aztec' },
+  { 1: 'ean13' },
+  { 2: 'ean8' },
+  { 3: 'qr' },
+  { 4: 'pdf417' },
+  { 5: 'upc_e' },
+  { 6: 'datamatrix' },
+  { 7: 'code39' },
+  { 8: 'code93' },
+  { 9: 'itf14' },
+  { 10: 'codabar' },
+  { 11: 'code128' },
+  { 12: 'upc_a' }
+];
+
+
 export class ScanService {
 
   constructor(private displayManager: DisplayManager) {}
@@ -91,11 +107,11 @@ export class ScanService {
     return new Promise((resolve, reject) => {
       permissionManager.requestPermissions('camera').then(() => {
         const destroy = this.displayManager.show({
-          content: (<Camera
-            barCodeScannerSettings={barcodeFormat ? {
-              barCodeTypes: [BarCodeScanner.Constants.BarCodeType[barcodeFormat]],
+          content: (<CameraView
+            barcodeScannerSettings={barcodeFormat ? {
+              barcodeTypes: [BarCodeType[barcodeFormat]],
             }: undefined}
-            onBarCodeScanned={(result) => {
+            onBarcodeScanned={(result) => {
               destroy.call(this.displayManager);
               resolve(result);
             }}
@@ -120,15 +136,15 @@ export class ScanService {
                   </TouchableOpacity>
               </View>
             </View>
-          </Camera>)
+          </CameraView>)
         });
       }, reject)
     }).then((response: any) => {
       let format;
       if (response.type) {
-        const values = Object.values(BarCodeScanner.Constants.BarCodeType);
+        const values = Object.values(BarCodeType);
         const index = values.indexOf(response.type);
-        format = index > -1 ? Object.keys(BarCodeScanner.Constants.BarCodeType)[index] : '';
+        format = index > -1 ? Object.keys(BarCodeType)[index] : '';
       }
       return Promise.resolve({
         text: response.data,
