@@ -63,7 +63,7 @@ export default class WmMenu extends BaseNavComponent<WmMenuProps, WmMenuState<Wm
         popoverwidth={this.styles.menu.width as string | number | undefined || null}
         iconposition="right"
         type='dropdown'>
-          <View style={this.styles.menu}>
+          <View style={{...this.styles.menu}}>
             {menuItems.map((item, index) => (
               <View key={item.key}>
                 {this.renderMenuItem(item, index)}
