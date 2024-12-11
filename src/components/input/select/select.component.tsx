@@ -1,7 +1,7 @@
 import React from 'react';
-import { DimensionValue, Text, View } from 'react-native';
+import { Dimensions, LayoutChangeEvent, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { find, isEmpty } from 'lodash';
+import { find, isEmpty, isString } from 'lodash';
 
 import WmSelectProps from './select.props';
 import { DEFAULT_CLASS, WmSelectStyles } from './select.styles';
@@ -18,11 +18,14 @@ import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-r
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '../../basic/skeleton/skeleton.styles';
+import { PopoverPosition } from '../../navigation/popover/popover.component';
 
 export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   modalOptions = {} as ModalOptions;
   isOpened: boolean = false;
   selectedValue: any = '';
+  position={} as PopoverPosition;
+  selectWidth:number = 0;
 }
 
 export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSelectState, WmSelectStyles> {
@@ -57,10 +60,30 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
       }
   }
 
+  private computePosition = (e: LayoutChangeEvent) => {
+    const position = {} as PopoverPosition;
+      const windowDimensions = Dimensions.get('window');
+      this.view.measure((x, y, width, height, px, py) => {
+        let popoverwidth = this.state.selectWidth as any;
+        if (popoverwidth && isString(popoverwidth)) { 
+          popoverwidth = parseInt(popoverwidth);
+        }
+        this.isRTL ? position.right = px : position.left = px
+        
+        if (px + popoverwidth > windowDimensions.width) {
+          this.isRTL
+          ? (position.right = px + width - popoverwidth)
+          : (position.left = px + width - popoverwidth);
+        }
+        position.top = py + height;
+        this.updateState({position: position} as WmSelectState);
+      });
+  };
+
   prepareModalOptions(content: React.ReactNode, styles: WmSelectStyles, modalService: ModalService) {
     const o = this.state.modalOptions;
     o.modalStyle = styles.modal;
-    o.contentStyle = {...styles.modalContent};
+    o.contentStyle = {...styles.modalContent,...this.state.position};
     o.content = content;
     o.isModal = true;
     o.centered = true;
@@ -109,7 +132,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
         ref={(ref) => {
           this.view = ref as View;
         }}
-        onLayout={() => {}}>
+        onLayout={(event) => {this.updateState({selectWidth : event.nativeEvent.layout.width} as any)}}>
           {select.backgroundImage ? (<BackgroundComponent
             image={select.backgroundImage}
             position={select.backgroundPosition || 'center'}
@@ -197,8 +220,13 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   }
 
   renderWidget(props: WmSelectProps) {
+    let isDropdown = this.state.props.classname?.includes('select-dropdown');
+    const styles = this.theme.mergeStyle( this.styles,this.theme.getStyle('select-dropdown'));
+    if (isDropdown && this.state.selectWidth) {
+        styles.modalContent.width = this.styles.dropdown.width || this.state.selectWidth;
+    }
     return (
-      <View>
+      <View onLayout={isDropdown?this.computePosition:()=>{}}>
         {this._background}
         {this.renderSelect()}
         {this.state.isOpened ? (
@@ -207,7 +235,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               const items = this.state.dataItems;
               modalService.showModal(
                 this.prepareModalOptions(
-                  <ScrollView style={{width: '100%', maxHeight: ThemeVariables.INSTANCE.maxModalHeight}} contentContainerStyle={this.styles.dropDownContent}>
+                  <ScrollView style={ isDropdown ?[{width : this.state.selectWidth},this.styles.dropdown]:{width: '100%', maxHeight: ThemeVariables.INSTANCE.maxModalHeight}} 
+                  contentContainerStyle={this.styles.dropDownContent}>
                     {props.placeholder ?
                       <View key={props.name + '_placeholder'} style={this.styles.placeholderText}>
                         {this.renderSelectItem({}, 0, true, false)}
@@ -219,7 +248,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
                         </View>
                       ))}
                   </ScrollView>,
-                  this.styles,
+                  isDropdown?styles:this.styles,
                   modalService
                 )
               );
