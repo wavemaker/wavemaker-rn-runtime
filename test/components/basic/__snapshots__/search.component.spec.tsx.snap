@@ -1,203 +1,232 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WmSearch Component should render with custom icon when iconclass prop is set 1`] = `
-<View>
+[
   <View
     onLayout={[Function]}
     style={
       {
-        "borderRadius": 28,
-        "flexDirection": "row",
+        "height": 0,
+        "width": 0,
       }
     }
-  >
+  />,
+  <View>
     <View
+      onLayout={[Function]}
       style={
         {
-          "alignItems": "center",
-          "flex": 1,
+          "borderRadius": 28,
           "flexDirection": "row",
-          "justifyContent": "center",
         }
       }
-    >
-      <TextInput
-        accessibilityRole="search"
-        accessible={true}
-        autoFocus={false}
-        defaultValue=""
-        editable={true}
-        onBlur={[Function]}
-        onChange={[Function]}
-        onChangeText={[Function]}
-        onFocus={[Function]}
-        onLayout={[Function]}
-        placeholder="Search"
-        placeholderTextColor="#bbbbbb"
-        style={
-          [
-            {
-              "backgroundColor": "#dddddd",
-              "borderBottomLeftRadius": 28,
-              "borderColor": "#dddddd",
-              "borderRightWidth": 0,
-              "borderTopLeftRadius": 28,
-              "borderWidth": 1,
-              "fontFamily": "Roboto",
-              "minHeight": 56,
-              "paddingBottom": 8,
-              "paddingLeft": 24,
-              "paddingRight": 14,
-              "paddingTop": 8,
-              "userSelect": "text",
-              "width": "100%",
-            },
-            {},
-            null,
-          ]
-        }
-        testID="undefined_i"
-      />
-    </View>
-    <View
-      style={
-        [
-          {
-            "alignItems": "center",
-            "alignSelf": "flex-start",
-            "backgroundColor": "#4263eb",
-            "borderBottomRightRadius": 28,
-            "borderRadius": 0,
-            "borderTopRightRadius": 28,
-            "height": 56,
-            "justifyContent": "center",
-            "minHeight": 40,
-            "paddingBottom": 12,
-            "paddingLeft": 24,
-            "paddingRight": 24,
-            "paddingTop": 12,
-            "rippleColor": "transparent",
-          },
-          {
-            "flexDirection": "column",
-            "overflow": "hidden",
-            "paddingBottom": 0,
-            "paddingLeft": 0,
-            "paddingRight": 0,
-            "paddingTop": 0,
-          },
-          {},
-        ]
-      }
-      testID="non_animatableView"
     >
       <View
-        accessibilityLabel={null}
-        accessibilityRole="button"
-        accessibilityState={
+        style={
           {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": false,
-            "expanded": undefined,
-            "selected": undefined,
+            "alignItems": "center",
+            "flex": 1,
+            "flexDirection": "row",
+            "justifyContent": "center",
           }
         }
-        accessibilityValue={
+      >
+        <TextInput
+          accessibilityRole="search"
+          accessible={true}
+          autoFocus={false}
+          defaultValue=""
+          editable={true}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onChangeText={[Function]}
+          onFocus={[Function]}
+          onLayout={[Function]}
+          placeholder="Search"
+          placeholderTextColor="#bbbbbb"
+          style={
+            [
+              {
+                "backgroundColor": "#dddddd",
+                "borderBottomLeftRadius": 28,
+                "borderColor": "#dddddd",
+                "borderRightWidth": 0,
+                "borderTopLeftRadius": 28,
+                "borderWidth": 1,
+                "fontFamily": "Roboto",
+                "minHeight": 56,
+                "paddingBottom": 8,
+                "paddingLeft": 24,
+                "paddingRight": 14,
+                "paddingTop": 8,
+                "userSelect": "text",
+                "width": "100%",
+              },
+              {},
+              null,
+            ]
+          }
+          testID="undefined_i"
+        />
+      </View>
+      <View
+        onLayout={[Function]}
+        style={
           {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
+            "height": 0,
+            "width": 0,
           }
         }
-        accessible={true}
-        collapsable={false}
-        focusable={true}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+      />
+      <View
         style={
           [
             {
-              "overflow": "hidden",
-            },
-            {
-              "height": "100%",
+              "alignItems": "center",
+              "alignSelf": "flex-start",
+              "backgroundColor": "#4263eb",
+              "borderBottomRightRadius": 28,
+              "borderRadius": 0,
+              "borderTopRightRadius": 28,
+              "height": 56,
               "justifyContent": "center",
+              "minHeight": 40,
               "paddingBottom": 12,
               "paddingLeft": 24,
               "paddingRight": 24,
               "paddingTop": 12,
-              "width": "100%",
+              "rippleColor": "transparent",
             },
+            {
+              "flexDirection": "column",
+              "overflow": "hidden",
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+            },
+            {},
           ]
         }
-        testID="undefined_search_a"
+        testID="non_animatableView"
       >
         <View
+          accessibilityLabel={null}
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             [
               {
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
+                "overflow": "hidden",
               },
               {
-                "flexDirection": "row",
+                "height": "100%",
+                "justifyContent": "center",
+                "paddingBottom": 12,
+                "paddingLeft": 24,
+                "paddingRight": 24,
+                "paddingTop": 12,
+                "width": "100%",
               },
             ]
           }
+          testID="undefined_search_a"
         >
-          <View>
-            <View
-              style={
+          <View
+            style={
+              [
                 {
                   "alignItems": "center",
-                  "alignSelf": "auto",
                   "flexDirection": "row",
-                  "paddingLeft": -8,
-                  "paddingRight": -8,
+                  "justifyContent": "center",
+                },
+                {
+                  "flexDirection": "row",
+                },
+              ]
+            }
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "height": 0,
+                  "width": 0,
                 }
               }
-              testID="non_animatableView"
-            >
-              <View>
+            />
+            <View>
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "alignSelf": "auto",
+                    "flexDirection": "row",
+                    "paddingLeft": -8,
+                    "paddingRight": -8,
+                  }
+                }
+                testID="non_animatableView"
+              >
                 <View>
-                  <Text
-                    accessible={false}
-                    size={16}
-                    style={
-                      [
-                        {
-                          "color": undefined,
-                        },
-                        {
-                          "color": "#ffffff",
-                          "fontSize": 24,
-                          "marginRight": 4,
-                          "paddingLeft": 0,
-                          "paddingRight": 8,
-                        },
-                        {
-                          "transform": [
-                            {
-                              "rotate": "0deg",
-                            },
-                          ],
-                        },
-                      ]
-                    }
-                    testID="undefined_search_icon_icon"
-                  >
-                    edit
-                  </Text>
+                  <View>
+                    <Text
+                      accessible={false}
+                      size={16}
+                      style={
+                        [
+                          {
+                            "color": undefined,
+                          },
+                          {
+                            "color": "#ffffff",
+                            "fontSize": 24,
+                            "marginRight": 4,
+                            "paddingLeft": 0,
+                            "paddingRight": 8,
+                          },
+                          {
+                            "transform": [
+                              {
+                                "rotate": "0deg",
+                              },
+                            ],
+                          },
+                        ]
+                      }
+                      testID="undefined_search_icon_icon"
+                    >
+                      edit
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -205,6 +234,6 @@ exports[`WmSearch Component should render with custom icon when iconclass prop i
         </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;

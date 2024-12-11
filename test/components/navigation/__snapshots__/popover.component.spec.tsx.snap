@@ -1,101 +1,121 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Popover component tests should render the popover component 1`] = `
-<View
-  accessibilityLabel="Link"
-  accessible={true}
-  onLayout={[Function]}
-  style={
-    {
-      "alignSelf": "flex-start",
-      "paddingBottom": 8,
-      "paddingLeft": 8,
-      "paddingRight": 8,
-      "paddingTop": 8,
-    }
-  }
->
+[
   <View
+    onLayout={[Function]}
     style={
       {
-        "height": undefined,
-        "justifyContent": "center",
-        "width": undefined,
+        "height": 0,
+        "width": 0,
       }
     }
-    testID="non_animatableView"
+  />,
+  <View
+    accessibilityLabel="Link"
+    accessible={true}
+    onLayout={[Function]}
+    style={
+      {
+        "alignSelf": "flex-start",
+        "paddingBottom": 8,
+        "paddingLeft": 8,
+        "paddingRight": 8,
+        "paddingTop": 8,
+      }
+    }
   >
     <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": false,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
+      onLayout={[Function]}
       style={
-        [
-          {
-            "overflow": "hidden",
-          },
-          [
-            {
-              "alignItems": "center",
-              "color": "#151420",
-              "flexDirection": "row",
-              "overflow": "visible",
-            },
-            null,
-            {
-              "flexDirection": "row",
-            },
-          ],
-        ]
+        {
+          "height": 0,
+          "width": 0,
+        }
       }
-      testID="test_Popover_trigger_a"
+    />
+    <View
+      style={
+        {
+          "height": undefined,
+          "justifyContent": "center",
+          "width": undefined,
+        }
+      }
+      testID="non_animatableView"
     >
-      <Text
-        accessibilityLabel="Link"
-        accessibilityRole="link"
-        accessible={true}
-        style={
+      <View
+        accessibilityState={
           {
-            "color": "#151420",
-            "fontFamily": "Roboto",
-            "fontSize": 18,
-            "paddingLeft": 8,
-            "paddingRight": 8,
-            "textDecorationLine": "underline",
-            "userSelect": "text",
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
           }
         }
-        testID="test_Popover_trigger_caption"
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            [
+              {
+                "alignItems": "center",
+                "color": "#151420",
+                "flexDirection": "row",
+                "overflow": "visible",
+              },
+              null,
+              {
+                "flexDirection": "row",
+              },
+            ],
+          ]
+        }
+        testID="test_Popover_trigger_a"
       >
-        Link
-      </Text>
+        <Text
+          accessibilityLabel="Link"
+          accessibilityRole="link"
+          accessible={true}
+          style={
+            {
+              "color": "#151420",
+              "fontFamily": "Roboto",
+              "fontSize": 18,
+              "paddingLeft": 8,
+              "paddingRight": 8,
+              "textDecorationLine": "underline",
+              "userSelect": "text",
+            }
+          }
+          testID="test_Popover_trigger_caption"
+        >
+          Link
+        </Text>
+      </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;

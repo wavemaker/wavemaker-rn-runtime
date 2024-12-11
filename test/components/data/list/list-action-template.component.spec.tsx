@@ -6,4 +6,4 @@ describe('Test ListActionTemplate component', () => {
       const tree = renderer.create(<WmListActionTemplate name="test_ListActionTemplate"/>).toJSON();
       expect(tree).toMatchSnapshot();
     });
-});rr
+});

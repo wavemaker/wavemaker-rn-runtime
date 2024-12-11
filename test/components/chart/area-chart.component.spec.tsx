@@ -45,13 +45,15 @@ describe('Test AreaChart component', () => {
   //should render when default props are given and also shouldnot render when default props are not given
   it('Should render component', () => {
     const tree = renderComponent(defaultProps);
-    expect(tree.toJSON()).not.toBeNull();
+    expect(Array.isArray(tree.toJSON())).toBe(true);
+    expect(tree.toJSON()[1]).not.toBeNull();
     expect(tree).toMatchSnapshot();
   });
 
   it('should render with null when props are not given', () => {
     const tree = renderComponent();
-    expect(tree.toJSON()).toBeNull();
+    expect(Array.isArray(tree.toJSON())).toBe(false);
+    expect(tree.toJSON().children).toBeNull();
   });
 
   //title, titlesIcon subheading
@@ -275,8 +277,10 @@ describe('Test AreaChart component', () => {
         },
       },
     });
+    
+    const viewEle = tree.UNSAFE_getByType(VictoryChart);
+
     await waitFor(() => {
-      const viewEle = tree.UNSAFE_getByType(VictoryChart);
       // expect(viewEle.props.minDomain).toBe();
       expect(viewEle.props.padding.top).toBe(10);
       expect(viewEle.props.padding.bottom).toBe(20);
@@ -296,8 +300,9 @@ describe('Test AreaChart component', () => {
         },
       },
     });
+    const viewEle = tree.UNSAFE_getByType(VictoryChart);
+
     await waitFor(() => {
-      const viewEle = tree.UNSAFE_getByType(VictoryChart);
       expect(viewEle.props.minDomain.x).toBe(undefined);
       expect(viewEle.props.minDomain.y).toBe(undefined);
     });
@@ -502,8 +507,9 @@ describe('Test AreaChart component', () => {
         },
       },
     });
+    const viewEle1 = tree.UNSAFE_getByType(VictoryChart);
+
     await waitFor(() => {
-      const viewEle1 = tree.UNSAFE_getByType(VictoryChart);
       expect(viewEle1.props.theme.group.colorScale[0]).toBe('#393b79');
       expect(viewEle1.props.theme.group.width).toBe(250);
       expect(viewEle1.props.theme.group.height).toBe(250);

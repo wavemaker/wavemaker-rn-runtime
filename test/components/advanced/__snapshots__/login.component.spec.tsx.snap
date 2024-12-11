@@ -1,18 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WmLogin renders correctly with default props 1`] = `
-<View
-  style={{}}
->
+[
   <View
+    onLayout={[Function]}
     style={
       {
-        "paddingBottom": 35,
-        "paddingLeft": 35,
-        "paddingRight": 35,
-        "paddingTop": 35,
+        "height": 0,
+        "width": 0,
       }
     }
-  />
-</View>
+  />,
+  <View
+    style={{}}
+  >
+    <View
+      style={
+        {
+          "paddingBottom": 35,
+          "paddingLeft": 35,
+          "paddingRight": 35,
+          "paddingTop": 35,
+        }
+      }
+    />
+  </View>,
+]
 `;

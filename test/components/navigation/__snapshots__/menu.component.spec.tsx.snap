@@ -191,6 +191,15 @@ exports[`Test Menu component should close menu when menu item is pressed 1`] = `
       testID="test_menu_outercontent"
     >
       <View
+        onLayout={[Function]}
+        style={
+          {
+            "height": 0,
+            "width": 0,
+          }
+        }
+      />
+      <View
         style={
           {
             "flex": 1,
@@ -229,6 +238,15 @@ exports[`Test Menu component should close menu when menu item is pressed 1`] = `
               }
             >
               <View>
+                <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
                 <View
                   style={
                     {
@@ -322,6 +340,15 @@ exports[`Test Menu component should close menu when menu item is pressed 1`] = `
               </View>
               <View>
                 <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
+                <View
                   style={
                     {
                       "height": 48,
@@ -413,6 +440,15 @@ exports[`Test Menu component should close menu when menu item is pressed 1`] = `
                 </View>
               </View>
               <View>
+                <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
                 <View
                   style={
                     {
@@ -645,271 +681,347 @@ exports[`Test Menu component should not display when show is false 1`] = `
 `;
 
 exports[`Test Menu component should render component 1`] = `
-<View
-  accessibilityLabel=""
-  accessible={true}
-  onLayout={[Function]}
-  style={
-    {
-      "alignSelf": "flex-start",
-      "paddingBottom": 8,
-      "paddingLeft": 8,
-      "paddingRight": 8,
-      "paddingTop": 8,
-    }
-  }
->
+[
   <View
+    onLayout={[Function]}
     style={
       {
-        "height": undefined,
-        "justifyContent": "center",
-        "width": undefined,
+        "height": 0,
+        "width": 0,
       }
     }
-    testID="non_animatableView"
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    accessibilityLabel=""
+    accessible={true}
+    onLayout={[Function]}
+    style={
+      {
+        "alignSelf": "flex-start",
+        "paddingBottom": 8,
+        "paddingLeft": 8,
+        "paddingRight": 8,
+        "paddingTop": 8,
+      }
+    }
   >
     <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": false,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
+      onLayout={[Function]}
       style={
-        [
+        {
+          "height": 0,
+          "width": 0,
+        }
+      }
+    />
+    <View
+      style={
+        {
+          "height": undefined,
+          "justifyContent": "center",
+          "width": undefined,
+        }
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityState={
           {
-            "overflow": "hidden",
-          },
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
           [
             {
-              "alignItems": "center",
-              "color": "#151420",
-              "flexDirection": "row",
-              "overflow": "visible",
+              "overflow": "hidden",
             },
-            null,
-            {
-              "flexDirection": "row",
-            },
-          ],
-        ]
-      }
-      testID="test_menu_trigger_a"
-    >
-      <View>
+            [
+              {
+                "alignItems": "center",
+                "color": "#151420",
+                "flexDirection": "row",
+                "overflow": "visible",
+              },
+              null,
+              {
+                "flexDirection": "row",
+              },
+            ],
+          ]
+        }
+        testID="test_menu_trigger_a"
+      >
         <View
+          onLayout={[Function]}
           style={
             {
-              "alignItems": "center",
-              "alignSelf": "center",
-              "color": "#666666",
-              "flexDirection": "row",
+              "height": 0,
+              "width": 0,
             }
           }
-          testID="non_animatableView"
-        >
-          <View>
+        />
+        <View>
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "color": "#666666",
+                "flexDirection": "row",
+              }
+            }
+            testID="non_animatableView"
+          >
             <View>
-              <Text
-                accessible={false}
-                size={16}
-                style={
-                  [
-                    {
-                      "color": "#666666",
-                    },
-                    {
-                      "paddingLeft": 0,
-                      "paddingRight": 8,
-                    },
-                    {
-                      "transform": [
-                        {
-                          "rotate": "0deg",
-                        },
-                      ],
-                    },
-                  ]
-                }
-                testID="test_menu_trigger_icon_icon"
-              >
-                caret-down
-              </Text>
+              <View>
+                <Text
+                  accessible={false}
+                  size={16}
+                  style={
+                    [
+                      {
+                        "color": "#666666",
+                      },
+                      {
+                        "paddingLeft": 0,
+                        "paddingRight": 8,
+                      },
+                      {
+                        "transform": [
+                          {
+                            "rotate": "0deg",
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                  testID="test_menu_trigger_icon_icon"
+                >
+                  caret-down
+                </Text>
+              </View>
             </View>
           </View>
         </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Test Menu component should render component with caption 1`] = `
-<View
-  accessibilityLabel="wm-menu"
-  accessible={true}
-  onLayout={[Function]}
-  style={
-    {
-      "alignSelf": "flex-start",
-      "paddingBottom": 8,
-      "paddingLeft": 8,
-      "paddingRight": 8,
-      "paddingTop": 8,
-    }
-  }
->
+[
   <View
+    onLayout={[Function]}
     style={
       {
-        "height": undefined,
-        "justifyContent": "center",
-        "width": undefined,
+        "height": 0,
+        "width": 0,
       }
     }
-    testID="non_animatableView"
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    accessibilityLabel="wm-menu"
+    accessible={true}
+    onLayout={[Function]}
+    style={
+      {
+        "alignSelf": "flex-start",
+        "paddingBottom": 8,
+        "paddingLeft": 8,
+        "paddingRight": 8,
+        "paddingTop": 8,
+      }
+    }
   >
     <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": false,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={true}
-      collapsable={false}
-      focusable={true}
-      onBlur={[Function]}
-      onClick={[Function]}
-      onFocus={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
+      onLayout={[Function]}
       style={
-        [
+        {
+          "height": 0,
+          "width": 0,
+        }
+      }
+    />
+    <View
+      style={
+        {
+          "height": undefined,
+          "justifyContent": "center",
+          "width": undefined,
+        }
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityState={
           {
-            "overflow": "hidden",
-          },
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
           [
             {
-              "alignItems": "center",
-              "color": "#151420",
-              "flexDirection": "row",
-              "overflow": "visible",
+              "overflow": "hidden",
             },
-            null,
-            {
-              "flexDirection": "row",
-            },
-          ],
-        ]
-      }
-      testID="test_menu_trigger_a"
-    >
-      <Text
-        accessibilityLabel="wm-menu"
-        accessibilityRole="link"
-        accessible={true}
-        style={
-          {
-            "color": "#666666",
-            "fontFamily": "Roboto",
-            "fontSize": 18,
-            "fontWeight": "bold",
-            "paddingLeft": 8,
-            "paddingRight": 12,
-            "textDecorationLine": "none",
-            "userSelect": "text",
-          }
+            [
+              {
+                "alignItems": "center",
+                "color": "#151420",
+                "flexDirection": "row",
+                "overflow": "visible",
+              },
+              null,
+              {
+                "flexDirection": "row",
+              },
+            ],
+          ]
         }
-        testID="test_menu_trigger_caption"
+        testID="test_menu_trigger_a"
       >
-        wm-menu
-      </Text>
-      <View>
-        <View
+        <Text
+          accessibilityLabel="wm-menu"
+          accessibilityRole="link"
+          accessible={true}
           style={
             {
-              "alignItems": "center",
-              "alignSelf": "center",
               "color": "#666666",
-              "flexDirection": "row",
+              "fontFamily": "Roboto",
+              "fontSize": 18,
+              "fontWeight": "bold",
+              "paddingLeft": 8,
+              "paddingRight": 12,
+              "textDecorationLine": "none",
+              "userSelect": "text",
             }
           }
-          testID="non_animatableView"
+          testID="test_menu_trigger_caption"
         >
-          <View>
+          wm-menu
+        </Text>
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "height": 0,
+              "width": 0,
+            }
+          }
+        />
+        <View>
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "color": "#666666",
+                "flexDirection": "row",
+              }
+            }
+            testID="non_animatableView"
+          >
             <View>
-              <Text
-                accessible={false}
-                size={16}
-                style={
-                  [
-                    {
-                      "color": "#666666",
-                    },
-                    {
-                      "paddingLeft": 0,
-                      "paddingRight": 8,
-                    },
-                    {
-                      "transform": [
-                        {
-                          "rotate": "0deg",
-                        },
-                      ],
-                    },
-                  ]
-                }
-                testID="test_menu_trigger_icon_icon"
-              >
-                caret-down
-              </Text>
+              <View>
+                <Text
+                  accessible={false}
+                  size={16}
+                  style={
+                    [
+                      {
+                        "color": "#666666",
+                      },
+                      {
+                        "paddingLeft": 0,
+                        "paddingRight": 8,
+                      },
+                      {
+                        "transform": [
+                          {
+                            "rotate": "0deg",
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                  testID="test_menu_trigger_icon_icon"
+                >
+                  caret-down
+                </Text>
+              </View>
             </View>
           </View>
         </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Test Menu component should render custom dataset 1`] = `
@@ -978,6 +1090,15 @@ exports[`Test Menu component should render custom dataset 1`] = `
       testID="test_menu_outercontent"
     >
       <View
+        onLayout={[Function]}
+        style={
+          {
+            "height": 0,
+            "width": 0,
+          }
+        }
+      />
+      <View
         style={
           {
             "flex": 1,
@@ -1016,6 +1137,15 @@ exports[`Test Menu component should render custom dataset 1`] = `
               }
             >
               <View>
+                <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
                 <View
                   style={
                     {
@@ -1084,6 +1214,15 @@ exports[`Test Menu component should render custom dataset 1`] = `
                     }
                     testID="test_menuitem0_a"
                   >
+                    <View
+                      onLayout={[Function]}
+                      style={
+                        {
+                          "height": 0,
+                          "width": 0,
+                        }
+                      }
+                    />
                     <View>
                       <View
                         style={
@@ -1154,6 +1293,15 @@ exports[`Test Menu component should render custom dataset 1`] = `
               </View>
               <View>
                 <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
+                <View
                   style={
                     {
                       "height": 48,
@@ -1221,6 +1369,15 @@ exports[`Test Menu component should render custom dataset 1`] = `
                     }
                     testID="test_menuitem1_a"
                   >
+                    <View
+                      onLayout={[Function]}
+                      style={
+                        {
+                          "height": 0,
+                          "width": 0,
+                        }
+                      }
+                    />
                     <View>
                       <View
                         style={
@@ -1291,6 +1448,15 @@ exports[`Test Menu component should render custom dataset 1`] = `
               </View>
               <View>
                 <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
+                <View
                   style={
                     {
                       "height": 48,
@@ -1358,6 +1524,15 @@ exports[`Test Menu component should render custom dataset 1`] = `
                     }
                     testID="test_menuitem2_a"
                   >
+                    <View
+                      onLayout={[Function]}
+                      style={
+                        {
+                          "height": 0,
+                          "width": 0,
+                        }
+                      }
+                    />
                     <View>
                       <View
                         style={
@@ -1501,6 +1676,15 @@ exports[`Test Menu component should show items on menu press 1`] = `
       testID="test_menu_outercontent"
     >
       <View
+        onLayout={[Function]}
+        style={
+          {
+            "height": 0,
+            "width": 0,
+          }
+        }
+      />
+      <View
         style={
           {
             "flex": 1,
@@ -1539,6 +1723,15 @@ exports[`Test Menu component should show items on menu press 1`] = `
               }
             >
               <View>
+                <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
                 <View
                   style={
                     {
@@ -1632,6 +1825,15 @@ exports[`Test Menu component should show items on menu press 1`] = `
               </View>
               <View>
                 <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
+                <View
                   style={
                     {
                       "height": 48,
@@ -1723,6 +1925,15 @@ exports[`Test Menu component should show items on menu press 1`] = `
                 </View>
               </View>
               <View>
+                <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
                 <View
                   style={
                     {
@@ -1889,6 +2100,15 @@ exports[`Test Menu component should trigger onSelect function when menu item is 
       testID="test_menu_outercontent"
     >
       <View
+        onLayout={[Function]}
+        style={
+          {
+            "height": 0,
+            "width": 0,
+          }
+        }
+      />
+      <View
         style={
           {
             "flex": 1,
@@ -1927,6 +2147,15 @@ exports[`Test Menu component should trigger onSelect function when menu item is 
               }
             >
               <View>
+                <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
                 <View
                   style={
                     {
@@ -2020,6 +2249,15 @@ exports[`Test Menu component should trigger onSelect function when menu item is 
               </View>
               <View>
                 <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
+                <View
                   style={
                     {
                       "height": 48,
@@ -2111,6 +2349,15 @@ exports[`Test Menu component should trigger onSelect function when menu item is 
                 </View>
               </View>
               <View>
+                <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
                 <View
                   style={
                     {

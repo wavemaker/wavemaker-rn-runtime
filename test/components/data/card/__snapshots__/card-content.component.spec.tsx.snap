@@ -1,15 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test CardContent component Check validity of sample component 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "#ffffff",
-      "paddingBottom": 8,
-      "paddingLeft": 8,
-      "paddingRight": 8,
-      "paddingTop": 8,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    style={
+      {
+        "backgroundColor": "#ffffff",
+        "paddingBottom": 8,
+        "paddingLeft": 8,
+        "paddingRight": 8,
+        "paddingTop": 8,
+      }
+    }
+  />,
+]
 `;

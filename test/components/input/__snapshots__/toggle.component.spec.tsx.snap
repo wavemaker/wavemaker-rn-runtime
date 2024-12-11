@@ -1,98 +1,94 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test Toggle component should not toggle if disabled in native platform 1`] = `
-<View
-  accessibilityHint="Toggle switch hint"
-  accessibilityLabel="wm-toggle-switch"
-  accessibilityRole="togglebutton"
-  accessibilityState={
-    {
-      "busy": undefined,
-      "checked": undefined,
-      "disabled": true,
-      "expanded": undefined,
-      "selected": false,
-    }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onClick={[Function]}
-  onLayout={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    {
-      "alignItems": "center",
-      "backgroundColor": "#ffffff",
-      "borderColor": "#000000",
-      "borderRadius": 18,
-      "borderWidth": 2,
-      "flexDirection": "row",
-      "height": 32,
-      "opacity": 1,
-      "width": 52,
-    }
-  }
-  testID="wm-toggle_a"
->
+[
   <View
-    collapsable={false}
+    onLayout={[Function]}
     style={
       {
-        "backgroundColor": "#E9EDEF",
-        "backgroundImage": "linear-gradient(45deg, #4c669f, #3b5998)",
-        "backgroundPosition": "center",
-        "backgroundSize": "100% 100%",
-        "borderRadius": 18,
-        "height": 16,
-        "marginLeft": 8,
-        "marginRight": 0,
-        "transform": [
-          {
-            "translateX": 0,
-          },
-          {
-            "scale": 1,
-          },
-        ],
-        "width": 16,
+        "height": 0,
+        "width": 0,
       }
     }
+  />,
+  <View
+    accessibilityHint="Toggle switch hint"
+    accessibilityLabel="wm-toggle-switch"
+    accessibilityRole="togglebutton"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": true,
+        "expanded": undefined,
+        "selected": false,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#ffffff",
+        "borderColor": "#000000",
+        "borderRadius": 18,
+        "borderWidth": 2,
+        "flexDirection": "row",
+        "height": 32,
+        "opacity": 1,
+        "width": 52,
+      }
+    }
+    testID="wm-toggle_a"
   >
     <View
+      collapsable={false}
       style={
-        [
-          {
-            "borderWidth": 0,
-            "overflow": "hidden",
-          },
-          {
-            "bottom": 0,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          },
-          undefined,
-        ]
+        {
+          "backgroundColor": "#E9EDEF",
+          "backgroundImage": "linear-gradient(45deg, #4c669f, #3b5998)",
+          "backgroundPosition": "center",
+          "backgroundSize": "100% 100%",
+          "borderRadius": 18,
+          "height": 16,
+          "marginLeft": 8,
+          "marginRight": 0,
+          "transform": [
+            {
+              "translateX": 0,
+            },
+            {
+              "scale": 1,
+            },
+          ],
+          "width": 16,
+        }
       }
     >
       <View
         style={
           [
+            {
+              "borderWidth": 0,
+              "overflow": "hidden",
+            },
             {
               "bottom": 0,
               "left": 0,
@@ -100,156 +96,167 @@ exports[`Test Toggle component should not toggle if disabled in native platform 
               "right": 0,
               "top": 0,
             },
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-            },
+            undefined,
           ]
         }
       >
-        <ViewManagerAdapter_ExpoLinearGradient
-          colors={
-            [
-              4283197087,
-              4282079640,
-            ]
-          }
-          endPoint={
-            [
-              1,
-              0,
-            ]
-          }
-          locations={
-            [
-              null,
-              null,
-            ]
-          }
-          startPoint={
-            [
-              0,
-              1,
-            ]
-          }
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
               },
               {
                 "alignItems": "center",
+                "flexDirection": "row",
                 "justifyContent": "center",
-              },
-              {
-                "borderRadius": undefined,
-                "position": "absolute",
               },
             ]
           }
-          testID="wm-expo-linear-gradient"
-        />
+        >
+          <ViewManagerAdapter_ExpoLinearGradient
+            colors={
+              [
+                4283197087,
+                4282079640,
+              ]
+            }
+            endPoint={
+              [
+                1,
+                0,
+              ]
+            }
+            locations={
+              [
+                null,
+                null,
+              ]
+            }
+            startPoint={
+              [
+                0,
+                1,
+              ]
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                },
+                {
+                  "borderRadius": undefined,
+                  "position": "absolute",
+                },
+              ]
+            }
+            testID="wm-expo-linear-gradient"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Test Toggle component should render WmToggle component 1`] = `
-<View
-  accessibilityHint="Toggle switch hint"
-  accessibilityLabel="wm-toggle-switch"
-  accessibilityRole="togglebutton"
-  accessibilityState={
-    {
-      "busy": undefined,
-      "checked": undefined,
-      "disabled": undefined,
-      "expanded": undefined,
-      "selected": false,
-    }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onClick={[Function]}
-  onLayout={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    {
-      "alignItems": "center",
-      "backgroundColor": "#ffffff",
-      "borderColor": "#000000",
-      "borderRadius": 18,
-      "borderWidth": 2,
-      "flexDirection": "row",
-      "height": 32,
-      "opacity": 1,
-      "width": 52,
-    }
-  }
-  testID="wm-toggle_a"
->
+[
   <View
-    collapsable={false}
+    onLayout={[Function]}
     style={
       {
-        "backgroundColor": "#E9EDEF",
-        "backgroundImage": "linear-gradient(45deg, #4c669f, #3b5998)",
-        "backgroundPosition": "center",
-        "backgroundSize": "100% 100%",
-        "borderRadius": 18,
-        "height": 16,
-        "marginLeft": 8,
-        "marginRight": 0,
-        "transform": [
-          {
-            "translateX": 0,
-          },
-          {
-            "scale": 1,
-          },
-        ],
-        "width": 16,
+        "height": 0,
+        "width": 0,
       }
     }
+  />,
+  <View
+    accessibilityHint="Toggle switch hint"
+    accessibilityLabel="wm-toggle-switch"
+    accessibilityRole="togglebutton"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": false,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#ffffff",
+        "borderColor": "#000000",
+        "borderRadius": 18,
+        "borderWidth": 2,
+        "flexDirection": "row",
+        "height": 32,
+        "opacity": 1,
+        "width": 52,
+      }
+    }
+    testID="wm-toggle_a"
   >
     <View
+      collapsable={false}
       style={
-        [
-          {
-            "borderWidth": 0,
-            "overflow": "hidden",
-          },
-          {
-            "bottom": 0,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          },
-          undefined,
-        ]
+        {
+          "backgroundColor": "#E9EDEF",
+          "backgroundImage": "linear-gradient(45deg, #4c669f, #3b5998)",
+          "backgroundPosition": "center",
+          "backgroundSize": "100% 100%",
+          "borderRadius": 18,
+          "height": 16,
+          "marginLeft": 8,
+          "marginRight": 0,
+          "transform": [
+            {
+              "translateX": 0,
+            },
+            {
+              "scale": 1,
+            },
+          ],
+          "width": 16,
+        }
       }
     >
       <View
         style={
           [
+            {
+              "borderWidth": 0,
+              "overflow": "hidden",
+            },
             {
               "bottom": 0,
               "left": 0,
@@ -257,59 +264,74 @@ exports[`Test Toggle component should render WmToggle component 1`] = `
               "right": 0,
               "top": 0,
             },
-            {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "center",
-            },
+            undefined,
           ]
         }
       >
-        <ViewManagerAdapter_ExpoLinearGradient
-          colors={
-            [
-              4283197087,
-              4282079640,
-            ]
-          }
-          endPoint={
-            [
-              1,
-              0,
-            ]
-          }
-          locations={
-            [
-              null,
-              null,
-            ]
-          }
-          startPoint={
-            [
-              0,
-              1,
-            ]
-          }
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
               },
               {
                 "alignItems": "center",
+                "flexDirection": "row",
                 "justifyContent": "center",
-              },
-              {
-                "borderRadius": undefined,
-                "position": "absolute",
               },
             ]
           }
-          testID="wm-expo-linear-gradient"
-        />
+        >
+          <ViewManagerAdapter_ExpoLinearGradient
+            colors={
+              [
+                4283197087,
+                4282079640,
+              ]
+            }
+            endPoint={
+              [
+                1,
+                0,
+              ]
+            }
+            locations={
+              [
+                null,
+                null,
+              ]
+            }
+            startPoint={
+              [
+                0,
+                1,
+              ]
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                },
+                {
+                  "borderRadius": undefined,
+                  "position": "absolute",
+                },
+              ]
+            }
+            testID="wm-expo-linear-gradient"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
