@@ -22,7 +22,7 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
     let value = (props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue);
     const styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
     const {hasLinearGradient, color1, color2, start, end} = parseLinearGradient(styles?.root?.progressBar?.backgroundColor as string);
-    const gradientColors = [color1, color2];
+    const gradientColors = [color1, color2] as [string, string, ...string[]]
     const valuePercent = `${Math.round(value * 100)}%`;
 
     return (
