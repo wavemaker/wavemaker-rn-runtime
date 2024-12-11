@@ -16,8 +16,8 @@ export interface LinearGradientProps {
 }
 
 export interface LinearGradientState {
-    colors: string[];
-    locations: number[];
+    colors: any;
+    locations: any;
     start: LinearGradientPoint;
     end: LinearGradientPoint;
 }
