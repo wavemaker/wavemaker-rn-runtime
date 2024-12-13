@@ -179,11 +179,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     setProp(propName: string, value: any) {
         this.propertyProvider.set(propName, value);
-<<<<<<< HEAD
         this.updateState({props:{}} as S);
-=======
-        this.updateState({props: {}} as S);
->>>>>>> 84f9c49b (WMS-26785 | update: moving auto text erasing fix from base component to base input and base number component)
     }
 
     setPropDefault(propName: string, value: any) {
