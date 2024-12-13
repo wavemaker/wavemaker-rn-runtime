@@ -93,16 +93,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             overflow: 'hidden',
         },
         activeDotStyle: {
-            position: 'absolute',
             backgroundColor: themeVariables.carouselActiveDotColor,
             opacity: 1,
-            padding: 4
         },
         dotStyle: {
             width: 10,
             height: 10,
+            opacity: 0.6,
             borderRadius: 5,
-            opacity: 0.2,
             marginLeft: 4,
             marginRight: 4,
             backgroundColor: themeVariables.carouselDotColor
