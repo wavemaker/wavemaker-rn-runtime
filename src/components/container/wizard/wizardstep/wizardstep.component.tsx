@@ -42,6 +42,13 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
           this.parent.forceUpdate();
         }, 10);
         break;
+      case 'show':
+        if($new !== $old){
+          setTimeout(() => {
+            this.parent.forceUpdate();
+          }, 10);
+        }
+        break;
     }
   }
 
