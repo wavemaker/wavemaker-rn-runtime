@@ -1,4 +1,4 @@
-import React, { ReactNode, createRef } from 'react';
+import React, { createRef } from 'react';
 import {
   render,
   screen,
@@ -7,157 +7,230 @@ import {
   waitFor,
 } from '@testing-library/react-native';
 import WmVideo from '@wavemaker/app-rn-runtime/components/basic/video/video.component';
-import WmVideoProps from '@wavemaker/app-rn-runtime/components/basic/video/video.props';
-import { AssetConsumer, AssetProvider } from '../../../src/core/asset.provider';
-import { AVPlaybackStatus, Video } from 'expo-av';
+import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
+import { createVideoPlayer } from 'expo-video';
 
-// Mock Expo Video component
-// jest.mock('expo-av', () => ({
-//   Video: jest.fn((props) => <div {...props} />),
-// }));
+
+jest.mock('expo-video', () => {
+  const { View } = require('react-native');
+  return {
+    VideoView: jest.fn((props) => <View {...props} />),
+    createVideoPlayer: jest.fn(() => ({
+      play: jest.fn(),
+      pause: jest.fn(),
+      release: jest.fn(),
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+    })),
+  };
+});
 
 const loadAsset = (path) => path;
-const renderComponent = (props = {}) =>
+
+const renderComponent = (props: any = {}) =>
   render(
     <AssetProvider value={loadAsset}>
       <WmVideo {...props} />
     </AssetProvider>
   );
 
-describe('Test Video component', () => {
+describe('WmVideo Component Tests', () => {
   afterEach(() => {
     jest.clearAllMocks();
+    jest.clearAllTimers();
   });
 
   it('renders component with default props', () => {
-    render(
-      <AssetProvider value={loadAsset}>
-        <WmVideo />
-      </AssetProvider>
-    );
+    renderComponent();
     expect(screen).toMatchSnapshot();
   });
 
-  // Source URL Handling
-  it('handles different mp4 video source URL correctly', async () => {
+  it('handles mp4 video source URL correctly', async () => {
     renderComponent({
       name: 'test',
       mp4format: 'https://example.com/video.mp4',
+      webmformat: '',
+      autoplay: false,
     });
 
-    const video = screen.getByTestId('test_video');
-    await waitFor(() => {
-      expect(video.props.source).toMatchObject({
+    expect(createVideoPlayer).toHaveBeenCalledWith({
         uri: 'https://example.com/video.mp4',
       });
     });
-  });
 
-  it('handles different webm video source URLs correctly', async () => {
-    renderComponent({
-      name: 'test',
-      webmformat: 'https://example.com/video.webm',
-    });
-
-    const video = screen.getByTestId('test_video');
-
-    await waitFor(() => {
-      expect(video.props.source).toMatchObject({
-        uri: 'https://example.com/video.webm',
+  it('handles mp4 video local source correctly', async () => {
+      const sourcePath = 'resources/videos/sample_video_bear.mp4'
+      renderComponent({
+        name: 'test',
+        mp4format: sourcePath,
+        webmformat: '',
+        autoplay: false,
       });
-    });
+      
+    expect(createVideoPlayer).toHaveBeenCalledWith(sourcePath);
+
   });
 
-  // Autoplay Functionality
-  it('autoplays the video when autoplay is true', () => {
+  it('autoplays video when autoplay is true', async () => {
+    const ref : any = createRef();
     renderComponent({
       name: 'test',
       mp4format: 'https://example.com/video.mp4',
       autoplay: true,
+      muted: true, 
+      ref: ref
     });
-    const video = screen.getByTestId('test_video');
-    expect(video.props.status.shouldPlay).toBe(true);
+
+    const player = ref?.current?.player
+    const playMock = jest.spyOn(player, 'play')
+
+    expect(player.addListener).toHaveBeenCalledWith(
+      'statusChange', expect.any(Function)
+    );
+
+    const [_statusCb, statusChangeCallback] = player.addListener.mock.calls.find(
+      ([eventName]: string[]) => eventName === 'statusChange'
+    );
+
+    statusChangeCallback({ status: 'readyToPlay'})
+
+    await waitFor(() => {
+      expect(playMock).toHaveBeenCalled();
+    });
+
   });
 
-  // Accessibility Props
-  it('applies accessibility props correctly', () => {
+  it('renders height and width properly', () => {
     renderComponent({
       name: 'test',
       mp4format: 'https://example.com/video.mp4',
-      accessibilitylabel: 'Accessible Video',
-      hint: 'video',
-      accessibilityrole: 'Video',
     });
-    expect(screen.getByLabelText('Accessible Video')).toBeTruthy();
-    expect(screen.getByRole('Video')).toBeTruthy();
-    expect(screen.getByA11yHint('video')).toBeTruthy();
+
+    const videoView = screen.getByTestId('test_video');
+    expect(videoView.props.style).toMatchObject({
+      width: '100%',
+      height: '100%',
+      flex: 1,
+    });
   });
 
-  it('shows controls when controls prop is true', () => {
+  it('handles event listeners properly', async () => {
+    const ref: any = createRef();
     renderComponent({
       name: 'test',
       mp4format: 'https://example.com/video.mp4',
-      accessibilitylabel: 'Accessible Video',
-      hint: 'video',
-      accessibilityrole: 'Video',
-      controls: true,
+      autoplay: true,
+      ref,
     });
-    const video = screen.getByTestId('test_video');
-    expect(video.props.useNativeControls).toBe(true);
+
+    const player = ref?.current?.player;
+
+    expect(player.addListener).toHaveBeenCalledWith(
+      'playingChange',
+      expect.any(Function)
+    );
+    expect(player.addListener).toHaveBeenCalledWith(
+      'statusChange',
+      expect.any(Function)
+    );
+
+    const [_eventName, statusChangeCallback] = player.addListener.mock.calls.find(
+      ([eventName]: string[]) => eventName === 'statusChange'
+    );
+
+    act(() => {
+      statusChangeCallback({ status: 'readyToPlay' });
+    });
+
+    expect(player.play).toHaveBeenCalled();
   });
 
-  // Loop Prop Functionality
-  it('loops the video when loop prop is true', () => {
+  it('renders skeleton loader when video is not ready', () => {
     renderComponent({
       name: 'test',
-      mp4format: 'https://example.com/video.mp4',
-      accessibilitylabel: 'Accessible Video',
-      hint: 'video',
-      accessibilityrole: 'Video',
-      loop: true,
+      showskeleton: true,
     });
-    const video = screen.getByTestId('test_video');
-    expect(video.props.status.isLooping).toBe(true);
+    expect(screen).toMatchSnapshot();
   });
 
-  // Mute Prop Functionality
-  it('mutes the video when muted prop is true', () => {
-    renderComponent({
-      name: 'test',
-      mp4format: 'https://example.com/video.mp4',
-      accessibilitylabel: 'Accessible Video',
-      hint: 'video',
-      accessibilityrole: 'Video',
-      muted: true,
-    });
-    const video = screen.getByTestId('test_video');
-    expect(video.props.status.isMuted).toBe(true);
-  });
 
-  // Poster Source
-  it('sets poster image correctly', () => {
+  it('shows video poster before playback starts & autoplay false', () => {
     renderComponent({
       name: 'test',
       mp4format: 'https://example.com/video.mp4',
       videoposter: 'https://example.com/poster.png',
-      accessibilitylabel: 'Accessible Video',
-      hint: 'video',
-      accessibilityrole: 'Video',
+      autoplay: false
     });
-    const video = screen.root.children[1];
-    expect(video.props.posterSource).toEqual({
+
+    const poster = screen.getByTestId('test_video_poster');
+    expect(poster.props.source).toEqual({
       uri: 'https://example.com/poster.png',
     });
   });
 
-  //skeleton loader
-  it('handles different mp4 video source URL correctly', async () => {
+  it('hide video poster before playback starts & autoplay true', () => {
     renderComponent({
       name: 'test',
-      showskeleton:true
+      mp4format: 'https://example.com/video.mp4',
+      videoposter: 'https://example.com/poster.png',
+      autoplay: true
     });
-    const root = screen.root;
-    expect(root.props.style.width).toBe('100%');
-    expect(root.props.style.height).toBe(300);
+
+    const poster = screen.queryByTestId('test_video_poster');
+    expect(poster).toBeNull();
   });
+
+  it('should play the video on tap on videoposter', ()=>{
+    const ref: any = createRef();
+    renderComponent({
+      name: 'test',
+      mp4format: 'https://example.com/video.mp4',
+      videoposter: 'https://example.com/poster.png',
+      ref: ref
+    });
+
+    const player = ref?.current?.player;
+
+    const poster = screen.getByTestId('test_video_poster');
+    fireEvent(poster, 'press')
+
+    expect(player.play).toHaveBeenCalled();
+
+  })
+
+  it('applies accessibility props correctly', () => {
+    renderComponent({
+      name: 'test',
+      mp4format: 'https://example.com/video.mp4',
+      accessibilitylabel: 'Accessible_video',
+      hint: 'Video',
+      accessibilityrole: 'Video',
+    });
+
+    // // video
+    expect(screen.getByLabelText('Accessible_video')).toBeTruthy();
+    expect(screen.getByRole('Video')).toBeTruthy();
+    expect(screen.getByA11yHint('Video')).toBeTruthy();
+
+    // poster
+    expect(screen.getByLabelText('Accessible_video_poster')).toBeTruthy();
+    expect(screen.getByRole('Video_poster')).toBeTruthy();
+    expect(screen.getByA11yHint('Video_poster')).toBeTruthy();
+  });
+
+  it('handles props correctly', async () => {
+    const ref : any = createRef();
+    renderComponent({
+      name: 'test',
+      mp4format: 'https://example.com/video.mp4',
+      loop: true,
+      muted: true, 
+      ref: ref
+    });
+
+    const player = ref?.current?.player
+    expect(player.loop).toBe(true);
+    expect(player.muted).toBe(true);
+  });
+
 });

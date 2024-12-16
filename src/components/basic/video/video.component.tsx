@@ -30,35 +30,27 @@ export default class WmVideo extends BaseComponent<
     super(props, DEFAULT_CLASS, new WmVideoProps(), new WmVideoState());
   }
 
-  getSource(path: string, type: string) {
+  getSource(path: string) {
     if (!path) {
       return null;
     }
     const resource = this.loadAsset && this.loadAsset(path);
     if (isFullPathUrl(resource as string)) {
       return {
-        uri: path,
+        uri: resource as string,
       };
     }
-    if (type == 'poster') return Number(resource);
-    return {
-      assetId: Number(resource) || 0,
+    return resource || {
+      uri: ''
     };
   }
 
-  
-
-  handlePlaybackStatus = (status: any) => {
-    if ('isPlaying' in status && typeof status === 'object') {
-      console.log(status.isPlaying ? 'Playing' : 'Paused');
-    } else if ('error' in status) {
-      console.error(
-        `Encountered a fatal error during playback: ${status.error}`
-      );
-    }
-  };
-
   renderVideoPoster(props: WmVideoProps) {
+    const accessibilityImageProps = {...props, 
+      accessibilitylabel : `${props.accessibilitylabel}_poster`,
+      hint: `${props.hint}_poster`,
+      accessibilityrole: `${props.accessibilityrole}_poster`,
+    }
     return (
       <TouchableWithoutFeedback onPress={() => this.player.play()}>
         <Image
@@ -73,8 +65,8 @@ export default class WmVideo extends BaseComponent<
             height: '100%',
           }}
           resizeMode={'cover'}
-          source={this.getSource(props.videoposter, 'poster') as any}
-          {...getAccessibilityProps(AccessibilityWidgetType.PICTURE, props)}
+          source={this.getSource(props.videoposter) as any}
+          {...getAccessibilityProps(AccessibilityWidgetType.PICTURE, accessibilityImageProps)}
         />
       </TouchableWithoutFeedback>
     );
@@ -89,27 +81,39 @@ export default class WmVideo extends BaseComponent<
   public playingStatusChange(isPlaying: boolean) {
     if (!this.state.playStarted) {
       this.updateState({
-        playStarted: isPlaying,
+        playStarted: this.state.props.autoplay || isPlaying,
       } as WmVideoState);
     }
   }
 
-  playerReadyStatusChange(status: string) {
+  playerReadyStatusChange(statusObj: any) {
+    const videoReady = statusObj.status === 'readyToPlay'
+    if (this.state.props.autoplay && videoReady) {
+        this.player.play();
+    }
     this.updateState({
-      isVideoReady: status == 'readyToPlay',
+      isVideoReady: videoReady,
     } as WmVideoState);
+  }
+
+  initializeProps(){
+    const {
+      loop,
+      muted,
+      showNowPlayingNotification,
+    } = this.state.props
+
+    this.player.muted = muted; 
+    this.player.loop = loop; 
+    this.player.showNowPlayingNotification = showNowPlayingNotification; 
   }
 
   componentDidMount(): void {
     super.componentDidMount();
-    this.getSource(this.state.props.videoposter, 'poster')
     const { mp4format, webmformat, autoplay } = this.state.props;
-    const videoSource = this.getSource(mp4format || webmformat, 'video') || {
-      uri: '',
-    };
-    this.player = createVideoPlayer(videoSource);
-    if (autoplay) this.player.play();
+    const videoSource = this.getSource(mp4format || webmformat) ;
 
+    this.player = createVideoPlayer(videoSource);
     this.player.addListener(
       'playingChange',
       this.playingStatusChange.bind(this)
@@ -118,6 +122,8 @@ export default class WmVideo extends BaseComponent<
       'statusChange',
       this.playerReadyStatusChange.bind(this)
     );
+
+    this.initializeProps()
   }
 
   componentWillUnmount(): void {
@@ -127,21 +133,18 @@ export default class WmVideo extends BaseComponent<
     this.player.release();
   }
 
+
   renderWidget(props: WmVideoProps) {
     const {
-      isLive,
-      loop,
-      muted,
-      playing,
-      showNowPlayingNotification,
       allowsPictureInPicture,
       videoposter,
       onFullscreenEnter,
       onFullscreenExit,
-      requiresLinearPlayback,
+      requiresLinearPlayback
     } = props;
 
-    const { playStarted, isVideoReady } = this.state;
+    const { playStarted } = this.state;
+    const isPlaying = playStarted || this.state.props.autoplay;
 
     return (
       <View style={this.styles.root}>
@@ -152,18 +155,13 @@ export default class WmVideo extends BaseComponent<
           player={this.player}
           nativeControls={props.controls}
           contentFit={'contain'}
-          loop={loop}
-          muted={muted}
           testID={this.getTestId('video')}
           allowsPictureInPicture={allowsPictureInPicture}
           onFullscreenEnter={onFullscreenEnter}
           onFullscreenExit={onFullscreenExit}
           requiresLinearPlayback={requiresLinearPlayback}
-          isLive={isLive}
-          playing={playing}
-          showNowPlayingNotification={showNowPlayingNotification}
         />
-        {!playStarted && !isVideoReady && videoposter ? (
+        {!isPlaying && videoposter ? (
           this.renderVideoPoster(props)
         ) : (
           <></>
