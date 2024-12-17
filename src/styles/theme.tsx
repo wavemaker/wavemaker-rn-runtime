@@ -407,7 +407,8 @@ export const ThemeConsumer = ThemeContext.Consumer;
         root: {
             width: 0,
             height: 0,
-            transform: [{ scale: 0 }]
+            transform: [{ scale: 0 }],
+            overflow: 'hidden'
         }
     });
     addStyle('bg-danger', '', { root: { backgroundColor: themeVariables.dangerColor }});
