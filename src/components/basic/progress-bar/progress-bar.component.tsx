@@ -32,7 +32,7 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
         <ProgressBar
           {...this.getTestPropsForAction('progressbar')}
           {...getAccessibilityProps(AccessibilityWidgetType.PROGRESSBAR, props)}
-          progress={value}
+          animatedValue={value}
           color={styles.progressValue.color}
           style={[styles.progressBar, {height: styles.root.height || styles.progressBar.height}]}></ProgressBar>
           {hasLinearGradient ? (
