@@ -4540,7 +4540,7 @@ exports[`WmCalendar Component should render without crashing 1`] = `
         extraData={
           MonthViewState {
             "currentYear": null,
-            "selectedDate": "2024-12-11T12:36:19.659Z",
+            "selectedDate": "2024-12-17T07:22:40.566Z",
             "viewMode": "day",
           }
         }
@@ -5415,7 +5415,7 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                   {
                     "alignItems": "center",
                     "backgroundColor": "#ffffff",
-                    "borderColor": "#4263eb",
+                    "borderColor": "transparent",
                     "borderRadius": 26,
                     "borderWidth": 1,
                     "height": 38,
@@ -5449,9 +5449,7 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                           "fontSize": 16,
                           "fontWeight": "400",
                         },
-                        {
-                          "backgroundColor": "#4263eb",
-                        },
+                        {},
                         {},
                         {},
                         undefined,
@@ -5460,59 +5458,6 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                   >
                     11
                   </Text>
-                  <View
-                    onLayout={[Function]}
-                    style={
-                      {
-                        "height": 0,
-                        "width": 0,
-                      }
-                    }
-                  />
-                  <View>
-                    <View
-                      style={
-                        {
-                          "alignItems": "center",
-                          "alignSelf": "flexStart",
-                          "flexDirection": "row",
-                          "marginTop": -8,
-                        }
-                      }
-                      testID="non_animatableView"
-                    >
-                      <View>
-                        <View>
-                          <Text
-                            accessible={false}
-                            size={8}
-                            style={
-                              [
-                                {
-                                  "color": undefined,
-                                },
-                                {
-                                  "color": "rgb(229, 234, 252)",
-                                  "paddingLeft": 0,
-                                  "paddingRight": 8,
-                                },
-                                {
-                                  "transform": [
-                                    {
-                                      "rotate": "0deg",
-                                    },
-                                  ],
-                                },
-                              ]
-                            }
-                            testID="undefined_icon"
-                          >
-                            circle
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                  </View>
                 </View>
               </View>
               <View
@@ -5957,7 +5902,7 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                   {
                     "alignItems": "center",
                     "backgroundColor": "#ffffff",
-                    "borderColor": "transparent",
+                    "borderColor": "#4263eb",
                     "borderRadius": 26,
                     "borderWidth": 1,
                     "height": 38,
@@ -5991,7 +5936,9 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                           "fontSize": 16,
                           "fontWeight": "400",
                         },
-                        {},
+                        {
+                          "backgroundColor": "#4263eb",
+                        },
                         {},
                         {},
                         undefined,
@@ -6000,6 +5947,59 @@ exports[`WmCalendar Component should render without crashing 1`] = `
                   >
                     17
                   </Text>
+                  <View
+                    onLayout={[Function]}
+                    style={
+                      {
+                        "height": 0,
+                        "width": 0,
+                      }
+                    }
+                  />
+                  <View>
+                    <View
+                      style={
+                        {
+                          "alignItems": "center",
+                          "alignSelf": "flexStart",
+                          "flexDirection": "row",
+                          "marginTop": -8,
+                        }
+                      }
+                      testID="non_animatableView"
+                    >
+                      <View>
+                        <View>
+                          <Text
+                            accessible={false}
+                            size={8}
+                            style={
+                              [
+                                {
+                                  "color": undefined,
+                                },
+                                {
+                                  "color": "rgb(229, 234, 252)",
+                                  "paddingLeft": 0,
+                                  "paddingRight": 8,
+                                },
+                                {
+                                  "transform": [
+                                    {
+                                      "rotate": "0deg",
+                                    },
+                                  ],
+                                },
+                              ]
+                            }
+                            testID="undefined_icon"
+                          >
+                            circle
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
                 </View>
               </View>
               <View

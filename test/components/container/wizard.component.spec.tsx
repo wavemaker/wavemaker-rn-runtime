@@ -1,5 +1,5 @@
 import React, { createRef, ReactNode } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import WmWizard from '@wavemaker/app-rn-runtime/components/container/wizard/wizard.component';
 
 import WmWizardProps from '@wavemaker/app-rn-runtime/components/container/wizard/wizard.props';
@@ -310,14 +310,20 @@ describe('Test Wizard component', () => {
     renderComponent({ actionsalignment: 'left', ref });
     expect(screen).toMatchSnapshot();
     await timer(300);
-    expect(screen.root.children[3].props.style[1].flexDirection).toBe('row');
+    
+    const component = screen.UNSAFE_getAllByType(View)[1];
+
+    expect(component.props.children[3].props.style[1].flexDirection).toBe('row');
   });
 
   it('should align the actions to right', async () => {
     const ref = createRef();
     renderComponent({ actionsalignment: 'right', ref });
     await timer(300);
-    expect(screen.root.children[3].props.style[1].flexDirection).toBe(
+
+    const component = screen.UNSAFE_getAllByType(View)[1];
+
+    expect(component.props.children[3].props.style[1].flexDirection).toBe(
       'row-reverse'
     );
   });
