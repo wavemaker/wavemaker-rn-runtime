@@ -50,29 +50,29 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
           }
           break;
         case 'maxsize':
-          let datavalue = this.state.props.datavalue;
-          let dataValueItems: any;
-          if (typeof datavalue === 'string') {
-            dataValueItems = datavalue.split(',');
-          } else if (isArray(datavalue)) {
-            dataValueItems = datavalue;
-          } else {
-            if (isDefined(datavalue)) {
-              dataValueItems = [datavalue];
+          if ($new) {
+            const { datavalue } = this.state.props;
+            const { dataItems } = this.state;
+            
+            let dataValueItems = Array.isArray(datavalue)
+              ? datavalue
+              : typeof datavalue === 'string'
+                ? datavalue.split(',').map((item) => item.trim())
+                : datavalue != null
+                  ? [datavalue]
+                  : [];
+
+            if (dataValueItems.length >= $new) {
+              dataValueItems = dataValueItems.slice(0, $new);
+              const updatedItems = dataItems.map((item:any) => ({
+                ...item,
+                selected: dataValueItems.includes(item.datafield),
+              }));
+              this.updateState({ dataItems: updatedItems } as WmChipsState);
             }
+
+            break;
           }
-          dataValueItems = dataValueItems.map((item: any) =>
-            isString(item) ? item.trim() : item
-          );
-          if (dataValueItems.length >= $new) {
-            dataValueItems = dataValueItems.slice(0, $new);
-            let updatedItems = this.state.dataItems.map((item: any) => ({
-              ...item,
-              selected: dataValueItems.includes(item.datafield),
-            }));
-            this.updateState({ dataItems: updatedItems } as WmChipsState);
-          }
-          break;
       }
   }
 

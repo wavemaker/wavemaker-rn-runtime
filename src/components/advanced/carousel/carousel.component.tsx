@@ -127,6 +127,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
 
   animatePagination(index: number) {
     const prevIndex = this.state.activeIndex;
+    const props = this.state.props;
     const maxNoOfDots = this.state.props.maxnoofdots;
     const margin = ((this.styles.dotStyle?.marginLeft as number)|| 0) + 
     ((this.styles.dotStyle?.marginRight as number)|| 0)
@@ -138,7 +139,8 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
       duration: 100,
       easing: Easing.out(Easing.linear),
     };
-    const shouldAnimate = !(maxNoOfDots >= this.state.props.dataset.length) && index > 3 && index <= this.state.props.dataset.length - 2;
+    let data = props.type === 'dynamic' ? props.dataset : props.children;
+    const shouldAnimate = !(maxNoOfDots >= data?.length) && index > 3 && index <= data?.length - 2;
     if (shouldAnimate) {
       const newTranslateX = multiplier * -(index - 3) * (width + margin);
       Animated.timing(this.wrapperPosition, {
@@ -146,7 +148,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         ...options,
       }).start();
     }
-    if (index == 1 && prevIndex == this.state.props.dataset.length) {
+    if (index == 1 && prevIndex == data?.length) {
       Animated.timing(this.wrapperPosition, {
         toValue: 0,
         ...options,
@@ -193,7 +195,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   }
 
   renderPagination(data: any) {
-    const maxNoOfDots = this.state.props.maxnoofdots;
+    const maxNoOfDots = data.length > 5 ? this.state.props.maxnoofdots : data.length;
     const activeIndex = this.state.activeIndex - 1;
     const dotMargin = ((this.styles.dotStyle?.marginLeft as number)|| 0) + 
     ((this.styles.dotStyle?.marginRight as number)|| 0);
@@ -237,12 +239,10 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
                 <Animated.View
                   key={'dots_' + this.generateItemKey(item, index, this.state.props)}
                   {...this.getTestPropsForAction('indicator' + index)}
-                  style={[
-                    dotStyle,
+                  style={[dotStyle,
+                    isActive && this.styles.activeDotStyle,
                     {                
-                      opacity: isActive ? 1 : 0.8,
-                      transform: [{scale: animatedScale
-                      }]
+                      transform: [{scale: animatedScale}]
                     },
                   ]}
                 />

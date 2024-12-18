@@ -141,6 +141,71 @@ describe('WmCarousel Component', () => {
     expect(screen.getByTestId('test_carousel_indicator1')).toBeTruthy();
   });
 
+  it('should render pagination dots based on the dataset length', () => {
+    const dataset = [
+      <View key="slide1">
+        <Text>Slide 1</Text>
+      </View>,
+      <View key="slide2">
+        <Text>Slide 2</Text>
+      </View>,
+      <View key="slide3">
+        <Text>Slide 3</Text>
+      </View>,
+      <View key="slide4">
+        <Text>Slide 4</Text>
+      </View>,
+      <View key="slide5">
+        <Text>Slide 5</Text>
+      </View>,
+      <View key="slide6">
+        <Text>Slide 6</Text>
+      </View>,
+    ];
+  
+    renderComponent({
+      controls: 'indicators',
+      children: dataset,
+    });
+  
+    const expectedDots = dataset.length > 5 ? 5 : dataset.length;
+    for (let i = 0; i < expectedDots; i++) {
+      expect(screen.getByTestId(`test_carousel_indicator${i}`)).toBeTruthy();
+    }
+  });
+  
+  it('should render pagination dots based on the dataset length for dynamic carousel', () => {
+    const dataset = [
+      {
+        "imagesrc": "https://picsum.photos/200/300"
+      },
+      {
+        "imagesrc": "https://picsum.photos/200/300"
+      },
+      {
+        "imagesrc": "https://picsum.photos/200/300"
+      }
+    ];
+  
+    renderComponent({
+      controls: 'indicators',
+      dataset: dataset,
+      type: "dynamic",
+      renderSlide: (item: any, index: any, that: any) => {
+        return (
+          <View key={`${index}`} testID={`carousel_${index}`}>
+            <Text>Slide {index}</Text>
+          </View>
+        )
+      }
+    });
+  
+    const expectedDots = dataset.length > 5 ? 5 : dataset.length;
+    for (let i = 0; i < expectedDots; i++) {
+      expect(screen.getByTestId(`carousel_${i}`)).toBeTruthy();
+    }
+  });
+  
   xit('should navigate to the next slide on press of any item inside carousel content', async () => {
     const ref = createRef();
     const onChangeMock = jest.fn();
