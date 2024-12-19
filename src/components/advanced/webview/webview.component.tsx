@@ -154,7 +154,10 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
               this.webViewState = state;
             }}
             scrollEnabled={true}
-            onLoadEnd={(e) => this.onLoad(e, e.nativeEvent.title, e.nativeEvent.url)}>
+            onLoadEnd={(e) => this.onLoad(e, e.nativeEvent.title, e.nativeEvent.url)}
+            allowsFullscreenVideo={true}
+            allowsInlineMediaPlayback={true}
+          >
           </WebView>)}
       </View>
     );
