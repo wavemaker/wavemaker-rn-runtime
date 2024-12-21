@@ -137,7 +137,9 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
                   {
                     translateX: this.animationValue.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [0, this.state.viewWidth - (this.styles.handle.width as number + 18)],
+                      outputRange: this.isRTL
+                        ? [0, -1 * (this.state.viewWidth - (this.styles.handle.width as number + 18))]
+                        : [0, this.state.viewWidth - (this.styles.handle.width as number + 18)],
                     }),
                   },
                   { scale: this.scaleValue }
