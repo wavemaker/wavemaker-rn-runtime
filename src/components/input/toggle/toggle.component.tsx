@@ -137,6 +137,7 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
                   {
                     translateX: this.animationValue.interpolate({
                       inputRange: [0, 1],
+                      // TODO Abdullah: add a test case for the below changes. Merging this to expo 52 release branch. 
                       outputRange: this.isRTL
                         ? [0, -1 * (this.state.viewWidth - (this.styles.handle.width as number + 18))]
                         : [0, this.state.viewWidth - (this.styles.handle.width as number + 18)],
