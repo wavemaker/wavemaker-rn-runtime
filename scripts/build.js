@@ -17,6 +17,9 @@ async function createPackageLock(path) {
   fs.writeJSONSync(`${path}/package-lock.json`, expoPackageJSON, {
     spaces: 4
   });
+  fs.writeJSONSync(`${path}/npm-shrinkwrap.json`, expoPackageJSON, {
+    spaces: 4
+  });
 }
 
 async function updatePackageVersion(packagePath, key, version) {
