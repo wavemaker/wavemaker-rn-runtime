@@ -600,6 +600,12 @@ export const setPosition = (data: { [index: string]: number }): void => {
   })
 } 
 
+export const resetLayoutPositions = (): void => {
+  Object.keys(AppLayoutPositionY).forEach((key: string) => {
+    delete AppLayoutPositionY[key];
+  })
+}
+
 export const getPosition = (key: string): number => {
   return AppLayoutPositionY[key];
 }
