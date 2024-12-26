@@ -118,6 +118,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         padding:0
       }
     } as any as WmSkeletonStyles,
+    dropdown: {
+      backgroundColor: themeVariables.popoverBackgroundColor,
+      maxHeight: 240,
+      borderRadius:6
+  },
     arrowButtonSkeleton: {
       root: {
         width: 24,
@@ -140,13 +145,32 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         backgroundColor: themeVariables.inputDisabledBgColor
       }
   });
+  addStyle('select-dropdown', '', {
+    modal: {
+        backgroundColor: 'transparent',
+    },
+    dropdown: {
+        backgroundColor: themeVariables.transparent
+    },
+    modalContent: {
+        borderRadius: 6,
+        ...BASE_THEME.getStyle('elevate4').root,
+        shadowRadius: 8
+    }
+});
   addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="web"?{
     text:{
       textAlign:'right',
     }
+    ,selectItemText : {
+      textAlign : 'right'
+    }
   }:{
     text:{
       textAlign:'left',
+    },
+    selectItemText : {
+      textAlign : 'left'
     }
   });
 });
