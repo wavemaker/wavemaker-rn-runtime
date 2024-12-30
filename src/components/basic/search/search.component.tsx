@@ -131,8 +131,10 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       props: { result: filteredData?.map( (item: any) => item.dataObject), query: queryText },
       data: filteredData,
     } as WmSearchState);
-    if (!this.state.isOpened && this.isFocused) {
-      this.showPopover && this.showPopover();
+    if (!this.state.isOpened && this.isFocused && filteredData.length > 0 ) {
+      if(this.styles.modal.display !== "none"){
+       this.showPopover && this.showPopover();
+      }
     }
   }
 
