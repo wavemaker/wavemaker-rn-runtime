@@ -58,12 +58,12 @@ export class Theme {
 
     private traceEnabled = false;
     
-    private revertLayoutFixes: Boolean;
+    private revertLayoutToExpo50: Boolean;
 
     private styleGenerators: styleGeneratorFn<any>[] = [];
 
     private constructor(private parent:Theme, public readonly name: string) {
-        this.revertLayoutFixes = this.getAppConfig()?.revertLayoutFixes || false;
+        this.revertLayoutToExpo50 = this.getAppConfig()?.revertLayoutToExpo50 || false;
         if (parent) {
             this.traceEnabled = parent.traceEnabled;
         } else {
@@ -216,7 +216,7 @@ export class Theme {
             style['paddingBottom'] = style['paddingBottom'] || style['padding'];
             delete style['padding'];
         }
-        if (this.revertLayoutFixes && !isNil(style['flexDirection']) && style['flexDirection'] === 'row-reverse') {
+        if (this.revertLayoutToExpo50 && !isNil(style['flexDirection']) && style['flexDirection'] === 'row-reverse') {
             if (!isNil(style['paddingLeft']) || !isNil(style['paddingRight'])) {
                 if (!isNil(style['paddingLeft']) && !isNil(style['paddingRight'])) {
                   [style['paddingLeft'], style['paddingRight']] = [style['paddingRight'], style['paddingLeft']];

@@ -23,6 +23,7 @@ import WmFormAction from '@wavemaker/app-rn-runtime/components/data/form/form-ac
 import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.component';
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 import WmLeftPanel from '@wavemaker/app-rn-runtime/components/page/left-panel/left-panel.component';
+import WmLabel from '../components/basic/label/label.component';
 
 export class SkeletonAnimationProps extends BaseProps {
   skeletonanimationresource = "";
@@ -188,6 +189,10 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       }
       if (w instanceof WmLeftPanel) {
         this.appConfig.leftNavWidth = w._INSTANCE.styles?.root?.width;
+      }
+      // temporary fix need to be removed in Expo53
+      if (this.appConfig.revertLayoutToExpo50 && w instanceof WmLabel) {
+        w.styles?.root && (w.styles.root.flexDirection = "row");
       }
     }
 
