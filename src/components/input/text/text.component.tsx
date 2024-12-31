@@ -50,7 +50,7 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           placeholderTextColor={this.styles.placeholderText.color as any}
           style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid]}
           keyboardType={this.state.keyboardType}
-          autoComplete={props.autocomplete ? 'username' : 'off'}
+          autoComplete={props.autocomplete === "true" ? "username" : props.autocomplete === "false" ? "off" : props.autocomplete}
           autoFocus={props.autofocus}
           editable={props.disabled || props.readonly ? false : true}
           secureTextEntry={props.type === 'password' && !props.maskchar ? true : false}

@@ -3,7 +3,8 @@ import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export default class BaseInputProps extends BaseProps {
   autofocus: boolean = null as any;
-  autocomplete: boolean = true;
+  // autocomplete: boolean = true;
+  autocomplete: string = "username";
   autotrim: boolean = true;
   datavalue: any;
   maxchars: number = null as any;
