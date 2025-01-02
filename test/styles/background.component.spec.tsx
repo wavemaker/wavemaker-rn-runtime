@@ -10,15 +10,19 @@ const timer = (time = 200) =>
     setTimeout(() => resolve(), time);
   });
 
-const hexToArgbValue = (hex) => {
-  let hexCode = hex.substr(1);
-  if (hexCode === 3) {
+const hexToArgbValue = (hex: string) => {
+  let hexCode = hex.substring(1);
+  if (hexCode.length === 3) {
     hexCode = '' + hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
   }
   hexCode = '0xff' + hexCode;
 
   return parseInt(hexCode, 16);
 };
+
+const formateDecimalValue = (valueInStr: string) => {
+  return parseFloat(valueInStr) / 100;
+}
 
 const renderComponent = (props = {}) => {
   const defaultProps = {
@@ -49,6 +53,7 @@ describe('Background Component', () => {
     jest.clearAllMocks();
     cleanup();
   });
+
   test('should render gradient when image prop contains linear-gradient', () => {
     const tree = renderComponent({
       image: 'linear-gradient(45deg, #4c669f, #3b5998)',
@@ -58,6 +63,26 @@ describe('Background Component', () => {
       hexToArgbValue('#4c669f'),
       hexToArgbValue('#3b5998'),
     ]);
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render gradient when image prop contains linear-gradient with decimal values in gradient color', () => {
+    const tree = renderComponent({
+      image: 'linear-gradient(68.44deg, #EEEEEE 10%, #A61527 41.98%, #C32033 73.75%, #B41227 100%)',
+    });
+
+    expect(tree.getByTestId('wm-expo-linear-gradient').props.colors).toEqual([
+      hexToArgbValue('#EEEEEE'),
+      hexToArgbValue('#A61527'),
+      hexToArgbValue('#C32033'),
+      hexToArgbValue('#B41227'),
+    ]);
+    expect(tree.getByTestId('wm-expo-linear-gradient').props.locations).toEqual([
+      formateDecimalValue('10%'),
+      formateDecimalValue('41.98%'),
+      formateDecimalValue('73.75%'),
+      formateDecimalValue('100%')
+    ])
     expect(tree).toMatchSnapshot();
   });
 

@@ -53,7 +53,9 @@ describe('Test BarChart component', () => {
 
   it('should render with null when default props was not given', () => {
     const tree = render(<WmBarChart />);
-    expect(tree.toJSON()).toBeNull();
+
+    expect(Array.isArray(tree.toJSON())).toBe(false);
+    expect(tree.toJSON().children).toBeNull();
   });
 
   it('should render bar chart with given title & subheading', () => {

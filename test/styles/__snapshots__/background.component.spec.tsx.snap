@@ -311,6 +311,87 @@ exports[`Background Component should render gradient when image prop contains li
 </View>
 `;
 
+exports[`Background Component should render gradient when image prop contains linear-gradient with decimal values in gradient color 1`] = `
+<View
+  style={
+    [
+      {
+        "borderWidth": 0,
+        "overflow": "hidden",
+      },
+      {
+        "bottom": 0,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        null,
+      ]
+    }
+  >
+    <ViewManagerAdapter_ExpoLinearGradient
+      colors={
+        [
+          4293848814,
+          4289074471,
+          4290977843,
+          4289991207,
+        ]
+      }
+      endPoint={
+        [
+          1,
+          0.3,
+        ]
+      }
+      locations={
+        [
+          0.1,
+          0.41979999999999995,
+          0.7375,
+          1,
+        ]
+      }
+      startPoint={
+        [
+          0,
+          0.7,
+        ]
+      }
+      style={
+        [
+          {
+            "height": "100%",
+            "width": "100%",
+          },
+          undefined,
+          {
+            "borderRadius": undefined,
+            "position": "absolute",
+          },
+        ]
+      }
+      testID="wm-expo-linear-gradient"
+    />
+  </View>
+</View>
+`;
+
 exports[`Background Component should render image when valid image full path is provided 1`] = `
 <View
   style={

@@ -113,7 +113,8 @@ describe('Picture component', () => {
     });
 
     await waitFor(() => {
-      expect(tree.toJSON()).toBeNull();
+      expect(Array.isArray(tree.toJSON())).toBe(false);
+      expect(tree.toJSON().children).toBeNull();
       expect(tree).toMatchSnapshot();
     });
   });
@@ -131,7 +132,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -162,7 +163,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -192,7 +193,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -280,7 +281,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -291,7 +292,7 @@ describe('Picture component', () => {
       },
     });
 
-    const componentStyleArr = tree.toJSON().props.style;
+    const componentStyleArr = tree.toJSON()[1].props.style;
     const componentStyle = getStyleObject(componentStyleArr, {});
 
     await waitFor(() => {
@@ -318,7 +319,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -341,7 +342,7 @@ describe('Picture component', () => {
       show: false,
     });
 
-    const componentStyleArr = tree.toJSON().props.style;
+    const componentStyleArr = tree.toJSON()[1].props.style;
     const componentStyle = {};
     componentStyleArr.forEach((item) => {
       if (!item) return;
@@ -369,7 +370,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -410,7 +411,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -453,7 +454,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -484,7 +485,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -520,7 +521,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -552,7 +553,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -584,7 +585,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -626,7 +627,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -669,7 +670,7 @@ describe('Picture component', () => {
       });
     });
 
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -682,7 +683,7 @@ describe('Picture component', () => {
 
     await waitFor(() => {
       const theme = customRef.current?.theme.getStyle('thumbnail-image');
-      const componentStyleArr = tree.toJSON().props.style;
+      const componentStyleArr = tree.toJSON()[1].props.style;
       const componentStyle = {};
       componentStyleArr.forEach((item) => {
         if (!item) return;
@@ -702,7 +703,8 @@ describe('Picture component', () => {
       isSvg: null,
     });
 
-    expect(tree.toJSON()).toBeNull();
+    expect(Array.isArray(tree.toJSON())).toBe(false);
+    expect(tree.toJSON().children).toBeNull();
   });
 
   test('should render skeleton when showskeleton prop is true', () => {
@@ -716,7 +718,7 @@ describe('Picture component', () => {
       },
     });
 
-    expect(tree.toJSON().props.style).toMatchObject({
+    expect(tree.toJSON()[1].props.style).toMatchObject({
       height: 125,
       width: 125,
     });
@@ -730,7 +732,7 @@ describe('Picture component', () => {
       skeletonwidth: 125,
     });
 
-    expect(tree.toJSON().props.style).toMatchObject({
+    expect(tree.toJSON()[1].props.style).toMatchObject({
       height: 200,
       width: 125,
     });
@@ -769,10 +771,9 @@ describe('Picture component', () => {
       });
     });
 
+    const theme = customRef.current.theme.getStyle('rounded-image');
+    const imageComponentStyle = tree.toJSON()[1].props.style;
     await waitFor(() => {
-      const theme = customRef.current.theme.getStyle('rounded-image');
-      const imageComponentStyle = tree.toJSON().props.style;
-
       expect(imageComponentStyle.height).toBe(theme.picture.height);
       expect(imageComponentStyle.width).toBe(theme.picture.width);
       expect(tree).toMatchSnapshot();
@@ -811,10 +812,9 @@ describe('Picture component', () => {
       });
     });
 
+    const theme = customRef.current.theme.getStyle('thumbnail-image');
+    const imageComponentStyle = tree.toJSON()[1].props.style;
     await waitFor(() => {
-      const theme = customRef.current.theme.getStyle('thumbnail-image');
-      const imageComponentStyle = tree.toJSON().props.style;
-
       expect(imageComponentStyle.height).toBe(theme.root.height);
       expect(imageComponentStyle.width).toBe(theme.root.width);
       expect(tree).toMatchSnapshot();
@@ -853,10 +853,9 @@ describe('Picture component', () => {
       });
     });
 
+    const theme = customRef.current.theme.getStyle('thumbnail-image');
+    const imageComponentStyle = tree.toJSON()[1].props.style;
     await waitFor(() => {
-      const theme = customRef.current.theme.getStyle('thumbnail-image');
-      const imageComponentStyle = tree.toJSON().props.style;
-
       expect(imageComponentStyle.height).toBe(theme.root.height);
       expect(imageComponentStyle.width).toBe(theme.root.width);
       expect(tree).toMatchSnapshot();

@@ -1,40 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test AreaChart component Should render component 1`] = `
-<View
-  accessible={true}
-  onLayout={[Function]}
-  style={{}}
->
-  <View>
-    <View
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "row",
-        }
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
       }
-    >
+    }
+  />,
+  <View
+    accessible={true}
+    onLayout={[Function]}
+    style={{}}
+  >
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#333333",
+              "fontSize": 20,
+              "lineHeight": 24,
+              "paddingLeft": 10,
+            }
+          }
+        />
+      </View>
       <Text
         style={
           {
-            "color": "#333333",
-            "fontSize": 20,
-            "lineHeight": 24,
-            "paddingLeft": 10,
+            "color": "#666666",
+            "fontSize": 12,
+            "lineHeight": 16,
           }
         }
       />
     </View>
-    <Text
-      style={
-        {
-          "color": "#666666",
-          "fontSize": 12,
-          "lineHeight": 16,
-        }
-      }
-    />
-  </View>
-</View>
+  </View>,
+]
 `;

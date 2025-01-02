@@ -1,383 +1,441 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test Panel component renders panel properly 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "#ffffff",
-      "borderRadius": 6,
-      "borderStyle": "solid",
-      "borderWidth": 0,
-      "paddingBottom": 12,
-      "paddingLeft": 12,
-      "paddingRight": 12,
-      "paddingTop": 12,
-    }
-  }
-  testID="panel"
->
+[
   <View
-    accessibilityRole="header"
-    accessibilityState={
+    onLayout={[Function]}
+    style={
       {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
+        "height": 0,
+        "width": 0,
       }
     }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={false}
-    collapsable={false}
-    focusable={true}
-    onClick={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+  />,
+  <View
     style={
       {
         "backgroundColor": "#ffffff",
-        "borderColor": "#ffffff",
+        "borderRadius": 6,
         "borderStyle": "solid",
-        "borderTopLeftRadius": 6,
-        "borderTopRightRadius": 6,
         "borderWidth": 0,
-        "flexDirection": "row",
-        "opacity": 1,
-        "paddingHorizontal": 8,
-        "paddingVertical": 4,
+        "paddingBottom": 12,
+        "paddingLeft": 12,
+        "paddingRight": 12,
+        "paddingTop": 12,
       }
     }
-    testID="panel_header"
+    testID="panel"
   >
     <View
-      style={
+      accessibilityRole="header"
+      accessibilityState={
         {
-          "flex": 1,
-          "flexDirection": "column",
-          "justifyContent": "center",
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
         }
       }
-    >
-      <Text
-        accessible={false}
-        style={
-          [
-            {
-              "color": "#333333",
-              "fontFamily": "Roboto",
-              "fontSize": 16,
-              "fontWeight": "bold",
-              "userSelect": "text",
-            },
-            {
-              "paddingHorizontal": 16,
-            },
-          ]
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
-        testID="panel_header_title"
-      >
-        Panel Title
-      </Text>
-      <Text
-        accessible={false}
-        style={
-          {
-            "paddingHorizontal": 16,
-          }
-        }
-        testID="panel_subheader"
-      >
-        Panel Subheading
-      </Text>
-    </View>
-    <View
+      }
+      accessible={false}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       style={
         {
-          "alignItems": "center",
+          "backgroundColor": "#ffffff",
+          "borderColor": "#ffffff",
+          "borderStyle": "solid",
+          "borderTopLeftRadius": 6,
+          "borderTopRightRadius": 6,
+          "borderWidth": 0,
           "flexDirection": "row",
+          "opacity": 1,
+          "paddingHorizontal": 8,
+          "paddingVertical": 4,
         }
       }
+      testID="panel_header"
     >
-      <Text
-        accessible={false}
-        collapsable={false}
-        numberOfLines={1}
+      <View
         style={
           {
-            "alignSelf": "center",
-            "backgroundColor": "#888888",
-            "borderRadius": 10,
-            "color": "#ffffff",
-            "fontSize": 10,
-            "height": 20,
-            "lineHeight": 10,
-            "marginRight": 8,
-            "minWidth": 20,
-            "opacity": 1,
-            "overflow": "hidden",
-            "paddingHorizontal": 3,
-            "textAlign": "center",
-            "textAlignVertical": "center",
+            "flex": 1,
+            "flexDirection": "column",
+            "justifyContent": "center",
           }
         }
-        testID="panel_badge"
       >
-        99+
-      </Text>
-      <View>
-        <View
+        <Text
+          accessible={false}
+          style={
+            [
+              {
+                "color": "#333333",
+                "fontFamily": "Roboto",
+                "fontSize": 16,
+                "fontWeight": "bold",
+                "userSelect": "text",
+              },
+              {
+                "paddingHorizontal": 16,
+              },
+            ]
+          }
+          testID="panel_header_title"
+        >
+          Panel Title
+        </Text>
+        <Text
+          accessible={false}
           style={
             {
-              "alignItems": "center",
-              "alignSelf": "flex-start",
-              "flexDirection": "row",
-              "fontSize": 16,
+              "paddingHorizontal": 16,
             }
           }
-          testID="non_animatableView"
+          testID="panel_subheader"
         >
-          <View>
+          Panel Subheading
+        </Text>
+      </View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text
+          accessible={false}
+          collapsable={false}
+          numberOfLines={1}
+          style={
+            {
+              "alignSelf": "center",
+              "backgroundColor": "#888888",
+              "borderRadius": 10,
+              "color": "#ffffff",
+              "fontSize": 10,
+              "height": 20,
+              "lineHeight": 10,
+              "marginRight": 8,
+              "minWidth": 20,
+              "opacity": 1,
+              "overflow": "hidden",
+              "paddingHorizontal": 3,
+              "textAlign": "center",
+              "textAlignVertical": "center",
+            }
+          }
+          testID="panel_badge"
+        >
+          99+
+        </Text>
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "height": 0,
+              "width": 0,
+            }
+          }
+        />
+        <View>
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "alignSelf": "flex-start",
+                "flexDirection": "row",
+                "fontSize": 16,
+              }
+            }
+            testID="non_animatableView"
+          >
             <View>
-              <Text
-                accessible={false}
-                size={16}
-                style={
-                  [
-                    {
-                      "color": undefined,
-                    },
-                    {
-                      "paddingLeft": 0,
-                      "paddingRight": 8,
-                    },
-                    {
-                      "transform": [
-                        {
-                          "rotate": "0deg",
-                        },
-                      ],
-                    },
-                  ]
-                }
-                testID="panel_collapseicon_icon"
-              >
-                chevron-up
-              </Text>
+              <View>
+                <Text
+                  accessible={false}
+                  size={16}
+                  style={
+                    [
+                      {
+                        "color": undefined,
+                      },
+                      {
+                        "paddingLeft": 0,
+                        "paddingRight": 8,
+                      },
+                      {
+                        "transform": [
+                          {
+                            "rotate": "0deg",
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                  testID="panel_collapseicon_icon"
+                >
+                  chevron-up
+                </Text>
+              </View>
             </View>
           </View>
         </View>
       </View>
     </View>
-  </View>
-  <View
-    animatedStyle={
-      {
-        "value": {
-          "maxHeight": 0,
-        },
-      }
-    }
-    collapsable={false}
-    style={
-      {
-        "maxHeight": 0,
-        "overflow": "hidden",
-      }
-    }
-  >
     <View
-      onLayout={[Function]}
+      animatedStyle={
+        {
+          "value": {
+            "maxHeight": 0,
+          },
+        }
+      }
+      collapsable={false}
+      style={
+        {
+          "maxHeight": 0,
+          "overflow": "hidden",
+        }
+      }
     >
-      <View>
-        <Text>
-          Panel Content
-        </Text>
+      <View
+        onLayout={[Function]}
+      >
+        <View>
+          <Text>
+            Panel Content
+          </Text>
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Test Panel component should render a skeleton with given width and height 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "#ffffff",
-      "borderRadius": 6,
-      "borderStyle": "solid",
-      "borderWidth": 0,
-      "paddingBottom": 12,
-      "paddingLeft": 12,
-      "paddingRight": 12,
-      "paddingTop": 12,
-    }
-  }
-  testID="panel"
->
+[
   <View
-    accessibilityRole="header"
-    accessibilityState={
+    onLayout={[Function]}
+    style={
       {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
+        "height": 0,
+        "width": 0,
       }
     }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={false}
-    collapsable={false}
-    focusable={true}
-    onClick={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+  />,
+  <View
     style={
       {
         "backgroundColor": "#ffffff",
-        "borderColor": "#ffffff",
+        "borderRadius": 6,
         "borderStyle": "solid",
-        "borderTopLeftRadius": 6,
-        "borderTopRightRadius": 6,
         "borderWidth": 0,
-        "flexDirection": "row",
-        "opacity": 1,
-        "paddingHorizontal": 8,
-        "paddingVertical": 4,
+        "paddingBottom": 12,
+        "paddingLeft": 12,
+        "paddingRight": 12,
+        "paddingTop": 12,
       }
     }
-    testID="panel_header"
+    testID="panel"
   >
     <View
-      style={
+      accessibilityRole="header"
+      accessibilityState={
         {
-          "flex": 1,
-          "flexDirection": "column",
-          "justifyContent": "center",
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
         }
       }
-    >
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "backgroundColor": "#eeeeee",
-            "borderRadius": 4,
-            "height": 16,
-            "overflow": "hidden",
-            "width": "100%",
-          }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
         }
-      />
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "backgroundColor": "#eeeeee",
-            "borderRadius": 4,
-            "height": 16,
-            "overflow": "hidden",
-            "width": "100%",
-          }
-        }
-      />
-    </View>
-    <View
+      }
+      accessible={false}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       style={
         {
-          "alignItems": "center",
+          "backgroundColor": "#ffffff",
+          "borderColor": "#ffffff",
+          "borderStyle": "solid",
+          "borderTopLeftRadius": 6,
+          "borderTopRightRadius": 6,
+          "borderWidth": 0,
           "flexDirection": "row",
+          "opacity": 1,
+          "paddingHorizontal": 8,
+          "paddingVertical": 4,
         }
       }
+      testID="panel_header"
     >
-      <Text
-        accessible={false}
-        collapsable={false}
-        numberOfLines={1}
-        style={
-          {
-            "alignSelf": "center",
-            "backgroundColor": "#888888",
-            "borderRadius": 10,
-            "color": "#ffffff",
-            "fontSize": 10,
-            "height": 20,
-            "lineHeight": 10,
-            "marginRight": 8,
-            "minWidth": 20,
-            "opacity": 1,
-            "overflow": "hidden",
-            "paddingHorizontal": 3,
-            "textAlign": "center",
-            "textAlignVertical": "center",
-          }
-        }
-        testID="panel_badge"
-      >
-        99+
-      </Text>
       <View
-        onLayout={[Function]}
         style={
           {
-            "backgroundColor": "#eeeeee",
-            "borderRadius": 4,
-            "height": 32,
-            "overflow": "hidden",
-            "width": 32,
+            "flex": 1,
+            "flexDirection": "column",
+            "justifyContent": "center",
           }
         }
-      />
-    </View>
-  </View>
-  <View
-    animatedStyle={
-      {
-        "value": {
-          "maxHeight": 0,
-        },
-      }
-    }
-    collapsable={false}
-    style={
-      {
-        "maxHeight": 0,
-        "overflow": "hidden",
-      }
-    }
-  >
-    <View
-      onLayout={[Function]}
-    >
-      <View>
-        <Text>
-          Panel Content
+      >
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "height": 0,
+              "width": 0,
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 4,
+              "height": 16,
+              "overflow": "hidden",
+              "width": "100%",
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "height": 0,
+              "width": 0,
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 4,
+              "height": 16,
+              "overflow": "hidden",
+              "width": "100%",
+            }
+          }
+        />
+      </View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text
+          accessible={false}
+          collapsable={false}
+          numberOfLines={1}
+          style={
+            {
+              "alignSelf": "center",
+              "backgroundColor": "#888888",
+              "borderRadius": 10,
+              "color": "#ffffff",
+              "fontSize": 10,
+              "height": 20,
+              "lineHeight": 10,
+              "marginRight": 8,
+              "minWidth": 20,
+              "opacity": 1,
+              "overflow": "hidden",
+              "paddingHorizontal": 3,
+              "textAlign": "center",
+              "textAlignVertical": "center",
+            }
+          }
+          testID="panel_badge"
+        >
+          99+
         </Text>
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "height": 0,
+              "width": 0,
+            }
+          }
+        />
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "backgroundColor": "#eeeeee",
+              "borderRadius": 4,
+              "height": 32,
+              "overflow": "hidden",
+              "width": 32,
+            }
+          }
+        />
       </View>
     </View>
-  </View>
-</View>
+    <View
+      animatedStyle={
+        {
+          "value": {
+            "maxHeight": 0,
+          },
+        }
+      }
+      collapsable={false}
+      style={
+        {
+          "maxHeight": 0,
+          "overflow": "hidden",
+        }
+      }
+    >
+      <View
+        onLayout={[Function]}
+      >
+        <View>
+          <Text>
+            Panel Content
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>,
+]
 `;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef, RefObject } from 'react';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
@@ -15,10 +15,27 @@ export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
 }
 
 export default class WmPageContent extends BaseComponent<WmPageContentProps, WmPageContentState, WmPageContentStyles> {
+  private scrollRef: RefObject<any>;
 
   constructor(props: WmPageContentProps) {
     super(props, DEFAULT_CLASS, new WmPageContentProps());
     this.hideMode = HideMode.DONOT_ADD_TO_DOM;
+    this.scrollRef = createRef();
+    this.subscribe('scrollToPosition', (args: any) => {
+      this.scrollTo(args)
+    })
+
+    this.subscribe('scrollToEnd', () => {
+      this.scrollRef?.current.scrollToEnd();
+    })
+  }
+
+  public scrollTo(position: {x: number, y: number}){
+    this.scrollRef?.current.scrollTo({
+      x: position.x,
+      y: position.y,
+      Animated: true
+    });
   }
 
   public renderSkeleton(props: WmPageContentProps): React.ReactNode {
@@ -29,7 +46,6 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     } 
     return null;
   }  
-
 
   renderWidget(props: WmPageContentProps) {
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
@@ -46,7 +62,9 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
               behavior={Platform.OS === 'ios' ? 'padding' : undefined}
               keyboardVerticalOffset={verticalOffset}
               style={{ flex: 1 }}>
-              <ScrollView contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
+              <ScrollView 
+                ref={this.scrollRef}
+                contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
                 showsVerticalScrollIndicator={showScrollbar}
                 onScroll={(event) => {this.notify('scroll', [event])}}
                 scrollEventThrottle={48}>

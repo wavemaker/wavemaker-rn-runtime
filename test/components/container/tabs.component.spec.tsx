@@ -1,5 +1,5 @@
 import React, { createRef, ReactNode, useRef } from 'react';
-import { ScrollView, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import {
   render,
   fireEvent,
@@ -161,15 +161,15 @@ describe('Test Tabs component', () => {
       </WmTabs>
     );
 
-    expect(tree.root.props.style.width).not.toBe(0);
-    expect(tree.root.props.style.height).not.toBe(0);
+    expect(tree.toJSON()[1].props.style.width).not.toBe(0);
+    expect(tree.toJSON()[1].props.style.height).not.toBe(0);
 
     ref.current.proxy.show = false;
 
     await timer(300);
 
-    expect(tree.root.props.style.width).toBe(0);
-    expect(tree.root.props.style.height).toBe(0);
+    expect(tree.toJSON()[1].props.style.width).toBe(0);
+    expect(tree.toJSON()[1].props.style.height).toBe(0);
   });
 
   it('should handle tablayout change event', () => {
@@ -192,7 +192,8 @@ describe('Test Tabs component', () => {
         height: 100,
       },
     };
-    const viewEle = tree.root.children[1];
+
+    const viewEle = tree.UNSAFE_getAllByType(View)[2];
     fireEvent(viewEle, 'layout', {
       nativeEvent: nativeEvent,
     });

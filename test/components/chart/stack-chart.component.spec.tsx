@@ -36,7 +36,7 @@ const dataSet = [
     y: 30,
   },
 ];
-const defaultProps = { dataset: dataSet, xaxisdatakey: 'x', yaxisdatakey: 'y' };
+const defaultProps = { dataset: dataSet, xaxisdatakey: 'x', yaxisdatakey: 'y', hint: 'stack chart' };
 
 describe('Test stackChart component', () => {
   afterEach(() => {
@@ -52,7 +52,8 @@ describe('Test stackChart component', () => {
 
   it('should render with null when props are not given', () => {
     const tree = renderComponent();
-    expect(tree.toJSON()).toBeNull();
+    expect(Array.isArray(tree.toJSON())).toBe(false);
+    expect(tree.toJSON().children).toBeNull();
   });
 
   //events - onBeforerender onTransform
@@ -194,7 +195,10 @@ describe('Test stackChart component', () => {
       offsetleft: 10,
       offsetright: 10,
     });
-    fireEvent(screen.root, 'layout', {
+
+    const root = screen.getByAccessibilityHint(defaultProps.hint);
+
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 250,
@@ -457,7 +461,8 @@ describe('Test stackChart component', () => {
       viewtype: 'Stack',
     });
     const viewEle = tree.UNSAFE_getAllByType(Svg);
-    fireEvent(screen.root, 'layout', {
+    const root = screen.getByAccessibilityHint(defaultProps.hint);
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 500,

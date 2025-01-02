@@ -1,347 +1,412 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Picture component should apply accessibilityrole correctly 1`] = `
-<View
-  style={
-    [
-      {
-        "height": 100,
-        "width": 100,
-      },
-      {
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
+          "height": 100,
+          "width": 100,
         },
+        {
+          "overflow": "hidden",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": null,
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": 100,
-              "width": 100,
-            },
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <Image
-          accessibilityLabel="wm-picture"
-          accessibilityRole="wm-picture-role"
-          accessible={true}
-          resizeMode="stretch"
-          source={
-            {
-              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-            }
+          {
+            "height": null,
+            "width": null,
           }
+        }
+      >
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "borderRadius": undefined,
+                "height": 100,
+                "width": 100,
               },
-              undefined,
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityLabel="wm-picture"
+            accessibilityRole="wm-picture-role"
+            accessible={true}
+            resizeMode="stretch"
+            source={
+              {
+                "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+              }
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                undefined,
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should apply correct accessiblitylabel 1`] = `
-<View
-  style={
-    [
-      {
-        "height": 100,
-        "width": 100,
-      },
-      {
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
+          "height": 100,
+          "width": 100,
         },
+        {
+          "overflow": "hidden",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": null,
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": 100,
-              "width": 100,
-            },
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <Image
-          accessibilityLabel="wm-picture"
-          accessibilityRole="image"
-          accessible={true}
-          resizeMode="stretch"
-          source={
-            {
-              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-            }
+          {
+            "height": null,
+            "width": null,
           }
+        }
+      >
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "borderRadius": undefined,
+                "height": 100,
+                "width": 100,
               },
-              undefined,
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityLabel="wm-picture"
+            accessibilityRole="image"
+            accessible={true}
+            resizeMode="stretch"
+            source={
+              {
+                "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+              }
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                undefined,
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should apply the resize mode in Image component from resizemode prop 1`] = `
-<View
-  style={
-    [
-      {
-        "height": 100,
-        "width": 100,
-      },
-      {
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
+          "height": 100,
+          "width": 100,
         },
+        {
+          "overflow": "hidden",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": null,
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": 100,
-              "width": 100,
-            },
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <Image
-          accessibilityLabel="wm-picture"
-          accessibilityRole="wm-picture-role"
-          accessible={true}
-          resizeMode="contain"
-          source={
-            {
-              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-            }
+          {
+            "height": null,
+            "width": null,
           }
+        }
+      >
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "borderRadius": undefined,
+                "height": 100,
+                "width": 100,
               },
-              undefined,
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityLabel="wm-picture"
+            accessibilityRole="wm-picture-role"
+            accessible={true}
+            resizeMode="contain"
+            source={
+              {
+                "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+              }
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                undefined,
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should not render Image component when native layout height is not present 1`] = `
-<View
-  style={
-    [
-      {
-        "height": undefined,
-        "width": undefined,
-      },
-      {
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
+          "height": undefined,
+          "width": undefined,
         },
+        {
+          "overflow": "hidden",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": "100%",
-          "width": "100%",
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": undefined,
-              "width": undefined,
-            },
-          ]
+          {
+            "height": "100%",
+            "width": "100%",
+          }
         }
-        testID="non_animatableView"
-      />
+      >
+        <View
+          style={
+            [
+              {
+                "borderRadius": undefined,
+                "height": undefined,
+                "width": undefined,
+              },
+            ]
+          }
+          testID="non_animatableView"
+        />
+      </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should not render Image component when native layout width is not present 1`] = `
-<View
-  style={
-    [
-      {
-        "height": undefined,
-        "width": undefined,
-      },
-      {
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
+          "height": undefined,
+          "width": undefined,
         },
+        {
+          "overflow": "hidden",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": "100%",
-          "width": "100%",
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": undefined,
-              "width": undefined,
-            },
-          ]
+          {
+            "height": "100%",
+            "width": "100%",
+          }
         }
-        testID="non_animatableView"
-      />
+      >
+        <View
+          style={
+            [
+              {
+                "borderRadius": undefined,
+                "height": undefined,
+                "width": undefined,
+              },
+            ]
+          }
+          testID="non_animatableView"
+        />
+      </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
-exports[`Picture component should not render component when image source is falsy 1`] = `null`;
+exports[`Picture component should not render component when image source is falsy 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "height": 0,
+      "width": 0,
+    }
+  }
+/>
+`;
 
 exports[`Picture component should not render the component when show props is false 1`] = `
 {
@@ -356,791 +421,1001 @@ exports[`Picture component should not render the component when show props is fa
 `;
 
 exports[`Picture component should not render the component when show props is false 2`] = `
-<View
-  style={
-    [
-      {
-        "height": undefined,
-        "width": undefined,
-      },
-      {
-        "height": 0,
-        "transform": [
-          {
-            "scale": 0,
-          },
-        ],
-        "width": 0,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
+          "height": undefined,
+          "width": undefined,
         },
+        {
+          "height": 0,
+          "transform": [
+            {
+              "scale": 0,
+            },
+          ],
+          "width": 0,
+        },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": "100%",
-          "width": "100%",
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": undefined,
-              "width": undefined,
-            },
-          ]
+          {
+            "height": "100%",
+            "width": "100%",
+          }
         }
-        testID="non_animatableView"
-      />
+      >
+        <View
+          style={
+            [
+              {
+                "borderRadius": undefined,
+                "height": undefined,
+                "width": undefined,
+              },
+            ]
+          }
+          testID="non_animatableView"
+        />
+      </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should not update state when native layout height and width are falsy 1`] = `
-<View
-  style={
-    [
-      {
-        "height": undefined,
-        "width": 100,
-      },
-      {
-        "height": "100%",
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
+        {
+          "height": undefined,
+          "width": 100,
+        },
         {
           "height": "100%",
           "overflow": "hidden",
-          "width": "100%",
+          "rippleColor": "transparent",
+          "width": 270,
         },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": "100%",
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": undefined,
-              "width": 100,
-            },
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <Image
-          accessibilityRole="image"
-          accessible={true}
-          resizeMode="stretch"
-          source={
-            {
-              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-            }
+          {
+            "height": "100%",
+            "width": null,
           }
+        }
+      >
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "borderRadius": undefined,
+                "height": undefined,
+                "width": 100,
               },
-              undefined,
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityRole="image"
+            accessible={true}
+            resizeMode="stretch"
+            source={
+              {
+                "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+              }
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                undefined,
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should render Image component style according to shape prop as circle 1`] = `
-<View
-  style={
-    [
-      {
-        "height": 100,
-        "width": 100,
-      },
-      {
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      {
-        "borderRadius": 50,
-      },
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
+          "height": 100,
+          "width": 100,
+        },
+        {
           "overflow": "hidden",
-          "width": "100%",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        undefined,
+        {
+          "borderRadius": 50,
         },
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": null,
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": 50,
-              "height": 100,
-              "width": 100,
-            },
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <Image
-          accessibilityLabel="wm-picture"
-          accessibilityRole="wm-picture-role"
-          accessible={true}
-          resizeMode="stretch"
-          source={
-            {
-              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-            }
+          {
+            "height": null,
+            "width": null,
           }
+        }
+      >
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
-              },
-              {
                 "borderRadius": 50,
+                "height": 100,
+                "width": 100,
               },
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityLabel="wm-picture"
+            accessibilityRole="wm-picture-role"
+            accessible={true}
+            resizeMode="stretch"
+            source={
+              {
+                "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+              }
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                {
+                  "borderRadius": 50,
+                },
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should render Image component style according to shape prop as rounded 1`] = `
-<View
-  style={
-    [
-      {
-        "height": 100,
-        "width": 100,
-      },
-      {
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      {
-        "borderRadius": 6,
-      },
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
+          "height": 100,
+          "width": 100,
+        },
+        {
           "overflow": "hidden",
-          "width": "100%",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        undefined,
+        {
+          "borderRadius": 6,
         },
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": null,
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": 6,
-              "height": 100,
-              "width": 100,
-            },
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <Image
-          accessibilityLabel="wm-picture"
-          accessibilityRole="wm-picture-role"
-          accessible={true}
-          resizeMode="stretch"
-          source={
-            {
-              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-            }
+          {
+            "height": null,
+            "width": null,
           }
+        }
+      >
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
-              },
-              {
                 "borderRadius": 6,
+                "height": 100,
+                "width": 100,
               },
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityLabel="wm-picture"
+            accessibilityRole="wm-picture-role"
+            accessible={true}
+            resizeMode="stretch"
+            source={
+              {
+                "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+              }
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                {
+                  "borderRadius": 6,
+                },
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should render Image component style according to shape prop as thumbnail 1`] = `
-<View
-  style={
-    [
-      {
-        "height": 100,
-        "width": 100,
-      },
-      {
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      {
-        "backgroundColor": "#ffffff",
-        "borderColor": "#dddddd",
-        "borderRadius": 6,
-        "borderStyle": "solid",
-        "borderWidth": 1,
-        "paddingBottom": 8,
-        "paddingLeft": 8,
-        "paddingRight": 8,
-        "paddingTop": 8,
-      },
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
+          "height": 100,
+          "width": 100,
         },
+        {
+          "overflow": "hidden",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "paddingBottom": 8,
+          "paddingLeft": 8,
+          "paddingRight": 8,
+          "paddingTop": 8,
+        },
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": null,
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": 100,
-              "width": 100,
-            },
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <Image
-          accessibilityLabel="wm-picture"
-          accessibilityRole="wm-picture-role"
-          accessible={true}
-          resizeMode="stretch"
-          source={
-            {
-              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-            }
+          {
+            "height": null,
+            "width": null,
           }
+        }
+      >
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "borderRadius": undefined,
+                "height": 100,
+                "width": 100,
               },
-              undefined,
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityLabel="wm-picture"
+            accessibilityRole="wm-picture-role"
+            accessible={true}
+            resizeMode="stretch"
+            source={
+              {
+                "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+              }
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                undefined,
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should render component 1`] = `
-<View
-  style={
-    [
-      {
-        "height": 100,
-        "width": 100,
-      },
-      {
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
+          "height": 100,
+          "width": 100,
         },
+        {
+          "overflow": "hidden",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": null,
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": 100,
-              "width": 100,
-            },
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <Image
-          accessibilityRole="image"
-          accessible={true}
-          resizeMode="stretch"
-          source={
-            {
-              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-            }
+          {
+            "height": null,
+            "width": null,
           }
+        }
+      >
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "borderRadius": undefined,
+                "height": 100,
+                "width": 100,
               },
-              undefined,
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityRole="image"
+            accessible={true}
+            resizeMode="stretch"
+            source={
+              {
+                "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+              }
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                undefined,
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should render component style according to root style 1`] = `
-<View
-  style={
-    [
-      {
-        "height": 100,
-        "width": 100,
-      },
-      {
-        "backgroundColor": "#000",
-        "height": "104",
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
+          "height": 100,
+          "width": 100,
         },
+        {
+          "backgroundColor": "#000",
+          "height": "104",
+          "overflow": "hidden",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": null,
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": 100,
-              "width": 100,
-            },
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <Image
-          accessibilityRole="image"
-          accessible={true}
-          resizeMode="stretch"
-          source={
-            {
-              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-            }
+          {
+            "height": null,
+            "width": null,
           }
+        }
+      >
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "borderRadius": undefined,
+                "height": 100,
+                "width": 100,
               },
-              undefined,
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityRole="image"
+            accessible={true}
+            resizeMode="stretch"
+            source={
+              {
+                "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+              }
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                undefined,
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should render component width according to naturalImageWidth and naturalImageHeight state of the component when native width of the device is falsy 1`] = `
-<View
-  style={
-    [
-      {
-        "height": undefined,
-        "width": 100,
-      },
-      {
-        "height": "100%",
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
+        {
+          "height": undefined,
+          "width": 100,
+        },
         {
           "height": "100%",
           "overflow": "hidden",
-          "width": "100%",
+          "rippleColor": "transparent",
+          "width": 270,
         },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": "100%",
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": undefined,
-              "width": 100,
-            },
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <Image
-          accessibilityRole="image"
-          accessible={true}
-          resizeMode="stretch"
-          source={
-            {
-              "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-            }
+          {
+            "height": "100%",
+            "width": null,
           }
+        }
+      >
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "borderRadius": undefined,
+                "height": undefined,
+                "width": 100,
               },
-              undefined,
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityRole="image"
+            accessible={true}
+            resizeMode="stretch"
+            source={
+              {
+                "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+              }
+            }
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                undefined,
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should render image when full path is not present 1`] = `
-<View
-  style={
-    [
-      {
-        "height": 100,
-        "width": 100,
-      },
-      {
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
+          "height": 100,
+          "width": 100,
         },
+        {
+          "overflow": "hidden",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": null,
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": 100,
-              "width": 100,
-            },
-          ]
+          {
+            "height": null,
+            "width": null,
+          }
         }
-        testID="non_animatableView"
       >
-        <Image
-          accessibilityRole="image"
-          accessible={true}
-          resizeMode="stretch"
-          source="WaveMaker-Logo-1.svg"
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "borderRadius": undefined,
+                "height": 100,
+                "width": 100,
               },
-              undefined,
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityRole="image"
+            accessible={true}
+            resizeMode="stretch"
+            source="WaveMaker-Logo-1.svg"
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                undefined,
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should render image with source from picturesource when both picturesource and pictureplaceholder is present 1`] = `
-<View
-  style={
-    [
-      {
-        "height": 100,
-        "width": 100,
-      },
-      {
-        "overflow": "hidden",
-        "rippleColor": "transparent",
-        "width": 270,
-      },
-      undefined,
-      undefined,
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
     style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
       [
         {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
+          "height": 100,
+          "width": 100,
         },
+        {
+          "overflow": "hidden",
+          "rippleColor": "transparent",
+          "width": 270,
+        },
+        undefined,
+        undefined,
       ]
     }
   >
     <View
+      onLayout={[Function]}
       style={
-        {
-          "height": null,
-          "width": null,
-        }
+        [
+          {
+            "height": "100%",
+            "overflow": "hidden",
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
-          [
-            {
-              "borderRadius": undefined,
-              "height": 100,
-              "width": 100,
-            },
-          ]
+          {
+            "height": null,
+            "width": null,
+          }
         }
-        testID="non_animatableView"
       >
-        <Image
-          accessibilityRole="image"
-          accessible={true}
-          resizeMode="stretch"
-          source="WaveMaker-Logo-1.svg"
+        <View
           style={
             [
               {
-                "height": "100%",
-                "width": "100%",
+                "borderRadius": undefined,
+                "height": 100,
+                "width": 100,
               },
-              undefined,
             ]
           }
-          testID="wm_picture"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            accessibilityRole="image"
+            accessible={true}
+            resizeMode="stretch"
+            source="WaveMaker-Logo-1.svg"
+            style={
+              [
+                {
+                  "height": "100%",
+                  "width": "100%",
+                },
+                undefined,
+              ]
+            }
+            testID="wm_picture"
+          />
+        </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Picture component should render skeleton when showskeleton prop is true 1`] = `
-<View
-  onLayout={[Function]}
-  style={
-    {
-      "backgroundColor": "#eeeeee",
-      "borderRadius": 4,
-      "height": 125,
-      "overflow": "hidden",
-      "width": 125,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 125,
+        "overflow": "hidden",
+        "width": 125,
+      }
+    }
+  />,
+]
 `;
 
 exports[`Picture component should render skeleton when showskeleton prop is true with skeletonheight and skeletonwidth provided in props 1`] = `
-<View
-  onLayout={[Function]}
-  style={
-    {
-      "backgroundColor": "#eeeeee",
-      "borderRadius": 4,
-      "height": 200,
-      "overflow": "hidden",
-      "width": 125,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 200,
+        "overflow": "hidden",
+        "width": 125,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Picture component should render skeleton with styles with respect to shape as circle 1`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 6,
+        "height": 125,
+        "overflow": "hidden",
+        "width": 125,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Picture component should render skeleton with styles with respect to shape as rounded 1`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 6,
+        "height": 125,
+        "overflow": "hidden",
+        "width": 125,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Picture component should render skeleton with styles with respect to shape as thumbnail 1`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 6,
+        "height": 125,
+        "overflow": "hidden",
+        "width": 125,
+      }
+    }
+  />,
+]
 `;

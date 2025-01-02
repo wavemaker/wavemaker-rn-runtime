@@ -1,192 +1,223 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WmSelect renders correctly with default props 1`] = `
-<View>
+[
   <View
     onLayout={[Function]}
     style={
-      [
-        {
-          "alignItems": "center",
-          "backgroundColor": "#ffffff",
-          "borderColor": "#dddddd",
-          "borderRadius": 6,
-          "borderStyle": "solid",
-          "borderWidth": 1,
-          "flexDirection": "row",
-          "minWidth": 160,
-          "paddingBottom": 12,
-          "paddingLeft": 12,
-          "paddingRight": 12,
-          "paddingTop": 12,
-        },
-        {},
-        {
-          "backgroundColor": "#ffffff",
-        },
-        {},
-      ]
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
+  />,
+  <View
+    onLayout={[Function]}
   >
-    <Text
-      accessibilityState={
-        {
-          "disabled": false,
-        }
-      }
-      accessible={true}
-      onPress={[Function]}
-      style={
-        [
-          {
-            "color": "#151420",
-            "flex": 1,
-            "fontFamily": "Roboto",
-            "fontSize": 16,
-            "userSelect": "text",
-          },
-          {
-            "color": "#bbbbbb",
-          },
-        ]
-      }
-      testID="select1_i"
-    >
-      Select an option
-    </Text>
     <View
+      onLayout={[Function]}
       style={
         [
           {
             "alignItems": "center",
-            "alignSelf": "center",
-            "backgroundColor": "transparent",
-            "borderRadius": 0,
-            "justifyContent": "center",
-            "minHeight": 0,
-            "paddingBottom": 6,
-            "paddingLeft": 6,
-            "paddingRight": 0,
-            "paddingTop": 6,
-            "rippleColor": "transparent",
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "minWidth": 160,
+            "paddingBottom": 12,
+            "paddingLeft": 12,
+            "paddingRight": 12,
+            "paddingTop": 12,
           },
+          {},
           {
-            "flexDirection": "column",
-            "overflow": "hidden",
-            "paddingBottom": 0,
-            "paddingLeft": 0,
-            "paddingRight": 0,
-            "paddingTop": 0,
+            "backgroundColor": "#ffffff",
           },
           {},
         ]
       }
-      testID="non_animatableView"
     >
-      <View
-        accessibilityLabel={null}
-        accessibilityRole="button"
+      <Text
         accessibilityState={
           {
-            "busy": undefined,
-            "checked": undefined,
             "disabled": false,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
           }
         }
         accessible={true}
-        collapsable={false}
-        focusable={true}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+        onPress={[Function]}
         style={
           [
             {
-              "overflow": "hidden",
+              "color": "#151420",
+              "flex": 1,
+              "fontFamily": "Roboto",
+              "fontSize": 16,
+              "userSelect": "text",
             },
             {
-              "height": null,
+              "color": "#bbbbbb",
+            },
+          ]
+        }
+        testID="select1_i"
+      >
+        Select an option
+      </Text>
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "height": 0,
+            "width": 0,
+          }
+        }
+      />
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "backgroundColor": "transparent",
+              "borderRadius": 0,
               "justifyContent": "center",
+              "minHeight": 0,
               "paddingBottom": 6,
               "paddingLeft": 6,
               "paddingRight": 0,
               "paddingTop": 6,
-              "width": "100%",
+              "rippleColor": "transparent",
             },
+            {
+              "flexDirection": "column",
+              "overflow": "hidden",
+              "paddingBottom": 0,
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+            },
+            {},
           ]
         }
-        testID="undefined_a"
+        testID="non_animatableView"
       >
         <View
+          accessibilityLabel={null}
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
             [
               {
-                "alignItems": "center",
-                "flexDirection": "row",
-                "justifyContent": "center",
+                "overflow": "hidden",
               },
               {
-                "flexDirection": "row",
+                "height": null,
+                "justifyContent": "center",
+                "paddingBottom": 6,
+                "paddingLeft": 6,
+                "paddingRight": 0,
+                "paddingTop": 6,
+                "width": "100%",
               },
             ]
           }
+          testID="undefined_a"
         >
-          <View>
-            <View
-              style={
+          <View
+            style={
+              [
                 {
                   "alignItems": "center",
-                  "alignSelf": "auto",
                   "flexDirection": "row",
-                  "paddingLeft": -8,
-                  "paddingRight": -8,
+                  "justifyContent": "center",
+                },
+                {
+                  "flexDirection": "row",
+                },
+              ]
+            }
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "height": 0,
+                  "width": 0,
                 }
               }
-              testID="non_animatableView"
-            >
-              <View>
+            />
+            <View>
+              <View
+                style={
+                  {
+                    "alignItems": "center",
+                    "alignSelf": "auto",
+                    "flexDirection": "row",
+                    "paddingLeft": -8,
+                    "paddingRight": -8,
+                  }
+                }
+                testID="non_animatableView"
+              >
                 <View>
-                  <Text
-                    accessible={false}
-                    size={16}
-                    style={
-                      [
-                        {
-                          "color": undefined,
-                        },
-                        {
-                          "paddingLeft": 0,
-                          "paddingRight": 8,
-                        },
-                        {
-                          "transform": [
-                            {
-                              "rotate": "0deg",
-                            },
-                          ],
-                        },
-                      ]
-                    }
-                    testID="undefined_icon_icon"
-                  >
-                    keyboard-arrow-down
-                  </Text>
+                  <View>
+                    <Text
+                      accessible={false}
+                      size={16}
+                      style={
+                        [
+                          {
+                            "color": undefined,
+                          },
+                          {
+                            "paddingLeft": 0,
+                            "paddingRight": 8,
+                          },
+                          {
+                            "transform": [
+                              {
+                                "rotate": "0deg",
+                              },
+                            ],
+                          },
+                        ]
+                      }
+                      testID="undefined_icon_icon"
+                    >
+                      keyboard-arrow-down
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -194,64 +225,95 @@ exports[`WmSelect renders correctly with default props 1`] = `
         </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`WmSelect should render skeleton with respect to root styles when show skeleton is true 1`] = `
-<View>
+[
   <View
     onLayout={[Function]}
     style={
-      [
-        {
-          "alignItems": "center",
-          "backgroundColor": "#ffffff",
-          "borderColor": "#dddddd",
-          "borderRadius": 6,
-          "borderStyle": "solid",
-          "borderWidth": 1,
-          "flexDirection": "row",
-          "minWidth": 160,
-          "paddingBottom": 12,
-          "paddingLeft": 12,
-          "paddingRight": 12,
-          "paddingTop": 12,
-        },
-        {},
-        {
-          "backgroundColor": "#ffffff",
-        },
-        {
-          "justifyContent": "space-between",
-        },
-      ]
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
+  />,
+  <View
+    onLayout={[Function]}
   >
     <View
       onLayout={[Function]}
       style={
-        {
-          "backgroundColor": "#eeeeee",
-          "borderRadius": 8,
-          "height": 16,
-          "overflow": "hidden",
-          "width": 100,
-        }
+        [
+          {
+            "alignItems": "center",
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flexDirection": "row",
+            "minWidth": 160,
+            "paddingBottom": 12,
+            "paddingLeft": 12,
+            "paddingRight": 12,
+            "paddingTop": 12,
+          },
+          {},
+          {
+            "backgroundColor": "#ffffff",
+          },
+          {
+            "justifyContent": "space-between",
+          },
+        ]
       }
-    />
-    <View
-      onLayout={[Function]}
-      style={
-        {
-          "backgroundColor": "#eeeeee",
-          "borderRadius": 32,
-          "height": 48,
-          "overflow": "hidden",
-          "width": 96,
+    >
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "height": 0,
+            "width": 0,
+          }
         }
-      }
-    />
-  </View>
-</View>
+      />
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "backgroundColor": "#eeeeee",
+            "borderRadius": 8,
+            "height": 16,
+            "overflow": "hidden",
+            "width": 100,
+          }
+        }
+      />
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "height": 0,
+            "width": 0,
+          }
+        }
+      />
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "backgroundColor": "#eeeeee",
+            "borderRadius": 32,
+            "height": 48,
+            "overflow": "hidden",
+            "width": 96,
+          }
+        }
+      />
+    </View>
+  </View>,
+]
 `;

@@ -1,5 +1,5 @@
 import React, { createRef, ReactNode } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import WmWizard from '@wavemaker/app-rn-runtime/components/container/wizard/wizard.component';
 
 import WmWizardProps from '@wavemaker/app-rn-runtime/components/container/wizard/wizard.props';
@@ -310,14 +310,20 @@ describe('Test Wizard component', () => {
     renderComponent({ actionsalignment: 'left', ref });
     expect(screen).toMatchSnapshot();
     await timer(300);
-    expect(screen.root.children[3].props.style[1].flexDirection).toBe('row');
+    
+    const component = screen.UNSAFE_getAllByType(View)[1];
+
+    expect(component.props.children[3].props.style[1].flexDirection).toBe('row');
   });
 
   it('should align the actions to right', async () => {
     const ref = createRef();
     renderComponent({ actionsalignment: 'right', ref });
     await timer(300);
-    expect(screen.root.children[3].props.style[1].flexDirection).toBe(
+
+    const component = screen.UNSAFE_getAllByType(View)[1];
+
+    expect(component.props.children[3].props.style[1].flexDirection).toBe(
       'row-reverse'
     );
   });
@@ -556,6 +562,142 @@ describe('Test Wizard component', () => {
       expect(invokeNextCBSpy).toHaveBeenCalled();
     });
   });
+
+  it('should have connector of second last step having width 50% when last connector show prop is false', async () => {
+    const steps = [
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={0}
+        index={0}
+        title="Step 1"
+        name="step1"
+        enableskip={true}
+      >
+        <Text>Content of Step 1</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={1}
+        index={1}
+        title="Step 2"
+        name="step2"
+        enableskip={true}
+      >
+        <Text>Content of Step 2</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={2}
+        index={2}
+        title="Step 3"
+        name="step3"
+        enableskip={true}
+      >
+      <Text>Content of Step 3</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={3}
+        index={3}
+        title="Step 4"
+        name="step4"
+        enableskip={true}
+      >
+      <Text>Content of Step 4</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={4}
+        index={4}
+        title="Step 5"
+        name="step5"
+        enableskip={true}
+        show={false}
+      >
+      <Text>Content of Step 5</Text>
+      </WmWizardstep>,
+    ];
+
+    const stepConnectorWidthMock = jest.spyOn(WmWizard.prototype, 'stepConnectorWidth');
+    renderComponent({ children: steps });
+
+    await waitFor(() => {
+      expect(stepConnectorWidthMock).toHaveNthReturnedWith(1,'50%') // 1st step
+      expect(stepConnectorWidthMock).toHaveNthReturnedWith(4,'50%') // Second last step
+      expect(stepConnectorWidthMock).toHaveNthReturnedWith(5,'50%') // Last step
+    })
+  });
+
+  test('stepConnectorWidth should return 50% and 100%, when steps are first or last and steps in between respectively ', async () => {
+    const steps = [
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={0}
+        index={0}
+        title="Step 1"
+        name="step1"
+        enableskip={true}
+      >
+        <Text>Content of Step 1</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={1}
+        index={1}
+        title="Step 2"
+        name="step2"
+        enableskip={true}
+      >
+        <Text>Content of Step 2</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={2}
+        index={2}
+        title="Step 3"
+        name="step3"
+        enableskip={true}
+      >
+      <Text>Content of Step 3</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={3}
+        index={3}
+        title="Step 4"
+        name="step4"
+        enableskip={true}
+      >
+      <Text>Content of Step 4</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={4}
+        index={4}
+        title="Step 5"
+        name="step5"
+        enableskip={true}
+        show={true}
+      >
+      <Text>Content of Step 5</Text>
+      </WmWizardstep>,
+    ];
+    
+    const customRef = createRef<WmWizard>();
+    const stepConnectorWidthMock = jest.spyOn(WmWizard.prototype, 'stepConnectorWidth');
+    renderComponent({ children: steps, ref: customRef });
+
+    await timer();
+
+
+    await waitFor(() => {
+      expect(stepConnectorWidthMock).toHaveNthReturnedWith(1,'50%') 
+      expect(stepConnectorWidthMock).toHaveNthReturnedWith(2,'100%')
+      expect(stepConnectorWidthMock).toHaveNthReturnedWith(3,'100%')
+      expect(stepConnectorWidthMock).toHaveNthReturnedWith(4,'100%')
+      expect(stepConnectorWidthMock).toHaveNthReturnedWith(5,'50%')
+    })
+  })
 
   test('render skeleton if showskeleton is true and showskeletonchildren is false', async () => {
     const renderSkeletonSpy = jest.spyOn(WmWizard.prototype, 'renderSkeleton');

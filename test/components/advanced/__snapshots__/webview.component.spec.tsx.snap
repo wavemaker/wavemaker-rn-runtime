@@ -1,184 +1,217 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test Webview component should handle onLoad callback when content is loaded 1`] = `
-<View
-  style={{}}
->
+[
   <View
+    onLayout={[Function]}
     style={
-      [
-        {
-          "flex": 1,
-          "overflow": "hidden",
-        },
-        undefined,
-      ]
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
+  />,
+  <View
+    style={{}}
   >
-    <RNCWebView
-      accessible={true}
-      cacheEnabled={true}
-      fraudulentWebsiteWarningEnabled={true}
-      hasOnFileDownload={false}
-      hasOnOpenWindowEvent={false}
-      incognito={false}
-      injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
-      injectedJavaScriptForMainFrameOnly={true}
-      javaScriptEnabled={true}
-      messagingEnabled={true}
-      messagingModuleName=""
-      nestedScrollEnabled={true}
-      onContentProcessDidTerminate={[Function]}
-      onHttpError={[Function]}
-      onLoadingError={[Function]}
-      onLoadingFinish={[Function]}
-      onLoadingProgress={[Function]}
-      onLoadingStart={[Function]}
-      onMessage={[Function]}
-      onShouldStartLoadWithRequest={[Function]}
-      scrollEnabled={true}
-      sharedCookiesEnabled={true}
+    <View
       style={
         [
           {
             "flex": 1,
             "overflow": "hidden",
           },
-          {
-            "backgroundColor": "#ffffff",
-          },
-          {
-            "flex": 1,
-          },
+          undefined,
         ]
       }
-      testID="wm_web_view"
-      textInteractionEnabled={true}
-      useSharedProcessPool={true}
-    />
-  </View>
-</View>
+    >
+      <RNCWebView
+        accessible={true}
+        cacheEnabled={true}
+        fraudulentWebsiteWarningEnabled={true}
+        hasOnFileDownload={false}
+        hasOnOpenWindowEvent={false}
+        incognito={false}
+        injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
+        injectedJavaScriptForMainFrameOnly={true}
+        javaScriptEnabled={true}
+        messagingEnabled={true}
+        messagingModuleName=""
+        nestedScrollEnabled={true}
+        onContentProcessDidTerminate={[Function]}
+        onHttpError={[Function]}
+        onLoadingError={[Function]}
+        onLoadingFinish={[Function]}
+        onLoadingProgress={[Function]}
+        onLoadingStart={[Function]}
+        onMessage={[Function]}
+        onShouldStartLoadWithRequest={[Function]}
+        scrollEnabled={true}
+        sharedCookiesEnabled={true}
+        style={
+          [
+            {
+              "flex": 1,
+              "overflow": "hidden",
+            },
+            {
+              "backgroundColor": "#ffffff",
+            },
+            {
+              "flex": 1,
+            },
+          ]
+        }
+        testID="wm_web_view"
+        textInteractionEnabled={true}
+        useSharedProcessPool={true}
+      />
+    </View>
+  </View>,
+]
 `;
 
 exports[`Test Webview component should render WmWebview component with given src 1`] = `
-<View
-  style={{}}
->
+[
   <View
+    onLayout={[Function]}
     style={
-      [
-        {
-          "flex": 1,
-          "overflow": "hidden",
-        },
-        undefined,
-      ]
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
+  />,
+  <View
+    style={{}}
   >
-    <RNCWebView
-      accessible={true}
-      cacheEnabled={true}
-      fraudulentWebsiteWarningEnabled={true}
-      hasOnFileDownload={false}
-      hasOnOpenWindowEvent={false}
-      incognito={false}
-      injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
-      injectedJavaScriptForMainFrameOnly={true}
-      javaScriptEnabled={true}
-      messagingEnabled={true}
-      messagingModuleName=""
-      nestedScrollEnabled={true}
-      onContentProcessDidTerminate={[Function]}
-      onHttpError={[Function]}
-      onLoadingError={[Function]}
-      onLoadingFinish={[Function]}
-      onLoadingProgress={[Function]}
-      onLoadingStart={[Function]}
-      onMessage={[Function]}
-      onShouldStartLoadWithRequest={[Function]}
-      scrollEnabled={true}
-      sharedCookiesEnabled={true}
+    <View
       style={
         [
           {
             "flex": 1,
             "overflow": "hidden",
           },
-          {
-            "backgroundColor": "#ffffff",
-          },
-          {
-            "flex": 1,
-          },
+          undefined,
         ]
       }
-      testID="wm_web_view"
-      textInteractionEnabled={true}
-      useSharedProcessPool={true}
-    />
-  </View>
-</View>
+    >
+      <RNCWebView
+        accessible={true}
+        cacheEnabled={true}
+        fraudulentWebsiteWarningEnabled={true}
+        hasOnFileDownload={false}
+        hasOnOpenWindowEvent={false}
+        incognito={false}
+        injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
+        injectedJavaScriptForMainFrameOnly={true}
+        javaScriptEnabled={true}
+        messagingEnabled={true}
+        messagingModuleName=""
+        nestedScrollEnabled={true}
+        onContentProcessDidTerminate={[Function]}
+        onHttpError={[Function]}
+        onLoadingError={[Function]}
+        onLoadingFinish={[Function]}
+        onLoadingProgress={[Function]}
+        onLoadingStart={[Function]}
+        onMessage={[Function]}
+        onShouldStartLoadWithRequest={[Function]}
+        scrollEnabled={true}
+        sharedCookiesEnabled={true}
+        style={
+          [
+            {
+              "flex": 1,
+              "overflow": "hidden",
+            },
+            {
+              "backgroundColor": "#ffffff",
+            },
+            {
+              "flex": 1,
+            },
+          ]
+        }
+        testID="wm_web_view"
+        textInteractionEnabled={true}
+        useSharedProcessPool={true}
+      />
+    </View>
+  </View>,
+]
 `;
 
 exports[`Test Webview component should render component with accessibility props 1`] = `
-<View
-  style={{}}
->
+[
   <View
+    onLayout={[Function]}
     style={
-      [
-        {
-          "flex": 1,
-          "overflow": "hidden",
-        },
-        undefined,
-      ]
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
+  />,
+  <View
+    style={{}}
   >
-    <RNCWebView
-      accessibilityHint="this is a web view"
-      accessibilityLabel="wm-web-view"
-      accessibilityRole="web-view-wm"
-      accessible={true}
-      cacheEnabled={true}
-      fraudulentWebsiteWarningEnabled={true}
-      hasOnFileDownload={false}
-      hasOnOpenWindowEvent={false}
-      incognito={false}
-      injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
-      injectedJavaScriptForMainFrameOnly={true}
-      javaScriptEnabled={true}
-      messagingEnabled={true}
-      messagingModuleName=""
-      nestedScrollEnabled={true}
-      onContentProcessDidTerminate={[Function]}
-      onHttpError={[Function]}
-      onLoadingError={[Function]}
-      onLoadingFinish={[Function]}
-      onLoadingProgress={[Function]}
-      onLoadingStart={[Function]}
-      onMessage={[Function]}
-      onShouldStartLoadWithRequest={[Function]}
-      scrollEnabled={true}
-      sharedCookiesEnabled={true}
+    <View
       style={
         [
           {
             "flex": 1,
             "overflow": "hidden",
           },
-          {
-            "backgroundColor": "#ffffff",
-          },
-          {
-            "flex": 1,
-          },
+          undefined,
         ]
       }
-      testID="wm_web_view"
-      textInteractionEnabled={true}
-      useSharedProcessPool={true}
-    />
-  </View>
-</View>
+    >
+      <RNCWebView
+        accessibilityHint="this is a web view"
+        accessibilityLabel="wm-web-view"
+        accessibilityRole="web-view-wm"
+        accessible={true}
+        cacheEnabled={true}
+        fraudulentWebsiteWarningEnabled={true}
+        hasOnFileDownload={false}
+        hasOnOpenWindowEvent={false}
+        incognito={false}
+        injectedJavaScriptBeforeContentLoadedForMainFrameOnly={true}
+        injectedJavaScriptForMainFrameOnly={true}
+        javaScriptEnabled={true}
+        messagingEnabled={true}
+        messagingModuleName=""
+        nestedScrollEnabled={true}
+        onContentProcessDidTerminate={[Function]}
+        onHttpError={[Function]}
+        onLoadingError={[Function]}
+        onLoadingFinish={[Function]}
+        onLoadingProgress={[Function]}
+        onLoadingStart={[Function]}
+        onMessage={[Function]}
+        onShouldStartLoadWithRequest={[Function]}
+        scrollEnabled={true}
+        sharedCookiesEnabled={true}
+        style={
+          [
+            {
+              "flex": 1,
+              "overflow": "hidden",
+            },
+            {
+              "backgroundColor": "#ffffff",
+            },
+            {
+              "flex": 1,
+            },
+          ]
+        }
+        testID="wm_web_view"
+        textInteractionEnabled={true}
+        useSharedProcessPool={true}
+      />
+    </View>
+  </View>,
+]
 `;

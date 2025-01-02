@@ -81,9 +81,9 @@ export class LinearGradient extends React.Component<LinearGradientProps, LinearG
         state.colors = [];
         state.locations = [];
         splits.map(s => {
-            const p = s.matchAll(/\s*([0-9]+)%/g).next()?.value;
+            const p = s.matchAll(/\s*([0-9.]+)%/g).next()?.value;
             if (p) {
-                state.locations.push(parseInt(p[1]) / 100);
+                state.locations.push(parseFloat(p[1]) / 100);
                 state.colors.push(s.replace(p[0], ''));
             } else {
                 state.locations.push(null as any);

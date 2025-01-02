@@ -1,424 +1,77 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WmTime Component should render with default properties correctly 1`] = `
-<View
-  accessibilityState={
-    {
-      "busy": undefined,
-      "checked": undefined,
-      "disabled": undefined,
-      "expanded": undefined,
-      "selected": undefined,
-    }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    {
-      "opacity": 1,
-    }
-  }
-  testID="time1_a"
->
+[
   <View
+    onLayout={[Function]}
     style={
-      [
-        {
-          "backgroundColor": "#ffffff",
-          "borderColor": "#dddddd",
-          "borderRadius": 6,
-          "borderStyle": "solid",
-          "borderWidth": 1,
-          "justifyContent": "center",
-          "paddingBottom": 8,
-          "paddingLeft": 16,
-          "paddingRight": 16,
-          "paddingTop": 8,
-          "width": "100%",
-        },
-        {},
-        null,
-      ]
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
+  />,
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "opacity": 1,
+      }
+    }
+    testID="time1_a"
   >
     <View
       style={
-        {
-          "alignItems": "center",
-          "flexDirection": "row",
-        }
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "justifyContent": "center",
+            "paddingBottom": 8,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 8,
+            "width": "100%",
+          },
+          {},
+          null,
+        ]
       }
     >
       <View
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={false}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         style={
           {
-            "flex": 1,
-            "opacity": 1,
-          }
-        }
-        testID="time1_a"
-      >
-        <Text
-          accessible={false}
-          style={
-            [
-              {
-                "color": "#151420",
-                "fontFamily": "Roboto",
-                "fontSize": 16,
-                "userSelect": "text",
-              },
-              {
-                "color": "#bbbbbb",
-              },
-            ]
-          }
-          testID="time1_l"
-        >
-          Select time
-        </Text>
-      </View>
-      <View
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={false}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          {
-            "opacity": 1,
-          }
-        }
-        testID="time1_a"
-      >
-        <View>
-          <View
-            style={
-              {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "flexDirection": "row",
-              }
-            }
-            testID="non_animatableView"
-          >
-            <View>
-              <View>
-                <Text
-                  accessible={false}
-                  size={12}
-                  style={
-                    [
-                      {
-                        "color": undefined,
-                      },
-                      {
-                        "fontSize": 24,
-                        "paddingLeft": 0,
-                        "paddingRight": 8,
-                      },
-                      {
-                        "transform": [
-                          {
-                            "rotate": "0deg",
-                          },
-                        ],
-                      },
-                    ]
-                  }
-                  testID="time1_calendericon_icon"
-                >
-                  time
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-    </View>
-  </View>
-</View>
-`;
-
-exports[`WmTime Component should render with default properties correctly 2`] = `
-<View
-  accessibilityState={
-    {
-      "busy": undefined,
-      "checked": undefined,
-      "disabled": undefined,
-      "expanded": undefined,
-      "selected": undefined,
-    }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    {
-      "opacity": 1,
-    }
-  }
-  testID="time1_a"
->
-  <View
-    style={
-      [
-        {
-          "backgroundColor": "#ffffff",
-          "borderColor": "#dddddd",
-          "borderRadius": 6,
-          "borderStyle": "solid",
-          "borderWidth": 1,
-          "justifyContent": "center",
-          "paddingBottom": 8,
-          "paddingLeft": 16,
-          "paddingRight": 16,
-          "paddingTop": 8,
-          "width": "100%",
-        },
-        {},
-        {},
-      ]
-    }
-  >
-    <View
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "row",
-        }
-      }
-    >
-      <View
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={false}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          {
-            "flex": 1,
-            "opacity": 1,
-          }
-        }
-        testID="time1_a"
-      >
-        <Text
-          accessible={false}
-          style={
-            [
-              {
-                "color": "#151420",
-                "fontFamily": "Roboto",
-                "fontSize": 16,
-                "userSelect": "text",
-              },
-              {
-                "color": "#bbbbbb",
-              },
-            ]
-          }
-          testID="time1_l"
-        >
-          Select time
-        </Text>
-      </View>
-      <View
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={false}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          {
-            "opacity": 1,
-          }
-        }
-        testID="time1_a"
-      >
-        <View>
-          <View
-            style={
-              {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "flexDirection": "row",
-              }
-            }
-            testID="non_animatableView"
-          >
-            <View>
-              <View>
-                <Text
-                  accessible={false}
-                  size={12}
-                  style={
-                    [
-                      {
-                        "color": undefined,
-                      },
-                      {
-                        "fontSize": 24,
-                        "paddingLeft": 0,
-                        "paddingRight": 8,
-                      },
-                      {
-                        "transform": [
-                          {
-                            "rotate": "0deg",
-                          },
-                        ],
-                      },
-                    ]
-                  }
-                  testID="time1_calendericon_icon"
-                >
-                  time
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-    </View>
-    <Modal
-      animationType="fade"
-      hardwareAccelerated={false}
-      onDismiss={[Function]}
-      onRequestClose={[Function]}
-      transparent={true}
-      visible={true}
-    >
-      <View
-        style={
-          {
-            "backgroundColor": "rgba(0, 0, 0, 0.5)",
-            "flex": 1,
+            "alignItems": "center",
+            "flexDirection": "row",
           }
         }
       >
@@ -432,7 +85,16 @@ exports[`WmTime Component should render with default properties correctly 2`] = 
               "selected": undefined,
             }
           }
-          accessible={true}
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={false}
+          collapsable={false}
           focusable={true}
           onClick={[Function]}
           onResponderGrant={[Function]}
@@ -444,856 +106,437 @@ exports[`WmTime Component should render with default properties correctly 2`] = 
           style={
             {
               "flex": 1,
+              "opacity": 1,
             }
           }
-        />
-        <View
-          style={
-            {
-              "alignItems": "center",
-              "backgroundColor": "white",
-              "borderTopLeftRadius": 20,
-              "borderTopRightRadius": 20,
-              "paddingBottom": 20,
-              "paddingHorizontal": 20,
-              "paddingTop": 40,
-            }
-          }
+          testID="time1_a"
         >
           <Text
+            accessible={false}
             style={
-              {
-                "fontSize": 20,
-                "fontWeight": "bold",
-                "marginBottom": 20,
-                "textAlign": "left",
-                "width": "100%",
-              }
+              [
+                {
+                  "color": "#151420",
+                  "fontFamily": "Roboto",
+                  "fontSize": 16,
+                  "userSelect": "text",
+                },
+                {
+                  "color": "#bbbbbb",
+                },
+              ]
             }
+            testID="time1_l"
           >
-            Select Time
+            Select time
           </Text>
+        </View>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={false}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "opacity": 1,
+            }
+          }
+          testID="time1_a"
+        >
           <View
+            onLayout={[Function]}
             style={
               {
-                "flexDirection": "row",
+                "height": 0,
+                "width": 0,
               }
             }
-          >
-            <View
-              style={
-                [
-                  {
-                    "overflow": "hidden",
-                    "position": "relative",
-                    "width": 100,
-                  },
-                  {
-                    "height": 150,
-                  },
-                ]
-              }
-            >
-              <RCTScrollView
-                collapsable={false}
-                contentContainerStyle={
-                  {
-                    "paddingVertical": 50,
-                  }
-                }
-                decelerationRate="fast"
-                handlerTag={1}
-                handlerType="NativeViewGestureHandler"
-                onGestureHandlerEvent={[Function]}
-                onGestureHandlerStateChange={[Function]}
-                onLayout={[Function]}
-                onMomentumScrollEnd={[Function]}
-                onScroll={[Function]}
-                scrollEventThrottle={16}
-                showsVerticalScrollIndicator={false}
-                snapToInterval={50}
-                waitFor={
-                  [
-                    {
-                      "current": null,
-                    },
-                  ]
-                }
-              >
-                <View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      00
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      01
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      02
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      03
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      04
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      05
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      06
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      07
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      08
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      09
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      10
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      11
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      12
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      13
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      14
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      15
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      16
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      17
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      18
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      19
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      20
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      21
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      22
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      [
-                        {
-                          "alignItems": "center",
-                          "flexDirection": "row",
-                          "justifyContent": "center",
-                        },
-                        {
-                          "backgroundColor": "transparent",
-                        },
-                        {
-                          "height": 50,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        [
-                          {
-                            "color": "#737373",
-                            "fontSize": 17,
-                            "fontWeight": "400",
-                          },
-                        ]
-                      }
-                    >
-                      23
-                    </Text>
-                  </View>
-                </View>
-              </RCTScrollView>
-              <View
-                style={
-                  [
-                    {
-                      "borderBottomColor": "#4263eb",
-                      "borderBottomWidth": 2,
-                      "borderTopColor": "#4263eb",
-                      "borderTopWidth": 2,
-                      "pointerEvents": "none",
-                      "position": "absolute",
-                      "width": "100%",
-                    },
-                    {
-                      "height": 50,
-                      "top": 50,
-                    },
-                  ]
-                }
-              />
-            </View>
+          />
+          <View>
             <View
               style={
                 {
-                  "marginHorizontal": 15,
+                  "alignItems": "center",
+                  "alignSelf": "center",
+                  "flexDirection": "row",
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={12}
+                    style={
+                      [
+                        {
+                          "color": undefined,
+                        },
+                        {
+                          "fontSize": 24,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="time1_calendericon_icon"
+                  >
+                    time
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>,
+]
+`;
+
+exports[`WmTime Component should render with default properties correctly 2`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "opacity": 1,
+      }
+    }
+    testID="time1_a"
+  >
+    <View
+      style={
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "justifyContent": "center",
+            "paddingBottom": 8,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 8,
+            "width": "100%",
+          },
+          {},
+          {},
+        ]
+      }
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={false}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "flex": 1,
+              "opacity": 1,
+            }
+          }
+          testID="time1_a"
+        >
+          <Text
+            accessible={false}
+            style={
+              [
+                {
+                  "color": "#151420",
+                  "fontFamily": "Roboto",
+                  "fontSize": 16,
+                  "userSelect": "text",
+                },
+                {
+                  "color": "#bbbbbb",
+                },
+              ]
+            }
+            testID="time1_l"
+          >
+            Select time
+          </Text>
+        </View>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={false}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "opacity": 1,
+            }
+          }
+          testID="time1_a"
+        >
+          <View
+            onLayout={[Function]}
+            style={
+              {
+                "height": 0,
+                "width": 0,
+              }
+            }
+          />
+          <View>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "center",
+                  "flexDirection": "row",
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={12}
+                    style={
+                      [
+                        {
+                          "color": undefined,
+                        },
+                        {
+                          "fontSize": 24,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="time1_calendericon_icon"
+                  >
+                    time
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "height": 0,
+            "width": 0,
+          }
+        }
+      />
+      <Modal
+        animationType="fade"
+        hardwareAccelerated={false}
+        onDismiss={[Function]}
+        onRequestClose={[Function]}
+        transparent={true}
+        visible={true}
+      >
+        <View
+          style={
+            {
+              "backgroundColor": "rgba(0, 0, 0, 0.5)",
+              "flex": 1,
+            }
+          }
+        >
+          <View
+            accessibilityState={
+              {
+                "busy": undefined,
+                "checked": undefined,
+                "disabled": undefined,
+                "expanded": undefined,
+                "selected": undefined,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              {
+                "flex": 1,
+              }
+            }
+          />
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "backgroundColor": "white",
+                "borderTopLeftRadius": 20,
+                "borderTopRightRadius": 20,
+                "paddingBottom": 20,
+                "paddingHorizontal": 20,
+                "paddingTop": 40,
+              }
+            }
+          >
+            <Text
+              style={
+                {
+                  "fontSize": 20,
+                  "fontWeight": "bold",
+                  "marginBottom": 20,
+                  "textAlign": "left",
+                  "width": "100%",
                 }
               }
             >
+              Select Time
+            </Text>
+            <View
+              style={
+                {
+                  "flexDirection": "row",
+                }
+              }
+            >
+              <View
+                onLayout={[Function]}
+                style={
+                  {
+                    "height": 0,
+                    "width": 0,
+                  }
+                }
+              />
               <View
                 style={
                   [
@@ -1316,7 +559,7 @@ exports[`WmTime Component should render with default properties correctly 2`] = 
                     }
                   }
                   decelerationRate="fast"
-                  handlerTag={2}
+                  handlerTag={1}
                   handlerType="NativeViewGestureHandler"
                   onGestureHandlerEvent={[Function]}
                   onGestureHandlerStateChange={[Function]}
@@ -2079,1122 +1322,6 @@ exports[`WmTime Component should render with default properties correctly 2`] = 
                         23
                       </Text>
                     </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        24
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        25
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        26
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        27
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        28
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        29
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        30
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        31
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        32
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        33
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        34
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        35
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        36
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        37
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        38
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        39
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        40
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        41
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        42
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        43
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        44
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        45
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        46
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        47
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        48
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        49
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        50
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        51
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        52
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        53
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        54
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        55
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        56
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        57
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        58
-                      </Text>
-                    </View>
-                    <View
-                      style={
-                        [
-                          {
-                            "alignItems": "center",
-                            "flexDirection": "row",
-                            "justifyContent": "center",
-                          },
-                          {
-                            "backgroundColor": "transparent",
-                          },
-                          {
-                            "height": 50,
-                          },
-                        ]
-                      }
-                    >
-                      <Text
-                        style={
-                          [
-                            {
-                              "color": "#737373",
-                              "fontSize": 17,
-                              "fontWeight": "400",
-                            },
-                          ]
-                        }
-                      >
-                        59
-                      </Text>
-                    </View>
                   </View>
                 </RCTScrollView>
                 <View
@@ -3217,454 +1344,2432 @@ exports[`WmTime Component should render with default properties correctly 2`] = 
                   }
                 />
               </View>
-            </View>
-          </View>
-          <View
-            style={
-              {
-                "flexDirection": "row",
-                "gap": 20,
-                "justifyContent": "space-between",
-                "marginBottom": 20,
-                "marginTop": 40,
-              }
-            }
-          >
-            <View
-              style={
-                [
-                  {
-                    "alignSelf": "flex-start",
-                    "borderColor": "#4263eb",
-                    "borderRadius": 20,
-                    "borderWidth": 1,
-                    "flex": 1,
-                    "minHeight": 40,
-                    "paddingBottom": 12,
-                    "paddingLeft": 24,
-                    "paddingRight": 24,
-                    "paddingTop": 12,
-                    "rippleColor": "transparent",
-                  },
-                  {
-                    "flexDirection": "column",
-                    "overflow": "hidden",
-                    "paddingBottom": 0,
-                    "paddingLeft": 0,
-                    "paddingRight": 0,
-                    "paddingTop": 0,
-                  },
-                  {},
-                ]
-              }
-              testID="non_animatableView"
-            >
               <View
-                accessibilityLabel="Cancel"
-                accessibilityRole="button"
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": false,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
                 style={
-                  [
-                    {
-                      "overflow": "hidden",
-                    },
-                    {
-                      "height": null,
-                      "justifyContent": "center",
-                      "paddingBottom": 12,
-                      "paddingLeft": 24,
-                      "paddingRight": 24,
-                      "paddingTop": 12,
-                      "width": "100%",
-                    },
-                  ]
+                  {
+                    "marginHorizontal": 15,
+                  }
                 }
-                testID="undefined_a"
               >
+                <View
+                  onLayout={[Function]}
+                  style={
+                    {
+                      "height": 0,
+                      "width": 0,
+                    }
+                  }
+                />
                 <View
                   style={
                     [
                       {
-                        "alignItems": "center",
-                        "flexDirection": "row",
-                        "justifyContent": "center",
+                        "overflow": "hidden",
+                        "position": "relative",
+                        "width": 100,
                       },
                       {
-                        "flexDirection": "row",
+                        "height": 150,
                       },
                     ]
                   }
                 >
-                  <Text
-                    accessible={false}
-                    importantForAccessibility="no"
-                    style={
+                  <RCTScrollView
+                    collapsable={false}
+                    contentContainerStyle={
                       {
-                        "fontFamily": "Roboto",
-                        "fontSize": 14,
-                        "fontWeight": "600",
-                        "textAlign": "center",
-                        "textTransform": "capitalize",
-                        "userSelect": "text",
+                        "paddingVertical": 50,
                       }
                     }
-                    testID="undefined_caption"
+                    decelerationRate="fast"
+                    handlerTag={2}
+                    handlerType="NativeViewGestureHandler"
+                    onGestureHandlerEvent={[Function]}
+                    onGestureHandlerStateChange={[Function]}
+                    onLayout={[Function]}
+                    onMomentumScrollEnd={[Function]}
+                    onScroll={[Function]}
+                    scrollEventThrottle={16}
+                    showsVerticalScrollIndicator={false}
+                    snapToInterval={50}
+                    waitFor={
+                      [
+                        {
+                          "current": null,
+                        },
+                      ]
+                    }
                   >
-                    Cancel
-                  </Text>
+                    <View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          00
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          01
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          02
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          03
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          04
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          05
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          06
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          07
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          08
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          09
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          10
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          11
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          12
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          13
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          14
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          15
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          16
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          17
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          18
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          19
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          20
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          21
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          22
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          23
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          24
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          25
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          26
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          27
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          28
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          29
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          30
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          31
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          32
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          33
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          34
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          35
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          36
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          37
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          38
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          39
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          40
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          41
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          42
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          43
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          44
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          45
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          46
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          47
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          48
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          49
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          50
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          51
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          52
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          53
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          54
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          55
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          56
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          57
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          58
+                        </Text>
+                      </View>
+                      <View
+                        style={
+                          [
+                            {
+                              "alignItems": "center",
+                              "flexDirection": "row",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "backgroundColor": "transparent",
+                            },
+                            {
+                              "height": 50,
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          style={
+                            [
+                              {
+                                "color": "#737373",
+                                "fontSize": 17,
+                                "fontWeight": "400",
+                              },
+                            ]
+                          }
+                        >
+                          59
+                        </Text>
+                      </View>
+                    </View>
+                  </RCTScrollView>
+                  <View
+                    style={
+                      [
+                        {
+                          "borderBottomColor": "#4263eb",
+                          "borderBottomWidth": 2,
+                          "borderTopColor": "#4263eb",
+                          "borderTopWidth": 2,
+                          "pointerEvents": "none",
+                          "position": "absolute",
+                          "width": "100%",
+                        },
+                        {
+                          "height": 50,
+                          "top": 50,
+                        },
+                      ]
+                    }
+                  />
                 </View>
               </View>
             </View>
             <View
               style={
-                [
-                  {
-                    "alignSelf": "flex-start",
-                    "backgroundColor": "#4263eb",
-                    "borderRadius": 20,
-                    "flex": 1,
-                    "minHeight": 40,
-                    "paddingBottom": 12,
-                    "paddingLeft": 24,
-                    "paddingRight": 24,
-                    "paddingTop": 12,
-                    "rippleColor": "transparent",
-                  },
-                  {
-                    "flexDirection": "column",
-                    "overflow": "hidden",
-                    "paddingBottom": 0,
-                    "paddingLeft": 0,
-                    "paddingRight": 0,
-                    "paddingTop": 0,
-                  },
-                  {},
-                ]
+                {
+                  "flexDirection": "row",
+                  "gap": 20,
+                  "justifyContent": "space-between",
+                  "marginBottom": 20,
+                  "marginTop": 40,
+                }
               }
-              testID="non_animatableView"
             >
               <View
-                accessibilityLabel="Select"
-                accessibilityRole="button"
-                accessibilityState={
+                onLayout={[Function]}
+                style={
                   {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": false,
-                    "expanded": undefined,
-                    "selected": undefined,
+                    "height": 0,
+                    "width": 0,
                   }
                 }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
+              />
+              <View
                 style={
                   [
                     {
-                      "overflow": "hidden",
-                    },
-                    {
-                      "height": null,
-                      "justifyContent": "center",
+                      "alignSelf": "flex-start",
+                      "borderColor": "#4263eb",
+                      "borderRadius": 20,
+                      "borderWidth": 1,
+                      "flex": 1,
+                      "minHeight": 40,
                       "paddingBottom": 12,
                       "paddingLeft": 24,
                       "paddingRight": 24,
                       "paddingTop": 12,
-                      "width": "100%",
+                      "rippleColor": "transparent",
                     },
+                    {
+                      "flexDirection": "column",
+                      "overflow": "hidden",
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                    },
+                    {},
                   ]
                 }
-                testID="undefined_a"
+                testID="non_animatableView"
               >
                 <View
+                  accessibilityLabel="Cancel"
+                  accessibilityRole="button"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": false,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                   style={
                     [
                       {
-                        "alignItems": "center",
-                        "flexDirection": "row",
-                        "justifyContent": "center",
+                        "overflow": "hidden",
                       },
                       {
-                        "flexDirection": "row",
+                        "height": null,
+                        "justifyContent": "center",
+                        "paddingBottom": 12,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 12,
+                        "width": "100%",
                       },
                     ]
                   }
+                  testID="undefined_a"
                 >
-                  <Text
-                    accessible={false}
-                    importantForAccessibility="no"
+                  <View
                     style={
-                      {
-                        "color": "white",
-                        "fontFamily": "Roboto",
-                        "fontSize": 14,
-                        "fontWeight": "600",
-                        "textAlign": "center",
-                        "textTransform": "capitalize",
-                        "userSelect": "text",
-                      }
+                      [
+                        {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "justifyContent": "center",
+                        },
+                        {
+                          "flexDirection": "row",
+                        },
+                      ]
                     }
-                    testID="undefined_caption"
                   >
-                    Select
-                  </Text>
+                    <Text
+                      accessible={false}
+                      importantForAccessibility="no"
+                      style={
+                        {
+                          "fontFamily": "Roboto",
+                          "fontSize": 14,
+                          "fontWeight": "600",
+                          "textAlign": "center",
+                          "textTransform": "capitalize",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="undefined_caption"
+                    >
+                      Cancel
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View
+                onLayout={[Function]}
+                style={
+                  {
+                    "height": 0,
+                    "width": 0,
+                  }
+                }
+              />
+              <View
+                style={
+                  [
+                    {
+                      "alignSelf": "flex-start",
+                      "backgroundColor": "#4263eb",
+                      "borderRadius": 20,
+                      "flex": 1,
+                      "minHeight": 40,
+                      "paddingBottom": 12,
+                      "paddingLeft": 24,
+                      "paddingRight": 24,
+                      "paddingTop": 12,
+                      "rippleColor": "transparent",
+                    },
+                    {
+                      "flexDirection": "column",
+                      "overflow": "hidden",
+                      "paddingBottom": 0,
+                      "paddingLeft": 0,
+                      "paddingRight": 0,
+                      "paddingTop": 0,
+                    },
+                    {},
+                  ]
+                }
+                testID="non_animatableView"
+              >
+                <View
+                  accessibilityLabel="Select"
+                  accessibilityRole="button"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": false,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    [
+                      {
+                        "overflow": "hidden",
+                      },
+                      {
+                        "height": null,
+                        "justifyContent": "center",
+                        "paddingBottom": 12,
+                        "paddingLeft": 24,
+                        "paddingRight": 24,
+                        "paddingTop": 12,
+                        "width": "100%",
+                      },
+                    ]
+                  }
+                  testID="undefined_a"
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "alignItems": "center",
+                          "flexDirection": "row",
+                          "justifyContent": "center",
+                        },
+                        {
+                          "flexDirection": "row",
+                        },
+                      ]
+                    }
+                  >
+                    <Text
+                      accessible={false}
+                      importantForAccessibility="no"
+                      style={
+                        {
+                          "color": "white",
+                          "fontFamily": "Roboto",
+                          "fontSize": 14,
+                          "fontWeight": "600",
+                          "textAlign": "center",
+                          "textTransform": "capitalize",
+                          "userSelect": "text",
+                        }
+                      }
+                      testID="undefined_caption"
+                    >
+                      Select
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
-    </Modal>
-  </View>
-</View>
+      </Modal>
+    </View>
+  </View>,
+]
 `;
 
 exports[`WmTime Component should set showTimePickerModal to false when modal is dismissed 1`] = `
-<View
-  accessibilityState={
-    {
-      "busy": undefined,
-      "checked": undefined,
-      "disabled": undefined,
-      "expanded": undefined,
-      "selected": undefined,
-    }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
-    }
-  }
-  accessible={false}
-  collapsable={false}
-  focusable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    {
-      "opacity": 1,
-    }
-  }
-  testID="time1_a"
->
+[
   <View
+    onLayout={[Function]}
     style={
-      [
-        {
-          "backgroundColor": "#ffffff",
-          "borderColor": "#dddddd",
-          "borderRadius": 6,
-          "borderStyle": "solid",
-          "borderWidth": 1,
-          "justifyContent": "center",
-          "paddingBottom": 8,
-          "paddingLeft": 16,
-          "paddingRight": 16,
-          "paddingTop": 8,
-          "width": "100%",
-        },
-        {},
-        null,
-      ]
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
+  />,
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={false}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "opacity": 1,
+      }
+    }
+    testID="time1_a"
   >
     <View
       style={
-        {
-          "alignItems": "center",
-          "flexDirection": "row",
-        }
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "justifyContent": "center",
+            "paddingBottom": 8,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 8,
+            "width": "100%",
+          },
+          {},
+          null,
+        ]
       }
     >
       <View
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={false}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
         style={
           {
-            "flex": 1,
-            "opacity": 1,
+            "alignItems": "center",
+            "flexDirection": "row",
           }
         }
-        testID="time1_a"
       >
-        <Text
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
           accessible={false}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
           style={
-            [
-              {
-                "color": "#151420",
-                "fontFamily": "Roboto",
-                "fontSize": 16,
-                "userSelect": "text",
-              },
-              {
-                "color": "#bbbbbb",
-              },
-            ]
+            {
+              "flex": 1,
+              "opacity": 1,
+            }
           }
-          testID="time1_l"
+          testID="time1_a"
         >
-          Select time
-        </Text>
-      </View>
-      <View
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
+          <Text
+            accessible={false}
+            style={
+              [
+                {
+                  "color": "#151420",
+                  "fontFamily": "Roboto",
+                  "fontSize": 16,
+                  "userSelect": "text",
+                },
+                {
+                  "color": "#bbbbbb",
+                },
+              ]
+            }
+            testID="time1_l"
+          >
+            Select time
+          </Text>
+        </View>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
           }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
           }
-        }
-        accessible={false}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          {
-            "opacity": 1,
+          accessible={false}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "opacity": 1,
+            }
           }
-        }
-        testID="time1_a"
-      >
-        <View>
+          testID="time1_a"
+        >
           <View
+            onLayout={[Function]}
             style={
               {
-                "alignItems": "center",
-                "alignSelf": "center",
-                "flexDirection": "row",
+                "height": 0,
+                "width": 0,
               }
             }
-            testID="non_animatableView"
-          >
-            <View>
+          />
+          <View>
+            <View
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "center",
+                  "flexDirection": "row",
+                }
+              }
+              testID="non_animatableView"
+            >
               <View>
-                <Text
-                  accessible={false}
-                  size={12}
-                  style={
-                    [
-                      {
-                        "color": undefined,
-                      },
-                      {
-                        "fontSize": 24,
-                        "paddingLeft": 0,
-                        "paddingRight": 8,
-                      },
-                      {
-                        "transform": [
-                          {
-                            "rotate": "0deg",
-                          },
-                        ],
-                      },
-                    ]
-                  }
-                  testID="time1_calendericon_icon"
-                >
-                  time
-                </Text>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={12}
+                    style={
+                      [
+                        {
+                          "color": undefined,
+                        },
+                        {
+                          "fontSize": 24,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="time1_calendericon_icon"
+                  >
+                    time
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
       </View>
     </View>
-  </View>
-</View>
+  </View>,
+]
 `;

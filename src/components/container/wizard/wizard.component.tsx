@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Platform, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, TouchableOpacity, Platform, TouchableWithoutFeedback, DimensionValue } from 'react-native';
 import { isArray, merge } from 'lodash';
 import {  BaseComponent, BaseComponentState, LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -153,33 +153,74 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     );
   }
 
+  stepConnectorWidth(isFirstOrLastConnector: boolean, stepIndex: number): DimensionValue {
+    if((stepIndex + 2) === this.steps.length && !this.steps[stepIndex + 1].props.show){
+      return '50%';
+    }
+    return isFirstOrLastConnector ? '50%' : '100%';
+  }
+
   renderWizardHeader(item: any, index: number) {
     const isLastStep = index === this.numberOfSteps - 1;
     const isFirstStep = index === 0;
     const isActiveStep = index === this.state.currentStep;
     const isNumberTextLayout = this.state.props.classname === 'number-text-inline';
     const wizardStepCountVisibility = (index >= this.state.currentStep && !this.state.isDone) || !this.state.currentStep
-    return item.state.props.show != false ? (
-      <View style={[this.styles.headerWrapper, isNumberTextLayout ?
-        {paddingRight: isActiveStep ? 0 : 5, paddingLeft: index === this.state.currentStep + 1 ? 0 : 5}: {}]} key={index+1}>
-        <TouchableOpacity style={this.styles.stepWrapper}
-                          onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep || !this.state.props.headernavigation}
-                          accessibilityRole='header'>
-            {!this._showSkeleton ? <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
-              { wizardStepCountVisibility &&
-                <Text style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')}>{index+1}</Text>}
-              {(index < this.state.currentStep || this.state.isDone) &&
-                <WmIcon id={this.getTestId('status')} styles={isActiveStep ? merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}}) : this.styles.stepIcon}
-                        iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}></WmIcon>}
-            </View> : <WmLabel showskeleton={true} styles={{root: {...this.getStepStyle(index)[0]}}}/>}
+    return item.state.props.show !== false ? (
+      <View 
+        style={[
+          this.styles.headerWrapper, isNumberTextLayout ?
+          {paddingRight: isActiveStep ? 0 : 5, paddingLeft: index === this.state.currentStep + 1 ? 0 : 5}: {}
+        ]} 
+        key={index+1}
+      >
+        <TouchableOpacity 
+          style={this.styles.stepWrapper}
+          onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep || !this.state.props.headernavigation}
+          accessibilityRole='header'
+        >
+            {!this._showSkeleton ? 
+              <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
+                { wizardStepCountVisibility &&
+                  <Text 
+                    style={
+                      isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} 
+                      {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')
+                    }
+                  >
+                    {index+1}
+                  </Text>
+                }
+                {(index < this.state.currentStep || this.state.isDone) &&
+                  <WmIcon 
+                    id={this.getTestId('status')} 
+                    styles={isActiveStep ? merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}}) : this.styles.stepIcon}
+                    iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}
+                  ></WmIcon>
+                }
+              </View> : 
+              <WmLabel showskeleton={true} styles={{root: {...this.getStepStyle(index)[0]}}}/>
+            }
             {(isActiveStep) &&
               <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
-              {item.state.props.title || 'Step Title'}</Text> }
+                {item.state.props.title || 'Step Title'}
+              </Text> 
+            }
             {this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
-        {this.numberOfSteps > 1 && <View style={[this.styles.stepConnector, { width: isFirstStep || isLastStep ? '50%' : '100%',
-                                                      left: Platform.OS == "web"?(!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? '50%': '0%': isFirstStep ? '50%': '0%'}]}></View>}
+        {this.numberOfSteps > 1 && 
+          item.state.props.show &&
+          <View 
+            style={[
+              this.styles.stepConnector, 
+              {
+                width: this.stepConnectorWidth(isFirstStep || isLastStep, index),
+                left: Platform.OS === "web" ? (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? '50%': '0%': isFirstStep ? '50%': '0%'
+              }
+            ]}
+          ></View>
+        }
       </View>
     ) : null;
   }

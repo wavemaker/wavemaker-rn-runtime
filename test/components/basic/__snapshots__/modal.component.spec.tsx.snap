@@ -55,30 +55,41 @@ exports[`Modal component applies styles correctly from props 1`] = `
 `;
 
 exports[`Modal component applies the correct animation type 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "rgba(0, 0, 0, 0.5)",
-    }
-  }
->
-  <Modal
-    animationType="fade"
-    hardwareAccelerated={false}
+[
+  <View
+    onLayout={[Function]}
     style={
       {
-        "borderColor": "red",
-        "borderWidth": 2,
+        "height": 0,
+        "width": 0,
       }
     }
-    transparent={true}
-    visible={true}
+  />,
+  <View
+    style={
+      {
+        "backgroundColor": "rgba(0, 0, 0, 0.5)",
+      }
+    }
   >
-    <Text>
-      Modal Content
-    </Text>
-  </Modal>
-</View>
+    <Modal
+      animationType="fade"
+      hardwareAccelerated={false}
+      style={
+        {
+          "borderColor": "red",
+          "borderWidth": 2,
+        }
+      }
+      transparent={true}
+      visible={true}
+    >
+      <Text>
+        Modal Content
+      </Text>
+    </Modal>
+  </View>,
+]
 `;
 
 exports[`Modal component renders centered modal when centered styles are applied 1`] = `
@@ -114,55 +125,77 @@ exports[`Modal component renders centered modal when centered styles are applied
 `;
 
 exports[`Modal component renders children correctly 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "rgba(0, 0, 0, 0.5)",
-    }
-  }
->
-  <Modal
-    animationType="slide"
-    hardwareAccelerated={false}
+[
+  <View
+    onLayout={[Function]}
     style={
       {
-        "borderColor": "red",
-        "borderWidth": 2,
+        "height": 0,
+        "width": 0,
       }
     }
-    transparent={true}
-    visible={true}
+  />,
+  <View
+    style={
+      {
+        "backgroundColor": "rgba(0, 0, 0, 0.5)",
+      }
+    }
   >
-    <Text>
-      Custom Modal Content
-    </Text>
-  </Modal>
-</View>
+    <Modal
+      animationType="slide"
+      hardwareAccelerated={false}
+      style={
+        {
+          "borderColor": "red",
+          "borderWidth": 2,
+        }
+      }
+      transparent={true}
+      visible={true}
+    >
+      <Text>
+        Custom Modal Content
+      </Text>
+    </Modal>
+  </View>,
+]
 `;
 
 exports[`Modal component renders the WmModal with given props 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "rgba(0, 0, 0, 0.5)",
-    }
-  }
->
-  <Modal
-    animationType="slide"
-    hardwareAccelerated={false}
+[
+  <View
+    onLayout={[Function]}
     style={
       {
-        "borderColor": "red",
-        "borderWidth": 2,
+        "height": 0,
+        "width": 0,
       }
     }
-    transparent={true}
-    visible={true}
+  />,
+  <View
+    style={
+      {
+        "backgroundColor": "rgba(0, 0, 0, 0.5)",
+      }
+    }
   >
-    <Text>
-      Modal Content
-    </Text>
-  </Modal>
-</View>
+    <Modal
+      animationType="slide"
+      hardwareAccelerated={false}
+      style={
+        {
+          "borderColor": "red",
+          "borderWidth": 2,
+        }
+      }
+      transparent={true}
+      visible={true}
+    >
+      <Text>
+        Modal Content
+      </Text>
+    </Modal>
+  </View>,
+]
 `;

@@ -1,14 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test PanelContent component Check validity of sample component 1`] = `
-<View
-  style={
-    {
-      "borderColor": "#ffffff",
-      "borderStyle": "solid",
-      "borderTopWidth": 0,
-      "borderWidth": 1,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    style={
+      {
+        "borderColor": "#ffffff",
+        "borderStyle": "solid",
+        "borderTopWidth": 0,
+        "borderWidth": 1,
+      }
+    }
+  />,
+]
 `;

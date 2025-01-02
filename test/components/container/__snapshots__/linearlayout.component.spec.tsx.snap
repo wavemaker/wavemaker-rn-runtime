@@ -1,33 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Linearlayout component tests renders correctly with default props 1`] = `
-<View
-  style={
-    {
-      "alignItems": "flex-start",
-      "display": "flex",
-      "flexDirection": "row",
-      "justifyContent": "flex-start",
-      "width": "100%",
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    style={
+      {
+        "alignItems": "flex-start",
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "width": "100%",
+      }
+    }
+  />,
+]
 `;
 
 exports[`Linearlayout component tests should render children properly 1`] = `
-<View
-  style={
-    {
-      "alignItems": "flex-start",
-      "display": "flex",
-      "flexDirection": "row",
-      "justifyContent": "flex-start",
-      "width": "100%",
-    }
-  }
->
+[
   <View
-    testID="child-1"
-  />
-</View>
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
+      {
+        "alignItems": "flex-start",
+        "display": "flex",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      testID="child-1"
+    />
+  </View>,
+]
 `;

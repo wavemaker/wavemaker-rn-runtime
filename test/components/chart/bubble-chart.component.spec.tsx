@@ -57,7 +57,9 @@ describe('Test BubbleChart component', () => {
   //should render when default props are given and also shouldnot render when default props are not given
   it('should render with null when default props was not given', () => {
     const tree = renderComponent();
-    expect(tree.toJSON()).toBeNull();
+
+    expect(Array.isArray(tree.toJSON())).toBe(false);
+    expect(tree.toJSON().children).toBeNull();
   });
 
   it('should render when default props was given', () => {
