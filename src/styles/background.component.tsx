@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { LinearGradient as ExpoLinearGradient, LinearGradientPoint } from 'expo-linear-gradient';
-import { Image, StyleSheet, View, ViewStyle } from 'react-native';
+import { DimensionValue, Image, StyleSheet, View, ViewStyle } from 'react-native';
 import { isEmpty, isNil, isNumber, isString } from 'lodash-es';
 import imageSizeEstimator from '@wavemaker/app-rn-runtime/core/imageSizeEstimator';
 import { AssetConsumer } from '@wavemaker/app-rn-runtime/core/asset.provider';
@@ -110,8 +110,8 @@ export class LinearGradient extends React.Component<LinearGradientProps, LinearG
                         alignItems: 'center'
                     } : null]}>
                     <ExpoLinearGradient testID="wm-expo-linear-gradient"
-                        colors={this.state.colors}
-                        locations={this.state.locations}
+                        colors={this.state.colors as any}
+                        locations={this.state.locations as any}
                         start={this.state.start}
                         end={this.state.end}
                         style={[
@@ -173,7 +173,7 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
 
     getDimension(dim: string) {
         if (dim) {
-            const value = dim.matchAll(DIMENSION_REGEX).next().value;
+            const value = dim.matchAll(DIMENSION_REGEX).next().value!;
             if (value[1]) {
                 return value[1].endsWith('%') ? value[1] : parseInt(value[1]);
             }
@@ -194,7 +194,7 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
         } else if (position[0] === 'bottom') {
             result.bottom = 0;
         } else {
-            result.top = this.getDimension(position[0]);
+            result.top = this.getDimension(position[0]) as DimensionValue;
         }
         if (position[1] === 'center') {
             result.justifyContent = 'center';
@@ -203,7 +203,7 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
         } else if (position[1] === 'bottom') {
             result.right = 0;
         } else {
-            result.left = this.getDimension(position[1]);
+            result.left = this.getDimension(position[1]) as DimensionValue;
         }
         return result;
     }
@@ -230,8 +230,8 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
         const size = this.props.size?.matchAll(BACKGROUND_SIZE_REGEX).next().value;
         result.size = {};
         if (size) {
-            result.size.width = size[1].endsWith('%') ? size[1] : parseInt(size[1]);
-            result.size.height = size[2].endsWith('%') ? size[2] : parseInt(size[2]);
+            result.size.width = (size[1].endsWith('%') ? size[1] : parseInt(size[1])) as DimensionValue;
+            result.size.height = (size[2].endsWith('%') ? size[2] : parseInt(size[2])) as DimensionValue
         }
         if (!result.resizeMode && this.props.position) {
             result.position = this.getPosition();
@@ -285,7 +285,7 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
             return;
         }
         if (source?.startsWith('url')) {
-            source = this.props.image?.matchAll(IMAGE_URL_REGEX).next().value[1];
+            source = this.props.image?.matchAll(IMAGE_URL_REGEX)?.next()?.value?.[1];
         }
         if (this.loadAsset) {
             source = this.loadAsset(source);
@@ -363,4 +363,3 @@ export class BackgroundComponent extends React.Component<BackgroundProps, Backgr
         return null;
     }
 }
-

@@ -2,7 +2,7 @@ import React from "react";
 import { ImageBackground, Platform, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ResizeMode, Video } from "expo-av";
-import { Camera, CameraType } from "expo-camera";
+import { CameraView, CameraType } from "expo-camera";
 import * as FileSystem from "expo-file-system";
 import * as Application from 'expo-application';
 
@@ -77,7 +77,7 @@ const styles = {
 export interface CameraVideoInput extends Input {}
 
 export class CameraService {
-  private type= CameraType.back;
+  private type: CameraType = "back";
 
   constructor(private displayManager: DisplayManager) {
   }
@@ -86,7 +86,7 @@ export class CameraService {
     return new Promise((resolve, reject) => {
       permissionManager.requestPermissions('video').then(() => {
         const destroy = this.displayManager.show({
-          content: (<CameraView testID={"camera_view"} type={this.type} captureType={'video'} onSuccess={(o) => {
+          content: (<Camera testID={"camera_view"} type={this.type} captureType={'video'} onSuccess={(o) => {
             destroy.call(this.displayManager);
             /*o.content().catch(() => {}).then(base64 => {
               resolve({videoPath: o.uri, content: base64 || ''});
@@ -96,7 +96,7 @@ export class CameraService {
           onCancel={() => {
             destroy.call(this.displayManager);
           }}
-          ></CameraView>)
+          ></Camera>)
         });
       }, reject);
     });
@@ -106,13 +106,13 @@ export class CameraService {
     return new Promise((resolve, reject) => {
       permissionManager.requestPermissions('image').then(() => {
         const destroy = this.displayManager.show({
-          content: (<CameraView testID={"camera_view"} type={this.type} captureType={'image'} onSuccess={(o) => {
+          content: (<Camera testID={"camera_view"} type={this.type} captureType={'image'} onSuccess={(o) => {
             destroy.call(this.displayManager);
             o.content().catch(() => {}).then(base64 => {
               resolve({imagePath: o.uri, content: base64 || ''});
             });
           }} onCancel={() => {destroy.call(this.displayManager);}}
-          ></CameraView>)
+          ></Camera>)
         });
       }, reject);
     });
@@ -135,14 +135,14 @@ class CameraViewProps {
 class CameraViewState {
     recording: boolean = false;
     showActionBtns: boolean = false;
-    cameraType: CameraType = CameraType.back;
+    cameraType: CameraType = 'back';
     isCaptured: boolean = false;
     closeView: boolean = false;
     cameraContent: CameraOutput = {} as CameraOutput;
 }
 
-export class CameraView extends React.Component<CameraViewProps, CameraViewState> {
-  private camera: Camera = {} as Camera;
+export class Camera extends React.Component<CameraViewProps, CameraViewState> {
+  private camera: any = {};
 
   constructor(props: CameraViewProps) {
     super(props);
@@ -286,11 +286,11 @@ export class CameraView extends React.Component<CameraViewProps, CameraViewState
         {this.state.isCaptured ? (
           this.getPreviewTemplate(actions)
         ) : (
-          <Camera type={CameraType[this.state.cameraType]} ref={(ref: Camera) => { this.camera = ref; }}
+          <CameraView facing={this.state.cameraType} ref={(ref) => { this.camera = ref; }}
               style={{flex: 1}}
               onCameraReady={() => {}}>
 
-          </Camera>)}
+          </CameraView>)}
         {actions}
       </View>)
   }

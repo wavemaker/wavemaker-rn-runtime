@@ -27,6 +27,7 @@ export default interface AppConfig {
     getServiceDefinitions: any;
     loggedInUser: any;
     selectedLocale: string;
+    revertLayoutToExpo50: boolean,
     diagnostics: {
         appStartTime: number,
         appReadyTime: number,

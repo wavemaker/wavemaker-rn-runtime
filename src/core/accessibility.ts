@@ -103,7 +103,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.LINECHART:
     case AccessibilityWidgetType.SLIDER:
     case AccessibilityWidgetType.VIDEO: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
       props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityRole = accessibilityProps.accessibilityrole;
 
@@ -155,7 +155,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     }
 
     case AccessibilityWidgetType.CHIPS: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
       props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityState = {
         disabled: accessibilityProps.disabled,
@@ -173,7 +173,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     }
 
     case AccessibilityWidgetType.CHECKBOX: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
       props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityState = {
         disabled: accessibilityProps.readonly ||  accessibilityProps.disabled,
@@ -183,7 +183,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     }
 
     case AccessibilityWidgetType.SWITCH: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
       props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityState = {
         disabled: accessibilityProps.disabled,
@@ -193,7 +193,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     }
     case AccessibilityWidgetType.PROGRESSBAR:
     case AccessibilityWidgetType.PROGRESSCIRCLE: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption;
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
       props.accessibilityRole = accessibilityProps.accessibilityrole;
       break;
     }
@@ -206,4 +206,3 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
 
   return finalProps;
 }
-  

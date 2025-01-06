@@ -16,4 +16,11 @@ export default class WmVideoProps extends BaseProps {
     accessibilitylabel?: string = undefined;
     hint?: string = undefined;
     accessibilityrole?: AccessibilityRole;
+    onFullscreenEnter: (() => void) | null = null;
+    onFullscreenExit: (() => void) | null = null;
+    requiresLinearPlayback: boolean = true;
+    isLive: boolean = false;
+    playing: boolean = false;
+    showNowPlayingNotification: boolean = false;
+    allowsPictureInPicture: boolean = false;
 }

@@ -1,6 +1,7 @@
 import Color from 'color';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { Platform } from 'react-native';
 
 export type WmProgressBarStyles = BaseStyles & {
     progressBar : AllStyle,
@@ -33,4 +34,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     addStyle('app-info-progress-bar', '', getStyle(themeVariables.progressBarInfoColor));
     addStyle('app-danger-progress-bar', '', getStyle(themeVariables.progressBarDangerColor));
     addStyle('app-warning-progress-bar', '', getStyle(themeVariables.progressBarWarningColor));
+    addStyle(DEFAULT_CLASS + '-rtl', '',  Platform.OS =='ios' ? {
+        progressBar: {
+            transform: [{scale: -1}]
+        }
+    }: {})
 });

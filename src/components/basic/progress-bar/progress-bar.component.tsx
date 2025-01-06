@@ -22,7 +22,7 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
     let value = (props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue);
     const styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
     const {hasLinearGradient, color1, color2, start, end} = parseLinearGradient(styles?.root?.progressBar?.backgroundColor as string);
-    const gradientColors = [color1, color2];
+    const gradientColors: [string, string, ...string[]] = [color1, color2];
     const valuePercent = `${Math.round(value * 100)}%`;
 
     return (
@@ -32,7 +32,7 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
         <ProgressBar
           {...this.getTestPropsForAction('progressbar')}
           {...getAccessibilityProps(AccessibilityWidgetType.PROGRESSBAR, props)}
-          progress={value}
+          animatedValue={value}
           color={styles.progressValue.color}
           style={[styles.progressBar, {height: styles.root.height || styles.progressBar.height}]}></ProgressBar>
           {hasLinearGradient ? (

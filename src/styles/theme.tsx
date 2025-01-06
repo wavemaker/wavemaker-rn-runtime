@@ -8,6 +8,8 @@ import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core
 import MediaQueryList from './MediaQueryList';
 import ThemeVariables from './theme.variables';
 import { getErrorMessage, getStyleReference, isValidStyleProp } from './style-prop.validator';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
 
 declare const matchMedia: any, window: any;
@@ -55,15 +57,22 @@ export class Theme {
     private cache: any = {};
 
     private traceEnabled = false;
+    
+    private revertLayoutToExpo50: Boolean;
 
     private styleGenerators: styleGeneratorFn<any>[] = [];
 
     private constructor(private parent:Theme, public readonly name: string) {
+        this.revertLayoutToExpo50 = this.getAppConfig()?.revertLayoutToExpo50 || false;
         if (parent) {
             this.traceEnabled = parent.traceEnabled;
         } else {
             this.traceEnabled = isWebPreviewMode();
         }
+    }
+
+    private getAppConfig() {
+        return injector.get<AppConfig>('APP_CONFIG');
     }
 
     public enableTrace(flag: boolean) {
@@ -206,6 +215,39 @@ export class Theme {
             style['paddingTop'] = style['paddingTop'] || style['padding'];
             style['paddingBottom'] = style['paddingBottom'] || style['padding'];
             delete style['padding'];
+        }
+        if (this.revertLayoutToExpo50 && !isNil(style['flexDirection']) && style['flexDirection'] === 'row-reverse') {
+            if (!isNil(style['paddingLeft']) || !isNil(style['paddingRight'])) {
+                if (!isNil(style['paddingLeft']) && !isNil(style['paddingRight'])) {
+                  [style['paddingLeft'], style['paddingRight']] = [style['paddingRight'], style['paddingLeft']];
+                } else {
+                  const [paddingLeft, paddingRight] = [style['paddingLeft'], style['paddingRight']];
+                  if (paddingLeft !== undefined) {
+                    style['paddingRight'] = paddingLeft;
+                    delete style['paddingLeft'];
+                  }
+                  if (paddingRight !== undefined) {
+                    style['paddingLeft'] = paddingRight;
+                    delete style['paddingRight'];
+                  }
+                }
+              }
+        
+              if (!isNil(style['marginLeft']) || !isNil(style['marginRight'])) {
+                if (!isNil(style['marginLeft']) && !isNil(style['marginRight'])) {
+                  [style['marginLeft'], style['marginRight']] = [style['marginRight'], style['marginLeft']];
+                } else {
+                  const [marginLeft, marginRight] = [style['marginLeft'], style['marginRight']];
+                  if (marginLeft !== undefined) {
+                    style['marginRight'] = marginLeft;
+                    delete style['marginLeft'];
+                  }
+                  if (marginRight !== undefined) {
+                    style['marginLeft'] = marginRight;
+                    delete style['marginRight'];
+                  }
+                }
+              }        
         }
         let screenWidth = Dimensions.get('window').width;
         let screenHeight = Dimensions.get('window').height;
@@ -407,7 +449,8 @@ export const ThemeConsumer = ThemeContext.Consumer;
         root: {
             width: 0,
             height: 0,
-            transform: [{ scale: 0 }]
+            transform: [{ scale: 0 }],
+            overflow: 'hidden'
         }
     });
     addStyle('bg-danger', '', { root: { backgroundColor: themeVariables.dangerColor }});
