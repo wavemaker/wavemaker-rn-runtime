@@ -110,7 +110,7 @@ describe('WmCarousel Component', () => {
         </View>,
       ],
     });
-    const childElementWithLayout = tree.toJSON().children[0];
+    const childElementWithLayout = tree.toJSON()[1].children[0];
 
     fireEvent(childElementWithLayout, 'layout', {
       nativeEvent: {
@@ -507,7 +507,7 @@ describe('WmCarousel Component', () => {
         },
       },
     });
-    const rootEle = tree.root;
+    const rootEle = tree.toJSON()[1];
 
     expect(rootEle).toHaveStyle({
       position: 'relative',

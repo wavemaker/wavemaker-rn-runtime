@@ -81,3 +81,105 @@ exports[`Test Video component renders component with default props 1`] = `
   </View>,
 ]
 `;
+
+exports[`WmVideo Component Tests renders component with default props 1`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
+      {
+        "height": 300,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      allowsPictureInPicture={false}
+      contentFit="contain"
+      nativeControls={false}
+      onFullscreenEnter={null}
+      onFullscreenExit={null}
+      requiresLinearPlayback={true}
+      style={
+        {
+          "flex": 1,
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+      testID="undefined_video"
+    />
+    <Image
+      accessibilityHint="undefined_poster"
+      accessibilityLabel="undefined_poster"
+      accessibilityRole="undefined_poster"
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      resizeMode="cover"
+      source="resources/images/imagelists/default-image.png"
+      style={
+        {
+          "bottom": 0,
+          "height": "100%",
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+          "width": "100%",
+        }
+      }
+      testID="undefined_video_poster"
+    />
+  </View>,
+]
+`;
+
+exports[`WmVideo Component Tests renders skeleton loader when video is not ready 1`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "height": 300,
+        "overflow": "hidden",
+        "width": "100%",
+      }
+    }
+  />,
+]
+`;
