@@ -34,9 +34,4 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     addStyle('app-info-progress-bar', '', getStyle(themeVariables.progressBarInfoColor));
     addStyle('app-danger-progress-bar', '', getStyle(themeVariables.progressBarDangerColor));
     addStyle('app-warning-progress-bar', '', getStyle(themeVariables.progressBarWarningColor));
-    addStyle(DEFAULT_CLASS + '-rtl', '',  Platform.OS =='ios' ? {
-        progressBar: {
-            transform: [{scale: -1}]
-        }
-    }: {})
 });
