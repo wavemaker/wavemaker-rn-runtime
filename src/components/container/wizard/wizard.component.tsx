@@ -77,14 +77,35 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
 
   updateCurrentStep(index: number, isDone = false) {
     const lastStep = this.state.currentStep;
+    let nextStep = index
     this.steps[this.state.currentStep]?.setInActive();
+
+    // check for next available step if next or prev steps show prop is false
+    if(!this.steps[nextStep].state.props.show){
+      if(lastStep < nextStep){
+        for(let i = nextStep + 1; i < this.steps.length; i++){
+          if(this.steps[i].state.props.show) {
+            nextStep = i;
+            break;
+          }
+        }
+      }else if(lastStep > nextStep) {
+        for(let i = nextStep - 1; i >= 0; i--){
+          if(this.steps[i].state.props.show) {
+            nextStep = i;
+            break;
+          }
+        }
+      }
+    }
+
     this.updateState({
-      currentStep: index,
+      currentStep: nextStep,
       isDone: isDone
     } as WmWizardState, () => {
       this.showActiveStep();
-      if (lastStep !== index) {
-        this.invokeEventCallback('onChange', [null, this.proxy, index + 1, lastStep + 1]);
+      if (lastStep !== nextStep) {
+        this.invokeEventCallback('onChange', [null, this.proxy, nextStep + 1, lastStep + 1]);
       }
     });
   }
@@ -154,7 +175,11 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   stepConnectorWidth(isFirstOrLastConnector: boolean, stepIndex: number): DimensionValue {
-    if((stepIndex + 2) === this.steps.length && !this.steps[stepIndex + 1].props.show){
+    if(
+      (stepIndex + 2) === this.steps.length && 
+      this.steps[stepIndex + 1].state.props && 
+      !this.steps[stepIndex + 1].state.props.show
+    ){
       return '50%';
     }
     return isFirstOrLastConnector ? '50%' : '100%';
@@ -252,7 +277,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   done($event: any) {
-    if (this.state.currentStep !== this.steps.length - 1) {
+    if (this.state.currentStep !== this.lastStepIndex()) {
       return;
     }
     this.updateState({
@@ -272,6 +297,16 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   getBackground(): React.JSX.Element | null {
     return this._showSkeleton ? null : this._background
   } 
+
+  lastStepIndex(): number {
+    let lastStep = 0;
+    for(let i = 0; i < this.steps.length; i++) {
+      if(this.steps[i].state.props.show) {
+        lastStep = i;
+      }
+    }
+    return lastStep;
+  }
   
   public renderSkeleton(props: WmWizardProps): React.ReactNode {
       if(!props.showskeletonchildren) {
@@ -306,11 +341,11 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         </View>
         <View style={[this.styles.wizardFooter,
           {flexDirection: props.actionsalignment === 'right' ? 'row-reverse': 'row'}]}>
-          {(this.state.currentStep+1) === this.numberOfSteps && activeStep.state.props.showdone &&
+          {(this.state.currentStep) === this.lastStepIndex() && activeStep.state.props.showdone &&
             <WmButton iconclass={'wm-sl-l sl-check'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.doneButton)}
               id = {this.getTestId('donebtn')} caption={props.donebtnlabel} onTap={this.done.bind(this)} disabled={activeStep.state.props.disabledone}></WmButton>
           }
-          {(this.state.currentStep+1) < this.numberOfSteps && activeStep.state.props.shownext &&
+          {(this.state.currentStep) < this.lastStepIndex() && activeStep.state.props.shownext &&
             <WmButton iconclass={'wi wi-chevron-right'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.nextButton)}
                 id = {this.getTestId('nextbtn')}
                       iconposition={'right'} caption={props.nextbtnlabel} onTap={this.next.bind(this)} disabled={activeStep.state.props.disablenext}></WmButton>
