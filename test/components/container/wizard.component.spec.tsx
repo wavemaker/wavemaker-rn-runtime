@@ -202,6 +202,90 @@ describe('Test Wizard component', () => {
     });
   });
 
+  test('should skip the hidden steps when pressed next or prev button', async () => {
+    const steps = [
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={0}
+        index={0}
+        title="Step 1"
+        name="step1"
+        enableskip={true}
+      >
+        <Text>Content of Step 1</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={1}
+        index={1}
+        title="Step 2"
+        name="step2"
+        enableskip={true}
+      >
+        <Text>Content of Step 2</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={2}
+        index={2}
+        title="Step 3"
+        name="step3"
+        enableskip={true}
+        show={false}
+      >
+      <Text>Content of Step 3</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={3}
+        index={3}
+        title="Step 4"
+        name="step4"
+        enableskip={true}
+      >
+      <Text>Content of Step 4</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={4}
+        index={4}
+        title="Step 5"
+        name="step5"
+        enableskip={true}
+        show={true}
+      >
+      <Text>Content of Step 5</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={5}
+        index={5}
+        title="Step 6"
+        name="step6"
+        enableskip={true}
+        show={true}
+      >
+      <Text>Content of Step 6</Text>
+      </WmWizardstep>,
+    ];
+    
+    const customRef = createRef<WmWizard>();
+    renderComponent({ children: steps, ref: customRef });
+    await timer();
+
+    const nextButton = screen.getByTestId('test_wizard_nextbtn_a');
+    fireEvent(nextButton, 'press');
+    await timer();
+    fireEvent(nextButton, 'press');
+    await timer();
+    fireEvent(nextButton, 'press');
+    await timer();
+
+    await waitFor(() => {
+      expect(customRef.current?.state.currentStep).toBe(3)
+    })
+  })
+
   it('should call onSkip callback when the skip button is clicked', async () => {
     const invokeEventCallbackMock = jest.spyOn(
       WmWizard.prototype,
@@ -709,9 +793,9 @@ describe('Test Wizard component', () => {
     expect(screen).toMatchSnapshot();
 
     expect(renderSkeletonSpy).toHaveBeenCalled();
-    const viewElement = tree.root;
+    const viewElement = tree.toJSON()[1];
     expect(viewElement.props.style.backgroundColor).toBe('#eeeeee');
-    expect(viewElement.props.children[0].props.style).toContainEqual({
+    expect(viewElement.children[0].props.style).toContainEqual({
       opacity: 0,
     });
     renderSkeletonSpy.mockRestore();

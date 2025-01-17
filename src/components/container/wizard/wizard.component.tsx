@@ -81,7 +81,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     this.steps[this.state.currentStep]?.setInActive();
 
     // check for next available step if next or prev steps show prop is false
-    if(!this.steps[nextStep].state.props.show){
+    if(this.steps[nextStep]?.state && !this.steps[nextStep].state.props.show){
       if(lastStep < nextStep){
         for(let i = nextStep + 1; i < this.steps.length; i++){
           if(this.steps[i].state.props.show) {
@@ -175,11 +175,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   stepConnectorWidth(isFirstOrLastConnector: boolean, stepIndex: number): DimensionValue {
-    if(
-      (stepIndex + 2) === this.steps.length && 
-      this.steps[stepIndex + 1].state.props && 
-      !this.steps[stepIndex + 1].state.props.show
-    ){
+    if(stepIndex === this.lastStepIndex()){
       return '50%';
     }
     return isFirstOrLastConnector ? '50%' : '100%';
@@ -234,14 +230,16 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             {this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
-        {this.numberOfSteps > 1 && 
+        {this.getTotalVisibleSteps() > 1 &&
           item.state.props.show &&
           <View 
             style={[
               this.styles.stepConnector, 
               {
                 width: this.stepConnectorWidth(isFirstStep || isLastStep, index),
-                left: Platform.OS === "web" ? (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? '50%': '0%': isFirstStep ? '50%': '0%'
+                left: Platform.OS === "web" ?
+                  (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? 
+                  '50%': '0%': isFirstStep ? '50%': '0%'
               }
             ]}
           ></View>
@@ -303,6 +301,16 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     for(let i = 0; i < this.steps.length; i++) {
       if(this.steps[i].state.props.show) {
         lastStep = i;
+      }
+    }
+    return lastStep;
+  }
+
+  getTotalVisibleSteps(): number {
+    let lastStep = 0;
+    for(let i = 0; i < this.steps.length; i++) {
+      if(this.steps[i].state.props.show) {
+        lastStep++;
       }
     }
     return lastStep;
