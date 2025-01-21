@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Image, TouchableWithoutFeedback } from 'react-native';
-import { VideoView, createVideoPlayer } from 'expo-video';
 import {
   BaseComponent,
   BaseComponentState,
@@ -13,6 +12,7 @@ import {
 } from '@wavemaker/app-rn-runtime/core/accessibility';
 import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { VideoConsumer } from '@wavemaker/app-rn-runtime/core/device/av-service';
 
 export class WmVideoState extends BaseComponentState<WmVideoProps> {
   isVideoReady: boolean = false;
@@ -25,6 +25,7 @@ export default class WmVideo extends BaseComponent<
   WmVideoStyles
 > {
   private player: any;
+  private videoService: any = null as any;
 
   constructor(props: WmVideoProps) {
     super(props, DEFAULT_CLASS, new WmVideoProps(), new WmVideoState());
@@ -113,7 +114,7 @@ export default class WmVideo extends BaseComponent<
     const { mp4format, webmformat, autoplay } = this.state.props;
     const videoSource = this.getSource(mp4format || webmformat) ;
 
-    this.player = createVideoPlayer(videoSource);
+    this.player = this.videoService?.createVideoPlayer(videoSource);
     this.player.addListener(
       'playingChange',
       this.playingStatusChange.bind(this)
@@ -146,27 +147,35 @@ export default class WmVideo extends BaseComponent<
     const { playStarted } = this.state;
     const isPlaying = playStarted || this.state.props.autoplay;
 
+    
     return (
-      <View style={this.styles.root}>
-        {this._background}
-        <VideoView
-          {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
-          style={{ width: '100%', height: '100%', flex: 1 }}
-          player={this.player}
-          nativeControls={props.controls}
-          contentFit={'contain'}
-          testID={this.getTestId('video')}
-          allowsPictureInPicture={allowsPictureInPicture}
-          onFullscreenEnter={onFullscreenEnter}
-          onFullscreenExit={onFullscreenExit}
-          requiresLinearPlayback={requiresLinearPlayback}
-        />
-        {!isPlaying && videoposter ? (
-          this.renderVideoPoster(props)
-        ) : (
-          <></>
-        )}
-      </View>
+      <VideoConsumer>
+      {(videoService: any) => {
+        this.videoService = videoService;
+        const VideoView = videoService?.VideoView;
+        return (
+          <View style={this.styles.root}>
+            {this._background}
+            <VideoView
+              {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
+              style={{ width: '100%', height: '100%', flex: 1 }}
+              player={this.player}
+              nativeControls={props.controls}
+              contentFit={'contain'}
+              testID={this.getTestId('video')}
+              allowsPictureInPicture={allowsPictureInPicture}
+              onFullscreenEnter={onFullscreenEnter}
+              onFullscreenExit={onFullscreenExit}
+              requiresLinearPlayback={requiresLinearPlayback}
+            />
+            {!isPlaying && videoposter ? (
+              this.renderVideoPoster(props)
+            ) : (
+              <></>
+            )}
+          </View>
+        )}}
+      </VideoConsumer>
     );
   }
 }
