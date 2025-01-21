@@ -6,8 +6,9 @@ import WmCameraProps from './camera.props';
 import { DEFAULT_CLASS, WmCameraStyles } from './camera.styles';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import { CaptureImageOutput } from '@wavemaker/app-rn-runtime/variables/device/camera/capture-image.operation';
-import { CameraConsumer, CameraInput, CameraService } from "@wavemaker/app-rn-runtime/core/device/camera-service";
+import { CameraConsumer, CameraInput, CameraService, CameraVideoInput } from "@wavemaker/app-rn-runtime/core/device/camera-service";
 import { CaptureVideoOutput } from '@wavemaker/app-rn-runtime/variables/device/camera/capture-video.operation';
+import { PermissionConsumer, PermissionService } from '@wavemaker/app-rn-runtime/runtime/services/device/permission-service';
 
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
@@ -15,6 +16,7 @@ export class WmCameraState extends BaseComponentState<WmCameraProps> {}
 
 export default class WmCamera extends BaseComponent<WmCameraProps, WmCameraState, WmCameraStyles> {
   private camera: CameraService = null as any;
+  private permissionService: PermissionService = null as any;
   public localFile: string = '';
   constructor(props: WmCameraProps) {
     super(props, DEFAULT_CLASS, new WmCameraProps());
@@ -28,14 +30,18 @@ export default class WmCamera extends BaseComponent<WmCameraProps, WmCameraState
         imageQuality: props.imagequality,
         imageEncodingType: props.imageencodingtype,
         imageTargetWidth: props.imagetargetwidth,
-        imageTargetHeight: props.imagetargetheight
+        imageTargetHeight: props.imagetargetheight,
+        permissionService: this.permissionService
       };
 
       this.camera.captureImage(params).then((res: CaptureImageOutput) => {
         this.updateModel(null, res.imagePath, res.content);
       });
     } else {
-      this.camera.captureVideo().then((res: CaptureVideoOutput) => {
+      const params: CameraVideoInput = {
+        permissionService: this.permissionService
+      };
+      this.camera.captureVideo(params).then((res: CaptureVideoOutput) => {
         this.updateModel(null, res.videoPath, res.content);
       });
     }
@@ -61,7 +67,10 @@ export default class WmCamera extends BaseComponent<WmCameraProps, WmCameraState
       hint: props.hint,
     }
     return (
-          <CameraConsumer>
+      <PermissionConsumer>
+        {(permissionService: PermissionService) => {
+          this.permissionService = permissionService;
+          return (<CameraConsumer>
               {(cameraService: CameraService) => {
               {this._background}
               this.camera = cameraService;
@@ -69,7 +78,9 @@ export default class WmCamera extends BaseComponent<WmCameraProps, WmCameraState
                 <WmButton id={this.getTestId('button')} caption={props.caption} iconclass={props.iconclass} iconsize={props.iconsize} iconposition={props.caption ? '' : 'left'} styles={this.styles.button} onTap={this.onCameraTap.bind(this)} {...accessibilityProps}></WmButton>
               </View>
             }}
-          </CameraConsumer>
+          </CameraConsumer>)
+        }}
+      </PermissionConsumer>
     );
   }
 }
