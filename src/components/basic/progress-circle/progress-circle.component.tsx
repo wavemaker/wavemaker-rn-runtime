@@ -46,7 +46,7 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
     return (
     <View style={styles.root} onLayout={this.onLayout.bind(this)} {...getAccessibilityProps(AccessibilityWidgetType.PROGRESSCIRCLE, props)} {...this.getTestPropsForAction('progresscircle')}>
       {this._background}
-      <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}}>
+      <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}} disableTouchEffect={this.state.props.disabletoucheffect}>
         <AnimatedCircularProgress
           fill={value}
           width={styles.progressValue.height}

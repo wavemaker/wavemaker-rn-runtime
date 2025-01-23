@@ -39,7 +39,7 @@ export default class WmTile extends BaseComponent<WmTileProps, WmTileState, WmTi
       ...this.styles.skeleton.root
      } : this.styles.root;
      
-    return (<Tappable {...this.getTestPropsForAction()} target={this}>
+    return (<Tappable {...this.getTestPropsForAction()} target={this} disableTouchEffect={this.state.props.disabletoucheffect}>
       <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={styles}>{this.getBackground()}{props.children}</Animatedview>
     </Tappable>);
   }

@@ -128,7 +128,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
           {this.props.data.map((header ,i) => {
             const isSelected = i === this.props.selectedTabIndex;
             return (
-              <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key} styles={{flex: 1}}>
+              <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key} styles={{flex: 1}} disableTouchEffect={this.state.props.disabletoucheffect}>
                 <View onLayout={this.setHeaderPositon.bind(this, i)} style={[
                   this.styles.header,
                   isSelected ? this.styles.activeHeader : null]}>
@@ -180,6 +180,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
               <Tappable onTap={this.onTabSelection.bind(this, i)}
                 {...this.getTestPropsForAction(i +'')}
                 key={header.key}
+                disableTouchEffect={this.state.props.disabletoucheffect}
                 styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
                 <View onLayout={this.setHeaderPositon.bind(this, i)}>
                   <View style={[

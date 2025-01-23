@@ -95,6 +95,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
         >
         {this._background}
         <Tappable
+          disableTouchEffect={this.state.props.disabletoucheffect}
           styles={{
             paddingTop: this.styles.root.paddingTop,
             paddingBottom: this.styles.root.paddingBottom,

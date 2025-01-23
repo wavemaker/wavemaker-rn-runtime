@@ -73,7 +73,7 @@ export default class WmCard extends BaseComponent<WmCardProps, WmCardState, WmCa
        return (
       <View style={this.styles.root}>
         {this._background}
-        <Tappable {...this.getTestPropsForAction()} target={this} styles={{width: '100%', height: this.styles.root.height ? '100%' : null}}>
+        <Tappable {...this.getTestPropsForAction()} target={this} styles={{width: '100%', height: this.styles.root.height ? '100%' : null}} disableTouchEffect={this.state.props.disabletoucheffect}>
             {this.renderHeader(props)}
             {props.children}
         </Tappable>

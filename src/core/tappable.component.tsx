@@ -23,6 +23,7 @@ interface TappableProps {
     onTouchEnd? : (e: any) => void;
     rippleColor?: string;
     accessibilityProps?: any;
+    disableTouchEffect?:boolean;
 }
 
 export class SyntheticEvent {
@@ -162,11 +163,12 @@ export class Tappable extends React.Component<TappableProps, any> {
                         <ParentTappableContext.Consumer>{(parent) => {
                             this.setParent(parent);
                             return( <ParentTappableContext.Provider value={this}>
-                    <TouchableRipple rippleColor={this.props.rippleColor} borderless={true} {...commonProps}>
+                    <TouchableRipple rippleColor={this.props.disableTouchEffect ? "transparent" : this.props.rippleColor} borderless={true} {...commonProps}>
                         <>{this.props.children}</>
                     </TouchableRipple>
                     </ParentTappableContext.Provider>)}}</ParentTappableContext.Consumer>): (
-                    <TouchableOpacity {...commonProps}>
+                        //default value is 0.2
+                    <TouchableOpacity activeOpacity={this.props.disableTouchEffect ? 1 : 0.2} {...commonProps}>
                         <>{this.props.children}</>
                     </TouchableOpacity>);
                 }}

@@ -57,6 +57,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     const isSelected = this.state.props.datafield === 'All Fields' ? isEqual(props.datavalue, item.datafield) : this.state.props.datavalue === item.datafield;
     return (
       <Tappable
+        disableTouchEffect={this.state.props.disabletoucheffect}
         {...this.getTestPropsForAction('button'+index)}
         accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.SWITCH, {selected: isSelected, hint: props?.hint})}}
         onTap={this.state.props.disabled ? undefined : this.onTap.bind(this, null, item)}
