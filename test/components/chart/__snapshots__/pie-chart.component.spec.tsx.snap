@@ -1,190 +1,202 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test PieChart component Should render component 1`] = `
-<View
-  accessible={true}
-  onLayout={[Function]}
-  style={
-    [
-      {
-        "opacity": 0,
-      },
-      {},
-    ]
-  }
->
+[
   <View
     onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    accessibilityHint="pie chart"
+    accessible={true}
+    onLayout={[Function]}
+    style={
+      [
+        {
+          "opacity": 0,
+        },
+        {},
+      ]
+    }
   >
+    <View
+      onLayout={[Function]}
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#333333",
+              "fontSize": 20,
+              "lineHeight": 24,
+              "paddingLeft": 10,
+            }
+          }
+        />
+      </View>
+      <Text
+        style={
+          {
+            "color": "#666666",
+            "fontSize": 12,
+            "lineHeight": 16,
+          }
+        }
+      />
+    </View>
+    <View
+      onLayout={[Function]}
+    >
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "justifyContent": "center",
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "padding": 4,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "height": 12,
+                  "width": 12,
+                },
+                {},
+                {
+                  "backgroundColor": "#1f77b4",
+                },
+              ]
+            }
+          />
+          <Text
+            style={
+              [
+                {
+                  "paddingLeft": 4,
+                },
+                {},
+              ]
+            }
+          >
+            Cats
+          </Text>
+        </View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "padding": 4,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "height": 12,
+                  "width": 12,
+                },
+                {},
+                {
+                  "backgroundColor": "#aec7e8",
+                },
+              ]
+            }
+          />
+          <Text
+            style={
+              [
+                {
+                  "paddingLeft": 4,
+                },
+                {},
+              ]
+            }
+          >
+            Dogs
+          </Text>
+        </View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "padding": 4,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "height": 12,
+                  "width": 12,
+                },
+                {},
+                {
+                  "backgroundColor": "#ff7f0e",
+                },
+              ]
+            }
+          />
+          <Text
+            style={
+              [
+                {
+                  "paddingLeft": 4,
+                },
+                {},
+              ]
+            }
+          >
+            Birds
+          </Text>
+        </View>
+      </View>
+    </View>
     <View
       style={
         {
           "alignItems": "center",
           "flexDirection": "row",
+          "justifyContent": "center",
         }
       }
     >
-      <Text
+      <View
         style={
           {
-            "color": "#333333",
-            "fontSize": 20,
-            "lineHeight": 24,
-            "paddingLeft": 10,
+            "flex": 1,
           }
         }
       />
     </View>
-    <Text
-      style={
-        {
-          "color": "#666666",
-          "fontSize": 12,
-          "lineHeight": 16,
-        }
-      }
-    />
-  </View>
-  <View
-    onLayout={[Function]}
-  >
-    <View
-      style={
-        [
-          {
-            "flexDirection": "row",
-            "flexWrap": "wrap",
-            "justifyContent": "center",
-          },
-        ]
-      }
-    >
-      <View
-        style={
-          {
-            "alignItems": "center",
-            "flexDirection": "row",
-            "padding": 4,
-          }
-        }
-      >
-        <View
-          style={
-            [
-              {
-                "height": 12,
-                "width": 12,
-              },
-              {},
-              {
-                "backgroundColor": "#1f77b4",
-              },
-            ]
-          }
-        />
-        <Text
-          style={
-            [
-              {
-                "paddingLeft": 4,
-              },
-              {},
-            ]
-          }
-        >
-          Cats
-        </Text>
-      </View>
-      <View
-        style={
-          {
-            "alignItems": "center",
-            "flexDirection": "row",
-            "padding": 4,
-          }
-        }
-      >
-        <View
-          style={
-            [
-              {
-                "height": 12,
-                "width": 12,
-              },
-              {},
-              {
-                "backgroundColor": "#aec7e8",
-              },
-            ]
-          }
-        />
-        <Text
-          style={
-            [
-              {
-                "paddingLeft": 4,
-              },
-              {},
-            ]
-          }
-        >
-          Dogs
-        </Text>
-      </View>
-      <View
-        style={
-          {
-            "alignItems": "center",
-            "flexDirection": "row",
-            "padding": 4,
-          }
-        }
-      >
-        <View
-          style={
-            [
-              {
-                "height": 12,
-                "width": 12,
-              },
-              {},
-              {
-                "backgroundColor": "#ff7f0e",
-              },
-            ]
-          }
-        />
-        <Text
-          style={
-            [
-              {
-                "paddingLeft": 4,
-              },
-              {},
-            ]
-          }
-        >
-          Birds
-        </Text>
-      </View>
-    </View>
-  </View>
-  <View
-    style={
-      {
-        "alignItems": "center",
-        "flexDirection": "row",
-        "justifyContent": "center",
-      }
-    }
-  >
-    <View
-      style={
-        {
-          "flex": 1,
-        }
-      }
-    />
-  </View>
-</View>
+  </View>,
+]
 `;

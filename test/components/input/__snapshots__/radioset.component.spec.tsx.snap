@@ -1,759 +1,835 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WmRadioset check the radiosetscroll prop works correctly 1`] = `
-<View
-  style={
-    [
+[
+  <View
+    onLayout={[Function]}
+    style={
       {
-        "color": "#4263eb",
-      },
-    ]
-  }
->
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
   <View
     style={
       [
         {
-          "flexDirection": "row",
-          "flexWrap": "wrap",
+          "color": "#4263eb",
         },
       ]
     }
   >
     <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
-        {
-          "alignContent": "center",
-          "flexDirection": "row",
-          "marginLeft": 16,
-          "marginTop": 8,
-          "opacity": 1,
-        }
-      }
-      testID="undefined_radio0"
-    >
-      <View>
-        <View
-          style={
-            {
-              "alignItems": "center",
-              "alignSelf": "flex-start",
-              "borderColor": "#4263eb",
-              "borderRadius": 10,
-              "borderStyle": "solid",
-              "borderWidth": 2,
-              "flexDirection": "row",
-              "height": 20,
-              "width": 20,
-            }
-          }
-          testID="non_animatableView"
-        >
-          <View>
-            <View>
-              <Text
-                accessible={false}
-                size={12}
-                style={
-                  [
-                    {
-                      "color": undefined,
-                    },
-                    {
-                      "opacity": 0,
-                      "paddingLeft": 0,
-                      "paddingRight": 8,
-                    },
-                    {
-                      "transform": [
-                        {
-                          "rotate": "0deg",
-                        },
-                      ],
-                    },
-                  ]
-                }
-                testID="undefined_radiobutton0_icon"
-              >
-                fiber-manual-record
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-      <Text
-        accessible={false}
-        style={
-          [
-            {
-              "alignSelf": "center",
-              "color": "#888888",
-              "fontFamily": "Roboto",
-              "fontSize": 16,
-              "marginLeft": 8,
-            },
-            null,
-          ]
-        }
-        testID="undefined_caption0"
-      >
-        name0
-      </Text>
-    </View>
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignContent": "center",
-          "flexDirection": "row",
-          "marginLeft": 16,
-          "marginTop": 8,
-          "opacity": 1,
-        }
-      }
-      testID="undefined_radio1"
-    >
-      <View>
-        <View
-          style={
-            {
-              "alignItems": "center",
-              "alignSelf": "flex-start",
-              "borderColor": "#4263eb",
-              "borderRadius": 10,
-              "borderStyle": "solid",
-              "borderWidth": 2,
-              "flexDirection": "row",
-              "height": 20,
-              "width": 20,
-            }
-          }
-          testID="non_animatableView"
-        >
-          <View>
-            <View>
-              <Text
-                accessible={false}
-                size={12}
-                style={
-                  [
-                    {
-                      "color": undefined,
-                    },
-                    {
-                      "opacity": 0,
-                      "paddingLeft": 0,
-                      "paddingRight": 8,
-                    },
-                    {
-                      "transform": [
-                        {
-                          "rotate": "0deg",
-                        },
-                      ],
-                    },
-                  ]
-                }
-                testID="undefined_radiobutton1_icon"
-              >
-                fiber-manual-record
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-      <Text
-        accessible={false}
-        style={
-          [
-            {
-              "alignSelf": "center",
-              "color": "#888888",
-              "fontFamily": "Roboto",
-              "fontSize": 16,
-              "marginLeft": 8,
-            },
-            null,
-          ]
-        }
-        testID="undefined_caption1"
-      >
-        name2
-      </Text>
-    </View>
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignContent": "center",
-          "flexDirection": "row",
-          "marginLeft": 16,
-          "marginTop": 8,
-          "opacity": 1,
-        }
-      }
-      testID="undefined_radio2"
-    >
-      <View>
-        <View
-          style={
-            {
-              "alignItems": "center",
-              "alignSelf": "flex-start",
-              "borderColor": "#4263eb",
-              "borderRadius": 10,
-              "borderStyle": "solid",
-              "borderWidth": 2,
-              "flexDirection": "row",
-              "height": 20,
-              "width": 20,
-            }
-          }
-          testID="non_animatableView"
-        >
-          <View>
-            <View>
-              <Text
-                accessible={false}
-                size={12}
-                style={
-                  [
-                    {
-                      "color": undefined,
-                    },
-                    {
-                      "opacity": 0,
-                      "paddingLeft": 0,
-                      "paddingRight": 8,
-                    },
-                    {
-                      "transform": [
-                        {
-                          "rotate": "0deg",
-                        },
-                      ],
-                    },
-                  ]
-                }
-                testID="undefined_radiobutton2_icon"
-              >
-                fiber-manual-record
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-      <Text
-        accessible={false}
-        style={
-          [
-            {
-              "alignSelf": "center",
-              "color": "#888888",
-              "fontFamily": "Roboto",
-              "fontSize": 16,
-              "marginLeft": 8,
-            },
-            null,
-          ]
-        }
-        testID="undefined_caption2"
-      >
-        name1
-      </Text>
-    </View>
-  </View>
-</View>
-`;
-
-exports[`WmRadioset renders correctly with default props 1`] = `
-<RCTScrollView
-  collapsable={false}
-  handlerTag={1}
-  handlerType="NativeViewGestureHandler"
-  onGestureHandlerEvent={[Function]}
-  onGestureHandlerStateChange={[Function]}
-  style={
-    {
-      "color": "#4263eb",
-    }
-  }
-  waitFor={
-    [
-      {
-        "current": null,
-      },
-    ]
-  }
->
-  <View>
-    <RCTScrollView
-      collapsable={false}
-      handlerTag={2}
-      handlerType="NativeViewGestureHandler"
-      horizontal={true}
-      onGestureHandlerEvent={[Function]}
-      onGestureHandlerStateChange={[Function]}
-      waitFor={
         [
           {
-            "current": null,
+            "flexDirection": "row",
+            "flexWrap": "wrap",
           },
         ]
       }
     >
-      <View>
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={false}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignContent": "center",
+            "flexDirection": "row",
+            "marginLeft": 16,
+            "marginTop": 8,
+            "opacity": 1,
+          }
+        }
+        testID="undefined_radio0"
+      >
         <View
-          accessibilityRole="radiogroup"
-        >
-          <View>
-            <Text
-              style={
-                {
-                  "backgroundColor": "transparent",
-                  "fontFamily": "Roboto",
-                  "fontSize": 16,
-                  "lineHeight": 40,
-                  "paddingLeft": 8,
-                  "paddingRight": 8,
-                }
+          onLayout={[Function]}
+          style={
+            {
+              "height": 0,
+              "width": 0,
+            }
+          }
+        />
+        <View>
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "alignSelf": "flex-start",
+                "borderColor": "#4263eb",
+                "borderRadius": 10,
+                "borderStyle": "solid",
+                "borderWidth": 2,
+                "flexDirection": "row",
+                "height": 20,
+                "width": 20,
               }
-            >
-              g1
-            </Text>
-            <View
-              style={{}}
-            >
-              <View
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={false}
-                collapsable={false}
-                focusable={true}
-                onClick={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  {
-                    "alignContent": "center",
-                    "flexDirection": "row",
-                    "marginRight": -20,
-                    "marginTop": 8,
-                    "opacity": 1,
-                    "width": "100%",
-                  }
-                }
-                testID="undefined_radio0"
-              >
-                <View>
-                  <View
-                    style={
-                      {
-                        "alignItems": "center",
-                        "alignSelf": "flex-start",
-                        "borderColor": "#4263eb",
-                        "borderRadius": 10,
-                        "borderStyle": "solid",
-                        "borderWidth": 2,
-                        "flexDirection": "row",
-                        "height": 20,
-                        "width": 20,
-                      }
-                    }
-                    testID="non_animatableView"
-                  >
-                    <View>
-                      <View>
-                        <Text
-                          accessible={false}
-                          size={12}
-                          style={
-                            [
-                              {
-                                "color": undefined,
-                              },
-                              {
-                                "opacity": 0,
-                                "paddingLeft": 0,
-                                "paddingRight": 8,
-                              },
-                              {
-                                "transform": [
-                                  {
-                                    "rotate": "0deg",
-                                  },
-                                ],
-                              },
-                            ]
-                          }
-                          testID="undefined_radiobutton0_icon"
-                        >
-                          fiber-manual-record
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
+            }
+            testID="non_animatableView"
+          >
+            <View>
+              <View>
                 <Text
                   accessible={false}
+                  size={12}
                   style={
                     [
                       {
-                        "alignSelf": "center",
-                        "color": "#888888",
-                        "fontFamily": "Roboto",
-                        "fontSize": 16,
-                        "marginLeft": 8,
+                        "color": undefined,
                       },
-                      null,
+                      {
+                        "opacity": 0,
+                        "paddingLeft": 0,
+                        "paddingRight": 8,
+                      },
+                      {
+                        "transform": [
+                          {
+                            "rotate": "0deg",
+                          },
+                        ],
+                      },
                     ]
                   }
-                  testID="undefined_caption0"
+                  testID="undefined_radiobutton0_icon"
                 >
-                  name0
-                </Text>
-              </View>
-              <View
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={false}
-                collapsable={false}
-                focusable={true}
-                onClick={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  {
-                    "alignContent": "center",
-                    "flexDirection": "row",
-                    "marginRight": -20,
-                    "marginTop": 8,
-                    "opacity": 1,
-                    "width": "100%",
-                  }
-                }
-                testID="undefined_radio1"
-              >
-                <View>
-                  <View
-                    style={
-                      {
-                        "alignItems": "center",
-                        "alignSelf": "flex-start",
-                        "borderColor": "#4263eb",
-                        "borderRadius": 10,
-                        "borderStyle": "solid",
-                        "borderWidth": 2,
-                        "flexDirection": "row",
-                        "height": 20,
-                        "width": 20,
-                      }
-                    }
-                    testID="non_animatableView"
-                  >
-                    <View>
-                      <View>
-                        <Text
-                          accessible={false}
-                          size={12}
-                          style={
-                            [
-                              {
-                                "color": undefined,
-                              },
-                              {
-                                "opacity": 0,
-                                "paddingLeft": 0,
-                                "paddingRight": 8,
-                              },
-                              {
-                                "transform": [
-                                  {
-                                    "rotate": "0deg",
-                                  },
-                                ],
-                              },
-                            ]
-                          }
-                          testID="undefined_radiobutton1_icon"
-                        >
-                          fiber-manual-record
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-                <Text
-                  accessible={false}
-                  style={
-                    [
-                      {
-                        "alignSelf": "center",
-                        "color": "#888888",
-                        "fontFamily": "Roboto",
-                        "fontSize": 16,
-                        "marginLeft": 8,
-                      },
-                      null,
-                    ]
-                  }
-                  testID="undefined_caption1"
-                >
-                  name2
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View>
-            <Text
-              style={
-                {
-                  "backgroundColor": "transparent",
-                  "fontFamily": "Roboto",
-                  "fontSize": 16,
-                  "lineHeight": 40,
-                  "paddingLeft": 8,
-                  "paddingRight": 8,
-                }
-              }
-            >
-              g2
-            </Text>
-            <View
-              style={{}}
-            >
-              <View
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": undefined,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={false}
-                collapsable={false}
-                focusable={true}
-                onClick={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  {
-                    "alignContent": "center",
-                    "flexDirection": "row",
-                    "marginRight": -20,
-                    "marginTop": 8,
-                    "opacity": 1,
-                    "width": "100%",
-                  }
-                }
-                testID="undefined_radio0"
-              >
-                <View>
-                  <View
-                    style={
-                      {
-                        "alignItems": "center",
-                        "alignSelf": "flex-start",
-                        "borderColor": "#4263eb",
-                        "borderRadius": 10,
-                        "borderStyle": "solid",
-                        "borderWidth": 2,
-                        "flexDirection": "row",
-                        "height": 20,
-                        "width": 20,
-                      }
-                    }
-                    testID="non_animatableView"
-                  >
-                    <View>
-                      <View>
-                        <Text
-                          accessible={false}
-                          size={16}
-                          style={
-                            [
-                              {
-                                "color": undefined,
-                              },
-                              {
-                                "color": "#4263eb",
-                                "paddingBottom": 0,
-                                "paddingLeft": 0,
-                                "paddingRight": 0,
-                                "paddingTop": 0,
-                              },
-                              {
-                                "transform": [
-                                  {
-                                    "rotate": "0deg",
-                                  },
-                                ],
-                              },
-                            ]
-                          }
-                          testID="undefined_radiobutton0_icon"
-                        >
-                          fiber-manual-record
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-                <Text
-                  accessible={false}
-                  style={
-                    [
-                      {
-                        "alignSelf": "center",
-                        "color": "#888888",
-                        "fontFamily": "Roboto",
-                        "fontSize": 16,
-                        "marginLeft": 8,
-                      },
-                      {},
-                    ]
-                  }
-                  testID="undefined_caption0"
-                >
-                  name1
+                  fiber-manual-record
                 </Text>
               </View>
             </View>
           </View>
         </View>
+        <Text
+          accessible={false}
+          style={
+            [
+              {
+                "alignSelf": "center",
+                "color": "#888888",
+                "fontFamily": "Roboto",
+                "fontSize": 16,
+                "marginLeft": 8,
+              },
+              null,
+            ]
+          }
+          testID="undefined_caption0"
+        >
+          name0
+        </Text>
       </View>
-    </RCTScrollView>
-  </View>
-</RCTScrollView>
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={false}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignContent": "center",
+            "flexDirection": "row",
+            "marginLeft": 16,
+            "marginTop": 8,
+            "opacity": 1,
+          }
+        }
+        testID="undefined_radio1"
+      >
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "height": 0,
+              "width": 0,
+            }
+          }
+        />
+        <View>
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "alignSelf": "flex-start",
+                "borderColor": "#4263eb",
+                "borderRadius": 10,
+                "borderStyle": "solid",
+                "borderWidth": 2,
+                "flexDirection": "row",
+                "height": 20,
+                "width": 20,
+              }
+            }
+            testID="non_animatableView"
+          >
+            <View>
+              <View>
+                <Text
+                  accessible={false}
+                  size={12}
+                  style={
+                    [
+                      {
+                        "color": undefined,
+                      },
+                      {
+                        "opacity": 0,
+                        "paddingLeft": 0,
+                        "paddingRight": 8,
+                      },
+                      {
+                        "transform": [
+                          {
+                            "rotate": "0deg",
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                  testID="undefined_radiobutton1_icon"
+                >
+                  fiber-manual-record
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <Text
+          accessible={false}
+          style={
+            [
+              {
+                "alignSelf": "center",
+                "color": "#888888",
+                "fontFamily": "Roboto",
+                "fontSize": 16,
+                "marginLeft": 8,
+              },
+              null,
+            ]
+          }
+          testID="undefined_caption1"
+        >
+          name2
+        </Text>
+      </View>
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={false}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignContent": "center",
+            "flexDirection": "row",
+            "marginLeft": 16,
+            "marginTop": 8,
+            "opacity": 1,
+          }
+        }
+        testID="undefined_radio2"
+      >
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "height": 0,
+              "width": 0,
+            }
+          }
+        />
+        <View>
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "alignSelf": "flex-start",
+                "borderColor": "#4263eb",
+                "borderRadius": 10,
+                "borderStyle": "solid",
+                "borderWidth": 2,
+                "flexDirection": "row",
+                "height": 20,
+                "width": 20,
+              }
+            }
+            testID="non_animatableView"
+          >
+            <View>
+              <View>
+                <Text
+                  accessible={false}
+                  size={12}
+                  style={
+                    [
+                      {
+                        "color": undefined,
+                      },
+                      {
+                        "opacity": 0,
+                        "paddingLeft": 0,
+                        "paddingRight": 8,
+                      },
+                      {
+                        "transform": [
+                          {
+                            "rotate": "0deg",
+                          },
+                        ],
+                      },
+                    ]
+                  }
+                  testID="undefined_radiobutton2_icon"
+                >
+                  fiber-manual-record
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <Text
+          accessible={false}
+          style={
+            [
+              {
+                "alignSelf": "center",
+                "color": "#888888",
+                "fontFamily": "Roboto",
+                "fontSize": 16,
+                "marginLeft": 8,
+              },
+              null,
+            ]
+          }
+          testID="undefined_caption2"
+        >
+          name1
+        </Text>
+      </View>
+    </View>
+  </View>,
+]
+`;
+
+exports[`WmRadioset renders correctly with default props 1`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <RCTScrollView
+    collapsable={false}
+    handlerTag={1}
+    handlerType="NativeViewGestureHandler"
+    onGestureHandlerEvent={[Function]}
+    onGestureHandlerStateChange={[Function]}
+    style={
+      {
+        "color": "#4263eb",
+      }
+    }
+    waitFor={
+      [
+        {
+          "current": null,
+        },
+      ]
+    }
+  >
+    <View>
+      <RCTScrollView
+        collapsable={false}
+        handlerTag={2}
+        handlerType="NativeViewGestureHandler"
+        horizontal={true}
+        onGestureHandlerEvent={[Function]}
+        onGestureHandlerStateChange={[Function]}
+        waitFor={
+          [
+            {
+              "current": null,
+            },
+          ]
+        }
+      >
+        <View>
+          <View
+            accessibilityRole="radiogroup"
+          >
+            <View>
+              <Text
+                style={
+                  {
+                    "backgroundColor": "transparent",
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "lineHeight": 40,
+                    "paddingLeft": 8,
+                    "paddingRight": 8,
+                  }
+                }
+              >
+                g1
+              </Text>
+              <View
+                style={{}}
+              >
+                <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={false}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    {
+                      "alignContent": "center",
+                      "flexDirection": "row",
+                      "marginRight": -20,
+                      "marginTop": 8,
+                      "opacity": 1,
+                      "width": "100%",
+                    }
+                  }
+                  testID="undefined_radio0"
+                >
+                  <View
+                    onLayout={[Function]}
+                    style={
+                      {
+                        "height": 0,
+                        "width": 0,
+                      }
+                    }
+                  />
+                  <View>
+                    <View
+                      style={
+                        {
+                          "alignItems": "center",
+                          "alignSelf": "flex-start",
+                          "borderColor": "#4263eb",
+                          "borderRadius": 10,
+                          "borderStyle": "solid",
+                          "borderWidth": 2,
+                          "flexDirection": "row",
+                          "height": 20,
+                          "width": 20,
+                        }
+                      }
+                      testID="non_animatableView"
+                    >
+                      <View>
+                        <View>
+                          <Text
+                            accessible={false}
+                            size={12}
+                            style={
+                              [
+                                {
+                                  "color": undefined,
+                                },
+                                {
+                                  "opacity": 0,
+                                  "paddingLeft": 0,
+                                  "paddingRight": 8,
+                                },
+                                {
+                                  "transform": [
+                                    {
+                                      "rotate": "0deg",
+                                    },
+                                  ],
+                                },
+                              ]
+                            }
+                            testID="undefined_radiobutton0_icon"
+                          >
+                            fiber-manual-record
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                  <Text
+                    accessible={false}
+                    style={
+                      [
+                        {
+                          "alignSelf": "center",
+                          "color": "#888888",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "marginLeft": 8,
+                        },
+                        null,
+                      ]
+                    }
+                    testID="undefined_caption0"
+                  >
+                    name0
+                  </Text>
+                </View>
+                <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={false}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    {
+                      "alignContent": "center",
+                      "flexDirection": "row",
+                      "marginRight": -20,
+                      "marginTop": 8,
+                      "opacity": 1,
+                      "width": "100%",
+                    }
+                  }
+                  testID="undefined_radio1"
+                >
+                  <View
+                    onLayout={[Function]}
+                    style={
+                      {
+                        "height": 0,
+                        "width": 0,
+                      }
+                    }
+                  />
+                  <View>
+                    <View
+                      style={
+                        {
+                          "alignItems": "center",
+                          "alignSelf": "flex-start",
+                          "borderColor": "#4263eb",
+                          "borderRadius": 10,
+                          "borderStyle": "solid",
+                          "borderWidth": 2,
+                          "flexDirection": "row",
+                          "height": 20,
+                          "width": 20,
+                        }
+                      }
+                      testID="non_animatableView"
+                    >
+                      <View>
+                        <View>
+                          <Text
+                            accessible={false}
+                            size={12}
+                            style={
+                              [
+                                {
+                                  "color": undefined,
+                                },
+                                {
+                                  "opacity": 0,
+                                  "paddingLeft": 0,
+                                  "paddingRight": 8,
+                                },
+                                {
+                                  "transform": [
+                                    {
+                                      "rotate": "0deg",
+                                    },
+                                  ],
+                                },
+                              ]
+                            }
+                            testID="undefined_radiobutton1_icon"
+                          >
+                            fiber-manual-record
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                  <Text
+                    accessible={false}
+                    style={
+                      [
+                        {
+                          "alignSelf": "center",
+                          "color": "#888888",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "marginLeft": 8,
+                        },
+                        null,
+                      ]
+                    }
+                    testID="undefined_caption1"
+                  >
+                    name2
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <Text
+                style={
+                  {
+                    "backgroundColor": "transparent",
+                    "fontFamily": "Roboto",
+                    "fontSize": 16,
+                    "lineHeight": 40,
+                    "paddingLeft": 8,
+                    "paddingRight": 8,
+                  }
+                }
+              >
+                g2
+              </Text>
+              <View
+                style={{}}
+              >
+                <View
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={false}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    {
+                      "alignContent": "center",
+                      "flexDirection": "row",
+                      "marginRight": -20,
+                      "marginTop": 8,
+                      "opacity": 1,
+                      "width": "100%",
+                    }
+                  }
+                  testID="undefined_radio0"
+                >
+                  <View
+                    onLayout={[Function]}
+                    style={
+                      {
+                        "height": 0,
+                        "width": 0,
+                      }
+                    }
+                  />
+                  <View>
+                    <View
+                      style={
+                        {
+                          "alignItems": "center",
+                          "alignSelf": "flex-start",
+                          "borderColor": "#4263eb",
+                          "borderRadius": 10,
+                          "borderStyle": "solid",
+                          "borderWidth": 2,
+                          "flexDirection": "row",
+                          "height": 20,
+                          "width": 20,
+                        }
+                      }
+                      testID="non_animatableView"
+                    >
+                      <View>
+                        <View>
+                          <Text
+                            accessible={false}
+                            size={16}
+                            style={
+                              [
+                                {
+                                  "color": undefined,
+                                },
+                                {
+                                  "color": "#4263eb",
+                                  "paddingBottom": 0,
+                                  "paddingLeft": 0,
+                                  "paddingRight": 0,
+                                  "paddingTop": 0,
+                                },
+                                {
+                                  "transform": [
+                                    {
+                                      "rotate": "0deg",
+                                    },
+                                  ],
+                                },
+                              ]
+                            }
+                            testID="undefined_radiobutton0_icon"
+                          >
+                            fiber-manual-record
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                  <Text
+                    accessible={false}
+                    style={
+                      [
+                        {
+                          "alignSelf": "center",
+                          "color": "#888888",
+                          "fontFamily": "Roboto",
+                          "fontSize": 16,
+                          "marginLeft": 8,
+                        },
+                        {},
+                      ]
+                    }
+                    testID="undefined_caption0"
+                  >
+                    name1
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </RCTScrollView>,
+]
 `;

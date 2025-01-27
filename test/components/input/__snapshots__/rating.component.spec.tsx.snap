@@ -1,438 +1,494 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WmRating renders correctly with default props 1`] = `
-<View
-  style={
-    {
-      "alignContent": "center",
-      "flexDirection": "row",
-      "paddingBottom": 8,
-      "paddingLeft": 8,
-      "paddingRight": 8,
-      "paddingTop": 8,
-    }
-  }
->
+[
   <View
-    accessibilityLabel=""
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    onLayout={[Function]}
     style={
-      [
-        {
-          "overflow": "hidden",
-        },
-        undefined,
-      ]
-    }
-    testID="undefined_star0_a"
-  >
-    <View
-      style={
-        {
-          "alignItems": "center",
-          "alignSelf": "flex-start",
-          "flexDirection": "row",
-        }
+      {
+        "height": 0,
+        "width": 0,
       }
-      testID="non_animatableView"
-    >
-      <View>
-        <View>
-          <Text
-            accessible={false}
-            size={32}
-            style={
-              [
-                {
-                  "color": "#aaaaaa",
-                },
-                {
-                  "paddingLeft": 0,
-                  "paddingRight": 8,
-                },
-                {
-                  "transform": [
-                    {
-                      "rotate": "0deg",
-                    },
-                  ],
-                },
-              ]
-            }
-            testID="undefined_star0_icon"
-          >
-            star-border
-          </Text>
-        </View>
-      </View>
-    </View>
-  </View>
+    }
+  />,
   <View
-    accessibilityLabel=""
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      [
-        {
-          "overflow": "hidden",
-        },
-        undefined,
-      ]
-    }
-    testID="undefined_star1_a"
-  >
-    <View
-      style={
-        {
-          "alignItems": "center",
-          "alignSelf": "flex-start",
-          "flexDirection": "row",
-        }
-      }
-      testID="non_animatableView"
-    >
-      <View>
-        <View>
-          <Text
-            accessible={false}
-            size={32}
-            style={
-              [
-                {
-                  "color": "#aaaaaa",
-                },
-                {
-                  "paddingLeft": 0,
-                  "paddingRight": 8,
-                },
-                {
-                  "transform": [
-                    {
-                      "rotate": "0deg",
-                    },
-                  ],
-                },
-              ]
-            }
-            testID="undefined_star1_icon"
-          >
-            star-border
-          </Text>
-        </View>
-      </View>
-    </View>
-  </View>
-  <View
-    accessibilityLabel=""
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      [
-        {
-          "overflow": "hidden",
-        },
-        undefined,
-      ]
-    }
-    testID="undefined_star2_a"
-  >
-    <View
-      style={
-        {
-          "alignItems": "center",
-          "alignSelf": "flex-start",
-          "flexDirection": "row",
-        }
-      }
-      testID="non_animatableView"
-    >
-      <View>
-        <View>
-          <Text
-            accessible={false}
-            size={32}
-            style={
-              [
-                {
-                  "color": "#aaaaaa",
-                },
-                {
-                  "paddingLeft": 0,
-                  "paddingRight": 8,
-                },
-                {
-                  "transform": [
-                    {
-                      "rotate": "0deg",
-                    },
-                  ],
-                },
-              ]
-            }
-            testID="undefined_star2_icon"
-          >
-            star-border
-          </Text>
-        </View>
-      </View>
-    </View>
-  </View>
-  <View
-    accessibilityLabel=""
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      [
-        {
-          "overflow": "hidden",
-        },
-        undefined,
-      ]
-    }
-    testID="undefined_star3_a"
-  >
-    <View
-      style={
-        {
-          "alignItems": "center",
-          "alignSelf": "flex-start",
-          "flexDirection": "row",
-        }
-      }
-      testID="non_animatableView"
-    >
-      <View>
-        <View>
-          <Text
-            accessible={false}
-            size={32}
-            style={
-              [
-                {
-                  "color": "#aaaaaa",
-                },
-                {
-                  "paddingLeft": 0,
-                  "paddingRight": 8,
-                },
-                {
-                  "transform": [
-                    {
-                      "rotate": "0deg",
-                    },
-                  ],
-                },
-              ]
-            }
-            testID="undefined_star3_icon"
-          >
-            star-border
-          </Text>
-        </View>
-      </View>
-    </View>
-  </View>
-  <View
-    accessibilityLabel=""
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
-    style={
-      [
-        {
-          "overflow": "hidden",
-        },
-        undefined,
-      ]
-    }
-    testID="undefined_star4_a"
-  >
-    <View
-      style={
-        {
-          "alignItems": "center",
-          "alignSelf": "flex-start",
-          "flexDirection": "row",
-        }
-      }
-      testID="non_animatableView"
-    >
-      <View>
-        <View>
-          <Text
-            accessible={false}
-            size={32}
-            style={
-              [
-                {
-                  "color": "#aaaaaa",
-                },
-                {
-                  "paddingLeft": 0,
-                  "paddingRight": 8,
-                },
-                {
-                  "transform": [
-                    {
-                      "rotate": "0deg",
-                    },
-                  ],
-                },
-              ]
-            }
-            testID="undefined_star4_icon"
-          >
-            star-border
-          </Text>
-        </View>
-      </View>
-    </View>
-  </View>
-  <Text
     style={
       {
-        "alignSelf": "center",
-        "color": "#eb8600",
-        "fontFamily": "Roboto",
+        "alignContent": "center",
+        "flexDirection": "row",
+        "paddingBottom": 8,
         "paddingLeft": 8,
-        "userSelect": "text",
+        "paddingRight": 8,
+        "paddingTop": 8,
       }
     }
-  />
-</View>
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "height": 0,
+          "width": 0,
+        }
+      }
+    />
+    <View
+      accessibilityLabel=""
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          undefined,
+        ]
+      }
+      testID="undefined_star0_a"
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={32}
+              style={
+                [
+                  {
+                    "color": "#aaaaaa",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="undefined_star0_icon"
+            >
+              star-border
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "height": 0,
+          "width": 0,
+        }
+      }
+    />
+    <View
+      accessibilityLabel=""
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          undefined,
+        ]
+      }
+      testID="undefined_star1_a"
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={32}
+              style={
+                [
+                  {
+                    "color": "#aaaaaa",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="undefined_star1_icon"
+            >
+              star-border
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "height": 0,
+          "width": 0,
+        }
+      }
+    />
+    <View
+      accessibilityLabel=""
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          undefined,
+        ]
+      }
+      testID="undefined_star2_a"
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={32}
+              style={
+                [
+                  {
+                    "color": "#aaaaaa",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="undefined_star2_icon"
+            >
+              star-border
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "height": 0,
+          "width": 0,
+        }
+      }
+    />
+    <View
+      accessibilityLabel=""
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          undefined,
+        ]
+      }
+      testID="undefined_star3_a"
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={32}
+              style={
+                [
+                  {
+                    "color": "#aaaaaa",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="undefined_star3_icon"
+            >
+              star-border
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "height": 0,
+          "width": 0,
+        }
+      }
+    />
+    <View
+      accessibilityLabel=""
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          undefined,
+        ]
+      }
+      testID="undefined_star4_a"
+    >
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "flexDirection": "row",
+          }
+        }
+        testID="non_animatableView"
+      >
+        <View>
+          <View>
+            <Text
+              accessible={false}
+              size={32}
+              style={
+                [
+                  {
+                    "color": "#aaaaaa",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="undefined_star4_icon"
+            >
+              star-border
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <Text
+      style={
+        {
+          "alignSelf": "center",
+          "color": "#eb8600",
+          "fontFamily": "Roboto",
+          "paddingLeft": 8,
+          "userSelect": "text",
+        }
+      }
+    />
+  </View>,
+]
 `;

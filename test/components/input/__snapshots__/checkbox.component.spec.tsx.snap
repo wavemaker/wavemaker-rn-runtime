@@ -99,112 +99,132 @@ exports[`WmCheckbox Unit tests does not respond to press events when disabled 1`
 `;
 
 exports[`WmCheckbox Unit tests renders correctly with default props 1`] = `
-<View
-  accessibilityLabel="Checkbox for Test Checkbox"
-  accessibilityRole="checkbox"
-  accessibilityState={
-    {
-      "busy": undefined,
-      "checked": false,
-      "disabled": undefined,
-      "expanded": undefined,
-      "selected": undefined,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-  accessibilityValue={
-    {
-      "max": undefined,
-      "min": undefined,
-      "now": undefined,
-      "text": undefined,
+  />,
+  <View
+    accessibilityLabel="Checkbox for Test Checkbox"
+    accessibilityRole="checkbox"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": false,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
     }
-  }
-  accessible={true}
-  collapsable={false}
-  focusable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
-  style={
-    {
-      "alignContent": "center",
-      "flexDirection": "row",
-      "opacity": 1,
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
     }
-  }
-  testID="null_a"
->
-  <View>
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignContent": "center",
+        "flexDirection": "row",
+        "opacity": 1,
+      }
+    }
+    testID="null_a"
+  >
     <View
+      onLayout={[Function]}
       style={
         {
-          "alignItems": "center",
-          "alignSelf": "flex-start",
-          "backgroundColor": "transparent",
-          "borderColor": "#999999",
-          "borderRadius": 4,
-          "borderWidth": 2,
-          "flexDirection": "row",
-          "height": 20,
-          "width": 20,
+          "height": 0,
+          "width": 0,
         }
       }
-      testID="non_animatableView"
-    >
-      <View>
+    />
+    <View>
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "backgroundColor": "transparent",
+            "borderColor": "#999999",
+            "borderRadius": 4,
+            "borderWidth": 2,
+            "flexDirection": "row",
+            "height": 20,
+            "width": 20,
+          }
+        }
+        testID="non_animatableView"
+      >
         <View>
-          <Text
-            accessible={false}
-            size={12}
-            style={
-              [
-                {
-                  "color": undefined,
-                },
-                {
-                  "color": "transparent",
-                  "paddingLeft": 0,
-                  "paddingRight": 8,
-                },
-                {
-                  "transform": [
-                    {
-                      "rotate": "0deg",
-                    },
-                  ],
-                },
-              ]
-            }
-            testID="null_checkbox_icon"
-          >
-            check
-          </Text>
+          <View>
+            <Text
+              accessible={false}
+              size={12}
+              style={
+                [
+                  {
+                    "color": undefined,
+                  },
+                  {
+                    "color": "transparent",
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="null_checkbox_icon"
+            >
+              check
+            </Text>
+          </View>
         </View>
       </View>
     </View>
-  </View>
-  <Text
-    accessible={false}
-    style={
-      [
-        {
-          "alignSelf": "center",
-          "color": "#888888",
-          "fontFamily": "Roboto",
-          "fontSize": 16,
-          "marginLeft": 8,
-          "userSelect": "text",
-        },
-        null,
-      ]
-    }
-    testID="null_l"
-  >
-    Test Checkbox
-  </Text>
-</View>
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "alignSelf": "center",
+            "color": "#888888",
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "marginLeft": 8,
+            "userSelect": "text",
+          },
+          null,
+        ]
+      }
+      testID="null_l"
+    >
+      Test Checkbox
+    </Text>
+  </View>,
+]
 `;

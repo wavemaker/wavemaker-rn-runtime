@@ -13,7 +13,7 @@ export default StyleSheet.create({
 
   },
   weekdays: {
-    margin: 10,
+    marginVertical: 10,
     color: 'white',
     width: screenWidth / 7 - 8,
     textAlign: 'center'

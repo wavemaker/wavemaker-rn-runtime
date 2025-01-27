@@ -141,22 +141,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       }
   });
 
-  addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=='android'?{
-    text : {
-      textAlign: 'right',
-      borderWidth: 1,
-      borderLeftWidth: 0,
-      borderRightWidth: 1,
-      borderTopRightRadius: 6,
-      borderBottomRightRadius: 6,
-    },
-    searchButton: {
-      root: {
-        borderTopRightRadius: 4,
-        borderBottomRightRadius: 4,
-      },
-    }
-  }:Platform.OS=='web'?{
+  addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=='web' || Platform.OS=='android' ?{
     text : {
       textAlign: 'right',
       borderWidth: 1,
@@ -164,15 +149,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderLeftWidth: 0,
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
-      borderTopRightRadius: 6,
-      borderBottomRightRadius: 6,
+      borderTopRightRadius: 28,
+      borderBottomRightRadius: 28,
     },
     searchButton: {
       root: {
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
-        borderTopLeftRadius: 4,
-        borderBottomLeftRadius: 4,
+        borderTopLeftRadius: 28,
+        borderBottomLeftRadius: 28,
       },
     },
     clearButton: {
@@ -185,6 +170,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   }:{
     text : {
       textAlign: 'right',
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+      borderTopRightRadius: 28,
+      borderBottomRightRadius: 28,
+      borderRightWidth: 1,
+      borderLeftWidth: 0,
     }
   });
 

@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import {
   render,
   fireEvent,
@@ -321,7 +321,8 @@ describe('Test Toggle component', () => {
     const setStateMock = jest.spyOn(WmToggle.prototype, 'setState');
     const tree = render(<WmToggle {...baseProps} />);
 
-    fireEvent(tree.root, 'layout', {
+    const comp = tree.UNSAFE_getAllByType(View)?.[1]
+    fireEvent(comp, 'layout', {
       nativeEvent: {
         layout: {
           width: 50,
@@ -335,7 +336,7 @@ describe('Test Toggle component', () => {
    //skeleton loader
   test('should render skeleton with respect to provided styles when show skeleton is true', () => {
     const tree = render(<WmToggle {...baseProps} showskeleton={true}  />)
-    const root = tree.root;
+    const root = tree.toJSON()?.[1];
     expect(root.props.style.width).toBe(52);
     expect(root.props.style.height).toBe(32);
     expect(root.props.style.borderRadius).toBe(18);

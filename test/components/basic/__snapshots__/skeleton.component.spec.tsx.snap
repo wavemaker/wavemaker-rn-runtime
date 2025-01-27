@@ -304,15 +304,463 @@ exports[`Test Skeleton component renders WmSkeleton with custom layout 1`] = `
 `;
 
 exports[`Test Skeleton component should not render gradient component when animate state remains false:  1`] = `
-<View
-  onLayout={[Function]}
-  style={
-    {
-      "backgroundColor": "#eeeeee",
-      "overflow": "hidden",
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  2`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  3`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  4`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  5`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  6`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  7`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  8`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  9`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  10`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  11`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  12`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  13`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  14`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  15`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  16`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  17`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  18`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  19`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Skeleton component should not render gradient component when animate state remains false:  20`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "overflow": "hidden",
+      }
+    }
+  />,
+]
 `;
 
 exports[`Test Skeleton component should not visible when show prop is false 1`] = `

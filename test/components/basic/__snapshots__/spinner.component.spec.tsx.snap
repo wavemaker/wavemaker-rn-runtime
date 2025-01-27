@@ -1,69 +1,91 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Spinner component renders lottie player correctly on web 1`] = `
-<View
-  style={
-    {
-      "alignItems": "center",
-      "flexDirection": "row",
-      "justifyContent": "center",
-    }
-  }
->
-  <Text
-    accessibilityLabel="test-spinner_l"
+[
+  <View
+    onLayout={[Function]}
     style={
       {
-        "fontFamily": "Roboto",
-        "fontSize": 16,
-        "paddingLeft": 8,
-        "userSelect": "text",
+        "height": 0,
+        "width": 0,
       }
     }
-    testID="test-spinner_l"
+  />,
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
   >
-    Loading...
-  </Text>
-</View>
+    <Text
+      accessibilityLabel="test-spinner_l"
+      style={
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "paddingLeft": 8,
+          "userSelect": "text",
+        }
+      }
+      testID="test-spinner_l"
+    >
+      Loading...
+    </Text>
+  </View>,
+]
 `;
 
 exports[`Spinner component renders with image when image is provided 1`] = `
-<View
-  style={
-    {
-      "alignItems": "center",
-      "flexDirection": "row",
-      "justifyContent": "center",
-    }
-  }
->
-  <View>
-    <Text>
-      test-spinner_picture
-    </Text>
-    <Image
-      source={
-        {
-          "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
-        }
-      }
-    />
-  </View>
-  <Text
-    accessible={false}
+[
+  <View
+    onLayout={[Function]}
     style={
       {
-        "fontFamily": "Roboto",
-        "fontSize": 16,
-        "paddingLeft": 8,
-        "userSelect": "text",
+        "height": 0,
+        "width": 0,
       }
     }
-    testID="test-spinner_l"
+  />,
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
   >
-    Loading...
-  </Text>
-</View>
+    <View>
+      <Text>
+        test-spinner_picture
+      </Text>
+      <Image
+        source={
+          {
+            "uri": "https://www.wavemaker.com/wp-content/uploads/2024/02/WaveMaker-Logo-1.svg",
+          }
+        }
+      />
+    </View>
+    <Text
+      accessible={false}
+      style={
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "paddingLeft": 8,
+          "userSelect": "text",
+        }
+      }
+      testID="test-spinner_l"
+    >
+      Loading...
+    </Text>
+  </View>,
+]
 `;
 
 exports[`Spinner component renders with lottie when lottie is provided 1`] = `
@@ -118,161 +140,201 @@ exports[`Spinner component renders with lottie when lottie is provided 1`] = `
 `;
 
 exports[`Spinner component should render component with default props 1`] = `
-<View
-  style={
-    {
-      "alignItems": "center",
-      "flexDirection": "row",
-      "justifyContent": "center",
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
->
-  <View>
+  />,
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
     <View
+      onLayout={[Function]}
       style={
         {
-          "alignItems": "center",
-          "alignSelf": "flex-start",
-          "flexDirection": "row",
+          "height": 0,
+          "width": 0,
         }
       }
-      testID="non_animatableView"
-    >
+    />
+    <View>
       <View
-        collapsable={false}
         style={
           {
-            "transform": [
-              {
-                "rotate": "0deg",
-              },
-            ],
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "flexDirection": "row",
           }
         }
+        testID="non_animatableView"
       >
-        <View>
-          <Text
-            accessible={false}
-            size={30}
-            style={
-              [
+        <View
+          collapsable={false}
+          style={
+            {
+              "transform": [
                 {
-                  "color": "#4263eb",
+                  "rotate": "0deg",
                 },
-                {
-                  "paddingLeft": 0,
-                  "paddingRight": 8,
-                },
-                {
-                  "transform": [
-                    {
-                      "rotate": "0deg",
-                    },
-                  ],
-                },
-              ]
+              ],
             }
-            testID="test-spinner_icon_icon"
-          >
-            circle-o-notch
-          </Text>
+          }
+        >
+          <View>
+            <Text
+              accessible={false}
+              size={30}
+              style={
+                [
+                  {
+                    "color": "#4263eb",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="test-spinner_icon_icon"
+            >
+              circle-o-notch
+            </Text>
+          </View>
         </View>
       </View>
     </View>
-  </View>
-  <Text
-    accessible={false}
-    style={
-      {
-        "fontFamily": "Roboto",
-        "fontSize": 16,
-        "paddingLeft": 8,
-        "userSelect": "text",
+    <Text
+      accessible={false}
+      style={
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "paddingLeft": 8,
+          "userSelect": "text",
+        }
       }
-    }
-    testID="test-spinner_l"
-  >
-    Loading...
-  </Text>
-</View>
+      testID="test-spinner_l"
+    >
+      Loading...
+    </Text>
+  </View>,
+]
 `;
 
 exports[`Spinner component should render component with icon when iconclass is provided 1`] = `
-<View
-  style={
-    {
-      "alignItems": "center",
-      "flexDirection": "row",
-      "justifyContent": "center",
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
->
-  <View>
+  />,
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+  >
     <View
+      onLayout={[Function]}
       style={
         {
-          "alignItems": "center",
-          "alignSelf": "flex-start",
-          "flexDirection": "row",
+          "height": 0,
+          "width": 0,
         }
       }
-      testID="non_animatableView"
-    >
+    />
+    <View>
       <View
-        collapsable={false}
         style={
           {
-            "transform": [
-              {
-                "rotate": "0deg",
-              },
-            ],
+            "alignItems": "center",
+            "alignSelf": "flex-start",
+            "flexDirection": "row",
           }
         }
+        testID="non_animatableView"
       >
-        <View>
-          <Text
-            accessible={false}
-            size={30}
-            style={
-              [
+        <View
+          collapsable={false}
+          style={
+            {
+              "transform": [
                 {
-                  "color": "#4263eb",
+                  "rotate": "0deg",
                 },
-                {
-                  "paddingLeft": 0,
-                  "paddingRight": 8,
-                },
-                {
-                  "transform": [
-                    {
-                      "rotate": "0deg",
-                    },
-                  ],
-                },
-              ]
+              ],
             }
-            testID="test-spinner_icon_icon"
-          >
-            edit
-          </Text>
+          }
+        >
+          <View>
+            <Text
+              accessible={false}
+              size={30}
+              style={
+                [
+                  {
+                    "color": "#4263eb",
+                  },
+                  {
+                    "paddingLeft": 0,
+                    "paddingRight": 8,
+                  },
+                  {
+                    "transform": [
+                      {
+                        "rotate": "0deg",
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="test-spinner_icon_icon"
+            >
+              edit
+            </Text>
+          </View>
         </View>
       </View>
     </View>
-  </View>
-  <Text
-    accessible={false}
-    style={
-      {
-        "fontFamily": "Roboto",
-        "fontSize": 16,
-        "paddingLeft": 8,
-        "userSelect": "text",
+    <Text
+      accessible={false}
+      style={
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "paddingLeft": 8,
+          "userSelect": "text",
+        }
       }
-    }
-    testID="test-spinner_l"
-  >
-    Loading...
-  </Text>
-</View>
+      testID="test-spinner_l"
+    >
+      Loading...
+    </Text>
+  </View>,
+]
 `;

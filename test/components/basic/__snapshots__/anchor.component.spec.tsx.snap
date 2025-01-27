@@ -1,1373 +1,2724 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test Anchor component handles icon related styles and properties correctly 1`] = `
-<View
-  style={
-    {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-  testID="non_animatableView"
->
+  />,
   <View
     style={
-      [
-        {
-          "alignItems": "center",
-          "color": "#151420",
-          "flexDirection": "row",
-          "overflow": "visible",
-        },
-        null,
-        {
-          "flexDirection": "row",
-        },
-      ]
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
     }
+    testID="non_animatableView"
   >
-    <View>
-      <View
-        style={
+    <View
+      style={
+        [
           {
             "alignItems": "center",
-            "alignSelf": "center",
+            "color": "#151420",
             "flexDirection": "row",
+            "overflow": "visible",
+          },
+          null,
+          {
+            "flexDirection": "row",
+          },
+        ]
+      }
+    >
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "height": 0,
+            "width": 0,
           }
         }
-        testID="non_animatableView"
-      >
-        <Image
-          source={
-            {
-              "uri": "https://docs.wavemaker.com/learn/img/WM_blue_logo.png",
-            }
-          }
+      />
+      <View>
+        <View
           style={
             {
-              "height": 20,
-              "margin": 10,
-              "width": 20,
+              "alignItems": "center",
+              "alignSelf": "center",
+              "flexDirection": "row",
             }
           }
-          testID="test-anchor_icon_icon"
-        />
+          testID="non_animatableView"
+        >
+          <Image
+            source={
+              {
+                "uri": "https://docs.wavemaker.com/learn/img/WM_blue_logo.png",
+              }
+            }
+            style={
+              {
+                "height": 20,
+                "margin": 10,
+                "width": 20,
+              }
+            }
+            testID="test-anchor_icon_icon"
+          />
+        </View>
       </View>
-    </View>
-    <Text
-      accessibilityLabel="anchor"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
+      <Text
+        accessibilityLabel="anchor"
+        accessibilityRole="link"
+        accessible={true}
+        style={
+          {
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "textDecorationLine": "underline",
+            "userSelect": "text",
+          }
         }
-      }
-      testID="test-anchor_caption"
-    >
-      Link
-    </Text>
-  </View>
-</View>
+        testID="test-anchor_caption"
+      >
+        Link
+      </Text>
+    </View>
+  </View>,
+]
 `;
 
 exports[`Test Anchor component renders icon as per given iconClass and iconPosition 1`] = `
-<View
-  animation="bounce"
-  collapsable={false}
-  delay={null}
-  duration={200}
-  style={
-    {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
-    }
-  }
-  testID="animatableView"
-  useNativeDriver={true}
->
+[
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    onLayout={[Function]}
     style={
-      [
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    animation="bounce"
+    collapsable={false}
+    delay={null}
+    duration={200}
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="animatableView"
+    useNativeDriver={true}
+  >
+    <View
+      accessibilityState={
         {
-          "overflow": "hidden",
-        },
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
         [
           {
-            "alignItems": "center",
-            "color": "#151420",
-            "flexDirection": "row",
-            "overflow": "visible",
+            "overflow": "hidden",
           },
-          null,
-          {
-            "flexDirection": "column",
-          },
-        ],
-      ]
-    }
-    testID="test-anchor_a"
-  >
-    <View>
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "column",
+            },
+          ],
+        ]
+      }
+      testID="test-anchor_a"
+    >
       <View
+        onLayout={[Function]}
         style={
           {
-            "alignItems": "center",
-            "alignSelf": "center",
-            "flexDirection": "row",
+            "height": 0,
+            "width": 0,
           }
         }
-        testID="non_animatableView"
-      >
-        <View>
+      />
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
           <View>
-            <Text
-              accessible={false}
-              size={16}
-              style={
-                [
-                  {
-                    "color": "#151420",
-                  },
-                  {
-                    "paddingLeft": 0,
-                    "paddingRight": 8,
-                  },
-                  {
-                    "transform": [
-                      {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  },
-                ]
-              }
-              testID="test-anchor_icon_icon"
-            >
-              home
-            </Text>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#151420",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-anchor_icon_icon"
+              >
+                home
+              </Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
-    <Text
-      accessibilityLabel="wm-icon"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
+      <Text
+        accessibilityLabel="wm-icon"
+        accessibilityRole="link"
+        accessible={true}
+        style={
+          {
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "textDecorationLine": "underline",
+            "userSelect": "text",
+          }
         }
-      }
-      testID="test-anchor_caption"
-    >
-      Click here
-    </Text>
-  </View>
-</View>
+        testID="test-anchor_caption"
+      >
+        Click here
+      </Text>
+    </View>
+  </View>,
+]
 `;
 
 exports[`Test Anchor component should not render caption when falsy value is passed in caption 1`] = `
-<View
-  animation="bounce"
-  collapsable={false}
-  delay={null}
-  duration={200}
-  style={
-    {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
-    }
-  }
-  testID="animatableView"
-  useNativeDriver={true}
->
+[
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    onLayout={[Function]}
     style={
-      [
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    animation="bounce"
+    collapsable={false}
+    delay={null}
+    duration={200}
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="animatableView"
+    useNativeDriver={true}
+  >
+    <View
+      accessibilityState={
         {
-          "overflow": "hidden",
-        },
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
         [
           {
-            "alignItems": "center",
-            "color": "#151420",
-            "flexDirection": "row",
-            "overflow": "visible",
+            "overflow": "hidden",
           },
-          null,
-          {
-            "flexDirection": "row",
-          },
-        ],
-      ]
-    }
-    testID="test-anchor_a"
-  >
-    <View>
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "row",
+            },
+          ],
+        ]
+      }
+      testID="test-anchor_a"
+    >
       <View
+        onLayout={[Function]}
         style={
           {
-            "alignItems": "center",
-            "alignSelf": "center",
-            "flexDirection": "row",
+            "height": 0,
+            "width": 0,
           }
         }
-        testID="non_animatableView"
-      >
-        <View>
+      />
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
           <View>
-            <Text
-              accessible={false}
-              size={16}
-              style={
-                [
-                  {
-                    "color": "#151420",
-                  },
-                  {
-                    "paddingLeft": 0,
-                    "paddingRight": 8,
-                  },
-                  {
-                    "transform": [
-                      {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  },
-                ]
-              }
-              testID="test-anchor_icon_icon"
-            >
-              link
-            </Text>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#151420",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-anchor_icon_icon"
+              >
+                link
+              </Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
-    <Text
-      collapsable={false}
-      numberOfLines={1}
-      style={
-        {
-          "alignSelf": "flex-start",
-          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
-          "borderRadius": 10,
-          "color": "#151420",
-          "fontSize": 10,
-          "fontWeight": "bold",
-          "height": 20,
-          "lineHeight": 10,
-          "marginLeft": 0,
-          "marginTop": -12,
-          "minWidth": 20,
-          "opacity": 1,
-          "overflow": "hidden",
-          "paddingHorizontal": 3,
-          "textAlign": "center",
-          "textAlignVertical": "center",
+      <Text
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+            "borderRadius": 10,
+            "color": "#151420",
+            "fontSize": 10,
+            "fontWeight": "bold",
+            "height": 20,
+            "lineHeight": 10,
+            "marginLeft": 0,
+            "marginTop": -12,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
         }
-      }
-    >
-      5
-    </Text>
-  </View>
-</View>
+      >
+        5
+      </Text>
+    </View>
+  </View>,
+]
 `;
 
 exports[`Test Anchor component should render accessibility properties correctly 1`] = `
-<View
-  animation="bounce"
-  collapsable={false}
-  delay={null}
-  duration={200}
-  style={
-    {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
-    }
-  }
-  testID="animatableView"
-  useNativeDriver={true}
->
+[
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    onLayout={[Function]}
     style={
-      [
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    animation="bounce"
+    collapsable={false}
+    delay={null}
+    duration={200}
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="animatableView"
+    useNativeDriver={true}
+  >
+    <View
+      accessibilityState={
         {
-          "overflow": "hidden",
-        },
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
         [
           {
-            "alignItems": "center",
-            "color": "#151420",
-            "flexDirection": "row",
-            "overflow": "visible",
+            "overflow": "hidden",
           },
-          null,
-          {
-            "flexDirection": "column",
-          },
-        ],
-      ]
-    }
-    testID="test-anchor_a"
-  >
-    <View>
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "column",
+            },
+          ],
+        ]
+      }
+      testID="test-anchor_a"
+    >
       <View
+        onLayout={[Function]}
         style={
           {
-            "alignItems": "center",
-            "alignSelf": "center",
-            "flexDirection": "row",
+            "height": 0,
+            "width": 0,
           }
         }
-        testID="non_animatableView"
-      >
-        <View>
+      />
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
           <View>
-            <Text
-              accessible={false}
-              size={16}
-              style={
-                [
-                  {
-                    "color": "#151420",
-                  },
-                  {
-                    "paddingLeft": 0,
-                    "paddingRight": 8,
-                  },
-                  {
-                    "transform": [
-                      {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  },
-                ]
-              }
-              testID="test-anchor_icon_icon"
-            >
-              home
-            </Text>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#151420",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-anchor_icon_icon"
+              >
+                home
+              </Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
-    <Text
-      accessibilityHint="Go to example.com"
-      accessibilityLabel="Anchor"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
+      <Text
+        accessibilityHint="Go to example.com"
+        accessibilityLabel="Anchor"
+        accessibilityRole="link"
+        accessible={true}
+        style={
+          {
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "textDecorationLine": "underline",
+            "userSelect": "text",
+          }
         }
-      }
-      testID="test-anchor_caption"
-    >
-      Click here
-    </Text>
-  </View>
-</View>
+        testID="test-anchor_caption"
+      >
+        Click here
+      </Text>
+    </View>
+  </View>,
+]
 `;
 
 exports[`Test Anchor component should render anchor component 1`] = `
-<View
-  animation="bounce"
-  collapsable={false}
-  delay={null}
-  duration={200}
-  style={
-    {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
-    }
-  }
-  testID="animatableView"
-  useNativeDriver={true}
->
+[
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    onLayout={[Function]}
     style={
-      [
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    animation="bounce"
+    collapsable={false}
+    delay={null}
+    duration={200}
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="animatableView"
+    useNativeDriver={true}
+  >
+    <View
+      accessibilityState={
         {
-          "overflow": "hidden",
-        },
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
         [
           {
-            "alignItems": "center",
-            "color": "#151420",
-            "flexDirection": "row",
-            "overflow": "visible",
+            "overflow": "hidden",
           },
-          null,
-          {
-            "flexDirection": "row",
-          },
-        ],
-      ]
-    }
-    testID="test-anchor_a"
-  >
-    <View>
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "row",
+            },
+          ],
+        ]
+      }
+      testID="test-anchor_a"
+    >
       <View
+        onLayout={[Function]}
         style={
           {
-            "alignItems": "center",
-            "alignSelf": "center",
-            "flexDirection": "row",
+            "height": 0,
+            "width": 0,
           }
         }
-        testID="non_animatableView"
-      >
-        <View>
+      />
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
           <View>
-            <Text
-              accessible={false}
-              size={16}
-              style={
-                [
-                  {
-                    "color": "#151420",
-                  },
-                  {
-                    "paddingLeft": 0,
-                    "paddingRight": 8,
-                  },
-                  {
-                    "transform": [
-                      {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  },
-                ]
-              }
-              testID="test-anchor_icon_icon"
-            >
-              link
-            </Text>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#151420",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-anchor_icon_icon"
+              >
+                link
+              </Text>
+            </View>
           </View>
         </View>
       </View>
+      <Text
+        accessibilityLabel="Click here"
+        accessibilityRole="link"
+        accessible={true}
+        style={
+          {
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "textDecorationLine": "underline",
+            "userSelect": "text",
+          }
+        }
+        testID="test-anchor_caption"
+      >
+        Click here
+      </Text>
+      <Text
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+            "borderRadius": 10,
+            "color": "#151420",
+            "fontSize": 10,
+            "fontWeight": "bold",
+            "height": 20,
+            "lineHeight": 10,
+            "marginLeft": 0,
+            "marginTop": -12,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+      >
+        5
+      </Text>
     </View>
-    <Text
-      accessibilityLabel="Click here"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
-        }
-      }
-      testID="test-anchor_caption"
-    >
-      Click here
-    </Text>
-    <Text
-      collapsable={false}
-      numberOfLines={1}
-      style={
-        {
-          "alignSelf": "flex-start",
-          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
-          "borderRadius": 10,
-          "color": "#151420",
-          "fontSize": 10,
-          "fontWeight": "bold",
-          "height": 20,
-          "lineHeight": 10,
-          "marginLeft": 0,
-          "marginTop": -12,
-          "minWidth": 20,
-          "opacity": 1,
-          "overflow": "hidden",
-          "paddingHorizontal": 3,
-          "textAlign": "center",
-          "textAlignVertical": "center",
-        }
-      }
-    >
-      5
-    </Text>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Test Anchor component should render caption with default value as "Link" 1`] = `
-<View
-  animation="bounce"
-  collapsable={false}
-  delay={null}
-  duration={200}
-  style={
-    {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
-    }
-  }
-  testID="animatableView"
-  useNativeDriver={true}
->
+[
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    onLayout={[Function]}
     style={
-      [
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    animation="bounce"
+    collapsable={false}
+    delay={null}
+    duration={200}
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="animatableView"
+    useNativeDriver={true}
+  >
+    <View
+      accessibilityState={
         {
-          "overflow": "hidden",
-        },
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
         [
           {
-            "alignItems": "center",
-            "color": "#151420",
-            "flexDirection": "row",
-            "overflow": "visible",
+            "overflow": "hidden",
           },
-          null,
-          {
-            "flexDirection": "row",
-          },
-        ],
-      ]
-    }
-    testID="test-anchor_a"
-  >
-    <View>
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "row",
+            },
+          ],
+        ]
+      }
+      testID="test-anchor_a"
+    >
       <View
+        onLayout={[Function]}
         style={
           {
-            "alignItems": "center",
-            "alignSelf": "center",
-            "flexDirection": "row",
+            "height": 0,
+            "width": 0,
           }
         }
-        testID="non_animatableView"
-      >
-        <View>
+      />
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
           <View>
-            <Text
-              accessible={false}
-              size={16}
-              style={
-                [
-                  {
-                    "color": "#151420",
-                  },
-                  {
-                    "paddingLeft": 0,
-                    "paddingRight": 8,
-                  },
-                  {
-                    "transform": [
-                      {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  },
-                ]
-              }
-              testID="test-anchor_icon_icon"
-            >
-              link
-            </Text>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#151420",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-anchor_icon_icon"
+              >
+                link
+              </Text>
+            </View>
           </View>
         </View>
       </View>
+      <Text
+        accessibilityLabel="Link"
+        accessibilityRole="link"
+        accessible={true}
+        style={
+          {
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "textDecorationLine": "underline",
+            "userSelect": "text",
+          }
+        }
+        testID="test-anchor_caption"
+      >
+        Link
+      </Text>
+      <Text
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+            "borderRadius": 10,
+            "color": "#151420",
+            "fontSize": 10,
+            "fontWeight": "bold",
+            "height": 20,
+            "lineHeight": 10,
+            "marginLeft": 0,
+            "marginTop": -12,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+      >
+        5
+      </Text>
     </View>
-    <Text
-      accessibilityLabel="Link"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
-        }
-      }
-      testID="test-anchor_caption"
-    >
-      Link
-    </Text>
-    <Text
-      collapsable={false}
-      numberOfLines={1}
-      style={
-        {
-          "alignSelf": "flex-start",
-          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
-          "borderRadius": 10,
-          "color": "#151420",
-          "fontSize": 10,
-          "fontWeight": "bold",
-          "height": 20,
-          "lineHeight": 10,
-          "marginLeft": 0,
-          "marginTop": -12,
-          "minWidth": 20,
-          "opacity": 1,
-          "overflow": "hidden",
-          "paddingHorizontal": 3,
-          "textAlign": "center",
-          "textAlignVertical": "center",
-        }
-      }
-    >
-      5
-    </Text>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Test Anchor component should render icon to the left of caption when iconposition is "left" 1`] = `
-<View
-  animation="bounce"
-  collapsable={false}
-  delay={null}
-  duration={200}
-  style={
-    {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
-    }
-  }
-  testID="animatableView"
-  useNativeDriver={true}
->
+[
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    onLayout={[Function]}
     style={
-      [
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    animation="bounce"
+    collapsable={false}
+    delay={null}
+    duration={200}
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="animatableView"
+    useNativeDriver={true}
+  >
+    <View
+      accessibilityState={
         {
-          "overflow": "hidden",
-        },
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
         [
           {
-            "alignItems": "center",
-            "color": "#151420",
-            "flexDirection": "row",
-            "overflow": "visible",
+            "overflow": "hidden",
           },
-          null,
-          {
-            "flexDirection": "row",
-          },
-        ],
-      ]
-    }
-    testID="test-anchor_a"
-  >
-    <View>
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "row",
+            },
+          ],
+        ]
+      }
+      testID="test-anchor_a"
+    >
       <View
+        onLayout={[Function]}
         style={
           {
-            "alignItems": "center",
-            "alignSelf": "center",
-            "flexDirection": "row",
+            "height": 0,
+            "width": 0,
           }
         }
-        testID="non_animatableView"
-      >
-        <View>
+      />
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
           <View>
-            <Text
-              accessible={false}
-              size={16}
-              style={
-                [
-                  {
-                    "color": "#151420",
-                  },
-                  {
-                    "paddingLeft": 0,
-                    "paddingRight": 8,
-                  },
-                  {
-                    "transform": [
-                      {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  },
-                ]
-              }
-              testID="test-anchor_icon_icon"
-            >
-              link
-            </Text>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#151420",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-anchor_icon_icon"
+              >
+                link
+              </Text>
+            </View>
           </View>
         </View>
       </View>
+      <Text
+        accessibilityLabel="Click here"
+        accessibilityRole="link"
+        accessible={true}
+        style={
+          {
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "textDecorationLine": "underline",
+            "userSelect": "text",
+          }
+        }
+        testID="test-anchor_caption"
+      >
+        Click here
+      </Text>
+      <Text
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+            "borderRadius": 10,
+            "color": "#151420",
+            "fontSize": 10,
+            "fontWeight": "bold",
+            "height": 20,
+            "lineHeight": 10,
+            "marginLeft": 0,
+            "marginTop": -12,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+      >
+        5
+      </Text>
     </View>
-    <Text
-      accessibilityLabel="Click here"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
-        }
-      }
-      testID="test-anchor_caption"
-    >
-      Click here
-    </Text>
-    <Text
-      collapsable={false}
-      numberOfLines={1}
-      style={
-        {
-          "alignSelf": "flex-start",
-          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
-          "borderRadius": 10,
-          "color": "#151420",
-          "fontSize": 10,
-          "fontWeight": "bold",
-          "height": 20,
-          "lineHeight": 10,
-          "marginLeft": 0,
-          "marginTop": -12,
-          "minWidth": 20,
-          "opacity": 1,
-          "overflow": "hidden",
-          "paddingHorizontal": 3,
-          "textAlign": "center",
-          "textAlignVertical": "center",
-        }
-      }
-    >
-      5
-    </Text>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Test Anchor component should render icon to the right of caption when iconposition is "right" 1`] = `
-<View
-  animation="bounce"
-  collapsable={false}
-  delay={null}
-  duration={200}
-  style={
-    {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
-    }
-  }
-  testID="animatableView"
-  useNativeDriver={true}
->
+[
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    onLayout={[Function]}
     style={
-      [
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    animation="bounce"
+    collapsable={false}
+    delay={null}
+    duration={200}
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="animatableView"
+    useNativeDriver={true}
+  >
+    <View
+      accessibilityState={
         {
-          "overflow": "hidden",
-        },
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
         [
           {
-            "alignItems": "center",
-            "color": "#151420",
-            "flexDirection": "row",
-            "overflow": "visible",
+            "overflow": "hidden",
           },
-          null,
-          {
-            "flexDirection": "row",
-          },
-        ],
-      ]
-    }
-    testID="test-anchor_a"
-  >
-    <Text
-      accessibilityLabel="Click here"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
-        }
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "row",
+            },
+          ],
+        ]
       }
-      testID="test-anchor_caption"
+      testID="test-anchor_a"
     >
-      Click here
-    </Text>
-    <View>
-      <View
+      <Text
+        accessibilityLabel="Click here"
+        accessibilityRole="link"
+        accessible={true}
         style={
           {
-            "alignItems": "center",
-            "alignSelf": "center",
-            "flexDirection": "row",
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "textDecorationLine": "underline",
+            "userSelect": "text",
           }
         }
-        testID="non_animatableView"
+        testID="test-anchor_caption"
       >
-        <View>
+        Click here
+      </Text>
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "height": 0,
+            "width": 0,
+          }
+        }
+      />
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
           <View>
-            <Text
-              accessible={false}
-              size={16}
-              style={
-                [
-                  {
-                    "color": "#151420",
-                  },
-                  {
-                    "paddingLeft": 0,
-                    "paddingRight": 8,
-                  },
-                  {
-                    "transform": [
-                      {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  },
-                ]
-              }
-              testID="test-anchor_icon_icon"
-            >
-              link
-            </Text>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#151420",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-anchor_icon_icon"
+              >
+                link
+              </Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
-    <Text
-      collapsable={false}
-      numberOfLines={1}
-      style={
-        {
-          "alignSelf": "flex-start",
-          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
-          "borderRadius": 10,
-          "color": "#151420",
-          "fontSize": 10,
-          "fontWeight": "bold",
-          "height": 20,
-          "lineHeight": 10,
-          "marginLeft": 0,
-          "marginTop": -12,
-          "minWidth": 20,
-          "opacity": 1,
-          "overflow": "hidden",
-          "paddingHorizontal": 3,
-          "textAlign": "center",
-          "textAlignVertical": "center",
+      <Text
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+            "borderRadius": 10,
+            "color": "#151420",
+            "fontSize": 10,
+            "fontWeight": "bold",
+            "height": 20,
+            "lineHeight": 10,
+            "marginLeft": 0,
+            "marginTop": -12,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
         }
-      }
-    >
-      5
-    </Text>
-  </View>
-</View>
+      >
+        5
+      </Text>
+    </View>
+  </View>,
+]
 `;
 
 exports[`Test Anchor component should render icon to the top of caption when iconposition is "top" 1`] = `
-<View
-  animation="bounce"
-  collapsable={false}
-  delay={null}
-  duration={200}
-  style={
-    {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
-    }
-  }
-  testID="animatableView"
-  useNativeDriver={true}
->
+[
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    onLayout={[Function]}
     style={
-      [
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    animation="bounce"
+    collapsable={false}
+    delay={null}
+    duration={200}
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="animatableView"
+    useNativeDriver={true}
+  >
+    <View
+      accessibilityState={
         {
-          "overflow": "hidden",
-        },
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
         [
           {
-            "alignItems": "center",
-            "color": "#151420",
-            "flexDirection": "row",
-            "overflow": "visible",
+            "overflow": "hidden",
           },
-          null,
-          {
-            "flexDirection": "column",
-          },
-        ],
-      ]
-    }
-    testID="test-anchor_a"
-  >
-    <View>
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "column",
+            },
+          ],
+        ]
+      }
+      testID="test-anchor_a"
+    >
       <View
+        onLayout={[Function]}
         style={
           {
-            "alignItems": "center",
-            "alignSelf": "center",
-            "flexDirection": "row",
+            "height": 0,
+            "width": 0,
           }
         }
-        testID="non_animatableView"
-      >
-        <View>
+      />
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
           <View>
-            <Text
-              accessible={false}
-              size={16}
-              style={
-                [
-                  {
-                    "color": "#151420",
-                  },
-                  {
-                    "paddingLeft": 0,
-                    "paddingRight": 8,
-                  },
-                  {
-                    "transform": [
-                      {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  },
-                ]
-              }
-              testID="test-anchor_icon_icon"
-            >
-              link
-            </Text>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#151420",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-anchor_icon_icon"
+              >
+                link
+              </Text>
+            </View>
           </View>
         </View>
       </View>
+      <Text
+        accessibilityLabel="Click here"
+        accessibilityRole="link"
+        accessible={true}
+        style={
+          {
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "textDecorationLine": "underline",
+            "userSelect": "text",
+          }
+        }
+        testID="test-anchor_caption"
+      >
+        Click here
+      </Text>
+      <Text
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+            "borderRadius": 10,
+            "color": "#151420",
+            "fontSize": 10,
+            "fontWeight": "bold",
+            "height": 20,
+            "lineHeight": 10,
+            "marginLeft": 0,
+            "marginTop": -12,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+      >
+        5
+      </Text>
     </View>
-    <Text
-      accessibilityLabel="Click here"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
-        }
-      }
-      testID="test-anchor_caption"
-    >
-      Click here
-    </Text>
-    <Text
-      collapsable={false}
-      numberOfLines={1}
-      style={
-        {
-          "alignSelf": "flex-start",
-          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
-          "borderRadius": 10,
-          "color": "#151420",
-          "fontSize": 10,
-          "fontWeight": "bold",
-          "height": 20,
-          "lineHeight": 10,
-          "marginLeft": 0,
-          "marginTop": -12,
-          "minWidth": 20,
-          "opacity": 1,
-          "overflow": "hidden",
-          "paddingHorizontal": 3,
-          "textAlign": "center",
-          "textAlignVertical": "center",
-        }
-      }
-    >
-      5
-    </Text>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Test Anchor component should render skeleton when showskeleton is true 1`] = `
-<View
-  onLayout={[Function]}
-  style={
-    {
-      "backgroundColor": "#eeeeee",
-      "borderRadius": 4,
-      "height": "100",
-      "overflow": "hidden",
-      "width": "50",
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": "100",
+        "overflow": "hidden",
+        "width": "50",
+      }
+    }
+  />,
+]
 `;
 
 exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 1`] = `
-<View
-  onLayout={[Function]}
-  style={
-    {
-      "backgroundColor": "#eeeeee",
-      "borderRadius": 4,
-      "height": 80,
-      "overflow": "hidden",
-      "width": 80,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 2`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 3`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 4`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 5`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 6`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 7`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 8`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 9`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 10`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 11`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 12`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 13`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 14`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 15`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 16`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 17`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 18`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 19`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true and should take roots height and width 20`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 80,
+        "overflow": "hidden",
+        "width": 80,
+      }
+    }
+  />,
+]
 `;
 
 exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 1`] = `
-<View
-  onLayout={[Function]}
-  style={
-    {
-      "backgroundColor": "#eeeeee",
-      "borderRadius": 4,
-      "height": 88,
-      "overflow": "hidden",
-      "width": 89,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 2`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 3`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 4`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 5`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 6`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 7`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 8`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 9`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 10`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 11`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 12`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 13`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 14`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 15`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 16`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 17`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 18`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 19`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Anchor component should render skeleton when showskeleton is true with skeletonheight and skeletonwidth 20`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderRadius": 4,
+        "height": 88,
+        "overflow": "hidden",
+        "width": 89,
+      }
+    }
+  />,
+]
 `;
 
 exports[`Test Anchor component should render the badge correctly for badge value 1`] = `
-<View
-  animation="bounce"
-  collapsable={false}
-  delay={null}
-  duration={200}
-  style={
-    {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
-    }
-  }
-  testID="animatableView"
-  useNativeDriver={true}
->
+[
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": false,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
+    onLayout={[Function]}
     style={
-      [
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    animation="bounce"
+    collapsable={false}
+    delay={null}
+    duration={200}
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="animatableView"
+    useNativeDriver={true}
+  >
+    <View
+      accessibilityState={
         {
-          "overflow": "hidden",
-        },
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": false,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        [
+          {
+            "overflow": "hidden",
+          },
+          [
+            {
+              "alignItems": "center",
+              "color": "#151420",
+              "flexDirection": "row",
+              "overflow": "visible",
+            },
+            null,
+            {
+              "flexDirection": "row",
+            },
+          ],
+        ]
+      }
+      testID="test-anchor_a"
+    >
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "height": 0,
+            "width": 0,
+          }
+        }
+      />
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#151420",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-anchor_icon_icon"
+              >
+                link
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <Text
+        accessibilityLabel="Click here"
+        accessibilityRole="link"
+        accessible={true}
+        style={
+          {
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "textDecorationLine": "underline",
+            "userSelect": "text",
+          }
+        }
+        testID="test-anchor_caption"
+      >
+        Click here
+      </Text>
+      <Text
+        collapsable={false}
+        numberOfLines={1}
+        style={
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
+            "borderRadius": 10,
+            "color": "#151420",
+            "fontSize": 10,
+            "fontWeight": "bold",
+            "height": 20,
+            "lineHeight": 10,
+            "marginLeft": 0,
+            "marginTop": -12,
+            "minWidth": 20,
+            "opacity": 1,
+            "overflow": "hidden",
+            "paddingHorizontal": 3,
+            "textAlign": "center",
+            "textAlignVertical": "center",
+          }
+        }
+      >
+        10
+      </Text>
+    </View>
+  </View>,
+]
+`;
+
+exports[`Test Anchor component show render icon along with caption in anchor when iconclass and iconposition is provided in props 1`] = `
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
+      {
+        "height": undefined,
+        "justifyContent": "center",
+        "width": undefined,
+      }
+    }
+    testID="non_animatableView"
+  >
+    <View
+      style={
         [
           {
             "alignItems": "center",
@@ -1379,192 +2730,82 @@ exports[`Test Anchor component should render the badge correctly for badge value
           {
             "flexDirection": "row",
           },
-        ],
-      ]
-    }
-    testID="test-anchor_a"
-  >
-    <View>
+        ]
+      }
+    >
       <View
+        onLayout={[Function]}
         style={
           {
-            "alignItems": "center",
-            "alignSelf": "center",
-            "flexDirection": "row",
+            "height": 0,
+            "width": 0,
           }
         }
-        testID="non_animatableView"
-      >
-        <View>
+      />
+      <View>
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "flexDirection": "row",
+            }
+          }
+          testID="non_animatableView"
+        >
           <View>
-            <Text
-              accessible={false}
-              size={16}
-              style={
-                [
-                  {
-                    "color": "#151420",
-                  },
-                  {
-                    "paddingLeft": 0,
-                    "paddingRight": 8,
-                  },
-                  {
-                    "transform": [
-                      {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  },
-                ]
-              }
-              testID="test-anchor_icon_icon"
-            >
-              link
-            </Text>
+            <View>
+              <Text
+                accessible={false}
+                size={16}
+                style={
+                  [
+                    {
+                      "color": "#151420",
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="test-anchor_icon_icon"
+              >
+                link
+              </Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
-    <Text
-      accessibilityLabel="Click here"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
-        }
-      }
-      testID="test-anchor_caption"
-    >
-      Click here
-    </Text>
-    <Text
-      collapsable={false}
-      numberOfLines={1}
-      style={
-        {
-          "alignSelf": "flex-start",
-          "backgroundColor": "rgba(21, 20, 32, 0.19999999999999996)",
-          "borderRadius": 10,
-          "color": "#151420",
-          "fontSize": 10,
-          "fontWeight": "bold",
-          "height": 20,
-          "lineHeight": 10,
-          "marginLeft": 0,
-          "marginTop": -12,
-          "minWidth": 20,
-          "opacity": 1,
-          "overflow": "hidden",
-          "paddingHorizontal": 3,
-          "textAlign": "center",
-          "textAlignVertical": "center",
-        }
-      }
-    >
-      10
-    </Text>
-  </View>
-</View>
-`;
-
-exports[`Test Anchor component show render icon along with caption in anchor when iconclass and iconposition is provided in props 1`] = `
-<View
-  style={
-    {
-      "height": undefined,
-      "justifyContent": "center",
-      "width": undefined,
-    }
-  }
-  testID="non_animatableView"
->
-  <View
-    style={
-      [
-        {
-          "alignItems": "center",
-          "color": "#151420",
-          "flexDirection": "row",
-          "overflow": "visible",
-        },
-        null,
-        {
-          "flexDirection": "row",
-        },
-      ]
-    }
-  >
-    <View>
-      <View
+      <Text
+        accessibilityLabel="Test caption"
+        accessibilityRole="link"
+        accessible={true}
         style={
           {
-            "alignItems": "center",
-            "alignSelf": "center",
-            "flexDirection": "row",
+            "color": "#151420",
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "textDecorationLine": "underline",
+            "userSelect": "text",
           }
         }
-        testID="non_animatableView"
+        testID="test-anchor_caption"
       >
-        <View>
-          <View>
-            <Text
-              accessible={false}
-              size={16}
-              style={
-                [
-                  {
-                    "color": "#151420",
-                  },
-                  {
-                    "paddingLeft": 0,
-                    "paddingRight": 8,
-                  },
-                  {
-                    "transform": [
-                      {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  },
-                ]
-              }
-              testID="test-anchor_icon_icon"
-            >
-              link
-            </Text>
-          </View>
-        </View>
-      </View>
+        Test caption
+      </Text>
     </View>
-    <Text
-      accessibilityLabel="Test caption"
-      accessibilityRole="link"
-      accessible={true}
-      style={
-        {
-          "color": "#151420",
-          "fontFamily": "Roboto",
-          "fontSize": 18,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "textDecorationLine": "underline",
-          "userSelect": "text",
-        }
-      }
-      testID="test-anchor_caption"
-    >
-      Test caption
-    </Text>
-  </View>
-</View>
+  </View>,
+]
 `;
 
 exports[`Test Anchor component tappable component in anchor should take 100% of width and height when root height and with is provided  1`] = `

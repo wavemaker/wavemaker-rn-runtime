@@ -12,6 +12,7 @@ import {
 } from '@testing-library/react-native';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { VictoryPie, VictoryLabel } from 'victory-native';
+import { View } from 'react-native';
 
 //onLayout Methods
 const onViewLayout = (element, Width, Height) => {
@@ -43,7 +44,7 @@ const dataSet = [
   { x: 'Dogs', y: 40 },
   { x: 'Birds', y: 55 },
 ];
-const defaultProps = { dataset: dataSet, xaxisdatakey: 'x', yaxisdatakey: 'y' };
+const defaultProps = { dataset: dataSet, xaxisdatakey: 'x', yaxisdatakey: 'y', hint: 'donut chart' };
 
 describe('Test DonutChart component', () => {
   afterEach(() => {
@@ -54,13 +55,16 @@ describe('Test DonutChart component', () => {
   //it will render when default props is given and not renders when default props is not given
   it('Should render component', () => {
     const tree = renderComponent(defaultProps);
+    expect(Array.isArray(tree.toJSON())).toBe(true);
     expect(tree.toJSON()).not.toBeNull();
     expect(tree).toMatchSnapshot();
   });
 
   it('should render with null when props are not given', () => {
     const tree = renderComponent();
-    expect(tree.toJSON()).toBeNull();
+    
+    expect(Array.isArray(tree.toJSON())).toBe(false);
+    expect(tree.toJSON().children).toBeNull();
   });
 
   //should render with title, subheading, titlesIcon
@@ -253,9 +257,9 @@ describe('Test DonutChart component', () => {
     //updating the width
     const viewWidth = 500;
     const totalHeight = 300;
-    const root = screen.root;
+    const root = tree.getByAccessibilityHint(defaultProps.hint);
     onViewLayout(root, viewWidth, totalHeight);
-    const subChild = screen.root.children[0];
+    const subChild = tree.getByAccessibilityHint(defaultProps.hint).children[0];
     const infoHeight = 300;
     const legendHeight = 0;
     onInfoViewLayoutChange(subChild, infoHeight);
@@ -318,7 +322,8 @@ describe('Test DonutChart component', () => {
     //updating the width and height
     const viewWidth = 500;
     const totalHeight = 510;
-    onViewLayout(screen.root, viewWidth, totalHeight);
+    const root = tree.getByAccessibilityHint(defaultProps.hint);
+    onViewLayout(root, viewWidth, totalHeight);
     const chartWidth = viewWidth - (showlegend === 'right' ? legendWidth : 0);
     const chartHeight =
       (rootHeight ? totalHeight : chartWidth) -
@@ -408,14 +413,14 @@ describe('Test DonutChart component', () => {
 
     const viewWidth = 500;
     const totalHeight = 510;
-    const root = screen.root;
+    const root = tree.getByAccessibilityHint(defaultProps.hint);
     onViewLayout(root, viewWidth, totalHeight);
-    const subChild = screen.root.children[0];
+    const subChild = tree.getByAccessibilityHint(defaultProps.hint).children[0];
     const infoHeight = 300;
     const legendWidth = 300,
       legendHeight = 100;
     onInfoViewLayoutChange(subChild, infoHeight);
-    const child = screen.root.children;
+    const child = tree.getByAccessibilityHint(defaultProps.hint).children;
     const childOfSubChild = child[1].children[0].children[1];
     onViewLayout(childOfSubChild, legendWidth, legendHeight);
 
@@ -443,9 +448,9 @@ describe('Test DonutChart component', () => {
     //update width and height
     const viewWidth = 500;
     const totalHeight = 510;
-    const root = screen.root;
+    const root = tree.getByAccessibilityHint(defaultProps.hint);
     onViewLayout(root, viewWidth, totalHeight);
-    const child = screen.root.children;
+    const child = tree.getByAccessibilityHint(defaultProps.hint).children;
     const subChild = child[1].children[0].children[1];
     const legendwidth = 500,
       legendheight = 22;
@@ -466,7 +471,7 @@ describe('Test DonutChart component', () => {
 
     const viewWidth = 500;
     const totalHeight = 0;
-    const root = screen.root;
+    const root = tree.getByAccessibilityHint(defaultProps.hint);
     onViewLayout(root, viewWidth, totalHeight);
 
     await waitFor(() => {
@@ -475,7 +480,7 @@ describe('Test DonutChart component', () => {
 
     const legendWidth = 500,
       legendHeight = 22;
-    const child = screen.root.children[2];
+    const child = tree.getByAccessibilityHint(defaultProps.hint).children[2];
     onViewLayout(child, legendWidth, legendHeight);
 
     await waitFor(() => {
@@ -537,7 +542,8 @@ describe('Test DonutChart component', () => {
       ...defaultProps,
       labeltype: 'percent',
     });
-    fireEvent(screen.root, 'layout', {
+    const root = tree.getByAccessibilityHint(defaultProps.hint);
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 500,
@@ -557,7 +563,8 @@ describe('Test DonutChart component', () => {
       ...defaultProps,
       labeltype: 'key',
     });
-    fireEvent(screen.root, 'layout', {
+    const root = tree.getByAccessibilityHint(defaultProps.hint);
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 500,
@@ -577,7 +584,8 @@ describe('Test DonutChart component', () => {
       ...defaultProps,
       labeltype: 'value',
     });
-    fireEvent(screen.root, 'layout', {
+    const root = tree.getByAccessibilityHint(defaultProps.hint);
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 500,
@@ -597,7 +605,8 @@ describe('Test DonutChart component', () => {
       ...defaultProps,
       labeltype: 'key-value',
     });
-    fireEvent(screen.root, 'layout', {
+    const root = tree.getByAccessibilityHint(defaultProps.hint);
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 500,
@@ -621,7 +630,9 @@ describe('Test DonutChart component', () => {
       ...defaultProps,
       theme: 'Annabelle',
     });
-    fireEvent(screen.root, 'layout', {
+    const root = tree.getByAccessibilityHint(defaultProps.hint);
+
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 500,

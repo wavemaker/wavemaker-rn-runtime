@@ -82,7 +82,7 @@ describe('Test Anchor component', () => {
     expect(tree.queryByText('Test caption')).not.toBeNull();
   });
 
-  test('should not trigger navigation when there is no hyperlink', () => {
+  test('should not trigger navigation when there is no hyperlink', async () => {
     const onTapMock = jest.fn();
     const tree = renderComponent({
       id: 'test-anchor',
@@ -94,13 +94,13 @@ describe('Test Anchor component', () => {
     });
     fireEvent.press(tree.getByText('Click here'));
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(onTapMock).toHaveBeenCalled();
       expect(mockNavigationService.openUrl).not.toHaveBeenCalled();
     });
   });
 
-  test('should triggers onTap event prop', () => {
+  test('should triggers onTap event prop', async () => {
     const onTapMock = jest.fn();
     const tree = renderComponent({
       id: 'test-anchor',
@@ -111,12 +111,12 @@ describe('Test Anchor component', () => {
     });
     fireEvent.press(tree.getByText('Click here'));
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(onTapMock).toHaveBeenCalled();
     });
   });
 
-  test('should triggers onDoubleTap event prop', () => {
+  test('should triggers onDoubleTap event prop', async () => {
     const onTapMock = jest.fn();
     const tree = renderComponent({
       id: 'test-anchor',
@@ -128,12 +128,12 @@ describe('Test Anchor component', () => {
     fireEvent.press(tree.getByText('Click here'));
     fireEvent.press(tree.getByText('Click here'));
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(onTapMock).toHaveBeenCalled();
     });
   });
 
-  test('should triggers onLongTap event prop', () => {
+  test('should triggers onLongTap event prop', async () => {
     const onTapMock = jest.fn();
     const tree = renderComponent({
       id: 'test-anchor',
@@ -144,7 +144,7 @@ describe('Test Anchor component', () => {
     });
     fireEvent(tree.getByText('Click here'), 'longPress');
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(onTapMock).toHaveBeenCalled();
     });
   });

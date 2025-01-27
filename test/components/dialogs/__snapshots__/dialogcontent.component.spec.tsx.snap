@@ -47,89 +47,111 @@ exports[`Test Dialogcontent component should not show component when show is fal
 `;
 
 exports[`Test Dialogcontent component should render component 1`] = `
-<RCTScrollView
-  collapsable={false}
-  contentContainerStyle={
-    [
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <RCTScrollView
+    collapsable={false}
+    contentContainerStyle={
+      [
+        {
+          "maxHeight": 1143,
+          "minHeight": 80,
+          "paddingBottom": 16,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 16,
+        },
+        {
+          "maxHeight": undefined,
+        },
+      ]
+    }
+    handlerTag={1}
+    handlerType="NativeViewGestureHandler"
+    onGestureHandlerEvent={[Function]}
+    onGestureHandlerStateChange={[Function]}
+    onScroll={[Function]}
+    scrollEventThrottle={48}
+    style={
       {
         "maxHeight": 1143,
-        "minHeight": 80,
-        "paddingBottom": 16,
-        "paddingLeft": 16,
-        "paddingRight": 16,
-        "paddingTop": 16,
-      },
-      {
-        "maxHeight": undefined,
-      },
-    ]
-  }
-  handlerTag={1}
-  handlerType="NativeViewGestureHandler"
-  onGestureHandlerEvent={[Function]}
-  onGestureHandlerStateChange={[Function]}
-  onScroll={[Function]}
-  scrollEventThrottle={48}
-  style={
-    {
-      "maxHeight": 1143,
+      }
     }
-  }
-  waitFor={
-    [
-      {
-        "current": null,
-      },
-    ]
-  }
->
-  <View />
-</RCTScrollView>
+    waitFor={
+      [
+        {
+          "current": null,
+        },
+      ]
+    }
+  >
+    <View />
+  </RCTScrollView>,
+]
 `;
 
 exports[`Test Dialogcontent component should render component with children 1`] = `
-<RCTScrollView
-  collapsable={false}
-  contentContainerStyle={
-    [
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <RCTScrollView
+    collapsable={false}
+    contentContainerStyle={
+      [
+        {
+          "maxHeight": 1143,
+          "minHeight": 80,
+          "paddingBottom": 16,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 16,
+        },
+        {
+          "maxHeight": undefined,
+        },
+      ]
+    }
+    handlerTag={2}
+    handlerType="NativeViewGestureHandler"
+    onGestureHandlerEvent={[Function]}
+    onGestureHandlerStateChange={[Function]}
+    onScroll={[Function]}
+    scrollEventThrottle={48}
+    style={
       {
         "maxHeight": 1143,
-        "minHeight": 80,
-        "paddingBottom": 16,
-        "paddingLeft": 16,
-        "paddingRight": 16,
-        "paddingTop": 16,
-      },
-      {
-        "maxHeight": undefined,
-      },
-    ]
-  }
-  handlerTag={2}
-  handlerType="NativeViewGestureHandler"
-  onGestureHandlerEvent={[Function]}
-  onGestureHandlerStateChange={[Function]}
-  onScroll={[Function]}
-  scrollEventThrottle={48}
-  style={
-    {
-      "maxHeight": 1143,
+      }
     }
-  }
-  waitFor={
-    [
-      {
-        "current": null,
-      },
-    ]
-  }
->
-  <View>
-    <Text>
-      Test Children component
-    </Text>
-  </View>
-</RCTScrollView>
+    waitFor={
+      [
+        {
+          "current": null,
+        },
+      ]
+    }
+  >
+    <View>
+      <Text>
+        Test Children component
+      </Text>
+    </View>
+  </RCTScrollView>,
+]
 `;
 
 exports[`Test Dialogcontent component should render component with custom style 1`] = `

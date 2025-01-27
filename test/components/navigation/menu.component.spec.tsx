@@ -164,30 +164,32 @@ describe('Test Menu component', () => {
     });
   })
 
+  test('should apply custom styles ', () => {
+    renderComponent({
+      show: true, 
+      styles: {
+        root: {
+          backgroundColor: 'red'
+        }
+      },
+    });
+
+    expect(screen.toJSON()?.[2].props.style).toMatchObject({
+      backgroundColor: 'red'
+    });
+    expect(screen).toMatchSnapshot();
+  })
+
   test('should not display when show is false', () => {
     renderComponent({
       show: false
     });
 
-    expect(screen.toJSON().props.style).toMatchObject({
+    expect(screen.toJSON()?.[2].props.style).toMatchObject({
       height: 0,
       width: 0
     });
     expect(screen).toMatchSnapshot();
   });
-
-  test('should apply custom styles ', () => {
-    renderComponent({
-      styles: {
-        root: {
-          backgroundColor: 'red'
-        }
-      }
-    });
-
-    expect(screen.toJSON().props.style).toMatchObject({
-      backgroundColor: 'red'
-    });
-    expect(screen).toMatchSnapshot();
-  })
+  
 });

@@ -58,6 +58,39 @@ describe('WmVideo Component Tests', () => {
       });
     });
 
+    it('handles webm video source URL correctly', async () => {
+      const ref : any = createRef();
+      renderComponent({
+        name: 'test',
+        mp4format: '',
+        webmformat: 'https://example.com/video.webm',
+        autoplay: true,
+        ref: ref
+      });
+  
+      expect(createVideoPlayer).toHaveBeenCalledWith({
+          uri: 'https://example.com/video.webm',
+        });
+
+      const player = ref?.current?.player
+      const playMock = jest.spyOn(player, 'play')
+
+      expect(player.addListener).toHaveBeenCalledWith(
+        'statusChange', expect.any(Function)
+      );
+
+      const [_statusCb, statusChangeCallback] = player.addListener.mock.calls.find(
+        ([eventName]: string[]) => eventName === 'statusChange'
+      );
+
+      statusChangeCallback({ status: 'readyToPlay'})
+
+      await waitFor(() => {
+        expect(playMock).toHaveBeenCalled();
+      });
+
+    });
+
   it('handles mp4 video local source correctly', async () => {
       const sourcePath = 'resources/videos/sample_video_bear.mp4'
       renderComponent({

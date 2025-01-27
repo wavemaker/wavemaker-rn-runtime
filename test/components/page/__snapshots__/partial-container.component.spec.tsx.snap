@@ -1,12 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test WmPartialContainer component should render WmPartialContainer component 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "#eeeeee",
-      "width": "100%",
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "width": "100%",
+      }
+    }
+  />,
+]
 `;

@@ -42,7 +42,7 @@ const dataSet = [
   { x: 'Dogs', y: 40 },
   { x: 'Birds', y: 55 },
 ];
-const defaultProps = { dataset: dataSet, xaxisdatakey: 'x', yaxisdatakey: 'y' };
+const defaultProps = { dataset: dataSet, xaxisdatakey: 'x', yaxisdatakey: 'y', hint: 'pie chart' };
 
 const timer = (time = 100) =>
   new Promise((resolve: any, reject) => {
@@ -58,13 +58,15 @@ describe('Test PieChart component', () => {
   //should render when default props are given and also shouldnot render when default props are not given
   it('Should render component', () => {
     const tree = renderComponent(defaultProps);
+    expect(Array.isArray(tree.toJSON())).toBe(true);
     expect(tree.toJSON()).not.toBeNull();
     expect(tree).toMatchSnapshot();
   });
 
   it('should render with null when props are not given', () => {
     const tree = renderComponent();
-    expect(tree.toJSON()).toBeNull();
+    expect(Array.isArray(tree.toJSON())).toBe(false);
+    expect(tree.toJSON().children).toBeNull();
   });
 
   //title, titlesIcon subheading
@@ -255,9 +257,9 @@ describe('Test PieChart component', () => {
     //updating the width
     const viewWidth = 500;
     const totalHeight = 300;
-    const root = screen.root;
+    const root = screen.getByAccessibilityHint(defaultProps.hint);
     onViewLayout(root, viewWidth, totalHeight);
-    const subChild = screen.root.children[0];
+    const subChild = screen.getByAccessibilityHint(defaultProps.hint).children[0];
     const infoHeight = 300;
     const legendHeight = 0;
     onInfoViewLayoutChange(subChild, infoHeight);
@@ -320,7 +322,8 @@ describe('Test PieChart component', () => {
     //updating the width and height
     const viewWidth = 500;
     const totalHeight = 510;
-    onViewLayout(screen.root, viewWidth, totalHeight);
+    const root = screen.getByAccessibilityHint(defaultProps.hint)
+    onViewLayout(root, viewWidth, totalHeight);
     const chartWidth = viewWidth - (showlegend === 'right' ? legendWidth : 0);
     const chartHeight =
       (rootHeight ? totalHeight : chartWidth) -
@@ -395,14 +398,14 @@ describe('Test PieChart component', () => {
 
     const viewWidth = 500;
     const totalHeight = 510;
-    const root = screen.root;
+    const root = screen.getByAccessibilityHint(defaultProps.hint);
     onViewLayout(root, viewWidth, totalHeight);
-    const subChild = screen.root.children[0];
+    const subChild = screen.getByAccessibilityHint(defaultProps.hint).children[0];
     const infoHeight = 300;
     const legendWidth = 300,
       legendHeight = 100;
     onInfoViewLayoutChange(subChild, infoHeight);
-    const child = screen.root.children;
+    const child = screen.getByAccessibilityHint(defaultProps.hint).children;
     const childOfSubChild = child[1].children[0].children[1];
     onViewLayout(childOfSubChild, legendWidth, legendHeight);
 
@@ -430,9 +433,9 @@ describe('Test PieChart component', () => {
     //update width and height
     const viewWidth = 500;
     const totalHeight = 510;
-    const root = screen.root;
+    const root = screen.getByAccessibilityHint(defaultProps.hint);
     onViewLayout(root, viewWidth, totalHeight);
-    const child = screen.root.children;
+    const child = screen.getByAccessibilityHint(defaultProps.hint).children;
     const subChild = child[1].children[0].children[1];
     const legendwidth = 500,
       legendheight = 22;
@@ -454,7 +457,7 @@ describe('Test PieChart component', () => {
 
     const viewWidth = 500;
     const totalHeight = 0;
-    const root = screen.root;
+    const root = screen.getByAccessibilityHint(defaultProps.hint);
     onViewLayout(root, viewWidth, totalHeight);
 
     await waitFor(() => {
@@ -463,7 +466,7 @@ describe('Test PieChart component', () => {
 
     const legendWidth = 500,
       legendHeight = 22;
-    const child = screen.root.children[2];
+    const child = screen.getByAccessibilityHint(defaultProps.hint).children[2];
     onViewLayout(child, legendWidth, legendHeight);
 
     await waitFor(() => {
@@ -524,7 +527,8 @@ describe('Test PieChart component', () => {
       ...defaultProps,
       labeltype: 'percent',
     });
-    fireEvent(screen.root, 'layout', {
+    const root = screen.getByAccessibilityHint(defaultProps.hint);
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 500,
@@ -544,7 +548,8 @@ describe('Test PieChart component', () => {
       ...defaultProps,
       labeltype: 'key',
     });
-    fireEvent(screen.root, 'layout', {
+    const root = screen.getByAccessibilityHint(defaultProps.hint);
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 500,
@@ -564,7 +569,8 @@ describe('Test PieChart component', () => {
       ...defaultProps,
       labeltype: 'value',
     });
-    fireEvent(screen.root, 'layout', {
+    const root = screen.getByAccessibilityHint(defaultProps.hint);
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 500,
@@ -584,7 +590,8 @@ describe('Test PieChart component', () => {
       ...defaultProps,
       labeltype: 'key-value',
     });
-    fireEvent(screen.root, 'layout', {
+    const root = screen.getByAccessibilityHint(defaultProps.hint);
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 500,
@@ -608,7 +615,8 @@ describe('Test PieChart component', () => {
       ...defaultProps,
       theme: 'Annabelle',
     });
-    fireEvent(screen.root, 'layout', {
+    const root = screen.getByAccessibilityHint(defaultProps.hint);
+    fireEvent(root, 'layout', {
       nativeEvent: {
         layout: {
           width: 500,

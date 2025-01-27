@@ -4,21 +4,11 @@ import {
   fireEvent,
   render,
   waitFor,
-  screen,
 } from '@testing-library/react-native';
 import WmProgressBar from '@wavemaker/app-rn-runtime/components/basic/progress-bar/progress-bar.component';
 import WmProgressBarProps from '@wavemaker/app-rn-runtime/components/basic/progress-bar/progress-bar.props';
 import ThemeVariables from '../../../src/styles/theme.variables';
 import Color from 'color';
-
-beforeEach(() => {
-  jest.useFakeTimers();
-});
-
-afterEach(() => {
-  jest.clearAllTimers();
-  jest.useRealTimers();
-});
 
 describe('WmProgressBar Component', () => {
   const commonProps: WmProgressBarProps = {
@@ -41,20 +31,30 @@ describe('WmProgressBar Component', () => {
   it('should render with different datavalue, minvalue, and maxvalue', () => {
     const props: WmProgressBarProps = {
       ...commonProps,
-      datavalue: 50,
-      minvalue: 10,
-      maxvalue: 60,
+      datavalue: 40,
+      minvalue: 0,
+      maxvalue: 80,
     };
+
     let value =
       ((props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue)) *
       100;
+
     const { getByRole } = render(<WmProgressBar {...props} />);
     act(() => {
       jest.runAllTimers();
     });
     const progressBar = getByRole('progressbar');
     expect(progressBar).toBeTruthy();
-    expect(progressBar.props.accessibilityValue.now).toBe(value);
+
+    fireEvent(progressBar, 'layout', {nativeEvent : {
+      layout: { width : 100}
+    }})
+
+    const animatedStyle = progressBar.props.children.props.children.props.style[1]
+    const expectedValue = animatedStyle.transform[0].translateX._parent._value * 100 
+    expect(expectedValue).toBe(value);
+
   });
 
   it('should render with style defined for the respective type', () => {

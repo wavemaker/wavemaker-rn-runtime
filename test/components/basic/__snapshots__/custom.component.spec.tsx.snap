@@ -15,19 +15,41 @@ exports[`Custom component applies theme styles 1`] = `
 `;
 
 exports[`Custom component children should be null or empty when renderview return null 1`] = `
-<View
-  style={{}}
-/>
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={{}}
+  />,
+]
 `;
 
 exports[`Custom component renders the WmCustom component with given props 1`] = `
-<View
-  style={{}}
->
-  <Text>
-    Custom Content
-  </Text>
-</View>
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={{}}
+  >
+    <Text>
+      Custom Content
+    </Text>
+  </View>,
+]
 `;
 
 exports[`Custom component should render skeleton when showskeleton is true 1`] = `
@@ -61,18 +83,29 @@ exports[`Custom component should render skeleton with root style when showskelet
 `;
 
 exports[`Custom component should render the WmCustom component with children component 1`] = `
-<View
-  style={{}}
->
-  <View>
-    <Text>
-      Custom Content
-    </Text>
-    <Text>
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={{}}
+  >
+    <View>
       <Text>
-        Children component
+        Custom Content
       </Text>
-    </Text>
-  </View>
-</View>
+      <Text>
+        <Text>
+          Children component
+        </Text>
+      </Text>
+    </View>
+  </View>,
+]
 `;

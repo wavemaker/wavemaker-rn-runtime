@@ -202,9 +202,9 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
       chipsList: newChipList
     } as WmChipsState,()=>{
       this.setDatavalue(newChipList);
+       // @ts-ignore
+      isFormFieldWidget ? this.props.invokeEvent && this.props.invokeEvent('onRemove', [null, this, item]) : this.invokeEventCallback('onRemove', [null, this, item]);
     });
-    // @ts-ignore
-    isFormFieldWidget ? this.props.invokeEvent('onRemove', [null, this, item]) : this.invokeEventCallback('onRemove', [null, this, item]);
   }
 
   private isDefaultView() {

@@ -241,6 +241,91 @@ describe('WmSearch Component', () => {
     expect(subTree.queryByText(ref.current.props.datacompletemsg)).toBeNull();
   });
 
+  it('should not render search dropdown modal when dataset is empty', async () => {
+    // AppModalService.modalsOpened = [];
+    const ref = createRef();
+    const tree = renderComponentWithWrappers({
+      type: 'autocomplete',
+      ref,
+      dataset: [],
+      searchkey: '',
+      datafield: '',
+      displaylabel: '',
+    });
+    ref.current.view = {
+      measure: (callback: Function) => {
+        callback(0, 0, 100, 50, 10, 20);
+      },
+    } as any;
+
+    const searchInput = tree.getByPlaceholderText('Search');
+
+    fireEvent(searchInput, 'onFocus');
+    await act(async () => {
+      await ref.current.computePosition();
+    });
+
+    await timer();
+    const renderOptions = AppModalService.modalOptions;
+    const Content = () => {
+      return <>{renderOptions.content}</>;
+    };
+    const subTree = render(<Content />);
+
+    await timer();
+
+    expect(ref.current.state.isOpened).toBeFalsy();
+    await waitFor(() => {
+      expect(subTree.queryByText('name1')).toBeNull();
+      expect(subTree.queryByText('name0')).toBeNull();
+      expect(subTree.queryByText('name2')).toBeNull();
+    });
+  });
+
+  it('should not render search dropdown modal when modal has display:none style applied', async () => {
+    // AppModalService.modalsOpened = [];
+    const ref = createRef();
+    const tree = renderComponentWithWrappers({
+      type: 'autocomplete',
+      ref,
+      styles: {
+        modal: {
+          display: 'none',
+        },
+      },
+    });
+    ref.current.view = {
+      measure: (callback: Function) => {
+        callback(0, 0, 100, 50, 10, 20);
+      },
+    } as any;
+
+    const searchInput = tree.getByPlaceholderText('Search');
+
+    fireEvent(searchInput, 'onFocus');
+    await act(async () => {
+      await ref.current.computePosition();
+    });
+
+    await timer();
+
+    // const renderOptions = AppModalService.modalsOpened[0];
+    const renderOptions = AppModalService.modalOptions;
+    const Content = () => {
+      return <>{renderOptions.content}</>;
+    };
+    const subTree = render(<Content />);
+
+    await timer();
+
+    expect(ref.current.state.isOpened).toBeFalsy();
+    await waitFor(() => {
+      expect(subTree.queryByText('name1')).toBeNull();
+      expect(subTree.queryByText('name0')).toBeNull();
+      expect(subTree.queryByText('name2')).toBeNull();
+    });
+  });
+
   it('should call respective callbacks when an item is selected', async () => {
     // AppModalService.modalsOpened = [];
     const ref = createRef();
@@ -671,6 +756,8 @@ describe('WmSearch Component', () => {
     expect(subTree.getByText('name0')).toBeTruthy();
     expect(subTree.getByText(ref.current.props.datacompletemsg)).toBeTruthy();
   });
+
+ 
 
   it('should limit the number of displayed items', async () => {
     // AppModalService.modalsOpened = [];

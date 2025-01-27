@@ -16,32 +16,26 @@ exports[`Test prefab container should apply styles 1`] = `
 `;
 
 exports[`Test prefab container should render background component, when background image is set 1`] = `
-<View
-  style={{}}
->
+[
   <View
+    onLayout={[Function]}
     style={
-      [
-        {
-          "borderWidth": 0,
-          "overflow": "hidden",
-        },
-        {
-          "bottom": 0,
-          "left": 0,
-          "position": "absolute",
-          "right": 0,
-          "top": 0,
-        },
-        {
-          "borderRadius": undefined,
-        },
-      ]
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
+  />,
+  <View
+    style={{}}
   >
     <View
       style={
         [
+          {
+            "borderWidth": 0,
+            "overflow": "hidden",
+          },
           {
             "bottom": 0,
             "left": 0,
@@ -49,74 +43,113 @@ exports[`Test prefab container should render background component, when backgrou
             "right": 0,
             "top": 0,
           },
-          null,
+          {
+            "borderRadius": undefined,
+          },
         ]
       }
     >
-      <ViewManagerAdapter_ExpoLinearGradient
-        colors={
-          [
-            4283197087,
-            4282079640,
-          ]
-        }
-        endPoint={
-          [
-            1,
-            0,
-          ]
-        }
-        locations={
-          [
-            null,
-            null,
-          ]
-        }
-        startPoint={
-          [
-            0,
-            1,
-          ]
-        }
+      <View
         style={
           [
             {
-              "height": "100%",
-              "width": "100%",
-            },
-            undefined,
-            {
-              "borderRadius": undefined,
+              "bottom": 0,
+              "left": 0,
               "position": "absolute",
+              "right": 0,
+              "top": 0,
             },
+            null,
           ]
         }
-        testID="wm-expo-linear-gradient"
-      />
+      >
+        <ViewManagerAdapter_ExpoLinearGradient
+          colors={
+            [
+              4283197087,
+              4282079640,
+            ]
+          }
+          endPoint={
+            [
+              1,
+              0,
+            ]
+          }
+          locations={
+            [
+              null,
+              null,
+            ]
+          }
+          startPoint={
+            [
+              0,
+              1,
+            ]
+          }
+          style={
+            [
+              {
+                "height": "100%",
+                "width": "100%",
+              },
+              undefined,
+              {
+                "borderRadius": undefined,
+                "position": "absolute",
+              },
+            ]
+          }
+          testID="wm-expo-linear-gradient"
+        />
+      </View>
     </View>
-  </View>
-  <Text>
-    Children
-  </Text>
-</View>
+    <Text>
+      Children
+    </Text>
+  </View>,
+]
 `;
 
 exports[`Test prefab container should render children component 1`] = `
-<View
-  style={{}}
->
-  <Text>
-    Children
-  </Text>
-</View>
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={{}}
+  >
+    <Text>
+      Children
+    </Text>
+  </View>,
+]
 `;
 
 exports[`Test prefab container should render component 1`] = `
-<View
-  style={{}}
->
-  <Text>
-    Children
-  </Text>
-</View>
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={{}}
+  >
+    <Text>
+      Children
+    </Text>
+  </View>,
+]
 `;

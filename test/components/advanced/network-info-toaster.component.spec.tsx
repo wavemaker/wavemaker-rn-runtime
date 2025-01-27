@@ -68,7 +68,7 @@ describe('WmNetworkInfoToaster Component', () => {
 
   test('should return null when network network status is same as previous', () => {
     const tree = renderComponent();
-    expect(tree.toJSON()).toBeNull();
+    expect(tree.toJSON().children).toBeNull();
   });
 
   test('should return null when showToast is false', async () => {
@@ -83,7 +83,7 @@ describe('WmNetworkInfoToaster Component', () => {
 
     await waitFor(() => {
       expect(customRef.current.state.showToast).toBe(false);
-      expect(tree.toJSON()).toBeNull();
+      expect(tree.toJSON().children).toBeNull();
     });
   });
 
@@ -99,7 +99,7 @@ describe('WmNetworkInfoToaster Component', () => {
 
     await waitFor(() => {
       expect(customRef.current.state.showToast).toBe(true);
-      expect(tree.toJSON()).toBeNull();
+      expect(tree.toJSON().children).toBeNull();
     });
   });
 

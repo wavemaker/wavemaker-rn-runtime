@@ -1,134 +1,165 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Number component should have default value for native platform 1`] = `
-<TextInput
-  accessibilityState={
-    {
-      "disabled": false,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-  accessibilityValue={
-    {
-      "max": null,
-      "min": null,
+  />,
+  <TextInput
+    accessibilityState={
+      {
+        "disabled": false,
+      }
     }
-  }
-  accessible={true}
-  activeFloatingLabelStyle={{}}
-  allowContentSelection={true}
-  autoFocus={null}
-  background={
-    <React.Fragment>
-      <BackgroundComponent
-        style={
-          {
-            "borderRadius": 6,
+    accessibilityValue={
+      {
+        "max": null,
+        "min": null,
+      }
+    }
+    accessible={true}
+    activeFloatingLabelStyle={{}}
+    allowContentSelection={true}
+    autoFocus={null}
+    background={
+      <React.Fragment>
+        <BackgroundComponent
+          style={
+            {
+              "borderRadius": 6,
+            }
           }
-        }
-      />
-    </React.Fragment>
-  }
-  caretHidden={false}
-  contextMenuHidden={false}
-  defaultValue="sample text"
-  editable={true}
-  floatingLabelStyle={{}}
-  isInputFocused={false}
-  keyboardType="numeric"
-  onBlur={[Function]}
-  onChange={[Function]}
-  onChangeText={[Function]}
-  onFocus={[Function]}
-  onKeyPress={[Function]}
-  onSelectionChange={[Function]}
-  placeholder="Enter amount"
-  placeholderTextColor="#bbbbbb"
-  selection={null}
-  style={
-    [
+        />
+      </React.Fragment>
+    }
+    caretHidden={false}
+    contextMenuHidden={false}
+    defaultValue="sample text"
+    editable={true}
+    floatingLabelStyle={{}}
+    isInputFocused={false}
+    keyboardType="numeric"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    onKeyPress={[Function]}
+    onSelectionChange={[Function]}
+    placeholder="Enter amount"
+    placeholderTextColor="#bbbbbb"
+    selection={null}
+    style={
       [
-        {
-          "backgroundColor": "#ffffff",
-          "borderColor": "#dddddd",
-          "borderRadius": 6,
-          "borderStyle": "solid",
-          "borderWidth": 1,
-          "minHeight": 42,
-          "paddingBottom": 8,
-          "paddingLeft": 16,
-          "paddingRight": 16,
-          "paddingTop": 8,
-        },
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "minHeight": 42,
+            "paddingBottom": 8,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 8,
+          },
+          {},
+          {},
+        ],
         {},
-        {},
-      ],
-      {},
-    ]
-  }
-  testID="wm-text-input_i"
-/>
+      ]
+    }
+    testID="wm-text-input_i"
+  />,
+]
 `;
 
 exports[`Number component should have default value for web platform 1`] = `
-<TextInput
-  accessibilityLabel="wm-text-input_i"
-  activeFloatingLabelStyle={{}}
-  allowContentSelection={true}
-  autoFocus={null}
-  background={
-    <React.Fragment>
-      <BackgroundComponent
-        style={
-          {
-            "borderRadius": 6,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <TextInput
+    accessibilityLabel="wm-text-input_i"
+    activeFloatingLabelStyle={{}}
+    allowContentSelection={true}
+    autoFocus={null}
+    background={
+      <React.Fragment>
+        <BackgroundComponent
+          style={
+            {
+              "borderRadius": 6,
+            }
           }
-        }
-      />
-    </React.Fragment>
-  }
-  caretHidden={false}
-  contextMenuHidden={false}
-  editable={true}
-  floatingLabelStyle={{}}
-  isInputFocused={false}
-  keyboardType="numeric"
-  onBlur={[Function]}
-  onChange={[Function]}
-  onChangeText={[Function]}
-  onFocus={[Function]}
-  onKeyPress={[Function]}
-  onSelectionChange={[Function]}
-  placeholder="Enter amount"
-  placeholderTextColor="#bbbbbb"
-  selection={null}
-  style={
-    [
+        />
+      </React.Fragment>
+    }
+    caretHidden={false}
+    contextMenuHidden={false}
+    editable={true}
+    floatingLabelStyle={{}}
+    isInputFocused={false}
+    keyboardType="numeric"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    onKeyPress={[Function]}
+    onSelectionChange={[Function]}
+    placeholder="Enter amount"
+    placeholderTextColor="#bbbbbb"
+    selection={null}
+    style={
       [
-        {
-          "backgroundColor": "#ffffff",
-          "borderColor": "#dddddd",
-          "borderRadius": 6,
-          "borderStyle": "solid",
-          "borderWidth": 1,
-          "minHeight": 42,
-          "paddingBottom": 8,
-          "paddingLeft": 16,
-          "paddingRight": 16,
-          "paddingTop": 8,
-        },
+        [
+          {
+            "backgroundColor": "#ffffff",
+            "borderColor": "#dddddd",
+            "borderRadius": 6,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "minHeight": 42,
+            "paddingBottom": 8,
+            "paddingLeft": 16,
+            "paddingRight": 16,
+            "paddingTop": 8,
+          },
+          {},
+          {},
+        ],
         {},
-        {},
-      ],
-      {},
-    ]
-  }
-  testID="wm-text-input_i"
-  value="sample text"
-/>
+      ]
+    }
+    testID="wm-text-input_i"
+    value="sample text"
+  />,
+]
 `;
 
 exports[`Number component should render correctly with default props 1`] = `
 [
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
   <View
     collapsable={false}
     pointerEvents="none"

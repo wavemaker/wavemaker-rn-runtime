@@ -11,6 +11,7 @@ import WmTabbar from '@wavemaker/app-rn-runtime/components/page/tabbar/tabbar.co
 import WmTabbarProps from '@wavemaker/app-rn-runtime/components/page/tabbar/tabbar.props';
 import { NavigationServiceProvider } from '../../../src/core/navigation.service';
 import mockNavigationService from '../../__mocks__/navigation.service';
+import { View } from 'react-native';
 
 const renderComponent = (props: WmTabbarProps = {}) => {
   AppModalService.modalsOpened = [];
@@ -82,7 +83,7 @@ describe('Test Tabbar component', () => {
       </ModalProvider>
     );
 
-    const viewEle = tree.root.children[0];
+    const viewEle = tree.UNSAFE_getAllByType(View)[2];
     fireEvent(viewEle, 'layout', {
       nativeEvent: {
         layout: {
@@ -239,14 +240,14 @@ describe('Test Tabbar component', () => {
       </ModalProvider>
     );
 
-    expect(tree.root.props.style.width).not.toBe(0);
-    expect(tree.root.props.style.height).not.toBe(0);
+    expect(tree.toJSON()[1].props.style.width).not.toBe(0);
+    expect(tree.toJSON()[1].props.style.height).not.toBe(0);
 
     ref.current.proxy.show = false;
 
     await timer(300);
-    expect(tree.root.props.style.width).toBe(0);
-    expect(tree.root.props.style.height).toBe(0);
+    expect(tree.toJSON()[1].props.style.width).toBe(0);
+    expect(tree.toJSON()[1].props.style.height).toBe(0);
   });
 
   xit('should hide the modal when an item in the extra menu is selected', async () => {

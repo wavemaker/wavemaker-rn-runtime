@@ -1,6 +1,6 @@
 import { assign, isUndefined, isNil } from 'lodash';
 import React, { ReactNode } from 'react';
-import { AccessibilityInfo, Platform, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import { AccessibilityInfo, LayoutChangeEvent, Platform, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { AnimatableProps } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
@@ -8,7 +8,7 @@ import { StyleProps, getStyleName } from '@wavemaker/app-rn-runtime/styles/style
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import { ROOT_LOGGER } from '@wavemaker/app-rn-runtime/core/logger';
-import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
+import { deepCopy, getPosition, setPosition } from '@wavemaker/app-rn-runtime/core/utils';
 import BASE_THEME, { NamedStyles, AllStyle, ThemeConsumer, ThemeEvent, Theme } from '../styles/theme';
 import EventNotifier from './event-notifier';
 import { PropsProvider } from './props.provider';
@@ -353,6 +353,14 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
     }
 
+    handleLayout(event: LayoutChangeEvent) {
+        const key = this.state.props.name;
+        const newLayoutPosition = {
+            [key as string]: event.nativeEvent.layout.y
+        }
+        setPosition(newLayoutPosition);
+    }
+
     copyStyles(property: string, from: any, to: any) {
         if (!isUndefined(from[property])) {
         to[property] = from[property];
@@ -381,9 +389,25 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     private addAnimation(n: ReactNode) {
         if (!this.state.animatableProps) {
-            return n;
+            return (
+                <>
+                    <View 
+                        onLayout={(event)=>{this.handleLayout(event)}}
+                        style={{height: 0, width: 0}}
+                    >
+                    </View>
+                    {n}
+                </>
+        )
         }
-        return (<Animatable.View key={this.state.animationId} {...this.state.animatableProps}>{n}</Animatable.View>);
+        return (
+            <Animatable.View 
+                onLayout={(event)=>{this.handleLayout(event)}} 
+                key={this.state.animationId} 
+                {...this.state.animatableProps}
+            >
+                {n}
+            </Animatable.View>);
     }
     
     private setBackground() {
@@ -462,6 +486,29 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     public getTestPropsForLabel(suffix?: string) {
         return this.getTestProps(suffix || 'l');
+    }
+
+    private getLayoutOfWidget(name: string): number | void {
+        return  getPosition(name)
+    }
+
+    public scrollToTop(){
+        this.notify('scrollToPosition', [{
+            x: 0,
+            y: 0
+        }]);
+    }
+
+    public scrollToEnd() {
+        this.notify('scrollToEnd', []);
+    }
+
+    public scrollToPosition(widgetName: string) {
+        const positionY = this.getLayoutOfWidget(widgetName);
+        this.notify('scrollToPosition', [{
+            x: 0,
+            y: positionY
+        }])
     }
 
     private getDependenciesFromContext(fn: () => ReactNode) {

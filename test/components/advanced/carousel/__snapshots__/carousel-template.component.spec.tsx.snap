@@ -1,43 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WmCarouselTemplate Component should render children components correctly 1`] = `
-<View
-  style={
-    [
+[
+  <View
+    onLayout={[Function]}
+    style={
       {
-        "alignItems": "center",
-        "flexDirection": "column",
-        "justifyContent": "center",
-        "width": "100%",
-      },
-      {
-        "height": undefined,
-      },
-    ]
-  }
->
-  <View>
-    <Text>
-      Carousel Item
-    </Text>
-  </View>
-</View>
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "width": "100%",
+        },
+        {
+          "height": undefined,
+        },
+      ]
+    }
+  >
+    <View>
+      <Text>
+        Carousel Item
+      </Text>
+    </View>
+  </View>,
+]
 `;
 
 exports[`WmCarouselTemplate Component should render the component without crashing 1`] = `
-<View
-  style={
-    [
+[
+  <View
+    onLayout={[Function]}
+    style={
       {
-        "alignItems": "center",
-        "flexDirection": "column",
-        "justifyContent": "center",
-        "width": "100%",
-      },
-      {
-        "height": undefined,
-      },
-    ]
-  }
-/>
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "width": "100%",
+        },
+        {
+          "height": undefined,
+        },
+      ]
+    }
+  />,
+]
 `;

@@ -1,56 +1,89 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WmButtongroup renders correctly with default props 1`] = `
-<View
-  style={
-    [
+[
+  <View
+    onLayout={[Function]}
+    style={
       {
-        "alignItems": "center",
-        "alignSelf": "flex-start",
-        "backgroundColor": "#ffffff",
-        "borderColor": "#cccccc",
-        "borderRadius": 100,
-        "borderStyle": "solid",
-        "borderWidth": 1,
-        "flexDirection": "row",
-        "overflow": "hidden",
-      },
-      {
-        "flexDirection": "row",
-      },
-    ]
-  }
-/>
+        "height": 0,
+        "width": 0,
+      }
+    }
+  />,
+  <View
+    style={
+      [
+        {
+          "alignItems": "center",
+          "alignSelf": "flex-start",
+          "backgroundColor": "#ffffff",
+          "borderColor": "#cccccc",
+          "borderRadius": 100,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "flexDirection": "row",
+          "overflow": "hidden",
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  />,
+]
 `;
 
 exports[`WmButtongroup renders skeleton when \`showskeleton\` is true 1`] = `
-<View
-  onLayout={[Function]}
-  style={
-    {
-      "backgroundColor": "#eeeeee",
-      "borderColor": "#cccccc",
-      "borderRadius": 100,
-      "height": 40,
-      "overflow": "hidden",
-      "width": 90,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderColor": "#cccccc",
+        "borderRadius": 100,
+        "height": 40,
+        "overflow": "hidden",
+        "width": 90,
+      }
+    }
+  />,
+]
 `;
 
 exports[`WmButtongroup should render skeleton with root width and height when skeleton width and height are not provided 1`] = `
-<View
-  onLayout={[Function]}
-  style={
-    {
-      "backgroundColor": "#eeeeee",
-      "borderColor": "#cccccc",
-      "borderRadius": 100,
-      "height": 70,
-      "overflow": "hidden",
-      "width": 50,
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
+      }
     }
-  }
-/>
+  />,
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "backgroundColor": "#eeeeee",
+        "borderColor": "#cccccc",
+        "borderRadius": 100,
+        "height": 70,
+        "overflow": "hidden",
+        "width": 50,
+      }
+    }
+  />,
+]
 `;

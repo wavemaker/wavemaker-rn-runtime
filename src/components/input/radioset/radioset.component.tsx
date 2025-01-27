@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, DimensionValue, TouchableOpacity } from 'react-native';
+import { View, Text, DimensionValue, TouchableOpacity, Platform } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import WmRadiosetProps from './radioset.props';
@@ -115,7 +115,10 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
     const items = this.state.dataItems;
     return props.radiosetscroll ? (
       <ScrollView style={this.styles.root}>
-        <ScrollView horizontal={true}>
+        <ScrollView horizontal={true}
+          style={this.isRTL && Platform.OS == 'android' ? { transform: [{ scaleX: -1 }] } : {}}
+          contentContainerStyle={this.isRTL && Platform.OS == 'android' ? { transform: [{ scaleX: -1 }] } : {}}
+        >
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderRadioButtons(items)}
         </ScrollView>
