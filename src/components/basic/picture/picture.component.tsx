@@ -1,5 +1,5 @@
 import React from 'react';
-import { DimensionValue, Image, LayoutChangeEvent, View } from 'react-native';
+import { Alert, DimensionValue, Image, LayoutChangeEvent, View } from 'react-native';
 // import { NumberProp, SvgUri } from 'react-native-svg';
 import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -18,6 +18,7 @@ export class WmPictureState extends BaseComponentState<WmPictureProps> {
   naturalImageHeight: number = 0;
   imageWidth: number = 0;
   imageHeight: number = 0;
+  originalContainerWidth: number = 0;
 }
 
 export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureState, WmPictureStyles> {
@@ -84,7 +85,8 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     }
     this.updateState({
       imageWidth: imageWidth,
-      imageHeight: imageHeight
+      imageHeight: imageHeight,
+      originalContainerWidth: e.nativeEvent.layout.width,
     } as WmPictureState);
   };
 
@@ -160,9 +162,22 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     return this.state.imageWidth ? imageElement : null
   }
 
+  // Re checking / calculating the height of an image if it was calculated with not updated width from view in onViewLayoutChange method.
+  calculateHeightIfNeeded(){
+    if(!this.state.naturalImageHeight || !this.state.naturalImageWidth || !this.state.originalContainerWidth) {
+      return null;
+    }
+    return this.state.originalContainerWidth * this.state.naturalImageHeight / this.state.naturalImageWidth;
+  }
+
   renderWidget(props: WmPictureProps) {
     const imageWidth = this.state.imageWidth;
-    const imageHeight = this.state.imageHeight;
+    let imageHeight = this.state.imageHeight;
+
+    if(this.calculateHeightIfNeeded()) {
+      imageHeight = this.calculateHeightIfNeeded() as number
+    }
+
     const shapeStyles = this.createShape(props.shape, imageWidth);
     this._pictureSource =  this._pictureSource || this.loadImage(props.picturesource);
     this._picturePlaceHolder = props.fastload ? 
