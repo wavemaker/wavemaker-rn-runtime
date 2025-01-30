@@ -9,6 +9,7 @@ import { DEFAULT_CLASS, WmPageContentStyles } from './page-content.styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.component';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 
 export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
 
@@ -62,14 +63,16 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
               behavior={Platform.OS === 'ios' ? 'padding' : undefined}
               keyboardVerticalOffset={verticalOffset}
               style={{ flex: 1 }}>
-              <ScrollView 
-                ref={this.scrollRef}
-                contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
-                showsVerticalScrollIndicator={showScrollbar}
-                onScroll={(event) => {this.notify('scroll', [event])}}
-                scrollEventThrottle={48}>
-                {props.children}
-              </ScrollView>
+              <FixedViewContainer>
+                <ScrollView 
+                  ref={this.scrollRef}
+                  contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
+                  showsVerticalScrollIndicator={showScrollbar}
+                  onScroll={(event) => {this.notify('scroll', [event])}}
+                  scrollEventThrottle={48}>
+                    {props.children}
+                </ScrollView>
+              </FixedViewContainer>
             </KeyboardAvoidingView>
           )}}
       </SafeAreaInsetsContext.Consumer>
@@ -88,8 +91,10 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
                   behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                   keyboardVerticalOffset={verticalOffset}
                   style={{ flex: 1 }}>
-                  {this._background}
-                  {props.children}
+                  <FixedViewContainer>
+                    {this._background}
+                    {props.children}
+                  </FixedViewContainer>
                 </KeyboardAvoidingView>
               )}}
           </SafeAreaInsetsContext.Consumer>
