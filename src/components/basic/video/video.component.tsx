@@ -17,6 +17,7 @@ import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skele
 export class WmVideoState extends BaseComponentState<WmVideoProps> {
   isVideoReady: boolean = false;
   playStarted: boolean = false;
+  videoPosterDismissed: boolean = false;
 }
 
 export default class WmVideo extends BaseComponent<
@@ -72,6 +73,7 @@ export default class WmVideo extends BaseComponent<
     );
   }
 
+
   public renderSkeleton(props: WmVideoProps): React.ReactNode {
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
@@ -126,6 +128,13 @@ export default class WmVideo extends BaseComponent<
     this.initializeProps()
   }
 
+  onPlayIconTap() {
+    this.updateState({
+      videoPosterDismissed: true
+    } as WmVideoState)
+    this.player.play()
+  }
+
   componentWillUnmount(): void {
     super.componentWillUnmount();
     this.player.removeListener('playingChange', this.playingStatusChange);
@@ -140,7 +149,8 @@ export default class WmVideo extends BaseComponent<
       videoposter,
       onFullscreenEnter,
       onFullscreenExit,
-      requiresLinearPlayback
+      requiresLinearPlayback,
+      showDefaultVideoPoster
     } = props;
 
     const { playStarted } = this.state;
@@ -164,11 +174,30 @@ export default class WmVideo extends BaseComponent<
           onFullscreenExit={onFullscreenExit}
           requiresLinearPlayback={requiresLinearPlayback}
         />
-        {!isPlaying && videoposter ? (
+        {!isPlaying && videoposter && showDefaultVideoPoster ? (
           this.renderVideoPoster(props)
         ) : (
           <></>
         )}
+        {
+          !isPlaying && videoposter && !showDefaultVideoPoster && !this.state.videoPosterDismissed ? (
+            <View style={this.styles.playIconContainer} >
+              <TouchableWithoutFeedback style={{width: 80, height: 80 }} onPress={this.onPlayIconTap.bind(this)}>
+                <Image
+                {...this.getTestProps('video_play_button')}
+                style={{
+                  width: 80, 
+                  height: 80,
+                }}
+                resizeMode={'contain'}
+                source={this.getSource('resources/images/imagelists/play.png') as any}
+              />
+              </TouchableWithoutFeedback>
+            </View>            
+          ) : (
+            <></>
+          )
+        }
       </View>
     );
   }
