@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, TouchableWithoutFeedback } from 'react-native';
+import { View, Image, TouchableWithoutFeedback, Platform, Text } from 'react-native';
 import { VideoView, createVideoPlayer } from 'expo-video';
 import {
   BaseComponent,
@@ -123,8 +123,7 @@ export default class WmVideo extends BaseComponent<
     this.player.addListener(
       'statusChange',
       this.playerReadyStatusChange.bind(this)
-    );
-
+    ); 
     this.initializeProps()
   }
 
@@ -142,7 +141,6 @@ export default class WmVideo extends BaseComponent<
     this.player.release();
   }
 
-
   renderWidget(props: WmVideoProps) {
     const {
       allowsPictureInPicture,
@@ -155,6 +153,7 @@ export default class WmVideo extends BaseComponent<
 
     const { playStarted } = this.state;
     const isPlaying = playStarted || this.state.props.autoplay;
+    const showOverlay = !showDefaultVideoPoster && !this.state.videoPosterDismissed
 
     return (
       <View 
@@ -166,7 +165,7 @@ export default class WmVideo extends BaseComponent<
           {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
           style={{ width: '100%', height: '100%', flex: 1 }}
           player={this.player}
-          nativeControls={props.controls}
+          nativeControls={props.controls || showOverlay}
           contentFit={'contain'}
           testID={this.getTestId('video')}
           allowsPictureInPicture={allowsPictureInPicture}
@@ -180,10 +179,10 @@ export default class WmVideo extends BaseComponent<
           <></>
         )}
         {
-          !isPlaying && videoposter && !showDefaultVideoPoster && !this.state.videoPosterDismissed ? (
-            <View style={this.styles.playIconContainer} >
+          !isPlaying && !showDefaultVideoPoster && !this.state.videoPosterDismissed ? (
+            <View style={this.styles.playIconContainer}>
               <TouchableWithoutFeedback style={{width: 80, height: 80 }} onPress={this.onPlayIconTap.bind(this)}>
-                <Image
+                {Platform.OS === 'android' ? <Image
                 {...this.getTestProps('video_play_button')}
                 style={{
                   width: 80, 
@@ -191,7 +190,7 @@ export default class WmVideo extends BaseComponent<
                 }}
                 resizeMode={'contain'}
                 source={this.getSource('resources/images/imagelists/play.png') as any}
-              />
+              /> : <Text style={{ fontSize: 80, fontWeight: 'bold', color: 'white'}} >▶</Text> } 
               </TouchableWithoutFeedback>
             </View>            
           ) : (
