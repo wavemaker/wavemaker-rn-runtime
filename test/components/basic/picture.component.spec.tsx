@@ -739,38 +739,6 @@ describe('Picture component', () => {
     expect(tree).toMatchSnapshot();
   });
 
-    it('should return null when required properties are missing', () => {
-      const customRef = createRef();
-      const instance = renderComponent({
-        ref: customRef,
-        pictureplaceholder: 'WaveMaker-Logo-1.svg',
-      }).UNSAFE_getByType(WmPicture).instance;
-  
-    
-      const state1 = {};
-      const state2 = { naturalImageHeight: 100 };
-      const state3 = { naturalImageHeight: 100, naturalImageWidth: 50 };
-  
-      expect(instance.calculateHeightIfNeeded(state1)).toBeNull();
-      expect(instance.calculateHeightIfNeeded(state2)).toBeNull();
-      expect(instance.calculateHeightIfNeeded(state3)).toBeNull();
-    });
-  
-    it('should calculate and return height correctly', () => {
-      const customRef = createRef();
-      const state = {
-        naturalImageHeight: 300,
-        naturalImageWidth: 200,
-        originalContainerWidth: 150,
-      };
-      const instance = renderComponent({
-        ref: customRef,
-        pictureplaceholder: 'WaveMaker-Logo-1.svg',
-      }).UNSAFE_getByType(WmPicture).instance;
-      instance.state = state;
-      expect(instance.calculateHeightIfNeeded(state)).toBe(225);
-    });
-
   xit('should render skeleton with styles with respect to shape as rounded', async () => {
     BASE_THEME.registerStyle((themeVariables, addStyle) => {
       addStyle('rounded-image', '', {

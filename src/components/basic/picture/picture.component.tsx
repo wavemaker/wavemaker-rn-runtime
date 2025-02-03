@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, DimensionValue, Image, LayoutChangeEvent, View } from 'react-native';
+import { DimensionValue, Image, LayoutChangeEvent, View } from 'react-native';
 // import { NumberProp, SvgUri } from 'react-native-svg';
 import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
