@@ -1,6 +1,6 @@
 import React from 'react';
 import { isArray, isUndefined } from 'lodash-es';
-import { Animated, Easing, View, LayoutChangeEvent, LayoutRectangle } from 'react-native';
+import { Animated, Easing, View, LayoutChangeEvent, LayoutRectangle, Platform } from 'react-native';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -100,13 +100,13 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     }
   }
 
-  stopAnimation(){  
+  stopAnimation(){
     this.stopPlay();
   }
   startAnimation() {
       this.autoPlay();
   }
-  
+
 
   onPropertyChange(name: string, $new: any, $old: any): void {
       super.onPropertyChange(name, $new, $old);
@@ -129,7 +129,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     const prevIndex = this.state.activeIndex;
     const props = this.state.props;
     const maxNoOfDots = this.state.props.maxnoofdots;
-    const margin = ((this.styles.dotStyle?.marginLeft as number)|| 0) + 
+    const margin = ((this.styles.dotStyle?.marginLeft as number)|| 0) +
     ((this.styles.dotStyle?.marginRight as number)|| 0)
     const width = (this.styles.dotStyle?.width as number)|| 2;
     const size = margin + width;
@@ -153,13 +153,13 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
         toValue: 0,
         ...options,
       }).start();
-    }   
+    }
     if (prevIndex < index || prevIndex > index) {
       Animated.timing(this.dotPosition, {
         toValue: multiplier * size * Math.max(index - 1, 0),
         ...options,
       }).start();
-    } 
+    }
   }
 
   onSlideChange = (index: number) => {
@@ -197,7 +197,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   renderPagination(data: any) {
     const maxNoOfDots = data.length > 5 ? this.state.props.maxnoofdots : data.length;
     const activeIndex = this.state.activeIndex - 1;
-    const dotMargin = ((this.styles.dotStyle?.marginLeft as number)|| 0) + 
+    const dotMargin = ((this.styles.dotStyle?.marginLeft as number)|| 0) +
     ((this.styles.dotStyle?.marginRight as number)|| 0);
     const wrapperWidth = (this.styles.dotStyle.width as any * maxNoOfDots) + (dotMargin * maxNoOfDots);
     let minIndex = Math.max(this.state.activeIndex - maxNoOfDots + 1, 0);
@@ -241,7 +241,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
                   {...this.getTestPropsForAction('indicator' + index)}
                   style={[dotStyle,
                     isActive && this.styles.activeDotStyle,
-                    {                
+                    {
                       transform: [{scale: animatedScale}]
                     },
                   ]}
@@ -282,7 +282,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     return (
       <View style={styles.root}>
         {this._background}
-        <SwipeAnimation.View 
+        <SwipeAnimation.View
             enableGestures={props.enablegestures && this.noOfSlides > 1}
             style={{
               flex: 1
@@ -290,7 +290,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             direction='horizontal'
             ref={(r) => {this.animationView = r}}
             handlers = {this.animationHandlers}
-            slideMinWidth={this.styles.slide.width}
+            slideMinWidth={Platform.OS == 'web' ? this.styles.slide.width : 0.5}
           >
           {data.map((item: any, index: number) => {
             const isActive = index === this.state.activeIndex - 1;
