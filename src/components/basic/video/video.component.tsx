@@ -148,12 +148,12 @@ export default class WmVideo extends BaseComponent<
       onFullscreenEnter,
       onFullscreenExit,
       requiresLinearPlayback,
-      showDefaultVideoPoster
+      showdefaultvideoposter
     } = props;
 
     const { playStarted } = this.state;
     const isPlaying = playStarted || this.state.props.autoplay;
-    const showOverlay = !showDefaultVideoPoster && !this.state.videoPosterDismissed
+    const showOverlay = !showdefaultvideoposter && !this.state.videoPosterDismissed
 
     return (
       <View 
@@ -173,13 +173,13 @@ export default class WmVideo extends BaseComponent<
           onFullscreenExit={onFullscreenExit}
           requiresLinearPlayback={requiresLinearPlayback}
         />
-        {!isPlaying && videoposter && showDefaultVideoPoster ? (
+        {!isPlaying && videoposter && showdefaultvideoposter ? (
           this.renderVideoPoster(props)
         ) : (
           <></>
         )}
         {
-          !isPlaying && !showDefaultVideoPoster && !this.state.videoPosterDismissed ? (
+          !isPlaying && !showdefaultvideoposter && !this.state.videoPosterDismissed ? (
             <View style={this.styles.playIconContainer}>
               <TouchableWithoutFeedback style={{width: 80, height: 80 }} onPress={this.onPlayIconTap.bind(this)}>
                 {Platform.OS === 'android' ? <Image
