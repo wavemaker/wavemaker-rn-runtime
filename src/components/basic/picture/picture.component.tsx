@@ -42,7 +42,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     if (imageSrc && typeof imageSrc === 'object' && typeof imageSrc.default === 'function') {
       return null;
     }
-    if(this.state.props.aspectRatio) {
+    if(this.state.props.aspectratio) {
       return imageSrc;
     }
     if (isNumber(imageSrc)) {
@@ -106,10 +106,10 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
           && !this.styles?.root.height.includes('%'))) {
         imageHeight = 0;
     }
-    if(this.state.props.aspectRatio && !imageHeight && imageWidth) {
-      imageHeight = imageWidth / parseFloat(this.state.props.aspectRatio as string)
-    } else if (this.state.props.aspectRatio && !imageWidth && imageHeight) {
-      imageWidth = imageWidth * parseFloat(this.state.props.aspectRatio as string)
+    if(this.state.props.aspectratio && !imageHeight && imageWidth) {
+      imageHeight = imageWidth / parseFloat(this.state.props.aspectratio as string)
+    } else if (this.state.props.aspectratio && !imageWidth && imageHeight) {
+      imageWidth = imageWidth * parseFloat(this.state.props.aspectratio as string)
     } else if (imageWidth && !imageHeight) {
       imageHeight = imageWidth * this.state.naturalImageHeight / this.state.naturalImageWidth;
     } else if (imageHeight && !imageWidth) {
@@ -160,7 +160,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     } else {
       source = imgSrc;
     }
-    if (this.state.naturalImageWidth || this.state.props.aspectRatio) {
+    if (this.state.naturalImageWidth || this.state.props.aspectratio) {
       elementToshow = (
         <Image
           {...this.getTestProps('picture')}
@@ -197,17 +197,17 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
 
 
     //TODO: remove the re calculation logic later. Keeping it as an extra safety.  
-    calculateBasedOnAspectRatio(): {imageWidth: number, imageHeight: number} | null  {
-      if(this.state.props.aspectRatio) {
+    calculateBasedOnaspectratio(): {imageWidth: number, imageHeight: number} | null  {
+      if(this.state.props.aspectratio) {
         if(this.state.originalContainerWidth) {
           return {
-            imageHeight: this.state.originalContainerWidth / parseFloat(this.state.props.aspectRatio as string),
+            imageHeight: this.state.originalContainerWidth / parseFloat(this.state.props.aspectratio as string),
             imageWidth: this.state.originalContainerWidth
           }
         } else if(this.state.originalContainerHeight) {
           return {
             imageHeight: this.state.originalContainerHeight, 
-            imageWidth: this.state.originalContainerHeight * parseFloat(this.state.props.aspectRatio as string),
+            imageWidth: this.state.originalContainerHeight * parseFloat(this.state.props.aspectratio as string),
           }
         }
       }
@@ -235,7 +235,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
 
 
     //TODO: remove the re calculation logic later. Keeping it as an extra safety.  
-    const aspectDimensions = this.calculateBasedOnAspectRatio();
+    const aspectDimensions = this.calculateBasedOnaspectratio();
     const naturalDimensions = this.calculateBasedOnNaturalDimensions();
     if(aspectDimensions) {
       const dimensions = aspectDimensions as {imageWidth: number, imageHeight: number}
@@ -256,7 +256,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     if (imgSrc) {
       elementToshow = this.getElementToShow(props, imgSrc, shapeStyles);
     }
-    return imgSrc && (this.state.naturalImageWidth || props.isSvg || props.aspectRatio) ? (
+    return imgSrc && (this.state.naturalImageWidth || props.isSvg || props.aspectratio) ? (
       <View style={[{
         width: imageWidth,
         height: imageHeight
