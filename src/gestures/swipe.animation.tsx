@@ -20,18 +20,18 @@ export interface Bounds {
 }
 
 export class Props {
-    threshold?: number = 30;
+    threshold?: number = 5;
     direction?: 'horizontal' | 'vertical' = 'horizontal';
     handlers?: Handlers = {} as any;
     style?: ViewStyle = {} as any;
     children: any;
     enableGestures: any;
-    slideWidth?: DimensionValue = '100%'; 
-    slideMinWidth?: DimensionValue = undefined;  
+    slideWidth?: DimensionValue = '100%';
+    slideMinWidth?: DimensionValue = undefined;
 }
 
 export class State {
-    threshold = 30;
+    threshold = 5;
     isHorizontal = false;
     bounds: Bounds = {} as any;
     maxPosition = Number.MAX_VALUE;
@@ -52,7 +52,7 @@ export class View extends React.Component<Props, State> {
         super(props);
         this.state = {
             isHorizontal:  props.direction === 'horizontal',
-            threshold: props.threshold || 30,
+            threshold: props.threshold || 5,
             bounds: {} as any
         } as State;
         var touchStart = {
@@ -60,8 +60,9 @@ export class View extends React.Component<Props, State> {
             y: 0,
             active: false
         };
+        var swipeDirection :'horizontal' | 'vertical' = 'horizontal';
         this.gesture
-            .maxPointers(1)
+            .minPointers(1)
             .minDistance(this.state.threshold)
             .enabled(this.props.enableGestures && !isWebPreviewMode())
             .onTouchesDown((e, s) => {
@@ -77,15 +78,18 @@ export class View extends React.Component<Props, State> {
                 }
                 const translationX = e.allTouches[0].x - touchStart.x;
                 const translationY = e.allTouches[0].y - touchStart.y;
+                swipeDirection = (Math.abs(translationX) > Math.abs(translationY)) ? 'horizontal' : 'vertical';
                 const d = (this.state.isHorizontal ? translationX : translationY);
                 const od = (this.state.isHorizontal ? translationY : translationX);
-                if (Math.abs(d) >= this.state.threshold
-                    && Math.abs(od) < Math.tan((15 * Math.PI) / 180) * this.state.threshold) {
+                if(swipeDirection == this.props.direction && Math.abs(d) >= this.state.threshold){
                     touchStart.active = true;
                 }
+                this.gesture
+                  .activeOffsetX([-this.state.threshold, this.state.threshold])
+                  .failOffsetY([-this.state.threshold, this.state.threshold]);
             })
             .onChange(e => {
-                if (!touchStart.active) {
+              if (!touchStart.active || swipeDirection != this.props.direction) {
                     return;
                 }
                 const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
@@ -103,7 +107,7 @@ export class View extends React.Component<Props, State> {
                     (this.isRTL()?-bounds?.center! :bounds?.center || 0) + d);
             })
             .onEnd(e => {
-                if (!touchStart.active) {
+                if (!touchStart.active || swipeDirection != this.props.direction) {
                     return;
                 }
                 touchStart =  {
@@ -111,7 +115,7 @@ export class View extends React.Component<Props, State> {
                     y: 0,
                     active: false
                 };
-                this.props.handlers?.onAnimation && 
+                this.props.handlers?.onAnimation &&
                 this.props.handlers?.onAnimation(e);
                 if (e.translationX < 0) {
                     this.isRTL()?this.goToLower(e):this.goToUpper(e);
@@ -147,7 +151,7 @@ export class View extends React.Component<Props, State> {
     }
 
     computePhase(value: number) {
-        return (this.props.handlers?.computePhase && 
+        return (this.props.handlers?.computePhase &&
             this.props.handlers?.computePhase(value)) || 0;
     }
 
@@ -160,7 +164,7 @@ export class View extends React.Component<Props, State> {
         this.setPosition(bounds.lower)
             .then(() => {
                 if (!isNil(bounds.lower) && bounds.center !== bounds.lower) {
-                    this.props.handlers?.onLower && 
+                    this.props.handlers?.onLower &&
                     this.props.handlers?.onLower(e);
                 }
             });
@@ -171,12 +175,12 @@ export class View extends React.Component<Props, State> {
         this.setPosition(bounds.upper)
             .then(() => {
                 if (!isNil(bounds.upper) && bounds.center !== bounds.upper) {
-                    this.props.handlers?.onUpper && 
+                    this.props.handlers?.onUpper &&
                     this.props.handlers?.onUpper(e);
                 }
             });
     }
-    
+
     setPosition(value: number | undefined) {
         if (isNil(value)) {
             return Promise.reject();
@@ -211,7 +215,7 @@ export class View extends React.Component<Props, State> {
                         flexWrap: 'nowrap',
                         alignItems: 'center',
                     } : null,
-                    this.props.style, 
+                    this.props.style,
                     {
                         transform: this.state.isHorizontal ? [{
                             translateX: this.position
@@ -220,7 +224,7 @@ export class View extends React.Component<Props, State> {
                         }]
                     }]} onLayout={this.setViewLayout.bind(this)}>
                     {this.props.children.map((c: any, i: number) => {
-                        return (<RNView onLayout={(e) => this.setChildrenLayout(e, i)} key={c.key} 
+                        return (<RNView onLayout={(e) => this.setChildrenLayout(e, i)} key={c.key}
                             style={[this.props.slideMinWidth ? {
                                 minWidth: this.props.slideMinWidth
                             } : {

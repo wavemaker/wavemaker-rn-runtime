@@ -355,13 +355,16 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     handleLayout(event: LayoutChangeEvent) {
-        const key = this.state.props.name;
+        const key = this.props.name; // Access props correctly in TS
         const newLayoutPosition = {
-            [key as string]: event.nativeEvent.layout.y
-        }
+            [key as string]: {
+                y: event.nativeEvent.layout.y,
+                x: event.nativeEvent.layout.x,
+            },
+        };
         setPosition(newLayoutPosition);
     }
-
+    
     copyStyles(property: string, from: any, to: any) {
         if (!isUndefined(from[property])) {
         to[property] = from[property];
@@ -489,7 +492,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.getTestProps(suffix || 'l');
     }
 
-    private getLayoutOfWidget(name: string): number | void {
+    private getLayoutOfWidget(name: string): any | void {
         return  getPosition(name)
     }
 
@@ -504,14 +507,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.notify('scrollToEnd', []);
     }
 
-    public scrollToPosition(widgetName: string) {
-        const positionY = this.getLayoutOfWidget(widgetName);
+    scrollToPosition(widgetName: string) {
+        const positionY = this.getLayoutOfWidget(widgetName)?.y; // Safe access
         this.notify('scrollToPosition', [{
             x: 0,
-            y: positionY
-        }])
+            y: positionY,
+        }]);
     }
-
     private getDependenciesFromContext(fn: () => ReactNode) {
         return (
         <TappableContext.Consumer>{(tappable) => {
