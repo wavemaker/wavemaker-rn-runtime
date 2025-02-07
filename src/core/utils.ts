@@ -594,7 +594,7 @@ export function getNumberOfEmptyObjects(noOfItems: number) {
   return Array.from({ length: noOfItems }, () => ({}));
 }
 
-export const setPosition = (data: { [index: string]: number }): void => {
+export const setPosition = (data: any): void => {
   Object.keys(data).forEach((key: string):void => {
     AppLayoutPositionY[key] = data[key];
   })
