@@ -354,23 +354,17 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
     }
 
-    protected getName() {
-        return this.props.name;
+    handleLayout(event: LayoutChangeEvent) {
+        const key = this.props.name; // Access props correctly in TS
+        const newLayoutPosition = {
+            [key as string]: {
+                y: event.nativeEvent.layout.y,
+                x: event.nativeEvent.layout.x,
+            },
+        };
+        setPosition(newLayoutPosition);
     }
-
-    public handleLayout(event: LayoutChangeEvent ) {
-        const key = this.getName && this.getName();
-        if(key){
-            const newLayoutPosition = {
-                [key as string]: {
-                    y: event.nativeEvent.layout.y,
-                    x: event.nativeEvent.layout.x
-                }
-            }
-            setPosition(newLayoutPosition);
-        }
-    }
-
+    
     copyStyles(property: string, from: any, to: any) {
         if (!isUndefined(from[property])) {
         to[property] = from[property];
@@ -492,8 +486,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.getTestProps(suffix || 'l');
     }
 
-    public getLayoutOfWidget(name: string): {x: number, y: number} | undefined {
-        return getPosition(name)
+    private getLayoutOfWidget(name: string): any | void {
+        return  getPosition(name)
     }
 
     public scrollToTop(){
@@ -508,13 +502,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     scrollToPosition(widgetName: string) {
-        const positionY = this.getLayoutOfWidget(widgetName)?.y;
+        const positionY = this.getLayoutOfWidget(widgetName)?.y; // Safe access
         this.notify('scrollToPosition', [{
             x: 0,
-            y: positionY
-        }])
+            y: positionY,
+        }]);
     }
-
     private getDependenciesFromContext(fn: () => ReactNode) {
         return (
         <TappableContext.Consumer>{(tappable) => {
