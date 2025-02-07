@@ -1,6 +1,6 @@
 import React from 'react';
 import { isArray, isUndefined } from 'lodash-es';
-import { Animated, Easing, View, LayoutChangeEvent, LayoutRectangle, Platform } from 'react-native';
+import { Animated, Easing, View, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
