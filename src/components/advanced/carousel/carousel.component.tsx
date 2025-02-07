@@ -288,9 +288,10 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
               flex: 1
             }}
             direction='horizontal'
+            threshold={5}
             ref={(r) => {this.animationView = r}}
             handlers = {this.animationHandlers}
-            slideMinWidth={Platform.OS == 'web' ? this.styles.slide.width : 0.5}
+            slideMinWidth={this.styles.slide.width}
           >
           {data.map((item: any, index: number) => {
             const isActive = index === this.state.activeIndex - 1;
