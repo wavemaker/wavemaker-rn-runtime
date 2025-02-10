@@ -355,9 +355,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     handleLayout(event: LayoutChangeEvent) {
-        const key = this.state.props.name;
+        const key = this.props.name;
         const newLayoutPosition = {
-            [key as string]: event.nativeEvent.layout.y
+            [key as string]: {
+                y: event.nativeEvent.layout.y,
+                x: event.nativeEvent.layout.x
+            }
         }
         setPosition(newLayoutPosition);
     }
@@ -489,8 +492,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.getTestProps(suffix || 'l');
     }
 
-    private getLayoutOfWidget(name: string): number | void {
-        return  getPosition(name)
+    public getLayoutOfWidget(name: string): {[index: string]: number} | void {
+        return getPosition(name)
     }
 
     public scrollToTop(){
@@ -504,8 +507,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.notify('scrollToEnd', []);
     }
 
-    public scrollToPosition(widgetName: string) {
-        const positionY = this.getLayoutOfWidget(widgetName);
+    scrollToPosition(widgetName: string) {
+        const positionY = this.getLayoutOfWidget(widgetName)?.y;
         this.notify('scrollToPosition', [{
             x: 0,
             y: positionY
