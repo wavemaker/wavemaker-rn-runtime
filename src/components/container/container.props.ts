@@ -6,5 +6,4 @@ export default class WmContainerProps extends PartialHostProps {
   onLoad?: Function;
   scrollable?: Boolean = false as any;
   issticky?: Boolean = false as any;
-  isheader?: Boolean = false as any;
 }
