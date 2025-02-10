@@ -40,7 +40,7 @@ export class StyleProps {
     verticalalign?: any;
     width?: any;
     zindex?: any;
-    top?: number | string;  // Use appropriate type (number, string, etc.)
+    top?: number | string;
     bottom?: number | string;
     left?: number | string;
     right?: number | string;
@@ -92,6 +92,6 @@ const styleMapping = {
     bottom: 'bottom',
     left: 'left',
     right: 'right'
-    };
+};
 
 export const getStyleName = (name: string) => (styleMapping as any)[name];
