@@ -1,5 +1,5 @@
 import React from 'react';
-import { DimensionValue, Image, LayoutChangeEvent, View } from 'react-native';
+import {  DimensionValue, Image, LayoutChangeEvent, View } from 'react-native';
 // import { NumberProp, SvgUri } from 'react-native-svg';
 import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -118,8 +118,8 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     this.updateState({
       imageWidth: imageWidth,
       imageHeight: imageHeight,
-      originalContainerWidth: e.nativeEvent.layout.width,
-      originalContainerHeight: e.nativeEvent.layout.height
+      originalContainerWidth: this.styles.root.width ? e.nativeEvent.layout.width : 0,
+      originalContainerHeight: this.styles.root.height ? e.nativeEvent.layout.height: 0
     } as WmPictureState);
   };
 
@@ -215,17 +215,23 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     }
     
     //TODO: remove the re calculation logic later. Keeping it as an extra safety.  
-    calculateBasedOnNaturalDimensions(): {imageWidth: number, imageHeight: number} | null {  
-      const isNaturalSizesExists = this.state.naturalImageHeight && this.state.naturalImageWidth
-      const isContainerSizesExists = this.state.originalContainerWidth && this.state.originalContainerHeight
-  
-      if(!isNaturalSizesExists || !isContainerSizesExists) {
-        return null;
+    calculateBasedOnNaturalDimensions(): {imageWidth: number, imageHeight: number} | null {
+      // No need to calculate width & height if the user already passign them explicitly from props.  
+      const widthAndHeightExistsInProps = this.styles.root.width && this.styles.root.height
+      if(!this.state.props.aspectratio && !widthAndHeightExistsInProps) {
+        if(this.state.originalContainerWidth) {
+          return {
+            imageHeight: this.state.originalContainerWidth * this.state.naturalImageHeight / this.state.naturalImageWidth,
+            imageWidth: this.state.originalContainerWidth
+          }
+        } else if(this.state.originalContainerHeight) {
+          return {
+            imageHeight: this.state.originalContainerHeight, 
+            imageWidth: this.state.originalContainerHeight * this.state.naturalImageWidth / this.state.naturalImageHeight
+          }
+        }
       }
-      return {
-        imageHeight: this.state.originalContainerWidth * this.state.naturalImageHeight / this.state.naturalImageWidth,
-        imageWidth: this.state.originalContainerHeight * this.state.naturalImageWidth / this.state.naturalImageHeight
-      }
+      return null
     }
   
 
@@ -244,8 +250,8 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     } else if(naturalDimensions) {
       const dimensions = naturalDimensions as {imageWidth: number, imageHeight: number}
       imageHeight = dimensions.imageHeight
+      imageWidth = dimensions.imageWidth
     }
-    
     const shapeStyles = this.createShape(props.shape, imageWidth);
     this._pictureSource =  this._pictureSource || this.loadImage(props.picturesource);
     this._picturePlaceHolder = props.fastload ? 
