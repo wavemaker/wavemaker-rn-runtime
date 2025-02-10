@@ -183,7 +183,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
       accessibilityProps={{...getAccessibilityProps(
         AccessibilityWidgetType.SELECT,
         {...this.props, expanded: this.state.isOpened}
-      )}}>
+      )}}
+      disableTouchEffect={this.state.props.disabletoucheffect}>
         <View style={[this.styles.selectItem, isLast ?  this.styles.lastSelectItem  : null, selected ? this.styles.selectedItem : null ]}>
           <Text  {...this.getTestPropsForLabel('label'+index)} style={[this.styles.selectItemText,  {color: isPlaceholder ? this.styles.placeholderText.color : selected ? this.styles.selectedItemText.color : this.styles.selectItemText.color}]}>
             {isPlaceholder ? this.state.props.placeholder : (item.displayexp || item.displayfield)}

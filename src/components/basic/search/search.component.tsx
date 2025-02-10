@@ -334,7 +334,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     const props = this.state.props;
     const imageStyles = { root: {height:props.imagewidth, width:props.imagewidth}}
     return (
-      <Tappable onTap={this.onItemSelect.bind(this, item)} {...this.getTestProps(`action${index}`)}>
+      <Tappable onTap={this.onItemSelect.bind(this, item)} {...this.getTestProps(`action${index}`)} disableTouchEffect={this.state.props.disabletoucheffect}>
         <View  style={this.styles.searchItem}>
           {!isEmpty(this.state.template) && this.props.renderitempartial ?
            this.props.renderitempartial(item.dataObject, index, this.state.template) : (<>

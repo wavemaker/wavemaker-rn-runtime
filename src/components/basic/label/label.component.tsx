@@ -127,7 +127,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
         {this._background}
         <NavigationServiceConsumer>
         {(navigationService: NavigationService) => {
-          return (<Tappable target={this}>
+          return (<Tappable target={this} disableTouchEffect={this.state.props.disabletoucheffect} >
             <Text style={ this.state.parts.length <= 1 ? this.styles.text : {flexWrap: "wrap", textAlign: this.styles.text.textAlign}}
               {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
               {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
