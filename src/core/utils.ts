@@ -19,7 +19,7 @@ const TIME_ROLLUP_OPTIONS = {
   YEAR: 'year'
 };
 
-const AppLayoutPositionY: { [index: string]: {[index:string]: number} } = {}
+const AppLayoutPosition: { [index: string]: {[index:string]: number} } = {}
 
 const _deepCopy = (o1: any, ...o2: any) => {
     o2.forEach((o: any) => {
@@ -596,16 +596,16 @@ export function getNumberOfEmptyObjects(noOfItems: number) {
 
 export const setPosition = (data: { [index: string]: {[index: string]: number} }): void => {
   Object.keys(data).forEach((key: string):void => {
-    AppLayoutPositionY[key] = data[key];
+    AppLayoutPosition[key] = data[key];
   })
 } 
 
 export const resetLayoutPositions = (): void => {
-  Object.keys(AppLayoutPositionY).forEach((key: string) => {
-    delete AppLayoutPositionY[key];
+  Object.keys(AppLayoutPosition).forEach((key: string) => {
+    delete AppLayoutPosition[key];
   })
 }
 
 export const getPosition = (key: string): {[index: string]: number} => {
-  return AppLayoutPositionY[key];
+  return AppLayoutPosition[key];
 }
