@@ -38,7 +38,8 @@ export class UploadFileOperation implements Operation {
 
   public chooseFile() {
     return this.fileUploadService?.getDocumentAsync(namedParameters).then((response: any) => {
-      return Platform.OS === 'web' ? response.file : response.uri;
+      const assets = response?.assets[0];
+      return { uri: assets.uri, name: assets.name };
     });
   }
 
@@ -59,17 +60,18 @@ export class UploadFileOperation implements Operation {
           </FileUploadPluginConsumer>
         ) as any;
       } else {
-        return params.localFile;
+        const name: string | undefined = params.localFile.split('/').pop() || '';
+        return { uri: params.localFile, name: name };
       }
-    }).then((filePath: string) => {
-      if (!filePath) {
+    }).then((data: { uri: string | undefined, name: string }) => {
+      if (!data || !data?.uri) {
         return;
       }
-      const fileName: string | undefined = filePath.split('/').pop() || '';
+      const fileName: string | undefined = data.name;
       const arr: any = fileName.split('.');
-      const fileExtension: string = '.' + arr[arr.length - 1];
+      const fileExtension: string = ('.' + arr[arr.length - 1]).toLocaleLowerCase();
       let fileObj = {
-        uri: filePath,
+        uri: data.uri,
         type: FileExtensionTypesMap[fileExtension],
         name: fileName,
       };

@@ -232,6 +232,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           selectedTabIndex={this.state.selectedTabIndex}
           onIndexChange={this.goToTab.bind(this)}
           shouldScroll={props.enablescroll}
+          disabletoucheffect = {this.state.props.disabletoucheffect}
         ></WmTabheader>
         <View
           style={[{

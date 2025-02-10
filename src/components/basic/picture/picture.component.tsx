@@ -182,6 +182,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
       <View style={[{overflow: 'hidden', width: '100%',
         height: '100%'}]} onLayout={this.onViewLayoutChange}>
         <Tappable
+          disableTouchEffect={this.state.props.disabletoucheffect}
           {...this.getTestPropsForAction()}
           rippleColor={this.styles.root.rippleColor}
           target={this} styles={{width: imageWidth ? null : '100%', height: imageHeight ? null : '100%'}}>

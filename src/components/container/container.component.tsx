@@ -33,7 +33,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
         return createSkeleton(this.theme, skeletonStyles, {
           ...this.styles.root
         }, (<View style={[this.styles.root, { opacity: 0 }]}>
-                  <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions}>
+                  <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect}>
             <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View>
         </Tappable>
 
@@ -56,7 +56,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
     return (
       <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={styles}>
         {this.getBackground()}
-        <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions}>
+        <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect}>
             {!props.scrollable ? <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View> : 
             <ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
             onScroll={(event) => {this.notify('scroll', [event])}}

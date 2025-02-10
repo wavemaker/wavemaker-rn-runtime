@@ -86,7 +86,8 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
         {(navigationService: NavigationService) =>
           (<Animatedview entryanimation={props.animation} delay={props.animationdelay} style={{width: this.styles.root.width, height: this.styles.root.height, justifyContent: 'center'}}>
             <Tappable {...this.getTestPropsForAction()} target={this} styles={[this.styles.root, this.styles.root.width && this.styles.root.height ? { width: '100%', height: '100%'} : null, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}
-              onTap={props.hyperlink || props.onTap ? (e: SyntheticEvent) => this.onTap(navigationService, e) : undefined}>
+              onTap={props.hyperlink || props.onTap ? (e: SyntheticEvent) => this.onTap(navigationService, e) : undefined}
+              disableTouchEffect={this.state.props.disabletoucheffect}>
               {this._background}
               {props.iconposition === 'top' && icon}
               {props.iconposition === 'left' && icon}
