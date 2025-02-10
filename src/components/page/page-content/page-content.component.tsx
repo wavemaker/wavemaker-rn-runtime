@@ -9,6 +9,7 @@ import { DEFAULT_CLASS, WmPageContentStyles } from './page-content.styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.component';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import { StickyHeight, StickyHeightProvider } from '@wavemaker/app-rn-runtime/core/sticky-view.context';
 
 export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
 
@@ -53,6 +54,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
       return (props.scrollable || isWebPreviewMode()) ? (
         <View style={{height: '100%', width: '100%', backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
         {this._background}
+        <StickyHeightProvider value={new StickyHeight()}>
         <SafeAreaInsetsContext.Consumer>
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
           const keyboardOffset = insets?.bottom || 0;
@@ -65,7 +67,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
               <ScrollView 
                 ref={this.scrollRef}
                 contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
-                showsVerticalScrollIndicator={showScrollbar}
+                showsVerticalScrollIndicator={false}
                 onScroll={(event) => {this.notify('scroll', [event])}}
                 scrollEventThrottle={48}>
                 {props.children}
@@ -73,6 +75,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
             </KeyboardAvoidingView>
           )}}
       </SafeAreaInsetsContext.Consumer>
+      </StickyHeightProvider>
       </View>      
       ) : (
         <View style={[this.styles.root,

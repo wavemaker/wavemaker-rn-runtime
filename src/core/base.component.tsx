@@ -489,8 +489,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.getTestProps(suffix || 'l');
     }
 
-    private getLayoutOfWidget(name: string): number | void {
-        return  getPosition(name)
+    public getLayoutOfWidget(): number | void {
+        return  getPosition(this.state.props.name || '')
     }
 
     public scrollToTop(){
@@ -505,7 +505,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     public scrollToPosition(widgetName: string) {
-        const positionY = this.getLayoutOfWidget(widgetName);
+        const positionY = this.getLayoutOfWidget();
         this.notify('scrollToPosition', [{
             x: 0,
             y: positionY
