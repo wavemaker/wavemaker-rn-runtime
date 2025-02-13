@@ -23,7 +23,13 @@ export default class WmGridrow extends BaseComponent<WmGridrowProps, WmGridrowSt
     } : this.styles.root
 
     return (
-      <View style={styles}>{this._background}{props.children}</View>
+      <View 
+        style={styles}
+        onLayout={(event) => this.handleLayout(event)}
+      >
+        {this._background}
+        {props.children}
+      </View>
     ); 
   }
 }

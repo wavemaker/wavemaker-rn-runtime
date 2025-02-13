@@ -24,7 +24,10 @@ export default class WmButtongroup extends BaseComponent<WmButtongroupProps, WmB
 
   renderWidget(props: WmButtongroupProps) {
     return (
-      <View style={[this.styles.root, {flexDirection: props.vertical ? 'column': 'row'}]}>
+      <View 
+        style={[this.styles.root, {flexDirection: props.vertical ? 'column': 'row'}]}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this._background}
         {props.children}
       </View>

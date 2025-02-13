@@ -354,15 +354,22 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
     }
 
-    handleLayout(event: LayoutChangeEvent) {
-        const key = this.props.name;
-        const newLayoutPosition = {
-            [key as string]: {
-                y: event.nativeEvent.layout.y,
-                x: event.nativeEvent.layout.x
+    protected getName() {
+        return this.props.name;
+    }
+
+    public handleLayout(event: LayoutChangeEvent ) {
+        const key = this.getName();
+        console.log("position:", event.nativeEvent.layout.y, event.nativeEvent.layout.x, key);
+        if(key){
+            const newLayoutPosition = {
+                [key as string]: {
+                    y: event.nativeEvent.layout.y,
+                    x: event.nativeEvent.layout.x
+                }
             }
+            setPosition(newLayoutPosition);
         }
-        setPosition(newLayoutPosition);
     }
     
     copyStyles(property: string, from: any, to: any) {
@@ -395,18 +402,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (!this.state.animatableProps) {
             return (
                 <>
-                    <View 
-                        onLayout={(event)=>{this.handleLayout(event)}}
-                        style={{height: 0, width: 0}}
-                    >
-                    </View>
                     {n}
                 </>
-        )
+            )
         }
         return (
             <Animatable.View 
-                onLayout={(event)=>{this.handleLayout(event)}} 
                 key={this.state.animationId} 
                 {...this.state.animatableProps}
             >
@@ -492,7 +493,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.getTestProps(suffix || 'l');
     }
 
-    public getLayoutOfWidget(name: string): {[index: string]: number} | void {
+    public getLayoutOfWidget(name: string): {x: number, y: number} | undefined {
         return getPosition(name)
     }
 

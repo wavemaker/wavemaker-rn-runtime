@@ -39,6 +39,9 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
 
   onViewLayoutChange = (e: LayoutChangeEvent) => {
     let viewWidth = e.nativeEvent.layout.width;
+
+    this.handleLayout(e)
+
     this.updateState({
       chartWidth: viewWidth,
       totalHeight: e.nativeEvent?.layout.height

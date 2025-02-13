@@ -27,7 +27,11 @@ export default class WmLogin extends BaseComponent<WmLoginProps, WmLoginState, W
   }
 
   renderWidget(props: WmLoginProps) {
-    return (<View style={this.styles.root}>
+    return (
+    <View 
+      style={this.styles.root}
+      onLayout={(event) => this.handleLayout(event)}
+    >
       {this._background}
       {this.state.errorMsg && <Text {...this.getTestPropsForLabel('error')} style={this.styles.errorMsgStyles}>{this.state.errorMsg}</Text>}
       <View style={this.styles.formStyles}>{props.children}</View>

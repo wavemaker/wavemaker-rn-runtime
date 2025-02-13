@@ -41,7 +41,10 @@ export default class WmListTemplate extends BaseComponent<WmListTemplateProps, W
       styles.push(this.styles.skeleton.root)
     }
     return (
-      <View style={styles}>{this._background}{props.children}</View>
+      <View 
+        style={styles}
+        onLayout={(event) => this.handleLayout(event)}
+      >{this._background}{props.children}</View>
     ); 
   }
 }

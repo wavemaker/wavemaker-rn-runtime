@@ -1,5 +1,5 @@
 import React from 'react';
-import { ColorValue, View, ViewStyle } from 'react-native';
+import { ColorValue, LayoutChangeEvent, View, ViewStyle } from 'react-native';
 
 import WmContainerProps from './container.props';
 import { DEFAULT_CLASS, WmContainerStyles } from './container.styles';
@@ -54,7 +54,12 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       ...this.styles.skeleton.root
     } : this.styles.root
     return (
-      <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={styles}>
+      <Animatedview 
+        entryanimation={props.animation} 
+        delay={props.animationdelay} 
+        style={styles}
+        onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
+      >
         {this.getBackground()}
         <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect}>
             {!props.scrollable ? <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View> : 

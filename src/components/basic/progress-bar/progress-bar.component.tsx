@@ -26,7 +26,10 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
     const valuePercent = `${Math.round(value * 100)}%`;
 
     return (
-    <View style={styles.root}>
+    <View 
+      style={styles.root}
+      onLayout={(event) => this.handleLayout(event)}
+    >
       {this._background}
       <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}} disableTouchEffect={this.state.props.disabletoucheffect}>
         <ProgressBar
