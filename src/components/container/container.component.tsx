@@ -9,48 +9,16 @@ import { PartialHost, PartialHostState } from './partial-host.component';
 import { createSkeleton } from '../basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '../basic/skeleton/skeleton.styles';
 import { ScrollView } from 'react-native-gesture-handler';
-import { FixedView } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
-import { StickyHeigtConsumer, StickyHeight } from '@wavemaker/app-rn-runtime/core/sticky-view.context';
+import { StickyView } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
 
 export class WmContainerState extends PartialHostState<WmContainerProps> {
   isPartialLoaded = false;
-  isStickyVisible = false;
 }
 
 export default class WmContainer extends PartialHost<WmContainerProps, WmContainerState, WmContainerStyles> {
-  public stickyHeight: StickyHeight;
-  public destroyScrollListner: Function = null as any;
   
   constructor(props: WmContainerProps) {
     super(props, DEFAULT_CLASS, new WmContainerProps(), new WmContainerState());
-    this.stickyHeight = new StickyHeight();
-  }
-
-  onPropertyChange(name: string, $new: any, $old: any): void {
-    super.onPropertyChange(name, $new, $old);
-      switch(name) {
-        case 'issticky': {
-          this.destroyScrollListner && this.destroyScrollListner();
-          if ($new) {
-            this.listenScrollEvent();
-          }
-        }
-      }
-  }
-
-
-  listenScrollEvent(): void {
-    this.destroyScrollListner && this.destroyScrollListner();
-    this.destroyScrollListner = this.subscribe('scroll', (e: any) => {
-      const scrollPosition = e.nativeEvent.contentOffset.y;
-      const yPosition = this.getLayoutOfWidget();
-      const isStickyVisible = scrollPosition > yPosition;
-      if (this.state.isStickyVisible !== isStickyVisible) {
-        this.setState({ 
-          isStickyVisible : isStickyVisible
-        })
-      }
-    })
   }
 
   getBackground(): React.JSX.Element | null {
@@ -92,12 +60,13 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={styles}>
         {this.getBackground()}
         <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect}>
-          { props.issticky && this.state.isStickyVisible ? 
-            (<FixedView 
-                style={{...styles, ...{top: 0}}} 
+          { props.issticky ? 
+             (<StickyView
+                component={this}
+                style={{...styles}} 
                 theme={this.theme}>
                 {this.renderContent(props)}
-              </FixedView>) : null }
+              </StickyView>) : null }
             {!props.scrollable ? <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View> : 
             <ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
             onScroll={(event) => {this.notify('scroll', [event])}}

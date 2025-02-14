@@ -54,7 +54,6 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
       return (props.scrollable || isWebPreviewMode()) ? (
         <View style={{height: '100%', width: '100%', backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
         {this._background}
-        <StickyHeightProvider value={new StickyHeight()}>
         <SafeAreaInsetsContext.Consumer>
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
           const keyboardOffset = insets?.bottom || 0;
@@ -64,18 +63,19 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
               behavior={Platform.OS === 'ios' ? 'padding' : undefined}
               keyboardVerticalOffset={verticalOffset}
               style={{ flex: 1 }}>
-              <ScrollView 
+              {/* <ScrollView 
                 ref={this.scrollRef}
                 contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
-                showsVerticalScrollIndicator={false}
-                onScroll={(event) => {this.notify('scroll', [event])}}
-                scrollEventThrottle={48}>
-                {props.children}
-              </ScrollView>
+                showsVerticalScrollIndicator={showScrollbar}
+                onScroll={this.onScroll}
+                scrollEventThrottle={48}> */}
+                <View style={this.styles.root}>
+                  {props.children}
+                </View>
+              {/* </ScrollView> */}
             </KeyboardAvoidingView>
           )}}
       </SafeAreaInsetsContext.Consumer>
-      </StickyHeightProvider>
       </View>      
       ) : (
         <View style={[this.styles.root,
