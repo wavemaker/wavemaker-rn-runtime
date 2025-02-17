@@ -156,7 +156,10 @@ export default class WmVideo extends BaseComponent<
     const showOverlay = !showdefaultvideoposter && !this.state.videoPosterDismissed
 
     return (
-      <View style={this.styles.root}>
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this._background}
         <VideoView
           {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}

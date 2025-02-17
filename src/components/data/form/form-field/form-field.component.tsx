@@ -231,7 +231,12 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
          });
     });
     return (
-      <View style={this.styles.root}>{this._background}{childrenWithProps}
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
+        {this._background}
+        {childrenWithProps}
         {this.state.isValid === false && <Text {...this.getTestPropsForLabel('error_msg')} style={this.styles.errorMsg}>{props.validationmessage}</Text>}
       </View>
     );

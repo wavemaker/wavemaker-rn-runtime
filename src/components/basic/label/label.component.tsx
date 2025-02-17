@@ -1,5 +1,5 @@
 import React from 'react';
-import { DimensionValue, Text, View } from 'react-native';
+import { DimensionValue, LayoutChangeEvent, Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
@@ -123,7 +123,12 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   renderWidget(props: WmLabelProps) {
     const linkStyles = this.theme.mergeStyle({text: this.styles.text}, this.styles.link);
     return !isNil(props.caption) ? (
-      <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root}>
+      <Animatedview 
+        entryanimation={props.animation} 
+        delay={props.animationdelay} 
+        style={this.styles.root}
+        onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
+      >
         {this._background}
         <NavigationServiceConsumer>
         {(navigationService: NavigationService) => {

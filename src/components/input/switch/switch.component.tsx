@@ -99,7 +99,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
   }
 
   renderWidget(props: WmSwitchProps) {
-    return (<View style={this.styles.root}>
+    return (<View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
       {this.renderItems()}
     </View>);
   }

@@ -223,7 +223,10 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
   } 
   renderWidget(props: WmAudioProps) {
     return props.controls ? (
-      <View style={this.styles.root}>
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this._background}
         {!this.state.playing ? (<WmIcon 
           id={this.getTestId('play')}

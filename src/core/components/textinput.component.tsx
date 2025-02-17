@@ -54,6 +54,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     isInputFocused: boolean
     autoCapitalize?: string,
     background?: React.ReactNode
+    handleLayout?: any
   }), 
     ref: ForwardedRef<TextInput>) => {
     const [selectRange, setSelectRange] = useState<SelectRange>(null as any);
@@ -196,6 +197,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
           }: {}}
           contextMenuHidden={!props.allowContentSelection}
           autoCapitalize={props.autoCapitalize}
+          onLayout={props.handleLayout}
         ></TextInput>
         {
           hideInput ? (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native'
+import { LayoutChangeEvent, View } from 'react-native'
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmTileProps from './tile.props';
@@ -39,7 +39,13 @@ export default class WmTile extends BaseComponent<WmTileProps, WmTileState, WmTi
       ...this.styles.skeleton.root
      } : this.styles.root;
      
-    return (<Tappable {...this.getTestPropsForAction()} target={this} disableTouchEffect={this.state.props.disabletoucheffect}>
+    return (
+    <Tappable 
+      {...this.getTestPropsForAction()} 
+      target={this} 
+      disableTouchEffect={this.state.props.disabletoucheffect}
+      onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
+    >
       <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={styles}>{this.getBackground()}{props.children}</Animatedview>
     </Tappable>);
   }

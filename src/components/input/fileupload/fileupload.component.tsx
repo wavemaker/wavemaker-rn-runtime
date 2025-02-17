@@ -60,7 +60,7 @@ export default class WmFileupload extends BaseComponent<WmFileuploadProps, WmFil
   }
 
   renderWidget(props: WmFileuploadProps) {
-    return <View style={this.styles.root}>
+    return <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
       {this._background}
       <WmButton accessibilitylabel={props.accessibilitylabel || props.caption} hint = {props.hint} id={this.getTestId()} iconclass={props.iconclass} caption={props.caption} styles={this.styles.button} iconsize={props.iconsize} onTap={() => this.onTap.bind(this)(props)}></WmButton>
     </View>

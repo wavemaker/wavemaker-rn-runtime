@@ -390,7 +390,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   renderWidget(props: WmSearchProps) {
     const result = this.state.data;
     return (
-      <View>
+      <View
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this.renderSearchBar()}
         {this.state.isOpened ? (
           <ModalConsumer>

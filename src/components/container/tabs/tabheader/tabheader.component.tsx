@@ -163,6 +163,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
       <View 
         style={{overflow: 'hidden', zIndex: 16}}
         {...this.getTestProps('tabheader')}
+        onLayout={(event) => this.handleLayout(event)}
       >
       <ScrollView
         ref={this.listRef}

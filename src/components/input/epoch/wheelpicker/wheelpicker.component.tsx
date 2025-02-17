@@ -59,7 +59,10 @@ export class WmWheelScrollPicker extends BaseComponent<WmWheelPickerProps, WmWhe
     const scrollOffset = (wrapperHeight - itemHeight) / 2;
 
     return (
-      <View style={[styles.root, {height: wrapperHeight}]}>
+      <View 
+        style={[styles.root, {height: wrapperHeight}]}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         <ScrollView
           ref={this.wheelPickerRef}
           scrollEventThrottle={16}

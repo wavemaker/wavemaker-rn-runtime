@@ -511,11 +511,15 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
     const isHorizontal = (props.direction === 'horizontal');
     return (
-        <View style={isHorizontal ? null : { width: '100%' }}>
-          {this._background}
-          {(isHorizontal || !props.groupby) ?
-            this.renderWithFlatList(props, isHorizontal)
-          : this.renderWithSectionList(props, isHorizontal)}
-      </View>);
+      <View 
+        style={isHorizontal ? null : { width: '100%' }}
+        onLayout={(event) => this.handleLayout(event)}
+      >
+        {this._background}
+        {(isHorizontal || !props.groupby) ?
+          this.renderWithFlatList(props, isHorizontal)
+        : this.renderWithSectionList(props, isHorizontal)}
+      </View>
+    );
   }
 }

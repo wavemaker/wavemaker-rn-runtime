@@ -71,7 +71,10 @@ export default class WmCard extends BaseComponent<WmCardProps, WmCardState, WmCa
 
   renderWidget(props: WmCardProps) {
        return (
-      <View style={this.styles.root}>
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this._background}
         <Tappable {...this.getTestPropsForAction()} target={this} styles={{width: '100%', height: this.styles.root.height ? '100%' : null}} disableTouchEffect={this.state.props.disabletoucheffect}>
             {this.renderHeader(props)}

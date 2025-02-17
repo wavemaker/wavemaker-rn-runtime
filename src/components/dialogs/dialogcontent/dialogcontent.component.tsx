@@ -15,6 +15,7 @@ export default class WmDialogcontent extends BaseComponent<WmDialogcontentProps,
 
   renderWidget(props: WmDialogcontentProps) {
     return (<ScrollView
+      onLayout={(event) => this.handleLayout(event)}
       contentContainerStyle={[this.styles.root, {maxHeight: undefined}]}
       onScroll={(event) => {this.notify('scroll', [event])}}
       scrollEventThrottle={48}

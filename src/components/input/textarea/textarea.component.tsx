@@ -87,6 +87,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       onChangeText={this.onChangeText.bind(this)}
       onChange={this.invokeChange.bind(this)}
       allowContentSelection={this.styles.text.userSelect === 'text'}
+      handleLayout={this.handleLayout}
     />);
   }
 }

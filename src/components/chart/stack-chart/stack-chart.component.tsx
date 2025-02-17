@@ -201,6 +201,9 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
 
   onViewLayoutChange = (e: LayoutChangeEvent) => {
     let viewWidth = e.nativeEvent.layout.width;
+
+    this.handleLayout(e)
+
     this.updateState({
       chartWidth: viewWidth
     } as WmStackChartState);

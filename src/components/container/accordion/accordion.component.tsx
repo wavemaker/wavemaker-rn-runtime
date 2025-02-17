@@ -91,7 +91,11 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const isExpanded = this.state.isExpanded[index];
     const titleIconStyles = this.theme.mergeStyle(this.styles.icon, this.styles.titleIcon)
     return item.props.show != false ? (
-      <View style={this.styles.pane} key={item.props.title}>
+      <View 
+        style={this.styles.pane} 
+        key={item.props.title}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         <TouchableOpacity key={'accordionpane_' + (index + 1)}
               {...this.getTestPropsForAction(`header${index}`)}
               style={[this.styles.header,

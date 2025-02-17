@@ -87,6 +87,8 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
 
   onLayoutChange(event: LayoutChangeEvent){
     let width = event.nativeEvent.layout.width;
+    this.handleLayout(event)
+
     this.setState({
       viewWidth: width,
     } as WmToggleState);

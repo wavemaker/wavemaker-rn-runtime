@@ -17,12 +17,14 @@ export default class WmModal extends BaseComponent<WmModalProps, WmModalState, W
 
   renderWidget(props: WmModalProps) {
     return React.createElement(View, {
-      style: this.styles.root
+      style: this.styles.root,
+      onLayout: (event) => this.handleLayout(event)
     }, React.createElement(ReactModal, {
       animationType: props.animationType as any,
       transparent: true,
       //@ts-ignore
-      style: this.styles.content
+      style: this.styles.content,
+      onLayout: (event) => this.handleLayout(event)
     }, props.children));
   }
 }

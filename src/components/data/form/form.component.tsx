@@ -411,7 +411,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       <ToastConsumer>
         {(toastService: ToastService) => {
           this.toaster = toastService;
-          return <View style={this.styles.root}>
+          return <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
             {this._background}
             {props.iconclass || props.title || props.subheading ? (
               <View style={this.styles.heading}>

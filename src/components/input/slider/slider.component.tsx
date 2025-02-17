@@ -588,7 +588,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
   renderWidget(props: WmSliderProps) {
     const sDataValue = this.getScaledDataValue();
     return (
-      <View style={this.styles.root}>
+      <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
         {this._background}
         {!props.showmarkers && !props.showtooltip? this.renderOldMarkerStyle(props) : null}
         {this.renderTracks(props)}
