@@ -386,7 +386,7 @@ export function removeUndefinedKeys(obj: any) {
   return obj;
 }
 // * get total number of days in a month of a year
-function getDaysInMonth(month: number, year: number) {
+export function getDaysInMonth(month: number, year: number) {
   return new Date(year, month, 0).getDate();
 }
 
@@ -399,7 +399,7 @@ export const getDates = (
   const daysInMonth = getDaysInMonth(month, year);
   const dates = Array.from({length: daysInMonth}, (v, i) => i + 1);
 
-  const datesInRange = dates.filter(date => date >= startDate);
+  const datesInRange = dates.filter(date => date >= startDate && date <= endDate);
 
   return datesInRange;
 };
@@ -421,7 +421,7 @@ export const monthNames = [
 
 export const getMonths = (startMonth: number, endMonth: number) => {
   const months = monthNames.map(name => name.substring(0, 3));
-  const monthRange = months.filter((_, index) => index >= startMonth)
+  const monthRange = months.filter((_, index) => index >= startMonth && index <= endMonth);
 
   return monthRange;
 };
