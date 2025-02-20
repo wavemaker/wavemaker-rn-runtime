@@ -355,13 +355,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     handleLayout(event: LayoutChangeEvent) {
-        const key = this.props.name;
+        const key = this.props.name; // Access props correctly in TS
         const newLayoutPosition = {
             [key as string]: {
                 y: event.nativeEvent.layout.y,
-                x: event.nativeEvent.layout.x
-            }
-        }
+                x: event.nativeEvent.layout.x,
+            },
+        };
         setPosition(newLayoutPosition);
     }
     
@@ -492,8 +492,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.getTestProps(suffix || 'l');
     }
 
-    public getLayoutOfWidget(name: string): {[index: string]: number} | void {
-        return getPosition(name)
+    private getLayoutOfWidget(name: string): any | void {
+        return  getPosition(name)
     }
 
     public scrollToTop(){
@@ -508,7 +508,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     scrollToPosition(widgetName: string) {
-        const positionY = this.getLayoutOfWidget(widgetName)?.y;
+        const positionY = this.getLayoutOfWidget(widgetName)?.y; // Safe access
         this.notify('scrollToPosition', [{
             x: 0,
             y: positionY,
