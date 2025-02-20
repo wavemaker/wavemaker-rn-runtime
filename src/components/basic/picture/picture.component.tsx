@@ -215,7 +215,13 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     }
     
     //TODO: remove the re calculation logic later. Keeping it as an extra safety.  
-    calculateBasedOnNaturalDimensions(): {imageWidth: number, imageHeight: number} | null {  
+    calculateHeightandWidthIfNeeded(): {imageWidth: number, imageHeight: number} | null {
+      const calcDimensions = this.calculateBasedOnAspectRatio();
+  
+      if(calcDimensions) {
+        return calcDimensions;
+      }
+  
       const isNaturalSizesExists = this.state.naturalImageHeight && this.state.naturalImageWidth
       const isContainerSizesExists = this.state.originalContainerWidth && this.state.originalContainerHeight
   
@@ -235,17 +241,14 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
 
 
     //TODO: remove the re calculation logic later. Keeping it as an extra safety.  
-    const aspectDimensions = this.calculateBasedOnAspectRatio();
-    const naturalDimensions = this.calculateBasedOnNaturalDimensions();
-    if(aspectDimensions) {
-      const dimensions = aspectDimensions as {imageWidth: number, imageHeight: number}
+    const reCalResults = this.calculateHeightandWidthIfNeeded();
+    if(reCalResults) {
+      const dimensions = reCalResults as {imageWidth: number, imageHeight: number}
       imageWidth = dimensions.imageWidth;
       imageHeight = dimensions.imageHeight
-    } else if(naturalDimensions) {
-      const dimensions = naturalDimensions as {imageWidth: number, imageHeight: number}
-      imageHeight = dimensions.imageHeight
     }
-    
+
+
     const shapeStyles = this.createShape(props.shape, imageWidth);
     this._pictureSource =  this._pictureSource || this.loadImage(props.picturesource);
     this._picturePlaceHolder = props.fastload ? 

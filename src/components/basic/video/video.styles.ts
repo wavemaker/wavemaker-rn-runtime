@@ -31,11 +31,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             right: 0, 
             height: '100%', 
             width: '100%',
-            backgroundColor: 'rgba(0,0,0,0.1)',
+            backgroundColor: 'rgba(0,0,0,0.4)',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
-} 
+        } 
     });
     addStyle(DEFAULT_CLASS, '', defaultStyles);
 });
