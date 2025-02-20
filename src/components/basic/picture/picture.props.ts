@@ -15,5 +15,5 @@ export default class WmPictureProps extends BaseProps {
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole = 'image';
   fastload?: boolean = false;
-  aspectratio?: string | number | null = null;
+  aspectRatio?: string | number | null = null;
 }

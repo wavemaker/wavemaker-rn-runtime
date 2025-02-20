@@ -10,7 +10,7 @@ export default class WmVideoProps extends BaseProps {
     subtitlelang = 'en';
     subtitlesource: string = null as any;
     videoposter = 'resources/images/imagelists/default-image.png';
-    showdefaultvideoposter = true;
+    showDefaultVideoPoster = true;
     videopreload = 'none';
     videosupportmessage = 'Your browser does not support the video tag.';
     webmformat: string = null as any;
