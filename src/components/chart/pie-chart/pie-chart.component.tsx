@@ -3,12 +3,12 @@ import { LayoutChangeEvent, View, Text, Platform } from 'react-native';
 import { Svg } from 'react-native-svg';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
-import { VictoryLabel, VictoryPie } from 'victory-native';
+import { VictoryLabel, VictoryLegend, VictoryPie } from 'victory-native';
 
 import WmPieChartProps from './pie-chart.props';
 import { DEFAULT_CLASS, WmPieChartStyles } from './pie-chart.styles';
 
-import { formatCompactNumber, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import { formatCompactNumber } from '@wavemaker/app-rn-runtime/core/utils';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import {
   BaseChartComponent,
@@ -77,26 +77,20 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
   }
 
   onSelect(event: any, data: any){
-    if (!this.viewRef.current) return;
-    this.viewRef.current.measureInWindow((chartX: number, chartY: number) => {
     let value = data.slice.value;
     let label = this.state.xaxisDatakeyArr[data.datum.x];
     let selectedItem = this.props.dataset[data.index];
     let selectedChartItem = data.slice;
     selectedChartItem["data"] = {x: label, y: value, color: data.style.fill, _dataObj: selectedItem}
     const nativeEvent = event.nativeEvent;
-    let tooltipX = nativeEvent.pageX - chartX;
-    let tooltipY = nativeEvent.pageY - chartY;
+    this.setTooltipPosition(nativeEvent);
     this.updateState({
       tooltipXaxis: label,
       tooltipYaxis: value,
       isTooltipOpen: true,
-      selectedItem: {...selectedItem, index: data.index },
-      tooltipXPosition: tooltipX - this.state.tooltipoffsetx, 
-      tooltipYPosition: tooltipY - this.state.tooltipoffsety
-    } as any);
+      selectedItem: {...selectedItem, index: data.index},
+    } as WmPieChartState)
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
-    });
   }
 
   renderWidget(props: WmPieChartProps) {
@@ -150,7 +144,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
           </View>) : null }
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
         {this.getTooltip()}
-          <View style={{flex: 1}} ref={this.viewRef}>
+          <View style={{flex: 1}}>
             {chartWidth ? (
             <Svg
               width={chartWidth}
