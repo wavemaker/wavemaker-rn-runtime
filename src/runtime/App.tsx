@@ -128,7 +128,6 @@ export default abstract class BaseApp extends React.Component implements Navigat
   });
 
   public networkStatus = {} as NetworkState;
-  public statusbarInsets:any;
 
   constructor(props: any) {
     super(props);
@@ -494,24 +493,16 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   renderApp(commonPartial:React.ReactNode) {
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
-    const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
-    const isTranslucent = statusBarCustomisation?.translucent;
-    const Wrapper = isTranslucent ? View : SafeAreaView;
     return (
       <SafeAreaProvider>
-        <SafeAreaInsetsContext.Consumer>
-          {(insets = {top: 0, bottom: 0, left: 0, right: 0})=>{
-            this.statusbarInsets = insets;
-            return <PaperProvider theme={this.paperTheme}>
-            <React.Fragment>
+        <PaperProvider theme={this.paperTheme}>
+          <React.Fragment>
             {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
-              {this.getProviders(
-                <Wrapper style={{ flex: 1 }}>
-                  <StatusBar
-                    backgroundColor={statusBarCustomisation?.backgroundColor}
-                    translucent={isTranslucent}
-                    barStyle={statusBarCustomisation?.barStyle || 'default'}
-                  />
+          <SafeAreaInsetsContext.Consumer>
+            {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
+              (this.getProviders(
+                (<SafeAreaView  style={{flex: 1}}> 
+                  <StatusBar />
                   <ThemeProvider value={this.appConfig.theme}>
                   <View style={{ flex: 1 }}>
                     <View style={styles.container}>
@@ -534,14 +525,14 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   {this.renderDisplayManager()}
                   </View>
                   </ThemeProvider>
-                </Wrapper>
-              )}
-            </React.Fragment>
-          </PaperProvider>}
-          }
-        </SafeAreaInsetsContext.Consumer>
-      </SafeAreaProvider>)
-      
+                </SafeAreaView>))
+              )
+            }
+          </SafeAreaInsetsContext.Consumer>
+          </React.Fragment>
+        </PaperProvider>
+      </SafeAreaProvider>
+    );
   }
 }
 
