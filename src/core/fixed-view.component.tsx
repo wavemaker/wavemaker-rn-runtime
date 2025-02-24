@@ -26,9 +26,9 @@ export class FixedView extends React.Component<FixedViewProps> {
         super(props);
     }
 
-    // componentWillUnmount() {
-    //     this.container.remove(this);
-    // }
+    componentWillUnmount() {
+        this.container.remove(this);
+    }
 
     render() {
         this.cachedComponent = (this.props.usememo === true && this.cachedComponent ) || (<FixedViewContext.Consumer>
