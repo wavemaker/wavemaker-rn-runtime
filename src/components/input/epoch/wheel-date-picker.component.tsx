@@ -47,7 +47,6 @@ export class WmWheelDatePicker extends Component<
 
   constructor(props: WmWheelDatePickerProps) {
     super(props);
-    // const selectedDate = this.props.selectedDate || new Date();
     const minDate = this.props.minDate ? new Date(this.props.minDate) : new Date(START_DATE.year, START_DATE.month, START_DATE.date);
     const maxDate = this.props.maxDate ? new Date(this.props.maxDate) : new Date(END_DATE.year, END_DATE.month, END_DATE.date);
     let selectedDate = this.props.selectedDate ? new Date(this.props.selectedDate) : new Date();

@@ -23,12 +23,10 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   }
   renderWidget(props: WmPageProps) {
     return (
-      <FixedViewContainer>
         <View style={this.styles.root} {...this.panResponder.panHandlers}>
           {this._background}
           {props.children}
         </View>
-      </FixedViewContainer>
     ); 
   }
 }

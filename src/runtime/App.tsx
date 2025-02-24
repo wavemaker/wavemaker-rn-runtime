@@ -52,6 +52,7 @@ import BasePartial from './base-partial.component';
 import BasePage from './base-page.component';
 import { WmMemo } from './memo.component';
 import { BaseVariable, VariableEvents } from '../variables/base-variable';
+import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 
 declare const window: any;
 
@@ -515,6 +516,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   />
                   <ThemeProvider value={this.appConfig.theme}>
                   <View style={{ flex: 1 }}>
+                  <FixedViewContainer>
                     <View style={styles.container}>
                       <GestureHandlerRootView style={styles.container}>
                       <AppNavigator
@@ -530,6 +532,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                     {this.appConfig.url ?
                       (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
                       : null}
+                  </FixedViewContainer>
                   {this.renderToasters()}
                   {this.renderDialogs()}
                   {this.renderDisplayManager()}
