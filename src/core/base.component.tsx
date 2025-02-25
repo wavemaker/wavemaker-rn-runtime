@@ -550,7 +550,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     
     public render(): ReactNode {
         const props = this.state.props;
-        this.isFixed = false;
         const selectedLocale = this.i18nService.getSelectedLocale();
         return this.getDependenciesFromContext(() => {
             WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
@@ -560,6 +559,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 || !this._showView) {
                 return null;
             }
+            this.isFixed = false;
             const classname = this.getStyleClassName();
             this.styles =  this.theme.mergeStyle(
                 this.getDefaultStyles(),
