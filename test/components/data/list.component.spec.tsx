@@ -17,6 +17,7 @@ describe('Test List component', () => {
     { id: 3, name: 'Item 3' }
   ];
 
+  //test id
   const testID = "testList_flat_list" 
 
   const createProps = (overrides?: Partial<WmListProps>): WmListProps => {
