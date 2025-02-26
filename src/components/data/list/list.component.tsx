@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity} from 'react-native';
+import { ActivityIndicator, SectionList, Text, View, LayoutChangeEvent, TouchableOpacity, FlatList} from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, getNumberOfEmptyObjects, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
@@ -7,7 +7,7 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
-import { Swipeable } from 'react-native-gesture-handler';
+import Swipeable  from 'react-native-gesture-handler/Swipeable';
 import WmListActionTemplate from './list-action-template/list-action-template.component';
 
 import WmListProps from './list.props';
@@ -356,6 +356,46 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       ...this.styles.skeleton.root
     } : this.styles.item as any
     return (index < this.state.maxRecordsToShow || isHorizontal) ? (
+      <>
+      {
+        isHorizontal ? 
+        <View style={[
+          styles,
+          props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
+          this.isSelected(item) ? this.styles.selectedItem : {}]}>
+          {styles.backgroundImage ? (
+            <BackgroundComponent
+            image={styles.backgroundImage}
+            position={styles.backgroundPosition || 'center'}
+            size={styles.backgroundSize || 'cover'}
+            repeat={styles.backgroundRepeat || 'no-repeat'}
+            resizeMode={styles.backgroundResizeMode || 'cover'}
+            style={{ borderRadius: this.styles.item.borderRadius }}
+          />
+          ) : null}
+          <Tappable
+            {...this.getTestPropsForAction(`item${index}`)}
+            disableTouchEffect={this.state.props.disabletoucheffect}
+            onTap={($event) => this.onSelect(item, index, $event)}
+            onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
+            onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+            styles={
+              [{display: 'flex', flexDirection : 'row'},
+                cols ? {
+                  width: '100%'
+                } : null,
+                (cols && cols > 1) || isHorizontal ? {
+                  paddingRight: (isNil(this.styles.item.marginRight)
+                    ? this.styles.item.margin : this.styles.item.marginRight) || 4
+                } : null
+              ]
+            }>
+            {props.renderItem(item, index, this)}
+            {this.isSelected(item) ? (
+              <WmIcon id={this.getTestId('icon' + index)} iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
+            ) : null}
+          </Tappable>
+        </View>: 
       <Swipeable
       renderLeftActions={() => this.renderLeftActions()}
       renderRightActions={() => this.renderRightActions()} containerStyle={ cols ? { width: round(100/cols) + "%" , flex: null } as any :{}}>
@@ -397,6 +437,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         </Tappable>
       </View>
       </Swipeable>
+      }
+      </>
       ) : null;
   }
 
@@ -516,6 +558,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           {(isHorizontal || !props.groupby) ?
             this.renderWithFlatList(props, isHorizontal)
           : this.renderWithSectionList(props, isHorizontal)}
-      </View>);
+      </View>
+    );
   }
 }
