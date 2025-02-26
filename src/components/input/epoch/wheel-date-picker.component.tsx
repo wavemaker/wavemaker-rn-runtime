@@ -184,6 +184,8 @@ export class WmWheelDatePicker extends Component<
 
     if (selectedYear === maxYear && selectedMonth === maxMonth) maxDate = this.getMaxValue('date');
 
+    if(maxYear === minYear && this.monthValue === maxMonth) maxDate = this.getMaxValue('date');
+
 
     // Update date data dynamically
     this.dateData = getDates(minDate, maxDate);
