@@ -288,6 +288,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
               flex: 1
             }}
             direction='horizontal'
+            threshold={this.state.props.threshold}
             ref={(r) => {this.animationView = r}}
             handlers = {this.animationHandlers}
             slideMinWidth={this.styles.slide.width}
