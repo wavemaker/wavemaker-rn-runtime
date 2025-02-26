@@ -33,10 +33,11 @@ export default class WmListProps extends BaseProps {
     getNextPageData: ($event: any, $list: any, page: number) => Promise<any> = null as any;
     pagesize = 20;
     itemsperrow =  {
-       xs: 1,
-       sm: 1,
-       md: 1,
-       lg: 1,
+        xs: 1,
+        sm: 1,
+        md: 1,
+        lg: 1,
     };
-    numberofskeletonitems?: number | string
+    numberofskeletonitems?: number | string;
+    hidehorizontalscrollbar?: boolean = false;
 }
