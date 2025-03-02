@@ -496,7 +496,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   renderApp(commonPartial:React.ReactNode) {
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
     const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
-    const isTranslucent = statusBarCustomisation?.translucent;
+    const isTranslucent = !!statusBarCustomisation?.translucent;
     const Wrapper = isTranslucent ? View : SafeAreaView;
     return (
       <SafeAreaProvider>
