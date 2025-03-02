@@ -503,13 +503,14 @@ export default abstract class BaseApp extends React.Component implements Navigat
         <SafeAreaInsetsContext.Consumer>
           {(insets = {top: 0, bottom: 0, left: 0, right: 0})=>{
             this.statusbarInsets = insets;
+            (Platform.OS==="android" ? this.statusbarInsets.top = StatusBar.currentHeight : null)
             return <PaperProvider theme={this.paperTheme}>
             <React.Fragment>
             {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
               {this.getProviders(
                 <Wrapper style={{ flex: 1 }}>
                   <StatusBar
-                    backgroundColor={statusBarCustomisation?.backgroundColor}
+                    backgroundColor={statusBarCustomisation?.backgroundColor || 'black'}
                     translucent={isTranslucent}
                     barStyle={statusBarCustomisation?.barStyle || 'default'}
                   />

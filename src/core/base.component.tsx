@@ -354,15 +354,21 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
     }
 
-    handleLayout(event: LayoutChangeEvent) {
-        const key = this.props.name; // Access props correctly in TS
-        const newLayoutPosition = {
-            [key as string]: {
-                y: event.nativeEvent.layout.y,
-                x: event.nativeEvent.layout.x,
-            },
-        };
-        setPosition(newLayoutPosition);
+    protected getName() {
+        return this.props.name;
+    }
+
+    public handleLayout(event: LayoutChangeEvent ) {
+        const key = this.getName && this.getName();
+        if(key){
+            const newLayoutPosition = {
+                [key as string]: {
+                    y: event.nativeEvent.layout.y,
+                    x: event.nativeEvent.layout.x
+                }
+            }
+            setPosition(newLayoutPosition);
+        }
     }
     
     copyStyles(property: string, from: any, to: any) {
@@ -486,8 +492,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.getTestProps(suffix || 'l');
     }
 
-    private getLayoutOfWidget(name: string): any | void {
-        return  getPosition(name)
+    public getLayoutOfWidget(name: string): {x: number, y: number} | undefined {
+        return getPosition(name)
     }
 
     public scrollToTop(){
