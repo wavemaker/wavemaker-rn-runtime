@@ -18,6 +18,8 @@ export class WmPictureState extends BaseComponentState<WmPictureProps> {
   naturalImageHeight: number = 0;
   imageWidth: number = 0;
   imageHeight: number = 0;
+  originalContainerWidth: number = 0;
+  originalContainerHeight: number = 0;
 }
 
 export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureState, WmPictureStyles> {
