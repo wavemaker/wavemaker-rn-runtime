@@ -1,5 +1,5 @@
 import React from 'react';
-import {  DimensionValue, Image, LayoutChangeEvent, View } from 'react-native';
+import { DimensionValue, Image, LayoutChangeEvent, View } from 'react-native';
 // import { NumberProp, SvgUri } from 'react-native-svg';
 import { isNumber, isString } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -18,17 +18,12 @@ export class WmPictureState extends BaseComponentState<WmPictureProps> {
   naturalImageHeight: number = 0;
   imageWidth: number = 0;
   imageHeight: number = 0;
-  originalContainerWidth: number = 0;
-  originalContainerHeight: number = 0;
 }
 
 export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureState, WmPictureStyles> {
 
   private _pictureSource = null as any;
   private _picturePlaceHolder = null as any;
-
-  // The below property will be used to track and remove the calculateImageSize listenrs of individual picturesource
-  private _cleanupTracker = {} as any
 
   constructor(props: WmPictureProps) {
     super(props, DEFAULT_CLASS, new WmPictureProps());
@@ -41,9 +36,6 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     const imageSrc = this.loadAsset(image) as any;
     if (imageSrc && typeof imageSrc === 'object' && typeof imageSrc.default === 'function') {
       return null;
-    }
-    if(this.state.props.aspectratio) {
-      return imageSrc;
     }
     if (isNumber(imageSrc)) {
       const {width, height} = Image.resolveAssetSource(imageSrc);
@@ -59,31 +51,10 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         } as WmPictureState);
         this.cleanup.splice(this.cleanup.indexOf(cancel), 1);
       });
-      if(this.props.picturesource && this._cleanupTracker[this.props.picturesource]) {
-        this._cleanupTracker[this.props.picturesource].push(cancel)
-      } else if(this.props.picturesource && !this._cleanupTracker[this.props.picturesource]) {
-        this._cleanupTracker[this.props.picturesource] = [];
-        this._cleanupTracker[this.props.picturesource].push(cancel)
-      }
       this.cleanup.push(cancel);
     }
     return imageSrc;
   }
-
-    // Check if the image source prop is changed from previous update to remove all listeners
-  componentDidUpdate(prevProps: Readonly<WmPictureProps>, prevState: Readonly<WmPictureState>, snapshot?: any): void {
-    if(this.state.props.picturesource !== prevProps.picturesource) {
-      if(prevProps.picturesource && this._cleanupTracker[prevProps.picturesource]) {
-        this._cleanupTracker[prevProps.picturesource].forEach((func: any) => {
-          func();
-        });  
-        this._cleanupTracker[prevProps.picturesource] = []
-        delete this._cleanupTracker[prevProps.picturesource] 
-      }
-    }
-    super.componentDidUpdate(prevProps, prevState)
-  }
-
 
   onPropertyChange(name: string, $new: any, $old: any) {
     switch(name) {
@@ -101,25 +72,19 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     if (!imageWidth && !imageHeight) {
       return;
     }
-    if (!this.styles?.root.height
-        || (typeof this.styles?.root.height === 'string'
-          && !this.styles?.root.height.includes('%'))) {
+    if (!this.styles.root.height
+        || (typeof this.styles.root.height === 'string'
+          && !this.styles.root.height.includes('%'))) {
         imageHeight = 0;
     }
-    if(this.state.props.aspectratio && !imageHeight && imageWidth) {
-      imageHeight = imageWidth / parseFloat(this.state.props.aspectratio as string)
-    } else if (this.state.props.aspectratio && !imageWidth && imageHeight) {
-      imageWidth = imageWidth * parseFloat(this.state.props.aspectratio as string)
-    } else if (imageWidth && !imageHeight) {
+    if (imageWidth && !imageHeight) {
       imageHeight = imageWidth * this.state.naturalImageHeight / this.state.naturalImageWidth;
     } else if (imageHeight && !imageWidth) {
       imageWidth = imageHeight * this.state.naturalImageWidth / this.state.naturalImageHeight;
     }
     this.updateState({
       imageWidth: imageWidth,
-      imageHeight: imageHeight,
-      originalContainerWidth: this.styles.root.width ? e.nativeEvent.layout.width : 0,
-      originalContainerHeight: this.styles.root.height ? e.nativeEvent.layout.height: 0
+      imageHeight: imageHeight
     } as WmPictureState);
   };
 
@@ -160,7 +125,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     } else {
       source = imgSrc;
     }
-    if (this.state.naturalImageWidth || this.state.props.aspectratio) {
+    if (this.state.naturalImageWidth) {
       elementToshow = (
         <Image
           {...this.getTestProps('picture')}
@@ -195,63 +160,9 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     return this.state.imageWidth ? imageElement : null
   }
 
-
-    //TODO: remove the re calculation logic later. Keeping it as an extra safety.  
-    calculateBasedOnaspectratio(): {imageWidth: number, imageHeight: number} | null  {
-      if(this.state.props.aspectratio) {
-        if(this.state.originalContainerWidth) {
-          return {
-            imageHeight: this.state.originalContainerWidth / parseFloat(this.state.props.aspectratio as string),
-            imageWidth: this.state.originalContainerWidth
-          }
-        } else if(this.state.originalContainerHeight) {
-          return {
-            imageHeight: this.state.originalContainerHeight, 
-            imageWidth: this.state.originalContainerHeight * parseFloat(this.state.props.aspectratio as string),
-          }
-        }
-      }
-      return null
-    }
-    
-    //TODO: remove the re calculation logic later. Keeping it as an extra safety.  
-    calculateBasedOnNaturalDimensions(): {imageWidth: number, imageHeight: number} | null {
-      // No need to calculate width & height if the user already passign them explicitly from props.  
-      const widthAndHeightExistsInProps = this.styles.root.width && this.styles.root.height
-      if(!this.state.props.aspectratio && !widthAndHeightExistsInProps) {
-        if(this.state.originalContainerWidth) {
-          return {
-            imageHeight: this.state.originalContainerWidth * this.state.naturalImageHeight / this.state.naturalImageWidth,
-            imageWidth: this.state.originalContainerWidth
-          }
-        } else if(this.state.originalContainerHeight) {
-          return {
-            imageHeight: this.state.originalContainerHeight, 
-            imageWidth: this.state.originalContainerHeight * this.state.naturalImageWidth / this.state.naturalImageHeight
-          }
-        }
-      }
-      return null
-    }
-  
-
   renderWidget(props: WmPictureProps) {
-    let imageWidth = this.state.imageWidth;
-    let imageHeight = this.state.imageHeight;
-
-
-    //TODO: remove the re calculation logic later. Keeping it as an extra safety.  
-    const aspectDimensions = this.calculateBasedOnaspectratio();
-    const naturalDimensions = this.calculateBasedOnNaturalDimensions();
-    if(aspectDimensions) {
-      const dimensions = aspectDimensions as {imageWidth: number, imageHeight: number}
-      imageWidth = dimensions.imageWidth;
-      imageHeight = dimensions.imageHeight
-    } else if(naturalDimensions) {
-      const dimensions = naturalDimensions as {imageWidth: number, imageHeight: number}
-      imageHeight = dimensions.imageHeight
-      imageWidth = dimensions.imageWidth
-    }
+    const imageWidth = this.state.imageWidth;
+    const imageHeight = this.state.imageHeight;
     const shapeStyles = this.createShape(props.shape, imageWidth);
     this._pictureSource =  this._pictureSource || this.loadImage(props.picturesource);
     this._picturePlaceHolder = props.fastload ? 
@@ -262,14 +173,11 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     if (imgSrc) {
       elementToshow = this.getElementToShow(props, imgSrc, shapeStyles);
     }
-    return imgSrc && (this.state.naturalImageWidth || props.isSvg || props.aspectratio) ? (
-      <View 
-        style={[{
-          width: imageWidth,
-          height: imageHeight
-        }, this.styles.root, shapeStyles.root, shapeStyles.picture]}
-        onLayout={(event) => this.handleLayout(event)}
-      >
+    return imgSrc && (this.state.naturalImageWidth || props.isSvg) ? (
+      <View style={[{
+        width: imageWidth,
+        height: imageHeight
+      }, this.styles.root, shapeStyles.root, shapeStyles.picture]}>
         {this._background}
       <View style={[{overflow: 'hidden', width: '100%',
         height: '100%'}]} onLayout={this.onViewLayoutChange}>

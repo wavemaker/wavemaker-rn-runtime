@@ -21,6 +21,7 @@ import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import * as Utils  from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
 import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
@@ -52,7 +53,6 @@ import BasePartial from './base-partial.component';
 import BasePage from './base-page.component';
 import { WmMemo } from './memo.component';
 import { BaseVariable, VariableEvents } from '../variables/base-variable';
-import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 
 declare const window: any;
 
@@ -129,7 +129,6 @@ export default abstract class BaseApp extends React.Component implements Navigat
   });
 
   public networkStatus = {} as NetworkState;
-  public statusbarInsets:any;
 
   constructor(props: any) {
     super(props);
@@ -495,25 +494,16 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   renderApp(commonPartial:React.ReactNode) {
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
-    const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
-    const isTranslucent = !!statusBarCustomisation?.translucent;
-    const Wrapper = isTranslucent ? View : SafeAreaView;
     return (
       <SafeAreaProvider>
-        <SafeAreaInsetsContext.Consumer>
-          {(insets = {top: 0, bottom: 0, left: 0, right: 0})=>{
-            this.statusbarInsets = insets;
-            (Platform.OS==="android" ? this.statusbarInsets.top = StatusBar.currentHeight : null)
-            return <PaperProvider theme={this.paperTheme}>
-            <React.Fragment>
+        <PaperProvider theme={this.paperTheme}>
+          <React.Fragment>
             {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
-              {this.getProviders(
-                <Wrapper style={{ flex: 1 }}>
-                  <StatusBar
-                    backgroundColor={statusBarCustomisation?.backgroundColor || 'black'}
-                    translucent={isTranslucent}
-                    barStyle={statusBarCustomisation?.barStyle || 'default'}
-                  />
+          <SafeAreaInsetsContext.Consumer>
+            {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
+              (this.getProviders(
+                (<SafeAreaView  style={{flex: 1}}> 
+                  <StatusBar />
                   <ThemeProvider value={this.appConfig.theme}>
                   <View style={{ flex: 1 }}>
                   <FixedViewContainer>
@@ -538,14 +528,14 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   {this.renderDisplayManager()}
                   </View>
                   </ThemeProvider>
-                </Wrapper>
-              )}
-            </React.Fragment>
-          </PaperProvider>}
-          }
-        </SafeAreaInsetsContext.Consumer>
-      </SafeAreaProvider>)
-      
+                </SafeAreaView>))
+              )
+            }
+          </SafeAreaInsetsContext.Consumer>
+          </React.Fragment>
+        </PaperProvider>
+      </SafeAreaProvider>
+    );
   }
 }
 

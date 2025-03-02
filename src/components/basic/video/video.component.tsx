@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, TouchableWithoutFeedback, Platform, Text } from 'react-native';
+import { View, Image, TouchableWithoutFeedback } from 'react-native';
 import { VideoView, createVideoPlayer } from 'expo-video';
 import {
   BaseComponent,
@@ -17,7 +17,6 @@ import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skele
 export class WmVideoState extends BaseComponentState<WmVideoProps> {
   isVideoReady: boolean = false;
   playStarted: boolean = false;
-  videoPosterDismissed: boolean = false;
 }
 
 export default class WmVideo extends BaseComponent<
@@ -73,7 +72,6 @@ export default class WmVideo extends BaseComponent<
     );
   }
 
-
   public renderSkeleton(props: WmVideoProps): React.ReactNode {
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
@@ -123,15 +121,9 @@ export default class WmVideo extends BaseComponent<
     this.player.addListener(
       'statusChange',
       this.playerReadyStatusChange.bind(this)
-    ); 
-    this.initializeProps()
-  }
+    );
 
-  onPlayIconTap() {
-    this.updateState({
-      videoPosterDismissed: true
-    } as WmVideoState)
-    this.player.play()
+    this.initializeProps()
   }
 
   componentWillUnmount(): void {
@@ -141,19 +133,18 @@ export default class WmVideo extends BaseComponent<
     this.player.release();
   }
 
+
   renderWidget(props: WmVideoProps) {
     const {
       allowsPictureInPicture,
       videoposter,
       onFullscreenEnter,
       onFullscreenExit,
-      requiresLinearPlayback,
-      showdefaultvideoposter
+      requiresLinearPlayback
     } = props;
 
     const { playStarted } = this.state;
     const isPlaying = playStarted || this.state.props.autoplay;
-    const showOverlay = !showdefaultvideoposter && !this.state.videoPosterDismissed
 
     return (
       <View 
@@ -165,7 +156,7 @@ export default class WmVideo extends BaseComponent<
           {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
           style={{ width: '100%', height: '100%', flex: 1 }}
           player={this.player}
-          nativeControls={props.controls || showOverlay}
+          nativeControls={props.controls}
           contentFit={'contain'}
           testID={this.getTestId('video')}
           allowsPictureInPicture={allowsPictureInPicture}
@@ -173,30 +164,11 @@ export default class WmVideo extends BaseComponent<
           onFullscreenExit={onFullscreenExit}
           requiresLinearPlayback={requiresLinearPlayback}
         />
-        {!isPlaying && videoposter && showdefaultvideoposter ? (
+        {!isPlaying && videoposter ? (
           this.renderVideoPoster(props)
         ) : (
           <></>
         )}
-        {
-          !isPlaying && !showdefaultvideoposter && !this.state.videoPosterDismissed ? (
-            <View style={this.styles.playIconContainer}>
-              <TouchableWithoutFeedback style={{width: 80, height: 80 }} onPress={this.onPlayIconTap.bind(this)}>
-                {Platform.OS === 'android' ? <Image
-                {...this.getTestProps('video_play_button')}
-                style={{
-                  width: 80, 
-                  height: 80,
-                }}
-                resizeMode={'contain'}
-                source={this.getSource('resources/images/imagelists/play.png') as any}
-              /> : <Text style={{ fontSize: 80, fontWeight: 'bold', color: 'white'}} >▶</Text> } 
-              </TouchableWithoutFeedback>
-            </View>            
-          ) : (
-            <></>
-          )
-        }
       </View>
     );
   }

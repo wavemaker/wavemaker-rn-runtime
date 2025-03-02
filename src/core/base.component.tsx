@@ -370,7 +370,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             setPosition(newLayoutPosition);
         }
     }
-    
+
     copyStyles(property: string, from: any, to: any) {
         if (!isUndefined(from[property])) {
         to[property] = from[property];
@@ -511,9 +511,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         const positionY = this.getLayoutOfWidget(widgetName)?.y;
         this.notify('scrollToPosition', [{
             x: 0,
-            y: positionY,
-        }]);
+            y: positionY
+        }])
     }
+
     private getDependenciesFromContext(fn: () => ReactNode) {
         return (
         <TappableContext.Consumer>{(tappable) => {
