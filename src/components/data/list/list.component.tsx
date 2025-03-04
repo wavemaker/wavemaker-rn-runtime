@@ -453,6 +453,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           <View style={this.styles.group} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
             <FlatList
+              testID={this.getTestId('flat_list')}
               key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               scrollEnabled={isHorizontal}
@@ -460,7 +461,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               data={this._showSkeleton? [...getNumberOfEmptyObjects(this.props.numberofskeletonitems as number ?? 3)] : (isEmpty(v.data[0]) ? []: v.data)}
               ListEmptyComponent = {(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
-              {...(isHorizontal ? {} : {numColumns : this.getNoOfColumns()})}>
+              {...(isHorizontal ? {showsHorizontalScrollIndicator: !props.hidehorizontalscrollbar} : {numColumns : this.getNoOfColumns()})}>
             </FlatList>
             {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow) ?
               (this.loadingData ?
