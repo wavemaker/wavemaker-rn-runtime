@@ -264,12 +264,12 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     }
     return imgSrc && (this.state.naturalImageWidth || props.isSvg || props.aspectratio) ? (
       <View 
-        style={[{
-          width: imageWidth,
-          height: imageHeight
-        }, this.styles.root, shapeStyles.root, shapeStyles.picture]}
-        onLayout={(event) => this.handleLayout(event)}
-      >
+      style={[{
+        width: imageWidth,
+        height: imageHeight
+      }, this.styles.root, shapeStyles.root, shapeStyles.picture]}
+      onLayout={(event) => this.handleLayout(event)}
+    >
         {this._background}
       <View style={[{overflow: 'hidden', width: '100%',
         height: '100%'}]} onLayout={this.onViewLayoutChange}>

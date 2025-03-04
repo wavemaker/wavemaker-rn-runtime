@@ -508,7 +508,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     scrollToPosition(widgetName: string) {
-        const positionY = this.getLayoutOfWidget(widgetName)?.y;
+        const positionY = this.getLayoutOfWidget(widgetName)?.y; // Safe access
         this.notify('scrollToPosition', [{
             x: 0,
             y: positionY,
