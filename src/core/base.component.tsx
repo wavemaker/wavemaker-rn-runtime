@@ -508,12 +508,24 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     scrollToPosition(widgetName: string) {
-        const positionY = this.getLayoutOfWidget(widgetName)?.y;
+        const positionY = this.getLayoutOfWidget(widgetName)?.y; // Safe access
         this.notify('scrollToPosition', [{
             x: 0,
             y: positionY,
         }]);
     }
+
+    public hideSkeletonInPageContentWhenDisabledInPage = () => {
+       const isPageContentWidget = this.defaultClass && this.defaultClass === 'app-page-content'
+       const isCurrentParentIsContent = this.parent && this.parent.defaultClass && this.parent.defaultClass === 'app-content'
+       const showSkeletonInPageContent = this.parent.state?.props?.showskeleton === false
+    
+       if(isPageContentWidget && isCurrentParentIsContent && showSkeletonInPageContent) {
+        return false;
+       }
+       return undefined;
+    }
+ 
     private getDependenciesFromContext(fn: () => ReactNode) {
         return (
         <TappableContext.Consumer>{(tappable) => {
@@ -529,7 +541,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 {(parent) => {
                                     this.setParent(parent);
                                     this._showSkeleton = this.state.props.showskeleton !== false 
-                                        && (this.parent?._showSkeleton || this.state.props.showskeleton === true);
+                                        && (this.parent?._showSkeleton || this.state.props.showskeleton === true) && this.hideSkeletonInPageContentWhenDisabledInPage() === undefined
                                     return (
                                         <ParentContext.Provider value={this}>
                                             <ThemeConsumer>

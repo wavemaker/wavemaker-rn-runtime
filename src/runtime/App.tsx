@@ -21,6 +21,7 @@ import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import * as Utils  from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
+import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
 import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
 import { PartialProvider } from '@wavemaker/app-rn-runtime/core/partial.service';
@@ -52,7 +53,6 @@ import BasePartial from './base-partial.component';
 import BasePage from './base-page.component';
 import { WmMemo } from './memo.component';
 import { BaseVariable, VariableEvents } from '../variables/base-variable';
-import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 
 declare const window: any;
 

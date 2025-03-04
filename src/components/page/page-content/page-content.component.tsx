@@ -62,14 +62,14 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
               behavior={Platform.OS === 'ios' ? 'padding' : undefined}
               keyboardVerticalOffset={verticalOffset}
               style={{ flex: 1 }}>
-                <ScrollView 
-                  ref={this.scrollRef}
-                  contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
-                  showsVerticalScrollIndicator={showScrollbar}
-                  onScroll={(event) => {this.notify('scroll', [event])}}
-                  scrollEventThrottle={48}>
-                    {props.children}
-                </ScrollView>
+              <ScrollView 
+                ref={this.scrollRef}
+                contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
+                showsVerticalScrollIndicator={showScrollbar}
+                onScroll={(event) => {this.notify('scroll', [event])}}
+                scrollEventThrottle={48}>
+                {props.children}
+              </ScrollView>
             </KeyboardAvoidingView>
           )}}
       </SafeAreaInsetsContext.Consumer>
@@ -88,8 +88,8 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
                   behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                   keyboardVerticalOffset={verticalOffset}
                   style={{ flex: 1 }}>
-                    {this._background}
-                    {props.children}
+                  {this._background}
+                  {props.children}
                 </KeyboardAvoidingView>
               )}}
           </SafeAreaInsetsContext.Consumer>
