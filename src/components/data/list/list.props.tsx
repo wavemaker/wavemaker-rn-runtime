@@ -38,5 +38,6 @@ export default class WmListProps extends BaseProps {
        md: 1,
        lg: 1,
     };
-    numberofskeletonitems?: number | string
+    numberofskeletonitems?: number | string;
+    hidehorizontalscrollbar?: boolean = false;
 }

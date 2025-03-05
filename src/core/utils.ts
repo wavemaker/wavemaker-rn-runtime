@@ -610,7 +610,7 @@ export const setPosition = (data: { [index: string]: {x: number, y: number} }): 
   Object.keys(data).forEach((key: string):void => {
     AppLayoutPosition.data[AppLayoutPosition.currentPage][key] = data[key]
   })
-} 
+}
   
 export const getPosition = (key: string): {x: number, y: number} => {
   return AppLayoutPosition.data[AppLayoutPosition.currentPage][key];
