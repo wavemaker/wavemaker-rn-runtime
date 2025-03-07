@@ -28,4 +28,6 @@ export default class WmSearchProps extends BaseDatasetProps {
   skeletonheight?: string = null as any;
   skeletonwidth?: string = null as any;
   iconclass?: string = 'wm-sl-l sl-search';
+  clearsearchiconclass?: string = 'wi wi-clear';
+  searchiconclass?: string = undefined;
 }
