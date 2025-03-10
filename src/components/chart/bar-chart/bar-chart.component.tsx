@@ -37,7 +37,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         horizontal={props.horizontal} labels={props.showvalues ? this.labelFn.bind(this) : undefined}
         data={this.isRTL?d.toReversed():d}
         height={100}
-        alignment='start'
+        alignment={this.isRTL ? 'end' : 'start'}
         style={props.customcolors?{
           data: {
             fill: ({ datum }) => this.state.colors[datum.x] ?? this.state.colors[datum.x % this.state.colors.length]
@@ -57,6 +57,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
 
 onSelect(event: any, data: any){
   if (!this.viewRef.current) return;
+  if (!this.state.props.dataset) return;
   this.viewRef.current.measureInWindow((chartX: number, chartY: number) => {
   let value = data.data[data.index].y;
   let label = this.state.xaxisDatakeyArr[data.datum.x];
@@ -101,7 +102,7 @@ onSelect(event: any, data: any){
                           height={(this.styles.root.height) as number}
                           width={this.state.chartWidth || this.screenWidth}
                           minDomain={mindomain}
-                          padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}>
+                          padding={{ top: props.offsettop, bottom: props.offsetbottom, left: this.isRTL ? props.offsetright : props.offsetleft, right: this.isRTL ? props.offsetleft : props.offsetright }}>
       {this.getLegendView()}
       {this.getXaxis()}
       {this.getYAxis()}

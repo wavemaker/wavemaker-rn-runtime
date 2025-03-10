@@ -39,6 +39,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
 
   onSelect(event: any, data: any){
     if (!this.viewRef.current) return;
+    if (!this.state.props.dataset) return;
     this.viewRef.current.measureInWindow((chartX: number, chartY: number) => {
     let value = data.data[data.index].y;
     let label = this.state.xaxisDatakeyArr[data.datum.x];
@@ -94,8 +95,8 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
           <VictoryChart
             theme={this.state.theme}
             height={this.styles.root.height as number}
-            width={this.state.chartWidth || 120}
-            padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
+            width={this.state.chartWidth || this.screenWidth}
+            padding={{ top: props.offsettop, bottom: props.offsetbottom, left: this.isRTL ? props.offsetright : props.offsetleft, right: this.isRTL ? props.offsetleft : props.offsetright }}
             minDomain={mindomain}
           > 
             {this.getLegendView()}
@@ -122,7 +123,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                         strokeWidth: props.linethickness,
                       }
                     }}
-                    data={this.isRTL?d.toReversed():d}
+                    data={d}
                   />
                     <VictoryScatter
                       size={5}
@@ -130,7 +131,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                       style={{
                         data: props.highlightpoints ? {fill: this.state.colors[i], opacity: 0.8}:{opacity: 0}
                       }}        
-                      data={this.isRTL?d.toReversed():d}
+                      data={d}
                       events={[{
                         target: 'data',
                         eventHandlers: Platform.OS == "web" ? {
