@@ -190,7 +190,9 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     }).then(() => {
       !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, model, oldValue]);
       if (source === 'blur') {
-        this.invokeEventCallback('onBlur', [event, this.proxy]);
+        setTimeout(() => {
+          this.invokeEventCallback('onBlur', [event, this.proxy]);
+        }, 10);
       }
     });
   }
