@@ -1,11 +1,12 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { ViewStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 
 export type WmSkeletonStyles = BaseStyles & {
     animatedView: AllStyle;
     gradient: AllStyle;
     gradientForeground: ViewStyle;
+    text: TextStyle
 };
 
 export const DEFAULT_CLASS = 'app-skeleton';

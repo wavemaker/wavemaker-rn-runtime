@@ -1,5 +1,5 @@
 import React, { ForwardedRef, useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, Platform, Text, TextInput, TextInputProps, TextStyle, View } from 'react-native';
+import { Animated, Platform, Text, TextInput, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
 import { isArray } from 'lodash';
 import IMask from 'imask';
 import { FloatingLabel } from './floatinglabel.component';
@@ -48,13 +48,14 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     displayformat: string,
     maskchar: string,
     floatingLabel: string
-    floatingLabelStyle:  TextStyle,
-    activeFloatingLabelStyle: TextStyle,
+    floatingLabelStyle:  TextStyle & ViewStyle,
+    activeFloatingLabelStyle: TextStyle & ViewStyle,
     customDisplayValue?: string,
-    isInputFocused: boolean
+    isInputFocused: boolean,
     autoCapitalize?: string,
-    background?: React.ReactNode
-    handleLayout?: any
+    background?: React.ReactNode,
+    handleLayout?: any,
+    style?: ViewStyle
   }), 
     ref: ForwardedRef<TextInput>) => {
     const [selectRange, setSelectRange] = useState<SelectRange>(null as any);
