@@ -144,6 +144,7 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
           (<WebView
             ref={(ref) => this.webview = ref}
             nestedScrollEnabled={true}
+            containerStyle = {this.styles.webview}
             style={this.styles.webview}
             source={{
               uri: props.src
