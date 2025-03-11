@@ -59,7 +59,9 @@ export class DateToStringFormatter implements DateFormatter {
         if (format === 'UTC')
             return moment.utc(input).toString();
 
-        return _moment.isValid() ? _moment.format(format) : input.toString();
+        const defaultLanguage = (injector as any).get('APP_CONFIG')?.appProperties?.defaultLanguage || 'en';
+
+        return _moment.isValid() ? _moment.locale(defaultLanguage).format(format) : input.toString();
     }
 }
 
