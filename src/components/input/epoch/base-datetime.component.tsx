@@ -93,10 +93,15 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       return null;
     }
   }
+
+  rtlSanityCheck(text: any) {
+    return text?.replace(/[\u200E\u200F\u202B\u202C]/g, '');
+  }
   
-   momentPattern(pattern : String) {
-    return pattern?.replaceAll('y', 'Y').replaceAll('d', 'D');
-}
+  momentPattern(pattern : String) {
+    const removeSpecialMarks = this.rtlSanityCheck(pattern);
+    return removeSpecialMarks?.replaceAll('y', 'Y').replaceAll('d', 'D');
+  }
 
   onPropertyChange(name: string, $new: any, $old: any) {
     super.onPropertyChange(name, $new, $old);
