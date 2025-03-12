@@ -37,7 +37,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
     //@ts-ignore
     const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{props.badgevalue}</Badge>): null;
     return (
-      <View style={this.styles.root}>
+      <View style={this.styles.root} ref={ref => {this.baseView = ref as View}} onLayout={(event) => this.handleLayout(event)}>
         {this._background}
         <View style={this.styles.leftSection}>
         {props.showDrawerButton && (<WmIcon
@@ -80,15 +80,14 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   renderWidget(props: WmAppNavbarProps){
     return (
         <>
-          <StickyView
-            style={{...this.styles.root, ...{backgroundColor: 'green'}}}
+          {props.hideonscroll ? <StickyView
             theme={this.theme}
             component={this}
-            show={"ON_SCROLL_DOWN"}
+            show={'ON_SCROLL_DOWN'}
           >
             {this.renderContent(props)}
-          </StickyView>
-          {this.renderContent(props)}
+          </StickyView> : <></>}
+            {this.renderContent(props)}
         </>
     );
   }

@@ -112,6 +112,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     }
 
     onComponentChange(w: BaseComponent<any, any, any>) {
+      // todo stickyFeature
       this.refresh();
     }
 

@@ -1,6 +1,6 @@
 
 import React from "react";
-import { View, ViewStyle } from "react-native";
+import { ViewStyle, Animated } from "react-native";
 import { Theme, ThemeProvider } from "../styles/theme";
 
 const FixedViewContext = React.createContext<FixedViewContainer>(null as any);
@@ -37,11 +37,11 @@ export class FixedView extends React.Component<FixedViewProps> {
                 if (this.props.show) {
                     container.add(this, (
                         <ThemeProvider value={this.props.theme} key={this.id}>
-                            <View style={[
+                            <Animated.View style={[
                                 {position: 'absolute'},
                                 this.props.style]}>
                                 {this.props.children}
-                            </View>
+                            </Animated.View>
                         </ThemeProvider>
                     ));
                 } else {

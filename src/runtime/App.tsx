@@ -53,6 +53,7 @@ import BasePartial from './base-partial.component';
 import BasePage from './base-page.component';
 import { WmMemo } from './memo.component';
 import { BaseVariable, VariableEvents } from '../variables/base-variable';
+import { StickyViewContainer } from '../core/sticky-container.component';
 
 declare const window: any;
 
@@ -502,33 +503,35 @@ export default abstract class BaseApp extends React.Component implements Navigat
           <SafeAreaInsetsContext.Consumer>
             {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
               (this.getProviders(
-                (<SafeAreaView  style={{flex: 1}}> 
-                  <StatusBar />
+                (<View  style={{flex: 1}}> 
+                  <StatusBar translucent={true} backgroundColor={"transparent"}/>
                   <ThemeProvider value={this.appConfig.theme}>
                   <View style={{ flex: 1 }}>
-                  <FixedViewContainer>
-                    <View style={styles.container}>
-                      <GestureHandlerRootView style={styles.container}>
-                      <AppNavigator
-                        app={this}
-                        landingPage={(this.props as any).pageName}
-                        landingPageParams={(this.props as any)?.pageName && this.props}
-                        hideDrawer={this.appConfig.drawer?.getContent() === null}
-                        drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
-                        drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                        {commonPartial}
-                      </GestureHandlerRootView>
-                    </View>
-                    {this.appConfig.url ?
-                      (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
-                      : null}
-                  </FixedViewContainer>
+                  <StickyViewContainer>
+                    <FixedViewContainer>
+                      <View style={styles.container}>
+                        <GestureHandlerRootView style={styles.container}>
+                        <AppNavigator
+                          app={this}
+                          landingPage={(this.props as any).pageName}
+                          landingPageParams={(this.props as any)?.pageName && this.props}
+                          hideDrawer={this.appConfig.drawer?.getContent() === null}
+                          drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
+                          drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                          {commonPartial}
+                        </GestureHandlerRootView>
+                      </View>
+                      {this.appConfig.url ?
+                        (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
+                        : null}
+                    </FixedViewContainer>
+                  </StickyViewContainer>
                   {this.renderToasters()}
                   {this.renderDialogs()}
                   {this.renderDisplayManager()}
                   </View>
                   </ThemeProvider>
-                </SafeAreaView>))
+                </View>))
               )
             }
           </SafeAreaInsetsContext.Consumer>

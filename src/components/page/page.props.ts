@@ -1,6 +1,6 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
-import { SkeletonAnimationProps } from '@wavemaker/app-rn-runtime/runtime/base-fragment.component';
-
-export default interface WmPageProps extends BaseProps {
-  children: any[]
+export default class WmPageProps extends BaseProps{
+  // todo stickyFeature
+  children: any[] = [];
+  scrollable: boolean = false;
 }

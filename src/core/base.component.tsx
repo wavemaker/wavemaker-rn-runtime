@@ -93,6 +93,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private _showView = true;
     public closestTappable?: Tappable;   
     public componentNode: WmComponentNode;
+    private layout: any = {};
+    public baseView: any = View;
 
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
@@ -354,12 +356,18 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
     }
 
-    handleLayout(event: LayoutChangeEvent) {
+    handleLayout(event: LayoutChangeEvent, ref: any =  null) {
         const key = this.state.props.name;
         const newLayoutPosition = {
             [key as string]: event.nativeEvent.layout.y
         }
         setPosition(newLayoutPosition);
+
+        let compRef = ref !== null ? ref : this.baseView 
+        // Getting layout values by measure
+        compRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
+            this.layout = { x, y, width, height, px, py }
+        });
     }
 
     copyStyles(property: string, from: any, to: any) {
@@ -392,18 +400,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (!this.state.animatableProps) {
             return (
                 <>
-                    <View 
-                        onLayout={(event)=>{this.handleLayout(event)}}
-                        style={{height: 0, width: 0}}
-                    >
-                    </View>
                     {n}
                 </>
         )
         }
         return (
             <Animatable.View 
-                onLayout={(event)=>{this.handleLayout(event)}} 
                 key={this.state.animationId} 
                 {...this.state.animatableProps}
             >
@@ -491,6 +493,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     public getLayoutOfWidget(): number | void {
         return  getPosition(this.state.props.name || '')
+    }
+
+    public getLayout() {
+        return this.layout ;
     }
 
     public scrollToTop(){

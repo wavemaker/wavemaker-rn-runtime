@@ -1,5 +1,5 @@
 import React from 'react';
-import { ColorValue, View, ViewStyle, Button } from 'react-native';
+import { ColorValue, View, ViewStyle, Button, LayoutChangeEvent } from 'react-native';
 
 import WmContainerProps from './container.props';
 import { DEFAULT_CLASS, WmContainerStyles } from './container.styles';
@@ -23,8 +23,8 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
 
   getBackground(): React.JSX.Element | null {
     return this._showSkeleton ? null : this._background
-  } 
-  
+  }
+
   public renderSkeleton(props: WmContainerProps): React.ReactNode {
       if(!props.showskeletonchildren) {
         const dimensions = {
@@ -55,18 +55,22 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       ...this.styles.root,
       ...this.styles.skeleton.root
     } : this.styles.root
-
     return (
-      <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={styles}>
+      <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={styles} 
+        onLayout={(event: LayoutChangeEvent, ref: any) => {
+          this.handleLayout(event, ref)
+        }}
+      >
         {this.getBackground()}
         <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect}>
           { props.issticky ? 
              (<StickyView
                 component={this}
+                show={'ALWAYS'}
                 style={{...styles}} 
                 theme={this.theme}>
                 {this.renderContent(props)}
-              </StickyView>) : null }
+              </StickyView>) : <></> }
             {!props.scrollable ? <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View> : 
             <ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
             onScroll={(event) => {this.notify('scroll', [event])}}

@@ -12,6 +12,7 @@ export default class AnimatedviewProps {
   style?: any;
   exitanimation?: string = null as any;
   accessibilityProps?: any;
+  onLayout?: any;
 }
 
 const AnimationMap: any = {
@@ -161,9 +162,13 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
        ref={this.handleViewRef}
        {...this.props.accessibilityProps}
        testID="animatableView"
+       onLayout={(e)=>this.props.onLayout && this.props.onLayout(e, this.view)}
        >
         {this.props.children}
       </Animatable.View>
-    ): (<View style={this.props.style} {...this.props.accessibilityProps} testID="non_animatableView">{this.props.children}</View>);
+    ): (<View style={this.props.style} {...this.props.accessibilityProps} testID="non_animatableView"
+        ref={this.handleViewRef}
+        onLayout={(e)=>this.props.onLayout && this.props.onLayout(e, this.view)}
+       >{this.props.children}</View>);
   }
 }
