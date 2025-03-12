@@ -145,7 +145,7 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
             ref={(ref) => this.webview = ref}
             nestedScrollEnabled={true}
             containerStyle = {this.styles.webview}
-            style={this.styles.webview}
+            // style={this.styles.webview} // when using style, there are some inconsistencies observed in Android. containerStyle gives us a uniformity in IOS and Android.
             source={{
               uri: props.src
             }}
