@@ -139,9 +139,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
     }).then(() => {
       !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
       if (source === 'blur') {
-        setTimeout(() => {
-          this.invokeEventCallback('onBlur', [event, this.proxy]);
-        }, 10);
+        this.invokeEventCallback('onBlur', [ event, this.proxy]);
       }
     })
   }
