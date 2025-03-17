@@ -73,7 +73,7 @@ export default class WmNavbar extends BaseNavComponent<WmNavbarProps, WmNavbarSt
     const styleName = props.layout + 'Nav';
 
     return (
-      <View style={[this.theme.getStyle(styleName), this.styles.nav]}>
+      <View style={[this.theme.getStyle(styleName), this.styles.nav]} onLayout={(event) => this.handleLayout(event)}>
           { navItems && navItems.length ? navItems.map((item, index) => {
               return this.renderNavItem(item, index, props);
             }) : childElements

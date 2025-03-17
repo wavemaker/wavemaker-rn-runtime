@@ -339,7 +339,10 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
       ...this.styles.skeleton.root
     } : this.styles.root
     return (
-      <View style={styles}>
+      <View 
+        style={styles}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this.getBackground()}
         <View style={this.styles.wizardHeader}>
           {activeStep && isProgressCircleHeader ? (this.renderProgressCircleHeader(activeStep, this.state.currentStep)) : (this.steps ? this.steps.map((step, i) => this.renderWizardHeader(step, i)) : null)}

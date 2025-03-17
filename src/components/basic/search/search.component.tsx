@@ -311,11 +311,11 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
          </TextInput>
          {(props.showclear && !(this.state.props.disabled || this.state.props.readonly)) && this.state.props.query ? <WmButton onTap={this.clearSearch.bind(this)}
                    id={this.getTestId('clear')}
-                   styles={this.styles.clearButton} iconclass={'wi wi-clear'}></WmButton> : null}
+            styles={this.styles.clearButton} iconclass={props.clearsearchiconclass || 'wi wi-clear'}></WmButton> : null}
        </View>
         {props.showSearchIcon && props.type === 'search' ? <WmButton styles={this.styles.searchButton}
                   id={this.getTestId('search')}
-                  iconclass={props.iconclass} onTap={this.searchIconPress.bind(this)}></WmButton> : null}
+          iconclass={props.searchiconclass || props.iconclass} onTap={this.searchIconPress.bind(this)}></WmButton> : null}
       </View>
     );
   }
@@ -390,7 +390,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   renderWidget(props: WmSearchProps) {
     const result = this.state.data;
     return (
-      <View>
+      <View
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this.renderSearchBar()}
         {this.state.isOpened ? (
           <ModalConsumer>

@@ -278,7 +278,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
 
   renderWidget(props: WmChipsProps) {
     const chips = this.state.chipsList;
-    return (<View style={this.styles.root}>
+    return (<View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
 
       <View style={this.styles.chipsWrapper}>
         {

@@ -222,7 +222,10 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
       ...this.styles.skeleton.root
     } : this.styles.root
     return (
-      <View style={styles}>
+      <View 
+        style={styles}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this.getBackground()}
         <View onLayout={this.setTabLayout.bind(this)} style={{width: '100%'}}></View>
         <WmTabheader

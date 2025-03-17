@@ -354,17 +354,23 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
     }
 
-    handleLayout(event: LayoutChangeEvent) {
-        const key = this.props.name;
-        const newLayoutPosition = {
-            [key as string]: {
-                y: event.nativeEvent.layout.y,
-                x: event.nativeEvent.layout.x
-            }
-        }
-        setPosition(newLayoutPosition);
+    protected getName() {
+        return this.props.name;
     }
 
+    public handleLayout(event: LayoutChangeEvent ) {
+        const key = this.getName && this.getName();
+        if(key){
+            const newLayoutPosition = {
+                [key as string]: {
+                    y: event.nativeEvent.layout.y,
+                    x: event.nativeEvent.layout.x
+                }
+            }
+            setPosition(newLayoutPosition);
+        }
+    }
+    
     copyStyles(property: string, from: any, to: any) {
         if (!isUndefined(from[property])) {
         to[property] = from[property];
@@ -395,18 +401,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (!this.state.animatableProps) {
             return (
                 <>
-                    <View 
-                        onLayout={(event)=>{this.handleLayout(event)}}
-                        style={{height: 0, width: 0}}
-                    >
-                    </View>
                     {n}
                 </>
-        )
+            )
         }
         return (
             <Animatable.View 
-                onLayout={(event)=>{this.handleLayout(event)}} 
                 key={this.state.animationId} 
                 {...this.state.animatableProps}
             >
@@ -492,7 +492,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.getTestProps(suffix || 'l');
     }
 
-    public getLayoutOfWidget(name: string): {[index: string]: number} | void {
+    public getLayoutOfWidget(name: string): {x: number, y: number} | undefined {
         return getPosition(name)
     }
 
@@ -508,13 +508,24 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     scrollToPosition(widgetName: string) {
-        const positionY = this.getLayoutOfWidget(widgetName)?.y;
+        const positionY = this.getLayoutOfWidget(widgetName)?.y; // Safe access
         this.notify('scrollToPosition', [{
             x: 0,
-            y: positionY
-        }])
+            y: positionY,
+        }]);
     }
 
+    public hideSkeletonInPageContentWhenDisabledInPage = () => {
+       const isPageContentWidget = this.defaultClass && this.defaultClass === 'app-page-content'
+       const isCurrentParentIsContent = this.parent && this.parent.defaultClass && this.parent.defaultClass === 'app-content'
+       const showSkeletonInPageContent = this.parent.state?.props?.showskeleton === false
+    
+       if(isPageContentWidget && isCurrentParentIsContent && showSkeletonInPageContent) {
+        return false;
+       }
+       return undefined;
+    }
+ 
     private getDependenciesFromContext(fn: () => ReactNode) {
         return (
         <TappableContext.Consumer>{(tappable) => {
@@ -530,7 +541,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 {(parent) => {
                                     this.setParent(parent);
                                     this._showSkeleton = this.state.props.showskeleton !== false 
-                                        && (this.parent?._showSkeleton || this.state.props.showskeleton === true);
+                                        && (this.parent?._showSkeleton || this.state.props.showskeleton === true) && this.hideSkeletonInPageContentWhenDisabledInPage() === undefined
                                     return (
                                         <ParentContext.Provider value={this}>
                                             <ThemeConsumer>
@@ -551,7 +562,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     
     public render(): ReactNode {
         const props = this.state.props;
-        this.isFixed = false;
         const selectedLocale = this.i18nService.getSelectedLocale();
         return this.getDependenciesFromContext(() => {
             WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
@@ -561,6 +571,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 || !this._showView) {
                 return null;
             }
+            this.isFixed = false;
             const classname = this.getStyleClassName();
             this.styles =  this.theme.mergeStyle(
                 this.getDefaultStyles(),

@@ -89,6 +89,13 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
         this.invokeEventCallback('onLoad', [this]);
       });
     }
-    return this.state.showContent && (<View style={this.styles.root}>{this._background}{props.children}</View>);
+    return this.state.showContent && (
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
+        {this._background}
+        {props.children}
+      </View>);
   }
 }

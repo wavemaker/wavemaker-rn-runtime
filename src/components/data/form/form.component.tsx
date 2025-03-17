@@ -49,7 +49,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   getParentFormRef(pformName: string) {
     let current = this.parent;
     while (current) {
-      if (get(current, 'props.name') === pformName) {
+      if (pformName && (get(current, 'props.name') === pformName)) {
         this.parentFormRef = current;
         break;
       }
@@ -170,6 +170,9 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       }
       let key = get(formField, 'formKey') || get(fw, 'props.name');
       fw && fw.setState({ isDefault: true });
+      if(Array.isArray(formData)){
+        formData = formData[0];
+      }
       formField.updateState({
         props: {
           datavalue: get(formData, key)
@@ -411,7 +414,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       <ToastConsumer>
         {(toastService: ToastService) => {
           this.toaster = toastService;
-          return <View style={this.styles.root}>
+          return <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
             {this._background}
             {props.iconclass || props.title || props.subheading ? (
               <View style={this.styles.heading}>

@@ -90,6 +90,8 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
         this.updateState({position: position} as WmPopoverState);
       });
     }
+
+    this.handleLayout(e)
   };
 
   public renderPopoverContent (props : WmPopoverProps , styles : WmPopoverStyles, dimensions: any) {

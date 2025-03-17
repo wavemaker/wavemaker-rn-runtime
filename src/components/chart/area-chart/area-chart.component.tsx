@@ -29,6 +29,9 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
 
   onViewLayoutChange = (e: LayoutChangeEvent) => {
     let viewWidth = e.nativeEvent.layout.width;
+
+    this.handleLayout(e);
+
     this.updateState({
       chartWidth: viewWidth
     } as WmAreaChartState)

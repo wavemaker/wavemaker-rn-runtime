@@ -38,7 +38,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
     //@ts-ignore
     const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{props.badgevalue}</Badge>): null;
     return (
-      <View style={this.styles.root}>
+      <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
         {this._background}
         <View style={this.styles.leftSection}>
         {props.showDrawerButton && (<WmIcon

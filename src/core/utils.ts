@@ -19,7 +19,19 @@ const TIME_ROLLUP_OPTIONS = {
   YEAR: 'year'
 };
 
-const AppLayoutPosition: { [index: string]: {[index:string]: number} } = {}
+type LayoutData = {
+  [index: string]: {
+    [index: string]: {
+      x: number, 
+      y: number
+    }
+  }
+}
+
+const AppLayoutPosition: { currentPage: string, data: LayoutData} = {
+  currentPage: 'Main',
+  data: {}
+}
 
 const _deepCopy = (o1: any, ...o2: any) => {
     o2.forEach((o: any) => {
@@ -374,7 +386,7 @@ export function removeUndefinedKeys(obj: any) {
   return obj;
 }
 // * get total number of days in a month of a year
-function getDaysInMonth(month: number, year: number) {
+export function getDaysInMonth(month: number, year: number) {
   return new Date(year, month, 0).getDate();
 }
 
@@ -387,7 +399,7 @@ export const getDates = (
   const daysInMonth = getDaysInMonth(month, year);
   const dates = Array.from({length: daysInMonth}, (v, i) => i + 1);
 
-  const datesInRange = dates.filter(date => date >= startDate);
+  const datesInRange = dates.filter(date => date >= startDate && date <= endDate);
 
   return datesInRange;
 };
@@ -409,7 +421,7 @@ export const monthNames = [
 
 export const getMonths = (startMonth: number, endMonth: number) => {
   const months = monthNames.map(name => name.substring(0, 3));
-  const monthRange = months.filter((_, index) => index >= startMonth)
+  const monthRange = months.filter((_, index) => index >= startMonth && index <= endMonth);
 
   return monthRange;
 };
@@ -594,18 +606,17 @@ export function getNumberOfEmptyObjects(noOfItems: number) {
   return Array.from({ length: noOfItems }, () => ({}));
 }
 
-export const setPosition = (data: { [index: string]: {[index: string]: number} }): void => {
+export const setPosition = (data: { [index: string]: {x: number, y: number} }): void => {
   Object.keys(data).forEach((key: string):void => {
-    AppLayoutPosition[key] = data[key];
-  })
-} 
-
-export const resetLayoutPositions = (): void => {
-  Object.keys(AppLayoutPosition).forEach((key: string) => {
-    delete AppLayoutPosition[key];
+    AppLayoutPosition.data[AppLayoutPosition.currentPage][key] = data[key]
   })
 }
+  
+export const getPosition = (key: string): {x: number, y: number} => {
+  return AppLayoutPosition.data[AppLayoutPosition.currentPage][key];
+}
 
-export const getPosition = (key: string): {[index: string]: number} => {
-  return AppLayoutPosition[key];
+export const setCurrentPageInAppLayout = (pageName: string): void => {
+  AppLayoutPosition.currentPage = pageName;
+  AppLayoutPosition.data[pageName] = {};
 }

@@ -38,7 +38,7 @@ export class WmDatePickerModal extends BaseComponent<
         onRequestClose={onClose}
         onDismiss={onClose}
       >
-        <View style={styles.root}>
+        <View style={styles.root} onLayout={(event) => this.handleLayout(event)}>
           <TouchableWithoutFeedback style={styles.flex1} onPress={onClose}>
             <View style={styles.flex1} />
           </TouchableWithoutFeedback>

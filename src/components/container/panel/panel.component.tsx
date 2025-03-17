@@ -150,7 +150,12 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
       ...this.styles.root,
       ...this.styles.skeleton.root
     } : this.styles.root
-    return (<View style={styles} testID={this.getTestId()}>
+    return (
+    <View 
+      style={styles} 
+      testID={this.getTestId()} 
+      onLayout={(event) => this.handleLayout(event)}
+    >
       {this.getBackground()}
       {this.renderHeader()}
       {this.renderPane((

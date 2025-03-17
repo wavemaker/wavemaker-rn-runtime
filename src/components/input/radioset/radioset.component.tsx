@@ -114,7 +114,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
   renderWidget(props: WmRadiosetProps) {
     const items = this.state.dataItems;
     return props.radiosetscroll ? (
-      <ScrollView style={this.styles.root}>
+      <ScrollView style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
         <ScrollView horizontal={true}
           style={this.isRTL && Platform.OS == 'android' ? { transform: [{ scaleX: -1 }] } : {}}
           contentContainerStyle={this.isRTL && Platform.OS == 'android' ? { transform: [{ scaleX: -1 }] } : {}}
@@ -124,7 +124,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
         </ScrollView>
       </ScrollView>
     ) : (
-      <View style={[this.styles.root]}>
+      <View style={[this.styles.root]} onLayout={(event) => this.handleLayout(event)}>
         {props.groupby && this.renderGroupby()}
         {!props.groupby && this.renderRadioButtons(items)}
       </View>

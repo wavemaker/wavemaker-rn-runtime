@@ -83,9 +83,12 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     super.componentDidMount();
   }
 
-  onViewLayoutChange(e: LayoutChangeEvent){
+  onViewLayoutChange = (e: LayoutChangeEvent) => {
     let viewWidth = e.nativeEvent.layout.width;
     let viewHeight = e.nativeEvent.layout.height;
+    
+    this.handleLayout(e)
+    
     if (this?.state && viewWidth !== this.state.chartWidth) {
       this.updateState({
         chartWidth: Number(viewWidth),

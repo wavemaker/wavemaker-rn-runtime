@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform, TouchableOpacity, ViewStyle, DimensionValue } from 'react-native';
+import { View, Text, Platform, TouchableOpacity, ViewStyle, DimensionValue, LayoutChangeEvent } from 'react-native';
 import moment from 'moment';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -359,7 +359,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }}</ModalConsumer>);
   }
 
-  addTouchableOpacity(props: WmDatetimeProps, children: React.JSX.Element, styles?: any) : React.ReactNode{
+  addTouchableOpacity(props: WmDatetimeProps, children: React.JSX.Element, styles?: any, handleLayout?: any) : React.ReactNode{
     const hint = children?.props?.hint;
     const accessibilityProps = hint ? {accessible: true, accessibilityHint: hint} : {};
 
@@ -367,6 +367,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       <TouchableOpacity 
         {...this.getTestPropsForAction()} 
         {...accessibilityProps}
+        onLayout={handleLayout}
         style={styles} onPress={() => {
         if (!props.readonly) {
           this.onFocus();
@@ -509,7 +510,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             />
           )}
         </View>
-        ))
+        ), {} , this.handleLayout)
     );
   }
 }
