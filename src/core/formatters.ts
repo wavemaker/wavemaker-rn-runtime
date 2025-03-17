@@ -51,6 +51,7 @@ export class DateToStringFormatter implements DateFormatter {
             "YYYY-MM-DDTHH:mm:ss.SSS-00:00",
             "ddd, DD MMM YYYY HH:mm:ss ZZ",
             "DD MMM YYYY HH:mm:ss ZZ",
+            'x'
         ], true);
 
         if (format === 'timestamp')
