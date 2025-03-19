@@ -80,49 +80,47 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
       <View style={{height: '100%', width: '100%', backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
         {this._background}
         <SafeAreaInsetsContext.Consumer>
-          {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-            const keyboardOffset = insets?.bottom || 0;
-            const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + 100 : keyboardOffset;
-            return (
-              <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                keyboardVerticalOffset={verticalOffset}
-                style={{ flex: 1 }}>
-                <ScrollView 
-                  ref={this.scrollRef}
-                  contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
-                  showsVerticalScrollIndicator={showScrollbar}
-                  onScroll={this.handleScroll}
-                  alwaysBounceVertical={false}
-                  alwaysBounceHorizontal={false}
-                  bounces={false}
-                  scrollEventThrottle={48}>
-                  {props.children}
-                </ScrollView>
-              </KeyboardAvoidingView>
-            )}}
-        </SafeAreaInsetsContext.Consumer>
-      </View>      
-    ) : (
-      <View style={[this.styles.root,
-          {backgroundColor: this._showSkeleton ?
-            this.styles.skeleton.root.backgroundColor : 
-            this.styles.root.backgroundColor}]}>
-        <SafeAreaInsetsContext.Consumer>
-          {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-            const keyboardOffset = insets?.bottom || 0;
-            const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + 100 : keyboardOffset;
-            return (
-              <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                keyboardVerticalOffset={verticalOffset}
-                style={{ flex: 1 }}>
-                {this._background}
+        {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+          const keyboardOffset = insets?.bottom || 0;
+          const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + props.keyboardverticaloffset : keyboardOffset;
+          return (
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+              keyboardVerticalOffset={verticalOffset}
+              style={{ flex: 1 }}>
+              <ScrollView 
+                ref={this.scrollRef}
+                contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
+                showsVerticalScrollIndicator={showScrollbar}
+                onScroll={(event) => {this.notify('scroll', [event])}}
+                scrollEventThrottle={48}>
                 {props.children}
-              </KeyboardAvoidingView>
-            )}}
-        </SafeAreaInsetsContext.Consumer>
-      </View>
-    );
+              </ScrollView>
+            </KeyboardAvoidingView>
+          )}}
+      </SafeAreaInsetsContext.Consumer>
+      </View>      
+      ) : (
+        <View style={[this.styles.root,
+            {backgroundColor: this._showSkeleton ?
+              this.styles.skeleton.root.backgroundColor : 
+              this.styles.root.backgroundColor}]}>
+          <SafeAreaInsetsContext.Consumer>
+            {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+              const keyboardOffset = insets?.bottom || 0;
+              const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + props.keyboardverticaloffset : keyboardOffset;
+              return (
+                <KeyboardAvoidingView
+                  behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                  keyboardVerticalOffset={verticalOffset}
+                  style={{ flex: 1 }}>
+                  {this._background}
+                  {props.children}
+                </KeyboardAvoidingView>
+              )}}
+          </SafeAreaInsetsContext.Consumer>
+        </View>
+      );
+    }
   }
-}
+      
