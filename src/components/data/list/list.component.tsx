@@ -76,19 +76,31 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         selectedItem = $item;
       }
       this.selectedItemWidgets = this.itemWidgets[$index as number];
+      let groupKey: string | null = null;
+
+      if (props.direction === 'horizontal') {
+        this.state.groupedData?.forEach((group) => {
+          if (group.data.includes($item)) {
+            groupKey = group.key;
+          }
+        });
+      }
 
       return new Promise(resolve => { 
         this.updateState({
           props: { selecteditem: selectedItem },
           selectedindex: $index
         } as WmListState, () => {
+          if(props.direction === 'horizontal'){
+            this.scrollToItem(groupKey, $index as number);
+          }
           this.invokeEventCallback(eventName, [this.proxy, $item]);
           $event && this.invokeEventCallback('onTap', [$event, this.proxy]);
           resolve(null);
         });
       });
-    } 
-    else {
+      
+    } else {
       return Promise.resolve(null);
     }
   }
