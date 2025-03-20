@@ -32,6 +32,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private hasMoreData = true;
   public leftActionTemplate?: WmListActionTemplate;
   public rightActionTemplate?: WmListActionTemplate;
+  private flatListRefs:any = {};
 
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
@@ -74,16 +75,30 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         selectedItem = $item;
       }
       this.selectedItemWidgets = this.itemWidgets[$index as number];
-      return new Promise(resolve => {
+      let groupKey: string | null = null;
+
+      if (props.direction === 'horizontal') {
+        this.state.groupedData?.forEach((group) => {
+          if (group.data.includes($item)) {
+            groupKey = group.key;
+          }
+        });
+      }
+
+      return new Promise(resolve => { 
         this.updateState({
           props: { selecteditem: selectedItem },
           selectedindex: $index
         } as WmListState, () => {
+          if(props.direction === 'horizontal'){
+            this.scrollToItem(groupKey, $index as number);
+          }
           this.invokeEventCallback(eventName, [this.proxy, $item]);
           $event && this.invokeEventCallback('onTap', [$event, this.proxy]);
           resolve(null);
         });
       });
+      
     } else {
       return Promise.resolve(null);
     }
@@ -446,13 +461,26 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   }
 
+  private scrollToItem = (groupKey: string | null, itemIndex: number) => {
+    const refKey = groupKey || 'main';
+    if (this.flatListRefs[refKey]) {
+      this.flatListRefs[refKey].scrollToIndex({
+        index: itemIndex,
+        animated: true,
+        viewPosition: 0.5,
+      });
+    }
+  };
+
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
+
     return (
     <View style={this.styles.root} onLayout={e => this.onLayoutChange(e)}>
       {!isEmpty(this.state.groupedData) ? this.state.groupedData.map((v: any, i) => ((
           <View style={this.styles.group} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
             <FlatList
+              ref={(ref) => { this.flatListRefs[v.key || 'main'] = ref; }}
               testID={this.getTestId('flat_list')}
               key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
@@ -511,6 +539,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   renderWidget(props: WmListProps) {
     this.invokeEventCallback('onBeforedatarender', [this, this.state.props.dataset]);
     const isHorizontal = (props.direction === 'horizontal');
+
     return (
       <View 
         style={isHorizontal ? null : { width: '100%' }}
