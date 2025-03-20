@@ -6,4 +6,5 @@ export default class WmPageContentProps extends SkeletonAnimationProps {
     scrollable: boolean = true;
     onSwipeup?: Function = null as any;  
     onSwipedown?: Function = null as any;
+    keyboardverticaloffset: number = 100;
 }
