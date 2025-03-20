@@ -350,7 +350,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderItem(item: any, index: number, props: WmListProps) {
     const cols = this. getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
-    
+
     const styles = this._showSkeleton ? {
       ...this.styles.item,
       ...this.styles.skeleton.root
@@ -387,7 +387,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               (cols && cols > 1) || isHorizontal ? {
                 paddingRight: (isNil(this.styles.item.marginRight)
                   ? this.styles.item.margin : this.styles.item.marginRight) || 4
-              } : null
+              } : null,
+              this.styles.itemContainer
             ]
           }>
           {props.renderItem(item, index, this)}
