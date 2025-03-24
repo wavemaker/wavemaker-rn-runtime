@@ -464,8 +464,10 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                   isFocused: false,
                   showDatePickerModal: false
                 } as BaseDatetimeState, () => {
-                  this.onBlur();
-
+                  setTimeout(() => {
+                    this.onBlur();
+                  }, 10);
+                  
                   // * showing time picker after selecting date in datetime mode
                   if (this.state.props.mode === "datetime") {
                     this.setState({
@@ -497,7 +499,11 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                 this.updateState({
                   isFocused: false,
                   showTimePickerModal: false
-                } as BaseDatetimeState, () => this.onBlur());
+                } as BaseDatetimeState, () =>   {
+                  setTimeout(() => {
+                    this.onBlur()
+                  }, 10);  
+                });
               }}
               onCancel={() => {
                 // this.onDateChange(null as any, this.state.dateValue || undefined);
