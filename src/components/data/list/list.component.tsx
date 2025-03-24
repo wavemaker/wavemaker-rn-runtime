@@ -180,7 +180,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     } as WmListState);
   }
 
-  selectItem(item: any){
+  selectItem = (item: any) => {
     const dataset = this.state.props.dataset;
     if(isNumber(item)){
       this.onSelect(dataset[item], item);
