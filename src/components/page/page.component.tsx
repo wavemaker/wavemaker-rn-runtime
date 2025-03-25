@@ -5,7 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 
 import WmPageProps from './page.props';
 import { DEFAULT_CLASS, WmPageStyles } from './page.styles';
-import { StickyViewContainer } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { StickyViewContainer } from '@wavemaker/app-rn-runtime/core/sticky-nav-container.component';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 export class WmPageState extends BaseComponentState<WmPageProps> {}
@@ -23,6 +23,9 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   constructor(props: WmPageProps) {
     super(props, DEFAULT_CLASS, );
     this.scrollRef = createRef();
+    this.subscribe('pc_scroll', (e: any)=>{
+      this.notify('scroll', [e])
+    })
   }
 
   private onScroll = (e: any)=>{
@@ -49,26 +52,31 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   }
 
   renderWidget(props: WmPageProps) {
+    const isFullscreenMode = false; //todo stickyFeature
     return (
-      <SafeAreaInsetsContext.Consumer>
-        {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-          const rootStyles = [this.styles.root, {paddingTop: insets?.top || 0 }]
-          return props.scrollable ? <ScrollView
-            ref={this.scrollRef}
-            {...this.panResponder.panHandlers}
-            style={rootStyles}
-            onScroll={this.onScroll}
-            scrollEventThrottle={16}
-          >
-            {this._background}
-            {props.children}
-          </ScrollView> : 
-          <View style={rootStyles}> 
-            {this._background}
-            {props.children}
-          </View>
-        }}
-      </SafeAreaInsetsContext.Consumer>
+      <StickyViewContainer>
+        <SafeAreaInsetsContext.Consumer>
+          {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+            const rootStyles = [this.styles.root, {
+              paddingTop: isFullscreenMode && insets?.top || 0 
+            }]
+            return props.scrollable ? <ScrollView
+              ref={this.scrollRef}
+              {...this.panResponder.panHandlers}
+              style={rootStyles}
+              onScroll={this.onScroll}
+              scrollEventThrottle={16}
+            >
+              {this._background}
+              {props.children}
+            </ScrollView> : 
+            <View style={rootStyles}> 
+              {this._background}
+              {props.children}
+            </View>
+          }}
+        </SafeAreaInsetsContext.Consumer>
+      </StickyViewContainer>
     ); 
   }
 }

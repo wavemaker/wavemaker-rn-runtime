@@ -9,7 +9,7 @@ import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/pictur
 
 import WmAppNavbarProps from './appnavbar.props';
 import { DEFAULT_CLASS, WmAppNavbarStyles } from './appnavbar.styles';
-import { StickyView } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { StickyView } from '@wavemaker/app-rn-runtime/core/sticky-nav-container.component';
 
 export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {}
 
@@ -86,8 +86,8 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
             show={'ON_SCROLL_DOWN'}
           >
             {this.renderContent(props)}
-          </StickyView> : <></>}
-            {this.renderContent(props)}
+          </StickyView> :
+          this.renderContent(props)}
         </>
     );
   }

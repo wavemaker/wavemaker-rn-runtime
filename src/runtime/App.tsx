@@ -53,7 +53,6 @@ import BasePartial from './base-partial.component';
 import BasePage from './base-page.component';
 import { WmMemo } from './memo.component';
 import { BaseVariable, VariableEvents } from '../variables/base-variable';
-import { StickyViewContainer } from '../core/sticky-container.component';
 
 declare const window: any;
 
@@ -495,6 +494,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   renderApp(commonPartial:React.ReactNode) {
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
+    const isFullscreenMode = false; //todo stickyFeature
+    const Wrapper = isFullscreenMode ? View : SafeAreaView;
     return (
       <SafeAreaProvider>
         <PaperProvider theme={this.paperTheme}>
@@ -503,11 +504,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
           <SafeAreaInsetsContext.Consumer>
             {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
               (this.getProviders(
-                (<View  style={{flex: 1}}> 
+                (<Wrapper  style={{flex: 1}}> 
                   <StatusBar translucent={true} backgroundColor={"transparent"}/>
                   <ThemeProvider value={this.appConfig.theme}>
                   <View style={{ flex: 1 }}>
-                  <StickyViewContainer>
                     <FixedViewContainer>
                       <View style={styles.container}>
                         <GestureHandlerRootView style={styles.container}>
@@ -525,13 +525,12 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
                         : null}
                     </FixedViewContainer>
-                  </StickyViewContainer>
                   {this.renderToasters()}
                   {this.renderDialogs()}
                   {this.renderDisplayManager()}
                   </View>
                   </ThemeProvider>
-                </View>))
+                </Wrapper>))
               )
             }
           </SafeAreaInsetsContext.Consumer>

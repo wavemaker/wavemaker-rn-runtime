@@ -9,7 +9,7 @@ import { PartialHost, PartialHostState } from './partial-host.component';
 import { createSkeleton } from '../basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '../basic/skeleton/skeleton.styles';
 import { ScrollView } from 'react-native-gesture-handler';
-import { StickyView } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { StickyView } from '@wavemaker/app-rn-runtime/core/sticky-nav-container.component';
 
 export class WmContainerState extends PartialHostState<WmContainerProps> {
   isPartialLoaded = false;
@@ -63,15 +63,16 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       >
         {this.getBackground()}
         <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect}>
-          { props.issticky ? 
-             (<StickyView
-                component={this}
-                show={'ALWAYS'}
-                style={{...styles}} 
-                theme={this.theme}>
-                {this.renderContent(props)}
-              </StickyView>) : <></> }
-            {!props.scrollable ? <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View> : 
+            {!props.scrollable ? <View style={[dimensions as ViewStyle,  this.styles.content]}>{
+             props.issticky ? 
+              <StickyView
+                 component={this}
+                 show={'ALWAYS'}
+                 style={{...styles}} 
+                 theme={this.theme}>
+                 {this.renderContent(props)}
+               </StickyView> : this.renderContent(props)
+            }</View> : 
             <ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
             onScroll={(event) => {this.notify('scroll', [event])}}
             scrollEventThrottle={48}>

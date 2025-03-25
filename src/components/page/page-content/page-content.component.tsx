@@ -52,7 +52,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   renderWidget(props: WmPageContentProps) {
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
     //     return ((props.scrollable || isWebPreviewMode()) && !this._showSkeleton) ? (
-      return props.scrollable ? (
+      return (props.scrollable || isWebPreviewMode()) ? (
         <View style={{height: '100%', width: '100%', flex: 1, backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
         {this._background}
         <SafeAreaInsetsContext.Consumer>
@@ -66,9 +66,9 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
               style={{ flex: 1 }}>
              <ScrollView 
                 ref={this.scrollRef}
-                contentContainerStyle={this.styles.root}
+                contentContainerStyle={[this.styles.root, { paddingTop:80 }]} //todo stickyFeature
                 showsVerticalScrollIndicator={showScrollbar}
-                onScroll={(event) => {this.notify('scroll', [event])}}
+                onScroll={(event) => {this.notify('pc_scroll', [event], true)}}
                 scrollEventThrottle={48}> 
                   <View style={this.styles.root}>
                    {props.children}
