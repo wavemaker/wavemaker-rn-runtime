@@ -46,61 +46,25 @@ export class StickyView extends BaseComponent<StickyViewProps, StickyViewState, 
         this.destroyScrollListner && this.destroyScrollListner();
     }
 
-    componentWillAttach() {
-        super.componentWillAttach();
-        this.setState({hide: false});
-    }
-
-    componentWillDetach() {
-        super.componentWillDetach();
-        this.setState({hide: true});
-    }
-
     showStickyView(){
        if(this.movedUp){
-        const ht = (this.container?.containerHeight || 0 ) + this.hiddenViewHeight
+        // const c_height = (this.container?.containerHeight || 0 ) + this.hiddenViewHeight
         this.movedUp = false;
-        this.container?.updateContainerHeight(ht)
+        // this.container?.updateContainerHeight(c_height)
         this.container?.moveUp(0);
         this.hideViewOpacity.setValue(1);
-
-        // Animated.parallel([
-        // Animated.timing(this.hideViewOpacity, {
-        //     toValue: 1, 
-        //     duration: 200,
-        //     useNativeDriver: true
-        // }).start();
-        //     Animated.timing(this.container.translateY, {
-        //         toValue: 0, 
-        //         duration: 200,
-        //         useNativeDriver: true
-        //     })
-        // ]).start();
        }
     }
 
-    hideStickyView(e: any, height: number){
-    // const withAnimataion = e.nativeEvent.contentOffset.y >= 20
-        this.hiddenViewHeight = height;
+    hideStickyView(){
+        // this.hiddenViewHeight = height;
+        const height = this.props.component.getLayout()?.height;
         if(!this.movedUp){
-            const ht = (this.container?.containerHeight || 0) - height
+            // const c_height = (this.container?.containerHeight || 0) - height
             this.movedUp = true;
-            this.container?.updateContainerHeight(ht);
+            // this.container?.updateContainerHeight(c_height);
             this.container?.moveUp(-1 * height);
             this.hideViewOpacity.setValue(0);
-
-            // Animated.parallel([
-            //     Animated.timing(this.container.opacity, {
-            //         toValue: 0, 
-            //         duration: 200,
-            //         useNativeDriver: true
-            //     }),
-            //     Animated.timing(this.container.translateY, {
-            //         toValue: -height, 
-            //         duration: 200,
-            //         useNativeDriver: true
-            //     })
-            // ]).start();
         }
     }
 
@@ -115,18 +79,18 @@ export class StickyView extends BaseComponent<StickyViewProps, StickyViewState, 
         const scrollPosition = e.nativeEvent.contentOffset.y;
         let isStickyVisible = false ;
 
-        const containerHeightWithInsets = Math.abs(this.container?.containerHeight || 0) + this.container?.insets?.top
+        // const containerHeightWithInsets = Math.abs(this.container?.containerHeight || 0) + this.container?.insets?.top
         if(e.scrollDirection <= 0){
             if(this.props.show == 'ON_SCROLL_UP'){
-                this.hideStickyView(e, height);
+                this.hideStickyView();
             }else if(this.props.show == 'ON_SCROLL_DOWN'){
                 this.showStickyView();
             }
-            isStickyVisible = (scrollPosition + containerHeightWithInsets) >= (yPosition + height);
-            this.container?.safeAreaInsetViewOpacity.setValue(1);
+            isStickyVisible = scrollPosition > (yPosition);
+            // this.container?.safeAreaInsetViewOpacity.setValue(1);
             if(scrollPosition <=10){
                 pageScroll.scrollRef?.current?.scrollTo({ x: 0, y: 0, animated: false });
-                this.container?.updateContainerHeight(0);
+                // this.container?.updateContainerHeight(0);
                 this.hideViewOpacity.setValue(0);
                 this.container?.remove(this);
                 isStickyVisible = false;
@@ -135,13 +99,12 @@ export class StickyView extends BaseComponent<StickyViewProps, StickyViewState, 
             if(this.props.show == 'ON_SCROLL_UP'){
                 this.showStickyView();
             }else if(this.props.show == 'ON_SCROLL_DOWN'){
-                this.hideStickyView(e, height);
+                this.hideStickyView();
             }
-            isStickyVisible =  scrollPosition >= (yPosition - containerHeightWithInsets);
-            const val =  Math.abs(this.container?.containerHeight || 0) > 0 ? 1 : 0
-            this.container?.safeAreaInsetViewOpacity.setValue(val);
+            isStickyVisible =  scrollPosition > (yPosition);
+            // const val =  Math.abs(this.container?.containerHeight || 0) > 0 ? 1 : 0
+            // this.container?.safeAreaInsetViewOpacity.setValue(val);
         }
-        
         if (this.state.isStickyVisible !== isStickyVisible) {
             this.setState({  isStickyVisible : isStickyVisible })
         }
@@ -149,12 +112,6 @@ export class StickyView extends BaseComponent<StickyViewProps, StickyViewState, 
     }
 
     renderWidget() {
-        // let opacity = this.container?.translateY?.interpolate({
-        //     inputRange: [-80, 0],
-        //     outputRange: [0.7, 1], 
-        //     extrapolate: 'clamp'
-        //   });
-
         this.cachedComponent = (this.props.usememo === true && this.cachedComponent ) || (
         <SafeAreaInsetsContext.Consumer>
             {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
@@ -192,16 +149,16 @@ export class StickyViewContainer extends React.Component {
     id = 0;
     translateY: Animated.Value = new Animated.Value(0);
     opacity: Animated.Value = new Animated.Value(1);
-    containerHeight: number = 0;
+    // containerHeight: number = 0;
     insets: any = null;
     safeAreaInsetViewOpacity: Animated.Value = new Animated.Value(0);
 
-    updateContainerHeight(val: number){
-        this.containerHeight = val;
-    }
+    // updateContainerHeight(val: number){
+    //     this.containerHeight = val;
+    // }
 
     add(c: StickyView, n : React.ReactNode) {
-        this.containerHeight += c.props.component.getLayout()?.height || 0 ;
+        // this.containerHeight += c.props.component.getLayout()?.height || 0 ;
         this.children.set(c, n);
         setTimeout(() => this.setState({id: ++this.id}));
     }
@@ -224,26 +181,14 @@ export class StickyViewContainer extends React.Component {
     }
 
     remove(c: StickyView) {
-        if(this.children.size && this.containerHeight >=0) {
-            this.containerHeight -= c.props.component.getLayout()?.height || 0 ;
-        }
+        // if(this.children.size && this.containerHeight >=0) {
+        //     this.containerHeight -= c.props.component.getLayout()?.height || 0 ;
+        // }
         this.children.delete(c);
         setTimeout(() => this.setState({id: ++this.id}));
     }
 
     render() {
-        // let translateY = this.translateY?.interpolate({
-        //     inputRange: [-80, 0],
-        //     outputRange: [-80, 0], 
-        //     extrapolate: 'clamp'
-        //   });
-
-        // let opacity = this.translateY?.interpolate({
-            // inputRange: [-20, 0],
-            // outputRange: [0, 1], 
-            // extrapolate: 'clamp'
-        // });
-
         return (
         <SafeAreaInsetsContext.Consumer>
             {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
@@ -251,20 +196,19 @@ export class StickyViewContainer extends React.Component {
                 return <>
                 <StickyViewContext.Provider value={this}>
                     {(this.props as any).children}
-                    <Animated.View style={{
+                    {/* <Animated.View style={{
                         height: insets?.top || 0,
                         width: '100%',
                         backgroundColor: 'black', 
                         position:"absolute",
                         top:0,
                         opacity: this.safeAreaInsetViewOpacity
-                    }}></Animated.View>
+                    }}></Animated.View> */}
                     <Animated.View style={{
                         position: 'absolute', top: insets?.top || 0, width: '100%',
                         transform: [{
                             translateY: this.translateY
-                        }],
-                        // opacity: this.opacity
+                        }]
                     }}
                     >
                     {Array.from(this.children.values())}
