@@ -298,15 +298,30 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     const props = this.props;
     let tooltipValue = initialValue;
     const updatedPositionInPx = Number(JSON.stringify(value));
-
+  
     if (updatedPositionInPx) {
       tooltipValue = this.scale.ticks[this.uiScale.getTickIndex(updatedPositionInPx)].markValue;
     }
     const tick = this.scale?.getTick(tooltipValue);
+    
     // * getting custom tooltip label
     if (tick && props.getToolTipExpression && this.initialized) {
       return props.getToolTipExpression(tick.dataitem?.dataObject);
     }
+    
+    // Check if showtooltip contains a currency symbol
+    // Use type assertion to tell TypeScript this could be a string
+    const showTooltipValue = props.showtooltip as any;
+    if (typeof showTooltipValue === 'string') {
+      // Extract any non-numeric prefix (likely a currency symbol)
+       const match = showTooltipValue.trim().match(/^([^\d-]+)/);
+       if (match && match[1]) {
+          const currencySymbol = match[1];
+          // Use the currency symbol found in the showtooltip property
+          return currencySymbol + tick?.displayfield;
+      }
+    }
+    
     return tick?.displayfield;
   }
 
@@ -436,6 +451,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
   renderOldMarkerStyle(props: WmSliderProps) {
     const sDataValue = this.getScaledDataValue();
     const isRangeSlider = props.range && sDataValue.length > 1;
+    
     return (
         <View
           style={{ flexDirection: 'row', justifyContent: 'space-between' }}
