@@ -10,9 +10,15 @@ import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import WmCarouselProps from './carousel.props';
 import { DEFAULT_CLASS, WmCarouselStyles } from './carousel.styles';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import CarousalAnimation from '@wavemaker/app-rn-runtime/gestures/carousel.animation';
+import NewSiwpable from '@wavemaker/app-rn-runtime/gestures/newCarousal.animations';
+import FlatListSiwpable from '@wavemaker/app-rn-runtime/gestures/newFaltlistCarousal.animation';
 
 export class WmCarouselState extends BaseComponentState<WmCarouselProps> {
   activeIndex = 1;
+  containerWidth: number | null = null; 
+  containerHeight: number | null = null;
+  isTemplateReady: boolean = false;
 }
 
 export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouselState, WmCarouselStyles> {
@@ -23,42 +29,43 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   stopPlay: Function = null as any;
   private dotPosition = new Animated.Value(0);
   private wrapperPosition = new Animated.Value(0);
-  private animationView: SwipeAnimation.View | null = null as any;
-  private animationHandlers = {
-    bounds: (e) => {
-      const activeTabIndex = this.state.activeIndex - 1;
-      let lower = 0;
-      if (activeTabIndex > 0) {
-        lower = this.slidesLayout
-          .filter((l , i) => i < activeTabIndex - 1)
-          .reduce((s, l) => s + l.width, 0);
-      }
-      let center = lower + (this.slidesLayout[activeTabIndex - 1]?.width || 0);
-      let upper = center + (this.slidesLayout[activeTabIndex]?.width || 0);
-      return {
-        lower: -1 * lower,
-        center: -1 * center,
-        upper:  -1 * upper
-      };
-    },
-    computePhase: (value) => {
-      const activeTabIndex = this.state.activeIndex - 1;
-      const w = this.slidesLayout[activeTabIndex]?.width || 0;
-      return w && Math.abs(value / w);
-    },
-    onLower: (e) => {
-      this.onSlideChange(this.state.activeIndex - 1);
-    },
-    onUpper: (e) => {
-      if(this.noOfSlides < this.state.activeIndex + 1){
-        this.onSlideChange(1);
-        this.animationView?.setPosition(0);
-      }
-      else{
-        this.onSlideChange(this.state.activeIndex + 1);
-      }
-    }
-  } as SwipeAnimation.Handlers;
+  private animationView: SwipeAnimation.View | NewSiwpable | any | null = null as any;
+
+  // private animationHandlers = {
+  //   bounds: (e) => {
+  //     const activeTabIndex = this.state.activeIndex - 1;
+  //     let lower = 0;
+  //     if (activeTabIndex > 0) {
+  //       lower = this.slidesLayout
+  //         .filter((l , i) => i < activeTabIndex - 1)
+  //         .reduce((s, l) => s + l.width, 0);
+  //     }
+  //     let center = lower + (this.slidesLayout[activeTabIndex - 1]?.width || 0);
+  //     let upper = center + (this.slidesLayout[activeTabIndex]?.width || 0);
+  //     return {
+  //       lower: -1 * lower,
+  //       center: -1 * center,
+  //       upper:  -1 * upper
+  //     };
+  //   },
+  //   computePhase: (value) => {
+  //     const activeTabIndex = this.state.activeIndex - 1;
+  //     const w = this.slidesLayout[activeTabIndex]?.width || 0;
+  //     return w && Math.abs(value / w);
+  //   },
+  //   onLower: (e) => {
+  //     this.onSlideChange(this.state.activeIndex - 1);
+  //   },
+  //   onUpper: (e) => {
+  //     if(this.noOfSlides < this.state.activeIndex + 1){
+  //       this.onSlideChange(1);
+  //       // this.animationView?.setPosition(0);
+  //     }
+  //     else{
+  //       this.onSlideChange(this.state.activeIndex + 1);
+  //     }
+  //   }
+  // } as SwipeAnimation.Handlers;
 
   constructor(props: WmCarouselProps) {
     super(props, DEFAULT_CLASS, new WmCarouselProps(), new WmCarouselState());
@@ -68,10 +75,15 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   }
 
   addSlideLayout(index: number, nativeEvent: LayoutChangeEvent) {
-    this.slidesLayout[index] = nativeEvent.nativeEvent.layout;
-    if (index === this.state.activeIndex) {
-      this.forceUpdate();
+    if(!this.state.isTemplateReady) {
+      console.log("return out of slide layout")
+      return;
     }
+
+    this.slidesLayout[index] = nativeEvent.nativeEvent.layout;
+    // if (index === this.state.activeIndex) {
+    //   this.forceUpdate();
+    // }
   }
 
   private generateItemKey(item: any, index: number, props: WmCarouselProps) {
@@ -95,7 +107,12 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     } else {
       setTimeout(() => {
         this.onSlideChange(1);
-        this.animationView?.setPosition(0);
+        // this.animationView?.setPosition(0);
+        const getCurrentCarousalIndex = this.animationView?.getCurrentIndex();
+        this.animationView?.scrollTo({
+          count: -getCurrentCarousalIndex,
+          animated: true
+        })
       }, 1000);
     }
   }
@@ -182,16 +199,48 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
   next = () => {
     const props = this.state.props;
     const data = props.type === 'dynamic' ? props.dataset : props.children;
-    if (this.state.activeIndex >= data?.length || 0) {
-      this.onSlideChange(1);
-      this.animationView?.setPosition(0);
-    } else {
-      this.animationView?.goToUpper();
+    // if (this.state.activeIndex >= data?.length || 0) {
+    //   this.onSlideChange(1);
+    //   this.animationView?.setPosition(0);
+    // } else {
+    //   this.animationView?.goToUpper();
+    // }
+
+    const getCurrentCarousalIndex = this.animationView?.getCurrentIndex();
+
+    if(this.state.activeIndex < data?.length) {
+      this.animationView?.next({
+        count: 1,
+        animated: true
+      })
+    }else if(this.state.activeIndex === data?.length){
+      this.animationView?.scrollTo({
+        count: -getCurrentCarousalIndex,
+        animated: true
+      })
     }
   }
 
   prev = () => {
-    this.animationView?.goToLower();
+    // this.animationView?.goToLower();
+    const props = this.state.props;
+    const data = props.type === 'dynamic' ? props.dataset : props.children;
+
+    if(this.state.activeIndex > 1) {
+      this.animationView?.prev({
+        count: 1,
+        animated: true
+      })
+    }else {
+      this.animationView?.scrollTo({
+        count: data?.length - 1,
+        animated: true
+      })
+    }
+  }
+
+  setRef = (ref: any) => {
+    this.animationView = ref
   }
 
   renderPagination(data: any) {
@@ -265,6 +314,24 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     this.autoPlay();
   }
 
+  changeTemplateStatus = () => {
+    this.updateState({ isTemplateReady: true } as WmCarouselState)
+  }
+
+  updateLayout = ({width, height}: {width?: number, height?: number}) => {
+    const dimension: any = {}
+    if(height){
+      dimension.containerHeight = height
+    }
+    if(width) {
+      dimension.containerWidth = width;
+    }
+
+    this.updateState({
+     ...dimension
+    } as WmCarouselState)
+  }
+
   renderWidget(props: WmCarouselProps) {
     const hasNavs = props.controls === 'both' || props.controls ==='navs';
     const hasDots = props.controls === 'both' || props.controls ==='indicators';
@@ -278,14 +345,78 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
       slideScale = (this.styles.slide?.transform?.find(o => !isUndefined((o as any).scale)) as any)?.scale;
       slideTranslateX = (this.styles.slide?.transform?.find(o => !isUndefined((o as any).translateX)) as any)?.translateX;
     }
+
+    if(
+      styles.root &&
+      styles.root.height &&
+      typeof styles.height === 'number' &&
+      styles.width &&
+      typeof styles.width === 'number'
+    ){
+      setTimeout(()=>{
+        this.updateState({
+          containerHeight: styles.root.height,
+          containerWidth: styles.root.width
+        } as WmCarouselState)
+      }, 10)
+    }
+
     // TODO: loop prop on Carousel is not working Refer: https://github.com/meliorence/react-native-snap-carousel/issues/608
     return (
       <View 
         style={styles.root}
-        onLayout={(event) => this.handleLayout(event)}
+        onLayout={(event) => {
+          const {width = 0, height = 0} = event.nativeEvent.layout;
+          this.handleLayout(event)
+          setTimeout(() => {
+            if(width && height && this.state.containerHeight !== height && this.state.containerWidth !== width){
+              this.updateState({
+                // containerHeight: height,
+                containerWidth: width
+              } as WmCarouselState)
+            }
+          })
+        }}
       >
         {this._background}
-        <SwipeAnimation.View 
+        <CarousalAnimation 
+          styles={styles} 
+          data={data} 
+          width={this.state.containerWidth}
+          height={this.state.containerHeight}
+          updateDimensions={this.updateLayout}
+          slideMinWidth={this.styles.slide.width}
+          setRef={this.setRef}
+          callback={this.changeTemplateStatus}
+          activeIndex={this.state.activeIndex}
+          updateActiveIndex={this.onSlideChange}
+          renderItem={({item, index}: {item: any, index: number}) => {
+          const isActive = index === this.state.activeIndex - 1;
+            return (
+              <View key={this.generateItemKey(item, index, props)}
+                onLayout={this.addSlideLayout.bind(this, index)}
+                testID={`carousel_item_${index}`}
+                style={[
+                  {height: props.type === 'dynamic' ? undefined : '100%'},
+                  this.styles.slide,
+                  index === 0 ? this.styles.firstSlide : null,
+                  index === data.length - 1 ? this.styles.lastSlide: null,
+                  isActive ? this.styles.activeSlide: null,
+                ]}>
+                {/* <Tappable onTap={() => {
+                  this.onSlideChange(index + 1);
+                  const position = this.slidesLayout
+                    .filter((l , i) => i < index)
+                    .reduce((s, l) => s + l.width, 0);
+                  // this.animationView?.setPosition(-1 * position);
+                }} rippleColor={this.styles.root.rippleColor} styles={{height: "100%"}}
+                disableTouchEffect={this.state.props.disabletoucheffect}>
+                </Tappable> */}
+                  {this.renderItem(item, index)}
+                </View>
+            );
+        }}/>
+        {/* <SwipeAnimation.View 
             enableGestures={props.enablegestures && this.noOfSlides > 1}
             style={{
               flex: 1
@@ -338,7 +469,115 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
               </Animated.View>
             );
           })}
-        </SwipeAnimation.View>
+        </SwipeAnimation.View> */}
+
+        {/* <NewSiwpable
+          enableGestures={props.enablegestures && this.noOfSlides > 1}
+          style={{
+            flex: 1
+          }}
+          direction='horizontal'
+          threshold={this.state.props.threshold}
+          ref={(r) => {this.animationView = r}}
+          handlers = {this.animationHandlers}
+          slideMinWidth={this.styles.slide.width}
+          setActiveIndex={(value: number)=>{
+            this.updateState({activeIndex: value} as any);
+          }}
+          activeIndex={(this.state.activeIndex - 1)}
+        >
+        {data.map((item: any, index: number) => {
+            const isActive = index === this.state.activeIndex - 1;
+            let scale = this.animationView?.animationPhase.interpolate({
+              inputRange: [-2000, index - 1, index, index + 1, 2000],
+              outputRange: [slideScale, slideScale, 1, slideScale, slideScale]
+            });
+            let translateX = this.animationView?.animationPhase.interpolate({
+              inputRange: [-2000, index - 1, index, index + 1, 2000],
+              outputRange: [-56, -56, 0, 56, 56]
+            });
+            return (
+              <View key={this.generateItemKey(item, index, props)}
+                onLayout={this.addSlideLayout.bind(this, index)}
+                testID={`carousel_item_${index}`}
+                style={[
+                  {height: props.type === 'dynamic' ? undefined : '100%'},
+                  this.styles.slide,
+                  index === 0 ? this.styles.firstSlide : null,
+                  index === data.length - 1 ? this.styles.lastSlide: null,
+                  isActive ? this.styles.activeSlide: null,
+                ]}>
+                <Tappable 
+                onTap={() => {
+                  this.onSlideChange(index + 1);
+                  const position = this.slidesLayout
+                    .filter((l , i) => i < index)
+                    .reduce((s, l) => s + l.width, 0);
+                  this.animationView?.setPosition(-1 * position);
+                }} 
+                rippleColor={this.styles.root.rippleColor} styles={{height: "100%"}}
+                disableTouchEffect={this.state.props.disabletoucheffect}>
+                  {this.renderItem(item, index)}
+                </Tappable>
+              </View>
+            );
+          })}
+        </NewSiwpable> */}
+
+        {/* <FlatListSiwpable
+          activeIndex = {this.state.activeIndex - 1}
+          setActiveIndex = {(value:number)=>{
+            this.updateState({
+              activeIndex: value + 1
+            } as any)
+          }}
+          slideMinWidth={this.styles.slide.width || '100% '}
+        >
+        {data.map((item: any, index: number) => {
+            const isActive = index === this.state.activeIndex - 1;
+            let scale = this.animationView?.animationPhase.interpolate({
+              inputRange: [-2000, index - 1, index, index + 1, 2000],
+              outputRange: [slideScale, slideScale, 1, slideScale, slideScale]
+            });
+            let translateX = this.animationView?.animationPhase.interpolate({
+              inputRange: [-2000, index - 1, index, index + 1, 2000],
+              outputRange: [-56, -56, 0, 56, 56]
+            });
+            return (
+              <Animated.View key={this.generateItemKey(item, index, props)}
+                onLayout={this.addSlideLayout.bind(this, index)}
+                testID={`carousel_item_${index}`}
+                style={[
+                  {height: props.type === 'dynamic' ? undefined : '100%'},
+                  this.styles.slide,
+                  index === 0 ? this.styles.firstSlide : null,
+                  index === data.length - 1 ? this.styles.lastSlide: null,
+                  isActive ? this.styles.activeSlide: null,
+                  translateX && scale ? {
+                    transform: [
+                      {
+                        translateX: !isUndefined(slideTranslateX) ? slideTranslateX : translateX
+                      }, {
+                        scale: scale
+                      }
+                    ]
+                  } : null]}>
+                <Tappable onTap={() => {
+                  this.onSlideChange(index + 1);
+                  const position = this.slidesLayout
+                    .filter((l , i) => i < index)
+                    .reduce((s, l) => s + l.width, 0);
+                  this.animationView?.setPosition(-1 * position);
+                }} rippleColor={this.styles.root.rippleColor} styles={{height: "100%"}}
+                disableTouchEffect={this.state.props.disabletoucheffect}>
+                  {this.renderItem(item, index)}
+                </Tappable>
+              </Animated.View>
+            );
+          })}
+        </FlatListSiwpable> */}
+
+
         {hasNavs ? (
           <View style={styles.btnPanel}>
             <WmIcon

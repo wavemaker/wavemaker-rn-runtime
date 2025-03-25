@@ -38,11 +38,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             width: '100%',
             overflow: 'hidden',
             paddingHorizontal: 16,
-            transform: [
-                {
-                    scale: 0.8
-                }
-            ]
+            // transform: [
+            //     {
+            //         scale: 0.8
+            //     }
+            // ]
         },
         firstSlide: {},
         lastSlide: {},

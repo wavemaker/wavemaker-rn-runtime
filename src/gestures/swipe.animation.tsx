@@ -1,6 +1,6 @@
 import { isNil } from 'lodash-es';
 import React from  'react';
-import { Animated, Easing, View as RNView, ViewStyle, LayoutChangeEvent, LayoutRectangle, DimensionValue } from 'react-native';
+import { Animated, Easing, View as RNView, ViewStyle, LayoutChangeEvent, LayoutRectangle, DimensionValue, PanResponder } from 'react-native';
 import { Gesture, GestureDetector, GestureUpdateEvent } from 'react-native-gesture-handler';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -28,6 +28,8 @@ export class Props {
     enableGestures: any;
     slideWidth?: DimensionValue = '100%';
     slideMinWidth?: DimensionValue = undefined;
+    slidesLayout?: any = [];
+    activeIndex?: number | null = null; 
 }
 
 export class State {
@@ -47,6 +49,7 @@ export class View extends React.Component<Props, State> {
     private i18nService = injector.I18nService.get();
     private childrenLayout: LayoutRectangle[] = [];
     private viewLayout: LayoutRectangle = null as any;
+    private panResponder: any = null;
 
     constructor(props: Props) {
         super(props);
@@ -124,6 +127,95 @@ export class View extends React.Component<Props, State> {
                 }
             })
 
+        this.panResponder = PanResponder.create({
+              // Ask to be the responder:
+              onStartShouldSetPanResponder: (evt, gestureState) => true,
+              onStartShouldSetPanResponderCapture: (evt, gestureState) =>
+                true,
+              onMoveShouldSetPanResponder: (evt, gestureState) => true,
+              onMoveShouldSetPanResponderCapture: (evt, gestureState) =>
+                true,
+        
+              onPanResponderGrant: (evt, gestureState) => {
+                // The gesture has started. Show visual feedback so the user knows
+                // what is happening!
+                // gestureState.d{x,y} will be set to zero now
+              },
+              onPanResponderMove: (evt, gestureState) => {
+                this.onChange(gestureState)
+
+                // if(this.props.direction === 'horizontal' && (gestureState.dx > 49 || gestureState.dx < -49)) {
+                //     this.onEnd(gestureState);
+                // }
+                // if(this.props.direction === 'vertical' && (gestureState.dy > 49 || gestureState.dy < -49)) {
+                //     this.onEnd(gestureState);
+                // }
+
+                console.log("====== gestureState =======", gestureState.dx);
+                // The most recent move distance is gestureState.move{X,Y}
+                // The accumulated gesture distance since becoming responder is
+                // gestureState.d{x,y}
+              },
+              onPanResponderTerminationRequest: (evt, gestureState) =>
+                true,
+              onPanResponderRelease: (evt, gestureState) => {
+                if(this.props.direction === 'horizontal' && (gestureState.dx > 49 || gestureState.dx < -49)) {
+                    this.onEnd(gestureState);
+                }
+                if(this.props.direction === 'vertical' && (gestureState.dy > 49 || gestureState.dy < -49)) {
+                    this.onEnd(gestureState);
+                }
+
+                if(!(gestureState.dy > 49 || gestureState.dy < -49) && !(gestureState.dx > 49 || gestureState.dx < -49)){
+                    // this.onChange({
+                    //     dx: (gestureState.dx * -1),
+                    //     dy: (gestureState.dy * -1)
+                    // })
+                    if(this.props.activeIndex) {
+                        this.setPosition(this.props.slidesLayout[this.props.activeIndex])
+                    }
+                }
+                // The user has released all touches while this view is the
+                // responder. This typically means a gesture has succeeded
+              },
+              onPanResponderTerminate: (evt, gestureState) => {
+                // Another component has become the responder, so this gesture
+                // should be cancelled
+              },
+              onShouldBlockNativeResponder: (evt, gestureState) => {
+                // Returns whether this component should block native components from becoming the JS
+                // responder. Returns true by default. Is currently only supported on android.
+                return true;
+              },
+            });
+
+    }
+
+    onChange = (e: any) => {
+          const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
+          const d = (this.state.isHorizontal ? e.dx : e.dy);
+          let phase = this.computePhase(bounds?.center || 0);
+          if (d && d < 0 && !isNil(bounds.center) && !isNil(bounds.lower)
+              && bounds.center !== bounds.lower) {
+              phase += (d / (bounds.center - bounds.lower)) || 0;
+          } else if (d && d > 0 && !isNil(bounds.center) && !isNil(bounds.upper)
+              && bounds.center !== bounds.upper) {
+              phase += (d / (bounds.upper - bounds.center)) || 0;
+          }
+          this.animationPhase.setValue(phase);
+          this.position.setValue(
+              (this.isRTL()?-bounds?.center! :bounds?.center || 0) + d);
+      }
+
+      onEnd = (e: any) => {
+        console.log("===== on end called =======");
+        this.props.handlers?.onAnimation &&
+        this.props.handlers?.onAnimation(e);
+        if (e.dx < 0) {
+            this.isRTL()?this.goToLower(e):this.goToUpper(e);
+        } else if (e.dx > 0) {
+            this.isRTL()?this.goToUpper(e):this.goToLower(e);
+        }
     }
 
     computeMaxScroll() {
@@ -161,6 +253,7 @@ export class View extends React.Component<Props, State> {
 
     goToLower(e?: any) {
         const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
+        console.log("🚀 ~ View ~ goToLower ~ bounds:", bounds)
         this.setPosition(bounds.lower)
             .then(() => {
                 if (!isNil(bounds.lower) && bounds.center !== bounds.lower) {
@@ -172,6 +265,7 @@ export class View extends React.Component<Props, State> {
 
     goToUpper(e?: any) {
         const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
+        console.log("🚀 ~ View ~ goToUpper ~ bounds:", bounds)
         this.setPosition(bounds.upper)
             .then(() => {
                 if (!isNil(bounds.upper) && bounds.center !== bounds.upper) {
@@ -208,15 +302,17 @@ export class View extends React.Component<Props, State> {
         const isHorizontal = this.props.direction === 'horizontal';
         return (
             //@ts-ignore
-            <GestureDetector gesture={this.gesture}>
-                <Animated.View style={[
+            // <GestureDetector gesture={this.gesture}>
+                <RNView style={[
                     isHorizontal ? {
                         flexDirection: 'row',
                         flexWrap: 'nowrap',
                         alignItems: 'center',
                     } : null,
-                    this.props.style,
-                    ]} onLayout={this.setViewLayout.bind(this)}>
+                    this.props.style]} 
+                    onLayout={this.setViewLayout.bind(this)}
+                    {...this.panResponder.panHandlers}
+                >
                     {this.props.children.map((c: any, i: number) => {
                         return (<Animated.View onLayout={(e) => this.setChildrenLayout(e, i)} key={c.key}
                             style={[this.props.slideMinWidth ? {
@@ -224,22 +320,22 @@ export class View extends React.Component<Props, State> {
                             } : {
                                 width: this.props.slideWidth
                             },
+                            this.props.style?.height === '100%' ? {
+                                height: '100%'
+                            } : null,
                             {
                                 transform: this.state.isHorizontal ? [{
                                     translateX: this.position
                                 }] : [{
                                     translateY: this.position
                                 }]
-                            },
-                            this.props.style?.height === '100%' ? {
-                                height: '100%'
-                            } : null
+                            }
                         ]}>
                             {c}
                         </Animated.View>);
                     })}
-                </Animated.View>
-            </GestureDetector>
+                </RNView>
+            // </GestureDetector>
         );
     }
 

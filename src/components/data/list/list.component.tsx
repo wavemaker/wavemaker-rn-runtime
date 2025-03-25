@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity} from 'react-native';
+import { ActivityIndicator, SectionList, Text, View, LayoutChangeEvent, TouchableOpacity} from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import {getGroupedData, getNumberOfEmptyObjects, isDefined} from "@wavemaker/app-rn-runtime/core/utils";
@@ -14,6 +14,7 @@ import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 
+import { FlatList } from 'react-native-gesture-handler';
 
 export class WmListState extends BaseComponentState<WmListProps> {
   public selectedindex: any;
@@ -356,9 +357,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       ...this.styles.skeleton.root
     } : this.styles.item as any
     return (index < this.state.maxRecordsToShow || isHorizontal) ? (
-      <Swipeable
-      renderLeftActions={() => this.renderLeftActions()}
-      renderRightActions={() => this.renderRightActions()} containerStyle={ cols ? { width: round(100/cols) + "%" , flex: null } as any :{}}>
       <View style={[
         styles,
         props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
@@ -396,7 +394,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           ) : null}
         </Tappable>
       </View>
-      </Swipeable>
       ) : null;
   }
 
