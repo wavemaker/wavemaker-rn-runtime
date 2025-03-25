@@ -503,7 +503,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
           <SafeAreaInsetsContext.Consumer>
             {(insets = {top: 0, bottom: 0, left: 0, right: 0}) =>
               (this.getProviders(
-                (<View  style={{flex: 1}}> 
+                (<SafeAreaView  style={{flex: 1}}> 
                   <StatusBar translucent={true} backgroundColor={"transparent"}/>
                   <ThemeProvider value={this.appConfig.theme}>
                   <View style={{ flex: 1 }}>
@@ -531,7 +531,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   {this.renderDisplayManager()}
                   </View>
                   </ThemeProvider>
-                </View>))
+                </SafeAreaView>))
               )
             }
           </SafeAreaInsetsContext.Consumer>

@@ -52,7 +52,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
     return (
       <SafeAreaInsetsContext.Consumer>
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-          const rootStyles = [this.styles.root, {paddingTop: insets?.top || 0 }]
+          const rootStyles = [this.styles.root, {paddingTop: 0 }]
           return props.scrollable ? <ScrollView
             ref={this.scrollRef}
             {...this.panResponder.panHandlers}

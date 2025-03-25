@@ -75,18 +75,18 @@ export class StickyView extends BaseComponent<StickyViewProps, StickyViewState, 
         this.destroyScrollListner = component.subscribe('scroll', (e: any, pageScroll: any) => {
 
         const height = component.getLayout()?.height;
-        const yPosition = component.getLayout()?.py;
+        const yPosition = component.getLayout()?.py - (this.insets?.top || 0);
         const scrollPosition = e.nativeEvent.contentOffset.y;
         let isStickyVisible = false ;
 
-        const containerHeightWithInsets = Math.abs(this.container?.containerHeight || 0) + this.container?.insets?.top
+        const containerHeight = Math.abs(this.container?.containerHeight || 0)
         if(e.scrollDirection <= 0){
             if(this.props.show == 'ON_SCROLL_UP'){
                 this.hideStickyView();
             }else if(this.props.show == 'ON_SCROLL_DOWN'){
                 this.showStickyView();
             }
-            isStickyVisible = (scrollPosition + containerHeightWithInsets) >= (yPosition + height);
+            isStickyVisible = (scrollPosition + containerHeight) >= (yPosition + height);
             // this.container?.safeAreaInsetViewOpacity.setValue(1);
             if(scrollPosition <=10){
                 pageScroll.scrollRef?.current?.scrollTo({ x: 0, y: 0, animated: false });
@@ -205,7 +205,7 @@ export class StickyViewContainer extends React.Component {
                         opacity: this.safeAreaInsetViewOpacity
                     }}></Animated.View> */}
                     <Animated.View style={{
-                        position: 'absolute', top: insets?.top || 0, width: '100%',
+                        position: 'absolute', top: 0, width: '100%',
                         transform: [{
                             translateY: this.translateY
                         }]
