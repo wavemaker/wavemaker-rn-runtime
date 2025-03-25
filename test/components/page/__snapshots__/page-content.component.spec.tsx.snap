@@ -1,73 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test PageContent component should render pageContent component 1`] = `
-[
+<View
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "height": "100%",
+      "width": "100%",
+    }
+  }
+>
   <View
     onLayout={[Function]}
     style={
-      {
-        "height": 0,
-        "width": 0,
-      }
-    }
-  />,
-  <View
-    style={
-      {
-        "backgroundColor": "#eeeeee",
-        "height": "100%",
-        "width": "100%",
-      }
+      [
+        {
+          "flex": 1,
+        },
+        {
+          "paddingBottom": 0,
+        },
+      ]
     }
   >
-    <View
-      onLayout={[Function]}
-      style={
+    <RCTScrollView
+      alwaysBounceHorizontal={false}
+      alwaysBounceVertical={false}
+      bounces={false}
+      collapsable={false}
+      contentContainerStyle={
         [
           {
-            "flex": 1,
+            "backgroundColor": "#eeeeee",
+            "minHeight": "100%",
+            "paddingBottom": 8,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "paddingTop": 8,
           },
           {
-            "paddingBottom": 0,
+            "backgroundColor": "transparent",
+          },
+        ]
+      }
+      handlerTag={3}
+      handlerType="NativeViewGestureHandler"
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      onScroll={[Function]}
+      scrollEventThrottle={48}
+      showsVerticalScrollIndicator={true}
+      testID="test_Navbar_page_content_scrollview"
+      waitFor={
+        [
+          {
+            "current": null,
           },
         ]
       }
     >
-      <RCTScrollView
-        collapsable={false}
-        contentContainerStyle={
-          [
-            {
-              "backgroundColor": "#eeeeee",
-              "minHeight": "100%",
-              "paddingBottom": 8,
-              "paddingLeft": 8,
-              "paddingRight": 8,
-              "paddingTop": 8,
-            },
-            {
-              "backgroundColor": "transparent",
-            },
-          ]
-        }
-        handlerTag={1}
-        handlerType="NativeViewGestureHandler"
-        onGestureHandlerEvent={[Function]}
-        onGestureHandlerStateChange={[Function]}
-        onScroll={[Function]}
-        scrollEventThrottle={48}
-        showsVerticalScrollIndicator={true}
-        waitFor={
-          [
-            {
-              "current": null,
-            },
-          ]
-        }
-      >
-        <View />
-      </RCTScrollView>
-    </View>
-  </View>,
-]
+      <View />
+    </RCTScrollView>
+  </View>
+</View>
 `;
