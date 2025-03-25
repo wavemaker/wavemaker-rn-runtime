@@ -48,21 +48,21 @@ export class StickyView extends BaseComponent<StickyViewProps, StickyViewState, 
 
     showStickyView(){
        if(this.movedUp){
-        // const c_height = (this.container?.containerHeight || 0 ) + this.hiddenViewHeight
+        const c_height = (this.container?.containerHeight || 0 ) + this.hiddenViewHeight
         this.movedUp = false;
-        // this.container?.updateContainerHeight(c_height)
+        this.container?.updateContainerHeight(c_height)
         this.container?.moveUp(0);
         this.hideViewOpacity.setValue(1);
        }
     }
 
     hideStickyView(){
-        // this.hiddenViewHeight = height;
         const height = this.props.component.getLayout()?.height;
+        this.hiddenViewHeight = height;
         if(!this.movedUp){
-            // const c_height = (this.container?.containerHeight || 0) - height
+            const c_height = (this.container?.containerHeight || 0) - height
             this.movedUp = true;
-            // this.container?.updateContainerHeight(c_height);
+            this.container?.updateContainerHeight(c_height);
             this.container?.moveUp(-1 * height);
             this.hideViewOpacity.setValue(0);
         }
@@ -79,18 +79,18 @@ export class StickyView extends BaseComponent<StickyViewProps, StickyViewState, 
         const scrollPosition = e.nativeEvent.contentOffset.y;
         let isStickyVisible = false ;
 
-        // const containerHeightWithInsets = Math.abs(this.container?.containerHeight || 0) + this.container?.insets?.top
+        const containerHeightWithInsets = Math.abs(this.container?.containerHeight || 0) + this.container?.insets?.top
         if(e.scrollDirection <= 0){
             if(this.props.show == 'ON_SCROLL_UP'){
                 this.hideStickyView();
             }else if(this.props.show == 'ON_SCROLL_DOWN'){
                 this.showStickyView();
             }
-            isStickyVisible = scrollPosition > (yPosition);
+            isStickyVisible = (scrollPosition + containerHeightWithInsets) >= (yPosition + height);
             // this.container?.safeAreaInsetViewOpacity.setValue(1);
             if(scrollPosition <=10){
                 pageScroll.scrollRef?.current?.scrollTo({ x: 0, y: 0, animated: false });
-                // this.container?.updateContainerHeight(0);
+                this.container?.updateContainerHeight(0);
                 this.hideViewOpacity.setValue(0);
                 this.container?.remove(this);
                 isStickyVisible = false;
@@ -101,7 +101,7 @@ export class StickyView extends BaseComponent<StickyViewProps, StickyViewState, 
             }else if(this.props.show == 'ON_SCROLL_DOWN'){
                 this.hideStickyView();
             }
-            isStickyVisible =  scrollPosition > (yPosition);
+            isStickyVisible =  scrollPosition >= (yPosition);
             // const val =  Math.abs(this.container?.containerHeight || 0) > 0 ? 1 : 0
             // this.container?.safeAreaInsetViewOpacity.setValue(val);
         }
@@ -124,7 +124,7 @@ export class StickyView extends BaseComponent<StickyViewProps, StickyViewState, 
                             <ThemeProvider value={this.props.theme} key={this.id}>
                                 <Animated.View style={[this.props.style, 
                                     {
-                                        opacity: this.props.show == 'ON_SCROLL_DOWN' ? this.hideViewOpacity : 1
+                                        opacity: this.props.show == 'ON_SCROLL_DOWN' ? this.hideViewOpacity : 1, 
                                     }
                                 ]} 
                                 >
@@ -149,16 +149,16 @@ export class StickyViewContainer extends React.Component {
     id = 0;
     translateY: Animated.Value = new Animated.Value(0);
     opacity: Animated.Value = new Animated.Value(1);
-    // containerHeight: number = 0;
+    containerHeight: number = 0;
     insets: any = null;
     safeAreaInsetViewOpacity: Animated.Value = new Animated.Value(0);
 
-    // updateContainerHeight(val: number){
-    //     this.containerHeight = val;
-    // }
+    updateContainerHeight(val: number){
+        this.containerHeight = val;
+    }
 
     add(c: StickyView, n : React.ReactNode) {
-        // this.containerHeight += c.props.component.getLayout()?.height || 0 ;
+        this.containerHeight += c.props.component.getLayout()?.height || 0 ;
         this.children.set(c, n);
         setTimeout(() => this.setState({id: ++this.id}));
     }
@@ -181,9 +181,9 @@ export class StickyViewContainer extends React.Component {
     }
 
     remove(c: StickyView) {
-        // if(this.children.size && this.containerHeight >=0) {
-        //     this.containerHeight -= c.props.component.getLayout()?.height || 0 ;
-        // }
+        if(this.children.size && this.containerHeight >=0) {
+            this.containerHeight -= c.props.component.getLayout()?.height || 0 ;
+        }
         this.children.delete(c);
         setTimeout(() => this.setState({id: ++this.id}));
     }
