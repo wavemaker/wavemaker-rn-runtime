@@ -27,7 +27,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
 
   private onScroll = (e: any)=>{
     const scrollPosition = e.nativeEvent.contentOffset.y;
-    if(Math.abs(scrollPosition - this.previousScrollPosition) >= 8 && scrollPosition >=0){
+    if(Math.abs(scrollPosition - this.previousScrollPosition) >= 2 && scrollPosition >=0){
       if (scrollPosition > this.previousScrollPosition) {
         e.scrollDirection = 1;
       } else if (scrollPosition === this.previousScrollPosition) {

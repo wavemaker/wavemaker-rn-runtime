@@ -66,17 +66,17 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
           { props.issticky ? 
              (<StickyView
                 component={this}
-                show={'ALWAYS'}
                 style={{...styles}} 
                 theme={this.theme}>
                 {this.renderContent(props)}
-              </StickyView>) : <></> }
-            {!props.scrollable ? <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View> : 
-            <ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
-            onScroll={(event) => {this.notify('scroll', [event])}}
-            scrollEventThrottle={48}>
-            {this.renderContent(props)}
-          </ScrollView>}
+              </StickyView>) 
+              : !props.scrollable ? 
+                (<View style={[dimensions as ViewStyle, this.styles.content]}></View>)
+                : (<ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
+                    onScroll={(event) => {this.notify('scroll', [event])}}
+                    scrollEventThrottle={48}>
+                  {this.renderContent(props)}
+                </ScrollView>)}
         </Tappable>
       </Animatedview>
     );
