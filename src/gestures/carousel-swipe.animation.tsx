@@ -53,7 +53,7 @@ export class View extends React.Component<Props, State> {
         super(props);
         this.state = {
             isHorizontal: props.direction === 'horizontal',
-            threshold: props.threshold || 5,
+            threshold: props.threshold || 49,
             bounds: {} as any
         } as State;
         var touchStart = {
@@ -63,52 +63,44 @@ export class View extends React.Component<Props, State> {
         };
 
         this.panResponder = PanResponder.create({
-            // Ask to be the responder:
-            onStartShouldSetPanResponder: (evt, gestureState) => true,
-            onStartShouldSetPanResponderCapture: (evt, gestureState) =>
-                true,
-            onMoveShouldSetPanResponder: (evt, gestureState) => true,
-            onMoveShouldSetPanResponderCapture: (evt, gestureState) =>
-                true,
-
-            onPanResponderGrant: (evt, gestureState) => {
-                // The gesture has started. Show visual feedback so the user knows
-                // what is happening!
-                // gestureState.d{x,y} will be set to zero now
+            onStartShouldSetPanResponder: (evt, gestureState) => {
+                return this.props.enableGestures;
+            },
+            onStartShouldSetPanResponderCapture: (evt, gestureState) => {
+                return this.props.enableGestures;
+            },
+            onMoveShouldSetPanResponder: (evt, gestureState) => {
+                return this.props.enableGestures;
+            },
+            onMoveShouldSetPanResponderCapture: (evt, gestureState) =>{
+                return this.props.enableGestures;
             },
             onPanResponderMove: (evt, gestureState) => {
                 this.onChange(gestureState)
-                // The most recent move distance is gestureState.move{X,Y}
-                // The accumulated gesture distance since becoming responder is
-                // gestureState.d{x,y}
             },
-            onPanResponderTerminationRequest: (evt, gestureState) =>
-                true,
             onPanResponderRelease: (evt, gestureState) => {
-                if (this.props.direction === 'horizontal' && (gestureState.dx > 49 || gestureState.dx < -49)) {
+                if (
+                    this.props.direction === 'horizontal' && 
+                    (gestureState.dx > this.state.threshold || gestureState.dx < -this.state.threshold)
+                ) {
                     this.onEnd(gestureState);
                 }
-                if (this.props.direction === 'vertical' && (gestureState.dy > 49 || gestureState.dy < -49)) {
+                if (
+                    this.props.direction === 'vertical' && 
+                    (gestureState.dy > this.state.threshold || gestureState.dy < -this.state.threshold)
+                ) {
                     this.onEnd(gestureState);
                 }
 
-                if (!(gestureState.dy > 49 || gestureState.dy < -49) && !(gestureState.dx > 49 || gestureState.dx < -49)) {
+                if (
+                    !(gestureState.dy > this.state.threshold || gestureState.dy < -this.state.threshold) && 
+                    !(gestureState.dx > this.state.threshold || gestureState.dx < -this.state.threshold)
+                ) {
                     if (this.props.activeIndex) {
                         this.setPosition(this.props.slidesLayout[this.props.activeIndex])
                     }
                 }
-                // The user has released all touches while this view is the
-                // responder. This typically means a gesture has succeeded
-            },
-            onPanResponderTerminate: (evt, gestureState) => {
-                // Another component has become the responder, so this gesture
-                // should be cancelled
-            },
-            onShouldBlockNativeResponder: (evt, gestureState) => {
-                // Returns whether this component should block native components from becoming the JS
-                // responder. Returns true by default. Is currently only supported on android.
-                return true;
-            },
+            }
         });
 
     }
@@ -186,7 +178,6 @@ export class View extends React.Component<Props, State> {
 
     goToUpper(e?: any) {
         const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
-        console.log("🚀 ~ View ~ goToUpper ~ bounds:", bounds)
         this.setPosition(bounds.upper)
             .then(() => {
                 if (!isNil(bounds.upper) && bounds.center !== bounds.upper) {
