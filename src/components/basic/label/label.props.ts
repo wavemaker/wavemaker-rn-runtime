@@ -6,8 +6,8 @@ export default class WmLabelProps extends BaseProps {
     caption?: string = 'Label';
     required?: boolean = null as any;
     isValid?: boolean = true;
-    wrap?: boolean = true;
-    nooflines?: any = undefined;
+    wrap?: boolean | string = true;
+    nooflines?: number | string = undefined;
     skeletonheight?: string = null as any;
     skeletonwidth?: string = null as any;
     multilineskeleton?: boolean = false;
