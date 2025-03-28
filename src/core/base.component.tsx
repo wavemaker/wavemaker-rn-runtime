@@ -93,6 +93,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private _showView = true;
     public closestTappable?: Tappable;   
     public componentNode: WmComponentNode;
+    private layout: any = {};
+    public baseView: any = View;
 
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
@@ -358,7 +360,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.props.name;
     }
 
-    public handleLayout(event: LayoutChangeEvent ) {
+    public handleLayout(event: LayoutChangeEvent, ref: React.RefObject<View> | null = null) {
         const key = this.getName && this.getName();
         if(key){
             const newLayoutPosition = {
@@ -368,6 +370,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 }
             }
             setPosition(newLayoutPosition);
+            const compnentRef = ref !== null ? ref : this.baseView 
+            // Layout values by measure
+            compnentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
+                this.layout = { x, y, width, height, px, py }
+            });
         }
     }
     
@@ -494,6 +501,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     public getLayoutOfWidget(name: string): {x: number, y: number} | undefined {
         return getPosition(name)
+    }
+
+    public getLayout() {
+        return this.layout ;
     }
 
     public scrollToTop(){
