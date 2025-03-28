@@ -50,13 +50,13 @@ export class StickyView extends Component<StickyViewProps, StickyViewState, any>
     listenScrollEvent(): void {
         this.destroyScrollListner && this.destroyScrollListner();
         const component = this.props.component;
-        this.destroyScrollListner = component.subscribe('scroll', (e: any, pageScroll: any) => {
+        this.destroyScrollListner = component.subscribe('scroll', (e: any) => {
             const height = component.getLayout()?.height;
-            const yPosition = component.getLayout()?.py - (this.insets?.top || 0);
+            const yPosition = component.getLayout()?.py;
             const scrollPosition = e.nativeEvent.contentOffset.y;
             let isStickyVisible = false ;
             
-            const containerHeight = Math.abs(this.container?.containerHeight || 0);
+            const containerHeight = Math.abs(this.container?.visibleHeight || 0);
             if (e.scrollDirection) {
                 if (this.lastScrollDirection !== e.scrollDirection) {
                     this.refScrollPosition = scrollPosition;
@@ -65,7 +65,7 @@ export class StickyView extends Component<StickyViewProps, StickyViewState, any>
             }
             if(e.scrollDirection <= 0){
                 isStickyVisible = scrollPosition > 10 
-                    && ((scrollPosition + containerHeight) >= yPosition);
+                    && ((scrollPosition + containerHeight) >= (yPosition + height));
             } else {
                 isStickyVisible =  (scrollPosition >= (yPosition + (this.props.slide ? height: 0)));
             }
@@ -73,8 +73,6 @@ export class StickyView extends Component<StickyViewProps, StickyViewState, any>
                 this.setState({ 
                     isStickyVisible : isStickyVisible
                 }, () => {
-                    this.props.onVisibilityChange 
-                        && this.props.onVisibilityChange(isStickyVisible);
                     if (isStickyVisible && this.props.slide) {
                         this.container?.slideBy(-1 * height, 0);
                     } else {
@@ -124,6 +122,7 @@ export class StickyViewContainer extends React.Component {
     private id = 0;
     private translateY: Animated.Value = new Animated.Value(0);
     private topSlideHeight = 0;
+    private hiddenHeight = 0;
     public containerHeight: number = 0;
 
     add(c: StickyView, n : React.ReactNode) {
@@ -132,6 +131,10 @@ export class StickyViewContainer extends React.Component {
         this.topSlideHeight += (c.props.slide ? h : 0);
         this.children.set(c, n);
         setTimeout(() => this.setState({id: ++this.id}));
+    }
+
+    get visibleHeight() {
+        return this.containerHeight + this.hiddenHeight;
     }
 
 
@@ -145,12 +148,12 @@ export class StickyViewContainer extends React.Component {
         setTimeout(() => this.setState({id: ++this.id}));
     }
 
-    public slideBy(value: number, duration = 100) {
-        let toValue = Math.max(
+    public slideBy(value: number, duration = 1) {
+        this.hiddenHeight = Math.max(
             Math.min(0, (this.translateY as any)._value + value), 
             -1 * this.topSlideHeight);
         Animated.timing(this.translateY, {
-            toValue: toValue,
+            toValue: this.hiddenHeight,
             easing: Easing.linear, 
             duration: duration,
             useNativeDriver: true

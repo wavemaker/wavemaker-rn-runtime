@@ -71,7 +71,9 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
                 {this.renderContent(props)}
               </StickyView>) 
               : !props.scrollable ? 
-                (<View style={[dimensions as ViewStyle, this.styles.content]}></View>)
+                (<View style={[dimensions as ViewStyle, this.styles.content]}>
+                  {this.renderContent(props)}
+                </View>)
                 : (<ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
                     onScroll={(event) => {this.notify('scroll', [event])}}
                     scrollEventThrottle={48}>
