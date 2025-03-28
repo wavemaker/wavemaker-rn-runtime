@@ -142,19 +142,19 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
 
   renderWidget(props: WmLabelProps) {
     const shouldTruncate = props.wrap === false || props.wrap === "false";
-    let numOfLines: number | undefined = undefined;
     
+    let numOfLines: number | undefined = undefined;
     if (props.nooflines) {
       if (typeof props.nooflines === 'string') {
-        numOfLines = parseInt(props.nooflines);
-      } else {
+         numOfLines = parseInt(props.nooflines);
+        } else {
         numOfLines = props.nooflines;
+       }
       }
-    }
     
-    if (shouldTruncate) {
-      numOfLines = 1;
-    }
+      if (shouldTruncate && !numOfLines) {
+        numOfLines = 1;
+      }
     
     const linkStyles = this.theme.mergeStyle({text: this.styles.text}, this.styles.link);
     
@@ -199,7 +199,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
               {/* Android with truncation */}
               <Text
                 style={this.styles.androidText}
-                numberOfLines={1}
+                numberOfLines={numOfLines}
                 ellipsizeMode="tail"
                 {...(this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {})}
                 {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
