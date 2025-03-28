@@ -31,7 +31,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   }
 
   public scrollTo(position: {x: number, y: number}){
-    this.scrollRef?.current.scrollTo({
+    this.scrollRef?.current?.scrollTo({
       x: position.x,
       y: position.y,
       Animated: true
@@ -50,8 +50,8 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   renderWidget(props: WmPageContentProps) {
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
     //     return ((props.scrollable || isWebPreviewMode()) && !this._showSkeleton) ? (
-      return (props.scrollable || isWebPreviewMode()) ? (
-        <View style={{height: '100%', width: '100%', backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
+      return props.scrollable ? (
+        <View style={{height: '100%', width: '100%', flex: 1, backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
         {this._background}
         <SafeAreaInsetsContext.Consumer>
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
@@ -62,13 +62,13 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
               behavior={Platform.OS === 'ios' ? 'padding' : undefined}
               keyboardVerticalOffset={verticalOffset}
               style={{ flex: 1 }}>
-              <ScrollView 
+             <ScrollView 
                 ref={this.scrollRef}
                 contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
                 showsVerticalScrollIndicator={showScrollbar}
                 onScroll={(event) => {this.notify('scroll', [event])}}
-                scrollEventThrottle={48}>
-                {props.children}
+                scrollEventThrottle={48}> 
+                  {props.children}
               </ScrollView>
             </KeyboardAvoidingView>
           )}}
