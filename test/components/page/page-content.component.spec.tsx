@@ -145,4 +145,40 @@ describe('Test PageContent component', () => {
     });
     expect(tree.getByText('children')).toBeTruthy();
   });
+
+
+  it('should trigger onSwipedown event when user scrolls down', () => {
+    const onSwipedownMock = jest.fn();
+    const { getByTestId } = renderComponent({ onSwipedown: onSwipedownMock });
+  
+    const scrollViewEle = getByTestId('test_Navbar_page_content_scrollview');
+    
+    fireEvent.scroll(scrollViewEle, {
+      nativeEvent: { contentOffset: { y: 0 }, layoutMeasurement: {}, contentSize: {} },
+    });
+  
+    fireEvent.scroll(scrollViewEle, {
+      nativeEvent: { contentOffset: { y: -20 }, layoutMeasurement: {}, contentSize: {} },
+    });
+  
+    expect(onSwipedownMock).toHaveBeenCalled();
+  });
+  
+  it('should trigger onSwipeup event when user scrolls up', () => {
+    const onSwipeupMock = jest.fn();
+    const { getByTestId } = renderComponent({ onSwipeup: onSwipeupMock });
+  
+    const scrollViewEle = getByTestId('test_Navbar_page_content_scrollview');
+  
+    fireEvent.scroll(scrollViewEle, {
+      nativeEvent: { contentOffset: { y: 0 }, layoutMeasurement: {}, contentSize: {} },
+    });
+  
+    fireEvent.scroll(scrollViewEle, {
+      nativeEvent: { contentOffset: { y: 20 }, layoutMeasurement: {}, contentSize: {} },
+    });
+  
+    expect(onSwipeupMock).toHaveBeenCalled();
+  });
+  
 });

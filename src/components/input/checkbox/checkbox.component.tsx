@@ -68,7 +68,9 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
         } else {
           this.props.onFieldChange && this.props.onFieldChange('datavalue', dataValue, oldValue);
         }
-        this.invokeEventCallback('onBlur', [ null, this.proxy ]);
+        setTimeout(() => {
+          this.invokeEventCallback('onBlur', [ null, this.proxy ]);
+        }, 10);
       });
   }
 

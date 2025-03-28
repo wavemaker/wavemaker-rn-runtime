@@ -62,8 +62,9 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       >
         {this.getBackground()}
         <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect}>
-            {!props.scrollable ? <View style={[dimensions as ViewStyle,  this.styles.content]}>{this.renderContent(props)}</View> : 
-            <ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
+            {!props.scrollable ? <View style={[{flexDirection: 'column'},this.styles.root,dimensions as ViewStyle,this.styles.content]}>
+              {this.renderContent(props)}</View> : 
+            <ScrollView style={[{flexDirection: 'column'},this.styles.root,dimensions as ViewStyle,this.styles.content]}
             onScroll={(event) => {this.notify('scroll', [event])}}
             scrollEventThrottle={48}>
             {this.renderContent(props)}
