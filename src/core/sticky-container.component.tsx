@@ -1,6 +1,6 @@
 
 import React, { Component } from "react";
-import { ViewStyle, Animated, Easing, View} from "react-native";
+import { ViewStyle, Animated, Easing, View, Platform} from "react-native";
 import { SafeAreaInsetsContext } from "react-native-safe-area-context";
 import { Theme, ThemeProvider } from "@wavemaker/app-rn-runtime/styles/theme";
 import { BaseComponent } from "./base.component";
@@ -47,9 +47,11 @@ export class StickyView extends Component<StickyViewProps, StickyViewState, any>
     listenScrollEvent(): void {
         this.destroyScrollListner && this.destroyScrollListner();
         const component = this.props.component;
+        let yPosition: number;
         this.destroyScrollListner = component.subscribe('scroll', (e: any) => {
             const height = component.getLayout()?.height;
-            const yPosition = component.getLayout()?.py;
+            const topInsetsInYposition = Platform.OS == 'ios' ? this.insets?.top || 0 : 0;
+            yPosition = (yPosition || yPosition == 0) ? yPosition : component?.getLayout()?.py - topInsetsInYposition;
             const scrollPosition = e.nativeEvent.contentOffset.y;
             let isStickyVisible = false ;
             
@@ -117,9 +119,9 @@ export class StickyView extends Component<StickyViewProps, StickyViewState, any>
 export class StickyViewContainer extends React.Component {
     private children: Map<StickyView, React.ReactNode> = new Map();
     private id = 0;
-    private translateY: Animated.Value = new Animated.Value(0);
-    private topSlideHeight = 0;
-    private hiddenHeight = 0;
+    public translateY: Animated.Value = new Animated.Value(0);
+    public topSlideHeight = 0;
+    public hiddenHeight = 0;
     public containerHeight: number = 0;
 
     add(c: StickyView, n : React.ReactNode) {

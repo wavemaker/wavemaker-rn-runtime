@@ -15,6 +15,7 @@ import { getPathDown } from './curve';
 // import { scale } from 'react-native-size-scaling';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { FixedView } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
+import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 interface TabDataItem extends NavigationDataItem {
   floating: boolean;
@@ -35,6 +36,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   private keyBoardShown = false;
   private destroyScrollListner: Function = null as any;
   private translateY = new Animated.Value(0);
+  private insets: EdgeInsets | null = null;
 
   constructor(props: WmTabbarProps) {
     super(props, DEFAULT_CLASS, new WmTabbarProps(), new WmTabbarState());
@@ -127,10 +129,11 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       const visibleContentHeight = layoutMeasurement.height ;
       const tabbarHeight = this.getLayout()?.height ;
       const endReached = (scrollPosition + visibleContentHeight + tabbarHeight ) >= contentSize.height ;
+      const bottomInsets = this.insets?.bottom || 0
       if(e.scrollDirection <= 0){
         this.animateWithTiming(0, 100)
       }else {
-        this.animateWithTiming(tabbarHeight, 100)
+        this.animateWithTiming(tabbarHeight + bottomInsets, 100)
       }
       if(endReached){
         this.animateWithTiming(0, 0)
@@ -167,6 +170,10 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       max = max - 1;
     }
     return (
+      <SafeAreaInsetsContext.Consumer>
+      {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+      this.insets = insets;
+      return (
       <NavigationServiceConsumer>
       {(navigationService) =>(
         <View style={this.styles.root} 
@@ -212,6 +219,8 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
           </View>
         </View>)}
       </NavigationServiceConsumer>
+      )}}
+    </SafeAreaInsetsContext.Consumer>
     )
   }
 

@@ -3,7 +3,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'ax
 import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ProtoTypes from 'prop-types';
-import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView, EdgeInsets } from 'react-native-safe-area-context';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { Linking } from 'react-native';
 import { NativeModulesProxy } from 'expo-modules-core';
@@ -469,6 +469,19 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }}/>
   }
 
+  renderIosStatusbarInsetsView(statusBarCustomisation: any, insets: EdgeInsets | null){
+    return Platform.OS == 'ios' ? (
+      <View style={{
+        backgroundColor: statusBarCustomisation?.backgroundColor || 'black', 
+        position: 'absolute',
+        top: 0, 
+        height: insets?.top || 0,
+        width: '100%',
+        zIndex: 9
+      }}></View>
+    ) : <></>
+  }
+
   renderIconsViewSupportForWeb() {
     try {
       return (<style type="text/css">{`
@@ -516,6 +529,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                     barStyle={statusBarCustomisation?.barStyle || 'default'}
                   />
                   <ThemeProvider value={this.appConfig.theme}>
+                  {this.renderIosStatusbarInsetsView(statusBarCustomisation, insets)}
                   <View style={{ flex: 1 }}>
                   <StickyViewContainer>
                   <FixedViewContainer>

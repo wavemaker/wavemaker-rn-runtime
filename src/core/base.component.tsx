@@ -93,7 +93,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private _showView = true;
     public closestTappable?: Tappable;   
     public componentNode: WmComponentNode;
-    private layout: any = {};
+    public layout: any = {};
     public baseView: any = View;
 
 
@@ -372,9 +372,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             setPosition(newLayoutPosition);
             const compnentRef = ref !== null ? ref : this.baseView 
             // Layout values by measure
-            compnentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
-                this.layout = { x, y, width, height, px, py }
-            });
+            if(compnentRef?.measure){
+                compnentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
+                    this.layout = { x, y, width, height, px, py }
+                });    
+            }
         }
     }
     
