@@ -9,10 +9,9 @@ import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/pictur
 
 import WmAppNavbarProps from './appnavbar.props';
 import { DEFAULT_CLASS, WmAppNavbarStyles } from './appnavbar.styles';
+import { StickyView } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
 
-export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {
-
-}
+export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {}
 
 export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNavbarState, WmAppNavbarStyles> {
 
@@ -34,11 +33,11 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
     }
   }
 
-  renderWidget(props: WmAppNavbarProps) {
+  renderContent(props: WmAppNavbarProps) {
     //@ts-ignore
     const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{props.badgevalue}</Badge>): null;
     return (
-      <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
+      <View style={this.styles.root} ref={ref => {this.baseView = ref as View}} onLayout={(event) => this.handleLayout(event)}>
         {this._background}
         <View style={this.styles.leftSection}>
         {props.showDrawerButton && (<WmIcon
@@ -76,5 +75,17 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
         </View>
       </View>
     );
+  }
+
+  renderWidget(props: WmAppNavbarProps){
+    return props.hideonscroll ? 
+      <StickyView
+        theme={this.theme}
+        component={this}
+        slide={true}
+      >
+        {this.renderContent(props)}
+      </StickyView>
+      : this.renderContent(props);
   }
 }

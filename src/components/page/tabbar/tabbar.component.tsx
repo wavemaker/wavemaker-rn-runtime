@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Text, View, TouchableOpacity, Dimensions, Keyboard } from 'react-native';
+import { Text, View, TouchableOpacity, Dimensions, Keyboard, Animated, Easing, LayoutChangeEvent } from 'react-native';
 
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
@@ -14,6 +14,7 @@ import Svg, { Path } from 'react-native-svg';
 import { getPathDown } from './curve';
 // import { scale } from 'react-native-size-scaling';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { FixedView } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 
 interface TabDataItem extends NavigationDataItem {
   floating: boolean;
@@ -32,6 +33,8 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
 
   private tabbarHeight = 0;
   private keyBoardShown = false;
+  private destroyScrollListner: Function = null as any;
+  private translateY = new Animated.Value(0);
 
   constructor(props: WmTabbarProps) {
     super(props, DEFAULT_CLASS, new WmTabbarProps(), new WmTabbarState());
@@ -47,6 +50,18 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
 
   private maxWidth = Dimensions.get("window").width;  
   private returnpathDown: any;
+
+  onPropertyChange(name: string, $new: any, $old: any): void {
+      super.onPropertyChange(name, $new, $old);
+      switch(name){
+        case 'hideonscroll':
+          this.destroyScrollListner && this.destroyScrollListner();
+          if($new) {
+            this.subscribeToPageScroll();
+          }
+          break;
+      }
+  }
 
   renderTabItem(item: TabDataItem, testId: string, props: WmTabbarProps, onSelect: Function, floating = false) {
 
@@ -96,7 +111,38 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
     return super.isVisible() && !this.keyBoardShown;
   }
 
-  renderWidget(props: WmTabbarProps) {
+  animateWithTiming(value: number, duratiion: number): void {
+    Animated.timing(this.translateY, {
+      toValue: value, 
+      easing: Easing.linear,
+      duration: duratiion, 
+      useNativeDriver: true
+    }).start()
+  }
+
+  subscribeToPageScroll(){
+    this.destroyScrollListner = this.subscribe('scroll', (e: any)=>{
+      const { contentOffset, layoutMeasurement, contentSize } = e.nativeEvent ;
+      const scrollPosition = contentOffset.y ;
+      const visibleContentHeight = layoutMeasurement.height ;
+      const tabbarHeight = this.getLayout()?.height ;
+      const endReached = (scrollPosition + visibleContentHeight + tabbarHeight ) >= contentSize.height ;
+      if(e.scrollDirection <= 0){
+        this.animateWithTiming(0, 100)
+      }else {
+        this.animateWithTiming(tabbarHeight, 100)
+      }
+      if(endReached){
+        this.animateWithTiming(0, 0)
+      }
+    })
+  }
+
+  componentWillUnmount(): void {
+      this.destroyScrollListner && this.destroyScrollListner();
+  }
+
+  renderContent(props: WmTabbarProps){
     let max = 5;
     const tabItems = this.state.dataItems;
     const tabItemsLength = tabItems.length;
@@ -122,9 +168,12 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
     }
     return (
       <NavigationServiceConsumer>
-        {(navigationService) =>
-        (<View style={this.styles.root}>
-         {isClippedTabbar ? (
+      {(navigationService) =>(
+        <View style={this.styles.root} 
+          ref={(ref)=> {this.baseView = ref as any}}
+          onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}  
+        >
+      {isClippedTabbar ? (
         <Svg width={this.maxWidth} height={scale(this.styles.root.height as number)} style={{zIndex: -1,position: 'absolute',backgroundColor: ThemeVariables.INSTANCE.transparent}}>
         <Path fill={ThemeVariables.INSTANCE.tabbarBackgroundColor} {...{ d: this.returnpathDown }}/>
         </Svg>
@@ -163,6 +212,19 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
           </View>
         </View>)}
       </NavigationServiceConsumer>
-    );
+    )
+  }
+
+  renderWidget(props: WmTabbarProps) {
+    return props.hideonscroll ? 
+        <FixedView 
+        style={{bottom: 0 , width:'100%', transform: [{translateY: this.translateY}]}} 
+        theme={this.theme}
+        animated={true}>
+        {this.renderContent(props)}
+      </FixedView>
+      : <View style={{ opacity: props.hideonscroll ? 0 : 1}}>
+        {this.renderContent(props)}
+      </View>
   }
 }
