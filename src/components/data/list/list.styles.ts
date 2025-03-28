@@ -15,6 +15,7 @@ export type WmListStyles = BaseStyles & {
     emptyMessage: WmLabelStyles,
     onDemandMessage: WmLabelStyles,
     item: AllStyle,
+    itemContainer: ViewStyle | ViewStyle[],
     selectedItem: AllStyle,
     selectedIcon: WmIconStyles,
     group: AllStyle,
@@ -110,6 +111,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             borderColor: themeVariables.selectedItemBorderColor,
             borderRadius: 6,
             borderStyle: 'solid',
+        },
+        itemContainer: {
         },
         selectedItem : {} as AllStyle,
         selectedIcon : {
