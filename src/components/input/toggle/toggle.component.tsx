@@ -83,7 +83,7 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
         }
         setTimeout(() => {
           this.invokeEventCallback('onBlur', [ null, this.proxy ]);
-        }, 10);
+        }, 100);
         
       });
   }

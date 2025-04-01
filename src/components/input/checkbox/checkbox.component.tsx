@@ -70,7 +70,7 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
         }
         setTimeout(() => {
           this.invokeEventCallback('onBlur', [ null, this.proxy ]);
-        }, 10);
+        }, 100);
       });
   }
 

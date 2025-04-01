@@ -192,7 +192,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
       if (source === 'blur') {
         setTimeout(() => {
           this.invokeEventCallback('onBlur', [event, this.proxy]);
-        }, 10);
+        }, 100);
       }
     });
   }
