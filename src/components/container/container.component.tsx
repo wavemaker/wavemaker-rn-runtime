@@ -66,9 +66,11 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
           { props.issticky ? 
             <StickyView
               component={this}
-              style={{...styles}} 
+              style={this.styles.sticky}
               theme={this.theme}>
-              {this.renderContent(props)}
+               <View style={styles}>
+                  {this.renderContent(props)}
+              </View>
             </StickyView>
             : !props.scrollable ? 
             <View style={[dimensions as ViewStyle,  this.styles.content]}>

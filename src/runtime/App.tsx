@@ -53,7 +53,6 @@ import BasePartial from './base-partial.component';
 import BasePage from './base-page.component';
 import { WmMemo } from './memo.component';
 import { BaseVariable, VariableEvents } from '../variables/base-variable';
-import { StickyViewContainer } from '../core/sticky-container.component';
 
 declare const window: any;
 
@@ -531,7 +530,6 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   <ThemeProvider value={this.appConfig.theme}>
                   {this.renderIosStatusbarInsetsView(statusBarCustomisation, insets)}
                   <View style={{ flex: 1 }}>
-                  <StickyViewContainer>
                   <FixedViewContainer>
                     <View style={styles.container}>
                       <GestureHandlerRootView style={styles.container}>
@@ -549,7 +547,6 @@ export default abstract class BaseApp extends React.Component implements Navigat
                       (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
                       : null}
                   </FixedViewContainer>
-                  </StickyViewContainer>
                   {this.renderToasters()}
                   {this.renderDialogs()}
                   {this.renderDisplayManager()}

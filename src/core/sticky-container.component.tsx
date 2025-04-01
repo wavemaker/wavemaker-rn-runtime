@@ -11,7 +11,7 @@ export interface StickyViewProps {
     style?: ViewStyle,
     theme: Theme;
     children?: any;
-    slide?: boolean,
+    slide?: boolean;
     component: BaseComponent<any, any, any>;
     onVisibilityChange?: (visible: boolean) => void;
 }
