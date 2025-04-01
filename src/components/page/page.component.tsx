@@ -53,19 +53,18 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
       <StickyViewContainer>
         <SafeAreaInsetsContext.Consumer>
           {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-            const rootStyles = [this.styles.root, {paddingTop: 0 }]
             return props.scrollable ? 
             <ScrollView
               ref={this.scrollRef}
               {...this.panResponder.panHandlers}
-              style={rootStyles}
+              style={[{ width:'100%', height:'100%' }, this.styles.root]}
               onScroll={this.onScroll}
               scrollEventThrottle={16}
             >
               {this._background}
               {props.children}
             </ScrollView> : 
-            <View style={rootStyles}> 
+            <View style={this.styles.root}> 
               {this._background}
               {props.children}
             </View>

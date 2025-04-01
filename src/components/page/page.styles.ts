@@ -17,9 +17,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             left: 0,
             right: 0,
             bottom: 0,
-            position: 'absolute', 
-            height: '100%', 
-            width: '100%'
+            position: 'absolute'
         },
         text: {},
         skeleton: {

@@ -68,9 +68,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
                 showsVerticalScrollIndicator={showScrollbar}
                 onScroll={(event) => {this.notify('scroll', [event])}}
                 scrollEventThrottle={48}> 
-                <View style={this.styles.root}>
                   {props.children}
-                </View>
               </ScrollView>
             </KeyboardAvoidingView>
           )}}
