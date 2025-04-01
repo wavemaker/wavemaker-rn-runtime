@@ -469,7 +469,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   renderIosStatusbarInsetsView(statusBarCustomisation: any, insets: EdgeInsets | null){
-    return Platform.OS == 'ios' ? (
+    return Platform.OS == 'ios' && !statusBarCustomisation?.translucent ? (
       <View style={{
         backgroundColor: statusBarCustomisation?.backgroundColor || 'black', 
         position: 'absolute',
