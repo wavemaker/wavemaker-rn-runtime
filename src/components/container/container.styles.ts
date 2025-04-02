@@ -23,7 +23,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 backgroundColor: 'transparent',
             },
         } as any as WmSkeletonStyles, 
-        sticky: {}
+        sticky: {
+            paddingHorizontal: 8
+        }
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
