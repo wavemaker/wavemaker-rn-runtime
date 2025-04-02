@@ -53,6 +53,7 @@ import BasePartial from './base-partial.component';
 import BasePage from './base-page.component';
 import { WmMemo } from './memo.component';
 import { BaseVariable, VariableEvents } from '../variables/base-variable';
+import { StickyViewContainer } from '../core/sticky-container.component';
 
 declare const window: any;
 
@@ -530,23 +531,25 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   <ThemeProvider value={this.appConfig.theme}>
                   {this.renderIosStatusbarInsetsView(statusBarCustomisation, insets)}
                   <View style={{ flex: 1 }}>
-                  <FixedViewContainer>
-                    <View style={styles.container}>
-                      <GestureHandlerRootView style={styles.container}>
-                      <AppNavigator
-                        app={this}
-                        landingPage={(this.props as any).pageName}
-                        landingPageParams={(this.props as any)?.pageName && this.props}
-                        hideDrawer={this.appConfig.drawer?.getContent() === null}
-                        drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
-                        drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                        {commonPartial}
-                      </GestureHandlerRootView>
-                    </View>
-                    {this.appConfig.url ?
-                      (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
-                      : null}
-                  </FixedViewContainer>
+                  <StickyViewContainer>
+                    <FixedViewContainer>
+                      <View style={styles.container}>
+                        <GestureHandlerRootView style={styles.container}>
+                        <AppNavigator
+                          app={this}
+                          landingPage={(this.props as any).pageName}
+                          landingPageParams={(this.props as any)?.pageName && this.props}
+                          hideDrawer={this.appConfig.drawer?.getContent() === null}
+                          drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
+                          drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                          {commonPartial}
+                        </GestureHandlerRootView>
+                      </View>
+                      {this.appConfig.url ?
+                        (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
+                        : null}
+                    </FixedViewContainer>
+                  </StickyViewContainer>
                   {this.renderToasters()}
                   {this.renderDialogs()}
                   {this.renderDisplayManager()}

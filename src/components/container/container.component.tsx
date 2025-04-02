@@ -54,6 +54,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       ...this.styles.root,
       ...this.styles.skeleton.root
     } : this.styles.root
+    if(props.issticky) this.isSticky = true;
     return (
       <Animatedview 
         entryanimation={props.animation} 

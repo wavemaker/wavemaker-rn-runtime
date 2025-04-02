@@ -78,6 +78,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   }
 
   renderWidget(props: WmAppNavbarProps){
+    if(props.hideonscroll) this.isSticky = true;
     return props.hideonscroll ? 
       <StickyView
         theme={this.theme}

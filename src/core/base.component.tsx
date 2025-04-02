@@ -83,6 +83,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public destroyed = false;
     public _showSkeleton = false;
     public isFixed = false;
+    public isSticky = false;
     private notifier = new EventNotifier();
     private parentListenerDestroyers = [] as Function[];
     public _background = <></>;
@@ -272,13 +273,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     componentWillAttach() {
-        if (this.isFixed) {
+        if (this.isFixed || this.isSticky) {
             this.setState({hide: false});
         }
     }
 
     componentWillDetach() {
-        if (this.isFixed) {
+        if (this.isFixed || this.isSticky) {
             this.setState({hide: true});
         }
     }
