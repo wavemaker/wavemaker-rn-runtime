@@ -51,7 +51,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
     //     return ((props.scrollable || isWebPreviewMode()) && !this._showSkeleton) ? (
       return props.scrollable ? (
-        <View style={{height: '100%', width: '100%', flex: 1, backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
+        <View style={{height: '100%', width: '100%', backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
         {this._background}
         <SafeAreaInsetsContext.Consumer>
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {

@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Text, View, TouchableOpacity, Dimensions, Keyboard, Animated, Easing, LayoutChangeEvent } from 'react-native';
-
+import { Text, View, TouchableOpacity, Dimensions, Keyboard, Animated, Easing, LayoutChangeEvent} from 'react-native';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -226,15 +225,17 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
 
   renderWidget(props: WmTabbarProps) {
     if(props.hideonscroll) this.isFixed = true;
-    return props.hideonscroll ? 
+    const animateStyle = props.hideonscroll ? {transform: [{translateY: this.translateY}]} : {};
+    return <>
         <FixedView 
-        style={{bottom: 0 , width:'100%', transform: [{translateY: this.translateY}]}} 
-        theme={this.theme}
-        animated={true}>
-        {this.renderContent(props)}
-      </FixedView>
-      : <View style={{ opacity: props.hideonscroll ? 0 : 1}}>
-        {this.renderContent(props)}
-      </View>
+          style={{...{bottom: 0, width:'100%'}, ...animateStyle}} 
+          theme={this.theme}
+          animated={props.hideonscroll || false}>
+          {this.renderContent(props)}
+        </FixedView>
+        <View style={{ opacity: 0}}>
+          {this.renderContent(props)}
+        </View>
+    </>
   }
 }
