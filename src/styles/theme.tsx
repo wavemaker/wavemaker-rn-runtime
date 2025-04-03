@@ -292,11 +292,13 @@ export class Theme {
                 clonedStyle = cloneDeep(this.styles[name]) || {} ;
                 clonedStyle['root'] = clonedStyle['root'] || {};
                 this.cleanseStyleProperties(clonedStyle);
+                const extraTextStyles = (this.getTextStyle(clonedStyle) || {}) as any ;
+                clonedStyle['text'] = Object.assign({}, extraTextStyles, clonedStyle['text'] || {});
                 Object.keys(clonedStyle).forEach((k)=>{
-                    if(!isObject(clonedStyle[k])){
+                    if(!extraTextStyles[k] && !isObject(clonedStyle[k])){
                         clonedStyle['root'][k] = clonedStyle['root'][k] || clonedStyle[k]
                     }
-                })
+                });
             }
             if (this !== Theme.BASE && isWebPreviewMode()) {
                 this.checkStyleProperties('', clonedStyle);
@@ -326,7 +328,7 @@ export class Theme {
         if (!s) {
             return {};
         }
-        return {
+        const textStyle = {
             color: s.color,
             fontFamily: s.fontFamily,
             fontSize: s.fontSize,
@@ -348,6 +350,12 @@ export class Theme {
             writingDirection: s.writingDirection,
             userSelect: s.userSelect,
         } as TextStyle;
+        Object.keys(textStyle).forEach((k)=> {
+            if(!(textStyle as any)[k]){
+                delete (textStyle as any)[k];
+            }
+        })
+           return textStyle;
     }
 
     reset(styles?: NamedStyles<any>) {
