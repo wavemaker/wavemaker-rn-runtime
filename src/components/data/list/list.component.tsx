@@ -410,7 +410,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             }>
             {props.renderItem(item, index, this)}
             {this.isSelected(item) ? (
-              <WmIcon id={this.getTestId('icon' + index)} iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
+              <WmIcon id={this.getTestId('icon' + index)} iconclass={props.selecteditemicon ? props.selecteditemicon : 'wi wi-check-circle'} styles={this.styles.selectedIcon} />
             ) : null}
           </Tappable>
         </View>
