@@ -54,4 +54,6 @@ export default class BaseChartComponentProps extends SkeletonAnimationProps {
   accessibilityrole?: AccessibilityRole;
   renderitempartial?: (item: any, index: number, partialName: string)=> React.ReactNode;
   ynumberformat?: string = '';
+  showxaxislabels: boolean = true;
+  showyaxislabels: boolean = true;
 }
