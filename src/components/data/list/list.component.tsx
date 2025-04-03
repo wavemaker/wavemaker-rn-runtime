@@ -20,6 +20,7 @@ export class WmListState extends BaseComponentState<WmListProps> {
   groupedData: Array<any> = [];
   currentPage = 1;
   maxRecordsToShow = 20;
+  loadingData = false;
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -28,7 +29,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private selectedItemWidgets = {} as any;
   private keyExtractor = new DefaultKeyExtractor();
   private endThreshold = -1;
-  private loadingData = false;
+  // private loadingData = false;
   private hasMoreData = true;
   public leftActionTemplate?: WmListActionTemplate;
   public rightActionTemplate?: WmListActionTemplate;
@@ -128,22 +129,28 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   };
 
   private loadData() {
-    if (this.loadingData) {
+    if (this.state.loadingData) {
       return;
     }
     if (isArray(this.state.props.dataset)
       && this.state.props.dataset.length > this.state.maxRecordsToShow) {
-      this.loadingData = true;
       this.updateState({
+        loadingData: true,
         maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
       } as WmListState);
       setTimeout(() => {
-        this.loadingData = false;
+        // Force a re-render by making a small state update
+        this.updateState({
+          loadingData: false,
+          } as WmListState);
       }, 100);
     } else if (this.loadDataOnDemand) {
       const $list = this.proxy as any;
       $list.loadingdata = true;
-      this.loadingData = true;
+      // Set loading state via updateState
+      this.updateState({
+        loadingData: true
+      } as WmListState);
       this.props.getNextPageData && this.props.getNextPageData(null, this.proxy, this.state.currentPage + 1).then((data) => {
         if (isArray(data) && data.length > 0
           && isArray(this.state.props.dataset)) {
@@ -324,7 +331,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         }
         break;
       case 'loadingdata':
-        this.loadingData = $new && this.loadingData;
+        this.updateState({
+          loadingData: $new && this.state.loadingData
+        } as WmListState);
         break;
       case 'selecteditem':
         if ($new != $old && isNumber($new)) {
@@ -376,12 +385,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderItem(item: any, index: number, props: WmListProps) {
     const cols = this.getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
-
+    
     const styles = this._showSkeleton ? {
       ...this.styles.item,
       ...this.styles.skeleton.root
     } : this.styles.item as any
-    return (index < this.state.maxRecordsToShow || isHorizontal) ? (
+    return (index < this.state.maxRecordsToShow ||  (isHorizontal && this.state.props.horizontalondemandenabled === false)) ? (
       <Swipeable
         renderLeftActions={() => this.renderLeftActions()}
         renderRightActions={() => this.renderRightActions()} containerStyle={cols ? { width: round(100 / cols) + "%", flex: null } as any : {}}>
@@ -403,8 +412,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             {...this.getTestPropsForAction(`item${index}`)}
             disableTouchEffect={this.state.props.disabletoucheffect}
             onTap={($event) => this.onSelect(item, index, $event)}
-            onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
-            onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+            onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy, item])}
+            onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy, item])}
             styles={
               [{ display: 'flex', flexDirection: 'row' },
               cols ? {
@@ -419,12 +428,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             }>
             {props.renderItem(item, index, this)}
             {this.isSelected(item) ? (
-              <WmIcon id={this.getTestId('icon' + index)} iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
+              <WmIcon id={this.getTestId('icon' + index)} iconclass={props.selecteditemicon ? props.selecteditemicon : 'wi wi-check-circle'} styles={this.styles.selectedIcon} />
             ) : null}
           </Tappable>
         </View>
       </Swipeable>
-    ) : null;
+    ) : null
   }
 
   private renderHeader(props: WmListProps, title: string) {
@@ -484,6 +493,14 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   };
 
+   getCaption = (isHorizontal: boolean, vData: any[]): string => {
+    const { nodatamessage, ondemandmessage } = this.state.props
+    if(!isHorizontal) {
+      return this.hasMoreData ? ondemandmessage : nodatamessage
+    }
+    return this.hasMoreData ? ondemandmessage : nodatamessage
+  }
+
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
 
     return (
@@ -504,13 +521,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               {...(isHorizontal ? { showsHorizontalScrollIndicator: !props.hidehorizontalscrollbar } : { numColumns: this.getNoOfColumns() })}>
             </FlatList>
             {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow) ?
-              (this.loadingData ?
-                this.renderLoadingIcon(props) :
-                (<WmLabel id={this.getTestId('ondemandmessage')}
-                  styles={this.styles.onDemandMessage}
-                  caption={this.hasMoreData && !isHorizontal ? props.ondemandmessage : props.nodatamessage}
-                  onTap={() => this.loadData()}></WmLabel>))
-              : null}
+            (this.state.loadingData ? this.renderLoadingIcon(props) :
+            (<WmLabel id={this.getTestId('ondemandmessage')}
+            styles={this.styles.onDemandMessage}
+           caption={this.getCaption( isHorizontal, v.data)}
+          onTap={() => this.loadData()}></WmLabel>)): null}
           </View>
         ))) : this.renderEmptyMessage(isHorizontal, null, null, props)
         }
