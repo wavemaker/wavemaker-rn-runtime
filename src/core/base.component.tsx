@@ -1,6 +1,6 @@
 import { assign, isUndefined, isNil } from 'lodash';
 import React, { ReactNode } from 'react';
-import { AccessibilityInfo, LayoutChangeEvent, Platform, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import { AccessibilityInfo, LayoutChangeEvent, Platform, StyleSheet, TextStyle, View, ViewStyle, InteractionManager } from 'react-native';
 import { AnimatableProps } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
@@ -374,9 +374,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             const compnentRef = ref !== null ? ref : this.baseView 
             // Layout values by measure
             if(compnentRef?.measure){
-                compnentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
-                    this.layout = { x, y, width, height, px, py }
-                });    
+                InteractionManager.runAfterInteractions(() => {
+                    requestAnimationFrame(() => {
+                        compnentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
+                            this.layout = { x, y, width, height, px, py }
+                        }); 
+                    })
+                })
             }
         }
     }
