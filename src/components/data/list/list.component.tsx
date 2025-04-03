@@ -33,6 +33,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   public leftActionTemplate?: WmListActionTemplate;
   public rightActionTemplate?: WmListActionTemplate;
   private flatListRefs: any = {};
+  private selectedItems = [] as any[];
 
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
@@ -74,6 +75,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         this.state.props.selecteditem && this.invokeEventCallback('onDeselect', [this.proxy, this.state.props.selecteditem]);
         selectedItem = $item;
       }
+      this.selectedItems = selectedItem;
       this.selectedItemWidgets = this.itemWidgets[$index as number];
       let groupKey: string | null = null;
 
@@ -189,6 +191,13 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       let index = dataset.indexOf(item);
       this.onSelect(dataset[index], index);
     }
+  }
+
+  getSelectedItems = () => {
+    if(!this.props.multiselect){
+      return [this.selectedItems]
+    }
+    return this.selectedItems;
   }
 
   getItem(index: number) {
