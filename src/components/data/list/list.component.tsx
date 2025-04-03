@@ -394,8 +394,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             {...this.getTestPropsForAction(`item${index}`)}
             disableTouchEffect={this.state.props.disabletoucheffect}
             onTap={($event) => this.onSelect(item, index, $event)}
-            onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
-            onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+            onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy, item])}
+            onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy, item])}
             styles={
               [{ display: 'flex', flexDirection: 'row' },
               cols ? {
