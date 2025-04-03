@@ -40,5 +40,7 @@ export default class WmListProps extends BaseProps {
     };
     numberofskeletonitems?: number | string;
     hidehorizontalscrollbar?: boolean = false;
+    horizontalondemandenabled:boolean = false;
     triggeronrenderwhenhidden?: boolean = true;
+    selecteditemicon: string = null as any;
 }
