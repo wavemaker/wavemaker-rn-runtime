@@ -1,248 +1,455 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test Textarea component should have default value for native platform 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
+<TextInput
+  accessibilityState={
+    {
+      "disabled": false,
     }
-  />,
-  <TextInput
-    accessibilityState={
-      {
-        "disabled": false,
-      }
-    }
-    accessible={true}
-    activeFloatingLabelStyle={{}}
-    allowContentSelection={true}
-    autoComplete="username"
-    autoFocus={null}
-    background={
-      <React.Fragment>
-        <BackgroundComponent
-          style={
-            {
-              "borderRadius": 6,
-            }
-          }
-        />
-      </React.Fragment>
-    }
-    caretHidden={false}
-    contextMenuHidden={false}
-    defaultValue="sample text"
-    editable={true}
-    floatingLabelStyle={{}}
-    isInputFocused={false}
-    maxLength={null}
-    multiline={true}
-    numberOfLines={4}
-    onBlur={[Function]}
-    onChange={[Function]}
-    onChangeText={[Function]}
-    onFocus={[Function]}
-    onKeyPress={[Function]}
-    onSelectionChange={[Function]}
-    placeholder="Place your text"
-    placeholderTextColor="#bbbbbb"
-    selection={null}
-    style={
-      [
-        [
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoComplete="username"
+  autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
           {
-            "backgroundColor": "#ffffff",
-            "borderColor": "#dddddd",
             "borderRadius": 6,
-            "borderStyle": "solid",
-            "borderWidth": 1,
-            "fontFamily": "Roboto",
-            "minHeight": 160,
-            "paddingBottom": 12,
-            "paddingLeft": 12,
-            "paddingRight": 12,
-            "paddingTop": 12,
-          },
-          {
-            "fontFamily": "Roboto",
-            "fontSize": 16,
-            "textAlignVertical": "top",
-            "userSelect": "text",
-          },
-          {},
-          {},
-        ],
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue="sample text"
+  editable={true}
+  floatingLabelStyle={{}}
+  handleLayout={[Function]}
+  isInputFocused={false}
+  maxLength={null}
+  multiline={true}
+  numberOfLines={1}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onLayout={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Place your text"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
         {},
-      ]
-    }
-    testID="wmTextarea_i"
-  />,
-]
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmTextarea_i"
+/>
 `;
 
 exports[`Test Textarea component should have default value for web platform 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
-    }
-  />,
-  <TextInput
-    accessibilityLabel="wmTextarea_i"
-    activeFloatingLabelStyle={{}}
-    allowContentSelection={true}
-    autoComplete="username"
-    autoFocus={null}
-    background={
-      <React.Fragment>
-        <BackgroundComponent
-          style={
-            {
-              "borderRadius": 6,
-            }
-          }
-        />
-      </React.Fragment>
-    }
-    caretHidden={false}
-    contextMenuHidden={false}
-    editable={true}
-    floatingLabelStyle={{}}
-    isInputFocused={false}
-    maxLength={null}
-    multiline={true}
-    numberOfLines={4}
-    onBlur={[Function]}
-    onChange={[Function]}
-    onChangeText={[Function]}
-    onFocus={[Function]}
-    onKeyPress={[Function]}
-    onSelectionChange={[Function]}
-    placeholder="Place your text"
-    placeholderTextColor="#bbbbbb"
-    selection={null}
-    style={
-      [
-        [
+<TextInput
+  accessibilityLabel="wmTextarea_i"
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoComplete="username"
+  autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
           {
-            "backgroundColor": "#ffffff",
-            "borderColor": "#dddddd",
             "borderRadius": 6,
-            "borderStyle": "solid",
-            "borderWidth": 1,
-            "fontFamily": "Roboto",
-            "minHeight": 160,
-            "paddingBottom": 12,
-            "paddingLeft": 12,
-            "paddingRight": 12,
-            "paddingTop": 12,
-          },
-          {
-            "fontFamily": "Roboto",
-            "fontSize": 16,
-            "textAlignVertical": "top",
-            "userSelect": "text",
-          },
-          {},
-          {},
-        ],
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  caretHidden={false}
+  contextMenuHidden={false}
+  editable={true}
+  floatingLabelStyle={{}}
+  handleLayout={[Function]}
+  isInputFocused={false}
+  maxLength={null}
+  multiline={true}
+  numberOfLines={1}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onLayout={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Place your text"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
         {},
-      ]
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmTextarea_i"
+  value="sample text"
+/>
+`;
+
+exports[`Test Textarea component should render Text instead of TextInput for Android device and disabled prop is true 1`] = `
+<Text
+  disabled={true}
+  numberOfLines={4}
+  selectable={false}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#f6f6f6",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+      {},
+      {
+        "color": "#bbbbbb",
+      },
+    ]
+  }
+>
+  Place your text
+</Text>
+`;
+
+exports[`Test Textarea component should render Text instead of TextInput for Android device and readOnly prop is true 1`] = `
+<Text
+  disabled={true}
+  numberOfLines={4}
+  selectable={false}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+      {},
+      {
+        "color": "#bbbbbb",
+      },
+    ]
+  }
+>
+  Place your text
+</Text>
+`;
+
+exports[`Test Textarea component should render TextInput for iOS device and disabled prop is true 1`] = `
+<TextInput
+  accessibilityState={
+    {
+      "disabled": true,
     }
-    testID="wmTextarea_i"
-    value="sample text"
-  />,
-]
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoComplete="username"
+  autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
+          {
+            "borderRadius": 6,
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue=""
+  editable={false}
+  floatingLabelStyle={{}}
+  handleLayout={[Function]}
+  isInputFocused={false}
+  maxLength={null}
+  multiline={true}
+  numberOfLines={1}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onLayout={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Place your text"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#f6f6f6",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmTextarea_i"
+/>
+`;
+
+exports[`Test Textarea component should render TextInput for iOS device and readOnly prop is true 1`] = `
+<TextInput
+  accessibilityState={
+    {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoComplete="username"
+  autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
+          {
+            "borderRadius": 6,
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue=""
+  editable={false}
+  floatingLabelStyle={{}}
+  handleLayout={[Function]}
+  isInputFocused={false}
+  maxLength={null}
+  multiline={true}
+  numberOfLines={1}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onLayout={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Place your text"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmTextarea_i"
+/>
 `;
 
 exports[`Test Textarea component should render correctly with default props 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
+<TextInput
+  accessibilityState={
+    {
+      "disabled": false,
     }
-  />,
-  <TextInput
-    accessibilityState={
-      {
-        "disabled": false,
-      }
-    }
-    accessible={true}
-    activeFloatingLabelStyle={{}}
-    allowContentSelection={true}
-    autoComplete="username"
-    autoFocus={null}
-    background={
-      <React.Fragment>
-        <BackgroundComponent
-          style={
-            {
-              "borderRadius": 6,
-            }
-          }
-        />
-      </React.Fragment>
-    }
-    caretHidden={false}
-    contextMenuHidden={false}
-    defaultValue=""
-    editable={true}
-    floatingLabelStyle={{}}
-    isInputFocused={false}
-    maxLength={null}
-    multiline={true}
-    numberOfLines={4}
-    onBlur={[Function]}
-    onChange={[Function]}
-    onChangeText={[Function]}
-    onFocus={[Function]}
-    onKeyPress={[Function]}
-    onSelectionChange={[Function]}
-    placeholder="Place your text"
-    placeholderTextColor="#bbbbbb"
-    selection={null}
-    style={
-      [
-        [
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoComplete="username"
+  autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
           {
-            "backgroundColor": "#ffffff",
-            "borderColor": "#dddddd",
             "borderRadius": 6,
-            "borderStyle": "solid",
-            "borderWidth": 1,
-            "fontFamily": "Roboto",
-            "minHeight": 160,
-            "paddingBottom": 12,
-            "paddingLeft": 12,
-            "paddingRight": 12,
-            "paddingTop": 12,
-          },
-          {
-            "fontFamily": "Roboto",
-            "fontSize": 16,
-            "textAlignVertical": "top",
-            "userSelect": "text",
-          },
-          {},
-          {},
-        ],
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue=""
+  editable={true}
+  floatingLabelStyle={{}}
+  handleLayout={[Function]}
+  isInputFocused={false}
+  maxLength={null}
+  multiline={true}
+  numberOfLines={1}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onLayout={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Place your text"
+  placeholderTextColor="#bbbbbb"
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 160,
+          "paddingBottom": 12,
+          "paddingLeft": 12,
+          "paddingRight": 12,
+          "paddingTop": 12,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "textAlignVertical": "top",
+          "userSelect": "text",
+        },
         {},
-      ]
-    }
-    testID="wmTextarea_i"
-  />,
-]
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmTextarea_i"
+/>
 `;
