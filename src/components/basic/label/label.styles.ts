@@ -16,15 +16,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     root: {
       alignSelf: 'flex-start',
     },
-    container: {
-      width: '100%',
-      alignSelf: 'flex-start'
-    },
-    androidText: {
-      flexShrink: 1,
-      width: '100%',
-      includeFontPadding: false,
-    },
     text: {
         fontSize: 16,
         color: themeVariables.labelDefaultColor,
