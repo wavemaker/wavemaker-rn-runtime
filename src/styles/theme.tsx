@@ -93,14 +93,16 @@ export class Theme {
     private replaceVariables(val: any) {
         if(isString(val)) { 
             (val.match(/_*var\([^\)]*\)/g) || []).forEach((s) => {
-                const variableName = s.substring(4, s.length - 1);
-                const variableValue = (ThemeVariables.INSTANCE as any)[variableName]
-                || (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
-                || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))];
-                val = val.replace(s, variableValue);
-                if (isNumber(variableValue) 
-                    && val.trim() === (variableValue + '')) {
-                    val = variableValue;
+                const content = s.substring(4, s.length - 1);
+                let [variableName, fallback] = content.split(",").map(str => str.trim()); 
+                let resolvedValue = (ThemeVariables.INSTANCE as any)[variableName] 
+                    || (ThemeVariables.INSTANCE as any)[variableName.substring(2)] 
+                    || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]
+                    || fallback;
+                val = val.replace(s, resolvedValue);
+                if (isNumber(resolvedValue) 
+                    && val.trim() === (resolvedValue + '')) {
+                    val = resolvedValue;
                 } else {
                     val = this.replaceVariables(val);
                 }
@@ -285,10 +287,16 @@ export class Theme {
         } else {
             const parentStyle = this.parent && this.parent.getStyle(name);
             const mediaQuery = (this.styles[name] || {})['@media'];
-            let clonedStyle = {};
+            let clonedStyle: Record<string, any> = { root: {} }
             if (!mediaQuery || matchMedia(mediaQuery).matches) {
-                clonedStyle = cloneDeep(this.styles[name]);
+                clonedStyle = cloneDeep(this.styles[name]) || {} ;
+                clonedStyle['root'] = clonedStyle['root'] || {};
                 this.cleanseStyleProperties(clonedStyle);
+                Object.keys(clonedStyle).forEach((k)=>{
+                    if(!isObject(clonedStyle[k])){
+                        clonedStyle['root'][k] = clonedStyle['root'][k] || clonedStyle[k]
+                    }
+                })
             }
             if (this !== Theme.BASE && isWebPreviewMode()) {
                 this.checkStyleProperties('', clonedStyle);
