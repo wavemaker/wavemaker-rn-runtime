@@ -76,31 +76,19 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         selectedItem = $item;
       }
       this.selectedItemWidgets = this.itemWidgets[$index as number];
-      let groupKey: string | null = null;
-
-      if (props.direction === 'horizontal') {
-        this.state.groupedData?.forEach((group) => {
-          if (group.data.includes($item)) {
-            groupKey = group.key;
-          }
-        });
-      }
 
       return new Promise(resolve => { 
         this.updateState({
           props: { selecteditem: selectedItem },
           selectedindex: $index
         } as WmListState, () => {
-          if(props.direction === 'horizontal'){
-            this.scrollToItem(groupKey, $index as number);
-          }
           this.invokeEventCallback(eventName, [this.proxy, $item]);
           $event && this.invokeEventCallback('onTap', [$event, this.proxy]);
           resolve(null);
         });
       });
-      
-    } else {
+    } 
+    else {
       return Promise.resolve(null);
     }
   }
@@ -375,8 +363,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     const cols = this.getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
     
-     // Changed condition to respect maxRecordsToShow for both vertical and horizontal directions
-    if (index < this.state.maxRecordsToShow) {
+    if (index < this.state.maxRecordsToShow ||  (isHorizontal && this.state.props.horizontalondemandenabled === false)){
     const styles = this._showSkeleton ? {
       ...this.styles.item,
       ...this.styles.skeleton.root
@@ -486,6 +473,14 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   };
 
+   getCaption = (isHorizontal: boolean, vData: any[]): string => {
+    const { nodatamessage, ondemandmessage } = this.state.props
+    if(!isHorizontal) {
+      return this.hasMoreData ? ondemandmessage : nodatamessage
+    }
+    return this.hasMoreData ? ondemandmessage : nodatamessage
+  }
+
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
 
     return (
@@ -505,19 +500,15 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
               {...(isHorizontal ? {showsHorizontalScrollIndicator: !props.hidehorizontalscrollbar} : {numColumns : this.getNoOfColumns()})}>
             </FlatList>
-             {this.loadDataOnDemand && ((this.state.loadingData ? this.renderLoadingIcon(props) : ((this.hasMoreData || v.data.length > this.state.maxRecordsToShow) ? 
-             (<WmLabel id={this.getTestId('ondemandmessage')}
-             styles={this.styles.onDemandMessage}
-             caption={props.ondemandmessage}
-             onTap={() => this.loadData()}></WmLabel>) : 
-             (<WmLabel id={this.getTestId('nodatamessage')}
-             styles={this.styles.onDemandMessage}
-             caption={props.nodatamessage}></WmLabel>)
-              ))
-            )}
-        </View>
-        ))) : this.renderEmptyMessage(isHorizontal, null, null,props)
-      }
+            {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow) ?
+            (this.state.loadingData ? this.renderLoadingIcon(props) :
+            (<WmLabel id={this.getTestId('ondemandmessage')}
+            styles={this.styles.onDemandMessage}
+           caption={this.getCaption( isHorizontal, v.data)}
+          onTap={() => this.loadData()}></WmLabel>)): null}
+          </View>
+            ))) : this.renderEmptyMessage(isHorizontal, null, null,props)
+         }
     </View>);
   }
 
