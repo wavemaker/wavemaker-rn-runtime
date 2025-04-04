@@ -15,6 +15,8 @@ import { getPathDown } from './curve';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { FixedView } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 
 interface TabDataItem extends NavigationDataItem {
   floating: boolean;
@@ -36,6 +38,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   private destroyScrollListner: Function = null as any;
   private translateY = new Animated.Value(0);
   private insets: EdgeInsets | null = null;
+  private appConfig = injector.get<AppConfig>('APP_CONFIG');
 
   constructor(props: WmTabbarProps) {
     super(props, DEFAULT_CLASS, new WmTabbarProps(), new WmTabbarState());
@@ -172,10 +175,15 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       <SafeAreaInsetsContext.Consumer>
       {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
       this.insets = insets;
+      const paddingBottomVal = this.styles.root.paddingBottom || this.styles.root.padding;
+      const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
+      const isFullScreenMode = !!statusBarCustomisation?.translucent;
+      const stylesWithFs = isFullScreenMode ?  {height: this.styles.root.height as number + (insets?.bottom || 0) as number, 
+        paddingBottom: (paddingBottomVal || 0) as number + (insets?.bottom || 0) as number} : {}
       return (
       <NavigationServiceConsumer>
       {(navigationService) =>(
-        <View style={this.styles.root} 
+        <View style={[this.styles.root, stylesWithFs]} 
           ref={(ref)=> {this.baseView = ref as any}}
           onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}  
         >

@@ -150,12 +150,13 @@ export class StickyViewContainer extends React.Component {
         this.hiddenHeight = Math.max(
             Math.min(0, (this.translateY as any)._value + value), 
             -1 * this.topSlideHeight);
-        Animated.timing(this.translateY, {
-            toValue: this.hiddenHeight,
-            easing: Easing.linear, 
-            duration: duration,
-            useNativeDriver: true
-        }).start();
+        this.translateY.setValue(this.hiddenHeight);
+        // Animated.timing(this.translateY, {
+        //     toValue: this.hiddenHeight,
+        //     easing: Easing.linear, 
+        //     duration: duration,
+        //     useNativeDriver: true
+        // }).start();
     }
 
     render() {

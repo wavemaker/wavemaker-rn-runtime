@@ -474,7 +474,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   renderIosStatusbarInsetsView(statusBarCustomisation: any, insets: EdgeInsets | null){
     return Platform.OS == 'ios' && !statusBarCustomisation?.translucent ? (
       <View style={{
-        backgroundColor: statusBarCustomisation?.backgroundColor || 'black', 
+        backgroundColor: 'white', 
         position: 'absolute',
         top: 0, 
         height: insets?.top || 0,
@@ -536,10 +536,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
   renderTransparentView(position: 'top' | 'bottom', insets: any) {
     if (!insets?.[position]) return null;
   
-    // if (Platform.OS === "android") {
-    //   NavigationBar.setPositionAsync('absolute');
-    //   NavigationBar.setBackgroundColorAsync("transparent");
-    // }
+    if (Platform.OS === "android") {
+      NavigationBar.setPositionAsync('absolute');
+      NavigationBar.setBackgroundColorAsync("transparent");
+    }
   
     return (
       <View
@@ -607,7 +607,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   {isFullScreenMode ? this.renderTransparentView("top",insets) : null} 
                   {/* Navigation bar blur */}
                   {/* {isFullScreenMode ? this.renderBlurView("bottom",insets) : null} */}
-                  {isFullScreenMode ? this.renderTransparentView("bottom",insets) : null}
+                  {/* {isFullScreenMode ? this.renderTransparentView("bottom",insets) : null} */}
                   </ThemeProvider>
                 </Wrapper>
               )}

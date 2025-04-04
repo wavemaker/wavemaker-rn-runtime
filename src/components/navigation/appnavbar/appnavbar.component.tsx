@@ -11,6 +11,8 @@ import WmAppNavbarProps from './appnavbar.props';
 import { DEFAULT_CLASS, WmAppNavbarStyles } from './appnavbar.styles';
 import { StickyView } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 
 export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {}
 
@@ -19,6 +21,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   private onDrawerBtnPress: Function;
   private onBackBtnPress: Function;
   private onSearchBtnPress: Function;
+  private appConfig = injector.get<AppConfig>('APP_CONFIG');
 
   constructor(props: WmAppNavbarProps) {
     super(props, DEFAULT_CLASS, new WmAppNavbarProps());
@@ -40,11 +43,13 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
     return (
       <SafeAreaInsetsContext.Consumer>
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+          const paddingTopVal = this.styles.root.paddingTop || this.styles.root.padding;
+          const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
+          const isFullScreenMode = !!statusBarCustomisation?.translucent;
+          const stylesWithFs = isFullScreenMode ?  {height: this.styles.root.height as number + (insets?.top || 0) as number, 
+          paddingTop: (paddingTopVal || 0) as number + (insets?.top || 0) as number} : {}
           return (
-          <View style={[this.styles.root, {
-            height: this.styles.root.height as number + (insets?.top || 0) as number, 
-            paddingTop: 12 as number + (insets?.top || 0) as number
-            }]} ref={ref => {this.baseView = ref as View}} onLayout={(event) => this.handleLayout(event)}>
+          <View style={[this.styles.root, stylesWithFs]} ref={ref => {this.baseView = ref as View}} onLayout={(event) => this.handleLayout(event)}>
             {this._background}
             <View style={this.styles.leftSection}>
             {props.showDrawerButton && (<WmIcon
