@@ -172,7 +172,7 @@ describe('Text component', () => {
 
   test('should auto complete username if autocomplete prop is provided', () => {
     const { getByPlaceholderText } = render(
-      <WmText {...defaultProps} autocomplete={true} />
+      <WmText {...defaultProps} autocomplete={"true"} />
     );
     const input = getByPlaceholderText('Enter text');
     expect(input.props.autoComplete).toBe('username');
@@ -180,7 +180,7 @@ describe('Text component', () => {
 
   test('should auto complete off if autocomplete prop is false', () => {
     const { getByPlaceholderText } = render(
-      <WmText {...defaultProps} autocomplete={false} />
+      <WmText {...defaultProps} autocomplete={"false"} />
     );
     const input = getByPlaceholderText('Enter text');
     expect(input.props.autoComplete).toBe('off');
@@ -325,6 +325,68 @@ describe('Text component', () => {
 
     await new Promise((resolve: any, reject) => setTimeout(()=>{resolve()}, 200));
 
-    expect(invokeEventCallbackMock).toHaveBeenCalledWith('onChange', expect.arrayContaining(['hello']));
+    await waitFor(()=>{
+      expect(invokeEventCallbackMock).toHaveBeenCalledWith('onChange', expect.arrayContaining(['hello']));
+    })
+  });
+
+  test('should render Text instead of TextInput for Android device and disabled prop is true', async () => {
+    Platform.OS = 'android';
+    const tree = render(
+      <WmText 
+        {...defaultProps} 
+        disabled={true}
+      />
+    );
+
+    const input = tree.getByText('Enter text');
+
+    expect(input.type).toBe('Text')
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render Text instead of TextInput for Android device and readOnly prop is true', async () => {
+    Platform.OS = 'android';
+    const tree = render(
+      <WmText 
+        {...defaultProps} 
+        readonly={true}
+      />
+    );
+
+    const input = tree.getByText('Enter text');
+
+    expect(input.type).toBe('Text')
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render TextInput for iOS device and disabled prop is true', async () => {
+    Platform.OS = 'ios';
+    const tree = render(
+      <WmText 
+        {...defaultProps} 
+        disabled={true}
+      />
+    );
+
+    const input = tree.getByPlaceholderText('Enter text');
+
+    expect(input.type).toBe('TextInput')
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render TextInput for iOS device and readOnly prop is true', async () => {
+    Platform.OS = 'ios';
+    const tree = render(
+      <WmText 
+        {...defaultProps} 
+        readonly={true}
+      />
+    );
+
+    const input = tree.getByPlaceholderText('Enter text');
+
+    expect(input.type).toBe('TextInput')
+    expect(tree).toMatchSnapshot();
   });
 });

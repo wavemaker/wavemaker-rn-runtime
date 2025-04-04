@@ -348,7 +348,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.notifier.setParent(parent.notifier);
             this.parentListenerDestroyers = [
                 this.parent.subscribe('forceUpdate', () => {
-                    this.cleanRefresh();
+                    this.forceUpdate();
                 }),
                 this.parent.subscribe('destroy', () => {
                     this.destroyParentListeners();

@@ -51,7 +51,8 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
           }:{
             onPress: this.onSelect.bind(this)
           }
-        }]}/>
+        }]}
+        {...(props.barwidth ? { barWidth: props.barwidth } : {})} />
     });
   }
 

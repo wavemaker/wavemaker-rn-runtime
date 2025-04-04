@@ -1,4 +1,4 @@
-import React, { ReactNode }  from 'react';
+import React, { ReactNode } from 'react';
 import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -19,7 +19,7 @@ import NetworkService, { NetworkState } from '@wavemaker/app-rn-runtime/core/net
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import formatters from '@wavemaker/app-rn-runtime/core/formatters';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
-import * as Utils  from '@wavemaker/app-rn-runtime/core/utils';
+import * as Utils from '@wavemaker/app-rn-runtime/core/utils';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import { ToastProvider } from '@wavemaker/app-rn-runtime/core/toast.service';
@@ -41,11 +41,11 @@ import AppSpinnerService from './services/app-spinner.service';
 import { AppNavigator } from './App.navigator';
 import { SecurityProvider } from '../core/security.service';
 import { CameraProvider } from '../core/device/camera-service';
-import  CameraService from './services/device/camera-service';
+import CameraService from './services/device/camera-service';
 import { ScanProvider } from '../core/device/scan-service';
 import ScanService from './services/device/scan-service';
 import AppSecurityService from './services/app-security.service';
-import {getValidJSON, parseErrors} from '@wavemaker/app-rn-runtime/variables/utils/variable.utils';
+import { getValidJSON, parseErrors } from '@wavemaker/app-rn-runtime/variables/utils/variable.utils';
 import MaterialCommunityIconsFont from '@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf';
 
 import * as SplashScreen from 'expo-splash-screen';
@@ -60,7 +60,7 @@ import * as NavigationBar from 'expo-navigation-bar';
 declare const window: any;
 
 //some old react libraries need this
-((View as any)['propTypes'] = { style: ProtoTypes.any})
+((View as any)['propTypes'] = { style: ProtoTypes.any })
 
 const MIN_TIME_BETWEEN_REFRESH_CYCLES = 200;
 
@@ -102,7 +102,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   Actions: any = {};
   Variables: any = {};
-  onAppVariablesReady = () => {};
+  onAppVariablesReady = () => { };
   isStarted = false;
   appConfig = injector.get<AppConfig>('APP_CONFIG');
   private eventNotifier = new EventNotifier();
@@ -132,7 +132,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   });
 
   public networkStatus = {} as NetworkState;
-  public statusbarInsets:any;
+  public statusbarInsets: any;
 
   constructor(props: any) {
     super(props);
@@ -173,10 +173,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }
     this.cleanup.push(
       NetworkService.notifier.subscribe('onNetworkStateChange', (networkState: NetworkState) => {
-        this.networkStatus = {...networkState};
+        this.networkStatus = { ...networkState };
         this.refresh();
       }
-    ));
+      ));
   }
 
   subscribe(event: string, fn: Function) {
@@ -195,12 +195,12 @@ export default abstract class BaseApp extends React.Component implements Navigat
     return this.commonPartial?.Widgets;
   }
 
-  async onBeforePageLeave(currentPage: string, nextPage: string){
+  async onBeforePageLeave(currentPage: string, nextPage: string) {
     //method can be override by the user from studio;
     return true;
   }
 
-  goToPage(pageName: string, params: any)  {
+  goToPage(pageName: string, params: any) {
     return this.appConfig.currentPage?.goToPage(pageName, params);
   }
 
@@ -208,7 +208,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     return this.appConfig.currentPage?.goBack(pageName, params);
   }
 
-  openUrl(url: string, params?: any)  {
+  openUrl(url: string, params?: any) {
     return this.appConfig.currentPage?.openUrl(url, params);
   }
 
@@ -234,17 +234,17 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   invokeNativeApi(key: string, data: Object) {
     if (NativeModulesProxy.EmbedCommModule
-        && (Platform.OS === 'android' || Platform.OS === 'ios')) {
-        return NativeModulesProxy.EmbedCommModule.sendToNative(key, data || {});
+      && (Platform.OS === 'android' || Platform.OS === 'ios')) {
+      return NativeModulesProxy.EmbedCommModule.sendToNative(key, data || {});
     } else {
-        return Promise.reject('Not able to invoke Native API in this platform.');
+      return Promise.reject('Not able to invoke Native API in this platform.');
     }
   }
 
   triggerPageReady(activePageName: string, activePageScope: BasePage) {
     try {
       this.onPageReady(activePageName, activePageScope);
-    } catch(e) {
+    } catch (e) {
       console.error(e);
     }
   }
@@ -253,7 +253,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   }
 
-  setTimezone(timezone: any){
+  setTimezone(timezone: any) {
     AppI18nService.setTimezone(timezone);
   }
 
@@ -275,7 +275,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   // To support old api
-  reload() {}
+  reload() { }
 
   bindServiceInterceptors() {
     this.axiosInterceptorIds = [
@@ -295,13 +295,13 @@ export default abstract class BaseApp extends React.Component implements Navigat
           this.onServiceSuccess(response.data, response);
           this.notify('afterServiceCall', response.config, response);
           return response;
-        },(error: AxiosError<any>) => {
+        }, (error: AxiosError<any>) => {
           let errorDetails: any = error.response, errMsg;
           errorDetails = getValidJSON(errorDetails?.data) || errorDetails?.data;
           if (errorDetails && errorDetails.errors) {
-              errMsg = parseErrors(errorDetails.errors) || "Service Call Failed";
+            errMsg = parseErrors(errorDetails.errors) || "Service Call Failed";
           } else {
-              errMsg = error.message || "Service Call Failed";
+            errMsg = error.message || "Service Call Failed";
           }
           error.message = errMsg;
           console.error(`Error ${errMsg} recieved from ${error.response?.config?.url}`);
@@ -329,7 +329,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   triggerStartUpVariables() {
     return Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
-    .catch(() => {});
+      .catch(() => { });
   }
 
   componentDidMount() {
@@ -348,11 +348,11 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }));
     this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
     return this.triggerStartUpVariables()
-    .then(() => {
-      this.onAppVariablesReady();
-      this.isStarted = true;
-      this.forceUpdate();
-    }, () => {});
+      .then(() => {
+        this.onAppVariablesReady();
+        this.isStarted = true;
+        this.forceUpdate();
+      }, () => { });
   }
 
   componentWillUnmount(): void {
@@ -375,7 +375,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
               <CameraProvider value={CameraService}>
                 <ScanProvider value={ScanService}>
                   <ModalProvider value={AppModalService}>
-                    { content }
+                    {content}
                   </ModalProvider>
                 </ScanProvider>
               </CameraProvider>
@@ -392,7 +392,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
       watch(() => AppToastService.refreshCount);
       return (
         <>
-          {AppToastService.toastsOpened.map((o, i) =>{
+          {AppToastService.toastsOpened.map((o, i) => {
             return this.getProviders((
               <ThemeProvider value={this.appConfig.theme}>
                 <View key={i} style={[{
@@ -404,55 +404,59 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 }, o.styles]}>
                   <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
                     {o.content}
-                    {o.text && <WmMessage name={"message"+ i} type={o.type} caption={o.text} hideclose={true}></WmMessage>}
+                    {o.text && <WmMessage name={"message" + i} type={o.type} caption={o.text} hideclose={true}></WmMessage>}
                   </TouchableOpacity>
                 </View>
               </ThemeProvider>
-              )
-          )})}
+            )
+            )
+          })}
         </>);
-    }}/>;
+    }} />;
   }
 
   renderDialogs(): ReactNode {
     return <WmMemo watcher={this.watcher} render={(watch) => {
       watch(() => last(AppModalService.modalsOpened)?.content);
       this.modalsOpened = AppModalService.modalsOpened.length;
-          AppModalService.animatedRefs.length = 0;
-      return(
+      AppModalService.animatedRefs.length = 0;
+      return (
         <>
-        {AppModalService.modalOptions.content &&
-          AppModalService.modalsOpened.map((o, i) => {
-            return (
-              <View key={(o.name || '') + i}
-                onStartShouldSetResponder={() => true}
-                onResponderEnd={() => o.isModal && AppModalService.hideModal(o)}
-                style={deepCopy(styles.appModal,
-                  o.centered ? styles.centeredModal: null,
-                  o.modalStyle,
-                  { elevation: o.elevationIndex,
-                    zIndex: o.elevationIndex })}>
-                    <Animatedview entryanimation={o.animation || 'fadeIn'} delay={o.animationdelay}
-                      ref={ref => {
-                        this.animatedRef = ref;
-                        AppModalService.animatedRefs[i] = ref;
-                      }}
-                      style={[styles.appModalContent, o.contentStyle]}>
-                      <GestureHandlerRootView style={{width: '100%', alignItems: 'center'}}>
-                        <View
-                          onStartShouldSetResponder={evt => true}
-                          onResponderEnd={(e) => e.stopPropagation()}
-                          style={{width: '100%', alignItems: 'center'}}>
-                            {this.getProviders(o.content)}
-                        </View>
-                      </GestureHandlerRootView>
-                    </Animatedview>
-              </View>
-            )}
-          )
-        }
-      </>);
-    }}/>;
+          {AppModalService.modalOptions.content &&
+            AppModalService.modalsOpened.map((o, i) => {
+              return (
+                <View key={(o.name || '') + i}
+                  onStartShouldSetResponder={() => true}
+                  onResponderEnd={() => o.isModal && AppModalService.hideModal(o)}
+                  style={deepCopy(styles.appModal,
+                    o.centered ? styles.centeredModal : null,
+                    o.modalStyle,
+                    {
+                      elevation: o.elevationIndex,
+                      zIndex: o.elevationIndex
+                    })}>
+                  <Animatedview entryanimation={o.animation || 'fadeIn'} delay={o.animationdelay}
+                    ref={ref => {
+                      this.animatedRef = ref;
+                      AppModalService.animatedRefs[i] = ref;
+                    }}
+                    style={[styles.appModalContent, o.contentStyle]}>
+                    <GestureHandlerRootView style={{ width: '100%', alignItems: 'center' }}>
+                      <View
+                        onStartShouldSetResponder={evt => true}
+                        onResponderEnd={(e) => e.stopPropagation()}
+                        style={{ width: '100%', alignItems: 'center' }}>
+                        {this.getProviders(o.content)}
+                      </View>
+                    </GestureHandlerRootView>
+                  </Animatedview>
+                </View>
+              )
+            }
+            )
+          }
+        </>);
+    }} />;
   }
 
   renderDisplayManager(): ReactNode {
@@ -468,7 +472,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
               {AppDisplayManagerService.displayOptions.content}
             </View>
           </ThemeProvider>) : null;
-    }}/>
+    }} />
   }
 
   renderIosStatusbarInsetsView(statusBarCustomisation: any, insets: EdgeInsets | null){
@@ -509,114 +513,59 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }
   }
 
-  renderBlurView(position: 'top' | 'bottom', insets: any) {
-    if (!insets?.[position]) return null;
-  
-    if (Platform.OS === "android") {
-      NavigationBar.setPositionAsync('absolute');
-      NavigationBar.setBackgroundColorAsync("transparent");
-    }
-  
-    return (
-      <BlurView
-        intensity={50}
-        tint="dark"
-        experimentalBlurMethod="dimezisBlurView"
-        style={{
-          [position]: 0,
-          height: insets[position],
-          width: '100%',
-          position: 'absolute',
-          zIndex: 999,
-        }}
-      />
-    );
-  }
-
-  renderTransparentView(position: 'top' | 'bottom', insets: any) {
-    if (!insets?.[position]) return null;
-  
-    if (Platform.OS === "android") {
-      NavigationBar.setPositionAsync('absolute');
-      NavigationBar.setBackgroundColorAsync("transparent");
-    }
-  
-    return (
-      <View
-        style={{
-          [position]: 0,
-          height: insets[position],
-          width: '100%',
-          position: 'absolute',
-          zIndex: 999,
-          backgroundColor:"rgba(0,0,0,0.4)"
-        }}
-      ></View>
-    );
-  }
-
-  renderApp(commonPartial:React.ReactNode) {
+  renderApp(commonPartial: React.ReactNode) {
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
     const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
-    const isFullScreenMode = !!statusBarCustomisation?.translucent;
-    const Wrapper = isFullScreenMode ? View : SafeAreaView;
+    const isTranslucent = statusBarCustomisation?.translucent;
+    const Wrapper = isTranslucent ? View : SafeAreaView;
     return (
       <SafeAreaProvider>
         <SafeAreaInsetsContext.Consumer>
-          {(insets = {top: 0, bottom: 0, left: 0, right: 0})=>{
+          {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
             this.statusbarInsets = insets;
-            (Platform.OS==="android" ? this.statusbarInsets.top = StatusBar.currentHeight : null)
             return <PaperProvider theme={this.paperTheme}>
-            <React.Fragment>
-            {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
-              {this.getProviders(
-                <Wrapper style={{ flex: 1 }}>
-                  <StatusBar
-                    backgroundColor={statusBarCustomisation?.backgroundColor || 'black'}
-                    translucent={isFullScreenMode}
-                    barStyle={statusBarCustomisation?.barStyle || 'default'}
-                  />
-                  <ThemeProvider value={this.appConfig.theme}>
-                  {this.renderIosStatusbarInsetsView(statusBarCustomisation, insets)}
-                  <View style={{ flex: 1 }}>
-                  <StickyViewContainer>
-                    <FixedViewContainer>
-                      <View style={styles.container}>
-                        <GestureHandlerRootView style={styles.container}>
-                        <AppNavigator
-                          app={this}
-                          landingPage={(this.props as any).pageName}
-                          landingPageParams={(this.props as any)?.pageName && this.props}
-                          hideDrawer={this.appConfig.drawer?.getContent() === null}
-                          drawerContent={() => this.appConfig.drawer? this.getProviders(this.appConfig.drawer.getContent()) : null}
-                          drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                          {commonPartial}
-                        </GestureHandlerRootView>
+              <React.Fragment>
+                {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
+                {this.getProviders(
+                  <Wrapper style={{ flex: 1 }}>
+                    <StatusBar
+                      backgroundColor={statusBarCustomisation?.backgroundColor}
+                      translucent={isTranslucent}
+                      barStyle={statusBarCustomisation?.barStyle || 'default'}
+                    />
+                    <ThemeProvider value={this.appConfig.theme}>
+                      <View style={{ flex: 1 }}>
+                        <FixedViewContainer>
+                          <View style={styles.container}>
+                            <GestureHandlerRootView style={styles.container}>
+                              <AppNavigator
+                                app={this}
+                                landingPage={(this.props as any).pageName}
+                                landingPageParams={(this.props as any)?.pageName && this.props}
+                                hideDrawer={this.appConfig.drawer?.getContent() === null}
+                                drawerContent={() => this.appConfig.drawer ? this.getProviders(this.appConfig.drawer.getContent()) : null}
+                                drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
+                              {commonPartial}
+                            </GestureHandlerRootView>
+                          </View>
+                          {this.appConfig.url ?
+                            (<WmNetworkInfoToaster appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
+                            : null}
+                        </FixedViewContainer>
+                        {this.renderToasters()}
+                        {this.renderDialogs()}
+                        {this.renderDisplayManager()}
                       </View>
-                      {this.appConfig.url ?
-                        (<WmNetworkInfoToaster  appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
-                        : null}
-                    </FixedViewContainer>
-                  </StickyViewContainer>
-                  {this.renderToasters()}
-                  {this.renderDialogs()}
-                  {this.renderDisplayManager()}
-                  </View>
-                  {/* Statusbar blur */}
-                  {/* {isFullScreenMode ? this.renderBlurView("top",insets) : null}  */}
-                  {isFullScreenMode ? this.renderTransparentView("top",insets) : null} 
-                  {/* Navigation bar blur */}
-                  {/* {isFullScreenMode ? this.renderBlurView("bottom",insets) : null} */}
-                  {/* {isFullScreenMode ? this.renderTransparentView("bottom",insets) : null} */}
-                  </ThemeProvider>
-                </Wrapper>
-              )}
-            </React.Fragment>
-          </PaperProvider>}
+                    </ThemeProvider>
+                  </Wrapper>
+                )}
+              </React.Fragment>
+            </PaperProvider>
+          }
           }
         </SafeAreaInsetsContext.Consumer>
       </SafeAreaProvider>)
-      
+
   }
 }
 
@@ -628,7 +577,7 @@ const styles = {
     position: 'absolute',
     width: '100%'
   },
-  appModalContent : {
+  appModalContent: {
     flex: 1,
     width: '100%',
     alignItems: 'center',
@@ -652,6 +601,6 @@ const styles = {
     left: 0,
     right: 0,
     top: 0,
-    bottom:0
+    bottom: 0
   } as ViewStyle
 };
