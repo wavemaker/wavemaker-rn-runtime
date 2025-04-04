@@ -15,4 +15,5 @@ export default class WmCameraProps extends BaseProps {
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole = "imagebutton";
+  caption?: string = undefined;
 }
