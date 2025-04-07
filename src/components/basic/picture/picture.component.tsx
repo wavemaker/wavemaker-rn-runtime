@@ -1,7 +1,7 @@
 import React from 'react';
 import {  DimensionValue, Image, LayoutChangeEvent, View } from 'react-native';
-// import { NumberProp, SvgUri } from 'react-native-svg';
-import { isNumber, isString } from 'lodash-es';
+import {Image as EXPOImage} from 'expo-image';
+import { isNumber } from 'lodash-es';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import ImageSizeEstimator from '@wavemaker/app-rn-runtime/core/imageSizeEstimator';
@@ -42,9 +42,9 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     if (imageSrc && typeof imageSrc === 'object' && typeof imageSrc.default === 'function') {
       return null;
     }
-    if(this.state.props.aspectratio) {
-      return imageSrc;
-    }
+    // if(this.state.props.aspectratio) {
+    //   return imageSrc;
+    // }
     if (isNumber(imageSrc)) {
       const {width, height} = Image.resolveAssetSource(imageSrc);
       this.updateState({
@@ -162,10 +162,13 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
     }
     if (this.state.naturalImageWidth || this.state.props.aspectratio) {
       elementToshow = (
-        <Image
+        // * INFO: if any issue arises like freezing of application because of 
+        // * rendering large number of images, check the cache policy.
+        <EXPOImage
+          cachePolicy='memory-disk' 
           {...this.getTestProps('picture')}
-          style={[this.styles.picture, shapeStyles.picture]}
-          resizeMode={props.resizemode}
+          style={[this.styles.picture, shapeStyles.picture, (props.fastload || this.state.imageWidth) ? {opacity: 1} : {opacity: 0} ]}
+          contentFit={props.resizemode}
           source={source}
           {...getAccessibilityProps(AccessibilityWidgetType.PICTURE, props)}
         />
@@ -189,10 +192,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
   }
 
   showImage = (imageElement: any, props: WmPictureProps) => {
-    if(props.fastload){
-      return imageElement;
-    }
-    return this.state.imageWidth ? imageElement : null
+    return imageElement;
   }
 
 

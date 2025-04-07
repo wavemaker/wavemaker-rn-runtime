@@ -3,7 +3,7 @@ import { View, Animated, Easing, StyleSheet, LayoutChangeEvent, ColorValue, View
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { Theme } from '@wavemaker/app-rn-runtime/styles/theme';
+import { AllStyle, Theme } from '@wavemaker/app-rn-runtime/styles/theme';
 
 import WmSkeletonProps from './skeleton.props';
 import { DEFAULT_CLASS, WmSkeletonStyles } from './skeleton.styles';
@@ -18,6 +18,8 @@ export class WmSkeletonState extends BaseComponentState<WmSkeletonProps> {
   };
   animate = false;
 }
+
+type WrapperStyle = AllStyle | any
 
 class AnimationRunner {
   private time: number = 1000;
@@ -128,7 +130,7 @@ export default class WmSkeleton extends BaseComponent<WmSkeletonProps, WmSkeleto
   }
 }
 
-export const createSkeleton = (theme: Theme, skeletonStyles: WmSkeletonStyles, wrapper: ViewStyle, children?: React.ReactNode) => {
+export const createSkeleton = (theme: Theme, skeletonStyles: WmSkeletonStyles, wrapper: WrapperStyle, children?: React.ReactNode) => {
   const style = {} as ViewStyle;
   const addStyleProp = (propName: any) => {
     if (!isUndefined((wrapper as any)[propName])) {

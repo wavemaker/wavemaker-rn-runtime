@@ -217,8 +217,7 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
         createSkeleton(this.theme, {} as WmSkeletonStyles, {
           ...this.styles.text,
           ...this.styles.textSkeleton.root
-        }
-        )
+        })
       )
   } 
   renderWidget(props: WmAudioProps) {

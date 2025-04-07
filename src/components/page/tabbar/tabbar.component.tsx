@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Text, View, TouchableOpacity, Dimensions, Keyboard } from 'react-native';
-
+import { Text, View, TouchableOpacity, Dimensions, Keyboard, Animated, Easing, LayoutChangeEvent} from 'react-native';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -14,6 +13,10 @@ import Svg, { Path } from 'react-native-svg';
 import { getPathDown } from './curve';
 // import { scale } from 'react-native-size-scaling';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { FixedView } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
+import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 
 interface TabDataItem extends NavigationDataItem {
   floating: boolean;
@@ -32,6 +35,10 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
 
   private tabbarHeight = 0;
   private keyBoardShown = false;
+  private destroyScrollListner: Function = null as any;
+  private translateY = new Animated.Value(0);
+  private insets: EdgeInsets | null = null;
+  private appConfig = injector.get<AppConfig>('APP_CONFIG');
 
   constructor(props: WmTabbarProps) {
     super(props, DEFAULT_CLASS, new WmTabbarProps(), new WmTabbarState());
@@ -47,6 +54,18 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
 
   private maxWidth = Dimensions.get("window").width;  
   private returnpathDown: any;
+
+  onPropertyChange(name: string, $new: any, $old: any): void {
+      super.onPropertyChange(name, $new, $old);
+      switch(name){
+        case 'hideonscroll':
+          this.destroyScrollListner && this.destroyScrollListner();
+          if($new) {
+            this.subscribeToPageScroll();
+          }
+          break;
+      }
+  }
 
   renderTabItem(item: TabDataItem, testId: string, props: WmTabbarProps, onSelect: Function, floating = false) {
 
@@ -96,7 +115,39 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
     return super.isVisible() && !this.keyBoardShown;
   }
 
-  renderWidget(props: WmTabbarProps) {
+  animateWithTiming(value: number, duratiion: number): void {
+    Animated.timing(this.translateY, {
+      toValue: value, 
+      easing: Easing.linear,
+      duration: duratiion, 
+      useNativeDriver: true
+    }).start()
+  }
+
+  subscribeToPageScroll(){
+    this.destroyScrollListner = this.subscribe('scroll', (e: any)=>{
+      const { contentOffset, layoutMeasurement, contentSize } = e.nativeEvent ;
+      const scrollPosition = contentOffset.y ;
+      const visibleContentHeight = layoutMeasurement.height ;
+      const tabbarHeight = this.getLayout()?.height ;
+      const endReached = (scrollPosition + visibleContentHeight + tabbarHeight ) >= contentSize.height ;
+      const bottomInsets = this.insets?.bottom || 0
+      if(e.scrollDirection <= 0){
+        this.animateWithTiming(0, 100)
+      }else {
+        this.animateWithTiming(tabbarHeight + bottomInsets, 100)
+      }
+      if(endReached){
+        this.animateWithTiming(0, 0)
+      }
+    })
+  }
+
+  componentWillUnmount(): void {
+      this.destroyScrollListner && this.destroyScrollListner();
+  }
+
+  renderContent(props: WmTabbarProps){
     let max = 5;
     const tabItems = this.state.dataItems;
     const tabItemsLength = tabItems.length;
@@ -121,10 +172,22 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       max = max - 1;
     }
     return (
+      <SafeAreaInsetsContext.Consumer>
+      {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+      this.insets = insets;
+      const paddingBottomVal = this.styles.root.paddingBottom || this.styles.root.padding;
+      const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
+      const isFullScreenMode = !!statusBarCustomisation?.translucent;
+      const stylesWithFs = isFullScreenMode ?  {height: this.styles.root.height as number + (insets?.bottom || 0) as number, 
+        paddingBottom: (paddingBottomVal || 0) as number + (insets?.bottom || 0) as number} : {}
+      return (
       <NavigationServiceConsumer>
-        {(navigationService) =>
-        (<View style={this.styles.root}>
-         {isClippedTabbar ? (
+      {(navigationService) =>(
+        <View style={[this.styles.root, stylesWithFs]} 
+          ref={(ref)=> {this.baseView = ref as any}}
+          onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}  
+        >
+      {isClippedTabbar ? (
         <Svg width={this.maxWidth} height={scale(this.styles.root.height as number)} style={{zIndex: -1,position: 'absolute',backgroundColor: ThemeVariables.INSTANCE.transparent}}>
         <Path fill={ThemeVariables.INSTANCE.tabbarBackgroundColor} {...{ d: this.returnpathDown }}/>
         </Svg>
@@ -163,6 +226,24 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
           </View>
         </View>)}
       </NavigationServiceConsumer>
-    );
+      )}}
+    </SafeAreaInsetsContext.Consumer>
+    )
+  }
+
+  renderWidget(props: WmTabbarProps) {
+    if(props.hideonscroll) this.isFixed = true;
+    const animateStyle = props.hideonscroll ? {transform: [{translateY: this.translateY}]} : {};
+    return <>
+        <FixedView 
+          style={{...{bottom: 0, width:'100%'}, ...animateStyle}} 
+          theme={this.theme}
+          animated={props.hideonscroll || false}>
+          {this.renderContent(props)}
+        </FixedView>
+        <View style={{ opacity: 0}}>
+          {this.renderContent(props)}
+        </View>
+    </>
   }
 }

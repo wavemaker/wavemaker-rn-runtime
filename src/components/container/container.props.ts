@@ -5,4 +5,5 @@ export default class WmContainerProps extends PartialHostProps {
   animationdelay?: number = null as any;
   onLoad?: Function;
   scrollable?: Boolean = false as any;
+  issticky?: Boolean = false as boolean;
 }

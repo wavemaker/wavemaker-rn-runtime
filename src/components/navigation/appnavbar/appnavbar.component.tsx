@@ -9,16 +9,19 @@ import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/pictur
 
 import WmAppNavbarProps from './appnavbar.props';
 import { DEFAULT_CLASS, WmAppNavbarStyles } from './appnavbar.styles';
+import { StickyView } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 
-export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {
-
-}
+export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {}
 
 export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNavbarState, WmAppNavbarStyles> {
 
   private onDrawerBtnPress: Function;
   private onBackBtnPress: Function;
   private onSearchBtnPress: Function;
+  private appConfig = injector.get<AppConfig>('APP_CONFIG');
 
   constructor(props: WmAppNavbarProps) {
     super(props, DEFAULT_CLASS, new WmAppNavbarProps());
@@ -34,47 +37,70 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
     }
   }
 
-  renderWidget(props: WmAppNavbarProps) {
+  renderContent(props: WmAppNavbarProps) {
     //@ts-ignore
     const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{props.badgevalue}</Badge>): null;
     return (
-      <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
-        {this._background}
-        <View style={this.styles.leftSection}>
-        {props.showDrawerButton && (<WmIcon
-          id={this.getTestId('leftnavbtn')}
-          hint={'menu'}
-          styles={this.theme.mergeStyle({}, this.styles.action, this.styles.leftnavIcon)}
-          iconclass={props.leftnavpaneliconclass}
-          onTap={this.onDrawerBtnPress}
-          />)}
-        {props.backbutton && (<WmIcon
-          id={this.getTestId('backbtn')}
-          hint={'back'}
-          styles={this.theme.mergeStyle({}, this.styles.action, this.styles.backIcon)}
-          iconclass={props.backbuttoniconclass}
-          caption={props.backbuttonlabel}
-          onTap={this.onBackBtnPress}/>)}
-        </View>
-        <View style={this.styles.middleSection}>
-          {props.imgsrc && (
-          <WmPicture
-            id={this.getTestId('picture')}
-            styles={this.styles.image}
-            picturesource={props.imgsrc} />)}
-          <Text style={this.styles.content} {...this.getTestPropsForLabel('title')} accessibilityRole='header'>{props.title}</Text>
-          {badge}
-        </View>
-        <View style={this.styles.rightSection}>
-          {props.searchbutton && (<WmIcon
-            id={this.getTestId('searchbtn')}
-            styles={this.theme.mergeStyle({}, this.styles.action, this.styles.leftnavIcon)}
-            iconclass={props.searchbuttoniconclass}
-            onTap={this.onSearchBtnPress}
-            />)}
-          {props.children}
-        </View>
-      </View>
-    );
+      <SafeAreaInsetsContext.Consumer>
+        {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+          const paddingTopVal = this.styles.root.paddingTop || this.styles.root.padding;
+          const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
+          const isFullScreenMode = !!statusBarCustomisation?.translucent;
+          const stylesWithFs = isFullScreenMode ?  {height: this.styles.root.height as number + (insets?.top || 0) as number, 
+          paddingTop: (paddingTopVal || 0) as number + (insets?.top || 0) as number} : {}
+          return (
+          <View style={[this.styles.root, stylesWithFs]} ref={ref => {this.baseView = ref as View}} onLayout={(event) => this.handleLayout(event)}>
+            {this._background}
+            <View style={this.styles.leftSection}>
+            {props.showDrawerButton && (<WmIcon
+              id={this.getTestId('leftnavbtn')}
+              hint={'menu'}
+              styles={this.theme.mergeStyle({}, this.styles.action, this.styles.leftnavIcon)}
+              iconclass={props.leftnavpaneliconclass}
+              onTap={this.onDrawerBtnPress}
+              />)}
+            {props.backbutton && (<WmIcon
+              id={this.getTestId('backbtn')}
+              hint={'back'}
+              styles={this.theme.mergeStyle({}, this.styles.action, this.styles.backIcon)}
+              iconclass={props.backbuttoniconclass}
+              caption={props.backbuttonlabel}
+              onTap={this.onBackBtnPress}/>)}
+            </View>
+            <View style={this.styles.middleSection}>
+              {props.imgsrc && (
+              <WmPicture
+                id={this.getTestId('picture')}
+                styles={this.styles.image}
+                picturesource={props.imgsrc} />)}
+              <Text style={this.styles.content} {...this.getTestPropsForLabel('title')} accessibilityRole='header'>{props.title}</Text>
+              {badge}
+            </View>
+            <View style={this.styles.rightSection}>
+              {props.searchbutton && (<WmIcon
+                id={this.getTestId('searchbtn')}
+                styles={this.theme.mergeStyle({}, this.styles.action, this.styles.leftnavIcon)}
+                iconclass={props.searchbuttoniconclass}
+                onTap={this.onSearchBtnPress}
+                />)}
+              {props.children}
+            </View>
+          </View>
+          )}}
+      </SafeAreaInsetsContext.Consumer>
+    )
+  }
+
+  renderWidget(props: WmAppNavbarProps){
+    if(props.hideonscroll) this.isSticky = true;
+    return props.hideonscroll ? 
+      <StickyView
+        theme={this.theme}
+        component={this}
+        slide={true}
+      >
+        {this.renderContent(props)}
+      </StickyView>
+      : this.renderContent(props);
   }
 }

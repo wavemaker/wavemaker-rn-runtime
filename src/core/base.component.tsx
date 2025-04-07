@@ -1,6 +1,6 @@
 import { assign, isUndefined, isNil } from 'lodash';
 import React, { ReactNode } from 'react';
-import { AccessibilityInfo, LayoutChangeEvent, Platform, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import { AccessibilityInfo, LayoutChangeEvent, Platform, StyleSheet, TextStyle, View, ViewStyle, InteractionManager } from 'react-native';
 import { AnimatableProps } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
@@ -83,6 +83,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public destroyed = false;
     public _showSkeleton = false;
     public isFixed = false;
+    public isSticky = false;
     private notifier = new EventNotifier();
     private parentListenerDestroyers = [] as Function[];
     public _background = <></>;
@@ -93,6 +94,8 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private _showView = true;
     public closestTappable?: Tappable;   
     public componentNode: WmComponentNode;
+    public layout: any = {};
+    public baseView: any = View;
 
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
@@ -270,13 +273,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     componentWillAttach() {
-        if (this.isFixed) {
+        if (this.isFixed || this.isSticky) {
             this.setState({hide: false});
         }
     }
 
     componentWillDetach() {
-        if (this.isFixed) {
+        if (this.isFixed || this.isSticky) {
             this.setState({hide: true});
         }
     }
@@ -345,7 +348,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.notifier.setParent(parent.notifier);
             this.parentListenerDestroyers = [
                 this.parent.subscribe('forceUpdate', () => {
-                    this.cleanRefresh();
+                    this.forceUpdate();
                 }),
                 this.parent.subscribe('destroy', () => {
                     this.destroyParentListeners();
@@ -358,7 +361,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.props.name;
     }
 
-    public handleLayout(event: LayoutChangeEvent ) {
+    public handleLayout(event: LayoutChangeEvent, ref: React.RefObject<View> | null = null) {
         const key = this.getName && this.getName();
         if(key){
             const newLayoutPosition = {
@@ -368,6 +371,17 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 }
             }
             setPosition(newLayoutPosition);
+            const compnentRef = ref !== null ? ref : this.baseView 
+            // Layout values by measure
+            if(compnentRef?.measure){
+                InteractionManager.runAfterInteractions(() => {
+                    requestAnimationFrame(() => {
+                        compnentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
+                            this.layout = { x, y, width, height, px, py }
+                        }); 
+                    })
+                })
+            }
         }
     }
     
@@ -494,6 +508,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
 
     public getLayoutOfWidget(name: string): {x: number, y: number} | undefined {
         return getPosition(name)
+    }
+
+    public getLayout() {
+        return this.layout ;
     }
 
     public scrollToTop(){

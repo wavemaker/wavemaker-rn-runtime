@@ -36,7 +36,7 @@ export class MonthViewProps {
   containerStyle?: ViewStyle = null as any;
   warpRowControlMonthYear?: ViewStyle = null as any;
   warpRowWeekdays?: ViewStyle = null as any;
-  weekdayStyle?: ViewStyle = null as any;
+  weekdayStyle?: TextStyle = null as any;
   textDayStyle?: TextStyle = null as any;
   currentDayStyle?: ViewStyle = null as any;
   currentDayTextStyle?: TextStyle = null as any;

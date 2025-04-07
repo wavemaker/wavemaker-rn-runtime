@@ -1,5 +1,5 @@
 import React, { ForwardedRef, useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, Platform, Text, TextInput, TextInputProps, TextStyle, View } from 'react-native';
+import { Animated, Platform, Text, TextInput, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
 import { isArray } from 'lodash';
 import IMask from 'imask';
 import { FloatingLabel } from './floatinglabel.component';
@@ -48,13 +48,14 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     displayformat: string,
     maskchar: string,
     floatingLabel: string
-    floatingLabelStyle:  TextStyle,
-    activeFloatingLabelStyle: TextStyle,
+    floatingLabelStyle:  TextStyle & ViewStyle,
+    activeFloatingLabelStyle: TextStyle & ViewStyle,
     customDisplayValue?: string,
-    isInputFocused: boolean
+    isInputFocused: boolean,
     autoCapitalize?: string,
-    background?: React.ReactNode
-    handleLayout?: any
+    background?: React.ReactNode,
+    handleLayout?: any,
+    style?: ViewStyle
   }), 
     ref: ForwardedRef<TextInput>) => {
     const [selectRange, setSelectRange] = useState<SelectRange>(null as any);
@@ -160,45 +161,65 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
               ...(props.isInputFocused ? (props.activeFloatingLabelStyle || {}) : {})
             }}/>
         ) : null}
-        <TextInput
-          {...props}
-          {...hideInput || props.customDisplayValue ? opts: {}}
-          placeholder={props.floatingLabel || displayValue ? '' : props.placeholder }
-          style={[props.style, hideInput ? {
-            color: 'transparent', 
-            backgroundColor: 'transparent',
-            borderColor: 'transparent',
-            zIndex: 1
-          } : {}]}
-          onFocus={(e) => {
-            props.onFocus?.(e);
-            setDisplayCursor(true);
-            element.current = e.target;
-          }}
-          onBlur={(e) => {
-            props?.onBlur?.(e);
-            setDisplayCursor(false);
-          }}
-          ref={ref}
-          selection={selectRange}
-          onSelectionChange={onSelectionChange}
-          caretHidden={!!selectRange?.end}
-          onChangeText={(text) => {
-            if(props.autoCapitalize && props.autoCapitalize === 'characters') {
-              onChangeText(text.toUpperCase());
-              return;
-            }
-            onChangeText(text);
-          }}
-          {...hideInput ? {
-            selectionColor: 'transparent',
-            cursorColor: 'transparent',
-            onChange : () => {}
-          }: {}}
-          contextMenuHidden={!props.allowContentSelection}
-          autoCapitalize={props.autoCapitalize}
-          onLayout={props.handleLayout}
-        ></TextInput>
+        {(Platform.OS === 'android' && !props.editable) ? (
+            <Text 
+              style={[
+                props.style, hideInput ? {
+                  color: 'transparent', 
+                  backgroundColor: 'transparent',
+                  borderColor: 'transparent',
+                  zIndex: 1
+                } : {},
+                props.autoCapitalize ? {textTransform: 'capitalize'} : {},
+                (!props.defaultValue && props.placeholder) ? { color: props.placeholderTextColor} : {}
+              ]}
+              selectable={false}
+              disabled={true}
+              {...(props.multiline) ? {numberOfLines: props.numberOfLines} : {}}
+            >{props.defaultValue || props.placeholder}</Text>
+          ) :
+           (<TextInput
+              {...props}
+              {...hideInput || props.customDisplayValue ? opts: {}}
+              placeholder={props.floatingLabel || displayValue ? '' : props.placeholder }
+              style={[props.style, hideInput ? {
+                color: 'transparent', 
+                backgroundColor: 'transparent',
+                borderColor: 'transparent',
+                zIndex: 1
+              } : {}]}
+              onFocus={(e) => {
+                props.onFocus?.(e);
+                setDisplayCursor(true);
+                element.current = e.target;
+              }}
+              onBlur={(e) => {
+                props?.onBlur?.(e);
+                setDisplayCursor(false);
+              }}
+              ref={ref}
+              selection={selectRange}
+              onSelectionChange={onSelectionChange}
+              caretHidden={!!selectRange?.end}
+              onChangeText={(text) => {
+                if(props.autoCapitalize && props.autoCapitalize === 'characters') {
+                  onChangeText(text.toUpperCase());
+                  return;
+                }
+                onChangeText(text);
+              }}
+              {...hideInput ? {
+                selectionColor: 'transparent',
+                cursorColor: 'transparent',
+                onChange : () => {}
+              }: {}}
+              contextMenuHidden={!props.allowContentSelection}
+              autoCapitalize={props.autoCapitalize}
+              onLayout={props.handleLayout}
+              numberOfLines={1}
+            >
+            </TextInput>)
+        }
         {
           hideInput ? (
             <View style={[props.style, {

@@ -39,7 +39,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   }
 
   public scrollTo(position: {x: number, y: number}){
-    this.scrollRef?.current.scrollTo({
+    this.scrollRef?.current?.scrollTo({
       x: position.x,
       y: position.y,
       Animated: true
