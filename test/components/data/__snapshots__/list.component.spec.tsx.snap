@@ -586,3 +586,593 @@ exports[`Test List component Check validity of sample component 1`] = `
   </View>
 </View>
 `;
+
+exports[`Test List component WmList loading and pagination tests Check validity of sample component 1`] = `
+<View
+  onLayout={[Function]}
+  style={null}
+>
+  <View
+    onLayout={[Function]}
+    style={{}}
+  >
+    <View
+      style={
+        {
+          "marginBottom": 16,
+        }
+      }
+    >
+      <RCTScrollView
+        ListEmptyComponent={[Function]}
+        data={
+          [
+            {
+              "id": 1,
+              "name": "Item 1",
+            },
+            {
+              "id": 2,
+              "name": "Item 2",
+            },
+            {
+              "id": 3,
+              "name": "Item 3",
+            },
+          ]
+        }
+        getItem={[Function]}
+        getItemCount={[Function]}
+        horizontal={true}
+        keyExtractor={[Function]}
+        onContentSizeChange={[Function]}
+        onLayout={[Function]}
+        onMomentumScrollBegin={[Function]}
+        onMomentumScrollEnd={[Function]}
+        onScroll={[Function]}
+        onScrollBeginDrag={[Function]}
+        onScrollEndDrag={[Function]}
+        removeClippedSubviews={false}
+        renderItem={[Function]}
+        scrollEnabled={true}
+        scrollEventThrottle={0.0001}
+        showsHorizontalScrollIndicator={true}
+        stickyHeaderIndices={[]}
+        testID="testList_flat_list"
+        viewabilityConfigCallbackPairs={[]}
+      >
+        <View>
+          <View
+            onFocusCapture={[Function]}
+            onLayout={[Function]}
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              handlerTag={1}
+              handlerType="PanGestureHandler"
+              onGestureHandlerEvent={[Function]}
+              onGestureHandlerStateChange={[Function]}
+              onLayout={[Function]}
+              style={
+                {
+                  "overflow": "hidden",
+                }
+              }
+            >
+              <View
+                collapsable={false}
+                style={
+                  {
+                    "bottom": 0,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                    "transform": [
+                      {
+                        "translateX": -10000,
+                      },
+                    ],
+                  }
+                }
+              >
+                <View
+                  onLayout={[Function]}
+                />
+              </View>
+              <View
+                collapsable={false}
+                style={
+                  {
+                    "bottom": 0,
+                    "flexDirection": "row-reverse",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                    "transform": [
+                      {
+                        "translateX": -10000,
+                      },
+                    ],
+                  }
+                }
+              >
+                <View
+                  onLayout={[Function]}
+                />
+              </View>
+              <View
+                collapsable={false}
+                enabled={false}
+                handlerTag={2}
+                handlerType="TapGestureHandler"
+                onGestureHandlerEvent={[Function]}
+                onGestureHandlerStateChange={[Function]}
+                pointerEvents="auto"
+                style={
+                  {
+                    "transform": [
+                      {
+                        "translateX": -0,
+                      },
+                    ],
+                  }
+                }
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "backgroundColor": "#ffffff",
+                        "borderColor": "#4263eb",
+                        "borderRadius": 6,
+                        "borderStyle": "solid",
+                        "elevation": 1,
+                        "flex": 1,
+                        "flexDirection": "row",
+                        "marginRight": 6,
+                        "minHeight": 56,
+                        "paddingBottom": 4,
+                        "paddingLeft": 4,
+                        "paddingRight": 4,
+                        "paddingTop": 4,
+                        "shadowColor": "rgba(0, 0, 0, 0.3)",
+                        "shadowOffset": {
+                          "height": 1,
+                          "width": 1,
+                        },
+                        "shadowOpacity": 0.27,
+                        "shadowRadius": 1,
+                        "zIndex": 1,
+                      },
+                      null,
+                      {},
+                    ]
+                  }
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "display": "flex",
+                            "flexDirection": "row",
+                          },
+                          null,
+                          {
+                            "paddingRight": 6,
+                          },
+                          {},
+                        ],
+                      ]
+                    }
+                    testID="testList_item0"
+                  >
+                    <div>
+                      Item 1
+                    </div>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            onFocusCapture={[Function]}
+            onLayout={[Function]}
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              handlerTag={3}
+              handlerType="PanGestureHandler"
+              onGestureHandlerEvent={[Function]}
+              onGestureHandlerStateChange={[Function]}
+              onLayout={[Function]}
+              style={
+                {
+                  "overflow": "hidden",
+                }
+              }
+            >
+              <View
+                collapsable={false}
+                style={
+                  {
+                    "bottom": 0,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                    "transform": [
+                      {
+                        "translateX": -10000,
+                      },
+                    ],
+                  }
+                }
+              >
+                <View
+                  onLayout={[Function]}
+                />
+              </View>
+              <View
+                collapsable={false}
+                style={
+                  {
+                    "bottom": 0,
+                    "flexDirection": "row-reverse",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                    "transform": [
+                      {
+                        "translateX": -10000,
+                      },
+                    ],
+                  }
+                }
+              >
+                <View
+                  onLayout={[Function]}
+                />
+              </View>
+              <View
+                collapsable={false}
+                enabled={false}
+                handlerTag={4}
+                handlerType="TapGestureHandler"
+                onGestureHandlerEvent={[Function]}
+                onGestureHandlerStateChange={[Function]}
+                pointerEvents="auto"
+                style={
+                  {
+                    "transform": [
+                      {
+                        "translateX": -0,
+                      },
+                    ],
+                  }
+                }
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "backgroundColor": "#ffffff",
+                        "borderColor": "#4263eb",
+                        "borderRadius": 6,
+                        "borderStyle": "solid",
+                        "elevation": 1,
+                        "flex": 1,
+                        "flexDirection": "row",
+                        "marginRight": 6,
+                        "minHeight": 56,
+                        "paddingBottom": 4,
+                        "paddingLeft": 4,
+                        "paddingRight": 4,
+                        "paddingTop": 4,
+                        "shadowColor": "rgba(0, 0, 0, 0.3)",
+                        "shadowOffset": {
+                          "height": 1,
+                          "width": 1,
+                        },
+                        "shadowOpacity": 0.27,
+                        "shadowRadius": 1,
+                        "zIndex": 1,
+                      },
+                      null,
+                      {},
+                    ]
+                  }
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "display": "flex",
+                            "flexDirection": "row",
+                          },
+                          null,
+                          {
+                            "paddingRight": 6,
+                          },
+                          {},
+                        ],
+                      ]
+                    }
+                    testID="testList_item1"
+                  >
+                    <div>
+                      Item 2
+                    </div>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            onFocusCapture={[Function]}
+            onLayout={[Function]}
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              collapsable={false}
+              handlerTag={5}
+              handlerType="PanGestureHandler"
+              onGestureHandlerEvent={[Function]}
+              onGestureHandlerStateChange={[Function]}
+              onLayout={[Function]}
+              style={
+                {
+                  "overflow": "hidden",
+                }
+              }
+            >
+              <View
+                collapsable={false}
+                style={
+                  {
+                    "bottom": 0,
+                    "flexDirection": "row",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                    "transform": [
+                      {
+                        "translateX": -10000,
+                      },
+                    ],
+                  }
+                }
+              >
+                <View
+                  onLayout={[Function]}
+                />
+              </View>
+              <View
+                collapsable={false}
+                style={
+                  {
+                    "bottom": 0,
+                    "flexDirection": "row-reverse",
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                    "transform": [
+                      {
+                        "translateX": -10000,
+                      },
+                    ],
+                  }
+                }
+              >
+                <View
+                  onLayout={[Function]}
+                />
+              </View>
+              <View
+                collapsable={false}
+                enabled={false}
+                handlerTag={6}
+                handlerType="TapGestureHandler"
+                onGestureHandlerEvent={[Function]}
+                onGestureHandlerStateChange={[Function]}
+                pointerEvents="auto"
+                style={
+                  {
+                    "transform": [
+                      {
+                        "translateX": -0,
+                      },
+                    ],
+                  }
+                }
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "backgroundColor": "#ffffff",
+                        "borderColor": "#4263eb",
+                        "borderRadius": 6,
+                        "borderStyle": "solid",
+                        "elevation": 1,
+                        "flex": 1,
+                        "flexDirection": "row",
+                        "marginRight": 6,
+                        "minHeight": 56,
+                        "paddingBottom": 4,
+                        "paddingLeft": 4,
+                        "paddingRight": 4,
+                        "paddingTop": 4,
+                        "shadowColor": "rgba(0, 0, 0, 0.3)",
+                        "shadowOffset": {
+                          "height": 1,
+                          "width": 1,
+                        },
+                        "shadowOpacity": 0.27,
+                        "shadowRadius": 1,
+                        "zIndex": 1,
+                      },
+                      null,
+                      {},
+                    ]
+                  }
+                >
+                  <View
+                    accessibilityState={
+                      {
+                        "busy": undefined,
+                        "checked": undefined,
+                        "disabled": false,
+                        "expanded": undefined,
+                        "selected": undefined,
+                      }
+                    }
+                    accessibilityValue={
+                      {
+                        "max": undefined,
+                        "min": undefined,
+                        "now": undefined,
+                        "text": undefined,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      [
+                        {
+                          "overflow": "hidden",
+                        },
+                        [
+                          {
+                            "display": "flex",
+                            "flexDirection": "row",
+                          },
+                          null,
+                          {
+                            "paddingRight": 6,
+                          },
+                          {},
+                        ],
+                      ]
+                    }
+                    testID="testList_item2"
+                  >
+                    <div>
+                      Item 3
+                    </div>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </View>
+</View>
+`;
