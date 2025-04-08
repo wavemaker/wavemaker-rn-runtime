@@ -43,6 +43,19 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       return null;
     }
 
+    getFlexUtilityStyles() {
+      return {
+        flexDirection: this.styles.root.flexDirection,
+        justifyContent: this.styles.root.justifyContent,
+        alignContent: this.styles.root.alignContent,
+        alignItems: this.styles.root.alignItems,
+        alignSelf: this.styles.root.alignSelf,
+        flexShrink: this.styles.root.flexShrink,
+        flexGrow: this.styles.root.flexGrow,
+        flexWrap: this.styles.root.flexWrap,
+        textAlign: this.styles.root.textAlign,
+      };
+    }
 
   renderWidget(props: WmContainerProps) {
     const dimensions = {
@@ -73,11 +86,17 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
                   {this.renderContent(props)}
               </View>
             </StickyView>
-            : !props.scrollable ? 
-            <View style={[dimensions as ViewStyle,  this.styles.content]}>
-              {this.renderContent(props)}
-            </View>
-            :<ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
+            : !props.scrollable ? <View   
+                style={[{
+                flexDirection: 'column'}, 
+                this.getFlexUtilityStyles(),
+                dimensions as ViewStyle,  
+                this.styles.content]}>{this.renderContent(props)}</View> : 
+              <ScrollView style={[{
+                  flexDirection: 'column'}, 
+                  this.getFlexUtilityStyles(),
+                  dimensions as ViewStyle,  
+                  this.styles.content]}
                 onScroll={(event) => {this.notify('scroll', [event])}}
                 scrollEventThrottle={48}>
               {this.renderContent(props)}
