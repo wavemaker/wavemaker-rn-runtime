@@ -53,6 +53,15 @@ export interface LifecycleListener {
     onComponentDestroy?: (c: BaseComponent<any, any, any>) => void;
 }
 
+interface Layout {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    px: number;
+    py: number;
+}
+
 export class BaseProps extends StyleProps {
     id?: string = null as any;
     name?: string = null as any;
@@ -94,9 +103,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private _showView = true;
     public closestTappable?: Tappable;   
     public componentNode: WmComponentNode;
-    public layout: any = {};
+    public layout: Layout = {
+        x: 0, y:0, width:0, height:0, px:0, py:0
+    };
     public baseView: any = View;
-
+    public pcScrollTopThreshold: number = 0;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -371,15 +382,17 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 }
             }
             setPosition(newLayoutPosition);
-            const compnentRef = ref !== null ? ref : this.baseView 
+            const componentRef = ref !== null ? ref : this.baseView 
             // Layout values by measure
-            if(compnentRef?.measure){
+            if(componentRef?.measure){
+                const updateLayout = ()=>{
+                    componentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
+                        this.layout = { x, y, width, height, px, py }
+                    }); 
+                }
+                updateLayout();
                 InteractionManager.runAfterInteractions(() => {
-                    requestAnimationFrame(() => {
-                        compnentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
-                            this.layout = { x, y, width, height, px, py }
-                        }); 
-                    })
+                    requestAnimationFrame(updateLayout); 
                 })
             }
         }

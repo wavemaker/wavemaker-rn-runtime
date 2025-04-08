@@ -580,6 +580,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                       barStyle={statusBarCustomisation?.barStyle || 'default'}
                     />
                     <ThemeProvider value={this.appConfig.theme}>
+                      {this.renderIosStatusbarInsetsView(statusBarCustomisation, insets)}
                       <View style={{ flex: 1 }}>
                       <StickyViewContainer>
                         <FixedViewContainer>
