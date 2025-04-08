@@ -20,12 +20,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         fontSize: 16,
         color: themeVariables.labelDefaultColor
       },
-      androidMultilineText: {
-        fontSize: 16,
-        color: themeVariables.labelDefaultColor,
-        flexWrap: "wrap",
-        flexShrink: 1
-      },
       asterisk: {
         color: themeVariables.labelAsteriskColor,
         marginLeft: 2
