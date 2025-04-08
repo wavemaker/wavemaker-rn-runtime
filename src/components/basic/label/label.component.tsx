@@ -1,5 +1,5 @@
 import React from 'react';
-import { DimensionValue, LayoutChangeEvent, Text, View } from 'react-native';
+import { DimensionValue, LayoutChangeEvent, Platform, Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
@@ -121,7 +121,13 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   }
 
   renderWidget(props: WmLabelProps) {
-    const linkStyles = this.theme.mergeStyle({text: this.styles.text}, this.styles.link);
+    const shouldTruncate = props.wrap === false;
+    let numOfLines = props.nooflines;
+      if (shouldTruncate && !numOfLines) {
+        numOfLines = 1;
+      } 
+    const linkStyles = this.theme.mergeStyle({text: this.styles.text}, this.styles.link);  
+   
     return !isNil(props.caption) ? (
       <Animatedview 
         entryanimation={props.animation} 
@@ -133,10 +139,19 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
         <NavigationServiceConsumer>
         {(navigationService: NavigationService) => {
           return (<Tappable target={this} disableTouchEffect={this.state.props.disabletoucheffect} >
-            <Text style={ this.state.parts.length <= 1 ? this.styles.text : {flexWrap: "wrap", textAlign: this.styles.text.textAlign}}
-              {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
+            <Text 
+              style={
+                this.state.parts.length <= 1
+                  ? Platform.OS === 'android' && shouldTruncate
+                    ? this.styles.androidMultilineText
+                    : this.styles.text
+                  : { flexWrap: 'wrap', textAlign: this.styles.text.textAlign }
+              }
+              {...(this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {})}
               {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
-              numberOfLines={props.nooflines} ellipsizeMode="tail">
+              numberOfLines={numOfLines}
+              ellipsizeMode="tail"
+            >
               {this.state.parts?.length === 1 ? toString(this.state.props.caption) : this.state.parts?.map((part, index) => {
                 const isLink = !isNil(part.link);
                 return (
