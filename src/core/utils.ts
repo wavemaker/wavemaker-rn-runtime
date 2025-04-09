@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import moment from "moment";
 import * as FileSystem from "expo-file-system";
-import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber} from 'lodash';
+import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber } from 'lodash';
 import * as mime from 'react-native-mime-types';
 import ThemeVariables from '../styles/theme.variables';
 
@@ -22,37 +22,37 @@ const TIME_ROLLUP_OPTIONS = {
 type LayoutData = {
   [index: string]: {
     [index: string]: {
-      x: number, 
+      x: number,
       y: number
     }
   }
 }
 
-const AppLayoutPosition: { currentPage: string, data: LayoutData} = {
+const AppLayoutPosition: { currentPage: string, data: LayoutData } = {
   currentPage: 'Main',
   data: {}
 }
 
 const _deepCopy = (o1: any, ...o2: any) => {
-    o2.forEach((o: any) => {
-        if (o) {
-            Object.keys(o).forEach(k => {
-                const v = o[k];
-                if (v && !isString(v) && !isArray(v) && typeof v === 'object') {
-                    o1[k] = _deepCopy(o1[k] || {}, o[k]);
-                } else {
-                    o1[k] = _deepCopy(v);
-                }
-            });
+  o2.forEach((o: any) => {
+    if (o) {
+      Object.keys(o).forEach(k => {
+        const v = o[k];
+        if (v && !isString(v) && !isArray(v) && typeof v === 'object') {
+          o1[k] = _deepCopy(o1[k] || {}, o[k]);
+        } else {
+          o1[k] = _deepCopy(v);
         }
-    });
-    return o1;
+      });
+    }
+  });
+  return o1;
 };
 
 export const deepCopy = (...objects: any) => _deepCopy({}, ...objects);
 
 export const toBoolean = (val: any) => {
-  return  val === true
+  return val === true
     || val === 'true'
     || !(val === false
       || val === null
@@ -63,7 +63,7 @@ export const toBoolean = (val: any) => {
 export const toNumber = (val: any) => {
   try {
     return parseFloat(val) || 0;
-  } catch(e) {
+  } catch (e) {
     return 0;
   }
 };
@@ -71,18 +71,18 @@ export const toNumber = (val: any) => {
 /**
  * this method encodes the url and returns the encoded string
  */
- export const encodeUrl = (url: string): string => {
-    let splits = url.split('#');
-    const hash = splits[1];
-    splits = splits[0].split('?');
-    let params = '';
-    if (splits.length > 1) {
-        params = splits[1].split('&')
-            .map(p => p.split('='))
-            .map(p => p[0] +'=' + encodeURIComponent(p[1]))
-            .join('&');
-    }
-    return encodeURI(splits[0]) + (params ? '?' + params: '') + (hash ? '#'+ hash : '');
+export const encodeUrl = (url: string): string => {
+  let splits = url.split('#');
+  const hash = splits[1];
+  splits = splits[0].split('?');
+  let params = '';
+  if (splits.length > 1) {
+    params = splits[1].split('&')
+      .map(p => p.split('='))
+      .map(p => p[0] + '=' + encodeURIComponent(p[1]))
+      .join('&');
+  }
+  return encodeURI(splits[0]) + (params ? '?' + params : '') + (hash ? '#' + hash : '');
 };
 
 export const isWebPreviewMode = () => Platform.OS === 'web';
@@ -95,7 +95,7 @@ export const isAndroid = () => (Platform.OS === 'android' || (Platform.OS === 'w
 
 export const isIos = () => (Platform.OS === 'ios' || (Platform.OS === 'web' && /iPhone|iPad/i.test(window.navigator.userAgent)));
 
-const getGroupKey = (fieldDef: any, groupby: string,  widgetScope: any, innerItem?: any) => isFunction(groupby) ? groupby.apply(widgetScope.proxy, [innerItem ? fieldDef[innerItem] : fieldDef]) : get(innerItem ? fieldDef[innerItem] : fieldDef, groupby);
+const getGroupKey = (fieldDef: any, groupby: string, widgetScope: any, innerItem?: any) => isFunction(groupby) ? groupby.apply(widgetScope.proxy, [innerItem ? fieldDef[innerItem] : fieldDef]) : get(innerItem ? fieldDef[innerItem] : fieldDef, groupby);
 
 /**
  * This method prepares the grouped data.
@@ -155,7 +155,7 @@ export const getOrderedDataset = (dataSet: any, orderby: string, innerItem?: any
   const items = orderby && orderby.split(','),
     fields: any = [],
     directions: any = [];
-  items && items.forEach( obj => {
+  items && items.forEach(obj => {
     const item = obj.split(':');
     fields.push(innerItem ? innerItem + '.' + item[0] : item[0]);
     directions.push(item[1]);
@@ -226,27 +226,27 @@ export const unStringify = (val: any, defaultVal?: boolean) => {
 export const retryIfFails = (fn: Function, interval: number, maxRetries: number, onBeforeRetry = () => Promise.resolve(false)) => {
   let retryCount = 0;
   const tryFn = () => {
-      retryCount++;
-      if (isFunction(fn)) {
-          return fn();
-      }
+    retryCount++;
+    if (isFunction(fn)) {
+      return fn();
+    }
   };
   maxRetries = (isNumber(maxRetries) && maxRetries > 0 ? maxRetries : 0);
   interval = (isNumber(interval) && interval > 0 ? interval : 0);
   return new Promise((resolve, reject) => {
-      const errorFn = function () {
-          const errArgs = arguments;
-          setTimeout(() => {
-              Promise.resolve().then(() => onBeforeRetry()).then(function (retry) {
-                  if (retry !== false && (!maxRetries || retryCount <= maxRetries)) {
-                    Promise.resolve().then(() => tryFn()).then(resolve, errorFn);
-                  } else {
-                      reject(errArgs);
-                  }
-              }, () => reject(errArgs));
-          }, interval);
-      };
-      Promise.resolve().then(() => tryFn()).then(resolve, errorFn);
+    const errorFn = function () {
+      const errArgs = arguments;
+      setTimeout(() => {
+        Promise.resolve().then(() => onBeforeRetry()).then(function (retry) {
+          if (retry !== false && (!maxRetries || retryCount <= maxRetries)) {
+            Promise.resolve().then(() => tryFn()).then(resolve, errorFn);
+          } else {
+            reject(errArgs);
+          }
+        }, () => reject(errArgs));
+      }, interval);
+    };
+    Promise.resolve().then(() => tryFn()).then(resolve, errorFn);
   });
 };
 
@@ -256,20 +256,20 @@ export const retryIfFails = (fn: Function, interval: number, maxRetries: number,
  */
 export const getAbortableDefer = () => {
   const _defer: any = {
-      promise: null,
-      reject: null,
-      resolve: null,
-      onAbort: () => { },
-      isAborted: false
+    promise: null,
+    reject: null,
+    resolve: null,
+    onAbort: () => { },
+    isAborted: false
   };
   _defer.promise = new Promise((resolve, reject) => {
-      _defer.resolve = resolve;
-      _defer.reject = reject;
+    _defer.resolve = resolve;
+    _defer.reject = reject;
   });
   _defer.promise.abort = () => {
-      _defer.onAbort && _defer.onAbort();
-      _defer.reject('aborted');
-      _defer.isAborted = true;
+    _defer.onAbort && _defer.onAbort();
+    _defer.reject('aborted');
+    _defer.isAborted = true;
   };
   return _defer;
 };
@@ -284,7 +284,7 @@ export const validateField = (props: any, value: any) => {
     }
     if (!requiredCheck) {
       return {
-        errorType : 'required',
+        errorType: 'required',
         isValid: false
       }
     }
@@ -294,27 +294,27 @@ export const validateField = (props: any, value: any) => {
     regexCheck = condition.test(value);
     if (!regexCheck) {
       return {
-        errorType : 'regexp',
+        errorType: 'regexp',
         isValid: false
       }
     }
   }
   if (value && props.maxchars && value.length > props.maxchars) {
     return {
-      errorType : 'maxchars',
+      errorType: 'maxchars',
       isValid: false
     }
 
   }
   if (value && props.mindate && new Date(props.datavalue) < moment(props.mindate).startOf('day').toDate()) {
     return {
-      errorType : 'mindate',
+      errorType: 'mindate',
       isValid: false
     }
   }
   if (value && props.maxdate && new Date(props.datavalue) > moment(props.maxdate).endOf('day').toDate()) {
     return {
-      errorType : 'maxdate',
+      errorType: 'maxdate',
       isValid: false
     }
   }
@@ -329,7 +329,7 @@ export const countDecimalDigits = (number: number | string) => {
 
   // * convert the number to a string
   const numberString = number.toString();
-  
+
   // * regular expression to match and count the decimal digits
   const decimalMatch = numberString.match(/\.(\d+)/);
 
@@ -346,31 +346,31 @@ export const formatCompactNumber = (number: number) => {
   number = isNegative ? number * -1 : number;
   let formattedNumber = number + '';
   if (number >= 1000 && number < 1_000_000) {
-    formattedNumber =  (number / 1000).toFixed(1).replace(/\.0$/, "") + "K";
+    formattedNumber = (number / 1000).toFixed(1).replace(/\.0$/, "") + "K";
   } else if (number >= 1_000_000 && number < 1_000_000_000) {
-    formattedNumber =  (number / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+    formattedNumber = (number / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
   } else if (number >= 1_000_000_000 && number < 1_000_000_000_000) {
-    formattedNumber =  (number / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
+    formattedNumber = (number / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
   } else if (number >= 1_000_000_000_000 && number < 1_000_000_000_000_000) {
-    formattedNumber =  (number / 1_000_000_000_000).toFixed(1).replace(/\.0$/, "") + "T";
+    formattedNumber = (number / 1_000_000_000_000).toFixed(1).replace(/\.0$/, "") + "T";
   }
   return (isNegative ? '-' : '') + formattedNumber;
 }
 
-export const toBase64 = function(path: string) {
+export const toBase64 = function (path: string) {
   return FileSystem.readAsStringAsync(path, { encoding: 'base64' });
 };
 
-const DATASET_WIDGETS = new Set([ 'select', 'checkboxset', 'radioset', 'switch', 'autocomplete', 'chips', 'typeahead', 'rating']);
+const DATASET_WIDGETS = new Set(['select', 'checkboxset', 'radioset', 'switch', 'autocomplete', 'chips', 'typeahead', 'rating']);
 export const isDataSetWidget = (widget: any) => {
   return DATASET_WIDGETS.has(widget);
 };
 export const isFullPathUrl = (url: string) => {
   return isString(url) &&
-  (url.startsWith('data:') 
-  || url.startsWith('http:') 
-  || url.startsWith('https:') 
-  || url.startsWith('file:'));
+    (url.startsWith('data:')
+      || url.startsWith('http:')
+      || url.startsWith('https:')
+      || url.startsWith('file:'));
 };
 
 export function removeUndefinedKeys(obj: any) {
@@ -397,7 +397,7 @@ export const getDates = (
   year = new Date().getFullYear(),
 ) => {
   const daysInMonth = getDaysInMonth(month, year);
-  const dates = Array.from({length: daysInMonth}, (v, i) => i + 1);
+  const dates = Array.from({ length: daysInMonth }, (v, i) => i + 1);
 
   const datesInRange = dates.filter(date => date >= startDate && date <= endDate);
 
@@ -510,28 +510,83 @@ export const getGradientStartEnd = (angle: string) => {
     // other angle
   }
 
-  return {start, end}
+  return { start, end }
 }
 
-export const parseLinearGradient = (gradient: string) => {
+export const getGradientColors = (gradientString: string): string[] => {
+  // Check if input is valid
+  if (!gradientString) return [];
+
+  // Extract the content inside linear-gradient()
+  const match = gradientString.match(/linear-gradient\s*\((.*)\)/);
+  if (!match) return [];
+
+  const content = match[1];
+
+  // Remove angle/direction part if present
+  const withoutDirection = content.replace(/^(to\s+\w+(?:\s+\w+)?|[0-9]+(?:deg|grad|rad|turn))\s*,\s*/, '');
+
+  // Split by commas that are not inside parentheses
+  let depth = 0;
+  let currentSegment = '';
+  const segments = [];
+
+  for (let i = 0; i < withoutDirection.length; i++) {
+    const char = withoutDirection[i];
+
+    if (char === '(') depth++;
+    else if (char === ')') depth--;
+    else if (char === ',' && depth === 0) {
+      segments.push(currentSegment.trim());
+      currentSegment = '';
+      continue;
+    }
+
+    currentSegment += char;
+  }
+
+  // Don't forget the last segment
+  if (currentSegment.trim()) {
+    segments.push(currentSegment.trim());
+  }
+
+  // Filter out empty segments and any segments that might be stop positions
+  const gradientColors = segments.filter(segment => {
+    // Skip percentage/length values that might be color stops
+    return !segment.match(/^\d+(%|px|em|rem|vh|vw|vmin|vmax)$/);
+  });
+
+  return gradientColors;
+};
+
+
+
+export const parseLinearGradient = (gradient: string, gradientText: boolean = false) => {
   let angle = '', color1 = '', color2 = '';
   const linearGradientRegex = /linear-gradient\(([^,]+),\s*([^,]+),\s*([^)]+)\)/;
-  const hasLinearGradient = linearGradientRegex.test(gradient);
+  //const linearGradientRegex = /linear-gradient\(\s*(?:([^,]+?)\s*,)?\s*((?:rgba?|hsla?)\([^)]+\)|#[0-9a-fA-F]{3,6}|\w+)\s*,\s*((?:rgba?|hsla?)\([^)]+\)|#[0-9a-fA-F]{3,6}|\w+)\s*\)/i;
+  const linearGradientTextRegex = /linear-gradient\(\s*(?:to\s+\w+|\d+deg|\w+)?\s*,?\s*((?:rgba?\([^)]+\)|hsla?\([^)]+\)|#[0-9a-fA-F]{3,8}|\w+)(?:\s+\d+%|\s+\d+px)?\s*,\s*){1,}(rgba?\([^)]+\)|hsla?\([^)]+\)|#[0-9a-fA-F]{3,8}|\w+)(?:\s+\d+%|\s+\d+px)?\s*\)/i;
+  const hasLinearGradient = gradientText ? linearGradientTextRegex.test(gradient) : linearGradientRegex.test(gradient);
 
-  const matches = gradient?.match(linearGradientRegex);
+  const matches = gradient?.match(gradientText ? linearGradientTextRegex : linearGradientRegex);
   angle = matches?.[1] || '90deg';
-  const {start, end} = getGradientStartEnd(angle)
+  const { start, end } = getGradientStartEnd(angle)
   color1 = matches?.[2] || ThemeVariables.INSTANCE.primaryColor;
   color2 = matches?.[3] || ThemeVariables.INSTANCE.primaryColor;
 
-  return {hasLinearGradient, color1, color2, start, end};
+  const colorsArray = getGradientColors(gradient)
+  const gradientColors = colorsArray.length >= 2 ? colorsArray : [color1, color2]
+  
+
+
+  return { hasLinearGradient, color1, color2, start, end, gradientColors };
 }
 
 export const validateInputOnDevice = (value: string, type: 'number' | 'currency') => {
   const isCurrencyField = type === 'currency';
   let isValidText = true;
   let validText = value;
-  
+
   // * no alphabets except E, may contain E only once
   if (/[a-df-zA-DF-Z]/.test(value) || !/^[^eE]*[eE]?[^eE]*$/.test(value)) {
     isValidText = false;
@@ -564,7 +619,7 @@ export const validateInputOnDevice = (value: string, type: 'number' | 'currency'
     validText = validText.replace(/[\s,]/, '');
   }
 
-  return {isValidText, validText};
+  return { isValidText, validText };
 }
 
 export const isDateFormatAsPerPattern = (
@@ -606,13 +661,13 @@ export function getNumberOfEmptyObjects(noOfItems: number) {
   return Array.from({ length: noOfItems }, () => ({}));
 }
 
-export const setPosition = (data: { [index: string]: {x: number, y: number} }): void => {
-  Object.keys(data).forEach((key: string):void => {
+export const setPosition = (data: { [index: string]: { x: number, y: number } }): void => {
+  Object.keys(data).forEach((key: string): void => {
     AppLayoutPosition.data[AppLayoutPosition.currentPage][key] = data[key]
   })
 }
-  
-export const getPosition = (key: string): {x: number, y: number} => {
+
+export const getPosition = (key: string): { x: number, y: number } => {
   return AppLayoutPosition.data[AppLayoutPosition.currentPage][key];
 }
 

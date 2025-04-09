@@ -10,6 +10,10 @@ import { DEFAULT_CLASS, WmLabelStyles } from './label.styles';
 import { isNil, toString } from 'lodash-es';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import WmSkeleton, { createSkeleton } from '../skeleton/skeleton.component';
+import { LinearGradient } from 'expo-linear-gradient';
+import MaskedView from '@react-native-masked-view/masked-view';
+import { parseLinearGradient } from '@wavemaker/app-rn-runtime/core/utils';
+
 
 type PartType = {
   text?: string,
@@ -120,8 +124,53 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     }
   }
 
+  private renderLabelTextContent(navigationService: NavigationService, isHidden: boolean = false) {
+    return (
+      <Text style={ this.state.parts.length <= 1 ? { ...this.styles.text, ...(isHidden ? { opacity: 0 } : {}) } : {flexWrap: "wrap", textAlign: this.styles.text.textAlign,...(isHidden ? { opacity: 0 } : {})}}
+      {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
+      {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)}
+      numberOfLines={this.state.props.nooflines} ellipsizeMode="tail">
+      {this.state.parts?.length === 1 ? toString(this.state.props.caption) : this.state.parts?.map((part, index) => {
+        const isLink = !isNil(part.link);
+        return (
+          <Text
+            key={`part_${index}`}
+            style={[
+              this.styles.text,
+              isLink ? this.styles.link.text : null,
+              this.state.props.isValid ? null : { color: 'red'}
+            ]}
+            {...this.getTestPropsForLabel(isLink ? `link_${index}` : `caption_${index}`)}
+            selectable={this.styles.text.userSelect === 'text'}
+            onPress={() => {
+              if (part.link) {
+                if (part.link.startsWith('http:')
+                  || part.link.startsWith('https:')
+                  || part.link.startsWith('#')) {
+                  navigationService.openUrl(part.link, '_blank');
+                } else if (part.link.startsWith('javascript:')) {
+                  const eventName = part.link.substring(11);
+                  this.invokeEventCallback(eventName, [null, this.proxy]);
+                }
+              }
+              this.invokeEventCallback('onTap', [null, this.proxy]);
+            }}
+            // {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
+          >
+            {toString(part.text)}
+          </Text>
+        );
+      })}
+       {this.state.props.required && this.getAsterisk()}
+    </Text>
+    )
+
+  }
   renderWidget(props: WmLabelProps) {
     const linkStyles = this.theme.mergeStyle({text: this.styles.text}, this.styles.link);
+    const {hasLinearGradient, start, end,gradientColors} = parseLinearGradient((this.styles?.text.color) as string,true);
+  
+    
     return !isNil(props.caption) ? (
       <Animatedview 
         entryanimation={props.animation} 
@@ -133,43 +182,13 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
         <NavigationServiceConsumer>
         {(navigationService: NavigationService) => {
           return (<Tappable target={this} disableTouchEffect={this.state.props.disabletoucheffect} >
-            <Text style={ this.state.parts.length <= 1 ? this.styles.text : {flexWrap: "wrap", textAlign: this.styles.text.textAlign}}
-              {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
-              {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
-              numberOfLines={props.nooflines} ellipsizeMode="tail">
-              {this.state.parts?.length === 1 ? toString(this.state.props.caption) : this.state.parts?.map((part, index) => {
-                const isLink = !isNil(part.link);
-                return (
-                  <Text
-                    key={`part_${index}`}
-                    style={[
-                      this.styles.text,
-                      isLink ? this.styles.link.text : null,
-                      props.isValid ? null : { color: 'red'}
-                    ]}
-                    {...this.getTestPropsForLabel(isLink ? `link_${index}` : `caption_${index}`)}
-                    selectable={this.styles.text.userSelect === 'text'}
-                    onPress={() => {
-                      if (part.link) {
-                        if (part.link.startsWith('http:')
-                          || part.link.startsWith('https:')
-                          || part.link.startsWith('#')) {
-                          navigationService.openUrl(part.link, '_blank');
-                        } else if (part.link.startsWith('javascript:')) {
-                          const eventName = part.link.substring(11);
-                          this.invokeEventCallback(eventName, [null, this.proxy]);
-                        }
-                      }
-                      this.invokeEventCallback('onTap', [null, this.proxy]);
-                    }}
-                    // {...getAccessibilityProps(AccessibilityWidgetType.LABEL, props)}
-                  >
-                    {toString(part.text)}
-                  </Text>
-                );
-              })}
-               {props.required && this.getAsterisk()}
-            </Text>
+           {hasLinearGradient ? <MaskedView
+              maskElement={this.renderLabelTextContent(navigationService)}
+            >
+              <LinearGradient colors={gradientColors} start={start} end={end}>
+                {this.renderLabelTextContent(navigationService, true)}
+              </LinearGradient>
+            </MaskedView> : this.renderLabelTextContent(navigationService)}
           </Tappable>)}}
         </NavigationServiceConsumer>
       </Animatedview>
