@@ -24,6 +24,12 @@ import {
 } from '../../../src/styles/theme';
 import EventNotifier from '../../../src/core/event-notifier';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
+import MaskedView from '@react-native-masked-view/masked-view';
+import { LinearGradient } from 'expo-linear-gradient';
+jest.mock('@react-native-masked-view/masked-view', () => 'MaskedView');
+jest.mock('expo-linear-gradient', () => ({
+  LinearGradient: 'LinearGradient'
+}));
 
 const defaultProps: WmLabelProps = {
   caption: 'Test Label',
@@ -399,5 +405,28 @@ describe('WmLabel Component', () => {
       // </ParentContext.Provider>
     );
     // expect(tree).toMatchSnapshot();
+  });
+
+  it('should render text with given gradient color', () => {
+    const gradientColor = 'linear-gradient(90deg, rgba(255,0,0,1), rgba(0,0,255,1))';
+    const { UNSAFE_getByType } = renderComponent({
+      caption: 'Gradient Text',
+      styles: {
+        text: {
+          color: gradientColor,
+        },
+      },
+    });
+    
+    // Check if MaskedView is being used for the gradient
+    const maskedView = UNSAFE_getByType(MaskedView);
+    expect(maskedView).toBeTruthy();
+    
+    // Check if LinearGradient component is used with correct props
+    const linearGradient = UNSAFE_getByType(LinearGradient);
+    expect(linearGradient).toBeTruthy();
+    expect(linearGradient.props.colors).toEqual(['rgba(255,0,0,1)', 'rgba(0,0,255,1)']);
+    expect(linearGradient.props.start).toEqual({ x: 0, y: 1 });
+    expect(linearGradient.props.end).toEqual({ x: 1, y: 1 });
   });
 });
