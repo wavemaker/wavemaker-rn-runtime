@@ -37,6 +37,16 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
     }
   }
 
+  updatePageScrollTopThreshold(event: any):void {
+    const { height } = event.nativeEvent.layout;
+    // maintaining pageScrollTopThreshold value for sticky header to attach from top position
+    if(this.props.hideonscroll){
+      this.appConfig.pageScrollTopThreshold = 0; 
+    }else {
+      this.appConfig.pageScrollTopThreshold = Math.ceil(height);
+    }
+  }
+
   renderContent(props: WmAppNavbarProps) {
     //@ts-ignore
     const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{props.badgevalue}</Badge>): null;
@@ -46,10 +56,14 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           const paddingTopVal = this.styles.root.paddingTop || this.styles.root.padding;
           const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
           const isFullScreenMode = !!statusBarCustomisation?.translucent;
+
           const stylesWithFs = isFullScreenMode ?  {height: this.styles.root.height as number + (insets?.top || 0) as number, 
           paddingTop: (paddingTopVal || 0) as number + (insets?.top || 0) as number} : {}
           return (
-          <View style={[this.styles.root, stylesWithFs]} ref={ref => {this.baseView = ref as View}} onLayout={(event) => this.handleLayout(event)}>
+          <View style={[this.styles.root, stylesWithFs]} ref={ref => {this.baseView = ref as View}} onLayout={(event) => {
+            this.handleLayout(event);
+            this.updatePageScrollTopThreshold(event);
+          }}>
             {this._background}
             <View style={this.styles.leftSection}>
             {props.showDrawerButton && (<WmIcon
