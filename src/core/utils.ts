@@ -608,7 +608,9 @@ export function getNumberOfEmptyObjects(noOfItems: number) {
 
 export const setPosition = (data: { [index: string]: {x: number, y: number} }): void => {
   Object.keys(data).forEach((key: string):void => {
-    AppLayoutPosition.data[AppLayoutPosition.currentPage][key] = data[key]
+    if(AppLayoutPosition?.data?.[AppLayoutPosition?.currentPage]){
+      AppLayoutPosition.data[AppLayoutPosition.currentPage][key] = data[key]
+    }
   })
 }
   
