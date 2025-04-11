@@ -107,7 +107,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         x: 0, y:0, width:0, height:0, px:0, py:0
     };
     public baseView: any = View;
-    public pcScrollTopThreshold: number = 0;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
