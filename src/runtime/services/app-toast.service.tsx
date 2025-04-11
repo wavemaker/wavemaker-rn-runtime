@@ -42,8 +42,6 @@ class AppToastService implements ToastService {
                 }, options.duration);
             }
             options.closeToast = () => {
-              let cb = options.onClick;
-              cb && cb();
               this.hideToast(options);
               clearTimeout(timeout);
             }
