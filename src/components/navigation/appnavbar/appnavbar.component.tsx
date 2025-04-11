@@ -13,6 +13,7 @@ import { StickyView } from '@wavemaker/app-rn-runtime/core/sticky-container.comp
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import { FixedView } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 
 export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {}
 
@@ -107,6 +108,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
 
   renderWidget(props: WmAppNavbarProps){
     if(props.hideonscroll) this.isSticky = true;
+    else this.isFixed = true;
     return props.hideonscroll ? 
       <StickyView
         theme={this.theme}
@@ -114,7 +116,17 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
         slide={true}
       >
         {this.renderContent(props)}
-      </StickyView>
-      : this.renderContent(props);
+      </StickyView> :
+      <>
+        <FixedView 
+          style={{top: 0, width:'100%'}} 
+          theme={this.theme}
+          animated={false}>
+          {this.renderContent(props)}
+        </FixedView>
+        <View style={{ opacity: 0}}>
+          {this.renderContent(props)}
+        </View>
+      </>
   }
 }
