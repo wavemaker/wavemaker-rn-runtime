@@ -401,7 +401,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 }, o.styles]}>
                   <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
                     {o.content}
-                    {o.text && <WmMessage name={"message"+ i} type={o.type} caption={o.text} hideclose={true}></WmMessage>}
+                    {o.text && <WmMessage name={"message" + i} type={o.type} caption={o.text} hideclose={!o.showclosebutton} onClose={o.closeToast} closeiconclass={o.closeiconclass}></WmMessage>}
                   </TouchableOpacity>
                 </View>
               </ThemeProvider>
