@@ -76,7 +76,7 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
       {props.hideclose ? null : (
         <WmButton
           id={this.getTestId('close')}
-          iconclass="wi wi-close"
+          iconclass={props.closeiconclass || "wi wi-close"}
           styles={styles.closeBtn}
           onTap={this.close}></WmButton>
       )}
