@@ -245,6 +245,20 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   }
 
+  selectAll = () => {
+    const props = this.state.props;
+    const dataset = props.dataset;
+    if (!props.multiselect || !isArray(dataset) || dataset.length === 0) {
+      return;
+    }
+    const selectedItems = [...dataset];
+  
+    this.updateState({
+      props: { selecteditem: selectedItems },
+      selectedindex: -1
+    } as WmListState );
+  }  
+
   private deselectAll() {
     this.updateState({
       props: { selecteditem: null },
