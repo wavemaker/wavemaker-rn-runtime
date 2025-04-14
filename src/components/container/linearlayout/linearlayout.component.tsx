@@ -27,7 +27,6 @@ export default class WmLinearlayout extends BaseComponent<WmLinearlayoutProps, W
     const s = {} as ViewStyle;
     const direction = props.direction;
     s.display = 'flex';
-    s.width = "100%";
     s.flexDirection = direction;
     const isHorizontal = direction.startsWith('row');
     if (isHorizontal) {
@@ -40,7 +39,7 @@ export default class WmLinearlayout extends BaseComponent<WmLinearlayoutProps, W
     return s;
   }
 
-  protected getBackground(): React.JSX.Element | null {
+  protected getBackground(): React.JSX.Element | null { 
     return this._showSkeleton ? null : this._background
   } 
   
