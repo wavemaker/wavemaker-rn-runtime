@@ -271,6 +271,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   }
 
   getTooltip() {
+    if(!this.state.props.tooltips){
+      return;
+    }
     const ynumberformat = this.state.props.ynumberformat;
     let yAxisData = ynumberformat ? this.setYAxisFormat(this.state.tooltipYaxis, ynumberformat) : this.state.tooltipYaxis;
     return this.state.isTooltipOpen ? (

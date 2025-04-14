@@ -35,7 +35,7 @@ export default class BaseChartComponentProps extends SkeletonAnimationProps {
   offsetright: number = 25;
   showlegend: string = 'top';
   showlabels: 'inside' | 'outside' | 'hide' = 'outside';
-  tooltips: boolean = false;
+  tooltips: boolean = true;
   interpolation: string = 'linear';
   highlightpoints: boolean = false;
   showvalues: boolean = false;
