@@ -27,8 +27,8 @@ export default abstract class BaseCustomWidget extends BaseFragment<CustomWidget
       this.Actions = {};
       this.Variables = {};
       this.appUrl = this.appConfig.url;
-      this.resourceBaseUrl = `${this.baseUrl}/app/custom-widgets/${props.widgetname}`;
-      this.baseUrl = `${this.baseUrl}/custom-widgets/${props.widgetname}`;
+      this.resourceBaseUrl = `${this.baseUrl}/app/custom-widgets/mobile_widgets/${props.widgetname}`;
+      this.baseUrl = `${this.baseUrl}/custom-widgets/mobile_widgets/${props.widgetname}`;
       this.watcher = props.parentWatcher.create();
     }
     onComponentInit(w: BaseComponent<any, any, any>) {
