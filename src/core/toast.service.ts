@@ -12,6 +12,9 @@ export interface ToastOptions {
     name: string;
     styles: any;
     hideOnClick?: boolean;
+    showclosebutton?: boolean;
+    closeiconclass?: string;
+    closeToast?: () => void;
 }
 
 export interface ToastService {
