@@ -7,6 +7,7 @@ import WmPageProps from './page.props';
 import { DEFAULT_CLASS, WmPageStyles } from './page.styles';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { StickyViewContainer } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 
 export class WmPageState extends BaseComponentState<WmPageProps> {}
 
@@ -57,6 +58,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   renderWidget(props: WmPageProps) {
     return (
       <StickyViewContainer>
+        <FixedViewContainer>
         <SafeAreaInsetsContext.Consumer>
           {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
             return props.scrollable ? 
@@ -76,6 +78,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
             </View>
           }}
         </SafeAreaInsetsContext.Consumer>
+        </FixedViewContainer>
      </StickyViewContainer>
     ); 
   }

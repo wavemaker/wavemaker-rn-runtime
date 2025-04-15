@@ -232,7 +232,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   }
 
   renderWidget(props: WmTabbarProps) {
-    if(props.hideonscroll) this.isFixed = true;
+    this.isFixed = true;
     const animateStyle = props.hideonscroll ? {transform: [{translateY: this.translateY}]} : {};
     return <>
         <FixedView 

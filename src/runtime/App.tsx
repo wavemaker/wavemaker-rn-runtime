@@ -581,7 +581,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                     <ThemeProvider value={this.appConfig.theme}>
                       {this.renderIosStatusbarInsetsView(statusBarCustomisation, insets)}
                       <View style={{ flex: 1 }}>
-                        <FixedViewContainer>
+                        
                           <View style={styles.container}>
                             <GestureHandlerRootView style={styles.container}>
                               <AppNavigator
@@ -591,13 +591,14 @@ export default abstract class BaseApp extends React.Component implements Navigat
                                 hideDrawer={this.appConfig.drawer?.getContent() === null}
                                 drawerContent={() => this.appConfig.drawer ? this.getProviders(this.appConfig.drawer.getContent()) : null}
                                 drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                              {commonPartial}
+                               <FixedViewContainer>
+                                  {commonPartial}
+                                </FixedViewContainer>
                             </GestureHandlerRootView>
                           </View>
                           {this.appConfig.url ?
                             (<WmNetworkInfoToaster appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
                             : null}
-                        </FixedViewContainer>
                         {this.renderToasters()}
                         {this.renderDialogs()}
                         {this.renderDisplayManager()}
