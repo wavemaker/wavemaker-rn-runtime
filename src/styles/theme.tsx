@@ -294,11 +294,12 @@ export class Theme {
                 this.cleanseStyleProperties(clonedStyle);
                 const extraTextStyles = (this.getTextStyle(clonedStyle) || {}) as any ;
                 clonedStyle['text'] = Object.assign({}, extraTextStyles, clonedStyle['text'] || {});
-                Object.keys(clonedStyle).forEach((k)=>{
-                    if(!extraTextStyles[k] && !isObject(clonedStyle[k])){
-                        clonedStyle['root'][k] = clonedStyle['root'][k] || clonedStyle[k]
+                  Object.keys(clonedStyle).forEach((k) => {
+                    const isValObject = isObject(clonedStyle[k]);
+                    if (!extraTextStyles[k] && (!isValObject || (k === 'shadowOffset'))) {
+                      clonedStyle['root'][k] = clonedStyle['root'][k] || clonedStyle[k]
                     }
-                });
+                  });
             }
             if (this !== Theme.BASE && isWebPreviewMode()) {
                 this.checkStyleProperties('', clonedStyle);
