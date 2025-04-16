@@ -64,16 +64,16 @@ export class View extends React.Component<Props, State> {
 
         this.panResponder = PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => {
-                return this.props.enableGestures;
+                return this.shouldEnablePanResponder(gestureState.dx, gestureState.dy);
             },
             onStartShouldSetPanResponderCapture: (evt, gestureState) => {
-                return this.props.enableGestures;
+                return this.shouldEnablePanResponder(gestureState.dx, gestureState.dy);
             },
             onMoveShouldSetPanResponder: (evt, gestureState) => {
-                return this.props.enableGestures;
+                return this.shouldEnablePanResponder(gestureState.dx, gestureState.dy);
             },
             onMoveShouldSetPanResponderCapture: (evt, gestureState) =>{
-                return this.props.enableGestures;
+                return this.shouldEnablePanResponder(gestureState.dx, gestureState.dy);
             },
             onPanResponderMove: (evt, gestureState) => {
                 this.onChange(gestureState)
@@ -103,6 +103,16 @@ export class View extends React.Component<Props, State> {
             }
         });
 
+    }
+
+
+    shouldEnablePanResponder = (dx: number, dy: number) => {
+        const gestureEnableThreshold = 30;
+
+        const shouldEnable = (this.props.direction === 'horizontal' ? Math.abs(dx) > Math.abs(dy) : Math.abs(dx) < Math.abs(dy)) &&
+            (this.props.direction === 'horizontal' ? Math.abs(dx) > gestureEnableThreshold : Math.abs(dy) > gestureEnableThreshold)
+
+        return this.props.enableGestures && shouldEnable;
     }
 
     onChange = (e: any) => {
