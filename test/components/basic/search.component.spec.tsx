@@ -477,7 +477,7 @@ describe('WmSearch Component', () => {
 
   it('should handle search icon press and filter data when searchon = "onsearchiconclick"', async () => {
     const searchText = 'name2';
-    const ref = createRef();
+    const ref = createRef<WmSearch>();
     const tree = render(
       <WmSearch
         ref={ref}
@@ -984,5 +984,33 @@ describe('WmSearch Component', () => {
 
     expect(screen.getByText('edit')).toBeTruthy();
     expect(screen).toMatchSnapshot();
+  });
+
+  it('should reflect changes after a delay when debouncetime prop has value greater than 0', async () => {
+    const customRef = createRef<WmSearch>();
+
+    render(<WmSearch {...defaultProps} iconclass="fa fa-edit" ref={customRef} debouncetime={200}/>);
+    const updateStateMock = jest.spyOn(WmSearch.prototype, 'updateState');
+    const searchTextElement = screen.getByPlaceholderText('Search');
+    const handleChange = jest.spyOn(customRef.current, 'handleChange');
+
+    fireEvent(searchTextElement, 'changeText', "hello");
+    expect(handleChange).not.toHaveBeenCalled();
+
+    await timer(202);
+
+    expect(handleChange).toHaveBeenCalled();
+  });
+
+  it('should reflect changes immediately when debouncetime prop has value equal to 0', async () => {
+    const customRef = createRef<WmSearch>();
+
+    render(<WmSearch {...defaultProps} iconclass="fa fa-edit" ref={customRef} debouncetime={0}/>);
+    const updateStateMock = jest.spyOn(WmSearch.prototype, 'updateState');
+    const searchTextElement = screen.getByPlaceholderText('Search');
+    const handleChange = jest.spyOn(customRef.current, 'handleChange');
+
+    fireEvent(searchTextElement, 'changeText', "hello");
+    expect(handleChange).toHaveBeenCalled();
   });
 });

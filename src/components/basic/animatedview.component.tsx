@@ -162,16 +162,17 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
         ref={this.handleViewRef}
         {...this.props.accessibilityProps}
         testID="animatableView"
-        onLayout={this.props.onLayout}
-      >
+        onLayout={(e)=>this.props.onLayout && this.props.onLayout(e, this.view)}
+       >
         {this.props.children}
       </Animatable.View>
     ): (<View 
           style={this.props.style} 
           {...this.props.accessibilityProps} 
           testID="non_animatableView"
-          onLayout={this.props.onLayout}
-        >
+          ref={this.handleViewRef}
+          onLayout={(e)=>this.props.onLayout && this.props.onLayout(e, this.view)}
+       >
           {this.props.children}
         </View>
       );

@@ -1,251 +1,465 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Text component should have default value for native platform 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
+<TextInput
+  accessibilityState={
+    {
+      "disabled": false,
     }
-  />,
-  <TextInput
-    accessibilityState={
-      {
-        "disabled": false,
-      }
-    }
-    accessible={true}
-    activeFloatingLabelStyle={{}}
-    allowContentSelection={true}
-    autoCapitalize="none"
-    autoComplete="username"
-    autoFocus={null}
-    background={
-      <React.Fragment>
-        <BackgroundComponent
-          style={
-            {
-              "borderRadius": 6,
-            }
-          }
-        />
-      </React.Fragment>
-    }
-    caretHidden={false}
-    contextMenuHidden={false}
-    defaultValue="sample text"
-    displayformat={null}
-    editable={true}
-    floatingLabelStyle={{}}
-    isInputFocused={false}
-    maskchar={null}
-    maxLength={null}
-    onBlur={[Function]}
-    onChange={[Function]}
-    onChangeText={[Function]}
-    onFocus={[Function]}
-    onKeyPress={[Function]}
-    onSelectionChange={[Function]}
-    placeholder="Enter text"
-    placeholderTextColor="#bbbbbb"
-    secureTextEntry={false}
-    selection={null}
-    style={
-      [
-        [
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoCapitalize="none"
+  autoComplete="username"
+  autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
           {
-            "backgroundColor": "#ffffff",
-            "borderColor": "#dddddd",
             "borderRadius": 6,
-            "borderStyle": "solid",
-            "borderWidth": 1,
-            "fontFamily": "Roboto",
-            "minHeight": 42,
-            "paddingBottom": 8,
-            "paddingLeft": 16,
-            "paddingRight": 16,
-            "paddingTop": 8,
-          },
-          {
-            "fontFamily": "Roboto",
-            "fontSize": 16,
-            "userSelect": "text",
-          },
-          {},
-          {},
-        ],
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue="sample text"
+  displayformat={null}
+  editable={true}
+  floatingLabelStyle={{}}
+  handleLayout={[Function]}
+  isInputFocused={false}
+  maskchar={null}
+  maxLength={null}
+  numberOfLines={1}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onLayout={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  placeholderTextColor="#bbbbbb"
+  secureTextEntry={false}
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "userSelect": "text",
+        },
         {},
-      ]
-    }
-    testID="wmText_i"
-  />,
-]
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmText_i"
+/>
 `;
 
 exports[`Text component should have default value for web platform 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
-    }
-  />,
-  <TextInput
-    accessibilityLabel="wmText_i"
-    activeFloatingLabelStyle={{}}
-    allowContentSelection={true}
-    autoCapitalize="none"
-    autoComplete="username"
-    autoFocus={null}
-    background={
-      <React.Fragment>
-        <BackgroundComponent
-          style={
-            {
-              "borderRadius": 6,
-            }
-          }
-        />
-      </React.Fragment>
-    }
-    caretHidden={false}
-    contextMenuHidden={false}
-    displayformat={null}
-    editable={true}
-    floatingLabelStyle={{}}
-    isInputFocused={false}
-    maskchar={null}
-    maxLength={null}
-    onBlur={[Function]}
-    onChange={[Function]}
-    onChangeText={[Function]}
-    onFocus={[Function]}
-    onKeyPress={[Function]}
-    onSelectionChange={[Function]}
-    placeholder="Enter text"
-    placeholderTextColor="#bbbbbb"
-    secureTextEntry={false}
-    selection={null}
-    style={
-      [
-        [
+<TextInput
+  accessibilityLabel="wmText_i"
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoCapitalize="none"
+  autoComplete="username"
+  autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
           {
-            "backgroundColor": "#ffffff",
-            "borderColor": "#dddddd",
             "borderRadius": 6,
-            "borderStyle": "solid",
-            "borderWidth": 1,
-            "fontFamily": "Roboto",
-            "minHeight": 42,
-            "paddingBottom": 8,
-            "paddingLeft": 16,
-            "paddingRight": 16,
-            "paddingTop": 8,
-          },
-          {
-            "fontFamily": "Roboto",
-            "fontSize": 16,
-            "userSelect": "text",
-          },
-          {},
-          {},
-        ],
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  caretHidden={false}
+  contextMenuHidden={false}
+  displayformat={null}
+  editable={true}
+  floatingLabelStyle={{}}
+  handleLayout={[Function]}
+  isInputFocused={false}
+  maskchar={null}
+  maxLength={null}
+  numberOfLines={1}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onLayout={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  placeholderTextColor="#bbbbbb"
+  secureTextEntry={false}
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "userSelect": "text",
+        },
         {},
-      ]
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmText_i"
+  value="sample text"
+/>
+`;
+
+exports[`Text component should render Text instead of TextInput for Android device and disabled prop is true 1`] = `
+<Text
+  disabled={true}
+  selectable={false}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#f6f6f6",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+      {
+        "textTransform": "capitalize",
+      },
+      {
+        "color": "#bbbbbb",
+      },
+    ]
+  }
+>
+  Enter text
+</Text>
+`;
+
+exports[`Text component should render Text instead of TextInput for Android device and readOnly prop is true 1`] = `
+<Text
+  disabled={true}
+  selectable={false}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+      {
+        "textTransform": "capitalize",
+      },
+      {
+        "color": "#bbbbbb",
+      },
+    ]
+  }
+>
+  Enter text
+</Text>
+`;
+
+exports[`Text component should render TextInput for iOS device and disabled prop is true 1`] = `
+<TextInput
+  accessibilityState={
+    {
+      "disabled": true,
     }
-    testID="wmText_i"
-    value="sample text"
-  />,
-]
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoCapitalize="none"
+  autoComplete="username"
+  autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
+          {
+            "borderRadius": 6,
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue=""
+  displayformat={null}
+  editable={false}
+  floatingLabelStyle={{}}
+  handleLayout={[Function]}
+  isInputFocused={false}
+  maskchar={null}
+  maxLength={null}
+  numberOfLines={1}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onLayout={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  placeholderTextColor="#bbbbbb"
+  secureTextEntry={false}
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#f6f6f6",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmText_i"
+/>
+`;
+
+exports[`Text component should render TextInput for iOS device and readOnly prop is true 1`] = `
+<TextInput
+  accessibilityState={
+    {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoCapitalize="none"
+  autoComplete="username"
+  autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
+          {
+            "borderRadius": 6,
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue=""
+  displayformat={null}
+  editable={false}
+  floatingLabelStyle={{}}
+  handleLayout={[Function]}
+  isInputFocused={false}
+  maskchar={null}
+  maxLength={null}
+  numberOfLines={1}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onLayout={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  placeholderTextColor="#bbbbbb"
+  secureTextEntry={false}
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "userSelect": "text",
+        },
+        {},
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmText_i"
+/>
 `;
 
 exports[`Text component should render correctly with default props 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
+<TextInput
+  accessibilityState={
+    {
+      "disabled": false,
     }
-  />,
-  <TextInput
-    accessibilityState={
-      {
-        "disabled": false,
-      }
-    }
-    accessible={true}
-    activeFloatingLabelStyle={{}}
-    allowContentSelection={true}
-    autoCapitalize="none"
-    autoComplete="username"
-    autoFocus={null}
-    background={
-      <React.Fragment>
-        <BackgroundComponent
-          style={
-            {
-              "borderRadius": 6,
-            }
-          }
-        />
-      </React.Fragment>
-    }
-    caretHidden={false}
-    contextMenuHidden={false}
-    defaultValue=""
-    displayformat={null}
-    editable={true}
-    floatingLabelStyle={{}}
-    isInputFocused={false}
-    maskchar={null}
-    maxLength={null}
-    onBlur={[Function]}
-    onChange={[Function]}
-    onChangeText={[Function]}
-    onFocus={[Function]}
-    onKeyPress={[Function]}
-    onSelectionChange={[Function]}
-    placeholder="Enter text"
-    placeholderTextColor="#bbbbbb"
-    secureTextEntry={false}
-    selection={null}
-    style={
-      [
-        [
+  }
+  accessible={true}
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={true}
+  autoCapitalize="none"
+  autoComplete="username"
+  autoFocus={null}
+  background={
+    <React.Fragment>
+      <BackgroundComponent
+        style={
           {
-            "backgroundColor": "#ffffff",
-            "borderColor": "#dddddd",
             "borderRadius": 6,
-            "borderStyle": "solid",
-            "borderWidth": 1,
-            "fontFamily": "Roboto",
-            "minHeight": 42,
-            "paddingBottom": 8,
-            "paddingLeft": 16,
-            "paddingRight": 16,
-            "paddingTop": 8,
-          },
-          {
-            "fontFamily": "Roboto",
-            "fontSize": 16,
-            "userSelect": "text",
-          },
-          {},
-          {},
-        ],
+          }
+        }
+      />
+    </React.Fragment>
+  }
+  caretHidden={false}
+  contextMenuHidden={false}
+  defaultValue=""
+  displayformat={null}
+  editable={true}
+  floatingLabelStyle={{}}
+  handleLayout={[Function]}
+  isInputFocused={false}
+  maskchar={null}
+  maxLength={null}
+  numberOfLines={1}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  onLayout={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  placeholderTextColor="#bbbbbb"
+  secureTextEntry={false}
+  selection={null}
+  style={
+    [
+      [
+        {
+          "backgroundColor": "#ffffff",
+          "borderColor": "#dddddd",
+          "borderRadius": 6,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "fontFamily": "Roboto",
+          "minHeight": 42,
+          "paddingBottom": 8,
+          "paddingLeft": 16,
+          "paddingRight": 16,
+          "paddingTop": 8,
+        },
+        {
+          "fontFamily": "Roboto",
+          "fontSize": 16,
+          "userSelect": "text",
+        },
         {},
-      ]
-    }
-    testID="wmText_i"
-  />,
-]
+        {},
+      ],
+      {},
+    ]
+  }
+  testID="wmText_i"
+/>
 `;

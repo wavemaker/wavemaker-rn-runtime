@@ -187,7 +187,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           axis: props.showxaxis === false ?
                               { stroke: 'none' } :  this.theme.mergeStyle(this.styles.axis, this.styles.xAxis),
                           ticks: this.theme.mergeStyle(this.styles.ticks, this.styles.xTicks),
-                          tickLabels: this.theme.mergeStyle(this.styles.tickLabels, this.styles.xTickLabels)
+                          tickLabels: props.showxaxislabels === false ? {fill: 'none'} : this.theme.mergeStyle(this.styles.tickLabels, this.styles.xTickLabels)
                         }}
                         fixLabelOverlap= {props.autoadjustlabels?true:false}
                         axisLabelComponent={<VictoryLabel y={yaxislabeldistance}/>}
@@ -222,7 +222,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           axis: props.showxaxis === false ?
                           { stroke: 'none' } :  this.theme.mergeStyle(this.styles.axis, this.styles.yAxis),
                           ticks: this.theme.mergeStyle(this.styles.ticks, this.styles.yTicks),
-                          tickLabels: this.theme.mergeStyle(this.styles.tickLabels, this.styles.yTickLabels)
+                          tickLabels: props.showyaxislabels === false ? {fill: 'none'} : this.theme.mergeStyle(this.styles.tickLabels, this.styles.yTickLabels)
                         }}
                         fixLabelOverlap= {props.autoadjustlabels?true:false}
                         axisLabelComponent={<VictoryLabel x={xaxislabeldistance}/>}
@@ -271,6 +271,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   }
 
   getTooltip() {
+    if(!this.state.props.tooltips){
+      return;
+    }
     const ynumberformat = this.state.props.ynumberformat;
     let yAxisData = ynumberformat ? this.setYAxisFormat(this.state.tooltipYaxis, ynumberformat) : this.state.tooltipYaxis;
     return this.state.isTooltipOpen ? (
