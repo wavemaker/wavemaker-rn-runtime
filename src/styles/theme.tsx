@@ -7,6 +7,7 @@ import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 import MediaQueryList from './MediaQueryList';
 import ThemeVariables from './theme.variables';
+import ColorMix from './color-mix';
 import { getErrorMessage, getStyleReference, isValidStyleProp } from './style-prop.validator';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
@@ -124,7 +125,7 @@ export class Theme {
     checkStyleProperties(name: string, value : any) {
         if (isObject(value)) {
             Object.keys(value).map((k) => this.checkStyleProperties(k, (value as any)[k]));
-        } else if(name && !isValidStyleProp(name, value)) {
+        } else if(name && !(isString(value) && value.startsWith('calc(')) && !isValidStyleProp(name, value)) {
             console.log(
                 `%cInvalid Style property in ${this.name}: ${getErrorMessage(name, value)}`,
                 'background-color: #FF0000;font-weight: bold; color: #fff'
@@ -200,7 +201,11 @@ export class Theme {
         style = style as any;
         if (isObject(style) && !isArray(style)) {
             Object.keys(style).forEach(k => {
-                (style as any)[k] = this.replaceVariables((style as any)[k]);
+                let v = this.replaceVariables((style as any)[k]);
+                if (isString(v) && v.startsWith("color-mix(")) {
+                    v = ColorMix.valueOf(v);
+                }
+                (style as any)[k] = v;
             });
         }
         if (!isNil(style['shadowRadius'])) {
