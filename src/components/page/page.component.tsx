@@ -11,8 +11,9 @@ import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.co
 
 export class WmPageState extends BaseComponentState<WmPageProps> {}
 
-export interface CustomScrollEvent {
+interface CustomScrollEvent {
   scrollDirection: number;
+  scrollDelta: number;
 }
 
 
@@ -33,7 +34,8 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
 
   private onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>)=>{
     const scrollPosition = event.nativeEvent.contentOffset.y;
-    if(Math.abs(scrollPosition - this.previousScrollPosition) >= 8 && scrollPosition >=0){
+    const scrollDelta = Math.abs(scrollPosition - this.previousScrollPosition)  
+    if(scrollPosition >=0){
       const e = event as unknown as CustomScrollEvent;
       if (scrollPosition > this.previousScrollPosition) {
         e.scrollDirection = 1;
@@ -42,6 +44,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
       } else {
         e.scrollDirection = -1;
       }
+      e.scrollDelta = scrollDelta;
       this.previousScrollPosition = scrollPosition;
       this.notify('scroll', [e]);
     }
