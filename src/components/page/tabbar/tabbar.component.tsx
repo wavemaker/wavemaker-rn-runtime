@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react';
-import { Text, View, TouchableOpacity, Dimensions, Keyboard, Animated, Easing, LayoutChangeEvent} from 'react-native';
+import { Text, View, TouchableOpacity, Dimensions, Keyboard, Animated, Easing, LayoutChangeEvent, 
+  NativeSyntheticEvent,  NativeScrollEvent
+} from 'react-native';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -23,6 +25,11 @@ interface TabDataItem extends NavigationDataItem {
   indexBeforeMid: number;
 }
 
+interface CustomScrollEvent {
+  scrollDirection: number;
+  scrollDelta: number;
+}
+
 const scale = (n: number) => n;
 
 class WmTabbarState<T extends BaseNavProps> extends BaseNavState<T> {
@@ -39,6 +46,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   private translateY = new Animated.Value(0);
   private insets: EdgeInsets | null = null;
   private appConfig = injector.get<AppConfig>('APP_CONFIG');
+  private tabbarHeightWithInsets: number = 0;
 
   constructor(props: WmTabbarProps) {
     super(props, DEFAULT_CLASS, new WmTabbarProps(), new WmTabbarState());
@@ -120,26 +128,30 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       toValue: value, 
       easing: Easing.linear,
       duration: duratiion, 
-      useNativeDriver: true
+      useNativeDriver: false
     }).start()
   }
 
   subscribeToPageScroll(){
-    this.destroyScrollListner = this.subscribe('scroll', (e: any)=>{
-      const { contentOffset, layoutMeasurement, contentSize } = e.nativeEvent ;
+    this.tabbarHeightWithInsets = 0;
+    this.destroyScrollListner = this.subscribe('scroll', (event: NativeSyntheticEvent<NativeScrollEvent>)=>{
+      const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent ;
       const scrollPosition = contentOffset.y ;
+      this.tabbarHeightWithInsets = this.tabbarHeightWithInsets ? this.tabbarHeightWithInsets : this.getLayout()?.height ;
       const visibleContentHeight = layoutMeasurement.height ;
-      const tabbarHeight = this.getLayout()?.height ;
-      const endReached = (scrollPosition + visibleContentHeight + tabbarHeight ) >= contentSize.height ;
+      const endReached = (scrollPosition + visibleContentHeight + this.tabbarHeightWithInsets) >= contentSize.height ;
       const bottomInsets = this.insets?.bottom || 0
-      if(e.scrollDirection <= 0){
-        this.animateWithTiming(0, 100)
-      }else {
-        this.animateWithTiming(tabbarHeight + bottomInsets, 100)
+      const e = event as unknown as CustomScrollEvent;
+      if(e.scrollDelta >= 2){
+        if(e.scrollDirection < 0){
+          this.animateWithTiming(0, 100)
+        }else if(e.scrollDirection > 0) {
+          this.animateWithTiming(this.tabbarHeightWithInsets + bottomInsets, 100)
+        }
       }
-      if(endReached){
-        this.animateWithTiming(0, 0)
-      }
+        if(endReached){
+          this.animateWithTiming(0, 0)
+        }
     })
   }
 
@@ -232,7 +244,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   }
 
   renderWidget(props: WmTabbarProps) {
-    if(props.hideonscroll) this.isFixed = true;
+    this.isFixed = true;
     const animateStyle = props.hideonscroll ? {transform: [{translateY: this.translateY}]} : {};
     return <>
         <FixedView 

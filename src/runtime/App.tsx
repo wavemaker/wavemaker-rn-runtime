@@ -53,7 +53,6 @@ import BasePartial from './base-partial.component';
 import BasePage from './base-page.component';
 import { WmMemo } from './memo.component';
 import { BaseVariable, VariableEvents } from '../variables/base-variable';
-import { StickyViewContainer } from '../core/sticky-container.component';
 import { BlurView } from 'expo-blur';
 import * as NavigationBar from 'expo-navigation-bar';
 
@@ -404,7 +403,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 }, o.styles]}>
                   <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
                     {o.content}
-                    {o.text && <WmMessage name={"message" + i} type={o.type} caption={o.text} hideclose={true}></WmMessage>}
+                    {o.text && <WmMessage name={"message" + i} type={o.type} caption={o.text} hideclose={!o.showclosebutton} onClose={o.closeToast} closeiconclass={o.closeiconclass}></WmMessage>}
                   </TouchableOpacity>
                 </View>
               </ThemeProvider>
@@ -513,11 +512,57 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }
   }
 
+  renderBlurView(position: 'top' | 'bottom', insets: any) {
+    if (!insets?.[position]) return null;
+  
+    if (Platform.OS === "android") {
+      NavigationBar.setPositionAsync('absolute');
+      NavigationBar.setBackgroundColorAsync("transparent");
+    }
+  
+    return (
+      <BlurView
+        intensity={50}
+        tint="dark"
+        experimentalBlurMethod="dimezisBlurView"
+        style={{
+          [position]: 0,
+          height: insets[position],
+          width: '100%',
+          position: 'absolute',
+          zIndex: 999,
+        }}
+      />
+    );
+  }
+
+  renderTransparentView(position: 'top' | 'bottom', insets: any) {
+    if (!insets?.[position]) return null;
+  
+    if (Platform.OS === "android") {
+      NavigationBar.setPositionAsync('absolute');
+      NavigationBar.setBackgroundColorAsync("transparent");
+    }
+  
+    return (
+      <View
+        style={{
+          [position]: 0,
+          height: insets[position],
+          width: '100%',
+          position: 'absolute',
+          zIndex: 999,
+          backgroundColor:"rgba(0,0,0,0.4)"
+        }}
+      ></View>
+    );
+  }
+
   renderApp(commonPartial: React.ReactNode) {
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
     const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
-    const isTranslucent = statusBarCustomisation?.translucent;
-    const Wrapper = isTranslucent ? View : SafeAreaView;
+    const isFullScreenMode = !!statusBarCustomisation?.translucent;
+    const Wrapper = isFullScreenMode ? View : SafeAreaView;
     return (
       <SafeAreaProvider>
         <SafeAreaInsetsContext.Consumer>
@@ -530,12 +575,13 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   <Wrapper style={{ flex: 1 }}>
                     <StatusBar
                       backgroundColor={statusBarCustomisation?.backgroundColor}
-                      translucent={isTranslucent}
+                      translucent={isFullScreenMode}
                       barStyle={statusBarCustomisation?.barStyle || 'default'}
                     />
                     <ThemeProvider value={this.appConfig.theme}>
+                      {this.renderIosStatusbarInsetsView(statusBarCustomisation, insets)}
                       <View style={{ flex: 1 }}>
-                        <FixedViewContainer>
+                        
                           <View style={styles.container}>
                             <GestureHandlerRootView style={styles.container}>
                               <AppNavigator
@@ -545,17 +591,24 @@ export default abstract class BaseApp extends React.Component implements Navigat
                                 hideDrawer={this.appConfig.drawer?.getContent() === null}
                                 drawerContent={() => this.appConfig.drawer ? this.getProviders(this.appConfig.drawer.getContent()) : null}
                                 drawerAnimation={this.appConfig.drawer?.getAnimation()}></AppNavigator>
-                              {commonPartial}
+                               <FixedViewContainer>
+                                  {commonPartial}
+                                </FixedViewContainer>
                             </GestureHandlerRootView>
                           </View>
                           {this.appConfig.url ?
                             (<WmNetworkInfoToaster appLocale={this.appConfig.appLocale}></WmNetworkInfoToaster>)
                             : null}
-                        </FixedViewContainer>
                         {this.renderToasters()}
                         {this.renderDialogs()}
                         {this.renderDisplayManager()}
                       </View>
+                      {/* Statusbar blur */}
+                      {/* {isFullScreenMode ? this.renderBlurView("top",insets) : null}  */}
+                      {isFullScreenMode ? this.renderTransparentView("top",insets) : null} 
+                      {/* Navigation bar blur */}
+                      {/* {isFullScreenMode ? this.renderBlurView("bottom",insets) : null} */}
+                      {/* {isFullScreenMode ? this.renderTransparentView("bottom",insets) : null} */}
                     </ThemeProvider>
                   </Wrapper>
                 )}

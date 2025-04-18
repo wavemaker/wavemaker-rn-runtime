@@ -1,13 +1,21 @@
 import React from 'react';
-import { PanResponder, ScrollView, View } from 'react-native';
+import { PanResponder, ScrollView, View, NativeSyntheticEvent,  NativeScrollEvent} from 'react-native';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPageProps from './page.props';
 import { DEFAULT_CLASS, WmPageStyles } from './page.styles';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import { StickyViewContainer } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 
 export class WmPageState extends BaseComponentState<WmPageProps> {}
+
+interface CustomScrollEvent {
+  scrollDirection: number;
+  scrollDelta: number;
+}
+
 
 export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPageStyles> {
   private scrollRef: React.RefObject<any>;
@@ -24,9 +32,11 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
     this.scrollRef = React.createRef();
   }
 
-  private onScroll = (e: any)=>{
-    const scrollPosition = e.nativeEvent.contentOffset.y;
-    if(Math.abs(scrollPosition - this.previousScrollPosition) >= 8 && scrollPosition >=0){
+  private onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>)=>{
+    const scrollPosition = event.nativeEvent.contentOffset.y;
+    const scrollDelta = Math.abs(scrollPosition - this.previousScrollPosition)  
+    if(scrollPosition >=0){
+      const e = event as unknown as CustomScrollEvent;
       if (scrollPosition > this.previousScrollPosition) {
         e.scrollDirection = 1;
       } else if (scrollPosition === this.previousScrollPosition) {
@@ -34,6 +44,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
       } else {
         e.scrollDirection = -1;
       }
+      e.scrollDelta = scrollDelta;
       this.previousScrollPosition = scrollPosition;
       this.notify('scroll', [e]);
     }
@@ -49,6 +60,8 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
 
   renderWidget(props: WmPageProps) {
     return (
+      <StickyViewContainer>
+        <FixedViewContainer>
         <SafeAreaInsetsContext.Consumer>
           {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
             return props.scrollable ? 
@@ -68,6 +81,8 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
             </View>
           }}
         </SafeAreaInsetsContext.Consumer>
+        </FixedViewContainer>
+     </StickyViewContainer>
     ); 
   }
 }
