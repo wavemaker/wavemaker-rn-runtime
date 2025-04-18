@@ -165,13 +165,6 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
         {...this.getTestProps('tabheader')}
         onLayout={(event) => this.handleLayout(event)}
       >
-      <ScrollView
-        ref={this.listRef}
-        horizontal={true}
-        onLayout={this.setHeaderPanelPositon.bind(this)}
-        showsHorizontalScrollIndicator={false}
-        scrollEnabled={props.shouldScroll}
-      >
       <View>
         <View style={this.styles.root}>
           {this._background}
@@ -232,7 +225,6 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
           </Animated.View>
         </Animated.View>
         </View>
-      </ScrollView>
       </View>
     );
   }
