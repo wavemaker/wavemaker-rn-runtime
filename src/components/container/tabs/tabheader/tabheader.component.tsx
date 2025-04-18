@@ -156,75 +156,92 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
     )
   }
 
+  public renderHeaderContent(props: WmTabheaderProps){
+    const arrowIndicator = this.styles.arrowIndicator as any;
+    return (
+    <View>
+      <View style={this.styles.root}>
+        {this._background}
+        {props.data.map((header ,i) => {
+          const isSelected = i === props.selectedTabIndex ;
+          return (
+            <Tappable onTap={this.onTabSelection.bind(this, i)}
+              {...this.getTestPropsForAction(i +'')}
+              key={header.key}
+              disableTouchEffect={this.state.props.disabletoucheffect}
+              styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
+              <View onLayout={this.setHeaderPositon.bind(this, i)}>
+                <View style={[
+                  this.styles.header,
+                  {flexGrow: undefined},
+                  isSelected ? this.styles.activeHeader : null]}>
+                  <WmIcon
+                    id={this.getTestId(i + 'icon')}
+                    styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeaderIcon : null)}
+                    iconclass={header.icon}></WmIcon>
+                  <Text numberOfLines={1} style={[
+                    this.styles.headerText,
+                    isSelected ? this.styles.activeHeaderText : null]}
+                    {...this.getTestPropsForLabel(i + '_title')}
+                  >{header.title}</Text>
+                </View>
+              </View>
+            </Tappable>
+          );
+        })}
+      </View>
+      <Animated.View style={[this.styles.activeIndicator, {
+        transform: [{
+          translateX: this.indicatorPosition
+        }, {
+          scaleX: this.indicatorWidth
+        }]
+      }]}>
+        <Animated.View style={[{
+            transform: [{
+              scaleX: this.reverseIndicatorWidth
+            }]
+          },
+          this.styles.arrowIndicator
+        ]}>
+          {
+          arrowIndicator.backgroundImage ? (
+            <BackgroundComponent
+            image={arrowIndicator.backgroundImage}
+            position={arrowIndicator.backgroundPosition}
+            size={arrowIndicator.backgroundSize}
+            repeat={arrowIndicator.backgroundRepeat}
+            resizeMode={arrowIndicator.backgroundResizeMode}
+            style={{borderRadius: this.styles.root.borderRadius}}
+            ></BackgroundComponent>
+          ) : null }
+          <View style={this.styles.arrowIndicatorDot}></View>
+        </Animated.View>
+      </Animated.View>
+      </View>)
+  }
+  
   renderWidget(props: WmTabheaderProps) {
     this.setPosition();
-    const arrowIndicator = this.styles.arrowIndicator as any;
     return (
       <View 
         style={{overflow: 'hidden', zIndex: 16}}
         {...this.getTestProps('tabheader')}
         onLayout={(event) => this.handleLayout(event)}
       >
-      <View>
-        <View style={this.styles.root}>
-          {this._background}
-          {props.data.map((header ,i) => {
-            const isSelected = i === props.selectedTabIndex ;
-            return (
-              <Tappable onTap={this.onTabSelection.bind(this, i)}
-                {...this.getTestPropsForAction(i +'')}
-                key={header.key}
-                disableTouchEffect={this.state.props.disabletoucheffect}
-                styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
-                <View onLayout={this.setHeaderPositon.bind(this, i)}>
-                  <View style={[
-                    this.styles.header,
-                    {flexGrow: undefined},
-                    isSelected ? this.styles.activeHeader : null]}>
-                    <WmIcon
-                      id={this.getTestId(i + 'icon')}
-                      styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeaderIcon : null)}
-                      iconclass={header.icon}></WmIcon>
-                    <Text numberOfLines={1} style={[
-                      this.styles.headerText,
-                      isSelected ? this.styles.activeHeaderText : null]}
-                      {...this.getTestPropsForLabel(i + '_title')}
-                    >{header.title}</Text>
-                  </View>
-                </View>
-              </Tappable>
-            );
-          })}
-        </View>
-        <Animated.View style={[this.styles.activeIndicator, {
-          transform: [{
-            translateX: this.indicatorPosition
-          }, {
-            scaleX: this.indicatorWidth
-          }]
-        }]}>
-          <Animated.View style={[{
-              transform: [{
-                scaleX: this.reverseIndicatorWidth
-              }]
-            },
-            this.styles.arrowIndicator
-          ]}>
-            {
-            arrowIndicator.backgroundImage ? (
-              <BackgroundComponent
-              image={arrowIndicator.backgroundImage}
-              position={arrowIndicator.backgroundPosition}
-              size={arrowIndicator.backgroundSize}
-              repeat={arrowIndicator.backgroundRepeat}
-              resizeMode={arrowIndicator.backgroundResizeMode}
-              style={{borderRadius: this.styles.root.borderRadius}}
-              ></BackgroundComponent>
-            ) : null }
-            <View style={this.styles.arrowIndicatorDot}></View>
-          </Animated.View>
-        </Animated.View>
-        </View>
+     {props.shouldScroll ?
+      <ScrollView
+        ref={this.listRef}
+        horizontal={true}
+        onLayout={this.setHeaderPanelPositon.bind(this)}
+        showsHorizontalScrollIndicator={false}
+        scrollEnabled={props.shouldScroll}
+      >
+     {this.renderHeaderContent(props)}
+      </ScrollView> : <>
+      {this.renderHeaderContent(props)}
+      </>
+      }
       </View>
     );
   }
