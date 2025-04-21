@@ -4,12 +4,16 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmLeftPanelProps from './left-panel.props';
 import { DEFAULT_CLASS, WmLeftPanelStyles } from './left-panel.styles';
 import { ScrollView } from 'react-native-gesture-handler';
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 
 export class WmLeftPanelState extends BaseComponentState<WmLeftPanelProps> {
   isPartialLoaded = false;
 }
 
 export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftPanelState, WmLeftPanelStyles> {
+  private appConfig = injector.get<AppConfig>('APP_CONFIG');
 
   constructor(props: WmLeftPanelProps) {
     super(props, DEFAULT_CLASS, new WmLeftPanelProps());
@@ -34,14 +38,21 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftP
   }
 
   renderWidget(props: WmLeftPanelProps) {
+    
     return (
-      <ScrollView 
-        onScroll={(event) => {this.notify('scroll', [event])}}
-        scrollEventThrottle={48}
-        contentContainerStyle={[this.styles.root, {width: "100%", maxWidth: "100%"}]}>
-        {this._background}
-        {this.renderContent(props)}
-      </ScrollView>
+      <SafeAreaInsetsContext.Consumer>{(insets = { top: 0, bottom: 0, left: 0, right: 0 })=>{
+        const paddingTopVal = this.styles.root.paddingTop || this.styles.root.padding;
+        const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
+        const isFullScreenMode = !!statusBarCustomisation?.translucent;
+        const stylesWithFs = isFullScreenMode ? {paddingTop: (paddingTopVal || 0) as number + (insets?.top || 0) as number} : {}
+        return <ScrollView 
+                  onScroll={(event) => {this.notify('scroll', [event])}}
+                  scrollEventThrottle={48}
+                  contentContainerStyle={[this.styles.root, {width: "100%", maxWidth: "100%"},stylesWithFs]}>
+                  {this._background}
+                  {this.renderContent(props)}
+                </ScrollView>}}
+      </SafeAreaInsetsContext.Consumer>
     );
   }
 }
