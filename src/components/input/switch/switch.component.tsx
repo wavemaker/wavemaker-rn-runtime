@@ -45,7 +45,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     this.onChange(value);
     this.invokeEventCallback('onTap', [ event, this.proxy ]);
   }
-  renderChild(item: any, index: any) {
+  renderChild(item: any, index: any, itemWidth:any) {
     let btnClass = 'button';
     const props = this.state.props;
     if(index === 0) {
@@ -62,9 +62,11 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
         accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.SWITCH, {selected: isSelected, hint: props?.hint})}}
         onTap={this.state.props.disabled ? undefined : this.onTap.bind(this, null, item)}
         styles={[
+          itemWidth ? { width: itemWidth } : null,
           this.styles.button,
           this.styles[btnClass],
-          isSelected ? this.styles.selectedButton : null]}
+          isSelected ? this.styles.selectedButton : null,
+        ]}
           key={item.key}>
         {this.state.props.iconclass ?
             (<WmIcon
@@ -91,11 +93,12 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
 
   renderItems() {
     const items = this.state.dataItems;
+    const itemWidth = `${100/items.length}%`;
     if(this._showSkeleton) {
-      return [{}, {}, {}].map((item: any, index: any) => this.renderChild(item, index))
+      return [{}, {}, {}].map((item: any, index: any) => this.renderChild(item, index,itemWidth))
     }
     return items && items.length ?
-      items.map((item: any, index: any) => this.renderChild(item, index)): null
+      items.map((item: any, index: any) => this.renderChild(item, index,itemWidth)): null
   }
 
   renderWidget(props: WmSwitchProps) {
