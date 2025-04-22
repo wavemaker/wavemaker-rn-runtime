@@ -3,7 +3,8 @@ import { Watcher } from "./watcher";
 
 interface MemoProps {
     watcher: Watcher;
-    render: (watch: Function) => React.ReactNode
+    render: (watch: Function, keyboardOffset?:number) => React.ReactNode,
+    keyboardOffset?: number,
 }
 
 interface MemoState {
@@ -44,6 +45,6 @@ export class WmMemo extends React.Component<MemoProps, MemoState> {
 
     render() {
         this.watcher.clear();
-        return this.props.render(this.watch.bind(this));
+        return this.props.render(this.watch.bind(this), this.props.keyboardOffset);
     }
 }
