@@ -366,7 +366,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
     this.subscribe('scroll', (event: any) => {
       const scrollPosition = event.nativeEvent.contentOffset.y + event.nativeEvent.layoutMeasurement.height;
-      if (scrollPosition > this.endThreshold && this.state.props.direction === 'vertical') {
+      if (scrollPosition > this.endThreshold && this.state.props.direction === 'vertical' && this.state.props.navigation === 'Scroll') {
         this.loadData();
       }
     });
