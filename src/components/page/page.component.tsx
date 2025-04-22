@@ -7,10 +7,15 @@ import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.co
 import WmPageProps from './page.props';
 import { DEFAULT_CLASS, WmPageStyles } from './page.styles';
 import WmLottie from '../basic/lottie/lottie.component';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 export class WmPageState extends BaseComponentState<WmPageProps> {}
 
 export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPageStyles> {
+
+  private appConfig = injector.get<AppConfig>('APP_CONFIG');
 
   panResponder = PanResponder.create({
     onStartShouldSetPanResponderCapture: (e) => {
@@ -21,12 +26,20 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   constructor(props: WmPageProps) {
     super(props, DEFAULT_CLASS, );
   }
+  
   renderWidget(props: WmPageProps) {
+    const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
+    const isFullScreenMode = !!statusBarCustomisation?.translucent;
+
     return (
-        <View style={this.styles.root} {...this.panResponder.panHandlers}>
+      <SafeAreaInsetsContext.Consumer>
+          {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => (
+        <View style={[{paddingTop : isFullScreenMode ? insets?.top : 0 },this.styles.root]} {...this.panResponder.panHandlers}>
           {this._background}
           {props.children}
         </View>
+          )}
+      </SafeAreaInsetsContext.Consumer>
     ); 
   }
 }
