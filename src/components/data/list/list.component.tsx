@@ -534,7 +534,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
               {...(isHorizontal ? { showsHorizontalScrollIndicator: !props.hidehorizontalscrollbar } : { numColumns: this.getNoOfColumns() })}>
             </FlatList>
-            {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow) ?
+            {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow  && props.navigation !== 'None') ?
             (this.state.loadingData ? this.renderLoadingIcon(props) :
             (<WmLabel id={this.getTestId('ondemandmessage')}
             styles={this.styles.onDemandMessage}
