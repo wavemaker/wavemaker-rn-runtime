@@ -129,7 +129,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   };
 
   private loadData() {
-    if (this.state.loadingData) {
+    if (this.state.loadingData || !this.hasMoreData) {
       return;
     }
     if (isArray(this.state.props.dataset)
@@ -160,6 +160,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
           } as WmListState);
           this.hasMoreData = true;
+          if((data as any)?.last === true) {
+            this.hasMoreData = false;
+          }
         } else {
           this.hasMoreData = false;
         }
