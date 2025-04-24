@@ -426,7 +426,7 @@ describe('WmLabel Component', () => {
     const linearGradient = UNSAFE_getByType(LinearGradient);
     expect(linearGradient).toBeTruthy();
     expect(linearGradient.props.colors).toEqual(['rgba(255,0,0,1)', 'rgba(0,0,255,1)']);
-    expect(linearGradient.props.start).toEqual({ x: 0, y: 1 });
-    expect(linearGradient.props.end).toEqual({ x: 1, y: 1 });
+    expect(linearGradient.props.start).toEqual({ x: 0, y: 0 });
+    expect(linearGradient.props.end).toEqual({ x: 1, y: 0 });
   });
 });

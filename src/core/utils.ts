@@ -489,7 +489,7 @@ export const getDateTimeObject = (date: number, month: number, year: number, hou
   return new Date(year, month, date, hour, minute);
 };
 
-export const getGradientStartEnd = (angle: string) => {
+export const getProgressBarGradientStartEnd = (angle: string) => {
   const angleLowerCase = angle?.toLowerCase();
   let start = { x: 0, y: 1 };
   let end = { x: 1, y: 1 };
@@ -510,30 +510,133 @@ export const getGradientStartEnd = (angle: string) => {
     // other angle
   }
 
-  return { start, end }
+  return {start, end}
 }
 
-export const getGradientColors = (gradientString: string): string[] => {
+export const parseProgressBarLinearGradient = (gradient: string) => {
+  let angle = '', color1 = '', color2 = '';
+  const linearGradientRegex = /linear-gradient\(([^,]+),\s*([^,]+),\s*([^)]+)\)/;
+  const hasLinearGradient = linearGradientRegex.test(gradient);
+
+  const matches = gradient?.match(linearGradientRegex);
+  angle = matches?.[1] || '90deg';
+  const {start, end} = getProgressBarGradientStartEnd(angle)
+  color1 = matches?.[2] || ThemeVariables.INSTANCE.primaryColor;
+  color2 = matches?.[3] || ThemeVariables.INSTANCE.primaryColor;
+
+  return {hasLinearGradient, color1, color2, start, end};
+}
+
+
+
+export const extractGradientDirection = (gradientString: string): string => {
+  // Check if the gradient string contains a direction or angle
+  const directionMatch = gradientString.match(/linear-gradient\s*\(\s*((?:to\s+(?:top|bottom|left|right)(?:\s+(?:left|right))?|[0-9]+(?:deg|grad|rad|turn)))/i);
+  
+  // Return the direction if found, otherwise return default '90deg'
+  return directionMatch ? directionMatch[1] : '90deg';
+};
+
+export const getGradientStartEnd = (direction: string) => {
+  const directionLowerCase = direction?.toLowerCase();
+  
+  // Default values (to right / 90deg)
+  let start = { x: 0, y: 0 };
+  let end = { x: 1, y: 0 };
+  
+  // Handle standard named directions and common angles first
+  if (direction === '0deg' || directionLowerCase === 'to top') {
+    start = { x: 0, y: 1 };
+    end = { x: 0, y: 0 };
+  } else if (direction === '90deg' || directionLowerCase === 'to right') {
+    start = { x: 0, y: 0 };
+    end = { x: 1, y: 0 };
+  } else if (direction === '180deg' || directionLowerCase === 'to bottom') {
+    start = { x: 0, y: 0 };
+    end = { x: 0, y: 1 };
+  } else if (direction === '270deg' || directionLowerCase === 'to left') {
+    start = { x: 1, y: 0 };
+    end = { x: 0, y: 0 };
+  } else if (direction === '45deg' || directionLowerCase === 'to top right') {
+    start = { x: 0, y: 1 };
+    end = { x: 1, y: 0 };
+  } else if (direction === '135deg' || directionLowerCase === 'to bottom right') {
+    start = { x: 0, y: 0 };
+    end = { x: 1, y: 1 };
+  } else if (direction === '225deg' || directionLowerCase === 'to bottom left') {
+    start = { x: 1, y: 0 };
+    end = { x: 0, y: 1 };
+  } else if (direction === '315deg' || directionLowerCase === 'to top left') {
+    start = { x: 1, y: 1 };
+    end = { x: 0, y: 0 };
+  } else if (direction.match(/\d+(?:deg|grad|rad|turn)$/)) {
+    // Handle custom angles
+    let angleInDegrees = 0;
+    
+    if (direction.endsWith('deg')) {
+      angleInDegrees = parseFloat(direction);
+    } else if (direction.endsWith('grad')) {
+      // 1 grad = 0.9 degrees
+      angleInDegrees = parseFloat(direction) * 0.9;
+    } else if (direction.endsWith('rad')) {
+      // 1 rad = 180/π degrees
+      angleInDegrees = parseFloat(direction) * (180 / Math.PI);
+    } else if (direction.endsWith('turn')) {
+      // 1 turn = 360 degrees
+      angleInDegrees = parseFloat(direction) * 360;
+    }
+    
+    // Normalize angle to [0, 360)
+    angleInDegrees = ((angleInDegrees % 360) + 360) % 360;
+    
+    // Convert angle to radians for calculations
+    // Note: CSS angles follow the polar coordinate system where 0deg points up (north)
+    // and increases clockwise. We adjust by adding 270 to match this convention.
+    const adjustedAngle = ((angleInDegrees + 270) % 360) * (Math.PI / 180);
+    
+    // Calculate end point on a unit circle
+    const endX = Math.cos(adjustedAngle);
+    const endY = Math.sin(adjustedAngle);
+    
+    // Normalize to ensure the vector length is correct and fits in our coordinate system
+    const vectorLength = Math.sqrt(endX * endX + endY * endY);
+    
+    // Set start at center point (0.5, 0.5) and calculate end point
+    start = { 
+      x: 0.5 - (endX / vectorLength) * 0.5,
+      y: 0.5 - (endY / vectorLength) * 0.5
+    };
+    
+    end = { 
+      x: 0.5 + (endX / vectorLength) * 0.5, 
+      y: 0.5 + (endY / vectorLength) * 0.5 
+    };
+  }
+  
+  return { start, end };
+};
+
+export const getGradientColorStops = (gradientString: string): number[] => {
   // Check if input is valid
   if (!gradientString) return [];
-
+  
   // Extract the content inside linear-gradient()
   const match = gradientString.match(/linear-gradient\s*\((.*)\)/);
   if (!match) return [];
-
+  
   const content = match[1];
-
+  
   // Remove angle/direction part if present
   const withoutDirection = content.replace(/^(to\s+\w+(?:\s+\w+)?|[0-9]+(?:deg|grad|rad|turn))\s*,\s*/, '');
-
+  
   // Split by commas that are not inside parentheses
   let depth = 0;
   let currentSegment = '';
   const segments = [];
-
+  
   for (let i = 0; i < withoutDirection.length; i++) {
     const char = withoutDirection[i];
-
+    
     if (char === '(') depth++;
     else if (char === ')') depth--;
     else if (char === ',' && depth === 0) {
@@ -541,46 +644,137 @@ export const getGradientColors = (gradientString: string): string[] => {
       currentSegment = '';
       continue;
     }
-
+    
     currentSegment += char;
   }
-
+  
   // Don't forget the last segment
   if (currentSegment.trim()) {
     segments.push(currentSegment.trim());
   }
-
-  // Filter out empty segments and any segments that might be stop positions
-  const gradientColors = segments.filter(segment => {
-    // Skip percentage/length values that might be color stops
-    return !segment.match(/^\d+(%|px|em|rem|vh|vw|vmin|vmax)$/);
+  
+  // Check if any segments have percentages
+  const hasPercentages = segments.some(segment => {
+    return segment.match(/^(?:rgba?\([^)]+\)|hsla?\([^)]+\)|#[0-9a-fA-F]{3,8}|\w+)\s+\d+(?:\.\d+)?%$/);
   });
+  
+  // If no percentages are defined, return an empty array
+  if (!hasPercentages) return [];
+  
+  // Parse each segment into color and position
+  const colorStops = segments.map((segment, index) => {
+    // Match color and optional percentage position
+    const match = segment.match(/^(?:rgba?\([^)]+\)|hsla?\([^)]+\)|#[0-9a-fA-F]{3,8}|\w+)(?:\s+(\d+(?:\.\d+)?)%)?$/);
+    
+    if (match && match[1]) {
+      // If percentage is present, convert to decimal (0-1)
+      const percentage = parseFloat(match[1]);
+      return Math.max(0, Math.min(percentage / 100, 1)); // Clamp between 0 and 1
+    } else {
+      // If no percentage, calculate based on position
+      return segments.length > 1 ? index / (segments.length - 1) : 0;
+    }
+  });
+  
+  //expo linear gradient location props ascendng order validation
+  for (let i = 0; i < colorStops.length - 1; i++) {
+    if (colorStops[i] < colorStops[i - 1]) {
+      return []; // Invalid: not in ascending order return empty array
+    }
+  }
+  return colorStops;
+};
 
-  return gradientColors;
+export const getGradientColors = (gradientString: string): string[] => {
+  // Check if input is valid
+  if (!gradientString) return [];
+  
+  // Extract the content inside linear-gradient()
+  const match = gradientString.match(/linear-gradient\s*\((.*)\)/);
+  if (!match) return [];
+  
+  const content = match[1];
+  
+  // Remove angle/direction part if present
+  const withoutDirection = content.replace(/^(to\s+\w+(?:\s+\w+)?|[0-9]+(?:deg|grad|rad|turn))\s*,\s*/, '');
+  
+  // Split by commas that are not inside parentheses
+  let depth = 0;
+  let currentSegment = '';
+  const segments = [];
+  
+  for (let i = 0; i < withoutDirection.length; i++) {
+    const char = withoutDirection[i];
+    
+    if (char === '(') depth++;
+    else if (char === ')') depth--;
+    else if (char === ',' && depth === 0) {
+      segments.push(currentSegment.trim());
+      currentSegment = '';
+      continue;
+    }
+    
+    currentSegment += char;
+  }
+  
+  // Don't forget the last segment
+  if (currentSegment.trim()) {
+    segments.push(currentSegment.trim());
+  }
+  
+  // Extract just the color part from each segment
+  return segments.map(segment => {
+    const match = segment.match(/^((?:rgba?\([^)]+\)|hsla?\([^)]+\)|#[0-9a-fA-F]{3,8}|\w+))/);
+    return match ? match[1] : segment;
+  });
 };
 
 
 
-export const parseLinearGradient = (gradient: string, gradientText: boolean = false) => {
-  let angle = '', color1 = '', color2 = '';
-  const linearGradientRegex = /linear-gradient\(([^,]+),\s*([^,]+),\s*([^)]+)\)/;
-  //const linearGradientRegex = /linear-gradient\(\s*(?:([^,]+?)\s*,)?\s*((?:rgba?|hsla?)\([^)]+\)|#[0-9a-fA-F]{3,6}|\w+)\s*,\s*((?:rgba?|hsla?)\([^)]+\)|#[0-9a-fA-F]{3,6}|\w+)\s*\)/i;
-  const linearGradientTextRegex = /linear-gradient\(\s*(?:to\s+\w+|\d+deg|\w+)?\s*,?\s*((?:rgba?\([^)]+\)|hsla?\([^)]+\)|#[0-9a-fA-F]{3,8}|\w+)(?:\s+\d+%|\s+\d+px)?\s*,\s*){1,}(rgba?\([^)]+\)|hsla?\([^)]+\)|#[0-9a-fA-F]{3,8}|\w+)(?:\s+\d+%|\s+\d+px)?\s*\)/i;
-  const hasLinearGradient = gradientText ? linearGradientTextRegex.test(gradient) : linearGradientRegex.test(gradient);
-
-  const matches = gradient?.match(gradientText ? linearGradientTextRegex : linearGradientRegex);
-  angle = matches?.[1] || '90deg';
-  const { start, end } = getGradientStartEnd(angle)
-  color1 = matches?.[2] || ThemeVariables.INSTANCE.primaryColor;
-  color2 = matches?.[3] || ThemeVariables.INSTANCE.primaryColor;
-
-  const colorsArray = getGradientColors(gradient)
-  const gradientColors = colorsArray.length >= 2 ? colorsArray : [color1, color2]
+export const parseLinearGradient = (gradient: string)   => {
+  // Check if this is a valid linear gradient
+  const hasLinearGradient = /linear-gradient\s*\(/i.test(gradient);
   
+  if (!hasLinearGradient || !gradient)  return{
+    hasLinearGradient: false,
+    color1: '',
+    color2: '',
+    start: { x: 0, y: 0 },
+    end: { x: 1, y: 0 },
+    gradientColors: [],
+    colorStops: []
+  }
+  
+  // Extract direction/angle
+  const direction = extractGradientDirection(gradient);
+  
+  // Get start and end points
+  const { start, end } = getGradientStartEnd(direction);
+  
+  // Get colors
+  let gradientColors = getGradientColors(gradient);
+  
+  // Get color stops in the format [[0, 0.5], [0.5, 1]]
+  const colorStops = getGradientColorStops(gradient);
+  
+  // For backward compatibility, extract color1 and color2
+  const color1 = gradientColors.length > 0 ? gradientColors[0] : ThemeVariables?.INSTANCE?.primaryColor || '#000000';
+  const color2 = gradientColors.length > 1 ? gradientColors[gradientColors.length - 1] : color1;
 
+  const defaultColor = ThemeVariables?.INSTANCE?.primaryColor
 
-  return { hasLinearGradient, color1, color2, start, end, gradientColors };
-}
+  gradientColors = gradientColors.length >= 2 ? gradientColors : [defaultColor,defaultColor]
+ 
+  return { 
+    hasLinearGradient, 
+    color1, 
+    color2, 
+    start, 
+    end, 
+    gradientColors,
+    colorStops,
+  };
+};
 
 export const validateInputOnDevice = (value: string, type: 'number' | 'currency') => {
   const isCurrencyField = type === 'currency';

@@ -8,7 +8,7 @@ import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-r
 
 import WmProgressBarProps from './progress-bar.props';
 import { DEFAULT_CLASS, WmProgressBarStyles } from './progress-bar.styles';
-import { parseLinearGradient } from '@wavemaker/app-rn-runtime/core/utils';
+import { parseProgressBarLinearGradient } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmProgressBarState extends BaseComponentState<WmProgressBarProps> {}
 
@@ -21,7 +21,7 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
   renderWidget(props: WmProgressBarProps) {
     let value = (props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue);
     const styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
-    const {hasLinearGradient, color1, color2, start, end} = parseLinearGradient(styles?.root?.progressBar?.backgroundColor as string);
+    const {hasLinearGradient, color1, color2, start, end} = parseProgressBarLinearGradient(styles?.root?.progressBar?.backgroundColor as string);
     const gradientColors: [string, string, ...string[]] = [color1, color2];
     const valuePercent = `${Math.round(value * 100)}%`;
 
