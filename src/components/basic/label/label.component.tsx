@@ -195,7 +195,9 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   }
   renderWidget(props: WmLabelProps) {
     const linkStyles = this.theme.mergeStyle({ text: this.styles.text }, this.styles.link);
-    const { hasLinearGradient, start, end, gradientColors } = parseLinearGradient((this.styles?.text.color) as string, true);
+    const { hasLinearGradient, start, end, gradientColors,colorStops } = parseLinearGradient((this.styles?.text.color) as string);
+    
+    
 
 
     return !isNil(props.caption) ? (
@@ -212,7 +214,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
               {hasLinearGradient ? <MaskedView
                 maskElement={this.renderLabelTextContent(navigationService, false, hasLinearGradient)}
               >
-                <LinearGradient colors={gradientColors} start={start} end={end}>
+                <LinearGradient colors={gradientColors} start={start} end={end}  locations={colorStops.length > 0 ? colorStops : undefined}>
                   {this.renderLabelTextContent(navigationService, true)}
                 </LinearGradient>
               </MaskedView> : this.renderLabelTextContent(navigationService)}
