@@ -82,8 +82,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       } else {
         part.text = isNextTextALink ? "" : captionSplit[i];
       };
-
-      if (part.text) {
+      if (part.text || part.link) {
         parts.push(part);
       }
     }
@@ -158,7 +157,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
         {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
         {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)}
         numberOfLines={this.state.props.nooflines} ellipsizeMode="tail">
-        {this.state.parts?.length === 1 ? toString(this.state.props.caption) : this.state.parts?.map((part, index) => {
+        {(this.state.parts?.length === 1 && !(this.state.parts[0].link && this.state.parts[0].text )) ? toString(this.state.props.caption) : this.state.parts?.map((part, index) => {
           const isLink = !isNil(part.link);
           return (
             <Text
