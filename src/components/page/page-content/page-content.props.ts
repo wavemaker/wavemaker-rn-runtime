@@ -7,4 +7,5 @@ export default class WmPageContentProps extends SkeletonAnimationProps {
     onSwipeup?: Function = null as any;  
     onSwipedown?: Function = null as any;
     keyboardverticaloffset: number = 100;
+    consumenotch: boolean = true;
 }
