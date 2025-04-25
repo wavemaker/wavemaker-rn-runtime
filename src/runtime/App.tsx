@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
+import { Platform, TouchableOpacity, View, ViewStyle, StatusBar, KeyboardAvoidingView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView, EdgeInsets } from 'react-native-safe-area-context';
@@ -413,17 +413,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
         </>);
     }} />;
   }
-
-  renderDialogs(): ReactNode {
-    return <WmMemo watcher={this.watcher} render={(watch) => {
-      watch(() => last(AppModalService.modalsOpened)?.content);
-      this.modalsOpened = AppModalService.modalsOpened.length;
-      AppModalService.animatedRefs.length = 0;
-      return (
-        <>
-          {AppModalService.modalOptions.content &&
-            AppModalService.modalsOpened.map((o, i) => {
-              return (
+  private renderModalItem = (o: any, i: any) => {
+    return (
                 <View key={(o.name || '') + i}
                   onStartShouldSetResponder={() => true}
                   onResponderEnd={() => o.isModal && AppModalService.hideModal(o)}
@@ -451,6 +442,24 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   </Animatedview>
                 </View>
               )
+  }
+  renderDialogs(): ReactNode {
+    return <WmMemo watcher={this.watcher} render={(watch) => {
+      watch(() => last(AppModalService.modalsOpened)?.content);
+      this.modalsOpened = AppModalService.modalsOpened.length;
+      AppModalService.animatedRefs.length = 0;
+      return (
+        <>
+          {AppModalService.modalOptions.content &&
+            AppModalService.modalsOpened.map((o, i) => {
+              return ( 
+                <KeyboardAvoidingView
+                  behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+                  keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+                  style={[{ flex: 1}]}
+                >
+                  {this.renderModalItem(o, i)}
+                </KeyboardAvoidingView>)
             }
             )
           }
