@@ -60,7 +60,6 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
     o.centered = true;
     o.animation = this.state.props.animation;
     o.animationdelay = this.state.props.animationdelay || 0;
-    o.shouldKeboardAvoidingViewEnable = this.state.props.shouldKeboardAvoidingViewEnable;
     this._close = () => modalService.hideModal(this.state.modalOptions);
     return o;
   }

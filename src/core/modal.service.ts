@@ -1,7 +1,6 @@
 import React from 'react';
 
 export interface ModalOptions {
-    shouldKeboardAvoidingViewEnable: boolean | undefined;
     elevationIndex: number;
     name?: string;
     content: React.ReactNode;

@@ -1,6 +1,6 @@
 import React, { ReactNode }  from 'react';
 import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-import { Platform, TouchableOpacity, View, ViewStyle, StatusBar, KeyboardAvoidingView, Keyboard, UIManager, InteractionManager } from 'react-native';
+import { Platform, TouchableOpacity, View, ViewStyle, StatusBar } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ProtoTypes from 'prop-types';
 import { SafeAreaProvider, SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context';
@@ -61,14 +61,6 @@ declare const window: any;
 
 const MIN_TIME_BETWEEN_REFRESH_CYCLES = 200;
 
-class WmAppState {
-  public keyboardOffset: number = 0
-}
-
-class WmProps {
-
-}
-
 class DrawerImpl implements Drawer {
   content: ReactNode;
   animation: string = 'slide-in';
@@ -103,9 +95,8 @@ const SUPPORTED_SERVICES = {
   i18nService: AppI18nService
 };
 (global as any)['axios'] = axios;
-export default abstract class BaseApp extends React.Component<WmProps, WmAppState> implements NavigationService {
+export default abstract class BaseApp extends React.Component implements NavigationService {
 
-  keyboardoffsetval: number = 0;
   Actions: any = {};
   Variables: any = {};
   onAppVariablesReady = () => {};
@@ -153,9 +144,6 @@ export default abstract class BaseApp extends React.Component<WmProps, WmAppStat
     this.baseUrl = this.appConfig.url;
     let wait = 0;
     this.bindServiceInterceptors();
-    this.state = {
-      keyboardOffset: 0
-    }
     this.appConfig.refresh = (complete = false) => {
       if (complete) {
         this.reload();
@@ -340,22 +328,8 @@ export default abstract class BaseApp extends React.Component<WmProps, WmAppStat
     return Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
     .catch(() => {});
   }
-  keyboardDidShowListener: any;
-  keyboardDidHideListener: any;
 
   componentDidMount() {
-    this.keyboardDidShowListener = Platform.OS === 'ios' ? 
-    Keyboard.addListener('keyboardWillShow', this.keyboardDidShow) : Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
-
-    this.keyboardDidHideListener = 
-    Platform.OS === 'ios' ? 
-    Keyboard.addListener(
-      'keyboardWillHide',
-      this.keyboardDidHide,
-    ) : Keyboard.addListener(
-      'keyboardDidHide',
-      this.keyboardDidHide,
-    );
     AppSpinnerService.show({
       spinner: this.appConfig.spinner
     });
@@ -384,14 +358,6 @@ export default abstract class BaseApp extends React.Component<WmProps, WmAppStat
     });
     this.cleanup.forEach(fn => fn());
   }
-
-  keyboardDidShow = (e: any) => {
-     return this.setState({ keyboardOffset: this.keyboardoffsetval });
-  };
-
-  keyboardDidHide = () => {
-    return this.setState({ keyboardOffset: 0 });
-  };
 
   refresh() {
     this.appConfig.refresh();
@@ -444,79 +410,46 @@ export default abstract class BaseApp extends React.Component<WmProps, WmAppStat
         </>);
     }}/>;
   }
-  private renderModalItem = (o: any, i: any) => {
-    return (
-      <View key={(o.name || '') + i}
-        onStartShouldSetResponder={() => true}
-        onResponderEnd={() => o.isModal && AppModalService.hideModal(o)}
-        style={deepCopy(styles.appModal,
-          o.centered ? styles.centeredModal : null,
-          o.modalStyle,
-          {
-            elevation: o.elevationIndex,
-            zIndex: o.elevationIndex
-          })}>
-        <Animatedview entryanimation={o.animation || 'fadeIn'} delay={o.animationdelay}
-          ref={ref => {
-            this.animatedRef = ref;
-            AppModalService.animatedRefs[i] = ref;
-          }}
-          style={[styles.appModalContent, o.contentStyle]}>
-          <GestureHandlerRootView style={{ width: '100%', alignItems: 'center' }}>
-            <View
-              onStartShouldSetResponder={evt => true}
-              onResponderEnd={(e) => e.stopPropagation()}
-              style={{ width: '100%', alignItems: 'center' }}>
-              {this.getProviders(o.content)}
-            </View>
-          </GestureHandlerRootView>
-        </Animatedview>
-      </View>
-    )
-  }
 
   renderDialogs(): ReactNode {
-    return <WmMemo
-    keyboardOffset={this.state.keyboardOffset}
-      watcher={this.watcher}
-      render={(watch, keyboardOffset) => {
-        watch(() => last(AppModalService.modalsOpened)?.content);
-        this.modalsOpened = AppModalService.modalsOpened.length;
-        AppModalService.animatedRefs.length = 0;
-        return (
-          AppModalService.modalOptions.shouldKeboardAvoidingViewEnable ?
-            <>
-              {AppModalService.modalOptions.content &&
-                AppModalService.modalsOpened.map((o, i) => {
-                  return (
-                    
-                     
-                          <KeyboardAvoidingView
-                            behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
-                            // keyboardVerticalOffset={Platform.OS === 'ios' ? keyboardOffset as number || 0 : this.state.keyboardOffset}
-                            keyboardVerticalOffset={keyboardOffset}
-                            style={[{ flex: 1 }]}
-                            contentContainerStyle={{ flex: 1}}
-                          >
-                            {this.renderModalItem(o, i)}
-                          </KeyboardAvoidingView>)
-                      }
-                    
-                  )
-                }
-                {/* )
-              } */}
-            </> : <>
-              {AppModalService.modalOptions.content &&
-                AppModalService.modalsOpened.map((o, i) => {
-                  return (
-                    this.renderModalItem(o, i)
-                  )
-                }
-                )
-              }
-            </>);
-      }} />;
+    return <WmMemo watcher={this.watcher} render={(watch) => {
+      watch(() => last(AppModalService.modalsOpened)?.content);
+      this.modalsOpened = AppModalService.modalsOpened.length;
+          AppModalService.animatedRefs.length = 0;
+      return(
+        <>
+        {AppModalService.modalOptions.content &&
+          AppModalService.modalsOpened.map((o, i) => {
+            return (
+              <View key={(o.name || '') + i}
+                onStartShouldSetResponder={() => true}
+                onResponderEnd={() => o.isModal && AppModalService.hideModal(o)}
+                style={deepCopy(styles.appModal,
+                  o.centered ? styles.centeredModal: null,
+                  o.modalStyle,
+                  { elevation: o.elevationIndex,
+                    zIndex: o.elevationIndex })}>
+                    <Animatedview entryanimation={o.animation || 'fadeIn'} delay={o.animationdelay}
+                      ref={ref => {
+                        this.animatedRef = ref;
+                        AppModalService.animatedRefs[i] = ref;
+                      }}
+                      style={[styles.appModalContent, o.contentStyle]}>
+                      <GestureHandlerRootView style={{width: '100%', alignItems: 'center'}}>
+                        <View
+                          onStartShouldSetResponder={evt => true}
+                          onResponderEnd={(e) => e.stopPropagation()}
+                          style={{width: '100%', alignItems: 'center'}}>
+                            {this.getProviders(o.content)}
+                        </View>
+                      </GestureHandlerRootView>
+                    </Animatedview>
+              </View>
+            )}
+          )
+        }
+      </>);
+    }}/>;
   }
 
   renderDisplayManager(): ReactNode {
