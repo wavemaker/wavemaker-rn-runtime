@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, LayoutChangeEvent } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmMessageProps from './message.props';
@@ -57,7 +57,13 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
 
   renderWidget(props: WmMessageProps) {
     const styles = this.theme.mergeStyle(this.theme.getStyle(`${props.type}-${props.variant}-message`), this.styles);
-    return (<Animatedview entryanimation={props.animation} delay={props.animationdelay} style={styles.root}>
+    return (
+    <Animatedview 
+      entryanimation={props.animation} 
+      delay={props.animationdelay} 
+      style={styles.root}
+      onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
+    >
       {this._background}
       <WmIcon
         id={this.getTestId('icon')}
@@ -70,7 +76,7 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
       {props.hideclose ? null : (
         <WmButton
           id={this.getTestId('close')}
-          iconclass="wi wi-close"
+          iconclass={props.closeiconclass || "wi wi-close"}
           styles={styles.closeBtn}
           onTap={this.close}></WmButton>
       )}

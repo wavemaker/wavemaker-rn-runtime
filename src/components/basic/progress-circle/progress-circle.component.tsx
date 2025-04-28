@@ -31,6 +31,9 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
     } else {
       radius = Math.min(width, height);
     }
+    
+    this.handleLayout(e)
+
     this.updateState({
       radius: radius
     } as WmProgressCircleState);

@@ -97,7 +97,10 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
 
   renderWidget(props: WmSpinnerProps) {
     return (
-      <View style={this.styles.root}>
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this._background}
         {props.lottie ? this.prepareLottie(props) : props.image ? this.prepareImage(props) : this.prepareIcon(props)}
         {props.caption ? <Text {...this.getTestPropsForLabel()} style={this.styles.text}>{props.caption}</Text> : null}

@@ -4,6 +4,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmLeftPanelProps from './left-panel.props';
 import { DEFAULT_CLASS, WmLeftPanelStyles } from './left-panel.styles';
 import { ScrollView } from 'react-native-gesture-handler';
+import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 
 export class WmLeftPanelState extends BaseComponentState<WmLeftPanelProps> {
   isPartialLoaded = false;
@@ -35,13 +36,15 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftP
 
   renderWidget(props: WmLeftPanelProps) {
     return (
-      <ScrollView 
-        onScroll={(event) => {this.notify('scroll', [event])}}
-        scrollEventThrottle={48}
-        contentContainerStyle={[this.styles.root, {width: "100%", maxWidth: "100%"}]}>
-        {this._background}
-        {this.renderContent(props)}
-      </ScrollView>
+      <FixedViewContainer>
+        <ScrollView 
+          onScroll={(event) => {this.notify('scroll', [event])}}
+          scrollEventThrottle={48}
+          contentContainerStyle={[this.styles.root, {width: "100%", maxWidth: "100%"}]}>
+          {this._background}
+          {this.renderContent(props)}
+        </ScrollView>
+      </FixedViewContainer>
     );
   }
 }

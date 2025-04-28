@@ -51,6 +51,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           paddingLeft: -8,
           paddingRight: -8
         },
+        icon: {},
         text: {
           paddingRight: themeVariables.buttonTextPadding,
           fontSize: 16

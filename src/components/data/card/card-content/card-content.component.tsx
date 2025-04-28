@@ -39,6 +39,14 @@ export default class WmCardContent extends BaseComponent<WmCardContentProps, WmC
       ...this.styles.skeleton.root
     } : this.styles.root
 
-    return (<View style={styles}>{!this._showSkeleton ? this._background : null}{this.renderContent(props)}</View>);
+    return (
+      <View 
+        style={styles}
+        onLayout={(event) => this.handleLayout(event)}
+      >
+        {!this._showSkeleton ? this._background : null}
+        {this.renderContent(props)}
+      </View>
+    );
   }
 }

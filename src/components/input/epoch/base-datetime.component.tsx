@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform, TouchableOpacity, ViewStyle, DimensionValue } from 'react-native';
+import { View, Text, Platform, TouchableOpacity, ViewStyle, DimensionValue, LayoutChangeEvent } from 'react-native';
 import moment from 'moment';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -93,10 +93,15 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       return null;
     }
   }
+
+  rtlSanityCheck(text: any) {
+    return text?.replace(/[\u200E\u200F\u202B\u202C]/g, '');
+  }
   
-   momentPattern(pattern : String) {
-    return pattern?.replaceAll('y', 'Y').replaceAll('d', 'D');
-}
+  momentPattern(pattern : String) {
+    const removeSpecialMarks = this.rtlSanityCheck(pattern);
+    return removeSpecialMarks?.replaceAll('y', 'Y').replaceAll('d', 'D');
+  }
 
   onPropertyChange(name: string, $new: any, $old: any) {
     super.onPropertyChange(name, $new, $old);
@@ -359,7 +364,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }}</ModalConsumer>);
   }
 
-  addTouchableOpacity(props: WmDatetimeProps, children: React.JSX.Element, styles?: any) : React.ReactNode{
+  addTouchableOpacity(props: WmDatetimeProps, children: React.JSX.Element, styles?: any, handleLayout?: any) : React.ReactNode{
     const hint = children?.props?.hint;
     const accessibilityProps = hint ? {accessible: true, accessibilityHint: hint} : {};
 
@@ -367,6 +372,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       <TouchableOpacity 
         {...this.getTestPropsForAction()} 
         {...accessibilityProps}
+        onLayout={handleLayout}
         style={styles} onPress={() => {
         if (!props.readonly) {
           this.onFocus();
@@ -458,8 +464,10 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                   isFocused: false,
                   showDatePickerModal: false
                 } as BaseDatetimeState, () => {
-                  this.onBlur();
-
+                  setTimeout(() => {
+                    this.onBlur();
+                  }, 10);
+                  
                   // * showing time picker after selecting date in datetime mode
                   if (this.state.props.mode === "datetime") {
                     this.setState({
@@ -491,7 +499,11 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                 this.updateState({
                   isFocused: false,
                   showTimePickerModal: false
-                } as BaseDatetimeState, () => this.onBlur());
+                } as BaseDatetimeState, () =>   {
+                  setTimeout(() => {
+                    this.onBlur()
+                  }, 10);  
+                });
               }}
               onCancel={() => {
                 // this.onDateChange(null as any, this.state.dateValue || undefined);
@@ -509,7 +521,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             />
           )}
         </View>
-        ))
+        ), {} , this.handleLayout)
     );
   }
 }

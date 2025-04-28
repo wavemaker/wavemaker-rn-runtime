@@ -119,7 +119,7 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
       selectedIconStyles.text.color = props.iconcolor;
     }
     return (
-    <View style={this.styles.root}>
+    <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
       {this._background}
       {arr.map((v, i) => (
         (this.state.selectedIndex > -1 && i <= this.state.selectedIndex) ? <WmIcon

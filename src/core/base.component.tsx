@@ -1,6 +1,6 @@
 import { assign, isUndefined, isNil } from 'lodash';
 import React, { ReactNode } from 'react';
-import { AccessibilityInfo, LayoutChangeEvent, Platform, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
+import { AccessibilityInfo, LayoutChangeEvent, Platform, StyleSheet, TextStyle, View, ViewStyle, InteractionManager } from 'react-native';
 import { AnimatableProps } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
@@ -53,6 +53,15 @@ export interface LifecycleListener {
     onComponentDestroy?: (c: BaseComponent<any, any, any>) => void;
 }
 
+interface Layout {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    px: number;
+    py: number;
+}
+
 export class BaseProps extends StyleProps {
     id?: string = null as any;
     name?: string = null as any;
@@ -83,6 +92,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public destroyed = false;
     public _showSkeleton = false;
     public isFixed = false;
+    public isSticky = false;
     private notifier = new EventNotifier();
     private parentListenerDestroyers = [] as Function[];
     public _background = <></>;
@@ -93,7 +103,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     private _showView = true;
     public closestTappable?: Tappable;   
     public componentNode: WmComponentNode;
-
+    public layout: Layout = {
+        x: 0, y:0, width:0, height:0, px:0, py:0
+    };
+    public baseView: any = View;
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -270,13 +283,13 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     componentWillAttach() {
-        if (this.isFixed) {
+        if (this.isFixed || this.isSticky) {
             this.setState({hide: false});
         }
     }
 
     componentWillDetach() {
-        if (this.isFixed) {
+        if (this.isFixed || this.isSticky) {
             this.setState({hide: true});
         }
     }
@@ -345,7 +358,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.notifier.setParent(parent.notifier);
             this.parentListenerDestroyers = [
                 this.parent.subscribe('forceUpdate', () => {
-                    this.cleanRefresh();
+                    this.forceUpdate();
                 }),
                 this.parent.subscribe('destroy', () => {
                     this.destroyParentListeners();
@@ -354,14 +367,36 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         }
     }
 
-    handleLayout(event: LayoutChangeEvent) {
-        const key = this.state.props.name;
-        const newLayoutPosition = {
-            [key as string]: event.nativeEvent.layout.y
-        }
-        setPosition(newLayoutPosition);
+    protected getName() {
+        return this.props.name;
     }
 
+    public handleLayout(event: LayoutChangeEvent, ref: React.RefObject<View> | null = null) {
+        const key = this.getName && this.getName();
+        if(key){
+            const newLayoutPosition = {
+                [key as string]: {
+                    y: event.nativeEvent.layout.y,
+                    x: event.nativeEvent.layout.x
+                }
+            }
+            setPosition(newLayoutPosition);
+            const componentRef = ref !== null ? ref : this.baseView 
+            // Layout values by measure
+            if(componentRef?.measure){
+                const updateLayout = ()=>{
+                    componentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
+                        this.layout = { x, y, width, height, px, py }
+                    }); 
+                }
+                updateLayout();
+                InteractionManager.runAfterInteractions(() => {
+                    requestAnimationFrame(updateLayout); 
+                })
+            }
+        }
+    }
+    
     copyStyles(property: string, from: any, to: any) {
         if (!isUndefined(from[property])) {
         to[property] = from[property];
@@ -392,18 +427,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         if (!this.state.animatableProps) {
             return (
                 <>
-                    <View 
-                        onLayout={(event)=>{this.handleLayout(event)}}
-                        style={{height: 0, width: 0}}
-                    >
-                    </View>
                     {n}
                 </>
-        )
+            )
         }
         return (
             <Animatable.View 
-                onLayout={(event)=>{this.handleLayout(event)}} 
                 key={this.state.animationId} 
                 {...this.state.animatableProps}
             >
@@ -489,8 +518,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         return this.getTestProps(suffix || 'l');
     }
 
-    private getLayoutOfWidget(name: string): number | void {
-        return  getPosition(name)
+    public getLayoutOfWidget(name: string): {x: number, y: number} | undefined {
+        return getPosition(name)
+    }
+
+    public getLayout() {
+        return this.layout ;
     }
 
     public scrollToTop(){
@@ -504,14 +537,25 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.notify('scrollToEnd', []);
     }
 
-    public scrollToPosition(widgetName: string) {
-        const positionY = this.getLayoutOfWidget(widgetName);
+    scrollToPosition(widgetName: string) {
+        const positionY = this.getLayoutOfWidget(widgetName)?.y; // Safe access
         this.notify('scrollToPosition', [{
             x: 0,
-            y: positionY
-        }])
+            y: positionY,
+        }]);
     }
 
+    public hideSkeletonInPageContentWhenDisabledInPage = () => {
+       const isPageContentWidget = this.defaultClass && this.defaultClass === 'app-page-content'
+       const isCurrentParentIsContent = this.parent && this.parent.defaultClass && this.parent.defaultClass === 'app-content'
+       const showSkeletonInPageContent = this.parent.state?.props?.showskeleton === false
+    
+       if(isPageContentWidget && isCurrentParentIsContent && showSkeletonInPageContent) {
+        return false;
+       }
+       return undefined;
+    }
+ 
     private getDependenciesFromContext(fn: () => ReactNode) {
         return (
         <TappableContext.Consumer>{(tappable) => {
@@ -527,7 +571,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                 {(parent) => {
                                     this.setParent(parent);
                                     this._showSkeleton = this.state.props.showskeleton !== false 
-                                        && (this.parent?._showSkeleton || this.state.props.showskeleton === true);
+                                        && (this.parent?._showSkeleton || this.state.props.showskeleton === true) && this.hideSkeletonInPageContentWhenDisabledInPage() === undefined
                                     return (
                                         <ParentContext.Provider value={this}>
                                             <ThemeConsumer>
@@ -548,7 +592,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     
     public render(): ReactNode {
         const props = this.state.props;
-        this.isFixed = false;
         const selectedLocale = this.i18nService.getSelectedLocale();
         return this.getDependenciesFromContext(() => {
             WIDGET_LOGGER.info(() => `${this.props.name || this.constructor.name} is rendering.`);
@@ -558,6 +601,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 || !this._showView) {
                 return null;
             }
+            this.isFixed = false;
             const classname = this.getStyleClassName();
             this.styles =  this.theme.mergeStyle(
                 this.getDefaultStyles(),

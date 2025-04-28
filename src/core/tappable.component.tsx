@@ -24,6 +24,7 @@ interface TappableProps {
     rippleColor?: string;
     accessibilityProps?: any;
     disableTouchEffect?:boolean;
+    onLayout?: any;
 }
 
 export class SyntheticEvent {
@@ -162,19 +163,37 @@ export class Tappable extends React.Component<TappableProps, any> {
                     return preferences.enableRipple != false ? (
                         <ParentTappableContext.Consumer>{(parent) => {
                             this.setParent(parent);
-                            return( <ParentTappableContext.Provider value={this}>
-                    <TouchableRipple rippleColor={this.props.disableTouchEffect ? "transparent" : this.props.rippleColor} borderless={true} {...commonProps}>
-                        <>{this.props.children}</>
-                    </TouchableRipple>
-                    </ParentTappableContext.Provider>)}}</ParentTappableContext.Consumer>): (
+                            return(
+                                <ParentTappableContext.Provider value={this}>
+                                    <TouchableRipple 
+                                        rippleColor={this.props.disableTouchEffect ? "transparent" : this.props.rippleColor} 
+                                        borderless={true} 
+                                        {...commonProps}
+                                        onLayout={this.props.onLayout}
+                                    >
+                                        <>{this.props.children}</>
+                                    </TouchableRipple>
+                                </ParentTappableContext.Provider>
+                            )
+                        }}</ParentTappableContext.Consumer>): (
                         //default value is 0.2
-                    <TouchableOpacity activeOpacity={this.props.disableTouchEffect ? 1 : 0.2} {...commonProps}>
-                        <>{this.props.children}</>
-                    </TouchableOpacity>);
+                        <TouchableOpacity 
+                            activeOpacity={this.props.disableTouchEffect ? 1 : 0.2} 
+                            onLayout={this.props.onLayout}
+                            {...commonProps}
+                        >
+                            <>{this.props.children}</>
+                        </TouchableOpacity>);
                 }}
             </UIPreferencesConsumer>
             );
         }
-        return (<View style={this.props.styles}>{this.props.children}</View>);
+        return (
+            <View 
+                style={this.props.styles}
+                onLayout={this.props.onLayout}
+            >
+                {this.props.children}
+            </View>);
     }
 }

@@ -50,6 +50,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   private cursor: any = 0;
   private isFocused: boolean = false;
   private updateRequired: any;
+  private timer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(props: WmSearchProps) {
     super(props, DEFAULT_CLASS, new WmSearchProps(), new WmSearchState());
@@ -142,7 +143,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     this?.widgetRef?.focus();
   }
 
-  onChange(value: any) {
+  handleChange = (value: any) => {
     this.isDefaultQuery = false;
     const prevQuery = this.state.props.query;
     if (this.state.props.searchon === 'onsearchiconclick') {
@@ -170,6 +171,21 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       }
        this.invokeEventCallback('onChange', [ undefined, this.proxy, value, prevQuery ]);
     }, 300);
+  }
+
+  onChange(value: any) {
+    if(this.state.props.debouncetime && this.state.props.debouncetime > 0) {
+      if(this.timer !== null) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      this.timer = setTimeout(() => {
+        this.handleChange(value)
+      }, this.state.props.debouncetime)
+    } else {
+      this.handleChange(value);
+    }
   }
 
   invokeChange(e: any) {
@@ -242,6 +258,14 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     } else {
       this.onItemSelect(this.state.data[0]);
     }
+
+    if (get(this.props, 'formfield')) {
+      // @ts-ignore
+      // @ts-ignore
+      this.props.invokeEvent('onSubmit', [null, this]);
+    } else {
+      this.invokeEventCallback('onSubmit', [null, this]);
+    }
   }
 
   onItemSelect(item: any) {
@@ -311,11 +335,11 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
          </TextInput>
          {(props.showclear && !(this.state.props.disabled || this.state.props.readonly)) && this.state.props.query ? <WmButton onTap={this.clearSearch.bind(this)}
                    id={this.getTestId('clear')}
-                   styles={this.styles.clearButton} iconclass={'wi wi-clear'}></WmButton> : null}
+            styles={this.styles.clearButton} iconclass={props.clearsearchiconclass || 'wi wi-clear'}></WmButton> : null}
        </View>
         {props.showSearchIcon && props.type === 'search' ? <WmButton styles={this.styles.searchButton}
                   id={this.getTestId('search')}
-                  iconclass={props.iconclass} onTap={this.searchIconPress.bind(this)}></WmButton> : null}
+          iconclass={props.searchiconclass || props.iconclass} onTap={this.searchIconPress.bind(this)}></WmButton> : null}
       </View>
     );
   }
@@ -390,7 +414,9 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
   renderWidget(props: WmSearchProps) {
     const result = this.state.data;
     return (
-      <View>
+      <View
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this.renderSearchBar()}
         {this.state.isOpened ? (
           <ModalConsumer>

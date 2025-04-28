@@ -25,7 +25,10 @@ export default class WmCustom extends BaseComponent<WmCustomProps, WmCustomState
 
   renderWidget(props: WmCustomProps) {
     return (
-      <View style={this.styles.root}>
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this._background}
         {props.renderview(props)}
       </View>

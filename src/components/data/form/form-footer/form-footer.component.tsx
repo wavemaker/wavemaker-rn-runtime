@@ -14,6 +14,14 @@ export default class WmFormFooter extends BaseComponent<WmFormFooterProps, WmFor
   }
 
   renderWidget(props: WmFormFooterProps) {
-    return (<View style={this.styles.root}>{this._background}{props.children}</View>); 
+    return (
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
+        {this._background}
+        {props.children}
+      </View>
+    ); 
   }
 }

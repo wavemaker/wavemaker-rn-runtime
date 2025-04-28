@@ -50,7 +50,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
   scrollPosition(selectedTabIndex: number, totalWidth: number, toIndicatorPosition: number) {
     const initialPosition = this.isRTL ? totalWidth : 0;
     const baseWidth = this.isRTL ? totalWidth - toIndicatorPosition : toIndicatorPosition;
-    const elementWidth  = this.isRTL ? -1 * (this.headersLayout[selectedTabIndex].width/2) : this.headersLayout[selectedTabIndex].width/2
+    const elementWidth  = this.isRTL ? -1 * (this.headersLayout[selectedTabIndex]?.width/2) : this.headersLayout[selectedTabIndex]?.width/2
     const positionX = selectedTabIndex === 0 ? initialPosition : 
       ((baseWidth + (elementWidth)) - (this.headerPanelLayout?.width || 0) / 2);
 
@@ -163,6 +163,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
       <View 
         style={{overflow: 'hidden', zIndex: 16}}
         {...this.getTestProps('tabheader')}
+        onLayout={(event) => this.handleLayout(event)}
       >
       <ScrollView
         ref={this.listRef}

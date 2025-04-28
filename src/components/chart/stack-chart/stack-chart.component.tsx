@@ -11,6 +11,7 @@ import {
   BaseChartComponent,
   BaseChartComponentState
 } from '@wavemaker/app-rn-runtime/components/chart/basechart.component';
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmStackChartState extends BaseChartComponentState<WmStackChartProps> {
   chartWidth = 0;
@@ -200,6 +201,9 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
 
   onViewLayoutChange = (e: LayoutChangeEvent) => {
     let viewWidth = e.nativeEvent.layout.width;
+
+    this.handleLayout(e)
+
     this.updateState({
       chartWidth: viewWidth
     } as WmStackChartState);
@@ -229,6 +233,8 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
   }
 
   onSelect(event: any, data: any){
+    if (!this.viewRef.current) return;
+    this.viewRef.current.measureInWindow((chartX: number, chartY: number) => {
     let props = this.state.props
     let index = data.datum.index
     let yaxisKey = props.yaxisdatakey;
@@ -237,14 +243,18 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
     let selectedItem = props.dataset[index];
     let selectedChartItem = [{series: 0, x: index, y: value,_dataObj: selectedItem}, index];
     const nativeEvent = event.nativeEvent;
-    this.setTooltipPosition(nativeEvent);
+    let tooltipX = nativeEvent.pageX - chartX;
+    let tooltipY = nativeEvent.pageY - chartY;
     this.updateState({
       tooltipXaxis: label,
       tooltipYaxis: value,
       isTooltipOpen: true,
       selectedItem: {...selectedItem, index: index},
+      tooltipXPosition: tooltipX - this.state.tooltipoffsetx, 
+      tooltipYPosition: tooltipY - this.state.tooltipoffsety
     } as WmStackChartState)
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+  });
   }
 
   renderWidget(props: WmStackChartProps) {
@@ -260,6 +270,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
       >
         {this.getTooltip()}{
         props.viewtype === 'Bar' ?
+        <View ref={this.viewRef}>
           <VictoryChart
             theme={this.state.theme}
             minDomain={mindomain}
@@ -306,7 +317,9 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
                 this.getBarChart(props)
               }
             </VictoryStack>
-          </VictoryChart> :
+          </VictoryChart>
+          </View>:
+          <View ref={this.viewRef}>
           <Svg width={this.state.chartWidth} height={this.state.chartHeight}>
             <VictoryLegend
               name={'legend'}
@@ -320,6 +333,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
             {this.getArcChart(props)}
             {this.getArcAxis()}
           </Svg>
+          </View>
       }
       </View>
     );

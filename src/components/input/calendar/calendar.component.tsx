@@ -108,7 +108,7 @@ export default class WmCalendar extends BaseComponent<WmCalendarProps, WmCalenda
   renderWidget(props: WmCalendarProps) {
     this.invokeEventCallback('onBeforerender', [null, this]);
     return (
-      <View style={this.styles.root}>
+      <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
         {this._background}
         <MonthView
             date={this.state.selectedDate}

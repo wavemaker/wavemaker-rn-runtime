@@ -1,5 +1,5 @@
 import React from 'react';
-import { DimensionValue, Platform, View } from 'react-native';
+import { DimensionValue, LayoutChangeEvent, Platform, View } from 'react-native';
 import { isNull } from 'lodash';
 
 import WmNumberProps from './number.props';
@@ -75,6 +75,7 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
       onChange={this.invokeChange.bind(this)}
       allowContentSelection={this.styles.text.userSelect === 'text'}
       customDisplayValue={props.displayValue}
+      handleLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
     />);
   }
 }

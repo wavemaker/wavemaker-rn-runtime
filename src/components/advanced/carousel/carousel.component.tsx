@@ -280,7 +280,10 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     }
     // TODO: loop prop on Carousel is not working Refer: https://github.com/meliorence/react-native-snap-carousel/issues/608
     return (
-      <View style={styles.root}>
+      <View 
+        style={styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this._background}
         <SwipeAnimation.View 
             enableGestures={props.enablegestures && this.noOfSlides > 1}
@@ -288,6 +291,7 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
               flex: 1
             }}
             direction='horizontal'
+            threshold={this.state.props.threshold}
             ref={(r) => {this.animationView = r}}
             handlers = {this.animationHandlers}
             slideMinWidth={this.styles.slide.width}

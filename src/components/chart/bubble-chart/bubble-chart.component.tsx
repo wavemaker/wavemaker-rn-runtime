@@ -14,6 +14,7 @@ import { ScatterSymbolType } from "victory-core";
 import {Svg} from "react-native-svg";
 import {get} from "lodash-es";
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmBubbleChartState extends BaseChartComponentState<WmBubbleChartProps> {}
 
@@ -24,19 +25,25 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
   }
 
   onSelect(event: any, data: any){
+    if (!this.viewRef.current) return;
+    this.viewRef.current.measureInWindow((chartX: number, chartY: number) => {
     let value = data.data[data.index].y;
     let label = this.state.xaxisDatakeyArr[data.datum.x];
     let selectedItem = this.props.dataset[data.index];
     const nativeEvent = event.nativeEvent;
-    this.setTooltipPosition(nativeEvent);
+    let tooltipX = nativeEvent.pageX - chartX;
+    let tooltipY = nativeEvent.pageY - chartY;
     let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
     this.updateState({
       tooltipXaxis: label,
       tooltipYaxis: value,
       isTooltipOpen: true,
       selectedItem: {...selectedItem, index: data.index},
+      tooltipXPosition: tooltipX - this.state.tooltipoffsetx, 
+      tooltipYPosition: tooltipY - this.state.tooltipoffsety
     } as WmBubbleChartState)
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+  });
   }
 
   renderWidget(props: WmBubbleChartProps) {
@@ -49,7 +56,6 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
       style={this.styles.root}
       onLayout={this.onViewLayoutChange.bind(this)}
     >
-      {this.getTooltip()}
       <View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           { props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
@@ -57,6 +63,8 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
         </View>
         <Text style={this.styles.subHeading}>{props.subheading}</Text>
       </View>
+      <View ref={this.viewRef}>
+      {this.getTooltip()}
       <VictoryChart
         theme={this.state.theme}
         height={this.styles.root.height as number}
@@ -94,6 +102,6 @@ export default class WmBubbleChart extends BaseChartComponent<WmBubbleChartProps
           }]}
         />
       })}
-      </VictoryChart></View>);
+      </VictoryChart></View></View>);
   }
 }

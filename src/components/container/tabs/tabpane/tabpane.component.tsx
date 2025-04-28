@@ -77,8 +77,12 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
   }
 
   renderWidget(props: WmTabpaneProps) {
-    return (<ScrollView style={this.styles.root} 
-    onScroll={(event) => {this.notify('scroll', [event])}}>
+    return (
+    <ScrollView 
+      style={this.styles.root} 
+      onScroll={(event) => {this.notify('scroll', [event])}}
+      onLayout={(event) => this.handleLayout(event)}
+    >
         {this._background}
         {this.renderContent(props)}
       </ScrollView>);

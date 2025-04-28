@@ -12,7 +12,7 @@ export type WmDatetimeStyles = BaseStyles & {
     invalid: AllStyle,
     clearIcon: WmIconStyles,
     calendarIcon: WmIconStyles,
-    floatingLabel: ViewStyle,
+    floatingLabel: TextStyle & ViewStyle,
     activeFloatingLabel: AllStyle
     actionWrapper: ViewStyle,
     selectBtn: WmButtonStyles,

@@ -21,7 +21,10 @@ export default class WmTooltip extends BaseComponent<WmTooltipProps, WmTooltipSt
   
   renderWidget(props: WmTooltipProps) {
     return (
-      <View style={this.styles.root}>
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
       {props.showTooltip ? (
         <Animated.View
           style={[

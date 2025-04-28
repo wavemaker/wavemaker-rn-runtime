@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, View, Text, LayoutChangeEvent, LayoutRectangle} from 'react-native';
+import { Dimensions, View, Text, LayoutChangeEvent} from 'react-native';
 import moment from "moment";
 import {forEach, get, isArray, isEmpty, isObject, maxBy, minBy, set, trim, orderBy} from "lodash-es";
 import { ScatterSymbolType } from "victory-core";
@@ -41,7 +41,7 @@ export class BaseChartComponentState <T extends BaseChartComponentProps> extends
   tooltipXaxis = 0;
   tooltipYaxis = 0;
   tooltipoffsetx: number = 50;
-  tooltipoffsety: number = 60;
+  tooltipoffsety: number = 80;
   isTooltipOpen: boolean = false;
   selectedItem: any = {}
   template: string = "";
@@ -65,8 +65,10 @@ const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 
 export abstract class BaseChartComponent<T extends BaseChartComponentProps, S extends BaseChartComponentState<T>, L extends BaseChartComponentStyles> extends BaseComponent<T, S, L> {
   protected screenWidth: number = screenWidth;
+  protected viewRef: React.RefObject<View>;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultProps, defaultState);
+    this.viewRef = React.createRef();
     if (!props.theme) {
       this.applyTheme(props);
     }
@@ -81,9 +83,12 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
     super.componentDidMount();
   }
 
-  onViewLayoutChange(e: LayoutChangeEvent){
+  onViewLayoutChange = (e: LayoutChangeEvent) => {
     let viewWidth = e.nativeEvent.layout.width;
     let viewHeight = e.nativeEvent.layout.height;
+    
+    this.handleLayout(e)
+    
     if (this?.state && viewWidth !== this.state.chartWidth) {
       this.updateState({
         chartWidth: Number(viewWidth),
@@ -182,7 +187,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           axis: props.showxaxis === false ?
                               { stroke: 'none' } :  this.theme.mergeStyle(this.styles.axis, this.styles.xAxis),
                           ticks: this.theme.mergeStyle(this.styles.ticks, this.styles.xTicks),
-                          tickLabels: this.theme.mergeStyle(this.styles.tickLabels, this.styles.xTickLabels)
+                          tickLabels: props.showxaxislabels === false ? {fill: 'none'} : this.theme.mergeStyle(this.styles.tickLabels, this.styles.xTickLabels)
                         }}
                         fixLabelOverlap= {props.autoadjustlabels?true:false}
                         axisLabelComponent={<VictoryLabel y={yaxislabeldistance}/>}
@@ -217,7 +222,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           axis: props.showxaxis === false ?
                           { stroke: 'none' } :  this.theme.mergeStyle(this.styles.axis, this.styles.yAxis),
                           ticks: this.theme.mergeStyle(this.styles.ticks, this.styles.yTicks),
-                          tickLabels: this.theme.mergeStyle(this.styles.tickLabels, this.styles.yTickLabels)
+                          tickLabels: props.showyaxislabels === false ? {fill: 'none'} : this.theme.mergeStyle(this.styles.tickLabels, this.styles.yTickLabels)
                         }}
                         fixLabelOverlap= {props.autoadjustlabels?true:false}
                         axisLabelComponent={<VictoryLabel x={xaxislabeldistance}/>}
@@ -238,15 +243,6 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   
   setTooltipTemplate(partialName: any) {
     this.updateState({ template: partialName} as any);
-  }
-
-  setTooltipPosition(nativeEvent: any){
-    let xCoordinate = isWebPreviewMode() ? nativeEvent.offsetX : nativeEvent.locationX;
-    let yCoordinate = isWebPreviewMode() ? nativeEvent.offsetY : nativeEvent.locationY;
-    this.updateState({
-      tooltipXPosition: xCoordinate - this.state.tooltipoffsetx,
-      tooltipYPosition:  yCoordinate - this.state.tooltipoffsety,
-    } as any)
   }
 
   setTooltipPartialLayout(event: LayoutChangeEvent){
@@ -275,6 +271,9 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   }
 
   getTooltip() {
+    if(!this.state.props.tooltips){
+      return;
+    }
     const ynumberformat = this.state.props.ynumberformat;
     let yAxisData = ynumberformat ? this.setYAxisFormat(this.state.tooltipYaxis, ynumberformat) : this.state.tooltipYaxis;
     return this.state.isTooltipOpen ? (
