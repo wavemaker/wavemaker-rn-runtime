@@ -1,5 +1,5 @@
 import React from 'react';
-import { DimensionValue, Platform } from 'react-native';
+import { DimensionValue, Platform,Text } from 'react-native';
 import WmTextareaProps from './textarea.props';
 import { DEFAULT_CLASS, WmTextareaStyles } from './textarea.styles';
 import {
@@ -53,7 +53,10 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
-    return ( <WMTextInput
+    console.log('props.limitdisplaytext', props.limitdisplaytext)
+    return ( 
+      <>
+    <WMTextInput
       {...this.getTestPropsForInput()}
       {...getAccessibilityProps(
         AccessibilityWidgetType.TEXTAREA,
@@ -88,6 +91,13 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       onChange={this.invokeChange.bind(this)}
       allowContentSelection={this.styles.text.userSelect === 'text'}
       handleLayout={this.handleLayout}
-    />);
+    />
+     { (props.maxchars && props.limitdisplaytext) && <Text
+        style={[
+          this.styles.helpText
+        ]} >     
+         {props.limitdisplaytext}     
+    </Text>}
+    </>);
   }
 }
