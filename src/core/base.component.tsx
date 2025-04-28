@@ -427,6 +427,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 const updateLayout = ()=>{
                     componentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
                         this.layout = { x, y, width, height, px, py }
+                        if (this.reestimateDimensions() && this.hasStyleCalcExpression) {
+                            this.forceUpdate();
+                        }
                     }); 
                 }
                 updateLayout();
@@ -436,9 +439,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             }
         } else {
             this.layout = event.nativeEvent?.layout as any;
-        }
-        if (this.reestimateDimensions() && this.hasStyleCalcExpression) {
-            this.forceUpdate();
+            if (this.reestimateDimensions() && this.hasStyleCalcExpression) {
+                this.forceUpdate();
+            }
         }
     }
     
