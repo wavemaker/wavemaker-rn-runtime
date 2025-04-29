@@ -4,7 +4,7 @@ import { Animated, Easing, View, LayoutChangeEvent, LayoutRectangle } from 'reac
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import * as SwipeAnimation from '@wavemaker/app-rn-runtime/gestures/swipe.animation';
+import * as SwipeAnimation from '@wavemaker/app-rn-runtime/gestures/carousel-swipe.animation';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 import WmCarouselProps from './carousel.props';
@@ -295,6 +295,8 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
             ref={(r) => {this.animationView = r}}
             handlers = {this.animationHandlers}
             slideMinWidth={this.styles.slide.width}
+            slidesLayout={this.slidesLayout}
+            activeIndex={this.state.activeIndex}
           >
           {data.map((item: any, index: number) => {
             const isActive = index === this.state.activeIndex - 1;

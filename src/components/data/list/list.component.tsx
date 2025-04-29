@@ -129,7 +129,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   };
 
   private loadData() {
-    if (this.state.loadingData) {
+    if (this.state.loadingData || !this.hasMoreData) {
       return;
     }
     if (isArray(this.state.props.dataset)
@@ -160,6 +160,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
           } as WmListState);
           this.hasMoreData = true;
+          if((data as any)?.last === true) {
+            this.hasMoreData = false;
+          }
         } else {
           this.hasMoreData = false;
         }
@@ -404,32 +407,78 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       ...this.styles.item,
       ...this.styles.skeleton.root
     } : this.styles.item as any
-    return (index < this.state.maxRecordsToShow ||  (isHorizontal && this.state.props.horizontalondemandenabled === false)) ? (
-      <Swipeable
-        renderLeftActions={() => this.renderLeftActions()}
-        renderRightActions={() => this.renderRightActions()} containerStyle={cols ? { width: round(100 / cols) + "%", flex: null } as any : {}}>
-        <View style={[
-          styles,
-          props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-          this.isSelected(item) ? this.styles.selectedItem : {}]}>
-          {styles.backgroundImage ? (
-            <BackgroundComponent
-              image={styles.backgroundImage}
-              position={styles.backgroundPosition || 'center'}
-              size={styles.backgroundSize || 'cover'}
-              repeat={styles.backgroundRepeat || 'no-repeat'}
-              resizeMode={styles.backgroundResizeMode || 'cover'}
-              style={{ borderRadius: this.styles.item.borderRadius }}
-            />
+
+    const containerStyle = cols ? { width: round(100/cols) + "%" , flex: null} : {};
+
+    return (index < this.state.maxRecordsToShow || isHorizontal) ? 
+    !props.shouldswipe ? (
+     <View style={containerStyle as any}>
+       <View style={[
+        styles,
+        props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
+        this.isSelected(item) ? this.styles.selectedItem : {}]}>
+        {styles.backgroundImage ? (
+          <BackgroundComponent
+          image={styles.backgroundImage}
+          position={styles.backgroundPosition || 'center'}
+          size={styles.backgroundSize || 'cover'}
+          repeat={styles.backgroundRepeat || 'no-repeat'}
+          resizeMode={styles.backgroundResizeMode || 'cover'}
+          style={{ borderRadius: this.styles.item.borderRadius }}
+        />
+        ) : null}
+        <Tappable
+          {...this.getTestPropsForAction(`item${index}`)}
+          disableTouchEffect={this.state.props.disabletoucheffect}
+          onTap={($event) => this.onSelect(item, index, $event)}
+          onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
+          onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+          styles={
+            [{display: 'flex', flexDirection : 'row'},
+              cols ? {
+                width: '100%'
+              } : null,
+              (cols && cols > 1) || isHorizontal ? {
+                paddingRight: (isNil(this.styles.item.marginRight)
+                  ? this.styles.item.margin : this.styles.item.marginRight) || 4
+              } : null,
+              this.styles.itemContainer
+            ]
+          }>
+          {props.renderItem(item, index, this)}
+          {this.isSelected(item) ? (
+            <WmIcon id={this.getTestId('icon' + index)} iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
           ) : null}
-          <Tappable
-            {...this.getTestPropsForAction(`item${index}`)}
-            disableTouchEffect={this.state.props.disabletoucheffect}
-            onTap={($event) => this.onSelect(item, index, $event)}
-            onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy, item])}
-            onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy, item])}
-            styles={
-              [{ display: 'flex', flexDirection: 'row' },
+        </Tappable>
+      </View>
+     </View>
+    ) :
+    (
+      <Swipeable
+      renderLeftActions={() => this.renderLeftActions()}
+      renderRightActions={() => this.renderRightActions()} containerStyle={containerStyle as any}>
+      <View style={[
+        styles,
+        props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
+        this.isSelected(item) ? this.styles.selectedItem : {}]}>
+        {styles.backgroundImage ? (
+          <BackgroundComponent
+          image={styles.backgroundImage}
+          position={styles.backgroundPosition || 'center'}
+          size={styles.backgroundSize || 'cover'}
+          repeat={styles.backgroundRepeat || 'no-repeat'}
+          resizeMode={styles.backgroundResizeMode || 'cover'}
+          style={{ borderRadius: this.styles.item.borderRadius }}
+        />
+        ) : null}
+        <Tappable
+          {...this.getTestPropsForAction(`item${index}`)}
+          disableTouchEffect={this.state.props.disabletoucheffect}
+          onTap={($event) => this.onSelect(item, index, $event)}
+          onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
+          onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+          styles={
+            [{display: 'flex', flexDirection : 'row'},
               cols ? {
                 width: '100%'
               } : null,
