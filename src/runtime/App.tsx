@@ -450,7 +450,11 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 <KeyboardAvoidingView
                   behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
                   keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
-                  style={[{ flex: 1}]}
+                  style={deepCopy(styles.appModal,
+                    o.centered ? styles.centeredModal: null,
+                    o.modalStyle,
+                    { elevation: o.elevationIndex,
+                      zIndex: o.elevationIndex })}
                 >
                   {this.renderModalItem(o, i)}
                 </KeyboardAvoidingView>)
