@@ -129,7 +129,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   };
 
   private loadData() {
-    if (this.state.loadingData) {
+    if (this.state.loadingData || !this.hasMoreData) {
       return;
     }
     if (isArray(this.state.props.dataset)
@@ -160,6 +160,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
           } as WmListState);
           this.hasMoreData = true;
+          if((data as any)?.last === true) {
+            this.hasMoreData = false;
+          }
         } else {
           this.hasMoreData = false;
         }
@@ -580,7 +583,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
               {...(isHorizontal ? { showsHorizontalScrollIndicator: !props.hidehorizontalscrollbar } : { numColumns: this.getNoOfColumns() })}>
             </FlatList>
-            {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow) ?
+            {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow  && props.navigation !== 'None') ?
             (this.state.loadingData ? this.renderLoadingIcon(props) :
             (<WmLabel id={this.getTestId('ondemandmessage')}
             styles={this.styles.onDemandMessage}

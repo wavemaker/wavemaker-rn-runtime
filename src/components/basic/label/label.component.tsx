@@ -82,8 +82,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       } else {
         part.text = isNextTextALink ? "" : captionSplit[i];
       };
-
-      if (part.text) {
+      if (part.text || part.link) {
         parts.push(part);
       }
     }
@@ -158,7 +157,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
         {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
         {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)}
         numberOfLines={this.state.props.nooflines} ellipsizeMode="tail">
-        {this.state.parts?.length === 1 ? toString(this.state.props.caption) : this.state.parts?.map((part, index) => {
+        {(this.state.parts?.length === 1 && !(this.state.parts[0].link && this.state.parts[0].text )) ? toString(this.state.props.caption) : this.state.parts?.map((part, index) => {
           const isLink = !isNil(part.link);
           return (
             <Text
@@ -196,7 +195,9 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   }
   renderWidget(props: WmLabelProps) {
     const linkStyles = this.theme.mergeStyle({ text: this.styles.text }, this.styles.link);
-    const { hasLinearGradient, start, end, gradientColors } = parseLinearGradient((this.styles?.text.color) as string, true);
+    const { hasLinearGradient, start, end, gradientColors,colorStops } = parseLinearGradient((this.styles?.text.color) as string);
+    
+    
 
 
     return !isNil(props.caption) ? (
@@ -213,7 +214,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
               {hasLinearGradient ? <MaskedView
                 maskElement={this.renderLabelTextContent(navigationService, false, hasLinearGradient)}
               >
-                <LinearGradient colors={gradientColors} start={start} end={end}>
+                <LinearGradient colors={gradientColors} start={start} end={end}  locations={colorStops.length > 0 ? colorStops : undefined}>
                   {this.renderLabelTextContent(navigationService, true)}
                 </LinearGradient>
               </MaskedView> : this.renderLabelTextContent(navigationService)}
