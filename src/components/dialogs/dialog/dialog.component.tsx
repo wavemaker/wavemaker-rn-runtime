@@ -5,7 +5,9 @@ import {
   PanResponder,
   PanResponderGestureState,
   View,
-  Dimensions
+  Dimensions,
+  KeyboardAvoidingView, 
+  Platform
 } from 'react-native';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
@@ -114,6 +116,8 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
   }
 
     renderWidget(props: WmDialogProps) {
+    const verticalOffset = Platform.OS === 'ios' ? props.keyboardverticaloffset : 0;
+
     return (<ModalConsumer>
       {(modalService: ModalService) => {
         modalService.showModal(this.prepareModalOptions((
@@ -128,24 +132,30 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
                 testID="wm-dialog"
                 onLayout={(event) => this.handleLayout(event)}
               >
-                {this._background}
-                {props.showheader ? (<View style={this.styles.header} testID="wm-dialog-header">
-                  <View style={this.styles.headerLabel}>
-                    {props.iconclass || props.iconurl || props.title ?
-                      <WmIcon id={this.getTestId('icon')}
-                        caption={props.title}
-                        accessibilityrole='header'
-                        iconclass={props.iconclass}
-                        styles={this.styles.icon}
-                        iconurl={props.iconurl}
-                        iconheight={props.iconheight}
-                        iconmargin={props.iconmargin}
-                        iconwidth={props.iconwidth}
-                      /> : null}
-                  </View>
-                  {props.closable && <WmButton id={this.getTestId('closebtn')} show={props.closable} iconclass="wm-sl-l sl-close" onTap={() => this.close()} styles={this.styles.closeBtn}></WmButton>}
-                </View>) : null}
-                {props.children}
+                <KeyboardAvoidingView
+                  behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                  keyboardVerticalOffset={verticalOffset}
+                  style={{width: '100%', height: '100%'}} 
+                >
+                  {this._background}
+                  {props.showheader ? (<View style={this.styles.header} testID="wm-dialog-header">
+                    <View style={this.styles.headerLabel}>
+                      {props.iconclass || props.iconurl || props.title ?
+                        <WmIcon id={this.getTestId('icon')}
+                          caption={props.title}
+                          accessibilityrole='header'
+                          iconclass={props.iconclass}
+                          styles={this.styles.icon}
+                          iconurl={props.iconurl}
+                          iconheight={props.iconheight}
+                          iconmargin={props.iconmargin}
+                          iconwidth={props.iconwidth}
+                        /> : null}
+                    </View>
+                    {props.closable && <WmButton id={this.getTestId('closebtn')} show={props.closable} iconclass="wm-sl-l sl-close" onTap={() => this.close()} styles={this.styles.closeBtn}></WmButton>}
+                  </View>) : null}
+                  {props.children}
+                </KeyboardAvoidingView>
               </Animated.View>
             </ThemeProvider>
           </AssetProvider>

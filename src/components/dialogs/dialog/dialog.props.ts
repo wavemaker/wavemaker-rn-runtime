@@ -16,4 +16,5 @@ export default class WmDialogProps extends BaseProps {
   iconheight?: number = null as any;
   iconwidth?: number = null as any;
   iconmargin?: number = null as any;
+  keyboardverticaloffset?: number = 100;
 }
