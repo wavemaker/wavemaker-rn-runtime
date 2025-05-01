@@ -135,7 +135,6 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
                 <KeyboardAvoidingView
                   behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                   keyboardVerticalOffset={verticalOffset}
-                  style={{width: '100%', height: '100%'}} 
                 >
                   {this._background}
                   {props.showheader ? (<View style={this.styles.header} testID="wm-dialog-header">
