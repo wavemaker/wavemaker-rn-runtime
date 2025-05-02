@@ -227,6 +227,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           triggerValidation: this.validateFormField.bind(this),
           onFieldChange: this.onFieldChangeEvt.bind(this),
           formRef: props.formRef,
+          isdefault: props.defaultvalue && props.defaultvalue.length > 0 ? true : false, 
           ...(!isNil(props?.placeholder) ? { placeholder: props.placeholder } : {})
          });
     });
