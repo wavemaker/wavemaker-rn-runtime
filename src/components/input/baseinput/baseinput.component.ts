@@ -52,9 +52,10 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
             textValue: $new
           } as S
         );
-        const isDefault = this.state.isDefault;
+        
+        const isDefault = this.state.props.isdefault;
         if (isDefault) {
-          this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
+          this.updateState({ props: {isdefault: false} } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
         } else {
           this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
         }
