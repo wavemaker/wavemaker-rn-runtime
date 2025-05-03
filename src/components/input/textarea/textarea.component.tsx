@@ -53,7 +53,6 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
-    console.log('props.limitdisplaytext', props.limitdisplaytext)
     return ( 
       <>
     <WMTextInput
