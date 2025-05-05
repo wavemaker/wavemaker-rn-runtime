@@ -55,6 +55,7 @@ import { WmMemo } from './memo.component';
 import { BaseVariable, VariableEvents } from '../variables/base-variable';
 import { BlurView } from 'expo-blur';
 import * as NavigationBar from 'expo-navigation-bar';
+import moment, { Moment } from 'moment';
 
 declare const window: any;
 
@@ -505,6 +506,13 @@ export default abstract class BaseApp extends React.Component implements Navigat
     return this.appConfig.selectedLocale;
   }
 
+  importModule(service?: string){
+    if(service == "moment"){
+      return moment;
+    }
+    return undefined;
+  }
+  
   getDependency(serviceName: string): any {
     const service = get(SUPPORTED_SERVICES, serviceName);
     if (service) {
