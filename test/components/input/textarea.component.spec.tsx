@@ -290,4 +290,16 @@ describe('Test Textarea component', () => {
     expect(input.type).toBe('TextInput')
     expect(tree).toMatchSnapshot();
   });
+
+  test('should render limitdisplaytext when maxchars and limitdisplaytext are provided', () => {
+    const { getByText } = render(
+      <WmTextarea
+        {...defaultProps}
+        maxchars={100}
+        limitdisplaytext="50/100 characters used"
+      />
+    );
+  
+    expect(getByText('50/100 characters used')).toBeTruthy();
+  });
 });

@@ -480,5 +480,8 @@ export default class ThemeVariables {
     wheelSelectedTextColor = 'var(--wheelSelectedColor)';
     wheelTextColor = 'var(--wheelColor)';
 
+    // Text Area
+    textAreaHelpTextColor = '#61656c'
+
     static INSTANCE = new ThemeVariables();
 }

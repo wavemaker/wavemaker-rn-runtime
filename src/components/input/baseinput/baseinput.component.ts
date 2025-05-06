@@ -23,6 +23,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultProps, defaultState);
   }
+  public charlength:number = 0;
 
   focus() {
     this?.widgetRef?.focus();
@@ -78,6 +79,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   onChangeText(value: any) {
+    this.charlength = value?.length;
     if(this.state.props.updateon === 'lazy') {
       if(this.timer !== null) {
         clearTimeout(this.timer);
