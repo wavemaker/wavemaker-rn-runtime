@@ -5,4 +5,5 @@ export default class WmBarChartProps extends BaseChartComponentProps {
   viewtype: string = 'Grouped';
   onSelect?: any;
   barwidth?: number;
+  colormode:string = "nestedcharts";
 }
