@@ -410,7 +410,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
     const containerStyle = cols ? { width: round(100/cols) + "%" , flex: null} : {};
 
-    return (index < this.state.maxRecordsToShow || isHorizontal) ? 
+    return (index < this.state.maxRecordsToShow || (isHorizontal && this.state.props.horizontalondemandenabled === false)) ? 
     !props.shouldswipe ? (
      <View style={containerStyle as any}>
        <View style={[
