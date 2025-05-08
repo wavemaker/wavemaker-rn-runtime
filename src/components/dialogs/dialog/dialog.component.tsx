@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Animated,
-  GestureResponderEvent,
-  PanResponder,
-  PanResponderGestureState,
-  View,
-  Dimensions
-} from 'react-native';
+import { Text, View, PanResponder, GestureResponderEvent, PanResponderGestureState } from 'react-native';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
@@ -20,61 +13,58 @@ import { DEFAULT_CLASS, WmDialogStyles } from './dialog.styles';
 
 export class WmDialogState extends BaseComponentState<WmDialogProps> {
   modalOptions = {} as ModalOptions;
-  translateY: Animated.Value = new Animated.Value(0);
+  translateY: number = 0;
 }
 
 export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState, WmDialogStyles> {
   private _close: Function = () => {};
-  private swipeThreshold: number = 100;
-  private maxTranslateY: number; // Allow dragging to the bottom of the screen
+  private swipeThreshold: number = 100; // Minimum distance to swipe down to close
   private panResponder: any;
 
   constructor(props: WmDialogProps) {
     super(props, DEFAULT_CLASS, new WmDialogProps(), new WmDialogState());
     this.hideMode = HideMode.DONOT_ADD_TO_DOM;
-
-    // Dynamically calculate maxTranslateY as the entire screen height
-    const screenHeight = Dimensions.get('window').height;
-    this.maxTranslateY = screenHeight;  // Allow drag till bottom of the screen
-
+    
     this.state.modalOptions.onClose = () => {
       return new Promise<void>((res) => {
         this.updateState({
-          props: { show: false }
+          props: {show: false},
+          translateY: 0
         } as WmDialogState, () => {
           this.invokeEventCallback('onClose', [null, this]);
           res();
         });
       });
     };
-
+    
     this.state.modalOptions.onOpen = () => {
       this.invokeEventCallback('onOpened', [null, this]);
     };
 
-    // PanResponder to handle swipe gestures
+    // Initialize PanResponder for swipe gestures
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: (evt, gestureState) => {
+        // Only respond to vertical gestures
         return Math.abs(gestureState.dy) > Math.abs(gestureState.dx) && gestureState.dy > 0;
       },
       onPanResponderMove: (evt: GestureResponderEvent, gestureState: PanResponderGestureState) => {
+        // Only allow downward movement
         if (gestureState.dy > 0) {
-          const dy = Math.min(gestureState.dy, this.maxTranslateY);
-          this.state.translateY.setValue(dy);
+          this.updateState({
+            translateY: gestureState.dy
+          } as WmDialogState);
         }
       },
       onPanResponderRelease: (evt: GestureResponderEvent, gestureState: PanResponderGestureState) => {
-        const shouldClose =
-          gestureState.dy > this.swipeThreshold || gestureState.vy > 1.2;
-
-        if (shouldClose) {
+        if (gestureState.dy > this.swipeThreshold) {
+          // Close the dialog if swipe distance exceeds threshold
           this.close();
         } else {
-          Animated.spring(this.state.translateY, {
-            toValue: 0,
-            useNativeDriver: true
-          }).start();
+          // Reset position if threshold not met
+          this.updateState({
+            translateY: 0
+          } as WmDialogState);
         }
       }
     });
@@ -82,21 +72,15 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
 
   open() {
     if (!this.state.props.show) {
-      this.state.translateY.setValue(0); // Reset position
       this.updateState({
-        props: { show: true }
+        props: {show: true},
+        translateY: 0
       } as WmDialogState);
     }
   }
 
   close() {
-    Animated.timing(this.state.translateY, {
-      toValue: this.maxTranslateY, // Close till bottom of screen
-      duration: 300,
-      useNativeDriver: true
-    }).start(() => {
-      this._close(); // Hide after animation
-    });
+    this._close();
   }
 
   prepareModalOptions(content: React.ReactNode, modalService: ModalService) {
@@ -113,13 +97,13 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
     return o;
   }
 
-    renderWidget(props: WmDialogProps) {
+  renderWidget(props: WmDialogProps) {
     return (<ModalConsumer>
       {(modalService: ModalService) => {
         modalService.showModal(this.prepareModalOptions((
           <AssetProvider value={this.loadAsset}>
             <ThemeProvider value={this.theme}>
-              <Animated.View
+              <View
                 {...this.panResponder.panHandlers}
                 style={[
                   this.styles.root,
@@ -146,7 +130,7 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
                   {props.closable && <WmButton id={this.getTestId('closebtn')} show={props.closable} iconclass="wm-sl-l sl-close" onTap={() => this.close()} styles={this.styles.closeBtn}></WmButton>}
                 </View>) : null}
                 {props.children}
-              </Animated.View>
+              </View>
             </ThemeProvider>
           </AssetProvider>
         ), modalService));
@@ -155,6 +139,3 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
     </ModalConsumer>);
   }
 }
-
-  
- 
