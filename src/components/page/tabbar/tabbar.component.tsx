@@ -251,6 +251,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
           style={{...{bottom: 0, width:'100%'}, ...animateStyle}} 
           theme={this.theme}
           animated={props.hideonscroll || false}>
+          {this._background}
           {this.renderContent(props)}
         </FixedView>
         <View style={{ opacity: 0}}>
