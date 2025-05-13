@@ -66,6 +66,49 @@ describe('Test Panel component', () => {
     expect(subheading).toBeTruthy();
   });
 
+  // Add this test for conditional title rendering
+  test('conditionally renders title based on provided prop', () => {
+    // Test with title not provided
+    const treeUntitled = renderComponent({
+      title: undefined
+    });
+    
+    // Title should not exist
+    const missingTitle = treeUntitled.queryByTestId('panel_header_title');
+    expect(missingTitle).toBeNull();
+  });
+
+  // Add this test for conditional subheading rendering
+  test('conditionally renders subheading based on provided prop', () => {
+    // Test without subheading
+    const treeWithoutSubheading = renderComponent({
+      subheading: undefined
+    });
+    
+    // Subheading should not exist
+    const missingSubheading = treeWithoutSubheading.queryByTestId('panel_subheader');
+    expect(missingSubheading).toBeNull();
+  });
+
+  // Add this test to check both title and subheading together
+  test('renders both title and subheading when both props are provided', () => {
+    const customTitle = 'Custom Title';
+    const customSubheading = 'Custom Subheading';
+    const tree = renderComponent({
+      title: customTitle,
+      subheading: customSubheading
+    });
+    
+    // Both should be rendered
+    const titleElement = tree.getByTestId('panel_header_title');
+    expect(titleElement).toBeTruthy();
+    expect(titleElement.props.children).toBe(customTitle);
+    
+    const subheadingElement = tree.getByTestId('panel_subheader');
+    expect(subheadingElement).toBeTruthy();
+    expect(subheadingElement.props.children).toBe(customSubheading);
+  });
+
   test('handles collapse functionality', async () => {
     const onCollapse = jest.fn();
     const props = {
