@@ -70,7 +70,63 @@ describe('Test BarChart component', () => {
     expect(screen.getByText(baseProps.title)).toBeTruthy();
     expect(screen.getByText('edit')).toBeTruthy();
   });
-
+  it('should not render title section when title prop is not provided', () => {
+    const tree = render(
+      <WmBarChart
+        dataset={baseProps.dataset}
+        xaxisdatakey={baseProps.xaxisdatakey}
+        yaxisdatakey={baseProps.yaxisdatakey}
+        // title is intentionally not provided
+        subheading="Only Subheading"
+      />
+    );
+    
+    // Title should not be found
+    expect(screen.queryByText('Sample Bar Chart')).toBeNull();
+    
+    // The title container (flex row) should not be rendered
+    const flexRowContainers = tree.UNSAFE_queryAllByProps({
+      style: { flexDirection: 'row', alignItems: 'center' }
+    });
+    expect(flexRowContainers.length).toBe(0);
+    
+    // Subheading should still be visible
+    expect(screen.getByText('Only Subheading')).toBeTruthy();
+  });
+  
+  it('should not render subheading when subheading prop is not provided', () => {
+    const tree = render(
+      <WmBarChart
+        dataset={baseProps.dataset}
+        xaxisdatakey={baseProps.xaxisdatakey}
+        yaxisdatakey={baseProps.yaxisdatakey}
+        title="Only Title"
+        // subheading is intentionally not provided
+      />
+    );
+    
+    // Title should be visible
+    expect(screen.getByText('Only Title')).toBeTruthy();
+    
+    // Subheading should not be found
+    expect(screen.queryByText('This is a test bar chart')).toBeNull();
+  });
+  
+  it('should render both title and subheading when both props are provided', () => {
+    const tree = render(
+      <WmBarChart
+        dataset={baseProps.dataset}
+        xaxisdatakey={baseProps.xaxisdatakey}
+        yaxisdatakey={baseProps.yaxisdatakey}
+        title="Custom Title"
+        subheading="Custom Subheading"
+      />
+    );
+    
+    // Both title and subheading should be visible
+    expect(screen.getByText('Custom Title')).toBeTruthy();
+    expect(screen.getByText('Custom Subheading')).toBeTruthy();
+  });
   it('should handle beforeRender event callback', () => {
     const invokeEventCallbackMock = jest.spyOn(
       WmBarChart.prototype,

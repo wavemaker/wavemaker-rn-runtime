@@ -139,7 +139,77 @@ describe('Test PieChart component', () => {
     const wmIcon = tree.UNSAFE_queryByType(WmIcon);
     expect(wmIcon).toBeNull();
   });
+ // Test for when title is not provided
+it('should not render title when title prop is not provided', () => {
+  const { queryByText } = renderComponent({
+    ...defaultProps,
+    // title is intentionally not provided
+    subheading: 'Test Subheading'
+  });
+  
+  // No title text should be found
+  expect(queryByText('Pie-Chart')).toBeNull();
+  expect(queryByText('Chart')).toBeNull();
+});
 
+// Test for when subheading is not provided
+it('should not render subheading when subheading prop is not provided', () => {
+  const { queryByText } = renderComponent({
+    ...defaultProps,
+    title: 'Test Chart',
+    // subheading is intentionally not provided
+  });
+  
+  // No subheading text should be found
+  expect(queryByText('subHeading-Pie Chart')).toBeNull();
+});
+
+// Test for when title is provided but subheading is not
+it('should render title but not subheading when only title is provided', () => {
+  const customTitle = 'Only Title Chart';
+  const { getByText, queryByText } = renderComponent({
+    ...defaultProps,
+    title: customTitle,
+    // subheading is intentionally not provided
+  });
+  
+  // Title should exist
+  expect(getByText(customTitle)).toBeTruthy();
+  
+  // No subheading text should exist
+  expect(queryByText('subHeading-Pie Chart')).toBeNull();
+});
+
+// Test for when subheading is provided but title is not
+it('should render subheading but not title when only subheading is provided', () => {
+  const customSubheading = 'Only Subheading';
+  const { getByText, queryByText } = renderComponent({
+    ...defaultProps,
+    // title is intentionally not provided
+    subheading: customSubheading
+  });
+  
+  // Subheading should exist
+  expect(getByText(customSubheading)).toBeTruthy();
+  
+  // No title text should exist
+  expect(queryByText('Pie-Chart')).toBeNull();
+});
+
+// Test for when both title and subheading are provided
+it('should render both title and subheading when both props are provided', () => {
+  const customTitle = 'Custom Title';
+  const customSubheading = 'Custom Subheading';
+  const { getByText } = renderComponent({
+    ...defaultProps,
+    title: customTitle,
+    subheading: customSubheading
+  });
+  
+  // Both title and subheading should exist
+  expect(getByText(customTitle)).toBeTruthy();
+  expect(getByText(customSubheading)).toBeTruthy();
+});
   // events - onBeforerender and onTransform
   it('should call onBeforerender and onTransform events', () => {
     const onBeforeRenderMock = jest.fn();
