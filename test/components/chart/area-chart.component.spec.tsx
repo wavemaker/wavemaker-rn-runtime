@@ -126,6 +126,45 @@ describe('Test AreaChart component', () => {
     expect(text.props.style.lineHeight).toBe(30);
     expect(text.props.style.color).toBe('red');
   });
+  it('should not render title when title prop is not provided', () => {
+    const { queryByText } = renderComponent({
+      ...defaultProps,
+      // title is intentionally not provided
+      subheading: 'Only Subheading'
+    });
+    
+    // Title section should not be rendered
+    expect(queryByText('Area Chart')).toBeNull();
+    
+    // Subheading should be rendered
+    expect(queryByText('Only Subheading')).toBeTruthy();
+  });
+  
+  it('should not render subheading when subheading prop is not provided', () => {
+    const { queryByText } = renderComponent({
+      ...defaultProps,
+      title: 'Only Title',
+      // subheading is intentionally not provided
+    });
+    
+    // Title should be rendered
+    expect(queryByText('Only Title')).toBeTruthy();
+    
+    // Subheading should not be rendered
+    expect(queryByText('subHeading-Area Chart')).toBeNull();
+  });
+  
+  it('should render both title and subheading when both props are provided', () => {
+    const { getByText } = renderComponent({
+      ...defaultProps,
+      title: 'Custom Title',
+      subheading: 'Custom Subheading'
+    });
+    
+    // Both title and subheading should be rendered
+    expect(getByText('Custom Title')).toBeTruthy();
+    expect(getByText('Custom Subheading')).toBeTruthy();
+  });
 
   // events - onBeforerender and onTransform
   it('should call onBeforerender and onTransform events', () => {
