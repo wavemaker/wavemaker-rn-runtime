@@ -33,6 +33,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
 
   getBarChart(props: WmBarChartProps) {
     const mode = props.colorspercolumn.toLowerCase();
+    const isNested = Array.isArray(this.state.data[0]) && this.state.data.length > 1;
   return this.state.data.map((d: any, i: number) => {
     return <VictoryBar key={props.name + '_' + i}
         horizontal={props.horizontal} labels={props.showvalues ? this.labelFn.bind(this) : undefined}
@@ -41,7 +42,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         alignment='start'
         style={props.customcolors?{
           data: {
-            fill: mode === 'singlecolor' ? ({ datum }) => this.state.colors[datum.x] ?? this.state.colors[datum.x % this.state.colors.length] : mode === 'multicolor' ? this.state.colors[i % this.state.colors.length] : undefined
+            fill:isNested ? this.state.colors[i % this.state.colors.length] : ({ datum }) => this.state.colors[datum.x] ?? this.state.colors[datum.x % this.state.colors.length]
           }
         }:{}}
         cornerRadius={{topLeft: this.styles.bar.borderTopLeftRadius, topRight: this.styles.bar.borderTopRightRadius, bottomLeft: this.styles.bar.borderBottomLeftRadius, bottomRight: this.styles.bar.borderBottomRightRadius}}
