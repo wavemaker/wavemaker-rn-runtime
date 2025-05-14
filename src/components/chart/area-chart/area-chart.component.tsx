@@ -82,12 +82,12 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
         key={`${props.title}_area_chart`}
       >
         <View>
-          { props.title? (
+        { (props.title || props.iconclass) ? (
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
-            <Text style={this.styles.title}>{props.title}</Text>
+            {props.title ? (<Text style={this.styles.title}>{props.title}</Text>) : null }
           </View>
-          ) : null }
+        ) : null }
           { props.subheading? (
           <Text style={this.styles.subHeading}>{props.subheading}</Text> ) : null }
         </View>

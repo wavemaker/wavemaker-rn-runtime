@@ -92,12 +92,12 @@ onSelect(event: any, data: any){
       onLayout={this.onViewLayoutChange.bind(this)}
     >
       <View>
-        { props.title ? (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
-            <Text style={this.styles.title}>{props.title}</Text>
-          </View>
-        ) : null }
+      { (props.title || props.iconclass) ? (
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
+          {props.title ? (<Text style={this.styles.title}>{props.title}</Text>) : null }
+        </View>
+      ) : null }
         { props.subheading ? (
           <Text style={this.styles.subHeading}>{props.subheading}</Text> ) : null }
         </View>
