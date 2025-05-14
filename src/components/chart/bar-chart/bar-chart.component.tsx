@@ -108,11 +108,12 @@ onSelect(event: any, data: any){
       {this.getXaxis()}
       {this.getYAxis()}
       {
-        props.viewtype === 'Stacked' ? <VictoryStack colorScale={this.state.colors}>
+        props.viewtype === 'Stacked' ? <VictoryStack 
+        colorScale={!this.theme ? this.state.colors : undefined}>
           {
             this.getBarChart(props)
           }
-        </VictoryStack> : <VictoryGroup colorScale={this.state.colors}  offset={10} >
+        </VictoryStack> : <VictoryGroup colorScale={!this.theme ? this.state.colors : undefined}  offset={10} >
           {
             this.getBarChart(props)   
           }
