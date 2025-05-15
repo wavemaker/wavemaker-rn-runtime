@@ -1,4 +1,5 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { TooltipDirection } from '../tooltip/tooltip.props';
 import { AccessibilityRole } from 'react-native';
 export default class WmProgressBarProps extends BaseProps {
   type: 'default' | 'success' | 'info' | 'warning' | 'error' = 'default';
@@ -7,4 +8,7 @@ export default class WmProgressBarProps extends BaseProps {
   maxvalue: number = 100;
   accessibilitylabel?: string = undefined;
   accessibilityrole?: AccessibilityRole = 'progressbar';
+  showtooltip: boolean = false;
+  tooltipdirection?: TooltipDirection = "up"; 
+  getTooltipText?: (value: number, min: number, max: number, percentage: number) => string;
 }

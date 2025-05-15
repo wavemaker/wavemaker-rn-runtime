@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Animated, LayoutChangeEvent, LayoutRectangle, Text, View } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { LinearGradient as ExpoLinearGradient } from 'expo-linear-gradient';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -9,26 +9,111 @@ import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-r
 import WmProgressBarProps from './progress-bar.props';
 import { DEFAULT_CLASS, WmProgressBarStyles } from './progress-bar.styles';
 import { parseProgressBarLinearGradient } from '@wavemaker/app-rn-runtime/core/utils';
+import WmTooltip from '../tooltip/tooltip.component';
 
-export class WmProgressBarState extends BaseComponentState<WmProgressBarProps> {}
+export class WmProgressBarState extends BaseComponentState<WmProgressBarProps> {
+  layout?: LayoutRectangle;
+}
 
 export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmProgressBarState, WmProgressBarStyles> {
+  private tooltipPosition: any = new Animated.Value(0);
 
   constructor(props: WmProgressBarProps) {
     super(props, DEFAULT_CLASS, new WmProgressBarProps());
   }
 
+  // Calculate tooltip width based on text content
+  calculateTooltipWidth(text: string): number {
+    if (text.length <= 3) {
+      return 45; 
+    } 
+    if (text.length <= 10) {
+      return text.length * 9 + 16;
+    }
+    return Math.min(text.length * 6 + 20, 200);
+  }
+
   renderWidget(props: WmProgressBarProps) {
     let value = (props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue);
+
+    // But also add the more robust calculation for edge cases
+    const minValue = props.minvalue;
+    const maxValue = props.maxvalue;
+    let progressFraction = 0;
+
+    if (maxValue > minValue) {
+        progressFraction = (props.datavalue - minValue) / (maxValue - minValue);
+    } else if (props.datavalue >= maxValue && maxValue === minValue && minValue !== 0) {
+        progressFraction = 1;
+    } else if (props.datavalue >= maxValue) {
+        progressFraction = 1;
+    }
+
+    progressFraction = Math.max(0, Math.min(1, isNaN(progressFraction) ? 0 : progressFraction));
+    
+    // Use the robust calculation but keep the original value for backward compatibility
+    value = progressFraction;
+
     const styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
     const {hasLinearGradient, color1, color2, start, end} = parseProgressBarLinearGradient(styles?.root?.progressBar?.backgroundColor as string);
     const gradientColors: [string, string, ...string[]] = [color1, color2];
-    const valuePercent = `${Math.round(value * 100)}%`;
+    const numericPercentage = Math.round(value * 100);
+    const valuePercent: `${number}%` = `${numericPercentage}%`;
 
+    // Determine tooltip text
+    let tooltipText = '';
+    if (props.getTooltipText) {
+      // Use the callback if provided
+      tooltipText = props.getTooltipText(
+        props.datavalue, 
+        props.minvalue, 
+        props.maxvalue, 
+        numericPercentage
+      );
+    } else {
+      // Simple default - just show the datavalue
+      tooltipText = String(props.datavalue);
+    }
+
+    // Calculate tooltip width based on content
+    const tooltipWidth = this.calculateTooltipWidth(tooltipText);
+    // Half of the width is used for centering
+    const halfWidth = tooltipWidth / 2;
+
+    const progressBarContainerWidth = this.state.layout?.width || 0;
+    const isShowTooltipPropActuallyTrue = props.showtooltip === true;
+    const shouldShowTooltip = isShowTooltipPropActuallyTrue && progressBarContainerWidth > 0 && tooltipText !== '';
+
+    // Calculate the exact position for the tooltip
+    const exactPosition = progressBarContainerWidth * value;
+
+    // When layout changes, update the tooltip position
+    if (progressBarContainerWidth && this.tooltipPosition) {
+      this.tooltipPosition.setValue(exactPosition);
+    }
+    
     return (
     <View 
-      style={styles.root}
-      onLayout={(event) => this.handleLayout(event)}
+    style={[styles.root, shouldShowTooltip ? { overflow: 'visible' } : null]}
+    onLayout={(event: LayoutChangeEvent) => {
+      // Always call the original handler first to maintain existing behavior
+      if (this.handleLayout) {
+        this.handleLayout(event);
+      }
+       // Only update layout state if tooltips are needed
+      if (isShowTooltipPropActuallyTrue) {
+        const newLayout = event.nativeEvent.layout;
+        if (!this.state.layout || this.state.layout.width !== newLayout.width || this.state.layout.height !== newLayout.height) {
+          this.setState({ layout: newLayout }, () => {
+            if (this.tooltipPosition) {
+              // Calculate the exact position
+              const exactPos = newLayout.width * value;
+              this.tooltipPosition.setValue(exactPos);
+            }
+          });
+        }
+      }
+    }}
     >
       {this._background}
       <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}} disableTouchEffect={this.state.props.disabletoucheffect}>
@@ -56,7 +141,50 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
             <></>
           )}
       </Tappable>
-    </View>); 
+       {/* Add the tooltip functionality */}
+       {shouldShowTooltip && (
+           <View style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            overflow: 'visible',
+            pointerEvents: 'none',
+          }}>
+              {/* Custom tooltip container that handles positioning */}
+              <Animated.View 
+                style={{
+                  position: 'absolute',
+                  left: this.tooltipPosition,
+                  ...(props.tooltipdirection === "down" 
+                    ? { bottom: 0 }  // Position at bottom edge for "down" direction
+                    : { top: 20 }),   // Position at top edge for "up" direction
+                  transform: [{ translateX: -halfWidth }], // Center using half of calculated width
+                }}
+              >
+                <WmTooltip
+                  showTooltip={true}
+                  text={tooltipText}
+                  direction={props.tooltipdirection}
+                  tooltipStyle={{
+                    ...styles.tooltip,
+                    // Calculated width based on text content
+                    width: tooltipWidth,
+                    position: 'relative',
+                    left: 0, // No left offset needed since parent handles positioning
+                    transform: [],
+                  }}
+                  tooltipLabelStyle={{
+                    ...styles.tooltipLabel
+                  }}
+                >
+                  <View style={{ width: 1, height: 1 }} />
+                </WmTooltip>
+              </Animated.View>
+          </View>
+        )}
+      </View>
+    );
   }
-
 }

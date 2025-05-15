@@ -16,7 +16,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         progressBar: {
             height: 4
         },
-        progressValue: {}
+        progressValue: {},
+        tooltip: {},
+        tooltipLabel: {},
     });
 
     const getStyle = (color: string) => ({
