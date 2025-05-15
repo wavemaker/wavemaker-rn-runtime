@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, LayoutChangeEvent, LayoutRectangle, Text, View } from 'react-native';
+import { Animated, LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { LinearGradient as ExpoLinearGradient } from 'expo-linear-gradient';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -13,6 +13,7 @@ import WmTooltip from '../tooltip/tooltip.component';
 
 export class WmProgressBarState extends BaseComponentState<WmProgressBarProps> {
   layout?: LayoutRectangle;
+  tooltipWidth?: number; // Store actual measured tooltip width
 }
 
 export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmProgressBarState, WmProgressBarStyles> {
@@ -20,6 +21,13 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
 
   constructor(props: WmProgressBarProps) {
     super(props, DEFAULT_CLASS, new WmProgressBarProps());
+  }
+
+  // Initial estimation for tooltip width - used before measurement
+  estimateInitialWidth(text: string): number {
+    if (text.length <= 3) return 50;
+    if (text.length <= 7) return 80;
+    return Math.min(text.length * 8, 200);
   }
 
   renderWidget(props: WmProgressBarProps) {
@@ -63,6 +71,10 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
       // Simple default - just show the datavalue
       tooltipText = String(props.datavalue);
     }
+
+    // Use measured width if available, otherwise estimate
+    const tooltipWidth = this.state.tooltipWidth || this.estimateInitialWidth(tooltipText);
+    const halfWidth = tooltipWidth / 2;
 
     const progressBarContainerWidth = this.state.layout?.width || 0;
     const isShowTooltipPropActuallyTrue = props.showtooltip === true;
@@ -137,31 +149,42 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
             overflow: 'visible',
             pointerEvents: 'none',
           }}>
-            <Animated.View
+            <Animated.View 
               style={{
                 position: 'absolute',
-                // Position at top or bottom edge based on direction
+                left: this.tooltipPosition,
                 ...(props.tooltipdirection === "down" 
                   ? { bottom: 0 }  // Position at bottom edge for "down" direction
                   : { top: 20 }),   // Position at top edge for "up" direction
-                transform: [
-                  { translateX: this.tooltipPosition }
-                ],
+                transform: [{ translateX: -halfWidth }],
               }}
             >
-              <WmTooltip
-                showTooltip={true}
-                text={tooltipText}
-                direction={props.tooltipdirection}
-                tooltipStyle={{
-                    ...styles.tooltip
-                  }}
-                tooltipLabelStyle={{
-                    ...styles.tooltipLabel
-                  }}
+              <View
+                onLayout={(e) => {
+                  // Measure actual tooltip width after rendering
+                  const width = e.nativeEvent.layout.width;
+                  if (width !== this.state.tooltipWidth) {
+                    this.setState({ tooltipWidth: width });
+                  }
+                }}
               >
-                <View style={{ width: 1, height: 1 }} />
-              </WmTooltip>
+                <WmTooltip
+                  showTooltip={true}
+                  text={tooltipText}
+                  direction={props.tooltipdirection}
+                  tooltipStyle={{
+                    ...styles.tooltip,
+                    position: 'relative',
+                    left: 0,
+                    transform: [],
+                  }}
+                  tooltipLabelStyle={{
+                    ...styles.tooltipLabel,
+                  }}
+                >
+                  <View style={{ width: 1, height: 1 }} />
+                </WmTooltip>
+              </View>
             </Animated.View>
           </View>
         )}
