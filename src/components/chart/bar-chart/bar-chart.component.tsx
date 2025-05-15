@@ -32,7 +32,6 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
   }
 
   getBarChart(props: WmBarChartProps) {
-    const mode = props.colorspercolumn.toLowerCase();
     const isNested = Array.isArray(this.state.data[0]) && this.state.data.length > 1;
   return this.state.data.map((d: any, i: number) => {
     return <VictoryBar key={props.name + '_' + i}
@@ -109,11 +108,12 @@ onSelect(event: any, data: any){
       {this.getXaxis()}
       {this.getYAxis()}
       {
-        props.viewtype === 'Stacked' ? <VictoryStack colorScale={this.state.colors}>
+        props.viewtype === 'Stacked' ? <VictoryStack 
+        colorScale={!this.theme ? this.state.colors : undefined}>
           {
             this.getBarChart(props)
           }
-        </VictoryStack> : <VictoryGroup colorScale={this.state.colors}  offset={10} >
+        </VictoryStack> : <VictoryGroup colorScale={!this.theme ? this.state.colors : undefined}  offset={10} >
           {
             this.getBarChart(props)   
           }
