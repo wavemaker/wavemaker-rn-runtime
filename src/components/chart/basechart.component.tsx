@@ -433,7 +433,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
       if (!colorsToUse.length) {
         colorsToUse = props.customcolors as string[];
       }
-      if(props.customcolors===undefined || props.customcolors===null) {
+      if(props.customcolors===undefined) {
         colorsToUse = ThemeFactory.getColorsObj(themeName);
       }
       themeToUse = ThemeFactory.getTheme(themeName, props.styles, colorsToUse);
