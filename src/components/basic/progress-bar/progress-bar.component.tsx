@@ -22,17 +22,6 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
     super(props, DEFAULT_CLASS, new WmProgressBarProps());
   }
 
-  // Calculate tooltip width based on text content
-  calculateTooltipWidth(text: string): number {
-    if (text.length <= 3) {
-      return 45; 
-    } 
-    if (text.length <= 10) {
-      return text.length * 9 + 16;
-    }
-    return Math.min(text.length * 6 + 20, 200);
-  }
-
   renderWidget(props: WmProgressBarProps) {
     let value = (props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue);
 
@@ -74,11 +63,6 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
       // Simple default - just show the datavalue
       tooltipText = String(props.datavalue);
     }
-
-    // Calculate tooltip width based on content
-    const tooltipWidth = this.calculateTooltipWidth(tooltipText);
-    // Half of the width is used for centering
-    const halfWidth = tooltipWidth / 2;
 
     const progressBarContainerWidth = this.state.layout?.width || 0;
     const isShowTooltipPropActuallyTrue = props.showtooltip === true;
@@ -122,7 +106,8 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
           {...getAccessibilityProps(AccessibilityWidgetType.PROGRESSBAR, props)}
           animatedValue={value}
           color={styles.progressValue.color}
-          style={[styles.progressBar, {height: styles.root.height || styles.progressBar.height}]}></ProgressBar>
+          style={[styles.progressBar, {height: styles.root.height || styles.progressBar.height}]}
+          ></ProgressBar>
           {hasLinearGradient ? (
             <ExpoLinearGradient
               colors={gradientColors}
@@ -152,36 +137,32 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
             overflow: 'visible',
             pointerEvents: 'none',
           }}>
-              {/* Custom tooltip container that handles positioning */}
-              <Animated.View 
-                style={{
-                  position: 'absolute',
-                  left: this.tooltipPosition,
-                  ...(props.tooltipdirection === "down" 
-                    ? { bottom: 0 }  // Position at bottom edge for "down" direction
-                    : { top: 20 }),   // Position at top edge for "up" direction
-                  transform: [{ translateX: -halfWidth }], // Center using half of calculated width
-                }}
-              >
-                <WmTooltip
-                  showTooltip={true}
-                  text={tooltipText}
-                  direction={props.tooltipdirection}
-                  tooltipStyle={{
-                    ...styles.tooltip,
-                    // Calculated width based on text content
-                    width: tooltipWidth,
-                    position: 'relative',
-                    left: 0, // No left offset needed since parent handles positioning
-                    transform: [],
+            <Animated.View
+              style={{
+                position: 'absolute',
+                // Position at top or bottom edge based on direction
+                ...(props.tooltipdirection === "down" 
+                  ? { bottom: 0 }  // Position at bottom edge for "down" direction
+                  : { top: 20 }),   // Position at top edge for "up" direction
+                transform: [
+                  { translateX: this.tooltipPosition }
+                ],
+              }}
+            >
+              <WmTooltip
+                showTooltip={true}
+                text={tooltipText}
+                direction={props.tooltipdirection}
+                tooltipStyle={{
+                    ...styles.tooltip
                   }}
-                  tooltipLabelStyle={{
+                tooltipLabelStyle={{
                     ...styles.tooltipLabel
                   }}
-                >
-                  <View style={{ width: 1, height: 1 }} />
-                </WmTooltip>
-              </Animated.View>
+              >
+                <View style={{ width: 1, height: 1 }} />
+              </WmTooltip>
+            </Animated.View>
           </View>
         )}
       </View>
