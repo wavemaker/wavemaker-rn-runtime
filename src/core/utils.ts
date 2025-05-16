@@ -250,30 +250,6 @@ export const retryIfFails = (fn: Function, interval: number, maxRetries: number,
   });
 };
 
-/**
- * Promise of a defer created using this function, has abort function that will reject the defer when called.
- * @returns {*} angular defer object
- */
-export const getAbortableDefer = () => {
-  const _defer: any = {
-    promise: null,
-    reject: null,
-    resolve: null,
-    onAbort: () => { },
-    isAborted: false
-  };
-  _defer.promise = new Promise((resolve, reject) => {
-    _defer.resolve = resolve;
-    _defer.reject = reject;
-  });
-  _defer.promise.abort = () => {
-    _defer.onAbort && _defer.onAbort();
-    _defer.reject('aborted');
-    _defer.isAborted = true;
-  };
-  return _defer;
-};
-
 export const validateField = (props: any, value: any) => {
   let requiredCheck = true, regexCheck = true;
   if (props.required) {

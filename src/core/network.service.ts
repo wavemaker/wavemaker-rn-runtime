@@ -6,7 +6,8 @@ import NetInfo from '@react-native-community/netinfo';
 import AppConfig from './AppConfig';
 import StorageService from './storage.service';
 import EventNotifier from './event-notifier';
-import { getAbortableDefer, isWebPreviewMode, retryIfFails } from './utils';
+import { isWebPreviewMode, retryIfFails } from './utils';
+import { Defer } from './defer';
 
 export class NetworkState {
     isConnecting = false;
@@ -124,21 +125,26 @@ class NetworkService {
      * @returns {object} promise a promise that is resolved with the returned object of fn
      */
     public onConnect() {
-        let defer = getAbortableDefer(),
-            cancelSubscription: Function;
-        if (this.isConnected()) {
-            return Promise.resolve();
-        }
-        cancelSubscription = this.notifier.subscribe('onNetworkStateChange', () => {
-            if (this.isConnected()) {
-                defer.resolve(true);
+        let defer = new Defer({
+            onResolve: () => {
+                cancelSubscription();
+            },
+            onReject: () => {
                 cancelSubscription();
             }
-        });
-        defer.promise.catch(function () {
-            cancelSubscription();
-        });
-        return defer.promise;
+        }),
+        cancelSubscription = () => {};
+        if (this.isConnected()) {
+            defer.resolve(true);
+        } else {
+            cancelSubscription = this.notifier.subscribe('onNetworkStateChange', () => {
+                if (this.isConnected()) {
+                    defer.resolve(true);
+                    cancelSubscription();
+                }
+            });
+        }
+        return defer;
     }
 
     /**
@@ -148,20 +154,17 @@ class NetworkService {
      * @param {function()} fn method to invoke.
      * @returns {object} promise a promise that is resolved with the returned object of fn
      */
-    public retryIfNetworkFails(fn: Function) {
-        const defer = getAbortableDefer();
-        retryIfFails(fn, 0, 0, () => {
-            let onConnectPromise: any;
-            if (!this.isConnected()) {
-                onConnectPromise = this.onConnect();
-                defer.promise.catch(function () {
-                    onConnectPromise.abort();
-                });
-                return onConnectPromise;
+    public retryIfNetworkFails<T>(fn: Function) {
+        let defer: Defer<any> = new Defer<T>();
+        retryIfFails(fn, 0, 0, async () => {
+            if (this.isConnected()) {
+                return false;
             }
-            return false;
-        }).then(defer.resolve, defer.reject);
-        return defer.promise;
+            defer.waitFor(this.onConnect());
+            await defer.promise;
+            return true;
+        });
+        return defer;
     }
 
     public async start(appConfig: AppConfig): Promise<any> {
