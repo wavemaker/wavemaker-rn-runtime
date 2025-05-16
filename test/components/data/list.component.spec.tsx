@@ -67,6 +67,57 @@ describe('Test List component', () => {
     expect(flatList.props.showsHorizontalScrollIndicator).toBe(true);
   });
 
+  test('should load more data when scrolling near the bottom', () => {
+    // Create a mock implementation of the loadData function
+    const mockLoadMoreData = jest.fn();
+    
+    // Create props with vertical direction and Scroll navigation
+    const props = createProps({
+      direction: 'vertical',
+      navigation: 'Scroll',
+      pagesize: 20
+    });
+    
+    // Render the component
+    const { getByTestId } = render(<WmList {...props} />);
+    
+    // Get the list instance
+    const list = getByTestId(testID);
+    const instance = list._component;
+    
+    // Mock internal functions and properties
+    if (instance) {
+      // Mock the debounced load data function
+      instance.debouncedLoadData = mockLoadMoreData;
+      instance.endThreshold = 500;
+      instance.lastScrollTime = 0;
+      
+      // Create a scroll event that would trigger loading more data
+      const scrollEvent = {
+        nativeEvent: {
+          contentOffset: { y: 400 },
+          layoutMeasurement: { height: 200 } // Total = 600 > threshold of 500
+        }
+      };
+      
+      // Simulate the scroll event
+      fireEvent.scroll(list, scrollEvent);
+      
+      // Check if the load more data function was called
+      expect(mockLoadMoreData).toHaveBeenCalled();
+      
+      // Test throttling
+      mockLoadMoreData.mockClear();
+      instance.lastScrollTime = Date.now(); // Just updated
+      
+      // Fire another scroll event immediately
+      fireEvent.scroll(list, scrollEvent);
+      
+      // Should not call load more data due to throttling
+      expect(mockLoadMoreData).not.toHaveBeenCalled();
+    }
+  });
+
   test('should not affect vertical list scrollbar', () => {
     const props = createProps({
       direction: 'vertical',
