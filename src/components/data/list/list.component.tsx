@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity } from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
+import {debounce} from 'lodash'
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { getGroupedData, getNumberOfEmptyObjects, isDefined } from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -35,12 +36,18 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   public rightActionTemplate?: WmListActionTemplate;
   private flatListRefs: any = {};
   private selectedItems = [] as any[];
+  private debouncedLoadData: any;
+  private lastScrollTime = 0;
+  private scrollThrottleTime = 300; // minimum time between scroll triggers in ms
 
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
     this.updateState({
       maxRecordsToShow: this.state.props.pagesize
     } as WmListState);
+    
+    //debounced fucntion of loadData
+    this.debouncedLoadData = debounce(this.loadData, 250);
   }
 
   private isSelected($item: any) {
@@ -128,7 +135,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     ) : null;
   };
 
-  private loadData() {
+  private loadData = () => {
     if (this.state.loadingData || !this.hasMoreData) {
       return;
     }
@@ -367,12 +374,22 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         this.onSelect(props.dataset[0], 0);
       });
     }
+    
+    // Use a single event handler with throttling via time check
     this.subscribe('scroll', (event: any) => {
       const scrollPosition = event.nativeEvent.contentOffset.y + event.nativeEvent.layoutMeasurement.height;
-      if (scrollPosition > this.endThreshold && this.state.props.direction === 'vertical') {
-        this.loadData();
+      const now = Date.now();
+      
+      // Only process scroll event if we're past the threshold and enough time has elapsed since last trigger
+      if (scrollPosition > this.endThreshold && 
+          this.state.props.direction === 'vertical' && 
+          now - this.lastScrollTime > this.scrollThrottleTime) {
+        
+        this.lastScrollTime = now
+        this.debouncedLoadData();
       }
     });
+    
     super.componentDidMount();
   }
 
@@ -381,6 +398,15 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     if (prevProps.triggeronrenderwhenhidden === true || this.showView()) {
       this.invokeEventCallback('onRender', [this, this.state.props.dataset]);
     }
+  }
+
+  componentWillUnmount() {
+    // Clean up the debounced function
+    if (this.debouncedLoadData && this.debouncedLoadData.cancel) {
+      this.debouncedLoadData.cancel();
+    }
+    
+    super.componentWillUnmount && super.componentWillUnmount();
   }
 
   getDefaultStyles() {
