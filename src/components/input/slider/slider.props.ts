@@ -10,6 +10,6 @@ export default class WmSliderProps extends BaseDatasetProps {
     showmarkers = false;
     showtooltip? = false;
     tooltipdirection?: TooltipDirection = "up";
-    markerlabeltext?: Array<string | number> = [];
+    markerlabeltext?: Array<string | number | {title: string, position?: string}> | string = [];
     getToolTipExpression?: (item: number) => string;
 }
