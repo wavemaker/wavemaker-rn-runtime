@@ -1,7 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity } from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
-import {debounce} from 'lodash'
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { getGroupedData, getNumberOfEmptyObjects, isDefined } from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -129,7 +128,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     ) : null;
   };
 
-  private loadData = debounce(() => {
+  private loadData() {
     if (this.state.loadingData || !this.hasMoreData) {
       return;
     }
@@ -175,7 +174,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         }, 1000);
       });
     }
-  },300)
+  }
 
   private selectFirstItem() {
     const props = this.state.props;
