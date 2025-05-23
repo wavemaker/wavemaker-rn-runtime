@@ -57,6 +57,8 @@ export class Theme {
 
     private cache: any = {};
 
+    private overrides: any = {};
+
     private traceEnabled = false;
     
     private revertLayoutToExpo50: Boolean;
@@ -279,6 +281,41 @@ export class Theme {
         return style;
     }
 
+    getAllCombinations(classNames: string[]): string[][] {
+        const result: string[][] = [];
+    
+        const n = classNames.length;
+        for (let size = 2; size <= n; size++) { // only combinations of size >= 2
+            const combine = (start: number, path: string[]) => {
+                if (path.length === size) {
+                    result.push([...path]);
+                    return;
+                }
+                for (let i = start; i < n; i++) {
+                    path.push(classNames[i]);
+                    combine(i + 1, path);
+                    path.pop();
+                }
+            };
+            combine(0, []);
+        }
+        return result;
+    }
+
+    findNestedStyle(classChain: string[]): any {
+        let currentStyle = this.cache[classChain[0]];
+    
+        for (let i = 1; i < classChain.length; i++) {
+            if (currentStyle && currentStyle[classChain[i]]) {
+                currentStyle = currentStyle[classChain[i]];
+            } else {
+                return null;
+            }
+        }
+        return currentStyle;
+    }
+    
+
     getStyle(name: string) {
         let style = this.cache[name];
         if (style) {
@@ -287,12 +324,31 @@ export class Theme {
         if (!name) {
             return {};
         }
-        if (name.indexOf(' ') > 0) {
+        const classNames = name.split(' ').filter(Boolean);
+        if (classNames.length > 1) {
+            style = {}; // Start with empty
+    
+            // Step 1: Apply all single classes
             style = this.mergeStyle(...(name.split(' ').map(c => this.getStyle(c))));
+            // Step 2: Apply combinations (2 classes, 3 classes, etc.)
+            const combinations = this.getAllCombinations(classNames);
+    
+            for (const combo of combinations) {
+                const combinedStyle = this.findNestedStyle(combo);
+    
+                if (combinedStyle) {
+                    console.log(`Found combined style for ${combo.join('.')}:`, combinedStyle);
+                    style = this.mergeStyle(style, cloneDeep(combinedStyle));
+                }
+            }
         } else {
             const parentStyle = this.parent && this.parent.getStyle(name);
+            const overrideStyle = this.overrides[name] || {};
             const mediaQuery = (this.styles[name] || {})['@media'];
             let clonedStyle: Record<string, any> = { root: {} }
+            // if (overrideStyle) {
+            //     style = this.mergeStyle(clonedStyle, parentStyle, cloneDeep(overrideStyle));
+            // }
             if (!mediaQuery || matchMedia(mediaQuery).matches) {
                 clonedStyle = cloneDeep(this.styles[name]) || {} ;
                 clonedStyle['root'] = clonedStyle['root'] || {};
@@ -309,7 +365,7 @@ export class Theme {
             if (this !== Theme.BASE && isWebPreviewMode()) {
                 this.checkStyleProperties('', clonedStyle);
             }
-            style = deepCopy(parentStyle, clonedStyle);
+            style = deepCopy(parentStyle, clonedStyle, overrideStyle);
             this.addTrace(`@${this.name}:${name}`, style, clonedStyle, parentStyle);
         }
         this.cache[name] = style;
@@ -321,6 +377,16 @@ export class Theme {
         newTheme.reset(styles);
         this.children.push(newTheme);
         return newTheme;
+    }
+
+
+    addOverrides(styles: NamedStyles<any>) {
+        if (isObject(styles)) {
+            Object.keys(styles).forEach((k) => {
+            this.overrides = this.overrides || {};
+            this.overrides[k] = deepCopy(this.overrides[k] || {}, styles[k]);
+            });
+        }
     }
 
     destroy() {

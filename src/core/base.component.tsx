@@ -21,7 +21,7 @@ import { TextIdPrefixConsumer } from './testid.provider';
 import { isScreenReaderEnabled } from './accessibility';
 import { Tappable, TappableContext } from './tappable.component';
 import { WmComponentNode } from './wm-component-tree';
-
+import AppConfig from "@wavemaker/app-rn-runtime/core/AppConfig";
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
 export const ParentContext = React.createContext(null as any);
@@ -79,9 +79,9 @@ export class BaseProps extends StyleProps {
     disabletoucheffect?:boolean = false;
 }
 
-export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
-    private calcStyles: L = null as any;
+export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles = BaseStyles, > extends React.Component<T, S> {
     public styles: L = null as any;
+    private calcStyles: L = null as any;
     public hideMode = HideMode.ADD_TO_DOM;
     private propertyProvider: PropsProvider<T>;
     public proxy: BaseComponent<T, S, L>;
@@ -120,14 +120,27 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         w?: number,
         h?: number
     } = {} as any;
+    public config = injector.get<AppConfig>('APP_CONFIG');
+    public isPrism = this.config?.preferences?.enableDesignTokens || false;
 
-    constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
+
+    constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S, defaultStyles?: any) {
         super(markupProps);
         this.state = (defaultState || {} as S);
         this.notifier.name = this.props.name || '';
         this.componentNode = new WmComponentNode({
             instance: this
         });
+
+        if (defaultStyles) {
+            BASE_THEME.registerStyle((themeVariables, addStyle) => {
+                const rules = defaultStyles(themeVariables, this.isPrism);
+                Object.keys(rules).forEach(className => {
+                    addStyle(className, '', rules[className]);
+                });
+            });
+        }
+
         this.propertyProvider = new PropsProvider<T>(
             assign({show: true}, defaultProps),
             assign({}, markupProps),
@@ -647,7 +660,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                                         <ParentContext.Provider value={this}>
                                             <ThemeConsumer>
                                                 {(theme) => {                                
-                                                    this.theme = theme || BASE_THEME;
+                                                    this.theme = this.isPrism ? BASE_THEME : (theme || BASE_THEME);
                                                     return fn();
                                                 }}
                                             </ThemeConsumer>
