@@ -180,6 +180,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
           this.Widgets[w.props.formRef].formFields = [];
         }
         this.Widgets[w.props.formRef].formWidgets = this.Widgets[w.props.formRef].formWidgets || {};
+        
         this.Widgets[w.props.formRef].formFields.push(w);
         return;
       }

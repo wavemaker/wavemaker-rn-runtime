@@ -336,6 +336,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     const formData = cloneDeep(this.state.props.dataoutput || this.formdataoutput);
 
     if (!this.validateFieldsOnSubmit()) {
+      console.log(`I am here`)
       return false;
     }
     if (this.props.onBeforesubmit) {
