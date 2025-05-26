@@ -1,5 +1,5 @@
 import React from 'react';
-import { isArray, isUndefined } from 'lodash-es';
+import { isArray, isUndefined, isObject } from 'lodash-es';
 import { Animated, Easing, View, LayoutChangeEvent, LayoutRectangle } from 'react-native';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
@@ -176,7 +176,9 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     if (props.type === 'dynamic') {
       return props.renderSlide ? props.renderSlide(item, index, this) : null;
     }
-    return props.children[index];
+      const data= this.extractChildrenData(props.children)
+      return data[index];
+    
   }
 
   next = () => {
@@ -264,13 +266,23 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     super.componentDidMount();
     this.autoPlay();
   }
+    //Added below function to handle the case if the props.children has one object https://wavemaker.atlassian.net/browse/WMS-25986
+  extractChildrenData = (data: any) => {
+    if(Array.isArray(data)){
+      return data;
+    }
+    if(data && isObject(data) && Object.keys(data).length > 0){
+      return [data]
+    }
+    return [];
+  }
 
   renderWidget(props: WmCarouselProps) {
     const hasNavs = props.controls === 'both' || props.controls ==='navs';
     const hasDots = props.controls === 'both' || props.controls ==='indicators';
     let styles = this.styles;
     let data = props.type === 'dynamic' ? props.dataset : props.children;
-    data = isArray(data) ? data : [];
+    data = this.extractChildrenData(data); 
     this.noOfSlides = data?.length || 0;
     let slideScale = undefined as any;
     let slideTranslateX = undefined as any;
