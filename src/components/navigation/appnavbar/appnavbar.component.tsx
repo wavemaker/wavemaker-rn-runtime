@@ -13,7 +13,7 @@ import { StickyView } from '@wavemaker/app-rn-runtime/core/sticky-container.comp
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
-import { FixedView } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
+import { StickyContext, StickyContextType, StickyNav } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
 
 export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {}
 
@@ -23,10 +23,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   private onBackBtnPress: Function;
   private onSearchBtnPress: Function;
   private appConfig = injector.get<AppConfig>('APP_CONFIG');
-  private insets: EdgeInsets | null = null;
-  private destroyScrollListner: Function = null as any;
-  private scrollY: Animated.Value = new Animated.Value(0);
-  private translateY: Animated.AnimatedInterpolation<number> = new Animated.Value(0);
+  static contextType = StickyContext;
 
   constructor(props: WmAppNavbarProps) {
     super(props, DEFAULT_CLASS, new WmAppNavbarProps());
@@ -41,43 +38,11 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
       this.cleanup.push(() => subscription.remove());
     }
   }
-  
-   onPropertyChange(name: string, $new: any, $old: any): void {
-      super.onPropertyChange(name, $new, $old);
-      switch(name){
-        case 'hideonscroll':
-          this.destroyScrollListner && this.destroyScrollListner();
-          if($new) {
-            this.subscribeToPageScroll();
-          }
-          break;
-      }
-  }
-
-  subscribeToPageScroll(){
-    this.destroyScrollListner = this.subscribe('scroll', (e: any)=>{
-      const { contentOffset } = e.nativeEvent ;
-      this.scrollY.setValue(contentOffset.y);
-    })
-  }
-
-  updateTranslateY(insets: any):void {
-    const navbarHeight = this.getLayout()?.height ;
-    const topInsets = insets?.top || 0
-    if(navbarHeight){
-      const navbarRange = navbarHeight + topInsets;
-      this.translateY = Animated.diffClamp(this.scrollY, 0, navbarRange).interpolate({
-        inputRange: [0, navbarRange],
-        outputRange: [0, -1 * navbarRange],
-        extrapolate: 'clamp',
-      });
-      this.forceUpdate();
-    }
-  }
 
   renderContent(props: WmAppNavbarProps) {
     //@ts-ignore
     const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{props.badgevalue}</Badge>): null;
+    const { navHeight, setNavHeightUpdated } = this.context as StickyContextType;
     return (
       <SafeAreaInsetsContext.Consumer>
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
@@ -89,8 +54,11 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           paddingTop: (paddingTopVal || 0) as number + (insets?.top || 0) as number} : {}
           return (
           <View style={[this.styles.root, stylesWithFs]} ref={ref => {this.baseView = ref as View}} onLayout={(event) => {
+            if(navHeight && this.props.hideonscroll) {
+              navHeight.value = event.nativeEvent.layout.height || 0.01;
+              if(setNavHeightUpdated) setNavHeightUpdated(navHeight.value != 0.01);
+            }
             this.handleLayout(event);
-            this.updateTranslateY(insets);
           }}>
             {this._background}
             <View style={this.styles.leftSection}>
@@ -134,19 +102,13 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   }
 
   renderWidget(props: WmAppNavbarProps){
-    this.isFixed = true;
-    const animateStyle = props.hideonscroll ? {transform: [{translateY: this.translateY}]} : {};
-
-    return <>
-        <FixedView 
-          style={{...{top: 0, width:'100%'}, ...animateStyle}} 
-          theme={this.theme}
-          animated={props.hideonscroll || false}>
-          {this.renderContent(props)}
-        </FixedView>
-        <View style={{ opacity: 0}}>
-          {this.renderContent(props)}
-        </View>
-    </>
+    return this.props.hideonscroll ? (
+      <StickyNav
+        component={this}
+        theme={this.theme}
+      >
+        {this.renderContent(props)}
+      </StickyNav>
+    ) : this.renderContent(props)
   }
 }
