@@ -13,6 +13,7 @@ import WmListActionTemplate from './list-action-template/list-action-template.co
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
+import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 
 
 export class WmListState extends BaseComponentState<WmListProps> {
@@ -367,8 +368,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         this.onSelect(props.dataset[0], 0);
       });
     }
-    this.subscribe('scroll', (event: any) => {
-      const scrollPosition = event.nativeEvent.contentOffset.y + event.nativeEvent.layoutMeasurement.height;
+    EventNotifier.ROOT.subscribe('scroll', (event: any) => {
+      const scrollPosition = event?.nativeEvent?.contentOffset?.y + event?.nativeEvent?.layoutMeasurement?.height;
       if (scrollPosition > this.endThreshold && this.state.props.direction === 'vertical') {
         this.loadData();
       }

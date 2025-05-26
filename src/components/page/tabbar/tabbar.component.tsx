@@ -19,6 +19,7 @@ import { FixedView } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 
 interface TabDataItem extends NavigationDataItem {
   floating: boolean;
@@ -134,7 +135,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
 
   subscribeToPageScroll(){
     this.tabbarHeightWithInsets = 0;
-    this.destroyScrollListner = this.subscribe('scroll', (event: NativeSyntheticEvent<NativeScrollEvent>)=>{
+    this.destroyScrollListner = EventNotifier.ROOT.subscribe('scroll', (event: NativeSyntheticEvent<NativeScrollEvent>)=>{
       const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent ;
       const scrollPosition = contentOffset.y ;
       this.tabbarHeightWithInsets = this.tabbarHeightWithInsets ? this.tabbarHeightWithInsets : this.getLayout()?.height ;
