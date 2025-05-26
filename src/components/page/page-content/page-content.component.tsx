@@ -1,24 +1,20 @@
 import React, { createRef, RefObject } from 'react';
-import { KeyboardAvoidingView, Platform, View, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPageContentProps from './page-content.props';
 import { DEFAULT_CLASS, WmPageContentStyles } from './page-content.styles';
-import { ScrollView } from 'react-native-gesture-handler';
 import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.component';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import Animated from 'react-native-reanimated';
+import { StickyContextType, StickyContext } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
 
 export class WmPageContentState extends BaseComponentState<WmPageContentProps> {}
-
-export interface CustomScrollEvent {
-  scrollDirection: number;
-}
-
 export default class WmPageContent extends BaseComponent<WmPageContentProps, WmPageContentState, WmPageContentStyles> {
   private scrollRef: RefObject<any>;
-  private previousScrollPosition: number = 0;
+  static contextType = StickyContext;
 
   constructor(props: WmPageContentProps) {
     super(props, DEFAULT_CLASS, new WmPageContentProps());
@@ -30,7 +26,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     });
 
     this.subscribe('scrollToEnd', () => {
-      this.scrollRef?.current.scrollToEnd();
+      this.scrollRef?.current?.scrollToEnd();
     });
   }
 
@@ -38,27 +34,22 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     this.scrollRef?.current?.scrollTo({
       x: position.x,
       y: position.y,
-      Animated: true
+      animated: true
     });
   }
 
-  private handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const scrollPosition = event.nativeEvent.contentOffset.y;
-    if(Math.abs(scrollPosition - this.previousScrollPosition) >= 8 && scrollPosition >=0){
-      const e = event as unknown as CustomScrollEvent;
-      if (scrollPosition > this.previousScrollPosition) {
-        e.scrollDirection = 1;
+  private handleOnScrollEndDrag = (event: any) => {
+    const { onScrollEndDrag, scrollDirection } = this.context as StickyContextType;
+    const scrollPosition = event?.nativeEvent?.contentOffset?.y;
+    if (scrollPosition >= 0) {
+      if(scrollDirection.value > 0) {
         this.invokeEventCallback('onSwipeup', [null, this.proxy]);
-      } else if (scrollPosition === this.previousScrollPosition) {
-        e.scrollDirection = 0;
-      } else {
-        e.scrollDirection = -1;
+      }else {
         this.invokeEventCallback('onSwipedown', [null, this.proxy]);
       }
-      this.previousScrollPosition = scrollPosition;
-      this.notify('scroll', [e]);
+      onScrollEndDrag(this.scrollRef);
     }
-  };
+  }
 
   public renderSkeleton(props: WmPageContentProps): React.ReactNode {
     if(this.props.skeletonanimationresource) {
@@ -67,11 +58,11 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
       </View>
     } 
     return null;
-  }  
+  }
 
   renderWidget(props: WmPageContentProps) {
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
-    
+    const { navHeight, onScroll } = this.context as StickyContextType;
     return (props.scrollable || isWebPreviewMode()) ? (
       <View style={{height: '100%', width: '100%', backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
         {this._background}
@@ -84,21 +75,28 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
                 behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                 keyboardVerticalOffset={verticalOffset}
                 style={{ flex: 1 }}>
-                <ScrollView 
-                  keyboardShouldPersistTaps={props.keyboardpersisttaps}
-                  testID={this.getTestId("page_content_scrollview")}
-                  ref={this.scrollRef}
-                  contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
-                  showsVerticalScrollIndicator={showScrollbar}
-                  onScroll={this.handleScroll}
-                  alwaysBounceVertical={false}
-                  alwaysBounceHorizontal={false}
-                  bounces={false}
-                  scrollEventThrottle={48}>
-                  {props.children}
-                </ScrollView>
+                  <Animated.ScrollView
+                    keyboardShouldPersistTaps={props.keyboardpersisttaps}
+                    testID={this.getTestId("page_content_scrollview")}
+                    ref={this.scrollRef}
+                    contentContainerStyle={[
+                      this.styles.root, {backgroundColor: 'transparent', 
+                        paddingTop: navHeight.value
+                      }
+                    ]}
+                    showsVerticalScrollIndicator={showScrollbar}
+                    onScroll={onScroll}
+                    alwaysBounceVertical={false}
+                    alwaysBounceHorizontal={false}
+                    bounces={false}
+                    overScrollMode="never"
+                    onScrollEndDrag={this.handleOnScrollEndDrag}
+                  >
+                    {props.children}
+                  </Animated.ScrollView>
               </KeyboardAvoidingView>
-            )}}
+            )
+          }}
         </SafeAreaInsetsContext.Consumer>
       </View>      
     ) : (

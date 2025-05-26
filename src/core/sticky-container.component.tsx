@@ -1,181 +1,321 @@
-
-import React, { Component } from "react";
-import { ViewStyle, Animated, Easing, View, Platform} from "react-native";
-import { SafeAreaInsetsContext } from "react-native-safe-area-context";
-import { Theme, ThemeProvider } from "@wavemaker/app-rn-runtime/styles/theme";
-import { BaseComponent } from "./base.component";
-import injector from '@wavemaker/app-rn-runtime/core/injector';
-import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
-
-const StickyViewContext = React.createContext<StickyViewContainer>(null as any);
-
-export interface StickyViewProps {
-    style?: ViewStyle,
-    theme: Theme;
+import React, { 
+    ReactNode, 
+    useContext, 
+    RefObject,
+    Dispatch,
+    SetStateAction,
+   } from "react";
+  import { ViewStyle, NativeSyntheticEvent, NativeScrollEvent, View, LayoutChangeEvent, LayoutRectangle } from "react-native";
+  import Animated, {
+    useSharedValue,
+    useAnimatedStyle,
+    useAnimatedScrollHandler,
+    runOnJS,
+    useAnimatedRef,
+    ReanimatedEvent,
+    ScrollEvent,
+  } from "react-native-reanimated";
+  import { BaseComponent } from "./base.component";
+  import { SharedValue } from 'react-native-reanimated';
+  import EventNotifier from "./event-notifier";
+  
+  interface StickyViewProps {
+    style?: any;
+    show?: boolean;
+    theme?: any;
+    usememo?: boolean;
     children?: any;
-    slide?: boolean;
-    component: BaseComponent<any, any, any>;
-    onVisibilityChange?: (visible: boolean) => void;
-}
-
-export class StickyViewState {
-    isStickyVisible = false;
-}
-
-export class StickyView extends Component<StickyViewProps, StickyViewState, any> {
-    static defaultProps = {
-        slide: false
+    renderWidget?: () => ReactNode;
+    component?: BaseComponent<any, any, any>;
+    onLayout?: (event: any) => void;
+  }
+  
+  interface StickyNavProps extends StickyViewProps {
+    styles: ViewStyle
+  }
+  
+  interface StickyHeaderProps extends StickyViewProps {
+    styles: ViewStyle
+  }
+  
+  interface StickyViewContainerProps {
+    stickyNavAnimateStyle?: any;
+    stickyHeaderAnimateStyle?: any;
+    children?: ReactNode;
+  }
+  
+  export type StickyContextType = {
+    stickyNavTranslateY?: SharedValue<number>;
+    stickyHeaderTranslateY: SharedValue<number>;
+  
+    stickyNavAnimateStyle: any;
+    stickyHeaderAnimateStyle: any;
+    showStickyHeader: SharedValue<boolean>;
+  
+    navHeight: SharedValue<number>;
+    setNavHeightUpdated: Dispatch<SetStateAction<boolean>>;
+    scrollY: SharedValue<number>;
+    scrollDirection: SharedValue<number>;
+  
+    onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+    onScrollEndDrag: (scrollRef: RefObject<any>) => void;
+  };
+  
+  export type CustomJsScrollEvent = {
+    nativeEvent: {
+      contentInset: any;
+      contentOffset: { x: number; y: number };
+      contentSize: any;
+      layoutMeasurement: any;
+      zoomScale: number;
     };
-    static counter = Date.now();
-    container?: StickyViewContainer = null as any;
+  };
+  
+  const StickyViewContext = React.createContext<StickyViewContainer>(null as any);
+  export const StickyContext = React.createContext<StickyContextType | undefined>(undefined);
+  
+  export const useStickyContext = () => {
+    const context = useContext(StickyContext);
+    if (context) return context;
+    return {};
+  };
+  
+  export const ScrollContaineWrapper = ({ children }: { children: React.ReactNode }) => {
+    const scrollY = useSharedValue<number>(0);
+    const prevScrollY = useSharedValue<number>(0);
+    const scrollVelocity = useSharedValue<number>(0);
+    const scrollDirection = useSharedValue<number>(0);
+  
+    const stickyHeaderTranslateY = useSharedValue<number>(0);
+    const stickyNavTranslateY = useSharedValue<number>(0);
+    const showStickyHeader = useSharedValue<boolean>(false);
+    const navHeight = useSharedValue<number>(0);
+  
+    const lastNotifyTime = useSharedValue<number>(0);
+    const prevScrollTime = useSharedValue<number>(0);
+  
+    const [_navHeightUpdated, setNavHeightUpdated] = React.useState(false);
+  
+    const stickyNavAnimateStyle = useAnimatedStyle(() => {
+      return {
+        transform: [{ translateY: -stickyNavTranslateY.value }]
+      };
+    }, [stickyNavTranslateY]);
+  
+    const stickyHeaderAnimateStyle = useAnimatedStyle(() => {
+      return {
+        transform: [{ translateY: 
+          Math.max(
+            Math.max(stickyHeaderTranslateY.value - navHeight.value - scrollY.value, - navHeight.value),
+            - stickyNavTranslateY.value
+          )
+        }],
+      }
+    }, [scrollY, stickyHeaderTranslateY]);
+  
+    const notifyEvent = (event: any)=>{
+      EventNotifier.ROOT.notify('scroll', [{nativeEvent: event}]);
+    }
+  
+    const onScroll = useAnimatedScrollHandler({
+      onScroll: (event: ReanimatedEvent<ScrollEvent>): void => {
+        const y = event.contentOffset?.y;
+        const currentScrollTime = Date.now();
+  
+        const delta = y - prevScrollY.value;
+        const delaTime = currentScrollTime - prevScrollTime.value;
+        if(delta != 0) scrollDirection.value = delta > 0 ? -1 : 1;
+  
+        if (Math.abs(delta) >= 0.1){
+          prevScrollY.value = y;
+          scrollY.value = Math.max(0, y);
+  
+          showStickyHeader.value = y >= (stickyHeaderTranslateY.value - navHeight.value + stickyNavTranslateY.value);
+          stickyNavTranslateY.value = Math.max(Math.min(stickyNavTranslateY.value + delta, navHeight.value), 0);
+  
+          scrollVelocity.value = Math.abs(delta) / delaTime;
+          prevScrollTime.value = currentScrollTime;
+        }
+  
+        if(currentScrollTime - lastNotifyTime.value >= 100){
+          lastNotifyTime.value = currentScrollTime;
+          const safeEvent = {
+            contentOffset: {
+              y: event.contentOffset?.y ?? 0,
+            },
+            contentSize: {
+              height: event.contentSize?.height ?? 0,
+            },
+            layoutMeasurement: {
+              height: event.layoutMeasurement?.height ?? 0,
+            },
+            scrollDirection: scrollDirection.value
+          };
+          runOnJS(notifyEvent)(safeEvent);
+        }
+      }
+    });
+  
+    const onScrollEndDrag = (scrollRef: RefObject<Animated.ScrollView>): void =>{
+      const y = scrollY.value;
+      if(scrollVelocity.value < 0.3){
+        if(scrollDirection.value < 0 && stickyNavTranslateY.value >= (navHeight.value / 9.9)){ // bottom visible
+          scrollRef?.current?.scrollTo({ y: y + (navHeight.value - stickyNavTranslateY.value), animated: true })
+        } else if( scrollDirection.value > 0 &&  stickyNavTranslateY.value <= (navHeight.value / 1.1)) { // top content visible
+          scrollRef?.current?.scrollTo({ y: y - stickyNavTranslateY.value, animated: true })
+        }
+      }
+    }
+  
+    const contextValue = {
+      scrollY,
+      scrollDirection,
+      stickyNavAnimateStyle,
+      stickyHeaderAnimateStyle,
+      stickyHeaderTranslateY,
+      showStickyHeader,
+      navHeight,
+      setNavHeightUpdated,
+      onScroll,
+      onScrollEndDrag
+    };
+  
+    return (
+      <StickyContext.Provider value={contextValue}>
+        {children}
+      </StickyContext.Provider>
+    );
+  };
+  
+  export abstract class StickyView extends React.Component<StickyViewProps> {
+    protected abstract renderView(): React.ReactNode;
     cachedComponent: React.ReactNode;
-    id = StickyView.counter++;
-    destroyScrollListner: Function = null as any;
-    insets: any = null;
-    refScrollPosition = 0;
-    lastScrollDirection = 1;
-    appConfig = injector.get<AppConfig>('APP_CONFIG');
-    scrolled: boolean = false;
-
+    container: StickyViewContainer = null as any;
+    id = Date.now();
+    layout: LayoutRectangle | null = null;
+    static contextType = StickyContext;
+  
     constructor(props: StickyViewProps) {
-        super(props);
-        this.state = new StickyViewState();
-        this.listenScrollEvent();
+      super(props);
     }
-
+  
     componentWillUnmount() {
-        this.container?.remove(this);
-        this.destroyScrollListner && this.destroyScrollListner();
+      this.container?.remove(this);
     }
-
-    listenScrollEvent(): void {
-        this.destroyScrollListner && this.destroyScrollListner();
-        const component = this.props.component;
-        let yPosition: number;
-        this.destroyScrollListner = component.subscribe('scroll', (e: any) => {
-            const height = component.getLayout()?.height;
-            const topInsetsInYposition = Platform.OS == 'ios' ? this.insets?.top || 0 : 0;
-            yPosition = (yPosition || yPosition == 0) ? yPosition : component?.getLayout()?.py - topInsetsInYposition;
-            const scrollPosition = e.nativeEvent.contentOffset.y;
-            let isStickyVisible = false ;
-
-            const {containerHeight = 0, hiddenHeight = 0} = this.container || {}
-            const containerHeightVal = Math.abs(containerHeight + hiddenHeight) ;
-            if(!this.scrolled) this.scrolled = true;
-            
-            if (e.scrollDirection) {
-                if (this.lastScrollDirection !== e.scrollDirection) {
-                    this.refScrollPosition = scrollPosition;
-                }
-                this.lastScrollDirection = e.scrollDirection;
-            }
-
-            // based on scrollDirection checking for stickyVisibility
-            if(e.scrollDirection <= 0){
-                isStickyVisible = scrollPosition > 10 // scroll threshold value of 10
-                    && ((scrollPosition + containerHeightVal + this.appConfig.pageScrollTopThreshold ) >= (yPosition + height));
-            } else {
-                isStickyVisible =  ((scrollPosition +  this.appConfig.pageScrollTopThreshold) >= 
-                    (yPosition + (this.props.slide ? height: 0)));
-            }
-
-            if (this.state.isStickyVisible !== isStickyVisible) {
-                this.setState({ 
-                    isStickyVisible : isStickyVisible
-                }, () => {
-                    if (isStickyVisible && this.props.slide) {
-                        this.container?.slideBy(-1 * height);
-                    } else {
-                        this.container?.slideBy(this.refScrollPosition - scrollPosition);
-                    }
-                })
-            } else {
-                this.container?.slideBy(this.refScrollPosition - scrollPosition);
-            }
-        })
+  
+    componentDidMount() {
+      if (this.props.show) {
+        this.container.add(this, this.renderView());
+      }
     }
-
+  
+    onLayout = (event: any) => {
+      const newLayout = event.nativeEvent.layout;
+      if (!this.layout || this.layout.height !== newLayout.height || this.layout.width !== newLayout.width) {
+        this.layout = newLayout;
+        if (this.container && this.props.show) {
+          this.container.add(this, this.renderView());
+        }else {
+          this.container?.remove(this);
+        }
+      }
+    };
+  
     render() {
-        return (
-            <>
-                <SafeAreaInsetsContext.Consumer>
-                    {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-                    this.insets = insets;
-                    return <StickyViewContext.Consumer>
-                        {(container) => {
-                            this.container = container;
-                            if(!this.scrolled) return <></>
-                            if (this.state.isStickyVisible && this.container) {
-                                if(!this.container?.children?.has(this)){
-                                    this.container.add(this, (
-                                        <ThemeProvider value={this.props.theme} key={this.id}>
-                                            <View style={[this.props.style]}>
-                                                {this.props.children}
-                                            </View>
-                                        </ThemeProvider>
-                                    ));
-                                }
-                            } else {
-                                this.container?.remove(this);
-                            }
-                            return <></>;
-                        }}
-                    </StickyViewContext.Consumer>}}
-                </SafeAreaInsetsContext.Consumer>
-                <View style={{opacity: this.state.isStickyVisible ? 0 : 1}}>
-                    {this.props.children}
-                </View>
-            </>
-        );
+      this.cachedComponent = (this.props.usememo === true && this.cachedComponent ) || (
+        <StickyViewContext.Consumer>
+          {(container) => {
+            this.container = container;
+            return <></>
+          }}
+        </StickyViewContext.Consumer>)
+        return this.cachedComponent;
+      }
+  }
+  
+  export class StickyNav extends StickyView {
+    static defaultProps = {
+      show: true
+    };
+    static contextType = StickyContext;
+    static counter = 0;
+    id = StickyNav.counter++;
+  
+    constructor(props: StickyNavProps) {
+      super(props);
     }
-}
-
-export class StickyViewContainer extends React.Component {
-    public children: Map<StickyView, React.ReactNode> = new Map();
-    private id = 0;
-    public translateY: Animated.Value = new Animated.Value(0);
-    public topSlideHeight = 0;
-    public hiddenHeight: number = 0;
-    public containerHeight: number = 0;
-    private appConfig = injector.get<AppConfig>('APP_CONFIG');
-
-    add(c: StickyView, n : React.ReactNode) {
-        const h = Math.max(c.props.component.getLayout()?.height || 0, 0);
-        this.containerHeight += h;
-        this.topSlideHeight += (c.props.slide ? h : 0);
-        this.children.set(c, n);
-        setTimeout(() => this.setState({id: ++this.id}));
+  
+    renderView() {
+      return <StickyContext.Consumer>
+        {(context) => {
+          const { stickyNavAnimateStyle } = context || {};
+          return (
+            <Animated.View style={[stickyNavAnimateStyle]}
+              onLayout={(event: LayoutChangeEvent)=> this.onLayout(event)}
+              key={`nav-${this.id}`}
+            >
+              {this.props.children}
+            </Animated.View>
+          );
+        }}
+      </StickyContext.Consumer>
     }
-
+  }
+  
+  export class StickyHeader extends StickyView {
+    static defaultProps = {
+      show: true
+    };
+    static contextType = StickyContext;
+    static counter = 0;
+    id = StickyHeader.counter++;
+  
+    constructor(props: StickyHeaderProps) {
+      super(props);
+    }
+    
+    renderView() {
+      return <StickyContext.Consumer>
+        {(context) => {
+          const { stickyHeaderAnimateStyle } = context || {};
+          return (
+            <Animated.View style={[ stickyHeaderAnimateStyle, this.props.style]}
+              onLayout={(event: LayoutChangeEvent)=> this.onLayout(event)}
+              key={`header-${this.id}`}
+            >
+              {this.props.children}
+            </Animated.View>
+          );
+        }}
+      </StickyContext.Consumer>
+    }
+  }
+  export class StickyViewContainer extends React.Component<StickyViewContainerProps, any, any> {
+    children: Map<StickyView, React.ReactNode> = new Map();
+    id = 0;
+  
+    add(c: StickyView, n: React.ReactNode) {
+      this.children.set(c, n);
+      setTimeout(() => this.setState({ id: ++this.id }));
+    }
+  
     remove(c: StickyView) {
-        const h = Math.max(c.props.component.getLayout()?.height || 0, 0);
-        this.containerHeight -=  h;
-        this.topSlideHeight -= (c.props.slide ? h : 0);
-        this.containerHeight = Math.max(this.containerHeight, 0);
-        this.topSlideHeight = Math.max(this.topSlideHeight, 0);
-        this.children.delete(c);
-        setTimeout(() => this.setState({id: ++this.id}));
+      this.children.delete(c);
+      setTimeout(() => this.setState({ id: ++this.id }));
     }
-
-    public slideBy(value: number) {
-        this.hiddenHeight = Math.max(
-            Math.min(0, (this.translateY as any)._value + value), 
-            -1 * this.topSlideHeight);
-        
-        this.translateY.setValue(this.hiddenHeight);
-    }
-
+  
     render() {
-        return (
-            <StickyViewContext.Provider value={this}>
-                {(this.props as any).children}
-                <Animated.View style={{
-                    position: 'absolute', top: this.appConfig.pageScrollTopThreshold || 0, width: '100%',
-                    transform: [{ translateY: this.translateY }]
-                }}>
-                {Array.from(this.children.values())}
-                </Animated.View>
-            </StickyViewContext.Provider>
-        );
+      return (
+        <StickyViewContext.Provider value={this}>
+          <ScrollContaineWrapper>
+            {(this.props as any).children}
+            <Animated.View style={{ position: 'absolute', width: '100%', zIndex: 10 }}
+              pointerEvents={'box-none'}
+            >
+              {Array.from(this.children.values())}
+            </Animated.View>
+          </ScrollContaineWrapper>
+        </StickyViewContext.Provider>
+      );
     }
-};
+  }
