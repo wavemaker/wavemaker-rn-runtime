@@ -1,9 +1,9 @@
 import React, { createRef } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { Text, View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler } from 'react-native';
+import { Text, View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue } from 'react-native';
 import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
-
+import { createSkeleton } from '../skeleton/skeleton.component';
 
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('screen');
@@ -52,11 +52,6 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       }
 
     }
-
-    console.log("device height is", SCREEN_HEIGHT);
-    console.log(this.maxHeightRatio, "height is", SCREEN_HEIGHT * this.maxHeightRatio);
-    console.log("height ratio is", this.maxHeightRatio);
-    console.log("calculated height is", calculatedHeight);
     return calculatedHeight;
   }
 
@@ -131,10 +126,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     } as WmBottomsheetState);
     if (gestureState.dy > 0) {
       if (this.state.isExpanded) {
-        console.log("user removed finger in ", gestureState.dy)
-        console.log("bottom sheet threshold ", this.expandedHeight / 2)
-        if (gestureState.dy < this.expandedHeight / 2) {
-          console.log("user swiped less than bottom sheet threshold")
+        if (gestureState.dy < this.expandedHeight / 4) {
           Animated.parallel([
             Animated.timing(this.state.translateY, {
               toValue: 0, // Keep sheet open
@@ -151,8 +143,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
             isExpanded: false
           } as WmBottomsheetState);
         }
-        else if (gestureState.dy > this.expandedHeight / 2 || gestureState.vy > 0.5) {
-          console.log("user swiped more bottom sheet threshold")
+        else if (gestureState.dy > this.expandedHeight / 4 || gestureState.vy > 0.5) {
           this.closeSheet();
         }
       }
@@ -181,9 +172,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       if (gestureState.dy > 0) {
         const newTranslateY = Math.max(0, this.state.lastGestureDy + gestureState.dy);
         this.state.translateY.setValue(newTranslateY);
-        if (this.state.isExpanded) {
-          console.log("Y value ", gestureState.dy)
-        }
+       
       }
     },
 
@@ -310,6 +299,14 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
         }
         break;
     }
+  }
+
+  public renderSkeleton(props: WmBottomsheetProps){
+      return createSkeleton(this.theme, this.styles.skeleton, {
+        ...this.styles.root,
+        width: this.styles.root.width as DimensionValue,
+        height:  this.styles.root.height as DimensionValue
+      });
   }
 
   renderWidget(props: WmBottomsheetProps) {

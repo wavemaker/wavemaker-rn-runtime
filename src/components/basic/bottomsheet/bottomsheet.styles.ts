@@ -1,7 +1,7 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
-
+import { TextStyle, ViewStyle } from 'react-native';
+import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
 export type WmBottomsheetStyles = BaseStyles & {
   root: ViewStyle;
   backdrop: ViewStyle;
@@ -12,6 +12,7 @@ export type WmBottomsheetStyles = BaseStyles & {
   sheetScrollContent: ViewStyle;
   sheetContent: ViewStyle;
   sheetText: TextStyle;
+  skeleton: WmSkeletonStyles
 };
 
 export const DEFAULT_CLASS = 'app-bottomsheet';
@@ -85,7 +86,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             fontSize: 18,
             marginBottom: 10,
             textAlign: 'center',
+        },
+        skeleton: {
+        root: {
+          width: 96,
+          height: 48,
+          borderRadius: 4
         }
+      } as WmSkeletonStyles
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
