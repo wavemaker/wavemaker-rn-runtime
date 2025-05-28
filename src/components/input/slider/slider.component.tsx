@@ -606,8 +606,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
                   },
                 ],
               },
-              this.styles.activeTrackStyle,
-              {backgroundColor: 'rgb(162, 162, 162)'}
+              this.styles.activeTrackStyle
             ]}
           ></Animated.View>
           {isRangeSlider && this.highPosition ? (
