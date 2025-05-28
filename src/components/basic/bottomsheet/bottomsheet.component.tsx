@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { Text, View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue } from 'react-native';
+import {View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue } from 'react-native';
 import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
 import { createSkeleton } from '../skeleton/skeleton.component';
@@ -126,6 +126,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     } as WmBottomsheetState);
     if (gestureState.dy > 0) {
       if (this.state.isExpanded) {
+        // Expand the bottom sheet threshold is  25% of the fully expanded height
+        // If the user swipe distance is below the threshold, revert to the original sheet height
         if (gestureState.dy < this.expandedHeight / 4) {
           Animated.parallel([
             Animated.timing(this.state.translateY, {
@@ -178,10 +180,6 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
 
     onPanResponderRelease: (_, gestureState) => {
       this.handleSwipeGesture(gestureState)
-
-
-
-
     },
 
     onPanResponderTerminate: () => {
@@ -314,25 +312,27 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
 
     return (
 
-      <View style={this.styles.root}>
+      <View style={this.styles.root}  testID={this.getTestId('wm-bottom-sheet')}>
         {this._background}
         <TouchableWithoutFeedback onPress={this.closeSheet}>
-          <Animated.View style={[this.styles.backdrop, { opacity: this.state.backdropOpacity }]} />
+          <Animated.View style={[this.styles.backdrop, { opacity: this.state.backdropOpacity }]} testID={this.getTestId('wm-bottom-sheet-backdrop')} />
         </TouchableWithoutFeedback>
 
         <Animated.View
           style={[
-            this.styles.sheetContainer,
+            this.styles.container,
             {
               height: this.state.sheetHeight,
               transform: [{ translateY: this.state.translateY }],
             },
           ]}
           {...this.panResponder.panHandlers}
+         
+        
         >
           <View style={this.styles.dragHandleContainer} {...this.dragHandlePanResponder.panHandlers}>
             <TouchableWithoutFeedback onPress={this.closeSheet}>
-              <View style={this.styles.dragHandle} />
+              <View style={this.styles.dragIconHandle}  testID={this.getTestId('wm-bottomsheet-drag-handle')}  />
             </TouchableWithoutFeedback>
           </View>
 
@@ -348,8 +348,11 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
             onScroll={this.handleScroll}
             nestedScrollEnabled={true}
             scrollEnabled={true}
+            testID={this.getTestId('wm-bottomsheet-scroll-view')}
+            
+            
           >
-            {this.props.children}
+            {props.children}
           </ScrollView>
         </Animated.View>
       </View>

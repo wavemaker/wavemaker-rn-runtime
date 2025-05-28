@@ -2,16 +2,15 @@ import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { TextStyle, ViewStyle } from 'react-native';
 import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 export type WmBottomsheetStyles = BaseStyles & {
   root: ViewStyle;
   backdrop: ViewStyle;
-  sheetContainer: ViewStyle;
+  container: ViewStyle;
   dragHandleContainer: ViewStyle;
-  dragHandle: ViewStyle;
+  dragIconHandle: ViewStyle;
   sheetContentContainer: ViewStyle;
   sheetScrollContent: ViewStyle;
-  sheetContent: ViewStyle;
-  sheetText: TextStyle;
   skeleton: WmSkeletonStyles
 };
 
@@ -40,9 +39,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             bottom: 0,
             width: '100%',
             height: '100%',
-            backgroundColor: 'rgba(0,0,0,0.1)',
+            backgroundColor: ThemeVariables.INSTANCE.bottomSheetBgColor
         },
-        sheetContainer: {
+        container: {
             backgroundColor: '#fff',
             borderTopLeftRadius: 28,
             borderTopRightRadius: 28,
@@ -52,7 +51,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             shadowRadius: 3,
             elevation: 5,
             borderTopWidth: 0.5,
-            borderColor: 'rgba(0,0,0,0.1)',
+            borderColor: ThemeVariables.INSTANCE.bottomSheetBgColor,
             width: '100%',
             maxHeight: '100%', // Allow full screen height
             minHeight: 100, // Minimum height to prevent too small sheets
@@ -61,15 +60,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             paddingVertical: 16,
             alignItems: 'center',
             borderBottomWidth: 1,
-            borderBottomColor: 'rgba(0,0,0,0.1)',
+            borderBottomColor: ThemeVariables.INSTANCE.bottomSheetBgColor,
             backgroundColor: '#fff',
             borderTopLeftRadius: 28,
             borderTopRightRadius: 28,
         },
-        dragHandle: {
+        dragIconHandle: {
             width: 36,
             height: 4,
-            backgroundColor: 'rgba(60,60,67,0.3)',
+            backgroundColor: ThemeVariables.INSTANCE.bottomSheetDragIconcolor,
             borderRadius: 2,
         },
         sheetContentContainer: {
@@ -81,17 +80,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             paddingBottom: 20,
             flexGrow: 1,
         },
-        sheetContent: {},
-        sheetText: {
-            fontSize: 18,
-            marginBottom: 10,
-            textAlign: 'center',
-        },
         skeleton: {
         root: {
-          width: 96,
-          height: 48,
-          borderRadius: 4
+         
         }
       } as WmSkeletonStyles
     });
