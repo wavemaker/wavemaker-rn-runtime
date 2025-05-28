@@ -7,4 +7,7 @@ export default class WmProgressBarProps extends BaseProps {
   maxvalue: number = 100;
   accessibilitylabel?: string = undefined;
   accessibilityrole?: AccessibilityRole = 'progressbar';
+  showtooltip?: boolean = false;
+  tooltipposition?: 'up' | 'down' | 'left' | 'right' = 'up';
+  onTooltiptext?: Function | null = null;
 }
