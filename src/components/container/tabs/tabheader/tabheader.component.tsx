@@ -234,6 +234,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
         ref={this.listRef}
         horizontal={true}
         onLayout={this.setHeaderPanelPositon.bind(this)}
+        contentContainerStyle={{width: '100%'}}
         showsHorizontalScrollIndicator={false}
         scrollEnabled={props.shouldScroll}
       >

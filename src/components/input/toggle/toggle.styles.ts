@@ -2,10 +2,13 @@ import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { ViewStyle } from 'react-native';
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
+import { WmIconStyles } from '../../basic/icon/icon.styles';
 
 export type WmToggleStyles = BaseStyles & {
   handle: ViewStyle,
-  skeleton: WmSkeletonStyles
+  skeleton: WmSkeletonStyles,
+    checkicon: WmIconStyles,
+    uncheckicon: WmIconStyles
 };
 
 export const DEFAULT_CLASS = 'app-toggle';
@@ -28,6 +31,26 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         backgroundSize: '100% 100%',
         backgroundPosition: 'center'
       },
+      checkicon : {
+        root: {},
+        text: {
+          fontSize: 16
+        },
+        icon : {
+          color: 'var(--wm-color-primary)',
+          padding: 0
+        }
+    } as WmIconStyles,
+      uncheckicon : {
+        root: {},
+        text: {
+          fontSize: 16
+        },
+        icon : {
+          color: 'var(--wm-color-surface-container-highest)',
+          padding: 0
+        }
+    } as WmIconStyles,
       skeleton: {
         root: {
           width: 52,
@@ -58,6 +81,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   } as WmToggleStyles);
   addStyle(DEFAULT_CLASS + '-rtl', '', {});
   addStyle(DEFAULT_CLASS + '-disabled', '', {
-      root : {}
+      root : {
+        opacity:0.5
+      },
+      handle: {
+        backgroundColor: 'var(--wm-color-on-surface)',
+        opacity:1
+      }
   });
 });

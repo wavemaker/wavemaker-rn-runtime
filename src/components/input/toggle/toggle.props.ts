@@ -14,4 +14,6 @@ export default class WmToggleProps extends BaseProps {
   invokeEvent?: Function;
   skeletonheight?: string = null as any;
   skeletonwidth?: string = null as any;
+  toggleIcon?:boolean = false;
+  showCheckIcon?:boolean = false;
 }

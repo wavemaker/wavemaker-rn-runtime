@@ -9,6 +9,7 @@ import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-r
 import WmToggleProps from './toggle.props';
 import { DEFAULT_CLASS, WmToggleStyles } from './toggle.styles';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import WmIcon from '../../basic/icon/icon.component';
 
 export class WmToggleState extends BaseComponentState<WmToggleProps> {
   isSwitchOn: boolean = false;
@@ -103,6 +104,31 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
         ...this.styles.skeleton.root,
       });
   }
+  getStatusIcon(){
+    if(this.state.props.toggleIcon)
+    {
+      if(this.state.isSwitchOn)
+      {
+        return 'wi wi-check'
+      }
+      else{
+        return 'wi wi-close'
+      }
+    }
+    else if(this.state.props.showCheckIcon)
+    {
+      if(this.state.isSwitchOn)
+        {
+          return 'wi wi-check'
+        }
+        else{
+          return ' '
+        }
+    }
+    else{
+      return ''
+    }
+  }
 
   renderWidget(props: WmToggleProps) {
     const styles = this.theme.mergeStyle(this.styles, 
@@ -152,6 +178,7 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
                 ],
               },
             ]}>
+            <WmIcon iconclass={this.getStatusIcon()} styles={this.state.isSwitchOn ? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled} id={this.getTestId('checkicon')}/>
             <BackgroundComponent
               size={styles.handle.backgroundSize || 'contain'}
               position={styles.handle.backgroundPosition}
@@ -163,3 +190,5 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     );
   }
 }
+
+// this.state.props.toggleIcon ? (this.state.isSwitchOn ? 'wi wi-check' : 'wi wi-close') : (this.state.props.showCheckIcon ? (this.state.isSwitchOn ? 'wi wi-check' : '') : '')

@@ -9,9 +9,10 @@ import WmAnchor from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.c
 
 import WmPopoverProps from './popover.props';
 import { DEFAULT_CLASS, WmPopoverStyles } from './popover.styles';
-import WmContainer from '../../container/container.component';
+import WmContainer from '@wavemaker/app-rn-runtime/components/container/container.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { ScrollView, GestureHandlerRootView } from 'react-native-gesture-handler';
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
 export class WmPopoverState extends BaseComponentState<WmPopoverProps> {
   isOpened: boolean = false;
@@ -79,12 +80,12 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
         if (popoverwidth && isString(popoverwidth)) {
           popoverwidth = parseInt(popoverwidth);
         }
-        this.isRTL ? position.right = px : position.left = px
+        this.isRTL ? position.right = px : position.left = x;
         
         if (px + popoverwidth > windowDimensions.width) {
           this.isRTL
             ? (position.right = px + width - popoverwidth)
-            : (position.left = px + width - popoverwidth);
+            : (position.left = x);
         }
         position.top = py + height;
         this.updateState({position: position} as WmPopoverState);
@@ -193,6 +194,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
               modalService.showModal(this.prepareModalOptions(props.type === 'action-sheet' ?  (
                 <Animated.View style= {[styles.popover,{ height: this.dragY }]} {...this.panResponder.panHandlers}>
                   <GestureHandlerRootView>
+                              {this.state.props.draghandle ? <WmIcon iconclass="wi wi-minus" styles={this.styles.draghandleicon}/> : null}
                  {this.renderPopoverContent(props, styles, dimensions)}
                  </GestureHandlerRootView>
                   </Animated.View>

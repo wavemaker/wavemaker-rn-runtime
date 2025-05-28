@@ -242,8 +242,8 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
             width: '100%',
             flex: 1
           }, this.styles.root.height ?
-          (isWebPreviewMode() ? {'overflowX': 'hidden','overflowY': 'auto'} as any : {overflow: 'scroll'})
-          : {
+          (isWebPreviewMode() ? this.state.props.classname?.includes('divider') ? [this.styles.tabheaderdivider] : [{'overflowX': 'hidden','overflowY': 'auto'}] as any : {overflow: 'scroll'})
+          : this.state.props.classname?.includes('divider') ? this.styles.tabheaderdivider : {
             overflow: 'hidden',
             maxHeight: this.tabPaneHeights[this.state.selectedTabIndex],
           }, this.styles.tabContent]} >

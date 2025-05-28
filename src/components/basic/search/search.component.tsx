@@ -69,7 +69,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       const position = {} as DropdownPosition;
       this.view.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
         position.left = px;
-        position.top = py + height;
+        Platform.OS === 'ios' ? position.top = py : position.top = py+ height;
         this.updateState({ position: position } as WmSearchState, resolve);
       });
     });

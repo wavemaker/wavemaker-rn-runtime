@@ -23,6 +23,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       text: {},
       tabContent: {},
       tabHeader: {} as WmTabheaderStyles,
+      tabheaderdivider: {
+        borderBottomWidth:1,
+        borderBottomColor:'var(--wm-color-surface-variant-active)'
+      },
       skeleton: { 
         root: {
         }

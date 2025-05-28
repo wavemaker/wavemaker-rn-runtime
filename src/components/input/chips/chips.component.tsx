@@ -188,23 +188,36 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   }
 
   removeItem(item: any, index: any) {
-    let newChipList = clone(this.state.chipsList);
-    const isFormFieldWidget = get(this.props, 'formfield');
-    newChipList = pull(newChipList, item);
-    // prevent deletion if the before-remove event callback returns false
-    // @ts-ignore
-    const allowRemove = isFormFieldWidget ? this.props.invokeEvent('onBeforeremove',[null, this, item]) : this.invokeEventCallback('onBeforeremove',[null, this, item]);
-    if (!isUndefined(allowRemove) && !this.toBoolean(allowRemove)) {
-      return;
+    if(this.state.props.classname?.includes('template') || this.state.props.classname?.includes('clear-btn'))
+    {
+      let newChipList = clone(this.state.dataItems);
+      let newChiplist02 = clone(newChipList);
+      newChipList = pull(newChiplist02, item);
+      this.updateState({
+        chipsList: newChipList,
+        dataItems: newChipList
+      } as WmChipsState,
+    );
     }
-
-    this.updateState({
-      chipsList: newChipList
-    } as WmChipsState,()=>{
-      this.setDatavalue(newChipList);
-       // @ts-ignore
-      isFormFieldWidget ? this.props.invokeEvent && this.props.invokeEvent('onRemove', [null, this, item]) : this.invokeEventCallback('onRemove', [null, this, item]);
-    });
+    else{
+      let newChipList = clone(this.state.chipsList);
+      const isFormFieldWidget = get(this.props, 'formfield');
+      newChipList = pull(newChipList, item);
+      // prevent deletion if the before-remove event callback returns false
+      // @ts-ignore
+      const allowRemove = isFormFieldWidget ? this.props.invokeEvent('onBeforeremove',[null, this, item]) : this.invokeEventCallback('onBeforeremove',[null, this, item]);
+      if (!isUndefined(allowRemove) && !this.toBoolean(allowRemove)) {
+        return;
+      }
+  
+      this.updateState({
+        chipsList: newChipList
+      } as WmChipsState,()=>{
+        this.setDatavalue(newChipList);
+         // @ts-ignore
+        isFormFieldWidget ? this.props.invokeEvent && this.props.invokeEvent('onRemove', [null, this, item]) : this.invokeEventCallback('onRemove', [null, this, item]);
+      });
+    }
   }
 
   private isDefaultView() {
@@ -217,13 +230,18 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
       <TouchableOpacity
         {...this.getTestPropsForAction('chip'+ index)}
         {...getAccessibilityProps(AccessibilityWidgetType.CHIPS, {...this.state.props, selected: isSelected})}
-        style={[this.styles.chip, isSelected ? this.styles.activeChip : null]}
+        // style={[this.styles.chip, isSelected ? this.styles.activeChip : null]}
+        style={[this.styles.chip,this.state.props.classname?.includes('template') && !this.state.props.classname?.includes('clear-btn')? this.styles.assistchip : this.styles.chip,
+          this.state.props.classname?.includes('template') && this.state.props.classname?.includes('clear-btn')? this.styles.inputchipwithicon : this.styles.chip,
+          this.state.props.classname?.includes('clear-btn') ? this.styles.inputchipwithclearicon : this.styles.chip,
+          isSelected ? this.styles.activeChip : null]}
         key={'chipitem_'+ index}
         onPress={() => {
           if (this.state.props.disabled || this.state.props.readonly) {
             return;
           }
           if (this.isDefaultView()) {
+            this.state.props.classname?.includes('template') || this.state.props.classname?.includes('clear-btn') ? null :
             this.selectChip(item);
           }
           if (get(this.props, 'formfield')) {
@@ -232,15 +250,31 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
             // @ts-ignore
             this.props.invokeEvent('onChipselect', [null, this, item]);
           } else {
+            this.state.props.classname?.includes('template') || this.state.props.classname?.includes('clear-btn') ? null :
             this.invokeEventCallback('onChipclick', [null, this, item]);
             this.invokeEventCallback('onChipselect', [null, this, item]);
           }
         }}>
-        {isSelected && this.isDefaultView() ? <WmIcon id={this.getTestId('checkicon')} iconclass={'wm-sl-l sl-check'} iconsize={16} styles={merge({}, this.styles.doneIcon, {icon: {color: isSelected ? this.styles.doneIcon.icon?.color : null}})}></WmIcon> : null}
-        { this._showSkeleton ? null : <WmPicture id={this.getTestId('chip'+ index + 'picture')} styles={this.styles.imageStyles} picturesource={item.imgSrc} shape='circle'></WmPicture>}
-        { this._showSkeleton ? <WmLabel styles={{root: {width: 50}}}/> :  <Text {...this.getTestPropsForAction('chip'+ index+'label')}style={[this.styles.chipLabel, isSelected ? this.styles.activeChipLabel : null]}>{item.displayexp || item.displayfield}</Text>}
-        {!this.isDefaultView() && !(this.state.props.disabled||this.state.props.readonly) ? <WmIcon id={this.getTestId('clearbtn')} iconclass={'wi wi-clear'} iconsize={16} styles={this.styles.clearIcon} onTap={() => this.removeItem(item, index)}></WmIcon> : null}
+          {
+            this.state.props.classname?.includes('template') || this.state.props.classname?.includes('clear-btn') ? this.rendertemplate(item,index) :
+          <>
+          {isSelected && this.isDefaultView() ? <WmIcon id={this.getTestId('checkicon')} iconclass={'wm-sl-l sl-check'} iconsize={16} styles={merge({}, this.styles.doneIcon, {icon: {color: isSelected ? this.styles.doneIcon.icon?.color : null}})}></WmIcon> : null}
+          { this._showSkeleton ? null : <WmPicture id={this.getTestId('chip'+ index + 'picture')} styles={this.styles.imageStyles} picturesource={item.imgSrc} shape='circle'></WmPicture>}
+          { this._showSkeleton ? <WmLabel styles={{root: {width: 50}}}/> :  <Text {...this.getTestPropsForAction('chip'+ index+'label')}style={[this.styles.chipLabel, isSelected ? this.styles.activeChipLabel : null]}>{item.displayexp || item.displayfield}</Text>}
+          {!this.isDefaultView() && !(this.state.props.disabled||this.state.props.readonly) ? <WmIcon id={this.getTestId('clearbtn')} iconclass={'wi wi-clear'} iconsize={16} styles={this.styles.clearIcon} onTap={() => this.removeItem(item, index)}></WmIcon> : null}  
+          </>
+          }
       </TouchableOpacity>
+    )
+  }
+
+  rendertemplate(item:any, index:any){
+    return(
+      <>
+       <WmIcon id={this.getTestId('checkicon')} iconclass={this.state.props.classname?.includes("template") ? item.imgSrc : "none"} iconsize={16} styles={merge({}, this.styles.leadingIcon, {icon: {color:  this.styles.leadingIcon.icon?.color }})}></WmIcon>
+      { this._showSkeleton ? <WmLabel styles={{root: {width: 50}}}/> :  <Text {...this.getTestPropsForAction('chip'+ index+'label')}style={[this.styles.chipLabel, this.state.props.classname?.includes('template') && !this.state.props.classname?.includes('clear-btn') ? this.styles.assistchipLabel : null, this.state.props.classname?.includes('template') && this.state.props.classname?.includes("clear-btn") ? this.styles.inputchipLabelwithicon : null, !this.state.props.classname?.includes('template') && this.state.props.classname?.includes("clear-btn") ? this.styles.inputchipLabelwithclear : null]}>{item.displayexp || item.displayfield}</Text>}
+      {!(this.state.props.disabled||this.state.props.readonly) ? <WmIcon id={this.getTestId('clearbtn')} iconclass={this.state.props.classname?.includes("clear-btn") ? 'wi wi-clear' : 'none'} iconsize={16} styles={this.state.props.classname?.includes("clear-btn") ? this.styles.inputchipclear : this.styles.clearIcon} onTap={() => this.removeItem(item, index)}></WmIcon> : null}
+   </>
     )
   }
 

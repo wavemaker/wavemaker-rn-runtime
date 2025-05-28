@@ -18,6 +18,11 @@ export type WmChipsStyles = BaseStyles & {
   doneIcon: WmIconStyles;
   imageStyles: WmPictureStyles;
   skeleton: WmSkeletonStyles;
+  leadingIcon:WmIconStyles;
+  assistchipLabel:TextStyle;
+  inputchipclear: WmIconStyles;
+  inputchipLabelwithicon:TextStyle;
+  inputchipLabelwithclear:TextStyle;
 };
 
 export const DEFAULT_CLASS = 'app-chips';
@@ -45,6 +50,49 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderWidth: 1,
         borderColor: themeVariables.chipborderColor,
         elevation: 1
+      },
+      assistchip : {
+        paddingTop:0,
+        paddingBottom:0,
+        paddingLeft:8,
+        paddingRight:16,
+      },
+      leadingIcon: {
+        icon: {
+          paddingLeft: 0,
+          paddingRight:0,
+          fontSize: 18,
+          color: 'var(--wm-color-primary)'
+          // themeVariables.chipIconColor,
+        }
+      } as WmIconStyles,
+      assistchipLabel : {
+        paddingRight: 0,
+      },
+      inputchipwithicon :{
+        paddingTop:0,
+        paddingBottom:0,
+        paddingLeft:4,
+        paddingRight:8
+      },
+      inputchipclear:{
+        icon: {
+          paddingRight: 0
+        }
+      } as WmIconStyles,
+      inputchipLabelwithicon:{
+        paddingLeft:8,
+        paddingRight:8
+      },
+      inputchipwithclearicon :{
+        paddingTop:0,
+        paddingBottom:0,
+        paddingLeft:12,
+        paddingRight:8
+      },
+      inputchipLabelwithclear:{
+        paddingLeft:0,
+        paddingRight:8
       },
       chipLabel : {
         fontSize: 14,
