@@ -571,7 +571,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
     const edgeToEdgeConfig = this.appConfig?.edgeToEdgeConfig;
     const statusbarConfig = this.appConfig?.edgeToEdgeConfig?.statusbarConfig;
-    const isEdgeToEdgeApp = !!edgeToEdgeConfig.isEdgeToEdgeApp;
+    const isEdgeToEdgeApp = !!edgeToEdgeConfig?.isEdgeToEdgeApp;
 
     const Wrapper = isEdgeToEdgeApp ? View : SafeAreaView;
     return (
