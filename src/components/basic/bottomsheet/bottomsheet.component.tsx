@@ -1,9 +1,10 @@
 import React, { createRef } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import {View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue } from 'react-native';
+import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue } from 'react-native';
 import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
 import { createSkeleton } from '../skeleton/skeleton.component';
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('screen');
@@ -174,7 +175,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       if (gestureState.dy > 0) {
         const newTranslateY = Math.max(0, this.state.lastGestureDy + gestureState.dy);
         this.state.translateY.setValue(newTranslateY);
-       
+
       }
     },
 
@@ -299,12 +300,12 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     }
   }
 
-  public renderSkeleton(props: WmBottomsheetProps){
-      return createSkeleton(this.theme, this.styles.skeleton, {
-        ...this.styles.root,
-        width: this.styles.root.width as DimensionValue,
-        height:  this.styles.root.height as DimensionValue
-      });
+  public renderSkeleton(props: WmBottomsheetProps) {
+    return createSkeleton(this.theme, this.styles.skeleton, {
+      ...this.styles.root,
+      width: this.styles.root.width as DimensionValue,
+      height: this.styles.root.height as DimensionValue
+    });
   }
 
   renderWidget(props: WmBottomsheetProps) {
@@ -312,7 +313,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
 
     return (
 
-      <View style={this.styles.root}  testID={this.getTestId('wm-bottom-sheet')}>
+      <View style={this.styles.root} testID={this.getTestId('wm-bottom-sheet')} {...getAccessibilityProps(AccessibilityWidgetType.BOTTOMSHEET, props)}>
         {this._background}
         <TouchableWithoutFeedback onPress={this.closeSheet}>
           <Animated.View style={[this.styles.backdrop, { opacity: this.state.backdropOpacity }]} testID={this.getTestId('wm-bottom-sheet-backdrop')} />
@@ -327,12 +328,12 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
             },
           ]}
           {...this.panResponder.panHandlers}
-         
-        
+
+
         >
           <View style={this.styles.dragHandleContainer} {...this.dragHandlePanResponder.panHandlers}>
             <TouchableWithoutFeedback onPress={this.closeSheet}>
-              <View style={this.styles.dragIconHandle}  testID={this.getTestId('wm-bottomsheet-drag-handle')}  />
+              <View style={this.styles.dragIconHandle} testID={this.getTestId('wm-bottomsheet-drag-handle')} />
             </TouchableWithoutFeedback>
           </View>
 
@@ -349,8 +350,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
             nestedScrollEnabled={true}
             scrollEnabled={true}
             testID={this.getTestId('wm-bottomsheet-scroll-view')}
-            
-            
+
+
           >
             {props.children}
           </ScrollView>

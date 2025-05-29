@@ -2,6 +2,7 @@
 
 exports[`Test Bottomsheet component should match snapshot with default props 1`] = `
 <View
+  accessible={true}
   style={
     {
       "bottom": 0,
