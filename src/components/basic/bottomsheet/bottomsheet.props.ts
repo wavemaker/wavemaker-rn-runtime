@@ -6,6 +6,7 @@ export default class WmBottomsheetProps extends BaseProps {
     children? = null as any;
     bottompopup?:boolean = false;
     expandedheightratio?:number = 0.5; 
+    onOpened?: Function = null as any;
     onClose?: Function = null as any;
 
 }

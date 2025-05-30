@@ -17,6 +17,7 @@ export class WmBottomsheetState extends BaseComponentState<WmBottomsheetProps> {
   isScrolling = false;
   scrollOffset = 0;
   isExpanded = false;
+  isBottomsheetVisible = false;
 }
 
 export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmBottomsheetState, WmBottomsheetStyles> {
@@ -25,7 +26,6 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   private defaultHeight: number = 0.2;
   private expandedDefaultHeight: number = 0.5;
   private maxHeight: number = 1.0; // Allow full screen height
-  private isBottomsheetVisible: boolean = false;
   private animationDuration: number = 400
   private statusBarHeight: number = StatusBar.currentHeight || 0;
   private defaultTopInset: number = 44;
@@ -56,13 +56,26 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     return calculatedHeight;
   }
 
+  open() {
+    if (!this.state.isBottomsheetVisible)
+      this.updateState({
+        isBottomsheetVisible: true
+      } as WmBottomsheetState);
+    this.openSheet();
+  }
+
+  close() {
+    if (this.state.isBottomsheetVisible) {
+      this.closeSheet();
+    }
+  }
+
   constructor(props: WmBottomsheetProps) {
     super(props, DEFAULT_CLASS, new WmBottomsheetProps(), new WmBottomsheetState());
     this.calculatedHeight = this.calculateSheetHeight(props.sheetheightratio);
 
     // Allow expanded height to be full screen
     const expandedRatio = props.expandedheightratio || this.expandedDefaultHeight;
-
 
     this.expandedHeight = SCREEN_HEIGHT * Math.max(
       this.expandedDefaultHeight,
@@ -74,7 +87,6 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       if (expandedRatio >= 0.9) {
         this.expandedHeight -= this.statusBarHeight;
       }
-
     }
     if (Platform.OS === 'ios') {
       // Subtract status bar height for Android only if sheetheightratio is 0.9
@@ -84,8 +96,11 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     }
     this.state.sheetHeight.setValue(this.calculatedHeight);
 
-    this.isBottomsheetVisible = this.props.visible || false;
-    if (this.isBottomsheetVisible) {
+    this.updateState({
+      isBottomsheetVisible: this.props.visible || false
+    } as WmBottomsheetState);
+
+    if (this.state.isBottomsheetVisible) {
       this.openSheet();
     } else {
       this.closeSheetImmediate();
@@ -107,7 +122,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   }
 
   private handleBackPress = () => {
-    if (this.isBottomsheetVisible) {
+    if (this.state.isBottomsheetVisible) {
       this.closeSheet();
       return true; // Prevent default back action
     }
@@ -240,12 +255,16 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
         duration: this.animationDuration,
         useNativeDriver: false,
       }),
-    ]).start();
+    ]).start(() => {
+      this.invokeEventCallback('onOpened', [null, this]);
+    });
   };
 
   private handleClose = () => {
-    this.isBottomsheetVisible = false;
-    this.props.onClose?.();
+    this.updateState({
+      isBottomsheetVisible: false
+    } as WmBottomsheetState);
+    this.invokeEventCallback('onClose', [null, this]);
   };
 
   closeSheet = () => {
@@ -276,11 +295,11 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     this.state.backdropOpacity.setValue(0);
     this.updateState({
       lastGestureDy: 0,
-      isExpanded: false
+      isExpanded: false,
+      isBottomsheetVisible: false
     } as WmBottomsheetState);
     requestAnimationFrame(() => {
       this.state.sheetHeight.setValue(this.calculatedHeight);
-      this.handleClose();
     });
   };
 
@@ -289,8 +308,10 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     switch (name) {
       case "visible":
         if ($new) {
-          this.isBottomsheetVisible = $new || false;
-          if (this.isBottomsheetVisible) {
+          this.updateState({
+            isBottomsheetVisible: $new || false
+          } as WmBottomsheetState);
+          if (this.state.isBottomsheetVisible) {
             this.openSheet && this.openSheet();
           }
         } else {
@@ -309,7 +330,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   }
 
   renderWidget(props: WmBottomsheetProps) {
-    if (!this.isBottomsheetVisible || !props.visible) return null;
+    if (!this.state.isBottomsheetVisible) return null;
 
     return (
 
