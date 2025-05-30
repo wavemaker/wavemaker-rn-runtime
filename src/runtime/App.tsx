@@ -560,7 +560,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
           width: '100%',
           position: 'absolute',
           zIndex: 999,
-          backgroundColor: config?.color,
+          backgroundColor: config?.color || 'transparent',
           opacity: (config?.opacity/100) || 0.3
         }}
       ></View>
