@@ -499,6 +499,27 @@ describe('WmCarousel Component', () => {
     clearIntervalMock.mockRestore();
   });
 
+
+  
+it('wraps a single React child into an array', () => {
+     const dataset = [
+      <View key="slide1">
+        <Text>Slide 1</Text>
+      </View>,
+    
+    ];
+  const ref = createRef();
+  renderComponent({
+      ref,
+      animation: 'none',
+    });
+const data = ref.current.extractChildrenData(dataset);
+expect(Array.isArray(data)).toBe(true);
+
+});
+
+
+
   it('should apply the correct styles to the root element', () => {
     const tree = renderComponent({
       styles: {

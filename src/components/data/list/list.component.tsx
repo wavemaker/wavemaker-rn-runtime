@@ -134,7 +134,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     ) : null;
   };
 
-  private loadData = () => {
+  private loadData() {
     if (this.state.loadingData || !this.hasMoreData) {
      
       return;
