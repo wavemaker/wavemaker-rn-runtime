@@ -18,7 +18,7 @@ import { parseLinearGradient } from '@wavemaker/app-rn-runtime/core/utils';
 type PartType = {
   text?: string,
   link?: string,
-  bold?: boolean
+  bold?: boolean;
 };
 
 export class WmLabelState extends BaseComponentState<WmLabelProps> {
@@ -64,102 +64,44 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       return [];
     }
     caption += '';
-    if (!caption.includes('**') && !caption.includes('[')) {
-      return [{ text: caption }];
-    }
-
     caption = caption.replace(/\s*\(\s*\$event,\s*\$widget\s*\)\s*/, '');
     caption = caption.replace(/\(\s*\)/, '(#/__EMPTY__)');
-    const boldSections = [];
-    const boldRegex = /\*\*([^*]+)\*\*/g;
-    let match;
-    while ((match = boldRegex.exec(caption)) !== null) {
-      boldSections.push({
-        fullMatch: match[0],    
-        text: match[1],         
-        start: match.index,
-        end: match.index + match[0].length
-      });
-    }
-    boldSections.sort((a, b) => a.start - b.start);
-    const segments = [];
-    let lastEnd = 0;
-    for (const section of boldSections) {
-      if (section.start > lastEnd) {
-        segments.push({
-          text: caption.substring(lastEnd, section.start),
-          bold: false
-        });
-      }
-      segments.push({
-        text: section.text,
-        bold: true
-      });
-      lastEnd = section.end;
-    }
-    if (lastEnd < caption.length) {
-      segments.push({
-        text: caption.substring(lastEnd),
-        bold: false
-      });
-    }
-    const finalParts: PartType[] = [];
-    const pattern = /\[([^\]]+)\]\(([^)]*)\)/g;
-    const linkRegex = /^(((http|https):\/\/)|javascript:|#).+$/;
     
-    for (const segment of segments) {
-      const segmentText = segment.text;
-      const segmentParts = segmentText.split(pattern);
-      let hasParts = false;
-      
-      for (let i = 0; i < segmentParts.length; i++) {
-        const part: PartType = {};
-        
-        const isLink = linkRegex.test(segmentParts[i]);
-        const isNextTextALink = i + 1 < segmentParts.length && linkRegex.test(segmentParts[i + 1]);
-        
-        if (isLink) {
-          part.text = segmentParts[i - 1] ?? '';
-          part.link = segmentParts[i] === '#/__EMPTY__' ? '' : segmentParts[i];
-          part.bold = segment.bold;
-          hasParts = true;
-        } else {
-          part.text = isNextTextALink ? "" : segmentParts[i];
-          if (part.text) {
-            part.bold = segment.bold;
-            hasParts = true;
-          }
+    // First handle bold text
+    const boldPattern = /\*\*([^*]+)\*\*/g;
+    caption = caption.replace(boldPattern, (match, text) => {
+      return `[${text}](bold)`;
+    });
+
+    const pattern = /\[([^\]]+)\]\(([^)]*)\)/g;
+    const linkRegex = /^(((http|https):\/\/)|javascript:|#|bold).+$/;
+    const captionSplit = caption.split(pattern);
+
+    let parts = [];
+
+    for (let i = 0; i < captionSplit.length; i++) {
+      const isLink = linkRegex.test(captionSplit[i]);
+      let part: PartType = {};
+
+      const isNextTextALink = linkRegex.test(captionSplit[i + 1]);
+      if (isLink) {
+        part.text = captionSplit[i - 1] ?? '';
+        part.link = captionSplit[i] === '#/__EMPTY__' ? '' : captionSplit[i];
+        // Add bold property if the link is 'bold'
+        if (captionSplit[i] === 'bold') {
+          part.bold = true;
+          part.link = undefined; // Clear the link since it's just a formatting marker
         }
-        
-        if (part.text || part.link) {
-          const clonedPart: PartType = { ...part };
-          finalParts.push(clonedPart);
-        }
-      }
-      if (!hasParts && segmentText) {
-        finalParts.push({
-          text: segmentText,
-          bold: segment.bold
-        });
+      } else {
+        part.text = isNextTextALink ? "" : captionSplit[i];
+      };
+      if (part.text || part.link || part.bold) {
+        parts.push(part);
       }
     }
-    if (boldSections.length > 0) {
-      for (const section of boldSections) {
-        if (section.text.includes('[') && section.text.includes('](')) {
-          const linkMatch = section.text.match(/\[([^\]]+)\]\(([^)]*)\)/);
-          if (linkMatch) {
-            for (const part of finalParts) {
-              if (part.text === linkMatch[1] && part.link === linkMatch[2]) {
-                part.bold = true;
-                break;
-              }
-            }
-          }
-        }
-      }
-    }
-    return finalParts;
-  }
+
+    return parts;
+}
 
   public renderSkeleton(props: WmLabelProps) {
 
