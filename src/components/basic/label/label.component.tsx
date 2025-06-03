@@ -18,6 +18,7 @@ import { parseLinearGradient } from '@wavemaker/app-rn-runtime/core/utils';
 type PartType = {
   text?: string,
   link?: string,
+  bold?: boolean;
 };
 
 export class WmLabelState extends BaseComponentState<WmLabelProps> {
@@ -65,28 +66,62 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     caption += '';
     caption = caption.replace(/\s*\(\s*\$event,\s*\$widget\s*\)\s*/, '');
     caption = caption.replace(/\(\s*\)/, '(#/__EMPTY__)');
-    const pattern = /\[([^\]]+)\]\(([^)]*)\)/g;
-    const linkRegex = /^(((http|https):\/\/)|javascript:|#).+$/;
-    const captionSplit = caption.split(pattern);
-
-    let parts = [];
-
-    for (let i = 0; i < captionSplit.length; i++) {
-      const isLink = linkRegex.test(captionSplit[i]);
-      let part: PartType = {};
-
-      const isNextTextALink = linkRegex.test(captionSplit[i + 1]);
-      if (isLink) {
-        part.text = captionSplit[i - 1] ?? '';
-        part.link = captionSplit[i] === '#/__EMPTY__' ? '' : captionSplit[i];
-      } else {
-        part.text = isNextTextALink ? "" : captionSplit[i];
-      };
-      if (part.text || part.link) {
-        parts.push(part);
+  
+    let parts: PartType[] = [];
+    let lastIndex = 0;
+    let match;
+  
+    // Combined pattern to match both bold sections and links
+    const pattern = /\*\*([^*]+?)\*\*|\[([^\]]+)\]\(([^)]*)\)/g;
+  
+    while ((match = pattern.exec(caption)) !== null) {
+      // Add any text before the match
+      if (match.index > lastIndex) {
+        parts.push({ text: caption.substring(lastIndex, match.index) });
       }
+  
+      if (match[1] !== undefined) {
+        // This is a bold section (first capture group)
+        const boldContent = match[1];
+        
+        // Check if the bold content contains a link
+        const linkPattern = /\[([^\]]+)\]\(([^)]*)\)/;
+        const linkMatch = boldContent.match(linkPattern);
+        
+        if (linkMatch) {
+          // If there's text before the link
+          const beforeLink = boldContent.substring(0, linkMatch.index);
+          if (beforeLink) {
+            parts.push({ text: beforeLink, bold: true });
+          }
+          
+          // Add the link part
+          parts.push({ text: linkMatch[1], link: linkMatch[2], bold: true });
+          
+          // If there's text after the link
+          if(linkMatch.index) {
+            const afterLink = boldContent.substring(linkMatch.index + linkMatch[0].length);
+            if (afterLink) {
+              parts.push({ text: afterLink, bold: true });
+            }  
+          }
+        } else {
+          // If no link, just add the entire content as bold
+          parts.push({ text: boldContent, bold: true });
+        }
+      } else if (match[2] !== undefined && match[3] !== undefined) {
+        // This is a standalone link (second and third capture groups)
+        parts.push({ text: match[2], link: match[3] });
+      }
+  
+      lastIndex = pattern.lastIndex;
     }
-
+  
+    // Add any remaining text after the last match
+    if (lastIndex < caption.length) {
+      parts.push({ text: caption.substring(lastIndex) });
+    }
+  
     return parts;
   }
 
@@ -165,6 +200,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
               style={[
                 this.styles.text,
                 isLink ? this.styles.link.text : null,
+                part.bold ? { fontWeight: 'bold'} : null, 
                 this.state.props.isValid ? null : { color: 'red' }
               ]}
               {...this.getTestPropsForLabel(isLink ? `link_${index}` : `caption_${index}`)}
