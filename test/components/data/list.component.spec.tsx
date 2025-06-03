@@ -3,7 +3,7 @@ import { Text, TouchableOpacity } from 'react-native';
 import { shallow } from 'enzyme';
 import WmList from '@wavemaker/app-rn-runtime/components/data/list/list.component';
 import WmListProps from '@wavemaker/app-rn-runtime/components/data/list/list.props';
-import { render,fireEvent } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import { cleanup as rtlCleanup } from '@testing-library/react-native';
 
 describe('Test List component', () => {
@@ -67,29 +67,6 @@ describe('Test List component', () => {
     expect(flatList.props.showsHorizontalScrollIndicator).toBe(true);
   });
 
-  test('should not affect vertical list scrollbar', () => {
-    const props = createProps({
-      direction: 'vertical',
-      hidehorizontalscrollbar: true
-    });
-
-    const { getByTestId } = render(<WmList {...props} />);
-    const flatList = getByTestId(testID);
-
-    expect(flatList.props.showsHorizontalScrollIndicator).toBeUndefined();
-  });
-  // Test pagination and loading in WmList component
-  test('vertical list should limit visible items by pagesize', () => {
-    const props = createProps({ 
-      direction: 'vertical',
-      pagesize: 10,
-      dataset: createLargeDataset(30)
-    });
-    const { queryAllByTestId } = render(<WmList {...props} />);
-    const renderedItems = queryAllByTestId(/^testList_item\d+$/);
-    expect(renderedItems.length).toBeLessThan(30);
-  });
-
   test('should load more data when scrolling near the bottom', () => {
     // Create a mock implementation of the loadData function
     const mockLoadMoreData = jest.fn();
@@ -141,9 +118,28 @@ describe('Test List component', () => {
     }
   });
 
-  
+  test('should not affect vertical list scrollbar', () => {
+    const props = createProps({
+      direction: 'vertical',
+      hidehorizontalscrollbar: true
+    });
 
+    const { getByTestId } = render(<WmList {...props} />);
+    const flatList = getByTestId(testID);
 
+    expect(flatList.props.showsHorizontalScrollIndicator).toBeUndefined();
+  });
+  // Test pagination and loading in WmList component
+  test('vertical list should limit visible items by pagesize', () => {
+    const props = createProps({ 
+      direction: 'vertical',
+      pagesize: 10,
+      dataset: createLargeDataset(30)
+    });
+    const { queryAllByTestId } = render(<WmList {...props} />);
+    const renderedItems = queryAllByTestId(/^testList_item\d+$/);
+    expect(renderedItems.length).toBeLessThan(30);
+  });
 
   test('horizontal list rendering based on horizontalondemandenabled', () => {
     // Create a dataset with exactly 20 items
