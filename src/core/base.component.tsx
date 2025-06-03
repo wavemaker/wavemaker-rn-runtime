@@ -324,7 +324,34 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             }
         }
     }
-
+    async invokeEventCallbackAsync(eventName: string, args: any[]): Promise<any> {
+        const callBack: Function = (this.props as any)[eventName];
+        args = args && args.map(a => (a === this) ? this.proxy : a);
+        if (callBack) {
+            try {
+                let resolver: (value: any) => void;
+                const asyncPromise = new Promise<any>((resolve) => {
+                    resolver = resolve;
+                });
+                // Add completeAsyncCallback to the widget
+                (this as any).completeAsyncCallback = (result: any = true) => {
+                    resolver(result);
+                    delete (this as any).completeAsyncCallback;
+                };
+                callBack.apply(this.proxy, args);
+                const result = await asyncPromise;
+                return result;
+                
+            } catch (e) {
+                console.error(`Error in ${eventName}:`, e);
+                if ((this as any).completeAsyncCallback) {
+                    delete (this as any).completeAsyncCallback;
+                }
+                throw e;
+            }
+        }
+        return undefined;
+    }
     showView() {
         return this.isVisible();
     }

@@ -200,7 +200,7 @@ describe('WmForm', () => {
     expect(mockSetReadOnlyState).toHaveBeenCalledTimes(3)
 
   })
-
+  
   it('registerFormFields registers form fields and sets readonly fields', () => {
     const {  UNSAFE_getByType } = render(<WmForm {...defaultProps} parentForm="parentForm" />);
     const instance = UNSAFE_getByType(WmForm).instance;
@@ -553,7 +553,104 @@ describe('WmForm', () => {
       expect(instanceParent.updateDataOutput).toHaveBeenCalled()
     })
   })
+  it('should call invokeEventCallback when enableAsyncCallbacks is false', async () => {
+    const props = {
+      ...defaultProps,
+      enableAsyncCallbacks: false,
+      onBeforesubmit: jest.fn()
+    };
+    
+    const tree = render(<SampleToastProvider><WmForm {...props} /></SampleToastProvider>);
+    const instance = tree.UNSAFE_getByType(WmForm).instance;
+    
+    instance.invokeEventCallback = jest.fn();
+    instance.invokeEventCallbackAsync = jest.fn();
+    instance.validateFieldsOnSubmit = jest.fn(() => true);
+    
+    await instance.handleSubmit();
+    
+    expect(instance.invokeEventCallback).toHaveBeenCalled();
+    expect(instance.invokeEventCallbackAsync).not.toHaveBeenCalled();
+  });
 
+  it('should call invokeEventCallbackAsync when enableAsyncCallbacks is true', async () => {
+    const props = {
+      ...defaultProps,
+      enableAsyncCallbacks: true,
+      onBeforesubmit: jest.fn()
+    };
+    
+    const tree = render(<SampleToastProvider><WmForm {...props} /></SampleToastProvider>);
+    const instance = tree.UNSAFE_getByType(WmForm).instance;
+    
+    const mockInvokeEventCallbackAsync = jest.fn(() => Promise.resolve());
+    instance.invokeEventCallbackAsync = mockInvokeEventCallbackAsync;
+    instance.validateFieldsOnSubmit = jest.fn(() => true);
+    
+    await instance.handleSubmit();
+    
+    expect(mockInvokeEventCallbackAsync).toHaveBeenCalledWith('onBeforesubmit', [null, instance.proxy, undefined]);
+  });
+
+  it('should default to sync when enableAsyncCallbacks not provided', async () => {
+    const props = {
+      ...defaultProps,
+      onBeforesubmit: jest.fn()
+    };
+    
+    const tree = render(<SampleToastProvider><WmForm {...props} /></SampleToastProvider>);
+    const instance = tree.UNSAFE_getByType(WmForm).instance;
+    
+    instance.invokeEventCallback = jest.fn();
+    instance.invokeEventCallbackAsync = jest.fn();
+    instance.validateFieldsOnSubmit = jest.fn(() => true);
+    
+    await instance.handleSubmit();
+    
+    expect(instance.invokeEventCallback).toHaveBeenCalled();
+  });
+
+  it('should handle async errors and return false', async () => {
+    const props = {
+      ...defaultProps,
+      enableAsyncCallbacks: true,
+      onBeforesubmit: jest.fn()
+    };
+    
+    const tree = render(<SampleToastProvider><WmForm {...props} /></SampleToastProvider>);
+    const instance = tree.UNSAFE_getByType(WmForm).instance;
+    
+    instance.invokeEventCallbackAsync = jest.fn(() => Promise.reject(new Error('Test error')));
+    instance.validateFieldsOnSubmit = jest.fn(() => true);
+    
+    const result = await instance.handleSubmit();
+    
+    expect(result).toBe(false);
+  });
+
+  it('should merge form data after async callback', async () => {
+    const props = {
+      ...defaultProps,
+      enableAsyncCallbacks: true,
+      onBeforesubmit: jest.fn(),
+      formSubmit: jest.fn()
+    };
+    
+    const tree = render(<SampleToastProvider><WmForm {...props} /></SampleToastProvider>);
+    const instance = tree.UNSAFE_getByType(WmForm).instance;
+    
+    instance.formdataoutput = { password: 'encrypted' };
+    instance.invokeEventCallbackAsync = jest.fn(() => Promise.resolve());
+    instance.validateFieldsOnSubmit = jest.fn(() => true);
+    
+    await instance.handleSubmit();
+    
+    expect(props.formSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ password: 'encrypted' }),
+      expect.any(Function),
+      expect.any(Function)
+    );
+  });
   it('onResultCb should invoke callback with respective params', () => {
     const { instance } = render(<WmForm {...defaultProps}/>).UNSAFE_getAllByType(WmForm)[0]
     const mockInvokeEventCallback = jest.fn();

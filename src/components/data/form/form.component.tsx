@@ -331,29 +331,41 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   }
 
   // @ts-ignore
-  handleSubmit(event?: any) {
+  async handleSubmit(event?: any) {
     event?.preventDefault();
     const formData = cloneDeep(this.state.props.dataoutput || this.formdataoutput);
-
     if (!this.validateFieldsOnSubmit()) {
-      return false;
+        return false;
     }
     if (this.props.onBeforesubmit) {
-      this.invokeEventCallback('onBeforesubmit', [ null, this.proxy, formData ]);
+        try {
+            let result;
+            if (this.props.enableAsyncCallbacks) {
+                result = await this.invokeEventCallbackAsync('onBeforesubmit', [null, this.proxy, formData]);
+            } else {
+                result = this.invokeEventCallback('onBeforesubmit', [null, this.proxy, formData]);
+            }
+            // Get updated form data after async operations
+            const updatedData = cloneDeep(this.state.props.dataoutput || this.formdataoutput);
+            if (updatedData) {
+                Object.assign(formData, updatedData);
+            }
+        } catch (error) {
+            return false;
+        }
     }
     if (this.props.formSubmit) {
-      this.props.formSubmit(formData, ((data: any) => {
-        this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
-        this.onResultCb(get(data, 'params'), 'success');
-      }), ((error: any) => {
-        this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
-        this.onResultCb(error, '');
-      }));
+        this.props.formSubmit(formData, ((data: any) => {
+            this.invokeEventCallback('onSubmit', [null, this.proxy, formData]);
+            this.onResultCb(get(data, 'params'), 'success');
+        }), ((error: any) => {
+            this.invokeEventCallback('onSubmit', [null, this.proxy, formData]);
+            this.onResultCb(error, '');
+        }));
     } else {
-      this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
+        this.invokeEventCallback('onSubmit', [null, this.proxy, formData]);
     }
   }
-
   onResultCb(response: any, status: string, event?: any) {
     this.invokeEventCallback('onResult', [ null, this.proxy, response ]);
     if (status) {
