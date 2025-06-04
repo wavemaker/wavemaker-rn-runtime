@@ -66,36 +66,42 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     caption += '';
     caption = caption.replace(/\s*\(\s*\$event,\s*\$widget\s*\)\s*/, '');
     caption = caption.replace(/\(\s*\)/, '(#/__EMPTY__)');
+    
+    // First handle bold text
+    const boldPattern = /\*\*([^*]+)\*\*/g;
+    caption = caption.replace(boldPattern, (match, text) => {
+      return `[${text}](bold)`;
+    });
 
-    // Regex to match: **[text](url)**, **text**, [text](url)
-    const pattern = /\*\*\[([^\]]+)\]\(([^)]*)\)\*\*|\*\*([^*]+)\*\*|\[([^\]]+)\]\(([^)]*)\)/g;
-    let parts: PartType[] = [];
-    let lastIndex = 0;
-    let match;
+    const pattern = /\[([^\]]+)\]\(([^)]*)\)/g;
+    const linkRegex = /^(((http|https):\/\/)|javascript:|#|bold).+$/;
+    const captionSplit = caption.split(pattern);
 
-    while ((match = pattern.exec(caption)) !== null) {
-      // Add any text before the match
-      if (match.index > lastIndex) {
-        parts.push({ text: caption.substring(lastIndex, match.index) });
+    let parts = [];
+
+    for (let i = 0; i < captionSplit.length; i++) {
+      const isLink = linkRegex.test(captionSplit[i]);
+      let part: PartType = {};
+
+      const isNextTextALink = linkRegex.test(captionSplit[i + 1]);
+      if (isLink) {
+        part.text = captionSplit[i - 1] ?? '';
+        part.link = captionSplit[i] === '#/__EMPTY__' ? '' : captionSplit[i];
+        // Add bold property if the link is 'bold'
+        if (captionSplit[i] === 'bold') {
+          part.bold = true;
+          part.link = undefined; // Clear the link since it's just a formatting marker
+        }
+      } else {
+        part.text = isNextTextALink ? "" : captionSplit[i];
+      };
+      if (part.text || part.link || part.bold) {
+        parts.push(part);
       }
-      if (match[1] && match[2] !== undefined) {
-        // **[text](url)** => bold link
-        parts.push({ text: match[1], link: match[2], bold: true });
-      } else if (match[3]) {
-        // **text** => bold
-        parts.push({ text: match[3], bold: true });
-      } else if (match[4] && match[5] !== undefined) {
-        // [text](url) => link
-        parts.push({ text: match[4], link: match[5] });
-      }
-      lastIndex = pattern.lastIndex;
     }
-    // Add any remaining text after the last match
-    if (lastIndex < caption.length) {
-      parts.push({ text: caption.substring(lastIndex) });
-    }
+
     return parts;
-  }
+}
 
   public renderSkeleton(props: WmLabelProps) {
 
