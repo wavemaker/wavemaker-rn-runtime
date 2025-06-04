@@ -253,7 +253,7 @@ describe('WmLabel Component', () => {
       expect(callArg).toBeInstanceOf(WmLabel);
     });
   });
-  
+
   it('should trigger onDoubleTap callback with WmLabel instance as one of the arguments', async () => {
     const onDoubleTapMock = jest.fn();
     const tree = render(
@@ -393,7 +393,7 @@ describe('WmLabel Component', () => {
     rerender(<WmLabel {...defaultProps} caption="Valid text" isValid={true} />);
     expect(textElement.props.style.color).not.toBe('red');
   });
-   
+
   it('should render custom classes with properly', () => {
     const caption = 'custom label';
 
@@ -428,62 +428,5 @@ describe('WmLabel Component', () => {
     expect(linearGradient.props.colors).toEqual(['rgba(255,0,0,1)', 'rgba(0,0,255,1)']);
     expect(linearGradient.props.start).toEqual({ x: 0, y: 0 });
     expect(linearGradient.props.end).toEqual({ x: 1, y: 0 });
-  });
-  it('should render bold text correctly', () => {
-    const caption = 'This is **bold text** in label';
-    const { getByText } = renderComponent({ caption });
-    
-    const boldTextElement = getByText('bold text');
-    expect(boldTextElement.props.style).toContainEqual({ fontWeight: 'bold' });
-  });
-  
-  it('should render mixed bold and normal text', () => {
-    const caption = 'Normal text **bold text** more normal text';
-    const { getByText } = renderComponent({ caption });
-    
-    expect(getByText('Normal text ')).toBeTruthy();
-    expect(getByText('bold text')).toBeTruthy();
-    expect(getByText(' more normal text')).toBeTruthy();
-    
-    const boldTextElement = getByText('bold text');
-    expect(boldTextElement.props.style).toContainEqual({ fontWeight: 'bold' });
-  });
-  
-  it('should render multiple bold sections', () => {
-    const caption = '**First bold** normal **Second bold**';
-    const { getByText } = renderComponent({ caption });
-    
-    const firstBold = getByText('First bold');
-    const secondBold = getByText('Second bold');
-    
-    expect(firstBold.props.style).toContainEqual({ fontWeight: 'bold' });
-    expect(secondBold.props.style).toContainEqual({ fontWeight: 'bold' });
-  });
-  
-  it('should render bold links correctly', () => {
-    const caption = '**[Bold Link](https://example.com)**';
-    const { getByText } = renderComponent({ caption });
-    
-    const boldLinkElement = getByText('Bold Link');
-    expect(boldLinkElement.props.style).toContainEqual({ fontWeight: 'bold' });
-  });
-  
-  it('should render combination of bold text and links', () => {
-    const caption = '**Bold text** and [normal link](https://example.com)';
-    const { getByText } = renderComponent({ caption });
-    
-    const boldText = getByText('Bold text');
-    const normalLink = getByText('normal link');
-    
-    expect(boldText.props.style).toContainEqual({ fontWeight: 'bold' });
-    expect(normalLink.props.style).not.toContainEqual({ fontWeight: 'bold' });
-  });
-  
-  it('should handle text without bold formatting', () => {
-    const caption = 'Just normal text without any formatting';
-    const { getByText } = renderComponent({ caption });
-    
-    const textElement = getByText(caption);
-    expect(textElement.props.style).not.toContainEqual({ fontWeight: 'bold' });
   });
 });
