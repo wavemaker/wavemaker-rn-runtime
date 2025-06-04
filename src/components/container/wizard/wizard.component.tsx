@@ -255,8 +255,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
 
   prev() {
     const index = this.state.currentStep;
-    if (index <= 0 || this.props.skipdefaultprevious) {
-      console.log(`skipping previous`)
+    if (index <= 0) {
       return;
     }
     const currentStep = this.steps[index];
@@ -268,8 +267,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
 
   next(eventName?: string) {
     const index = this.state.currentStep;
-    if (index >= this.steps.length - 1 || this.props.skipdefaultnext) {
-      console.log(`skipping next`)
+    if (index >= this.steps.length - 1) {
       return;
     }
     const currentStep = this.steps[index];
@@ -282,8 +280,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   done($event: any) {
-    if (this.state.currentStep !== this.lastStepIndex() || this.props.skipdefaultdone) {
-      console.log(`skipping done`)
+    if (this.state.currentStep !== this.lastStepIndex()) {
       return;
     }
     this.updateState({
@@ -293,18 +290,10 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   cancel() {
-    if(this.props.skipdefaultcancel) {
-      console.log(`skipping cancel`)
-      return;
-    }
     this.invokeEventCallback('onCancel', [null, this.proxy]);
   }
 
   skip() {
-    if(this.props.skipdefaultskip) {
-      console.log(`skipping skip`)
-      return;
-    }
     this.next('skip');
   }
 
