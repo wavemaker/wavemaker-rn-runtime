@@ -339,16 +339,15 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     }
     if (this.props.onBeforesubmit) {
         try {
-            let result;
             if (this.props.enableAsyncCallbacks) {
-                result = await this.invokeEventCallbackAsync('onBeforesubmit', [null, this.proxy, formData]);
+               await this.invokeEventCallbackAsync('onBeforesubmit', [null, this.proxy, formData]);
+               // Only for async - get updated data after async operations
+               const updatedData = cloneDeep(this.state.props.dataoutput || this.formdataoutput);
+               if (updatedData) {
+                   Object.assign(formData, updatedData);
+               }
             } else {
-                result = this.invokeEventCallback('onBeforesubmit', [null, this.proxy, formData]);
-            }
-            // Get updated form data after async operations
-            const updatedData = cloneDeep(this.state.props.dataoutput || this.formdataoutput);
-            if (updatedData) {
-                Object.assign(formData, updatedData);
+               this.invokeEventCallback('onBeforesubmit', [null, this.proxy, formData]);
             }
         } catch (error) {
             return false;
