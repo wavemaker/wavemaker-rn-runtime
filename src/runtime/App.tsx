@@ -475,8 +475,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }} />
   }
 
-  renderIosStatusbarInsetsView(isEdgeToEdgeApp: boolean, insets: EdgeInsets | null){
-    return Platform.OS == 'ios' && !isEdgeToEdgeApp ? (
+  renderIosStatusbarInsetsView(statusBarCustomisation: any, insets: EdgeInsets | null){
+    return Platform.OS == 'ios' && !statusBarCustomisation?.translucent ? (
       <View style={{
         backgroundColor: 'white', 
         position: 'absolute',
@@ -520,7 +520,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }
   }
 
-  renderBlurView(position: 'top' | 'bottom', insets: any, config:any) {
+  renderBlurView(position: 'top' | 'bottom', insets: any) {
     if (!insets?.[position]) return null;
   
     if (Platform.OS === "android") {
@@ -530,8 +530,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
   
     return (
       <BlurView
-        intensity={config?.blurIntensity || 30}
-        tint={config.blurTint || "dark"}
+        intensity={50}
+        tint="dark"
         experimentalBlurMethod="dimezisBlurView"
         style={{
           [position]: 0,
@@ -544,7 +544,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     );
   }
 
-  renderTransparentView(position: 'top' | 'bottom', insets: any, config:any) {
+  renderTransparentView(position: 'top' | 'bottom', insets: any) {
     if (!insets?.[position]) return null;
   
     if (Platform.OS === "android") {
@@ -560,8 +560,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
           width: '100%',
           position: 'absolute',
           zIndex: 999,
-          backgroundColor: config?.color || 'transparent',
-          opacity: (config?.opacity/100) || 0.3
+          backgroundColor:"rgba(0,0,0,0.4)"
         }}
       ></View>
     );
@@ -569,11 +568,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   renderApp(commonPartial: React.ReactNode) {
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
-    const edgeToEdgeConfig = this.appConfig?.edgeToEdgeConfig;
-    const statusbarConfig = this.appConfig?.edgeToEdgeConfig?.statusbarConfig;
-    const isEdgeToEdgeApp = !!edgeToEdgeConfig?.isEdgeToEdgeApp;
-
-    const Wrapper = isEdgeToEdgeApp ? View : SafeAreaView;
+    const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
+    const isFullScreenMode = !!statusBarCustomisation?.translucent;
+    const Wrapper = isFullScreenMode ? View : SafeAreaView;
     return (
       <SafeAreaProvider>
         <SafeAreaInsetsContext.Consumer>
@@ -585,11 +582,12 @@ export default abstract class BaseApp extends React.Component implements Navigat
                 {this.getProviders(
                   <Wrapper style={{ flex: 1 }}>
                     <StatusBar
-                      backgroundColor={isEdgeToEdgeApp?'transparent':'null'}
-                      translucent={isEdgeToEdgeApp}
+                      backgroundColor={statusBarCustomisation?.backgroundColor}
+                      translucent={isFullScreenMode}
+                      barStyle={statusBarCustomisation?.barStyle || 'default'}
                     />
                     <ThemeProvider value={this.appConfig.theme}>
-                      {this.renderIosStatusbarInsetsView(isEdgeToEdgeApp, insets)}
+                      {this.renderIosStatusbarInsetsView(statusBarCustomisation, insets)}
                       <View style={{ flex: 1 }}>
                         
                           <View style={styles.container}>
@@ -613,10 +611,12 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         {this.renderDialogs()}
                         {this.renderDisplayManager()}
                       </View>
-                      {/* edge-to-edge app with statusbar blur */}
-                      {isEdgeToEdgeApp && statusbarConfig?.type ==='blur' ? this.renderBlurView("top",insets,statusbarConfig) : null}
-                      {/* edge-to-edge app with statusbar transparent/semi-transparent */} 
-                      {isEdgeToEdgeApp && statusbarConfig?.type ==='transparent' ? this.renderTransparentView("top",insets,statusbarConfig) : null} 
+                      {/* Statusbar blur */}
+                      {/* {isFullScreenMode ? this.renderBlurView("top",insets) : null}  */}
+                      {isFullScreenMode ? this.renderTransparentView("top",insets) : null} 
+                      {/* Navigation bar blur */}
+                      {/* {isFullScreenMode ? this.renderBlurView("bottom",insets) : null} */}
+                      {/* {isFullScreenMode ? this.renderTransparentView("bottom",insets) : null} */}
                     </ThemeProvider>
                   </Wrapper>
                 )}
