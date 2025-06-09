@@ -1,10 +1,10 @@
-import { ImageStyle } from 'react-native';
+import { ImageStyle, ViewStyle } from 'react-native';
 import BASE_THEME  from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
 
 export type WmPictureStyles = BaseStyles & {
-  picture: ImageStyle,
+  picture: ImageStyle & ViewStyle,
   skeleton: WmSkeletonStyles
 };
 

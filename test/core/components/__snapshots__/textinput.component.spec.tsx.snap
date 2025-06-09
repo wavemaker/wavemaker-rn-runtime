@@ -10,8 +10,10 @@ exports[`TextInput Component should format input based on displayformat 1`] = `
     cursorColor="transparent"
     defaultValue=""
     displayformat="99-999"
+    editable={true}
     floatingLabelStyle={{}}
     maskchar=""
+    numberOfLines={1}
     onBlur={[Function]}
     onChange={[Function]}
     onChangeText={[Function]}
@@ -73,8 +75,10 @@ exports[`TextInput Component should not allow content selection if allowContentS
   caretHidden={true}
   contextMenuHidden={true}
   displayformat=""
+  editable={true}
   floatingLabelStyle={{}}
   maskchar=""
+  numberOfLines={1}
   onBlur={[Function]}
   onChangeText={[Function]}
   onFocus={[Function]}
@@ -106,8 +110,10 @@ exports[`TextInput Component should not render custom cursor when displayformat 
     defaultValue=""
     displayCursor={true}
     displayformat="99-99"
+    editable={true}
     floatingLabelStyle={{}}
     maskchar=""
+    numberOfLines={1}
     onBlur={[Function]}
     onChange={[Function]}
     onChangeText={[Function]}
@@ -170,8 +176,10 @@ exports[`TextInput Component should not render custom cursor when maskchar prop 
   contextMenuHidden={true}
   displayCursor={true}
   displayformat=""
+  editable={true}
   floatingLabelStyle={{}}
   maskchar=""
+  numberOfLines={1}
   onBlur={[Function]}
   onChangeText={[Function]}
   onFocus={[Function]}
@@ -198,8 +206,10 @@ exports[`TextInput Component should not render custom cursor when testinput is n
     defaultValue=""
     displayCursor={true}
     displayformat=""
+    editable={true}
     floatingLabelStyle={{}}
     maskchar="*"
+    numberOfLines={1}
     onBlur={[Function]}
     onChange={[Function]}
     onChangeText={[Function]}
@@ -252,6 +262,51 @@ exports[`TextInput Component should not render custom cursor when testinput is n
 ]
 `;
 
+exports[`TextInput Component should render Text instead of TextInput for Android device and editable prop is false 1`] = `
+<Text
+  disabled={true}
+  selectable={false}
+  style={
+    [
+      undefined,
+      {},
+      {},
+      {
+        "color": undefined,
+      },
+    ]
+  }
+>
+  Enter text
+</Text>
+`;
+
+exports[`TextInput Component should render TextInput for iOS device and editable prop is true 1`] = `
+<TextInput
+  activeFloatingLabelStyle={{}}
+  allowContentSelection={false}
+  caretHidden={false}
+  contextMenuHidden={true}
+  displayformat=""
+  editable={false}
+  floatingLabelStyle={{}}
+  maskchar=""
+  numberOfLines={1}
+  onBlur={[Function]}
+  onChangeText={[Function]}
+  onFocus={[Function]}
+  onSelectionChange={[Function]}
+  placeholder="Enter text"
+  selection={null}
+  style={
+    [
+      undefined,
+      {},
+    ]
+  }
+/>
+`;
+
 exports[`TextInput Component should render correctly with default props 1`] = `
 <TextInput
   activeFloatingLabelStyle={{}}
@@ -259,8 +314,10 @@ exports[`TextInput Component should render correctly with default props 1`] = `
   caretHidden={false}
   contextMenuHidden={true}
   displayformat=""
+  editable={true}
   floatingLabelStyle={{}}
   maskchar=""
+  numberOfLines={1}
   onBlur={[Function]}
   onChangeText={[Function]}
   onFocus={[Function]}
@@ -287,8 +344,10 @@ exports[`TextInput Component should render custom cursor 1`] = `
     defaultValue=""
     displayCursor={true}
     displayformat=""
+    editable={true}
     floatingLabelStyle={{}}
     maskchar="*"
+    numberOfLines={1}
     onBlur={[Function]}
     onChange={[Function]}
     onChangeText={[Function]}
@@ -414,9 +473,11 @@ exports[`TextInput Component should show floating label when focused 1`] = `
     caretHidden={false}
     contextMenuHidden={true}
     displayformat=""
+    editable={true}
     floatingLabel="Floating Label"
     floatingLabelStyle={{}}
     maskchar=""
+    numberOfLines={1}
     onBlur={[Function]}
     onChangeText={[Function]}
     onFocus={[Function]}

@@ -30,4 +30,5 @@ export default class WmSearchProps extends BaseDatasetProps {
   iconclass?: string = 'wm-sl-l sl-search';
   clearsearchiconclass?: string = 'wi wi-clear';
   searchiconclass?: string = undefined;
+  debouncetime?: number = 0;
 }

@@ -16,7 +16,7 @@ export type WmAppNavbarStyles = BaseStyles & {
   leftSection: ViewStyle,
   middleSection: ViewStyle,
   rightSection: ViewStyle,
-  content: ViewStyle,
+  content: TextStyle,
   badge: TextStyle
 };
 

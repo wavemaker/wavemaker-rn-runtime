@@ -14,6 +14,7 @@ describe('TextInput Component', () => {
     onFocus: jest.fn(),
     onBlur: jest.fn(),
     placeholder: 'Enter text',
+    editable: true
   };
 
   afterEach(() => {
@@ -226,7 +227,6 @@ describe('TextInput Component', () => {
   });
 
   test('should change the text to capital weh autoCapitalize prop is set to characters', async () => {
-    console.log('platform is: ', Platform.OS);
     const { UNSAFE_getByType, getByText } = render(
       <WMTextInput {...defaultProps} autoCapitalize="characters" />
     );
@@ -244,5 +244,28 @@ describe('TextInput Component', () => {
     await waitFor(()=>{
       expect(defaultProps.onChangeText).toHaveBeenCalledWith('HELLO');
     })
+  });
+  test('should render Text instead of TextInput for Android device and editable prop is false', async () => {
+    Platform.OS = 'android';
+    const tree = render(
+      <WMTextInput {...defaultProps} editable={false} />
+    );
+
+    const input = tree.getByText('Enter text');
+
+    expect(input.type).toBe('Text')
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render TextInput for iOS device and editable prop is true', async () => {
+    Platform.OS = 'ios';
+    const tree = render(
+      <WMTextInput {...defaultProps} editable={false} />
+    );
+
+    const input = tree.getByPlaceholderText('Enter text');
+
+    expect(input.type).toBe('TextInput')
+    expect(tree).toMatchSnapshot();
   });
 });

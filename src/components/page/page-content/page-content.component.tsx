@@ -10,24 +10,20 @@ import { ScrollView } from 'react-native-gesture-handler';
 import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.component';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
-export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
-  previousScrollY: number = 0;
-  swipeThreshold: number = 8;
+export class WmPageContentState extends BaseComponentState<WmPageContentProps> {}
+
+export interface CustomScrollEvent {
+  scrollDirection: number;
 }
 
 export default class WmPageContent extends BaseComponent<WmPageContentProps, WmPageContentState, WmPageContentStyles> {
   private scrollRef: RefObject<any>;
+  private previousScrollPosition: number = 0;
 
   constructor(props: WmPageContentProps) {
     super(props, DEFAULT_CLASS, new WmPageContentProps());
     this.hideMode = HideMode.DONOT_ADD_TO_DOM;
     this.scrollRef = createRef();
-    
-    this.state = {
-      ...this.state,
-      previousScrollY: 0,
-      swipeThreshold: 8
-    };
 
     this.subscribe('scrollToPosition', (args: any) => {
       this.scrollTo(args);
@@ -39,7 +35,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   }
 
   public scrollTo(position: {x: number, y: number}){
-    this.scrollRef?.current.scrollTo({
+    this.scrollRef?.current?.scrollTo({
       x: position.x,
       y: position.y,
       Animated: true
@@ -47,21 +43,21 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   }
 
   private handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const currentScrollY = event.nativeEvent.contentOffset.y;
-    const { previousScrollY, swipeThreshold } = this.state;
-    
-    const delta = currentScrollY - previousScrollY;
-    
-    if (Math.abs(delta) > swipeThreshold) {
-      if (delta > 0) {
+    const scrollPosition = event.nativeEvent.contentOffset.y;
+    if(Math.abs(scrollPosition - this.previousScrollPosition) >= 8 && scrollPosition >=0){
+      const e = event as unknown as CustomScrollEvent;
+      if (scrollPosition > this.previousScrollPosition) {
+        e.scrollDirection = 1;
         this.invokeEventCallback('onSwipeup', [null, this.proxy]);
-        
+      } else if (scrollPosition === this.previousScrollPosition) {
+        e.scrollDirection = 0;
       } else {
+        e.scrollDirection = -1;
         this.invokeEventCallback('onSwipedown', [null, this.proxy]);
       }
-      this.setState({ previousScrollY: currentScrollY });
+      this.previousScrollPosition = scrollPosition;
+      this.notify('scroll', [e]);
     }
-    this.notify('scroll', [event]);
   };
 
   public renderSkeleton(props: WmPageContentProps): React.ReactNode {
@@ -81,7 +77,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
         {this._background}
         <SafeAreaInsetsContext.Consumer>
           {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-            const keyboardOffset = insets?.bottom || 0;
+            const keyboardOffset = props.consumenotch ? (insets?.bottom || 0) : 0;
             const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + props.keyboardverticaloffset : keyboardOffset;
             return (
               <KeyboardAvoidingView
@@ -89,6 +85,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
                 keyboardVerticalOffset={verticalOffset}
                 style={{ flex: 1 }}>
                 <ScrollView 
+                  keyboardShouldPersistTaps={props.keyboardpersisttaps}
                   testID={this.getTestId("page_content_scrollview")}
                   ref={this.scrollRef}
                   contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}
@@ -111,7 +108,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
             this.styles.root.backgroundColor}]}>
         <SafeAreaInsetsContext.Consumer>
           {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-            const keyboardOffset = insets?.bottom || 0;
+            const keyboardOffset = props.consumenotch ? (insets?.bottom || 0) : 0;
             const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + props.keyboardverticaloffset : keyboardOffset;
             return (
               <KeyboardAvoidingView

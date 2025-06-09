@@ -49,6 +49,9 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     if (format === 'timestamp') {
       return date instanceof Date ? '' + date.getTime() : date;
     }
+    
+    // Convert moment formatting with respect to the current local.
+    moment.locale(this.props.locale ?? 'en');
     return date && moment(date).format(format);
   }
 
@@ -122,6 +125,9 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           }
           const date = isString(datavalue) ? this.parse(datavalue as string, this.momentPattern(props.outputformat as String)) : datavalue;
           datavalue = this.convertTimezone(datavalue);
+
+          console.log("===== output value ======", date.toDateString(),  datavalue);
+
           this.updateState({
             dateValue : date,
             displayValue: this.format(datavalue?datavalue:date as any, this.momentPattern(props.datepattern as String))

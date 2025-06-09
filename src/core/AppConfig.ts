@@ -34,5 +34,7 @@ export default interface AppConfig {
         appReadyTime: number,
         pageStartTime: number,
         pageReadyTime: number
-    }
+    }, 
+    pageScrollTopThreshold: number;
+    edgeToEdgeConfig:any;
 }
