@@ -1,0 +1,211 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Bottomsheet component should match snapshot with default props 1`] = `
+<View
+  accessible={true}
+  style={
+    {
+      "bottom": 0,
+      "elevation": 9999,
+      "height": "100%",
+      "justifyContent": "flex-end",
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+      "width": "100%",
+      "zIndex": 9999,
+    }
+  }
+  testID="test-bottomsheet_wm-bottom-sheet"
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "backgroundColor": "rgba(0,0,0,0.1)",
+        "bottom": 0,
+        "height": "100%",
+        "left": 0,
+        "opacity": {
+          "addListener": [MockFunction],
+          "removeListener": [MockFunction],
+          "setValue": [MockFunction],
+        },
+        "position": "absolute",
+        "right": 0,
+        "top": 0,
+        "width": "100%",
+      }
+    }
+    testID="test-bottomsheet_wm-bottom-sheet-backdrop"
+  />
+  <View
+    collapsable={false}
+    onMoveShouldSetResponder={[Function]}
+    onMoveShouldSetResponderCapture={[Function]}
+    onResponderEnd={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderReject={[Function]}
+    onResponderRelease={[Function]}
+    onResponderStart={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onStartShouldSetResponderCapture={[Function]}
+    style={
+      {
+        "backgroundColor": "#fff",
+        "borderColor": "rgba(0,0,0,0.1)",
+        "borderTopLeftRadius": 28,
+        "borderTopRightRadius": 28,
+        "borderTopWidth": 0.5,
+        "elevation": 5,
+        "height": {
+          "addListener": [MockFunction],
+          "removeListener": [MockFunction],
+          "setValue": [MockFunction] {
+            "calls": [
+              [
+                667,
+              ],
+            ],
+            "results": [
+              {
+                "type": "return",
+                "value": undefined,
+              },
+            ],
+          },
+        },
+        "maxHeight": "100%",
+        "minHeight": 100,
+        "shadowColor": "#000",
+        "shadowOffset": {
+          "height": -2,
+          "width": 0,
+        },
+        "shadowOpacity": 0.05,
+        "shadowRadius": 3,
+        "transform": [
+          {
+            "translateY": {
+              "addListener": [MockFunction],
+              "removeListener": [MockFunction],
+              "setValue": [MockFunction],
+            },
+          },
+        ],
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      onMoveShouldSetResponder={[Function]}
+      onMoveShouldSetResponderCapture={[Function]}
+      onResponderEnd={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderReject={[Function]}
+      onResponderRelease={[Function]}
+      onResponderStart={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onStartShouldSetResponderCapture={[Function]}
+      style={
+        {
+          "alignItems": "center",
+          "backgroundColor": "#fff",
+          "borderBottomColor": "rgba(0,0,0,0.1)",
+          "borderBottomWidth": 1,
+          "borderTopLeftRadius": 28,
+          "borderTopRightRadius": 28,
+          "paddingVertical": 16,
+        }
+      }
+    >
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "backgroundColor": "rgba(60,60,67,0.3)",
+            "borderRadius": 2,
+            "height": 4,
+            "width": 36,
+          }
+        }
+        testID="test-bottomsheet_wm-bottomsheet-drag-handle"
+      />
+    </View>
+    <RCTScrollView
+      alwaysBounceHorizontal={false}
+      alwaysBounceVertical={false}
+      bounces={false}
+      contentContainerStyle={
+        {
+          "flexGrow": 1,
+          "paddingBottom": 20,
+          "paddingHorizontal": 20,
+        }
+      }
+      nestedScrollEnabled={true}
+      onScroll={[Function]}
+      scrollEnabled={true}
+      scrollEventThrottle={16}
+      showsVerticalScrollIndicator={false}
+      style={
+        {
+          "flex": 1,
+          "maxHeight": "100%",
+        }
+      }
+      testID="test-bottomsheet_wm-bottomsheet-scroll-view"
+    >
+      <View>
+        <View>
+          <Text>
+            Bottom Sheet Content
+          </Text>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+</View>
+`;

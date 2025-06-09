@@ -9,6 +9,7 @@ import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-r
 import WmProgressBarProps from './progress-bar.props';
 import { DEFAULT_CLASS, WmProgressBarStyles } from './progress-bar.styles';
 import { parseProgressBarLinearGradient } from '@wavemaker/app-rn-runtime/core/utils';
+import WmTooltip from '../tooltip/tooltip.component';
 
 export class WmProgressBarState extends BaseComponentState<WmProgressBarProps> {}
 
@@ -18,12 +19,34 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
     super(props, DEFAULT_CLASS, new WmProgressBarProps());
   }
 
+  onTooltiptext = (minValue: number, maxValue: number, percentage: number) => {
+    if (this.props.showtooltip && this.props.onTooltiptext) {
+      const result = this.invokeEventCallback('onTooltiptext', [
+        undefined,
+        this.proxy,
+        minValue,
+        maxValue,
+        percentage
+      ]);
+
+      if (result) {
+        return result;
+      }
+    }
+
+    // Default fallback to percentage display
+    return `${percentage}%`;
+  }
+
   renderWidget(props: WmProgressBarProps) {
     let value = (props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue);
     const styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
     const {hasLinearGradient, color1, color2, start, end} = parseProgressBarLinearGradient(styles?.root?.progressBar?.backgroundColor as string);
     const gradientColors: [string, string, ...string[]] = [color1, color2];
     const valuePercent = `${Math.round(value * 100)}%`;
+    const percentage = Math.round(value * 100);
+    const progressValue = Math.min(Math.max(value, 0), 1); // Ensure value is between 0 and 1
+    const progressWidth = progressValue * 100;
 
     return (
     <View 
@@ -37,26 +60,53 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
           {...getAccessibilityProps(AccessibilityWidgetType.PROGRESSBAR, props)}
           animatedValue={value}
           color={styles.progressValue.color}
-          style={[styles.progressBar, {height: styles.root.height || styles.progressBar.height}]}></ProgressBar>
-          {hasLinearGradient ? (
-            <ExpoLinearGradient
-              colors={gradientColors}
-              start={start}
-              end={end}
-              style={[
-                {
-                  width: valuePercent as any,
-                  height: styles.root.height || styles.progressBar.height,
-                  position: 'absolute',
-                  borderRadius: styles?.progressBar?.borderRadius || 0,
-                },
-              ]}
-            />
-          ) : (
-            <></>
-          )}
+          style={[styles.progressBar, {height: styles.root.height || styles.progressBar.height}]}
+        />
+        
+        {/* Linear Gradient for filled portion */}
+        {hasLinearGradient ? (
+          <ExpoLinearGradient
+            colors={gradientColors}
+            start={start}
+            end={end}
+            style={[
+              {
+                width: valuePercent as any,
+                height: styles.root.height || styles.progressBar.height,
+                position: 'absolute',
+                borderRadius: styles?.progressBar?.borderRadius || 0,
+              },
+            ]}
+          />
+        ) : (
+          <></>
+        )}
+        
+        {/* Tooltip positioned at progress value */}
+        {props.showtooltip ?
+          (
+            <View
+              style={{
+                position: 'absolute',
+                left: `${progressWidth}%`,
+                bottom: 0,
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 10,
+              }}
+            >
+              <WmTooltip
+                showTooltip={props.showtooltip}
+                text={this.onTooltiptext(props.minvalue, props.maxvalue, percentage)}
+                direction={props.tooltipposition}
+                tooltipStyle={styles.tooltip}
+                tooltipLabelStyle={styles.tooltipLabel}
+                tooltipTriangleStyle={styles.tooltipTriangle}
+              />
+            </View>
+          ) : <></>}
       </Tappable>
     </View>); 
   }
-
 }

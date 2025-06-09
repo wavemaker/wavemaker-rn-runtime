@@ -253,7 +253,7 @@ describe('WmLabel Component', () => {
       expect(callArg).toBeInstanceOf(WmLabel);
     });
   });
-
+  
   it('should trigger onDoubleTap callback with WmLabel instance as one of the arguments', async () => {
     const onDoubleTapMock = jest.fn();
     const tree = render(
@@ -393,7 +393,7 @@ describe('WmLabel Component', () => {
     rerender(<WmLabel {...defaultProps} caption="Valid text" isValid={true} />);
     expect(textElement.props.style.color).not.toBe('red');
   });
-
+   
   it('should render custom classes with properly', () => {
     const caption = 'custom label';
 
@@ -428,5 +428,101 @@ describe('WmLabel Component', () => {
     expect(linearGradient.props.colors).toEqual(['rgba(255,0,0,1)', 'rgba(0,0,255,1)']);
     expect(linearGradient.props.start).toEqual({ x: 0, y: 0 });
     expect(linearGradient.props.end).toEqual({ x: 1, y: 0 });
+  });
+  it('should render bold text correctly', () => {
+    const caption = 'This is **bold text** in label';
+    const { getByText } = renderComponent({ caption });
+    
+    const boldTextElement = getByText('bold text');
+    expect(boldTextElement.props.style).toContainEqual({ fontWeight: 'bold' });
+  });
+  
+  it('should render mixed bold and normal text', () => {
+    const caption = 'Normal text **bold text** more normal text';
+    const { getByText } = renderComponent({ caption });
+    
+    expect(getByText('Normal text ')).toBeTruthy();
+    expect(getByText('bold text')).toBeTruthy();
+    expect(getByText(' more normal text')).toBeTruthy();
+    
+    const boldTextElement = getByText('bold text');
+    expect(boldTextElement.props.style).toContainEqual({ fontWeight: 'bold' });
+  });
+  
+  it('should render multiple bold sections', () => {
+    const caption = '**First bold** normal **Second bold**';
+    const { getByText } = renderComponent({ caption });
+    
+    const firstBold = getByText('First bold');
+    const secondBold = getByText('Second bold');
+    
+    expect(firstBold.props.style).toContainEqual({ fontWeight: 'bold' });
+    expect(secondBold.props.style).toContainEqual({ fontWeight: 'bold' });
+  });
+  
+  it('should render bold links correctly', () => {
+    const caption = '**[Bold Link](https://example.com)**';
+    const { getByText } = renderComponent({ caption });
+    
+    const boldLinkElement = getByText('Bold Link');
+    expect(boldLinkElement.props.style).toContainEqual({ fontWeight: 'bold' });
+  });
+  
+  it('should render combination of bold text and links', () => {
+    const caption = '**Bold text** and [normal link](https://example.com)';
+    const { getByText } = renderComponent({ caption });
+    
+    const boldText = getByText('Bold text');
+    const normalLink = getByText('normal link');
+    
+    expect(boldText.props.style).toContainEqual({ fontWeight: 'bold' });
+    expect(normalLink.props.style).not.toContainEqual({ fontWeight: 'bold' });
+  });
+  
+  it('should handle text without bold formatting', () => {
+    const caption = 'Just normal text without any formatting';
+    const { getByText } = renderComponent({ caption });
+    
+    const textElement = getByText(caption);
+    expect(textElement.props.style).not.toContainEqual({ fontWeight: 'bold' });
+  });
+
+  it('should render bold link with empty URL', () => {
+    const caption = '**[Basecamp]()**';
+    const { getByText } = renderComponent({ caption });
+    const boldLink = getByText('Basecamp');
+    expect(boldLink.props.style).toContainEqual({ fontWeight: 'bold' });
+    // Should still render as a link (even if URL is empty)
+  });
+
+  it('should render complex mixed caption with bold, link, and bold-link', () => {
+    const caption = 'A **bold** and [link](url) and **[bold link](url2)** and normal.';
+    const { getByText } = renderComponent({ caption });
+
+    expect(getByText('A ')).toBeTruthy();
+    expect(getByText('bold').props.style).toContainEqual({ fontWeight: 'bold' });
+    expect(getByText('link')).toBeTruthy();
+    expect(getByText('bold link').props.style).toContainEqual({ fontWeight: 'bold' });
+    expect(getByText(' and normal.')).toBeTruthy();
+  });
+
+  it('should render consecutive bolds and links correctly', () => {
+    const caption = '**Bold1****Bold2**[Link1](url1)[Link2](url2)';
+    const { getByText } = renderComponent({ caption });
+
+    expect(getByText('Bold1').props.style).toContainEqual({ fontWeight: 'bold' });
+    expect(getByText('Bold2').props.style).toContainEqual({ fontWeight: 'bold' });
+    expect(getByText('Link1')).toBeTruthy();
+    expect(getByText('Link2')).toBeTruthy();
+  });
+
+  it('should render prompt example with bold, bold-link, and normal text', () => {
+    const caption = 'A one-time code was sent to **exampleuser@gmail.com**. Please enter your one-time code (case sensitive). Your code is valid for **10 mins** from the time of request. For help, visit our **[support page](https://support.example.com)**. **[basecamp]()**.';
+    const { getByText } = renderComponent({ caption });
+
+    expect(getByText('exampleuser@gmail.com').props.style).toContainEqual({ fontWeight: 'bold' });
+    expect(getByText('10 mins').props.style).toContainEqual({ fontWeight: 'bold' });
+    expect(getByText('support page').props.style).toContainEqual({ fontWeight: 'bold' });
+    expect(getByText('basecamp').props.style).toContainEqual({ fontWeight: 'bold' });
   });
 });

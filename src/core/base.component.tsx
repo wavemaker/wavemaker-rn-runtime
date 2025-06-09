@@ -76,6 +76,7 @@ export class BaseProps extends StyleProps {
     deferload?: boolean = false;
     showskeletonchildren?: boolean = true;
     disabletoucheffect?:boolean = false;
+    isdefault?: boolean = false;
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
@@ -610,6 +611,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
                 this.isRTL ? this.theme.getStyle(this.defaultClass + '-rtl') : null,
                 classname && this.theme.getStyle(classname),
+                this.isRTL && classname ? this.theme.getStyle(classname + '-rtl') : null,
                 props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
                 this.theme.cleanseStyleProperties(this.props.styles),
                 this.theme.cleanseStyleProperties({

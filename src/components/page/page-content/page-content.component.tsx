@@ -85,6 +85,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
                 keyboardVerticalOffset={verticalOffset}
                 style={{ flex: 1 }}>
                 <ScrollView 
+                  keyboardShouldPersistTaps={props.keyboardpersisttaps}
                   testID={this.getTestId("page_content_scrollview")}
                   ref={this.scrollRef}
                   contentContainerStyle={[this.styles.root, {backgroundColor: 'transparent'}]}

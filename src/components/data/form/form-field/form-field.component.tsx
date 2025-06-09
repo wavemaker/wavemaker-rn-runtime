@@ -223,10 +223,12 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           isValid: this.state.isValid,
           maskchar: props.maskchar,
           displayformat: props.displayformat,
+          autocomplete: props.autocomplete,
           invokeEvent: this.invokeEventCallback.bind(this),
           triggerValidation: this.validateFormField.bind(this),
           onFieldChange: this.onFieldChangeEvt.bind(this),
           formRef: props.formRef,
+          isdefault: props.defaultvalue && props.defaultvalue.length > 0 ? true : false, 
           ...(!isNil(props?.placeholder) ? { placeholder: props.placeholder } : {})
          });
     });
