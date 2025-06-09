@@ -229,4 +229,189 @@ describe('WmProgressBar Component', () => {
     expect(rootElement.props.style.width).toBe(0);
     expect(rootElement.props.style.height).toBe(0);
   });
+
+  // Tooltip functionality tests
+  it('should render tooltip when showtooltip is true', () => {
+    const props: WmProgressBarProps = {
+      ...commonProps,
+      showtooltip: true,
+    };
+    const tree = render(<WmProgressBar {...props} />);
+    act(() => {
+      jest.runAllTimers();
+    });
+    
+    // Check if tooltip component is rendered by finding the tooltip container view
+    const views = tree.root.findAllByType('View' as any);
+    const tooltipElement = views.find((child: any) => 
+      child?.props?.style?.position === 'absolute' && 
+      child?.props?.style?.zIndex === 10
+    );
+    expect(tooltipElement).toBeTruthy();
+  });
+
+  it('should not render tooltip when showtooltip is false', () => {
+    const props: WmProgressBarProps = {
+      ...commonProps,
+      showtooltip: false,
+    };
+    const tree = render(<WmProgressBar {...props} />);
+    act(() => {
+      jest.runAllTimers();
+    });
+    
+    // Check if tooltip component is not rendered or hidden
+    const views = tree.root.findAllByType('View' as any);
+    const tooltipElements = views.filter((element: any) => 
+      element?.props?.style?.position === 'absolute' && 
+      element?.props?.style?.zIndex === 10
+    );
+    expect(tooltipElements.length).toBe(0);
+  });
+
+  it('should display default percentage text when no tooltip text is provided', () => {
+    const props: WmProgressBarProps = {
+      ...commonProps,
+      datavalue: 50,
+      showtooltip: true,
+    };
+    const tree = render(<WmProgressBar {...props} />);
+    act(() => {
+      jest.runAllTimers();
+    });
+    
+    // Find tooltip text element and check if it shows percentage
+    const expectedPercentage = '50%';
+    const tooltipText = tree.root.findByProps({ text: expectedPercentage });
+    expect(tooltipText).toBeTruthy();
+  });
+
+  it('should call onTooltiptext callback and use returned text', () => {
+    const onTooltiptextMock = jest.fn().mockReturnValue('Custom callback text');
+    const props: WmProgressBarProps = {
+      ...commonProps,
+      datavalue: 75,
+      showtooltip: true,
+      onTooltiptext: onTooltiptextMock,
+    };
+    const tree = render(<WmProgressBar {...props} />);
+    act(() => {
+      jest.runAllTimers();
+    });
+    
+    // Check if callback was called with correct parameters
+    expect(onTooltiptextMock).toHaveBeenCalledWith(
+      undefined, // event
+      expect.any(Object), // widget proxy
+      0, // minvalue
+      100, // maxvalue
+      75 // percentage
+    );
+    
+    // Check if callback result is used as tooltip text
+    const tooltipText = tree.root.findByProps({ text: 'Custom callback text' });
+    expect(tooltipText).toBeTruthy();
+  });
+
+  it('should position tooltip at correct progress position', () => {
+    const props: WmProgressBarProps = {
+      ...commonProps,
+      datavalue: 30,
+      showtooltip: true,
+    };
+    const tree = render(<WmProgressBar {...props} />);
+    act(() => {
+      jest.runAllTimers();
+    });
+    
+    // Find tooltip container and check its positioning
+    const views = tree.root.findAllByType('View' as any);
+    const tooltipContainer = views.find((child: any) => 
+      child?.props?.style?.position === 'absolute' && 
+      child?.props?.style?.zIndex === 10
+    );
+    
+    expect(tooltipContainer?.props?.style?.left).toBe('30%');
+  });
+
+  it('should handle different tooltip positions', () => {
+    const positions: Array<'up' | 'down' | 'left' | 'right'> = ['up', 'down', 'left', 'right'];
+    
+    positions.forEach(position => {
+      const props: WmProgressBarProps = {
+        ...commonProps,
+        showtooltip: true,
+        tooltipposition: position,
+      };
+      const tree = render(<WmProgressBar {...props} />);
+      act(() => {
+        jest.runAllTimers();
+      });
+      
+      const tooltipElement = tree.root.findByProps({ direction: position });
+      expect(tooltipElement).toBeTruthy();
+    });
+  });
+
+  it('should handle edge case where progress value is at minimum', () => {
+    const props: WmProgressBarProps = {
+      ...commonProps,
+      datavalue: 0,
+      minvalue: 0,
+      maxvalue: 100,
+      showtooltip: true,
+    };
+    const tree = render(<WmProgressBar {...props} />);
+    act(() => {
+      jest.runAllTimers();
+    });
+    
+    const views = tree.root.findAllByType('View' as any);
+    const tooltipContainer = views.find((child: any) => 
+      child?.props?.style?.position === 'absolute' && 
+      child?.props?.style?.zIndex === 10
+    );
+    
+    expect(tooltipContainer?.props?.style?.left).toBe('0%');
+  });
+
+  it('should handle edge case where progress value is at maximum', () => {
+    const props: WmProgressBarProps = {
+      ...commonProps,
+      datavalue: 100,
+      minvalue: 0,
+      maxvalue: 100,
+      showtooltip: true,
+    };
+    const tree = render(<WmProgressBar {...props} />);
+    act(() => {
+      jest.runAllTimers();
+    });
+    
+    const views = tree.root.findAllByType('View' as any);
+    const tooltipContainer = views.find((child: any) => 
+      child?.props?.style?.position === 'absolute' && 
+      child?.props?.style?.zIndex === 10
+    );
+    
+    expect(tooltipContainer?.props?.style?.left).toBe('100%');
+  });
+
+  it('should handle onTooltiptext callback returning falsy value', () => {
+    const onTooltiptextMock = jest.fn().mockReturnValue('');
+    const props: WmProgressBarProps = {
+      ...commonProps,
+      datavalue: 50,
+      showtooltip: true,
+      onTooltiptext: onTooltiptextMock,
+    };
+    const tree = render(<WmProgressBar {...props} />);
+    act(() => {
+      jest.runAllTimers();
+    });
+    
+    // Should fall back to default percentage when callback returns empty string
+    const tooltipText = tree.root.findByProps({ text: '50%' });
+    expect(tooltipText).toBeTruthy();
+  });
 });
