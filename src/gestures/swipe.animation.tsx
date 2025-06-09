@@ -216,26 +216,27 @@ export class View extends React.Component<Props, State> {
                         alignItems: 'center',
                     } : null,
                     this.props.style,
-                    {
-                        transform: this.state.isHorizontal ? [{
-                            translateX: this.position
-                        }] : [{
-                            translateY: this.position
-                        }]
-                    }]} onLayout={this.setViewLayout.bind(this)}>
+                    ]} onLayout={this.setViewLayout.bind(this)}>
                     {this.props.children.map((c: any, i: number) => {
-                        return (<RNView onLayout={(e) => this.setChildrenLayout(e, i)} key={c.key}
+                        return (<Animated.View onLayout={(e) => this.setChildrenLayout(e, i)} key={c.key}
                             style={[this.props.slideMinWidth ? {
                                 minWidth: this.props.slideMinWidth
                             } : {
                                 width: this.props.slideWidth
+                            },
+                            {
+                                transform: this.state.isHorizontal ? [{
+                                    translateX: this.position
+                                }] : [{
+                                    translateY: this.position
+                                }]
                             },
                             this.props.style?.height === '100%' ? {
                                 height: '100%'
                             } : null
                         ]}>
                             {c}
-                        </RNView>);
+                        </Animated.View>);
                     })}
                 </Animated.View>
             </GestureDetector>

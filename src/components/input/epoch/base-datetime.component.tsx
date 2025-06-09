@@ -49,6 +49,9 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     if (format === 'timestamp') {
       return date instanceof Date ? '' + date.getTime() : date;
     }
+    
+    // Convert moment formatting with respect to the current local.
+    moment.locale(this.props.locale ?? 'en');
     return date && moment(date).format(format);
   }
 
@@ -93,10 +96,15 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       return null;
     }
   }
+
+  rtlSanityCheck(text: any) {
+    return text?.replace(/[\u200E\u200F\u202B\u202C]/g, '');
+  }
   
-   momentPattern(pattern : String) {
-    return pattern?.replaceAll('y', 'Y').replaceAll('d', 'D');
-}
+  momentPattern(pattern : String) {
+    const removeSpecialMarks = this.rtlSanityCheck(pattern);
+    return removeSpecialMarks?.replaceAll('y', 'Y').replaceAll('d', 'D');
+  }
 
   onPropertyChange(name: string, $new: any, $old: any) {
     super.onPropertyChange(name, $new, $old);
@@ -117,6 +125,9 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           }
           const date = isString(datavalue) ? this.parse(datavalue as string, this.momentPattern(props.outputformat as String)) : datavalue;
           datavalue = this.convertTimezone(datavalue);
+
+          console.log("===== output value ======", date.toDateString(),  datavalue);
+
           this.updateState({
             dateValue : date,
             displayValue: this.format(datavalue?datavalue:date as any, this.momentPattern(props.datepattern as String))
@@ -459,8 +470,10 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                   isFocused: false,
                   showDatePickerModal: false
                 } as BaseDatetimeState, () => {
-                  this.onBlur();
-
+                  setTimeout(() => {
+                    this.onBlur();
+                  }, 10);
+                  
                   // * showing time picker after selecting date in datetime mode
                   if (this.state.props.mode === "datetime") {
                     this.setState({
@@ -492,7 +505,11 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                 this.updateState({
                   isFocused: false,
                   showTimePickerModal: false
-                } as BaseDatetimeState, () => this.onBlur());
+                } as BaseDatetimeState, () =>   {
+                  setTimeout(() => {
+                    this.onBlur()
+                  }, 10);  
+                });
               }}
               onCancel={() => {
                 // this.onDateChange(null as any, this.state.dateValue || undefined);

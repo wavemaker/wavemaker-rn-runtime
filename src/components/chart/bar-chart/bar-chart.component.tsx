@@ -32,6 +32,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
   }
 
   getBarChart(props: WmBarChartProps) {
+    const isNested = Array.isArray(this.state.data[0]) && this.state.data.length > 1;
   return this.state.data.map((d: any, i: number) => {
     return <VictoryBar key={props.name + '_' + i}
         horizontal={props.horizontal} labels={props.showvalues ? this.labelFn.bind(this) : undefined}
@@ -40,7 +41,7 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
         alignment={this.isRTL ? 'end' : 'start'}
         style={props.customcolors?{
           data: {
-            fill: ({ datum }) => this.state.colors[datum.x] ?? this.state.colors[datum.x % this.state.colors.length]
+            fill:isNested ? this.state.colors[i % this.state.colors.length] : ({ datum }) => this.state.colors[datum.x] ?? this.state.colors[datum.x % this.state.colors.length]
           }
         }:{}}
         cornerRadius={{topLeft: this.styles.bar.borderTopLeftRadius, topRight: this.styles.bar.borderTopRightRadius, bottomLeft: this.styles.bar.borderBottomLeftRadius, bottomRight: this.styles.bar.borderBottomRightRadius}}
@@ -51,7 +52,8 @@ export default class WmBarChart extends BaseChartComponent<WmBarChartProps, WmBa
           }:{
             onPress: this.onSelect.bind(this)
           }
-        }]}/>
+        }]}
+        {...(props.barwidth ? { barWidth: props.barwidth } : {})} />
     });
   }
 
@@ -107,11 +109,12 @@ onSelect(event: any, data: any){
       {this.getXaxis()}
       {this.getYAxis()}
       {
-        props.viewtype === 'Stacked' ? <VictoryStack colorScale={this.state.colors}>
+        props.viewtype === 'Stacked' ? <VictoryStack 
+        colorScale={!this.theme ? this.state.colors : undefined}>
           {
             this.getBarChart(props)
           }
-        </VictoryStack> : <VictoryGroup colorScale={this.state.colors}  offset={10} >
+        </VictoryStack> : <VictoryGroup colorScale={!this.theme ? this.state.colors : undefined}  offset={10} >
           {
             this.getBarChart(props)   
           }

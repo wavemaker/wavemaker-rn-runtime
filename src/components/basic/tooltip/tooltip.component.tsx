@@ -51,8 +51,8 @@ export default class WmTooltip extends BaseComponent<WmTooltipProps, WmTooltipSt
               props.direction
                 ? { ...directionConfig[props.direction].triangleStyles }
                 : { bottom: -10 },
+              { borderBottomColor: props.tooltipStyle?.backgroundColor || this.styles.tooltip.backgroundColor },
               props.tooltipTriangleStyle,
-              { borderBottomColor: props.tooltipStyle?.backgroundColor || this.styles.tooltip.backgroundColor }
             ]}
           />
         </Animated.View>

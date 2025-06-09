@@ -4,4 +4,9 @@ import { SkeletonAnimationProps } from '@wavemaker/app-rn-runtime/runtime/base-f
 export default class WmPageContentProps extends SkeletonAnimationProps {
     children: any[] = null as any;
     scrollable: boolean = true;
+    onSwipeup?: Function = null as any;  
+    onSwipedown?: Function = null as any;
+    keyboardverticaloffset: number = 100;
+    keyboardpersisttaps: 'never'| 'always' | 'handled' = 'never';
+    consumenotch: boolean = true;
 }

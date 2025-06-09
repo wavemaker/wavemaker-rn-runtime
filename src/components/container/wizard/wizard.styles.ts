@@ -14,6 +14,7 @@ export type WmWizardStyles = BaseStyles & {
   wizardBody: AllStyle,
   wizardFooter: AllStyle,
   wizardActions: WmButtonStyles,
+  stepTitleWrapper: AllStyle,
   stepTitle: AllStyle,
   stepSubTitle: AllStyle,
   buttonWrapper: AllStyle,
@@ -95,12 +96,18 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       buttonWrapper: {
         flexDirection: 'row',
       },
+      stepTitleWrapper: {
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'column'
+      },
       stepTitle: {
           textTransform: 'capitalize',
           fontSize: 12,
           color: themeVariables.wizardStepTitleColor
       },
       stepSubTitle:{
+        fontSize: 10,
         color: themeVariables.wizardStepTitleColor
       },
       step: {
@@ -236,6 +243,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     headerWrapper: {
       flex: -1
     },
+    stepTitleWrapper: {
+      flex: 0
+    },
     stepTitle: {
       padding: 5
     },
@@ -259,6 +269,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     headerWrapper: {
       flex: 1
+    },
+    stepTitleWrapper: {
+      flex: 2
     },
     stepTitle: {
       fontSize: 16,

@@ -4,7 +4,8 @@ import { WmSkeletonStyles } from '../basic/skeleton/skeleton.styles';
 
 export type WmContainerStyles = BaseStyles & {
     content: AllStyle,
-    skeleton: WmSkeletonStyles
+    skeleton: WmSkeletonStyles,
+    sticky: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-container';
@@ -21,7 +22,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 shadowColor: 'transparent',
                 backgroundColor: 'transparent',
             },
-        } as any as WmSkeletonStyles
+        } as any as WmSkeletonStyles, 
+        sticky: {
+            paddingHorizontal: 8
+        }
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
