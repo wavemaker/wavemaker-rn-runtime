@@ -339,7 +339,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     }
     if (this.props.onBeforesubmit) {
         try {
-            if (this.props.enableAsyncCallbacks) {
+            if (this.props.enableasynccallbacks) {
                await this.invokeEventCallbackAsync('onBeforesubmit', [null, this.proxy, formData]);
                // Only for async - get updated data after async operations
                const updatedData = cloneDeep(this.state.props.dataoutput || this.formdataoutput);
