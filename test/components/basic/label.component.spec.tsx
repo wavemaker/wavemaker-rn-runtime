@@ -525,4 +525,28 @@ describe('WmLabel Component', () => {
     expect(getByText('support page').props.style).toContainEqual({ fontWeight: 'bold' });
     expect(getByText('basecamp').props.style).toContainEqual({ fontWeight: 'bold' });
   });
+
+  it('should render entire string as bold when wrapped in asterisks', () => {
+    const caption = '**John Doe, please visit **';
+    const { getByText } = renderComponent({ caption });
+    
+    const boldTextElement = getByText('John Doe, please visit ');
+    expect(boldTextElement.props.style).toContainEqual({ fontWeight: 'bold' });
+  });
+
+  it('should render entire string as bold even with trailing spaces', () => {
+    const caption = '**Welcome to our application, please continue**';
+    const { getByText } = renderComponent({ caption });
+    
+    const boldTextElement = getByText('Welcome to our application, please continue');
+    expect(boldTextElement.props.style).toContainEqual({ fontWeight: 'bold' });
+  });
+
+  it('should handle entire string bold with single asterisks inside', () => {
+    const caption = '**Text with * asterisk inside**';
+    const { getByText } = renderComponent({ caption });
+    
+    const boldTextElement = getByText('Text with * asterisk inside');
+    expect(boldTextElement.props.style).toContainEqual({ fontWeight: 'bold' });
+  });
 });
