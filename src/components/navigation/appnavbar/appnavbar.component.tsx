@@ -82,9 +82,10 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
       <SafeAreaInsetsContext.Consumer>
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
           const paddingTopVal = this.styles.root.paddingTop || this.styles.root.padding;
-          const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
+          const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
+          const isFullScreenMode = !!statusBarCustomisation?.translucent;
 
-          const stylesWithFs = isEdgeToEdgeApp ?  {height: this.styles.root.height as number + (insets?.top || 0) as number, 
+          const stylesWithFs = isFullScreenMode ?  {height: this.styles.root.height as number + (insets?.top || 0) as number, 
           paddingTop: (paddingTopVal || 0) as number + (insets?.top || 0) as number} : {}
           return (
           <View style={[this.styles.root, stylesWithFs]} ref={ref => {this.baseView = ref as View}} onLayout={(event) => {
