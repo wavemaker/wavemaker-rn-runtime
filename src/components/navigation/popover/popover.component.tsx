@@ -150,15 +150,19 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
     o.isModal = this.state.props.autoclose !== 'disabled';
     o.centered = true;
     o.animation = this.state.props.contentanimation || 'slideInUp';
+    const hideModal = () => {
+      if (this.state.isOpened) {
+        modalService.hideModal(this.state.modalOptions || o); 
+      }
+    };
     o.onClose = () => {
       this.hide = () => {};
       this.setState({ isOpened: false, isPartialLoaded: false, modalOptions: {} as ModalOptions });
       this.invokeEventCallback('onHide', [null, this]);
     };
-    this.hide = () => modalService.hideModal(this.state.modalOptions);
+    this.hide = hideModal;
     return o;
-  }
-
+}
   renderWidget(props: WmPopoverProps) {
     let dimensions = {} as any;
     const styles = this.theme.mergeStyle(this.theme.getStyle('popover-' + props.type), this.styles);

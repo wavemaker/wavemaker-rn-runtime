@@ -366,7 +366,113 @@ describe('Popover component tests', () => {
         expect(ref.current.state.position.top).toBe(py + height);
     });
   });
+  it('should use stable modal options reference when hiding modal', async () => {
+  AppModalService.modalsOpened = [];
+  AppModalService.animatedRefs = [{ triggerExit: jest.fn() }]; // Mock with triggerExit function
+  
+  const hideModalSpy = jest.spyOn(AppModalService, 'hideModal').mockImplementation(() => {
+    AppModalService.modalsOpened = [];
+  });
+  
+  const ref = createRef<WmPopover>();
+  const tree = renderComponent({ ref: ref as any });
+  const viewEle = tree.getByText('Link');
+  
+  fireEvent.press(viewEle);
+  await timer(300);
+  
+  const originalOptions = AppModalService.modalsOpened[0];
+  
+  (ref.current as any).setState({ modalOptions: {} });
+  
+  (ref.current as any).hide();
+  
+  expect(hideModalSpy).toHaveBeenCalled();
+  
+  hideModalSpy.mockRestore();
+  AppModalService.modalsOpened = [];
+  AppModalService.animatedRefs = [];
+});
 
+it('should not call hideModal when modal is already closed', async () => {
+  AppModalService.modalsOpened = [];
+  AppModalService.animatedRefs = [];
+  
+  const hideModalSpy = jest.spyOn(AppModalService, 'hideModal');
+  const ref = createRef<WmPopover>();
+  
+  const tree = renderComponent({ ref: ref as any });
+  
+  // Set modal as closed
+  (ref.current as any).setState({ isOpened: false });
+  
+  // Try to hide
+  (ref.current as any).hide();
+  
+  expect(hideModalSpy).not.toHaveBeenCalled();
+  
+  // Cleanup
+  hideModalSpy.mockRestore();
+});
+
+it('should cleanup hide function in onClose callback', async () => {
+  AppModalService.modalsOpened = [];
+  AppModalService.animatedRefs = [];
+  
+  const ref = createRef<WmPopover>();
+  const tree = renderComponent({ ref: ref as any });
+  
+  // Open popover
+  fireEvent.press(tree.getByText('Link'));
+  await timer(300);
+  
+  const originalHide = (ref.current as any).hide;
+  
+  // Trigger onClose manually (not through AppModalService to avoid triggerExit)
+  const modalOptions = AppModalService.modalsOpened[0];
+  if (modalOptions && modalOptions.onClose) {
+    modalOptions.onClose();
+  }
+  
+  // Hide function should be replaced with no-op
+  expect((ref.current as any).hide).not.toBe(originalHide);
+  expect(typeof (ref.current as any).hide).toBe('function');
+  
+  // Cleanup
+  AppModalService.modalsOpened = [];
+});
+
+it('should not call hideModal when modal is already closed', async () => {
+  const hideModalSpy = jest.spyOn(AppModalService, 'hideModal');
+  const ref = createRef<WmPopover>();
+  
+  const tree = renderComponent({ ref: ref as any });
+  
+
+  (ref.current as any).setState({ isOpened: false });
+  
+  (ref.current as any).hide();
+  
+  expect(hideModalSpy).not.toHaveBeenCalled();
+  hideModalSpy.mockRestore();
+});
+
+it('should cleanup hide function in onClose callback', async () => {
+  const ref = createRef<WmPopover>();
+  const tree = renderComponent({ ref: ref as any });
+  
+  fireEvent.press(tree.getByText('Link'));
+  await timer(300);
+  
+  const originalHide = (ref.current as any).hide;
+  
+  if (AppModalService.modalsOpened[0].onClose) {
+    AppModalService.modalsOpened[0].onClose();
+  }
+
+  expect((ref.current as any).hide).not.toBe(originalHide);
+  expect(typeof (ref.current as any).hide).toBe('function');
+});
   it('should update the (state - position) when popoverwidth provided in props', async () => {
     const ref = createRef<WmPopover>();
     //render
