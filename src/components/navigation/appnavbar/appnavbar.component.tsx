@@ -42,7 +42,8 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   renderContent(props: WmAppNavbarProps) {
     //@ts-ignore
     const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{props.badgevalue}</Badge>): null;
-    const { navHeight, setNavHeightUpdated } = this.context as StickyContextType;
+    const { navHeight } = this.context as StickyContextType;
+    let navHeightValue;
     return (
       <SafeAreaInsetsContext.Consumer>
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
@@ -55,8 +56,8 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           return (
           <View style={[this.styles.root, stylesWithFs]} ref={ref => {this.baseView = ref as View}} onLayout={(event) => {
             if(navHeight && this.props.hideonscroll) {
-              navHeight.value = event.nativeEvent.layout.height || 0.01;
-              if(setNavHeightUpdated) setNavHeightUpdated(navHeight.value != 0.01);
+              navHeightValue = event.nativeEvent.layout.height || 0;
+              navHeight.value = navHeightValue;
             }
             this.handleLayout(event);
           }}>

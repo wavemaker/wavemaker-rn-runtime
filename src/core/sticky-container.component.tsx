@@ -42,6 +42,8 @@ import React, {
     stickyNavAnimateStyle?: any;
     stickyHeaderAnimateStyle?: any;
     children?: ReactNode;
+    hasAppnavbar?: boolean;
+    onscroll?: string;
   }
   
   export type StickyContextType = {
@@ -53,7 +55,8 @@ import React, {
     showStickyHeader: SharedValue<boolean>;
   
     navHeight: SharedValue<number>;
-    setNavHeightUpdated: Dispatch<SetStateAction<boolean>>;
+    pageContentReady: boolean;
+    setPageContentReady: Dispatch<SetStateAction<boolean>>;
     scrollY: SharedValue<number>;
     scrollDirection: SharedValue<number>;
   
@@ -80,7 +83,7 @@ import React, {
     return {};
   };
   
-  export const ScrollContaineWrapper = ({ children }: { children: React.ReactNode }) => {
+  export const ScrollContaineWrapper = ({ children, hasAppnavbar, onscroll }: StickyViewContainerProps) => {
     const scrollY = useSharedValue<number>(0);
     const prevScrollY = useSharedValue<number>(0);
     const scrollVelocity = useSharedValue<number>(0);
@@ -89,12 +92,13 @@ import React, {
     const stickyHeaderTranslateY = useSharedValue<number>(0);
     const stickyNavTranslateY = useSharedValue<number>(0);
     const showStickyHeader = useSharedValue<boolean>(false);
-    const navHeight = useSharedValue<number>(0);
+    // Default navbar height from appnavbar styles is 80, maintaining to minimize the navHeight immediate flicker
+    const navHeight = useSharedValue<number>(hasAppnavbar && onscroll == 'topnav' ? 80 : 0);
   
     const lastNotifyTime = useSharedValue<number>(0);
     const prevScrollTime = useSharedValue<number>(0);
   
-    const [_navHeightUpdated, setNavHeightUpdated] = React.useState(false);
+    const [pageContentReady, setPageContentReady] = React.useState(false);
   
     const stickyNavAnimateStyle = useAnimatedStyle(() => {
       return {
@@ -111,7 +115,7 @@ import React, {
           )
         }],
       }
-    }, [scrollY, stickyHeaderTranslateY]);
+    }, [scrollY, stickyHeaderTranslateY, navHeight]);
   
     const notifyEvent = (event: any)=>{
       EventNotifier.ROOT.notify('scroll', [{nativeEvent: event}]);
@@ -175,7 +179,8 @@ import React, {
       stickyHeaderTranslateY,
       showStickyHeader,
       navHeight,
-      setNavHeightUpdated,
+      pageContentReady, 
+      setPageContentReady,
       onScroll,
       onScrollEndDrag
     };
@@ -209,17 +214,6 @@ import React, {
       }
     }
   
-    onLayout = (event: any) => {
-      const newLayout = event.nativeEvent.layout;
-      if (!this.layout || this.layout.height !== newLayout.height || this.layout.width !== newLayout.width) {
-        this.layout = newLayout;
-        if (this.container && this.props.show) {
-          this.container.add(this, this.renderView());
-        }else {
-          this.container?.remove(this);
-        }
-      }
-    };
   
     render() {
       this.cachedComponent = (this.props.usememo === true && this.cachedComponent ) || (
@@ -251,7 +245,6 @@ import React, {
           const { stickyNavAnimateStyle } = context || {};
           return (
             <Animated.View style={[stickyNavAnimateStyle]}
-              onLayout={(event: LayoutChangeEvent)=> this.onLayout(event)}
               key={`nav-${this.id}`}
             >
               {this.props.children}
@@ -280,7 +273,6 @@ import React, {
           const { stickyHeaderAnimateStyle } = context || {};
           return (
             <Animated.View style={[ stickyHeaderAnimateStyle, this.props.style]}
-              onLayout={(event: LayoutChangeEvent)=> this.onLayout(event)}
               key={`header-${this.id}`}
             >
               {this.props.children}
@@ -307,7 +299,7 @@ import React, {
     render() {
       return (
         <StickyViewContext.Provider value={this}>
-          <ScrollContaineWrapper>
+          <ScrollContaineWrapper hasAppnavbar={this.props.hasAppnavbar} onscroll={this.props.onscroll}>
             {(this.props as any).children}
             <Animated.View style={{ position: 'absolute', width: '100%', zIndex: 10 }}
               pointerEvents={'box-none'}

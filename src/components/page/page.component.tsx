@@ -29,7 +29,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
     const isFullScreenMode = !!statusBarCustomisation?.translucent;
 
     return (
-      <StickyViewContainer>
+      <StickyViewContainer hasAppnavbar = {props.hasappnavbar} onscroll={props.onscroll}>
         <FixedViewContainer>
           <SafeAreaInsetsContext.Consumer>
             {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
