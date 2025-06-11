@@ -20,7 +20,7 @@ export class WmListState extends BaseComponentState<WmListProps> {
   groupedData: Array<any> = [];
   currentPage = 1;
   maxRecordsToShow = 20;
-  loadingData = false;
+  loadingData = true;
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -342,6 +342,13 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         } else {
           this.deselectAll();
         }
+        if (isArray($new)){
+          setTimeout(() => {
+            this.updateState({
+              loadingData: false
+            } as WmListState)
+          }, 0)
+        }
         break;
       case 'groupby':
       case 'match':
@@ -358,9 +365,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         }
         break;
       case 'loadingdata':
+        if($new != $old){
         this.updateState({
-          loadingData: $new && this.state.loadingData
-        } as WmListState);
+          loadingData: $new
+        } as WmListState);}
         break;
       case 'selecteditem':
         if ($new != $old && isNumber($new)) {
@@ -610,7 +618,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                   caption={this.getCaption(isHorizontal, v.data)}
                   onTap={() => this.loadData()}></WmLabel>)) : null}
           </View>
-        ))) : this.renderEmptyMessage(isHorizontal, null, null, props)
+        ))) : this.state.loadingData ? this.renderLoadingIcon(props) : this.renderEmptyMessage(isHorizontal, null, null, props)
         }
       </View>);
   }
