@@ -1,4 +1,4 @@
-import React, { createRef, RefObject } from 'react';
+import React, { createRef, RefObject, useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
@@ -10,6 +10,7 @@ import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.c
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import Animated from 'react-native-reanimated';
 import { StickyContextType, StickyContext } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { isNumber } from 'lodash-es';
 
 export class WmPageContentState extends BaseComponentState<WmPageContentProps> {}
 export default class WmPageContent extends BaseComponent<WmPageContentProps, WmPageContentState, WmPageContentStyles> {
@@ -60,6 +61,14 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     return null;
   }
 
+  private handleScrollViewLayout = (event: any) =>{
+    const { setPageContentReady } = this.context as StickyContextType;
+    if (setPageContentReady) {
+      // Use requestAnimationFrame to ensure layout is complete
+      requestAnimationFrame(() => setPageContentReady(true));
+    }
+  }
+
   renderWidget(props: WmPageContentProps) {
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
     const { navHeight, onScroll } = this.context as StickyContextType;
@@ -70,6 +79,8 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
           {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
             const keyboardOffset = props.consumenotch ? (insets?.bottom || 0) : 0;
             const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + props.keyboardverticaloffset : keyboardOffset;
+            const paddingTop = this.styles?.root?.paddingTop || this.styles?.root?.padding;
+            const paddingTopVal = isNumber(paddingTop) ? paddingTop : 0;
             return (
               <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -81,9 +92,10 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
                     ref={this.scrollRef}
                     contentContainerStyle={[
                       this.styles.root, {backgroundColor: 'transparent', 
-                        paddingTop: navHeight.value
+                        paddingTop: navHeight.value + paddingTopVal
                       }
                     ]}
+                    onLayout={this.handleScrollViewLayout}
                     showsVerticalScrollIndicator={showScrollbar}
                     onScroll={onScroll}
                     alwaysBounceVertical={false}

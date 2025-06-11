@@ -3,4 +3,5 @@ export default class WmPageProps extends BaseProps{
   children: any[] = [];
   scrollable: boolean = false;
   hasappnavbar:boolean = true;
+  onscroll: string = '';
 }

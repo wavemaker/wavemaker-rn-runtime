@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutChangeEvent, View, ViewStyle, Platform } from 'react-native';
+import { LayoutChangeEvent, View, ViewStyle, Platform, Animated } from 'react-native';
 import WmContainerProps from './container.props';
 import { DEFAULT_CLASS, WmContainerStyles } from './container.styles';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -11,14 +11,15 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { StickyContextType, StickyContext, StickyHeader } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
-
 export class WmContainerState extends PartialHostState<WmContainerProps> {
   isPartialLoaded = false;
+  stickyContainerVisibility = false;
 }
 
 export default class WmContainer extends PartialHost<WmContainerProps, WmContainerState, WmContainerStyles> {
   static contextType = StickyContext;
   private containerRef: React.RefObject<View>;
+  private stickyContainerOpacity: Animated.Value;
   insets: EdgeInsets | null = {
     top: 0, bottom: 0, left: 0, right: 0
   };
@@ -26,6 +27,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
   constructor(props: WmContainerProps) {
     super(props, DEFAULT_CLASS, new WmContainerProps(), new WmContainerState());
     this.containerRef = React.createRef();
+    this.stickyContainerOpacity = new Animated.Value(1);
   }
 
   getBackground(): React.JSX.Element | null {
@@ -52,11 +54,27 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
   }
 
   private getStickyHeaderTranslateY(){
-    const { stickyHeaderTranslateY } = this.context as StickyContextType;
-    this.containerRef?.current?.measure((_x = 0, _y = 0, _width = 0, _height = 0, _pageX = 0, pageY = 0)=>{
+    const { stickyHeaderTranslateY, pageContentReady } = this.context as StickyContextType;
+    this.containerRef?.current?.measure((_x = 0, _y = 0, _width = 0, _height = 0, px = 0, py = 0)=>{
       const topInsetsInYposition = Platform.OS == 'ios' ? (this.insets?.top || 0): 0
-      if(stickyHeaderTranslateY) stickyHeaderTranslateY.value = pageY - topInsetsInYposition ;
+      if(stickyHeaderTranslateY && pageContentReady) {
+        stickyHeaderTranslateY.value = py - topInsetsInYposition ;
+        this.updateState({ stickyContainerVisibility: true} as WmContainerState)
+      }
     })
+  }
+
+  componentDidUpdate(_prevProps: any, prevState: any) {
+    const { pageContentReady } = this.context as StickyContextType;
+
+    if (pageContentReady) this.getStickyHeaderTranslateY();
+    if (prevState.stickyContainerVisibility !== this.state.stickyContainerVisibility) {
+      Animated.timing(this.stickyContainerOpacity, {
+        toValue: this.state.stickyContainerVisibility ? 0 : 1,
+        delay: 300,
+        useNativeDriver: true
+      }).start();
+    }
   }
 
   renderWidget(props: WmContainerProps) {
@@ -87,18 +105,19 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
             <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect}>
               { props.issticky ?
                 <>
-                  <StickyHeader
-                    component={this}
-                    theme={this.theme}
-                    style={[dimensions, this.styles.sticky]}
-                  >
-                    <View style={[dimensions as ViewStyle, this.styles.content]}>
-                      {this.renderContent(props)}
-                    </View>
-                  </StickyHeader>
-                  <View style={[dimensions as ViewStyle, this.styles.content, {opacity: 0}]} ref={this.containerRef}>
+                  {this.state.stickyContainerVisibility ? 
+                    <StickyHeader
+                      component={this}
+                      theme={this.theme}
+                      style={[dimensions, this.styles.sticky]}
+                    >
+                      <View style={[dimensions as ViewStyle, this.styles.content]}>
+                        {this.renderContent(props)}
+                      </View>
+                    </StickyHeader> : <></>}
+                  <Animated.View style={[dimensions as ViewStyle, { opacity: this.stickyContainerOpacity }, this.styles.content]} ref={this.containerRef}>
                     {this.renderContent(props)}
-                  </View>
+                  </Animated.View>
                 </>
                 : !props.scrollable ? 
                 <View style={[dimensions as ViewStyle,  this.styles.content]}>
