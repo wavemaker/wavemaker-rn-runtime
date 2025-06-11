@@ -91,25 +91,43 @@ export class Theme {
         this.children.forEach(t => t.notify(event));
     }
 
-    private replaceVariables(val: any) {
-        if(isString(val)) { 
+    private replaceVariables(val: any, baseTokens: any, classNames: any) {
+        if (isString(val)) {
             (val.match(/_*var\([^\)]*\)/g) || []).forEach((s) => {
                 const content = s.substring(4, s.length - 1);
-                let [variableName, fallback] = content.split(",").map(str => str.trim()); 
-                let resolvedValue = (ThemeVariables.INSTANCE as any)[variableName] 
-                    || (ThemeVariables.INSTANCE as any)[variableName.substring(2)] 
-                    || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]
-                    || fallback;
-                val = val.replace(s, resolvedValue);
-                if (isNumber(resolvedValue) 
-                    && val.trim() === (resolvedValue + '')) {
-                    val = resolvedValue;
-                } else {
-                    val = this.replaceVariables(val);
+                let [variableName, fallback] = content.split(",").map(str => str.trim());
+                let resolvedValue;
+                let _variants: any = (ThemeVariables.INSTANCE as any)._Variants;
+                console.log("_variants",(ThemeVariables.INSTANCE as any)._Variants);
+                if (_variants && typeof classNames === 'string') {
+                    const classList = classNames.split(/\s+/);
+                    for (const cls of classList) {
+                        if (_variants[cls] && _variants[cls][variableName]) {
+                            resolvedValue = _variants[cls][variableName];
+                            console.log("Found Overrides", val, resolvedValue);
+                            break;
+                        }
+                    }
                 }
-            });
+                
+
+                if (!resolvedValue) {
+                    resolvedValue = baseTokens[variableName] || (ThemeVariables.INSTANCE as any)[variableName]
+                        || (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
+                        || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]
+                        || fallback;
+                }
+                    val = val.replace(s, resolvedValue);
+                    if (isNumber(resolvedValue)
+                        && val.trim() === (resolvedValue + '')) {
+                        val = resolvedValue;
+                    } else {
+                        val = this.replaceVariables(val, baseTokens, classNames);
+                    }
+                }
+            );
         }
-        return val; 
+        return val;
     }
 
     clearCache() {
@@ -194,14 +212,14 @@ export class Theme {
         return style;
     }
 
-    cleanseStyleProperties(style: any) {
+    cleanseStyleProperties(style: any, baseTokens: any, classnames: any) {
         if (!(style && isObject(style)) || isString(style) || isArray(style)) {
             return style;
         }
         style = style as any;
         if (isObject(style) && !isArray(style)) {
             Object.keys(style).forEach(k => {
-                let v = this.replaceVariables((style as any)[k]);
+                let v = this.replaceVariables((style as any)[k], baseTokens, classnames);
                 if (isString(v) && v.startsWith("color-mix(")) {
                     v = ColorMix.valueOf(v);
                 }
@@ -275,7 +293,7 @@ export class Theme {
                 style[k] = Number(stylePropertyValue)/100 * screenHeight
             }
         })
-        Object.keys(style).forEach((k, i) => this.cleanseStyleProperties(style[k]));
+        Object.keys(style).forEach((k, i) => this.cleanseStyleProperties(style[k], baseTokens,classnames));
         return style;
     }
 
@@ -296,7 +314,7 @@ export class Theme {
             if (!mediaQuery || matchMedia(mediaQuery).matches) {
                 clonedStyle = cloneDeep(this.styles[name]) || {} ;
                 clonedStyle['root'] = clonedStyle['root'] || {};
-                this.cleanseStyleProperties(clonedStyle);
+                // this.cleanseStyleProperties(clonedStyle);
                 const extraTextStyles = (this.getTextStyle(clonedStyle) || {}) as any ;
                 clonedStyle['text'] = Object.assign({}, extraTextStyles, clonedStyle['text'] || {});
                 Object.keys(clonedStyle).forEach((k) => {
