@@ -274,28 +274,6 @@ export const getAbortableDefer = () => {
   return _defer;
 };
 
-//Adding the below function to split borderColor, as there is a known bug in reactnative where borderBottomColor does not override borderColor on Android (https://github.com/facebook/react-native/issues/38335)
-export function splitBorderColorInPlace(rootStyles: any): any {
-  const updatedRootStyles = cloneDeep(rootStyles);
-  
-  const color = updatedRootStyles.borderColor;
-  
-  if (!color) return updatedRootStyles;
-
-  const sides = ["Top", "Right", "Bottom", "Left"];
-  for (const side of sides) {
-    const key = `border${side}Color`;
-    console.log(updatedRootStyles[key],"hs")
-    if (!updatedRootStyles[key]) {
-      updatedRootStyles[key] = color;
-    }
-  }
-  delete updatedRootStyles.borderColor;
-  return updatedRootStyles;
-}
-
-  
-
 export const validateField = (props: any, value: any) => {
   let requiredCheck = true, regexCheck = true;
   if (props.required) {
