@@ -81,6 +81,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
 
   onSelect(event: any, data: any){
     if (!this.viewRef.current) return;
+    if (!this.state.props.dataset) return;
     this.viewRef.current.measureInWindow((chartX: number, chartY: number) => {
     let value = data.slice.value;
     let label = this.state.xaxisDatakeyArr[data.datum.x];
@@ -162,7 +163,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
               <VictoryPie
                 style={styleProp}
                 standalone={false}
-                colorScale={this.state.colors}
+                colorScale={this.isRTL ? [...this.state.colors].slice(0, pieData.length).reverse() : this.state.colors}
                 labels={({datum}) => this.getLabel(datum, props)}
                 endAngle={this.state.endAngle || 0}
                 radius={radius}

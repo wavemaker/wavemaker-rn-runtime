@@ -225,8 +225,10 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
                           tickLabels: props.showyaxislabels === false ? {fill: 'none'} : this.theme.mergeStyle(this.styles.tickLabels, this.styles.yTickLabels)
                         }}
                         fixLabelOverlap= {props.autoadjustlabels?true:false}
-                        axisLabelComponent={<VictoryLabel x={xaxislabeldistance}/>}
-                        tickLabelComponent={<VictoryLabel x={props.offsetxaxis ? props.offsetxaxis : 50}/>} 
+                        axisLabelComponent={<VictoryLabel x={this.isRTL ? (screenWidth - xaxislabeldistance -
+                          30) : xaxislabeldistance}/>}
+                        tickLabelComponent={<VictoryLabel x={this.isRTL ? (props.offsetxaxis ? screenWidth - 
+                         props.offsetxaxis - 30 : screenWidth - 80) : (props.offsetxaxis || 50)} />}
                         theme={this.state.theme}
                         tickFormat= {(d: number, i: number, ticks: any) => {
                           if (getTickValueLabel) {
@@ -283,7 +285,7 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
            {this.renderPointer()}
       </View> : (
       <View style={[
-        { position: "absolute", top: this.state.tooltipYPosition as number, left: this.state.tooltipXPosition as number},
+        { position: "absolute", top: this.state.tooltipYPosition as number},this.isRTL ? {right: this.state.tooltipXPosition as number} : {left: this.state.tooltipXPosition as number},
         this.styles.tooltipContainer
       ]}>
         <Text style={[{ fontSize: 16, fontWeight: 'bold' },this.styles.tooltipXText]}>{this.state.tooltipXaxis}</Text>
