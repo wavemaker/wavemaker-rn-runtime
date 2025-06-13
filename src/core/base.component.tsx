@@ -77,6 +77,7 @@ export class BaseProps extends StyleProps {
     deferload?: boolean = false;
     showskeletonchildren?: boolean = true;
     disabletoucheffect?:boolean = false;
+    isdefault?: boolean = false;
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {

@@ -10,6 +10,7 @@ import {
 } from '@testing-library/react-native';
 import moment, { Moment } from 'moment';
 import { exitProcess } from 'yargs';
+import { MonthView } from '@wavemaker/app-rn-runtime/components/input/calendar/views/month-view';
 
 const DEFAULT_DATE_FORMAT = 'DD-MM-YYYY';
 
@@ -227,5 +228,52 @@ describe('WmCalendar Component', () => {
     expect(viewEles[3].props.style.height).toBe(16);
     expect(viewEles[4].props.style.width).toBe('10%');
     expect(viewEles[4].props.style.height).toBe(28);
-  })
+  });
+
+  it('should start weeks on Sunday', () => {
+    const monthView = new MonthView({});
+    const testDate = moment('2025-05-01');
+    const dates = monthView.calendarArray(testDate);
+    
+    // First date in array should be a Sunday
+    expect(dates[0].day()).toBe(0);
+    
+    // First 7 dates should be Sun through Sat
+    const firstWeekDays = dates.slice(0, 7).map(d => d.day());
+    expect(firstWeekDays).toEqual([0, 1, 2, 3, 4, 5, 6]);
+  });
+
+  it('should correctly align May 2025 dates', () => {
+    const monthView = new MonthView({});
+    const testDate = moment('2025-05-01');
+    const dates = monthView.calendarArray(testDate);
+    
+    // May 1st 2025 should be Thursday
+    const may1st = dates.find(d => d.date() === 1 && d.month() === 4);
+    expect(may1st?.day()).toBe(4);
+
+    // May 7th 2025 should be Wednesday
+    const may7th = dates.find(d => d.date() === 7 && d.month() === 4);
+    expect(may7th?.day()).toBe(3);
+    
+    // May 31st 2025 should be Saturday
+    const may31st = dates.find(d => d.date() === 31 && d.month() === 4);
+    expect(may31st?.day()).toBe(6);
+  });
+
+  it('should maintain correct weekday sequence', () => {
+    const monthView = new MonthView({});
+    const testDate = moment('2025-05-01');
+    const dates = monthView.calendarArray(testDate);
+    
+    // Check that each week starts with Sunday (0)
+    for (let i = 0; i < dates.length; i += 7) {
+      expect(dates[i].day()).toBe(0);
+    }
+    
+    // Check that each week ends with Saturday (6)
+    for (let i = 6; i < dates.length; i += 7) {
+      expect(dates[i].day()).toBe(6);
+    }
+  });
 });

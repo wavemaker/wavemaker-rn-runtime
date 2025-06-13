@@ -4,8 +4,11 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import { Platform } from 'react-native';
 
 export type WmProgressBarStyles = BaseStyles & {
-    progressBar : AllStyle,
-    progressValue: AllStyle
+    progressBar: AllStyle,
+    progressValue: AllStyle,
+    tooltip: AllStyle,
+    tooltipLabel: AllStyle,
+    tooltipTriangle: AllStyle
 };
 
 export const DEFAULT_CLASS = 'app-progress-bar';
@@ -16,7 +19,20 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         progressBar: {
             height: 4
         },
-        progressValue: {}
+        progressValue: {},
+        tooltip: {
+            backgroundColor: themeVariables.tooltipBgColor,
+            paddingHorizontal: 8,
+            paddingVertical: 4,
+            borderRadius: 4
+        },
+        tooltipLabel: {
+            color: themeVariables.defaultColor,
+            fontSize: 12
+        },
+        tooltipTriangle: {
+            borderBottomColor: themeVariables.tooltipBgColor
+        }
     });
 
     const getStyle = (color: string) => ({
@@ -25,7 +41,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         progressValue: {
             color: color
-        }
+        },
+        tooltip: {},
+        tooltipLabel: {},
+        tooltipTriangle: {}
     } as WmProgressBarStyles);
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
