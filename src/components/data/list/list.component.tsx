@@ -58,6 +58,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   private async onSelect($item: any, $index: number | string, $event?: any) {
+    if(this.state.props.disableitemselect) {
+      return; 
+    }
+
     const props = this.state.props;
     let selectedItem = null as any;
     let eventName = 'onSelect';
@@ -455,8 +459,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               {...this.getTestPropsForAction(`item${index}`)}
               disableTouchEffect={this.state.props.disabletoucheffect}
               onTap={($event) => this.onSelect(item, index, $event)}
-              onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
-              onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+              onLongTap={() => !this.state.props.disableitemselect && this.invokeEventCallback('onLongtap', [null, this.proxy])}
+              onDoubleTap={() => !this.state.props.disableitemselect && this.invokeEventCallback('onDoubletap', [null, this.proxy])}
               styles={
                 [{ display: 'flex', flexDirection: 'row' },
                 cols ? {
@@ -499,8 +503,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                 {...this.getTestPropsForAction(`item${index}`)}
                 disableTouchEffect={this.state.props.disabletoucheffect}
                 onTap={($event) => this.onSelect(item, index, $event)}
-                onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
-                onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+                onLongTap={() => !this.state.props.disableitemselect && this.invokeEventCallback('onLongtap', [null, this.proxy])}
+                onDoubleTap={() => !this.state.props.disableitemselect && this.invokeEventCallback('onDoubletap', [null, this.proxy])}
                 styles={
                   [{ display: 'flex', flexDirection: 'row' },
                   cols ? {
