@@ -165,7 +165,8 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
               style={[
                 this.styles.text,
                 isLink ? this.styles.link.text : null,
-                this.state.props.isValid ? null : { color: 'red' }
+                this.state.props.isValid ? null : { color: 'red' },
+                showWebTextGradient? gradientStyle : null
               ]}
               {...this.getTestPropsForLabel(isLink ? `link_${index}` : `caption_${index}`)}
               selectable={this.styles.text.userSelect === 'text'}
