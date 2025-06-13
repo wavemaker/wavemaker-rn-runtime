@@ -55,7 +55,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           paddingTop: (paddingTopVal || 0) as number + (insets?.top || 0) as number} : {}
           return (
           <View style={[this.styles.root, stylesWithFs]} ref={ref => {this.baseView = ref as View}} onLayout={(event) => {
-            if(navHeight && this.props.hideonscroll) {
+            if(navHeight) {
               navHeightValue = event.nativeEvent.layout.height || 0;
               navHeight.value = navHeightValue;
             }

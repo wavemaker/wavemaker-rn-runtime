@@ -20,6 +20,7 @@ import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-contex
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
+import { StickyContext, StickyContextType } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
 
 interface TabDataItem extends NavigationDataItem {
   floating: boolean;
@@ -48,6 +49,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   private insets: EdgeInsets | null = null;
   private appConfig = injector.get<AppConfig>('APP_CONFIG');
   private tabbarHeightWithInsets: number = 0;
+  static contextType = StickyContext;
 
   constructor(props: WmTabbarProps) {
     super(props, DEFAULT_CLASS, new WmTabbarProps(), new WmTabbarState());
@@ -164,6 +166,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
     let max = 5;
     const tabItems = this.state.dataItems;
     const tabItemsLength = tabItems.length;
+    let bottomTabHeightValue;
     const isClippedTabbar = ((props.classname || '').indexOf('clipped-tabbar') >= 0) && (tabItemsLength % 2 !== 0);
     if (isClippedTabbar && tabItemsLength % 2 !== 0) {
       const middleIndex = Math.floor(tabItemsLength / 2);
@@ -184,6 +187,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       }
       max = max - 1;
     }
+    const { bottomTabHeight } = this.context as StickyContextType;
     return (
       <SafeAreaInsetsContext.Consumer>
       {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
@@ -198,7 +202,13 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       {(navigationService) =>(
         <View style={[this.styles.root, stylesWithFs]} 
           ref={(ref)=> {this.baseView = ref as any}}
-          onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}  
+          onLayout={(event: LayoutChangeEvent) => {
+            if(bottomTabHeight && this.props.hideonscroll) {
+              bottomTabHeightValue = event.nativeEvent.layout.height || 0;
+              bottomTabHeight.value = bottomTabHeightValue;
+            }
+            this.handleLayout(event);
+          }}
         >
       {isClippedTabbar ? (
         <Svg width={this.maxWidth} height={scale(this.styles.root.height as number)} style={{zIndex: -1,position: 'absolute',backgroundColor: ThemeVariables.INSTANCE.transparent}}>
@@ -247,16 +257,13 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   renderWidget(props: WmTabbarProps) {
     this.isFixed = true;
     const animateStyle = props.hideonscroll ? {transform: [{translateY: this.translateY}]} : {};
-    return <>
+    return this.props.hideonscroll ? (
         <FixedView 
           style={{...{bottom: 0, width:'100%'}, ...animateStyle}} 
           theme={this.theme}
           animated={props.hideonscroll || false}>
           {this.renderContent(props)}
         </FixedView>
-        <View style={{ opacity: 0}}>
-          {this.renderContent(props)}
-        </View>
-    </>
+      ) : this.renderContent(props)
   }
 }

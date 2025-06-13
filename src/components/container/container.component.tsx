@@ -59,7 +59,9 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       const topInsetsInYposition = Platform.OS == 'ios' ? (this.insets?.top || 0): 0
       if(stickyHeaderTranslateY && pageContentReady) {
         stickyHeaderTranslateY.value = py - topInsetsInYposition ;
-        this.updateState({ stickyContainerVisibility: true} as WmContainerState)
+        setTimeout(()=>{
+          this.updateState({ stickyContainerVisibility: true} as WmContainerState)
+        }, 600);
       }
     })
   }

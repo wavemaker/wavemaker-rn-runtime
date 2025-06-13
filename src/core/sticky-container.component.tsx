@@ -55,6 +55,7 @@ import React, {
     showStickyHeader: SharedValue<boolean>;
   
     navHeight: SharedValue<number>;
+    bottomTabHeight: SharedValue<number>;
     pageContentReady: boolean;
     setPageContentReady: Dispatch<SetStateAction<boolean>>;
     scrollY: SharedValue<number>;
@@ -94,6 +95,7 @@ import React, {
     const showStickyHeader = useSharedValue<boolean>(false);
     // Default navbar height from appnavbar styles is 80, maintaining to minimize the navHeight immediate flicker
     const navHeight = useSharedValue<number>(hasAppnavbar && onscroll == 'topnav' ? 80 : 0);
+    const bottomTabHeight = useSharedValue<number>(0);
   
     const lastNotifyTime = useSharedValue<number>(0);
     const prevScrollTime = useSharedValue<number>(0);
@@ -107,13 +109,20 @@ import React, {
     }, [stickyNavTranslateY]);
   
     const stickyHeaderAnimateStyle = useAnimatedStyle(() => {
-      return {
-        transform: [{ translateY: 
-          Math.max(
-            Math.max(stickyHeaderTranslateY.value - navHeight.value - scrollY.value, - navHeight.value),
-            - stickyNavTranslateY.value
-          )
-        }],
+      const stickyNav = onscroll == 'topnav' ||  onscroll == 'topnav-bottomnav';
+      if(stickyNav){
+        return {
+          transform: [{ translateY: 
+            Math.max(
+              Math.max(stickyHeaderTranslateY.value - navHeight.value - scrollY.value, - navHeight.value),  
+              - stickyNavTranslateY.value
+            )
+          }],
+        }
+      }else{
+        return {
+          transform: [{ translateY: Math.max(stickyHeaderTranslateY.value - scrollY.value, navHeight.value)}]
+        }
       }
     }, [scrollY, stickyHeaderTranslateY, navHeight]);
   
@@ -180,6 +189,7 @@ import React, {
       stickyHeaderTranslateY,
       showStickyHeader,
       navHeight,
+      bottomTabHeight, 
       pageContentReady, 
       setPageContentReady,
       onScroll,

@@ -71,7 +71,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
 
   renderWidget(props: WmPageContentProps) {
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
-    const { navHeight, onScroll } = this.context as StickyContextType;
+    const { navHeight, bottomTabHeight,  onScroll } = this.context as StickyContextType;
     return (props.scrollable || isWebPreviewMode()) ? (
       <View style={{height: '100%', width: '100%', backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
         {this._background}
@@ -80,7 +80,10 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
             const keyboardOffset = props.consumenotch ? (insets?.bottom || 0) : 0;
             const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + props.keyboardverticaloffset : keyboardOffset;
             const paddingTop = this.styles?.root?.paddingTop || this.styles?.root?.padding;
+            const paddingBottom = this.styles?.root?.paddingBottom || this.styles?.root?.padding;
             const paddingTopVal = isNumber(paddingTop) ? paddingTop : 0;
+            const paddingBottomVal = isNumber(paddingBottom) ? paddingBottom : 0;
+            const navHeightVal = (this.props.onscroll == 'topnav' || this.props.onscroll == 'topnav-bottomnav') ? navHeight.value : 0;
             return (
               <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -92,7 +95,8 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
                     ref={this.scrollRef}
                     contentContainerStyle={[
                       this.styles.root, {backgroundColor: 'transparent', 
-                        paddingTop: navHeight.value + paddingTopVal
+                        paddingTop: navHeightVal + paddingTopVal, 
+                        paddingBottom: bottomTabHeight.value + paddingBottomVal
                       }
                     ]}
                     onLayout={this.handleScrollViewLayout}
