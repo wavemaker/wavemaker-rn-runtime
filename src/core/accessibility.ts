@@ -45,6 +45,7 @@ export enum AccessibilityWidgetType {
   WEBVIEW = 'webview',
   LINECHART = 'linechart',
   SLIDER = 'slider',
+  BOTTOMSHEET='bottomsheet'
 };
 
   
@@ -99,6 +100,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.ICON:
     case AccessibilityWidgetType.NAV:
     case AccessibilityWidgetType.POVOVER:
+    case AccessibilityWidgetType.BOTTOMSHEET:
     case AccessibilityWidgetType.WEBVIEW:
     case AccessibilityWidgetType.LINECHART:
     case AccessibilityWidgetType.SLIDER:

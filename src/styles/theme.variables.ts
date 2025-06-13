@@ -483,5 +483,9 @@ export default class ThemeVariables {
     // Text Area
     textAreaHelpTextColor = '#61656c'
 
+     // Bottom Shhet
+    bottomSheetBgColor = 'rgba(0,0,0,0.1)'
+    bottomSheetDragIconcolor = 'rgba(60,60,67,0.3)'
+
     static INSTANCE = new ThemeVariables();
 }
