@@ -553,10 +553,10 @@ describe('WmForm', () => {
       expect(instanceParent.updateDataOutput).toHaveBeenCalled()
     })
   })
-  it('should call invokeEventCallback when enableAsyncCallbacks is false', async () => {
+  it('should call invokeEventCallback when enableasynccallbacks is false', async () => {
     const props = {
       ...defaultProps,
-      enableAsyncCallbacks: false,
+      enableasynccallbacks: false,
       onBeforesubmit: jest.fn()
     };
     
@@ -573,10 +573,10 @@ describe('WmForm', () => {
     expect(instance.invokeEventCallbackAsync).not.toHaveBeenCalled();
   });
 
-  it('should call invokeEventCallbackAsync when enableAsyncCallbacks is true', async () => {
+  it('should call invokeEventCallbackAsync when enableasynccallbacks is true', async () => {
     const props = {
       ...defaultProps,
-      enableAsyncCallbacks: true,
+      enableasynccallbacks: true,
       onBeforesubmit: jest.fn()
     };
     
@@ -592,7 +592,7 @@ describe('WmForm', () => {
     expect(mockInvokeEventCallbackAsync).toHaveBeenCalledWith('onBeforesubmit', [null, instance.proxy, undefined]);
   });
 
-  it('should default to sync when enableAsyncCallbacks not provided', async () => {
+  it('should default to sync when enableasynccallbacks not provided', async () => {
     const props = {
       ...defaultProps,
       onBeforesubmit: jest.fn()
@@ -613,7 +613,7 @@ describe('WmForm', () => {
   it('should handle async errors and return false', async () => {
     const props = {
       ...defaultProps,
-      enableAsyncCallbacks: true,
+      enableasynccallbacks: true,
       onBeforesubmit: jest.fn()
     };
     
@@ -631,7 +631,7 @@ describe('WmForm', () => {
   it('should merge form data after async callback', async () => {
     const props = {
       ...defaultProps,
-      enableAsyncCallbacks: true,
+      enableasynccallbacks: true,
       onBeforesubmit: jest.fn(),
       formSubmit: jest.fn()
     };
