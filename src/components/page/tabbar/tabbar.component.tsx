@@ -142,17 +142,17 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       const visibleContentHeight = layoutMeasurement.height ;
       const endReached = (scrollPosition + visibleContentHeight + this.tabbarHeightWithInsets) >= contentSize.height ;
       const bottomInsets = this.insets?.bottom || 0
-      const e = event as unknown as CustomScrollEvent;
-      if(e.scrollDelta >= 2){
-        if(e.scrollDirection < 0){
+      const e = event.nativeEvent as any as CustomScrollEvent;
+      if(Math.abs(e?.scrollDelta) >= 2){
+        if(e?.scrollDirection > 0){
           this.animateWithTiming(0, 100)
-        }else if(e.scrollDirection > 0) {
+        }else if(e?.scrollDirection < 0) {
           this.animateWithTiming(this.tabbarHeightWithInsets + bottomInsets, 100)
         }
       }
-        if(endReached){
-          this.animateWithTiming(0, 0)
-        }
+      if(endReached){
+        this.animateWithTiming(0, 0)
+      }
     })
   }
 

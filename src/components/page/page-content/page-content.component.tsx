@@ -102,6 +102,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
                     alwaysBounceHorizontal={false}
                     bounces={false}
                     overScrollMode="never"
+                    removeClippedSubviews={Platform.OS == 'android'}
                     onScrollEndDrag={this.handleOnScrollEndDrag}
                   >
                     {props.children}

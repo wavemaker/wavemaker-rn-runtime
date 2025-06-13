@@ -153,7 +153,8 @@ import React, {
             layoutMeasurement: {
               height: event.layoutMeasurement?.height ?? 0,
             },
-            scrollDirection: scrollDirection.value
+            scrollDirection: scrollDirection.value,
+            scrollDelta: delta,
           };
           runOnJS(notifyEvent)(safeEvent);
         }
