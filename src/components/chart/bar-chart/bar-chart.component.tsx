@@ -93,7 +93,7 @@ onSelect(event: any, data: any){
     >
       <View>
       { (props.title || props.iconclass) ? (
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View testID="title-icon-container" style={{flexDirection: 'row', alignItems: 'center'}}>
           {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
           {props.title ? (<Text style={this.styles.title}>{props.title}</Text>) : null }
         </View>

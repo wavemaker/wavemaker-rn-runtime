@@ -3,6 +3,7 @@ import { Platform, Text } from 'react-native';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import WmPanel from '@wavemaker/app-rn-runtime/components/container/panel/panel.component';
 import WmPanelProps from '@wavemaker/app-rn-runtime/components/container/panel/panel.props';
+import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 
 const fireEventLayoutFun = (component: any) => {
   return fireEvent(component.root, 'layout', {
@@ -203,5 +204,77 @@ describe('Test Panel component', () => {
     });
 
     expect(tree).toMatchSnapshot();
+  });
+
+  test('renders title with skeleton when showskeleton is true', () => {
+    const tree = renderComponent({
+      showskeleton: true,
+      title: 'Skeleton Title',
+      subheading: undefined
+    });
+    
+    // Find the WmLabel component
+    const titleElement = tree.UNSAFE_getByType(WmLabel);
+    expect(titleElement).toBeTruthy();
+    expect(titleElement.props.showskeleton).toBe(true);
+    expect(titleElement.props.caption).toBe('Skeleton Title');
+    
+  });
+
+  test('renders title with custom styles', () => {
+    const customStyles = {
+      text: {
+        color: 'red',
+        fontSize: 20
+      },
+      heading: {
+        fontWeight: 'bold'
+      }
+    };
+    
+    const tree = renderComponent({
+      title: 'Styled Title',
+      styles: customStyles
+    });
+    
+    const titleElement = tree.getByText('Styled Title');
+    expect(titleElement).toBeTruthy();
+    
+    // Check that the style array contains our custom styles
+    const styleArray = titleElement.props.style;
+    expect(styleArray).toBeInstanceOf(Array);
+    
+    // Find the text style object in the array
+    const textStyle = styleArray.find((style: { color?: string; fontSize?: number }) => 
+      style.color === 'red' && style.fontSize === 20
+    );
+    expect(textStyle).toBeTruthy();
+    
+    // Find the heading style object in the array
+    const headingStyle = styleArray.find((style: { fontWeight?: string }) => 
+      style.fontWeight === 'bold'
+    );
+    expect(headingStyle).toBeTruthy();
+  });
+
+  test('does not render title when title prop is not provided', () => {
+    const tree = renderComponent({
+      title: undefined
+    });
+    
+    // Title should not be rendered at all
+    const titleElement = tree.queryByText('Title');
+    expect(titleElement).toBeNull();
+  });
+
+  test('renders title with correct test props', () => {
+    const tree = renderComponent({
+      title: 'Test Title'
+    });
+    
+    const titleElement = tree.getByText('Test Title');
+    expect(titleElement).toBeTruthy();
+    // Verify the test props are applied through getTestPropsForAction
+    expect(titleElement.props.testID).toBe('panel_header_title');
   });
 });

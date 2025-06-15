@@ -732,4 +732,101 @@ it('should render both title and subheading when both props are provided', () =>
     expect(getByText(SAMPLE_DATA1.group3)).toBeTruthy();
     expect(getByText(SAMPLE_DATA1.group4)).toBeTruthy();
   });
+
+  it('should not render title and icon container when both props are missing', () => {
+    const { queryByTestId } = renderComponent({
+      ...defaultProps,
+      // title and iconclass are intentionally not provided
+    });
+    
+    // The container View should not be rendered
+    expect(queryByTestId('title-icon-container')).toBeNull();
+  });
+
+  it('should render only icon when iconclass is provided without title', () => {
+    const { getByText, queryByText } = renderComponent({
+      ...defaultProps,
+      iconclass: 'fa fa-edit',
+      // title is intentionally not provided
+    });
+    
+    // Icon should be rendered
+    expect(getByText('edit')).toBeTruthy();
+    
+    // Title should not be rendered
+    expect(queryByText('Pie Chart')).toBeNull();
+  });
+
+  it('should apply correct container styles for title and icon', () => {
+    const { getByTestId } = renderComponent({
+      ...defaultProps,
+      title: 'Test Title',
+      iconclass: 'fa fa-edit',
+    });
+    
+    const container = getByTestId('title-icon-container');
+    expect(container.props.style.flexDirection).toBe('row');
+    expect(container.props.style.alignItems).toBe('center');
+  });
+
+  it('should render title with custom styles', () => {
+    const { getByText } = renderComponent({
+      ...defaultProps,
+      title: 'Custom Title',
+      styles: {
+        title: {
+          color: 'red',
+          fontSize: 20,
+          fontWeight: 'bold'
+        }
+      }
+    });
+    
+    const titleElement = getByText('Custom Title');
+    expect(titleElement.props.style.color).toBe('red');
+    expect(titleElement.props.style.fontSize).toBe(20);
+    expect(titleElement.props.style.fontWeight).toBe('bold');
+  });
+
+  it('should render icon with custom styles', () => {
+    const { getByText } = renderComponent({
+      ...defaultProps,
+      iconclass: 'fa fa-edit',
+      styles: {
+        icon: {
+          icon: {
+            color: 'blue',
+            fontSize: 24
+          }
+        }
+      }
+    });
+    
+    const iconElement = getByText('edit');
+    expect(iconElement.props.style[1].color).toBe('blue');
+    expect(iconElement.props.style[1].fontSize).toBe(24);
+  });
+
+  it('should maintain container styles when title or icon changes', () => {
+    const { getByTestId, rerender } = renderComponent({
+      ...defaultProps,
+      title: 'Initial Title',
+      iconclass: 'fa fa-edit'
+    });
+    
+    const container = getByTestId('title-icon-container');
+    const initialStyles = container.props.style;
+    
+    // Rerender with different title and icon
+    rerender(
+      <WmPieChart
+        {...defaultProps}
+        title="New Title"
+        iconclass="fa fa-trash"
+      />
+    );
+    
+    const newContainer = getByTestId('title-icon-container');
+    expect(newContainer.props.style).toEqual(initialStyles);
+  });
 });
