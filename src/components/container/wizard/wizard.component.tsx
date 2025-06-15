@@ -254,17 +254,11 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   prev() {
-    if(this.state.props.skipdefaultprevious) {
-      this.invokeEventCallback('onPrev', ['prev',this.proxy]);
-      return;
-    }
-    
     const index = this.state.currentStep;
     if (index <= 0) {
       return;
     }
     const currentStep = this.steps[index];
-    this.invokeEventCallback('onPrev', ['prev',this.proxy]);
     if(currentStep.invokePrevCB(index) == false){
       return;
     }
@@ -272,54 +266,34 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   next(eventName?: string) {
-    if( eventName !== 'skip' && this.state.props.skipdefaultnext) {
-      this.invokeEventCallback('onNext', ['next',this.proxy]);
-      return;
-    }
-
     const index = this.state.currentStep;
     if (index >= this.steps.length - 1) {
       return;
     }
     const currentStep = this.steps[index];
     if (eventName === 'skip') {
-      this.invokeEventCallback('onSkip', ['skip',this.proxy]);
       currentStep.invokeSkipCB(index);
-    } else {
-      this.invokeEventCallback('onNext', ['next',this.proxy]);
-      if (currentStep.invokeNextCB(index) == false) {
-        return;
-      } 
-    } 
+    } else if (currentStep.invokeNextCB(index) == false) {
+      return;
+    }
     this.updateCurrentStep(index + 1);
   }
 
   done($event: any) {
-    if(this.state.props.skipdefaultdone) {
-      this.invokeEventCallback('onDone', ['done', this.proxy]);
-      return;
-    }
     if (this.state.currentStep !== this.lastStepIndex()) {
       return;
     }
     this.updateState({
       isDone: true
     } as WmWizardState);
-    this.invokeEventCallback('onDone', ['done', this.proxy]);
+    this.invokeEventCallback('onDone', [$event, this.proxy]);
   }
 
   cancel() {
-    this.invokeEventCallback('onCancel', ['cancel', this.proxy]);
-    if(this.state.props.skipdefaultcancel) {
-      return;
-    }
+    this.invokeEventCallback('onCancel', [null, this.proxy]);
   }
 
   skip() {
-    if(this.state.props.skipdefaultskip) {
-      this.invokeEventCallback('onSkip', ['skip', this.proxy]);
-      return;
-    }
     this.next('skip');
   }
 

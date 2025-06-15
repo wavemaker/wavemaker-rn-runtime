@@ -18,7 +18,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     text: {
         fontSize: 16,
-        color: themeVariables.labelDefaultColor
+        color: themeVariables.labelDefaultColor,
+        textAlign: 'left'
       },
       asterisk: {
         color: themeVariables.labelAsteriskColor,
@@ -40,10 +41,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
   addStyle(DEFAULT_CLASS + '-rtl', '', {
-    root : {
-      flexDirection: 'row',
-      textAlign: 'right'
-    }
+
   });
   const getLabelStyles = (color: string, textColor: string): WmLabelStyles => {
     return {
@@ -89,17 +87,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle('text-success', '', getTextStyles(themeVariables.labelTextSuccessColor));
   addStyle('text-warning', '', getTextStyles(themeVariables.labelTextWarningColor));
   addStyle('text-center', '', {
-    root: {
+    text: {
       textAlign: 'center'
     }
   } as WmLabelStyles);
   addStyle('text-left', '', {
-    root: {
+    text: {
       textAlign: 'left'
     }
   } as WmLabelStyles);
   addStyle('text-right', '', {
-    root: {
+    text: {
       textAlign: 'right'
     }
   } as WmLabelStyles);

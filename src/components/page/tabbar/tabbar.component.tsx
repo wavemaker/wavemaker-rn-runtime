@@ -188,8 +188,9 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
       this.insets = insets;
       const paddingBottomVal = this.styles.root.paddingBottom || this.styles.root.padding;
-      const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
-      const stylesWithFs = isEdgeToEdgeApp ?  {height: this.styles.root.height as number + (insets?.bottom || 0) as number, 
+      const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
+      const isFullScreenMode = !!statusBarCustomisation?.translucent;
+      const stylesWithFs = isFullScreenMode ?  {height: this.styles.root.height as number + (insets?.bottom || 0) as number, 
         paddingBottom: (paddingBottomVal || 0) as number + (insets?.bottom || 0) as number} : {}
       return (
       <NavigationServiceConsumer>
@@ -250,6 +251,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
           style={{...{bottom: 0, width:'100%'}, ...animateStyle}} 
           theme={this.theme}
           animated={props.hideonscroll || false}>
+          {this._background}
           {this.renderContent(props)}
         </FixedView>
         <View style={{ opacity: 0}}>

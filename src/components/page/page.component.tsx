@@ -63,7 +63,8 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
 
   renderWidget(props: WmPageProps) {
 
-    const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
+    const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
+    const isFullScreenMode = !!statusBarCustomisation?.translucent;
 
     return (
       <StickyViewContainer>
@@ -74,14 +75,14 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
             <ScrollView
               ref={this.scrollRef}
               {...this.panResponder.panHandlers}
-              style={[{ width:'100%', height:'100%', paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 }, this.styles.root]}
+              style={[{ width:'100%', height:'100%', paddingTop : !props?.hasappnavbar && isFullScreenMode ? insets?.top : 0 }, this.styles.root]}
               onScroll={this.onScroll}
               scrollEventThrottle={16}
             >
               {this._background}
               {props.children}
             </ScrollView> : 
-            <View style={[{paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 },this.styles.root]}> 
+            <View style={[{paddingTop : !props?.hasappnavbar && isFullScreenMode ? insets?.top : 0 },this.styles.root]}> 
               {this._background}
               {props.children}
             </View>

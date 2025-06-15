@@ -104,35 +104,45 @@ exports[`WmLabel Component should render a skeleton with given width and height 
 `;
 
 exports[`WmLabel Component should render correctly with default props 1`] = `
-<View
-  onLayout={[Function]}
-  style={
-    {
-      "alignSelf": "flex-start",
-    }
-  }
-  testID="non_animatableView"
->
-  <View>
-    <Text
-      accessibilityLabel="Test Label"
-      accessibilityRole="text"
-      accessible={true}
-      ellipsizeMode="tail"
-      style={
-        {
-          "color": "#888888",
-          "fontFamily": "Roboto",
-          "fontSize": 16,
-          "userSelect": "text",
-        }
+[
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "height": 0,
+        "width": 0,
       }
-      testID="undefined_caption"
-    >
-      Test Label
-    </Text>
-  </View>
-</View>
+    }
+  />,
+  <View
+    style={
+      {
+        "alignSelf": "flex-start",
+      }
+    }
+    testID="non_animatableView"
+  >
+    <View>
+      <Text
+        accessibilityLabel="Test Label"
+        accessibilityRole="text"
+        accessible={true}
+        ellipsizeMode="tail"
+        style={
+          {
+            "color": "#888888",
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          }
+        }
+        testID="undefined_caption"
+      >
+        Test Label
+      </Text>
+    </View>
+  </View>,
+]
 `;
 
 exports[`WmLabel Component should render skeleton with root width and height when skeleton width and height are not provided 1`] = `
