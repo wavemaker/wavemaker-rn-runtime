@@ -59,9 +59,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       const topInsetsInYposition = Platform.OS == 'ios' ? (this.insets?.top || 0): 0
       if(stickyHeaderTranslateY && pageContentReady) {
         stickyHeaderTranslateY.value = py - topInsetsInYposition ;
-        setTimeout(()=>{
           this.updateState({ stickyContainerVisibility: true} as WmContainerState)
-        }, 600);
       }
     })
   }
@@ -73,7 +71,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
     if (prevState.stickyContainerVisibility !== this.state.stickyContainerVisibility) {
       Animated.timing(this.stickyContainerOpacity, {
         toValue: this.state.stickyContainerVisibility ? 0 : 1,
-        delay: 300,
+        delay: 500,
         useNativeDriver: true
       }).start();
     }

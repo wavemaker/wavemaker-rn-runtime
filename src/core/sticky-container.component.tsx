@@ -124,7 +124,7 @@ import React, {
           transform: [{ translateY: Math.max(stickyHeaderTranslateY.value - scrollY.value, navHeight.value)}]
         }
       }
-    }, [scrollY, stickyHeaderTranslateY, navHeight]);
+    }, [scrollY, stickyHeaderTranslateY, navHeight, stickyNavTranslateY]);
   
     const notifyEvent = (event: any)=>{
       EventNotifier.ROOT.notify('scroll', [{nativeEvent: event}]);
@@ -207,7 +207,8 @@ import React, {
     protected abstract renderView(): React.ReactNode;
     cachedComponent: React.ReactNode;
     container: StickyViewContainer = null as any;
-    id = Date.now();
+    static idCounter = 0;
+    id = StickyView.idCounter++;
     layout: LayoutRectangle | null = null;
     static contextType = StickyContext;
   
@@ -243,8 +244,6 @@ import React, {
       show: true
     };
     static contextType = StickyContext;
-    static counter = 0;
-    id = StickyNav.counter++;
   
     constructor(props: StickyNavProps) {
       super(props);
@@ -271,8 +270,6 @@ import React, {
       show: true
     };
     static contextType = StickyContext;
-    static counter = 0;
-    id = StickyHeader.counter++;
   
     constructor(props: StickyHeaderProps) {
       super(props);
@@ -315,7 +312,13 @@ import React, {
             <Animated.View style={{ position: 'absolute', width: '100%', zIndex: 10 }}
               pointerEvents={'box-none'}
             >
-              {Array.from(this.children.values())}
+              {Array.from(this.children.entries()).map(([view, node]) => {
+                const element = node as React.ReactElement;
+                return React.cloneElement(element, { 
+                  key: `sticky-${view.id}`,
+                  style: element.props.style
+                });
+              })}
             </Animated.View>
           </ScrollContaineWrapper>
         </StickyViewContext.Provider>
