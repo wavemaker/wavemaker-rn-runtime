@@ -165,7 +165,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
         // * INFO: if any issue arises like freezing of application because of 
         // * rendering large number of images, check the cache policy.
         <EXPOImage
-          cachePolicy='memory' 
+          cachePolicy='memory-disk' 
           {...this.getTestProps('picture')}
           style={[this.styles.picture, shapeStyles.picture, (props.fastload || this.state.imageWidth) ? {opacity: 1} : {opacity: 0} ]}
           contentFit={props.resizemode}
