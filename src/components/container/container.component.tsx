@@ -77,8 +77,37 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
     }
   }
 
+  private renderStickyContent(props: WmContainerProps, dimensions: ViewStyle, styles: ViewStyle) {
+    const { stickyContainerVisibility } = this.state;
+    return (
+      <>
+        {stickyContainerVisibility && (
+          <StickyHeader
+            component={this}
+            theme={this.theme}
+            style={[dimensions, this.styles.sticky]}
+          >
+            <View style={[dimensions as ViewStyle, { backgroundColor: styles.backgroundColor }, this.styles.content]}>
+              {this.renderContent(props)}
+            </View>
+          </StickyHeader>
+        )}
+        <Animated.View 
+          style={[
+            dimensions as ViewStyle, 
+            { opacity: this.stickyContainerOpacity }, 
+            this.styles.content
+          ]} 
+          ref={this.containerRef}
+        >
+          {this.renderContent(props)}
+        </Animated.View>
+      </>
+    );
+  }
+
   renderWidget(props: WmContainerProps) {
-    const dimensions = {
+    const dimensions: ViewStyle = {
       width: this.styles.root.width ? '100%' : undefined,
       height: this.styles.root.height ? '100%' : undefined
     };
@@ -86,51 +115,50 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
     const styles = this._showSkeleton ? {
       ...this.styles.root,
       ...this.styles.skeleton.root
-    } : this.styles.root
-    if(props.issticky) this.isSticky = true;
+    } : this.styles.root;
+
+    if (props.issticky) {
+      this.isSticky = true;
+    }
     return (
       <SafeAreaInsetsContext.Consumer>
-        {(insets= {top: 0, bottom:0, left: 0, right:0}) => {
-        this.insets = insets;
-        return ( <Animatedview 
-            entryanimation={props.animation} 
-            delay={props.animationdelay} 
-            style={styles}
-            onLayout={(event: LayoutChangeEvent, ref: React.RefObject<View>) => {
-              if(props.issticky) this.getStickyHeaderTranslateY();
-              this.handleLayout(event, ref);
-            }}
-          >
-            {this.getBackground()}
-            <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect}>
-              { props.issticky ?
-                <>
-                  {this.state.stickyContainerVisibility ? 
-                    <StickyHeader
-                      component={this}
-                      theme={this.theme}
-                      style={[dimensions, this.styles.sticky]}
-                    >
-                      <View style={[dimensions as ViewStyle, this.styles.content]}>
-                        {this.renderContent(props)}
-                      </View>
-                    </StickyHeader> : <></>}
-                  <Animated.View style={[dimensions as ViewStyle, { opacity: this.stickyContainerOpacity }, this.styles.content]} ref={this.containerRef}>
+        {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+          this.insets = insets;
+          return (
+            <Animatedview 
+              entryanimation={props.animation} 
+              delay={props.animationdelay} 
+              style={styles}
+              onLayout={(event: LayoutChangeEvent, ref: React.RefObject<View>) => {
+                if (props.issticky) this.getStickyHeaderTranslateY();
+                this.handleLayout(event, ref);
+              }}
+            >
+              {this.getBackground()}
+              <Tappable 
+                {...this.getTestPropsForAction()} 
+                target={this} 
+                styles={dimensions} 
+                disableTouchEffect={this.state.props.disabletoucheffect}
+              >
+                {props.issticky ? (
+                  this.renderStickyContent(props, dimensions, styles)
+                ) : !props.scrollable ? (
+                  <View style={[dimensions as ViewStyle, this.styles.content]}>
                     {this.renderContent(props)}
-                  </Animated.View>
-                </>
-                : !props.scrollable ? 
-                <View style={[dimensions as ViewStyle,  this.styles.content]}>
-                  {this.renderContent(props)}
-                </View>
-                : <ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
-                    onScroll={(event) => {this.notify('scroll', [event])}}
-                    scrollEventThrottle={48}>
-                  {this.renderContent(props)}
-                </ScrollView>
-              }
-            </Tappable>
-          </Animatedview>)
+                  </View>
+                ) : (
+                  <ScrollView 
+                    style={[dimensions as ViewStyle, this.styles.content]}
+                    onScroll={(event) => this.notify('scroll', [event])}
+                    scrollEventThrottle={48}
+                  >
+                    {this.renderContent(props)}
+                  </ScrollView>
+                )}
+              </Tappable>
+            </Animatedview>
+          );
         }}
       </SafeAreaInsetsContext.Consumer>
     );
