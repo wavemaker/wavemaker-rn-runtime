@@ -52,6 +52,11 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     onUpper: (e) => {
       if(this.noOfSlides < this.state.activeIndex + 1){
         if (this.state.props.stopatlast) {
+          const currentSlideIndex = this.state.activeIndex - 1;
+          const currentPosition = this.slidesLayout
+            .filter((l, i) => i < currentSlideIndex)
+            .reduce((s, l) => s + l.width, 0);
+          this.animationView?.setPosition(-1 * currentPosition);
           return;
         } else {
           this.onSlideChange(1);
