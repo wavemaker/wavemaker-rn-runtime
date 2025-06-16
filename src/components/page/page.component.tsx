@@ -25,15 +25,15 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   }
 
   renderWidget(props: WmPageProps) {
-    const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
-    const isFullScreenMode = !!statusBarCustomisation?.translucent;
+
+    const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
 
     return (
       <StickyViewContainer hasAppnavbar = {props.hasappnavbar} onscroll={props.onscroll}>
         <FixedViewContainer>
           <SafeAreaInsetsContext.Consumer>
             {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-              return <View style={[{paddingTop : !props?.hasappnavbar && isFullScreenMode ? insets?.top : 0 },this.styles.root]} {...this.panResponder.panHandlers}> 
+              return <View style={[{paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 },this.styles.root]} {...this.panResponder.panHandlers}> 
                 {this._background}
                 {props.children}
               </View>

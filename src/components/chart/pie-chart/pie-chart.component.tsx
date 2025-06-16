@@ -140,11 +140,14 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
         key={`${props.title}_pie_chart`}
         >
         <View onLayout={this.onInfoViewLayoutChange}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          { (props.title || props.iconclass) ? (
+          <View testID="title-icon-container" style={{flexDirection: 'row', alignItems: 'center'}}>
             {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
-            <Text style={this.styles.title}>{props.title}</Text>
+            {props.title ? (<Text style={this.styles.title}>{props.title}</Text>) : null }
           </View>
-          <Text style={this.styles.subHeading}>{props.subheading}</Text>
+          ) : null }
+          { props.subheading? (
+          <Text style={this.styles.subHeading}>{props.subheading}</Text> ) : null }
         </View>
         {props.showlegend === 'top' ? 
           (<View onLayout={this.onLegendViewLayoutChange}>
