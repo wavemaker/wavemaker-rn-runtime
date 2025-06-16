@@ -18,7 +18,9 @@ import React, {
   import { BaseComponent } from "./base.component";
   import { SharedValue } from 'react-native-reanimated';
   import EventNotifier from "./event-notifier";
-  
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
   interface StickyViewProps {
     style?: any;
     show?: boolean;
@@ -85,6 +87,7 @@ import React, {
   };
   
   export const ScrollContaineWrapper = ({ children, hasAppnavbar, onscroll }: StickyViewContainerProps) => {
+    const appConfig = injector.get<AppConfig>('APP_CONFIG');
     const scrollY = useSharedValue<number>(0);
     const prevScrollY = useSharedValue<number>(0);
     const scrollVelocity = useSharedValue<number>(0);
@@ -94,7 +97,9 @@ import React, {
     const stickyNavTranslateY = useSharedValue<number>(0);
     const showStickyHeader = useSharedValue<boolean>(false);
     // Default navbar height from appnavbar styles is 80, maintaining to minimize the navHeight immediate flicker
-    const navHeight = useSharedValue<number>(hasAppnavbar && onscroll == 'topnav' ? 80 : 0);
+    const insets = useSafeAreaInsets();
+    const insetsVal = appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp ? insets?.top : 0;
+    const navHeight = useSharedValue<number>(hasAppnavbar && onscroll == 'topnav' ? (80 + insetsVal) : 0);
     const bottomTabHeight = useSharedValue<number>(0);
   
     const lastNotifyTime = useSharedValue<number>(0);
