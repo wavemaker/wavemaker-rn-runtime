@@ -42,9 +42,8 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftP
     return (
       <SafeAreaInsetsContext.Consumer>{(insets = { top: 0, bottom: 0, left: 0, right: 0 })=>{
         const paddingTopVal = this.styles.root.paddingTop || this.styles.root.padding;
-        const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
-        const isFullScreenMode = !!statusBarCustomisation?.translucent;
-        const stylesWithFs = isFullScreenMode ? {paddingTop: (paddingTopVal || 0) as number + (insets?.top || 0) as number} : {}
+        const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
+        const stylesWithFs = isEdgeToEdgeApp ? {paddingTop: (paddingTopVal || 0) as number + (insets?.top || 0) as number} : {}
        return (
         <FixedViewContainer>
           <ScrollView 
