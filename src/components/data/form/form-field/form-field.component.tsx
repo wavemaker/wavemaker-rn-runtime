@@ -215,9 +215,21 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
     return this.state.props.datavalue;
   }
 
+  getFieldIndex() {
+    const formFields = this?.form?.formFields || [];
+    const fieldName = this.props.name || this.props.formKey;
+    return formFields.findIndex((field: any) => field?.props?.name === fieldName || field?.props?.formKey === fieldName);
+  }
+
   renderWidget(props: WmFormFieldProps) {
-    var childrenWithProps = React.Children.map(props.renderFormFields(this.proxy).props.children, (child) => {
+    const formFields = this.form?.formFields || [];
+    const currentIndex = this.getFieldIndex();
+    const isLastField = currentIndex === formFields.length - 1;
+    const nextRef = this.form?.fieldRefs[currentIndex + 1];
+    const currentRef = this.form?.fieldRefs[currentIndex];
+    var childrenWithProps = React.Children.map(props.renderFormFields(this.proxy).props.children, (child, index) => {
       return React.cloneElement(child, {
+          ref: currentRef,
           datavalue: props.datavalue || child?.props?.datavalue,
           value: this.value,
           isValid: this.state.isValid,
@@ -228,7 +240,15 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           triggerValidation: this.validateFormField.bind(this),
           onFieldChange: this.onFieldChangeEvt.bind(this),
           formRef: props.formRef,
-          isdefault: props.defaultvalue && props.defaultvalue.length > 0 ? true : false, 
+          returnkeytype: (props.returnkeytype !== 'auto') ? props.returnkeytype : isLastField ? 'done' : 'next',
+          isdefault: props.defaultvalue && props.defaultvalue.length > 0 ? true : false,
+          onSubmitEditing: () => {
+            if (this.form.props.submitondone && (isLastField || this.state.props.returnkeytype === 'done')){
+              this.form?.submit();
+            } else if (nextRef?.current) {
+              nextRef.current.focus();
+            }
+          },
           ...(!isNil(props?.placeholder) ? { placeholder: props.placeholder } : {})
          });
     });

@@ -1,53 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test LineChart component should render when default props was given 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
-    }
-  />,
-  <View
-    accessible={true}
-    onLayout={[Function]}
-    style={{}}
-  >
-    <View>
-      <View
-        style={
-          {
-            "alignItems": "center",
-            "flexDirection": "row",
-          }
+<View
+  accessible={true}
+  onLayout={[Function]}
+  style={{}}
+>
+  <View>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "row",
         }
-      >
-        <Text
-          style={
-            {
-              "color": "#333333",
-              "fontSize": 20,
-              "lineHeight": 24,
-              "paddingLeft": 10,
-            }
-          }
-        />
-      </View>
+      }
+    >
       <Text
         style={
           {
-            "color": "#666666",
-            "fontSize": 12,
-            "lineHeight": 16,
+            "color": "#333333",
+            "fontSize": 20,
+            "lineHeight": 24,
+            "paddingLeft": 10,
           }
         }
       />
     </View>
+    <Text
+      style={
+        {
+          "color": "#666666",
+          "fontSize": 12,
+          "lineHeight": 16,
+        }
+      }
+    />
+  </View>
+  <View>
     <View
-      className="VictoryContainer"
       onMoveShouldSetResponder={[Function]}
       onMoveShouldSetResponderCapture={[Function]}
       onResponderEnd={[Function]}
@@ -69,14 +59,13 @@ exports[`Test LineChart component should render when default props was given 1`]
     >
       <RNSVGSvgView
         align="xMidYMid"
-        bbHeight="250"
-        bbWidth="750"
+        bbHeight={250}
+        bbWidth={750}
         focusable={false}
         height={250}
         meetOrSlice={0}
         minX={0}
         minY={0}
-        role="img"
         style={
           [
             {
@@ -108,15 +97,15 @@ exports[`Test LineChart component should render when default props was given 1`]
         >
           <RNSVGRect
             fill={null}
-            height="250"
+            height={250}
             propList={
               [
                 "fill",
               ]
             }
-            width="750"
-            x="0"
-            y="0"
+            width={750}
+            x={0}
+            y={0}
           />
           <RNSVGGroup
             fill={
@@ -128,16 +117,16 @@ exports[`Test LineChart component should render when default props was given 1`]
           >
             <RNSVGRect
               fill={null}
-              height="54.6"
+              height={54.6}
               propList={
                 [
                   "fill",
                 ]
               }
               vectorEffect={1}
-              width="92.8"
-              x="0"
-              y="0"
+              width={92.8}
+              x={0}
+              y={0}
             />
             <RNSVGPath
               d="M 62, 42
@@ -160,7 +149,7 @@ exports[`Test LineChart component should render when default props was given 1`]
               content={null}
               dx={
                 [
-                  "0",
+                  0,
                 ]
               }
               dy={[]}
@@ -175,12 +164,12 @@ exports[`Test LineChart component should render when default props was given 1`]
               rotate={[]}
               x={
                 [
-                  "76.4",
+                  76.4,
                 ]
               }
               y={
                 [
-                  "46.26",
+                  46.26,
                 ]
               }
             >
@@ -188,12 +177,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 content="y"
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 fill={
@@ -205,7 +194,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                 font={
                   {
                     "fontFamily": "Helvetica Neue",
-                    "fontSize": "12",
+                    "fontSize": 12,
                     "letterSpacing": "normal",
                     "textAnchor": "start",
                   }
@@ -218,7 +207,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                 rotate={[]}
                 x={
                   [
-                    "76.4",
+                    76.4,
                   ]
                 }
                 y={[]}
@@ -257,18 +246,18 @@ exports[`Test LineChart component should render when default props was given 1`]
               }
               strokeLinecap={1}
               strokeLinejoin={1}
-              strokeWidth="2"
+              strokeWidth={2}
               vectorEffect={1}
-              x1="65"
-              x2="725"
-              y1="200"
-              y2="200"
+              x1={65}
+              x2={725}
+              y1={200}
+              y2={200}
             />
             <RNSVGText
               content={null}
               dx={
                 [
-                  "0",
+                  0,
                 ]
               }
               dy={[]}
@@ -283,12 +272,12 @@ exports[`Test LineChart component should render when default props was given 1`]
               rotate={[]}
               x={
                 [
-                  "395",
+                  395,
                 ]
               }
               y={
                 [
-                  "242.825",
+                  242.825,
                 ]
               }
             >
@@ -296,12 +285,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 content="x"
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 fill={
@@ -313,7 +302,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                 font={
                   {
                     "fontFamily": "Helvetica Neue",
-                    "fontSize": "15",
+                    "fontSize": 15,
                     "letterSpacing": "normal",
                     "textAnchor": "middle",
                   }
@@ -326,7 +315,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                 rotate={[]}
                 x={
                   [
-                    "395",
+                    395,
                   ]
                 }
                 y={[]}
@@ -366,10 +355,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                 strokeLinecap={1}
                 strokeLinejoin={1}
                 vectorEffect={1}
-                x1="65"
-                x2="65"
-                y1="200"
-                y2="70"
+                x1={65}
+                x2={65}
+                y1={200}
+                y2={70}
               />
               <RNSVGLine
                 fill={
@@ -395,18 +384,18 @@ exports[`Test LineChart component should render when default props was given 1`]
                 }
                 strokeLinecap={1}
                 strokeLinejoin={1}
-                strokeWidth="1"
+                strokeWidth={1}
                 vectorEffect={1}
-                x1="65"
-                x2="65"
-                y1="200"
-                y2="205"
+                x1={65}
+                x2={65}
+                y1={200}
+                y2={205}
               />
               <RNSVGText
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -421,12 +410,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 rotate={[]}
                 x={
                   [
-                    "65",
+                    65,
                   ]
                 }
                 y={
                   [
-                    "230.26",
+                    230.26,
                   ]
                 }
               >
@@ -434,12 +423,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                   content="10"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -451,7 +440,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "middle",
                     }
@@ -470,10 +459,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                       "type": 0,
                     }
                   }
-                  strokeWidth="0"
+                  strokeWidth={0}
                   x={
                     [
-                      "65",
+                      65,
                     ]
                   }
                   y={[]}
@@ -514,10 +503,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                 strokeLinecap={1}
                 strokeLinejoin={1}
                 vectorEffect={1}
-                x1="230"
-                x2="230"
-                y1="200"
-                y2="70"
+                x1={230}
+                x2={230}
+                y1={200}
+                y2={70}
               />
               <RNSVGLine
                 fill={
@@ -543,12 +532,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 }
                 strokeLinecap={1}
                 strokeLinejoin={1}
-                strokeWidth="1"
+                strokeWidth={1}
                 vectorEffect={1}
-                x1="230"
-                x2="230"
-                y1="200"
-                y2="205"
+                x1={230}
+                x2={230}
+                y1={200}
+                y2={205}
               />
             </RNSVGGroup>
             <RNSVGGroup
@@ -585,10 +574,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                 strokeLinecap={1}
                 strokeLinejoin={1}
                 vectorEffect={1}
-                x1="395"
-                x2="395"
-                y1="200"
-                y2="70"
+                x1={395}
+                x2={395}
+                y1={200}
+                y2={70}
               />
               <RNSVGLine
                 fill={
@@ -614,18 +603,18 @@ exports[`Test LineChart component should render when default props was given 1`]
                 }
                 strokeLinecap={1}
                 strokeLinejoin={1}
-                strokeWidth="1"
+                strokeWidth={1}
                 vectorEffect={1}
-                x1="395"
-                x2="395"
-                y1="200"
-                y2="205"
+                x1={395}
+                x2={395}
+                y1={200}
+                y2={205}
               />
               <RNSVGText
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -640,12 +629,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 rotate={[]}
                 x={
                   [
-                    "395",
+                    395,
                   ]
                 }
                 y={
                   [
-                    "230.26",
+                    230.26,
                   ]
                 }
               >
@@ -653,12 +642,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                   content="20"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -670,7 +659,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "middle",
                     }
@@ -689,10 +678,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                       "type": 0,
                     }
                   }
-                  strokeWidth="0"
+                  strokeWidth={0}
                   x={
                     [
-                      "395",
+                      395,
                     ]
                   }
                   y={[]}
@@ -733,10 +722,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                 strokeLinecap={1}
                 strokeLinejoin={1}
                 vectorEffect={1}
-                x1="560"
-                x2="560"
-                y1="200"
-                y2="70"
+                x1={560}
+                x2={560}
+                y1={200}
+                y2={70}
               />
               <RNSVGLine
                 fill={
@@ -762,12 +751,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 }
                 strokeLinecap={1}
                 strokeLinejoin={1}
-                strokeWidth="1"
+                strokeWidth={1}
                 vectorEffect={1}
-                x1="560"
-                x2="560"
-                y1="200"
-                y2="205"
+                x1={560}
+                x2={560}
+                y1={200}
+                y2={205}
               />
             </RNSVGGroup>
             <RNSVGGroup
@@ -804,10 +793,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                 strokeLinecap={1}
                 strokeLinejoin={1}
                 vectorEffect={1}
-                x1="725"
-                x2="725"
-                y1="200"
-                y2="70"
+                x1={725}
+                x2={725}
+                y1={200}
+                y2={70}
               />
               <RNSVGLine
                 fill={
@@ -833,18 +822,18 @@ exports[`Test LineChart component should render when default props was given 1`]
                 }
                 strokeLinecap={1}
                 strokeLinejoin={1}
-                strokeWidth="1"
+                strokeWidth={1}
                 vectorEffect={1}
-                x1="725"
-                x2="725"
-                y1="200"
-                y2="205"
+                x1={725}
+                x2={725}
+                y1={200}
+                y2={205}
               />
               <RNSVGText
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -859,12 +848,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 rotate={[]}
                 x={
                   [
-                    "725",
+                    725,
                   ]
                 }
                 y={
                   [
-                    "230.26",
+                    230.26,
                   ]
                 }
               >
@@ -872,12 +861,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                   content="30"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -889,7 +878,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "middle",
                     }
@@ -908,10 +897,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                       "type": 0,
                     }
                   }
-                  strokeWidth="0"
+                  strokeWidth={0}
                   x={
                     [
-                      "725",
+                      725,
                     ]
                   }
                   y={[]}
@@ -951,18 +940,18 @@ exports[`Test LineChart component should render when default props was given 1`]
               }
               strokeLinecap={1}
               strokeLinejoin={1}
-              strokeWidth="2"
+              strokeWidth={2}
               vectorEffect={1}
-              x1="65"
-              x2="65"
-              y1="70"
-              y2="200"
+              x1={65}
+              x2={65}
+              y1={70}
+              y2={200}
             />
             <RNSVGText
               content={null}
               dx={
                 [
-                  "0",
+                  0,
                 ]
               }
               dy={[]}
@@ -987,12 +976,12 @@ exports[`Test LineChart component should render when default props was given 1`]
               rotate={[]}
               x={
                 [
-                  "20",
+                  20,
                 ]
               }
               y={
                 [
-                  "132.825",
+                  132.825,
                 ]
               }
             >
@@ -1000,12 +989,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 content="y"
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 fill={
@@ -1017,7 +1006,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                 font={
                   {
                     "fontFamily": "Helvetica Neue",
-                    "fontSize": "15",
+                    "fontSize": 15,
                     "letterSpacing": "normal",
                     "textAnchor": "middle",
                   }
@@ -1030,7 +1019,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                 rotate={[]}
                 x={
                   [
-                    "20",
+                    20,
                   ]
                 }
                 y={[]}
@@ -1070,10 +1059,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                 strokeLinecap={1}
                 strokeLinejoin={1}
                 vectorEffect={1}
-                x1="65"
-                x2="725"
-                y1="168.15"
-                y2="168.15"
+                x1={65}
+                x2={725}
+                y1={168.15}
+                y2={168.15}
               />
               <RNSVGLine
                 fill={
@@ -1099,18 +1088,18 @@ exports[`Test LineChart component should render when default props was given 1`]
                 }
                 strokeLinecap={1}
                 strokeLinejoin={1}
-                strokeWidth="1"
+                strokeWidth={1}
                 vectorEffect={1}
-                x1="65"
-                x2="60"
-                y1="168.15"
-                y2="168.15"
+                x1={65}
+                x2={60}
+                y1={168.15}
+                y2={168.15}
               />
               <RNSVGText
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -1125,12 +1114,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 rotate={[]}
                 x={
                   [
-                    "50",
+                    50,
                   ]
                 }
                 y={
                   [
-                    "172.41",
+                    172.41,
                   ]
                 }
               >
@@ -1138,12 +1127,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                   content="150"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -1155,7 +1144,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "end",
                     }
@@ -1174,10 +1163,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                       "type": 0,
                     }
                   }
-                  strokeWidth="0"
+                  strokeWidth={0}
                   x={
                     [
-                      "50",
+                      50,
                     ]
                   }
                   y={[]}
@@ -1218,10 +1207,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                 strokeLinecap={1}
                 strokeLinejoin={1}
                 vectorEffect={1}
-                x1="65"
-                x2="725"
-                y1="135.65"
-                y2="135.65"
+                x1={65}
+                x2={725}
+                y1={135.65}
+                y2={135.65}
               />
               <RNSVGLine
                 fill={
@@ -1247,18 +1236,18 @@ exports[`Test LineChart component should render when default props was given 1`]
                 }
                 strokeLinecap={1}
                 strokeLinejoin={1}
-                strokeWidth="1"
+                strokeWidth={1}
                 vectorEffect={1}
-                x1="65"
-                x2="60"
-                y1="135.65"
-                y2="135.65"
+                x1={65}
+                x2={60}
+                y1={135.65}
+                y2={135.65}
               />
               <RNSVGText
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -1273,12 +1262,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 rotate={[]}
                 x={
                   [
-                    "50",
+                    50,
                   ]
                 }
                 y={
                   [
-                    "139.91",
+                    139.91,
                   ]
                 }
               >
@@ -1286,12 +1275,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                   content="200"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -1303,7 +1292,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "end",
                     }
@@ -1322,10 +1311,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                       "type": 0,
                     }
                   }
-                  strokeWidth="0"
+                  strokeWidth={0}
                   x={
                     [
-                      "50",
+                      50,
                     ]
                   }
                   y={[]}
@@ -1366,10 +1355,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                 strokeLinecap={1}
                 strokeLinejoin={1}
                 vectorEffect={1}
-                x1="65"
-                x2="725"
-                y1="103.15"
-                y2="103.15"
+                x1={65}
+                x2={725}
+                y1={103.15}
+                y2={103.15}
               />
               <RNSVGLine
                 fill={
@@ -1395,18 +1384,18 @@ exports[`Test LineChart component should render when default props was given 1`]
                 }
                 strokeLinecap={1}
                 strokeLinejoin={1}
-                strokeWidth="1"
+                strokeWidth={1}
                 vectorEffect={1}
-                x1="65"
-                x2="60"
-                y1="103.15"
-                y2="103.15"
+                x1={65}
+                x2={60}
+                y1={103.15}
+                y2={103.15}
               />
               <RNSVGText
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -1421,12 +1410,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 rotate={[]}
                 x={
                   [
-                    "50",
+                    50,
                   ]
                 }
                 y={
                   [
-                    "107.41000000000001",
+                    107.41000000000001,
                   ]
                 }
               >
@@ -1434,12 +1423,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                   content="250"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -1451,7 +1440,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "end",
                     }
@@ -1470,10 +1459,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                       "type": 0,
                     }
                   }
-                  strokeWidth="0"
+                  strokeWidth={0}
                   x={
                     [
-                      "50",
+                      50,
                     ]
                   }
                   y={[]}
@@ -1514,10 +1503,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                 strokeLinecap={1}
                 strokeLinejoin={1}
                 vectorEffect={1}
-                x1="65"
-                x2="725"
-                y1="70.65"
-                y2="70.65"
+                x1={65}
+                x2={725}
+                y1={70.65}
+                y2={70.65}
               />
               <RNSVGLine
                 fill={
@@ -1543,18 +1532,18 @@ exports[`Test LineChart component should render when default props was given 1`]
                 }
                 strokeLinecap={1}
                 strokeLinejoin={1}
-                strokeWidth="1"
+                strokeWidth={1}
                 vectorEffect={1}
-                x1="65"
-                x2="60"
-                y1="70.65"
-                y2="70.65"
+                x1={65}
+                x2={60}
+                y1={70.65}
+                y2={70.65}
               />
               <RNSVGText
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -1569,12 +1558,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                 rotate={[]}
                 x={
                   [
-                    "50",
+                    50,
                   ]
                 }
                 y={
                   [
-                    "74.91000000000001",
+                    74.91000000000001,
                   ]
                 }
               >
@@ -1582,12 +1571,12 @@ exports[`Test LineChart component should render when default props was given 1`]
                   content="300"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -1599,7 +1588,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "end",
                     }
@@ -1618,10 +1607,10 @@ exports[`Test LineChart component should render when default props was given 1`]
                       "type": 0,
                     }
                   }
-                  strokeWidth="0"
+                  strokeWidth={0}
                   x={
                     [
-                      "50",
+                      50,
                     ]
                   }
                   y={[]}
@@ -1671,11 +1660,11 @@ exports[`Test LineChart component should render when default props was given 1`]
                           "type": 0,
                         }
                       }
-                      height="130"
+                      height={130}
                       vectorEffect={1}
-                      width="660"
-                      x="65"
-                      y="70"
+                      width={660}
+                      x={65}
+                      y={70}
                     />
                   </RNSVGClipPath>
                 </RNSVGDefs>
@@ -1697,7 +1686,7 @@ exports[`Test LineChart component should render when default props was given 1`]
                     "type": 0,
                   }
                 }
-                strokeWidth="2"
+                strokeWidth={2}
               />
             </RNSVGGroup>
             <RNSVGGroup
@@ -1798,8 +1787,8 @@ exports[`Test LineChart component should render when default props was given 1`]
           >
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight="250"
-              bbWidth="750"
+              bbHeight={250}
+              bbWidth={750}
               focusable={false}
               height={250}
               meetOrSlice={0}
@@ -1840,6 +1829,6 @@ exports[`Test LineChart component should render when default props was given 1`]
         </RNSVGGroup>
       </RNSVGSvgView>
     </View>
-  </View>,
-]
+  </View>
+</View>
 `;

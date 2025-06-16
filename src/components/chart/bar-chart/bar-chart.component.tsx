@@ -92,11 +92,14 @@ onSelect(event: any, data: any){
       onLayout={this.onViewLayoutChange.bind(this)}
     >
       <View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
-            <Text style={this.styles.title}>{props.title}</Text>
-          </View>
-          <Text style={this.styles.subHeading}>{props.subheading}</Text>
+      { (props.title || props.iconclass) ? (
+        <View testID="title-icon-container" style={{flexDirection: 'row', alignItems: 'center'}}>
+          {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
+          {props.title ? (<Text style={this.styles.title}>{props.title}</Text>) : null }
+        </View>
+      ) : null }
+        { props.subheading ? (
+          <Text style={this.styles.subHeading}>{props.subheading}</Text> ) : null }
         </View>
       <View ref={this.viewRef}>
       {this.getTooltip()}
