@@ -818,4 +818,72 @@ describe('Test Wizard component', () => {
     });
     renderSkeletonSpy.mockRestore();
   });
+
+  it('should render step subtitle when provided', async () => {
+    const stepsWithSubtitle = [
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={0}
+        index={0}
+        title="Step 1"
+        subtitle="First step subtitle"
+        name="step1"
+      >
+        <Text>Content of Step 1</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={1}
+        index={1}
+        title="Step 2"
+        subtitle="Second step subtitle"
+        name="step2"
+      >
+        <Text>Content of Step 2</Text>
+      </WmWizardstep>
+    ];
+
+    const props = {
+      ...defaultProps,
+      children: stepsWithSubtitle
+    };
+
+    renderComponent(props);
+    await timer(300);
+
+    await waitFor(() => {
+      expect(screen.getByText('First step subtitle')).toBeTruthy();
+    });
+
+    fireEvent.press(screen.getByText(defaultProps.nextbtnlabel));
+    await waitFor(() => {
+      expect(screen.getByText('Second step subtitle')).toBeTruthy();
+    });
+  });
+
+  it('should not break when subtitle is not provided', async () => {
+    const stepsWithoutSubtitle = [
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={0}
+        index={0}
+        title="Step 1"
+        name="step1"
+      >
+        <Text>Content of Step 1</Text>
+      </WmWizardstep>
+    ];
+
+    const props = {
+      ...defaultProps,
+      children: stepsWithoutSubtitle
+    };
+
+    const { queryByTestId } = renderComponent(props);
+    await timer(300);
+
+    await waitFor(() => {
+      expect(queryByTestId('step1_subtitle')).toBeNull();
+    });
+  });
 });

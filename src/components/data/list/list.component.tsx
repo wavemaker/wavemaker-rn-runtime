@@ -1,7 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity } from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
-import {debounce} from 'lodash'
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { getGroupedData, getNumberOfEmptyObjects, isDefined } from "@wavemaker/app-rn-runtime/core/utils";
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -29,25 +28,25 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private itemWidgets = [] as any[];
   private selectedItemWidgets = {} as any;
   private keyExtractor = new DefaultKeyExtractor();
-  private endThreshold = -1;
+  //private endThreshold = -1;
   // private loadingData = false;
   private hasMoreData = true;
   public leftActionTemplate?: WmListActionTemplate;
   public rightActionTemplate?: WmListActionTemplate;
   private flatListRefs: any = {};
   private selectedItems = [] as any[];
-  private debouncedLoadData: any;
-  private lastScrollTime = 0;
-  private scrollThrottleTime = 300; // minimum time between scroll triggers in ms
+  private lastScrollTriggered:boolean = false
+
+
 
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
     this.updateState({
       maxRecordsToShow: this.state.props.pagesize
     } as WmListState);
-    
-    //debounced fucntion of loadData
-    this.debouncedLoadData = debounce(this.loadData, 250);
+
+   
+
   }
 
   private isSelected($item: any) {
@@ -135,8 +134,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     ) : null;
   };
 
-  private loadData = () => {
+  private loadData() {
     if (this.state.loadingData || !this.hasMoreData) {
+     
       return;
     }
     if (isArray(this.state.props.dataset)
@@ -149,7 +149,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         // Force a re-render by making a small state update
         this.updateState({
           loadingData: false,
-          } as WmListState);
+        } as WmListState);
       }, 100);
     } else if (this.loadDataOnDemand) {
       const $list = this.proxy as any;
@@ -164,12 +164,14 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           $list.dataset = [...this.state.props.dataset, ...data];
           this.updateState({
             currentPage: this.state.currentPage + 1,
-            maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize
+            maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize,
           } as WmListState);
+          this.lastScrollTriggered = false;
           this.hasMoreData = true;
           if((data as any)?.last === true) {
             this.hasMoreData = false;
           }
+         
         } else {
           this.hasMoreData = false;
         }
@@ -178,6 +180,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       }).then(() => {
         setTimeout(() => {
           $list.loadingdata = false;
+          
         }, 1000);
       });
     }
@@ -193,13 +196,13 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   }
 
-  clear() {
+  clear = () => {
     this.updateState({
       groupedData: {},
     } as WmListState);
   }
 
-  selectItem = (item: any) => {
+  selectItem = (item: number | object) => {
     const dataset = this.state.props.dataset;
     if (isNumber(item)) {
       this.onSelect(dataset[item], item);
@@ -211,20 +214,20 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   getSelectedItems = () => {
-    if(!this.props.multiselect){
+    if (!this.props.multiselect) {
       return [this.selectedItems]
     }
     return this.selectedItems;
   }
 
-  getItem(index: number) {
+  getItem = (index: number) => {
     const props = this.state.props;
     return this.props.dataset[index]
   }
 
-  deselect(item: any) {
+  deselectItem = (item: number | object) => {
     const props = this.state.props;
-    let selectedItem = null as any;
+    let selectedItem = props.selecteditem || null;
     let index = isNumber(item) ? item : props.dataset.indexOf(item);
     if (props.multiselect && index >= 0) {
       selectedItem = [...(props.selecteditem || [])];
@@ -246,8 +249,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     });
   }
 
-  getWidgets(widgetname: string, index: number) {
-    if (index >= 0 && index < this.itemWidgets.length) {
+  getWidgets = (widgetname: string, index: number) => {
+    if(index >= 0 && index < this.itemWidgets.length){
       return this.itemWidgets[index][widgetname]
     }
     else {
@@ -262,12 +265,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       return;
     }
     const selectedItems = [...dataset];
-  
+
     this.updateState({
       props: { selecteditem: selectedItems },
       selectedindex: -1
-    } as WmListState );
-  }  
+    } as WmListState);
+  }
 
   private deselectAll() {
     this.updateState({
@@ -366,7 +369,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         break;
     }
   }
-
+  
   componentDidMount() {
     const props = this.state.props;
     if (this.state.props.selectfirstitem && props.dataset?.length) {
@@ -374,22 +377,24 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         this.onSelect(props.dataset[0], 0);
       });
     }
-    
-    // Use a single event handler with throttling via time check
+
     this.subscribe('scroll', (event: any) => {
-      const scrollPosition = event.nativeEvent.contentOffset.y + event.nativeEvent.layoutMeasurement.height;
-      const now = Date.now();
-      
-      // Only process scroll event if we're past the threshold and enough time has elapsed since last trigger
-      if (scrollPosition > this.endThreshold && 
-          this.state.props.direction === 'vertical' && 
-          now - this.lastScrollTime > this.scrollThrottleTime) {
-        
-        this.lastScrollTime = now
-        this.debouncedLoadData();
-      }
-    });
+     const scrollPosition = event.nativeEvent.contentOffset.y;
+    const contentHeight = event.nativeEvent.contentSize.height;
+    const viewportHeight = event.nativeEvent.layoutMeasurement.height;
     
+    // Calculate how far user has scrolled as a percentage
+    const scrollPercentage = (scrollPosition + viewportHeight) / contentHeight;
+    
+    // Only trigger loadData when User reaches 70% of the list
+    if (scrollPercentage >= 0.7 && 
+        this.state.props.direction === 'vertical' && 
+        !this.lastScrollTriggered) {
+      this.lastScrollTriggered = true
+      this.loadData();
+    }
+    });
+
     super.componentDidMount();
   }
 
@@ -400,14 +405,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   }
 
-  componentWillUnmount() {
-    // Clean up the debounced function
-    if (this.debouncedLoadData && this.debouncedLoadData.cancel) {
-      this.debouncedLoadData.cancel();
-    }
-    
-    super.componentWillUnmount && super.componentWillUnmount();
-  }
+
 
   getDefaultStyles() {
     const isHorizontal = this.state.props.direction === 'horizontal';
@@ -428,101 +426,101 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderItem(item: any, index: number, props: WmListProps) {
     const cols = this.getNoOfColumns();
     const isHorizontal = (props.direction === 'horizontal');
-    
+
     const styles = this._showSkeleton ? {
       ...this.styles.item,
       ...this.styles.skeleton.root
     } : this.styles.item as any
 
-    const containerStyle = cols ? { width: round(100/cols) + "%" , flex: null} : {};
+    const containerStyle = cols ? { width: round(100 / cols) + "%", flex: null } : {};
 
-    return (index < this.state.maxRecordsToShow || (isHorizontal && this.state.props.horizontalondemandenabled === false)) ? 
-    !props.shouldswipe ? (
-     <View style={containerStyle as any}>
-       <View style={[
-        styles,
-        props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-        this.isSelected(item) ? this.styles.selectedItem : {}]}>
-        {styles.backgroundImage ? (
-          <BackgroundComponent
-          image={styles.backgroundImage}
-          position={styles.backgroundPosition || 'center'}
-          size={styles.backgroundSize || 'cover'}
-          repeat={styles.backgroundRepeat || 'no-repeat'}
-          resizeMode={styles.backgroundResizeMode || 'cover'}
-          style={{ borderRadius: this.styles.item.borderRadius }}
-        />
-        ) : null}
-        <Tappable
-          {...this.getTestPropsForAction(`item${index}`)}
-          disableTouchEffect={this.state.props.disabletoucheffect}
-          onTap={($event) => this.onSelect(item, index, $event)}
-          onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
-          onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
-          styles={
-            [{display: 'flex', flexDirection : 'row'},
-              cols ? {
-                width: '100%'
-              } : null,
-              (cols && cols > 1) || isHorizontal ? {
-                paddingRight: (isNil(this.styles.item.marginRight)
-                  ? this.styles.item.margin : this.styles.item.marginRight) || 4
-              } : null,
-              this.styles.itemContainer
-            ]
-          }>
-          {props.renderItem(item, index, this)}
-          {this.isSelected(item) ? (
-            <WmIcon id={this.getTestId('icon' + index)} iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
-          ) : null}
-        </Tappable>
-      </View>
-     </View>
-    ) :
-    (
-      <Swipeable
-      renderLeftActions={() => this.renderLeftActions()}
-      renderRightActions={() => this.renderRightActions()} containerStyle={containerStyle as any}>
-      <View style={[
-        styles,
-        props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
-        this.isSelected(item) ? this.styles.selectedItem : {}]}>
-        {styles.backgroundImage ? (
-          <BackgroundComponent
-          image={styles.backgroundImage}
-          position={styles.backgroundPosition || 'center'}
-          size={styles.backgroundSize || 'cover'}
-          repeat={styles.backgroundRepeat || 'no-repeat'}
-          resizeMode={styles.backgroundResizeMode || 'cover'}
-          style={{ borderRadius: this.styles.item.borderRadius }}
-        />
-        ) : null}
-        <Tappable
-          {...this.getTestPropsForAction(`item${index}`)}
-          disableTouchEffect={this.state.props.disabletoucheffect}
-          onTap={($event) => this.onSelect(item, index, $event)}
-          onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
-          onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
-          styles={
-            [{display: 'flex', flexDirection : 'row'},
-              cols ? {
-                width: '100%'
-              } : null,
-              (cols && cols > 1) || isHorizontal ? {
-                paddingRight: (isNil(this.styles.item.marginRight)
-                  ? this.styles.item.margin : this.styles.item.marginRight) || 4
-              } : null,
-              this.styles.itemContainer
-              ]
-            }>
-            {props.renderItem(item, index, this)}
-            {this.isSelected(item) ? (
-              <WmIcon id={this.getTestId('icon' + index)} iconclass={props.selecteditemicon ? props.selecteditemicon : 'wi wi-check-circle'} styles={this.styles.selectedIcon} />
+    return (index < this.state.maxRecordsToShow || (isHorizontal && this.state.props.horizontalondemandenabled === false)) ?
+      !props.shouldswipe ? (
+        <View style={containerStyle as any}>
+          <View style={[
+            styles,
+            props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
+            this.isSelected(item) ? this.styles.selectedItem : {}]}>
+            {styles.backgroundImage ? (
+              <BackgroundComponent
+                image={styles.backgroundImage}
+                position={styles.backgroundPosition || 'center'}
+                size={styles.backgroundSize || 'cover'}
+                repeat={styles.backgroundRepeat || 'no-repeat'}
+                resizeMode={styles.backgroundResizeMode || 'cover'}
+                style={{ borderRadius: this.styles.item.borderRadius }}
+              />
             ) : null}
-          </Tappable>
+            <Tappable
+              {...this.getTestPropsForAction(`item${index}`)}
+              disableTouchEffect={this.state.props.disabletoucheffect}
+              onTap={($event) => this.onSelect(item, index, $event)}
+              onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
+              onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+              styles={
+                [{ display: 'flex', flexDirection: 'row' },
+                cols ? {
+                  width: '100%'
+                } : null,
+                (cols && cols > 1) || isHorizontal ? {
+                  paddingRight: (isNil(this.styles.item.marginRight)
+                    ? this.styles.item.margin : this.styles.item.marginRight) || 4
+                } : null,
+                this.styles.itemContainer
+                ]
+              }>
+              {props.renderItem(item, index, this)}
+              {this.isSelected(item) ? (
+                <WmIcon id={this.getTestId('icon' + index)} iconclass='wi wi-check-circle' styles={this.styles.selectedIcon} />
+              ) : null}
+            </Tappable>
+          </View>
         </View>
-      </Swipeable>
-    ) : null
+      ) :
+        (
+          <Swipeable
+            renderLeftActions={() => this.renderLeftActions()}
+            renderRightActions={() => this.renderRightActions()} containerStyle={containerStyle as any}>
+            <View style={[
+              styles,
+              props.itemclass ? this.theme.getStyle(props.itemclass(item, index)) : null,
+              this.isSelected(item) ? this.styles.selectedItem : {}]}>
+              {styles.backgroundImage ? (
+                <BackgroundComponent
+                  image={styles.backgroundImage}
+                  position={styles.backgroundPosition || 'center'}
+                  size={styles.backgroundSize || 'cover'}
+                  repeat={styles.backgroundRepeat || 'no-repeat'}
+                  resizeMode={styles.backgroundResizeMode || 'cover'}
+                  style={{ borderRadius: this.styles.item.borderRadius }}
+                />
+              ) : null}
+              <Tappable
+                {...this.getTestPropsForAction(`item${index}`)}
+                disableTouchEffect={this.state.props.disabletoucheffect}
+                onTap={($event) => this.onSelect(item, index, $event)}
+                onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
+                onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+                styles={
+                  [{ display: 'flex', flexDirection: 'row' },
+                  cols ? {
+                    width: '100%'
+                  } : null,
+                  (cols && cols > 1) || isHorizontal ? {
+                    paddingRight: (isNil(this.styles.item.marginRight)
+                      ? this.styles.item.margin : this.styles.item.marginRight) || 4
+                  } : null,
+                  this.styles.itemContainer
+                  ]
+                }>
+                {props.renderItem(item, index, this)}
+                {this.isSelected(item) ? (
+                  <WmIcon id={this.getTestId('icon' + index)} iconclass={props.selecteditemicon ? props.selecteditemicon : 'wi wi-check-circle'} styles={this.styles.selectedIcon} />
+                ) : null}
+              </Tappable>
+            </View>
+          </Swipeable>
+        ) : null
   }
 
   private renderHeader(props: WmListProps, title: string) {
@@ -563,13 +561,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return 0;
   }
 
-  private onLayoutChange(e: LayoutChangeEvent) {
-    const l = e.nativeEvent.layout;
-    this.endThreshold = l.height + l.y - 100;
-    if (!this.endThreshold) {
-      this.endThreshold = -1;
-    }
-  }
+  
 
   private scrollToItem = (groupKey: string | null, itemIndex: number) => {
     const refKey = groupKey || 'main';
@@ -582,9 +574,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   };
 
-   getCaption = (isHorizontal: boolean, vData: any[]): string => {
+  getCaption = (isHorizontal: boolean, vData: any[]): string => {
     const { nodatamessage, ondemandmessage } = this.state.props
-    if(!isHorizontal) {
+    if (!isHorizontal) {
       return this.hasMoreData ? ondemandmessage : nodatamessage
     }
     return this.hasMoreData ? ondemandmessage : nodatamessage
@@ -593,7 +585,9 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
 
     return (
-      <View style={this.styles.root} onLayout={e => this.onLayoutChange(e)}>
+      <View style={this.styles.root} 
+      //onLayout={e => this.onLayoutChange(e)}
+      >
         {!isEmpty(this.state.groupedData) ? this.state.groupedData.map((v: any, i) => ((
           <View style={this.styles.group} key={v.key || this.keyExtractor.getKey(v, true)}>
             {this.renderHeader(props, v.key)}
@@ -609,12 +603,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
               {...(isHorizontal ? { showsHorizontalScrollIndicator: !props.hidehorizontalscrollbar } : { numColumns: this.getNoOfColumns() })}>
             </FlatList>
-            {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow  && props.navigation !== 'None') ?
-            (this.state.loadingData ? this.renderLoadingIcon(props) :
-            (<WmLabel id={this.getTestId('ondemandmessage')}
-            styles={this.styles.onDemandMessage}
-           caption={this.getCaption( isHorizontal, v.data)}
-          onTap={() => this.loadData()}></WmLabel>)): null}
+            {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow && props.navigation !== 'None') ?
+              (this.state.loadingData ? this.renderLoadingIcon(props) :
+                (<WmLabel id={this.getTestId('ondemandmessage')}
+                  styles={this.styles.onDemandMessage}
+                  caption={this.getCaption(isHorizontal, v.data)}
+                  onTap={() => this.loadData()}></WmLabel>)) : null}
           </View>
         ))) : this.renderEmptyMessage(isHorizontal, null, null, props)
         }
