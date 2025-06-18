@@ -195,7 +195,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       const paddingBottomVal = this.styles.root.paddingBottom || this.styles.root.padding;
       const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
       const stylesWithFs = isEdgeToEdgeApp ?  {height: this.styles.root.height as number + (insets?.bottom || 0) as number, 
-        paddingBottom: (paddingBottomVal || 0) as number + (insets?.bottom || 0) as number} : {}
+        paddingBottom: (paddingBottomVal || 0) as number + (insets?.bottom || 0) as number , backgroundColor: this.styles.root.backgroundColor || this.styles.menu.backgroundColor} : {}
       return (
       <NavigationServiceConsumer>
       {(navigationService) =>(
