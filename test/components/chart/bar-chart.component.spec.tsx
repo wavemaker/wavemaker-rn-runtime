@@ -70,7 +70,63 @@ describe('Test BarChart component', () => {
     expect(screen.getByText(baseProps.title)).toBeTruthy();
     expect(screen.getByText('edit')).toBeTruthy();
   });
-
+  it('should not render title section when title prop is not provided', () => {
+    const tree = render(
+      <WmBarChart
+        dataset={baseProps.dataset}
+        xaxisdatakey={baseProps.xaxisdatakey}
+        yaxisdatakey={baseProps.yaxisdatakey}
+        // title is intentionally not provided
+        subheading="Only Subheading"
+      />
+    );
+    
+    // Title should not be found
+    expect(screen.queryByText('Sample Bar Chart')).toBeNull();
+    
+    // The title container (flex row) should not be rendered
+    const flexRowContainers = tree.UNSAFE_queryAllByProps({
+      style: { flexDirection: 'row', alignItems: 'center' }
+    });
+    expect(flexRowContainers.length).toBe(0);
+    
+    // Subheading should still be visible
+    expect(screen.getByText('Only Subheading')).toBeTruthy();
+  });
+  
+  it('should not render subheading when subheading prop is not provided', () => {
+    const tree = render(
+      <WmBarChart
+        dataset={baseProps.dataset}
+        xaxisdatakey={baseProps.xaxisdatakey}
+        yaxisdatakey={baseProps.yaxisdatakey}
+        title="Only Title"
+        // subheading is intentionally not provided
+      />
+    );
+    
+    // Title should be visible
+    expect(screen.getByText('Only Title')).toBeTruthy();
+    
+    // Subheading should not be found
+    expect(screen.queryByText('This is a test bar chart')).toBeNull();
+  });
+  
+  it('should render both title and subheading when both props are provided', () => {
+    const tree = render(
+      <WmBarChart
+        dataset={baseProps.dataset}
+        xaxisdatakey={baseProps.xaxisdatakey}
+        yaxisdatakey={baseProps.yaxisdatakey}
+        title="Custom Title"
+        subheading="Custom Subheading"
+      />
+    );
+    
+    // Both title and subheading should be visible
+    expect(screen.getByText('Custom Title')).toBeTruthy();
+    expect(screen.getByText('Custom Subheading')).toBeTruthy();
+  });
   it('should handle beforeRender event callback', () => {
     const invokeEventCallbackMock = jest.spyOn(
       WmBarChart.prototype,
@@ -398,5 +454,102 @@ describe('Test BarChart component', () => {
     expect(viewEle2.props.data[0].x).toBe(0);
     expect(viewEle2.props.data[1].x).toBe(1);
     expect(viewEle2.props.data[2].x).toBe(2);
+  });
+
+  it('should not render title and icon container when both props are missing', () => {
+    const { queryByTestId } = renderComponent({
+      ...defaultProps,
+      // title and iconclass are intentionally not provided
+    });
+    
+    // The container View should not be rendered
+    expect(queryByTestId('title-icon-container')).toBeNull();
+  });
+
+  it('should render only icon when iconclass is provided without title', () => {
+    const { getByText, queryByText } = renderComponent({
+      ...defaultProps,
+      iconclass: 'fa fa-edit',
+      // title is intentionally not provided
+    });
+    
+    // Icon should be rendered
+    expect(getByText('edit')).toBeTruthy();
+    
+    // Title should not be rendered
+    expect(queryByText('Bar Chart')).toBeNull();
+  });
+
+  it('should apply correct container styles for title and icon', () => {
+    const { getByTestId } = renderComponent({
+      ...defaultProps,
+      title: 'Test Title',
+      iconclass: 'fa fa-edit',
+    });
+    
+    const container = getByTestId('title-icon-container');
+    expect(container.props.style.flexDirection).toBe('row');
+    expect(container.props.style.alignItems).toBe('center');
+  });
+
+  it('should render title with custom styles', () => {
+    const { getByText } = renderComponent({
+      ...defaultProps,
+      title: 'Custom Title',
+      styles: {
+        title: {
+          color: 'red',
+          fontSize: 20,
+          fontWeight: 'bold'
+        }
+      }
+    });
+    
+    const titleElement = getByText('Custom Title');
+    expect(titleElement.props.style.color).toBe('red');
+    expect(titleElement.props.style.fontSize).toBe(20);
+    expect(titleElement.props.style.fontWeight).toBe('bold');
+  });
+
+  it('should render icon with custom styles', () => {
+    const { getByText } = renderComponent({
+      ...defaultProps,
+      iconclass: 'fa fa-edit',
+      styles: {
+        icon: {
+          icon: {
+            color: 'blue',
+            fontSize: 24
+          }
+        }
+      }
+    });
+    
+    const iconElement = getByText('edit');
+    expect(iconElement.props.style[1].color).toBe('blue');
+    expect(iconElement.props.style[1].fontSize).toBe(24);
+  });
+
+  it('should maintain container styles when title or icon changes', () => {
+    const { getByTestId, rerender } = renderComponent({
+      ...defaultProps,
+      title: 'Initial Title',
+      iconclass: 'fa fa-edit'
+    });
+    
+    const container = getByTestId('title-icon-container');
+    const initialStyles = container.props.style;
+    
+    // Rerender with different title and icon
+    rerender(
+      <WmBarChart
+        {...defaultProps}
+        title="New Title"
+        iconclass="fa fa-trash"
+      />
+    );
+    
+    const newContainer = getByTestId('title-icon-container');
+    expect(newContainer.props.style).toEqual(initialStyles);
   });
 });

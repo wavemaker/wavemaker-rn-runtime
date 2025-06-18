@@ -22,4 +22,5 @@ export default class WmFormProps extends BaseProps {
   onBeforerender: Function = () => {};
   generateComponent: Function = (metadata:any) => {};
   showinfoskeleton: boolean = false;
+  submitondone: boolean = false;
 }

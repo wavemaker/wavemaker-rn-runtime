@@ -1,49 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test LeftPanel component should render the left-panel component 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
+<RCTScrollView
+  collapsable={false}
+  contentContainerStyle={
+    [
       {
-        "height": 0,
-        "width": 0,
-      }
-    }
-  />,
-  <RCTScrollView
-    collapsable={false}
-    contentContainerStyle={
-      [
-        {
-          "backgroundColor": "#ffffff",
-          "borderBottomRightRadius": 16,
-          "borderTopRightRadius": 16,
-          "elevation": 1,
-          "maxWidth": 360,
-          "minHeight": "100%",
-        },
-        {
-          "maxWidth": "100%",
-          "width": "100%",
-        },
-      ]
-    }
-    handlerTag={1}
-    handlerType="NativeViewGestureHandler"
-    onGestureHandlerEvent={[Function]}
-    onGestureHandlerStateChange={[Function]}
-    onScroll={[Function]}
-    scrollEventThrottle={48}
-    waitFor={
-      [
-        {
-          "current": null,
-        },
-      ]
-    }
-  >
-    <View />
-  </RCTScrollView>,
-]
+        "backgroundColor": "#ffffff",
+        "borderBottomRightRadius": 16,
+        "borderTopRightRadius": 16,
+        "elevation": 1,
+        "maxWidth": 360,
+        "minHeight": "100%",
+      },
+      {
+        "maxWidth": "100%",
+        "width": "100%",
+      },
+      {},
+    ]
+  }
+  handlerTag={1}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+  onScroll={[Function]}
+  scrollEventThrottle={48}
+  waitFor={
+    [
+      {
+        "current": null,
+      },
+    ]
+  }
+>
+  <View />
+</RCTScrollView>
 `;

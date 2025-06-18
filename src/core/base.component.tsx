@@ -549,7 +549,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public hideSkeletonInPageContentWhenDisabledInPage = () => {
        const isPageContentWidget = this.defaultClass && this.defaultClass === 'app-page-content'
        const isCurrentParentIsContent = this.parent && this.parent.defaultClass && this.parent.defaultClass === 'app-content'
-       const showSkeletonInPageContent = this.parent.state?.props?.showskeleton === false
+       const showSkeletonInPageContent = this.parent && this.parent.state?.props?.showskeleton === false
     
        if(isPageContentWidget && isCurrentParentIsContent && showSkeletonInPageContent) {
         return false;
