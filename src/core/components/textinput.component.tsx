@@ -217,6 +217,7 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
               autoCapitalize={props.autoCapitalize}
               onLayout={props.handleLayout}
               numberOfLines={1}
+              onSubmitEditing={props.onSubmitEditing}
             >
             </TextInput>)
         }
