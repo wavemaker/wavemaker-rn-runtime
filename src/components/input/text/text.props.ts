@@ -6,4 +6,6 @@ export default class WmTextProps extends BaseInputProps {
   skeletonheight?: string = null as any;
   skeletonwidth?: string = null as any;
   autocapitalize?: string = 'none';
+  returnkeytype: 'auto' | 'next' | 'done' = 'auto';
+  onSubmitEditing:  Function = () => {};
 }
