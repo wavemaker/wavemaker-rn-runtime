@@ -20,7 +20,7 @@ export class WmListState extends BaseComponentState<WmListProps> {
   groupedData: Array<any> = [];
   currentPage = 1;
   maxRecordsToShow = 20;
-  loadingData = false;
+  loadingData = true;
 }
 
 export default class WmList extends BaseComponent<WmListProps, WmListState, WmListStyles> {
@@ -58,6 +58,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   }
 
   private async onSelect($item: any, $index: number | string, $event?: any) {
+    if(this.state.props.disableitemselect) {
+      return; 
+    }
+
     const props = this.state.props;
     let selectedItem = null as any;
     let eventName = 'onSelect';
@@ -196,13 +200,13 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   }
 
-  clear() {
+  clear = () => {
     this.updateState({
       groupedData: {},
     } as WmListState);
   }
 
-  selectItem = (item: any) => {
+  selectItem = (item: number | object) => {
     const dataset = this.state.props.dataset;
     if (isNumber(item)) {
       this.onSelect(dataset[item], item);
@@ -220,14 +224,14 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return this.selectedItems;
   }
 
-  getItem(index: number) {
+  getItem = (index: number) => {
     const props = this.state.props;
     return this.props.dataset[index]
   }
 
-  deselect(item: any) {
+  deselectItem = (item: number | object) => {
     const props = this.state.props;
-    let selectedItem = null as any;
+    let selectedItem = props.selecteditem || null;
     let index = isNumber(item) ? item : props.dataset.indexOf(item);
     if (props.multiselect && index >= 0) {
       selectedItem = [...(props.selecteditem || [])];
@@ -249,8 +253,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     });
   }
 
-  getWidgets(widgetname: string, index: number) {
-    if (index >= 0 && index < this.itemWidgets.length) {
+  getWidgets = (widgetname: string, index: number) => {
+    if(index >= 0 && index < this.itemWidgets.length){
       return this.itemWidgets[index][widgetname]
     }
     else {
@@ -342,6 +346,13 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         } else {
           this.deselectAll();
         }
+        if (isArray($new)){
+          setTimeout(() => {
+            this.updateState({
+              loadingData: false
+            } as WmListState)
+          }, 0)
+        }
         break;
       case 'groupby':
       case 'match':
@@ -358,9 +369,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         }
         break;
       case 'loadingdata':
+        if($new != $old){
         this.updateState({
-          loadingData: $new && this.state.loadingData
-        } as WmListState);
+          loadingData: $new
+        } as WmListState);}
         break;
       case 'selecteditem':
         if ($new != $old && isNumber($new)) {
@@ -455,8 +467,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               {...this.getTestPropsForAction(`item${index}`)}
               disableTouchEffect={this.state.props.disabletoucheffect}
               onTap={($event) => this.onSelect(item, index, $event)}
-              onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
-              onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+              onLongTap={() => !this.state.props.disableitemselect && this.invokeEventCallback('onLongtap', [null, this.proxy])}
+              onDoubleTap={() => !this.state.props.disableitemselect && this.invokeEventCallback('onDoubletap', [null, this.proxy])}
               styles={
                 [{ display: 'flex', flexDirection: 'row' },
                 cols ? {
@@ -499,8 +511,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                 {...this.getTestPropsForAction(`item${index}`)}
                 disableTouchEffect={this.state.props.disabletoucheffect}
                 onTap={($event) => this.onSelect(item, index, $event)}
-                onLongTap={() => this.invokeEventCallback('onLongtap', [null, this.proxy])}
-                onDoubleTap={() => this.invokeEventCallback('onDoubletap', [null, this.proxy])}
+                onLongTap={() => !this.state.props.disableitemselect && this.invokeEventCallback('onLongtap', [null, this.proxy])}
+                onDoubleTap={() => !this.state.props.disableitemselect && this.invokeEventCallback('onDoubletap', [null, this.proxy])}
                 styles={
                   [{ display: 'flex', flexDirection: 'row' },
                   cols ? {
@@ -597,6 +609,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               scrollEnabled={isHorizontal}
+              horizontal={isHorizontal}
               data={this._showSkeleton ? [...getNumberOfEmptyObjects(this.props.numberofskeletonitems as number ?? 3)] : (isEmpty(v.data[0]) ? [] : v.data)}
               ListEmptyComponent={(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
@@ -609,7 +622,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
                   caption={this.getCaption(isHorizontal, v.data)}
                   onTap={() => this.loadData()}></WmLabel>)) : null}
           </View>
-        ))) : this.renderEmptyMessage(isHorizontal, null, null, props)
+        ))) : this.state.loadingData ? this.renderLoadingIcon(props) : this.renderEmptyMessage(isHorizontal, null, null, props)
         }
       </View>);
   }

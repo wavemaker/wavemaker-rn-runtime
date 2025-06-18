@@ -3,7 +3,7 @@ import { LayoutChangeEvent, View, Platform } from 'react-native';
 import { Svg } from 'react-native-svg';
 import { VictoryStack, VictoryBar, VictoryChart, VictoryPie, VictoryLegend, VictoryAxis } from 'victory-native';
 import { Axis, Scale } from 'victory-core';
-import { orderBy, cloneDeep, findIndex, isString} from 'lodash';
+import { orderBy, cloneDeep, findIndex, isString, isNaN} from 'lodash';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 import WmStackChartProps from './stack-chart.props';
 import { DEFAULT_CLASS, WmStackChartStyles } from './stack-chart.styles';
@@ -146,18 +146,18 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
         let total = data.reduce((sum: number, item: any) => sum + item.y, 0);
         return Math.round((d.y / total) * 160);
       });
-      let startAngle = 80
+      let startAngle = this.isRTL ? -80 : 80
       return data.map((d: any, i: number) => {
         let d1: any = [];
         d1.push(d);
         if (i != 0) {
-          startAngle = startAngle - angles[i - 1] + (angles[i - 1] / 10)
+          startAngle = this.isRTL ? startAngle + angles[i - 1] - (angles[i - 1] / 10) : startAngle - angles[i - 1] + (angles[i - 1] / 10)
         }
         return <VictoryPie key={props.name + '_' + i}
                            radius={radius}
                            colorScale={[this.state.colors[d.index], '#fff0']}
                            startAngle={angles ? startAngle : -80}
-                           endAngle={-80}
+                           endAngle={this.isRTL ? 80 : -80}
                            cornerRadius={100}
                            standalone={false}
                            origin={{x: (this.state.chartWidth/2), y: (this.state.chartHeight - 50)}}
@@ -189,8 +189,8 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
          fontSize: 12, paddingLeft: 50, paddingRight: 80
        }}
      }
-      startAngle={-90}
-      endAngle={90}
+      startAngle={this.isRTL ? 90 : -90}
+      endAngle={this.isRTL ? -90 : 90}
       standalone={false}
       colorScale={['#fff0']}
       origin={{x: (this.state.chartWidth/2 - 5), y: (this.state.chartHeight - 50)}}
@@ -234,6 +234,7 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
 
   onSelect(event: any, data: any){
     if (!this.viewRef.current) return;
+    if (!this.state.props.dataset) return;
     this.viewRef.current.measureInWindow((chartX: number, chartY: number) => {
     let props = this.state.props
     let index = data.datum.index
@@ -263,6 +264,10 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
       return null;
     }
     let mindomain={x: this.props.xdomain === 'Min' ? this.state.chartMinX: undefined, y: this.props.ydomain === 'Min' ? this.state.chartMinY: undefined};
+    const data = this.getData();
+    const yValues = data.map((d: any) => d.y);
+    const minValue = Math.min(...yValues);
+    const maxValue = Math.max(...yValues);
     return (
       <View
         {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)}
@@ -274,14 +279,11 @@ export default class WmStackChart extends BaseChartComponent<WmStackChartProps, 
           <VictoryChart
             theme={this.state.theme}
             minDomain={mindomain}
+            domain={(this.isRTL && !isNaN(maxValue) && !isNaN(minValue)) ? [maxValue, minValue > 0 ? 0 : minValue] : undefined}
+            domainPadding={{ x: 10 }}
             height={this.styles.root.height as number}
             width={this.styles.root.width as number || this.state.chartWidth || 200}
-            padding={{
-              top: props.offsettop,
-              bottom: props.offsetbottom,
-              left: props.offsetleft,
-              right: props.offsetright
-            }}
+            padding={{ top: props.offsettop, bottom: props.offsetbottom, left: this.isRTL ? props.offsetright : props.offsetleft, right: this.isRTL ? props.offsetleft : props.offsetright }}
             >
             <VictoryLegend
               name={'legend'}
