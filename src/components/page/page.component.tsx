@@ -1,5 +1,6 @@
 import React from 'react';
-import { PanResponder, View} from 'react-native';
+import { PanResponder, ScrollView, View, NativeSyntheticEvent,  NativeScrollEvent ,StatusBar, Platform} from 'react-native';
+
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmPageProps from './page.props';
 import { DEFAULT_CLASS, WmPageStyles } from './page.styles';
@@ -27,10 +28,10 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   renderWidget(props: WmPageProps) {
 
     const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
-
     return (
       <StickyViewContainer hasAppnavbar = {props.hasappnavbar} onscroll={props.onscroll}>
         <FixedViewContainer>
+        {isEdgeToEdgeApp && Platform.OS ==="android" ? <StatusBar barStyle={props.barstyle}/> : null}
           <SafeAreaInsetsContext.Consumer>
             {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
               return <View style={[{paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 },this.styles.root]} {...this.panResponder.panHandlers}> 
