@@ -1,11 +1,11 @@
 import React, { createRef } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue } from 'react-native';
+import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView } from 'react-native';
 import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
 import { createSkeleton } from '../skeleton/skeleton.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
-
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('screen');
 export class WmBottomsheetState extends BaseComponentState<WmBottomsheetProps> {
@@ -23,8 +23,10 @@ export class WmBottomsheetState extends BaseComponentState<WmBottomsheetProps> {
 export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmBottomsheetState, WmBottomsheetStyles> {
   private calculatedHeight: number;
   private expandedHeight: number;
-  private defaultHeight: number = 0.2;
-  private expandedDefaultHeight: number = 0.5;
+  private defaultHeight: number = 0.5;
+  private expandedDefaultHeight: number = 0.8;
+  private minimumHeight: number = 0.2;
+  private minimumExpandedHeight: number = 0.5;
   private maxHeight: number = 1.0; // Allow full screen height
   private animationDuration: number = 400
   private statusBarHeight: number = StatusBar.currentHeight || 0;
@@ -32,10 +34,11 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   private maxHeightRatio: number = 0;
 
   private calculateSheetHeight(sheetheightratio: number): number {
-    // Allow full range from 0.2 to 1.0 (100% of screen height)
-    this.maxHeightRatio = Math.min(
-      sheetheightratio >= this.defaultHeight ? sheetheightratio : this.defaultHeight,
-      this.maxHeight
+    // Use default height if ratio not provided, but ensure it's not below minimum
+    const effectiveRatio = sheetheightratio || this.defaultHeight;
+    this.maxHeightRatio = Math.max(
+      this.minimumHeight,
+      Math.min(effectiveRatio, this.maxHeight)
     );
 
     let calculatedHeight = SCREEN_HEIGHT * this.maxHeightRatio;
@@ -51,7 +54,6 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       if (this.maxHeightRatio >= 0.9) {
         calculatedHeight -= this.statusBarHeight;
       }
-
     }
     return calculatedHeight;
   }
@@ -74,23 +76,22 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     super(props, DEFAULT_CLASS, new WmBottomsheetProps(), new WmBottomsheetState());
     this.calculatedHeight = this.calculateSheetHeight(props.sheetheightratio);
 
-    // Allow expanded height to be full screen
+    // Use expandedheightratio if provided, otherwise use expandedDefaultHeight
     const expandedRatio = props.expandedheightratio || this.expandedDefaultHeight;
-
-    this.expandedHeight = SCREEN_HEIGHT * Math.max(
-      this.expandedDefaultHeight,
+    const effectiveExpandedRatio = Math.max(
+      this.minimumExpandedHeight,
       Math.min(expandedRatio, this.maxHeight)
     );
 
+    this.expandedHeight = SCREEN_HEIGHT * effectiveExpandedRatio;
+
     if (Platform.OS === 'android') {
-      // Subtract top inset bar height for ios only if sheetheightratio is 0.9
-      if (expandedRatio >= 0.9) {
+      if (effectiveExpandedRatio >= 0.9) {
         this.expandedHeight -= this.statusBarHeight;
       }
     }
     if (Platform.OS === 'ios') {
-      // Subtract status bar height for Android only if sheetheightratio is 0.9
-      if (expandedRatio >= 0.9) {
+      if (effectiveExpandedRatio >= 0.9) {
         this.expandedHeight -= this.defaultTopInset;
       }
     }
@@ -212,7 +213,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       if (gestureState.dy > 0) { // Handle downward drag
         const newTranslateY = Math.max(0, this.state.lastGestureDy + gestureState.dy);
         this.state.translateY.setValue(newTranslateY);
-      } else if (gestureState.dy < 0 && this.props.bottompopup && this.props.sheetheightratio !== 1) {
+      } else if (gestureState.dy < 0 && this.props.shouldexpand && this.props.sheetheightratio !== 1) {
         // Handle upward drag - expand to full height
         // Allow expansion to full screen height
         const targetHeight = Math.min(this.expandedHeight, SCREEN_HEIGHT);
@@ -333,51 +334,72 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     if (!this.state.isBottomsheetVisible) return null;
 
     return (
+      <SafeAreaInsetsContext.Consumer >
+        {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+          const keyboardOffset = insets?.bottom || 0
+          const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + props.keyboardverticaloffset : keyboardOffset;
+          return (
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+              keyboardVerticalOffset={verticalOffset}
+              style={this.styles.root}
+              {...this.getTestProps('keyboardview')}
+            
+            >
 
-      <View style={this.styles.root} testID={this.getTestId('wm-bottom-sheet')} {...getAccessibilityProps(AccessibilityWidgetType.BOTTOMSHEET, props)}>
-        {this._background}
-        <TouchableWithoutFeedback onPress={this.closeSheet}>
-          <Animated.View style={[this.styles.backdrop, { opacity: this.state.backdropOpacity }]} testID={this.getTestId('wm-bottom-sheet-backdrop')} />
-        </TouchableWithoutFeedback>
+              {this._background}
+              <TouchableWithoutFeedback onPress={this.closeSheet}>
+                <Animated.View style={[this.styles.backdrop, { opacity: this.state.backdropOpacity }]} 
+                  {...this.getTestProps('backdrop')}
+                  {...getAccessibilityProps(AccessibilityWidgetType.BOTTOMSHEET, props)}
+                  />
+              </TouchableWithoutFeedback>
 
-        <Animated.View
-          style={[
-            this.styles.container,
-            {
-              height: this.state.sheetHeight,
-              transform: [{ translateY: this.state.translateY }],
-            },
-          ]}
-          {...this.panResponder.panHandlers}
-
-
-        >
-          <View style={this.styles.dragHandleContainer} {...this.dragHandlePanResponder.panHandlers}>
-            <TouchableWithoutFeedback onPress={this.closeSheet}>
-              <View style={this.styles.dragIconHandle} testID={this.getTestId('wm-bottomsheet-drag-handle')} />
-            </TouchableWithoutFeedback>
-          </View>
-
-          <ScrollView
-            ref={this.state.scrollViewRef}
-            style={this.styles.sheetContentContainer}
-            contentContainerStyle={this.styles.sheetScrollContent}
-            alwaysBounceVertical={false}
-            alwaysBounceHorizontal={false}
-            bounces={false}
-            showsVerticalScrollIndicator={false}
-            scrollEventThrottle={16}
-            onScroll={this.handleScroll}
-            nestedScrollEnabled={true}
-            scrollEnabled={true}
-            testID={this.getTestId('wm-bottomsheet-scroll-view')}
+              <Animated.View
+                style={[
+                  this.styles.container,
+                  {
+                    height: this.state.sheetHeight,
+                    transform: [{ translateY: this.state.translateY }],
+                  },
+                ]}
+                {...this.panResponder.panHandlers}
 
 
-          >
-            {props.children}
-          </ScrollView>
-        </Animated.View>
-      </View>
+              >
+                <View style={this.styles.dragHandleContainer} {...this.dragHandlePanResponder.panHandlers}>
+                  <TouchableWithoutFeedback onPress={this.closeSheet}>
+                    <View style={this.styles.dragIconHandle} 
+                     {...this.getTestProps('draghandle')}/>
+                  </TouchableWithoutFeedback>
+                </View>
+
+                <ScrollView
+                  ref={this.state.scrollViewRef}
+                  style={this.styles.sheetContentContainer}
+                  contentContainerStyle={this.styles.sheetScrollContent}
+                  alwaysBounceVertical={false}
+                  alwaysBounceHorizontal={false}
+                  bounces={false}
+                  showsVerticalScrollIndicator={false}
+                  scrollEventThrottle={16}
+                  onScroll={this.handleScroll}
+                  nestedScrollEnabled={true}
+                  scrollEnabled={true}
+                  {...this.getTestProps('scorllview')}
+
+
+                >
+                  {props.children}
+                </ScrollView>
+
+              </Animated.View>
+
+            </KeyboardAvoidingView>
+          )
+        }}
+      </SafeAreaInsetsContext.Consumer>
+
 
     );
   }
