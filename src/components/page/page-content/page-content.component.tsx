@@ -11,16 +11,25 @@ import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import Animated from 'react-native-reanimated';
 import { StickyContextType, StickyContext } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
 import { isNumber } from 'lodash-es';
+import EventNotifier  from '@wavemaker/app-rn-runtime/core/event-notifier';
 
-export class WmPageContentState extends BaseComponentState<WmPageContentProps> {}
+export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
+  navHeightForRender = 0;
+}
 export default class WmPageContent extends BaseComponent<WmPageContentProps, WmPageContentState, WmPageContentStyles> {
   private scrollRef: RefObject<any>;
   static contextType = StickyContext;
+  private _unsubscribeNavHeight : any;
 
   constructor(props: WmPageContentProps) {
     super(props, DEFAULT_CLASS, new WmPageContentProps());
     this.hideMode = HideMode.DONOT_ADD_TO_DOM;
     this.scrollRef = createRef();
+  
+    this.state = {
+      ...this.state,
+      navHeightForRender: 0,
+    };
 
     this.subscribe('scrollToPosition', (args: any) => {
       this.scrollTo(args);
@@ -29,6 +38,25 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     this.subscribe('scrollToEnd', () => {
       this.scrollRef?.current?.scrollToEnd();
     });
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+    const { navHeight } = this.context as StickyContextType;
+    this._unsubscribeNavHeight = EventNotifier.ROOT.subscribe('updateNavHeight', (navHeightValue: number) => {
+      if (this.state.navHeightForRender !== navHeightValue) {
+        this.setState({ navHeightForRender: navHeightValue });
+      }
+      return null;
+    });
+    if (navHeight) {
+      this.setState({ navHeightForRender: navHeight.value });
+    }
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount();
+    if (this._unsubscribeNavHeight) this._unsubscribeNavHeight();
   }
 
   public scrollTo(position: {x: number, y: number}){
@@ -61,12 +89,10 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     return null;
   }
 
-  private handleScrollViewLayout = (event: any) =>{
-    const { setPageContentReady } = this.context as StickyContextType;
-    if (setPageContentReady) {
-      // Use requestAnimationFrame to ensure layout is complete
-      requestAnimationFrame(() => setPageContentReady(true));
-    }
+  private handleScrollViewLayout = () => {
+    requestAnimationFrame(() => {
+        EventNotifier.ROOT.notify('updateStickyHeaders', []);
+    });
   }
 
   renderWidget(props: WmPageContentProps) {
@@ -83,7 +109,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
             const paddingBottom = this.styles?.root?.paddingBottom || this.styles?.root?.padding;
             const paddingTopVal = isNumber(paddingTop) ? paddingTop : 0;
             const paddingBottomVal = isNumber(paddingBottom) ? paddingBottom : 0;
-            const navHeightVal = (this.props.onscroll == 'topnav' || this.props.onscroll == 'topnav-bottomnav') ? navHeight.value : 0;
+            const navHeightVal = (this.props.onscroll == 'topnav' || this.props.onscroll == 'topnav-bottomnav') ? this.state.navHeightForRender : 0;
             return (
               <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : undefined}

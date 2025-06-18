@@ -54,13 +54,9 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
   
     stickyNavAnimateStyle: any;
     stickyHeaderAnimateStyle: any;
-    showStickyHeader: SharedValue<boolean>;
   
     navHeight: SharedValue<number>;
     bottomTabHeight: SharedValue<number>;
-    pageContentReady: boolean;
-    setPageContentReady: Dispatch<SetStateAction<boolean>>;
-    scrollY: SharedValue<number>;
     scrollDirection: SharedValue<number>;
   
     onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
@@ -95,17 +91,16 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
   
     const stickyHeaderTranslateY = useSharedValue<number>(0);
     const stickyNavTranslateY = useSharedValue<number>(0);
-    const showStickyHeader = useSharedValue<boolean>(false);
+
     // Default navbar height from appnavbar styles is 80, maintaining to minimize the navHeight immediate flicker
     const insets = useSafeAreaInsets();
     const insetsVal = appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp ? insets?.top : 0;
-    const navHeight = useSharedValue<number>(hasAppnavbar && onscroll == 'topnav' ? (80 + insetsVal) : 0);
+    const navHeight = useSharedValue<number>(hasAppnavbar && (onscroll == 'topnav' || onscroll == 'topnav-bottomnav') ? (80 + insetsVal) : 0);
     const bottomTabHeight = useSharedValue<number>(0);
   
     const lastNotifyTime = useSharedValue<number>(0);
     const prevScrollTime = useSharedValue<number>(0);
   
-    const [pageContentReady, setPageContentReady] = React.useState(false);
   
     const stickyNavAnimateStyle = useAnimatedStyle(() => {
       return {
@@ -148,7 +143,6 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
           prevScrollY.value = y;
           scrollY.value = Math.max(0, y);
   
-          showStickyHeader.value = y >= (stickyHeaderTranslateY.value - navHeight.value + stickyNavTranslateY.value);
           stickyNavTranslateY.value = Math.max(Math.min(stickyNavTranslateY.value + delta, navHeight.value), 0);
   
           scrollVelocity.value = Math.abs(delta) / delaTime;
@@ -187,16 +181,12 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
     }
   
     const contextValue = {
-      scrollY,
       scrollDirection,
       stickyNavAnimateStyle,
       stickyHeaderAnimateStyle,
       stickyHeaderTranslateY,
-      showStickyHeader,
       navHeight,
       bottomTabHeight, 
-      pageContentReady, 
-      setPageContentReady,
       onScroll,
       onScrollEndDrag
     };
