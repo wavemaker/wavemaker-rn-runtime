@@ -22,10 +22,19 @@ export default class WmLinearlayoutitem extends BaseComponent<WmLinearlayoutitem
       style={{
         ...this.styles.root,
         flexGrow: props.flexgrow,
-        flexShrink: isNil(props.flexshrink) ? props.flexgrow : props.flexshrink,
-        flexBasis:  Platform.OS == "web" ? 'auto' : (props.flexgrow && (direction === 'row' || direction === 'row-reverse') ? 0 : 'auto')
-      }}
+        /*
+        ** In react-native, flexshrink defaults to 0,
+        ** but we supplied the value of flexgrow to flexshrink as 1 from studio
+        ** thus text in linearlayoutitem was not visible
+        */
+        flexShrink: isNil(props.flexshrink) ? Platform.OS == "web" ? props.flexgrow : 0 : props.flexshrink,
+        flexBasis:  Platform.OS == "web" ? 'auto' : (props.flexgrow && (direction === 'row' || direction === 'row-reverse') ? 0 : 'auto'),
+   
+       
+      } as any}
       onLayout={(event) => this.handleLayout(event)}
     >{this._background}{props.children}</View>); 
+
+    
   }
 }
