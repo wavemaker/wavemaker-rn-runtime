@@ -241,7 +241,7 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           onFieldChange: this.onFieldChangeEvt.bind(this),
           formRef: props.formRef,
           returnkeytype: (props.returnkeytype !== 'auto') ? props.returnkeytype : isLastField ? 'done' : 'next',
-          isdefault: props.defaultvalue && props.defaultvalue.length > 0 ? true : false,
+          isdefault: props.defaultvalue !== undefined ? true : false,
           onSubmitEditing: () => {
             if (this.form.props.submitondone && (isLastField || this.state.props.returnkeytype === 'done')){
               this.form?.submit();
