@@ -6,7 +6,6 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmTabpaneProps from './tabpane.props';
 import { DEFAULT_CLASS, WmTabpaneStyles } from './tabpane.styles';
 import WmTabs from '../tabs.component';
-import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 
 export class WmTabpaneState extends BaseComponentState<WmTabpaneProps> {
   isPartialLoaded = false;
@@ -17,7 +16,7 @@ export default class WmTabpane extends BaseComponent<WmTabpaneProps, WmTabpaneSt
   public paneId: string = "";
   constructor(props: WmTabpaneProps) {
     super(props, DEFAULT_CLASS, new WmTabpaneProps(), new WmTabpaneState());
-    EventNotifier.ROOT.subscribe('scroll', (event: any) => {
+    this.subscribe('scroll', (event: any) => {
       return this.state.isActive;
     });
   }

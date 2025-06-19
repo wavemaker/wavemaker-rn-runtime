@@ -14,7 +14,6 @@ import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { StickyContext, StickyContextType, StickyNav } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
-import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 
 export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {}
 
@@ -58,7 +57,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
               if((isEdgeToEdgeApp && insets?.top) || !isEdgeToEdgeApp){
                 navHeightValue = event.nativeEvent.layout.height || 0;
                 navHeight.value = navHeightValue;
-                EventNotifier.ROOT.notify('updateNavHeight', [navHeightValue]);
+                this.notify('updateNavHeight', [navHeightValue]);
               }
             }
             this.handleLayout(event);

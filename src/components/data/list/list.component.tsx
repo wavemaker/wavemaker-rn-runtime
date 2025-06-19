@@ -13,7 +13,6 @@ import WmListActionTemplate from './list-action-template/list-action-template.co
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
-import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 
 
 export class WmListState extends BaseComponentState<WmListProps> {
@@ -390,14 +389,13 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         this.onSelect(props.dataset[0], 0);
       });
     }
-    EventNotifier.ROOT.subscribe('scroll', (event: any) => {
+    this.subscribe('scroll', (event: any) => {
       const scrollPosition = event?.nativeEvent?.contentOffset?.y;
       const contentHeight = event?.nativeEvent?.contentSize?.height;
       const viewportHeight = event?.nativeEvent?.layoutMeasurement?.height;
       
       // Calculate how far user has scrolled as a percentage
       const scrollPercentage = (scrollPosition + viewportHeight) / contentHeight;
-      
       // Only trigger loadData when User reaches 70% of the list
       if (scrollPercentage >= 0.7 && 
           this.state.props.direction === 'vertical' && 

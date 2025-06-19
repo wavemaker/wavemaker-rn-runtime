@@ -46,6 +46,7 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
     children?: ReactNode;
     hasAppnavbar?: boolean;
     onscroll?: string;
+    notifier: EventNotifier;
   }
   
   export type StickyContextType = {
@@ -82,7 +83,7 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
     return {};
   };
   
-  export const ScrollContaineWrapper = ({ children, hasAppnavbar, onscroll }: StickyViewContainerProps) => {
+  export const ScrollContaineWrapper = ({ children, hasAppnavbar, onscroll, notifier }: StickyViewContainerProps) => {
     const appConfig = injector.get<AppConfig>('APP_CONFIG');
     const scrollY = useSharedValue<number>(0);
     const prevScrollY = useSharedValue<number>(0);
@@ -127,7 +128,9 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
     }, [scrollY, stickyHeaderTranslateY, navHeight, stickyNavTranslateY]);
   
     const notifyEvent = (event: any)=>{
-      EventNotifier.ROOT.notify('scroll', [{nativeEvent: event}]);
+      if(notifier) {
+        notifier.notify('scroll', [{nativeEvent: event}]);
+      }
     }
   
     const onScroll = useAnimatedScrollHandler({
@@ -302,7 +305,7 @@ import injector from '@wavemaker/app-rn-runtime/core/injector';
     render() {
       return (
         <StickyViewContext.Provider value={this}>
-          <ScrollContaineWrapper hasAppnavbar={this.props.hasAppnavbar} onscroll={this.props.onscroll}>
+          <ScrollContaineWrapper hasAppnavbar={this.props.hasAppnavbar} onscroll={this.props.onscroll} notifier={this.props.notifier}>
             {(this.props as any).children}
             <Animated.View style={{ position: 'absolute', width: '100%', zIndex: 10 }}
               pointerEvents={'box-none'}

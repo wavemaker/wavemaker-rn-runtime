@@ -11,7 +11,6 @@ import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import Animated from 'react-native-reanimated';
 import { StickyContextType, StickyContext } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
 import { isNumber } from 'lodash-es';
-import EventNotifier  from '@wavemaker/app-rn-runtime/core/event-notifier';
 
 export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
   navHeightForRender = 0;
@@ -43,7 +42,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   componentDidMount() {
     super.componentDidMount();
     const { navHeight } = this.context as StickyContextType;
-    this._unsubscribeNavHeight = EventNotifier.ROOT.subscribe('updateNavHeight', (navHeightValue: number) => {
+    this._unsubscribeNavHeight = this.subscribe('updateNavHeight', (navHeightValue: number) => {
       if (this.state.navHeightForRender !== navHeightValue) {
         this.setState({ navHeightForRender: navHeightValue });
       }
@@ -91,7 +90,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
 
   private handleScrollViewLayout = () => {
     requestAnimationFrame(() => {
-        EventNotifier.ROOT.notify('updateStickyHeaders', []);
+        this.notify('updateStickyHeaders', []);
     });
   }
 

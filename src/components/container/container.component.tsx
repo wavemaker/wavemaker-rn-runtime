@@ -10,7 +10,6 @@ import { WmSkeletonStyles } from '../basic/skeleton/skeleton.styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import { StickyContextType, StickyContext, StickyHeader } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
-import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 
 export class WmContainerState extends PartialHostState<WmContainerProps> {
   isPartialLoaded = false;
@@ -30,7 +29,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
     this.containerRef = React.createRef();
     this.stickyContainerOpacity = new Animated.Value(1);
 
-    EventNotifier.ROOT.subscribe('updateStickyHeaders', (_event: any) => {
+    this.subscribe('updateStickyHeaders', (_event: any) => {
       if(this.props.issticky){
         setTimeout(()=>{
           this.getStickyHeaderTranslateY();

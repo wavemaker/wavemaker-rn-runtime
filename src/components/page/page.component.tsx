@@ -29,7 +29,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
 
     const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
     return (
-      <StickyViewContainer hasAppnavbar = {props.hasappnavbar} onscroll={props.onscroll}>
+      <StickyViewContainer hasAppnavbar={props.hasappnavbar} onscroll={props.onscroll} notifier={this.notifier}>
         <FixedViewContainer>
         {isEdgeToEdgeApp && Platform.OS ==="android" ? <StatusBar barStyle={props.barstyle}/> : null}
           <SafeAreaInsetsContext.Consumer>
