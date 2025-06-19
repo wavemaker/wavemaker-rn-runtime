@@ -108,17 +108,31 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     firstButton:{
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
-      borderTopRightRadius: 6,
-      borderBottomRightRadius: 6,
+      borderTopRightRadius: 18,
+      borderBottomRightRadius: 18,
+    } ,
+    lastButton:{
+      borderTopLeftRadius: 18,
+      borderBottomLeftRadius: 18,
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    }
+  }: Platform.OS=="android" ? {
+    firstButton:{
+      borderTopRightRadius: 18,
+      borderBottomRightRadius: 18,
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
       borderRightWidth: 1,
       borderLeftWidth: 0
     } ,
     lastButton:{
-      borderTopLeftRadius: 6,
-      borderBottomLeftRadius: 6,
+      borderTopLeftRadius: 18,
+      borderBottomLeftRadius: 18,
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0,
-      borderRightWidth: 0
+      borderRightWidth: 0,
+      borderLeftWidth: 1
     }
   }:{});
   addStyle(DEFAULT_CLASS + '1-rtl', '', Platform.OS=="web"?{
@@ -136,7 +150,26 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderBottomLeftRadius: 500,
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0,
-      borderRightWidth: 1
+      borderRightWidth: 1,
+      borderLeftWidth: 0
+    }
+  }: Platform.OS=="android" ? {
+    firstButton:{
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+      borderTopRightRadius: 500,
+      borderBottomRightRadius: 500,
+      borderRightWidth: 1,
+      borderLeftWidth: 0
+    } ,
+    lastButton:{
+      flex: 1,
+      borderTopLeftRadius: 500,
+      borderBottomLeftRadius: 500,
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+      borderRightWidth: 0,
+      borderLeftWidth: 1
     }
   }:{});
   addStyle(DEFAULT_CLASS + '1', '', {
