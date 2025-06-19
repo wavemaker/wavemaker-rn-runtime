@@ -196,7 +196,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
   }
 
-  clear() {
+  clear(){
     this.updateState({
       groupedData: {},
     } as WmListState);
@@ -220,14 +220,14 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return this.selectedItems;
   }
 
-  getItem(index: number) {
+  getItem = (index: number) => {
     const props = this.state.props;
     return this.props.dataset[index]
   }
 
-  deselect(item: any) {
+  deselect(item: any){
     const props = this.state.props;
-    let selectedItem = null as any;
+    let selectedItem = props.selecteditem || null;
     let index = isNumber(item) ? item : props.dataset.indexOf(item);
     if (props.multiselect && index >= 0) {
       selectedItem = [...(props.selecteditem || [])];
@@ -249,8 +249,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     });
   }
 
-  getWidgets(widgetname: string, index: number) {
-    if (index >= 0 && index < this.itemWidgets.length) {
+  getWidgets(widgetname: string, index: number){
+    if(index >= 0 && index < this.itemWidgets.length){
       return this.itemWidgets[index][widgetname]
     }
     else {
