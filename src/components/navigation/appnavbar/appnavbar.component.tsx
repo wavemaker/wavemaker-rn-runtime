@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, BackHandler, Animated } from 'react-native';
+import { Text, View, BackHandler } from 'react-native';
 import { Badge } from 'react-native-paper';
 
 import { isAndroid, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
@@ -13,7 +13,7 @@ import { DEFAULT_CLASS, WmAppNavbarStyles } from './appnavbar.styles';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
-import { StickyContext, StickyContextType, StickyNav } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { StickyWrapperContext, StickyWrapperContextType, StickyNav } from '@wavemaker/app-rn-runtime/core/sticky-view.component';
 
 export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {}
 
@@ -23,7 +23,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   private onBackBtnPress: Function;
   private onSearchBtnPress: Function;
   private appConfig = injector.get<AppConfig>('APP_CONFIG');
-  static contextType = StickyContext;
+  static contextType = StickyWrapperContext;
 
   constructor(props: WmAppNavbarProps) {
     super(props, DEFAULT_CLASS, new WmAppNavbarProps());
@@ -42,7 +42,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   renderContent(props: WmAppNavbarProps) {
     //@ts-ignore
     const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{props.badgevalue}</Badge>): null;
-    const { navHeight } = this.context as StickyContextType;
+    const { navHeight } = this.context as StickyWrapperContextType;
     let navHeightValue;
     return (
       <SafeAreaInsetsContext.Consumer>
@@ -54,7 +54,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           return (
           <View style={[this.styles.root, stylesWithFs]} ref={ref => {this.baseView = ref as View}} onLayout={(event) => {
             if(navHeight) {
-              if((isEdgeToEdgeApp && insets?.top) || !isEdgeToEdgeApp){
+              if((isEdgeToEdgeApp && insets?.top) || !isEdgeToEdgeApp || isWebPreviewMode()){
                 navHeightValue = event.nativeEvent.layout.height || 0;
                 navHeight.value = navHeightValue;
                 this.notify('updateNavHeight', [navHeightValue]);

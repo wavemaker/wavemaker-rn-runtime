@@ -19,7 +19,7 @@ import { FixedView } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
-import { StickyContext, StickyContextType } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { StickyWrapperContext, StickyWrapperContextType } from '@wavemaker/app-rn-runtime/core/sticky-view.component';
 
 interface TabDataItem extends NavigationDataItem {
   floating: boolean;
@@ -48,7 +48,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   private insets: EdgeInsets | null = null;
   private appConfig = injector.get<AppConfig>('APP_CONFIG');
   private tabbarHeightWithInsets: number = 0;
-  static contextType = StickyContext;
+  static contextType = StickyWrapperContext;
 
   constructor(props: WmTabbarProps) {
     super(props, DEFAULT_CLASS, new WmTabbarProps(), new WmTabbarState());
@@ -186,7 +186,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       }
       max = max - 1;
     }
-    const { bottomTabHeight } = this.context as StickyContextType;
+    const { bottomTabHeight } = this.context as StickyWrapperContextType;
     return (
       <SafeAreaInsetsContext.Consumer>
       {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {

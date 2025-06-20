@@ -9,7 +9,7 @@ import { DEFAULT_CLASS, WmPageContentStyles } from './page-content.styles';
 import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.component';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import Animated from 'react-native-reanimated';
-import { StickyContextType, StickyContext } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { StickyWrapperContextType, StickyWrapperContext } from '@wavemaker/app-rn-runtime/core/sticky-view.component';
 import { isNumber } from 'lodash-es';
 
 export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
@@ -17,7 +17,7 @@ export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
 }
 export default class WmPageContent extends BaseComponent<WmPageContentProps, WmPageContentState, WmPageContentStyles> {
   private scrollRef: RefObject<any>;
-  static contextType = StickyContext;
+  static contextType = StickyWrapperContext;
   private _unsubscribeNavHeight : any;
 
   constructor(props: WmPageContentProps) {
@@ -41,7 +41,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
 
   componentDidMount() {
     super.componentDidMount();
-    const { navHeight } = this.context as StickyContextType;
+    const { navHeight } = this.context as StickyWrapperContextType;
     this._unsubscribeNavHeight = this.subscribe('updateNavHeight', (navHeightValue: number) => {
       if (this.state.navHeightForRender !== navHeightValue) {
         this.setState({ navHeightForRender: navHeightValue });
@@ -67,7 +67,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   }
 
   private handleOnScrollEndDrag = (event: any) => {
-    const { onScrollEndDrag, scrollDirection } = this.context as StickyContextType;
+    const { onScrollEndDrag, scrollDirection } = this.context as StickyWrapperContextType;
     const scrollPosition = event?.nativeEvent?.contentOffset?.y;
     if (scrollPosition >= 0) {
       if(scrollDirection.value > 0) {
@@ -96,7 +96,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
 
   renderWidget(props: WmPageContentProps) {
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
-    const { navHeight, bottomTabHeight,  onScroll } = this.context as StickyContextType;
+    const { bottomTabHeight, onScroll } = this.context as StickyWrapperContextType;
     return (props.scrollable || isWebPreviewMode()) ? (
       <View style={{height: '100%', width: '100%', backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
         {this._background}

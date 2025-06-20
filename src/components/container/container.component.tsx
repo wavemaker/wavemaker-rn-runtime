@@ -8,7 +8,7 @@ import { PartialHost, PartialHostState } from './partial-host.component';
 import { createSkeleton } from '../basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '../basic/skeleton/skeleton.styles';
 import { ScrollView } from 'react-native-gesture-handler';
-import { StickyContextType, StickyContext, StickyHeader } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { StickyWrapperContextType, StickyWrapperContext, StickyContainer } from '@wavemaker/app-rn-runtime/core/sticky-view.component';
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 export class WmContainerState extends PartialHostState<WmContainerProps> {
@@ -17,7 +17,7 @@ export class WmContainerState extends PartialHostState<WmContainerProps> {
 }
 
 export default class WmContainer extends PartialHost<WmContainerProps, WmContainerState, WmContainerStyles> {
-  static contextType = StickyContext;
+  static contextType = StickyWrapperContext;
   private containerRef: React.RefObject<View>;
   private stickyContainerOpacity: Animated.Value;
   insets: EdgeInsets | null = {
@@ -62,11 +62,11 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
   }
 
   public getStickyHeaderTranslateY(){
-    const { stickyHeaderTranslateY } = this.context as StickyContextType;
+    const { stickyContainerTranslateY } = this.context as StickyWrapperContextType;
     this.containerRef?.current?.measure((_x = 0, _y = 0, _width = 0, _height = 0, px = 0, py = 0)=>{
       const topInsetsInYposition = Platform.OS == 'ios' ? (this.insets?.top || 0): 0
-      if(stickyHeaderTranslateY) {
-        stickyHeaderTranslateY.value = py - topInsetsInYposition ;
+      if(stickyContainerTranslateY) {
+        stickyContainerTranslateY.value = py - topInsetsInYposition ;
         this.updateState({ stickyContainerVisibility: true} as WmContainerState);     
       }
     })
@@ -87,7 +87,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
     return (
       <>
         {stickyContainerVisibility ? (
-          <StickyHeader
+          <StickyContainer
             component={this}
             theme={this.theme}
             style={[dimensions, this.styles.sticky]}
@@ -95,7 +95,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
             <View style={[dimensions as ViewStyle, { backgroundColor: styles.backgroundColor }, this.styles.content]}>
               {this.renderContent(props)}
             </View>
-          </StickyHeader>
+          </StickyContainer>
         ) : <></>}
         <Animated.View 
           style={[

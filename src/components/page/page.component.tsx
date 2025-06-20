@@ -5,7 +5,7 @@ import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/cor
 import WmPageProps from './page.props';
 import { DEFAULT_CLASS, WmPageStyles } from './page.styles';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
-import { StickyViewContainer } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { StickyViewComponents } from '@wavemaker/app-rn-runtime/core/sticky-view.component';
 import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
@@ -29,7 +29,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
 
     const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
     return (
-      <StickyViewContainer hasAppnavbar={props.hasappnavbar} onscroll={props.onscroll} notifier={this.notifier}>
+      <StickyViewComponents hasAppnavbar={props.hasappnavbar} onscroll={props.onscroll} notifier={this.notifier}>
         <FixedViewContainer>
         {isEdgeToEdgeApp && Platform.OS ==="android" ? <StatusBar barStyle={props.barstyle}/> : null}
           <SafeAreaInsetsContext.Consumer>
@@ -41,7 +41,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
             }}
           </SafeAreaInsetsContext.Consumer>
         </FixedViewContainer>
-      </StickyViewContainer>
+      </StickyViewComponents>
     ); 
   }
 }
