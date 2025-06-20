@@ -13,7 +13,8 @@ import { DEFAULT_CLASS, WmAppNavbarStyles } from './appnavbar.styles';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
-import { StickyWrapperContext, StickyWrapperContextType, StickyNav } from '@wavemaker/app-rn-runtime/core/sticky-view.component';
+import { StickyWrapperContext, StickyWrapperContextType } from '@wavemaker/app-rn-runtime/core/sticky-wrapper';
+import { StickyNav } from '@wavemaker/app-rn-runtime/core/components/sticky-nav.component';
 
 export class WmAppNavbarState extends BaseComponentState<WmAppNavbarProps> {}
 

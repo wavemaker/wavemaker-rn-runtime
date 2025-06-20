@@ -19,7 +19,7 @@ import { FixedView } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
-import { StickyWrapperContext, StickyWrapperContextType } from '@wavemaker/app-rn-runtime/core/sticky-view.component';
+import { StickyWrapperContext, StickyWrapperContextType } from '@wavemaker/app-rn-runtime/core/sticky-wrapper';
 
 interface TabDataItem extends NavigationDataItem {
   floating: boolean;
@@ -141,7 +141,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       const scrollPosition = contentOffset.y ;
       this.tabbarHeightWithInsets = this.tabbarHeightWithInsets ? this.tabbarHeightWithInsets : this.getLayout()?.height ;
       const visibleContentHeight = layoutMeasurement.height ;
-      const endReached = (scrollPosition + visibleContentHeight + this.tabbarHeightWithInsets) >= contentSize.height ;
+      const endReached = (scrollPosition + visibleContentHeight + this.tabbarHeightWithInsets) + 8 >= contentSize.height ;
       const bottomInsets = this.insets?.bottom || 0
       const e = event.nativeEvent as any as CustomScrollEvent;
       if(Math.abs(e?.scrollDelta) >= 2){

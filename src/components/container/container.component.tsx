@@ -8,8 +8,9 @@ import { PartialHost, PartialHostState } from './partial-host.component';
 import { createSkeleton } from '../basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '../basic/skeleton/skeleton.styles';
 import { ScrollView } from 'react-native-gesture-handler';
-import { StickyWrapperContextType, StickyWrapperContext, StickyContainer } from '@wavemaker/app-rn-runtime/core/sticky-view.component';
+import { StickyWrapperContextType, StickyWrapperContext } from '@wavemaker/app-rn-runtime/core/sticky-wrapper';
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import { StickyContainer } from '@wavemaker/app-rn-runtime/core/components/sticky-container.component';
 
 export class WmContainerState extends PartialHostState<WmContainerProps> {
   isPartialLoaded = false;

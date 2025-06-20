@@ -9,7 +9,7 @@ import { DEFAULT_CLASS, WmPageContentStyles } from './page-content.styles';
 import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.component';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import Animated from 'react-native-reanimated';
-import { StickyWrapperContextType, StickyWrapperContext } from '@wavemaker/app-rn-runtime/core/sticky-view.component';
+import { StickyWrapperContextType, StickyWrapperContext } from '@wavemaker/app-rn-runtime/core/sticky-wrapper';
 import { isNumber } from 'lodash-es';
 
 export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
