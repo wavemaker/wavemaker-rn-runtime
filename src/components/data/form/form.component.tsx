@@ -32,6 +32,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   public formdataoutput: any;
   private toaster: any;
   public formActions: Array<WmFormAction> = [];
+  public fieldRefs: Array<React.RefObject<any>> = [];
   primaryKey = [];
   buttonArray: Array<WmFormAction> = [];
   formWidgets: { [key: string]: BaseComponent<any, any, any> } = {}; // object containing key as name of formField and value as WmFormField proxy.
@@ -49,7 +50,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   getParentFormRef(pformName: string) {
     let current = this.parent;
     while (current) {
-      if (get(current, 'props.name') === pformName) {
+      if (pformName && (get(current, 'props.name') === pformName)) {
         this.parentFormRef = current;
         break;
       }
@@ -101,7 +102,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
     this.formFields = formFields;
     this.formWidgets = formWidgets;
-
+    this.fieldRefs = formFields.map(() => React.createRef());
     formFields?.forEach((f: WmFormField) => {
       if (f.props.name) {
         set(this.formfields, f.props.name, f);
@@ -170,6 +171,9 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       }
       let key = get(formField, 'formKey') || get(fw, 'props.name');
       fw && fw.setState({ isDefault: true });
+      if(Array.isArray(formData)){
+        formData = formData[0];
+      }
       formField.updateState({
         props: {
           datavalue: get(formData, key)
@@ -267,7 +271,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     }
 
     this.updateState({
-      dynamicForm:  this.props.generateComponent(fields, this.props.name)
+      dynamicForm:  this.props.generateComponent(fields, this.props.name, this.proxy)
     } as WmFormState);
 
   }
@@ -411,7 +415,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
       <ToastConsumer>
         {(toastService: ToastService) => {
           this.toaster = toastService;
-          return <View style={this.styles.root}>
+          return <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
             {this._background}
             {props.iconclass || props.title || props.subheading ? (
               <View style={this.styles.heading}>

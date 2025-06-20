@@ -188,7 +188,7 @@ class ThemeFactory {
         {
           style: {
             data: {
-              fill: c1,
+              fill: (d: any) => colors[d.index % colors.length],
               padding,
               strokeWidth: 0,
             },

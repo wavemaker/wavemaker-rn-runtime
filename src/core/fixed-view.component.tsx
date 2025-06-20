@@ -1,6 +1,6 @@
 
 import React from "react";
-import { ViewStyle, Animated } from "react-native";
+import { View, ViewStyle, Animated } from "react-native";
 import { Theme, ThemeProvider } from "../styles/theme";
 
 const FixedViewContext = React.createContext<FixedViewContainer>(null as any);
@@ -11,11 +11,13 @@ export interface FixedViewProps {
     theme: Theme;
     usememo?: boolean;
     children?: any;
+    animated?: boolean;
 }
 
 export class FixedView extends React.Component<FixedViewProps> {
     static defaultProps = {
-        show: true
+        show: true, 
+        animated: false
     };
     static counter = Date.now();
     container: FixedViewContainer = null as any;
@@ -31,17 +33,18 @@ export class FixedView extends React.Component<FixedViewProps> {
     }
 
     render() {
+        const WrapperView = this.props.animated ? Animated.View : View
         this.cachedComponent = (this.props.usememo === true && this.cachedComponent ) || (<FixedViewContext.Consumer>
             {(container) => {
                 this.container = container;
                 if (this.props.show) {
                     container.add(this, (
                         <ThemeProvider value={this.props.theme} key={this.id}>
-                            <Animated.View style={[
+                            <WrapperView style={[
                                 {position: 'absolute'},
                                 this.props.style]}>
                                 {this.props.children}
-                            </Animated.View>
+                            </WrapperView>
                         </ThemeProvider>
                     ));
                 } else {

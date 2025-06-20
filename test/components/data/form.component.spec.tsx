@@ -319,6 +319,29 @@ describe('WmForm', () => {
     expect(mockFormFieldUpdateState).toHaveBeenCalledWith({"props": {"datavalue": 'some form field data'}})
   })
 
+  it('applyFormData updates formdata of formfields when prop formdata exists and formdata is an array', () => {
+    const mockFormFieldUpdateState = jest.fn();
+    const formFields = [
+      {
+        'formKey': 'key', 
+        updateState: mockFormFieldUpdateState
+      }
+    ]
+    const instance = render(<WmForm {...defaultProps}/>).UNSAFE_getByType(WmForm).instance;
+    const mockFormData = [{
+      "key": "some form field data"
+    }]
+    instance.state.props = {
+      "formdata": mockFormData
+    }
+    instance.parentFormRef = null;
+    instance.formFields = formFields;
+    instance.applyFormData()
+
+    expect(mockFormFieldUpdateState).toHaveBeenCalledWith({"props": { "datavalue": mockFormData[0]['key']}})
+
+  })
+
   it('applyDefaultValue updates formfield default value if formfield passed', () => {
     const instance = render(<WmForm {...defaultProps}/>).UNSAFE_getByType(WmForm).instance;
     const mockUpdateFormFieldDefaultValue = jest.fn();
@@ -509,8 +532,8 @@ describe('WmForm', () => {
   })
 
   it('updateDataOutput updateState with formdata output with valid key provided', async () => {
-    const tree = render(<WmForm>
-      <WmForm {...defaultProps}/>
+    const tree = render(<WmForm name='parent'>
+      <WmForm {...defaultProps} parentForm="parent"/>
     </WmForm>)
     const instance = tree.UNSAFE_getAllByType(WmForm)[1].instance;
     //instance.formdataoutput = {};

@@ -12,5 +12,5 @@ export default class WmAppNavbarProps extends BaseProps {
     searchbutton = false;
     searchbuttoniconclass = 'wm-sl-l sl-search';
     badgevalue?: string;
-    hideonscroll?: boolean;
+    hideonscroll?: boolean = false;
 }

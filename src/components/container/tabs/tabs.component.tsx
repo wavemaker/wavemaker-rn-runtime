@@ -152,7 +152,6 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         data={headerData}
         showskeleton={this.props.showskeleton}
         selectedTabIndex={this.state.selectedTabIndex}
-        disabletoucheffect = {this.state.props.disabletoucheffect}
       ></WmTabheader>
       <View
         //{...this.panResponder.panHandlers}
@@ -168,7 +167,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           {tabPanes.map((p: any, i) => {
             return (
             <View
-              key={`tab-${p.props.title}-${i}`}
+              key={`tab-${i}`}
               style={{width: '100%', alignSelf: 'flex-start'}}
               onLayout={this.setTabPaneHeights.bind(this, i)}>
               {/* {this.state.tabsShown[i] ? p : null} */}
@@ -217,13 +216,16 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     const tabPanes =  React.Children.toArray(props.children)
       .filter((item: any, index: number) => item.props.show != false);
     const headerData = tabPanes.map((p: any, i: number) =>
-      ({title: p.props.title,  icon: p.props.paneicon || '', key:  `tab-${p.props.title}-${i}`}));
+      ({title: p.props.title,  icon: p.props.paneicon || '', key:  `tab-${i}`}));
     const styles = this._showSkeleton ? {
       ...this.styles.root,
       ...this.styles.skeleton.root
     } : this.styles.root
     return (
-      <View style={styles}>
+      <View 
+        style={styles}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this.getBackground()}
         <View onLayout={this.setTabLayout.bind(this)} style={{width: '100%'}}></View>
         <WmTabheader
@@ -233,6 +235,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           selectedTabIndex={this.state.selectedTabIndex}
           onIndexChange={this.goToTab.bind(this)}
           shouldScroll={props.enablescroll}
+          disabletoucheffect = {this.state.props.disabletoucheffect}
         ></WmTabheader>
         <View
           style={[{
@@ -258,7 +261,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
             {tabPanes.map((p: any, i) => {
               return (
               <View
-                key={`tab-${p.props.title}-${i}`}
+                key={`tab-${i}`}
                 style={{
                   width: '100%',
                   height: this.styles.root.height  ? undefined : 1000000,

@@ -21,7 +21,10 @@ export default class WmTooltip extends BaseComponent<WmTooltipProps, WmTooltipSt
   
   renderWidget(props: WmTooltipProps) {
     return (
-      <View style={this.styles.root}>
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
       {props.showTooltip ? (
         <Animated.View
           style={[
@@ -48,8 +51,8 @@ export default class WmTooltip extends BaseComponent<WmTooltipProps, WmTooltipSt
               props.direction
                 ? { ...directionConfig[props.direction].triangleStyles }
                 : { bottom: -10 },
+              { borderBottomColor: props.tooltipStyle?.backgroundColor || this.styles.tooltip.backgroundColor },
               props.tooltipTriangleStyle,
-              { borderBottomColor: props.tooltipStyle?.backgroundColor || this.styles.tooltip.backgroundColor }
             ]}
           />
         </Animated.View>

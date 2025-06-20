@@ -227,7 +227,12 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
         styles.modalContent.width = this.styles.dropdown.width || this.state.selectWidth;
     }
     return (
-      <View onLayout={isDropdown?this.computePosition:()=>{}}>
+      <View 
+        onLayout={(event) => {
+          isDropdown ? this.computePosition(event) : ()=>{}
+          this.handleLayout(event)
+        }}
+      >
         {this._background}
         {this.renderSelect()}
         {this.state.isOpened ? (

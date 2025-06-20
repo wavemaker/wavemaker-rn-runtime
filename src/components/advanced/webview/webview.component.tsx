@@ -133,7 +133,10 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
 
   protected renderWidget(props: WmWebviewProps) {
     return (
-      <View style={this.styles.root}>
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this._background}
         {Platform.OS === 'web' ?
           (<iframe src={props.src} width={'100%'} height={'100%'}
@@ -141,7 +144,8 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
           (<WebView
             ref={(ref) => this.webview = ref}
             nestedScrollEnabled={true}
-            style={this.styles.webview}
+            containerStyle = {this.styles.webview}
+            // style={this.styles.webview} // when using style, there are some inconsistencies observed in Android. containerStyle gives us a uniformity in IOS and Android.
             source={{
               uri: props.src
             }}

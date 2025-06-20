@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { LayoutChangeEvent, Text } from 'react-native';
 import { Badge } from 'react-native-paper';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { SyntheticEvent, Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -84,7 +84,12 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
     return (
       <NavigationServiceConsumer>
         {(navigationService: NavigationService) =>
-          (<Animatedview entryanimation={props.animation} delay={props.animationdelay} style={{width: this.styles.root.width, height: this.styles.root.height, justifyContent: 'center'}}>
+          (<Animatedview 
+            entryanimation={props.animation} 
+            delay={props.animationdelay} 
+            style={{width: this.styles.root.width, height: this.styles.root.height, justifyContent: 'center'}}
+            onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
+          >
             <Tappable {...this.getTestPropsForAction()} target={this} styles={[this.styles.root, this.styles.root.width && this.styles.root.height ? { width: '100%', height: '100%'} : null, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}
               onTap={props.hyperlink || props.onTap ? (e: SyntheticEvent) => this.onTap(navigationService, e) : undefined}
               disableTouchEffect={this.state.props.disabletoucheffect}>

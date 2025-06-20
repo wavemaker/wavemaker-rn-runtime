@@ -51,6 +51,7 @@ export class DateToStringFormatter implements DateFormatter {
             "YYYY-MM-DDTHH:mm:ss.SSS-00:00",
             "ddd, DD MMM YYYY HH:mm:ss ZZ",
             "DD MMM YYYY HH:mm:ss ZZ",
+            'x'
         ], true);
 
         if (format === 'timestamp')
@@ -59,7 +60,9 @@ export class DateToStringFormatter implements DateFormatter {
         if (format === 'UTC')
             return moment.utc(input).toString();
 
-        return _moment.isValid() ? _moment.format(format) : input.toString();
+        const defaultLanguage = (injector as any).get('APP_CONFIG')?.appProperties?.defaultLanguage || 'en';
+
+        return _moment.isValid() ? _moment.locale(defaultLanguage).format(format) : input.toString();
     }
 }
 

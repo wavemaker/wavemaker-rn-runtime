@@ -122,7 +122,7 @@ const CustomAnimationMap: any = {
 
 export class Animatedview extends React.Component<AnimatedviewProps> {
   static defaultProps: AnimatedviewProps = {
-    duration: 200
+    duration: 200,
   };
 
   private view: Animatable.View = null as any;
@@ -153,22 +153,28 @@ export class Animatedview extends React.Component<AnimatedviewProps> {
   render() {
     return this.props.entryanimation ? (
      <Animatable.View
-       animation={this.props.entryanimation}
-       duration={this.props.duration}
-       delay={this.props.delay}
-       useNativeDriver={true}
-       style={this.props.style}
-       iterationCount={this.props.iterationCount}
-       ref={this.handleViewRef}
-       {...this.props.accessibilityProps}
-       testID="animatableView"
-       onLayout={(e)=>this.props.onLayout && this.props.onLayout(e, this.view)}
+        animation={this.props.entryanimation}
+        duration={this.props.duration}
+        delay={this.props.delay}
+        useNativeDriver={true}
+        style={this.props.style}
+        iterationCount={this.props.iterationCount}
+        ref={this.handleViewRef}
+        {...this.props.accessibilityProps}
+        testID="animatableView"
+        onLayout={(e)=>this.props.onLayout && this.props.onLayout(e, this.view)}
        >
         {this.props.children}
       </Animatable.View>
-    ): (<View style={this.props.style} {...this.props.accessibilityProps} testID="non_animatableView"
-        ref={this.handleViewRef}
-        onLayout={(e)=>this.props.onLayout && this.props.onLayout(e, this.view)}
-       >{this.props.children}</View>);
+    ): (<View 
+          style={this.props.style} 
+          {...this.props.accessibilityProps} 
+          testID="non_animatableView"
+          ref={this.handleViewRef}
+          onLayout={(e)=>this.props.onLayout && this.props.onLayout(e, this.view)}
+       >
+          {this.props.children}
+        </View>
+      );
   }
 }

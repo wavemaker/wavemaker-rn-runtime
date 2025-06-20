@@ -46,7 +46,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public Widgets: any = {};
     public Variables: any = {};
     public theme: Theme = BASE_THEME;
-    public appLocale: any = {};
+    public appLocale: any = injector.get<AppConfig>('APP_CONFIG')?.appLocale?.messages ? injector.get<AppConfig>('APP_CONFIG').appLocale.messages : {};
     private startUpVariables: string[] = [];
     protected startUpVariablesLoaded = false;
     private startUpActions: string[] = [];

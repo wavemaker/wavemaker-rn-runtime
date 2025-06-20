@@ -36,7 +36,7 @@ export class MonthViewProps {
   containerStyle?: ViewStyle = null as any;
   warpRowControlMonthYear?: ViewStyle = null as any;
   warpRowWeekdays?: ViewStyle = null as any;
-  weekdayStyle?: ViewStyle = null as any;
+  weekdayStyle?: TextStyle = null as any;
   textDayStyle?: TextStyle = null as any;
   currentDayStyle?: ViewStyle = null as any;
   currentDayTextStyle?: TextStyle = null as any;
@@ -63,11 +63,24 @@ export class MonthView extends Component<MonthViewProps, MonthViewState> {
   constructor(props: MonthViewProps) {
     super(props);
     this.state = new MonthViewState(this.props.date);
+    // Set moment's locale to ensure week starts on Sunday
+    moment.updateLocale('en', {
+      week: {
+        dow: 0, // Sunday is the first day of the week
+        doy: 1, // First week of year must contain 1 January
+      }
+    });
   }
 
   calendarArray (date: Moment): Moment[] {
     const dates: Moment[] = [];
-    const currDate = date.clone().startOf('month').startOf('week');
+    // Ensure we're working with a clone and explicitly set to start of day
+    const currDate = date.clone().startOf('month').startOf('day');
+    // Get the day of week (0-6, 0 being Sunday)
+    const startDay = currDate.day();
+    // Move back to the first day of the week
+    currDate.subtract(startDay, 'days');
+    
     for (let i = 0; i < 42; i += 1) {
       dates[i] = currDate.clone();
       currDate.add(1, 'day');
@@ -128,7 +141,7 @@ export class MonthView extends Component<MonthViewProps, MonthViewState> {
       weekdayStyle, customWeekdays, warpRowWeekdays,
       warpRowControlMonthYear, monthTextStyle, yearTextStyle
     } = this.props
-    const weekdays = customWeekdays || ['Sun', 'Mon', 'Tus', 'Wes', 'Thu', 'Fri', 'Sat']
+    const weekdays = customWeekdays || ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     const data = this.calendarArray(this.props.date || moment())
     const dayOfWeek: React.ReactNode[] = [];
     const month = this.props.customMonth ? this.props.customMonth[this.props.date?.get('month') || 0]: 'Jan';

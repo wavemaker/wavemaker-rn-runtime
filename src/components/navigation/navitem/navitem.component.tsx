@@ -60,7 +60,7 @@ export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemSt
       );
     }
     return (
-      <View style={this.styles.root}>{this._background}{child}</View>
+      <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>{this._background}{child}</View>
     );
   }
 }

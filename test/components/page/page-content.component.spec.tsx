@@ -5,6 +5,51 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 
+import WmContent from '@wavemaker/app-rn-runtime/components/page/content/content.component';
+import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
+
+class PC_SkeletonTester_Without_Content_Skeleton extends React.Component {
+  render() {
+     return (<WmContent
+      name="content1"
+      >
+         <WmPageContent showskeleton={true} name="pagecontent1">
+            <WmLabel name="test_skeleton"/>
+         </WmPageContent>
+      </WmContent>
+     )
+  }
+}
+
+class PC_SkeletonTester_With_Content_Skeleton extends React.Component {
+  render() {
+     return (<WmContent
+      name="content1"
+      showskeleton={false}
+      >
+         <WmPageContent showskeleton={true}  name="pagecontent1">
+            <WmLabel name="test_skeleton"/>
+         </WmPageContent>
+      </WmContent>
+     )
+  }
+}
+
+
+describe('base component test skeleton when page content inside content', () => {
+  test('should not show the skeleton', () => {
+    render(<PC_SkeletonTester_Without_Content_Skeleton/>)
+    expect(() => screen.getByTestId('test_skeleton_caption')).toThrow();
+  })
+
+  test('should not show the skeleton', () => {
+    render(<PC_SkeletonTester_With_Content_Skeleton/>)
+   expect(screen.getByTestId('test_skeleton_caption')).toBeTruthy()
+})
+})
+
+
+
 const renderComponent = (props = {}) => {
   return render(<WmPageContent name="test_Navbar" {...props} />);
 };
@@ -100,4 +145,40 @@ describe('Test PageContent component', () => {
     });
     expect(tree.getByText('children')).toBeTruthy();
   });
+
+
+  it('should trigger onSwipedown event when user scrolls down', () => {
+    const onSwipedownMock = jest.fn();
+    const { getByTestId } = renderComponent({ onSwipedown: onSwipedownMock });
+  
+    const scrollViewEle = getByTestId('test_Navbar_page_content_scrollview');
+    
+    fireEvent.scroll(scrollViewEle, {
+      nativeEvent: { contentOffset: { y: 0 }, layoutMeasurement: {}, contentSize: {} },
+    });
+  
+    fireEvent.scroll(scrollViewEle, {
+      nativeEvent: { contentOffset: { y: -20 }, layoutMeasurement: {}, contentSize: {} },
+    });
+  
+    expect(onSwipedownMock).toHaveBeenCalled();
+  });
+  
+  it('should trigger onSwipeup event when user scrolls up', () => {
+    const onSwipeupMock = jest.fn();
+    const { getByTestId } = renderComponent({ onSwipeup: onSwipeupMock });
+  
+    const scrollViewEle = getByTestId('test_Navbar_page_content_scrollview');
+  
+    fireEvent.scroll(scrollViewEle, {
+      nativeEvent: { contentOffset: { y: 0 }, layoutMeasurement: {}, contentSize: {} },
+    });
+  
+    fireEvent.scroll(scrollViewEle, {
+      nativeEvent: { contentOffset: { y: 20 }, layoutMeasurement: {}, contentSize: {} },
+    });
+  
+    expect(onSwipeupMock).toHaveBeenCalled();
+  });
+  
 });

@@ -65,8 +65,13 @@ export default class WmLinearlayout extends BaseComponent<WmLinearlayoutProps, W
       ...this.styles.skeleton.root
     } : rootStyles
 
-    return (<View style={styles}>
-      {this.getBackground()}{props.children}
-      </View>); 
+    return (
+      <View 
+        style={styles}
+        onLayout={(event) => this.handleLayout(event)}
+      >
+        {this.getBackground()}{props.children}
+      </View>
+    ); 
   }
 }

@@ -24,6 +24,6 @@ export default class WmComposite extends BaseComponent<WmCompositeProps, WmCompo
       this.styles,
       props.captionposition ? this.theme.getStyle(POSITION_STYLES[props.captionposition]) : {}
     );
-    return (<View style={styles.root}>{this._background}{props.children}</View>); 
+    return (<View style={styles.root} onLayout={(event) => this.handleLayout(event)}>{this._background}{props.children}</View>); 
   }
 }

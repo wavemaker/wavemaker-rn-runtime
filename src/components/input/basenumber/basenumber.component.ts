@@ -190,7 +190,9 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
     }).then(() => {
       !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, model, oldValue]);
       if (source === 'blur') {
-        this.invokeEventCallback('onBlur', [event, this.proxy]);
+        setTimeout(() => {
+          this.invokeEventCallback('onBlur', [event, this.proxy]);
+        }, 10);
       }
     });
   }
@@ -333,9 +335,9 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
         this.updateState({
           textValue: $new,
         } as S);
-        const isDefault = this.state.isDefault;
+        const isDefault = this.state.props.isdefault;
         if (isDefault) {
-          this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
+          this.updateState({ props: {isdefault: false} } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
         } else {
           this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
         }

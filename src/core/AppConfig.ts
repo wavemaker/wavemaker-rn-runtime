@@ -24,6 +24,7 @@ export default interface AppConfig {
     setDrawerContent: any;
     theme: any;
     drawerType: any;
+    preferences:any;
     getServiceDefinitions: any;
     loggedInUser: any;
     selectedLocale: string;
@@ -33,5 +34,7 @@ export default interface AppConfig {
         appReadyTime: number,
         pageStartTime: number,
         pageReadyTime: number
-    }
+    }, 
+    pageScrollTopThreshold: number;
+    edgeToEdgeConfig:any;
 }
