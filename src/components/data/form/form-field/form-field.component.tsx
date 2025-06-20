@@ -224,9 +224,27 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
   renderWidget(props: WmFormFieldProps) {
     const formFields = this.form?.formFields || [];
     const currentIndex = this.getFieldIndex();
-    const isLastField = currentIndex === formFields.length - 1;
-    const nextRef = this.form?.fieldRefs[currentIndex + 1];
     const currentRef = this.form?.fieldRefs[currentIndex];
+    const isLastField = currentIndex === formFields.length - 1;
+    const nextField = formFields[currentIndex + 1];
+    const nextRef = this.form?.fieldRefs[currentIndex + 1];
+
+    const isNextFieldText =
+      !isLastField && ['text', 'textarea'].includes(nextField?.widget);
+
+    const returnKeyType =
+      props.returnkeytype !== 'auto'
+        ? props.returnkeytype
+        : isLastField
+          ? 'done'
+          : isNextFieldText
+            ? 'next'
+            : undefined;
+
+    const shouldSubmit =
+      this.form?.props.submitondone &&
+      (isLastField || this.state.props.returnkeytype === 'done');
+
     var childrenWithProps = React.Children.map(props.renderFormFields(this.proxy).props.children, (child, index) => {
       return React.cloneElement(child, {
           ref: currentRef,
@@ -240,12 +258,12 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           triggerValidation: this.validateFormField.bind(this),
           onFieldChange: this.onFieldChangeEvt.bind(this),
           formRef: props.formRef,
-          returnkeytype: (props.returnkeytype !== 'auto') ? props.returnkeytype : isLastField ? 'done' : 'next',
+          returnkeytype: returnKeyType,
           isdefault: props.defaultvalue !== undefined ? true : false,
           onSubmitEditing: () => {
-            if (this.form.props.submitondone && (isLastField || this.state.props.returnkeytype === 'done')){
+            if (shouldSubmit){
               this.form?.submit();
-            } else if (nextRef?.current) {
+            } else if (isNextFieldText && nextRef?.current && (returnKeyType === "next")) {
               nextRef.current.focus();
             }
           },

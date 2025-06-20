@@ -102,7 +102,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
     this.formFields = formFields;
     this.formWidgets = formWidgets;
-    this.fieldRefs = formFields.map(() => React.createRef());
+    formFields?.forEach(() => this.fieldRefs.push(React.createRef()))
     formFields?.forEach((f: WmFormField) => {
       if (f.props.name) {
         set(this.formfields, f.props.name, f);

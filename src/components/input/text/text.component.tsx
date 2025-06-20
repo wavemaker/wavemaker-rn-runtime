@@ -53,6 +53,13 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
+    const validReturnKeyTypes = [
+      'go', 'done', 'next', 'search', 'send'
+    ];
+    const returnKeyType = props.returnkeytype && validReturnKeyTypes.includes(props.returnkeytype)
+      ? props.returnkeytype
+      : undefined;
+
     return (
         <WMTextInput
           {...this.getTestPropsForInput()}
@@ -91,7 +98,7 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           allowContentSelection={this.styles.text.userSelect === 'text'}
           autoCapitalize={props.autocapitalize}
           handleLayout={this.handleLayout}
-          returnKeyType={props.returnkeytype}
+          returnKeyType={returnKeyType}
           onSubmitEditing={props.onSubmitEditing}
         />
     );
