@@ -26,5 +26,4 @@ export default class WmFormFieldProps extends BaseProps {
   maskchar: string = null as any;
   displayformat: string = null as any;
   autocomplete: string = "username";
-  returnkeytype: 'auto' | 'next' | 'done' = 'auto';
 }

@@ -32,7 +32,6 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   public formdataoutput: any;
   private toaster: any;
   public formActions: Array<WmFormAction> = [];
-  public fieldRefs: Array<React.RefObject<any>> = [];
   primaryKey = [];
   buttonArray: Array<WmFormAction> = [];
   formWidgets: { [key: string]: BaseComponent<any, any, any> } = {}; // object containing key as name of formField and value as WmFormField proxy.
@@ -102,7 +101,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
     this.formFields = formFields;
     this.formWidgets = formWidgets;
-    this.fieldRefs = formFields.map(() => React.createRef());
+
     formFields?.forEach((f: WmFormField) => {
       if (f.props.name) {
         set(this.formfields, f.props.name, f);
