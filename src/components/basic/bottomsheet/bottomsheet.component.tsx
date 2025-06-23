@@ -254,7 +254,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     },
   });
 
-  handleScroll = (event: any) => {
+  handleScroll = (event: any): any => {
+    if (this.state.keyboardHeight > 0) return null;
     const offsetY = event.nativeEvent.contentOffset.y;
     this.updateState({
       isScrolling: offsetY > 0,
