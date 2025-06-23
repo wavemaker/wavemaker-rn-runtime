@@ -331,7 +331,6 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
             onFocus={this.onFocus.bind(this)}
             onLayout={e => {this.searchInputWidth = e.nativeEvent.layout.width}}
             onBlur={this.onBlur.bind(this)}
-            returnKeyType='search'
             {...opts}>
          </TextInput>
          {(props.showclear && !(this.state.props.disabled || this.state.props.readonly)) && this.state.props.query ? <WmButton onTap={this.clearSearch.bind(this)}
