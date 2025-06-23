@@ -64,7 +64,7 @@ export default class WmLottie extends BaseComponent<WmLottieProps, WmLottieState
   }
 
   private loadAnimationData() {
-    if (this.state.animationData || ! this.loadAsset) {
+    if (this.state.animationData || ! this.loadAsset || !this.state.props.source) {
       return;
     }
     if (Platform.OS == 'web') {
