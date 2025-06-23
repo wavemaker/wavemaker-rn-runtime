@@ -6,7 +6,7 @@ export default class WmBottomsheetProps extends BaseProps {
     children? = null as any;
     shouldexpand?:boolean = false;
     expandedheightratio?:number = 0.5; 
-    keyboardverticaloffset: number = 0;
+    keyboardverticaloffset: number = 100;
     onOpened?: Function = null as any;
     onClose?: Function = null as any;
 

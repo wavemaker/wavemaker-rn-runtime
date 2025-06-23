@@ -339,20 +339,16 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
           const keyboardOffset = insets?.bottom || 0
           const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + props.keyboardverticaloffset : keyboardOffset;
           return (
-            <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-              keyboardVerticalOffset={verticalOffset}
-              style={this.styles.root}
-              {...this.getTestProps('keyboardview')}
-            
-            >
+
+            <View style={this.styles.root}
+              {...this.getTestProps('keyboardview')}>
 
               {this._background}
               <TouchableWithoutFeedback onPress={this.closeSheet}>
-                <Animated.View style={[this.styles.backdrop, { opacity: this.state.backdropOpacity }]} 
+                <Animated.View style={[this.styles.backdrop, { opacity: this.state.backdropOpacity }]}
                   {...this.getTestProps('backdrop')}
                   {...getAccessibilityProps(AccessibilityWidgetType.BOTTOMSHEET, props)}
-                  />
+                />
               </TouchableWithoutFeedback>
 
               <Animated.View
@@ -369,33 +365,38 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
               >
                 <View style={this.styles.dragHandleContainer} {...this.dragHandlePanResponder.panHandlers}>
                   <TouchableWithoutFeedback onPress={this.closeSheet}>
-                    <View style={this.styles.dragIconHandle} 
-                     {...this.getTestProps('draghandle')}/>
+                    <View style={this.styles.dragIconHandle}
+                      {...this.getTestProps('draghandle')} />
                   </TouchableWithoutFeedback>
                 </View>
-
-                <ScrollView
-                  ref={this.state.scrollViewRef}
-                  style={this.styles.sheetContentContainer}
-                  contentContainerStyle={this.styles.sheetScrollContent}
-                  alwaysBounceVertical={false}
-                  alwaysBounceHorizontal={false}
-                  bounces={false}
-                  showsVerticalScrollIndicator={false}
-                  scrollEventThrottle={16}
-                  onScroll={this.handleScroll}
-                  nestedScrollEnabled={true}
-                  scrollEnabled={true}
-                  {...this.getTestProps('scorllview')}
-
-
+                <KeyboardAvoidingView
+                  behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+                  keyboardVerticalOffset={verticalOffset}
+                  style={{ flex: 1 }}
                 >
-                  {props.children}
-                </ScrollView>
+                  <ScrollView
+                    ref={this.state.scrollViewRef}
+                    style={this.styles.sheetContentContainer}
+                    contentContainerStyle={this.styles.sheetScrollContent}
+                    alwaysBounceVertical={false}
+                    alwaysBounceHorizontal={false}
+                    bounces={false}
+                    showsVerticalScrollIndicator={false}
+                    scrollEventThrottle={16}
+                    onScroll={this.handleScroll}
+                    nestedScrollEnabled={true}
+                    scrollEnabled={true}
+                    {...this.getTestProps('scorllview')}
+
+
+                  >
+                    {props.children}
+                  </ScrollView>
+                </KeyboardAvoidingView>
 
               </Animated.View>
 
-            </KeyboardAvoidingView>
+            </View>
           )
         }}
       </SafeAreaInsetsContext.Consumer>
