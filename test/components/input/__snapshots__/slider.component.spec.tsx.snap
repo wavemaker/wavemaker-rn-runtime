@@ -60,7 +60,7 @@ exports[`Test Slider component should render marker labels as an array of object
           "position": "absolute",
           "transform": [
             {
-              "translateX": -200,
+              "translateX": -100,
             },
           ],
           "width": 200,
@@ -71,7 +71,7 @@ exports[`Test Slider component should render marker labels as an array of object
       collapsable={false}
       style={
         {
-          "backgroundColor": "rgb(162, 162, 162)",
+          "backgroundColor": "#ffffff",
           "borderBottomRightRadius": 4,
           "borderTopRightRadius": 4,
           "flex": 1,
@@ -79,7 +79,7 @@ exports[`Test Slider component should render marker labels as an array of object
           "position": "absolute",
           "transform": [
             {
-              "translateX": 0,
+              "translateX": 100,
             },
           ],
           "width": 200,
@@ -111,7 +111,7 @@ exports[`Test Slider component should render marker labels as an array of object
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 0,
+                "left": 100,
               },
             ]
           }
@@ -148,13 +148,6 @@ exports[`Test Slider component should render marker labels as an array of object
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -205,13 +198,6 @@ exports[`Test Slider component should render marker labels as an array of object
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -225,7 +211,7 @@ exports[`Test Slider component should render marker labels as an array of object
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 200,
+                "left": 100,
               },
             ]
           }
@@ -262,13 +248,6 @@ exports[`Test Slider component should render marker labels as an array of object
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -300,7 +279,7 @@ exports[`Test Slider component should render marker labels as an array of object
             "position": "absolute",
             "transform": [
               {
-                "translateX": 0,
+                "translateX": 100,
               },
             ],
             "width": 20,
@@ -372,7 +351,7 @@ exports[`Test Slider component should render marker labels as an array, having o
           "position": "absolute",
           "transform": [
             {
-              "translateX": -133,
+              "translateX": -100,
             },
           ],
           "width": 200,
@@ -383,7 +362,7 @@ exports[`Test Slider component should render marker labels as an array, having o
       collapsable={false}
       style={
         {
-          "backgroundColor": "rgb(162, 162, 162)",
+          "backgroundColor": "#ffffff",
           "borderBottomRightRadius": 4,
           "borderTopRightRadius": 4,
           "flex": 1,
@@ -391,7 +370,7 @@ exports[`Test Slider component should render marker labels as an array, having o
           "position": "absolute",
           "transform": [
             {
-              "translateX": 67,
+              "translateX": 100,
             },
           ],
           "width": 200,
@@ -423,7 +402,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 0,
+                "left": 100,
               },
             ]
           }
@@ -460,13 +439,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -480,7 +452,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 33,
+                "left": 100,
               },
             ]
           }
@@ -517,13 +489,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -537,7 +502,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 67,
+                "left": 100,
               },
             ]
           }
@@ -574,13 +539,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -631,13 +589,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -651,7 +602,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 133,
+                "left": 100,
               },
             ]
           }
@@ -688,13 +639,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -708,7 +652,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 167,
+                "left": 100,
               },
             ]
           }
@@ -745,13 +689,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -765,7 +702,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 200,
+                "left": 100,
               },
             ]
           }
@@ -802,13 +739,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -840,7 +770,7 @@ exports[`Test Slider component should render marker labels as an array, having o
             "position": "absolute",
             "transform": [
               {
-                "translateX": 67,
+                "translateX": 100,
               },
             ],
             "width": 20,
@@ -912,7 +842,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
           "position": "absolute",
           "transform": [
             {
-              "translateX": -150,
+              "translateX": -100,
             },
           ],
           "width": 200,
@@ -923,7 +853,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
       collapsable={false}
       style={
         {
-          "backgroundColor": "rgb(162, 162, 162)",
+          "backgroundColor": "#ffffff",
           "borderBottomRightRadius": 4,
           "borderTopRightRadius": 4,
           "flex": 1,
@@ -931,7 +861,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
           "position": "absolute",
           "transform": [
             {
-              "translateX": 50,
+              "translateX": 100,
             },
           ],
           "width": 200,
@@ -963,7 +893,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 0,
+                "left": 100,
               },
             ]
           }
@@ -1000,13 +930,6 @@ exports[`Test Slider component should render marker labels as numbers if some of
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -1020,7 +943,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 50,
+                "left": 100,
               },
             ]
           }
@@ -1057,13 +980,6 @@ exports[`Test Slider component should render marker labels as numbers if some of
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -1114,13 +1030,6 @@ exports[`Test Slider component should render marker labels as numbers if some of
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -1134,7 +1043,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 150,
+                "left": 100,
               },
             ]
           }
@@ -1171,13 +1080,6 @@ exports[`Test Slider component should render marker labels as numbers if some of
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -1191,7 +1093,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 200,
+                "left": 100,
               },
             ]
           }
@@ -1228,13 +1130,6 @@ exports[`Test Slider component should render marker labels as numbers if some of
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -1266,7 +1161,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
             "position": "absolute",
             "transform": [
               {
-                "translateX": 50,
+                "translateX": 100,
               },
             ],
             "width": 20,
@@ -1404,7 +1299,7 @@ exports[`Test Slider component should render the slider component  1`] = `
       collapsable={false}
       style={
         {
-          "backgroundColor": "rgb(162, 162, 162)",
+          "backgroundColor": "#ffffff",
           "borderBottomRightRadius": 4,
           "borderTopRightRadius": 4,
           "flex": 1,
