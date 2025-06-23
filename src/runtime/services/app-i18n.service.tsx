@@ -25,6 +25,7 @@ class AppI18nService implements I18nService{
     dateTimeFormat: string = '';
     currencyCode: string = '';
     timezone: string = '';
+    prevAppProfileDefaultLang: string = '';
 
     constructor() {}
 
@@ -88,6 +89,14 @@ class AppI18nService implements I18nService{
 
     getSelectedLocale() {
       return this.selectedLocale;
+    }
+
+    getPrevAppProfileLang() {
+      return this.prevAppProfileDefaultLang;
+    }
+
+    setPrevAppProfileLang(lang: string) {
+      this.prevAppProfileDefaultLang = lang;
     }
 }
 
