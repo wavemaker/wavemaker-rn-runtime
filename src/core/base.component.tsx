@@ -684,13 +684,16 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 classname && this.theme.getStyle(classname),
                 this.isRTL && classname ? this.theme.getStyle(classname + '-rtl') : null,
                 props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
-                this.theme.cleanseStyleProperties(this.props.styles),
-                this.theme.cleanseStyleProperties({
-                    root: this.styleOverrides,
-                    text: this.styleOverrides
-                }));
-            
+                this.props.styles,
+                {
+                        root: this.styleOverrides,
+                        text: this.styleOverrides
+                }
+            );
             this.hasStyleCalcExpression = false;
+
+            const baseTokens = this.extractTopLevelVariables(this.calcStyles);
+            this.calcStyles = this.theme.cleanseStyleProperties(this.calcStyles, baseTokens, classname);
             this.styles = this.evaluateCalcStyles(this.calcStyles);
             if (this.styles.root.hasOwnProperty('_background')) {
                 delete this.styles.root.backgroundColor;
@@ -711,4 +714,15 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             return this.addAnimation(this.renderWidget(this.state.props));        
         });
     }
+
+    private extractTopLevelVariables(style: Record<string, any>): Record<string, any> {
+        const vars: Record<string, any> = {};
+        for (const key in style) {
+            if (key.startsWith('--')) {
+                vars[key] = style[key];
+            }
+        }
+        return vars;
+    }
+    
 }
