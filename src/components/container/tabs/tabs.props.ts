@@ -5,4 +5,5 @@ export default class WmTabsProps extends BaseProps {
   defaultpaneindex?: number = 0;
   enablegestures? = true;
   enablescroll?: boolean = false;
+  usenativegestures?: boolean = false;
 }
