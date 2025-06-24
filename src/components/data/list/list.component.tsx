@@ -643,18 +643,22 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   private renderWithSectionList(props: WmListProps, isHorizontal = false) {
     return (
-      <SectionList
-        keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
-        horizontal={isHorizontal}
-        contentContainerStyle={this.styles.root}
-        sections={this.getSectionListData(props)}
-        renderSectionHeader={({ section: { key, data } }) => {
-          return this.renderHeader(props, key);
-        }}
-        renderSectionFooter={() => props.loadingdata ? this.renderLoadingIcon(props) : null}
-        ListEmptyComponent={(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
-        renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}>
-      </SectionList>
+      this.state.loadingData ? 
+      this.renderLoadingIcon(props) :
+      (  
+        <SectionList
+          keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
+          horizontal={isHorizontal}
+          contentContainerStyle={this.styles.root}
+          sections={this.getSectionListData(props)}
+          renderSectionHeader={({ section: { key, data } }) => {
+            return this.renderHeader(props, key);
+          }}
+          renderSectionFooter={() => props.loadingdata ? this.renderLoadingIcon(props) : null}
+          ListEmptyComponent={(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
+          renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}>
+        </SectionList>
+      )  
     );
   }
 
