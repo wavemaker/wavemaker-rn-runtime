@@ -248,8 +248,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
             maxHeight: this.tabPaneHeights[this.state.selectedTabIndex],
           }, this.styles.tabContent]} >
           <SwipeAnimation.View
-            enableGestures={true}
-            usenativegestures={props.usenativegestures}
+            enableGestures={props.enablegestures}
             style={{
               flexDirection: 'row',
               flexWrap: 'nowrap',
