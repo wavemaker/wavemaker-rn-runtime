@@ -36,9 +36,9 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   private keyboardDidShowListener!: EmitterSubscription;
   private keyboardDidHideListener!: EmitterSubscription;
 
-  private calculateSheetHeight(sheetheightratio: number): number {
+  private calculateSheetHeight(bottomsheetheightratio: number): number {
     // Use default height if ratio not provided, but ensure it's not below minimum
-    const effectiveRatio = sheetheightratio || this.defaultHeight;
+    const effectiveRatio = bottomsheetheightratio || this.defaultHeight;
     this.maxHeightRatio = Math.max(
       this.minimumHeight,
       Math.min(effectiveRatio, this.maxHeight)
@@ -49,13 +49,13 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     let calculatedHeight = screenHeight * this.maxHeightRatio;
 
     if (Platform.OS === 'ios') {
-      // Subtract top inset bar height for ios only if sheetheightratio is 0.9
+      // Subtract top inset bar height for ios only if bottomsheetheightratio is 0.9
       if (this.maxHeightRatio >= 0.9) {
         calculatedHeight -= this.defaultTopInset;
       }
     }
     else if (Platform.OS === 'android') {
-      // Subtract status bar height for Android only if sheetheightratio is 0.9
+      // Subtract status bar height for Android only if bottomsheetheightratio is 0.9
       if (this.maxHeightRatio >= 0.9) {
         calculatedHeight -= this.statusBarHeight;
       }
@@ -79,10 +79,10 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
 
   constructor(props: WmBottomsheetProps) {
     super(props, DEFAULT_CLASS, new WmBottomsheetProps(), new WmBottomsheetState());
-    this.calculatedHeight = this.calculateSheetHeight(props.sheetheightratio);
+    this.calculatedHeight = this.calculateSheetHeight(props.bottomsheetheightratio);
 
-    // Use expandedheightratio if provided, otherwise use expandedDefaultHeight
-    const expandedRatio = props.expandedheightratio || this.expandedDefaultHeight;
+    // Use bottomsheetexpandedheightratio if provided, otherwise use expandedDefaultHeight
+    const expandedRatio = props.bottomsheetexpandedheightratio || this.expandedDefaultHeight;
     const effectiveExpandedRatio = Math.max(
       this.minimumExpandedHeight,
       Math.min(expandedRatio, this.maxHeight)
@@ -103,7 +103,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     this.state.sheetHeight.setValue(this.calculatedHeight);
 
     this.updateState({
-      isBottomsheetVisible: this.props.visible || false
+      isBottomsheetVisible: this.props.showonrender || false
     } as WmBottomsheetState);
 
     if (this.state.isBottomsheetVisible) {
@@ -153,8 +153,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   };
 
   componentDidUpdate(prevProps: WmBottomsheetProps) {
-    if (prevProps.sheetheightratio !== this.props.sheetheightratio) {
-      this.calculatedHeight = this.calculateSheetHeight(this.props.sheetheightratio);
+    if (prevProps.bottomsheetheightratio !== this.props.bottomsheetheightratio) {
+      this.calculatedHeight = this.calculateSheetHeight(this.props.bottomsheetheightratio);
       this.state.sheetHeight.setValue(this.calculatedHeight);
     }
   }
@@ -235,7 +235,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       if (gestureState.dy > 0) { // Handle downward drag
         const newTranslateY = Math.max(0, this.state.lastGestureDy + gestureState.dy);
         this.state.translateY.setValue(newTranslateY);
-      } else if (gestureState.dy < 0 && this.props.shouldexpand && this.props.sheetheightratio !== 1) {
+      } else if (gestureState.dy < 0 && this.props.expand && this.props.bottomsheetheightratio !== 1) {
         // Handle upward drag - expand to full height
         // Allow expansion to full screen height
         const targetHeight = Math.min(this.expandedHeight, SCREEN_HEIGHT);
@@ -330,7 +330,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   public onPropertyChange(name: string, $new: any, $old: any): void {
     super.onPropertyChange(name, $new, $old);
     switch (name) {
-      case "visible":
+      case "showonrender":
         if ($new) {
           this.updateState({
             isBottomsheetVisible: $new || false
