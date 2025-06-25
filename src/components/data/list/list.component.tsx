@@ -400,7 +400,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       const isVisible = scrollPosition + viewportHeight >= contentHeight - threshold;
       if (isVisible && !this.scrolledToEnd) {
         this.scrolledToEnd = true;
-        console.log('user scrolled till end');
+        //console.log('user scrolled till end');
         this.loadData();
       } else if (!isVisible && this.scrolledToEnd) {
         this.scrolledToEnd = false;
