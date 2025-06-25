@@ -49,6 +49,7 @@ export class View extends React.Component<Props, State> {
     private childrenLayout: LayoutRectangle[] = [];
     private viewLayout: LayoutRectangle = null as any;
     
+    // Only create PanResponder for Android when inmodal is true
     private panResponder = (Platform.OS === 'android' && this.props.usenativegestures) ? PanResponder.create({
         onStartShouldSetPanResponder: () => this.props.enableGestures && !isWebPreviewMode(),
         onMoveShouldSetPanResponder: (evt, gestureState) => Math.abs(gestureState.dx) > 5 || Math.abs(gestureState.dy) > 5,
