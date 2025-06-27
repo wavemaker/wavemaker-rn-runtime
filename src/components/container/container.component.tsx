@@ -11,6 +11,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { StickyWrapperContextType, StickyWrapperContext } from '@wavemaker/app-rn-runtime/core/sticky-wrapper';
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { StickyContainer } from '@wavemaker/app-rn-runtime/core/components/sticky-container.component';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 
 export class WmContainerState extends PartialHostState<WmContainerProps> {
   isPartialLoaded = false;
@@ -21,6 +23,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
   static contextType = StickyWrapperContext;
   private containerRef: React.RefObject<View>;
   private stickyContainerOpacity: Animated.Value;
+  private appConfig = injector.get<AppConfig>('APP_CONFIG');
   insets: EdgeInsets | null = {
     top: 0, bottom: 0, left: 0, right: 0
   };
@@ -64,8 +67,9 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
 
   public getStickyHeaderTranslateY(){
     const { stickyContainerTranslateY } = this.context as StickyWrapperContextType;
+    const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
     this.containerRef?.current?.measure((_x = 0, _y = 0, _width = 0, _height = 0, px = 0, py = 0)=>{
-      const topInsetsInYposition = Platform.OS == 'ios' ? (this.insets?.top || 0): 0
+      const topInsetsInYposition = (Platform.OS == 'ios' && !isEdgeToEdgeApp) ? (this.insets?.top || 0): 0
       if(stickyContainerTranslateY) {
         stickyContainerTranslateY.value = py - topInsetsInYposition ;
         this.updateState({ stickyContainerVisibility: true} as WmContainerState);     
