@@ -594,11 +594,19 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return this.hasMoreData ? ondemandmessage : nodatamessage
   }
 
+  private onLayoutChange(e: LayoutChangeEvent) {
+    // const l = e.nativeEvent.layout;
+    // this.endThreshold = l.height + l.y - 100;
+    // if (!this.endThreshold) {
+    //   this.endThreshold = -1;
+    // }
+  }
+
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
 
     return (
       <View style={this.styles.root} 
-      //onLayout={e => this.onLayoutChange(e)}
+      onLayout={e => this.onLayoutChange(e)}
       >
         {!isEmpty(this.state.groupedData) ? this.state.groupedData.map((v: any, i) => ((
           <View style={this.styles.group} key={v.key || this.keyExtractor.getKey(v, true)}>
