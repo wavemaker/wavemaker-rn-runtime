@@ -893,3 +893,14 @@ export const setCurrentPageInAppLayout = (pageName: string): void => {
   AppLayoutPosition.currentPage = pageName;
   AppLayoutPosition.data[pageName] = {};
 }
+
+export const replace = (target: string, value: any): string => {
+  if (!target || !target.includes('${')) {
+    return target;
+  }
+
+  return target.replace(/\${([^}]+)}/g, (match, key) => {
+    const val = value[key];
+    return val !== undefined ? val : match;
+  });
+}

@@ -71,9 +71,19 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
 
   renderWidget(props: WmPageContentProps) {
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
-    
+    const borderRadiusStyles = {
+  borderRadius: this.styles.root.borderRadius,
+  borderTopLeftRadius: this.styles.root.borderTopLeftRadius,
+  borderTopRightRadius: this.styles.root.borderTopRightRadius,
+  borderBottomLeftRadius: this.styles.root.borderBottomLeftRadius,
+  borderBottomRightRadius: this.styles.root.borderBottomRightRadius,
+};
     return (props.scrollable || isWebPreviewMode()) ? (
-      <View style={{height: '100%', width: '100%', backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor}}>
+      <View style={{height: '100%', width: '100%',
+         ...borderRadiusStyles,
+       backgroundColor: this._showSkeleton && this.styles.skeleton.root.backgroundColor ? this.styles.skeleton.root.backgroundColor : this.styles.root.backgroundColor
+      
+       }}>
         {this._background}
         <SafeAreaInsetsContext.Consumer>
           {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {

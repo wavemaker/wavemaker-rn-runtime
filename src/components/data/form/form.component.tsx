@@ -270,7 +270,7 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     }
 
     this.updateState({
-      dynamicForm:  this.props.generateComponent(fields, this.props.name)
+      dynamicForm:  this.props.generateComponent(fields, this.props.name, this.proxy)
     } as WmFormState);
 
   }

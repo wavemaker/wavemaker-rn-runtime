@@ -44,4 +44,5 @@ export default class WmListProps extends BaseProps {
     horizontalondemandenabled:boolean = false;
     triggeronrenderwhenhidden?: boolean = true;
     selecteditemicon: string = null as any;
+    disableitemselect: boolean = false;
 }
