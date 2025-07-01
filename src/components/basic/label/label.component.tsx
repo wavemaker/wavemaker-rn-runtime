@@ -198,8 +198,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
           ...baseStyle,
           ...hiddenStyle,
           ...gradientStyle,
-          userSelect: undefined,
-          // Do NOT apply gradientStyle here when using Android ellipsis
+          userSelect: 'none',
           width: '100%',
           textAlign: baseStyle.textAlign,
       };
