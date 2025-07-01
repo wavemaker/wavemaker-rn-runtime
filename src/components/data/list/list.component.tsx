@@ -599,6 +599,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     // this.endThreshold = l.height + l.y - 100;
     // if (!this.endThreshold) {
     //   this.endThreshold = -1;
+    
     // }
   }
 
