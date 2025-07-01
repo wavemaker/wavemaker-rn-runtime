@@ -1,6 +1,6 @@
 import { isNil } from 'lodash-es';
 import React from  'react';
-import { Animated, Easing, View as RNView, ViewStyle, LayoutChangeEvent, LayoutRectangle, DimensionValue, Platform, PanResponder } from 'react-native';
+import { Animated, Easing, View as RNView, ViewStyle, LayoutChangeEvent, LayoutRectangle, DimensionValue } from 'react-native';
 import { Gesture, GestureDetector, GestureUpdateEvent } from 'react-native-gesture-handler';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -28,7 +28,6 @@ export class Props {
     enableGestures: any;
     slideWidth?: DimensionValue = '100%';
     slideMinWidth?: DimensionValue = undefined;
-    usenativegestures?: boolean = false; // New prop for modal detection
 }
 
 export class State {
@@ -48,33 +47,6 @@ export class View extends React.Component<Props, State> {
     private i18nService = injector.I18nService.get();
     private childrenLayout: LayoutRectangle[] = [];
     private viewLayout: LayoutRectangle = null as any;
-    
-    private panResponder = (Platform.OS === 'android' && this.props.usenativegestures) ? PanResponder.create({
-        onStartShouldSetPanResponder: () => this.props.enableGestures && !isWebPreviewMode(),
-        onMoveShouldSetPanResponder: (evt, gestureState) => Math.abs(gestureState.dx) > 5 || Math.abs(gestureState.dy) > 5,
-        onPanResponderMove: (evt, gestureState) => {
-            const e = { translationX: gestureState.dx, translationY: gestureState.dy };
-            const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
-            const d = (this.state.isHorizontal ? e.translationX : e.translationY);
-            let phase = this.computePhase(bounds?.center || 0);
-            if (d && d < 0 && !isNil(bounds.center) && !isNil(bounds.lower) && bounds.center !== bounds.lower) {
-                phase += (d / (bounds.center - bounds.lower)) || 0;
-            } else if (d && d > 0 && !isNil(bounds.center) && !isNil(bounds.upper) && bounds.center !== bounds.upper) {
-                phase += (d / (bounds.upper - bounds.center)) || 0;
-            }
-            this.animationPhase.setValue(phase);
-            this.position.setValue((this.isRTL()?-bounds?.center! :bounds?.center || 0) + d);
-        },
-        onPanResponderRelease: (evt, gestureState) => {
-            const e = { translationX: gestureState.dx, translationY: gestureState.dy };
-            this.props.handlers?.onAnimation && this.props.handlers?.onAnimation(e);
-            if (e.translationX < 0) {
-                this.isRTL()?this.goToLower(e):this.goToUpper(e);
-            } else if (e.translationX > 0) {
-                this.isRTL()?this.goToUpper(e):this.goToLower(e);
-            }
-        }
-    }) : null;
 
     constructor(props: Props) {
         super(props);
@@ -234,17 +206,9 @@ export class View extends React.Component<Props, State> {
 
     public render() {
         const isHorizontal = this.props.direction === 'horizontal';
-        const shouldUsePanResponder = Platform.OS === 'android' && this.props.usenativegestures;
-        
-        // Use PanResponder for Android in modal, GestureDetector for others
-        const ViewComponent = shouldUsePanResponder ? Animated.View : GestureDetector;
-        const viewProps = shouldUsePanResponder 
-            ? { ...(this.panResponder?.panHandlers ?? {}) }
-            : { gesture: this.gesture };
-            
         return (
             //@ts-ignore
-            <ViewComponent {...viewProps}>
+            <GestureDetector gesture={this.gesture}>
                 <Animated.View style={[
                     isHorizontal ? {
                         flexDirection: 'row',
@@ -275,8 +239,8 @@ export class View extends React.Component<Props, State> {
                         </Animated.View>);
                     })}
                 </Animated.View>
-            </ViewComponent>
+            </GestureDetector>
         );
     }
-    
+
 }

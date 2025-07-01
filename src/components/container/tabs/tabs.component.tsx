@@ -249,7 +249,6 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           }, this.styles.tabContent]} >
           <SwipeAnimation.View
             enableGestures={props.enablegestures}
-            usenativegestures={props.usenativegestures}
             style={{
               flexDirection: 'row',
               flexWrap: 'nowrap',
