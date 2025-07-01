@@ -129,7 +129,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     if (!isDefined(minValue) || !isDefined(maxValue)) {
       return value;
     }
-    
+        
     if (isArray(value)) {
       return value.map((val: any) => {
         if (val < minValue) return minValue;
