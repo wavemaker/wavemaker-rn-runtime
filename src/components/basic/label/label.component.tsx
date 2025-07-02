@@ -160,6 +160,20 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       });
     }
   }
+  private shouldUseAndroidEllipsis(props: WmLabelProps): boolean {
+    return Platform.OS === 'android' && props.ellipsisenabledforandroid !== false;
+  }
+
+  // Helper to get the proper number of lines
+  private getNumberOfLines(props: WmLabelProps): number | undefined {
+      let numOfLines: number | undefined = undefined;
+      if (props.wrap === false) {
+          numOfLines = 1;
+      } else if (typeof props.nooflines === 'number' && props.nooflines > 0) {
+          numOfLines = props.nooflines;
+      }
+      return numOfLines;
+  }
 
   private renderLabelTextContent(navigationService: NavigationService, isHidden: boolean = false, hasLinearGradient: boolean = false) {
     //gradient text support for web
@@ -169,6 +183,8 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       backgroundClip: 'text',
     }
     const showWebTextGradient = (hasLinearGradient && Platform.OS === 'web');
+    const numOfLines = this.getNumberOfLines(this.state.props);
+    const useAndroidEllipsis = this.shouldUseAndroidEllipsis(this.state.props);
 
     // Shared styles
     const baseStyle = this.styles.text;
@@ -177,6 +193,31 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
 
     // Determine if it's a single part
     const isSinglePart = this.state.parts.length <= 1;
+    if (useAndroidEllipsis) {
+      const androidEllipsisTextStyle: any = {
+          ...baseStyle,
+          ...hiddenStyle,
+          ...gradientStyle,
+          userSelect: 'none',
+          width: '100%',
+          textAlign: baseStyle.textAlign,
+      };
+      return (
+          <Text
+              style={androidEllipsisTextStyle}
+              numberOfLines={numOfLines}
+              ellipsizeMode="tail"
+              {...(this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {})}
+              {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)}
+          >
+              {this.state.parts.length === 1
+                  ? toString(this.state.props.caption)
+                  : this.state.parts.map(part => toString(part.text)).join('')}
+              {this.state.props.required && this.getAsterisk()}
+          </Text>
+      );
+    }  
+
 
     // Compose final style
     const combinedTextStyle = isSinglePart
