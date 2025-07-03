@@ -1,5 +1,6 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
+import { Dimensions, StatusBar } from 'react-native';
 
 export type WmDialogcontentStyles = BaseStyles & {};
 
@@ -9,7 +10,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root: {
             padding: 16,
             minHeight: 80,
-            maxHeight: 0.9 * themeVariables.maxModalHeight
+            maxHeight: 0.9 * Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0)
         },
         text: {}
     });

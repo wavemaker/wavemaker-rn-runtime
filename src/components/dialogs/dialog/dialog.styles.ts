@@ -1,4 +1,4 @@
-import { ViewStyle } from 'react-native';
+import { Dimensions, StatusBar, ViewStyle } from 'react-native';
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmIconStyles } from '@wavemaker/app-rn-runtime/components/basic/icon/icon.styles';
@@ -22,7 +22,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             paddingRight: 24,
             elevation: 6,
             width: '90%',
-            maxHeight: themeVariables.maxModalHeight,
+            maxHeight: Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0),
             backgroundColor: themeVariables.dialogBackgroundColor,
             borderRadius: 28,
         },
