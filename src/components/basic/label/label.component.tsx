@@ -161,7 +161,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     }
   }
   private shouldUseAndroidEllipsis(props: WmLabelProps): boolean {
-    return Platform.OS === 'android' && props.ellipsisenabledforandroid !== false;
+    return Platform.OS === 'android' && props.androidellipsis !== false;
   }
 
   // Helper to get the proper number of lines
