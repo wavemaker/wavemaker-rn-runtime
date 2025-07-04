@@ -86,7 +86,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             paddingRight: 24,
             elevation: 6,
             width: '90%',
-            maxHeight: Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0),
+            maxHeight: themeVariables.maxModalHeight,
             backgroundColor: themeVariables.dialogBackgroundColor,
             borderRadius: 28
         },

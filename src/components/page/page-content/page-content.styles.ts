@@ -18,7 +18,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         text: {},
         skeleton: {
             root: {
-                height: Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0)
+                height: themeVariables.maxModalHeight
             }
         } as any as WmSkeletonStyles
     });
