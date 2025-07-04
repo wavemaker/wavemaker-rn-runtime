@@ -56,6 +56,7 @@ import { BaseVariable, VariableEvents } from '../variables/base-variable';
 import { BlurView } from 'expo-blur';
 import * as NavigationBar from 'expo-navigation-bar';
 import moment, { Moment } from 'moment';
+import ErrorBoundary from '../core/error-boundary.component';
 
 declare const window: any;
 
@@ -601,6 +602,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
               <React.Fragment>
                 {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
                 {this.getProviders(
+                <ErrorBoundary currentPage={this.appConfig.currentPage}>
                   <Wrapper style={{ flex: 1 }}>
                     <StatusBar
                       backgroundColor={isEdgeToEdgeApp?'transparent': undefined}
@@ -637,6 +639,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                       {isEdgeToEdgeApp && statusbarConfig?.type ==='transparent' ? this.renderTransparentView("top",insets,statusbarConfig) : null} 
                     </ThemeProvider>
                   </Wrapper>
+                </ErrorBoundary>
                 )}
               </React.Fragment>
             </PaperProvider>
