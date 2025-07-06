@@ -36,7 +36,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       backgroundColor: themeVariables.inputBackgroundColor,
       borderRadius: 6,
       minWidth: 160,
-      alignItems: 'center'
+      alignItems: 'center',
     },
     invalid: {
       borderBottomColor: themeVariables.inputInvalidBorderColor
@@ -140,6 +140,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  
+  // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+  addStyle('form-select-input-horizontal', '', {
+    root: {
+      flex: 1,
+      minWidth: 0,
+      maxWidth: '100%'
+    },
+    text: {}
+  } as BaseStyles);
+  
   addStyle(DEFAULT_CLASS + '-disabled', '', {
       root : {
         backgroundColor: themeVariables.inputDisabledBgColor

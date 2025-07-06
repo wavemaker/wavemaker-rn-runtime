@@ -1,12 +1,24 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { WmDatetimeStyles, DEFAULT_CLASS as DATE_TIME_DEFAUlT_CLASS } from '../datetime/datetime.styles';
 import { Platform } from 'react-native';
+import { BaseStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export type WmDateStyles = WmDatetimeStyles;
 
 export const DEFAULT_CLASS = 'app-date';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle(DEFAULT_CLASS, DATE_TIME_DEFAUlT_CLASS, {});
+  
+  // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+  addStyle('form-date-input-horizontal', '', {
+    root: {
+      flex: 1,
+      minWidth: 0, // Allow shrinking below intrinsic content size if needed
+      maxWidth: '100%' // Prevent overflow
+    },
+    text: {}
+  } as BaseStyles);
+  
   addStyle(DEFAULT_CLASS + '-disabled', '', {
       root : {
         backgroundColor: themeVariables.inputDisabledBgColor

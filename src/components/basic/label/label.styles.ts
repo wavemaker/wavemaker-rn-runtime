@@ -43,6 +43,25 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle(DEFAULT_CLASS + '-rtl', '', {
 
   });
+  
+  // Add horizontal form label styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+  addStyle('form-label-horizontal', '', {
+    root : {
+      paddingBottom: 0,
+      paddingRight: 12,
+      paddingTop: 8,
+      minWidth: 80, 
+      maxWidth: '40%', 
+      flexShrink: 0, 
+      flexGrow: 0
+    },
+    text: {
+      fontSize: 16,
+      color: themeVariables.labelDefaultColor,
+      textAlign: 'left'
+    }
+  } as BaseStyles);
+  
   const getLabelStyles = (color: string, textColor: string): WmLabelStyles => {
     return {
       root: {
