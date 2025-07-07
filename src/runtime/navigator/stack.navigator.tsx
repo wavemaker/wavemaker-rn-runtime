@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import ErrorBoundary from '@wavemaker/app-rn-runtime/core/error-boundary.component';
 
 const Stack = createStackNavigator();
 
@@ -37,11 +38,15 @@ class Screen extends React.Component {
 
   private createPage() {
     const props = this.props as any;
-    return React.createElement(pages[props.route.name].component, {...props, destroyMe: () => {
-      setTimeout(() => {
-        this.setState(() => ({renew: true, page: null}));
-      }, 100);
-    }});
+    return (
+      <ErrorBoundary>
+        {React.createElement(pages[props.route.name].component, {...props, destroyMe: () => {
+          setTimeout(() => {
+            this.setState(() => ({renew: true, page: null}));
+          }, 100);
+        }})}
+      </ErrorBoundary>
+    );
   }
 
   componentWillUnmount() {

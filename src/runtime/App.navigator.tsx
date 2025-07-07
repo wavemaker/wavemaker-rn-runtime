@@ -8,6 +8,7 @@ import AppDrawerNavigator from './navigator/drawer.navigator';
 import AppStackNavigator from './navigator/stack.navigator';
 import { isEmpty, keys, last } from 'lodash';
 import ThemeVariables from '../styles/theme.variables';
+import { navigationRef, setNavigationReady } from '../core/navigation.service';
 
 declare const window: any;
 
@@ -115,5 +116,5 @@ export const AppNavigator = (props: AppNavigatorProps) => {
       const initialState = props.landingPage && Platform.OS !== 'web' ? 
         getNavigationState(props.landingPage, props.landingPageParams)
       : undefined;
-  return (<NavigationContainer initialState={initialState} linking={linking} theme={navigationTheme}>{leftNav}</NavigationContainer>);
+  return (<NavigationContainer ref={navigationRef} onReady={() => setNavigationReady(true)} initialState={initialState} linking={linking} theme={navigationTheme}>{leftNav}</NavigationContainer>);
 };
