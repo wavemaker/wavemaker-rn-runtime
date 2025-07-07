@@ -10,7 +10,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         root: {
             padding: 16,
             minHeight: 80,
-            maxHeight: 0.9 * Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0)
+            maxHeight: 0.9 * themeVariables.maxModalHeight
         },
         text: {}
     });
