@@ -50,8 +50,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       paddingBottom: 0,
       paddingRight: 12,
       paddingTop: 8,
-      minWidth: 80, 
-      maxWidth: '40%', 
+      width: '30%',
       flexShrink: 0, 
       flexGrow: 0
     },

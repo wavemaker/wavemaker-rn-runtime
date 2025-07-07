@@ -138,13 +138,20 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   
   // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
   addStyle('form-autocomplete-input-horizontal', '', {
-    root: {
-      // width: '100%'
-      // flex: 1,
-      // minWidth: 0, // Allow shrinking below intrinsic content size if needed
-      // maxWidth: '100%' // Prevent overflow
+    rootWrapper: {
+      width: '70%'
     },
-    text: {}
+    root: {
+      width: '100%'
+    },
+    text: {},
+    searchInputWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: undefined,
+      display: 'flex'
+    },
   } as BaseStyles);
   
   addStyle(DEFAULT_CLASS + '-disabled', '', {

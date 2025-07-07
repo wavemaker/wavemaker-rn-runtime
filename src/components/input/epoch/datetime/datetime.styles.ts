@@ -136,11 +136,22 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     // Timestamp widgets use the datetime component but have their own widget type
     addStyle('form-timestamp-input-horizontal', '', {
       root: {
-        flex: 1, // Take remaining space after label
-        minWidth: 0, // Allow shrinking below intrinsic content size if needed
-        maxWidth: '100%' // Prevent overflow
+        width: '100%'
+      },
+      rootWrapper: {
+        width: '70%'
       },
       text: {}
+    } as BaseStyles);
+
+    addStyle('form-datetime-input-horizontal', '', {
+        root: {
+        width: '100%'
+        },
+        rootWrapper: {
+        width: '70%'
+        },
+        text: {}
     } as BaseStyles);
     
     addStyle(DEFAULT_CLASS + '-disabled', '', {

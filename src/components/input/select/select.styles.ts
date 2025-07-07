@@ -184,4 +184,21 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       textAlign : 'left'
     }
   });
+
+  addStyle('form-widget-selectform-select-input-horizontal', '', {
+    rootWrapper: {
+      width: '70%'
+    },
+    root: {
+      width: '100%'
+    },
+    text: {},
+    searchInputWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: undefined,
+      display: 'flex'
+    },
+  } as BaseStyles);
 });

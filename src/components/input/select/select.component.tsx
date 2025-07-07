@@ -232,6 +232,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
           isDropdown ? this.computePosition(event) : ()=>{}
           this.handleLayout(event)
         }}
+        style={[this.styles.rootWrapper]}
       >
         {this._background}
         {this.renderSelect()}
