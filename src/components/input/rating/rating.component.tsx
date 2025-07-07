@@ -76,9 +76,9 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
       case 'datavalue' :
         this.prepareItems(this.state.props);
         if (name === 'datavalue') {
-          const isDefault = this.state.isDefault;
+          const isDefault = this.state.props.isdefault;
           if (isDefault) {
-            this.updateState({ isDefault: false } as WmRatingState, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
+            this.updateState({ props: {isdefault: false} } as WmRatingState, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
           } else {
             this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
           }

@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView } from 'react-native';
+import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription } from 'react-native';
 import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
 import { createSkeleton } from '../skeleton/skeleton.component';
@@ -18,6 +18,7 @@ export class WmBottomsheetState extends BaseComponentState<WmBottomsheetProps> {
   scrollOffset = 0;
   isExpanded = false;
   isBottomsheetVisible = false;
+  keyboardHeight = 0;
 }
 
 export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmBottomsheetState, WmBottomsheetStyles> {
@@ -32,25 +33,29 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   private statusBarHeight: number = StatusBar.currentHeight || 0;
   private defaultTopInset: number = 44;
   private maxHeightRatio: number = 0;
+  private keyboardDidShowListener!: EmitterSubscription;
+  private keyboardDidHideListener!: EmitterSubscription;
 
-  private calculateSheetHeight(sheetheightratio: number): number {
+  private calculateSheetHeight(bottomsheetheightratio: number): number {
     // Use default height if ratio not provided, but ensure it's not below minimum
-    const effectiveRatio = sheetheightratio || this.defaultHeight;
+    const effectiveRatio = bottomsheetheightratio || this.defaultHeight;
     this.maxHeightRatio = Math.max(
       this.minimumHeight,
       Math.min(effectiveRatio, this.maxHeight)
     );
 
-    let calculatedHeight = SCREEN_HEIGHT * this.maxHeightRatio;
+    const screenHeight = Dimensions.get('screen').height;
+    const windowHeight = Dimensions.get('window').height;
+    let calculatedHeight = screenHeight * this.maxHeightRatio;
 
     if (Platform.OS === 'ios') {
-      // Subtract top inset bar height for ios only if sheetheightratio is 0.9
+      // Subtract top inset bar height for ios only if bottomsheetheightratio is 0.9
       if (this.maxHeightRatio >= 0.9) {
         calculatedHeight -= this.defaultTopInset;
       }
     }
     else if (Platform.OS === 'android') {
-      // Subtract status bar height for Android only if sheetheightratio is 0.9
+      // Subtract status bar height for Android only if bottomsheetheightratio is 0.9
       if (this.maxHeightRatio >= 0.9) {
         calculatedHeight -= this.statusBarHeight;
       }
@@ -74,10 +79,10 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
 
   constructor(props: WmBottomsheetProps) {
     super(props, DEFAULT_CLASS, new WmBottomsheetProps(), new WmBottomsheetState());
-    this.calculatedHeight = this.calculateSheetHeight(props.sheetheightratio);
+    this.calculatedHeight = this.calculateSheetHeight(props.bottomsheetheightratio);
 
-    // Use expandedheightratio if provided, otherwise use expandedDefaultHeight
-    const expandedRatio = props.expandedheightratio || this.expandedDefaultHeight;
+    // Use bottomsheetexpandedheightratio if provided, otherwise use expandedDefaultHeight
+    const expandedRatio = props.bottomsheetexpandedheightratio || this.expandedDefaultHeight;
     const effectiveExpandedRatio = Math.max(
       this.minimumExpandedHeight,
       Math.min(expandedRatio, this.maxHeight)
@@ -98,7 +103,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     this.state.sheetHeight.setValue(this.calculatedHeight);
 
     this.updateState({
-      isBottomsheetVisible: this.props.visible || false
+      isBottomsheetVisible: this.props.showonrender || false
     } as WmBottomsheetState);
 
     if (this.state.isBottomsheetVisible) {
@@ -113,6 +118,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     if (Platform.OS === 'android') {
       BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardHide);
   }
 
   componentWillUnmount() {
@@ -120,6 +127,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     if (Platform.OS === 'android') {
       BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
     }
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
 
   private handleBackPress = () => {
@@ -130,9 +139,22 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     return false;
   };
 
+  private onKeyboardShow = (event: any) => {
+    let keyboardHeight = event.endCoordinates?.height || 0;
+    this.updateState({
+      keyboardHeight: keyboardHeight
+    } as WmBottomsheetState);
+  };
+
+  private onKeyboardHide = () => {
+    this.updateState({
+      keyboardHeight: 0
+    } as WmBottomsheetState);
+  };
+
   componentDidUpdate(prevProps: WmBottomsheetProps) {
-    if (prevProps.sheetheightratio !== this.props.sheetheightratio) {
-      this.calculatedHeight = this.calculateSheetHeight(this.props.sheetheightratio);
+    if (prevProps.bottomsheetheightratio !== this.props.bottomsheetheightratio) {
+      this.calculatedHeight = this.calculateSheetHeight(this.props.bottomsheetheightratio);
       this.state.sheetHeight.setValue(this.calculatedHeight);
     }
   }
@@ -213,7 +235,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       if (gestureState.dy > 0) { // Handle downward drag
         const newTranslateY = Math.max(0, this.state.lastGestureDy + gestureState.dy);
         this.state.translateY.setValue(newTranslateY);
-      } else if (gestureState.dy < 0 && this.props.shouldexpand && this.props.sheetheightratio !== 1) {
+      } else if (gestureState.dy < 0 && this.props.expand && this.props.bottomsheetheightratio !== 1) {
         // Handle upward drag - expand to full height
         // Allow expansion to full screen height
         const targetHeight = Math.min(this.expandedHeight, SCREEN_HEIGHT);
@@ -232,7 +254,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     },
   });
 
-  handleScroll = (event: any) => {
+  handleScroll = (event: any): any => {
+    if (this.state.keyboardHeight > 0) return null;
     const offsetY = event.nativeEvent.contentOffset.y;
     this.updateState({
       isScrolling: offsetY > 0,
@@ -307,7 +330,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   public onPropertyChange(name: string, $new: any, $old: any): void {
     super.onPropertyChange(name, $new, $old);
     switch (name) {
-      case "visible":
+      case "showonrender":
         if ($new) {
           this.updateState({
             isBottomsheetVisible: $new || false
@@ -333,31 +356,27 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   renderWidget(props: WmBottomsheetProps) {
     if (!this.state.isBottomsheetVisible) return null;
 
+
     return (
       <SafeAreaInsetsContext.Consumer >
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-          const keyboardOffset = insets?.bottom || 0
-          const verticalOffset = Platform.OS === 'ios' ? keyboardOffset + props.keyboardverticaloffset : keyboardOffset;
           return (
-            <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-              keyboardVerticalOffset={verticalOffset}
-              style={this.styles.root}
-              {...this.getTestProps('keyboardview')}
-            
-            >
+
+            <View style={this.styles.root}
+              {...this.getTestProps('keyboardview')}>
 
               {this._background}
               <TouchableWithoutFeedback onPress={this.closeSheet}>
-                <Animated.View style={[this.styles.backdrop, { opacity: this.state.backdropOpacity }]} 
+                <Animated.View style={[this.styles.backdrop, { opacity: this.state.backdropOpacity }]}
                   {...this.getTestProps('backdrop')}
                   {...getAccessibilityProps(AccessibilityWidgetType.BOTTOMSHEET, props)}
-                  />
+                />
               </TouchableWithoutFeedback>
 
               <Animated.View
                 style={[
                   this.styles.container,
+
                   {
                     height: this.state.sheetHeight,
                     transform: [{ translateY: this.state.translateY }],
@@ -369,15 +388,18 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
               >
                 <View style={this.styles.dragHandleContainer} {...this.dragHandlePanResponder.panHandlers}>
                   <TouchableWithoutFeedback onPress={this.closeSheet}>
-                    <View style={this.styles.dragIconHandle} 
-                     {...this.getTestProps('draghandle')}/>
+                    <View style={this.styles.dragIconHandle}
+                      {...this.getTestProps('draghandle')} />
                   </TouchableWithoutFeedback>
                 </View>
-
                 <ScrollView
                   ref={this.state.scrollViewRef}
                   style={this.styles.sheetContentContainer}
-                  contentContainerStyle={this.styles.sheetScrollContent}
+                  contentContainerStyle={[this.styles.sheetScrollContent,
+                  {
+                    paddingBottom: this.state.keyboardHeight
+                  }
+                  ]}
                   alwaysBounceVertical={false}
                   alwaysBounceHorizontal={false}
                   bounces={false}
@@ -387,15 +409,13 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
                   nestedScrollEnabled={true}
                   scrollEnabled={true}
                   {...this.getTestProps('scorllview')}
-
-
                 >
                   {props.children}
                 </ScrollView>
 
               </Animated.View>
 
-            </KeyboardAvoidingView>
+            </View>
           )
         }}
       </SafeAreaInsetsContext.Consumer>

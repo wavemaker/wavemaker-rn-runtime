@@ -1,12 +1,12 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 export default class WmBottomsheetProps extends BaseProps {
-    visible: boolean = false;
-    sheetheightratio:number = 0.3;
+    showonrender: boolean = false;
+    bottomsheetheightratio:number = 0.3;
     children? = null as any;
-    shouldexpand?:boolean = false;
-    expandedheightratio?:number = 0.5; 
-    keyboardverticaloffset: number = 0;
+    expand?:boolean = false;
+    bottomsheetexpandedheightratio?:number = 0.5; 
+    keyboardverticaloffset: number = 100;
     onOpened?: Function = null as any;
     onClose?: Function = null as any;
 
