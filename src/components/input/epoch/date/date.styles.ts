@@ -10,7 +10,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle(DEFAULT_CLASS, DATE_TIME_DEFAUlT_CLASS, {});
   
   // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
-  addStyle('form-datetime-input-horizontal', '', {
+  addStyle('form-date-input-horizontal', '', {
     root: {
       width: '100%'
     },
