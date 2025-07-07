@@ -1,6 +1,5 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import { Dimensions, StatusBar } from 'react-native';
 
 export type WmDialogcontentStyles = BaseStyles & {};
 
