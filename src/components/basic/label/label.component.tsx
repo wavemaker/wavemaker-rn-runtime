@@ -161,7 +161,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     }
   }
   private shouldUseAndroidEllipsis(props: WmLabelProps): boolean {
-    return Platform.OS === 'android' && props.ellipsisenabledforandroid !== false;
+    return Platform.OS === 'android' && props.enableandroidellipsis !== false;
   }
 
   // Helper to get the proper number of lines
@@ -235,7 +235,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       <Text style={combinedTextStyle}
         {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
         {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)}
-        numberOfLines={this.state.props.nooflines} ellipsizeMode="tail">
+        numberOfLines={numOfLines} ellipsizeMode="tail">
         {(this.state.parts?.length === 1 && !this.state.parts[0].link && !this.state.parts[0].bold) ? toString(this.state.props.caption) : this.state.parts?.map((part, index) => {
           const isLink = !isNil(part.link);
           return (
