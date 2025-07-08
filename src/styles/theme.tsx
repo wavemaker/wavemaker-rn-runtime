@@ -189,6 +189,16 @@ export class Theme {
         return result;
     }
 
+    extractTopLevelVariables(style: Record<string, any>): Record<string, any> {
+        const vars: Record<string, any> = {};
+        for (const key in style) {
+            if (key.startsWith('--')) {
+                vars[key] = style[key];
+            }
+        }
+        return vars;
+    }
+
     mergeStyle(...styles: any) {
         const style = deepCopy(...styles);
         if (this.traceEnabled) {
@@ -204,7 +214,12 @@ export class Theme {
                 }).filter((t: any) => t.length > 0)));
             });
         }
-        return style;
+        const baseTokens = this.extractTopLevelVariables(style)
+        const classnames = Array.isArray(styles)
+            ? styles.filter(isString).join(' ')
+            : Object.values(styles).filter(isString).join(' ');
+
+        return this.cleanseStyleProperties(style, baseTokens, classnames)
     }
 
     cleanseStyleProperties(style: any, baseTokens: any, classnames: any) {
