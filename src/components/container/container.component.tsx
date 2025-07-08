@@ -34,7 +34,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
     this.stickyContainerOpacity = new Animated.Value(1);
 
     this.subscribe('updateStickyHeaders', (_event: any) => {
-      if(this.props.issticky){
+      if(this.props.sticky){
         setTimeout(()=>{
           this.getStickyHeaderTranslateY();
         }, 500);
@@ -127,7 +127,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       ...this.styles.skeleton.root
     } : this.styles.root;
 
-    if (props.issticky) {
+    if (props.sticky) {
       this.isSticky = true;
     }
     return (
@@ -150,7 +150,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
                 styles={dimensions} 
                 disableTouchEffect={this.state.props.disabletoucheffect}
               >
-                {props.issticky ? (
+                {props.sticky ? (
                   this.renderStickyContent(props, dimensions, styles)
                 ) : !props.scrollable ? (
                   <View style={[dimensions as ViewStyle, this.styles.content]}>
