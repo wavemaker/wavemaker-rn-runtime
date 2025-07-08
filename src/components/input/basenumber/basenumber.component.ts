@@ -348,7 +348,7 @@ export abstract class BaseNumberComponent< T extends BaseNumberProps, S extends 
           );
         } 
         else {
-          if($new === $old || $new.toString() === $old.toString()) {
+          if($new === $old || ($new && $old && $new.toString() === $old.toString())) {
             break;
           }
           !this.state.props.skipscripteventtrigger && this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
