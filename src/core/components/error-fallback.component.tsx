@@ -11,7 +11,7 @@ import {
   navigate,
   goBackRef,
 } from '@wavemaker/app-rn-runtime/core/navigation.service';
-// import * as Clipboard from 'expo-clipboard';
+import * as Clipboard from 'expo-clipboard';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 
@@ -28,7 +28,7 @@ Stack: ${error?.stack || 'No stack available'}
 Component Stack: ${info?.componentStack || 'No component stack available'}
     `.trim();
 
-    // await Clipboard.setStringAsync(errorDetails);
+    await Clipboard.setStringAsync(errorDetails);
     setIsCopied(true);
 
     setTimeout(() => {
@@ -91,7 +91,7 @@ Component Stack: ${info?.componentStack || 'No component stack available'}
         <View style={styles.stackCard}>
           <View style={styles.stackHeader}>
             <Text style={styles.stackTitle}>Error Stack</Text>
-            {/* <TouchableOpacity
+            <TouchableOpacity
               onPress={copyErrorToClipboard}
               style={[styles.copyButton, isCopied && styles.copiedButton]}
               disabled={isCopied}
@@ -104,7 +104,7 @@ Component Stack: ${info?.componentStack || 'No component stack available'}
               >
                 {isCopied ? 'Copied!' : 'Copy'}
               </Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </View>
           <ScrollView
             style={styles.stackContainer}
