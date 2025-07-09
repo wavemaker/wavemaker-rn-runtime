@@ -327,7 +327,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     async invokeEventCallbackAsync(eventName: string, args: any[]): Promise<any> {
         const callBack: Function = (this.props as any)[eventName];
         args = args && args.map(a => (a === this) ? this.proxy : a);
-        if (callBack) {
+            if (callBack) {
             try {
                 let resolver: (value: any) => void;
                 const asyncPromise = new Promise<any>((resolve) => {
@@ -343,7 +343,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 return result;
                 
             } catch (e) {
-                console.error(`Error in ${eventName}:`, e);
                 if ((this as any).completeAsyncCallback) {
                     delete (this as any).completeAsyncCallback;
                 }

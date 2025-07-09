@@ -86,7 +86,12 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   }
 
   delete() { }
-
+  
+  public setFieldValue(key: string, val: any): void {
+    if (key) {
+        this.updateDataOutput(key, val);
+    }
+}
   registerFormFields(
     formFields: Array<WmFormField>,
     formWidgets: { [key: string]: BaseComponent<any, any, any> }
