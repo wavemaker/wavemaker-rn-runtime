@@ -31,7 +31,10 @@ export default class WmPartialContainer extends BaseComponent<WmPartialContainer
         {this._background}
         <PartialConsumer>
           {(partialService: PartialService) => {
-            const partial = partialService.get(props.content);
+            let partial = partialService.get(props.content);
+            if(props.prefab && props?.prefab?.prefabname){
+              partial = partialService.get(props.content, {isPrefab: true, name: props?.prefab?.prefabname});
+            }
             return partial ? React.createElement(partial, params) : null;
           }}
         </PartialConsumer>

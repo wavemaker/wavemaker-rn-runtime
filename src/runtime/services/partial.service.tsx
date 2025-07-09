@@ -8,11 +8,22 @@ export class PartialServiceImpl implements PartialService {
 
     }
 
-    get(partialName: string) {
+    get(partialName: string, params?: {isPrefab: boolean, name: string}) {
         if (!this.partials) {
             this.partials = injector.get<AppConfig>('APP_CONFIG').partials;
         }
-        const partial = this.partials.find((p: any) => p.name === partialName);
+        if(params?.isPrefab) {
+            let prefabPartials;
+            injector.get<AppConfig>('APP_CONFIG').prefabs?.partials?.forEach(item => {
+                if(item.prefabName === params.name){
+                    prefabPartials = item.partials;
+                }
+            })
+            let targetPartial = prefabPartials && (prefabPartials as any).find((p: any) => p.name === partialName);
+            return (targetPartial as any)?.component;
+        }
+
+        let partial = this.partials.find((p: any) => p.name === partialName);
         return partial?.component;
     }
 }
