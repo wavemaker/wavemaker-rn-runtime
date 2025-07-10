@@ -26,7 +26,6 @@ export const DEFAULT_CLASS = 'app-list';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmListStyles = defineStyles({
         root: {},
-        listContainer:{},
         text: {},
         listIcon: {
             root: {
