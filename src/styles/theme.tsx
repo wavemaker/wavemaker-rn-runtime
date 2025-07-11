@@ -374,7 +374,7 @@ export const ThemeConsumer = ThemeContext.Consumer;
     const addColStyles = (device: string, minWidth: string) => {
         for(let i = 1; i <= 12; i++) {
             addStyle(`col-${device}-${i}`, '', {
-                "@media": `(min-width: ${minWidth})`,
+                "@media": `(max-width: ${minWidth})`,
                 root: {
                     width: (100 * i / 12) + '%'
                 }
