@@ -135,6 +135,25 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  
+  // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+  addStyle('form-autocomplete-input-horizontal', '', {
+    rootWrapper: {
+      width: '70%'
+    },
+    root: {
+      width: '100%'
+    },
+    text: {},
+    searchInputWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: undefined,
+      display: 'flex'
+    },
+  } as BaseStyles);
+  
   addStyle(DEFAULT_CLASS + '-disabled', '', {
       text : {
         backgroundColor: themeVariables.inputDisabledBgColor
