@@ -15,5 +15,5 @@ export default class WmLabelProps extends BaseProps {
     hint?: string = undefined;
     accessibilityrole?: AccessibilityRole = 'text';
     onTap?: Function = null as any;
-    enableandroidellipsis?: boolean = true;
+    enableandroidellipsis?: boolean = false;
 }
