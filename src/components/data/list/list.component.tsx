@@ -610,6 +610,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               scrollEnabled={isHorizontal}
               horizontal={isHorizontal}
+              contentContainerStyle={this.styles.listContainer}
               data={this._showSkeleton ? [...getNumberOfEmptyObjects(this.props.numberofskeletonitems as number ?? 3)] : (isEmpty(v.data[0]) ? [] : v.data)}
               ListEmptyComponent={(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
