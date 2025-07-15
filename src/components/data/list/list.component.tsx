@@ -444,7 +444,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       ...this.styles.skeleton.root
     } : this.styles.item as any
 
-    const containerStyle = cols ? { width: round(100 / cols) + "%", flex: null } : {};
+    let containerStyle = cols ? { width: round(100 / cols) + "%", flex: null } : {};
+    if(cols > 1 ) {
+      containerStyle = {flex: 1} as any; 
+    }
 
     return (index < this.state.maxRecordsToShow || (isHorizontal && this.state.props.horizontalondemandenabled === false)) ?
       !props.shouldswipe ? (
@@ -610,10 +613,12 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               scrollEnabled={isHorizontal}
               horizontal={isHorizontal}
+              contentContainerStyle={this.styles.listContainer}
               data={this._showSkeleton ? [...getNumberOfEmptyObjects(this.props.numberofskeletonitems as number ?? 3)] : (isEmpty(v.data[0]) ? [] : v.data)}
               ListEmptyComponent={(itemInfo) => this.renderEmptyMessage(isHorizontal, itemInfo.item, itemInfo.index, props)}
               renderItem={(itemInfo) => this.renderItem(itemInfo.item, itemInfo.index, props)}
-              {...(isHorizontal ? { showsHorizontalScrollIndicator: !props.hidehorizontalscrollbar } : { numColumns: this.getNoOfColumns() })}>
+              {...(isHorizontal ? { showsHorizontalScrollIndicator: !props.hidehorizontalscrollbar } : { numColumns: this.getNoOfColumns() })}
+              {...(this.getNoOfColumns() > 1 ? {columnWrapperStyle: this.styles.columnWrapper} : {})}>
             </FlatList>
             {this.loadDataOnDemand || (v.data.length > this.state.maxRecordsToShow && props.navigation !== 'None') ?
               (this.state.loadingData ? this.renderLoadingIcon(props) :
