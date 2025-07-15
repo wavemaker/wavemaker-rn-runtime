@@ -427,13 +427,15 @@ export abstract class BaseChartComponent<T extends BaseChartComponentProps, S ex
   applyTheme(props: BaseChartComponentProps) {
     let themeName = props.theme ? props.theme : (props.type === 'Pie' ? 'Azure' : 'Terrestrial');
     let colorsToUse = [];
-    if (props.customcolors != null) {
+    
+    if (props.customcolors) {
       if (typeof props.customcolors === 'string' && props.customcolors.trim() !== '') {
         colorsToUse = props.customcolors.split(',').map(color => color.trim()).filter(color => color !== '');
-      } else if (Array.isArray(props.customcolors)) {
+      } else if (Array.isArray(props.customcolors) && props.customcolors.length > 0) {
         colorsToUse = props.customcolors.filter(color => color && typeof color === 'string');
       }
     }
+    
     let themeToUse;
     if (typeof themeName === 'string') {
         if (colorsToUse.length === 0) {
