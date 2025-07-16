@@ -155,8 +155,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     // Calculate adjusted sheet height to fit within available space
     // Leave some buffer space for the drag handle and safe area
     const bufferSpace = (Platform.OS === 'ios' ? this.topInset : this.statusBarHeight) + 20;
-    const adjustedHeight = Math.min(this.state.isExpanded ? this.expandedHeight : this.calculatedHeight, availableHeight - bufferSpace);
-
+    const adjustedHeight = availableHeight - bufferSpace;
     // Animate the sheet height adjustment
     Animated.timing(this.state.sheetHeight, {
       toValue: adjustedHeight,
