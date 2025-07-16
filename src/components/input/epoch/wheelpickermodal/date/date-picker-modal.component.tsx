@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Modal, Platform, Text, TouchableWithoutFeedback, View } from 'react-native';
 import WmWheelDatePicker from '../../wheel-date-picker.component';
 import WmButton from '../../../../basic/button/button.component';
 import {
@@ -38,7 +38,12 @@ export class WmDatePickerModal extends BaseComponent<
         onRequestClose={onClose}
         onDismiss={onClose}
       >
-        <View style={styles.root} onLayout={(event) => this.handleLayout(event)}>
+        <View style={styles.root} onLayout={(event) => this.handleLayout(event)}   {...(Platform.OS === 'ios'
+              ? {
+                onStartShouldSetResponder: () => true,
+                onResponderTerminationRequest: () => false,
+              }
+              : {})}>
           <TouchableWithoutFeedback style={styles.flex1} onPress={onClose}>
             <View style={styles.flex1} />
           </TouchableWithoutFeedback>

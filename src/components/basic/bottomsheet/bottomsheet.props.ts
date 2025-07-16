@@ -9,5 +9,6 @@ export default class WmBottomsheetProps extends BaseProps {
     keyboardverticaloffset: number = 100;
     onOpened?: Function = null as any;
     onClose?: Function = null as any;
-
+    keyboardbehavior?: 'interactive' | 'extend';
+    modal?: boolean = true;
 }
