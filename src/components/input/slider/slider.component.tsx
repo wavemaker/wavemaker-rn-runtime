@@ -196,7 +196,10 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
      dataValue = this.constrainValueToRange(dataValue);
     if (dataValue && this.scale) {
       dataValue = isArray(dataValue) ? dataValue: [dataValue];
-      return dataValue.map((d: any) => this.scale?.ticks.find(t => t.datafield === d)?.markValue);
+      return dataValue.map((d: any) => {
+      const parsedValue = isString(d) ? parseInt(d) : d;
+      return this.scale?.ticks.find(t => t.datafield === parsedValue)?.markValue || parsedValue;
+    });
     }
     return dataValue;
   }
@@ -256,6 +259,8 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
           } as WmSliderState); 
         }
         this.invokeEventCallback('onChange', [null, this, clampedValue, $old]);
+        const scaledValue = this.getScaledDataValue()?.[0] || clampedValue;
+        this.computePosition(scaledValue, 'track');
         }
         break;
     }
