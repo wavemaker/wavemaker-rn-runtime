@@ -158,13 +158,11 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     const adjustedHeight = Math.min(this.state.isExpanded ? this.expandedHeight : this.calculatedHeight, availableHeight - bufferSpace);
 
     // Animate the sheet height adjustment
-    // if (Platform.OS == 'android') {
     Animated.timing(this.state.sheetHeight, {
       toValue: adjustedHeight,
       duration: 100,
       useNativeDriver: false,
     }).start();
-    // }
     this.updateState({
       keyboardHeight: keyboardHeight,
     } as WmBottomsheetState);
