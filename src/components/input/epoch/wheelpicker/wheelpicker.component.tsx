@@ -2,6 +2,7 @@ import React, {createRef} from 'react';
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Platform,
   Text,
   View,
 } from 'react-native';
@@ -15,7 +16,7 @@ export class WmWheelPickerState extends BaseComponentState<WmWheelPickerProps> {
 }
 
 export class WmWheelScrollPicker extends BaseComponent<WmWheelPickerProps, WmWheelPickerState,
- WmWheelPickerStyles> {
+  WmWheelPickerStyles> {
   wheelPickerRef: any = null;
 
   constructor(props: WmWheelPickerProps) {
@@ -59,10 +60,15 @@ export class WmWheelScrollPicker extends BaseComponent<WmWheelPickerProps, WmWhe
     const scrollOffset = (wrapperHeight - itemHeight) / 2;
 
     return (
-      <View 
-        style={[styles.root, {height: wrapperHeight}]}
+      <View
+        style={[styles.root, { height: wrapperHeight }]}
         onLayout={(event) => this.handleLayout(event)}
-      >
+        {...(Platform.OS === 'ios'
+          ? {
+            onStartShouldSetResponder: () => true,
+            onResponderTerminationRequest: () => false,
+          }
+          : {})}>
         <ScrollView
           ref={this.wheelPickerRef}
           scrollEventThrottle={16}
