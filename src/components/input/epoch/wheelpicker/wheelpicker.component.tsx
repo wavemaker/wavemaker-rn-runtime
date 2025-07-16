@@ -63,6 +63,7 @@ export class WmWheelScrollPicker extends BaseComponent<WmWheelPickerProps, WmWhe
       <View
         style={[styles.root, { height: wrapperHeight }]}
         onLayout={(event) => this.handleLayout(event)}
+        // prevent swipe gesture from bubbling to parent (fixes scroll vs. bottom sheet swipe conflict)
         {...(Platform.OS === 'ios'
           ? {
             onStartShouldSetResponder: () => true,

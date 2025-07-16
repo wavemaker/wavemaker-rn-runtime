@@ -38,7 +38,9 @@ export class WmDatePickerModal extends BaseComponent<
         onRequestClose={onClose}
         onDismiss={onClose}
       >
-        <View style={styles.root} onLayout={(event) => this.handleLayout(event)}   {...(Platform.OS === 'ios'
+        <View style={styles.root} onLayout={(event) => this.handleLayout(event)} 
+         // prevent swipe gesture from bubbling to parent (fixes scroll vs. bottom sheet swipe conflict)
+          {...(Platform.OS === 'ios'
               ? {
                 onStartShouldSetResponder: () => true,
                 onResponderTerminationRequest: () => false,

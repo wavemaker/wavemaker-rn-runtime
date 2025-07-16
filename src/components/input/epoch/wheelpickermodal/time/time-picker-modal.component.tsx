@@ -38,7 +38,8 @@ export class WmTimePickerModal extends BaseComponent<
         onRequestClose={onClose}
         onDismiss={onClose}
       >
-        <View style={styles.root} onLayout={(event) => this.handleLayout(event)}  
+        <View style={styles.root} onLayout={(event) => this.handleLayout(event)} 
+                      // prevent swipe gesture from bubbling to parent (fixes scroll vs. bottom sheet swipe conflict)
                       {...(Platform.OS === 'ios'
                       ? {
                         onStartShouldSetResponder: () => true,
