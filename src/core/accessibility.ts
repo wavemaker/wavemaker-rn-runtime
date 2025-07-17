@@ -94,7 +94,6 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.TOGGLE:
     case AccessibilityWidgetType.DATE:
     case AccessibilityWidgetType.LABEL:
-    case AccessibilityWidgetType.ANCHOR:
     case AccessibilityWidgetType.MESSAGE:    
     case AccessibilityWidgetType.SEARCH: 
     case AccessibilityWidgetType.ICON:
@@ -160,6 +159,13 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
           selected: accessibilityProps.selected,
         };
       }
+      break;
+    }
+
+    case AccessibilityWidgetType.ANCHOR: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || (accessibilityProps.badgevalue ? `${accessibilityProps.caption} ${accessibilityProps.badgevalue}` : accessibilityProps.caption);
+      props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole
       break;
     }
 
