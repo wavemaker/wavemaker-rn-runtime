@@ -251,13 +251,6 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
       case 'datavalue':
       if (!isEqual($new, $old)) {
         const clampedValue = this.constrainValueToRange($new);
-        if (!isEqual(clampedValue, $new)) {
-          this.updateState({
-            props: {
-              datavalue: clampedValue
-            }
-          } as WmSliderState); 
-        }
         this.invokeEventCallback('onChange', [null, this, clampedValue, $old]);
         const scaledValue = this.getScaledDataValue()?.[0] || clampedValue;
         this.computePosition(scaledValue, 'track');

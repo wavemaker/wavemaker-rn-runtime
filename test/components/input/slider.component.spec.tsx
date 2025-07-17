@@ -267,7 +267,95 @@ describe('Test Slider component', () => {
     expect(animatedViewEle[0].props.style[0].borderTopLeftRadius).toBe(10);
     expect(animatedViewEle[0].props.style[0].borderBottomLeftRadius).toBe(20);
   });
+  it('should update datavalue and trigger onChange when changed via bound input for range=false', async () => {
+  const ref = createRef<WmSlider>();
+  const onChangeMock = jest.fn();
+  const tree = renderComponent({
+    ref,
+    datatype: 'number',
+    minvalue: 0,
+    maxvalue: 10,
+    step: 1,
+    range: false,
+    datavalue: 3,
+    onChange: onChangeMock,
+  });
 
+  // Simulate a property change (e.g., from Number widget)
+  ref.current.proxy.onPropertyChange('datavalue', 5, 3);
+  await timer(300);
+
+  expect(ref.current.state.props.datavalue).toBe(5);
+  expect(onChangeMock).toHaveBeenCalledWith([null, ref.current, 5, 3]);
+});
+it('should clamp datavalue to minvalue or maxvalue during runtime update for range=false', async () => {
+  const ref = createRef<WmSlider>();
+  const onChangeMock = jest.fn();
+  const tree = renderComponent({
+    ref,
+    datatype: 'number',
+    minvalue: 0,
+    maxvalue: 10,
+    step: 1,
+    range: false,
+    datavalue: 5,
+    onChange: onChangeMock,
+  });
+
+  // Test below minvalue
+  ref.current.proxy.onPropertyChange('datavalue', -1, 5);
+  await timer(300);
+  expect(ref.current.state.props.datavalue).toBe(0);
+  expect(onChangeMock).toHaveBeenCalledWith([null, ref.current, 0, 5]);
+
+  // Test above maxvalue
+  ref.current.proxy.onPropertyChange('datavalue', 15, 0);
+  await timer(300);
+  expect(ref.current.state.props.datavalue).toBe(10);
+  expect(onChangeMock).toHaveBeenCalledWith([null, ref.current, 10, 0]);
+});
+it('should parse string datavalue and update slider for range=false', async () => {
+  const ref = createRef<WmSlider>();
+  const onChangeMock = jest.fn();
+  const tree = renderComponent({
+    ref,
+    datatype: 'number',
+    minvalue: 0,
+    maxvalue: 10,
+    step: 1,
+    range: false,
+    datavalue: 3,
+    onChange: onChangeMock,
+  });
+
+  // Simulate string input from Number widget
+  ref.current.proxy.onPropertyChange('datavalue', '5', 3);
+  await timer(300);
+
+  expect(ref.current.state.props.datavalue).toBe(5);
+  expect(onChangeMock).toHaveBeenCalledWith([null, ref.current, 5, 3]);
+});
+it('should clamp invalid string datavalue to minvalue for range=false', async () => {
+  const ref = createRef<WmSlider>();
+  const onChangeMock = jest.fn();
+  const tree = renderComponent({
+    ref,
+    datatype: 'number',
+    minvalue: 0,
+    maxvalue: 10,
+    step: 1,
+    range: false,
+    datavalue: 3,
+    onChange: onChangeMock,
+  });
+
+  // Simulate invalid string input
+  ref.current.proxy.onPropertyChange('datavalue', 'abc', 3);
+  await timer(300);
+
+  expect(ref.current.state.props.datavalue).toBe(0); // Clamped to minvalue
+  expect(onChangeMock).toHaveBeenCalledWith([null, ref.current, 0, 3]);
+});
   it('should render markers when "showmarkers" is true', async () => {
     const tree = renderComponent({
       showmarkers: true,
