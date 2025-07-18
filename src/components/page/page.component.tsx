@@ -75,6 +75,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
               ref={this.scrollRef}
               {...this.panResponder.panHandlers}
               style={[{ width:'100%', height:'100%', paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 }, this.styles.root]}
+              contentContainerStyle={{flexGrow: 1}}
               onScroll={this.onScroll}
               scrollEventThrottle={16}
             >
