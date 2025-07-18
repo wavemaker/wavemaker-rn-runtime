@@ -1,4 +1,5 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { AccessibilityRole } from 'react-native';
 
 export default class WmTabpaneProps extends BaseProps {
   children?: any;
@@ -7,4 +8,7 @@ export default class WmTabpaneProps extends BaseProps {
   renderPartial?: Function;
   isPartialLoaded? = false;
   invokeVariables = true;
+  accessibilitylabel?: string = undefined;
+  hint?: string = undefined;
+  accessibilityrole?: AccessibilityRole;
 }
