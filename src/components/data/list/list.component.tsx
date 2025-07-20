@@ -3,12 +3,15 @@ import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { getGroupedData, getNumberOfEmptyObjects, isDefined } from "@wavemaker/app-rn-runtime/core/utils";
+import { getNumberOfColumnsFromResponsiveConfig } from '@wavemaker/app-rn-runtime/core/responsive.utils';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Swipeable } from 'react-native-gesture-handler';
 import WmListActionTemplate from './list-action-template/list-action-template.component';
+import { DEVICE_BREAK_POINTS } from '@wavemaker/app-rn-runtime/styles/theme';
+import _viewPort, { EVENTS as ViewPortEvents } from '@wavemaker/app-rn-runtime/core/viewport';
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
@@ -45,8 +48,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       maxRecordsToShow: this.state.props.pagesize
     } as WmListState);
 
-   
-
+    // Subscribe to viewport changes to re-render when screen size changes
+    this.cleanup.push(_viewPort.subscribe(ViewPortEvents.SIZE_CHANGE, () => {
+      this.forceUpdate();
+    }));
   }
 
   private isSelected($item: any) {
@@ -571,7 +576,8 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   public getNoOfColumns() {
     const props = this.state.props;
     if (props.direction === 'vertical') {
-      return props.itemsperrow.xs;
+      const columns = getNumberOfColumnsFromResponsiveConfig(props.itemsperrow);
+      return columns && columns > 0 ? columns : 1;
     }
     return 0;
   }
