@@ -389,6 +389,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     } as WmSliderState, () => {
       this.initScale();
       this.computePosition(this.getScaledDataValue()[0], 'track');
+      this.forceUpdate();
     });
   }
 
