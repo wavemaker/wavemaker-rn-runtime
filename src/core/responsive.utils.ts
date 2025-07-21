@@ -1,6 +1,6 @@
 import _viewPort from './viewport';
-import { DEVICE_BREAK_POINTS } from '../styles/theme';
-import { Alert } from 'react-native';
+import { DEVICE_BREAK_POINTS, DEVICE_BREAK_POINTS_NATIVE_MOBILE } from '../styles/theme';
+import { Platform } from 'react-native';
 
 export type ResponsiveBreakpoint = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -12,18 +12,18 @@ export type ResponsiveConfig<T> = {
 };
 
 /**
- * Determines the current responsive breakpoint based on viewport width
+ * Determines the current responsive breakpoint based on viewport width and pixel ratio
  * @returns The current breakpoint ('xs' | 'sm' | 'md' | 'lg')
  * 
  */
 export const getCurrentBreakpoint = (): ResponsiveBreakpoint => {
   const width = _viewPort.width;
   
-  if (width >= parseInt(DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE)) {
+  if (width >= (Platform.OS === 'web' ? parseInt(DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE) : parseInt(DEVICE_BREAK_POINTS_NATIVE_MOBILE.MIN_LARGE_DEVICE))) {
     return 'lg';
-  } else if (width >= parseInt(DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE)) {
+  } else if (width >= (Platform.OS === 'web' ? parseInt(DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE) : parseInt(DEVICE_BREAK_POINTS_NATIVE_MOBILE.MIN_MEDIUM_DEVICE))) {
     return 'md';
-  } else if (width >= parseInt(DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE)) {
+  } else if (width >= (Platform.OS === 'web' ? parseInt(DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE) : parseInt(DEVICE_BREAK_POINTS_NATIVE_MOBILE.MIN_SMALL_DEVICE))) {
     return 'sm';
   } else {
     return 'xs';
@@ -49,10 +49,9 @@ export const getNumberOfColumnsFromResponsiveConfig = (
   let value = responsiveConfig[breakpoint];
   
   if (!value && fallback) {
-    const fallbackOrder = ['xs', 'sm', 'md', 'lg'];
+    const fallbackOrder = ['lg', 'md', 'sm', 'xs'];
     const currentIndex = fallbackOrder.indexOf(breakpoint);
     
-    // Check smaller breakpoints only
     for (let i = currentIndex - 1; i >= 0; i--) {
       const fallbackBreakpoint = fallbackOrder[i] as keyof typeof responsiveConfig;
       if (responsiveConfig[fallbackBreakpoint]) {

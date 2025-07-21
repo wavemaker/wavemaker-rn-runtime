@@ -575,9 +575,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   public getNoOfColumns() {
     const props = this.state.props;
-    if (props.direction === 'vertical') {
-      const columns = getNumberOfColumnsFromResponsiveConfig(props.itemsperrow);
+    if (props.direction === 'vertical' && props.responsive) {
+      const columns = getNumberOfColumnsFromResponsiveConfig(props.itemsperrow, undefined, props.fallback);
       return columns && columns > 0 ? columns : 1;
+    } else if (props.direction === 'vertical' && !props.responsive) {
+      return props.itemsperrow.xs || 1;
     }
     return 0;
   }

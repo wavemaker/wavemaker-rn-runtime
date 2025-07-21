@@ -1,88 +1,182 @@
 import { getCurrentBreakpoint, getNumberOfColumnsFromResponsiveConfig } from '@wavemaker/app-rn-runtime/core/responsive.utils';
 import _viewPort from '@wavemaker/app-rn-runtime/core/viewport';
+import { Platform } from 'react-native';
 
 describe('Responsive Utils', () => {
   const mockViewport = (width: number) => {
-    Object.defineProperty(_viewPort, 'width', {
-      value: width,
+    // Mock the viewport width property
+    (_viewPort as any).width = width;
+  };
+
+  const mockPlatform = (platform: 'web' | 'ios' | 'android') => {
+    Object.defineProperty(Platform, 'OS', {
+      value: platform,
       writable: true,
-      configurable: true,
     });
   };
 
   afterEach(() => {
     mockViewport(375);
+    jest.restoreAllMocks();
   });
 
   describe('getCurrentBreakpoint', () => {
-    test('should return xs for extra small screens (<768px)', () => {
-      mockViewport(500);
-      expect(getCurrentBreakpoint()).toBe('xs');
+    describe('Web breakpoints', () => {
+      beforeEach(() => {
+        mockPlatform('web');
+      });
+
+      test('should return xs for extra small screens (<768px) on web', () => {
+        mockViewport(500);
+        expect(getCurrentBreakpoint()).toBe('xs');
+      });
+
+      test('should return sm for small screens (768px-991px) on web', () => {
+        mockViewport(800);
+        expect(getCurrentBreakpoint()).toBe('sm');
+      });
+
+      test('should return md for medium screens (992px-1199px) on web', () => {
+        mockViewport(1000);
+        expect(getCurrentBreakpoint()).toBe('md');
+      });
+
+      test('should return lg for large screens (≥1200px) on web', () => {
+        mockViewport(1300);
+        expect(getCurrentBreakpoint()).toBe('lg');
+      });
+
+      test('should handle web breakpoint edge cases correctly', () => {
+        mockViewport(767);
+        expect(getCurrentBreakpoint()).toBe('xs');
+
+        mockViewport(768);
+        expect(getCurrentBreakpoint()).toBe('sm');
+
+        mockViewport(991);
+        expect(getCurrentBreakpoint()).toBe('sm');
+
+        mockViewport(992);
+        expect(getCurrentBreakpoint()).toBe('md');
+
+        mockViewport(1199);
+        expect(getCurrentBreakpoint()).toBe('md');
+
+        mockViewport(1200);
+        expect(getCurrentBreakpoint()).toBe('lg');
+      });
     });
 
-    test('should return sm for small screens (768px-991px)', () => {
-      mockViewport(800);
-      expect(getCurrentBreakpoint()).toBe('sm');
-    });
+    describe('Native mobile breakpoints', () => {
+      beforeEach(() => {
+        mockPlatform('ios');
+      });
 
-    test('should return md for medium screens (992px-1199px)', () => {
-      mockViewport(1000);
-      expect(getCurrentBreakpoint()).toBe('md');
-    });
+      test('should return xs for phones portrait (<480px) on native', () => {
+        mockViewport(375); // iPhone portrait
+        expect(getCurrentBreakpoint()).toBe('xs');
+      });
 
-    test('should return lg for large screens (>=1200px)', () => {
-      mockViewport(1300);
-      expect(getCurrentBreakpoint()).toBe('lg');
-    });
+      test('should return sm for phones landscape/small tablets (480px-767px) on native', () => {
+        mockViewport(667); // iPhone landscape
+        expect(getCurrentBreakpoint()).toBe('sm');
+      });
 
-    test('should handle edge cases correctly', () => {
-      mockViewport(767);
-      expect(getCurrentBreakpoint()).toBe('xs');
+      test('should return md for tablets portrait (768px-1023px) on native', () => {
+        mockViewport(834); // iPad portrait
+        expect(getCurrentBreakpoint()).toBe('md');
+      });
 
-      mockViewport(768);
-      expect(getCurrentBreakpoint()).toBe('sm');
+      test('should return lg for tablets landscape/desktops (≥1024px) on native', () => {
+        mockViewport(1194); // iPad landscape
+        expect(getCurrentBreakpoint()).toBe('lg');
+      });
 
-      mockViewport(991);
-      expect(getCurrentBreakpoint()).toBe('sm');
+      test('should handle native breakpoint edge cases correctly', () => {
+        mockViewport(479);
+        expect(getCurrentBreakpoint()).toBe('xs');
 
-      mockViewport(992);
-      expect(getCurrentBreakpoint()).toBe('md');
+        mockViewport(480);
+        expect(getCurrentBreakpoint()).toBe('sm');
 
-      mockViewport(1199);
-      expect(getCurrentBreakpoint()).toBe('md');
+        mockViewport(767);
+        expect(getCurrentBreakpoint()).toBe('sm');
 
-      mockViewport(1200);
-      expect(getCurrentBreakpoint()).toBe('lg');
+        mockViewport(768);
+        expect(getCurrentBreakpoint()).toBe('md');
+
+        mockViewport(1023);
+        expect(getCurrentBreakpoint()).toBe('md');
+
+        mockViewport(1024);
+        expect(getCurrentBreakpoint()).toBe('lg');
+      });
     });
   });
 
-  describe('getResponsiveValue', () => {
+  describe('getNumberOfColumnsFromResponsiveConfig', () => {
+    beforeEach(() => {
+      mockPlatform('web'); // Default to web for most tests
+    });
+
     test('should return value for current breakpoint when defined', () => {
-      mockViewport(800); 
+      mockViewport(800); // sm on web
       const config = { xs: 1, sm: 2, md: 3, lg: 4 };
       
       expect(getNumberOfColumnsFromResponsiveConfig(config)).toBe(2);
     });
 
-    test('should fallback to smaller breakpoints only (safer approach)', () => {
-      mockViewport(1000);
-      const config = { xs: 1, sm: 2, md: undefined, lg: 4 };
+    test('should fallback to larger breakpoints when enabled (scale up approach)', () => {
+      mockViewport(500); // xs breakpoint on web
       
-      expect(getNumberOfColumnsFromResponsiveConfig(config, undefined, true)).toBe(2);
+      // xs missing, should scale up to sm
+      const configMissingXs = { sm: 2, md: 3, lg: 4 };
+      expect(getNumberOfColumnsFromResponsiveConfig(configMissingXs, undefined, true)).toBe(2);
       
-      const configOnlyLarge = { xs: 1, lg: 4 };
-      expect(getNumberOfColumnsFromResponsiveConfig(configOnlyLarge, undefined, true)).toBe(1);
+      // xs and sm missing, should scale up to md
+      const configMissingXsAndSm = { md: 3, lg: 4 };
+      expect(getNumberOfColumnsFromResponsiveConfig(configMissingXsAndSm, undefined, true)).toBe(3);
+      
+      // Only lg available, should scale up to lg
+      const configOnlyLarge = { lg: 4 };
+      expect(getNumberOfColumnsFromResponsiveConfig(configOnlyLarge, undefined, true)).toBe(4);
     });
 
-    test('should fallback to xs when all other breakpoints are undefined', () => {
-      mockViewport(1000);
-      const config = { xs: 1, sm: undefined, md: undefined, lg: undefined };
+    test('should fallback to larger breakpoints from sm breakpoint', () => {
+      mockViewport(800); // sm breakpoint on web
       
-      expect(getNumberOfColumnsFromResponsiveConfig(config)).toBe(1);
+      // sm missing, should scale up to md
+      const configMissingSm = { xs: 1, md: 3, lg: 4 };
+      expect(getNumberOfColumnsFromResponsiveConfig(configMissingSm, undefined, true)).toBe(3);
+      
+      // sm and md missing, should scale up to lg
+      const configMissingSmAndMd = { xs: 1, lg: 4 };
+      expect(getNumberOfColumnsFromResponsiveConfig(configMissingSmAndMd, undefined, true)).toBe(4);
+    });
+
+    test('should fallback to larger breakpoints from md breakpoint', () => {
+      mockViewport(1000); // md breakpoint on web
+      
+      // md missing, should scale up to lg
+      const configMissingMd = { xs: 1, sm: 2, lg: 4 };
+      expect(getNumberOfColumnsFromResponsiveConfig(configMissingMd, undefined, true)).toBe(4);
+    });
+
+    test('should fallback to xs when no fallback enabled or no larger breakpoints available', () => {
+      mockViewport(1000); // md breakpoint on web
+      
+      // No fallback enabled - should use xs as ultimate fallback
+      const config = { xs: 1, sm: 2, lg: 4 };
+      expect(getNumberOfColumnsFromResponsiveConfig(config, undefined, false)).toBe(1);
+      
+      // lg breakpoint with no lg value and fallback enabled - should use xs as ultimate fallback
+      mockViewport(1300); // lg breakpoint
+      const configMissingLg = { xs: 1, sm: 2, md: 3 };
+      expect(getNumberOfColumnsFromResponsiveConfig(configMissingLg, undefined, true)).toBe(1);
     });
 
     test('should work with number values', () => {
-      mockViewport(800);
+      mockViewport(800); // sm breakpoint
       
       const numberConfig = { xs: 1, sm: 2, md: 3, lg: 4 };
       expect(getNumberOfColumnsFromResponsiveConfig(numberConfig)).toBe(2);
@@ -100,54 +194,102 @@ describe('Responsive Utils', () => {
     });
 
     test('should handle empty or partial configurations', () => {
-      mockViewport(800);
+      mockViewport(800); // sm breakpoint
       
+      // Empty config - should use safe default of 1
       expect(getNumberOfColumnsFromResponsiveConfig({})).toBe(1);
       
+      // Only lg defined, no fallback - should use safe default of 1
       expect(getNumberOfColumnsFromResponsiveConfig({ lg: 4 })).toBe(1);
       
-      expect(getNumberOfColumnsFromResponsiveConfig({ lg: 4 }, undefined, true)).toBe(1); 
+      // Only lg defined, with fallback - should scale up to lg
+      expect(getNumberOfColumnsFromResponsiveConfig({ lg: 4 }, undefined, true)).toBe(4);
       
+      // xs defined - should use xs as ultimate fallback
       expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1 })).toBe(1);
     });
 
     test('should handle falsy values correctly', () => {
-      mockViewport(1000);
+      mockViewport(1000); // md breakpoint
       
+      // md is undefined, with fallback should scale up to lg
       const configWithUndefined = { xs: 1, sm: 2, md: undefined, lg: 4 };
-      expect(getNumberOfColumnsFromResponsiveConfig(configWithUndefined, undefined, true)).toBe(2);
+      expect(getNumberOfColumnsFromResponsiveConfig(configWithUndefined, undefined, true)).toBe(4);
       
+      // md is 0 (falsy but defined), should return 0
       const configWithZero = { xs: 1, sm: 2, md: 0, lg: 4 };
       expect(getNumberOfColumnsFromResponsiveConfig(configWithZero)).toBe(0);
       
+      // No fallback enabled, should use xs
       expect(getNumberOfColumnsFromResponsiveConfig(configWithUndefined)).toBe(1);
     });
 
     test('should support list component itemsperrow use case', () => {
-      mockViewport(500);
+      mockViewport(500); // xs
       expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1, sm: 2, md: 3, lg: 4 })).toBe(1);
       
-      mockViewport(800);
+      mockViewport(800); // sm
       expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1, sm: 2, md: 3, lg: 4 })).toBe(2);
       
-      mockViewport(1300);
+      mockViewport(1300); // lg
       expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1, sm: 2, md: 3, lg: 4 })).toBe(4);
     });
 
     test('should handle realistic responsive scenarios', () => {
-      mockViewport(1000);
+      mockViewport(1000); // md breakpoint
       
-      expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1, sm: 2, lg: 4 }, undefined, true)).toBe(2);
+      // md missing, with fallback should scale up to lg
+      expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1, sm: 2, lg: 4 }, undefined, true)).toBe(4);
       
-      expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1, lg: 4 }, undefined, true)).toBe(1);
+      // md missing, no lg available, should use xs as ultimate fallback
+      expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1, sm: 2 }, undefined, true)).toBe(1);
       
+      // Only xs defined
       expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1 })).toBe(1);
       
+      // Only lg defined, no fallback
       expect(getNumberOfColumnsFromResponsiveConfig({ lg: 4 })).toBe(1);
+      
+      // Only lg defined, with fallback
+      expect(getNumberOfColumnsFromResponsiveConfig({ lg: 4 }, undefined, true)).toBe(4);
+    });
+
+    test('should maintain backwards compatibility with fallback default false', () => {
+      mockViewport(1000); // md breakpoint
+      
+      // Default behavior (fallback=false) - should not scale up
+      const config = { xs: 1, sm: 2, lg: 4 };
+      expect(getNumberOfColumnsFromResponsiveConfig(config)).toBe(1); // Uses xs as ultimate fallback
+      
+      // Explicit fallback=false
+      expect(getNumberOfColumnsFromResponsiveConfig(config, undefined, false)).toBe(1);
+      
+      // With fallback=true should scale up to lg
+      expect(getNumberOfColumnsFromResponsiveConfig(config, undefined, true)).toBe(4);
+    });
+
+    test('should work correctly with native mobile breakpoints', () => {
+      mockPlatform('ios');
+      
+      mockViewport(375); // xs on native (phone portrait)
+      expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1, sm: 2, md: 3, lg: 4 })).toBe(1);
+      
+      mockViewport(667); // sm on native (phone landscape)
+      expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1, sm: 2, md: 3, lg: 4 })).toBe(2);
+      
+      mockViewport(834); // md on native (tablet portrait)
+      expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1, sm: 2, md: 3, lg: 4 })).toBe(3);
+      
+      mockViewport(1194); // lg on native (tablet landscape)
+      expect(getNumberOfColumnsFromResponsiveConfig({ xs: 1, sm: 2, md: 3, lg: 4 })).toBe(4);
     });
   });
 
   describe('Integration with List Component', () => {
+    beforeEach(() => {
+      mockPlatform('web');
+    });
+
     test('should provide correct column count for different screen sizes', () => {
       const itemsPerRowConfig = { xs: 1, sm: 2, md: 3, lg: 4 };
       
@@ -168,16 +310,35 @@ describe('Responsive Utils', () => {
       expect(getNumberOfColumnsFromResponsiveConfig(itemsPerRowConfig)).toBe(4);
     });
 
-    test('should handle sparse itemsperrow configuration', () => {
-      mockViewport(1000);
+    test('should handle sparse itemsperrow configuration with scale up fallback', () => {
+      mockViewport(1000); // md breakpoint
       
+      // md missing, with fallback should scale up to lg
       const sparseConfig = { xs: 1, lg: 4 };
-      expect(getNumberOfColumnsFromResponsiveConfig(sparseConfig, undefined, true)).toBe(1);
+      expect(getNumberOfColumnsFromResponsiveConfig(sparseConfig, undefined, true)).toBe(4);
       
+      // Only xs available
       const minimalConfig = { xs: 1 };
       expect(getNumberOfColumnsFromResponsiveConfig(minimalConfig)).toBe(1);
       
+      // No fallback enabled - should use xs as ultimate fallback
       expect(getNumberOfColumnsFromResponsiveConfig(sparseConfig)).toBe(1);
+    });
+
+    test('should work correctly across platforms', () => {
+      const itemsPerRowConfig = { xs: 1, sm: 2, md: 3, lg: 4 };
+
+      // Test web breakpoints
+      mockPlatform('web');
+      mockViewport(800); // sm on web (768-991)
+      expect(getCurrentBreakpoint()).toBe('sm');
+      expect(getNumberOfColumnsFromResponsiveConfig(itemsPerRowConfig)).toBe(2);
+
+      // Test native breakpoints  
+      mockPlatform('ios');
+      mockViewport(800); // md on native (768-1023)
+      expect(getCurrentBreakpoint()).toBe('md');
+      expect(getNumberOfColumnsFromResponsiveConfig(itemsPerRowConfig)).toBe(3);
     });
   });
 }); 
