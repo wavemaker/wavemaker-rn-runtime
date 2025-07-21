@@ -46,4 +46,6 @@ export default class WmListProps extends BaseProps {
     triggeronrenderwhenhidden?: boolean = true;
     selecteditemicon: string = null as any;
     disableitemselect: boolean = false;
+    responsive: boolean = false;
+    fallback: boolean = false;
 }
