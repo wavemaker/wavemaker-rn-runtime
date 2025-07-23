@@ -17,13 +17,16 @@ export default class WmLinearlayoutitem extends BaseComponent<WmLinearlayoutitem
 
   renderWidget(props: WmLinearlayoutitemProps) {
     const direction = (this.parent as WmLinearlayout).state.props.direction;
+    const flexGrow = props.flexgrow ?? this.styles.root?.flexGrow;
     return (
     <View 
       style={{
         ...this.styles.root,
-        flexGrow: props.flexgrow,
-        flexShrink: isNil(props.flexshrink) ? props.flexgrow : props.flexshrink,
-        flexBasis:  (props.flexgrow && (direction === 'row' || direction === 'row-reverse') ? 0 : 'auto')
+        ...flexGrow ? {
+          flexGrow: flexGrow,
+          flexShrink: isNil(props.flexshrink) ? flexGrow : props.flexshrink,
+          flexBasis: (flexGrow && (direction === 'row' || direction === 'row-reverse') ? 0 : 'auto')
+        } : {}
       }}
       onLayout={(event) => this.handleLayout(event)}
     >{this._background}{props.children}</View>); 

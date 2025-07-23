@@ -126,6 +126,27 @@ export class Theme {
         fn(ThemeVariables.INSTANCE, this.addStyle.bind(this));
     }
 
+    handleMediaQueryStyles(styles: NamedStyles<any> ){
+        const mediaQueries: string[] = [];
+        Object.keys(styles).forEach((item: string) => {
+            if(/@media/.test(item) && matchMedia(item.replace('@media ', '')).matches) {
+                mediaQueries.push(item);
+            }
+        })
+
+        if(mediaQueries.length === 0) {
+            return styles;
+        }
+
+        mediaQueries.forEach((mediaQueryCondition: string) => {
+            const mediaQueryStyles = styles[mediaQueryCondition];
+            Object.keys(mediaQueryStyles).forEach((item: string) => {
+                styles[item] = (mediaQueryStyles as any)[item];
+            }) 
+        })
+        return styles;
+    }
+
     checkStyleProperties(name: string, value : any) {
         if (isObject(value)) {
             Object.keys(value).map((k) => this.checkStyleProperties(k, (value as any)[k]));
@@ -358,9 +379,11 @@ export class Theme {
         this.styles = {};
         this.clearCache();
         if (styles) {
-            this.registerStyle((themeVariables, addStyle) => {
-                Object.keys(styles).forEach(k => {
-                    addStyle(k, '', styles[k] as any);
+            const filteredStyles = this.handleMediaQueryStyles(styles);
+
+             this.registerStyle((themeVariables, addStyle) => {
+                Object.keys(filteredStyles).forEach(k => {
+                    addStyle(k, '', filteredStyles[k] as any);
                 });
             });
         } else {
