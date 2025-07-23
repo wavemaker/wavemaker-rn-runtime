@@ -13,6 +13,7 @@ import {
 } from '@wavemaker/app-rn-runtime/core/accessibility';
 import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 export class WmVideoState extends BaseComponentState<WmVideoProps> {
   isVideoReady: boolean = false;
@@ -173,6 +174,12 @@ export default class WmVideo extends BaseComponent<
           onFullscreenExit={onFullscreenExit}
           requiresLinearPlayback={requiresLinearPlayback}
         />
+        {/*TODO: This Tappable should be removed once upgraded to expo 53.
+          Issue is related to the : https://wavemaker.atlassian.net/browse/WMS-28725 */}
+        {Platform.OS === 'android' && !(props.controls && showOverlay ) && <Tappable onTap={() => {}} styles={{zIndex: 10, position:"absolute", width: '100%', height: '100%', flex: 1 }}>
+          <View style={{backgroundColor:'transparent', width: '100%', height: '100%', flex: 1}}>
+          </View>
+        </Tappable>}
         {!isPlaying && videoposter && showdefaultvideoposter ? (
           this.renderVideoPoster(props)
         ) : (
