@@ -1,6 +1,5 @@
 import _viewPort from './viewport';
-import { DEVICE_BREAK_POINTS, DEVICE_BREAK_POINTS_NATIVE_MOBILE } from '../styles/theme';
-import { Platform } from 'react-native';
+import { getBreakPointValue } from '../styles/theme';
 
 export type ResponsiveBreakpoint = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -11,6 +10,10 @@ export type ResponsiveConfig<T> = {
   lg?: T;
 };
 
+const parseToNumberValue = (name: string) => {
+  return parseInt(getBreakPointValue(name).replace('px', ''));
+}
+
 /**
  * Determines the current responsive breakpoint based on viewport width and pixel ratio
  * @returns The current breakpoint ('xs' | 'sm' | 'md' | 'lg')
@@ -18,12 +21,11 @@ export type ResponsiveConfig<T> = {
  */
 export const getCurrentBreakpoint = (): ResponsiveBreakpoint => {
   const width = _viewPort.width;
-  
-  if (width >= (Platform.OS === 'web' ? parseInt(DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE) : parseInt(DEVICE_BREAK_POINTS_NATIVE_MOBILE.MIN_LARGE_DEVICE))) {
+  if (width >= parseToNumberValue('MIN_LARGE_DEVICE')) {
     return 'lg';
-  } else if (width >= (Platform.OS === 'web' ? parseInt(DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE) : parseInt(DEVICE_BREAK_POINTS_NATIVE_MOBILE.MIN_MEDIUM_DEVICE))) {
+  } else if (width >= parseToNumberValue('MIN_MEDIUM_DEVICE')) {
     return 'md';
-  } else if (width >= (Platform.OS === 'web' ? parseInt(DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE) : parseInt(DEVICE_BREAK_POINTS_NATIVE_MOBILE.MIN_SMALL_DEVICE))) {
+  } else if (width >= parseToNumberValue('MIN_SMALL_DEVICE')) {
     return 'sm';
   } else {
     return 'xs';
@@ -45,7 +47,7 @@ export const getNumberOfColumnsFromResponsiveConfig = (
   fallback: boolean = false
 ): number => {
   const breakpoint = currentBreakpoint || getCurrentBreakpoint();
-  
+
   let value = responsiveConfig[breakpoint];
   
   if (!value && fallback) {
