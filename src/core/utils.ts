@@ -285,7 +285,6 @@ export function splitBorderColorInPlace(rootStyles: any): any {
   const sides = ["Top", "Right", "Bottom", "Left"];
   for (const side of sides) {
     const key = `border${side}Color`;
-    console.log(updatedRootStyles[key],"hs")
     if (!updatedRootStyles[key]) {
       updatedRootStyles[key] = color;
     }

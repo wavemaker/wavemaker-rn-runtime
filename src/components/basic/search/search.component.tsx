@@ -416,6 +416,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     return (
       <View
         onLayout={(event) => this.handleLayout(event)}
+        style={[this.styles.rootWrapper]}
       >
         {this.renderSearchBar()}
         {this.state.isOpened ? (

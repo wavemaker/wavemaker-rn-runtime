@@ -122,6 +122,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     this.configureGesture(this.highKnobGesture, 'highThumb');
     this.positionRefMaksudai.current = 0;
   }
+
   private getMarkerWidthFromStyles(): number {
     const cssWidth = this.styles?.markerStyle?.width;
     return (typeof cssWidth === 'number' && cssWidth > 0) ? cssWidth : this.MARKER_WIDTH;

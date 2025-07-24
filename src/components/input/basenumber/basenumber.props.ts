@@ -19,4 +19,5 @@ export default class BaseNumberProps extends BaseProps {
   accessibilityrole?: AccessibilityRole;
   accessibilitylabelledby?: string = undefined;
   displayValue?: string;
+  skipscripteventtrigger: boolean = false;
 }
