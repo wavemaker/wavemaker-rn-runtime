@@ -1,7 +1,10 @@
 import React from 'react';
 import { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import * as SwipeAnimation from '@wavemaker/app-rn-runtime/gestures/swipe.animation';
+
+// TODO: Change the logic of gesture handler in swipe.animation file, as its interfering with scroll animation
+// for now Pan responder is being used instead of Gesture handler. 
+import * as SwipeAnimation from '@wavemaker/app-rn-runtime/gestures/carousel-swipe.animation';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmTabsProps from './tabs.props';
