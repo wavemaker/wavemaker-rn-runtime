@@ -420,11 +420,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
                 <ScrollView
                   ref={this.state.scrollViewRef}
                   style={this.styles.sheetContentContainer}
-                  contentContainerStyle={[this.styles.sheetScrollContent,
-                  {
-                    //paddingBottom: this.state.keyboardHeight > 0 ? (Platform.OS == 'android' ? this.statusBarHeight : this.topInset) : 20
-                  }
-                  ]}
+                  contentContainerStyle={this.styles.sheetScrollContent}
                   alwaysBounceVertical={false}
                   alwaysBounceHorizontal={false}
                   bounces={false}
