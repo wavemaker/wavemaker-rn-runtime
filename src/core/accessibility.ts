@@ -29,6 +29,7 @@ export enum AccessibilityWidgetType {
   CURRENCY = 'currency',
   RADIOSET = 'radioset',
   CHECKBOX = 'checkbox',
+  CHECKBOXSET = 'checkboxset',
   TOGGLE = 'toggle',
   SWITCH = 'switch',
   DATE = 'date',
@@ -55,7 +56,7 @@ export type AccessibilityPropsType = {
   accessibilityLabel?: string;
   accessibilityLabelledBy?: string;
   accessibilityHint?: string;
-  accessibilityRole?: 'button' | 'link' | 'header' | 'search' | 'image' | 'imagebutton' | 'none' | 'summary' | 'text' | 'progressbar' | 'grid' | 'alert' | 'tab';
+  accessibilityRole?: 'button' | 'checkbox' | 'combobox' | 'link' | 'header' | 'search' | 'image' | 'imagebutton' | 'none' | 'summary' | 'text' | 'progressbar' | 'grid' | 'alert' | 'tab';
   accessibilityState?: {
     disabled?: boolean;
     selected?: boolean;
@@ -80,6 +81,9 @@ export type AccessibilityPropsType = {
   
 
 export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, accessibilityProps: AccessibilityPropsType | any) => {
+  if(accessibilityProps.accessible === false){
+    return {accessible: false, importantForAccessibility: "no"}
+  }
   let props: AccessibilityPropsType = {accessible: true};
   if (!_isScreenReaderEnabled || isWebPreviewMode()) {
     return {};
@@ -89,7 +93,6 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.TEXT:
     case AccessibilityWidgetType.NUMBER:
     case AccessibilityWidgetType.TEXTAREA:
-    case AccessibilityWidgetType.SELECT:
     case AccessibilityWidgetType.CURRENCY:
     case AccessibilityWidgetType.TOGGLE:
     case AccessibilityWidgetType.DATE:
@@ -115,7 +118,6 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
         widgetType === AccessibilityWidgetType.TEXT ||
         widgetType === AccessibilityWidgetType.NUMBER ||
         widgetType === AccessibilityWidgetType.TEXTAREA ||
-        widgetType === AccessibilityWidgetType.SELECT ||
         widgetType === AccessibilityWidgetType.TOGGLE ||
         widgetType === AccessibilityWidgetType.DATE
       ) {
@@ -125,7 +127,6 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
         (widgetType === AccessibilityWidgetType.TEXT ||
           widgetType === AccessibilityWidgetType.NUMBER ||
           widgetType === AccessibilityWidgetType.TEXTAREA ||
-          widgetType === AccessibilityWidgetType.SELECT ||
           widgetType === AccessibilityWidgetType.CURRENCY ||
           widgetType === AccessibilityWidgetType.TOGGLE) &&
         isAndroid()
@@ -140,12 +141,6 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
         props.accessibilityValue = {
           min: accessibilityProps.minvalue,
           max: accessibilityProps.maxvalue,
-        };
-      }
-      if (widgetType === AccessibilityWidgetType.SELECT) {
-        props.accessibilityState = {
-          ...props.accessibilityState,
-          expanded: accessibilityProps.expanded,
         };
       }
       if (widgetType === AccessibilityWidgetType.TOGGLE) {
@@ -163,27 +158,10 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
       break;
     }
 
-    case AccessibilityWidgetType.CHIPS: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
-      props.accessibilityHint = accessibilityProps.hint;
-      props.accessibilityState = {
-        disabled: accessibilityProps.disabled,
-        selected: accessibilityProps.selected,
-      };
-      break;
-    }
-
-    case AccessibilityWidgetType.RADIOSET: {
-      props.accessibilityState = {
-        disabled: accessibilityProps.readonly || accessibilityProps.disabled,
-        selected: accessibilityProps.selected,
-      };
-      break;
-    }
-
     case AccessibilityWidgetType.CHECKBOX: {
       props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
       props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole || 'checkbox'
       props.accessibilityState = {
         disabled: accessibilityProps.readonly ||  accessibilityProps.disabled,
         checked: accessibilityProps.checked,
@@ -191,9 +169,39 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
       break;
     }
 
-    case AccessibilityWidgetType.SWITCH: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
+    case AccessibilityWidgetType.SELECT: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.displayValue || "Select an option"
+      props.accessibilityHint = accessibilityProps.hint
+      props.accessibilityRole = accessibilityProps.accessibilityrole || 'button',
+      props.accessibilityState = {
+        disabled: accessibilityProps.readonly ||  accessibilityProps.disabled,
+        expanded: accessibilityProps.expanded,
+      };
+      if(isAndroid()) {
+        props.accessibilityLabelledBy =
+          accessibilityProps.accessibilitylabelledby;
+      }
+      break;
+    }
+
+    case AccessibilityWidgetType.RADIOSET: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || 'Select your preferred option';
       props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole || 'radiogroup'
+      break;
+    }
+
+    case AccessibilityWidgetType.CHECKBOXSET: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || 'Select your preferred options';
+      props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole || 'combobox'
+      break;
+    }
+
+    case AccessibilityWidgetType.SWITCH: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || "Select an option";
+      props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole
       props.accessibilityState = {
         disabled: accessibilityProps.disabled,
         selected: accessibilityProps.selected,

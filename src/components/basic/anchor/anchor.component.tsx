@@ -92,7 +92,11 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
           >
             <Tappable {...this.getTestPropsForAction()} target={this} styles={[this.styles.root, this.styles.root.width && this.styles.root.height ? { width: '100%', height: '100%'} : null, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}
               onTap={props.hyperlink || props.onTap ? (e: SyntheticEvent) => this.onTap(navigationService, e) : undefined}
-              disableTouchEffect={this.state.props.disabletoucheffect}>
+              disableTouchEffect={this.state.props.disabletoucheffect}
+              accessibilityProps={{...getAccessibilityProps(
+                AccessibilityWidgetType.ANCHOR,
+                props
+              )}}>
               {this._background}
               {props.iconposition === 'top' && icon}
               {props.iconposition === 'left' && icon}

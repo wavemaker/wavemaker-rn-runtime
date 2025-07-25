@@ -52,7 +52,7 @@ export default class WmNavItem extends BaseComponent<WmNavItemProps, WmNavItemSt
           }}>
           <View style={this.styles.dropdownNav}>
             <WmAnchor id={this.getTestId('navlink')} styles={this.styles.navAnchorItem} caption={getDisplayLabel(props.item.label)} iconclass={props.item.icon} onTap={this.onSelectItem.bind(this, props.onSelect, props.item)} {...getAccessibilityProps(AccessibilityWidgetType.NAV, props)}></WmAnchor>
-            <WmIcon id={this.getTestId('icon')} styles={this.styles.caretIcon} iconclass={this.state.collapsed ? 'fa fa-sort-down' : 'fa fa-sort-up'}></WmIcon>
+            <WmIcon id={this.getTestId('icon')} styles={this.styles.caretIcon} iconclass={this.state.collapsed ? 'fa fa-sort-down' : 'fa fa-sort-up'} accessibilitylabel={this.state.collapsed ? 'Expand' : 'Collapse'} accessibilityrole='button'></WmIcon>
           </View>
         </TouchableOpacity>
         {!this.state.collapsed && props.children}

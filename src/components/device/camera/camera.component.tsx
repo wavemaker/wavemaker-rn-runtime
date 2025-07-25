@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { AccessibilityRole, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmCameraProps from './camera.props';
@@ -8,8 +8,7 @@ import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.c
 import { CaptureImageOutput } from '@wavemaker/app-rn-runtime/variables/device/camera/capture-image.operation';
 import { CameraConsumer, CameraInput, CameraService } from "@wavemaker/app-rn-runtime/core/device/camera-service";
 import { CaptureVideoOutput } from '@wavemaker/app-rn-runtime/variables/device/camera/capture-video.operation';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
-
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export class WmCameraState extends BaseComponentState<WmCameraProps> {}
 
@@ -54,13 +53,19 @@ export default class WmCamera extends BaseComponent<WmCameraProps, WmCameraState
   }
 
   renderWidget(props: WmCameraProps) {
+    const accessibilityProps = {
+      accessible: props.accessible, 
+      accessibilitylabel: props.accessibilitylabel || props.caption,
+      accessibilityrole: props.accessibilityrole,
+      hint: props.hint,
+    }
     return (
           <CameraConsumer>
               {(cameraService: CameraService) => {
               {this._background}
               this.camera = cameraService;
               return <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
-                <WmButton id={this.getTestId('button')} caption={props.caption} iconclass={props.iconclass} iconsize={props.iconsize} iconposition={props.caption ? '' : 'left'} styles={this.styles.button} onTap={this.onCameraTap.bind(this)} accessibilitylabel={props.accessibilitylabel} hint={props.hint} accessibilityrole={props.accessibilityrole}></WmButton>
+                <WmButton id={this.getTestId('button')} caption={props.caption} iconclass={props.iconclass} iconsize={props.iconsize} iconposition={props.caption ? '' : 'left'} styles={this.styles.button} onTap={this.onCameraTap.bind(this)} {...accessibilityProps}></WmButton>
               </View>
             }}
           </CameraConsumer>
