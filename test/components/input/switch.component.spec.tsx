@@ -8,7 +8,7 @@ import {
   act,
   waitFor,
 } from '@testing-library/react-native';
-import '@testing-library/jest-native/extend-expect';
+// import '@testing-library/jest-native/extend-expect';
 import WmSwitchProps from '@wavemaker/app-rn-runtime/components/input/switch/switch.props';
 import { Tappable } from '../../../src/core/tappable.component';
 import { View } from 'react-native';
