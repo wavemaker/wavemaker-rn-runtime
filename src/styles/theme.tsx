@@ -1,7 +1,7 @@
 import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, isFunction, get, reverse } from 'lodash';
 import React from 'react';
 import { camelCase } from 'lodash-es';
-import { TextStyle, ViewStyle, ImageStyle, ImageBackground, Dimensions } from 'react-native';
+import { TextStyle, ViewStyle, ImageStyle, ImageBackground, Dimensions, Platform } from 'react-native';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core/viewport';
@@ -20,7 +20,7 @@ if (typeof window !== "undefined") {
     window.matchMedia = (query: string) => new MediaQueryList(query);
 }
 
-export const DEVICE_BREAK_POINTS = {
+export const DEVICE_BREAK_POINTS: {[key: string]: string} = {
     'MIN_EXTRA_SMALL_DEVICE' : '0px',
     'MAX_EXTRA_SMALL_DEVICE' : '767px',
     'MIN_SMALL_DEVICE' : '768px',
@@ -31,6 +31,26 @@ export const DEVICE_BREAK_POINTS = {
     'MAX_LARGE_DEVICE' : '1000000px',
 };
 
+export const DEVICE_BREAK_POINTS_NATIVE_MOBILE: {[key: string]: string} = {
+    'MIN_EXTRA_SMALL_DEVICE': '0px',      // 0-479px (phones portrait)
+    'MAX_EXTRA_SMALL_DEVICE': '479px',
+    'MIN_SMALL_DEVICE': '480px',          // 480-767px (phones landscape, small tablets portrait)
+    'MAX_SMALL_DEVICE': '767px',
+    'MIN_MEDIUM_DEVICE': '768px',         // 768-1023px (tablets portrait, small laptops)
+    'MAX_MEDIUM_DEVICE': '1023px',
+    'MIN_LARGE_DEVICE': '1024px',         // 1024px+ (tablets landscape, desktops)
+    'MAX_LARGE_DEVICE': '1000000px',
+};
+
+export const getBreakPointValue = (name: string) => {
+    if(Platform.OS === 'web') {
+        return DEVICE_BREAK_POINTS[name];
+    }
+
+    return DEVICE_BREAK_POINTS_NATIVE_MOBILE[name];
+}
+    
+    
 export type styleGeneratorFn<T extends NamedStyles<any>> = (
     themeVariables: ThemeVariables,
     addStyle: (name: string, extend: string, style: T) => void) => void
@@ -387,10 +407,10 @@ export const ThemeConsumer = ThemeContext.Consumer;
             } as any)
         }
     };
-    addColStyles('xs', DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE);
-    addColStyles('sm',  DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE);
-    addColStyles('md',  DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE);
-    addColStyles('lg',  DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE);
+    addColStyles('xs', getBreakPointValue('MIN_EXTRA_SMALL_DEVICE'));
+    addColStyles('sm',  getBreakPointValue('MIN_SMALL_DEVICE'));
+    addColStyles('md',  getBreakPointValue('MIN_MEDIUM_DEVICE'));
+    addColStyles('lg',  getBreakPointValue('MIN_LARGE_DEVICE'));
 
     addStyle('d-none', '', {
         root: {
@@ -418,20 +438,20 @@ export const ThemeConsumer = ThemeContext.Consumer;
         } as any);
     };
     addDisplayStyles('all', 
-        DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_LARGE_DEVICE);
+        getBreakPointValue('MIN_EXTRA_SMALL_DEVICE'),
+        getBreakPointValue('MAX_LARGE_DEVICE'));
     addDisplayStyles('xs', 
-        DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_EXTRA_SMALL_DEVICE);
+        getBreakPointValue('MIN_EXTRA_SMALL_DEVICE'),
+        getBreakPointValue('MAX_EXTRA_SMALL_DEVICE'));
     addDisplayStyles('sm',   
-        DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_SMALL_DEVICE);
+        getBreakPointValue('MIN_SMALL_DEVICE'),
+        getBreakPointValue('MAX_SMALL_DEVICE'));
     addDisplayStyles('md',   
-        DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_MEDIUM_DEVICE);
+        getBreakPointValue('MIN_MEDIUM_DEVICE'),
+        getBreakPointValue('MAX_MEDIUM_DEVICE'));
     addDisplayStyles('lg',   
-        DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_LARGE_DEVICE);
+        getBreakPointValue('MIN_LARGE_DEVICE'),
+        getBreakPointValue('MAX_LARGE_DEVICE'));
 
     const addElevationClasses = () => {
         for(let i = 1; i <= 10; i++) {
