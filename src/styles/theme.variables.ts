@@ -1,4 +1,4 @@
-import Color, { rgb } from "color";
+import Color from "color";
 import { Dimensions, StatusBar } from "react-native";
 
 export default class ThemeVariables {

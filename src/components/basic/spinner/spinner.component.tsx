@@ -61,7 +61,7 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
       return obj;
   };
 
-  private toRgbArray(color: Color) {
+  private toRgbArray(color: any) {
     return [
       color.red()/255,
       color.green()/255,

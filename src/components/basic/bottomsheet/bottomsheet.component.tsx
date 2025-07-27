@@ -118,7 +118,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   componentDidMount() {
     super.componentDidMount();
     if (Platform.OS === 'android') {
-      BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+      this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardHide);
@@ -127,7 +127,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   componentWillUnmount() {
     super.componentWillUnmount();
     if (Platform.OS === 'android') {
-      this.backHandler.remove();
+      this.backHandler?.remove();
     }
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();

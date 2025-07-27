@@ -11,14 +11,14 @@ export class AppDisplayManagerService implements DisplayManager {
 
   private clearBackButtonPress() {
     if (isAndroid() && !isWebPreviewMode()) {
-      this.backHandler.remove();
+      this.backHandler?.remove();
     }
   }
 
   private setBackButtonPress() {
     this.clearBackButtonPress();
     if (isAndroid() && !isWebPreviewMode() && this.displayOptions.content) {
-      BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
+      this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
     }
   }
 

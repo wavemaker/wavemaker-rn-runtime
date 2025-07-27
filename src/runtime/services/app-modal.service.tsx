@@ -16,14 +16,14 @@ class AppModalService implements ModalService {
 
     private clearBackButtonPress() {
       if (isAndroid() && !isWebPreviewMode()) {
-        this.backHandler.remove();
+        this.backHandler?.remove();
       }
     }
 
     private setBackButtonPress() {
       this.clearBackButtonPress();
       if (isAndroid() && !isWebPreviewMode() && this.modalsOpened.length > 0) {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
+        this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
       }
     }
 
