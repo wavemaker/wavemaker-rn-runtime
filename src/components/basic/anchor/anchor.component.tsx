@@ -50,7 +50,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
        // marginTop: -50
       })
     }
-    return badgevalue != undefined ? (<Badge style={this.styles.badge}>{badgevalue}</Badge>): null;
+    return badgevalue != undefined ? (<Badge style={this.styles.badge} importantForAccessibility="no">{badgevalue}</Badge>): null;
   }
 
   renderWidget(props: WmAnchorProps) {
@@ -79,6 +79,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
         iconheight={iconheight}
         iconmargin={iconmargin}
         iconwidth={iconwidth}
+        accessible={false}
       />
     );
     return (
@@ -102,8 +103,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
               {props.iconposition === 'left' && icon}
               {props.caption ? (<Text style={this.styles.text}
               {...this.getTestPropsForLabel('caption')}
-              {...getAccessibilityProps(AccessibilityWidgetType.ANCHOR, props)}
-              numberOfLines={props.nooflines}>{props.caption}</Text>) : null}
+              numberOfLines={props.nooflines} importantForAccessibility='no'>{props.caption}</Text>) : null}
               {props.iconposition === 'right' && icon}
               {this.renderBadge()}
             </Tappable>

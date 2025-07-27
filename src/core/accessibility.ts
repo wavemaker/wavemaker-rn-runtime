@@ -97,7 +97,6 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.TOGGLE:
     case AccessibilityWidgetType.DATE:
     case AccessibilityWidgetType.LABEL:
-    case AccessibilityWidgetType.ANCHOR:
     case AccessibilityWidgetType.MESSAGE:    
     case AccessibilityWidgetType.SEARCH: 
     case AccessibilityWidgetType.ICON:
@@ -107,8 +106,7 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.WEBVIEW:
     case AccessibilityWidgetType.LINECHART:
     case AccessibilityWidgetType.SLIDER:
-    case AccessibilityWidgetType.VIDEO: 
-    case AccessibilityWidgetType.TABS: {
+    case AccessibilityWidgetType.VIDEO: {
       props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
       props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityRole = accessibilityProps.accessibilityrole;
@@ -149,12 +147,24 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
           checked: accessibilityProps.selected,
         };
       }
-      if (widgetType === AccessibilityWidgetType.TABS) {
-        props.accessibilityState = {
-          ...props.accessibilityState,
-          selected: accessibilityProps.selected,
-        };
-      }
+      break;
+    }
+
+    case AccessibilityWidgetType.TABS: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.title;
+      props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole || 'tab';
+      props.accessibilityState = {
+        ...props.accessibilityState,
+        selected: accessibilityProps.selected,
+      };
+      break;
+    }
+
+    case AccessibilityWidgetType.ANCHOR: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || (accessibilityProps.badgevalue ? `${accessibilityProps.caption} ${accessibilityProps.badgevalue}` : accessibilityProps.caption);
+      props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole
       break;
     }
 
