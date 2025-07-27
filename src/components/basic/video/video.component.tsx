@@ -50,7 +50,7 @@ export default class WmVideo extends BaseComponent<
     const accessibilityImageProps = {...props, 
       accessibilitylabel : `${props.accessibilitylabel}_poster`,
       hint: `${props.hint}_poster`,
-      accessibilityrole: `${props.accessibilityrole}_poster`,
+      accessibilityrole: 'image'
     }
     return (
       <TouchableWithoutFeedback onPress={() => this.player.play()}>

@@ -220,6 +220,11 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
       .filter((item: any, index: number) => item.props.show != false);
     const headerData = tabPanes.map((p: any, i: number) =>
       ({title: p.props.title,  icon: p.props.paneicon || '', key:  `tab-${i}`}));
+    const accessibilityData = tabPanes.map((p: any, i: number) =>({
+      accessibilitylabel: p.props.accessibilitylabel || p.props.title,
+      hint: p.props.hint,
+      accessibilityrole: p.props.accessibilityrole
+    }));
     const styles = this._showSkeleton ? {
       ...this.styles.root,
       ...this.styles.skeleton.root
@@ -239,6 +244,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           onIndexChange={this.goToTab.bind(this)}
           shouldScroll={props.enablescroll}
           disabletoucheffect = {this.state.props.disabletoucheffect}
+          accessibilityProps={accessibilityData}
         ></WmTabheader>
         <View
           style={[{
