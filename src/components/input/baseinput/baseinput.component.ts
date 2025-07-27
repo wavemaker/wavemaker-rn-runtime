@@ -56,9 +56,13 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
         
         const isDefault = this.state.props.isdefault;
         if (isDefault) {
-          this.updateState({ props: {isdefault: false} } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
-        } else {
-          this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
+          this.updateState(
+            { props: {isdefault: false} } as S, 
+            !this.state.props.skipscripteventtrigger && this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault)
+          );
+        } 
+        else {
+          !this.state.props.skipscripteventtrigger && this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
         }
     }
   }
@@ -140,7 +144,11 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
         } as S, () => resolve(true));
       }
     }).then(() => {
-      !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
+      if(!this.props.onFieldChange && value !== oldValue){
+        this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
+      }else if(this.state.props.skipscripteventtrigger && this.props.onFieldChange){
+        this.props.onFieldChange('datavalue', value, oldValue, false);
+      }
       if (source === 'blur') {
         setTimeout(() => {
           this.invokeEventCallback('onBlur', [event, this.proxy]);

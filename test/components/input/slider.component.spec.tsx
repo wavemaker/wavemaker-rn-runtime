@@ -133,6 +133,89 @@ describe('Test Slider component', () => {
     expect(screen.getByText(`${dataset[2].x}`)).toBeTruthy();
   });
 
+
+  it('should set dataValue to minValue if dataValue is less than minValue', () => {
+  
+    const ref = createRef();
+   const tree= renderComponent({
+        ref,
+        animation: 'none',
+         minvalue: 100,
+         datavalue: 10
+      });
+    expect(ref.current.state.props.datavalue).toBe(100);
+    expect(tree).toMatchSnapshot();
+  
+  
+  });
+
+   it('should set dataValue to maxValue if dataValue is greater than maxValue', () => {
+  
+    const ref = createRef();
+   const tree= renderComponent({
+        ref,
+        animation: 'none',
+         maxvalue: 100,
+         datavalue: 101
+      });
+    expect(ref.current.state.props.datavalue).toBe(100);
+ 
+   expect(tree).toMatchSnapshot();
+  
+  });
+
+    it('should keep dataValue unchanged if it is within the minValue and maxValue range', () => {
+  
+    const ref = createRef();
+    const tree=renderComponent({
+        ref,
+        animation: 'none',
+         maxvalue: 100,
+         minvalue: 0,
+         datavalue: 10
+      });
+    expect(ref.current.state.props.datavalue).toBe(10);
+  expect(tree).toMatchSnapshot();
+  
+  
+  });
+
+      it('should clamp the value in the range if dataValue is below the range', () => {
+  
+    const ref = createRef();
+   const tree=  renderComponent({
+        ref,
+        animation: 'none',
+         maxvalue: 100,
+         minvalue: 0,
+         range: true,
+         datavalue: [-1,10]
+      });
+    expect(ref.current.state.props.datavalue).toStrictEqual([0,10]);
+  expect(tree).toMatchSnapshot();
+  
+  
+  });
+
+      it('should clamp the value to the maximum of the range if dataValue is outside the range', () => {
+  
+    const ref = createRef();
+   const tree= renderComponent({
+        ref,
+        animation: 'none',
+         maxvalue: 100,
+         minvalue: 0,
+         range: true,
+         datavalue: [-1,110]
+      });
+    expect(ref.current.state.props.datavalue).toStrictEqual([0,100]);
+ 
+   expect(tree).toMatchSnapshot();
+  
+  });
+
+  
+
   it('should render styles applied thru "track" class properly', () => {
     const renderTracksMock = jest.spyOn(WmSlider.prototype, 'renderTracks');
 
@@ -184,7 +267,95 @@ describe('Test Slider component', () => {
     expect(animatedViewEle[0].props.style[0].borderTopLeftRadius).toBe(10);
     expect(animatedViewEle[0].props.style[0].borderBottomLeftRadius).toBe(20);
   });
+  it('should update datavalue and trigger onChange when changed via bound input for range=false', async () => {
+  const ref = createRef<WmSlider>();
+  const onChangeMock = jest.fn();
+  const tree = renderComponent({
+    ref,
+    datatype: 'number',
+    minvalue: 0,
+    maxvalue: 10,
+    step: 1,
+    range: false,
+    datavalue: 3,
+    onChange: onChangeMock,
+  });
 
+  // Simulate a property change (e.g., from Number widget)
+  ref.current.proxy.onPropertyChange('datavalue', 5, 3);
+  await timer(300);
+
+  expect(ref.current.state.props.datavalue).toBe(5);
+  expect(onChangeMock).toHaveBeenCalledWith([null, ref.current, 5, 3]);
+});
+it('should clamp datavalue to minvalue or maxvalue during runtime update for range=false', async () => {
+  const ref = createRef<WmSlider>();
+  const onChangeMock = jest.fn();
+  const tree = renderComponent({
+    ref,
+    datatype: 'number',
+    minvalue: 0,
+    maxvalue: 10,
+    step: 1,
+    range: false,
+    datavalue: 5,
+    onChange: onChangeMock,
+  });
+
+  // Test below minvalue
+  ref.current.proxy.onPropertyChange('datavalue', -1, 5);
+  await timer(300);
+  expect(ref.current.state.props.datavalue).toBe(0);
+  expect(onChangeMock).toHaveBeenCalledWith([null, ref.current, 0, 5]);
+
+  // Test above maxvalue
+  ref.current.proxy.onPropertyChange('datavalue', 15, 0);
+  await timer(300);
+  expect(ref.current.state.props.datavalue).toBe(10);
+  expect(onChangeMock).toHaveBeenCalledWith([null, ref.current, 10, 0]);
+});
+it('should parse string datavalue and update slider for range=false', async () => {
+  const ref = createRef<WmSlider>();
+  const onChangeMock = jest.fn();
+  const tree = renderComponent({
+    ref,
+    datatype: 'number',
+    minvalue: 0,
+    maxvalue: 10,
+    step: 1,
+    range: false,
+    datavalue: 3,
+    onChange: onChangeMock,
+  });
+
+  // Simulate string input from Number widget
+  ref.current.proxy.onPropertyChange('datavalue', '5', 3);
+  await timer(300);
+
+  expect(ref.current.state.props.datavalue).toBe(5);
+  expect(onChangeMock).toHaveBeenCalledWith([null, ref.current, 5, 3]);
+});
+it('should clamp invalid string datavalue to minvalue for range=false', async () => {
+  const ref = createRef<WmSlider>();
+  const onChangeMock = jest.fn();
+  const tree = renderComponent({
+    ref,
+    datatype: 'number',
+    minvalue: 0,
+    maxvalue: 10,
+    step: 1,
+    range: false,
+    datavalue: 3,
+    onChange: onChangeMock,
+  });
+
+  // Simulate invalid string input
+  ref.current.proxy.onPropertyChange('datavalue', 'abc', 3);
+  await timer(300);
+
+  expect(ref.current.state.props.datavalue).toBe(0); // Clamped to minvalue
+  expect(onChangeMock).toHaveBeenCalledWith([null, ref.current, 0, 3]);
+});
   it('should render markers when "showmarkers" is true', async () => {
     const tree = renderComponent({
       showmarkers: true,

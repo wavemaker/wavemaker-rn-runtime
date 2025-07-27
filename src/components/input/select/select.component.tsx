@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, LayoutChangeEvent, Text, View } from 'react-native';
+import { Dimensions, LayoutChangeEvent, StatusBar, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { find, isEmpty, isString } from 'lodash';
 
@@ -132,7 +132,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
         ref={(ref) => {
           this.view = ref as View;
         }}
-        onLayout={(event) => {this.updateState({selectWidth : event.nativeEvent.layout.width} as any)}}>
+        onLayout={(event) => {this.updateState({selectWidth : event.nativeEvent.layout.width} as any)}}
+        {...getAccessibilityProps(AccessibilityWidgetType.SELECT, props)}>
           {select.backgroundImage ? (<BackgroundComponent
             image={select.backgroundImage}
             position={select.backgroundPosition || 'center'}
@@ -148,11 +149,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               this.widgetRef = ref;
             }}
             {...this.getTestPropsForInput()}
-            {...getAccessibilityProps(
-              AccessibilityWidgetType.SELECT,
-              props
-            )}
-            onPress={this.onPress.bind(this)}>
+            onPress={this.onPress.bind(this)}
+            importantForAccessibility='no'>
             {this.state.props.displayValue || props.placeholder || ' '}
           </Text>}
           <WmButton
@@ -160,6 +158,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
             iconclass={'wi wi-keyboard-arrow-down'}
             onTap={this.onPress.bind(this)}
             hint={props?.hint}
+            accessible={false}
           />
       </View>
     );
@@ -232,6 +231,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
           isDropdown ? this.computePosition(event) : ()=>{}
           this.handleLayout(event)
         }}
+        style={[this.styles.rootWrapper]}
       >
         {this._background}
         {this.renderSelect()}
@@ -241,7 +241,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               const items = this.state.dataItems;
               modalService.showModal(
                 this.prepareModalOptions(
-                  <ScrollView style={ isDropdown ?[{width : this.state.selectWidth},this.styles.dropdown]:{width: '100%', maxHeight: ThemeVariables.INSTANCE.maxModalHeight}} 
+                  <ScrollView style={ isDropdown ?[{width : this.state.selectWidth},this.styles.dropdown]:{width: '100%', maxHeight: Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0)}} 
                   contentContainerStyle={this.styles.dropDownContent}>
                     {props.placeholder ?
                       <View key={props.name + '_placeholder'} style={this.styles.placeholderText}>

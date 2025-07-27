@@ -37,4 +37,7 @@ export default interface AppConfig {
     }, 
     pageScrollTopThreshold: number;
     edgeToEdgeConfig:any;
+    prefabs?: {
+        partials?: any[]
+    }
 }

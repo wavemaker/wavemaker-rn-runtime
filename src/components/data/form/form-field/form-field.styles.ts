@@ -20,6 +20,19 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             fontFamily: themeVariables.baseFont
         }
     });
+    
+    // Add horizontal form field layout class - positioned early to avoid overriding more specific styles
+    addStyle('app-form-field-horizontal', '', {
+        root: {
+            marginBottom: 24,
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            minHeight: 40,
+            width: '100%' // Ensure form field takes full width
+        },
+        text: {}
+    } as BaseStyles);
+    
     addStyle('form-label', '', {
         root : {
             paddingBottom: 5
@@ -29,5 +42,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             fontSize: themeVariables.heading5FontSize
         }
     } as BaseStyles);
+    
     addStyle(DEFAULT_CLASS, '', defaultStyles);
 });

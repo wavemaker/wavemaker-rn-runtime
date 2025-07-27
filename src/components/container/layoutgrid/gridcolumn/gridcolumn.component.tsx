@@ -19,7 +19,14 @@ export default class WmGridcolumn extends BaseComponent<WmGridcolumnProps, WmGri
     if (this.styles.root.height) {
       this.styles.root.overflow = undefined;
     }
-    const styles = this.theme.getStyle(`col-xs-${props.xscolumnwidth}  col-sm-${props.columnwidth}`);
+
+    let styles;
+    if(props.xscolumnwidth) {
+      styles = this.theme.getStyle(`col-xs-${props.xscolumnwidth}  col-sm-${props.columnwidth}`);
+    } else {
+      styles = this.theme.getStyle(`col-xs-${props.columnwidth}`)
+    }
+
     return (
       <View 
         style={[{width: "100%"}, styles.root, this.styles.root]}

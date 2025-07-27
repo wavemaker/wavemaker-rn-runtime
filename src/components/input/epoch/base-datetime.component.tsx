@@ -126,8 +126,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           const date = isString(datavalue) ? this.parse(datavalue as string, this.momentPattern(props.outputformat as String)) : datavalue;
           datavalue = this.convertTimezone(datavalue);
 
-          console.log("===== output value ======", date.toDateString(),  datavalue);
-
           this.updateState({
             dateValue : date,
             displayValue: this.format(datavalue?datavalue:date as any, this.momentPattern(props.datepattern as String))
@@ -373,14 +371,11 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   }
 
   addTouchableOpacity(props: WmDatetimeProps, children: React.JSX.Element, styles?: any, handleLayout?: any) : React.ReactNode{
-    const hint = children?.props?.hint;
-    const accessibilityProps = hint ? {accessible: true, accessibilityHint: hint} : {};
-
     return (
       <TouchableOpacity 
         {...this.getTestPropsForAction()} 
-        {...accessibilityProps}
         onLayout={handleLayout}
+        importantForAccessibility='no'
         style={styles} onPress={() => {
         if (!props.readonly) {
           this.onFocus();
@@ -419,7 +414,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     let updatedRootStyles = splitBorderColorInPlace(rootStyles);
     return ( 
         this.addTouchableOpacity(props, (
-        <View style={[updatedRootStyles, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
+        <View style={[updatedRootStyles, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]} accessible={props.accessible} accessibilityLabel={props.accessibilitylabel || `Select ${props?.mode}`} accessibilityRole={props.accessibilityrole || 'button'} accessibilityHint={props.hint}>
           {this._background}
             {props.floatinglabel ? (
             <FloatingLabel
@@ -452,7 +447,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                   this.clearBtnClicked = true;
                 }}/>)) || null}
               {this.addTouchableOpacity(props, (
-                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}} hint={props?.hint} id={this.getTestId('calendericon')}/>
+                <WmIcon iconclass={this.getIcon()} styles={{color: this.styles.text.color, ...this.styles.calendarIcon}} hint={props?.hint} id={this.getTestId('calendericon')} accessible={false}/>
               ))}
             </View>
           {
@@ -531,7 +526,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             />
           )}
         </View>
-        ), {} , this.handleLayout)
+        ), this.styles.rootWrapper , this.handleLayout)
     );
   }
 }
