@@ -88,4 +88,24 @@ describe('Linear layout item tests', () => {
     const flexBasis1 = view1.children[0].props.style.flexBasis;
     expect(flexBasis1).toBe(0);
   });
+
+
+
+  it('should apply flexShrink 1 if the platform is web', () => {
+    Platform.OS = 'web';
+    let children1 = getLinearLayoutItem({ flexgrow: 1 });
+    const tree1 = renderComponent({ children: children1 });
+    const view: any = tree1.toJSON();
+    const flexShrink1 = view.children[0].props.style.flexShrink;
+    expect(flexShrink1).toBe(1);
+  });
+
+  it('should apply flexShrink 0 if the platform is ios/android', () => {
+    Platform.OS = 'android';
+    let children1 = getLinearLayoutItem({ flexgrow: 1 });
+    const tree1 = renderComponent({ children: children1 });
+    const view: any = tree1.toJSON();
+    const flexShrink1 = view.children[0].props.style.flexShrink;
+    expect(flexShrink1).toBe(0);
+  });
 });
