@@ -38,9 +38,11 @@ async function postBuild(runtimeVersion) {
     packageData.module = 'index';
     //there is this dependency already present in the dependencies. why again in devDependencies?
     // packageData['devDependencies']['@wavemaker/variables'] = runtimeVersion;
-    packageData.exports = {
-      "./": "./"
-    };
+
+    // This has be commented to support module resolution changes from expo53 (metro 0.82)
+    // packageData.exports = {
+    //   "./": "./"
+    // };
     delete packageData['files'];
     fs.writeFileSync(`${projectDir}/dist/module/package.json`, JSON.stringify(packageData, null, 2))
     await updatePackageVersion(`${projectDir}/dist/module/package.json`, 'version', runtimeVersion);
