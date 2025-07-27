@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackHandler, Platform, View } from 'react-native';
+import { BackHandler, NativeEventSubscription, Platform, View } from 'react-native';
 import { WebView, WebViewNavigation, WebViewMessageEvent } from 'react-native-webview';
 import { HideMode } from '@wavemaker/app-rn-runtime/core/if.component';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -22,19 +22,20 @@ export default class WmWebview extends BaseComponent<WmWebviewProps, WmWebViewSt
   private webview: WebView | null = null as any;
   private webViewState: WebViewNavigation = null as any;
   private invokeJSCallbacks = {} as any;
+  private backHandler !: NativeEventSubscription ;
 
   constructor(props: WmWebviewProps) {
     super(props, DEFAULT_CLASS, new WmWebviewProps());
     this.hideMode = HideMode.DONOT_ADD_TO_DOM;
     if (isAndroid() && !isWebPreviewMode()) {
-      BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
+     this.backHandler =  BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonPress);
     }
   }
 
   componentWillUnmount() {
     super.componentWillUnmount();
     if (isAndroid() && !isWebPreviewMode()) {
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+      this.backHandler.remove();
     }
   }
 

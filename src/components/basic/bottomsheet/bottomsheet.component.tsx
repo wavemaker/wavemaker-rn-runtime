@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription } from 'react-native';
+import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription, NativeEventSubscription } from 'react-native';
 import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
 import { createSkeleton } from '../skeleton/skeleton.component';
@@ -35,6 +35,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   private maxHeightRatio: number = 0;
   private keyboardDidShowListener!: EmitterSubscription;
   private keyboardDidHideListener!: EmitterSubscription;
+  private backHandler !: NativeEventSubscription;
+
 
   private calculateSheetHeight(bottomsheetheightratio: number): number {
     // Use default height if ratio not provided, but ensure it's not below minimum
@@ -125,7 +127,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   componentWillUnmount() {
     super.componentWillUnmount();
     if (Platform.OS === 'android') {
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+      this.backHandler.remove();
     }
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();

@@ -1,4 +1,4 @@
-import { BackHandler } from "react-native";
+import { BackHandler, NativeEventSubscription } from "react-native";
 
 import {DisplayManager, DisplayOptions} from "@wavemaker/app-rn-runtime/core/display.manager";
 import AppConfig from "@wavemaker/app-rn-runtime/core/AppConfig";
@@ -7,10 +7,11 @@ import { isAndroid, isWebPreviewMode } from "@wavemaker/app-rn-runtime/core/util
 
 export class AppDisplayManagerService implements DisplayManager {
   public displayOptions = {} as DisplayOptions;
+  private backHandler !: NativeEventSubscription;
 
   private clearBackButtonPress() {
     if (isAndroid() && !isWebPreviewMode()) {
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+      this.backHandler.remove();
     }
   }
 

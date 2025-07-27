@@ -1,4 +1,4 @@
-import { BackHandler } from "react-native";
+import { BackHandler, NativeEventSubscription } from "react-native";
 
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
@@ -10,12 +10,13 @@ class AppModalService implements ModalService {
 
     public modalsOpened = [] as ModalOptions[];
     public appConfig: any;
+    private backHandler !: NativeEventSubscription;
 
     animatedRefs: any = [];
 
     private clearBackButtonPress() {
       if (isAndroid() && !isWebPreviewMode()) {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonPress);
+        this.backHandler.remove();
       }
     }
 
