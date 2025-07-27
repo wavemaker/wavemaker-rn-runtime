@@ -34,7 +34,7 @@ export class CalendarService {
                   events.push({
                     title: e.title,
                     message: e.notes,
-                    location: e.location,
+                    location: e.location || '',
                     startDate: e.startDate,
                     endDate: e.endDate
                   })
