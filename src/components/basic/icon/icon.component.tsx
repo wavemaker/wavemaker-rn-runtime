@@ -76,6 +76,15 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     } else if (iconClass.indexOf('fa-pulse') >= 0) {
       iconDef.animation = 'pulse';
     }
+
+    splits.map((v: string) => { if(ICON_SIZES.get(v)) {
+      this.updateState({
+          props: {
+            classname: v
+          }
+        } as WmIconState);
+    }} );
+
     iconDef.size = splits.map(v => ICON_SIZES.get(v)).find(v => !!v) || 12;
     iconDef.rotate = splits.map(v => ICON_ROTATTION.get(v)).find(v => !!v) || '0deg';
     return iconDef;
@@ -136,11 +145,11 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     if(this.props.skeletonheight == "0") {
       skeletonWidth = 0
     }
-    
+
     if(this.props.skeletonheight == "0") {
       skeletonHeight = 0
     }
-    
+
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
       width: skeletonWidth,
@@ -258,11 +267,11 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     let icon = this.renderIcon(props);
     let iterationCount: any = props.iterationcount ? (props.iterationcount != 'infinite' ? parseInt(props.iterationcount): 'infinite') : undefined;
     return (
-      <Tappable 
-        target={this} 
-        rippleColor = {this.styles.root.rippleColor} 
-        {...this.getTestPropsForAction()} 
-        accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.ICON, props)}} 
+      <Tappable
+        target={this}
+        rippleColor = {this.styles.root.rippleColor}
+        {...this.getTestPropsForAction()}
+        accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.ICON, props)}}
         disableTouchEffect={this.state.props.disabletoucheffect}
         onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
       >
