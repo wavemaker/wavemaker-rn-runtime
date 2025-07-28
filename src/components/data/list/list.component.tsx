@@ -3,12 +3,15 @@ import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { getGroupedData, getNumberOfEmptyObjects, isDefined } from "@wavemaker/app-rn-runtime/core/utils";
+import { getNumberOfColumnsFromResponsiveConfig } from '@wavemaker/app-rn-runtime/core/responsive.utils';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { DefaultKeyExtractor } from '@wavemaker/app-rn-runtime/core/key.extractor';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import { Swipeable } from 'react-native-gesture-handler';
 import WmListActionTemplate from './list-action-template/list-action-template.component';
+import { DEVICE_BREAK_POINTS } from '@wavemaker/app-rn-runtime/styles/theme';
+import _viewPort, { EVENTS as ViewPortEvents } from '@wavemaker/app-rn-runtime/core/viewport';
 
 import WmListProps from './list.props';
 import { DEFAULT_CLASS, WmListStyles } from './list.styles';
@@ -35,9 +38,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   public rightActionTemplate?: WmListActionTemplate;
   private flatListRefs: any = {};
   private selectedItems = [] as any[];
-  private lastScrollTriggered:boolean = false
+  private scrolledToEnd: boolean = false;
 
 
+ 
 
   constructor(props: WmListProps) {
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
@@ -45,8 +49,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       maxRecordsToShow: this.state.props.pagesize
     } as WmListState);
 
-   
-
+    // Subscribe to viewport changes to re-render when screen size changes
+    this.cleanup.push(_viewPort.subscribe(ViewPortEvents.SIZE_CHANGE, () => {
+      this.forceUpdate();
+    }));
   }
 
   private isSelected($item: any) {
@@ -170,7 +176,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             currentPage: this.state.currentPage + 1,
             maxRecordsToShow: this.state.maxRecordsToShow + this.state.props.pagesize,
           } as WmListState);
-          this.lastScrollTriggered = false;
           this.hasMoreData = true;
           if((data as any)?.last === true) {
             this.hasMoreData = false;
@@ -391,20 +396,20 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
 
     this.subscribe('scroll', (event: any) => {
-     const scrollPosition = event.nativeEvent.contentOffset.y;
-    const contentHeight = event.nativeEvent.contentSize.height;
-    const viewportHeight = event.nativeEvent.layoutMeasurement.height;
-    
-    // Calculate how far user has scrolled as a percentage
-    const scrollPercentage = (scrollPosition + viewportHeight) / contentHeight;
-    
-    // Only trigger loadData when User reaches 70% of the list
-    if (scrollPercentage >= 0.7 && 
-        this.state.props.direction === 'vertical' && 
-        !this.lastScrollTriggered) {
-      this.lastScrollTriggered = true
-      this.loadData();
-    }
+      const scrollPosition = event.nativeEvent.contentOffset.y;
+      const contentHeight = event.nativeEvent.contentSize.height;
+      const viewportHeight = event.nativeEvent.layoutMeasurement.height;
+      
+      //checking user scrolled till bottom of the list logic
+      const threshold = 50; // px
+      const isVisible = scrollPosition + viewportHeight >= contentHeight - threshold;
+      if (isVisible && !this.scrolledToEnd) {
+        this.scrolledToEnd = true;
+        //console.log('user scrolled till end');
+        this.loadData();
+      } else if (!isVisible && this.scrolledToEnd) {
+        this.scrolledToEnd = false;
+      }
     });
 
     super.componentDidMount();
@@ -570,8 +575,11 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
 
   public getNoOfColumns() {
     const props = this.state.props;
-    if (props.direction === 'vertical') {
-      return props.itemsperrow.xs;
+    if (props.direction === 'vertical' && props.responsive) {
+      const columns = getNumberOfColumnsFromResponsiveConfig(props.itemsperrow, undefined, props.fallback);
+      return columns && columns > 0 ? columns : 1;
+    } else if (props.direction === 'vertical' && !props.responsive) {
+      return props.itemsperrow.xs || 1;
     }
     return 0;
   }
@@ -597,11 +605,20 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     return this.hasMoreData ? ondemandmessage : nodatamessage
   }
 
+  private onLayoutChange(e: LayoutChangeEvent) {
+    // const l = e.nativeEvent.layout;
+    // this.endThreshold = l.height + l.y - 100;
+    // if (!this.endThreshold) {
+    //   this.endThreshold = -1;
+    
+    // }
+  }
+
   private renderWithFlatList(props: WmListProps, isHorizontal = false) {
 
     return (
       <View style={this.styles.root} 
-      //onLayout={e => this.onLayoutChange(e)}
+      onLayout={e => this.onLayoutChange(e)}
       >
         {!isEmpty(this.state.groupedData) ? this.state.groupedData.map((v: any, i) => ((
           <View style={this.styles.group} key={v.key || this.keyExtractor.getKey(v, true)}>
