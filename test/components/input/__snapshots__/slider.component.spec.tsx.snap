@@ -1,156 +1,725 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Slider component should render the slider component  1`] = `
-[
+exports[`Test Slider component should clamp the value in the range if dataValue is below the range 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
   <View
-    onLayout={[Function]}
     style={
       {
-        "height": 0,
-        "width": 0,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
       }
     }
-  />,
+  >
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_min"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_max"
+    />
+  </View>
   <View
-    style={{}}
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
   >
     <View
-      style={
-        {
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-        }
-      }
-    >
-      <Text
-        accessible={false}
-        style={
-          [
-            {
-              "fontFamily": "Roboto",
-              "fontSize": 16,
-              "userSelect": "text",
-            },
-            {},
-          ]
-        }
-        testID="test_Slider_min"
-      >
-        10
-      </Text>
-      <Text
-        accessible={false}
-        style={
-          [
-            {
-              "fontFamily": "Roboto",
-              "fontSize": 16,
-              "userSelect": "text",
-            },
-            {},
-          ]
-        }
-        testID="test_Slider_value"
-      />
-      <Text
-        accessible={false}
-        style={
-          [
-            {
-              "fontFamily": "Roboto",
-              "fontSize": 16,
-              "userSelect": "text",
-            },
-            {},
-          ]
-        }
-        testID="test_Slider_max"
-      >
-        30
-      </Text>
-    </View>
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={true}
       collapsable={false}
-      focusable={false}
-      onClick={[Function]}
-      onLayout={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
         {
-          "borderRadius": 4,
-          "flexDirection": "row",
-          "height": 4,
-          "marginVertical": 8,
-          "minWidth": 160,
-          "opacity": 1,
-          "overflow": "hidden",
-          "position": "relative",
-          "width": "100%",
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -0,
+            },
+          ],
+          "width": 0,
         }
       }
-      testID="test_Slider"
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgb(162, 162, 162)",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
     >
       <View
+        accessibilityLabel="Low thumb"
+        accessible={true}
         collapsable={false}
         style={
           {
             "backgroundColor": "#4263eb",
-            "borderBottomLeftRadius": 4,
-            "borderTopLeftRadius": 4,
-            "height": "100%",
-            "position": "absolute",
-            "transform": [
-              {
-                "translateX": -0,
-              },
-            ],
-            "width": 0,
-          }
-        }
-      />
-      <View
-        collapsable={false}
-        style={
-          {
-            "backgroundColor": "#ffffff",
-            "borderBottomRightRadius": 4,
-            "borderTopRightRadius": 4,
-            "flex": 1,
-            "height": "100%",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
             "position": "absolute",
             "transform": [
               {
                 "translateX": 0,
               },
             ],
-            "width": 0,
+            "width": 20,
           }
         }
       />
     </View>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="High thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should clamp the value to the maximum of the range if dataValue is outside the range 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_min"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_max"
+    />
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgb(162, 162, 162)",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Low thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="High thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should keep dataValue unchanged if it is within the minValue and maxValue range 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_min"
+    >
+      10
+    </Text>
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_value"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_max"
+    >
+      30
+    </Text>
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#4263eb",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgb(162, 162, 162)",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should render marker labels as an array of objects with title and position properties 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#4263eb",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -100,
+            },
+          ],
+          "width": 200,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 100,
+            },
+          ],
+          "width": 200,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
     <View
       style={
         {
@@ -158,48 +727,1628 @@ exports[`Test Slider component should render the slider component  1`] = `
         }
       }
     >
+      <View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                {},
+                null,
+              ]
+            }
+          >
+            Title 1
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": -25,
+                },
+                {},
+                null,
+                null,
+              ]
+            }
+          >
+            Title 2
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                null,
+                {},
+              ]
+            }
+          >
+            Title 3
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
       <View
-        onLayout={[Function]}
+        accessibilityLabel="Thumb"
+        accessible={true}
+        collapsable={false}
         style={
           {
-            "height": 0,
-            "width": 0,
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 100,
+              },
+            ],
+            "width": 20,
           }
         }
       />
-      <View
-        style={
-          {
-            "position": "relative",
-          }
-        }
-      >
-        <View
-          accessibilityLabel="Thumb"
-          accessible={true}
-          collapsable={false}
-          style={
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should render marker labels as an array, having objects with title and position properties, strings and numbers 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#4263eb",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
             {
-              "backgroundColor": "#4263eb",
-              "backgroundPosition": "center",
-              "backgroundSize": "100% 100%",
-              "borderRadius": 16,
-              "height": 20,
-              "left": 0,
-              "marginLeft": -10,
-              "marginTop": -20,
-              "position": "absolute",
-              "transform": [
-                {
-                  "translateX": 0,
-                },
-              ],
-              "width": 20,
-            }
+              "translateX": -100,
+            },
+          ],
+          "width": 200,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 100,
+            },
+          ],
+          "width": 200,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "flexDirection": "row",
+        }
+      }
+    >
+      <View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
           }
-        />
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                {},
+                null,
+              ]
+            }
+          >
+            Title 1
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": -25,
+                },
+                {},
+                null,
+                null,
+              ]
+            }
+          >
+            Title 2
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                null,
+                null,
+              ]
+            }
+          >
+            Title 3
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                null,
+                null,
+              ]
+            }
+          >
+            Title 4
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                null,
+                null,
+              ]
+            }
+          >
+            5
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                null,
+                null,
+              ]
+            }
+          >
+            Title 6
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                null,
+                {},
+              ]
+            }
+          >
+            7
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
       </View>
     </View>
-  </View>,
-]
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 100,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should render marker labels as numbers if some of the label texts are missing in the props 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#4263eb",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -100,
+            },
+          ],
+          "width": 200,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 100,
+            },
+          ],
+          "width": 200,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "flexDirection": "row",
+        }
+      }
+    >
+      <View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                {},
+                null,
+              ]
+            }
+          >
+            Title 1
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": -25,
+                },
+                {},
+                null,
+                null,
+              ]
+            }
+          >
+            Title 2
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                null,
+                null,
+              ]
+            }
+          >
+            Title 3
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                null,
+                null,
+              ]
+            }
+          >
+            3
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            [
+              {
+                "position": "absolute",
+              },
+              {
+                "alignItems": "center",
+                "bottom": 5,
+                "left": 100,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "bottom": 15,
+                  "position": "absolute",
+                },
+                {
+                  "bottom": 15,
+                },
+                {},
+                null,
+                {},
+              ]
+            }
+          >
+            4
+          </Text>
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "rgba(0,0,0,0.2)",
+                  "bottom": 0,
+                  "position": "absolute",
+                },
+                {
+                  "borderRadius": 10,
+                  "height": 10,
+                  "width": 10,
+                },
+                {},
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 100,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should render the slider component  1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_min"
+    >
+      10
+    </Text>
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_value"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_max"
+    >
+      30
+    </Text>
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#4263eb",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should set dataValue to maxValue if dataValue is greater than maxValue 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_min"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_value"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_max"
+    />
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#4263eb",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgb(162, 162, 162)",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should set dataValue to minValue if dataValue is less than minValue 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_min"
+    >
+      10
+    </Text>
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_value"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_max"
+    >
+      30
+    </Text>
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#4263eb",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgb(162, 162, 162)",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
 `;

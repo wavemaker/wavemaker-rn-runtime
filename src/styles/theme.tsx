@@ -10,6 +10,7 @@ import ThemeVariables from './theme.variables';
 import { getErrorMessage, getStyleReference, isValidStyleProp } from './style-prop.validator';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import { isNativeStyle} from '@wavemaker/app-rn-runtime/core/utils';
 export const DEFAULT_CLASS = 'DEFAULT_CLASS';
 
 declare const matchMedia: any, window: any;
@@ -29,6 +30,18 @@ export const DEVICE_BREAK_POINTS = {
     'MIN_LARGE_DEVICE' : '1200px',
     'MAX_LARGE_DEVICE' : '1000000px',
 };
+
+export const DEVICE_BREAK_POINTS_NATIVE_MOBILE = {
+    'MIN_EXTRA_SMALL_DEVICE': '0',      // 0-479px (phones portrait)
+    'MAX_EXTRA_SMALL_DEVICE': '479',
+    'MIN_SMALL_DEVICE': '480',          // 480-767px (phones landscape, small tablets portrait)
+    'MAX_SMALL_DEVICE': '767',
+    'MIN_MEDIUM_DEVICE': '768',         // 768-1023px (tablets portrait, small laptops)
+    'MAX_MEDIUM_DEVICE': '1023',
+    'MIN_LARGE_DEVICE': '1024',         // 1024px+ (tablets landscape, desktops)
+    'MAX_LARGE_DEVICE': '1000000',
+  };
+  
 
 export type styleGeneratorFn<T extends NamedStyles<any>> = (
     themeVariables: ThemeVariables,
@@ -137,7 +150,10 @@ export class Theme {
         forEach(mergedChildstyle, (v: any, k: string) => {
             if (v && !isString(v) && !isArray(v) && isObject(v)) {
                 addTrace = false;
-                this.addTrace(styleName + '.' + k, v, childStyle && childStyle[k], parentStyle && parentStyle[k])
+
+                if (!isNativeStyle(k, 'property')) {
+                    this.addTrace(styleName + '.' + k, v, childStyle && childStyle[k], parentStyle && parentStyle[k])
+                }
             }
         });
         if (addTrace) {
@@ -173,13 +189,15 @@ export class Theme {
             const flattenStyles = this.flatten(style);
             Object.keys(flattenStyles).forEach(k => {
                 const s = flattenStyles[k];
-                s['__trace'] = flatten(reverse(styles.map((v: any) => {
-                    const cs = get(v, k);
-                    if (cs && cs.__trace) {
-                        return [...cs.__trace];
-                    }
-                    return [];
-                }).filter((t: any) => t.length > 0)));
+                if (!isNativeStyle(k, 'path')) {
+                    s['__trace'] = flatten(reverse(styles.map((v: any) => {
+                        const cs = get(v, k);
+                        if (cs && cs.__trace) {
+                            return [...cs.__trace];
+                        }
+                        return [];
+                    }).filter((t: any) => t.length > 0)));
+                }
             });
         }
         return style;

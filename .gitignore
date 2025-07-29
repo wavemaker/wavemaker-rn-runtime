@@ -68,3 +68,6 @@ dist/
 # plugins
 src/components/plugins
 test/components/plugins
+
+#AI tools 
+.cursor

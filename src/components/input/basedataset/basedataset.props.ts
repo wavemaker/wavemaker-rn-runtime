@@ -23,4 +23,5 @@ export default class BaseDatasetProps extends BaseProps {
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole;
   accessibilitylabelledby?: string = undefined;
+  skipscripteventtrigger?: boolean = false;
 }

@@ -1,6 +1,7 @@
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
+import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 
 export type WmTextareaStyles = BaseStyles & {
   invalid: AllStyle;
@@ -9,6 +10,7 @@ export type WmTextareaStyles = BaseStyles & {
   floatingLabel: AllStyle;
   activeFloatingLabel: AllStyle;
   skeleton: WmSkeletonStyles;
+  helpText:AllStyle;
 };
 
 export const DEFAULT_CLASS = 'app-textarea';
@@ -45,10 +47,27 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           height: 84,
           borderRadius: 4
         }
-      } as any as WmSkeletonStyles
+      } as any as WmSkeletonStyles,
+      helpText:{
+        marginTop:5,
+        textAlign:'right',
+        fontSize: 13,
+        color: ThemeVariables.INSTANCE.textAreaHelpTextColor
+      }
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  
+  // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+  addStyle('form-textarea-input-horizontal', '', {
+    root: {
+      flex: 1,
+      minWidth: 0, // Allow shrinking below intrinsic content size if needed
+      maxWidth: '100%', // Prevent overflow
+    },
+    text: {}
+  } as BaseStyles);
+  
   addStyle(DEFAULT_CLASS + '-disabled', '', {
       root : {
         backgroundColor: themeVariables.inputDisabledBgColor

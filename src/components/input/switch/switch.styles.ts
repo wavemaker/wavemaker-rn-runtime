@@ -6,6 +6,7 @@ import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/ske
 
 export type WmSwitchStyles = BaseStyles & {
   loadingIcon: WmIconStyles,
+  selectedLoadingIcon: WmIconStyles, 
   button: AllStyle,
   selectedButton: AllStyle,
   selectedButtonText: AllStyle,
@@ -17,6 +18,18 @@ export type WmSwitchStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-switch';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const baseIconStyles = {
+    root: {
+      flex: 1,
+      alignSelf: 'center',
+      justifyContent: 'center',
+      fontSize: 16
+    },
+    text: {
+      color: themeVariables.listSubTitleColor
+    }
+  };
+
   const defaultStyles: WmSwitchStyles = defineStyles<WmSwitchStyles>({
       root: {
         minHeight: 24,
@@ -29,17 +42,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         textTransform: 'uppercase',
         userSelect: 'none',
       },
-    loadingIcon: {
-      root: {
-        flex: 1,
-        alignSelf: 'center',
-        justifyContent: 'center',
-        fontSize: 16
-      },
-      text: {
-        color: themeVariables.listSubTitleColor
-      }
-    } as WmIconStyles,
+    loadingIcon: baseIconStyles as WmIconStyles,
+    selectedLoadingIcon: { ...baseIconStyles } as WmIconStyles,
     button: {
       backgroundColor: themeVariables.switchBgColor,
       color: themeVariables.switchTextColor,
@@ -101,6 +105,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  
+  // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+  addStyle('form-switch-input-horizontal', '', {
+    root: {
+      flex: 1, // Take remaining space after label
+      minWidth: 0, // Allow shrinking below intrinsic content size if needed
+      maxWidth: '100%' // Prevent overflow
+    },
+    text: {}
+  } as BaseStyles);
+  
   addStyle(DEFAULT_CLASS + '-disabled', '', {
     root: {}
   });
@@ -108,17 +123,31 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     firstButton:{
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
-      borderTopRightRadius: 6,
-      borderBottomRightRadius: 6,
+      borderTopRightRadius: 18,
+      borderBottomRightRadius: 18,
+    } ,
+    lastButton:{
+      borderTopLeftRadius: 18,
+      borderBottomLeftRadius: 18,
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    }
+  }: Platform.OS=="android" ? {
+    firstButton:{
+      borderTopRightRadius: 18,
+      borderBottomRightRadius: 18,
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
       borderRightWidth: 1,
       borderLeftWidth: 0
     } ,
     lastButton:{
-      borderTopLeftRadius: 6,
-      borderBottomLeftRadius: 6,
+      borderTopLeftRadius: 18,
+      borderBottomLeftRadius: 18,
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0,
-      borderRightWidth: 0
+      borderRightWidth: 0,
+      borderLeftWidth: 1
     }
   }:{});
   addStyle(DEFAULT_CLASS + '1-rtl', '', Platform.OS=="web"?{
@@ -136,7 +165,26 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderBottomLeftRadius: 500,
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0,
-      borderRightWidth: 1
+      borderRightWidth: 1,
+      borderLeftWidth: 0
+    }
+  }: Platform.OS=="android" ? {
+    firstButton:{
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+      borderTopRightRadius: 500,
+      borderBottomRightRadius: 500,
+      borderRightWidth: 1,
+      borderLeftWidth: 0
+    } ,
+    lastButton:{
+      flex: 1,
+      borderTopLeftRadius: 500,
+      borderBottomLeftRadius: 500,
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+      borderRightWidth: 0,
+      borderLeftWidth: 1
     }
   }:{});
   addStyle(DEFAULT_CLASS + '1', '', {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PanResponder, ScrollView, View, NativeSyntheticEvent,  NativeScrollEvent} from 'react-native';
+import { PanResponder, ScrollView, View, NativeSyntheticEvent,  NativeScrollEvent ,StatusBar, Platform} from 'react-native';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -8,6 +8,8 @@ import { DEFAULT_CLASS, WmPageStyles } from './page.styles';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { StickyViewContainer } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
 import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 
 export class WmPageState extends BaseComponentState<WmPageProps> {}
 
@@ -20,6 +22,7 @@ interface CustomScrollEvent {
 export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPageStyles> {
   private scrollRef: React.RefObject<any>;
   private previousScrollPosition: number = 0;
+  private appConfig = injector.get<AppConfig>('APP_CONFIG');
 
   panResponder = PanResponder.create({
     onStartShouldSetPanResponderCapture: (e) => {
@@ -59,23 +62,26 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   }
 
   renderWidget(props: WmPageProps) {
+
+    const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
     return (
       <StickyViewContainer>
         <FixedViewContainer>
+        {isEdgeToEdgeApp && Platform.OS ==="android" ? <StatusBar barStyle={props.barstyle}/> : null}
         <SafeAreaInsetsContext.Consumer>
           {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
             return props.scrollable ? 
             <ScrollView
               ref={this.scrollRef}
               {...this.panResponder.panHandlers}
-              style={[{ width:'100%', height:'100%' }, this.styles.root]}
+              style={[{ width:'100%', height:'100%', paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 }, this.styles.root]}
               onScroll={this.onScroll}
               scrollEventThrottle={16}
             >
               {this._background}
               {props.children}
             </ScrollView> : 
-            <View style={this.styles.root}> 
+            <View style={[{paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 },this.styles.root]}> 
               {this._background}
               {props.children}
             </View>

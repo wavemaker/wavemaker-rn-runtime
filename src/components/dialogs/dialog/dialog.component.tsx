@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Dimensions, StatusBar, Text, View } from 'react-native';
 
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
@@ -65,13 +65,15 @@ export default class WmDialog extends BaseComponent<WmDialogProps, WmDialogState
   }
 
   renderWidget(props: WmDialogProps) {
+    const hasUserMaxHeight = this.styles.root.maxHeight !== undefined;
+    const dynamicMaxHeight = hasUserMaxHeight ? {} : { maxHeight: Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0)};
     return (<ModalConsumer>
       {(modalService: ModalService) => {
         modalService.showModal(this.prepareModalOptions((
           <AssetProvider value={this.loadAsset}>
             <ThemeProvider value={this.theme}>
               <View 
-                style={this.styles.root} 
+                style={[this.styles.root, dynamicMaxHeight]} 
                 testID="wm-dialog"
                 onLayout={(event) => this.handleLayout(event)}
               >

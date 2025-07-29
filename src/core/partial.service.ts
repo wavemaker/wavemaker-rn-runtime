@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default interface PartialService {
-    get: (partialName: string) => any;
+    get: (partialName: string, params?: {isPrefab: boolean, name: string}) => any;
 }
 
 const PartialContext = React.createContext<PartialService>(null as any);

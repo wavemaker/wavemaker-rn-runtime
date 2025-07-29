@@ -309,7 +309,133 @@ describe('WmCarousel Component', () => {
     expect(onChangeMock).toHaveBeenCalledWith(ref.current.proxy, 1, 2);
     expect(ref.current.state.activeIndex).toBe(1);
   });
+  it('should stop auto-play at last item when stopatlast is true', async () => {
+    const ref = createRef();
+    const onChangeMock = jest.fn();
+    renderComponent({
+      ref,
+      onChange: onChangeMock,
+      animation: 'auto',
+      animationinterval: 0.5,
+      stopatlast: true,
+      children: [
+        <View key="slide1">
+          <Text>Slide 1</Text>
+        </View>,
+        <View key="slide2">
+          <Text>Slide 2</Text>
+        </View>,
+      ],
+    });
+  
+    const carouselItem0 = screen.getByTestId('carousel_item_0');
+    const carouselItem1 = screen.getByTestId('carousel_item_1');
+  
+    fireEvent(carouselItem0, 'layout', {
+      nativeEvent: {
+        layout: { x: 0, y: 0, width: 200, height: 200 },
+      },
+    });
+    fireEvent(carouselItem1, 'layout', {
+      nativeEvent: {
+        layout: { x: 200, y: 0, width: 200, height: 200 },
+      },
+    });
+  
+    await timer(1000); 
+  
+    await timer(700);
+    expect((ref.current as any).state.activeIndex).toBe(2);
+  
+    await timer(800);
+    expect((ref.current as any).state.activeIndex).toBe(2); 
+  });
+  
+  it('should not navigate forward from last item when stopatlast is true', async () => {
+    const ref = createRef();
+    const { getByLabelText } = renderComponent({
+      ref,
+      animation: 'none',
+      controls: 'navs',
+      stopatlast: true,
+      children: [
+        <View key="slide1">
+          <Text>Slide 1</Text>
+        </View>,
+        <View key="slide2">
+          <Text>Slide 2</Text>
+        </View>,
+      ],
+    });
+  
+    const carouselItem0 = screen.getByTestId('carousel_item_0');
+    const carouselItem1 = screen.getByTestId('carousel_item_1');
+  
+    fireEvent(carouselItem0, 'layout', {
+      nativeEvent: {
+        layout: { x: 0, y: 0, width: 200, height: 200 },
+      },
+    });
+    fireEvent(carouselItem1, 'layout', {
+      nativeEvent: {
+        layout: { x: 200, y: 0, width: 200, height: 200 },
+      },
+    });
+  
+    await timer(1000); 
+  
+    const nextButton = getByLabelText('next');
+    fireEvent.press(nextButton);
+    await timer(500);
+    expect((ref.current as any).state.activeIndex).toBe(2);
 
+    fireEvent.press(nextButton);
+    await timer(500);
+    expect((ref.current as any).state.activeIndex).toBe(2); 
+  });
+  
+  it('should allow normal looping when stopatlast is false', async () => {
+    const ref = createRef();
+    const { getByLabelText } = renderComponent({
+      ref,
+      animation: 'none',
+      controls: 'navs',
+      stopatlast: false,
+      children: [
+        <View key="slide1">
+          <Text>Slide 1</Text>
+        </View>,
+        <View key="slide2">
+          <Text>Slide 2</Text>
+        </View>,
+      ],
+    });
+  
+    // Add layout events
+    const carouselItem0 = screen.getByTestId('carousel_item_0');
+    const carouselItem1 = screen.getByTestId('carousel_item_1');
+  
+    fireEvent(carouselItem0, 'layout', {
+      nativeEvent: {
+        layout: { x: 0, y: 0, width: 200, height: 200 },
+      },
+    });
+    fireEvent(carouselItem1, 'layout', {
+      nativeEvent: {
+        layout: { x: 200, y: 0, width: 200, height: 200 },
+      },
+    });
+  
+    await timer(1000); 
+    const nextButton = getByLabelText('next');
+  
+    fireEvent.press(nextButton);
+    await timer(500);
+    expect((ref.current as any).state.activeIndex).toBe(2);
+    fireEvent.press(nextButton);
+    await timer(500);
+    expect((ref.current as any).state.activeIndex).toBe(1); 
+  });
   it('should navigate to the previous slide on previous button click', async () => {
     const ref = createRef();
     const onChangeMock = jest.fn();
@@ -498,6 +624,27 @@ describe('WmCarousel Component', () => {
     expect(clearIntervalMock).toHaveBeenCalled();
     clearIntervalMock.mockRestore();
   });
+
+
+  
+it('wraps a single React child into an array', () => {
+     const dataset = [
+      <View key="slide1">
+        <Text>Slide 1</Text>
+      </View>,
+    
+    ];
+  const ref = createRef();
+  renderComponent({
+      ref,
+      animation: 'none',
+    });
+const data = ref.current.extractChildrenData(dataset);
+expect(Array.isArray(data)).toBe(true);
+
+});
+
+
 
   it('should apply the correct styles to the root element', () => {
     const tree = renderComponent({

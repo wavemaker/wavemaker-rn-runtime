@@ -192,6 +192,7 @@ export class Tappable extends React.Component<TappableProps, any> {
             <View 
                 style={this.props.styles}
                 onLayout={this.props.onLayout}
+                {...this.props.accessibilityProps}
             >
                 {this.props.children}
             </View>);

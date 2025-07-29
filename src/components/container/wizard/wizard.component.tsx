@@ -160,7 +160,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
           <View style={{ flex: 1, alignItems: 'flex-start', justifyContent: 'center', flexDirection:'row' }}>
             <WmProgressCircle id={this.getTestId('progress')} minvalue={0} maxvalue={this.steps.length} datavalue={index + 1} captionplacement={'inside'} type={this.props.progresstype} title={progressTitle} subtitle={''} styles={this.styles.progressCircle}/>
           </View>
-        <View style={{ flex: 2, justifyContent: 'center', flexDirection: 'column' }}>
+        <View style={this.styles.stepTitleWrapper}>
             <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
               {item.props.title || 'Step Title'}</Text>
             <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1)+ '_subtitle')}>
@@ -223,9 +223,14 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
               <WmLabel showskeleton={true} styles={{root: {...this.getStepStyle(index)[0]}}}/>
             }
             {(isActiveStep) &&
-              <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
-                {item.state.props.title || 'Step Title'}
-              </Text> 
+              <View style={this.styles.stepTitleWrapper}>
+                <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
+                  {item.state.props.title || 'Step Title'}
+                </Text> 
+                <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_subtitle')}>
+                  {item.state.props.subtitle}
+                </Text> 
+              </View>
             }
             {this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
@@ -249,11 +254,17 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   prev() {
+    if(this.state.props.skipdefaultprevious) {
+      this.invokeEventCallback('onPrev', ['prev',this.proxy]);
+      return;
+    }
+    
     const index = this.state.currentStep;
     if (index <= 0) {
       return;
     }
     const currentStep = this.steps[index];
+    this.invokeEventCallback('onPrev', ['prev',this.proxy]);
     if(currentStep.invokePrevCB(index) == false){
       return;
     }
@@ -261,34 +272,54 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   next(eventName?: string) {
+    if( eventName !== 'skip' && this.state.props.skipdefaultnext) {
+      this.invokeEventCallback('onNext', ['next',this.proxy]);
+      return;
+    }
+
     const index = this.state.currentStep;
     if (index >= this.steps.length - 1) {
       return;
     }
     const currentStep = this.steps[index];
     if (eventName === 'skip') {
+      this.invokeEventCallback('onSkip', ['skip',this.proxy]);
       currentStep.invokeSkipCB(index);
-    } else if (currentStep.invokeNextCB(index) == false) {
-      return;
-    }
+    } else {
+      this.invokeEventCallback('onNext', ['next',this.proxy]);
+      if (currentStep.invokeNextCB(index) == false) {
+        return;
+      } 
+    } 
     this.updateCurrentStep(index + 1);
   }
 
   done($event: any) {
+    if(this.state.props.skipdefaultdone) {
+      this.invokeEventCallback('onDone', ['done', this.proxy]);
+      return;
+    }
     if (this.state.currentStep !== this.lastStepIndex()) {
       return;
     }
     this.updateState({
       isDone: true
     } as WmWizardState);
-    this.invokeEventCallback('onDone', [$event, this.proxy]);
+    this.invokeEventCallback('onDone', ['done', this.proxy]);
   }
 
   cancel() {
-    this.invokeEventCallback('onCancel', [null, this.proxy]);
+    this.invokeEventCallback('onCancel', ['cancel', this.proxy]);
+    if(this.state.props.skipdefaultcancel) {
+      return;
+    }
   }
 
   skip() {
+    if(this.state.props.skipdefaultskip) {
+      this.invokeEventCallback('onSkip', ['skip', this.proxy]);
+      return;
+    }
     this.next('skip');
   }
 
