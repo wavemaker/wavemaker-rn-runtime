@@ -335,29 +335,53 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     return isValid;
   }
 
+  getFormDataOutput() {
+    return cloneDeep(this.state.props.dataoutput || this.formdataoutput);
+  }
+
   // @ts-ignore
-  async handleSubmit(event?: any) {
+ handleSubmit(event?: any) {
     event?.preventDefault();
-    const formData = cloneDeep(this.state.props.dataoutput || this.formdataoutput);
+
     if (!this.validateFieldsOnSubmit()) {
         return false;
     }
+    
     if (this.props.onBeforesubmit) {
         try {
-            if (this.props.enableasynccallbacks) {
-               await this.invokeEventCallbackAsync('onBeforesubmit', [null, this.proxy, formData]);
-               // Only for async - get updated data after async operations
-               const updatedData = cloneDeep(this.state.props.dataoutput || this.formdataoutput);
-               if (updatedData) {
-                   Object.assign(formData, updatedData);
-               }
+            const formData = this.getFormDataOutput();
+            
+            // Call the wrapped callback (this will store the promise on the widget)
+            this.invokeEventCallback('onBeforesubmit', [event, this.proxy, formData]);
+            
+            // Check if there's a pending promise on the widget (cast to any to avoid TS error)
+            if ((this.proxy as any)._pendingPromise) {
+                console.error('[HANDLESUBMIT] Found pending promise on widget');
+                
+                const promise = (this.proxy as any)._pendingPromise;
+                delete (this.proxy as any)._pendingPromise; // Clean up
+                
+                promise.then((res: any) => {
+                    console.error('[HANDLESUBMIT] Promise resolved - now submitting');
+                    const updatedFormData = this.getFormDataOutput();
+                    this.invokeHandleSubmitCallbackFromProps(updatedFormData);
+                }).catch((error: any) => {
+                    console.error('[HANDLESUBMIT] Promise rejected:', error);
+                });
+                
+                return; // Don't proceed synchronously
             } else {
-               this.invokeEventCallback('onBeforesubmit', [null, this.proxy, formData]);
+                console.error('[HANDLESUBMIT] No pending promise - proceeding immediately');
+                this.invokeHandleSubmitCallbackFromProps(formData);
             }
         } catch (error) {
-            return false;
+            console.error('handleSubmit error:', error);
         }
+    } else {
+        this.invokeHandleSubmitCallbackFromProps(this.getFormDataOutput());
     }
+}
+invokeHandleSubmitCallbackFromProps(formData: any) {
     if (this.props.formSubmit) {
         this.props.formSubmit(formData, ((data: any) => {
             this.invokeEventCallback('onSubmit', [null, this.proxy, formData]);
@@ -369,7 +393,8 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     } else {
         this.invokeEventCallback('onSubmit', [null, this.proxy, formData]);
     }
-  }
+}
+   
   onResultCb(response: any, status: string, event?: any) {
     this.invokeEventCallback('onResult', [ null, this.proxy, response ]);
     if (status) {
