@@ -30,7 +30,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   constructor(props: WmLabelProps) {
     super(props, DEFAULT_CLASS, new WmLabelProps(), new WmLabelState());
     this.updateState({
-      parts: this.parseCaption(props.caption || '')
+      parts: this.parseCaption(this.state.props.caption || '')
     } as WmLabelState);
   }
 
