@@ -186,7 +186,8 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
           iconmargin={props.iconmargin}
           iconurl={props.iconurl}
           styles={styles.link}
-          onTap={this.showPopover}/>
+          onTap={this.showPopover}
+          accessible={false}/>
         {this.state.isOpened ? (
           <ModalConsumer>
             {(modalService: ModalService) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, DimensionValue } from 'react-native';
+import { View, TouchableOpacity, Text, DimensionValue, AccessibilityRole } from 'react-native';
 import { LifecycleListener } from '@wavemaker/app-rn-runtime/core/base.component';
 import { clone, findIndex, get, isUndefined, pull, forEach, filter, find, isEqual, merge, isArray, isString } from 'lodash';
 import WmChipsProps from './chips.props';
@@ -11,7 +11,6 @@ import {
 } from '@wavemaker/app-rn-runtime/components/input/basedataset/basedataset.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
-import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 import WmLabel from '../../basic/label/label.component';
 import { isDefined } from '@wavemaker/app-rn-runtime/core/utils';
@@ -213,10 +212,17 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
 
   renderChip(item: any, index: any) {
     const isSelected = this.isDefaultView() ? item.selected : true;
+    const accessibilityProps = {
+      accessibilityLabel: item.displayexp || item.displayfield,
+      accessibilityState: {
+        selected: isSelected,
+      },
+      accessibilityRole: 'checkbox' as AccessibilityRole
+    }
     return (
       <TouchableOpacity
         {...this.getTestPropsForAction('chip'+ index)}
-        {...getAccessibilityProps(AccessibilityWidgetType.CHIPS, {...this.state.props, selected: isSelected})}
+        {...accessibilityProps}
         style={[this.styles.chip, isSelected ? this.styles.activeChip : null]}
         key={'chipitem_'+ index}
         onPress={() => {
@@ -236,10 +242,10 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
             this.invokeEventCallback('onChipselect', [null, this, item]);
           }
         }}>
-        {isSelected && this.isDefaultView() ? <WmIcon id={this.getTestId('checkicon')} iconclass={'wm-sl-l sl-check'} iconsize={16} styles={merge({}, this.styles.doneIcon, {icon: {color: isSelected ? this.styles.activeChipLabel.color : null}})}></WmIcon> : null}
-        { this._showSkeleton ? null : <WmPicture id={this.getTestId('chip'+ index + 'picture')} styles={this.styles.imageStyles} picturesource={item.imgSrc} shape='circle'></WmPicture>}
+        {isSelected && this.isDefaultView() ? <WmIcon id={this.getTestId('checkicon')} iconclass={'wm-sl-l sl-check'} iconsize={16} styles={merge({}, this.styles.doneIcon, {icon: {color: isSelected ? this.styles.activeChipLabel.color : null}})} accessible={false}></WmIcon> : null}
+        { this._showSkeleton ? null : <WmPicture id={this.getTestId('chip'+ index + 'picture')} styles={this.styles.imageStyles} picturesource={item.imgSrc} shape='circle' accessible={false}></WmPicture>}
         { this._showSkeleton ? <WmLabel styles={{root: {width: 50}}}/> :  <Text {...this.getTestPropsForAction('chip'+ index+'label')}style={[this.styles.chipLabel, isSelected ? this.styles.activeChipLabel : null]}>{item.displayexp || item.displayfield}</Text>}
-        {!this.isDefaultView() && !(this.state.props.disabled||this.state.props.readonly) ? <WmIcon id={this.getTestId('clearbtn')} iconclass={'wi wi-clear'} iconsize={16} styles={this.styles.clearIcon} onTap={() => this.removeItem(item, index)}></WmIcon> : null}
+        {!this.isDefaultView() && !(this.state.props.disabled||this.state.props.readonly) ? <WmIcon id={this.getTestId('clearbtn')} iconclass={'wi wi-clear'} iconsize={16} styles={this.styles.clearIcon} onTap={() => this.removeItem(item, index)} accessibilitylabel='clear' accessibilityrole='button'></WmIcon> : null}
       </TouchableOpacity>
     )
   }
@@ -278,9 +284,15 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
 
   renderWidget(props: WmChipsProps) {
     const chips = this.state.chipsList;
+    const accessibilityProps = {
+      accessible: true,
+      accessibilityLabel: props.accessibilitylabel || 'Choose tags',
+      accessibilityHint: props.hint,
+      accessibilityRole: props.accessibilityrole
+    }
     return (<View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
 
-      <View style={this.styles.chipsWrapper}>
+      <View style={this.styles.chipsWrapper} {...accessibilityProps}>
         {
           this.isDefaultView() ? this.state.dataItems.map((item: any, index: any) => this.renderChip(item, index)) : null
         }
@@ -311,7 +323,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
               showSearchIcon={false}
               showclear={false}
               type={props.minchars === 0 ? 'autocomplete' : 'search'}/>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap'}}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap'}} {...accessibilityProps}>
                 {chips && chips.length ?
                 chips.map((item: any, index: any) => this.renderChip(item, index))
                 : null}

@@ -9,6 +9,7 @@ import WmSkeleton, { createSkeleton } from '@wavemaker/app-rn-runtime/components
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export class WmTabheaderState extends BaseComponentState<WmTabheaderProps> {
 }
@@ -177,12 +178,18 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
           {this._background}
           {props.data.map((header ,i) => {
             const isSelected = i === props.selectedTabIndex ;
+            const accessibilityProps = getAccessibilityProps(AccessibilityWidgetType.TABS, {
+              selected: isSelected,
+              accessibilitylabel: props.accessibilityProps[i].accessibilitylabel,
+              hint: props.accessibilityProps[i].hint,
+              accessibilityrole: props.accessibilityProps[i].accessibilityrole,
+            });
             return (
               <Tappable onTap={this.onTabSelection.bind(this, i)}
                 {...this.getTestPropsForAction(i +'')}
                 key={header.key}
                 disableTouchEffect={this.state.props.disabletoucheffect}
-                styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
+                styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null} accessibilityProps={accessibilityProps}>
                 <View onLayout={this.setHeaderPositon.bind(this, i)}>
                   <View style={[
                     this.styles.header,
@@ -191,7 +198,8 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                     <WmIcon
                       id={this.getTestId(i + 'icon')}
                       styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeaderIcon : null)}
-                      iconclass={header.icon}></WmIcon>
+                      iconclass={header.icon}
+                      accessible={false}></WmIcon>
                     <Text numberOfLines={1} style={[
                       this.styles.headerText,
                       isSelected ? this.styles.activeHeaderText : null]}

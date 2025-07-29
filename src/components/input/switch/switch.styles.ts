@@ -6,6 +6,7 @@ import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/ske
 
 export type WmSwitchStyles = BaseStyles & {
   loadingIcon: WmIconStyles,
+  selectedLoadingIcon: WmIconStyles, 
   button: AllStyle,
   selectedButton: AllStyle,
   selectedButtonText: AllStyle,
@@ -17,6 +18,18 @@ export type WmSwitchStyles = BaseStyles & {
 
 export const DEFAULT_CLASS = 'app-switch';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
+  const baseIconStyles = {
+    root: {
+      flex: 1,
+      alignSelf: 'center',
+      justifyContent: 'center',
+      fontSize: 16
+    },
+    text: {
+      color: themeVariables.listSubTitleColor
+    }
+  };
+
   const defaultStyles: WmSwitchStyles = defineStyles<WmSwitchStyles>({
       root: {
         minHeight: 24,
@@ -29,17 +42,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         textTransform: 'uppercase',
         userSelect: 'none',
       },
-    loadingIcon: {
-      root: {
-        flex: 1,
-        alignSelf: 'center',
-        justifyContent: 'center',
-        fontSize: 16
-      },
-      text: {
-        color: themeVariables.listSubTitleColor
-      }
-    } as WmIconStyles,
+    loadingIcon: baseIconStyles as WmIconStyles,
+    selectedLoadingIcon: { ...baseIconStyles } as WmIconStyles,
     button: {
       backgroundColor: themeVariables.switchBgColor,
       color: themeVariables.switchTextColor,

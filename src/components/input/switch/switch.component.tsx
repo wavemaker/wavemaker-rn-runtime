@@ -55,11 +55,16 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
     }
     const displayText = item.displayexp || item.displayfield;
     const isSelected = this.state.props.datafield === 'All Fields' ? isEqual(props.datavalue, item.datafield) : this.state.props.datavalue === item.datafield;
+    const accessibilityProps = {
+      accessibilityRole: 'button',
+      accessibilityState: {
+      selected: isSelected,
+    }};
     return (
       <Tappable
         disableTouchEffect={this.state.props.disabletoucheffect}
         {...this.getTestPropsForAction('button'+index)}
-        accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.SWITCH, {selected: isSelected, hint: props?.hint})}}
+        accessibilityProps={accessibilityProps}
         onTap={this.state.props.disabled ? undefined : this.onTap.bind(this, null, item)}
         styles={[
           this.styles.button,
@@ -69,9 +74,10 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
         {this.state.props.iconclass ?
             (<WmIcon
               id={this.getTestId('icon' + index)}
-              styles={this.styles.loadingIcon}
+              styles={isSelected ? this.styles.selectedLoadingIcon : this.styles.loadingIcon}
               iconclass={item.icon}
-              caption={displayText}></WmIcon>)
+              caption={displayText}
+              accessible={false}></WmIcon>)
             : (<View>
                 {
                   this._showSkeleton ? createSkeleton(this.theme, {} as WmSkeletonStyles, {
@@ -99,7 +105,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
   }
 
   renderWidget(props: WmSwitchProps) {
-    return (<View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
+    return (<View style={this.styles.root} onLayout={(event) => this.handleLayout(event)} {...getAccessibilityProps(AccessibilityWidgetType.SWITCH, props)}>
       {this.renderItems()}
     </View>);
   }

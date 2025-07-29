@@ -32,13 +32,19 @@ export default class WmBarcodescanner extends BaseComponent<WmBarcodescannerProp
   }
 
   renderWidget(props: WmBarcodescannerProps) {
+    const accessibilityProps = {
+      accessible: props.accessible, 
+      accessibilitylabel: props.accessibilitylabel || props.caption,
+      accessibilityrole: props.accessibilityrole,
+      hint: props.hint,
+    }
     return (
       <ScanConsumer>
         {(scanService: ScanService) => {
           this.scanner = scanService;
           return <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
             {this._background}
-            <WmButton id={this.getTestId('button')} iconclass={props.iconclass} styles={this.styles.button} onTap={this.onScanTap.bind(this)} caption={props.caption} iconsize={props.iconsize} accessibilitylabel={props.accessibilitylabel} hint={props.hint} accessibilityrole={props.accessibilityrole}></WmButton>
+            <WmButton id={this.getTestId('button')} iconclass={props.iconclass} styles={this.styles.button} onTap={this.onScanTap.bind(this)} caption={props.caption} iconsize={props.iconsize} {...accessibilityProps}></WmButton>
           </View>
         }}
       </ScanConsumer>

@@ -106,13 +106,20 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
 
   renderWidget(props: WmToggleProps) {
     const styles = this.theme.mergeStyle(this.styles, 
-      this.theme.getStyle(this.state.isSwitchOn ? 'app-toggle-on' : 'app-toggle-off'));
+    this.theme.getStyle(this.state.isSwitchOn ? 'app-toggle-on' : 'app-toggle-off'));
+    const accessibilityProps = getAccessibilityProps(AccessibilityWidgetType.TOGGLE, {
+      accessible: props.accessible,
+      selected: this.state.isSwitchOn,
+      accessibilitylabel: props.accessibilitylabel,
+      hint: props.hint,
+      accessibilityrole: props.accessibilityrole,
+    });
     return (
       <TouchableOpacity 
       onLayout={(e) => {
         this.onLayoutChange(e);
       }}
-      {...getAccessibilityProps(AccessibilityWidgetType.TOGGLE, {...this.props, selected: this.state.isSwitchOn})}
+      {...accessibilityProps}
       onPress={() => {
         if (this.props.disabled || this.props.readonly) {
           return;

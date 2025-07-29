@@ -170,7 +170,6 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
           style={[this.styles.picture, shapeStyles.picture, (props.fastload || this.state.imageWidth) ? {opacity: 1} : {opacity: 0} ]}
           contentFit={props.resizemode}
           source={source}
-          {...getAccessibilityProps(AccessibilityWidgetType.PICTURE, props)}
         />
       );
     }
@@ -282,7 +281,8 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
                 height: imageHeight,
                 width: imageWidth,
                 borderRadius: shapeStyles.picture?.borderRadius
-              }]}>
+              }]}
+            accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.PICTURE, props)}}>
                 {this.showImage(elementToshow, props)}
             </Animatedview>
           </Tappable>

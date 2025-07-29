@@ -36,4 +36,7 @@ export default interface AppConfig {
         pageReadyTime: number
     }, 
     edgeToEdgeConfig:any;
+    prefabs?: {
+        partials?: any[]
+    }
 }

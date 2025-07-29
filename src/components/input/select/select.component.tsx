@@ -132,7 +132,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
         ref={(ref) => {
           this.view = ref as View;
         }}
-        onLayout={(event) => {this.updateState({selectWidth : event.nativeEvent.layout.width} as any)}}>
+        onLayout={(event) => {this.updateState({selectWidth : event.nativeEvent.layout.width} as any)}}
+        {...getAccessibilityProps(AccessibilityWidgetType.SELECT, props)}>
           {select.backgroundImage ? (<BackgroundComponent
             image={select.backgroundImage}
             position={select.backgroundPosition || 'center'}
@@ -148,11 +149,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               this.widgetRef = ref;
             }}
             {...this.getTestPropsForInput()}
-            {...getAccessibilityProps(
-              AccessibilityWidgetType.SELECT,
-              props
-            )}
-            onPress={this.onPress.bind(this)}>
+            onPress={this.onPress.bind(this)}
+            importantForAccessibility='no'>
             {this.state.props.displayValue || props.placeholder || ' '}
           </Text>}
           <WmButton
@@ -160,6 +158,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
             iconclass={'wi wi-keyboard-arrow-down'}
             onTap={this.onPress.bind(this)}
             hint={props?.hint}
+            accessible={false}
           />
       </View>
     );

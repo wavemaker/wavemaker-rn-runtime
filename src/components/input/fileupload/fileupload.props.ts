@@ -7,6 +7,8 @@ export default class WmFileuploadProps extends BaseProps {
   caption: string = 'Upload';
   selectedFiles?: any;
   contenttype?: string;
+  accessible?: boolean = true;
   accessibilitylabel?: string = undefined;
+  accessibilityrole?: AccessibilityRole = 'button';
   hint?: string = undefined;
 }
