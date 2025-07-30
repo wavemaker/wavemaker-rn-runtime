@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, LayoutChangeEvent, Text, View } from 'react-native';
+import { Dimensions, LayoutChangeEvent, StatusBar, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { find, isEmpty, isString } from 'lodash';
 
@@ -227,7 +227,13 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
         styles.modalContent.width = this.styles.dropdown.width || this.state.selectWidth;
     }
     return (
-      <View onLayout={isDropdown?this.computePosition:()=>{}}>
+      <View 
+        onLayout={(event) => {
+          isDropdown ? this.computePosition(event) : ()=>{}
+          this.handleLayout(event)
+        }}
+        style={[this.styles.rootWrapper]}
+      >
         {this._background}
         {this.renderSelect()}
         {this.state.isOpened ? (
@@ -236,7 +242,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
               const items = this.state.dataItems;
               modalService.showModal(
                 this.prepareModalOptions(
-                  <ScrollView style={ isDropdown ?[{width : this.state.selectWidth},this.styles.dropdown]:{width: '100%', maxHeight: ThemeVariables.INSTANCE.maxModalHeight}} 
+                  <ScrollView style={ isDropdown ?[{width : this.state.selectWidth},this.styles.dropdown]:{width: '100%', maxHeight: Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0)}} 
                   contentContainerStyle={this.styles.dropDownContent}>
                     {props.placeholder ?
                       <View key={props.name + '_placeholder'} style={this.styles.placeholderText}>

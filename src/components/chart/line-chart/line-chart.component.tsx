@@ -17,6 +17,7 @@ import {
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import {InterpolationPropType} from "victory-core";
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmLineChartState extends BaseChartComponentState<WmLineChartProps> {}
 
@@ -27,19 +28,26 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
   }
   
   onSelect(event: any, data: any){
+    if (!this.viewRef.current) return;
+    if (!this.state.props.dataset) return;
+    this.viewRef.current.measureInWindow((chartX: number, chartY: number) => {
     let value = data.data[data.index].y;
     let label = this.state.xaxisDatakeyArr[data.datum.x];
     let selectedItem = this.props.dataset[data.index];
     const nativeEvent = event.nativeEvent;
-    this.setTooltipPosition(nativeEvent);
+    let tooltipX = nativeEvent.pageX - chartX;
+    let tooltipY = nativeEvent.pageY - chartY;
     let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
     this.updateState({
       tooltipXaxis: label,
       tooltipYaxis: value,
       isTooltipOpen: true,
       selectedItem: {...selectedItem, index: data.index},
+      tooltipXPosition: tooltipX - this.state.tooltipoffsetx, 
+      tooltipYPosition: tooltipY - this.state.tooltipoffsety
     } as WmLineChartState)
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+  });
   }
 
 
@@ -51,7 +59,6 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
     }
     return (
     <View style={this.styles.root} {...getAccessibilityProps(AccessibilityWidgetType.LINECHART, props)} onLayout={this.onViewLayoutChange}>
-      {this.getTooltip()}
       <View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           { props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
@@ -59,11 +66,13 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
         </View>
         <Text style={this.styles.subHeading}>{props.subheading}</Text>
       </View>
+      <View ref={this.viewRef}>
+      {this.getTooltip()}
       <VictoryChart
         theme={this.state.theme}
         height={(this.styles.root.height) as number}
         width={this.state.chartWidth || this.screenWidth}
-        padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
+        padding={{ top: props.offsettop, bottom: props.offsetbottom, left: this.isRTL ? props.offsetright : props.offsetleft, right: this.isRTL ? props.offsetleft : props.offsetright }}
       >
         {this.getLegendView()}
         {this.getXaxis()}
@@ -79,14 +88,14 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
                   strokeWidth: props.linethickness,
                 }
               }}       
-              data={this.isRTL?d.toReversed():d}
+              data={d}
             />
           
               <VictoryScatter size={5} key={props.name + '_scatter' + i}
                   style={{
                     data: (props.highlightpoints || this.state.data.length === 1) ? {fill: this.state.colors[i], opacity: 0.8} : {opacity:0}
                   }}
-                  data={this.isRTL?d.toReversed():d}
+                  data={d}
                   events={[{
                     target: 'data',
                     eventHandlers: Platform.OS == "web" ? {
@@ -99,6 +108,7 @@ export default class WmLineChart extends BaseChartComponent<WmLineChartProps, Wm
             </VictoryGroup>
         })}
       </VictoryChart>
+      </View>
     </View>);
   }
 }

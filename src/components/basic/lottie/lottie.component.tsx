@@ -64,7 +64,7 @@ export default class WmLottie extends BaseComponent<WmLottieProps, WmLottieState
   }
 
   private loadAnimationData() {
-    if (this.state.animationData || ! this.loadAsset) {
+    if (this.state.animationData || ! this.loadAsset || !this.state.props.source) {
       return;
     }
     if (Platform.OS == 'web') {
@@ -141,7 +141,10 @@ export default class WmLottie extends BaseComponent<WmLottieProps, WmLottieState
 
   renderWidget(props: WmLottieProps) {
     return (
-      <View style={this.styles.root}>
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this._background}
         {this.state.animationData ? 
           (Platform.OS == 'web' ?  this.renderWebLottie(props) : this.renderNativeLottie(props)) 

@@ -3,12 +3,12 @@ import { LayoutChangeEvent, View, Text, Platform } from 'react-native';
 import { Svg } from 'react-native-svg';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 
-import { VictoryLabel, VictoryLegend, VictoryPie } from 'victory-native';
+import { VictoryLabel, VictoryPie } from 'victory-native';
 
 import WmPieChartProps from './pie-chart.props';
 import { DEFAULT_CLASS, WmPieChartStyles } from './pie-chart.styles';
 
-import { formatCompactNumber } from '@wavemaker/app-rn-runtime/core/utils';
+import { formatCompactNumber, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import {
   BaseChartComponent,
@@ -39,6 +39,9 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
 
   onViewLayoutChange = (e: LayoutChangeEvent) => {
     let viewWidth = e.nativeEvent.layout.width;
+
+    this.handleLayout(e)
+
     this.updateState({
       chartWidth: viewWidth,
       totalHeight: e.nativeEvent?.layout.height
@@ -77,20 +80,27 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
   }
 
   onSelect(event: any, data: any){
+    if (!this.viewRef.current) return;
+    if (!this.state.props.dataset) return;
+    this.viewRef.current.measureInWindow((chartX: number, chartY: number) => {
     let value = data.slice.value;
     let label = this.state.xaxisDatakeyArr[data.datum.x];
     let selectedItem = this.props.dataset[data.index];
     let selectedChartItem = data.slice;
     selectedChartItem["data"] = {x: label, y: value, color: data.style.fill, _dataObj: selectedItem}
     const nativeEvent = event.nativeEvent;
-    this.setTooltipPosition(nativeEvent);
+    let tooltipX = nativeEvent.pageX - chartX;
+    let tooltipY = nativeEvent.pageY - chartY;
     this.updateState({
       tooltipXaxis: label,
       tooltipYaxis: value,
       isTooltipOpen: true,
-      selectedItem: {...selectedItem, index: data.index},
-    } as WmPieChartState)
+      selectedItem: {...selectedItem, index: data.index },
+      tooltipXPosition: tooltipX - this.state.tooltipoffsetx, 
+      tooltipYPosition: tooltipY - this.state.tooltipoffsety
+    } as any);
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+    });
   }
 
   renderWidget(props: WmPieChartProps) {
@@ -130,11 +140,14 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
         key={`${props.title}_pie_chart`}
         >
         <View onLayout={this.onInfoViewLayoutChange}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          { (props.title || props.iconclass) ? (
+          <View testID="title-icon-container" style={{flexDirection: 'row', alignItems: 'center'}}>
             {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
-            <Text style={this.styles.title}>{props.title}</Text>
+            {props.title ? (<Text style={this.styles.title}>{props.title}</Text>) : null }
           </View>
-          <Text style={this.styles.subHeading}>{props.subheading}</Text>
+          ) : null }
+          { props.subheading? (
+          <Text style={this.styles.subHeading}>{props.subheading}</Text> ) : null }
         </View>
         {props.showlegend === 'top' ? 
           (<View onLayout={this.onLegendViewLayoutChange}>
@@ -144,7 +157,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
           </View>) : null }
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
         {this.getTooltip()}
-          <View style={{flex: 1}}>
+          <View style={{flex: 1}} ref={this.viewRef}>
             {chartWidth ? (
             <Svg
               width={chartWidth}
@@ -153,7 +166,7 @@ export default class WmPieChart extends BaseChartComponent<WmPieChartProps, WmPi
               <VictoryPie
                 style={styleProp}
                 standalone={false}
-                colorScale={this.state.colors}
+                colorScale={this.isRTL ? [...this.state.colors].slice(0, pieData.length).reverse() : this.state.colors}
                 labels={({datum}) => this.getLabel(datum, props)}
                 endAngle={this.state.endAngle || 0}
                 radius={radius}

@@ -69,7 +69,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
         {this.state.props.iconclass ?
             (<WmIcon
               id={this.getTestId('icon' + index)}
-              styles={this.styles.loadingIcon}
+              styles={isSelected ? this.styles.selectedLoadingIcon : this.styles.loadingIcon}
               iconclass={item.icon}
               caption={displayText}></WmIcon>)
             : (<View>
@@ -99,7 +99,7 @@ export default class WmSwitch extends BaseDatasetComponent<WmSwitchProps, WmSwit
   }
 
   renderWidget(props: WmSwitchProps) {
-    return (<View style={this.styles.root}>
+    return (<View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
       {this.renderItems()}
     </View>);
   }

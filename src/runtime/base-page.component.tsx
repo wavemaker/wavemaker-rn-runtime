@@ -11,7 +11,7 @@ import AppSecurityService from './services/app-security.service';
 import AppSpinnerService from './services/app-spinner.service';
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
 import { Watcher } from './watcher';
-import { resetLayoutPositions } from '../core/utils';
+import { setCurrentPageInAppLayout } from '../core/utils';
 
 declare const window: any;
 
@@ -52,6 +52,8 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       if (this.App.appConfig.diagnostics.pageStartTime < 0) {
         this.App.appConfig.diagnostics.pageStartTime = Date.now();
       }
+
+      setCurrentPageInAppLayout(props.route.name);
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {
@@ -142,8 +144,6 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
         return Promise.resolve();
       }
 
-      resetLayoutPositions();
-
       const navigation = (this.props as PageProps).navigation;
       const _params = clone(params);
       _params && delete _params['pageName'];
@@ -194,8 +194,6 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       if(!isNavigable){
         return Promise.resolve();
       }
-
-      resetLayoutPositions();
 
       this.App.appConfig.diagnostics.pageStartTime = Date.now();
       if (navigation.canGoBack()) {

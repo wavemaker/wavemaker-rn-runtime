@@ -9,7 +9,7 @@ import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 import LottieView from 'lottie-react-native';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
-
+import { UIPreferencesConsumer, UI_PREFERENCES } from "@wavemaker/app-rn-runtime/core/ui-preferences.context";
 export class WmSpinnerState extends BaseComponentState<WmSpinnerProps> {
 
 }
@@ -70,7 +70,10 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
     ]
   }
 
-  private addClasstoLottie(lottiePath: any) {
+  private addClasstoLottie(lottiePath: any, inheritThemePrimary: boolean) {
+    if (inheritThemePrimary === false){
+      return lottiePath.json;
+    }
     let primaryColor = Color(ThemeVariables.INSTANCE.primaryColor);
     let colors = [this.toRgbArray(primaryColor), 
       this.toRgbArray(primaryColor.darken(0.2)), 
@@ -80,13 +83,14 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
     return this.recursiveSearch(lottiePath.json, lottiePath.loader == 'circleSpinner' ? [colors[0]] : colors);
   }
 
-  private prepareLottie(props: any) {
+  private prepareLottie(props: any, loaderConfig: any) {
     let Lottie = Platform.OS == 'web' ? require('react-lottie-player') : null;
     Lottie = Lottie?.default || Lottie;
+    const animationSource = this.addClasstoLottie(props.lottie, loaderConfig?.inheritThemePrimary);
     return (
-      Platform.OS == 'web' ? <Lottie animationData={this.addClasstoLottie(props.lottie)} loop={true} play={true} style={this.styles.lottie} /> : <LottieView
+      Platform.OS == 'web' ? <Lottie animationData={animationSource} loop={true} play={true} style={this.styles.lottie} /> : <LottieView
         {...this.getTestProps('loader')}
-        source={this.addClasstoLottie(props.lottie)}
+        source={animationSource}
         resizeMode='contain'
         autoPlay={true}
         loop={true}
@@ -97,11 +101,20 @@ export default class WmSpinner extends BaseComponent<WmSpinnerProps, WmSpinnerSt
 
   renderWidget(props: WmSpinnerProps) {
     return (
-      <View style={this.styles.root}>
-        {this._background}
-        {props.lottie ? this.prepareLottie(props) : props.image ? this.prepareImage(props) : this.prepareIcon(props)}
-        {props.caption ? <Text {...this.getTestPropsForLabel()} style={this.styles.text}>{props.caption}</Text> : null}
-      </View>
+      <UIPreferencesConsumer>
+        {(preferences: UI_PREFERENCES) => {
+        const loaderConfig = preferences.appLoader;
+        return (
+          <View
+            style={this.styles.root}
+            onLayout={(event) => this.handleLayout(event)}
+          >
+            {this._background}
+            {props.lottie ? this.prepareLottie(props, loaderConfig) : props.image ? this.prepareImage(props) : this.prepareIcon(props)}
+            {props.caption ? (<Text {...this.getTestPropsForLabel()} style={this.styles.text}>{props.caption}</Text>) : null}
+          </View>)
+        }}
+      </UIPreferencesConsumer>
     );
   }
 }

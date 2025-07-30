@@ -13,4 +13,6 @@ export default class WmCarouselProps extends BaseProps {
   enablegestures  = true;
   maxnoofdots = 5;
   showskeletonchildren?: boolean = false;
+  threshold: number = 5;
+  stopatlast: boolean = false;
 }

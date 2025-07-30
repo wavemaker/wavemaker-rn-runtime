@@ -1,6 +1,7 @@
 import React from 'react';
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 import { View } from 'react-native';
+import { ResponsiveConfig } from '@wavemaker/app-rn-runtime/core/responsive.utils';
 
 export default class WmListProps extends BaseProps {
     formRef: any;
@@ -12,7 +13,7 @@ export default class WmListProps extends BaseProps {
     dataset = [] as any;
     maxnumberofitems = 50;
     children? = null as any;
-    renderItem: any = () => (<View/>);
+    renderItem: any = () => (<View />);
     loadingicon: string = null as any;
     loadingdatamsg = 'Loading...';
     multiselect = false;
@@ -28,15 +29,23 @@ export default class WmListProps extends BaseProps {
     orderby: string = null as any;
     dateformat: string = null as any;
     selecteditem = null as any;
-    navigation : 'Scroll' | 'On-Demand' | 'None' = 'None';
+    navigation: 'Scroll' | 'On-Demand' | 'None' = 'None';
     itemclass: ($item: any, $index: any) => string = null as any;
     getNextPageData: ($event: any, $list: any, page: number) => Promise<any> = null as any;
     pagesize = 20;
-    itemsperrow =  {
-       xs: 1,
-       sm: 1,
-       md: 1,
-       lg: 1,
+    itemsperrow: ResponsiveConfig<number> = {
+        xs: 1,
+        sm: 1,
+        md: 1,
+        lg: 1,
     };
-    numberofskeletonitems?: number | string
+    numberofskeletonitems?: number | string;
+    hidehorizontalscrollbar?: boolean = false;
+    shouldswipe?: boolean = false;
+    horizontalondemandenabled:boolean = false;
+    triggeronrenderwhenhidden?: boolean = true;
+    selecteditemicon: string = null as any;
+    disableitemselect: boolean = false;
+    responsive: boolean = false;
+    fallback: boolean = false;
 }

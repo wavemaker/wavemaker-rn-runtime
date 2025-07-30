@@ -15,6 +15,7 @@ export type WmListStyles = BaseStyles & {
     emptyMessage: WmLabelStyles,
     onDemandMessage: WmLabelStyles,
     item: AllStyle,
+    itemContainer: ViewStyle | ViewStyle[],
     selectedItem: AllStyle,
     selectedIcon: WmIconStyles,
     group: AllStyle,
@@ -25,6 +26,7 @@ export const DEFAULT_CLASS = 'app-list';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmListStyles = defineStyles({
         root: {},
+        listContainer:{},
         text: {},
         listIcon: {
             root: {
@@ -110,6 +112,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             borderColor: themeVariables.selectedItemBorderColor,
             borderRadius: 6,
             borderStyle: 'solid',
+        },
+        itemContainer: {
         },
         selectedItem : {} as AllStyle,
         selectedIcon : {

@@ -23,6 +23,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultProps, defaultState);
   }
+  public charlength:number = 0;
 
   focus() {
     this?.widgetRef?.focus();
@@ -52,11 +53,16 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
             textValue: $new
           } as S
         );
-        const isDefault = this.state.isDefault;
+        
+        const isDefault = this.state.props.isdefault;
         if (isDefault) {
-          this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
-        } else {
-          this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
+          this.updateState(
+            { props: {isdefault: false} } as S, 
+            !this.state.props.skipscripteventtrigger && this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault)
+          );
+        } 
+        else {
+          !this.state.props.skipscripteventtrigger && this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
         }
     }
   }
@@ -77,6 +83,7 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
   }
 
   onChangeText(value: any) {
+    this.charlength = value?.length;
     if(this.state.props.updateon === 'lazy') {
       if(this.timer !== null) {
         clearTimeout(this.timer);
@@ -137,9 +144,15 @@ export abstract class BaseInputComponent< T extends BaseInputProps, S extends Ba
         } as S, () => resolve(true));
       }
     }).then(() => {
-      !this.props.onFieldChange && value !== oldValue && this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
+      if(!this.props.onFieldChange && value !== oldValue){
+        this.invokeEventCallback('onChange', [event, this.proxy, value, oldValue]);
+      }else if(this.state.props.skipscripteventtrigger && this.props.onFieldChange){
+        this.props.onFieldChange('datavalue', value, oldValue, false);
+      }
       if (source === 'blur') {
-        this.invokeEventCallback('onBlur', [ event, this.proxy]);
+        setTimeout(() => {
+          this.invokeEventCallback('onBlur', [event, this.proxy]);
+        }, 10);
       }
     })
   }

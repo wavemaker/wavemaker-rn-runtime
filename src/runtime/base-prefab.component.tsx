@@ -83,6 +83,11 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       Object.values(this.fragments).forEach((f: any) => (f as BaseFragment<any, any>).resetAppLocale());
     }
 
+    componentDidUpdate(prevProps: Readonly<PrefabProps>, prevState: Readonly<PrefabState>, snapshot?: any): void {
+      super.componentDidUpdate(prevProps, prevState, snapshot);
+      this.watcher.check();
+    }
+
     componentWillUnmount() {
       super.componentWillUnmount();
       this.invokeEventCallback('onDestroy', [null, this]);

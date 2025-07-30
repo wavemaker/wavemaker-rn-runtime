@@ -15,6 +15,7 @@ import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.compone
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
 import { isNil, isNumber } from 'lodash-es';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 export class WmAreaChartState extends BaseChartComponentState<WmAreaChartProps> {
   chartWidth = 0;
@@ -28,25 +29,35 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
 
   onViewLayoutChange = (e: LayoutChangeEvent) => {
     let viewWidth = e.nativeEvent.layout.width;
+
+    this.handleLayout(e);
+
     this.updateState({
       chartWidth: viewWidth
     } as WmAreaChartState)
   }
 
   onSelect(event: any, data: any){
+    if (!this.viewRef.current) return;
+    if (!this.state.props.dataset) return;
+    this.viewRef.current.measureInWindow((chartX: number, chartY: number) => {
     let value = data.data[data.index].y;
     let label = this.state.xaxisDatakeyArr[data.datum.x];
     let selectedItem = this.props.dataset[data.index];
     const nativeEvent = event.nativeEvent;
-    this.setTooltipPosition(nativeEvent);
+    let tooltipX = nativeEvent.pageX - chartX;
+    let tooltipY = nativeEvent.pageY - chartY;
     let selectedChartItem = [{series: 0, x: data.index, y: value,_dataObj: selectedItem},data.index];
     this.updateState({
       tooltipXaxis: label,
       tooltipYaxis: value,
       isTooltipOpen: true,
       selectedItem: {...selectedItem, index: data.index},
+      tooltipXPosition: tooltipX - this.state.tooltipoffsetx, 
+      tooltipYPosition: tooltipY - this.state.tooltipoffsety
     } as WmAreaChartState)
     this.invokeEventCallback('onSelect', [event.nativeEvent, this.proxy, selectedItem, selectedChartItem ]);
+  });
   }
 
   renderWidget(props: WmAreaChartProps) {
@@ -70,21 +81,25 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
         onLayout={this.onViewLayoutChange.bind(this)}
         key={`${props.title}_area_chart`}
       >
-        {this.getTooltip()}
         <View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        { (props.title || props.iconclass) ? (
+          <View testID="title-icon-container" style={{flexDirection: 'row', alignItems: 'center'}}>
             {props.iconclass ? (<WmIcon iconclass={props.iconclass} styles={this.styles.icon}></WmIcon>) : null }
-            <Text style={this.styles.title}>{props.title}</Text>
+            {props.title ? (<Text style={this.styles.title}>{props.title}</Text>) : null }
           </View>
-          <Text style={this.styles.subHeading}>{props.subheading}</Text>
+        ) : null }
+          { props.subheading? (
+          <Text style={this.styles.subHeading}>{props.subheading}</Text> ) : null }
         </View>
         {this.state.chartWidth ? 
         (
+          <View ref={this.viewRef}>
+          {this.getTooltip()}
           <VictoryChart
             theme={this.state.theme}
             height={this.styles.root.height as number}
-            width={this.state.chartWidth || 120}
-            padding={{ top: props.offsettop, bottom: props.offsetbottom, left: props.offsetleft, right: props.offsetright }}
+            width={this.state.chartWidth || this.screenWidth}
+            padding={{ top: props.offsettop, bottom: props.offsetbottom, left: this.isRTL ? props.offsetright : props.offsetleft, right: this.isRTL ? props.offsetleft : props.offsetright }}
             minDomain={mindomain}
           > 
             {this.getLegendView()}
@@ -111,7 +126,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                         strokeWidth: props.linethickness,
                       }
                     }}
-                    data={this.isRTL?d.toReversed():d}
+                    data={d}
                   />
                     <VictoryScatter
                       size={5}
@@ -119,7 +134,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
                       style={{
                         data: props.highlightpoints ? {fill: this.state.colors[i], opacity: 0.8}:{opacity: 0}
                       }}        
-                      data={this.isRTL?d.toReversed():d}
+                      data={d}
                       events={[{
                         target: 'data',
                         eventHandlers: Platform.OS == "web" ? {
@@ -134,6 +149,7 @@ export default class WmAreaChart extends BaseChartComponent<WmAreaChartProps, Wm
             }
             </VictoryStack>
           </VictoryChart>
+          </View>
         )
       : null}
     </View>);

@@ -81,8 +81,8 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
         iconurl={props.iconurl}
         /> : null}
         <View style={{flexDirection: 'column', flex: 1, justifyContent: 'center'}}>
-          {
-            this._showSkeleton ? 
+          {props.title? 
+            (this._showSkeleton ? 
             <WmLabel 
             showskeleton={true}
             styles={{root: [
@@ -93,8 +93,7 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
               this.styles.heading]}
               {...this.getTestPropsForAction(`header_title`)}>
                 {isUndefined(props.title) ? 'Title' : props.title}
-            </Text>
-          }
+            </Text> ) : null }
           {props.subheading ? 
             (this._showSkeleton ? 
             <WmLabel  
@@ -150,7 +149,12 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
       ...this.styles.root,
       ...this.styles.skeleton.root
     } : this.styles.root
-    return (<View style={styles} testID={this.getTestId()}>
+    return (
+    <View 
+      style={styles} 
+      testID={this.getTestId()} 
+      onLayout={(event) => this.handleLayout(event)}
+    >
       {this.getBackground()}
       {this.renderHeader()}
       {this.renderPane((

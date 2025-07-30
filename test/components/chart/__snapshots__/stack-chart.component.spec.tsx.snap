@@ -1,24 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test stackChart component Should render component 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
-    }
-  />,
-  <View
-    accessibilityHint="stack chart"
-    accessible={true}
-    onLayout={[Function]}
-    style={{}}
-  >
+<View
+  accessibilityHint="stack chart"
+  accessible={true}
+  onLayout={[Function]}
+  style={{}}
+>
+  <View>
     <View
-      className="VictoryContainer"
       onMoveShouldSetResponder={[Function]}
       onMoveShouldSetResponderCapture={[Function]}
       onResponderEnd={[Function]}
@@ -40,14 +30,13 @@ exports[`Test stackChart component Should render component 1`] = `
     >
       <RNSVGSvgView
         align="xMidYMid"
-        bbHeight="250"
-        bbWidth="200"
+        bbHeight={250}
+        bbWidth={200}
         focusable={false}
         height={250}
         meetOrSlice={0}
         minX={0}
         minY={0}
-        role="img"
         style={
           [
             {
@@ -79,15 +68,15 @@ exports[`Test stackChart component Should render component 1`] = `
         >
           <RNSVGRect
             fill={null}
-            height="250"
+            height={250}
             propList={
               [
                 "fill",
               ]
             }
-            width="200"
-            x="0"
-            y="0"
+            width={200}
+            x={0}
+            y={0}
           />
           <RNSVGGroup
             fill={
@@ -99,22 +88,22 @@ exports[`Test stackChart component Should render component 1`] = `
           >
             <RNSVGRect
               fill={null}
-              height="47.800000000000004"
+              height={47.800000000000004}
               propList={
                 [
                   "fill",
                 ]
               }
               vectorEffect={1}
-              width="10"
-              x="0"
-              y="0"
+              width={10}
+              x={0}
+              y={0}
             />
             <RNSVGText
               content={null}
               dx={
                 [
-                  "0",
+                  0,
                 ]
               }
               dy={[]}
@@ -129,12 +118,12 @@ exports[`Test stackChart component Should render component 1`] = `
               rotate={[]}
               x={
                 [
-                  "5",
+                  5,
                 ]
               }
               y={
                 [
-                  "20.39",
+                  20.39,
                 ]
               }
             >
@@ -142,12 +131,12 @@ exports[`Test stackChart component Should render component 1`] = `
                 content=""
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 fill={
@@ -159,7 +148,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 font={
                   {
                     "fontFamily": "Helvetica Neue",
-                    "fontSize": "18",
+                    "fontSize": 18,
                     "letterSpacing": "normal",
                     "textAnchor": "start",
                   }
@@ -172,7 +161,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 rotate={[]}
                 x={
                   [
-                    "5",
+                    5,
                   ]
                 }
                 y={[]}
@@ -181,12 +170,12 @@ exports[`Test stackChart component Should render component 1`] = `
                 content=""
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={
                   [
-                    "18",
+                    18,
                   ]
                 }
                 fill={
@@ -198,7 +187,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 font={
                   {
                     "fontFamily": "Helvetica Neue",
-                    "fontSize": "18",
+                    "fontSize": 18,
                     "letterSpacing": "normal",
                     "textAnchor": "start",
                   }
@@ -211,7 +200,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 rotate={[]}
                 x={
                   [
-                    "5",
+                    5,
                   ]
                 }
                 y={[]}
@@ -228,16 +217,16 @@ exports[`Test stackChart component Should render component 1`] = `
           >
             <RNSVGRect
               fill={null}
-              height="54.6"
+              height={54.6}
               propList={
                 [
                   "fill",
                 ]
               }
               vectorEffect={1}
-              width="92.8"
-              x="0"
-              y="0"
+              width={92.8}
+              x={0}
+              y={0}
             />
             <RNSVGPath
               d="M 62, 42
@@ -260,7 +249,7 @@ exports[`Test stackChart component Should render component 1`] = `
               content={null}
               dx={
                 [
-                  "0",
+                  0,
                 ]
               }
               dy={[]}
@@ -275,12 +264,12 @@ exports[`Test stackChart component Should render component 1`] = `
               rotate={[]}
               x={
                 [
-                  "76.4",
+                  76.4,
                 ]
               }
               y={
                 [
-                  "46.26",
+                  46.26,
                 ]
               }
             >
@@ -288,12 +277,12 @@ exports[`Test stackChart component Should render component 1`] = `
                 content="y"
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 fill={
@@ -305,7 +294,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 font={
                   {
                     "fontFamily": "Helvetica Neue",
-                    "fontSize": "12",
+                    "fontSize": 12,
                     "letterSpacing": "normal",
                     "textAnchor": "start",
                   }
@@ -318,7 +307,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 rotate={[]}
                 x={
                   [
-                    "76.4",
+                    76.4,
                   ]
                 }
                 y={[]}
@@ -346,10 +335,10 @@ exports[`Test stackChart component Should render component 1`] = `
                 ]
               }
               vectorEffect={1}
-              x1="25"
-              x2="165"
-              y1="200"
-              y2="200"
+              x1={25}
+              x2={165}
+              y1={200}
+              y2={200}
             />
             <RNSVGGroup
               fill={
@@ -363,7 +352,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -378,12 +367,12 @@ exports[`Test stackChart component Should render component 1`] = `
                 rotate={[]}
                 x={
                   [
-                    "25",
+                    25,
                   ]
                 }
                 y={
                   [
-                    "235.26",
+                    235.26,
                   ]
                 }
               >
@@ -391,12 +380,12 @@ exports[`Test stackChart component Should render component 1`] = `
                   content="0"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -408,7 +397,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "middle",
                     }
@@ -421,7 +410,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   rotate={[]}
                   x={
                     [
-                      "25",
+                      25,
                     ]
                   }
                   y={[]}
@@ -440,7 +429,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -455,12 +444,12 @@ exports[`Test stackChart component Should render component 1`] = `
                 rotate={[]}
                 x={
                   [
-                    "48.333333333333336",
+                    48.333333333333336,
                   ]
                 }
                 y={
                   [
-                    "235.26",
+                    235.26,
                   ]
                 }
               >
@@ -468,12 +457,12 @@ exports[`Test stackChart component Should render component 1`] = `
                   content="5"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -485,7 +474,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "middle",
                     }
@@ -498,7 +487,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   rotate={[]}
                   x={
                     [
-                      "48.333333333333336",
+                      48.333333333333336,
                     ]
                   }
                   y={[]}
@@ -517,7 +506,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -532,12 +521,12 @@ exports[`Test stackChart component Should render component 1`] = `
                 rotate={[]}
                 x={
                   [
-                    "71.66666666666667",
+                    71.66666666666667,
                   ]
                 }
                 y={
                   [
-                    "235.26",
+                    235.26,
                   ]
                 }
               >
@@ -545,12 +534,12 @@ exports[`Test stackChart component Should render component 1`] = `
                   content="10"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -562,7 +551,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "middle",
                     }
@@ -575,7 +564,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   rotate={[]}
                   x={
                     [
-                      "71.66666666666667",
+                      71.66666666666667,
                     ]
                   }
                   y={[]}
@@ -594,7 +583,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -609,12 +598,12 @@ exports[`Test stackChart component Should render component 1`] = `
                 rotate={[]}
                 x={
                   [
-                    "95",
+                    95,
                   ]
                 }
                 y={
                   [
-                    "235.26",
+                    235.26,
                   ]
                 }
               >
@@ -622,12 +611,12 @@ exports[`Test stackChart component Should render component 1`] = `
                   content="15"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -639,7 +628,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "middle",
                     }
@@ -652,7 +641,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   rotate={[]}
                   x={
                     [
-                      "95",
+                      95,
                     ]
                   }
                   y={[]}
@@ -671,7 +660,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -686,12 +675,12 @@ exports[`Test stackChart component Should render component 1`] = `
                 rotate={[]}
                 x={
                   [
-                    "118.33333333333333",
+                    118.33333333333333,
                   ]
                 }
                 y={
                   [
-                    "235.26",
+                    235.26,
                   ]
                 }
               >
@@ -699,12 +688,12 @@ exports[`Test stackChart component Should render component 1`] = `
                   content="20"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -716,7 +705,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "middle",
                     }
@@ -729,7 +718,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   rotate={[]}
                   x={
                     [
-                      "118.33333333333333",
+                      118.33333333333333,
                     ]
                   }
                   y={[]}
@@ -748,7 +737,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -763,12 +752,12 @@ exports[`Test stackChart component Should render component 1`] = `
                 rotate={[]}
                 x={
                   [
-                    "141.66666666666666",
+                    141.66666666666666,
                   ]
                 }
                 y={
                   [
-                    "235.26",
+                    235.26,
                   ]
                 }
               >
@@ -776,12 +765,12 @@ exports[`Test stackChart component Should render component 1`] = `
                   content="25"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -793,7 +782,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "middle",
                     }
@@ -806,7 +795,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   rotate={[]}
                   x={
                     [
-                      "141.66666666666666",
+                      141.66666666666666,
                     ]
                   }
                   y={[]}
@@ -825,7 +814,7 @@ exports[`Test stackChart component Should render component 1`] = `
                 content={null}
                 dx={
                   [
-                    "0",
+                    0,
                   ]
                 }
                 dy={[]}
@@ -840,12 +829,12 @@ exports[`Test stackChart component Should render component 1`] = `
                 rotate={[]}
                 x={
                   [
-                    "165",
+                    165,
                   ]
                 }
                 y={
                   [
-                    "235.26",
+                    235.26,
                   ]
                 }
               >
@@ -853,12 +842,12 @@ exports[`Test stackChart component Should render component 1`] = `
                   content="30"
                   dx={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   dy={
                     [
-                      "0",
+                      0,
                     ]
                   }
                   fill={
@@ -870,7 +859,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   font={
                     {
                       "fontFamily": "Helvetica Neue",
-                      "fontSize": "12",
+                      "fontSize": 12,
                       "letterSpacing": "normal",
                       "textAnchor": "middle",
                     }
@@ -883,7 +872,7 @@ exports[`Test stackChart component Should render component 1`] = `
                   rotate={[]}
                   x={
                     [
-                      "165",
+                      165,
                     ]
                   }
                   y={[]}
@@ -943,7 +932,7 @@ A 10 10 0 0 1, 155, 215
                     "type": 0,
                   }
                 }
-                strokeWidth="0"
+                strokeWidth={0}
               />
             </RNSVGGroup>
             <RNSVGGroup
@@ -990,7 +979,7 @@ A 0 0 0 0 1, 118.33333333333333, 215
                     "type": 0,
                   }
                 }
-                strokeWidth="0"
+                strokeWidth={0}
               />
             </RNSVGGroup>
             <RNSVGGroup
@@ -1037,7 +1026,7 @@ A 0 0 0 0 1, 71.66666666666667, 215
                     "type": 0,
                   }
                 }
-                strokeWidth="0"
+                strokeWidth={0}
               />
             </RNSVGGroup>
           </RNSVGGroup>
@@ -1054,8 +1043,8 @@ A 0 0 0 0 1, 71.66666666666667, 215
           >
             <RNSVGSvgView
               align="xMidYMid"
-              bbHeight="250"
-              bbWidth="200"
+              bbHeight={250}
+              bbWidth={200}
               focusable={false}
               height={250}
               meetOrSlice={0}
@@ -1096,6 +1085,6 @@ A 0 0 0 0 1, 71.66666666666667, 215
         </RNSVGGroup>
       </RNSVGSvgView>
     </View>
-  </View>,
-]
+  </View>
+</View>
 `;

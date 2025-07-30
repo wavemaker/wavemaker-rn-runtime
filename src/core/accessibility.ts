@@ -45,6 +45,8 @@ export enum AccessibilityWidgetType {
   WEBVIEW = 'webview',
   LINECHART = 'linechart',
   SLIDER = 'slider',
+  BOTTOMSHEET='bottomsheet',
+  TABS = 'tab'
 };
 
   
@@ -53,7 +55,7 @@ export type AccessibilityPropsType = {
   accessibilityLabel?: string;
   accessibilityLabelledBy?: string;
   accessibilityHint?: string;
-  accessibilityRole?: 'button' | 'link' | 'header' | 'search' | 'image' | 'imagebutton' | 'none' | 'summary' | 'text' | 'progressbar' | 'grid' | 'alert';
+  accessibilityRole?: 'button' | 'link' | 'header' | 'search' | 'image' | 'imagebutton' | 'none' | 'summary' | 'text' | 'progressbar' | 'grid' | 'alert' | 'tab';
   accessibilityState?: {
     disabled?: boolean;
     selected?: boolean;
@@ -95,14 +97,15 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.ANCHOR:
     case AccessibilityWidgetType.MESSAGE:    
     case AccessibilityWidgetType.SEARCH: 
-    case AccessibilityWidgetType.PICTURE: 
     case AccessibilityWidgetType.ICON:
     case AccessibilityWidgetType.NAV:
     case AccessibilityWidgetType.POVOVER:
+    case AccessibilityWidgetType.BOTTOMSHEET:
     case AccessibilityWidgetType.WEBVIEW:
     case AccessibilityWidgetType.LINECHART:
     case AccessibilityWidgetType.SLIDER:
-    case AccessibilityWidgetType.VIDEO: {
+    case AccessibilityWidgetType.VIDEO: 
+    case AccessibilityWidgetType.TABS: {
       props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
       props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityRole = accessibilityProps.accessibilityrole;
@@ -146,6 +149,12 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
         };
       }
       if (widgetType === AccessibilityWidgetType.TOGGLE) {
+        props.accessibilityState = {
+          ...props.accessibilityState,
+          checked: accessibilityProps.selected,
+        };
+      }
+      if (widgetType === AccessibilityWidgetType.TABS) {
         props.accessibilityState = {
           ...props.accessibilityState,
           selected: accessibilityProps.selected,
@@ -194,6 +203,12 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.PROGRESSBAR:
     case AccessibilityWidgetType.PROGRESSCIRCLE: {
       props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
+      props.accessibilityRole = accessibilityProps.accessibilityrole;
+      break;
+    }
+    case AccessibilityWidgetType.PICTURE: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.alttext || 'Image';
+      props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityRole = accessibilityProps.accessibilityrole;
       break;
     }

@@ -230,4 +230,76 @@ describe('Test Textarea component', () => {
 
     expect(tree.getByPlaceholderText('Place your text')).toBeTruthy();
   });
+
+  test('should render Text instead of TextInput for Android device and disabled prop is true', async () => {
+    Platform.OS = 'android';
+    const tree = render(
+      <WmTextarea 
+        {...defaultProps} 
+        disabled={true}
+      />
+    );
+
+    const input = tree.getByText('Place your text');
+
+    expect(input.type).toBe('Text')
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render Text instead of TextInput for Android device and readOnly prop is true', async () => {
+    Platform.OS = 'android';
+    const tree = render(
+      <WmTextarea 
+        {...defaultProps} 
+        readonly={true}
+      />
+    );
+
+    const input = tree.getByText('Place your text');
+
+    expect(input.type).toBe('Text')
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render TextInput for iOS device and disabled prop is true', async () => {
+    Platform.OS = 'ios';
+    const tree = render(
+      <WmTextarea 
+        {...defaultProps} 
+        disabled={true}
+      />
+    );
+
+    const input = tree.getByPlaceholderText('Place your text');
+
+    expect(input.type).toBe('TextInput')
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render TextInput for iOS device and readOnly prop is true', async () => {
+    Platform.OS = 'ios';
+    const tree = render(
+      <WmTextarea 
+        {...defaultProps} 
+        readonly={true}
+      />
+    );
+
+    const input = tree.getByPlaceholderText('Place your text');
+
+    expect(input.type).toBe('TextInput')
+    expect(tree).toMatchSnapshot();
+  });
+
+  test('should render limitdisplaytext when maxchars and limitdisplaytext are provided', () => {
+    const { getByText } = render(
+      <WmTextarea
+        {...defaultProps}
+        maxchars={100}
+        limitdisplaytext="50/100 characters used"
+      />
+    );
+  
+    expect(getByText('50/100 characters used')).toBeTruthy();
+  });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DimensionValue, Text, View } from 'react-native';
+import { DimensionValue, LayoutChangeEvent, Text, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { Badge } from 'react-native-paper';
@@ -76,6 +76,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
     return (
       <>
       <Animatedview entryanimation={props.animation} delay={props.animationdelay}
+        onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
         style={[
           this.styles.root,
           {
@@ -88,10 +89,6 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
           },
           this.styles.root.height == "100%" ? {flex: 1}:{}
         ]}
-        // accessibilityProps={{...getAccessibilityProps(
-        //   AccessibilityWidgetType.BUTTON,
-        //   props
-        // )}}
         >
         {this._background}
         <Tappable
@@ -124,7 +121,6 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
                 style={this.styles.text}
                 {...this.getTestPropsForLabel('caption')}
                 importantForAccessibility={'no'}
-                // accessibilityLabel={`${props.caption}`}
               >
                 {props.caption}
               </Text>

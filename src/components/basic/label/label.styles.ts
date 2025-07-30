@@ -18,7 +18,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     text: {
         fontSize: 16,
-        color: themeVariables.labelDefaultColor
+        color: themeVariables.labelDefaultColor,
+        textAlign: 'left'
       },
       asterisk: {
         color: themeVariables.labelAsteriskColor,
@@ -40,11 +41,26 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
   addStyle(DEFAULT_CLASS + '-rtl', '', {
-    root : {
-      flexDirection: 'row',
-      textAlign: 'right'
-    }
+
   });
+  
+  // Add horizontal form label styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+  addStyle('form-label-horizontal', '', {
+    root : {
+      paddingBottom: 0,
+      paddingRight: 12,
+      paddingTop: 8,
+      width: '30%',
+      flexShrink: 0, 
+      flexGrow: 0
+    },
+    text: {
+      fontSize: 16,
+      color: themeVariables.labelDefaultColor,
+      textAlign: 'left'
+    }
+  } as BaseStyles);
+  
   const getLabelStyles = (color: string, textColor: string): WmLabelStyles => {
     return {
       root: {
@@ -89,17 +105,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   addStyle('text-success', '', getTextStyles(themeVariables.labelTextSuccessColor));
   addStyle('text-warning', '', getTextStyles(themeVariables.labelTextWarningColor));
   addStyle('text-center', '', {
-    root: {
+    text: {
       textAlign: 'center'
     }
   } as WmLabelStyles);
   addStyle('text-left', '', {
-    root: {
+    text: {
       textAlign: 'left'
     }
   } as WmLabelStyles);
   addStyle('text-right', '', {
-    root: {
+    text: {
       textAlign: 'right'
     }
   } as WmLabelStyles);

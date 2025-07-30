@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Animated, TextStyle, Text} from 'react-native';
+import { Animated, TextStyle, Text, ViewStyle} from 'react-native';
 
 import { Theme } from '@wavemaker/app-rn-runtime/styles/theme';
 
 export const FloatingLabel = (props: {
     label?: string,
-    style?: TextStyle
+    style?: TextStyle & ViewStyle,
     moveUp: boolean,
   }) => {
     const width = (props.style?.width as number) || 160;

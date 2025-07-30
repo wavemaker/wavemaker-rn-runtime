@@ -1076,5 +1076,18 @@ describe('WmFormField Component', () => {
       // Ensure the placeholder prop is not set
       expect(wmText.props.placeholder).toBeUndefined(); // Check that placeholder is not set
     });
+
+    it('should not trigger on change event for the first time when form field has a default value', async () => {
+      const onChangeMock = jest.fn();
+      const tree  = render(<WmFormField {...defaultProps} onChange={onChangeMock} defaultvalue={"hello world"}/>);
+
+      await new Promise((resolve)=>{
+        setTimeout(()=>{
+          resolve(null)
+        }, 300)
+      });
+
+      expect(onChangeMock).not.toHaveBeenCalled();
+    })
   });
 });

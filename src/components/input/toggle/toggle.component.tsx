@@ -81,12 +81,17 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
         } else {
           this.props.onFieldChange && this.props.onFieldChange('datavalue', dataValue, oldValue);
         }
-        this.invokeEventCallback('onBlur', [ null, this.proxy ]);
+        setTimeout(() => {
+          this.invokeEventCallback('onBlur', [ null, this.proxy ]);
+        }, 10);
+        
       });
   }
 
   onLayoutChange(event: LayoutChangeEvent){
     let width = event.nativeEvent.layout.width;
+    this.handleLayout(event)
+
     this.setState({
       viewWidth: width,
     } as WmToggleState);

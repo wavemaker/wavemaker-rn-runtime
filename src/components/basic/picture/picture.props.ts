@@ -8,11 +8,13 @@ export default class WmPictureProps extends BaseProps {
   pictureplaceholder?: string = null as any;
   shape?: string = null as any;
   isSvg?: string = null as any;
-  resizemode?: ImageResizeMode = 'stretch' as any;
+  resizemode?: any = 'stretch' as any;
   skeletonheight?: string = null as any;
   skeletonwidth?: string = null as any;
+  accessible?: boolean = true;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole = 'image';
   fastload?: boolean = false;
+  aspectratio?: string | number | null = null;
 }

@@ -19,5 +19,6 @@ export default class WmTabbarProps extends BaseNavProps {
     },{
       'label' : 'Settings',
       'icon'  : 'wm-sl-r sl-settings'
-    }]
+  }];
+  hideonscroll: boolean = false;
 }

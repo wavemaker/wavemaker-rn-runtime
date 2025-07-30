@@ -133,6 +133,89 @@ describe('Test Slider component', () => {
     expect(screen.getByText(`${dataset[2].x}`)).toBeTruthy();
   });
 
+
+  it('should set dataValue to minValue if dataValue is less than minValue', () => {
+  
+    const ref = createRef();
+   const tree= renderComponent({
+        ref,
+        animation: 'none',
+         minvalue: 100,
+         datavalue: 10
+      });
+    expect(ref.current.state.props.datavalue).toBe(100);
+    expect(tree).toMatchSnapshot();
+  
+  
+  });
+
+   it('should set dataValue to maxValue if dataValue is greater than maxValue', () => {
+  
+    const ref = createRef();
+   const tree= renderComponent({
+        ref,
+        animation: 'none',
+         maxvalue: 100,
+         datavalue: 101
+      });
+    expect(ref.current.state.props.datavalue).toBe(100);
+ 
+   expect(tree).toMatchSnapshot();
+  
+  });
+
+    it('should keep dataValue unchanged if it is within the minValue and maxValue range', () => {
+  
+    const ref = createRef();
+    const tree=renderComponent({
+        ref,
+        animation: 'none',
+         maxvalue: 100,
+         minvalue: 0,
+         datavalue: 10
+      });
+    expect(ref.current.state.props.datavalue).toBe(10);
+  expect(tree).toMatchSnapshot();
+  
+  
+  });
+
+      it('should clamp the value in the range if dataValue is below the range', () => {
+  
+    const ref = createRef();
+   const tree=  renderComponent({
+        ref,
+        animation: 'none',
+         maxvalue: 100,
+         minvalue: 0,
+         range: true,
+         datavalue: [-1,10]
+      });
+    expect(ref.current.state.props.datavalue).toStrictEqual([0,10]);
+  expect(tree).toMatchSnapshot();
+  
+  
+  });
+
+      it('should clamp the value to the maximum of the range if dataValue is outside the range', () => {
+  
+    const ref = createRef();
+   const tree= renderComponent({
+        ref,
+        animation: 'none',
+         maxvalue: 100,
+         minvalue: 0,
+         range: true,
+         datavalue: [-1,110]
+      });
+    expect(ref.current.state.props.datavalue).toStrictEqual([0,100]);
+ 
+   expect(tree).toMatchSnapshot();
+  
+  });
+
+  
+
   it('should render styles applied thru "track" class properly', () => {
     const renderTracksMock = jest.spyOn(WmSlider.prototype, 'renderTracks');
 
@@ -307,5 +390,181 @@ describe('Test Slider component', () => {
       // console.log(ref.current.state);
       expect(tree.getByText('0')).toBeTruthy();
     });
+  });
+
+  it('should render marker labels as titles separated by commas', async () => {
+    const customRef = React.createRef<WmSlider>();
+    const markerLabelText = 'Title 1, Title 2, Title 3';
+    const tree = renderComponent({
+      ref: customRef,
+      markerlabeltext: markerLabelText,
+      dataset: null,
+      minvalue: 0,
+      maxvalue: 2,
+      step: 1,
+      showmarkers: true,
+      datatype: 'number'
+    });
+
+    fireEventLayoutFun(tree);
+    customRef.current.refresh();
+    await timer(300);
+    customRef.current.refresh();
+
+    await waitFor(() => {   
+      expect(tree.getByText('Title 1')).toBeTruthy();
+      expect(tree.getByText('Title 2')).toBeTruthy();
+      expect(tree.getByText('Title 3')).toBeTruthy();
+    })
+  });
+
+  it('should render marker labels as an array of strings', async () => {
+    const customRef = React.createRef<WmSlider>();
+    const markerLabelText = ['Title 1', 'Title 2', 'Title 3'];
+    const tree = renderComponent({
+      ref: customRef,
+      markerlabeltext: markerLabelText,
+      dataset: null,
+      minvalue: 0,
+      maxvalue: 2,
+      step: 1,
+      showmarkers: true,
+      datatype: 'number'
+    });
+
+    fireEventLayoutFun(tree);
+    customRef.current.refresh();
+    await timer(300);
+    customRef.current.refresh();
+
+
+    await waitFor(()=>{
+      expect(tree.getByText('Title 1')).toBeTruthy();
+      expect(tree.getByText('Title 2')).toBeTruthy();
+      expect(tree.getByText('Title 3')).toBeTruthy();
+    })
+  });
+
+  it('should render marker labels as an array of numbers', async () => {
+    const customRef = React.createRef<WmSlider>();
+    const markerLabelText = [10, 20, 30];
+    const tree = renderComponent({
+      ref: customRef,
+      markerlabeltext: markerLabelText,
+      dataset: null,
+      minvalue: 0,
+      maxvalue: 2,
+      step: 1,
+      showmarkers: true,
+      datatype: 'number'
+    });
+
+    fireEventLayoutFun(tree);
+    customRef.current.refresh();
+    await timer(300);
+    customRef.current.refresh();
+
+    await waitFor(() => {
+      expect(tree.getByText('10')).toBeTruthy();
+      expect(tree.getByText('20')).toBeTruthy();
+      expect(tree.getByText('30')).toBeTruthy();
+    })
+  });
+
+  it('should render marker labels as an array of objects with title and position properties', async () => {
+    const customRef = React.createRef<WmSlider>();
+    const markerLabelText = [
+      { title: 'Title 1', position: 'up' },
+      { title: 'Title 2', position: 'down' },
+      { title: 'Title 3', position: 'up' },
+    ];
+    const tree = renderComponent({
+      ref: customRef,
+      markerlabeltext: markerLabelText,
+      dataset: null,
+      minvalue: 0,
+      maxvalue: 2,
+      step: 1,
+      showmarkers: true,
+      datatype: 'number'
+    });
+
+    fireEventLayoutFun(tree);
+    customRef.current.refresh();
+    await timer(300);
+    customRef.current.refresh();
+
+    expect(tree.getByText('Title 1')).toBeTruthy();
+    expect(tree.getByText('Title 2')).toBeTruthy();
+    expect(tree.getByText('Title 3')).toBeTruthy();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should render marker labels as an array, having objects with title and position properties, strings and numbers', async () => {
+    const customRef = React.createRef<WmSlider>();
+    const markerLabelText = [
+      { title: 'Title 1', position: 'up' },
+      { title: 'Title 2', position: 'down' },
+      { title: 'Title 3', position: 'up' },
+      'Title 4',
+      5,
+      'Title 6',
+      7
+    ];
+    const tree = renderComponent({
+      ref: customRef,
+      markerlabeltext: markerLabelText,
+      dataset: null,
+      minvalue: 0,
+      maxvalue: 6,
+      step: 1,
+      showmarkers: true,
+      datatype: 'number'
+    });
+
+    fireEventLayoutFun(tree);
+    customRef.current.refresh();
+    await timer(300);
+    customRef.current.refresh();
+
+    expect(tree.getByText('Title 1')).toBeTruthy();
+    expect(tree.getByText('Title 2')).toBeTruthy();
+    expect(tree.getByText('Title 3')).toBeTruthy();
+    expect(tree.getByText('Title 4')).toBeTruthy();
+    expect(tree.getByText('5')).toBeTruthy();
+    expect(tree.getByText('Title 6')).toBeTruthy();
+    expect(tree.getByText('7')).toBeTruthy();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should render marker labels as numbers if some of the label texts are missing in the props', async () => {
+    const customRef = React.createRef<WmSlider>();
+    const markerLabelText = [
+      { title: 'Title 1', position: 'up' },
+      { title: 'Title 2', position: 'down' },
+      { title: 'Title 3', position: 'up' },
+    ];
+    const tree = renderComponent({
+      ref: customRef,
+      markerlabeltext: markerLabelText,
+      dataset: null,
+      minvalue: 0,
+      maxvalue: 4,
+      step: 1,
+      showmarkers: true,
+      datatype: 'number'
+    });
+
+    fireEventLayoutFun(tree);
+    customRef.current.refresh();
+    await timer(300);
+    customRef.current.refresh();
+
+    expect(tree.getByText('Title 1')).toBeTruthy();
+    expect(tree.getByText('Title 2')).toBeTruthy();
+    expect(tree.getByText('Title 3')).toBeTruthy();
+    expect(tree.getByText('3')).toBeTruthy();
+    expect(tree.getByText('4')).toBeTruthy();
+    expect(tree).toMatchSnapshot();
   });
 });

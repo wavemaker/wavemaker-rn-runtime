@@ -5,4 +5,5 @@ export default class WmTextareaProps extends BaseInputProps {
   placeholder: string = 'Place your text';
   skeletonheight?: string = null as any;
   skeletonwidth?: string = null as any;
+  limitdisplaytext?: string = null as any;
 }

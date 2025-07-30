@@ -223,15 +223,22 @@ export default class WmFormField extends BaseComponent<WmFormFieldProps, WmFormF
           isValid: this.state.isValid,
           maskchar: props.maskchar,
           displayformat: props.displayformat,
+          autocomplete: props.autocomplete,
           invokeEvent: this.invokeEventCallback.bind(this),
           triggerValidation: this.validateFormField.bind(this),
           onFieldChange: this.onFieldChangeEvt.bind(this),
           formRef: props.formRef,
+          isdefault: props.defaultvalue !== undefined ? true : false, 
           ...(!isNil(props?.placeholder) ? { placeholder: props.placeholder } : {})
          });
     });
     return (
-      <View style={this.styles.root}>{this._background}{childrenWithProps}
+      <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
+        {this._background}
+        {childrenWithProps}
         {this.state.isValid === false && <Text {...this.getTestPropsForLabel('error_msg')} style={this.styles.errorMsg}>{props.validationmessage}</Text>}
       </View>
     );

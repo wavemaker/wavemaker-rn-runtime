@@ -1,7 +1,6 @@
 import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
-import { Dimensions } from 'react-native';
 
 export type WmPageContentStyles = BaseStyles & {
     skeleton: WmSkeletonStyles

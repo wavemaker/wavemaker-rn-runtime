@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, DimensionValue, Easing, Text, Image, View } from 'react-native';
+import { Animated, DimensionValue, Easing, Text, Image, View, LayoutChangeEvent } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
@@ -258,11 +258,19 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     let icon = this.renderIcon(props);
     let iterationCount: any = props.iterationcount ? (props.iterationcount != 'infinite' ? parseInt(props.iterationcount): 'infinite') : undefined;
     return (
-      <Tappable target={this} rippleColor = {this.styles.root.rippleColor} {...this.getTestPropsForAction()} accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.ICON, props)}} disableTouchEffect={this.state.props.disabletoucheffect}>
-        <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root} iterationCount={iterationCount}>
+      <Tappable 
+        target={this} 
+        rippleColor = {this.styles.root.rippleColor} 
+        {...this.getTestPropsForAction()}  
+        disableTouchEffect={this.state.props.disabletoucheffect}
+        onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
+      >
+        <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root} iterationCount={iterationCount} accessibilityProps={props.accessible ? {...getAccessibilityProps(AccessibilityWidgetType.ICON, props)} : {}}>
           {this._background}
           {(props.iconposition === 'left' && icon) || null}
-          {(props.caption && (<Text {...this.getTestPropsForLabel('caption')}style={this.styles.text} accessibilityRole={props?.accessibilityrole ? props?.accessibilityrole : 'text'}>{props.caption}</Text>)) || null}
+          {(props.caption && (<Text {...this.getTestPropsForLabel('caption')} style={this.styles.text}
+              importantForAccessibility="no">{props.caption}
+            </Text>)) || null}
           {(props.iconposition === 'right' && icon) || null}
         </Animatedview>
       </Tappable>
