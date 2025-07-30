@@ -219,6 +219,11 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
 
   formreset() {
     this.formdataoutput = {};
+    if (this.state.props.messagelayout === 'Inline') {
+      this.onMsgClose();
+    } else {
+      this.toaster.hideToast({ name: this });
+    }
     forEach(this.formFields, (ff: WmFormField) => {
       const defaultValue = isNil(ff.state.props.defaultvalue) ?  '' : ff.state.props.defaultvalue;
       ff.updateState({
