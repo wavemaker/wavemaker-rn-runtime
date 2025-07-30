@@ -9,6 +9,7 @@ import {
 import WmVideo from '@wavemaker/app-rn-runtime/components/basic/video/video.component';
 import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 import { createVideoPlayer } from 'expo-video';
+import { Platform } from 'react-native';
 
 
 jest.mock('expo-video', () => {
@@ -266,4 +267,87 @@ describe('WmVideo Component Tests', () => {
     expect(player.muted).toBe(true);
   });
 
+});
+describe('Workaround Conditional Logic', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.clearAllTimers();
+  });
+
+  const mockPlatform = (platform: 'web' | 'ios' | 'android') => {
+    Object.defineProperty(Platform, 'OS', {
+      value: platform,
+      writable: true,
+    });
+  };
+
+  it('should render workaround: controls=false, showdefaultvideoposter=true (showOverlay=false)', () => {
+    mockPlatform('android');
+    
+    renderComponent({
+      controls: false,
+      showdefaultvideoposter: true,
+      name: 'test',
+      mp4format: 'https://example.com/video.mp4',
+      hint: 'Video',
+    });
+
+    expect(screen.getByTestId('test_video_overlay')).toBeTruthy();
+  });
+
+  it('should render workaround: controls=true, showdefaultvideoposter=true (showOverlay=false)', () => {
+    mockPlatform('android');
+
+    renderComponent({
+      controls: true,
+      showdefaultvideoposter: true,
+      name: 'test',
+      mp4format: 'https://example.com/video.mp4',
+      hint: 'Video',
+    });
+
+    expect(screen.getByTestId('test_video_overlay')).toBeTruthy();
+  });
+
+  it('should render workaround: controls=false, showdefaultvideoposter=false (showOverlay=true)', () => {
+    mockPlatform('android');
+
+    renderComponent({
+      controls: false,
+      showdefaultvideoposter: false,
+      name: 'test',
+      mp4format: 'https://example.com/video.mp4',
+      hint: 'Video',
+    });
+
+    expect(screen.getByTestId('test_video_overlay')).toBeTruthy();
+  });
+
+  it('should NOT render workaround: controls=true, showdefaultvideoposter=false (showOverlay=true)', () => {
+    mockPlatform('android');
+
+    renderComponent({
+      controls: true,
+      showdefaultvideoposter: false,
+      name: 'test',
+      mp4format: 'https://example.com/video.mp4',
+      hint: 'Video',
+    });
+
+    expect(screen.queryByTestId('test_video_overlay')).toBeNull();
+  });
+
+  it('should NOT render workaround: iOS platform - should never render workaround', () => {
+    mockPlatform('ios');
+
+    renderComponent({
+      controls: false,
+      showdefaultvideoposter: true,
+      name: 'test',
+      mp4format: 'https://example.com/video.mp4',
+      hint: 'Video',
+    });
+
+    expect(screen.queryByTestId('test_video_overlay')).toBeNull();
+  });
 });

@@ -87,14 +87,12 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
         {...this.getTestPropsForAction()} 
         style={[this.styles.root, this.state.isChecked ? this.styles.checkedItem : null]} 
         onPress={this.onPress.bind(this)} 
-        {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {hint: props?.hint, checked: this.state.isChecked})} 
-        accessibilityRole='checkbox' 
-        accessibilityLabel={`Checkbox for ${props.caption}`}
+        {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, { ...this.props, checked: this.state.isChecked})} 
         onLayout={(event) => this.handleLayout(event)}
       >
           {this._background}
-          <WmIcon iconclass="wi wi-check" styles={this.state.isChecked ? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled} id={this.getTestId('checkbox')}/>
-          <Text {...this.getTestPropsForLabel()} style={[this.styles.text, this.state.isChecked ? this.styles.selectedLabel: null]}>{props.caption}</Text>
+          <WmIcon iconclass="wi wi-check" styles={this.state.isChecked ? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled} id={this.getTestId('checkbox')} accessible={false}/>
+          <Text {...this.getTestPropsForLabel()} style={[this.styles.text, this.state.isChecked ? this.styles.selectedLabel: null]} importantForAccessibility='no'>{props.caption}</Text>
       </TouchableOpacity>
     );
   }

@@ -602,16 +602,15 @@ export default abstract class BaseApp extends React.Component implements Navigat
               <React.Fragment>
                 {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
                 {this.getProviders(
-                <ErrorBoundary currentPage={this.appConfig.currentPage}>
                   <Wrapper style={{ flex: 1 }}>
                     <StatusBar
                       backgroundColor={isEdgeToEdgeApp?'transparent': undefined}
                       translucent={isEdgeToEdgeApp}
                     />
                     <ThemeProvider value={this.appConfig.theme}>
+                      <ErrorBoundary currentPage={this.appConfig.currentPage}>
                       {this.renderIosStatusbarInsetsView(isEdgeToEdgeApp, insets)}
                       <View style={{ flex: 1 }}>
-                        
                           <View style={styles.container}>
                             <GestureHandlerRootView style={styles.container}>
                               <AppNavigator
@@ -637,9 +636,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
                       {isEdgeToEdgeApp && statusbarConfig?.type ==='blur' ? this.renderBlurView("top",insets,statusbarConfig) : null}
                       {/* edge-to-edge app with statusbar transparent/semi-transparent */} 
                       {isEdgeToEdgeApp && statusbarConfig?.type ==='transparent' ? this.renderTransparentView("top",insets,statusbarConfig) : null} 
+                       </ErrorBoundary>
                     </ThemeProvider>
                   </Wrapper>
-                </ErrorBoundary>
                 )}
               </React.Fragment>
             </PaperProvider>

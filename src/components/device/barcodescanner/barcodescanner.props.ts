@@ -7,7 +7,8 @@ export default class WmBarcodescannerProps extends BaseProps {
   datavalue: any;
   iconclass: string = 'fa fa-barcode';
   iconsize: number = 16;
+  accessible?: boolean = true;
   accessibilitylabel?: string = undefined;
-  hint?: string = undefined;
+  hint?: string = "Click to open the barcode scanner";
   accessibilityrole?: AccessibilityRole = "imagebutton";
 }

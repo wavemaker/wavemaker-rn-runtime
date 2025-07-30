@@ -1,6 +1,7 @@
 import React, { createRef } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription, NativeEventSubscription } from 'react-native';
+import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription, NativeEventSubscription, Modal } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler';
 import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
 import { createSkeleton } from '../skeleton/skeleton.component';
@@ -37,6 +38,9 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   private keyboardDidHideListener!: EmitterSubscription;
   private backHandler !: NativeEventSubscription;
 
+  private topInset: number = 0;
+  private iosKeyboardHeight: number = 0;
+  private isIosKeyboardHeightSet: boolean = false
 
   private calculateSheetHeight(bottomsheetheightratio: number): number {
     // Use default height if ratio not provided, but ensure it's not below minimum
@@ -143,14 +147,37 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
 
   private onKeyboardShow = (event: any) => {
     let keyboardHeight = event.endCoordinates?.height || 0;
+    //only storing ios keyboard height once as first time keyboard open (to avoid scroll flickring issue in ios in text widget)
+    if (!this.isIosKeyboardHeightSet) {
+      this.iosKeyboardHeight = event.endCoordinates?.height + 40
+      this.isIosKeyboardHeightSet = true
+    }
+    // Calculate available space after keyboard
+    const availableHeight = SCREEN_HEIGHT - (Platform.OS == 'ios' ? this.iosKeyboardHeight : keyboardHeight);
+    // Calculate adjusted sheet height to fit within available space
+    // Leave some buffer space for the drag handle and safe area
+    const bufferSpace = (Platform.OS === 'ios' ? this.topInset : this.statusBarHeight) + 20;
+    const adjustedHeight = availableHeight - bufferSpace;
+    // Animate the sheet height adjustment
+    Animated.timing(this.state.sheetHeight, {
+      toValue: adjustedHeight,
+      duration: 100,
+      useNativeDriver: false,
+    }).start();
     this.updateState({
-      keyboardHeight: keyboardHeight
+      keyboardHeight: keyboardHeight,
     } as WmBottomsheetState);
   };
 
   private onKeyboardHide = () => {
+    // Restore the original sheet height when keyboard hides
+    Animated.timing(this.state.sheetHeight, {
+      toValue: this.state.isExpanded ? this.expandedHeight : this.calculatedHeight,
+      duration: 100,
+      useNativeDriver: false,
+    }).start();
     this.updateState({
-      keyboardHeight: 0
+      keyboardHeight: 0,
     } as WmBottomsheetState);
   };
 
@@ -355,15 +382,13 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     });
   }
 
-  renderWidget(props: WmBottomsheetProps) {
-    if (!this.state.isBottomsheetVisible) return null;
-
+  private renderContent = (props: WmBottomsheetProps) => {
 
     return (
       <SafeAreaInsetsContext.Consumer >
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+          this.topInset = insets?.top || 0;
           return (
-
             <View style={this.styles.root}
               {...this.getTestProps('keyboardview')}>
 
@@ -397,11 +422,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
                 <ScrollView
                   ref={this.state.scrollViewRef}
                   style={this.styles.sheetContentContainer}
-                  contentContainerStyle={[this.styles.sheetScrollContent,
-                  {
-                    paddingBottom: this.state.keyboardHeight
-                  }
-                  ]}
+                  contentContainerStyle={this.styles.sheetScrollContent}
                   alwaysBounceVertical={false}
                   alwaysBounceHorizontal={false}
                   bounces={false}
@@ -421,8 +442,32 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
           )
         }}
       </SafeAreaInsetsContext.Consumer>
-
-
     );
+  };
+
+  renderWidget(props: WmBottomsheetProps) {
+    if (!this.state.isBottomsheetVisible) return null;
+
+    if (props.modal) {
+      return (
+        <Modal
+          visible={this.state.isBottomsheetVisible}
+          transparent={true}
+          animationType="none"
+          onRequestClose={this.closeSheet}
+          statusBarTranslucent={true}
+        >
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : undefined}
+          >
+            {this.renderContent(props)}
+          </KeyboardAvoidingView>
+        </Modal>
+      );
+    } else {
+      return this.renderContent(props);
+    }
   }
 }

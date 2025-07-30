@@ -282,7 +282,7 @@ export default class WmPicture extends BaseComponent<WmPictureProps, WmPictureSt
                 width: imageWidth,
                 borderRadius: shapeStyles.picture?.borderRadius
               }]}
-            accessibilityProps={props.accessible ? {...getAccessibilityProps(AccessibilityWidgetType.PICTURE, props)} : {}}>
+            accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.PICTURE, props)}}>
                 {this.showImage(elementToshow, props)}
             </Animatedview>
           </Tappable>

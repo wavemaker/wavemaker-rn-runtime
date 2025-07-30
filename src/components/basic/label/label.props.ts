@@ -11,6 +11,7 @@ export default class WmLabelProps extends BaseProps {
     skeletonheight?: string = null as any;
     skeletonwidth?: string = null as any;
     multilineskeleton?: boolean = false;
+    accessible?: boolean = true;
     accessibilitylabel?: string = undefined;
     hint?: string = undefined;
     accessibilityrole?: AccessibilityRole = 'text';
