@@ -81,6 +81,24 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     }
   }
 
+  private expandSheet() {
+    const targetHeight = Math.min(this.expandedHeight, SCREEN_HEIGHT);
+    Animated.timing(this.state.sheetHeight, {
+      toValue: targetHeight,
+      duration: this.animationDuration,
+      useNativeDriver: false,
+    }).start();
+    this.updateState({
+      isExpanded: true
+    } as WmBottomsheetState);
+  }
+
+  isExapnded = () => {
+    return this.state.isExpanded
+  }
+
+
+
   constructor(props: WmBottomsheetProps) {
     super(props, DEFAULT_CLASS, new WmBottomsheetProps(), new WmBottomsheetState());
     this.calculatedHeight = this.calculateSheetHeight(props.bottomsheetheightratio);
@@ -191,10 +209,13 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       lastGestureDy: 0
     } as WmBottomsheetState);
     if (gestureState.dy > 0) {
+      //disable swipe down to close logic
+
+
       if (this.state.isExpanded) {
         // Expand the bottom sheet threshold is  25% of the fully expanded height
         // If the user swipe distance is below the threshold, revert to the original sheet height
-        if (gestureState.dy < this.expandedHeight / 4) {
+        if (gestureState.dy < this.expandedHeight / 4 || this.props.disableswipedownclose) {
           Animated.parallel([
             Animated.timing(this.state.translateY, {
               toValue: 0, // Keep sheet open
@@ -211,11 +232,15 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
             isExpanded: false
           } as WmBottomsheetState);
         }
-        else if (gestureState.dy > this.expandedHeight / 4 || gestureState.vy > 0.5) {
+        else if ((gestureState.dy > this.expandedHeight / 4 || gestureState.vy > 0.5) && !this.props.disableswipedownclose) {
           this.closeSheet();
         }
       }
       else {
+        if (this.props.disableswipedownclose) {
+          this.openSheet();
+          return;
+        }
         if (gestureState.dy > 100 || gestureState.vy > 0.5) {
           this.closeSheet();
         } else {
@@ -265,15 +290,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       } else if (gestureState.dy < 0 && this.props.expand && this.props.bottomsheetheightratio !== 1) {
         // Handle upward drag - expand to full height
         // Allow expansion to full screen height
-        const targetHeight = Math.min(this.expandedHeight, SCREEN_HEIGHT);
-        Animated.timing(this.state.sheetHeight, {
-          toValue: targetHeight,
-          duration: this.animationDuration,
-          useNativeDriver: false,
-        }).start();
-        this.updateState({
-          isExpanded: true
-        } as WmBottomsheetState);
+        this.expandSheet()
       }
     },
     onPanResponderRelease: (_, gestureState) => {
@@ -391,7 +408,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
               {...this.getTestProps('keyboardview')}>
 
               {this._background}
-              <TouchableWithoutFeedback onPress={this.closeSheet}>
+              <TouchableWithoutFeedback onPress={() => props.autoclose !== 'disabled' ? this.closeSheet() : null}>
                 <Animated.View style={[this.styles.backdrop, { opacity: this.state.backdropOpacity }]}
                   {...this.getTestProps('backdrop')}
                   {...getAccessibilityProps(AccessibilityWidgetType.BOTTOMSHEET, props)}
@@ -412,7 +429,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
 
               >
                 <View style={this.styles.dragHandleContainer} {...this.dragHandlePanResponder.panHandlers}>
-                  <TouchableWithoutFeedback onPress={this.closeSheet}>
+                  <TouchableWithoutFeedback onPress={() =>  this.invokeEventCallback('onDragHandleIconClick', [null, this])}>
                     <View style={this.styles.dragIconHandle}
                       {...this.getTestProps('draghandle')} />
                   </TouchableWithoutFeedback>
