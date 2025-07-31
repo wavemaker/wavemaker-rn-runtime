@@ -189,6 +189,16 @@ export class Theme {
         return result;
     }
 
+    extractTopLevelVariables(style: Record<string, any>): Record<string, any> {
+        const vars: Record<string, any> = {};
+        for (const key in style) {
+            if (key.startsWith('--')) {
+                vars[key] = style[key];
+            }
+        }
+        return vars;
+    }
+
     mergeStyle(...styles: any) {
         const style = deepCopy(...styles);
         if (this.traceEnabled) {
@@ -204,7 +214,12 @@ export class Theme {
                 }).filter((t: any) => t.length > 0)));
             });
         }
-        return style;
+        const baseTokens = this.extractTopLevelVariables(style)
+        const classnames = Array.isArray(styles)
+            ? styles.filter(isString).join(' ')
+            : Object.values(styles).filter(isString).join(' ');
+
+        return this.cleanseStyleProperties(style, baseTokens, classnames)
     }
 
     cleanseStyleProperties(style: any, baseTokens: any, classnames: any) {
@@ -213,12 +228,29 @@ export class Theme {
         }
         style = style as any;
         if (isObject(style) && !isArray(style)) {
-            Object.keys(style).forEach(k => {
-                let v = this.replaceVariables((style as any)[k], baseTokens, classnames);
+            const resolveStyle = (v: any) => {
+                v = this.replaceVariables(v, baseTokens, classnames);
                 if (isString(v) && v.startsWith("color-mix(")) {
                     v = ColorMix.valueOf(v);
                 }
-                (style as any)[k] = v;
+                return v;
+            };
+            
+           // For inline token in obj
+           Object.keys(style).forEach(k => {
+                if (k.startsWith('--')) {
+                    let v = resolveStyle((style as any)[k]);
+                    const variableName = k.substring(2); 
+                    (ThemeVariables.INSTANCE as any)[variableName] = v;
+                    (ThemeVariables.INSTANCE as any)[camelCase(variableName)] = v;
+                }
+            });
+            
+           // For edge case when prop is before inline token
+           Object.keys(style).forEach(k => {
+                if (!k.startsWith('--')) {
+                    (style as any)[k] = resolveStyle((style as any)[k]);
+                }
             });
         }
         if (!isNil(style['shadowRadius'])) {
@@ -508,4 +540,3 @@ export const ThemeConsumer = ThemeContext.Consumer;
     addStyle('hide-context-menu', '', { text: { userSelect: 'none' }});
     addStyle('hide-context-menu-input', '', { text: { userSelect: 'none' }});
 });
-
