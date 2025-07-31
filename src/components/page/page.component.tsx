@@ -34,10 +34,16 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
         {isEdgeToEdgeApp && Platform.OS ==="android" ? <StatusBar barStyle={props.barstyle}/> : null}
           <SafeAreaInsetsContext.Consumer>
             {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-              return <View style={[{paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 },this.styles.root]} {...this.panResponder.panHandlers}> 
-                {this._background}
-                {props.children}
-              </View>
+              return (
+                <View 
+                  {...this.getTestProps()}
+                  style={[{paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 },this.styles.root]} 
+                  {...this.panResponder.panHandlers}
+                > 
+                  {this._background}
+                  {props.children}
+                </View> 
+              )
             }}
           </SafeAreaInsetsContext.Consumer>
         </FixedViewContainer>
