@@ -6,4 +6,5 @@ export default class WmTabheaderProps extends BaseProps {
   onIndexChange?: (index: number) => any = null as any;
   shouldScroll?: boolean;
   disabletoucheffect?: boolean = false;
+  accessibilityProps?: any;
 }

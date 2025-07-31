@@ -12,8 +12,9 @@ export default class WmCameraProps extends BaseProps {
   imagetargetheight: number = null as any;
   datavalue: any;
   localFilePath: string = '';
+  accessible?: boolean = true;
   accessibilitylabel?: string = undefined;
-  hint?: string = undefined;
+  hint?: string = "Click to open the camera";
   accessibilityrole?: AccessibilityRole = "imagebutton";
   caption?: string = undefined;
 }

@@ -750,7 +750,28 @@ export const getGradientColors = (gradientString: string): string[] => {
   });
 };
 
+export const isNativeStyle = (key: string, context: 'property' | 'path' = 'property', traceEnabled: boolean = true): boolean => {
+  const nativeStyleProperties = [
+    'shadowOffset', 'shadowRadius', 'shadowColor', 'shadowOpacity', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
+    'marginTop', 'marginRight', 'marginBottom', 'marginLeft', 'borderRadius', 'borderTopColor', 'borderRightColor', 
+    'borderBottomColor','borderLeftColor','backgroundColor', 'width', 'height', 'flex', 'flexDirection', 'textShadowOffset', 
+    'transform', 'decomposedMatrix','transformMatrix', 'boxShadow', 'filter', 'fontVariant','margin', 'padding', 
+    'backgroundPosition', 'borderColor', 'backgroundImage','backgroundSize', 'backgroundRepeat', 'backgroundResizeMode',
+   'aspectRatio', 'gap', 'columnGap', 'rowGap','content', 'matrix','strokeDasharray', 'strokeLinecap', 'strokeLinejoin'
+  ];
 
+  if (!traceEnabled) return true;
+
+  if (context === 'path') {
+    // For flattened paths like "item.shadowOffset"
+    const parts = key.split('.');
+    const property = parts[parts.length - 1];
+    return nativeStyleProperties.includes(property);
+  } else {
+    // For direct property names like "shadowOffset"
+    return nativeStyleProperties.includes(key);
+  }
+};
 
 export const parseLinearGradient = (gradient: string)   => {
   // Check if this is a valid linear gradient

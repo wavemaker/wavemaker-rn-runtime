@@ -15,6 +15,7 @@ export default class WmDatetimeProps extends BaseProps {
   timestamp?: any;
   triggerValidation?: any;
   floatinglabel?: string;
+  accessible?: boolean = true;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole;
