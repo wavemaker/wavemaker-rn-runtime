@@ -9,8 +9,8 @@ export default class WmBottomsheetProps extends BaseProps {
     keyboardverticaloffset: number = 100;
     onOpened?: Function = null as any;
     onClose?: Function = null as any;
-    onDragHandleIconClick?: Function = null as any;
     modal?: boolean = true;
     autoclose?: 'outsideClick' | 'disabled' = 'outsideClick';
     disableswipedownclose?:boolean = false;
+    bottomsheetminimumheight?:number =  0.1;
 }
