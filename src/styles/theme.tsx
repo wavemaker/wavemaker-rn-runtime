@@ -235,9 +235,10 @@ export class Theme {
                 }
                 return v;
             };
-            
+
+           const classNames = Object.keys(style);
            // For inline token in obj
-           Object.keys(style).forEach(k => {
+           classNames.forEach(k => {
                 if (k.startsWith('--')) {
                     let v = resolveStyle((style as any)[k]);
                     const variableName = k.substring(2); 
@@ -247,7 +248,7 @@ export class Theme {
             });
             
            // For edge case when prop is before inline token
-           Object.keys(style).forEach(k => {
+           classNames.forEach(k => {
                 if (!k.startsWith('--')) {
                     (style as any)[k] = resolveStyle((style as any)[k]);
                 }
