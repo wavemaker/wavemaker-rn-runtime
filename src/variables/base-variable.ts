@@ -9,6 +9,7 @@ export interface VariableConfig {
     onComplete: Function;
     onSuccess: Function;
     onError: Function;
+    onBeforeUpdate: Function,
     isList: boolean;
     twoWayBinding: boolean;
     service: any;

@@ -13,12 +13,17 @@ export class LoginAction extends BaseAction<LoginActionConfig> {
     }
 
     invoke(options: any, successcb?: Function, errorcb?: Function) {
-      let params;
+      let params:any;
       if (!get(options, 'formData')) {
         params = this.config.paramProvider();
       }
       this.notify(VariableEvents.BEFORE_INVOKE, [this, params]);
-      return this.config.securityService().appLogin(
+      return Promise.resolve().then(() => {
+        if (this.config.onBeforeUpdate) {
+          return this.config.onBeforeUpdate(this, params, options);
+        }
+      })
+      .then(() => { return this.config.securityService().appLogin(
         {
           baseURL: this.config.baseURL,
           formData: get(options, 'formData') || params,
@@ -37,5 +42,6 @@ export class LoginAction extends BaseAction<LoginActionConfig> {
             errorcb && errorcb(error);
             this.notify(VariableEvents.AFTER_INVOKE, [this, error]);
         });
+      })
     }
 }
