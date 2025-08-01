@@ -261,15 +261,16 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
       <Tappable 
         target={this} 
         rippleColor = {this.styles.root.rippleColor} 
-        {...this.getTestPropsForAction()} 
-        accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.ICON, props)}} 
+        {...this.getTestPropsForAction()}  
         disableTouchEffect={this.state.props.disabletoucheffect}
         onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
       >
-        <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root} iterationCount={iterationCount}>
+        <Animatedview entryanimation={props.animation} delay={props.animationdelay} style={this.styles.root} iterationCount={iterationCount} accessibilityProps={props.accessible ? {...getAccessibilityProps(AccessibilityWidgetType.ICON, props)} : {}}>
           {this._background}
           {(props.iconposition === 'left' && icon) || null}
-          {(props.caption && (<Text {...this.getTestPropsForLabel('caption')}style={this.styles.text} accessibilityRole={props?.accessibilityrole ? props?.accessibilityrole : 'text'}>{props.caption}</Text>)) || null}
+          {(props.caption && (<Text {...this.getTestPropsForLabel('caption')} style={this.styles.text}
+              importantForAccessibility="no">{props.caption}
+            </Text>)) || null}
           {(props.iconposition === 'right' && icon) || null}
         </Animatedview>
       </Tappable>

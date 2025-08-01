@@ -61,6 +61,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  
+  // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+  addStyle('form-toggle-input-horizontal', '', {
+    root: {
+      minWidth: 0, 
+    },
+    text: {}
+  } as BaseStyles);
+  
   addStyle(DEFAULT_CLASS + '-on', '', {
     root : {
       backgroundColor: themeVariables.toggleOnColor,

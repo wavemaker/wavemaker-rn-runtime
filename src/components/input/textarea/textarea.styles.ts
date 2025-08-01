@@ -57,6 +57,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  
+  // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+  addStyle('form-textarea-input-horizontal', '', {
+    root: {
+      flex: 1,
+      minWidth: 0, // Allow shrinking below intrinsic content size if needed
+      maxWidth: '100%', // Prevent overflow
+    },
+    text: {}
+  } as BaseStyles);
+  
   addStyle(DEFAULT_CLASS + '-disabled', '', {
       root : {
         backgroundColor: themeVariables.inputDisabledBgColor

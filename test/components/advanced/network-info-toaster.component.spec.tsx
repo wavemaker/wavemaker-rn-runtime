@@ -66,13 +66,23 @@ describe('WmNetworkInfoToaster Component', () => {
     jest.clearAllMocks();
   })
 
+  test('should not crash and render nothing if appLocale is missing', () => {
+    const { toJSON } = renderComponent({ appLocale: undefined });
+    expect(toJSON()).toBeNull();
+  });
+
+  test('should not crash and render nothing if appLocale.messages is missing', () => {
+    const { toJSON } = renderComponent({ appLocale: {} });
+    expect(toJSON()).toBeNull();
+  });
+
   test('should return null when network network status is same as previous', () => {
     const tree = renderComponent();
-    expect(tree.toJSON().children).toBeNull();
+    expect(tree.toJSON() && (tree.toJSON() as any).children).toBeNull();
   });
 
   test('should return null when showToast is false', async () => {
-    const customRef = createRef();
+    const customRef = createRef<any>();
     const tree = renderComponent({ ref: customRef });
 
     act(() => {
@@ -83,12 +93,12 @@ describe('WmNetworkInfoToaster Component', () => {
 
     await waitFor(() => {
       expect(customRef.current.state.showToast).toBe(false);
-      expect(tree.toJSON().children).toBeNull();
+      expect(tree.toJSON() && (tree.toJSON() as any).children).toBeNull();
     });
   });
 
   test('should return null even if showToast is true', async () => {
-    const customRef = createRef();
+    const customRef = createRef<any>();
     const tree = renderComponent({ ref: customRef });
 
     act(() => {
@@ -99,14 +109,14 @@ describe('WmNetworkInfoToaster Component', () => {
 
     await waitFor(() => {
       expect(customRef.current.state.showToast).toBe(true);
-      expect(tree.toJSON().children).toBeNull();
+      expect(tree.toJSON() && (tree.toJSON() as any).children).toBeNull();
     });
   });
 
   test('option content should have the render component', () => {
-    const customRef = createRef();
+    const customRef = createRef<any>();
     renderComponent({ ref: customRef });
-    const content = customRef.current.options.content;
+    const content = (customRef.current as any).options.content;
     const firstChildren = content.props.children[1];
     const secondChildren = content.props.children[2].props.children;
 
@@ -124,7 +134,7 @@ describe('WmNetworkInfoToaster Component', () => {
       isNetworkAvailable: true,
     });
     
-    const customRef = createRef();
+    const customRef = createRef<any>();
     const updateStateMock = jest.spyOn(
       WmNetworkInfoToaster.prototype,
       'updateState'
@@ -157,9 +167,9 @@ describe('WmNetworkInfoToaster Component', () => {
       () => {}
     );
 
-    const customRef = createRef();
+    const customRef = createRef<any>();
     renderComponent({ ref: customRef });
-    const content = customRef.current.options.content;
+    const content = (customRef.current as any).options.content;
     const firstChildren = content.props.children[1];
     const secondChildren = content.props.children[2].props.children;
     const thirdChildren = content.props.children[4].props.children;
@@ -183,9 +193,9 @@ describe('WmNetworkInfoToaster Component', () => {
       () => {}
     );
 
-    const customRef = createRef();
+    const customRef = createRef<any>();
     renderComponent({ ref: customRef });
-    const content = customRef.current.options.content;
+    const content = (customRef.current as any).options.content;
     const firstChildren = content.props.children[1];
     const secondChildren = content.props.children[2].props.children;
 
@@ -207,9 +217,9 @@ describe('WmNetworkInfoToaster Component', () => {
       () => {}
     );
 
-    const customRef = createRef();
+    const customRef = createRef<any>();
     renderComponent({ ref: customRef });
-    const content = customRef.current.options.content;
+    const content = (customRef.current as any).options.content;
     const firstChildren = content.props.children[1];
     const secondChildren = content.props.children[2].props.children;
 
@@ -231,9 +241,9 @@ describe('WmNetworkInfoToaster Component', () => {
       () => {}
     );
 
-    const customRef = createRef();
+    const customRef = createRef<any>();
     renderComponent({ ref: customRef });
-    const content = customRef.current.options.content;
+    const content = (customRef.current as any).options.content;
     const firstChildren = content.props.children[1];
 
     expect(content.type.displayName).toBe('View');
@@ -253,9 +263,9 @@ describe('WmNetworkInfoToaster Component', () => {
       () => {}
     );
 
-    const customRef = createRef();
+    const customRef = createRef<any>();
     renderComponent({ ref: customRef });
-    const content = customRef.current.options.content;
+    const content = (customRef.current as any).options.content;
     const firstChildren = content.props.children[1];
     const secondChildren = content.props.children[2].props.children;
 
@@ -278,11 +288,11 @@ describe('WmNetworkInfoToaster Component', () => {
       'updateState'
     );
 
-    const customRef = createRef();
+    const customRef = createRef<any>();
     renderComponent({ ref: customRef });
 
     act(() => {
-      customRef.current.options.onClose();
+      (customRef.current as any).options.onClose();
     });
 
     await waitFor(() => {
