@@ -96,6 +96,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
             component={this}
             theme={this.theme}
             style={[dimensions, this.styles.sticky]}
+            show={props.show as boolean}
           >
             <View style={[dimensions as ViewStyle, { backgroundColor: styles.backgroundColor }, this.styles.content]}>
               {this.renderContent(props)}

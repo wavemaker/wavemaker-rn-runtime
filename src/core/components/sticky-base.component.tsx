@@ -22,18 +22,35 @@ export abstract class StickyBaseView extends React.Component<StickyBaseViewProps
   id = StickyBaseView.idCounter++;
   layout: LayoutRectangle | null = null;
   static contextType = StickyWrapperContext;
+  private isAdded: boolean = false;
 
   constructor(props: StickyBaseViewProps) {
     super(props);
   }
 
   componentWillUnmount() {
-    this.container?.remove(this);
+    if (this.isAdded) {
+      this.container?.remove(this);
+      this.isAdded = false;
+    }
   }
 
   componentDidMount() {
-    if (this.props.show) {
+    if (this.props.show && this.container && !this.isAdded) {
       this.container.add(this, this.renderView());
+      this.isAdded = true;
+    }
+  }
+
+  componentDidUpdate(prevProps: StickyBaseViewProps) {
+    if (this.container && prevProps.show !== this.props.show) {
+      if (this.props.show && !this.isAdded) {
+        this.container.add(this, this.renderView());
+        this.isAdded = true;
+      } else if (!this.props.show && this.isAdded) {
+        this.container.remove(this);
+        this.isAdded = false;
+      }
     }
   }
 
@@ -42,6 +59,10 @@ export abstract class StickyBaseView extends React.Component<StickyBaseViewProps
       <StickyComponentsContext.Consumer>
         {(container) => {
           this.container = container;
+          if (this.props.show && !this.isAdded && this.container) {
+            this.container.add(this, this.renderView());
+            this.isAdded = true;
+          }
           return <></>
         }}
       </StickyComponentsContext.Consumer>)

@@ -21,7 +21,7 @@ export class StickyContainer extends StickyBaseView {
         const { stickyContainerAnimateStyle } = context || {};
         return (
           <Animated.View style={[ stickyContainerAnimateStyle as any, this.props.style]}
-            key={`header-${this.id}`}
+            key={`sticky-container-${this.id}`}
           >
             {this.props.children}
           </Animated.View>
