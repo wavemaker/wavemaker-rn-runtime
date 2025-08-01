@@ -1,5 +1,631 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Test Slider component should clamp the value in the range if dataValue is below the range 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_min"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_max"
+    />
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgb(162, 162, 162)",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Low thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="High thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should clamp the value to the maximum of the range if dataValue is outside the range 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_min"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_max"
+    />
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgb(162, 162, 162)",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Low thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="High thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should keep dataValue unchanged if it is within the minValue and maxValue range 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_min"
+    >
+      10
+    </Text>
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_value"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_max"
+    >
+      30
+    </Text>
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#4263eb",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgb(162, 162, 162)",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
 exports[`Test Slider component should render marker labels as an array of objects with title and position properties 1`] = `
 <View
   onLayout={[Function]}
@@ -60,7 +686,7 @@ exports[`Test Slider component should render marker labels as an array of object
           "position": "absolute",
           "transform": [
             {
-              "translateX": -200,
+              "translateX": -100,
             },
           ],
           "width": 200,
@@ -71,7 +697,7 @@ exports[`Test Slider component should render marker labels as an array of object
       collapsable={false}
       style={
         {
-          "backgroundColor": "rgb(162, 162, 162)",
+          "backgroundColor": "#ffffff",
           "borderBottomRightRadius": 4,
           "borderTopRightRadius": 4,
           "flex": 1,
@@ -79,7 +705,7 @@ exports[`Test Slider component should render marker labels as an array of object
           "position": "absolute",
           "transform": [
             {
-              "translateX": 0,
+              "translateX": 100,
             },
           ],
           "width": 200,
@@ -111,7 +737,7 @@ exports[`Test Slider component should render marker labels as an array of object
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 0,
+                "left": 100,
               },
             ]
           }
@@ -148,13 +774,6 @@ exports[`Test Slider component should render marker labels as an array of object
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -205,13 +824,6 @@ exports[`Test Slider component should render marker labels as an array of object
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -225,7 +837,7 @@ exports[`Test Slider component should render marker labels as an array of object
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 200,
+                "left": 100,
               },
             ]
           }
@@ -262,13 +874,6 @@ exports[`Test Slider component should render marker labels as an array of object
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -300,7 +905,7 @@ exports[`Test Slider component should render marker labels as an array of object
             "position": "absolute",
             "transform": [
               {
-                "translateX": 0,
+                "translateX": 100,
               },
             ],
             "width": 20,
@@ -372,7 +977,7 @@ exports[`Test Slider component should render marker labels as an array, having o
           "position": "absolute",
           "transform": [
             {
-              "translateX": -133,
+              "translateX": -100,
             },
           ],
           "width": 200,
@@ -383,7 +988,7 @@ exports[`Test Slider component should render marker labels as an array, having o
       collapsable={false}
       style={
         {
-          "backgroundColor": "rgb(162, 162, 162)",
+          "backgroundColor": "#ffffff",
           "borderBottomRightRadius": 4,
           "borderTopRightRadius": 4,
           "flex": 1,
@@ -391,7 +996,7 @@ exports[`Test Slider component should render marker labels as an array, having o
           "position": "absolute",
           "transform": [
             {
-              "translateX": 67,
+              "translateX": 100,
             },
           ],
           "width": 200,
@@ -423,7 +1028,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 0,
+                "left": 100,
               },
             ]
           }
@@ -460,13 +1065,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -480,7 +1078,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 33,
+                "left": 100,
               },
             ]
           }
@@ -517,13 +1115,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -537,7 +1128,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 67,
+                "left": 100,
               },
             ]
           }
@@ -574,13 +1165,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -631,13 +1215,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -651,7 +1228,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 133,
+                "left": 100,
               },
             ]
           }
@@ -688,13 +1265,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -708,7 +1278,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 167,
+                "left": 100,
               },
             ]
           }
@@ -745,13 +1315,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -765,7 +1328,7 @@ exports[`Test Slider component should render marker labels as an array, having o
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 200,
+                "left": 100,
               },
             ]
           }
@@ -802,13 +1365,6 @@ exports[`Test Slider component should render marker labels as an array, having o
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -840,7 +1396,7 @@ exports[`Test Slider component should render marker labels as an array, having o
             "position": "absolute",
             "transform": [
               {
-                "translateX": 67,
+                "translateX": 100,
               },
             ],
             "width": 20,
@@ -912,7 +1468,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
           "position": "absolute",
           "transform": [
             {
-              "translateX": -150,
+              "translateX": -100,
             },
           ],
           "width": 200,
@@ -923,7 +1479,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
       collapsable={false}
       style={
         {
-          "backgroundColor": "rgb(162, 162, 162)",
+          "backgroundColor": "#ffffff",
           "borderBottomRightRadius": 4,
           "borderTopRightRadius": 4,
           "flex": 1,
@@ -931,7 +1487,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
           "position": "absolute",
           "transform": [
             {
-              "translateX": 50,
+              "translateX": 100,
             },
           ],
           "width": 200,
@@ -963,7 +1519,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 0,
+                "left": 100,
               },
             ]
           }
@@ -1000,13 +1556,6 @@ exports[`Test Slider component should render marker labels as numbers if some of
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -1020,7 +1569,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 50,
+                "left": 100,
               },
             ]
           }
@@ -1057,13 +1606,6 @@ exports[`Test Slider component should render marker labels as numbers if some of
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -1114,13 +1656,6 @@ exports[`Test Slider component should render marker labels as numbers if some of
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -1134,7 +1669,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 150,
+                "left": 100,
               },
             ]
           }
@@ -1171,13 +1706,6 @@ exports[`Test Slider component should render marker labels as numbers if some of
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -1191,7 +1719,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
               {
                 "alignItems": "center",
                 "bottom": 5,
-                "left": 200,
+                "left": 100,
               },
             ]
           }
@@ -1228,13 +1756,6 @@ exports[`Test Slider component should render marker labels as numbers if some of
                   "width": 10,
                 },
                 {},
-                {
-                  "backgroundColor": "green",
-                  "borderColor": "#fff",
-                  "borderWidth": 5,
-                  "bottom": -6.25,
-                  "padding": 5,
-                },
               ]
             }
           />
@@ -1266,7 +1787,7 @@ exports[`Test Slider component should render marker labels as numbers if some of
             "position": "absolute",
             "transform": [
               {
-                "translateX": 50,
+                "translateX": 100,
               },
             ],
             "width": 20,
@@ -1279,6 +1800,374 @@ exports[`Test Slider component should render marker labels as numbers if some of
 `;
 
 exports[`Test Slider component should render the slider component  1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_min"
+    >
+      10
+    </Text>
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_value"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_max"
+    >
+      30
+    </Text>
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#4263eb",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#ffffff",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should set dataValue to maxValue if dataValue is greater than maxValue 1`] = `
+<View
+  onLayout={[Function]}
+  style={{}}
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_min"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_value"
+    />
+    <Text
+      accessible={false}
+      style={
+        [
+          {
+            "fontFamily": "Roboto",
+            "fontSize": 16,
+            "userSelect": "text",
+          },
+          {},
+        ]
+      }
+      testID="test_Slider_max"
+    />
+  </View>
+  <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={false}
+    onClick={[Function]}
+    onLayout={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 4,
+        "marginVertical": 8,
+        "minWidth": 160,
+        "opacity": 1,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+    testID="test_Slider"
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "#4263eb",
+          "borderBottomLeftRadius": 4,
+          "borderTopLeftRadius": 4,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": -0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+    <View
+      collapsable={false}
+      style={
+        {
+          "backgroundColor": "rgb(162, 162, 162)",
+          "borderBottomRightRadius": 4,
+          "borderTopRightRadius": 4,
+          "flex": 1,
+          "height": "100%",
+          "position": "absolute",
+          "transform": [
+            {
+              "translateX": 0,
+            },
+          ],
+          "width": 0,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        {
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        accessibilityLabel="Thumb"
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "backgroundColor": "#4263eb",
+            "backgroundPosition": "center",
+            "backgroundSize": "100% 100%",
+            "borderRadius": 16,
+            "height": 20,
+            "left": 0,
+            "marginLeft": -10,
+            "marginTop": -20,
+            "position": "absolute",
+            "transform": [
+              {
+                "translateX": 0,
+              },
+            ],
+            "width": 20,
+          }
+        }
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`Test Slider component should set dataValue to minValue if dataValue is less than minValue 1`] = `
 <View
   onLayout={[Function]}
   style={{}}

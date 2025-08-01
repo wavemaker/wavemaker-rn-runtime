@@ -10,7 +10,7 @@ import { DEFAULT_CLASS, WmDatetimeStyles } from './datetime/datetime.styles';
 import WebDatePicker from './date-picker.component';
 import { isEqual, isNumber, isString } from 'lodash-es';
 import { ModalConsumer, ModalOptions, ModalService } from '@wavemaker/app-rn-runtime/core/modal.service';
-import { isDateFormatAsPerPattern, validateField } from '@wavemaker/app-rn-runtime/core/utils';
+import { isDateFormatAsPerPattern, validateField ,splitBorderColorInPlace} from '@wavemaker/app-rn-runtime/core/utils';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { FloatingLabel } from '@wavemaker/app-rn-runtime/core/components/floatinglabel.component';
 import AppI18nService from '@wavemaker/app-rn-runtime/runtime/services/app-i18n.service';
@@ -126,8 +126,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
           const date = isString(datavalue) ? this.parse(datavalue as string, this.momentPattern(props.outputformat as String)) : datavalue;
           datavalue = this.convertTimezone(datavalue);
 
-          console.log("===== output value ======", date.toDateString(),  datavalue);
-
           this.updateState({
             dateValue : date,
             displayValue: this.format(datavalue?datavalue:date as any, this.momentPattern(props.datepattern as String))
@@ -203,7 +201,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
 
   onDateChange($event: DateTimePickerEvent, date?: Date) {
     const prevDate = this.format(this.state.dateValue,  this.momentPattern(this.state.props.outputformat as String) as string) || undefined;
-    this.validate(date);
     this.modes.shift();
     const newDate = this.format(date,  this.momentPattern(this.state.props.outputformat as String) as string)
     this.updateState({
@@ -213,7 +210,10 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
         datavalue: newDate,
         timestamp: this.format(date, 'timestamp')
       }
-    } as BaseDatetimeState, () => this.invokeEventCallback('onChange', [null, this, newDate, prevDate]));
+    } as BaseDatetimeState, () => {
+      this.validate(date);
+      this.invokeEventCallback('onChange', [null, this, newDate, prevDate])
+    });
   }
 
   onBlur() {
@@ -413,9 +413,11 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   renderWidget(props: WmDatetimeProps) {
     const is12HourFormat = props?.datepattern && /hh:mm(:ss|:sss)? a/.test(props.datepattern);
     const is24Hour = is12HourFormat ? false : props.is24hour;
+    let rootStyles=this.styles.root;
+    let updatedRootStyles = splitBorderColorInPlace(rootStyles);
     return ( 
         this.addTouchableOpacity(props, (
-        <View style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
+        <View style={[updatedRootStyles, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]}>
           {this._background}
             {props.floatinglabel ? (
             <FloatingLabel
@@ -527,7 +529,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             />
           )}
         </View>
-        ), {} , this.handleLayout)
+        ), this.styles.rootWrapper , this.handleLayout)
     );
   }
 }

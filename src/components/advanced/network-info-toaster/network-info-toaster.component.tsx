@@ -36,6 +36,9 @@ export default class WmNetworkInfoToaster extends BaseComponent<WmNetworkInfoToa
   }
 
   getToastContent() {
+    if (!this.props.appLocale?.messages) {
+      return null;
+    }
     if (this.state.newtworkState.isConnected) { 
       return (
       <View style={this.styles.root}>

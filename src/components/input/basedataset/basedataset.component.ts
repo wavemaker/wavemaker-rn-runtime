@@ -38,11 +38,15 @@ export abstract class BaseDatasetComponent< T extends BaseDatasetProps, S extend
         this.setGroupData(this.state.dataItems);
       case 'datavalue':
         this.setDataItems(this.state.props.dataset, { dataValue: $new });
-        const isDefault = this.state.isDefault;
+        const isDefault = this.state.props.isdefault;
+
         if (isDefault) {
-          this.updateState({ isDefault: false } as S, this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault));
+          this.updateState(
+            { props: {isdefault: false} } as S, 
+            !this.state.props.skipscripteventtrigger && this.props.onFieldChange && this.props.onFieldChange.bind(this, 'datavalue', $new, $old, isDefault)
+          );
         } else {
-          this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
+          !this.state.props.skipscripteventtrigger && this.props.onFieldChange && this.props.onFieldChange('datavalue', $new, $old, isDefault);
         }
     }
   }

@@ -56,6 +56,7 @@ import { BaseVariable, VariableEvents } from '../variables/base-variable';
 import { BlurView } from 'expo-blur';
 import * as NavigationBar from 'expo-navigation-bar';
 import moment, { Moment } from 'moment';
+import ErrorBoundary from '../core/error-boundary.component';
 
 declare const window: any;
 
@@ -387,12 +388,23 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   renderToasters() {
+    const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
     this.toastsOpened = AppToastService.toastsOpened.length;
     return <WmMemo watcher={this.watcher} render={(watch) => {
       watch(() => AppToastService.refreshCount);
       return (
         <>
           {AppToastService.toastsOpened.map((o, i) => {
+            // to align the toaster position if it's an edge-to-edge app.
+            let toasterStyles = {};
+            if (isEdgeToEdgeApp) {
+              if (o.styles?.top !== undefined) {
+                toasterStyles = { top: this.statusbarInsets?.top };
+              } else if (this.isButtonNavigationEnabled() && o.styles?.bottom !== undefined) {
+                toasterStyles = { bottom: this.statusbarInsets?.bottom };
+              }
+            }
+            
             return this.getProviders((
               <ThemeProvider value={this.appConfig.theme}>
                 <View key={i} style={[{
@@ -401,7 +413,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                   bottom: 0,
                   elevation: o.elevationIndex,
                   zIndex: o.elevationIndex
-                }, o.styles]}>
+                }, o.styles,toasterStyles]}>
                   <TouchableOpacity onPress={() => o.onClick && o.onClick()}>
                     {o.content}
                     {o.text && <WmMessage name={"message" + i} type={o.type} caption={o.text} hideclose={!o.showclosebutton} onClose={o.closeToast} closeiconclass={o.closeiconclass}></WmMessage>}
@@ -475,8 +487,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }} />
   }
 
-  renderIosStatusbarInsetsView(statusBarCustomisation: any, insets: EdgeInsets | null){
-    return Platform.OS == 'ios' && !statusBarCustomisation?.translucent ? (
+  renderIosStatusbarInsetsView(isEdgeToEdgeApp: boolean, insets: EdgeInsets | null){
+    return Platform.OS == 'ios' && !isEdgeToEdgeApp ? (
       <View style={{
         backgroundColor: 'white', 
         position: 'absolute',
@@ -520,7 +532,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
     }
   }
 
-  renderBlurView(position: 'top' | 'bottom', insets: any) {
+  renderBlurView(position: 'top' | 'bottom', insets: any, config:any) {
     if (!insets?.[position]) return null;
   
     if (Platform.OS === "android") {
@@ -530,8 +542,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
   
     return (
       <BlurView
-        intensity={50}
-        tint="dark"
+        intensity={config?.blurIntensity || 30}
+        tint={config.blurTint || "dark"}
         experimentalBlurMethod="dimezisBlurView"
         style={{
           [position]: 0,
@@ -544,12 +556,12 @@ export default abstract class BaseApp extends React.Component implements Navigat
     );
   }
 
-  renderTransparentView(position: 'top' | 'bottom', insets: any) {
+  renderTransparentView(position: 'top' | 'bottom', insets: any, config:any) {
     if (!insets?.[position]) return null;
   
     if (Platform.OS === "android") {
       NavigationBar.setPositionAsync('absolute');
-      NavigationBar.setBackgroundColorAsync("transparent");
+      NavigationBar.setBackgroundColorAsync("rgba(0,0,0,0.2)");
     }
   
     return (
@@ -560,17 +572,27 @@ export default abstract class BaseApp extends React.Component implements Navigat
           width: '100%',
           position: 'absolute',
           zIndex: 999,
-          backgroundColor:"rgba(0,0,0,0.4)"
+          backgroundColor: config?.color || 'transparent',
+          opacity: (config?.opacity/100) || 0,
         }}
       ></View>
     );
   }
 
+  isButtonNavigationEnabled(){
+    if(Platform.OS ==="android" && this.statusbarInsets?.bottom > 40){
+      return true
+    }
+    return false;
+  }
+
   renderApp(commonPartial: React.ReactNode) {
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
-    const statusBarCustomisation = this.appConfig?.preferences?.statusbarStyles;
-    const isFullScreenMode = !!statusBarCustomisation?.translucent;
-    const Wrapper = isFullScreenMode ? View : SafeAreaView;
+    const edgeToEdgeConfig = this.appConfig?.edgeToEdgeConfig;
+    const statusbarConfig = this.appConfig?.edgeToEdgeConfig?.statusbarConfig;
+    const isEdgeToEdgeApp = !!edgeToEdgeConfig?.isEdgeToEdgeApp;
+
+    const Wrapper = isEdgeToEdgeApp ? View : SafeAreaView;
     return (
       <SafeAreaProvider>
         <SafeAreaInsetsContext.Consumer>
@@ -580,14 +602,14 @@ export default abstract class BaseApp extends React.Component implements Navigat
               <React.Fragment>
                 {Platform.OS === 'web' ? this.renderIconsViewSupportForWeb() : null}
                 {this.getProviders(
+                <ErrorBoundary currentPage={this.appConfig.currentPage}>
                   <Wrapper style={{ flex: 1 }}>
                     <StatusBar
-                      backgroundColor={statusBarCustomisation?.backgroundColor}
-                      translucent={isFullScreenMode}
-                      barStyle={statusBarCustomisation?.barStyle || 'default'}
+                      backgroundColor={isEdgeToEdgeApp?'transparent': undefined}
+                      translucent={isEdgeToEdgeApp}
                     />
                     <ThemeProvider value={this.appConfig.theme}>
-                      {this.renderIosStatusbarInsetsView(statusBarCustomisation, insets)}
+                      {this.renderIosStatusbarInsetsView(isEdgeToEdgeApp, insets)}
                       <View style={{ flex: 1 }}>
                         
                           <View style={styles.container}>
@@ -611,14 +633,13 @@ export default abstract class BaseApp extends React.Component implements Navigat
                         {this.renderDialogs()}
                         {this.renderDisplayManager()}
                       </View>
-                      {/* Statusbar blur */}
-                      {/* {isFullScreenMode ? this.renderBlurView("top",insets) : null}  */}
-                      {isFullScreenMode ? this.renderTransparentView("top",insets) : null} 
-                      {/* Navigation bar blur */}
-                      {/* {isFullScreenMode ? this.renderBlurView("bottom",insets) : null} */}
-                      {/* {isFullScreenMode ? this.renderTransparentView("bottom",insets) : null} */}
+                      {/* edge-to-edge app with statusbar blur */}
+                      {isEdgeToEdgeApp && statusbarConfig?.type ==='blur' ? this.renderBlurView("top",insets,statusbarConfig) : null}
+                      {/* edge-to-edge app with statusbar transparent/semi-transparent */} 
+                      {isEdgeToEdgeApp && statusbarConfig?.type ==='transparent' ? this.renderTransparentView("top",insets,statusbarConfig) : null} 
                     </ThemeProvider>
                   </Wrapper>
+                </ErrorBoundary>
                 )}
               </React.Fragment>
             </PaperProvider>
