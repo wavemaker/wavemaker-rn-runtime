@@ -58,7 +58,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
               if((isEdgeToEdgeApp && insets?.top) || !isEdgeToEdgeApp || isWebPreviewMode()){
                 navHeightValue = event.nativeEvent.layout.height || 0;
                 navHeight.value = navHeightValue;
-                this.notify('updateNavHeight', [navHeightValue]);
+                this.notify('updateNavHeight', [navHeightValue], true);
               }
             }
             this.handleLayout(event);

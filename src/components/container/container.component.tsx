@@ -11,6 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { StickyWrapperContextType, StickyWrapperContext } from '@wavemaker/app-rn-runtime/core/sticky-wrapper';
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import { StickyContainer } from '@wavemaker/app-rn-runtime/core/components/sticky-container.component';
+import { getParentStyles } from '@wavemaker/app-rn-runtime/core/components/sticky-container.styles';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 
@@ -89,13 +90,23 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
 
   private renderStickyContent(props: WmContainerProps, dimensions: ViewStyle, styles: ViewStyle) {
     const { stickyContainerVisibility } = this.state;
+    const { positioningStyles } = getParentStyles(this);
+
     return (
       <>
         {stickyContainerVisibility ? (
           <StickyContainer
             component={this}
             theme={this.theme}
-            style={[dimensions, this.styles.sticky]}
+            style={[
+              {
+                height: this.styles.root.height || '100%',
+                width: this.styles.root.width || '100%',
+              },
+              this.styles.sticky,
+              positioningStyles,
+              { backgroundColor: styles.backgroundColor }
+            ]}
             show={props.show as boolean}
           >
             <View style={[dimensions as ViewStyle, { backgroundColor: styles.backgroundColor }, this.styles.content]}>
