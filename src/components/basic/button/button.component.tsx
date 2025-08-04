@@ -43,6 +43,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
           iconheight={iconheight}
           iconmargin={iconmargin}
           iconwidth={iconwidth}
+          accessible={false}
         />): null;
   }
 

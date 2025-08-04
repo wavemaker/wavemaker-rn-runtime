@@ -8,6 +8,7 @@ export default class WmMessageProps extends BaseProps {
   caption? = 'Message';
   type?: 'success' | 'warning' | 'error' | 'info' | 'loading' = 'success';
   hideclose? = false;
+  accessible?: boolean = true;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole = 'alert';

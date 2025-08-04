@@ -277,9 +277,6 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     const linkStyles = this.theme.mergeStyle({ text: this.styles.text }, this.styles.link);
     const { hasLinearGradient, start, end, gradientColors,colorStops } = parseLinearGradient((this.styles?.text.color) as string);
     
-    
-
-
     return !isNil(props.caption) ? (
       <Animatedview
         entryanimation={props.animation}
