@@ -50,7 +50,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
        // marginTop: -50
       })
     }
-    return badgevalue != undefined ? (<Badge style={this.styles.badge}>{badgevalue}</Badge>): null;
+    return badgevalue != undefined ? (<Badge style={this.styles.badge} importantForAccessibility="no">{badgevalue}</Badge>): null;
   }
 
   renderWidget(props: WmAnchorProps) {
@@ -79,6 +79,7 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
         iconheight={iconheight}
         iconmargin={iconmargin}
         iconwidth={iconwidth}
+        accessible={false}
       />
     );
     return (
@@ -92,14 +93,17 @@ export default class WmAnchor extends BaseComponent<WmAnchorProps, WmAnchorState
           >
             <Tappable {...this.getTestPropsForAction()} target={this} styles={[this.styles.root, this.styles.root.width && this.styles.root.height ? { width: '100%', height: '100%'} : null, {flexDirection: props.iconposition === 'top' ? 'column': 'row'}]}
               onTap={props.hyperlink || props.onTap ? (e: SyntheticEvent) => this.onTap(navigationService, e) : undefined}
-              disableTouchEffect={this.state.props.disabletoucheffect}>
+              disableTouchEffect={this.state.props.disabletoucheffect}
+              accessibilityProps={{...getAccessibilityProps(
+                AccessibilityWidgetType.ANCHOR,
+                props
+              )}}>
               {this._background}
               {props.iconposition === 'top' && icon}
               {props.iconposition === 'left' && icon}
               {props.caption ? (<Text style={this.styles.text}
               {...this.getTestPropsForLabel('caption')}
-              {...getAccessibilityProps(AccessibilityWidgetType.ANCHOR, props)}
-              numberOfLines={props.nooflines}>{props.caption}</Text>) : null}
+              numberOfLines={props.nooflines} importantForAccessibility='no'>{props.caption}</Text>) : null}
               {props.iconposition === 'right' && icon}
               {this.renderBadge()}
             </Tappable>

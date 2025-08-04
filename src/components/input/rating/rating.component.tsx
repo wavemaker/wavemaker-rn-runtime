@@ -119,7 +119,12 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
       selectedIconStyles.text.color = props.iconcolor;
     }
     return (
-    <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
+    <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}
+      accessible={props.accessible}
+      accessibilityHint={props.hint}
+      accessibilityRole={props.accessibilityrole || "radiogroup"}
+      accessibilityLabel={props.accessibilitylabel || `Rating component, ${this.state.selectedIndex + 1} stars selected ${maxValue} stars maximum`}
+    >
       {this._background}
       {arr.map((v, i) => (
         (this.state.selectedIndex > -1 && i <= this.state.selectedIndex) ? <WmIcon
@@ -129,6 +134,8 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
           iconsize={props.iconsize}
           styles={selectedIconStyles}
           onTap={() => { this.changeValue(i)}}
+          accessibilityrole="button"
+          hint={`Tap to set rating to ${i + 1} stars`}
         ></WmIcon> : null
       ))}
       {arr.map((v, i) => (
@@ -139,6 +146,8 @@ export default class WmRating extends BaseComponent<WmRatingProps, WmRatingState
           iconsize={props.iconsize}
           styles={this.styles.icon}
           onTap={() => { this.changeValue(i)}}
+          accessibilityrole="button"
+          hint={`Tap to set rating to ${i + 1} stars`}
         ></WmIcon> : null
       ))}
       { !!props.showcaptions ? (<Text style={this.styles.text}>{this.state.caption}</Text>) : null }

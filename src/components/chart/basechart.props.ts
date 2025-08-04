@@ -49,6 +49,7 @@ export default class BaseChartComponentProps extends SkeletonAnimationProps {
   hidegridxaxis: boolean = false;
   hidegridyaxis: boolean = false;
   autoadjustlabels: boolean = false;
+  accessible?: boolean = true;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole;
