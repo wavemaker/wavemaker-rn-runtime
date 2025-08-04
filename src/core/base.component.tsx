@@ -692,8 +692,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             );
             this.hasStyleCalcExpression = false;
 
-            const baseTokens = this.extractTopLevelVariables(this.calcStyles);
-            this.calcStyles = this.theme.cleanseStyleProperties(this.calcStyles, baseTokens,classname);
             this.styles = this.evaluateCalcStyles(this.calcStyles);
             if (this.styles.root.hasOwnProperty('_background')) {
                 delete this.styles.root.backgroundColor;
@@ -714,15 +712,4 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             return this.addAnimation(this.renderWidget(this.state.props));        
         });
     }
-
-    private extractTopLevelVariables(style: Record<string, any>): Record<string, any> {
-        const vars: Record<string, any> = {};
-        for (const key in style) {
-            if (key.startsWith('--')) {
-                vars[key] = style[key];
-            }
-        }
-        return vars;
-    }
-    
 }

@@ -104,7 +104,7 @@ export class Theme {
         this.children.forEach(t => t.notify(event));
     }
 
-    private replaceVariables(val: any, baseTokens: any, classNames: any) {
+    private replaceVariables(val: any, baseTokens: any, classNames: any, inheritedTokens: Record<string, any> = {}) {
         if(isString(val)) { 
             (val.match(/_*var\([^\)]*\)/g) || []).forEach((s) => {
                 const content = s.substring(4, s.length - 1);
@@ -121,7 +121,8 @@ export class Theme {
                     }
                 }               
                 if (!resolvedValue) {
-                    resolvedValue = baseTokens[variableName] || (ThemeVariables.INSTANCE as any)[variableName]
+                    resolvedValue = inheritedTokens[variableName] || inheritedTokens[`--${variableName}`] || baseTokens[variableName] 
+                        || (ThemeVariables.INSTANCE as any)[variableName]
                         || (ThemeVariables.INSTANCE as any)[variableName.substring(2)] 
                         || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]
                         || fallback;
@@ -131,7 +132,7 @@ export class Theme {
                     && val.trim() === (resolvedValue + '')) {
                     val = resolvedValue;
                 } else {
-                val = this.replaceVariables(val, baseTokens, classNames);
+                val = this.replaceVariables(val, baseTokens, classNames, inheritedTokens);
                 }
             });
         }
@@ -240,14 +241,14 @@ export class Theme {
         return this.cleanseStyleProperties(style, baseTokens, classnames)
     }
 
-    cleanseStyleProperties(style: any, baseTokens: any, classnames: any) {
+    cleanseStyleProperties(style: any, baseTokens: any, classnames: any, inheritedTokens: Record<string, any> = {}) {
         if (!(style && isObject(style)) || isString(style) || isArray(style)) {
             return style;
         }
         style = style as any;
         if (isObject(style) && !isArray(style)) {
-            const resolveStyle = (v: any) => {
-                v = this.replaceVariables(v, baseTokens, classnames);
+            const resolveStyle = (v: any, inheritedTokens: Record<string, any> = {}) => {
+                v = this.replaceVariables(v, baseTokens, classnames, inheritedTokens);
                 if (isString(v) && v.startsWith("color-mix(")) {
                     v = ColorMix.valueOf(v);
                 }
@@ -255,10 +256,12 @@ export class Theme {
             };
 
            const classNames = Object.keys(style);
+           const resolvedTokens = {...inheritedTokens};
            // For inline token in obj
            classNames.forEach(k => {
                 if (k.startsWith('--')) {
-                    let v = resolveStyle((style as any)[k]);
+                    let v = resolveStyle((style as any)[k], resolvedTokens);
+                    resolvedTokens[k] = v;
                     const variableName = k.substring(2); 
                     (ThemeVariables.INSTANCE as any)[variableName] = v;
                     (ThemeVariables.INSTANCE as any)[camelCase(variableName)] = v;
@@ -268,7 +271,11 @@ export class Theme {
            // For edge case when prop is before inline token
            classNames.forEach(k => {
                 if (!k.startsWith('--')) {
-                    (style as any)[k] = resolveStyle((style as any)[k]);
+                    if (isObject((style as any)[k]) && !isArray((style as any)[k])) {
+                        this.cleanseStyleProperties((style as any)[k], baseTokens, classnames, resolvedTokens);
+                    } else {
+                        (style as any)[k] = resolveStyle((style as any)[k], resolvedTokens);
+                    }
                 }
             });
         }
@@ -339,7 +346,6 @@ export class Theme {
                 style[k] = Number(stylePropertyValue)/100 * screenHeight
             }
         })
-        Object.keys(style).forEach((k, i) => this.cleanseStyleProperties(style[k], baseTokens, classnames));
         return style;
     }
 
