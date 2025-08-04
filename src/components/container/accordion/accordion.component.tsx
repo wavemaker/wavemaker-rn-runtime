@@ -90,6 +90,11 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     const isExpanded = this.state.isExpanded[index];
     const titleIconStyles = this.theme.mergeStyle(this.styles.icon, this.styles.titleIcon)
+    const conditionalClass = item.props.classname;
+    const conditionalStyles = conditionalClass ? this.theme.getStyle(conditionalClass) : {};
+    const dynamicTextStyles = conditionalStyles.text || {};
+    const dynamicActiveHeaderStyles = conditionalStyles.activeHeaderTitle || {};
+
     return item.props.show != false ? (
       <View 
         style={this.styles.pane} 
@@ -120,7 +125,10 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                 style={[
                   this.styles.text,
                   this.styles.heading,
-                  isExpanded ? this.styles.activeHeaderTitle : {}]}
+                  isExpanded ? this.styles.activeHeaderTitle : {},
+                  dynamicTextStyles,
+                  isExpanded ? dynamicActiveHeaderStyles : {}
+                ]}
                   {...this.getTestPropsForAction(`header${index}_title`)}
                   accessibilityRole='header'>
                     {isDefined(item.props.title) ? item.props.title : 'Title'}

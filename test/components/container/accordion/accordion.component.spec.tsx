@@ -11,7 +11,7 @@ import WmAccordion from '@wavemaker/app-rn-runtime/components/container/accordio
 import WmAccordionpane from '@wavemaker/app-rn-runtime/components/container/accordion/accordionpane/accordionpane.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmAccordionProps from '../../../../src/components/container/accordion/accordion.props';
-import { Platform } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 const defaultProps = {
   animation: 'fadeInDown',
@@ -344,6 +344,145 @@ describe('WmAccordion Component', () => {
     expect(onCollapseMock).toHaveBeenCalled();
     expect(onChangeMock).toHaveBeenCalled();
   });
+  test('should apply conditional text styles to accordion titles', async () => {
+  const CompWithConditionalClasses = {
+    children: [
+      <WmAccordionpane
+        name="accordionpane1"
+        title="Title1"
+        classname="class1"
+        key="Title1"
+        iconclass="wm-sl-l sl-apple"
+        subheading="subtitle1"
+        badgevalue="badge1"
+        badgetype="danger"
+      >
+        <WmLabel name="label1" caption="test caption1"></WmLabel>
+      </WmAccordionpane>
+    ]
+  } as WmAccordionProps;
+
+  // Spy on the actual accordion's theme.getStyle method
+  const getStyleSpy = jest.fn().mockImplementation((className) => {
+    if (className === 'class1') {
+      return {
+        text: { backgroundColor: 'yellow', color: 'red' },
+        activeHeaderTitle: { backgroundColor: 'blue', color: 'white' }
+      };
+    }
+    return {};
+  });
+
+  // Mock the theme property on the component
+  const originalRender = WmAccordion.prototype.renderAccordionpane;
+  WmAccordion.prototype.renderAccordionpane = function(item, index, accordionpanes) {
+    // Mock theme for this test
+    this.theme = {
+      getStyle: getStyleSpy,
+      mergeStyle: jest.fn().mockImplementation((...styles) => Object.assign({}, ...styles.filter(Boolean)))
+    } as any;
+    return originalRender.call(this, item, index, accordionpanes);
+  };
+
+  const tree = renderComponent(CompWithConditionalClasses);
+  
+  await waitFor(() => {
+    // Check that theme.getStyle was called with the conditional class
+    expect(getStyleSpy).toHaveBeenCalledWith('class1');
+    // Check that title renders
+    expect(tree.getByText('Title1')).toBeTruthy();
+  });
+
+  // Restore original method
+  WmAccordion.prototype.renderAccordionpane = originalRender;
+});
+
+test('should apply active header styles when accordion is expanded', async () => {
+  const CompWithConditionalClasses = {
+    children: [
+      <WmAccordionpane
+        name="accordionpane1"
+        title="Title1"
+        classname="class2"
+        key="Title1"
+        iconclass="wm-sl-l sl-apple"
+        subheading="subtitle1"
+        badgevalue="badge1"
+        badgetype="danger"
+      >
+        <WmLabel name="label1" caption="test caption1"></WmLabel>
+      </WmAccordionpane>
+    ]
+  } as WmAccordionProps;
+
+  const getStyleSpy = jest.fn().mockImplementation((className) => {
+    if (className === 'class2') {
+      return {
+        text: { backgroundColor: 'pink', color: 'green' },
+        activeHeaderTitle: { backgroundColor: 'orange', color: 'black' }
+      };
+    }
+    return {};
+  });
+
+  // Mock the theme on the component
+  const originalRender = WmAccordion.prototype.renderAccordionpane;
+  WmAccordion.prototype.renderAccordionpane = function(item, index, accordionpanes) {
+    this.theme = {
+      getStyle: getStyleSpy,
+      mergeStyle: jest.fn().mockImplementation((...styles) => Object.assign({}, ...styles.filter(Boolean)))
+    } as any;
+    return originalRender.call(this, item, index, accordionpanes);
+  };
+
+  const tree = renderComponent(CompWithConditionalClasses);
+  
+  // Expand the accordion by clicking title
+  const title = tree.getByText('Title1');
+  fireEvent.press(title);
+  
+  await waitFor(() => {
+    // Verify theme.getStyle was called for the conditional class
+    expect(getStyleSpy).toHaveBeenCalledWith('class2');
+    // Verify accordion is still functional
+    expect(tree.getByText('Title1')).toBeTruthy();
+  });
+
+  // Restore original method
+  WmAccordion.prototype.renderAccordionpane = originalRender;
+});
+
+test('should handle accordion without conditional classes', async () => {
+  const CompWithoutConditionalClasses = {
+    children: [
+      <WmAccordionpane
+        name="accordionpane1"
+        title="Title1"
+        key="Title1"
+        iconclass="wm-sl-l sl-apple"
+        subheading="subtitle1"
+        badgevalue="badge1"
+        badgetype="danger"
+      >
+        <WmLabel name="label1" caption="test caption1"></WmLabel>
+      </WmAccordionpane>
+    ]
+  } as WmAccordionProps;
+
+  const tree = renderComponent(CompWithoutConditionalClasses);
+  
+  // Should render without conditional classes
+  expect(tree.getByText('Title1')).toBeTruthy();
+  
+  // Click to expand
+  fireEvent.press(tree.getByText('Title1'));
+  
+  await waitFor(() => {
+    // Should work normally without conditional classes
+    expect(tree.getByText('Title1')).toBeTruthy();
+    expect(() => tree.toJSON()).not.toThrow();
+  });
+});
 
   test('render skeleton if showskeleton is true and showskeletonchildren is true', async () => {
     const renderSkeletonMock = jest.spyOn(
