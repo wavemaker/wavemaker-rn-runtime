@@ -2,6 +2,7 @@ import React from 'react';
 import { StickyWrapperContext } from "../sticky-wrapper";
 import { StickyBaseView, StickyBaseViewProps } from "./sticky-base.component";
 import Animated from 'react-native-reanimated';
+import { View } from 'react-native';
 
 interface StickyContainerProps extends StickyBaseViewProps {}
 
@@ -20,11 +21,13 @@ export class StickyContainer extends StickyBaseView {
       {(context) => {
         const { stickyContainerAnimateStyle } = context || {};
         return (
-          <Animated.View style={[ stickyContainerAnimateStyle as any, this.props.style]}
-            key={`sticky-container-${this.id}`}
-          >
-            {this.props.children}
-          </Animated.View>
+          <View style={{...this.props.positionStyles}}>
+            <Animated.View style={[ stickyContainerAnimateStyle as any, this.props.style]}
+              key={`sticky-container-${this.id}`}
+            >
+              {this.props.children}
+            </Animated.View>
+          </View>
         );
       }}
     </StickyWrapperContext.Consumer>

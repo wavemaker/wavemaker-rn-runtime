@@ -104,9 +104,9 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
                 width: this.styles.root.width || '100%',
               },
               this.styles.sticky,
-              positioningStyles,
               { backgroundColor: styles.backgroundColor }
             ]}
+            positionStyles={positioningStyles}
             show={props.show as boolean}
           >
             <View style={[dimensions as ViewStyle, { backgroundColor: styles.backgroundColor }, this.styles.content]}>

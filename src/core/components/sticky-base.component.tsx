@@ -12,6 +12,7 @@ export interface StickyBaseViewProps {
   children?: any;
   renderView?: () => ReactNode;
   component?: BaseComponent<BaseProps, BaseComponentState<any>, BaseStyles>;
+  positionStyles?: ViewStyle;
 }
 
 export abstract class StickyBaseView extends React.Component<StickyBaseViewProps> {

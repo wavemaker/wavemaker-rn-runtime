@@ -93,8 +93,8 @@ export function getParentStyles(component: BaseComponent<BaseProps, BaseComponen
     rightOffset += (paddingRight || 0) + (padding || 0);
   }
   
-  if (leftOffset > 0) positioningStyles.left = leftOffset;
-  if (rightOffset > 0) positioningStyles.right = rightOffset;
+  if (leftOffset > 0) positioningStyles.paddingLeft = leftOffset;
+  if (rightOffset > 0) positioningStyles.paddingRight = rightOffset;
 
   return { positioningStyles, contentStyles };
 }
