@@ -95,6 +95,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
         style={this.styles.pane} 
         key={item.props.title}
         onLayout={(event) => this.handleLayout(event)}
+        className={isExpanded ? 'active': ''}
       >
         <TouchableOpacity key={'accordionpane_' + (index + 1)}
               {...this.getTestPropsForAction(`header${index}`)}
