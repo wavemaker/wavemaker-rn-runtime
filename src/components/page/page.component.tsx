@@ -41,7 +41,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   }
 
   componentDidUpdate(prevProps: WmPageProps) {
-    if (prevProps.navbarstyle !== this.props.navbarstyle) {
+    if (prevProps.navigationbarstyle !== this.props.navigationbarstyle) {
       this.setNavigationBarColor();
     }
   }
@@ -50,7 +50,7 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
     const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
     if (Platform.OS !== 'android' || !isEdgeToEdgeApp) return;
     
-    const isDark = this.props.navbarstyle === 'dark';
+    const isDark = this.props.navigationbarstyle === 'dark';
     const navbarColor = isDark ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.5)';
       
     const buttonStyle = isDark ? 'light' : 'dark';
