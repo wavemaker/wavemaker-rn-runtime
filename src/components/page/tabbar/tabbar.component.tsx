@@ -255,8 +255,9 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   renderWidget(props: WmTabbarProps) {
     this.isFixed = true;
     const animateStyle = props.hideonscroll ? {transform: [{translateY: this.translateY}]} : {};
-    return this.props.hideonscroll ? (
+    return props.hideonscroll ? (
         <FixedView 
+          name={this.props.name}
           style={{...{bottom: 0, width:'100%', zIndex: 11}, ...animateStyle}} 
           theme={this.theme}
           animated={props.hideonscroll || false}>

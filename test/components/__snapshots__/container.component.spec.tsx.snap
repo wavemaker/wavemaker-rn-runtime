@@ -1,127 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Test Container component Check validity of sample component 1`] = `
-[
+<View
+  onLayout={[Function]}
+  style={{}}
+  testID="non_animatableView"
+>
   <View
-    onLayout={[Function]}
     style={
       {
-        "height": 0,
-        "width": 0,
-      }
-    }
-  />,
-  <View
-    style={{}}
-    testID="non_animatableView"
-  >
-    <View
-      style={
-        {
-          "height": undefined,
-          "width": undefined,
-        }
-      }
-    >
-      <View
-        style={
-          [
-            {
-              "height": undefined,
-              "width": undefined,
-            },
-            {
-              "flexDirection": "column",
-            },
-          ]
-        }
-      />
-    </View>
-  </View>,
-]
-`;
-
-exports[`Test Container component render skeleton if showskeleton is true and showskeletonchildren is false 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
-    }
-  />,
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "backgroundColor": "#eeeeee",
-        "overflow": "hidden",
+        "height": undefined,
+        "width": undefined,
       }
     }
   >
     <View
       style={
         [
-          {},
-          {
-            "opacity": 0,
-          },
-        ]
-      }
-    >
-      <View
-        style={
           {
             "height": undefined,
             "width": undefined,
-          }
-        }
-      >
-        <View
-          style={
-            [
-              {
-                "height": undefined,
-                "width": undefined,
-              },
-              {
-                "flexDirection": "column",
-              },
-            ]
-          }
-        >
-          <Text>
-            hii
-          </Text>
-        </View>
-      </View>
-    </View>
-  </View>,
-]
+          },
+          {
+            "flexDirection": "column",
+          },
+        ]
+      }
+    />
+  </View>
+</View>
 `;
 
-exports[`Test Container component render skeleton if showskeleton is true and showskeletonchildren is true 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
+exports[`Test Container component render skeleton if showskeleton is true and showskeletonchildren is false 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "#eeeeee",
+      "overflow": "hidden",
     }
-  />,
+  }
+>
   <View
     style={
-      {
-        "backgroundColor": "transparent",
-        "borderColor": "transparent",
-        "shadowColor": "transparent",
-      }
+      [
+        {},
+        {
+          "opacity": 0,
+        },
+      ]
     }
-    testID="non_animatableView"
   >
     <View
       style={
@@ -149,6 +77,47 @@ exports[`Test Container component render skeleton if showskeleton is true and sh
         </Text>
       </View>
     </View>
-  </View>,
-]
+  </View>
+</View>
+`;
+
+exports[`Test Container component render skeleton if showskeleton is true and showskeletonchildren is true 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "backgroundColor": "transparent",
+      "borderColor": "transparent",
+      "shadowColor": "transparent",
+    }
+  }
+  testID="non_animatableView"
+>
+  <View
+    style={
+      {
+        "height": undefined,
+        "width": undefined,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "height": undefined,
+            "width": undefined,
+          },
+          {
+            "flexDirection": "column",
+          },
+        ]
+      }
+    >
+      <Text>
+        hii
+      </Text>
+    </View>
+  </View>
+</View>
 `;

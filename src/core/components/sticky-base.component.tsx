@@ -5,6 +5,7 @@ import { StickyComponentsContext, StickyViewComponents } from "../sticky-view.co
 import { StickyWrapperContext } from "../sticky-wrapper";
 
 export interface StickyBaseViewProps {
+  name?: string;
   style?: ViewStyle[];
   show?: boolean;
   theme?: any;
