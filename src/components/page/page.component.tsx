@@ -9,6 +9,7 @@ import { StickyViewComponents } from '@wavemaker/app-rn-runtime/core/sticky-view
 import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import * as NavigationBar from 'expo-navigation-bar';
 
 export class WmPageState extends BaseComponentState<WmPageProps> {}
 
@@ -25,13 +26,36 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
     super(props, DEFAULT_CLASS);
   }
 
+  componentDidMount() {
+    this.setNavigationBarColor();
+  }
+
+  componentDidUpdate(prevProps: WmPageProps) {
+    if (prevProps.navigationbarstyle !== this.props.navigationbarstyle) {
+      this.setNavigationBarColor();
+    }
+  }
+
+  setNavigationBarColor() {
+    const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
+    if (Platform.OS !== 'android' || !isEdgeToEdgeApp) return;
+    
+    const isDark = this.props.navigationbarstyle === 'dark';
+    const navbarColor = isDark ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.5)';
+      
+    const buttonStyle = isDark ? 'light' : 'dark';
+
+    NavigationBar.setBackgroundColorAsync(navbarColor);
+    NavigationBar.setButtonStyleAsync(buttonStyle);
+  }
+
   renderWidget(props: WmPageProps) {
 
     const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
     return (
       <StickyViewComponents hasAppnavbar={props.hasappnavbar} onscroll={props.onscroll} notifier={this.notifier}>
         <FixedViewContainer>
-        {isEdgeToEdgeApp && Platform.OS ==="android" ? <StatusBar barStyle={props.barstyle}/> : null}
+        {isEdgeToEdgeApp && Platform.OS ==="android" ? <StatusBar barStyle={props.statusbarstyle}/> : null}
           <SafeAreaInsetsContext.Consumer>
             {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
               return (
