@@ -13,6 +13,5 @@ export default class WmBottomsheetProps extends BaseProps {
     autoclose?: 'outsideClick' | 'disabled' = 'outsideClick';
     disableswipedownclose?:boolean = false;
     bottomsheetminimumheight?:number =  0.1;
-    enabledragsettle?: boolean = false
-    allowdragandsettleatposition?: boolean = false;
+    enabledragsettle?: boolean = false 
 }
