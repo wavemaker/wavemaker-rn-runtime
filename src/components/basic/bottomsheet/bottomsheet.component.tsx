@@ -87,15 +87,33 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
 
   expandBottomSheet = () => {
     const targetHeight = Math.min(this.expandedHeight, SCREEN_HEIGHT);
-    Animated.timing(this.state.sheetHeight, {
-      toValue: targetHeight,
-      duration: this.animationDuration,
-      useNativeDriver: false,
-    }).start();
-    this.updateState({
-      isExpanded: true
-    } as WmBottomsheetState);
 
+    // For drag and settle behavior, we need to reset translateY to 0 when expanding
+    if (this.props.enabledragsettle) {
+      Animated.parallel([
+        Animated.timing(this.state.sheetHeight, {
+          toValue: targetHeight,
+          duration: this.animationDuration,
+          useNativeDriver: false,
+        }),
+        Animated.timing(this.state.translateY, {
+          toValue: 0,
+          duration: this.animationDuration,
+          useNativeDriver: false,
+        })
+      ]).start();
+    } else {
+      // Original behavior for non drag-and-settle mode
+      Animated.timing(this.state.sheetHeight, {
+        toValue: targetHeight,
+        duration: this.animationDuration,
+        useNativeDriver: false,
+      }).start();
+    }
+    this.updateState({
+      isExpanded: true,
+      lastGestureDy: 0 // Reset to start from top when expanded
+    } as WmBottomsheetState);
   }
   collapseBottomSheet = () => {
     Animated.parallel([
@@ -112,7 +130,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       })
     ]).start();
     this.updateState({
-      isExpanded: false
+      isExpanded: false,
+      lastGestureDy: 0 // Reset to start from original position when collapsed
     } as WmBottomsheetState);
 
   }
@@ -224,10 +243,36 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     }
   }
 
+
+
   handleSwipeGesture = (gestureState: PanResponderGestureState) => {
-    this.updateState({
-      lastGestureDy: 0
-    } as WmBottomsheetState);
+
+    // Only reset lastGestureDy for traditional behavior, not for drag and settle
+    if (!this.props.enabledragsettle) {
+      this.updateState({
+        lastGestureDy: 0
+      } as WmBottomsheetState);
+    }
+
+    // New drag and settle behavior
+    if (this.props.enabledragsettle && gestureState.dy > 0) {
+      // Get current translateY value and settle the sheet at this position
+      const currentTranslateY = (this.state.translateY as any)._value || 0;
+      // If dragged too far down, close the sheet
+      if (gestureState.vy > 0.5 && !this.props.disableswipedownclose) {
+        this.closeSheet();
+        return;
+      }
+      // Settle at the current position without changing the sheet height
+      // The sheet height should remain constant to maintain proper positioning
+      this.state.translateY.setValue(currentTranslateY);
+      // This ensures subsequent drags start from the current position
+      this.updateState({
+        isExpanded: false,
+        lastGestureDy: currentTranslateY
+      } as WmBottomsheetState);
+      return;
+    }
 
     if (gestureState.dy > 0) {
       if (this.state.isExpanded || this.props.disableswipedownclose) {
@@ -261,7 +306,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
           this.openSheet();
           return;
         }
-        if (gestureState.dy > 100 || gestureState.vy > 0.5) {
+        if ((gestureState.dy > 100 || gestureState.vy > 0.5) &&  !this.props.disableswipedownclose) {
           this.closeSheet();
         } else {
           this.openSheet();
@@ -457,7 +502,9 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
                 <ScrollView
                   ref={this.state.scrollViewRef}
                   style={this.styles.sheetContentContainer}
-                  contentContainerStyle={this.styles.sheetScrollContent}
+                  contentContainerStyle={[this.styles.sheetScrollContent, props.enabledragsettle && this.state.lastGestureDy > 0 && {
+                    paddingBottom: this.state.lastGestureDy
+                  }]}
                   alwaysBounceVertical={false}
                   alwaysBounceHorizontal={false}
                   bounces={false}
