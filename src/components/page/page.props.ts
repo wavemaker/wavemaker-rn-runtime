@@ -4,5 +4,6 @@ export default class WmPageProps extends BaseProps{
   scrollable: boolean = false;
   hasappnavbar:boolean = true;
   onscroll: string = '';
-  barstyle:'default'|'dark-content'|'light-content' = 'default';
+  statusbarstyle:'default'|'dark-content'|'light-content' = 'default';
+  navigationbarstyle:'dark'|'light' = "light";
 }

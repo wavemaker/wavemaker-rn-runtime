@@ -142,6 +142,8 @@ export default class WmVideo extends BaseComponent<
     this.player.release();
   }
 
+  //TASK: Overlay on video widged should be removed once upgraded to expo 53.
+
   renderWidget(props: WmVideoProps) {
     const {
       allowsPictureInPicture,
@@ -174,7 +176,6 @@ export default class WmVideo extends BaseComponent<
           onFullscreenExit={onFullscreenExit}
           requiresLinearPlayback={requiresLinearPlayback}
         />
-        //TODO: This Tappable should be removed once upgraded to expo 53.
         {Platform.OS === 'android' && !(props.controls && showOverlay ) && <Tappable onTap={() => {}} styles={{zIndex: 10, position:"absolute", width: '100%', height: '100%', flex: 1 }}>
           <View testID={this.getTestId('video_overlay')} style={{backgroundColor:'transparent', width: '100%', height: '100%', flex: 1}}>
           </View>
