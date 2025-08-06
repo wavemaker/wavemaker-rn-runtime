@@ -1,6 +1,6 @@
-import BASE_THEME, {AllStyle, Theme} from '@wavemaker/app-rn-runtime/styles/theme';
+import BASE_THEME, { AllStyle, Theme } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
-import {ColorValue} from "react-native";
+import { ColorValue } from "react-native";
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 
 export type WmTextStyles = BaseStyles & {
@@ -15,40 +15,40 @@ export type WmTextStyles = BaseStyles & {
 export const DEFAULT_CLASS = 'app-text';
 BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmTextStyles = defineStyles({
-      root: {
-        minHeight: 42,
-        paddingTop: 8,
-        paddingBottom: 8,
-        borderWidth: 1,
-        paddingLeft: 16,
-        paddingRight: 16,
-        borderStyle: 'solid',
-        borderColor: themeVariables.inputBorderColor,
-        backgroundColor: themeVariables.inputBackgroundColor,
-        borderRadius: 6,
-        fontFamily: themeVariables.baseFont
-      },
-      text: {
-        fontSize: 16
-      },
-      invalid: {
-        borderBottomColor: themeVariables.inputInvalidBorderColor
-      },
-      focused : {
-        borderColor: themeVariables.inputFocusBorderColor,
-      },
-      placeholderText: {
+    root: {
+      minHeight: 42,
+      paddingTop: 8,
+      paddingBottom: 8,
+      borderWidth: 1,
+      paddingLeft: 16,
+      paddingRight: 16,
+      borderStyle: 'solid',
+      borderColor: themeVariables.inputBorderColor,
+      backgroundColor: themeVariables.inputBackgroundColor,
+      borderRadius: 6,
+      fontFamily: themeVariables.baseFont
+    },
+    text: {
+      fontSize: 16
+    },
+    invalid: {
+      borderBottomColor: themeVariables.inputInvalidBorderColor
+    },
+    focused: {
+      borderColor: themeVariables.inputFocusBorderColor,
+    },
+    placeholderText: {
       color: themeVariables.inputPlaceholderColor
-      },
-      floatingLabel: {},
-      activeFloatingLabel: {},
-      skeleton: {
-        root: {
-          width: '100%',
-          height: 16,
-          borderRadius: 4
-        }
-      } as any as WmSkeletonStyles
+    },
+    floatingLabel: {},
+    activeFloatingLabel: {},
+    skeleton: {
+      root: {
+        width: '100%',
+        height: 16,
+        borderRadius: 4
+      }
+    } as any as WmSkeletonStyles
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
@@ -75,14 +75,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   } as BaseStyles);
   
   addStyle(DEFAULT_CLASS + '-disabled', '', {
-      root : {
-        backgroundColor: themeVariables.inputDisabledBgColor
-      }
+    root: {
+      backgroundColor: themeVariables.inputDisabledBgColor
+    }
   });
   addStyle(DEFAULT_CLASS + '-rtl', '', {
-      root:{
-        textAlign: 'right'
-      }
+    root: {
+      textAlign: 'right'
+    }
   });
   addStyle(DEFAULT_CLASS + '-with-label', '', {
     root: {
@@ -96,7 +96,20 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       color: themeVariables.floatingLabelColor
     },
     activeFloatingLabel: {
-      color: themeVariables.activeFloatingLabelColor
+      color: themeVariables.activeFloatingLabelColor,
     }
+  });
+  addStyle('app-input', '', {
+    root: {},
+    text: {},
+    invalid: {
+    },
+    focused: {},
+    placeholderText: {},
+    floatingLabel: {},
+    activeFloatingLabel: {},
+    skeleton: {
+      root: {}
+    } as any as WmSkeletonStyles
   });
 });
