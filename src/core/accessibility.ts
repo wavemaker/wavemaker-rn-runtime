@@ -56,7 +56,7 @@ export type AccessibilityPropsType = {
   accessibilityLabel?: string;
   accessibilityLabelledBy?: string;
   accessibilityHint?: string;
-  accessibilityRole?: 'button' | 'checkbox' | 'combobox' | 'link' | 'header' | 'search' | 'image' | 'imagebutton' | 'none' | 'summary' | 'text' | 'progressbar' | 'grid' | 'alert' | 'tab';
+  accessibilityRole?: 'button' | 'checkbox' | 'combobox' | 'link' | 'header' | 'search' | 'image' | 'imagebutton' | 'none' | 'summary' | 'text' | 'progressbar' | 'grid' | 'alert' | 'tab' | 'adjustable' | 'menu' | 'radio' | 'radiogroup' | 'togglebutton';
   accessibilityState?: {
     disabled?: boolean;
     selected?: boolean;

@@ -85,7 +85,6 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
             paddingBottom: 0,
             paddingLeft: 0,
             paddingRight: 0,
-            overflow: 'hidden',
             flexDirection: 'column'
           },
           this.styles.root.height == "100%" ? {flex: 1}:{}

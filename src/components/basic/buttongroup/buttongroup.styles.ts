@@ -19,7 +19,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderStyle: 'solid',
         borderColor: themeVariables.buttonGrpBorderColor,
         backgroundColor: themeVariables.buttonGrpBgColor,
-        overflow: 'hidden'
       }, 
       text: {},
       skeleton: {
