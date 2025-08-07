@@ -1,2791 +1,2369 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WmLiveFrom Component check for handleSubmit with no form validation 1`] = `
-[
+<View
+  onLayout={[Function]}
+  style={{}}
+>
   <View
-    onLayout={[Function]}
     style={
       {
-        "height": 0,
-        "width": 0,
+        "borderBottomWidth": 0,
+        "borderColor": "#cccccc",
+        "borderStyle": "solid",
+        "paddingBottom": 12,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "paddingTop": 12,
       }
     }
-  />,
-  <View
-    style={{}}
   >
     <View
       style={
         {
-          "borderBottomWidth": 0,
-          "borderColor": "#cccccc",
-          "borderStyle": "solid",
-          "paddingBottom": 12,
-          "paddingLeft": 0,
-          "paddingRight": 0,
-          "paddingTop": 12,
+          "flex": 1,
+          "flexDirection": "row",
         }
       }
     >
       <View
-        style={
-          {
-            "flex": 1,
-            "flexDirection": "row",
-          }
-        }
+        onLayout={[Function]}
       >
         <View
           onLayout={[Function]}
           style={
             {
-              "height": 0,
-              "width": 0,
+              "alignItems": "center",
+              "alignSelf": "flex-start",
+              "flexDirection": "row",
+              "fontSize": 18,
+              "marginRight": 8,
             }
           }
-        />
-        <View>
-          <View
-            style={
-              {
-                "alignItems": "center",
-                "alignSelf": "flex-start",
-                "flexDirection": "row",
-                "fontSize": 18,
-                "marginRight": 8,
-              }
-            }
-            testID="non_animatableView"
-          >
-            <View>
-              <View>
-                <Text
-                  accessible={false}
-                  size={18}
-                  style={
-                    [
-                      {
-                        "color": undefined,
-                      },
-                      {
-                        "paddingLeft": 0,
-                        "paddingRight": 8,
-                      },
-                      {
-                        "transform": [
-                          {
-                            "rotate": "0deg",
-                          },
-                        ],
-                      },
-                    ]
-                  }
-                  testID="EmployeeLiveForm1_icon_icon"
-                >
-                  edit
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View>
-          <View
-            onLayout={[Function]}
-            style={
-              {
-                "height": 0,
-                "width": 0,
-              }
-            }
-          />
-          <View
-            style={
-              {
-                "alignSelf": "flex-start",
-              }
-            }
-            testID="non_animatableView"
-          >
+          testID="non_animatableView"
+        >
+          <View>
             <View>
               <Text
-                accessibilityLabel="Employee Info"
-                accessibilityRole="header"
-                accessible={true}
-                ellipsizeMode="tail"
+                accessible={false}
+                size={18}
                 style={
-                  {
-                    "color": "#151420",
-                    "fontFamily": "Roboto",
-                    "fontSize": 18,
-                    "fontWeight": "bold",
-                    "userSelect": "text",
-                  }
+                  [
+                    {
+                      "color": undefined,
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
                 }
-                testID="EmployeeLiveForm1_title_caption"
+                testID="EmployeeLiveForm1_icon_icon"
               >
-                Employee Info
+                edit
               </Text>
             </View>
           </View>
-          <View
-            onLayout={[Function]}
-            style={
-              {
-                "height": 0,
-                "width": 0,
-              }
+        </View>
+      </View>
+      <View>
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "alignSelf": "flex-start",
             }
-          />
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <Text
+              accessibilityLabel="Employee Info"
+              accessibilityRole="header"
+              accessible={true}
+              ellipsizeMode="tail"
+              style={
+                {
+                  "color": "#151420",
+                  "fontFamily": "Roboto",
+                  "fontSize": 18,
+                  "fontWeight": "bold",
+                  "userSelect": "text",
+                }
+              }
+              testID="EmployeeLiveForm1_title_caption"
+            >
+              Employee Info
+            </Text>
+          </View>
         </View>
       </View>
     </View>
+  </View>
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
     <View
       onLayout={[Function]}
       style={
         {
-          "height": 0,
-          "width": 0,
-        }
-      }
-    />
-    <View
-      style={
-        {
-          "flex": 1,
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "width": "100%",
         }
       }
     >
       <View
         onLayout={[Function]}
         style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          {
-            "flexDirection": "row",
-            "flexWrap": "wrap",
-            "width": "100%",
-          }
+          [
+            {
+              "width": "100%",
+            },
+            {
+              "width": "100%",
+            },
+            {},
+          ]
         }
       >
         <View
           onLayout={[Function]}
           style={
             {
-              "height": 0,
-              "width": 0,
+              "marginBottom": 24,
             }
           }
         />
+      </View>
+    </View>
+  </View>
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "borderColor": "#cccccc",
+        "borderStyle": "solid",
+        "borderTopWidth": 1,
+        "flexDirection": "row",
+        "justifyContent": "flex-end",
+        "paddingBottom": 8,
+        "paddingLeft": 8,
+        "paddingRight": 8,
+        "paddingTop": 8,
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#ffffff",
+            "borderColor": "#cccccc",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityLabel="Reset"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
+              "paddingBottom": 12,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 12,
+              "width": "100%",
+            },
+          ]
+        }
+        testID="EmployeeLiveForm1_button_formAction_a"
+      >
         <View
           style={
             [
               {
-                "width": "100%",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
               },
               {
-                "width": "100%",
+                "flexDirection": "row",
               },
-              {},
             ]
           }
         >
           <View
             onLayout={[Function]}
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "auto",
+                  "flexDirection": "row",
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#151420",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_button_formAction_icon_icon"
+                  >
+                    refresh
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
             style={
               {
-                "height": 0,
-                "width": 0,
+                "color": "#151420",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
               }
             }
-          />
-          <View
-            style={
-              {
-                "marginBottom": 24,
-              }
-            }
-          />
+            testID="EmployeeLiveForm1_button_formAction_caption"
+          >
+            Reset
+          </Text>
         </View>
       </View>
     </View>
     <View
       onLayout={[Function]}
       style={
-        {
-          "height": 0,
-          "width": 0,
-        }
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#ffffff",
+            "borderColor": "#cccccc",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
       }
-    />
-    <View
-      style={
-        {
-          "borderColor": "#cccccc",
-          "borderStyle": "solid",
-          "borderTopWidth": 1,
-          "flexDirection": "row",
-          "justifyContent": "flex-end",
-          "paddingBottom": 8,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "paddingTop": 8,
-        }
-      }
+      testID="non_animatableView"
     >
       <View
-        onLayout={[Function]}
-        style={
+        accessibilityLabel="Cancel"
+        accessibilityRole="button"
+        accessibilityState={
           {
-            "height": 0,
-            "width": 0,
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
           }
         }
-      />
-      <View
-        onLayout={[Function]}
-        style={
+        accessibilityValue={
           {
-            "height": 0,
-            "width": 0,
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
-      />
-      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
           [
             {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#ffffff",
-              "borderColor": "#cccccc",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
               "paddingBottom": 12,
               "paddingLeft": 24,
               "paddingRight": 24,
               "paddingTop": 12,
-              "rippleColor": "transparent",
+              "width": "100%",
             },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
           ]
         }
-        testID="non_animatableView"
+        testID="EmployeeLiveForm1_button_formAction_a"
       >
         <View
-          accessibilityLabel="Reset"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
             [
               {
-                "overflow": "hidden",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
               },
               {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
+                "flexDirection": "row",
               },
             ]
           }
-          testID="EmployeeLiveForm1_button_formAction_a"
         >
           <View
-            style={
-              [
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
-            }
+            onLayout={[Function]}
           >
             <View
               onLayout={[Function]}
               style={
                 {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#151420",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_button_formAction_icon_icon"
-                    >
-                      refresh
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#151420",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_button_formAction_caption"
-            >
-              Reset
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          [
-            {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#ffffff",
-              "borderColor": "#cccccc",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
-              "paddingBottom": 12,
-              "paddingLeft": 24,
-              "paddingRight": 24,
-              "paddingTop": 12,
-              "rippleColor": "transparent",
-            },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <View
-          accessibilityLabel="Cancel"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            [
-              {
-                "overflow": "hidden",
-              },
-              {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
-              },
-            ]
-          }
-          testID="EmployeeLiveForm1_button_formAction_a"
-        >
-          <View
-            style={
-              [
-                {
                   "alignItems": "center",
+                  "alignSelf": "auto",
                   "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
-            }
-          >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
                 }
               }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
+              testID="non_animatableView"
+            >
+              <View>
                 <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#151420",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_button_formAction_icon_icon"
-                    >
-                      cancel
-                    </Text>
-                  </View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#151420",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_button_formAction_icon_icon"
+                  >
+                    cancel
+                  </Text>
                 </View>
               </View>
             </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#151420",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_button_formAction_caption"
-            >
-              Cancel
-            </Text>
           </View>
-        </View>
-      </View>
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          [
-            {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#28a745",
-              "borderColor": "#28a745",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
-              "paddingBottom": 12,
-              "paddingLeft": 24,
-              "paddingRight": 24,
-              "paddingTop": 12,
-              "rippleColor": "transparent",
-            },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <View
-          accessibilityLabel="Save"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            [
-              {
-                "overflow": "hidden",
-              },
-              {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
-              },
-            ]
-          }
-          testID="EmployeeLiveForm1_submit_formAction_a"
-        >
-          <View
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
             style={
-              [
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
+              {
+                "color": "#151420",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
+              }
             }
+            testID="EmployeeLiveForm1_button_formAction_caption"
           >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#ffffff",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_submit_formAction_icon_icon"
-                    >
-                      done
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#ffffff",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_submit_formAction_caption"
-            >
-              Save
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          [
-            {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#dc3545",
-              "borderColor": "#dc3545",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
-              "paddingBottom": 12,
-              "paddingLeft": 24,
-              "paddingRight": 24,
-              "paddingTop": 12,
-              "rippleColor": "transparent",
-            },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <View
-          accessibilityLabel="Delete"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            [
-              {
-                "overflow": "hidden",
-              },
-              {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
-              },
-            ]
-          }
-          testID="EmployeeLiveForm1_button_formAction_a"
-        >
-          <View
-            style={
-              [
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
-            }
-          >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#ffffff",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_button_formAction_icon_icon"
-                    >
-                      trash
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#ffffff",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_button_formAction_caption"
-            >
-              Delete
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          [
-            {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#17a2b8",
-              "borderColor": "#17a2b8",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
-              "paddingBottom": 12,
-              "paddingLeft": 24,
-              "paddingRight": 24,
-              "paddingTop": 12,
-              "rippleColor": "transparent",
-            },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <View
-          accessibilityLabel="Edit"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            [
-              {
-                "overflow": "hidden",
-              },
-              {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
-              },
-            ]
-          }
-          testID="EmployeeLiveForm1_button_formAction_a"
-        >
-          <View
-            style={
-              [
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
-            }
-          >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#ffffff",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_button_formAction_icon_icon"
-                    >
-                      pencil
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#ffffff",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_button_formAction_caption"
-            >
-              Edit
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          [
-            {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#28a745",
-              "borderColor": "#28a745",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
-              "paddingBottom": 12,
-              "paddingLeft": 24,
-              "paddingRight": 24,
-              "paddingTop": 12,
-              "rippleColor": "transparent",
-            },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <View
-          accessibilityLabel="New"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            [
-              {
-                "overflow": "hidden",
-              },
-              {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
-              },
-            ]
-          }
-          testID="EmployeeLiveForm1_button_formAction_a"
-        >
-          <View
-            style={
-              [
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
-            }
-          >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#ffffff",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_button_formAction_icon_icon"
-                    >
-                      plus
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#ffffff",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_button_formAction_caption"
-            >
-              New
-            </Text>
-          </View>
+            Cancel
+          </Text>
         </View>
       </View>
     </View>
-  </View>,
-]
+    <View
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#28a745",
+            "borderColor": "#28a745",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityLabel="Save"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
+              "paddingBottom": 12,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 12,
+              "width": "100%",
+            },
+          ]
+        }
+        testID="EmployeeLiveForm1_submit_formAction_a"
+      >
+        <View
+          style={
+            [
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+              },
+              {
+                "flexDirection": "row",
+              },
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "auto",
+                  "flexDirection": "row",
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#ffffff",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_submit_formAction_icon_icon"
+                  >
+                    done
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
+            style={
+              {
+                "color": "#ffffff",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
+              }
+            }
+            testID="EmployeeLiveForm1_submit_formAction_caption"
+          >
+            Save
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#dc3545",
+            "borderColor": "#dc3545",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityLabel="Delete"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
+              "paddingBottom": 12,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 12,
+              "width": "100%",
+            },
+          ]
+        }
+        testID="EmployeeLiveForm1_button_formAction_a"
+      >
+        <View
+          style={
+            [
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+              },
+              {
+                "flexDirection": "row",
+              },
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "auto",
+                  "flexDirection": "row",
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#ffffff",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_button_formAction_icon_icon"
+                  >
+                    trash
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
+            style={
+              {
+                "color": "#ffffff",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
+              }
+            }
+            testID="EmployeeLiveForm1_button_formAction_caption"
+          >
+            Delete
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#17a2b8",
+            "borderColor": "#17a2b8",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityLabel="Edit"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
+              "paddingBottom": 12,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 12,
+              "width": "100%",
+            },
+          ]
+        }
+        testID="EmployeeLiveForm1_button_formAction_a"
+      >
+        <View
+          style={
+            [
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+              },
+              {
+                "flexDirection": "row",
+              },
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "auto",
+                  "flexDirection": "row",
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#ffffff",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_button_formAction_icon_icon"
+                  >
+                    pencil
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
+            style={
+              {
+                "color": "#ffffff",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
+              }
+            }
+            testID="EmployeeLiveForm1_button_formAction_caption"
+          >
+            Edit
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#28a745",
+            "borderColor": "#28a745",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityLabel="New"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
+              "paddingBottom": 12,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 12,
+              "width": "100%",
+            },
+          ]
+        }
+        testID="EmployeeLiveForm1_button_formAction_a"
+      >
+        <View
+          style={
+            [
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+              },
+              {
+                "flexDirection": "row",
+              },
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "auto",
+                  "flexDirection": "row",
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#ffffff",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_button_formAction_icon_icon"
+                  >
+                    plus
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
+            style={
+              {
+                "color": "#ffffff",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
+              }
+            }
+            testID="EmployeeLiveForm1_button_formAction_caption"
+          >
+            New
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
 `;
 
 exports[`WmLiveFrom Component check for render wmliveform correctly 1`] = `
-[
+<View
+  onLayout={[Function]}
+  style={{}}
+>
   <View
-    onLayout={[Function]}
     style={
       {
-        "height": 0,
-        "width": 0,
+        "borderBottomWidth": 0,
+        "borderColor": "#cccccc",
+        "borderStyle": "solid",
+        "paddingBottom": 12,
+        "paddingLeft": 0,
+        "paddingRight": 0,
+        "paddingTop": 12,
       }
     }
-  />,
-  <View
-    style={{}}
   >
     <View
       style={
         {
-          "borderBottomWidth": 0,
-          "borderColor": "#cccccc",
-          "borderStyle": "solid",
-          "paddingBottom": 12,
-          "paddingLeft": 0,
-          "paddingRight": 0,
-          "paddingTop": 12,
+          "flex": 1,
+          "flexDirection": "row",
         }
       }
     >
       <View
-        style={
-          {
-            "flex": 1,
-            "flexDirection": "row",
-          }
-        }
+        onLayout={[Function]}
       >
         <View
           onLayout={[Function]}
           style={
             {
-              "height": 0,
-              "width": 0,
+              "alignItems": "center",
+              "alignSelf": "flex-start",
+              "flexDirection": "row",
+              "fontSize": 18,
+              "marginRight": 8,
             }
           }
-        />
-        <View>
-          <View
-            style={
-              {
-                "alignItems": "center",
-                "alignSelf": "flex-start",
-                "flexDirection": "row",
-                "fontSize": 18,
-                "marginRight": 8,
-              }
-            }
-            testID="non_animatableView"
-          >
-            <View>
-              <View>
-                <Text
-                  accessible={false}
-                  size={18}
-                  style={
-                    [
-                      {
-                        "color": undefined,
-                      },
-                      {
-                        "paddingLeft": 0,
-                        "paddingRight": 8,
-                      },
-                      {
-                        "transform": [
-                          {
-                            "rotate": "0deg",
-                          },
-                        ],
-                      },
-                    ]
-                  }
-                  testID="EmployeeLiveForm1_icon_icon"
-                >
-                  edit
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View>
-          <View
-            onLayout={[Function]}
-            style={
-              {
-                "height": 0,
-                "width": 0,
-              }
-            }
-          />
-          <View
-            style={
-              {
-                "alignSelf": "flex-start",
-              }
-            }
-            testID="non_animatableView"
-          >
+          testID="non_animatableView"
+        >
+          <View>
             <View>
               <Text
-                accessibilityLabel="Employee Info"
-                accessibilityRole="header"
-                accessible={true}
-                ellipsizeMode="tail"
+                accessible={false}
+                size={18}
                 style={
-                  {
-                    "color": "#151420",
-                    "fontFamily": "Roboto",
-                    "fontSize": 18,
-                    "fontWeight": "bold",
-                    "userSelect": "text",
-                  }
+                  [
+                    {
+                      "color": undefined,
+                    },
+                    {
+                      "paddingLeft": 0,
+                      "paddingRight": 8,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "rotate": "0deg",
+                        },
+                      ],
+                    },
+                  ]
                 }
-                testID="EmployeeLiveForm1_title_caption"
+                testID="EmployeeLiveForm1_icon_icon"
               >
-                Employee Info
+                edit
               </Text>
             </View>
           </View>
-          <View
-            onLayout={[Function]}
-            style={
-              {
-                "height": 0,
-                "width": 0,
-              }
+        </View>
+      </View>
+      <View>
+        <View
+          onLayout={[Function]}
+          style={
+            {
+              "alignSelf": "flex-start",
             }
-          />
+          }
+          testID="non_animatableView"
+        >
+          <View>
+            <Text
+              accessibilityLabel="Employee Info"
+              accessibilityRole="header"
+              accessible={true}
+              ellipsizeMode="tail"
+              style={
+                {
+                  "color": "#151420",
+                  "fontFamily": "Roboto",
+                  "fontSize": 18,
+                  "fontWeight": "bold",
+                  "userSelect": "text",
+                }
+              }
+              testID="EmployeeLiveForm1_title_caption"
+            >
+              Employee Info
+            </Text>
+          </View>
         </View>
       </View>
     </View>
+  </View>
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
     <View
       onLayout={[Function]}
       style={
         {
-          "height": 0,
-          "width": 0,
-        }
-      }
-    />
-    <View
-      style={
-        {
-          "flex": 1,
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "width": "100%",
         }
       }
     >
       <View
         onLayout={[Function]}
         style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          {
-            "flexDirection": "row",
-            "flexWrap": "wrap",
-            "width": "100%",
-          }
+          [
+            {
+              "width": "100%",
+            },
+            {
+              "width": "100%",
+            },
+            {},
+          ]
         }
       >
         <View
           onLayout={[Function]}
           style={
             {
-              "height": 0,
-              "width": 0,
+              "marginBottom": 24,
             }
           }
         />
+      </View>
+    </View>
+  </View>
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "borderColor": "#cccccc",
+        "borderStyle": "solid",
+        "borderTopWidth": 1,
+        "flexDirection": "row",
+        "justifyContent": "flex-end",
+        "paddingBottom": 8,
+        "paddingLeft": 8,
+        "paddingRight": 8,
+        "paddingTop": 8,
+      }
+    }
+  >
+    <View
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#ffffff",
+            "borderColor": "#cccccc",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityLabel="Reset"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
+              "paddingBottom": 12,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 12,
+              "width": "100%",
+            },
+          ]
+        }
+        testID="EmployeeLiveForm1_button_formAction_a"
+      >
         <View
           style={
             [
               {
-                "width": "100%",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
               },
               {
-                "width": "100%",
+                "flexDirection": "row",
               },
-              {},
             ]
           }
         >
           <View
             onLayout={[Function]}
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "auto",
+                  "flexDirection": "row",
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#151420",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_button_formAction_icon_icon"
+                  >
+                    refresh
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
             style={
               {
-                "height": 0,
-                "width": 0,
+                "color": "#151420",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
               }
             }
-          />
-          <View
-            style={
-              {
-                "marginBottom": 24,
-              }
-            }
-          />
+            testID="EmployeeLiveForm1_button_formAction_caption"
+          >
+            Reset
+          </Text>
         </View>
       </View>
     </View>
     <View
       onLayout={[Function]}
       style={
-        {
-          "height": 0,
-          "width": 0,
-        }
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#ffffff",
+            "borderColor": "#cccccc",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
       }
-    />
-    <View
-      style={
-        {
-          "borderColor": "#cccccc",
-          "borderStyle": "solid",
-          "borderTopWidth": 1,
-          "flexDirection": "row",
-          "justifyContent": "flex-end",
-          "paddingBottom": 8,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "paddingTop": 8,
-        }
-      }
+      testID="non_animatableView"
     >
       <View
-        onLayout={[Function]}
-        style={
+        accessibilityLabel="Cancel"
+        accessibilityRole="button"
+        accessibilityState={
           {
-            "height": 0,
-            "width": 0,
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
           }
         }
-      />
-      <View
-        onLayout={[Function]}
-        style={
+        accessibilityValue={
           {
-            "height": 0,
-            "width": 0,
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
           }
         }
-      />
-      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
           [
             {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#ffffff",
-              "borderColor": "#cccccc",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
               "paddingBottom": 12,
               "paddingLeft": 24,
               "paddingRight": 24,
               "paddingTop": 12,
-              "rippleColor": "transparent",
+              "width": "100%",
             },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
           ]
         }
-        testID="non_animatableView"
+        testID="EmployeeLiveForm1_button_formAction_a"
       >
         <View
-          accessibilityLabel="Reset"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
           style={
             [
               {
-                "overflow": "hidden",
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
               },
               {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
+                "flexDirection": "row",
               },
             ]
           }
-          testID="EmployeeLiveForm1_button_formAction_a"
         >
           <View
-            style={
-              [
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
-            }
+            onLayout={[Function]}
           >
             <View
               onLayout={[Function]}
               style={
                 {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#151420",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_button_formAction_icon_icon"
-                    >
-                      refresh
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#151420",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_button_formAction_caption"
-            >
-              Reset
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          [
-            {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#ffffff",
-              "borderColor": "#cccccc",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
-              "paddingBottom": 12,
-              "paddingLeft": 24,
-              "paddingRight": 24,
-              "paddingTop": 12,
-              "rippleColor": "transparent",
-            },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <View
-          accessibilityLabel="Cancel"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            [
-              {
-                "overflow": "hidden",
-              },
-              {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
-              },
-            ]
-          }
-          testID="EmployeeLiveForm1_button_formAction_a"
-        >
-          <View
-            style={
-              [
-                {
                   "alignItems": "center",
+                  "alignSelf": "auto",
                   "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
-            }
-          >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
                 }
               }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
+              testID="non_animatableView"
+            >
+              <View>
                 <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#151420",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_button_formAction_icon_icon"
-                    >
-                      cancel
-                    </Text>
-                  </View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#151420",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_button_formAction_icon_icon"
+                  >
+                    cancel
+                  </Text>
                 </View>
               </View>
             </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#151420",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_button_formAction_caption"
-            >
-              Cancel
-            </Text>
           </View>
-        </View>
-      </View>
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          [
-            {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#28a745",
-              "borderColor": "#28a745",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
-              "paddingBottom": 12,
-              "paddingLeft": 24,
-              "paddingRight": 24,
-              "paddingTop": 12,
-              "rippleColor": "transparent",
-            },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <View
-          accessibilityLabel="Save"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            [
-              {
-                "overflow": "hidden",
-              },
-              {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
-              },
-            ]
-          }
-          testID="EmployeeLiveForm1_submit_formAction_a"
-        >
-          <View
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
             style={
-              [
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
+              {
+                "color": "#151420",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
+              }
             }
+            testID="EmployeeLiveForm1_button_formAction_caption"
           >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#ffffff",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_submit_formAction_icon_icon"
-                    >
-                      done
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#ffffff",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_submit_formAction_caption"
-            >
-              Save
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          [
-            {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#dc3545",
-              "borderColor": "#dc3545",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
-              "paddingBottom": 12,
-              "paddingLeft": 24,
-              "paddingRight": 24,
-              "paddingTop": 12,
-              "rippleColor": "transparent",
-            },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <View
-          accessibilityLabel="Delete"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            [
-              {
-                "overflow": "hidden",
-              },
-              {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
-              },
-            ]
-          }
-          testID="EmployeeLiveForm1_button_formAction_a"
-        >
-          <View
-            style={
-              [
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
-            }
-          >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#ffffff",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_button_formAction_icon_icon"
-                    >
-                      trash
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#ffffff",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_button_formAction_caption"
-            >
-              Delete
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          [
-            {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#17a2b8",
-              "borderColor": "#17a2b8",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
-              "paddingBottom": 12,
-              "paddingLeft": 24,
-              "paddingRight": 24,
-              "paddingTop": 12,
-              "rippleColor": "transparent",
-            },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <View
-          accessibilityLabel="Edit"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            [
-              {
-                "overflow": "hidden",
-              },
-              {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
-              },
-            ]
-          }
-          testID="EmployeeLiveForm1_button_formAction_a"
-        >
-          <View
-            style={
-              [
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
-            }
-          >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#ffffff",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_button_formAction_icon_icon"
-                    >
-                      pencil
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#ffffff",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_button_formAction_caption"
-            >
-              Edit
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        onLayout={[Function]}
-        style={
-          {
-            "height": 0,
-            "width": 0,
-          }
-        }
-      />
-      <View
-        style={
-          [
-            {
-              "alignSelf": "flex-start",
-              "backgroundColor": "#28a745",
-              "borderColor": "#28a745",
-              "borderRadius": 32,
-              "borderStyle": "solid",
-              "borderWidth": 1,
-              "flex": 1,
-              "marginBottom": 0,
-              "marginLeft": 4,
-              "marginRight": 4,
-              "marginTop": 0,
-              "minHeight": 40,
-              "paddingBottom": 12,
-              "paddingLeft": 24,
-              "paddingRight": 24,
-              "paddingTop": 12,
-              "rippleColor": "transparent",
-            },
-            {
-              "flexDirection": "column",
-              "overflow": "hidden",
-              "paddingBottom": 0,
-              "paddingLeft": 0,
-              "paddingRight": 0,
-              "paddingTop": 0,
-            },
-            {},
-          ]
-        }
-        testID="non_animatableView"
-      >
-        <View
-          accessibilityLabel="New"
-          accessibilityRole="button"
-          accessibilityState={
-            {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": false,
-              "expanded": undefined,
-              "selected": undefined,
-            }
-          }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          collapsable={false}
-          focusable={true}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onFocus={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          style={
-            [
-              {
-                "overflow": "hidden",
-              },
-              {
-                "height": null,
-                "justifyContent": "center",
-                "paddingBottom": 12,
-                "paddingLeft": 24,
-                "paddingRight": 24,
-                "paddingTop": 12,
-                "width": "100%",
-              },
-            ]
-          }
-          testID="EmployeeLiveForm1_button_formAction_a"
-        >
-          <View
-            style={
-              [
-                {
-                  "alignItems": "center",
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                },
-                {
-                  "flexDirection": "row",
-                },
-              ]
-            }
-          >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "auto",
-                    "flexDirection": "row",
-                    "paddingLeft": -8,
-                    "paddingRight": -8,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={16}
-                      style={
-                        [
-                          {
-                            "color": "#ffffff",
-                          },
-                          {
-                            "fontSize": 20,
-                            "paddingLeft": 0,
-                            "paddingRight": 8,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="EmployeeLiveForm1_button_formAction_icon_icon"
-                    >
-                      plus
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <Text
-              accessible={false}
-              importantForAccessibility="no"
-              style={
-                {
-                  "color": "#ffffff",
-                  "fontFamily": "Roboto",
-                  "fontSize": 14,
-                  "fontWeight": "500",
-                  "textAlign": "center",
-                  "textTransform": "capitalize",
-                  "userSelect": "text",
-                }
-              }
-              testID="EmployeeLiveForm1_button_formAction_caption"
-            >
-              New
-            </Text>
-          </View>
+            Cancel
+          </Text>
         </View>
       </View>
     </View>
-  </View>,
-]
+    <View
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#28a745",
+            "borderColor": "#28a745",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityLabel="Save"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
+              "paddingBottom": 12,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 12,
+              "width": "100%",
+            },
+          ]
+        }
+        testID="EmployeeLiveForm1_submit_formAction_a"
+      >
+        <View
+          style={
+            [
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+              },
+              {
+                "flexDirection": "row",
+              },
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "auto",
+                  "flexDirection": "row",
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#ffffff",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_submit_formAction_icon_icon"
+                  >
+                    done
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
+            style={
+              {
+                "color": "#ffffff",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
+              }
+            }
+            testID="EmployeeLiveForm1_submit_formAction_caption"
+          >
+            Save
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#dc3545",
+            "borderColor": "#dc3545",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityLabel="Delete"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
+              "paddingBottom": 12,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 12,
+              "width": "100%",
+            },
+          ]
+        }
+        testID="EmployeeLiveForm1_button_formAction_a"
+      >
+        <View
+          style={
+            [
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+              },
+              {
+                "flexDirection": "row",
+              },
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "auto",
+                  "flexDirection": "row",
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#ffffff",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_button_formAction_icon_icon"
+                  >
+                    trash
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
+            style={
+              {
+                "color": "#ffffff",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
+              }
+            }
+            testID="EmployeeLiveForm1_button_formAction_caption"
+          >
+            Delete
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#17a2b8",
+            "borderColor": "#17a2b8",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityLabel="Edit"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
+              "paddingBottom": 12,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 12,
+              "width": "100%",
+            },
+          ]
+        }
+        testID="EmployeeLiveForm1_button_formAction_a"
+      >
+        <View
+          style={
+            [
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+              },
+              {
+                "flexDirection": "row",
+              },
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "auto",
+                  "flexDirection": "row",
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#ffffff",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_button_formAction_icon_icon"
+                  >
+                    pencil
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
+            style={
+              {
+                "color": "#ffffff",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
+              }
+            }
+            testID="EmployeeLiveForm1_button_formAction_caption"
+          >
+            Edit
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={
+        [
+          {
+            "alignSelf": "flex-start",
+            "backgroundColor": "#28a745",
+            "borderColor": "#28a745",
+            "borderRadius": 32,
+            "borderStyle": "solid",
+            "borderWidth": 1,
+            "flex": 1,
+            "marginBottom": 0,
+            "marginLeft": 4,
+            "marginRight": 4,
+            "marginTop": 0,
+            "minHeight": 40,
+            "paddingBottom": 12,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+            "paddingTop": 12,
+            "rippleColor": "transparent",
+          },
+          {
+            "flexDirection": "column",
+            "overflow": "hidden",
+            "paddingBottom": 0,
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          },
+          {},
+        ]
+      }
+      testID="non_animatableView"
+    >
+      <View
+        accessibilityLabel="New"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": false,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          [
+            {
+              "overflow": "hidden",
+            },
+            {
+              "height": null,
+              "justifyContent": "center",
+              "paddingBottom": 12,
+              "paddingLeft": 24,
+              "paddingRight": 24,
+              "paddingTop": 12,
+              "width": "100%",
+            },
+          ]
+        }
+        testID="EmployeeLiveForm1_button_formAction_a"
+      >
+        <View
+          style={
+            [
+              {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "center",
+              },
+              {
+                "flexDirection": "row",
+              },
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "auto",
+                  "flexDirection": "row",
+                  "paddingLeft": -8,
+                  "paddingRight": -8,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={16}
+                    style={
+                      [
+                        {
+                          "color": "#ffffff",
+                        },
+                        {
+                          "fontSize": 20,
+                          "paddingLeft": 0,
+                          "paddingRight": 8,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="EmployeeLiveForm1_button_formAction_icon_icon"
+                  >
+                    plus
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <Text
+            accessible={false}
+            importantForAccessibility="no"
+            style={
+              {
+                "color": "#ffffff",
+                "fontFamily": "Roboto",
+                "fontSize": 14,
+                "fontWeight": "500",
+                "textAlign": "center",
+                "textTransform": "capitalize",
+                "userSelect": "text",
+              }
+            }
+            testID="EmployeeLiveForm1_button_formAction_caption"
+          >
+            New
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
 `;
