@@ -351,27 +351,20 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
         try {
             const formData = this.getFormDataOutput();
             
-            // Call the wrapped callback (this will store the promise on the widget)
             this.invokeEventCallback('onBeforesubmit', [event, this.proxy, formData]);
             
-            // Check if there's a pending promise on the widget (cast to any to avoid TS error)
-            if ((this.proxy as any)._pendingPromise) {
-                console.error('[HANDLESUBMIT] Found pending promise on widget');
-                
-                const promise = (this.proxy as any)._pendingPromise;
-                delete (this.proxy as any)._pendingPromise; // Clean up
-                
+            if ((this.proxy as any).asyncResult) {
+                const promise = (this.proxy as any).asyncResult;
+                delete (this.proxy as any).asyncResult;
+              
                 promise.then((res: any) => {
-                    console.error('[HANDLESUBMIT] Promise resolved - now submitting');
                     const updatedFormData = this.getFormDataOutput();
                     this.invokeHandleSubmitCallbackFromProps(updatedFormData);
                 }).catch((error: any) => {
-                    console.error('[HANDLESUBMIT] Promise rejected:', error);
+                    console.error('Promise rejected:', error);
                 });
-                
-                return; // Don't proceed synchronously
+              return;
             } else {
-                console.error('[HANDLESUBMIT] No pending promise - proceeding immediately');
                 this.invokeHandleSubmitCallbackFromProps(formData);
             }
         } catch (error) {
