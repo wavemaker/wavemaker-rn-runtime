@@ -27,6 +27,13 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     super(props, DEFAULT_CLASS, new WmToggleProps(), new WmToggleState());
   }
 
+  componentDidMount(): void {
+    super.componentDidMount();
+    const isToggled = this.state.isSwitchOn;
+    this.animationValue.setValue(isToggled? 1 : 0);
+    this.scaleValue.setValue(isToggled? 1.5 : 1);
+  }
+
   onPropertyChange(name: string, $new: any, $old: any) {
     switch (name) {
       case 'datavalue':
