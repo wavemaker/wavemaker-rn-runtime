@@ -99,10 +99,6 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
             component={this}
             theme={this.theme}
             style={[
-              {
-                height: this.styles.root.height || '100%',
-                width: this.styles.root.width || '100%',
-              },
               this.styles.sticky,
               { backgroundColor: styles.backgroundColor }
             ]}
