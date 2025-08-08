@@ -1,16 +1,11 @@
 import React from "react";
 import { ImageBackground, Platform, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { ResizeMode, Video } from "expo-av";
-import { CameraView, CameraType } from "expo-camera";
-import * as FileSystem from "expo-file-system";
-import * as Application from 'expo-application';
 
 import { DisplayManager } from "@wavemaker/app-rn-runtime/core/display.manager";
 import { CaptureVideoOutput } from "@wavemaker/app-rn-runtime/variables/device/camera/capture-video.operation";
 import { CaptureImageOutput } from "@wavemaker/app-rn-runtime/variables/device/camera/capture-image.operation";
-import permissionManager from '@wavemaker/app-rn-runtime/runtime/services/device/permissions';
-import { CameraInput } from "@wavemaker/app-rn-runtime/core/device/camera-service";
+import { CameraPluginService as ICameraPluginService, CameraInput, CameraPluginConsumer } from "@wavemaker/app-rn-runtime/core/device/camera-service";
 import { Input } from "@wavemaker/app-rn-runtime/variables/device/operation.provider";
 import appDisplayManagerService from "@wavemaker/app-rn-runtime/runtime/services/app-display-manager.service";
 const styles = {
@@ -74,17 +69,30 @@ const styles = {
   }
 };
 
-export interface CameraVideoInput extends Input {}
+export interface CameraVideoInput extends Input {
+  permissionService: any;
+}
+
+let ICamera: ICameraPluginService = null as any;
+enum ResizeMode {
+  CONTAIN = 'contain',
+  COVER = 'cover',
+  STRETCH = 'stretch',
+}
+enum CameraType {
+  front = 'front',
+  back = 'back',
+}
 
 export class CameraService {
-  private type: CameraType = "back";
+  private type: CameraType = CameraType.back;
 
   constructor(private displayManager: DisplayManager) {
   }
 
   public captureVideo(options?: CameraVideoInput): Promise<CaptureVideoOutput> {
     return new Promise((resolve, reject) => {
-      permissionManager.requestPermissions('video').then(() => {
+      options?.permissionService?.requestPermissions && options.permissionService.requestPermissions('video').then(() => {
         const destroy = this.displayManager.show({
           content: (<Camera testID={"camera_view"} type={this.type} captureType={'video'} onSuccess={(o) => {
             destroy.call(this.displayManager);
@@ -104,7 +112,7 @@ export class CameraService {
 
   public captureImage(params: CameraInput): Promise<CaptureImageOutput> {
     return new Promise((resolve, reject) => {
-      permissionManager.requestPermissions('image').then(() => {
+      params?.permissionService?.requestPermissions && params.permissionService.requestPermissions('image').then(() => {
         const destroy = this.displayManager.show({
           content: (<Camera testID={"camera_view"} type={this.type} captureType={'image'} onSuccess={(o) => {
             destroy.call(this.displayManager);
@@ -135,13 +143,14 @@ class CameraViewProps {
 class CameraViewState {
     recording: boolean = false;
     showActionBtns: boolean = false;
-    cameraType: CameraType = 'back';
+    cameraType: CameraType = CameraType.back;
     isCaptured: boolean = false;
     closeView: boolean = false;
     cameraContent: CameraOutput = {} as CameraOutput;
 }
 
 export class Camera extends React.Component<CameraViewProps, CameraViewState> {
+  private cameraService: ICameraPluginService = null as any;
   private camera: any = {};
 
   constructor(props: CameraViewProps) {
@@ -183,7 +192,7 @@ export class Camera extends React.Component<CameraViewProps, CameraViewState> {
       skipProcessing: true,
       onPictureSaved: (response: any) => {
         response.content = async () => {
-          return await FileSystem.readAsStringAsync(response.uri, { encoding: 'base64' });
+          return await this.cameraService.fsReadAsString(response.uri, { encoding: 'base64' });
         };
         this.setState({ 
           cameraContent: response,
@@ -203,7 +212,7 @@ export class Camera extends React.Component<CameraViewProps, CameraViewState> {
   startRecord = async () => {
     this.camera.recordAsync().then((response: any) => {
       response.content = async () => {
-        return await FileSystem.readAsStringAsync(response.uri, { encoding: 'base64' });
+        return await this.cameraService.fsReadAsString(response.uri, { encoding: 'base64' });
       };
       this.setState({ cameraContent: response, isCaptured: true } as CameraViewState);
     });
@@ -262,6 +271,7 @@ export class Camera extends React.Component<CameraViewProps, CameraViewState> {
   }
 
   getPreviewTemplate(actions: any) {
+    const Video = this.cameraService.Video;
     return this.props.captureType === 'image' ?
       <ImageBackground source={{uri : this.state.cameraContent.uri}} resizeMode={ResizeMode.CONTAIN} style={{flex: 1}} />
       : <Video
@@ -282,17 +292,23 @@ export class Camera extends React.Component<CameraViewProps, CameraViewState> {
     }
     const actions = this.getActionsTemplate();
     return (
-      <View style={styles.preview}>
+      <CameraPluginConsumer>
+      {(cameraService: any) => {
+        this.cameraService = cameraService;
+        const CameraView = this.cameraService.CameraView;
+        return <View style={styles.preview}>
         {this.state.isCaptured ? (
           this.getPreviewTemplate(actions)
         ) : (
-          <CameraView facing={this.state.cameraType} ref={(ref) => { this.camera = ref; }}
+          <CameraView facing={this.state.cameraType} ref={(ref: any) => { this.camera = ref; }}
               style={{flex: 1}}
               onCameraReady={() => {}}>
 
           </CameraView>)}
         {actions}
-      </View>)
+      </View>
+      }}
+      </CameraPluginConsumer>)
   }
 }
 const cameraService = new CameraService(appDisplayManagerService);
