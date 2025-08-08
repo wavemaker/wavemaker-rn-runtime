@@ -672,7 +672,7 @@ describe('WmForm', () => {
     expect(instance.invokeHandleSubmitCallbackFromProps).toHaveBeenCalledWith(mockFormData);
   });
 
-  it('handleSubmit handles asyncResult promise from onBeforesubmit and calls invokeHandleSubmitCallbackFromProps after resolve', async () => {
+  it('handleSubmit handles asyncResult promise from onBeforesubmit and calls invokeHandleSubmitCallbackFromProps after resolve', () => {
     const onBeforesubmitMock = jest.fn();
     const props = { ...defaultProps, onBeforesubmit: onBeforesubmitMock };
     const { UNSAFE_getByType } = render(<WmForm {...props} />);
@@ -687,14 +687,18 @@ describe('WmForm', () => {
     instance.invokeEventCallback = jest.fn();
     instance.invokeHandleSubmitCallbackFromProps = jest.fn();
 
-    // Use an immediately resolved promise
-    const promise = Promise.resolve();
-    instance.proxy = { asyncResult: promise };
+    const mockPromise = {
+      then: jest.fn((callback) => {
+        callback('resolved');
+        return mockPromise;
+      }),
+      catch: jest.fn()
+    };
+    instance.proxy = { asyncResult: mockPromise };
     instance.handleSubmit();
 
-    await promise;
-
     expect(instance.invokeEventCallback).toHaveBeenCalledWith('onBeforesubmit', [undefined, instance.proxy, mockFormData]);
+    expect(mockPromise.then).toHaveBeenCalled();
     expect(instance.invokeHandleSubmitCallbackFromProps).toHaveBeenCalledWith(updatedFormData);
   });
 
