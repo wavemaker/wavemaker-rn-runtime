@@ -1,6 +1,5 @@
 import React from 'react';
-import { ColorValue, LayoutChangeEvent, View, ViewStyle } from 'react-native';
-
+import { LayoutChangeEvent, View, ViewStyle, Platform, Animated } from 'react-native';
 import WmContainerProps from './container.props';
 import { DEFAULT_CLASS, WmContainerStyles } from './container.styles';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -9,15 +8,39 @@ import { PartialHost, PartialHostState } from './partial-host.component';
 import { createSkeleton } from '../basic/skeleton/skeleton.component';
 import { WmSkeletonStyles } from '../basic/skeleton/skeleton.styles';
 import { ScrollView } from 'react-native-gesture-handler';
-import { StickyView } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { StickyWrapperContextType, StickyWrapperContext } from '@wavemaker/app-rn-runtime/core/sticky-wrapper';
+import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import { StickyContainer } from '@wavemaker/app-rn-runtime/core/components/sticky-container.component';
+import { getParentStyles } from '@wavemaker/app-rn-runtime/core/components/sticky-container.styles';
+import injector from '@wavemaker/app-rn-runtime/core/injector';
+import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 
 export class WmContainerState extends PartialHostState<WmContainerProps> {
   isPartialLoaded = false;
+  stickyContainerVisibility = false;
 }
 
 export default class WmContainer extends PartialHost<WmContainerProps, WmContainerState, WmContainerStyles> {
+  static contextType = StickyWrapperContext;
+  private containerRef: React.RefObject<View>;
+  private stickyContainerOpacity: Animated.Value;
+  private appConfig = injector.get<AppConfig>('APP_CONFIG');
+  insets: EdgeInsets | null = {
+    top: 0, bottom: 0, left: 0, right: 0
+  };
+
   constructor(props: WmContainerProps) {
     super(props, DEFAULT_CLASS, new WmContainerProps(), new WmContainerState());
+    this.containerRef = React.createRef();
+    this.stickyContainerOpacity = new Animated.Value(1);
+
+    this.subscribe('updateStickyHeaders', (_event: any) => {
+      if(this.props.sticky){
+        setTimeout(()=>{
+          this.getStickyHeaderTranslateY();
+        }, 500);
+      }
+    })
   }
 
   getBackground(): React.JSX.Element | null {
@@ -41,11 +64,72 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
         </View>))
       }
       return null;
-    }
+  }
 
+  public getStickyHeaderTranslateY(){
+    const { stickyContainerTranslateY } = this.context as StickyWrapperContextType;
+    const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
+    this.containerRef?.current?.measure((_x = 0, _y = 0, _width = 0, _height = 0, px = 0, py = 0)=>{
+      const topInsetsInYposition = (Platform.OS == 'ios' && !isEdgeToEdgeApp) ? (this.insets?.top || 0): 0
+      if(stickyContainerTranslateY) {
+        stickyContainerTranslateY.value = py - topInsetsInYposition ;
+        this.updateState({ stickyContainerVisibility: true} as WmContainerState);     
+      }
+    })
+  }
+
+  componentDidUpdate(_prevProps: any, prevState: any) {
+    if (prevState.stickyContainerVisibility !== this.state.stickyContainerVisibility) {
+      Animated.timing(this.stickyContainerOpacity, {
+        toValue: this.state.stickyContainerVisibility ? 0 : 1,
+        delay: 500,
+        useNativeDriver: true
+      }).start();
+    }
+  }
+
+  private renderStickyContent(props: WmContainerProps, dimensions: ViewStyle, styles: ViewStyle) {
+    const { stickyContainerVisibility } = this.state;
+    const { positioningStyles } = getParentStyles(this);
+
+    return (
+      <>
+        {stickyContainerVisibility ? (
+          <StickyContainer
+            component={this}
+            theme={this.theme}
+            style={[
+              {
+                height: this.styles.root.height || '100%',
+                width: this.styles.root.width || '100%',
+              },
+              this.styles.sticky,
+              { backgroundColor: styles.backgroundColor }
+            ]}
+            positionStyles={positioningStyles}
+            show={props.show as boolean}
+          >
+            <View style={[dimensions as ViewStyle, { backgroundColor: styles.backgroundColor }, this.styles.content]}>
+              {this.renderContent(props)}
+            </View>
+          </StickyContainer>
+        ) : <></>}
+        <Animated.View 
+          style={[
+            dimensions as ViewStyle, 
+            { opacity: this.stickyContainerOpacity }, 
+            this.styles.content
+          ]} 
+          ref={this.containerRef}
+        >
+          {this.renderContent(props)}
+        </Animated.View>
+      </>
+    );
+  }
 
   renderWidget(props: WmContainerProps) {
-    const dimensions = {
+    const dimensions: ViewStyle = {
       width: this.styles.root.width ? '100%' : undefined,
       height: this.styles.root.height ? '100%' : undefined
     };
@@ -53,38 +137,51 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
     const styles = this._showSkeleton ? {
       ...this.styles.root,
       ...this.styles.skeleton.root
-    } : this.styles.root
-    if(props.issticky) this.isSticky = true;
+    } : this.styles.root;
+
+    if (props.sticky) {
+      this.isSticky = true;
+    }
     return (
-      <Animatedview 
-        entryanimation={props.animation} 
-        delay={props.animationdelay} 
-        style={styles}
-        onLayout={(event: LayoutChangeEvent, ref: React.RefObject<View>) => this.handleLayout(event, ref)}
-      >
-        {this.getBackground()}
-        <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect}>
-          { props.issticky ? 
-            <StickyView
-              component={this}
-              style={this.styles.sticky}
-              theme={this.theme}>
-               <View style={styles}>
-                  {this.renderContent(props)}
-              </View>
-            </StickyView>
-            : !props.scrollable ? 
-            <View style={[dimensions as ViewStyle,  this.styles.content]}>
-              {this.renderContent(props)}
-            </View>
-            :<ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
-                onScroll={(event) => {this.notify('scroll', [event])}}
-                scrollEventThrottle={48}>
-              {this.renderContent(props)}
-            </ScrollView>
-          }
-        </Tappable>
-      </Animatedview>
+      <SafeAreaInsetsContext.Consumer>
+        {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+          this.insets = insets;
+          return (
+            <Animatedview 
+              entryanimation={props.animation} 
+              delay={props.animationdelay} 
+              style={styles}
+              onLayout={(event: LayoutChangeEvent, ref: React.RefObject<View>) => {
+                this.handleLayout(event, ref);
+              }}
+            >
+              {this.getBackground()}
+              <Tappable 
+                {...this.getTestPropsForAction()} 
+                target={this} 
+                styles={dimensions} 
+                disableTouchEffect={this.state.props.disabletoucheffect}
+              >
+                {props.sticky ? (
+                  this.renderStickyContent(props, dimensions, styles)
+                ) : !props.scrollable ? (
+                  <View style={[dimensions as ViewStyle, this.styles.content]}>
+                    {this.renderContent(props)}
+                  </View>
+                ) : (
+                  <ScrollView 
+                    style={[dimensions as ViewStyle, this.styles.content]}
+                    onScroll={(event) => this.notify('scroll', [event])}
+                    scrollEventThrottle={48}
+                  >
+                    {this.renderContent(props)}
+                  </ScrollView>
+                )}
+              </Tappable>
+            </Animatedview>
+          );
+        }}
+      </SafeAreaInsetsContext.Consumer>
     );
   }
 }
