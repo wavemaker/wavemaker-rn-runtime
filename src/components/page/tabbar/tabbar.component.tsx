@@ -232,7 +232,9 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
               return null;
             }}
           </ModalConsumer>
-          <View style={this.styles.menu}
+          <View 
+            testID="test_tabbar-menu"
+            style={this.styles.menu}
             onLayout={e => { this.tabbarHeight = e.nativeEvent.layout.height}}> 
             {tabItems.filter((item, i) => i < max)
               .map((item, i) => this.renderTabItem(item, i + '', props, () => this.onItemSelect(item, navigationService), item.floating))}
@@ -255,7 +257,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   renderWidget(props: WmTabbarProps) {
     this.isFixed = true;
     const animateStyle = props.hideonscroll ? {transform: [{translateY: this.translateY}]} : {};
-    return props.hideonscroll ? (
+    return (
         <FixedView 
           name={this.props.name}
           style={{...{bottom: 0, width:'100%', zIndex: 11}, ...animateStyle}} 
@@ -264,6 +266,6 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
           {this._background}
           {this.renderContent(props)}
         </FixedView>
-      ) : this.renderContent(props)
+      ) 
   }
 }
