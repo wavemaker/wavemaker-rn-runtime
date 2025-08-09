@@ -162,8 +162,8 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
   }
 
   getPositionFromValue(value: number | string) {
-    // For numeric sliders, allow continuous positioning to support decimals
-    const isNumericSlider = this.state?.props?.datatype === 'number';
+    // Use precise positioning for numeric sliders to support decimal values
+    const usePrecisePositioning = this.state?.props?.datatype === 'number';
     const track = this.state?.track;
     let numericValue: any = value;
     if (isString(numericValue)) {
@@ -176,7 +176,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     const max = this.state.props.maxvalue;
     const width = track?.width ?? 0;
 
-    if (isNumericSlider && width > 0 && isNumber(numericValue) && isNumber(min) && isNumber(max) && max !== min) {
+    if (usePrecisePositioning && width > 0 && isNumber(numericValue) && isNumber(min) && isNumber(max) && max !== min) {
       const markerRadius = this.getMarkerRadius();
       const adjustedMinPx = markerRadius;
       const adjustedMaxPx = width - markerRadius;
@@ -220,13 +220,13 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
       dataValue = isArray(dataValue) ? dataValue: [dataValue];
       return dataValue.map((d: any) => {
       if (this.state?.props?.datatype === 'number') {
-        const numericCandidate = isString(d) ? Number(d) : d;
-        const parsedValue = isNaN(numericCandidate as any) ? this.state.props.maxvalue : numericCandidate;
+        const convertedNumber = isString(d) ? Number(d) : d;
+        const parsedValue = isNaN(convertedNumber as any) ? this.state.props.maxvalue : convertedNumber;
         const tickMatchNum = this.scale?.ticks.find(t => t.datafield === parsedValue);
         return tickMatchNum ? tickMatchNum.markValue : parsedValue;
       }
-      const numericCandidate = isString(d) ? Number(d) : d;
-      const parsedValue = isNaN(numericCandidate as any) ? d : numericCandidate;
+      const convertedNumber = isString(d) ? Number(d) : d;
+      const parsedValue = isNaN(convertedNumber as any) ? d : convertedNumber;
       const tickMatch = this.scale?.ticks.find(t => t.datafield === parsedValue);
       return tickMatch ? tickMatch.markValue : parsedValue;
     });
