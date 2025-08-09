@@ -655,4 +655,26 @@ it('should clamp invalid string datavalue to minvalue for range=false', async ()
     expect(tree.getByText('4')).toBeTruthy();
     expect(tree).toMatchSnapshot();
   });
+  it('should handle decimal values correctly for numeric slider', async () => {
+  const ref = createRef<WmSlider>();
+  const tree = renderComponent({
+    ref,
+    datatype: 'number',
+    minvalue: 0,
+    maxvalue: 10,
+    step: 1,
+    datavalue: 3.3,
+  });
+
+  await timer(500);
+
+  fireEventLayoutFun(tree);
+  await timer(300);
+
+  expect(ref.current.state.props.datavalue).toBe(3.3);
+
+  const position = ref.current.getPositionFromValue(3.3);
+  expect(position).toBeGreaterThan(0);
+  expect(typeof position).toBe('number');
+});
 });

@@ -161,8 +161,30 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     return this.scale?.ticks[this.uiScale.getTickIndex(positionX)].markValue || 0;
   }
 
-  getPositionFromValue(value: number) {
-    return this.uiScale?.ticks[this.scale.getTickIndex(value)]?.markValue;
+  getPositionFromValue(value: number | string) {
+    // For numeric sliders, allow continuous positioning to support decimals
+    const isNumericSlider = this.state?.props?.datatype === 'number';
+    const track = this.state?.track;
+    let numericValue: any = value;
+    if (isString(numericValue)) {
+      const convertedNumber = Number(numericValue);
+      if (!isNaN(convertedNumber)) {
+        numericValue = convertedNumber;
+      }
+    }
+    const min = this.state.props.minvalue;
+    const max = this.state.props.maxvalue;
+    const width = track?.width ?? 0;
+
+    if (isNumericSlider && width > 0 && isNumber(numericValue) && isNumber(min) && isNumber(max) && max !== min) {
+      const markerRadius = this.getMarkerRadius();
+      const adjustedMinPx = markerRadius;
+      const adjustedMaxPx = width - markerRadius;
+      const clamped = Math.max(min, Math.min(max, numericValue));
+      const ratio = (clamped - min) / (max - min);
+      return adjustedMinPx + ratio * (adjustedMaxPx - adjustedMinPx);
+    }
+    return this.uiScale?.ticks[this.scale.getTickIndex(numericValue)]?.markValue;
   }
 
   configureGesture(gesture: PanGesture, gestureType: SliderGestureType) {
@@ -197,8 +219,16 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     if (dataValue && this.scale) {
       dataValue = isArray(dataValue) ? dataValue: [dataValue];
       return dataValue.map((d: any) => {
-      const parsedValue = isString(d) ? parseInt(d) : d;
-      return this.scale?.ticks.find(t => t.datafield === parsedValue)?.markValue || parsedValue;
+      if (this.state?.props?.datatype === 'number') {
+        const numericCandidate = isString(d) ? Number(d) : d;
+        const parsedValue = isNaN(numericCandidate as any) ? this.state.props.maxvalue : numericCandidate;
+        const tickMatchNum = this.scale?.ticks.find(t => t.datafield === parsedValue);
+        return tickMatchNum ? tickMatchNum.markValue : parsedValue;
+      }
+      const numericCandidate = isString(d) ? Number(d) : d;
+      const parsedValue = isNaN(numericCandidate as any) ? d : numericCandidate;
+      const tickMatch = this.scale?.ticks.find(t => t.datafield === parsedValue);
+      return tickMatch ? tickMatch.markValue : parsedValue;
     });
     }
     return dataValue;
@@ -215,6 +245,9 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     }
     dataValue = this.constrainValueToRange(dataValue);
     dataValue = isArray(dataValue) ? dataValue: [dataValue];
+    if (!this.scale || !this.scale.getTick) {
+      return dataValue; 
+    }
     return dataValue.map((d: any) => this.scale.getTick(d)?.datafield);
   }
 
@@ -257,6 +290,10 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
               datavalue: clampedValue
             }
           } as WmSliderState); 
+        }
+        const valueForPosition = isArray(clampedValue) ? clampedValue[0] : clampedValue;
+        if (isDefined(valueForPosition)) {
+          this.computePosition(valueForPosition as number, 'track');
         }
         this.invokeEventCallback('onChange', [null, this, clampedValue, $old]);
         }
@@ -376,6 +413,11 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
       if (tick.dataitem?.dataObject) {
         return props.getToolTipExpression(tick.dataitem.dataObject);
       }
+    }
+    // If no exact tick match (e.g., decimal value on numeric slider), show the raw value
+    if (this.state?.props?.datatype === 'number') {
+      const exactTick = this.scale?.ticks.find(t => t.datafield === tooltipValue);
+      return exactTick ? exactTick.displayfield : String(tooltipValue);
     }
     return tick?.displayfield;
   }

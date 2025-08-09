@@ -566,7 +566,7 @@ exports[`Test Slider component should keep dataValue unchanged if it is within t
       collapsable={false}
       style={
         {
-          "backgroundColor": "rgb(162, 162, 162)",
+          "backgroundColor": "#ffffff",
           "borderBottomRightRadius": 4,
           "borderTopRightRadius": 4,
           "flex": 1,
@@ -2107,7 +2107,7 @@ exports[`Test Slider component should set dataValue to maxValue if dataValue is 
       collapsable={false}
       style={
         {
-          "backgroundColor": "rgb(162, 162, 162)",
+          "backgroundColor": "#ffffff",
           "borderBottomRightRadius": 4,
           "borderTopRightRadius": 4,
           "flex": 1,
@@ -2293,7 +2293,7 @@ exports[`Test Slider component should set dataValue to minValue if dataValue is 
       collapsable={false}
       style={
         {
-          "backgroundColor": "rgb(162, 162, 162)",
+          "backgroundColor": "#ffffff",
           "borderBottomRightRadius": 4,
           "borderTopRightRadius": 4,
           "flex": 1,
