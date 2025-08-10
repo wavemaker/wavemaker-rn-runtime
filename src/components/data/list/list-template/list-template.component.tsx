@@ -40,11 +40,30 @@ export default class WmListTemplate extends BaseComponent<WmListTemplateProps, W
     if(this._showSkeleton) {
       styles.push(this.styles.skeleton.root)
     }
+    const accessibilityProps = props.hidechildrenfromaccessibility ? {
+      accessible: props.accessible,
+      accessibilityLabel: props.accessibilitylabel,
+      accessibilityHint: props.hint,
+      accessibilityRole: props.accessibilityrole
+    } : {}
     return (
       <View 
         style={styles}
         onLayout={(event) => this.handleLayout(event)}
-      >{this._background}{props.children}</View>
-    ); 
+        {...accessibilityProps}
+      >
+        {props.hidechildrenfromaccessibility ? (
+          <View importantForAccessibility="no-hide-descendants">
+            {this._background}
+            {props.children}
+          </View>
+        ) : (
+          <>
+            {this._background}
+            {props.children}
+          </>
+        )}
+      </View>
+    );
   }
 }

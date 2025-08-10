@@ -55,6 +55,12 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       ...this.styles.skeleton.root
     } : this.styles.root
     if(props.issticky) this.isSticky = true;
+    const accessibilityProps = props.hidechildrenfromaccessibility && props.accessible ? {
+      accessible: props.accessible,
+      accessibilityLabel: props.accessibilitylabel,
+      accessibilityHint: props.hint,
+      accessibilityRole: props.accessibilityrole
+    } : {}
     return (
       <Animatedview 
         entryanimation={props.animation} 
@@ -63,7 +69,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
         onLayout={(event: LayoutChangeEvent, ref: React.RefObject<View>) => this.handleLayout(event, ref)}
       >
         {this.getBackground()}
-        <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect}>
+        <Tappable {...this.getTestPropsForAction()} target={this} styles={dimensions} disableTouchEffect={this.state.props.disabletoucheffect} accessibilityProps={accessibilityProps}>
           { props.issticky ? 
             <StickyView
               component={this}
@@ -74,12 +80,12 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
               </View>
             </StickyView>
             : !props.scrollable ? 
-            <View style={[dimensions as ViewStyle,  this.styles.content]}>
+            <View style={[dimensions as ViewStyle,  this.styles.content]} importantForAccessibility={props.hidechildrenfromaccessibility ? 'no-hide-descendants': undefined}>
               {this.renderContent(props)}
             </View>
             :<ScrollView style={[dimensions as ViewStyle,  this.styles.content]}
                 onScroll={(event) => {this.notify('scroll', [event])}}
-                scrollEventThrottle={48}>
+                scrollEventThrottle={48} importantForAccessibility={props.hidechildrenfromaccessibility ? 'no-hide-descendants': undefined}>
               {this.renderContent(props)}
             </ScrollView>
           }
