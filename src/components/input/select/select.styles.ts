@@ -36,6 +36,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       backgroundColor: themeVariables.inputBackgroundColor,
       borderRadius: 6,
       minWidth: 160,
+      width: 160,
+      flex: 1,
       alignItems: 'center',
     },
     invalid: {
@@ -44,8 +46,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     text: {
       fontSize: 16,
       fontFamily: themeVariables.baseFont,
-      flex: 1,
-      color: themeVariables.inputTextColor
+      flexShrink: 1,
+      flexGrow: 1,
+      color: themeVariables.inputTextColor,
     },
     checkIcon: {
       text: {
