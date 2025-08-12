@@ -201,7 +201,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
         <View style={[this.styles.root, stylesWithFs]} 
           ref={(ref)=> {this.baseView = ref as any}}
           onLayout={(event: LayoutChangeEvent) => {
-            if(bottomTabHeight && this.props.hideonscroll) {
+            if(bottomTabHeight) {
               bottomTabHeightValue = event.nativeEvent.layout.height || 0;
               bottomTabHeight.value = bottomTabHeightValue;
             }
