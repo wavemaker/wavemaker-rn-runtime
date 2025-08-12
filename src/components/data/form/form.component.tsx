@@ -353,9 +353,9 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
             
             this.invokeEventCallback('onBeforesubmit', [event, this.proxy, formData]);
             
-            if ((this.proxy as any).asyncResult) {
-                const promise = (this.proxy as any).asyncResult;
-                delete (this.proxy as any).asyncResult;
+            if ((this.proxy as any).promise) {
+                const promise = (this.proxy as any).promise;
+                delete (this.proxy as any).promise;
               
                 promise.then((res: any) => {
                     const updatedFormData = this.getFormDataOutput();
