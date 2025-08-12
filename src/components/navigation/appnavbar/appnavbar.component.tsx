@@ -43,7 +43,7 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
   renderContent(props: WmAppNavbarProps) {
     //@ts-ignore
     const badge = props.badgevalue != undefined ? (<Badge style={this.styles.badge} {...this.getTestProps('badge')}>{props.badgevalue}</Badge>): null;
-    const { navHeight } = this.context as StickyWrapperContextType;
+
     let navHeightValue;
     return (
       <SafeAreaInsetsContext.Consumer>
@@ -54,10 +54,10 @@ export default class WmAppNavbar extends BaseComponent<WmAppNavbarProps, WmAppNa
           paddingTop: (paddingTopVal || 0) as number + (insets?.top || 0) as number} : {}
           return (
           <View style={[this.styles.root, stylesWithFs]} ref={ref => {this.baseView = ref as View}} onLayout={(event) => {
-            if(navHeight) {
+            if((this.context) && (this.context as StickyWrapperContextType).navHeight) {
               if((isEdgeToEdgeApp && insets?.top) || !isEdgeToEdgeApp || isWebPreviewMode()){
                 navHeightValue = event.nativeEvent.layout.height || 0;
-                navHeight.value = navHeightValue;
+                (this.context as StickyWrapperContextType).navHeight.value = navHeightValue;
                 this.notify('updateNavHeight', [navHeightValue], true);
               }
             }

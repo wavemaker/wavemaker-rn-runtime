@@ -41,15 +41,14 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
 
   componentDidMount() {
     super.componentDidMount();
-    const { navHeight } = this.context as StickyWrapperContextType;
     this._unsubscribeNavHeight = this.subscribe('updateNavHeight', (navHeightValue: number) => {
       if (this.state.navHeightForRender !== navHeightValue) {
         this.setState({ navHeightForRender: navHeightValue });
       }
       return null;
     });
-    if (navHeight) {
-      this.setState({ navHeightForRender: navHeight.value });
+    if (this.context && (this.context as StickyWrapperContextType).navHeight) {
+      this.setState({ navHeightForRender: (this.context as StickyWrapperContextType).navHeight.value });
     }
   }
 
@@ -67,15 +66,17 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   }
 
   private handleOnScrollEndDrag = (event: any) => {
-    const { onScrollEndDrag, scrollDirection } = this.context as StickyWrapperContextType;
-    const scrollPosition = event?.nativeEvent?.contentOffset?.y;
-    if (scrollPosition >= 0) {
-      if(scrollDirection.value > 0) {
-        this.invokeEventCallback('onSwipeup', [null, this.proxy]);
-      }else {
-        this.invokeEventCallback('onSwipedown', [null, this.proxy]);
+    if(this.context) {
+      const { onScrollEndDrag, scrollDirection } = this.context as StickyWrapperContextType;
+      const scrollPosition = event?.nativeEvent?.contentOffset?.y;
+      if (scrollPosition >= 0) {
+        if(scrollDirection.value > 0) {
+          this.invokeEventCallback('onSwipeup', [null, this.proxy]);
+        }else {
+          this.invokeEventCallback('onSwipedown', [null, this.proxy]);
+        }
+        onScrollEndDrag(this.scrollRef);
       }
-      onScrollEndDrag(this.scrollRef);
     }
   }
 
@@ -96,7 +97,6 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
 
   renderWidget(props: WmPageContentProps) {
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
-    const { bottomTabHeight, onScroll } = this.context as StickyWrapperContextType;
     const borderRadiusStyles = {
       borderRadius: this.styles.root.borderRadius,
       borderTopLeftRadius: this.styles.root.borderTopLeftRadius,
@@ -132,12 +132,17 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
                     contentContainerStyle={[
                       this.styles.root, {backgroundColor: 'transparent', 
                         paddingTop: navHeightVal + paddingTopVal, 
-                        paddingBottom: bottomTabHeight.value + paddingBottomVal
+                        paddingBottom: this.context && (this.context as StickyWrapperContextType).bottomTabHeight ? 
+                          (this.context as StickyWrapperContextType).bottomTabHeight.value + paddingBottomVal
+                          : paddingBottomVal
                       }
                     ]}
                     onLayout={this.handleScrollViewLayout}
                     showsVerticalScrollIndicator={showScrollbar}
-                    onScroll={onScroll}
+                    onScroll={this.context && (this.context as StickyWrapperContextType).onScroll ? 
+                      (this.context as StickyWrapperContextType).onScroll 
+                      : ()=>{}
+                    }
                     alwaysBounceVertical={false}
                     alwaysBounceHorizontal={false}
                     bounces={false}

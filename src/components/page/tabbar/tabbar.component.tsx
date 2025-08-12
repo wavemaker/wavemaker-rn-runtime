@@ -186,7 +186,6 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       }
       max = max - 1;
     }
-    const { bottomTabHeight } = this.context as StickyWrapperContextType;
     return (
       <SafeAreaInsetsContext.Consumer>
       {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
@@ -201,9 +200,9 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
         <View style={[this.styles.root, stylesWithFs]} 
           ref={(ref)=> {this.baseView = ref as any}}
           onLayout={(event: LayoutChangeEvent) => {
-            if(bottomTabHeight) {
+            if(this.context && (this.context as StickyWrapperContextType).bottomTabHeight) {
               bottomTabHeightValue = event.nativeEvent.layout.height || 0;
-              bottomTabHeight.value = bottomTabHeightValue;
+              (this.context as StickyWrapperContextType).bottomTabHeight.value = bottomTabHeightValue;
             }
             this.handleLayout(event);
           }}

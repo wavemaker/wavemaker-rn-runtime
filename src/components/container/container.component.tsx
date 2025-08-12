@@ -67,12 +67,11 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
   }
 
   public getStickyHeaderTranslateY(){
-    const { stickyContainerTranslateY } = this.context as StickyWrapperContextType;
     const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
     this.containerRef?.current?.measure((_x = 0, _y = 0, _width = 0, _height = 0, px = 0, py = 0)=>{
       const topInsetsInYposition = (Platform.OS == 'ios' && !isEdgeToEdgeApp) ? (this.insets?.top || 0): 0
-      if(stickyContainerTranslateY) {
-        stickyContainerTranslateY.value = py - topInsetsInYposition ;
+      if((this.context) && (this.context as StickyWrapperContextType).stickyContainerTranslateY) {
+        (this.context as StickyWrapperContextType).stickyContainerTranslateY.value = py - topInsetsInYposition ;
         this.updateState({ stickyContainerVisibility: true} as WmContainerState);     
       }
     })
