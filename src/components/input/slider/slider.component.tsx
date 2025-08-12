@@ -42,25 +42,25 @@ class Scale {
   }
 
   private constructor() {
-      
+
   }
 
   public getTickIndex(value: number) {
-      if (isString(value)) {
-        value = parseInt(value);
-      }
-      let markIndex = 0;
-      const i = this.ticks.findIndex((v, i) => v.markValue >= value);
-      if (i === 0) {
-          markIndex = 0;
-      } else if (i < 0 || i === this.ticks.length - 1) {
-          markIndex = this.ticks.length - 1;
-      } else if ((value - this.ticks[i - 1].markValue) < (this.ticks[i].markValue - this.ticks[i - 1].markValue)/2) {
-          markIndex = i - 1;
-      } else {
-          markIndex = i;
-      }
-      return markIndex;
+    if (isString(value)) {
+      value = parseInt(value);
+    }
+    let markIndex = 0;
+    const i = this.ticks.findIndex((v, i) => v.markValue >= value);
+    if (i === 0) {
+      markIndex = 0;
+    } else if (i < 0 || i === this.ticks.length - 1) {
+      markIndex = this.ticks.length - 1;
+    } else if ((value - this.ticks[i - 1].markValue) < (this.ticks[i].markValue - this.ticks[i - 1].markValue) / 2) {
+      markIndex = i - 1;
+    } else {
+      markIndex = i;
+    }
+    return markIndex;
   }
 
   public getMinTick() {
@@ -73,31 +73,31 @@ class Scale {
 
   public getTick(value: number) {
     return this.ticks[this.getTickIndex(value)];
-}
+  }
 
   public clamp(value: number) {
     const index = this.getTickIndex(value);
-    return this.ticks[index].markValue; 
+    return this.ticks[index].markValue;
   }
 
   public transform(min: number, max: number, markerRadius: number) {
-      const MARKER_RADIUS = markerRadius;
-      const adjustedMin = min + MARKER_RADIUS;
-      const adjustedMax = max - MARKER_RADIUS;
-      const thisMin = (this.ticks ? this.ticks[0]?.markValue : 0) || 0;
-      const thisMax = last(this.ticks)?.markValue;
-      const factor = thisMax ? (adjustedMax - adjustedMin)/(thisMax - thisMin) : 1;
-      const ticks = [] as Tick[];
-      this.ticks.forEach((v, i) => {
-        const markValue = Math.round(adjustedMin + (v.markValue - this.ticks[0].markValue) * factor)
-        ticks[i] = {
-          displayfield: '' + markValue,
-          markValue: markValue,
-          datafield: markValue,
-          dataitem: markValue
-        };
-      });
-      return Scale.getInstanceWithTicks(ticks);
+    const MARKER_RADIUS = markerRadius;
+    const adjustedMin = min + MARKER_RADIUS;
+    const adjustedMax = max - MARKER_RADIUS;
+    const thisMin = (this.ticks ? this.ticks[0]?.markValue : 0) || 0;
+    const thisMax = last(this.ticks)?.markValue;
+    const factor = thisMax ? (adjustedMax - adjustedMin) / (thisMax - thisMin) : 1;
+    const ticks = [] as Tick[];
+    this.ticks.forEach((v, i) => {
+      const markValue = Math.round(adjustedMin + (v.markValue - this.ticks[0].markValue) * factor)
+      ticks[i] = {
+        displayfield: '' + markValue,
+        markValue: markValue,
+        datafield: markValue,
+        dataitem: markValue
+      };
+    });
+    return Scale.getInstanceWithTicks(ticks);
   }
 }
 
@@ -112,7 +112,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
   private uiScale: Scale = null as any;
   private positionRefMaksudai: any = React.createRef();
   private tempPosition: any = React.createRef();
-  private readonly MARKER_WIDTH = 10; 
+  private readonly MARKER_WIDTH = 5;
 
   constructor(props: WmSliderProps) {
     super(props, DEFAULT_CLASS, new WmSliderProps());
@@ -129,7 +129,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     if (!isDefined(minValue) || !isDefined(maxValue)) {
       return value;
     }
-        
+
     if (isArray(value)) {
       return value.map((val: any) => {
         if (val < minValue) return minValue;
@@ -140,7 +140,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
       if (value < minValue) return minValue;
       if (value > maxValue) return maxValue;
     }
-    
+
     return value;
   }
   private getMarkerWidthFromStyles(): number {
@@ -151,12 +151,12 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     const markerWidth = this.getMarkerWidthFromStyles();
     const markerHeight = this.styles?.markerStyle?.height as number || markerWidth;
     const trackHeight = this.state.track?.height || 2;
-    
+
     const baseRadius = markerWidth / 2;
     const extraPadding = Math.max(0, (trackHeight - markerHeight) / 2);
-    
+
     return baseRadius + extraPadding;
-}
+  }
   getValueFromGesture(positionX: number) {
     return this.scale?.ticks[this.uiScale.getTickIndex(positionX)].markValue || 0;
   }
@@ -170,7 +170,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
       .maxPointers(1)
       .minDistance(0)
       .onChange(e => {
-        const tickLastIndex = this.scale.ticks.length-1
+        const tickLastIndex = this.scale.ticks.length - 1
         const max = this.uiScale?.ticks[tickLastIndex]?.markValue;
         const min = this.uiScale?.ticks[0]?.markValue;
 
@@ -193,9 +193,9 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
 
   getScaledDataValue() {
     let dataValue = this.state.props.datavalue || this.getDataValue();
-     dataValue = this.constrainValueToRange(dataValue);
+    dataValue = this.constrainValueToRange(dataValue);
     if (dataValue && this.scale) {
-      dataValue = isArray(dataValue) ? dataValue: [dataValue];
+      dataValue = isArray(dataValue) ? dataValue : [dataValue];
       return dataValue.map((d: any) => this.scale?.ticks.find(t => t.datafield === d)?.markValue);
     }
     return dataValue;
@@ -205,13 +205,13 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     let dataValue = this.props.datavalue;
     if (isNil(this.props.datavalue)) {
       const mid = Math.floor(this.scale.ticks.length / 2);
-      return mid > 0 ? 
+      return mid > 0 ?
         [this.scale.ticks[mid - 1]?.datafield || 0,
         this.scale.ticks[mid]?.datafield || 100]
         : [];
     }
     dataValue = this.constrainValueToRange(dataValue);
-    dataValue = isArray(dataValue) ? dataValue: [dataValue];
+    dataValue = isArray(dataValue) ? dataValue : [dataValue];
     return dataValue.map((d: any) => this.scale.getTick(d)?.datafield);
   }
 
@@ -220,7 +220,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     const minValue = this.state.props.minvalue;
     const maxValue = this.state.props.maxvalue;
     const step = this.state.props.step;
-    if (isDefined(minValue) 
+    if (isDefined(minValue)
       && isDefined(maxValue)
       && isDefined(step)) {
       let nextMark = minValue;
@@ -238,24 +238,24 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
 
   onPropertyChange(name: string, $new: any, $old: any) {
     super.onPropertyChange(name, $new, $old);
-    switch(name) {
+    switch (name) {
       case 'maxvalue':
-      case 'minvalue': 
-      case 'step': 
+      case 'minvalue':
+      case 'step':
         if (this.state.props.datatype === 'number' && this.initialized) {
           this.initNumericSlider();
         }
       case 'datavalue':
-      if (!isEqual($new, $old)) {
-        const clampedValue = this.constrainValueToRange($new);
-        if (!isEqual(clampedValue, $new)) {
-          this.updateState({
-            props: {
-              datavalue: clampedValue
-            }
-          } as WmSliderState); 
-        }
-        this.invokeEventCallback('onChange', [null, this, clampedValue, $old]);
+        if (!isEqual($new, $old)) {
+          const clampedValue = this.constrainValueToRange($new);
+          if (!isEqual(clampedValue, $new)) {
+            this.updateState({
+              props: {
+                datavalue: clampedValue
+              }
+            } as WmSliderState);
+          }
+          this.invokeEventCallback('onChange', [null, this, clampedValue, $old]);
         }
         break;
     }
@@ -308,7 +308,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     this.props.onFieldChange &&
       this.props.onFieldChange('datavalue', thumbDataValue, oldThumbValue);
   }, 200);
-  
+
   initScale() {
     const props = this.state.props;
     const state = this.state;
@@ -317,7 +317,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
         displayfield: d.displayexp || d.displayfield,
         markValue: i + 1,
         datafield: d.datafield,
-        dataitem: d         
+        dataitem: d
       }))
     );
     const width = state.track?.width || 0;
@@ -394,17 +394,17 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
 
   getLabel = (data: Array<any> | string | undefined, displayFiled: number | string, indexOfMarker: number): string => {
     let title = "";
-    if(isString(data)) {
+    if (isString(data)) {
       let formattedData = data.replace(/ ,/g, ',').replace(/, /g, ',');
       title = this.getLabel(formattedData.split(','), displayFiled, indexOfMarker);
-    } else if(data && isArray(data) && data[indexOfMarker]) {
-      if(isObject(data[indexOfMarker]) && (data[indexOfMarker] as any).title) {
-        title = `${(data[indexOfMarker] as {title: string | number, position?: string}).title}`;
-      } else if(!isObject(data[indexOfMarker])){
+    } else if (data && isArray(data) && data[indexOfMarker]) {
+      if (isObject(data[indexOfMarker]) && (data[indexOfMarker] as any).title) {
+        title = `${(data[indexOfMarker] as { title: string | number, position?: string }).title}`;
+      } else if (!isObject(data[indexOfMarker])) {
         title = `${data[indexOfMarker]}`
       }
     } else {
-      title = `${displayFiled}`; 
+      title = `${displayFiled}`;
     }
 
     return title;
@@ -412,9 +412,9 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
 
   getLabelPosition = (data: Array<any> | string | undefined, indexOfMarker: number): string => {
     let position = "up";
-    if(data && isArray(data) && data[indexOfMarker]) {
-      if(isObject(data[indexOfMarker]) && (data[indexOfMarker] as any).position) {
-        position = (data[indexOfMarker] as {title: string | number, position: string}).position;
+    if (data && isArray(data) && data[indexOfMarker]) {
+      if (isObject(data[indexOfMarker]) && (data[indexOfMarker] as any).position) {
+        position = (data[indexOfMarker] as { title: string | number, position: string }).position;
       }
     }
 
@@ -433,64 +433,18 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     const isRangeSlider = props.range && sDataValue.length > 1;
     return (
       <>
-      <WmTooltip
-        showTooltip={props.showtooltip}
-        text={this.getTooltipLabel(
-          this.position?._value,
-          sDataValue[0],
-          'lowThumb'
-        )}
-        tooltipStyle={[
-          {
-            transform: [
-              {
-                translateX: this.position,
-              },
-            ],
-          },
-          this.styles.tooltip,
-        ]}
-        tooltipLabelStyle={this.styles.tooltipLabel}
-        tooltipTriangleStyle={this.styles.tooltipTriangle}
-        direction={props.tooltipdirection}
-      >
-        <GestureDetector gesture={this.knobGesture}>
-          <Animated.View
-            style={[
-              this.styles.thumb,
-              {
-                transform: [
-                  {
-                    translateX: this.position,
-                  },
-                ],
-              },
-            ]}
-            accessible={true}
-            accessibilityLabel={(isRangeSlider && this.highPosition) ? 'Low thumb' : 'Thumb'}
-          >
-            <BackgroundComponent
-              size={(this.styles.thumb as any).backgroundSize}
-              position={(this.styles.thumb as any).backgroundPosition}
-              image={(this.styles.thumb as any).backgroundImage}
-              repeat={(this.styles.thumb as any).backgroundRepeat || 'no-repeat'}
-            ></BackgroundComponent>
-          </Animated.View>
-        </GestureDetector>
-      </WmTooltip>
-      {isRangeSlider && this.highPosition ? (
         <WmTooltip
           showTooltip={props.showtooltip}
           text={this.getTooltipLabel(
-            this.highPosition._value,
-            sDataValue[1],
-            'highThumb'
+            this.position?._value,
+            sDataValue[0],
+            'lowThumb'
           )}
           tooltipStyle={[
             {
               transform: [
                 {
-                  translateX: this.highPosition,
+                  translateX: this.position,
                 },
               ],
             },
@@ -500,31 +454,77 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
           tooltipTriangleStyle={this.styles.tooltipTriangle}
           direction={props.tooltipdirection}
         >
-          <GestureDetector gesture={this.highKnobGesture}>
+          <GestureDetector gesture={this.knobGesture}>
             <Animated.View
               style={[
                 this.styles.thumb,
                 {
                   transform: [
                     {
-                      translateX: this.highPosition,
+                      translateX: this.position,
                     },
                   ],
-                }
+                },
               ]}
               accessible={true}
-              accessibilityLabel={'High thumb'}
-              >
+              accessibilityLabel={(isRangeSlider && this.highPosition) ? 'Low thumb' : 'Thumb'}
+            >
               <BackgroundComponent
                 size={(this.styles.thumb as any).backgroundSize}
                 position={(this.styles.thumb as any).backgroundPosition}
                 image={(this.styles.thumb as any).backgroundImage}
                 repeat={(this.styles.thumb as any).backgroundRepeat || 'no-repeat'}
-              />
+              ></BackgroundComponent>
             </Animated.View>
           </GestureDetector>
         </WmTooltip>
-      ) : null}
+        {isRangeSlider && this.highPosition ? (
+          <WmTooltip
+            showTooltip={props.showtooltip}
+            text={this.getTooltipLabel(
+              this.highPosition._value,
+              sDataValue[1],
+              'highThumb'
+            )}
+            tooltipStyle={[
+              {
+                transform: [
+                  {
+                    translateX: this.highPosition,
+                  },
+                ],
+              },
+              this.styles.tooltip,
+            ]}
+            tooltipLabelStyle={this.styles.tooltipLabel}
+            tooltipTriangleStyle={this.styles.tooltipTriangle}
+            direction={props.tooltipdirection}
+          >
+            <GestureDetector gesture={this.highKnobGesture}>
+              <Animated.View
+                style={[
+                  this.styles.thumb,
+                  {
+                    transform: [
+                      {
+                        translateX: this.highPosition,
+                      },
+                    ],
+                  }
+                ]}
+                accessible={true}
+                accessibilityLabel={'High thumb'}
+              >
+                <BackgroundComponent
+                  size={(this.styles.thumb as any).backgroundSize}
+                  position={(this.styles.thumb as any).backgroundPosition}
+                  image={(this.styles.thumb as any).backgroundImage}
+                  repeat={(this.styles.thumb as any).backgroundRepeat || 'no-repeat'}
+                />
+              </Animated.View>
+            </GestureDetector>
+          </WmTooltip>
+        ) : null}
       </>
     );
   }
@@ -533,33 +533,33 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     const sDataValue = this.getScaledDataValue();
     const isRangeSlider = props.range && sDataValue.length > 1;
     return (
-        <View
-          style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+      <View
+        style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+      >
+        <Text
+          {...this.getTestProps('min')}
+          style={[this.styles.text, this.styles.minimumValue]}
         >
+          {this.scale?.ticks[0]?.displayfield}
+        </Text>
+        {isRangeSlider ? (
+          <></>
+        ) : (
           <Text
-            {...this.getTestProps('min')}
-            style={[this.styles.text, this.styles.minimumValue]}
+            {...this.getTestProps('value')}
+            style={[this.styles.text, this.styles.value]}
           >
-            {this.scale?.ticks[0]?.displayfield}
+            {this.scale?.ticks.find(t => t.datafield === props.datavalue)?.displayfield}
           </Text>
-          {isRangeSlider ? (
-            <></>
-          ) : (
-            <Text
-              {...this.getTestProps('value')}
-              style={[this.styles.text, this.styles.value]}
-            >
-              {this.scale?.ticks.find(t => t.datafield === props.datavalue)?.displayfield}
-            </Text>
-          )}
-          <Text
-            {...this.getTestProps('max')}
-            style={[this.styles.text, this.styles.maximumValue]}
-          >
-            {last(this.scale?.ticks)?.displayfield}
-          </Text>
-        </View>
-      );
+        )}
+        <Text
+          {...this.getTestProps('max')}
+          style={[this.styles.text, this.styles.maximumValue]}
+        >
+          {last(this.scale?.ticks)?.displayfield}
+        </Text>
+      </View>
+    );
   }
 
   renderMarkers(props: WmSliderProps) {
@@ -572,47 +572,35 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
           const stepwiseLeft = this.getPositionFromValue(t.markValue);
           const labelText = this.getLabel(markerlabeltext, t.displayfield, i);
           const marketLabelPosition = this.getLabelPosition(markerlabeltext, i);
-          return (
-            <View
-              key={i}
-              style={[
-                this.styles.markerWrapper,
-                {
-                  left: stepwiseLeft,
-                  bottom: markWidth / 2,
-                  alignItems: 'center',
-                },
-              ]}
-            >
-              <Text
+
+          if (i % 10 == 0) {
+            return (
+              <View
+                key={i}
                 style={[
-                  this.styles.markerLabel,
-                  marketLabelPosition === 'down'?
+                  this.styles.markerWrapper,
                   {
-                    bottom: (markWidth / 2 + 10 + markWidth) * -1,
-                  }: {
-                    bottom: (markWidth / 2 + 10),
+                    left: stepwiseLeft,
+                    bottom: 16 + markWidth,
+                    alignItems: 'center',
                   },
-                  this.styles.markerLabelStyle,
-                  i === 0 ? this.styles.minimumValue : null,
-                  i === this.scale.ticks.length - 1 ? this.styles.maximumValue : null,
                 ]}
               >
-                {labelText}
-              </Text>
-              <View
-                style={[
-                  this.styles.mark,
-                  {
-                    width: markWidth,
-                    height: markWidth,
-                    borderRadius: markWidth,
-                  },
-                  this.styles.markerStyle
-                ]}
-              />
-            </View>
-          );
+                <View
+                  style={[
+                    this.styles.mark,
+                    {
+                      width: markWidth,
+                      height: markWidth,
+                      borderRadius: markWidth,
+                    },
+                    this.styles.markerStyle
+                  ]}
+                />
+              </View>
+            )
+          }
+          return null
         }) : null}
       </View>
     </View>);
@@ -692,7 +680,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     return (
       <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
         {this._background}
-        {!props.showmarkers && !props.showtooltip? this.renderOldMarkerStyle(props) : null}
+        {!props.showmarkers && !props.showtooltip ? this.renderOldMarkerStyle(props) : null}
         {this.renderTracks(props)}
         <View style={{ flexDirection: 'row' }}>
           {props.showmarkers ? this.renderMarkers(props) : null}
