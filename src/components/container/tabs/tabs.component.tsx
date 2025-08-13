@@ -225,6 +225,9 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
       hint: p.props.hint,
       accessibilityrole: p.props.accessibilityrole
     }));
+    const className = this.state?.props?.classname;
+    const customTabHeaderStyles = className ? this.theme.getStyle(className) : {};
+    const mergedTabHeaderStyles = this.theme.mergeStyle(this.styles.tabHeader, customTabHeaderStyles);
     const styles = this._showSkeleton ? {
       ...this.styles.root,
       ...this.styles.skeleton.root
@@ -238,7 +241,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         <View onLayout={this.setTabLayout.bind(this)} style={{width: '100%'}}></View>
         <WmTabheader
           id={this.getTestId('headers')}
-          styles={this.styles.tabHeader}
+          styles={mergedTabHeaderStyles}
           data={headerData}
           selectedTabIndex={this.state.selectedTabIndex}
           onIndexChange={this.goToTab.bind(this)}
