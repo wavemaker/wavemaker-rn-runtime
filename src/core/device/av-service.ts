@@ -3,7 +3,10 @@ import React from 'react';
 export interface AudioService {
   createAudio: (source: any, params: any) => any
 }
-export interface VideoService {}
+export interface VideoService {
+  VideoView: any;
+  createVideoPlayer: (source: any) => any;
+}
 const AudioContext = React.createContext<AudioService>(null as any);
 const VideoContext = React.createContext<VideoService>(null as any);
 
