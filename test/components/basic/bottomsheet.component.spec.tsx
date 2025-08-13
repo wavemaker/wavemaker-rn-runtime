@@ -28,10 +28,10 @@ jest.mock('react-native/Libraries/Components/StatusBar/StatusBar', () => ({
 const renderComponent = (props: any = {}) => {
   const defaultProps = {
     id: 'test-bottomsheet',
-    visible: true,
-    sheetheightratio: 0.5,
-    expandedheightratio: 0.8,
-    shouldexpand: true,
+    showonrender: true,
+    bottomsheetheightratio: 0.5,
+    bottomsheetexpandedheightratio: 0.8,
+    expand: true,
     keyboardverticaloffset: 0,
   };
   const loadAsset = (path: string) => path;
@@ -83,10 +83,10 @@ describe('Test Bottomsheet component', () => {
       <AssetProvider value={(path: string) => path}>
         <WmBottomsheet
           id="test-bottomsheet"
-          visible={true}
-          sheetheightratio={0.5}
-          expandedheightratio={0.8}
-          shouldexpand={true}
+          showonrender={true}
+          bottomsheetheightratio={0.5}
+          bottomsheetexpandedheightratio={0.8}
+          expand={true}
           keyboardverticaloffset={0}
         >
           <ChildrenComponent />
@@ -102,17 +102,17 @@ describe('Test Bottomsheet component', () => {
   });
 
   test('should not render when visible is false', () => {
-    const { queryByTestId } = renderComponent({ visible: false });
+    const { queryByTestId } = renderComponent({ showonrender: false });
     expect(queryByTestId('test-bottomsheet_keyboardview')).toBeNull();
   });
 
   test('should open bottom sheet when visible is true', async () => {
     const customRef = createRef<WmBottomsheet>();
     const onOpenedMock = jest.fn();
-    renderComponent({ ref: customRef, visible: false, onOpened: onOpenedMock });
+    renderComponent({ ref: customRef, showonrender: false, onOpened: onOpenedMock });
     
     act(() => {
-      customRef.current?.onPropertyChange('visible', true, false);
+      customRef.current?.onPropertyChange('showonrender', true, false);
     });
     
     // Wait for the state to update and animation to be triggered
@@ -208,8 +208,8 @@ describe('Test Bottomsheet component', () => {
 
   test('should handle minimum height ratio correctly', () => {
     const customRef = createRef<WmBottomsheet>();
-    const sheetheightratio = 0.1; // Below minimum
-    renderComponent({ ref: customRef, sheetheightratio });
+    const bottomsheetheightratio = 0.1; // Below minimum
+    renderComponent({ ref: customRef, bottomsheetheightratio });
 
     // Get the animated value for sheet height
     const animatedValue = customRef.current?.state.sheetHeight;
@@ -280,7 +280,7 @@ describe('Test Bottomsheet component', () => {
   test('should open bottom sheet when open() method is called', async () => {
     const customRef = createRef<WmBottomsheet>();
     const onOpenedMock = jest.fn();
-    renderComponent({ ref: customRef, visible: false, onOpened: onOpenedMock });
+    renderComponent({ ref: customRef, showonrender: false, onOpened: onOpenedMock });
 
     // Initially the bottom sheet should not be visible
     expect(customRef.current?.state.isBottomsheetVisible).toBe(false);

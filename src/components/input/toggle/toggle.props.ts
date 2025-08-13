@@ -7,6 +7,7 @@ export default class WmToggleProps extends BaseProps {
   datavalue: any;
   readonly? = false;
   onFieldChange: any;
+  accessible?: boolean = true;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole = "togglebutton";

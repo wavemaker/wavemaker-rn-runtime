@@ -60,9 +60,9 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (<View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
-      <View style={ (this._showSkeleton && !this.props.floatinglabel) ?  this.styles.skeletonLabelWrapper.root : this.styles.labelWrapper }>
+      <View style={ (this._showSkeleton && !this.props.floatinglabel) ?  this.styles.skeletonLabelWrapper.root : this.styles.labelWrapper } accessible accessibilityLabel={this.state.currencySymbol}>
         {this._showSkeleton ? <>{this.renderTextSkeleton(this.styles.skeletonLabel.root)}</> :
-         <Text style={this.styles.label}>{this.state.currencySymbol}</Text>}
+         <Text style={this.styles.label} importantForAccessibility='no'>{this.state.currencySymbol}</Text>}
       </View>
       {this._showSkeleton ? <>{this.renderTextSkeleton(this.styles.skeletonTextInputWrapper.root)}</> :<View style={{flex: 1}}>
       <WMTextInput

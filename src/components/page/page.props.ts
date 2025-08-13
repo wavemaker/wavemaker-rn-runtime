@@ -3,5 +3,6 @@ export default class WmPageProps extends BaseProps{
   children: any[] = [];
   scrollable: boolean = false;
   hasappnavbar:boolean = true;
-  barstyle:'default'|'dark-content'|'light-content' = 'default';
+  statusbarstyle:'default'|'dark-content'|'light-content' = 'default';
+  navigationbarstyle:'dark'|'light' = "light";
 }

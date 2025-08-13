@@ -1,4 +1,5 @@
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import { AccessibilityRole } from 'react-native';
 
 export default class WmRatingProps extends BaseProps {
     dataset?: any[] = null as any;
@@ -12,4 +13,8 @@ export default class WmRatingProps extends BaseProps {
     iconsize?: number = null as any;
     showcaptions? = true;
     onFieldChange: any;
+    accessible?: boolean = true;
+    accessibilitylabel?: string = undefined;
+    accessibilityrole?: AccessibilityRole = 'radiogroup';
+    hint?: string = undefined;
 }
