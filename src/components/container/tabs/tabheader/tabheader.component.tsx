@@ -132,7 +132,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
               <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key} styles={{flex: 1}} disableTouchEffect={this.state.props.disabletoucheffect}>
                 <View onLayout={this.setHeaderPositon.bind(this, i)} style={[
                   this.styles.header,
-                  isSelected ? this.styles.activeHeader : null]}>
+                  isSelected ? this.styles.activeHeader.root : null]}>
                   {
                     createSkeleton(this.theme, { root: { borderRadius: 4 }} as WmSkeletonStyles, {
                       ...this.styles.root,
@@ -181,15 +181,15 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                   <View style={[
                     this.styles.header,
                     {flexGrow: undefined},
-                    isSelected ? this.styles.activeHeader : null]}>
+                    isSelected ? this.styles.activeHeader.root : null]}>
                     <WmIcon
                       id={this.getTestId(i + 'icon')}
-                      styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeaderIcon : null)}
+                      styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeader.icon : null)}
                       iconclass={header.icon}
                       accessible={false}></WmIcon>
                     <Text numberOfLines={1} style={[
                       this.styles.headerText,
-                      isSelected ? this.styles.activeHeaderText : null]}
+                      isSelected ? this.styles.activeHeader.text : null]}
                       {...this.getTestPropsForLabel(i + '_title')}
                     >{header.title}</Text>
                   </View>
