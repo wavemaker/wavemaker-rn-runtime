@@ -115,7 +115,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     if (this.state.isDone || index < this.state.currentStep) {
       style.push(this.styles.doneStep);
     } else if (this.state.currentStep === index) {
-      style.push(this.styles.activeStep);
+      style.push(this.styles.activeStep.root);
     }
     return style;
   }
@@ -205,7 +205,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                 { wizardStepCountVisibility &&
                   <Text 
                     style={
-                      isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} 
+                      isActiveStep ? [this.styles.activeStep.root, this.styles.activeStep.text] : this.styles.stepCounter} 
                       {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')
                     }
                   >
@@ -215,7 +215,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                 {(index < this.state.currentStep || this.state.isDone) &&
                   <WmIcon 
                     id={this.getTestId('status')} 
-                    styles={isActiveStep ? merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}}) : this.styles.stepIcon}
+                    styles={isActiveStep ? merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.text?.color}}) : this.styles.stepIcon}
                     iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}
                   ></WmIcon>
                 }
