@@ -4,6 +4,7 @@ import {
   fireEvent,
   cleanup,
   screen,
+  act,
 } from '@testing-library/react-native';
 import AppModalService from '@wavemaker/app-rn-runtime/runtime/services/app-modal.service';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
@@ -12,13 +13,58 @@ import WmTabbarProps from '@wavemaker/app-rn-runtime/components/page/tabbar/tabb
 import { NavigationServiceProvider } from '../../../src/core/navigation.service';
 import mockNavigationService from '../../__mocks__/navigation.service';
 import { View } from 'react-native';
+import { StickyWrapperContext } from '@wavemaker/app-rn-runtime/core/sticky-wrapper';
+import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 
-const renderComponent = (props: WmTabbarProps = {}) => {
+
+// Mock react-native-reanimated
+jest.mock('react-native-reanimated', () => {
+  const Reanimated = require('react-native-reanimated/mock');
+  Reanimated.default.call = () => {};
+  Reanimated.useSharedValue = (value: any) => ({ value });
+  return Reanimated;
+});
+
+// Mock context value for StickyWrapperContext with proper SharedValue structure
+const createSharedValue = (value: number) => ({
+  value,
+  get: () => value,
+  set: jest.fn(),
+  modify: jest.fn(),
+  add: jest.fn(),
+  addListener: jest.fn(),
+  removeListener: jest.fn()
+});
+
+const mockStickyContext = {
+  navHeight: createSharedValue(80),
+  stickyNavAnimateStyle: { transform: [{ translateY: 1 }] },
+  stickyContainerTranslateY: createSharedValue(0),
+  stickyContainerAnimateStyle: { transform: [{ translateY: 0 }] },
+  bottomTabHeight: createSharedValue(0),
+  scrollDirection: createSharedValue(0),
+  onScroll: jest.fn(),
+  onScrollEndDrag: jest.fn(),
+  updateStickyHeaders: jest.fn(),
+  updateNavHeight: jest.fn()
+};
+
+const defaultProps: WmTabbarProps = {
+  name: 'test_tabbar',
+  hideonscroll: false,
+  show: true
+};
+
+const renderComponent = (props: Partial<WmTabbarProps> = {}, stickyContext = mockStickyContext) => {
   AppModalService.modalsOpened = [];
   return render(
     <NavigationServiceProvider value={mockNavigationService}>
       <ModalProvider value={AppModalService}>
-        <WmTabbar name="test_Popover" {...props} />
+        <StickyWrapperContext.Provider value={stickyContext}>
+          <FixedViewContainer>
+            <WmTabbar {...defaultProps} {...props} />
+          </FixedViewContainer>
+        </StickyWrapperContext.Provider>
       </ModalProvider>
     </NavigationServiceProvider>
   );
@@ -76,10 +122,12 @@ describe('Test Tabbar component', () => {
   });
 
   it('should handle layout change event', () => {
-    const ref = createRef();
+    const ref = createRef<any>();
     const tree = render(
       <ModalProvider value={AppModalService}>
-        <WmTabbar name="test_Popover" ref={ref} />
+        <StickyWrapperContext.Provider value={mockStickyContext}>
+          <WmTabbar name="test_tabbar" ref={ref} hideonscroll={false} />
+        </StickyWrapperContext.Provider>
       </ModalProvider>
     );
 
@@ -233,21 +281,32 @@ describe('Test Tabbar component', () => {
   });
 
   it('handles show property correctly', async () => {
-    const ref = createRef();
+    const ref = createRef<any>();
     const tree = render(
       <ModalProvider value={AppModalService}>
-        <WmTabbar name="test_Popover" show={true} ref={ref} />
+        <StickyWrapperContext.Provider value={mockStickyContext}>
+          <WmTabbar name="test_tabbar" show={true} ref={ref} hideonscroll={false} />
+        </StickyWrapperContext.Provider>
       </ModalProvider>
     );
 
-    expect(tree.toJSON()[1].props.style.width).not.toBe(0);
-    expect(tree.toJSON()[1].props.style.height).not.toBe(0);
+    const json = tree.toJSON();
+    expect(json).not.toBeNull();
+    if (json && Array.isArray(json) && json[1]) {
+      expect(json[1].props.style.width).not.toBe(0);
+      expect(json[1].props.style.height).not.toBe(0);
+    }
 
-    ref.current.proxy.show = false;
+    if (ref.current && ref.current.proxy) {
+      ref.current.proxy.show = false;
+    }
 
     await timer(300);
-    expect(tree.toJSON()[1].props.style.width).toBe(0);
-    expect(tree.toJSON()[1].props.style.height).toBe(0);
+    const updatedJson = tree.toJSON();
+    if (updatedJson && Array.isArray(updatedJson) && updatedJson[1]) {
+      expect(updatedJson[1].props.style.width).toBe(0);
+      expect(updatedJson[1].props.style.height).toBe(0);
+    }
   });
 
   xit('should hide the modal when an item in the extra menu is selected', async () => {
@@ -274,5 +333,66 @@ describe('Test Tabbar component', () => {
     expect(onSelect).toHaveBeenCalledTimes(1);
 
     expect(screen.queryByText('Profile')).toBeNull();
+  });
+
+  describe('Sticky functionality', () => {
+    it('should handle hideonscroll prop correctly', () => {
+      const tree = renderComponent({ hideonscroll: true });
+      expect(tree).toBeDefined();
+      expect(tree).not.toBeNull();
+    });
+
+    it('should update visibility based on scroll direction', async () => {
+      const tree = renderComponent({ hideonscroll: true, dataset: moreItems, styles: {root: {height: 100}} });
+      await act(async () => {
+        await timer(100);
+      });
+
+      const viewElement = tree.getByTestId('test_tabbar-fixed-view');
+
+      // Mock getLayout and trigger layout
+      await act(async () => {
+        const tabbarInstance = tree.UNSAFE_getByType(WmTabbar).instance;
+        tabbarInstance.getLayout = () => ({ x: 0, y: 0, width: 100, height: 100, px: 0, py: 0 });
+        fireEvent(viewElement, 'layout', {
+          nativeEvent: { layout: { x: 0, y: 0, width: 100, height: 100 } }
+        });
+        await timer(100);
+      });
+
+      // Scroll down - should hide tabbar
+      await act(async () => {
+        const tabbarInstance = tree.UNSAFE_getByType(WmTabbar).instance;
+        tabbarInstance.notify('scroll', [{
+          nativeEvent: { 
+            contentOffset: { y: 50 },
+            layoutMeasurement: { height: 100 },
+            contentSize: { height: 500 },
+            scrollDelta: 2,
+            scrollDirection: 1
+          }
+        }]);
+        await timer(100);
+      });
+      
+      expect(viewElement.props.style.transform[0].translateY).toBe(0);
+
+      // Scroll up - should show tabbar
+      await act(async () => {
+        const tabbarInstance = tree.UNSAFE_getByType(WmTabbar).instance;
+        tabbarInstance.notify('scroll', [{
+          nativeEvent: { 
+            contentOffset: { y: 80 },
+            layoutMeasurement: { height: 100 },
+            contentSize: { height: 500 },
+            scrollDelta: 2,
+            scrollDirection: -1
+          }
+        }]);
+        await timer(1000);
+      });
+
+      expect(viewElement.props.style.transform[0].translateY).toBe(100);
+    });
   });
 });

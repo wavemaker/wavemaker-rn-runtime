@@ -537,7 +537,6 @@ export default abstract class BaseApp extends React.Component implements Navigat
   
     if (Platform.OS === "android") {
       NavigationBar.setPositionAsync('absolute');
-      NavigationBar.setBackgroundColorAsync("transparent");
     }
   
     return (
@@ -561,7 +560,6 @@ export default abstract class BaseApp extends React.Component implements Navigat
   
     if (Platform.OS === "android") {
       NavigationBar.setPositionAsync('absolute');
-      NavigationBar.setBackgroundColorAsync("rgba(0,0,0,0.2)");
     }
   
     return (

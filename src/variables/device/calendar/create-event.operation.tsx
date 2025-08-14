@@ -1,7 +1,9 @@
+import React from 'react';
 import { Operation, Output } from '../operation.provider';
 import { isDate, isString } from 'lodash';
 import moment from 'moment';
-import { CalendarInput, CalendarService } from "@wavemaker/app-rn-runtime/core/device/calendar-service";
+import { CalendarInput, CalendarPluginConsumer, CalendarPluginService, CalendarService } from "@wavemaker/app-rn-runtime/core/device/calendar-service";
+import { PermissionConsumer, PermissionService } from '@wavemaker/app-rn-runtime/runtime/services/device/permission-service';
 
 export interface CreateEventOutput extends Output {
   dataValue: string;
@@ -50,7 +52,19 @@ export const getDateObj = (value: any): any => {
 export class CreateEventOperation implements Operation {
   constructor(private calendar: CalendarService) {}
 
-  public invoke(params: CalendarInput): Promise<CreateEventOutput> {
-    return this.calendar.createEvent(params);
+  public invoke(params: CalendarInput): any {
+    return (
+      <PermissionConsumer>
+        {(permissionService: PermissionService) => {
+          return (
+            <CalendarPluginConsumer>
+              {(calendarPluginService: CalendarPluginService) => {
+                return this.calendar.createEvent({ ...params, calendarPluginService, permissionService });
+              }}
+            </CalendarPluginConsumer>
+          );
+        }}
+      </PermissionConsumer>
+    );
   }
 }
