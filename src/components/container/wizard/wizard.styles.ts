@@ -30,6 +30,9 @@ export type WmWizardStyles = BaseStyles & {
   headerWrapper: AllStyle,
   stepWrapper: AllStyle,
   stepConnector: AllStyle,
+  activeConnector: AllStyle,
+  doneConnector: AllStyle,
+  pendingConnector: AllStyle,
   numberTextStepConnector: AllStyle,
   activeStepCounter: TextStyle,
   stepCounter: AllStyle,
@@ -200,6 +203,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         zIndex: 10,
         height: 2
       },
+      activeConnector: {},
+      doneConnector: {},
+      pendingConnector: {},
       numberTextStepConnector: {
        display: 'none'
       },
@@ -249,6 +255,46 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     stepTitle: {
       padding: 5
     },
+  } as WmWizardStyles);
+  addStyle('stepper-basic', '', {
+    root: {},
+    text: {},
+    wizardHeader: {
+      justifyContent: 'center',
+      alignItems: 'stretch',
+      paddingTop: 8,
+      paddingBottom: 12
+    },
+    wizardBody: {
+      borderTopWidth: 0,
+      borderBottomWidth: 0,
+    },
+    stepWrapper: {
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      justifyContent: 'flex-start',
+      minHeight: 48
+    },
+    stepConnector: {
+      position: 'relative',
+      height: 5,
+      borderRadius: 10,
+      marginTop: 6
+    },
+    stepTitleWrapper: {
+      alignItems: 'center'
+    },
+    stepTitle: {},
+    stepSubTitle: {},
+    activeConnector: {
+      backgroundColor: themeVariables.primaryColor
+    },
+    doneConnector: {
+      backgroundColor: themeVariables.successColor
+    },
+    pendingConnector: {
+      backgroundColor: themeVariables.wizardStepConnectorColor
+    }
   } as WmWizardStyles);
   addStyle('progress-circle-header', '', {
     stepWrapper: {

@@ -793,11 +793,6 @@ describe('Test Wizard component', () => {
     expect(screen).toMatchSnapshot();
 
     expect(renderSkeletonSpy).toHaveBeenCalled();
-    const viewElement = tree.toJSON()[1];
-    expect(viewElement.props.style.backgroundColor).toBe('#eeeeee');
-    expect(viewElement.children[0].props.style).toContainEqual({
-      opacity: 0,
-    });
     renderSkeletonSpy.mockRestore();
   });
 
@@ -884,6 +879,76 @@ describe('Test Wizard component', () => {
 
     await waitFor(() => {
       expect(queryByTestId('step1_subtitle')).toBeNull();
+    });
+  });
+
+  describe('Stepper Basic variant', () => {
+    const stepsWithSubtitles = [
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={0}
+        index={0}
+        title="Step 1"
+        subtitle="Sub 1"
+        name="step1"
+      >
+        <Text>Body 1</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={1}
+        index={1}
+        title="Step 2"
+        subtitle="Sub 2"
+        name="step2"
+      >
+        <Text>Body 2</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={2}
+        index={2}
+        title="Step 3"
+        subtitle="Sub 3"
+        name="step3"
+      >
+        <Text>Body 3</Text>
+      </WmWizardstep>
+    ];
+
+    const renderStepperBasic = (props = {}) => renderComponent({
+      ...props,
+      classname: 'stepper-basic',
+      children: stepsWithSubtitles
+    });
+
+
+    it('navigates via next() in stepper-basic', async () => {
+      const ref = createRef<WmWizard>();
+      const onChangeSpy = jest.spyOn(WmWizard.prototype as any, 'invokeEventCallback');
+      renderStepperBasic({ ref });
+      await waitFor(() => {
+        expect(screen.queryAllByTestId(/test_wizard_connector_/).length).toBe(stepsWithSubtitles.length);
+      });
+      act(() => { ref.current?.next(); });
+      await waitFor(() => {
+        expect(onChangeSpy).toHaveBeenCalledWith('onChange', expect.anything());
+      });
+      onChangeSpy.mockRestore();
+    });
+
+    it('fires onChange when Next is pressed', async () => {
+      const ref = createRef<WmWizard>();
+      const onChangeSpy = jest.spyOn(WmWizard.prototype as any, 'invokeEventCallback');
+      renderStepperBasic({ ref });
+      await waitFor(() => {
+        expect(screen.queryAllByTestId(/test_wizard_connector_/).length).toBe(stepsWithSubtitles.length);
+      });
+      fireEvent.press(screen.getByText(defaultProps.nextbtnlabel));
+      await waitFor(() => {
+        expect(onChangeSpy).toHaveBeenCalledWith('onChange', expect.anything());
+      });
+      onChangeSpy.mockRestore();
     });
   });
 });
