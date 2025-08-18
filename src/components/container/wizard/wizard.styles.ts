@@ -257,8 +257,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
   } as WmWizardStyles);
   addStyle('stepper-basic', '', {
-    root: {},
-    text: {},
     wizardHeader: {
       justifyContent: 'center',
       alignItems: 'stretch',
@@ -270,19 +268,27 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderBottomWidth: 0,
     },
     stepWrapper: {
+      position: 'relative',
       flexDirection: 'column',
       alignItems: 'stretch',
       justifyContent: 'flex-start',
-      minHeight: 48
+      minHeight: 72
     },
     stepConnector: {
-      position: 'relative',
+      position: 'absolute',
+      bottom: 0,
+      left: 2,
+      right: 2,
       height: 5,
-      borderRadius: 10,
-      marginTop: 6
+      borderRadius: 5
     },
     stepTitleWrapper: {
-      alignItems: 'center'
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 1,
+      marginTop: -12,
     },
     stepTitle: {},
     stepSubTitle: {},
@@ -294,6 +300,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     pendingConnector: {
       backgroundColor: themeVariables.wizardStepConnectorColor
+    }
+  } as WmWizardStyles);
+  addStyle('stepper-basic-titles-below', '', {
+    stepTitleWrapper: {
+      top: undefined as any,
+      bottom: 24
     }
   } as WmWizardStyles);
   addStyle('progress-circle-header', '', {

@@ -10,7 +10,7 @@ export default class WmWizardstepProps extends BaseProps {
   children: any;
   enableskip: boolean = false;
   iconclass: string = 'wm-sl-l sl-check';
-  title: string = 'Step Title';
-  // subtitle: string = 'Sub Title';
+  title: string = '';
+  subtitle: string = '';
   index: number = 0;
 }
