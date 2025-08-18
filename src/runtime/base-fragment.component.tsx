@@ -11,6 +11,9 @@ import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleList
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable';
 import { default as _viewPort, EVENTS as viewportEvents } from '@wavemaker/app-rn-runtime/core/viewport';
+import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
+import httpService from '@wavemaker/app-rn-runtime/variables/http.service';
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import App from './App';
 import WmFormField from '@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component';
 import WmForm from '@wavemaker/app-rn-runtime/components/data/form/form.component';
@@ -32,7 +35,9 @@ export class SkeletonAnimationProps extends BaseProps {
 
 export class FragmentProps extends SkeletonAnimationProps {}
 
-export interface FragmentState<T extends FragmentProps> extends BaseComponentState<T> {}
+export interface FragmentState<T extends FragmentProps> extends BaseComponentState<T> {
+  isConnected?: boolean;
+}
 
 export type FragmentStyles = BaseStyles & {
   skeleton?: WmSkeletonStyles
@@ -78,6 +83,16 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
                             onClose: () => {}
                           };
     public watcher: Watcher = null as any;
+    private _unsubscribeNetworkState: any;
+    private _unsubscribeNetworkError: any;
+    private _hasHttpVariables: boolean = false;
+    
+    // HTTP service types that make network calls
+    private static readonly HTTP_SERVICE_TYPES = [
+        'JavaService', 'SoapService', 'FeedService', 'RestService', 
+        'SecurityServiceType', 'DataService', 'WebSocketService', 'OpenAPIService'
+    ];
+
     constructor(props: P, defaultProps?: P) {
         super(props, null as any, defaultProps);
         this.App = this.appConfig.app;
@@ -98,6 +113,81 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         this.baseUrl = this.appConfig.url;
         this.resourceBaseUrl = this.appConfig.url;
         this.cleanup.push(() => this.onDestroy());
+        
+        // Initialize network state - default to connected
+        this.state = {
+            ...this.state,
+            isConnected: true
+        } as S;
+    }
+
+    /**
+     * Check if this fragment has any variables/actions that make HTTP calls
+     */
+    private hasHttpBasedVariables(): boolean {
+        const allVariables = {...this.Variables, ...this.Actions, ...this.fragmentVariables, ...this.fragmentActions};
+        
+        return Object.values(allVariables).some((variable: any) => {
+            // Check if variable has serviceType that makes HTTP calls
+            if (variable?.config?.serviceType && 
+                BaseFragment.HTTP_SERVICE_TYPES.includes(variable.config.serviceType)) {
+                return true;
+            }
+            
+            // Check for LiveVariable category which makes HTTP calls
+            if (variable?.category === 'wm.LiveVariable') {
+                return true;
+            }
+            
+            return false;
+        });
+    }
+
+    /**
+     * Setup network monitoring if this fragment has HTTP-based variables
+     */
+    private setupNetworkMonitoring(): void {
+        // Only monitor network if not in web preview and has HTTP variables
+        if (isWebPreviewMode() || !this._hasHttpVariables) {
+            return;
+        }
+
+        // Subscribe to network state changes from NetworkService
+        this._unsubscribeNetworkState = NetworkService.notifier.subscribe('onNetworkStateChange', (networkState: any) => {
+            const connected = networkState.isConnected && networkState.isNetworkAvailable;
+            if (this.state.isConnected !== connected) {
+                this.setState({ ...this.state, isConnected: connected } as S);
+            }
+        });
+
+        // Subscribe to network unavailable events from HTTP service (for failed requests)
+        this._unsubscribeNetworkError = httpService.notifier.subscribe('networkUnavailable', (errorData: any) => {
+            // Force offline state when network errors occur during HTTP requests
+            if (this.state.isConnected) {
+                this.setState({ ...this.state, isConnected: false } as S);
+            }
+        });
+
+        // Get initial network state
+        const currentState = NetworkService.getState();
+        if (currentState) {
+            const connected = currentState.isConnected && currentState.isNetworkAvailable;
+            this.setState({ ...this.state, isConnected: connected } as S);
+        }
+    }
+
+    /**
+     * Cleanup network monitoring subscriptions
+     */
+    private cleanupNetworkMonitoring(): void {
+        if (this._unsubscribeNetworkState) {
+            this._unsubscribeNetworkState();
+            this._unsubscribeNetworkState = null;
+        }
+        if (this._unsubscribeNetworkError) {
+            this._unsubscribeNetworkError();
+            this._unsubscribeNetworkError = null;
+        }
     }
 
     onContentReady() {
@@ -288,6 +378,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     componentWillUnmount() {
       super.componentWillUnmount();
+      this.cleanupNetworkMonitoring();
       this.targetWidget && this.targetWidget.invokeEventCallback('onDestroy', [null, this.proxy]);
     }
 
@@ -345,6 +436,11 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       });
       this.initVariableSpinner();
       this.cleanUpVariablesandActions.push(...Object.values({...this.fragmentVariables, ...this.fragmentActions} as BaseVariable<any>));
+      
+      // Check if this fragment has HTTP-based variables and setup network monitoring
+      this._hasHttpVariables = this.hasHttpBasedVariables();
+      this.setupNetworkMonitoring();
+      
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
       .catch((error) => {
@@ -386,6 +482,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     onDestroy() {
       this.cleanUpVariablesandActions.forEach((v: any) => v.destroy());
+      this.cleanupNetworkMonitoring();
       this.watcher.destroy();
     }
 
