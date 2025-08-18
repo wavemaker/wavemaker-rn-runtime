@@ -5,8 +5,34 @@ import { get, isEmpty } from 'lodash';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
+import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
+import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 
 export class HttpService implements HttpClientService {
+  public notifier = new EventNotifier();
+
+  constructor() {
+    // Setup axios interceptor for network error detection
+    if (!isWebPreviewMode()) {
+      this.setupNetworkErrorInterceptor();
+    }
+  }
+
+  private setupNetworkErrorInterceptor() {
+    axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        // Check if this is a network error (no response from server)
+        if (!error.response && (error.code === 'NETWORK_ERROR' || error.message === 'Network Error')) {
+          this.notifier.notify('networkUnavailable', [{ 
+            error: error, 
+            message: 'Network connection lost. Please check your internet connection.' 
+          }]);
+        }
+        return Promise.reject(error);
+      }
+    );
+  }
 
   send(options: any, variable: any) {
     const serviceInfo = variable.serviceInfo;
