@@ -96,7 +96,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public _showSkeleton = false;
     public isFixed = false;
     public isSticky = false;
-    private notifier = new EventNotifier();
+    public notifier = new EventNotifier();
     private parentListenerDestroyers = [] as Function[];
     public _background = <></>;
     private styleOverrides = {} as any;

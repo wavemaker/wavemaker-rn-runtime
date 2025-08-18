@@ -1,5 +1,3 @@
-import * as Calendar from 'expo-calendar';
-import permissionManager from '@wavemaker/app-rn-runtime/runtime/services/device/permissions';
 import { CalendarInput } from '@wavemaker/app-rn-runtime/core/device/calendar-service';
 import { CalendarEvent } from '@wavemaker/app-rn-runtime/variables/device/calendar/get-events.operation';
 import {
@@ -19,18 +17,19 @@ export class CalendarService {
 
   public getEvents(params: CalendarInput): Promise<Array<CalendarEvent>> {
     return new Promise((resolve, reject) => {
-      permissionManager.requestPermissions('calendar').then(() => {
-          return Calendar.getCalendarsAsync().then(result => {
+      params?.permissionService?.requestPermissions && params.permissionService.requestPermissions('calendar').then(() => {
+          const Calendar = params?.calendarPluginService;
+          return Calendar.getCalendarsAsync().then((result: any) => {
             let calendarIds: Array<string> = [];
-            result.forEach(c => calendarIds.push(c.id));
+            result.forEach((c: any) => calendarIds.push(c.id));
             Calendar.getEventsAsync(calendarIds, params.eventStart || DEFAULT_START_DATE, params.eventEnd || DEFAULT_END_DATE)
-              .then(res => {
+              .then((res: any) => {
                 let filteredResult = res;
                 if (params.eventTitle || params.eventLocation || params.eventNotes) {
-                  filteredResult = res.filter(event => event.title === params.eventTitle || event.location === params.eventLocation || event.notes === params.eventNotes);
+                  filteredResult = res.filter((event: any) => event.title === params.eventTitle || event.location === params.eventLocation || event.notes === params.eventNotes);
                 }
                 let events: Array<CalendarEvent> = [];
-                filteredResult.forEach(e => {
+                filteredResult.forEach((e: any) => {
                   events.push({
                     title: e.title,
                     message: e.notes,
@@ -57,16 +56,17 @@ export class CalendarService {
     };
 
     return new Promise((resolve, reject) => {
-      permissionManager.requestPermissions('calendar').then(() => {
-          return Calendar.getCalendarsAsync().then(result => {
+      params?.permissionService?.requestPermissions && params.permissionService.requestPermissions('calendar').then(() => {
+          const Calendar = params?.calendarPluginService;
+          return Calendar.getCalendarsAsync().then((result: any) => {
             let calendarIds: Array<string> = [];
-            result.forEach(c => {
+            result.forEach((c: any) => {
               if (c.allowsModifications) {
                 calendarIds.push(c.id);
               }
             });
             // createEventAsync has calendarId as required parameter. Need to expose ownerAccount as filter field in studio. Right now passing calendar index as zero.
-            return Calendar.createEventAsync(calendarIds[0], eventMetadata).then(res => {
+            return Calendar.createEventAsync(calendarIds[0], eventMetadata).then((res: any) => {
               const event = {
                 dataValue: res
               };
@@ -81,20 +81,21 @@ export class CalendarService {
   public deleteEvent(params: CalendarInput): Promise<DeleteEventOutput> {
 
     return new Promise((resolve, reject) => {
-      permissionManager.requestPermissions('calendar').then(() => {
-          return Calendar.getCalendarsAsync().then(result => {
+      params?.permissionService?.requestPermissions && params.permissionService.requestPermissions('calendar').then(() => {
+          const Calendar = params?.calendarPluginService;
+          return Calendar.getCalendarsAsync().then((result: any) => {
             let calendarIds: Array<string> = [];
-            result.forEach(c => {
+            result.forEach((c: any) => {
               if (c.allowsModifications) {
                 calendarIds.push(c.id);
               }
             });
             Calendar.getEventsAsync(calendarIds, params.eventStart || DEFAULT_START_DATE, params.eventEnd || DEFAULT_END_DATE)
-              .then((res) => {
-                const filteredResult = res.filter(event => event.title === params.eventTitle || event.location === params.eventLocation
+              .then((res: any) => {
+                const filteredResult = res.filter((event: any) => event.title === params.eventTitle || event.location === params.eventLocation
                   || event.notes === params.eventNotes);
                 Promise.all(
-                  filteredResult.map((event) => { Calendar.deleteEventAsync(event.id)}))
+                  filteredResult.map((event: any) => { Calendar.deleteEventAsync(event.id)}))
                   .then(res => {
                     const event = {
                       dataValue: true

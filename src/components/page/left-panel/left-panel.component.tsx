@@ -45,7 +45,6 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftP
         const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
         const stylesWithFs = isEdgeToEdgeApp ? {paddingTop: (paddingTopVal || 0) as number + (insets?.top || 0) as number} : {}
        return (
-        <FixedViewContainer>
           <ScrollView 
             onScroll={(event) => {this.notify('scroll', [event])}}
             scrollEventThrottle={48}
@@ -53,7 +52,7 @@ export default class WmLeftPanel extends BaseComponent<WmLeftPanelProps, WmLeftP
             {this._background}
             {this.renderContent(props)}
           </ScrollView>
-        </FixedViewContainer>)
+      )
       }}
       </SafeAreaInsetsContext.Consumer>
     );
