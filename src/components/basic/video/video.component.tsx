@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, TouchableWithoutFeedback } from 'react-native';
+import { View, Image, TouchableWithoutFeedback, Platform, Text } from 'react-native';
 import { VideoView, createVideoPlayer } from 'expo-video';
 import {
   BaseComponent,
@@ -13,6 +13,7 @@ import {
 } from '@wavemaker/app-rn-runtime/core/accessibility';
 import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 export class WmVideoState extends BaseComponentState<WmVideoProps> {
   isVideoReady: boolean = false;
@@ -53,7 +54,7 @@ export default class WmVideo extends BaseComponent<
       accessibilityrole: 'image'
     }
     return (
-      <TouchableWithoutFeedback onPress={() => this.player.play()}>
+      <TouchableWithoutFeedback onPress={() => this.player?.play()} >
         <Image
           {...this.getTestProps('video_poster')}
           style={{
@@ -158,7 +159,7 @@ export default class WmVideo extends BaseComponent<
     const showOverlay = !showdefaultvideoposter && !this.state.videoPosterDismissed
 
     return (
-      <View style={this.styles.root}>
+      <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
         {this._background}
         <VideoView
           {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
@@ -172,11 +173,36 @@ export default class WmVideo extends BaseComponent<
           onFullscreenExit={onFullscreenExit}
           requiresLinearPlayback={requiresLinearPlayback}
         />
-        {!isPlaying && videoposter ? (
+        {Platform.OS === 'android' && !(props.controls && showOverlay ) && <Tappable onTap={() => {}} styles={{zIndex: 10, position:"absolute", width: '100%', height: '100%', flex: 1 }}>
+          <View testID={this.getTestId('video_overlay')} style={{backgroundColor:'transparent', width: '100%', height: '100%', flex: 1}}>
+          </View>
+        </Tappable>}
+
+        {!isPlaying && videoposter && showdefaultvideoposter ? (
           this.renderVideoPoster(props)
         ) : (
           <></>
         )}
+        
+        {
+          !isPlaying && !showdefaultvideoposter && !this.state.videoPosterDismissed ? (
+            <View style={this.styles.playIconContainer}>
+              <TouchableWithoutFeedback style={{width: 80, height: 80 }} onPress={this.onPlayIconTap.bind(this)}>
+                {Platform.OS === 'android' ? <Image
+                {...this.getTestProps('video_play_button')}
+                style={{
+                  width: 80, 
+                  height: 80,
+                }}
+                resizeMode={'contain'}
+                source={this.getSource('resources/images/imagelists/play.png') as any}
+              /> : <Text style={{ fontSize: 80, fontWeight: 'bold', color: 'white'}} >▶</Text> } 
+              </TouchableWithoutFeedback>
+            </View>            
+          ) : (
+            <></>
+          )
+        }
       </View>
     );
   }
