@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import moment from "moment";
+import * as FileSystem from "expo-file-system";
 import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber} from 'lodash';
 import * as mime from 'react-native-mime-types';
 import ThemeVariables from '../styles/theme.variables';
@@ -376,6 +377,10 @@ export const formatCompactNumber = (number: number) => {
   }
   return (isNegative ? '-' : '') + formattedNumber;
 }
+
+export const toBase64 = function(path: string) {
+  return FileSystem.readAsStringAsync(path, { encoding: 'base64' });
+};
 
 const DATASET_WIDGETS = new Set([ 'select', 'checkboxset', 'radioset', 'switch', 'autocomplete', 'chips', 'typeahead', 'rating']);
 export const isDataSetWidget = (widget: any) => {
