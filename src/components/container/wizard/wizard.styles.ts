@@ -250,6 +250,22 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       padding: 5
     },
   } as WmWizardStyles);
+  addStyle('vertical', '', {
+    wizardHeader: {
+      flexDirection: 'column',
+    },
+    stepWrapper: {
+      flexDirection: 'row',
+      minHeight: 56
+    },
+    stepTitleWrapper: {
+      marginLeft: 12
+    },
+    stepConnector: {
+      left: 18.5,
+      width: 2
+    }
+  } as WmWizardStyles);
   addStyle('progress-circle-header', '', {
     stepWrapper: {
       paddingBottom: 4,

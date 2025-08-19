@@ -182,11 +182,19 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     return isFirstOrLastConnector ? '50%' : '100%';
   }
 
+  stepConnectorHeight(isFirstOrLastConnector: boolean, stepIndex: number): DimensionValue {
+    if (stepIndex === this.lastStepIndex() || stepIndex === this.firstStepIndex()) {
+      return '50%';
+    }
+    return isFirstOrLastConnector ? '50%' : '100%';
+  }
+
   renderWizardHeader(item: any, index: number) {
     const isLastStep = index === this.lastStepIndex();
     const isFirstStep = index === this.firstStepIndex();
     const isActiveStep = index === this.state.currentStep;
     const isNumberTextLayout = this.state.props.classname === 'number-text-inline';
+    const isVertical = this.state.props.classname?.includes('vertical');
     const wizardStepCountVisibility = (index >= this.state.currentStep && !this.state.isDone) || !this.state.currentStep
     return item.state.props.show !== false ? (
       <View 
@@ -242,10 +250,15 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             style={[
               this.styles.stepConnector, 
               {
-                width: this.stepConnectorWidth(isFirstStep || isLastStep, index),
-                left: Platform.OS === "web" ?
-                  (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? 
-                  '50%': '0%': isFirstStep ? '50%': '0%'
+                ...(isVertical ? {
+                  height: this.stepConnectorHeight(isFirstStep || isLastStep, index),
+                  top: isFirstStep ? '50%' : '0%'
+                } : {
+                  width: this.stepConnectorWidth(isFirstStep || isLastStep, index),
+                  left: Platform.OS === "web" ?
+                    (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? 
+                    '50%': '0%': isFirstStep ? '50%': '0%'
+                })
               }
             ]}
           ></View>
