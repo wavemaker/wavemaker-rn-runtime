@@ -1,3 +1,5 @@
+import * as Contacts from 'expo-contacts';
+import permissionManager from '@wavemaker/app-rn-runtime/runtime/services/device/permissions';
 import { ContactsInput } from '@wavemaker/app-rn-runtime/core/device/contacts-service';
 import { ContactsOutput, PhoneNumber} from "@wavemaker/app-rn-runtime/variables/device/contacts/get-contacts.operation";
 
@@ -7,17 +9,15 @@ export class ContactsService {
 
   public getContacts(params: ContactsInput): Promise<Array<ContactsOutput>> {
     return new Promise((resolve, reject) => {
-      const Fields = params?.contactsPluginService?.Fields;
-
-      params?.permissionService?.requestPermissions && params.permissionService.requestPermissions('contacts').then(() => {
-        return params.contactsPluginService?.getContactsAsync({
-          fields: [Fields.ID, Fields.Name, Fields.PhoneNumbers],
+      permissionManager.requestPermissions('contacts').then(() => {
+        return Contacts.getContactsAsync({
+          fields: [Contacts.Fields.ID, Contacts.Fields.Name, Contacts.Fields.PhoneNumbers],
           name: params.contactFilter
-        }).then((value: any) => {
+        }).then((value: Contacts.ContactResponse) => {
           let contacts: any = [];
-          value.data.forEach((c: any) => {
-            const numbers = [] as Array<any>;
-            c.phoneNumbers?.forEach((num: any) => {
+          value.data.forEach((c: Contacts.Contact) => {
+            const numbers = [] as Array<PhoneNumber>;
+            c.phoneNumbers?.forEach((num: Contacts.PhoneNumber) => {
               numbers.push({
                 value: num.number as string
               });
