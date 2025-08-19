@@ -32,7 +32,8 @@ export class UploadFileOperation implements Operation {
 
   public chooseFile() {
     return DocumentPicker.getDocumentAsync(namedParameters).then((response: any) => {
-      return Platform.OS === 'web' ? response.file : response.uri;
+      const assets = response?.assets[0];
+      return { uri: assets.uri, name: assets.name };
     });
   }
 
