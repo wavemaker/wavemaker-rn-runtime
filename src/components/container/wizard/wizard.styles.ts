@@ -25,13 +25,12 @@ export type WmWizardStyles = BaseStyles & {
   cancelButton: WmButtonStyles,
   stepIcon: WmIconStyles,
   skipLink: WmAnchorStyles,
-  activeStep: AllStyle,
+  activeStep: BaseStyles,
   doneStep: AllStyle,
   headerWrapper: AllStyle,
   stepWrapper: AllStyle,
   stepConnector: AllStyle,
   numberTextStepConnector: AllStyle,
-  activeStepCounter: TextStyle,
   stepCounter: AllStyle,
   progressCircle: WmProgressCircleStyles,
   popover: WmPopoverStyles,
@@ -55,9 +54,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       text: {},
       activeStep:{
+        root:{
           backgroundColor: themeVariables.wizardStepActiveColor,
           borderColor: themeVariables.wizardStepActiveColor,
           color: themeVariables.wizardActiveStepColor
+        },
+        text:{
+          color: themeVariables.wizardActiveStepColor
+        }
       },
       doneStep: {
         backgroundColor: themeVariables.wizardStepDoneColor,
@@ -202,9 +206,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       },
       numberTextStepConnector: {
        display: 'none'
-      },
-      activeStepCounter: {
-        color: themeVariables.wizardActiveStepColor
       },
       skeleton: {  
         root: {
