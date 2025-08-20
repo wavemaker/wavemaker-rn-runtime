@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, ScrollView, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription, NativeEventSubscription, Modal } from 'react-native'
+import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription, NativeEventSubscription, Modal } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
