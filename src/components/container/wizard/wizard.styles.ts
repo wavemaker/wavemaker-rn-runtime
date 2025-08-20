@@ -280,16 +280,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       left: 2,
       right: 2,
       height: 5,
-      borderRadius: 5
+      borderRadius: 5,
+      top: undefined as any,
     },
-    stepTitleWrapper: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 1,
-      marginTop: -12,
-    },
+    headerWrapper: {},
+    stepTitleWrapper: {},
     stepTitle: {},
     stepSubTitle: {},
     activeConnector: {
@@ -303,9 +298,18 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     }
   } as WmWizardStyles);
   addStyle('stepper-basic-titles-below', '', {
-    stepTitleWrapper: {
-      top: undefined as any,
-      bottom: 24
+    stepWrapper: {
+      flexDirection: 'column-reverse',  
+      justifyContent: 'flex-start',
+      paddingTop: 15,                   
+    },
+    stepConnector: {
+      position: 'absolute',
+      top: 17.5,
+      bottom: undefined as any,
+      left: 2,
+      right: 2,
+      height: 5
     }
   } as WmWizardStyles);
   addStyle('progress-circle-header', '', {

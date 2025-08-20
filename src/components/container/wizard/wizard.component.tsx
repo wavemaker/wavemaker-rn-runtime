@@ -238,16 +238,6 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                 )}
               </View>
             }
-            {isStepperBasic && (
-              <View
-                {...this.getTestPropsForAction(`connector_${index}`)}
-                style={[
-                  this.styles.stepConnector,
-                  (index < this.state.currentStep || this.state.isDone) ? this.styles.doneConnector :
-                  (index === this.state.currentStep ? this.styles.activeConnector : this.styles.pendingConnector)
-                ]}
-              />
-            )}
             {!isStepperBasic && this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
@@ -262,6 +252,16 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                   (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? 
                   '50%': '0%': isFirstStep ? '50%': '0%'
               }
+            ]}
+          />
+        )}
+        {isStepperBasic && (
+          <View
+            {...this.getTestPropsForAction(`connector_${index}`)}
+            style={[
+              this.styles.stepConnector,
+              (index < this.state.currentStep || this.state.isDone) ? this.styles.doneConnector :
+              (index === this.state.currentStep ? this.styles.activeConnector : this.styles.pendingConnector)
             ]}
           />
         )}
