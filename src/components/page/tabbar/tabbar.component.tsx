@@ -200,9 +200,10 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
         <View style={[this.styles.root, stylesWithFs]} 
           ref={(ref)=> {this.baseView = ref as any}}
           onLayout={(event: LayoutChangeEvent) => {
-            if(this.context && (this.context as StickyWrapperContextType).bottomTabHeight) {
+            if(this.context && (this.context as StickyWrapperContextType).bottomTabHeight && props.hideonscroll) {
               bottomTabHeightValue = event.nativeEvent.layout.height || 0;
               (this.context as StickyWrapperContextType).bottomTabHeight.value = bottomTabHeightValue;
+              this.notify('updateBottomTabHeight', [bottomTabHeightValue], true);
             }
             this.handleLayout(event);
           }}
@@ -256,7 +257,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   renderWidget(props: WmTabbarProps) {
     this.isFixed = true;
     const animateStyle = props.hideonscroll ? {transform: [{translateY: this.translateY}]} : {};
-    return (
+    return props.hideonscroll ? (
         <FixedView 
           name={this.props.name}
           style={{...{bottom: 0, width:'100%', zIndex: 11}, ...animateStyle}} 
@@ -265,6 +266,6 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
           {this._background}
           {this.renderContent(props)}
         </FixedView>
-      ) 
+      ) : this.renderContent(props)
   }
 }
