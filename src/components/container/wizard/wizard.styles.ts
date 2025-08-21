@@ -41,6 +41,8 @@ export type WmWizardStyles = BaseStyles & {
   stepMenuActiveLabel: WmLabelStyles
   stepMenuIcon: WmIconStyles,
   stepMenuActiveIcon: WmIconStyles,
+  stepDot: AllStyle,
+  activeStepDot: AllStyle,
   skeleton: WmSkeletonStyles
 };
 
@@ -221,7 +223,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       stepMenuLabel: {} as WmLabelStyles,
       stepMenuActiveLabel: {} as WmLabelStyles,
       stepMenuIcon: {} as WmIconStyles,
-      stepMenuActiveIcon: {} as WmIconStyles
+      stepMenuActiveIcon: {} as WmIconStyles,
+      stepDot: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: themeVariables.wizardStepColor
+      },
+      activeStepDot: {
+        backgroundColor: themeVariables.wizardActiveStepColor
+      }
   } as WmWizardStyles);
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
@@ -341,6 +352,41 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         color: themeVariables.primaryColor
       }
     }
+  } as WmWizardStyles);
+  addStyle('dottedstepper-vertical', '', {
+    wizardHeader: {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start'
+    },
+    stepWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      minHeight: 56
+    },
+    stepTitleWrapper: {
+      marginLeft: 12
+    },
+    stepConnector: {
+      left: 18.5,
+      width: 2,
+      borderStyle: 'dotted',
+      borderWidth: 1,
+      backgroundColor: 'transparent',
+      borderColor: themeVariables.wizardStepConnectorColor
+    },
+    step: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 37,
+      height: 37,
+      borderWidth: 2,
+      borderRadius: 18.5,
+      backgroundColor: themeVariables.wizardBackgroundColor,
+      borderColor: themeVariables.wizardStepColor
+    },
+    stepDot: {}
   } as WmWizardStyles);
   addStyle(DEFAULT_CLASS + '-rtl', '', {
     wizardActions: {
