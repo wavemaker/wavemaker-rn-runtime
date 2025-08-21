@@ -18,6 +18,14 @@ export type WmChipsStyles = BaseStyles & {
   doneIcon: WmIconStyles;
   imageStyles: WmPictureStyles;
   skeleton: WmSkeletonStyles;
+  leftIcon: WmIconStyles;
+  rightIcon: WmIconStyles;
+  activeLeftIcon: WmIconStyles;
+  activeRightIcon: WmIconStyles;
+  leftCaption: TextStyle;
+  rightCaption: TextStyle;
+  activeLeftCaption: TextStyle;
+  activeRightCaption: TextStyle;
 };
 
 export const DEFAULT_CLASS = 'app-chips';
@@ -105,6 +113,54 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           minHeight: 32,
         }
       } as any as WmSkeletonStyles,
+      leftIcon: {
+        icon: {
+          marginRight: 0,
+          fontSize: 16,
+          color: themeVariables.chipDefaultTextColor,
+        }
+      } as WmIconStyles,
+      rightIcon: {
+        icon: {
+          marginLeft: 0,
+          fontSize: 16,
+          color: themeVariables.chipDefaultTextColor,
+        }
+      } as WmIconStyles,
+      leftCaption: {
+        fontSize: 14,
+        marginRight: 0,
+        fontFamily: themeVariables.baseFont,
+        fontWeight: '500',
+        color: themeVariables.chipDefaultTextColor,
+      },
+      rightCaption: {
+        fontSize: 14,
+        marginLeft: 0,
+        fontFamily: themeVariables.baseFont,
+        fontWeight: '500',
+        color: themeVariables.chipDefaultTextColor,
+      },
+      activeLeftCaption: {
+        color: themeVariables.chipActiveTextColor
+      },
+      activeRightCaption: {
+        color: themeVariables.chipActiveTextColor
+      },
+      activeLeftIcon: {
+        icon: {
+          marginRight: 0,
+          fontSize: 16,
+          color: themeVariables.chipActiveTextColor,
+        }
+      } as WmIconStyles,
+      activeRightIcon: {
+        icon: {
+          marginLeft: 0,
+          fontSize: 16,
+          color: themeVariables.chipActiveTextColor,
+        }
+      } as WmIconStyles,
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
