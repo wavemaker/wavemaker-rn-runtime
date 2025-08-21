@@ -209,6 +209,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     const isActiveStep = index === this.state.currentStep;
     const isNumberTextLayout = this.state.props.classname === 'number-text-inline';
     const isDottedVertical = this.state.props.classname === 'dottedstepper-vertical';
+    const isDotted = this.state.props.classname === 'dottedstepper';
     const wizardStepCountVisibility = (index >= this.state.currentStep && !this.state.isDone) || !this.state.currentStep
     return item.state.props.show !== false ? (
       <View 
@@ -225,7 +226,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         >
             {!this._showSkeleton ? 
               <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
-                {isDottedVertical ? (
+                {(isDottedVertical || isDotted) ? (
                   <>
                     {(index < this.state.currentStep || this.state.isDone) ? (
                       <WmIcon 

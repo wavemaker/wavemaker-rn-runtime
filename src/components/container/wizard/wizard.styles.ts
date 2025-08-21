@@ -353,6 +353,18 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       }
     }
   } as WmWizardStyles);
+  addStyle('dottedstepper', '', {
+    step: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 37,
+      height: 37,
+      borderWidth: 2,
+      borderRadius: 18.5,
+      backgroundColor: themeVariables.wizardBackgroundColor,
+      borderColor: themeVariables.wizardStepColor
+    }
+  } as WmWizardStyles);
   addStyle('dottedstepper-vertical', '', {
     wizardHeader: {
       flexDirection: 'column',
@@ -385,8 +397,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderRadius: 18.5,
       backgroundColor: themeVariables.wizardBackgroundColor,
       borderColor: themeVariables.wizardStepColor
-    },
-    stepDot: {}
+    }
   } as WmWizardStyles);
   addStyle(DEFAULT_CLASS + '-rtl', '', {
     wizardActions: {
