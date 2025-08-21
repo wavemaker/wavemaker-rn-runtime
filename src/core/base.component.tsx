@@ -187,7 +187,9 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.cleanup.push(this.theme.subscribe(ThemeEvent.CHANGE, () => {
             this.vw = Dimensions.get('window').width;
             this.vh = Dimensions.get('window').height;
-            this.reestimateDimensions();
+            if (this.reestimateDimensions) {
+                this.reestimateDimensions();
+            }
             this.forceUpdate();
         }));
         this.cleanup.push(AccessibilityInfo.addEventListener('screenReaderChanged',
@@ -396,7 +398,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                     this.forceUpdate();
                 }),
                 this.parent.subscribe('layoutChange', () => {
-                    if (this.reestimateDimensions() && this.hasStyleCalcExpression) {
+                    if (this.reestimateDimensions && this.reestimateDimensions() && this.hasStyleCalcExpression) {
                         this.forceUpdate();
                     }
                     return false;
@@ -428,7 +430,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 const updateLayout = ()=>{
                     componentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
                         this.layout = { x, y, width, height, px, py }
-                        if (this.reestimateDimensions() && this.hasStyleCalcExpression) {
+                        if (this.reestimateDimensions && this.reestimateDimensions() && this.hasStyleCalcExpression) {
                             this.forceUpdate();
                         }
                     }); 
@@ -440,7 +442,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             }
         } else {
             this.layout = event.nativeEvent?.layout as any;
-            if (this.reestimateDimensions() && this.hasStyleCalcExpression) {
+            if (this.reestimateDimensions && this.reestimateDimensions() && this.hasStyleCalcExpression) {
                 this.forceUpdate();
             }
         }

@@ -436,7 +436,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                   {this.state.displayValue 
                     || (props.floatinglabel ? ''  : this.state.props.placeholder)}
                 </Text>
-              ), [{ flex: 1}, this.isRTL?{flexDirection:'row', textAlign:'right'}:{}] )}
+              ), [this.isRTL?{flexDirection:'row', textAlign:'right'}:{}] )}
               {(!props.readonly && props.datavalue &&
                 (<WmIcon iconclass="wi wi-clear"
                 styles={{color: this.styles.text.color, ...this.styles.clearIcon}}

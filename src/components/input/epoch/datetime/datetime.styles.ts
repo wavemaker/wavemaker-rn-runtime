@@ -19,6 +19,7 @@ export type WmDatetimeStyles = BaseStyles & {
     cancelBtn: WmButtonStyles,
     dialog: AllStyle,
     skeleton: WmSkeletonStyles;
+    text:TextStyle,
 };
 
 export const DEFAULT_CLASS = 'app-datetime';
@@ -59,7 +60,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 alignSelf: 'center'
             },
             icon: {
-                fontSize: 24
+                fontSize: 20
             }
         },
         clearIcon:  {
