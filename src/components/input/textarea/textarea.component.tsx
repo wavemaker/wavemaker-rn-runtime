@@ -89,7 +89,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
       onChangeText={this.onChangeText.bind(this)}
       onChange={this.invokeChange.bind(this)}
       allowContentSelection={this.styles.text.userSelect === 'text'}
-      handleLayout={this.handleLayout}
+      handleLayout={this.handleLayout.bind(this)}
     />
      { (props.maxchars && props.limitdisplaytext) && <Text
         style={[

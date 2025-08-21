@@ -90,7 +90,7 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           onChange={this.invokeChange.bind(this)}
           allowContentSelection={this.styles.text.userSelect === 'text'}
           autoCapitalize={props.autocapitalize}
-          handleLayout={this.handleLayout}
+          handleLayout={this.handleLayout.bind(this)}
         />
     );
   }

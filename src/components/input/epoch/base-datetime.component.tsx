@@ -526,7 +526,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
             />
           )}
         </View>
-        ), this.styles.rootWrapper , this.handleLayout)
+        ), this.styles.rootWrapper , this.handleLayout.bind(this))
     );
   }
 }
