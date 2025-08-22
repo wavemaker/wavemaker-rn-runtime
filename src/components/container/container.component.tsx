@@ -232,7 +232,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
               component={this}
               style={this.styles.sticky}
               theme={this.theme}>
-               <View style={rootStyle}>
+               <View style={contentStyle}>
                   {this.renderContent(props)}
               </View>
             </StickyView>
