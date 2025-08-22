@@ -1,7 +1,7 @@
 import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, get, reverse, isNumber } from 'lodash';
 import React from 'react';
 import { camelCase } from 'lodash-es';
-import { TextStyle, ViewStyle, ImageStyle, ImageBackground, Dimensions } from 'react-native';
+import { TextStyle, ViewStyle, ImageStyle, ImageBackground, Dimensions, Platform } from 'react-native';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core/viewport';
@@ -126,13 +126,18 @@ export class Theme {
                         || (ThemeVariables.INSTANCE as any)[variableName.substring(2)] 
                         || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]
                         || fallback;
+                    
+                    // added fallback value for --wm-space-0
+                    if (!resolvedValue && variableName === '--wm-space-0') {
+                        resolvedValue = Platform.OS === 'web' ? '0px' : 0;
+                    }
                 }
                 val = val.replace(s, resolvedValue);
                 if (isNumber(resolvedValue) 
                     && val.trim() === (resolvedValue + '')) {
                     val = resolvedValue;
                 } else {
-                val = this.replaceVariables(val, baseTokens, classNames, inheritedTokens);
+                    val = this.replaceVariables(val, baseTokens, classNames, inheritedTokens);
                 }
             });
         }
