@@ -7,7 +7,8 @@ export default class WmContainerProps extends PartialHostProps {
   scrollable?: Boolean = false as any;
   issticky?: Boolean = false as boolean;
   direction?: 'row' | 'column';
-  wrap?: boolean;
+  wrap?: boolean | string;
   alignment?: string;
-  gap?: number | 'auto';
+  gap?: number | string | 'auto';
+  columngap?: number | string | 'auto';
 }
