@@ -115,7 +115,7 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
 
   // Compute content layout (flexDirection, wrap, gap, justifyContent, alignItems).
   private getContentContainerStyle(): ViewStyle {
-    const { direction, wrap, gap, alignment } = this.props;
+    const { direction, wrap, gap, alignment, columngap } = this.props;
 
     /* Check if any of the new layout props are provided. If not, return an empty
     style object to maintain backward compatibility. */
@@ -123,7 +123,8 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
         direction !== undefined || 
         wrap !== undefined || 
         gap !== undefined || 
-        alignment !== undefined;
+        alignment !== undefined ||
+        columngap !== undefined;
 
     if (!useNewLayoutSystem) {
       return {};
@@ -137,10 +138,11 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
 
     const isRow = finalDirection === 'row';
     const isAutoGap = finalGap === 'auto';
+    const isWrap = finalWrap === 'true' || finalWrap === true;
 
     const layoutStyle: ViewStyle = {
       flexDirection: finalDirection,
-      flexWrap: finalWrap && isRow ? 'wrap' : 'nowrap',
+      flexWrap: isWrap && isRow ? 'wrap' : 'nowrap',
     };
 
     if (isAutoGap) {
@@ -151,7 +153,13 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       layoutStyle.alignItems =
         alignConfig.alignItems as ViewStyle['alignItems'];
     } else {
-      layoutStyle.gap = Number(finalGap);
+      if (isRow) {
+        // For a row, the main-axis gap (between items) is columnGap.
+        layoutStyle.columnGap = Number(finalGap);
+      } else {
+        // For a column, the main-axis gap (between items) is rowGap.
+        layoutStyle.rowGap = Number(finalGap);
+      }
       const alignConfig =
         alignmentMatrixFixed[finalAlignment] || alignmentMatrixFixed['top-left'];
 
@@ -161,6 +169,15 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       layoutStyle.alignItems = (
         isRow ? alignConfig.alignItems : alignConfig.justifyContent
       ) as ViewStyle['alignItems'];
+    }
+
+    // Add columnGap logic for wrapped rows
+    if (isWrap && isRow) {
+      if (columngap === 'auto') {
+        layoutStyle.alignContent = 'space-between';
+      } else if (columngap !== undefined) {
+        layoutStyle.rowGap = Number(columngap);
+      }
     }
 
     return {
