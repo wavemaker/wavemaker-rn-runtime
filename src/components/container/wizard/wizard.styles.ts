@@ -297,7 +297,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       backgroundColor: themeVariables.wizardStepConnectorColor
     }
   } as WmWizardStyles);
-  addStyle('stepper-basic-titles-below', '', {
+  addStyle('titles-below', '', {
     stepWrapper: {
       flexDirection: 'column-reverse',  
       justifyContent: 'flex-start',

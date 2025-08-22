@@ -186,7 +186,8 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     const isFirstStep = index === this.firstStepIndex();
     const isActiveStep = index === this.state.currentStep;
     const isNumberTextLayout = this.state.props.classname === 'number-text-inline';
-    const isStepperBasic = this.state.props.classname === 'stepper-basic' || this.state.props.classname?.includes('stepper-basic');
+    const isStepperBasic = this.state.props.classname?.includes('stepper-basic');
+    const isTitlesBelow = this.state.props.classname?.includes('titles-below');
     const wizardStepCountVisibility = (index >= this.state.currentStep && !this.state.isDone) || !this.state.currentStep
     return item.state.props.show !== false ? (
       <View 
@@ -226,15 +227,32 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             )}
             {(isActiveStep && (item.state.props.title || item.state.props.subtitle)) &&
               <View style={this.styles.stepTitleWrapper}>
-                {item.state.props.title && item.state.props.title.trim() !== '' && (
-                  <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
-                    {item.state.props.title}
-                  </Text>
-                )}
-                {item.state.props.subtitle && item.state.props.subtitle.trim() !== '' && (
-                  <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_subtitle')}>
-                    {item.state.props.subtitle}
-                  </Text>
+                {isTitlesBelow ? (
+                  <>
+                    {item.state.props.subtitle && item.state.props.subtitle.trim() !== '' && (
+                      <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_subtitle')}>
+                        {item.state.props.subtitle}
+                      </Text>
+                    )}
+                    {item.state.props.title && item.state.props.title.trim() !== '' && (
+                      <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
+                        {item.state.props.title}
+                      </Text>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {item.state.props.title && item.state.props.title.trim() !== '' && (
+                      <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
+                        {item.state.props.title}
+                      </Text>
+                    )}
+                    {item.state.props.subtitle && item.state.props.subtitle.trim() !== '' && (
+                      <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_subtitle')}>
+                        {item.state.props.subtitle}
+                      </Text>
+                    )}
+                  </>
                 )}
               </View>
             }
