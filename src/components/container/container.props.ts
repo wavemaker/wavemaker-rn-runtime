@@ -9,4 +9,8 @@ export default class WmContainerProps extends PartialHostProps {
   sticky?: Boolean = false as boolean;
   stickyContainerVisibility?: Boolean = false;
   stickyContainerOpacity?: Animated.Value;
+  direction?: 'row' | 'column';
+  wrap?: boolean;
+  alignment?: string;
+  gap?: number | 'auto';
 }
