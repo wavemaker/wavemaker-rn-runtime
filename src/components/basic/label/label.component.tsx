@@ -48,7 +48,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
           animationId: Date.now()
         } as WmLabelState);
         break;
-      case "wordbywordfadein":
+      case "textanimation":
       case "wordanimationstagger":
         break;
     }
@@ -191,11 +191,11 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   }
 
   private isWordByWord(): boolean {
-    return this.asBoolean(this.state.props.wordbywordfadein);
+    return this.state.props.textanimation === 'fadeIn';
   }
 
   private getWordAnimConfig() {
-    const step = Number(this.state.props.wordanimationstagger) || 80;
+    const step = Number(this.state.props.animationstagger) || 80;
     const fadeDuration = Math.max(120, step * 2);
     return { step, fadeDuration };
   }
@@ -253,9 +253,22 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   
     return (
       <View style={containerStyle} {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)} {...this.getTestPropsForLabel('caption')}>
-        {this.state.parts?.flatMap((part, pIdx) =>
-          this.tokenizeWords(toString(part.text)).map((t, i) => renderToken(part, t, `p${pIdx}_${i}`))
-        )}
+        {this.state.parts?.flatMap((part, pIdx) => {
+          const raw = this.tokenizeWords(toString(part.text));
+          const merged: { token: string; isSpace: boolean }[] = [];
+          const leadingSpace = !!raw[0]?.isSpace;
+          let firstWordEmitted = false;
+          for (let i = 0; i < raw.length; i++) {
+            const tk = raw[i];
+            if (tk.isSpace) { continue; }
+            const nextIsSpace = !!raw[i + 1]?.isSpace;
+            const prefix = (!firstWordEmitted && leadingSpace) ? ' ' : '';
+            merged.push({ token: prefix + tk.token + (nextIsSpace ? ' ' : ''), isSpace: false });
+            firstWordEmitted = true;
+            if (nextIsSpace) { i++; }
+          }
+          return merged.map((t, i) => renderToken(part, t, `p${pIdx}_${i}`));
+        })}
         {this.state.props.required && this.getAsterisk()}
       </View>
     );
@@ -280,7 +293,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     // Determine if it's a single part
     const isSinglePart = this.state.parts.length <= 1;
     if ((Platform.OS === 'android' || Platform.OS === 'web'|| (Platform.OS === 'ios' && numOfLines === undefined))
-        && this.asBoolean(this.state.props.wordbywordfadein)) {
+        && this.isWordByWord()) {
       return this.renderAndroidRowParts(navigationService, isHidden);
     }
 
