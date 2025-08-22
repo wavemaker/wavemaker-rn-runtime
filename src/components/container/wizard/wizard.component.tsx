@@ -203,6 +203,34 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     );
   }
 
+  getConnectorPosition(): { top?: number, left?: number } {
+    const stepStyles = this.styles?.step;
+    if (!stepStyles) return {};
+    const cssWidth = stepStyles.width;
+    const cssHeight = stepStyles.height;
+    const parseStyleValue = (value: any): number | null => {
+      if (typeof value === 'number') {
+        return value;
+      }
+      if (typeof value === 'string') {
+        const numValue = parseFloat(value);
+        return isNaN(numValue) ? null : numValue;
+      }
+      return null;
+    };
+    const width = parseStyleValue(cssWidth);
+    const height = parseStyleValue(cssHeight);
+    const result: { top?: number, left?: number } = {};
+    // Calculate connector positions based on actual circle dimensions
+    if (height !== null) {
+      result.top = (height / 2) - 1;
+    }
+    if (width !== null) {
+      result.left = (width / 2) - 1;
+    }
+    return result;
+  }
+
   renderWizardHeader(item: any, index: number) {
     const isLastStep = index === this.lastStepIndex();
     const isFirstStep = index === this.firstStepIndex();
@@ -275,25 +303,36 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             {this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
-        {this.getTotalVisibleSteps() > 1 &&
-          item.state.props.show &&
-          <View 
-            style={[
-              this.styles.stepConnector, 
-              {
-                ...(isDottedVertical ? {
-                  height: this.stepConnectorHeight(isFirstStep || isLastStep, index),
-                  top: isFirstStep ? '50%' : '0%'
-                } : {
-                  width: this.stepConnectorWidth(isFirstStep || isLastStep, index),
-                  left: Platform.OS === "web" ?
-                    (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? 
-                    '50%': '0%': isFirstStep ? '50%': '0%'
-                })
-              }
-            ]}
-          ></View>
-        }
+                 {this.getTotalVisibleSteps() > 1 &&
+           item.state.props.show &&
+           (() => {
+             const dynamicPosition = (isDottedVertical || isDotted) ? this.getConnectorPosition() : {};
+             return (
+               <View 
+                 style={[
+                   this.styles.stepConnector, 
+                   {
+                     ...(isDottedVertical ? {
+                       height: this.stepConnectorHeight(isFirstStep || isLastStep, index),
+                       top: isFirstStep ? '50%' : '0%',
+                       ...(dynamicPosition.left !== undefined && {
+                         left: dynamicPosition.left
+                       })
+                     } : {
+                       width: this.stepConnectorWidth(isFirstStep || isLastStep, index),
+                       left: Platform.OS === "web" ?
+                         (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? 
+                         '50%': '0%': isFirstStep ? '50%': '0%',
+                       ...(isDotted && dynamicPosition.top !== undefined && {
+                         top: dynamicPosition.top
+                       })
+                     })
+                   }
+                 ]}
+               ></View>
+             );
+           })()
+         }
       </View>
     ) : null;
   }

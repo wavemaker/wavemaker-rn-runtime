@@ -381,23 +381,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       marginLeft: 12
     },
     stepConnector: {
-      left: 18.5,
       width: 2,
       borderStyle: 'dotted',
       borderWidth: 1,
       backgroundColor: 'transparent',
       borderColor: themeVariables.wizardStepConnectorColor
     },
-    step: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: 37,
-      height: 37,
-      borderWidth: 2,
-      borderRadius: 18.5,
-      backgroundColor: themeVariables.wizardBackgroundColor,
-      borderColor: themeVariables.wizardStepColor
-    }
   } as WmWizardStyles);
   addStyle(DEFAULT_CLASS + '-rtl', '', {
     wizardActions: {
