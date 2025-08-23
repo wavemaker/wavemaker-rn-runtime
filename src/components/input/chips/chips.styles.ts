@@ -22,10 +22,10 @@ export type WmChipsStyles = BaseStyles & {
   rightIcon: WmIconStyles;
   activeLeftIcon: WmIconStyles;
   activeRightIcon: WmIconStyles;
-  leftCaption: TextStyle;
-  rightCaption: TextStyle;
-  activeLeftCaption: TextStyle;
-  activeRightCaption: TextStyle;
+  leftBadge: TextStyle;
+  rightBadge: TextStyle;
+  activeLeftBadge: TextStyle;
+  activeRightBadge: TextStyle;
 };
 
 export const DEFAULT_CLASS = 'app-chips';
@@ -127,24 +127,24 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           color: themeVariables.chipDefaultTextColor,
         }
       } as WmIconStyles,
-      leftCaption: {
+      leftBadge: {
         fontSize: 14,
         marginRight: 0,
         fontFamily: themeVariables.baseFont,
         fontWeight: '500',
         color: themeVariables.chipDefaultTextColor,
       },
-      rightCaption: {
+      rightBadge: {
         fontSize: 14,
         marginLeft: 0,
         fontFamily: themeVariables.baseFont,
         fontWeight: '500',
         color: themeVariables.chipDefaultTextColor,
       },
-      activeLeftCaption: {
+      activeLeftBadge: {
         color: themeVariables.chipActiveTextColor
       },
-      activeRightCaption: {
+      activeRightBadge: {
         color: themeVariables.chipActiveTextColor
       },
       activeLeftIcon: {

@@ -9,10 +9,11 @@ export default class WmChipsProps extends BaseDatasetProps {
   minchars: number = 1;
   maxsize: number = null as any;
   inputposition: string = 'last';
+  selectionmode?:  'standard' | 'multiple' = 'multiple';
   invokeEvent?: Function;
   selectediconclass: string = 'wm-sl-l sl-check'; 
   lefticonclass: string = null as any;       
-  leftcaption: string = null as any;             
+  leftbadge: string = null as any;             
   righticonclass: string = null as any;          
-  rightcaption: string = null as any;              
+  rightbadge: string = null as any;                   
 }

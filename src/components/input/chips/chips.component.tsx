@@ -126,18 +126,37 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   }
 
   selectChip(chipItem: any) {
-    if (!chipItem.selected && this.state.props.maxsize > 0 && (this.state.chipsList.length === this.state.props.maxsize)) {
-      return;
+    const selectionMode = this.state.props.selectionmode || 'multiple';
+    if (selectionMode === 'standard') {
+      forEach(this.state.dataItems, (item) => {
+        item.selected = false;
+      });
+      
+      chipItem.selected = true;
+      const selectedItem = find(this.state.dataItems, d => isEqual(d.key, chipItem.key));
+      if (selectedItem) {
+        selectedItem.selected = true;
+      }
+    } 
+    else {
+      if (!chipItem.selected && this.state.props.maxsize > 0 && (this.state.chipsList.length === this.state.props.maxsize)) {
+        return;
+      }
+      chipItem.selected = !chipItem.selected;
+      const selectedItem = find(this.state.dataItems, d => isEqual(d.key, chipItem.key));
+      if (selectedItem) {
+        selectedItem.selected = chipItem.selected;
+      }
     }
-    chipItem.selected = !chipItem.selected;
+    
+    // Update chipsList with selected items
     const newChipList: any = [];
-    const selectedItem = find(this.state.dataItems, d => isEqual(d.key, chipItem.key));
-    selectedItem.selected = chipItem.selected;
     forEach(this.state.dataItems, (item) => {
       if (item.selected) {
         newChipList.push(item);
       }
     });
+    
     this.updateState({
       chipsList: newChipList
     } as WmChipsState);
@@ -210,6 +229,69 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     return !this.state.props.searchable && this.state.dataItems?.length <= 10;
   }
 
+  private getIconFromExpression(expression: string): string | null {
+    const match = expression.match(/Variables\.(\w+)\.dataSet\[(\d+)\]\.(\w+)/);
+    if (!match) return null;
+    
+    const [, , indexStr, fieldName] = match;
+    const dataIndex = parseInt(indexStr, 10);
+    const dataItem = this.state.dataItems?.[dataIndex]?.dataObject;
+    
+    return dataItem?.[fieldName] || null;
+  }
+
+  private resolveIconClass(iconClassProp: string, item: any, chipIndex: number): string | null {
+    if (!iconClassProp) return null;
+    const hasPerItemBinding = iconClassProp.includes('bind:') && iconClassProp.includes('$i');
+    if (hasPerItemBinding) {
+      const expression = iconClassProp.replace('bind:', '').replace(/\$i/g, chipIndex.toString());
+      return this.getIconFromExpression(expression);
+    }
+    const hasDatasetField = item.dataObject && item.dataObject[iconClassProp];
+    if (hasDatasetField) {
+      return item.dataObject[iconClassProp];
+    }
+    const firstItem = this.state.dataItems?.[0]?.dataObject;
+    const looksLikeResolvedBinding = firstItem && firstItem.icon === iconClassProp;
+    if (looksLikeResolvedBinding) {
+      return item.dataObject?.icon || iconClassProp;
+    }
+    return iconClassProp;
+  }
+
+  private resolveBadge(badgeProp: string, item: any, chipIndex: number): string | null {
+    if (!badgeProp) return null;
+    const hasPerItemBinding = badgeProp.includes('bind:') && badgeProp.includes('$i');
+    if (hasPerItemBinding) {
+      const expression = badgeProp.replace('bind:', '').replace(/\$i/g, chipIndex.toString());
+      return this.getValueFromExpression(expression);
+    }
+    const hasDatasetField = item.dataObject && item.dataObject[badgeProp];
+    if (hasDatasetField) {
+      return item.dataObject[badgeProp];
+    }
+    const firstItem = this.state.dataItems?.[0]?.dataObject;
+    if (firstItem) {
+      for (const fieldName of Object.keys(firstItem)) {
+        if (firstItem[fieldName] === badgeProp) {
+          return item.dataObject?.[fieldName] || badgeProp;
+        }
+      }
+    }
+    return badgeProp;
+  }
+  
+  private getValueFromExpression(expression: string): string | null {
+    const match = expression.match(/Variables\.(\w+)\.dataSet\[(\d+)\]\.(\w+)/);
+    if (!match) return null;
+    
+    const [, , indexStr, fieldName] = match;
+    const dataIndex = parseInt(indexStr, 10);
+    const dataItem = this.state.dataItems?.[dataIndex]?.dataObject;
+    
+    return dataItem?.[fieldName] || null;
+  }
+
   renderChip(item: any, index: any) {
     const isSelected = this.isDefaultView() ? item.selected : true;
     const accessibilityProps = {
@@ -242,14 +324,17 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
             this.invokeEventCallback('onChipselect', [null, this, item]);
           }
         }}>
-        {this.state.props.leftcaption && (
-          <Text 
-            {...this.getTestPropsForAction('chip'+ index+'leftcaption')}
-            style={[this.styles.leftCaption, isSelected ? this.styles.activeLeftCaption : null]}
-          >
-            {this.state.props.leftcaption}
-          </Text>
-        )}
+        {(() => {
+          const leftBadge = this.resolveBadge(this.state.props.leftbadge, item, index);
+          return leftBadge ? (
+            <Text 
+              {...this.getTestPropsForAction('chip'+ index+'leftbadge')}
+              style={[this.styles.leftBadge, isSelected ? this.styles.activeLeftBadge : null]}
+            >
+              {leftBadge}
+            </Text>
+          ) : null;
+        })()}
         {(() => {
           if (isSelected && this.isDefaultView() && this.state.props.selectediconclass) {
             return (
@@ -262,38 +347,43 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
               />
             );
           }
-          if (!isSelected && this.isDefaultView() && this.state.props.lefticonclass) {
-            return (
-              <WmIcon 
-                id={this.getTestId('lefticon')}
-                iconclass={this.state.props.lefticonclass}
-                iconsize={14}
-                styles={isSelected ? this.styles.activeLeftIcon : this.styles.leftIcon}
-                accessible={false}
-              />
-            );
-          }
-          return null;
+          const leftIcon = this.resolveIconClass(this.state.props.lefticonclass, item, index);
+          const shouldShowLeftIcon = leftIcon && !(isSelected && this.isDefaultView() && this.state.props.selectediconclass);  
+          return shouldShowLeftIcon ? (
+            <WmIcon 
+              id={this.getTestId('lefticon')}
+              iconclass={leftIcon}
+              iconsize={14}
+              styles={isSelected ? this.styles.activeLeftIcon : this.styles.leftIcon}
+              accessible={false}
+            />
+          ) : null;
         })()}
         { this._showSkeleton ? null : <WmPicture id={this.getTestId('chip'+ index + 'picture')} styles={this.styles.imageStyles} picturesource={item.imgSrc} shape='circle' accessible={false}></WmPicture>}
         { this._showSkeleton ? <WmLabel styles={{root: {width: 50}}}/> :  <Text {...this.getTestPropsForAction('chip'+ index+'label')}style={[this.styles.chipLabel, isSelected ? this.styles.activeChipLabel : null]}>{item.displayexp || item.displayfield}</Text>}
-        {this.state.props.rightcaption && (
-          <Text 
-            {...this.getTestPropsForAction('chip'+ index+'rightcaption')}
-            style={[this.styles.rightCaption, isSelected ? this.styles.activeRightCaption : null]}
-          >
-            {this.state.props.rightcaption}
-          </Text>
-        )}
-        {this.state.props.righticonclass && (
-          <WmIcon 
-            id={this.getTestId('righticon')}
-            iconclass={this.state.props.righticonclass}
-            iconsize={16}
-            styles={isSelected ? this.styles.activeRightIcon : this.styles.rightIcon}
-            accessible={false}
-          />
-        )}
+        {(() => {
+          const rightBadge = this.resolveBadge(this.state.props.rightbadge, item, index);
+          return rightBadge ? (
+            <Text 
+              {...this.getTestPropsForAction('chip'+ index+'rightbadge')}
+              style={[this.styles.rightBadge, isSelected ? this.styles.activeRightBadge : null]}
+            >
+              {rightBadge}
+            </Text>
+          ) : null;
+        })()}
+        {(() => {
+          const rightIcon = this.resolveIconClass(this.state.props.righticonclass, item, index);
+          return rightIcon ? (
+            <WmIcon 
+              id={this.getTestId('righticon')}
+              iconclass={rightIcon}
+              iconsize={16}
+              styles={isSelected ? this.styles.activeRightIcon : this.styles.rightIcon}
+              accessible={false}
+            />
+          ) : null;
+        })()}
         {!this.isDefaultView() && !(this.state.props.disabled||this.state.props.readonly) ? <WmIcon id={this.getTestId('clearbtn')} iconclass={'wi wi-clear'} iconsize={16} styles={this.styles.clearIcon} onTap={() => this.removeItem(item, index)} accessibilitylabel='clear' accessibilityrole='button'></WmIcon> : null}
       </TouchableOpacity>
     )
