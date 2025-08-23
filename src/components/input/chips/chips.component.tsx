@@ -230,14 +230,11 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
   }
 
   private getIconFromExpression(expression: string): string | null {
-    const match = expression.match(/Variables\.(\w+)\.dataSet\[(\d+)\]\.(\w+)/);
+    const match = expression.match(/Variables\.\w+\.dataSet\[(\d+)\]\.(\w+)/);
     if (!match) return null;
-    
-    const [, , indexStr, fieldName] = match;
-    const dataIndex = parseInt(indexStr, 10);
-    const dataItem = this.state.dataItems?.[dataIndex]?.dataObject;
-    
-    return dataItem?.[fieldName] || null;
+    const [, indexStr, fieldName] = match;
+    const index = parseInt(indexStr, 10);
+    return this.state.dataItems?.[index]?.dataObject?.[fieldName] || null;
   }
 
   private resolveIconClass(iconClassProp: string, item: any, chipIndex: number): string | null {
@@ -281,15 +278,12 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     return badgeProp;
   }
   
-  private getValueFromExpression(expression: string): string | null {
-    const match = expression.match(/Variables\.(\w+)\.dataSet\[(\d+)\]\.(\w+)/);
+  private getValueFromExpression(expression: string): any {
+    const match = expression.match(/Variables\.\w+\.dataSet\[(\d+)\]\.(\w+)/);
     if (!match) return null;
-    
-    const [, , indexStr, fieldName] = match;
-    const dataIndex = parseInt(indexStr, 10);
-    const dataItem = this.state.dataItems?.[dataIndex]?.dataObject;
-    
-    return dataItem?.[fieldName] || null;
+    const [, indexStr, fieldName] = match;
+    const index = parseInt(indexStr, 10);
+    return this.state.dataItems?.[index]?.dataObject?.[fieldName] || null;
   }
 
   renderChip(item: any, index: any) {
