@@ -1,41 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WmChips renders correctly with default props and type as search 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "flexWrap": "wrap",
     }
-  />,
+  }
+>
   <View
+    accessibilityLabel="Choose tags"
+    accessible={true}
     style={
       {
+        "flexDirection": "row",
         "flexWrap": "wrap",
       }
     }
   >
     <View
       style={
-        {
-          "flexDirection": "row",
-          "flexWrap": "wrap",
-        }
+        [
+          {
+            "flexDirection": "column",
+            "width": "100%",
+          },
+          {
+            "flexDirection": "column-reverse",
+          },
+        ]
       }
     >
       <View
+        onLayout={[Function]}
         style={
           [
-            {
-              "flexDirection": "column",
-              "width": "100%",
-            },
-            {
-              "flexDirection": "column-reverse",
-            },
+            undefined,
           ]
         }
       >
@@ -43,84 +44,75 @@ exports[`WmChips renders correctly with default props and type as search 1`] = `
           onLayout={[Function]}
           style={
             {
-              "height": 0,
-              "width": 0,
+              "borderRadius": 28,
+              "flexDirection": "row",
+              "marginBottom": 8,
             }
           }
-        />
-        <View>
+        >
           <View
-            onLayout={[Function]}
             style={
               {
-                "borderRadius": 28,
+                "alignItems": "center",
+                "flex": 1,
                 "flexDirection": "row",
-                "marginBottom": 8,
+                "justifyContent": "center",
               }
             }
           >
-            <View
+            <TextInput
+              accessibilityRole="search"
+              accessible={true}
+              autoFocus={false}
+              defaultValue=""
+              editable={true}
+              onBlur={[Function]}
+              onChange={[Function]}
+              onChangeText={[Function]}
+              onFocus={[Function]}
+              onLayout={[Function]}
+              placeholder="Search chips..."
+              placeholderTextColor="#bbbbbb"
               style={
-                {
-                  "alignItems": "center",
-                  "flex": 1,
-                  "flexDirection": "row",
-                  "justifyContent": "center",
-                }
+                [
+                  {
+                    "backgroundColor": "#dddddd",
+                    "borderBottomLeftRadius": 28,
+                    "borderBottomRightRadius": 4,
+                    "borderColor": "#dddddd",
+                    "borderRightWidth": 1,
+                    "borderTopLeftRadius": 28,
+                    "borderTopRightRadius": 4,
+                    "borderWidth": 1,
+                    "fontFamily": "Roboto",
+                    "minHeight": 56,
+                    "paddingBottom": 8,
+                    "paddingLeft": 24,
+                    "paddingRight": 14,
+                    "paddingTop": 8,
+                    "userSelect": "text",
+                    "width": "100%",
+                  },
+                  {},
+                  null,
+                ]
               }
-            >
-              <TextInput
-                accessibilityRole="search"
-                accessible={true}
-                autoFocus={false}
-                defaultValue=""
-                editable={true}
-                onBlur={[Function]}
-                onChange={[Function]}
-                onChangeText={[Function]}
-                onFocus={[Function]}
-                onLayout={[Function]}
-                placeholder="Search chips..."
-                placeholderTextColor="#bbbbbb"
-                style={
-                  [
-                    {
-                      "backgroundColor": "#dddddd",
-                      "borderBottomLeftRadius": 28,
-                      "borderBottomRightRadius": 4,
-                      "borderColor": "#dddddd",
-                      "borderRightWidth": 1,
-                      "borderTopLeftRadius": 28,
-                      "borderTopRightRadius": 4,
-                      "borderWidth": 1,
-                      "fontFamily": "Roboto",
-                      "minHeight": 56,
-                      "paddingBottom": 8,
-                      "paddingLeft": 24,
-                      "paddingRight": 14,
-                      "paddingTop": 8,
-                      "userSelect": "text",
-                      "width": "100%",
-                    },
-                    {},
-                    null,
-                  ]
-                }
-                testID="null_search_i"
-              />
-            </View>
+              testID="null_search_i"
+            />
           </View>
         </View>
-        <View
-          style={
-            {
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-            }
-          }
-        />
       </View>
+      <View
+        accessibilityLabel="Choose tags"
+        accessible={true}
+        style={
+          {
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+          }
+        }
+      />
     </View>
-  </View>,
-]
+  </View>
+</View>
 `;
