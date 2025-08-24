@@ -127,7 +127,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
 
   selectChip(chipItem: any) {
     const selectionMode = this.state.props.selectionmode || 'multiple';
-    if (selectionMode === 'standard') {
+    if (selectionMode === 'single') {
       forEach(this.state.dataItems, (item) => {
         item.selected = false;
       });
