@@ -42,8 +42,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       noscrollitem:{
         flexDirection: 'row',
         alignContent: 'center',
-        marginTop: 8, 
-        marginLeft: 16 
+        marginTop: 8,
+        marginLeft: 16
       } as AllStyle,
       selectedItem: {} as AllStyle,
       selectedLabel: {} as AllStyle,
@@ -86,6 +86,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         text: {
           fontSize: 16,
+          color: themeVariables.labelDefaultColor
         },
         icon : {
           color: themeVariables.checkedColor,
@@ -95,7 +96,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
 });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
-  
+
   // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
   addStyle('form-radioset-input-horizontal', '', {
     root: {
@@ -105,11 +106,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     text: {}
   } as BaseStyles);
-  
+
   addStyle(DEFAULT_CLASS + '-disabled', '', {
     root : {
       color: themeVariables.checkedDisabledColor,
       opacity: 0.8
+    },
+    text : {
+      color: themeVariables.checkedDisabledColor
     }
   });
 });

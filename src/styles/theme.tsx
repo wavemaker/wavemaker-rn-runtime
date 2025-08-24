@@ -50,8 +50,8 @@ export const getBreakPointValue = (name: string) => {
 
     return DEVICE_BREAK_POINTS_NATIVE_MOBILE[name];
 }
-    
-    
+
+
 export type styleGeneratorFn<T extends NamedStyles<any>> = (
     themeVariables: ThemeVariables,
     addStyle: (name: string, extend: string, style: T) => void) => void
@@ -79,7 +79,7 @@ export class Theme {
     private cache: any = {};
 
     private traceEnabled = false;
-    
+
     private revertLayoutToExpo50: Boolean;
 
     private styleGenerators: styleGeneratorFn<any>[] = [];
@@ -113,7 +113,7 @@ export class Theme {
     }
 
     private replaceVariables(val: any, baseTokens: any, classNames: any, inheritedTokens: Record<string, any> = {}) {
-        if(isString(val)) { 
+        if(isString(val)) {
             (val.match(/_*var\([^\)]*\)/g) || []).forEach((s) => {
                 const content = s.substring(4, s.length - 1);
                 let [variableName, fallback] = content.split(",").map(str => str.trim());
@@ -127,16 +127,16 @@ export class Theme {
                             break;
                         }
                     }
-                }               
+                }
                 if (!resolvedValue) {
-                    resolvedValue = inheritedTokens[variableName] || inheritedTokens[`--${variableName}`] || baseTokens[variableName] 
-                        || (ThemeVariables.INSTANCE as any)[variableName]
-                        || (ThemeVariables.INSTANCE as any)[variableName.substring(2)] 
-                        || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]
-                        || fallback;
+                    resolvedValue = inheritedTokens[variableName] ?? inheritedTokens[`--${variableName}`] ?? baseTokens[variableName]
+                      ?? (ThemeVariables.INSTANCE as any)[variableName]
+                      ?? (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
+                      ?? (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]
+                      ?? fallback;
                 }
                 val = val.replace(s, resolvedValue);
-                if (isNumber(resolvedValue) 
+                if (isNumber(resolvedValue)
                     && val.trim() === (resolvedValue + '')) {
                     val = resolvedValue;
                 } else {
@@ -144,7 +144,7 @@ export class Theme {
                 }
             });
         }
-        return val; 
+        return val;
     }
 
     clearCache() {
@@ -270,12 +270,12 @@ export class Theme {
                 if (k.startsWith('--')) {
                     let v = resolveStyle((style as any)[k], resolvedTokens);
                     resolvedTokens[k] = v;
-                    const variableName = k.substring(2); 
+                    const variableName = k.substring(2);
                     (ThemeVariables.INSTANCE as any)[variableName] = v;
                     (ThemeVariables.INSTANCE as any)[camelCase(variableName)] = v;
                 }
             });
-            
+
            // For edge case when prop is before inline token
            classNames.forEach(k => {
                 if (!k.startsWith('--')) {
@@ -324,7 +324,7 @@ export class Theme {
                   }
                 }
               }
-        
+
               if (!isNil(style['marginLeft']) || !isNil(style['marginRight'])) {
                 if (!isNil(style['marginLeft']) && !isNil(style['marginRight'])) {
                   [style['marginLeft'], style['marginRight']] = [style['marginRight'], style['marginLeft']];
@@ -339,7 +339,7 @@ export class Theme {
                     delete style['marginRight'];
                   }
                 }
-              }        
+              }
         }
         let screenWidth = Dimensions.get('window').width;
         let screenHeight = Dimensions.get('window').height;
@@ -406,7 +406,7 @@ export class Theme {
             this.parent.children.splice(i, 1);
         }
     }
-    
+
     getTextStyle(s: any) {
         if (!s) {
             return {};
@@ -451,7 +451,7 @@ export class Theme {
                 });
             });
         } else {
-            this.styleGenerators.forEach(fn => 
+            this.styleGenerators.forEach(fn =>
                 fn(ThemeVariables.INSTANCE, this.addStyle.bind(this)));
         }
         this.notify(ThemeEvent.CHANGE);
@@ -516,19 +516,19 @@ export const ThemeConsumer = ThemeContext.Consumer;
             }
         } as any);
     };
-    addDisplayStyles('all', 
+    addDisplayStyles('all',
         getBreakPointValue('MIN_EXTRA_SMALL_DEVICE'),
         getBreakPointValue('MAX_LARGE_DEVICE'));
-    addDisplayStyles('xs', 
+    addDisplayStyles('xs',
         getBreakPointValue('MIN_EXTRA_SMALL_DEVICE'),
         getBreakPointValue('MAX_EXTRA_SMALL_DEVICE'));
-    addDisplayStyles('sm',   
+    addDisplayStyles('sm',
         getBreakPointValue('MIN_SMALL_DEVICE'),
         getBreakPointValue('MAX_SMALL_DEVICE'));
-    addDisplayStyles('md',   
+    addDisplayStyles('md',
         getBreakPointValue('MIN_MEDIUM_DEVICE'),
         getBreakPointValue('MAX_MEDIUM_DEVICE'));
-    addDisplayStyles('lg',   
+    addDisplayStyles('lg',
         getBreakPointValue('MIN_LARGE_DEVICE'),
         getBreakPointValue('MAX_LARGE_DEVICE'));
 
