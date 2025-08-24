@@ -882,6 +882,34 @@ describe('Test Wizard component', () => {
     });
   });
 
+  it('should render subtitle before title when titles-below class is applied', async () => {
+    const stepsWithTitleAndSubtitle = [
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={0}
+        index={0}
+        title="Step 1 Title"
+        subtitle="Step 1 Subtitle"
+        name="step1"
+      >
+        <Text>Content of Step 1</Text>
+      </WmWizardstep>
+    ];
+    renderComponent({
+      classname: 'titles-below',
+      children: stepsWithTitleAndSubtitle
+    });
+    await timer(300);
+    const titleElement = screen.getByText('Step 1 Title');
+    const subtitleElement = screen.getByText('Step 1 Subtitle');
+    expect(titleElement).toBeTruthy();
+    expect(subtitleElement).toBeTruthy();
+    await waitFor(() => {
+      expect(screen.getByTestId('test_wizard_step1_subtitle')).toBeTruthy();
+      expect(screen.getByTestId('test_wizard_step1_title')).toBeTruthy();
+    });
+  });
+
   describe('Stepper Basic variant', () => {
     const stepsWithSubtitles = [
       <WmWizardstep

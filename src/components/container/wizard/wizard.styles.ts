@@ -297,6 +297,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       backgroundColor: themeVariables.wizardStepConnectorColor
     }
   } as WmWizardStyles);
+  addStyle('segment-steppe', '', {
+    stepConnector: {
+      position: 'absolute',
+      bottom: 0,
+      left: -2,
+      right: -2,
+      height: 5,
+      borderRadius: 5,
+      top: undefined as any,
+    },
+  } as WmWizardStyles);
   addStyle('titles-below', '', {
     stepWrapper: {
       flexDirection: 'column-reverse',  
