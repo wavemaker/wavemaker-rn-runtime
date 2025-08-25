@@ -662,17 +662,25 @@ describe('WmLabel Component', () => {
       expect(queryByText(/This is a.*link text.*in a sentence/)).toBeTruthy();
     });
   });
-  it('uses row-container path when wordbywordfadein is true and not truncating', () => {
-      const { queryByTestId, getByText } = render(
-        <WmLabel caption="Hello world" wordbywordfadein={true} />
+  it('should render words individually when textanimation is fadeIn', () => {
+      const { getByText } = render(
+        <WmLabel caption="Hello world" textanimation="fadeIn" />
       );
-      expect(getByText('Hello')).toBeTruthy();
+      expect(getByText('Hello ')).toBeTruthy();
       expect(getByText('world')).toBeTruthy();
   });
-  it('should use custom wordanimationstagger value', () => {
+  
+  it('should use custom animationstagger value for text animation timing', () => {
       jest.spyOn(Animated, 'timing');
-      render(<WmLabel caption="Hello world test" wordbywordfadein={true} wordanimationstagger={200} />);
+      render(<WmLabel caption="Hello world test" textanimation="fadeIn" animationstagger={200} />);
       expect(Animated.timing).toHaveBeenCalled();
+  });
+
+  it('should not apply word-by-word animation when textanimation is not set', () => {
+      const { getByText } = render(
+        <WmLabel caption="Hello world without animation" />
+      );
+      expect(getByText('Hello world without animation')).toBeTruthy();
   });
   it('android ellipsis keeps single-string content', () => {
     Platform.OS = 'android';
