@@ -78,6 +78,8 @@ export default abstract class BasePartial extends BaseFragment<PartialProps, Par
       }
     }
     
+
+
     abstract renderPartial(): ReactNode;
 
     renderWidget(props: PartialProps) {

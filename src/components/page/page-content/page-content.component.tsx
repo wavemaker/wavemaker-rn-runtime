@@ -112,7 +112,9 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     // Show offline banner when not connected (skip in web preview)
     if (!isWebPreviewMode() && !props.isconnected) {
       return (
-        <WmOfflineBanner message="No Internet Connection" />
+        <WmOfflineBanner onRetry={() => {
+          this.notify('retry', []);
+        }} />
       );
     }
 
