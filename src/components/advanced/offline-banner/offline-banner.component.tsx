@@ -6,49 +6,49 @@ import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/pictur
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
+import WmButton from '../../basic/button/button.component';
 
-export interface WmOfflineBannerProps {
-  /** Custom message to show */
-  message?: string;
+interface OfflineBannerProps {
+  onRetry: () => void;
 }
 
-const OfflineBanner: React.FC<WmOfflineBannerProps> = (props) => {
-  const {
-    message = 'No Internet Connection'
-  } = props;
+const OfflineBanner: React.FC<OfflineBannerProps> = (props: OfflineBannerProps) => {
 
   const appConfig = injector.get<AppConfig>('APP_CONFIG');
+  const appLocale = appConfig?.appLocale?.messages || {};
 
   return (
     <ThemeConsumer>
       {(theme) => {
         const styles = theme.getStyle(DEFAULT_CLASS) as WmOfflineBannerStyles;
-        const offlineImageSource = appConfig?.preferences?.offlineImage;
 
         return (
           <View style={styles.root}>
-            <View style={styles.container}>
-              <View style={styles.contentContainer}>
-                <View style={styles.imageContainer}>
-                  <WmPicture
-                    picturesource={offlineImageSource}
-                    resizemode="contain"
-                    name="offline_picture"
-                    classname="offline-banner-image"
-                  />
-                </View>
-                <View style={styles.textContainer}>
-                  <WmLabel
-                    caption={message}
-                    classname="offline-banner-message"
-                  />
-                  <WmLabel
-                    caption="You appear to be offline. Please check your internet connection."
-                    classname="offline-banner-subtitle"
-                  />
-                </View>
-              </View>
+            <View style={styles.imageContainer}>
+              <WmPicture
+                 picturesource={appConfig?.preferences?.offlineImage}
+                 resizemode="contain"
+                 name="offline_picture"
+                 styles={{root: styles.offlineImage}}
+                 />
             </View>
+            <View style={styles.textContainer}>
+              <WmLabel
+                caption={appLocale.LABEL_OFFLINE_TITLE || appConfig?.preferences?.offlineTitle || 'Offline'}
+                styles={{root: styles.message}}
+                />
+              <WmLabel
+                caption={appLocale.MESSAGE_OFFLINE_DESCRIPTION || appConfig?.preferences?.offlineMessage || 'You are currently offline. Please check your internet connection.'}
+                styles={{root: styles.subtitle}}
+                />
+            </View>
+            <WmButton
+              caption={appLocale.LABEL_OFFLINE_RETRY || appConfig?.preferences?.offlineRetry || 'Retry'}
+              styles={{root: styles.retryButton}}
+              onTap={() => {
+                props.onRetry();
+              }}
+            />
           </View>
         );
       }}

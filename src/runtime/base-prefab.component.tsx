@@ -93,6 +93,8 @@ export default abstract class BasePrefab extends BaseFragment<PrefabProps, Prefa
       this.invokeEventCallback('onDestroy', [null, this]);
     }
 
+
+
     abstract renderPrefab(): React.ReactNode;
     
     renderWidget(props: PrefabProps) {
