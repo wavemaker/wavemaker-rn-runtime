@@ -18,6 +18,7 @@ export interface ServiceVariableConfig extends VariableConfig {
   inFlightBehavior: string;
   controller: string;
   getServiceInfo: Function;
+  isCritical?: boolean;
 }
 
 enum _ServiceVariableEvents {
@@ -29,6 +30,8 @@ export class ServiceVariable extends _ServiceVariable {
   private cancelTokenSource: any;
   params: any = {};
   public appConfig = injector.get<AppConfig>('APP_CONFIG');
+  public networkError: boolean = false;
+  public isCritical: boolean = false;
 
   constructor(public config: ServiceVariableConfig) {
     let variableConfig: any = {
@@ -48,11 +51,18 @@ export class ServiceVariable extends _ServiceVariable {
       httpClientService: httpService,
       inFlightBehavior: config.inFlightBehavior,
       onSuccess: (context: any, args: any) => {
+        // Reset network error flag on successful call
+        this.networkError = false;
         this.notify(VariableEvents.AFTER_INVOKE, [args.variable, args.data, args.options]);
         this.notify(VariableEvents.SUCCESS, [args.variable, args.data, args.options]);
         return config.onSuccess && config.onSuccess(args.variable, args.data, args.options);
       },
       onError: (context: any, args: any) => {
+        if (this.isCritical && args.data && (!args.data.response && args.data.originalError && (args.data.originalError.code === 'NETWORK_ERROR' || args.data.originalError.message === 'Network Error'))) {
+          this.networkError = true;
+        } else {
+          this.networkError = false;
+        }
         this.notify(VariableEvents.AFTER_INVOKE, [args.variable, args.data, args.options]);
         this.notify(VariableEvents.ERROR, [args.variable, args.data, args.options]);
         return config.onError && config.onError(args.variable, args.data, args.options);
@@ -77,6 +87,7 @@ export class ServiceVariable extends _ServiceVariable {
       };
     }
     super(variableConfig);
+    this.isCritical = !!config.isCritical;
     this.subscribe(VariableEvents.AFTER_INVOKE, () => {
         this.dataBinding = {};
     });

@@ -9,30 +9,7 @@ import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
 import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 
 export class HttpService implements HttpClientService {
-  public notifier = new EventNotifier();
 
-  constructor() {
-    // Setup axios interceptor for network error detection
-    if (!isWebPreviewMode()) {
-      this.setupNetworkErrorInterceptor();
-    }
-  }
-
-  private setupNetworkErrorInterceptor() {
-    axios.interceptors.response.use(
-      (response) => response,
-      (error) => {
-        // Check if this is a network error (no response from server)
-        if (!error.response && (error.code === 'NETWORK_ERROR' || error.message === 'Network Error')) {
-          this.notifier.notify('networkUnavailable', [{ 
-            error: error, 
-            message: 'Network connection lost. Please check your internet connection.' 
-          }]);
-        }
-        return Promise.reject(error);
-      }
-    );
-  }
 
   send(options: any, variable: any) {
     const serviceInfo = variable.serviceInfo;
@@ -82,7 +59,12 @@ export class HttpService implements HttpClientService {
         .then((result: any) => {
          resolve(result);
         }, (err: any) => {
-          reject(err.response);
+          // Pass the full error object to preserve network error information
+          reject({
+            ...err.response,
+            originalError: err,
+            isNetworkError: !err.response && (err.code === 'NETWORK_ERROR' || err.message === 'Network Error')
+          });
         })
     })
   }

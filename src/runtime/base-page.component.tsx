@@ -6,6 +6,9 @@ import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPage from '@wavemaker/app-rn-runtime/components/page/page.component';
 import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
+import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
+import { BaseVariable } from '@wavemaker/app-rn-runtime/variables/base-variable';
 
 import AppSecurityService from './services/app-security.service';
 import AppSpinnerService from './services/app-spinner.service';
@@ -60,6 +63,12 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       }
 
       setCurrentPageInAppLayout(props.route.name);
+      
+      // Initialize network state - default to connected
+      this.state = {
+          ...this.state,
+          isConnected: true
+      } as PageState;
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {
@@ -69,6 +78,64 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
         const props = w.props as any;
         this.cache = !(props.cache === false);
         this.refreshdataonattach = !(props.refreshdataonattach === false);
+      }
+    }
+
+    private hasHttpBasedVariables(): boolean {
+        
+        const isHttpVariable = (variable: any) => {
+            if (variable?.config?.serviceType && 
+                BasePage.HTTP_SERVICE_TYPES.includes(variable.config.serviceType)) {
+                return true;
+            }
+            if (variable?.category === 'wm.LiveVariable') {
+                return true;
+            }
+            
+            return false;
+        }
+        if (Object.values(this.startUpVariables).some(isHttpVariable)) {
+            return true;
+        }
+        for (const fragmentKey in this.fragments) {
+            const fragment = this.fragments[fragmentKey];
+            
+            if (fragment) {
+                if (Object.values(fragment.startUpVariables).some(isHttpVariable)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+   
+    private setupNetworkMonitoring(): void {
+        if (isWebPreviewMode() || !this._hasHttpVariables) {
+            return;
+        }
+        this._unsubscribeNetworkState = NetworkService.notifier.subscribe('onNetworkStateChange', (networkState: any) => {
+            const connected = networkState.isConnected && networkState.isNetworkAvailable;
+            if (this.state.isConnected !== connected) {
+                this.setState({ ...this.state, isConnected: connected } as PageState);
+            }
+        });
+        const currentState = NetworkService.getState();
+        if (currentState) {
+            const connected = currentState.isConnected && currentState.isNetworkAvailable;
+            this.setState({ ...this.state, isConnected: connected } as PageState);
+        }
+    }
+
+    private cleanupNetworkMonitoring(): void {
+        if (this._unsubscribeNetworkState) {
+            this._unsubscribeNetworkState();
+            this._unsubscribeNetworkState = null;
+        }
+    }
+    
+    handleChildFragmentCriticalFailure(): void {
+      if(this.state.isConnected) {
+        this.setState({ ...this.state, isConnected: false } as PageState);
       }
     }
 
@@ -107,6 +174,9 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
     onFragmentReady() {
       return super.onFragmentReady().then(() => {
+        this._hasHttpVariables = this.hasHttpBasedVariables();
+        this.setupNetworkMonitoring();
+        
         this.onContentReady();
         this.App.triggerPageReady(this.pageName, this.proxy as BasePage);
         this.App.appConfig.diagnostics.pageReadyTime = Date.now(); 
@@ -133,6 +203,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
     componentWillUnmount() {
       super.componentWillUnmount();
+      this.cleanupNetworkMonitoring();
       this.App.notify('pageDestroyed', this);
     }
 

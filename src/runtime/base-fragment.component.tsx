@@ -11,9 +11,6 @@ import { BaseComponent, BaseComponentState, BaseStyles, BaseProps, LifecycleList
 import BASE_THEME, { Theme, ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseVariable, VariableEvents } from '@wavemaker/app-rn-runtime/variables/base-variable';
 import { default as _viewPort, EVENTS as viewportEvents } from '@wavemaker/app-rn-runtime/core/viewport';
-import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
-import httpService from '@wavemaker/app-rn-runtime/variables/http.service';
-import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import App from './App';
 import WmFormField from '@wavemaker/app-rn-runtime/components/data/form/form-field/form-field.component';
 import WmForm from '@wavemaker/app-rn-runtime/components/data/form/form.component';
@@ -27,6 +24,7 @@ import WmLottie from '@wavemaker/app-rn-runtime/components/basic/lottie/lottie.c
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 import WmLeftPanel from '@wavemaker/app-rn-runtime/components/page/left-panel/left-panel.component';
 import WmLabel from '../components/basic/label/label.component';
+import BasePage from './base-page.component';
 
 export class SkeletonAnimationProps extends BaseProps {
   skeletonanimationresource = "";
@@ -52,7 +50,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public Variables: any = {};
     public theme: Theme = BASE_THEME;
     public appLocale: any = injector.get<AppConfig>('APP_CONFIG')?.appLocale?.messages ? injector.get<AppConfig>('APP_CONFIG').appLocale.messages : {};
-    private startUpVariables: string[] = [];
+    public startUpVariables: string[] = [];
     protected startUpVariablesLoaded = false;
     private startUpActions: string[] = [];
     private autoUpdateVariables: string[] = [];
@@ -83,15 +81,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
                             onClose: () => {}
                           };
     public watcher: Watcher = null as any;
-    private _unsubscribeNetworkState: any;
-    private _unsubscribeNetworkError: any;
-    private _hasHttpVariables: boolean = false;
-    
-    // HTTP service types that make network calls
-    private static readonly HTTP_SERVICE_TYPES = [
-        'JavaService', 'SoapService', 'FeedService', 'RestService', 
-        'SecurityServiceType', 'DataService', 'WebSocketService', 'OpenAPIService'
-    ];
+
 
     constructor(props: P, defaultProps?: P) {
         super(props, null as any, defaultProps);
@@ -113,82 +103,9 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         this.baseUrl = this.appConfig.url;
         this.resourceBaseUrl = this.appConfig.url;
         this.cleanup.push(() => this.onDestroy());
-        
-        // Initialize network state - default to connected
-        this.state = {
-            ...this.state,
-            isConnected: true
-        } as S;
     }
 
-    /**
-     * Check if this fragment has any variables/actions that make HTTP calls
-     */
-    private hasHttpBasedVariables(): boolean {
-        const allVariables = {...this.Variables, ...this.Actions, ...this.fragmentVariables, ...this.fragmentActions};
-        
-        return Object.values(allVariables).some((variable: any) => {
-            // Check if variable has serviceType that makes HTTP calls
-            if (variable?.config?.serviceType && 
-                BaseFragment.HTTP_SERVICE_TYPES.includes(variable.config.serviceType)) {
-                return true;
-            }
-            
-            // Check for LiveVariable category which makes HTTP calls
-            if (variable?.category === 'wm.LiveVariable') {
-                return true;
-            }
-            
-            return false;
-        });
-    }
 
-    /**
-     * Setup network monitoring if this fragment has HTTP-based variables
-     */
-    private setupNetworkMonitoring(): void {
-        // Only monitor network if not in web preview and has HTTP variables
-        if (isWebPreviewMode() || !this._hasHttpVariables) {
-            return;
-        }
-
-        // Subscribe to network state changes from NetworkService
-        this._unsubscribeNetworkState = NetworkService.notifier.subscribe('onNetworkStateChange', (networkState: any) => {
-            const connected = networkState.isConnected && networkState.isNetworkAvailable;
-            if (this.state.isConnected !== connected) {
-                this.setState({ ...this.state, isConnected: connected } as S);
-            }
-        });
-
-        // Subscribe to network unavailable events from HTTP service (for failed requests)
-        this._unsubscribeNetworkError = httpService.notifier.subscribe('networkUnavailable', (errorData: any) => {
-            // Force offline state when network errors occur during HTTP requests
-            if (this.state.isConnected) {
-                this.setState({ ...this.state, isConnected: false } as S);
-            }
-        });
-
-        // Get initial network state
-        const currentState = NetworkService.getState();
-        if (currentState) {
-            const connected = currentState.isConnected && currentState.isNetworkAvailable;
-            this.setState({ ...this.state, isConnected: connected } as S);
-        }
-    }
-
-    /**
-     * Cleanup network monitoring subscriptions
-     */
-    private cleanupNetworkMonitoring(): void {
-        if (this._unsubscribeNetworkState) {
-            this._unsubscribeNetworkState();
-            this._unsubscribeNetworkState = null;
-        }
-        if (this._unsubscribeNetworkError) {
-            this._unsubscribeNetworkError();
-            this._unsubscribeNetworkError = null;
-        }
-    }
 
     onContentReady() {
       try {
@@ -199,6 +116,51 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.appConfig.refresh();
       this.targetWidget && this.targetWidget.invokeEventCallback('onLoad', [null, this.proxy]);
       this.onContentReady = () => {};
+    }
+
+    /**
+     * Check for critical startup variable failures and update connection state
+     * If the current component is page then set isConnected to false
+     * If the current component is prefab or partial then notify the parent page component 
+     */
+    private checkCriticalStartupFailures(): void {
+      let hasCriticalFailure = false;
+      
+      this.startUpVariables.forEach(variableName => {
+        const variable = this.Variables[variableName];
+        if (variable?.isCritical && variable?.networkError) {
+          hasCriticalFailure = true;
+        }
+      });
+      
+      if (hasCriticalFailure) {
+        this instanceof BasePage ?  
+          this.handleChildFragmentCriticalFailure() : 
+          this.notifyParentPageOfCriticalFailure();
+      }
+    }
+
+    private notifyParentPageOfCriticalFailure(): void {
+      const parentPage = this.findParentPageComponent();
+      if (parentPage) {
+        parentPage.handleChildFragmentCriticalFailure();
+      } else {
+        console.warn('Could not find parent page component to notify of critical failure');
+      }
+    }
+
+    private findParentPageComponent(): BasePage | null {
+      const currentPage = this.appConfig.currentPage;
+      if (currentPage && currentPage instanceof BasePage) {
+        if (this.belongsToPage(currentPage)) {
+          return currentPage;
+        }
+      }      
+      return null;
+    }
+
+    private belongsToPage(page: BasePage): boolean {
+      return Object.values(page.fragments).includes(this);
     }
 
     onComponentChange(w: BaseComponent<any, any, any>) {
@@ -378,7 +340,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      this.cleanupNetworkMonitoring();
       this.targetWidget && this.targetWidget.invokeEventCallback('onDestroy', [null, this.proxy]);
     }
 
@@ -437,10 +398,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.initVariableSpinner();
       this.cleanUpVariablesandActions.push(...Object.values({...this.fragmentVariables, ...this.fragmentActions} as BaseVariable<any>));
       
-      // Check if this fragment has HTTP-based variables and setup network monitoring
-      this._hasHttpVariables = this.hasHttpBasedVariables();
-      this.setupNetworkMonitoring();
-      
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
       .catch((error) => {
@@ -448,6 +405,9 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
         console.error(error);
       })
       .then(() => {
+        // Check for critical startup variable failures
+        this.checkCriticalStartupFailures();
+        
         this.startUpVariablesLoaded = true;
         this.showContent = true;
         this.appConfig.refresh();
@@ -482,7 +442,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
 
     onDestroy() {
       this.cleanUpVariablesandActions.forEach((v: any) => v.destroy());
-      this.cleanupNetworkMonitoring();
       this.watcher.destroy();
     }
 
