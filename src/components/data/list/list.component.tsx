@@ -394,11 +394,10 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
         this.onSelect(props.dataset[0], 0);
       });
     }
-
     this.subscribe('scroll', (event: any) => {
-      const scrollPosition = event.nativeEvent.contentOffset.y;
-      const contentHeight = event.nativeEvent.contentSize.height;
-      const viewportHeight = event.nativeEvent.layoutMeasurement.height;
+      const scrollPosition = event?.nativeEvent?.contentOffset?.y;
+      const contentHeight = event?.nativeEvent?.contentSize?.height;
+      const viewportHeight = event?.nativeEvent?.layoutMeasurement?.height;
       
       //checking user scrolled till bottom of the list logic
       const threshold = 50; // px
@@ -583,8 +582,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     }
     return 0;
   }
-
-  
 
   private scrollToItem = (groupKey: string | null, itemIndex: number) => {
     const refKey = groupKey || 'main';

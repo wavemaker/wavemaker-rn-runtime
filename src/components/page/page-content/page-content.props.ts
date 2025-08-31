@@ -9,4 +9,5 @@ export default class WmPageContentProps extends SkeletonAnimationProps {
     keyboardverticaloffset: number = 100;
     keyboardpersisttaps: 'never'| 'always' | 'handled' = 'never';
     consumenotch: boolean = true;
+    onscroll: string = '';
 }
