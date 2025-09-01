@@ -303,35 +303,37 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             {this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
+
+       // horizontal step connector. It can be reused to all horizontal connectors.  
                  {this.getTotalVisibleSteps() > 1 &&
-           item.state.props.show &&
-           (() => {
-             const dynamicPosition = (isDottedVertical || isDotted) ? this.getConnectorPosition() : {};
-             return (
+          item.state.props.show && !isDottedVertical &&
                <View 
                  style={[
                    this.styles.stepConnector, 
                    {
-                     ...(isDottedVertical ? {
-                       height: this.stepConnectorHeight(isFirstStep || isLastStep, index),
-                       top: isFirstStep ? '50%' : '0%',
-                       ...(dynamicPosition.left !== undefined && {
-                         left: dynamicPosition.left
-                       })
-                     } : {
                        width: this.stepConnectorWidth(isFirstStep || isLastStep, index),
                        left: Platform.OS === "web" ?
                          (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? 
-                         '50%': '0%': isFirstStep ? '50%': '0%',
-                       ...(isDotted && dynamicPosition.top !== undefined && {
-                         top: dynamicPosition.top
-                       })
-                     })
-                   }
+                  '50%': '0%': isFirstStep ? '50%': '0%'
+              },
+              this.getConnectorPosition().top ? {top: this.getConnectorPosition().top} : {}
+            ]}
+          ></View>
+        }
+
+        // vertical step connector. It can be reused to all vertical connectors.  
+        {this.getTotalVisibleSteps() > 1 &&
+           item.state.props.show && isDottedVertical &&
+           <View 
+           style={[
+             this.styles.stepConnector, 
+              {
+                height: this.stepConnectorHeight(isFirstStep || isLastStep, index),
+                top: isFirstStep ? '50%' : '0%',
+             },
+             this.getConnectorPosition().left ? {top: this.getConnectorPosition().left} : {}
                  ]}
                ></View>
-             );
-           })()
          }
       </View>
     ) : null;
