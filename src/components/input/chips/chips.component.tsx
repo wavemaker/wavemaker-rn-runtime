@@ -229,21 +229,20 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     return !this.state.props.searchable && this.state.dataItems?.length <= 10;
   }
 
-  private getIconFromExpression(expression: string): string | null {
-    const match = expression.match(/Variables\.\w+\.dataSet\[(\d+)\]\.(\w+)/);
-    if (!match) return null;
-    const [, indexStr, fieldName] = match;
-    const index = parseInt(indexStr, 10);
-    return this.state.dataItems?.[index]?.dataObject?.[fieldName] || null;
-  }
 
-  private resolveIconClass(iconClassProp: string, item: any, chipIndex: number): string | null {
-    if (!iconClassProp) return null;
-    const hasPerItemBinding = iconClassProp.includes('bind:') && iconClassProp.includes('$i');
-    if (hasPerItemBinding) {
-      const expression = iconClassProp.replace('bind:', '').replace(/\$i/g, chipIndex.toString());
-      return this.getIconFromExpression(expression);
+
+  private resolveIconClass(iconClassProp: string, item: any, chipIndex: number, iconType: 'left' | 'right'): string | null {
+    // First check if we have a function prop for this icon type
+    if (iconType === 'left' && this.state.props.getLeftIconClassName) {
+      return this.state.props.getLeftIconClassName(item, chipIndex, this.state.chipsList.length);
     }
+    if (iconType === 'right' && this.state.props.getRightIconClassName) {
+      return this.state.props.getRightIconClassName(item, chipIndex, this.state.chipsList.length);
+    }
+    
+    // Fallback to original logic for non-bind expressions
+    if (!iconClassProp) return null;
+    
     const hasDatasetField = item.dataObject && item.dataObject[iconClassProp];
     if (hasDatasetField) {
       return item.dataObject[iconClassProp];
@@ -256,13 +255,18 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     return iconClassProp;
   }
 
-  private resolveBadge(badgeProp: string, item: any, chipIndex: number): string | null {
-    if (!badgeProp) return null;
-    const hasPerItemBinding = badgeProp.includes('bind:') && badgeProp.includes('$i');
-    if (hasPerItemBinding) {
-      const expression = badgeProp.replace('bind:', '').replace(/\$i/g, chipIndex.toString());
-      return this.getValueFromExpression(expression);
+  private resolveBadge(badgeProp: string, item: any, chipIndex: number, badgeType: 'left' | 'right'): string | null {
+    // First check if we have a function prop for this badge type
+    if (badgeType === 'left' && this.state.props.getLeftBadge) {
+      return this.state.props.getLeftBadge(item, chipIndex, this.state.chipsList.length);
     }
+    if (badgeType === 'right' && this.state.props.getRightBadge) {
+      return this.state.props.getRightBadge(item, chipIndex, this.state.chipsList.length);
+    }
+    
+    // Fallback to original logic for non-bind expressions
+    if (!badgeProp) return null;
+    
     const hasDatasetField = item.dataObject && item.dataObject[badgeProp];
     if (hasDatasetField) {
       return item.dataObject[badgeProp];
@@ -278,13 +282,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
     return badgeProp;
   }
   
-  private getValueFromExpression(expression: string): any {
-    const match = expression.match(/Variables\.\w+\.dataSet\[(\d+)\]\.(\w+)/);
-    if (!match) return null;
-    const [, indexStr, fieldName] = match;
-    const index = parseInt(indexStr, 10);
-    return this.state.dataItems?.[index]?.dataObject?.[fieldName] || null;
-  }
+
 
   renderChip(item: any, index: any) {
     const isSelected = this.isDefaultView() ? item.selected : true;
@@ -319,7 +317,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
           }
         }}>
         {(() => {
-          const leftBadge = this.resolveBadge(this.state.props.leftbadge, item, index);
+          const leftBadge = this.resolveBadge(this.state.props.leftbadge, item, index, 'left');
           return leftBadge ? (
             <Text 
               {...this.getTestPropsForAction('chip'+ index+'leftbadge')}
@@ -341,7 +339,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
               />
             );
           }
-          const leftIcon = this.resolveIconClass(this.state.props.lefticonclass, item, index);
+          const leftIcon = this.resolveIconClass(this.state.props.lefticonclass, item, index, 'left');
           const shouldShowLeftIcon = leftIcon && !(isSelected && this.isDefaultView() && this.state.props.selectediconclass);  
           return shouldShowLeftIcon ? (
             <WmIcon 
@@ -356,7 +354,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         { this._showSkeleton ? null : <WmPicture id={this.getTestId('chip'+ index + 'picture')} styles={this.styles.imageStyles} picturesource={item.imgSrc} shape='circle' accessible={false}></WmPicture>}
         { this._showSkeleton ? <WmLabel styles={{root: {width: 50}}}/> :  <Text {...this.getTestPropsForAction('chip'+ index+'label')}style={[this.styles.chipLabel, isSelected ? this.styles.activeChipLabel : null]}>{item.displayexp || item.displayfield}</Text>}
         {(() => {
-          const rightBadge = this.resolveBadge(this.state.props.rightbadge, item, index);
+          const rightBadge = this.resolveBadge(this.state.props.rightbadge, item, index, 'right');
           return rightBadge ? (
             <Text 
               {...this.getTestPropsForAction('chip'+ index+'rightbadge')}
@@ -367,7 +365,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
           ) : null;
         })()}
         {(() => {
-          const rightIcon = this.resolveIconClass(this.state.props.righticonclass, item, index);
+          const rightIcon = this.resolveIconClass(this.state.props.righticonclass, item, index, 'right');
           return rightIcon ? (
             <WmIcon 
               id={this.getTestId('righticon')}
