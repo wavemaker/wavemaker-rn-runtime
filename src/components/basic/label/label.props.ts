@@ -18,5 +18,5 @@ export default class WmLabelProps extends BaseProps {
     onTap?: Function = null as any;
     enableandroidellipsis?: boolean = false;
     textanimation?: string = undefined as any;
-    animationstagger?: number = 0;
+    animationspeed?: number = 0;
 }

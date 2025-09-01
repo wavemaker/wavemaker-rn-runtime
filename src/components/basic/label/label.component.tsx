@@ -195,7 +195,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   }
 
   private getWordAnimConfig() {
-    const step = Number(this.state.props.animationstagger) || 80;
+    const step = Number(this.state.props.animationspeed) || 80;
     const fadeDuration = Math.max(120, step * 2);
     return { step, fadeDuration };
   }
