@@ -190,7 +190,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       .map(t => ({ token: t, isSpace: /^\s+$/.test(t) }));
   }
 
-  private isWordByWord(): boolean {
+  private isTextAnimationExists(): boolean {
     return this.state.props.textanimation === 'fadeIn';
   }
 
@@ -200,8 +200,8 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     return { step, fadeDuration };
   }
 
-  private renderAndroidRowParts(navigationService: NavigationService, isHidden: boolean) {
-    const shouldAnimate = this.isWordByWord();
+  private renderWordswithAnimation(navigationService: NavigationService, isHidden: boolean) {
+    const shouldAnimate = this.isTextAnimationExists();
     const { step, fadeDuration } = this.getWordAnimConfig();
     let runningIndex = 0;
 
@@ -292,9 +292,9 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
 
     // Determine if it's a single part
     const isSinglePart = this.state.parts.length <= 1;
-    if ((Platform.OS === 'android' || Platform.OS === 'web'|| (Platform.OS === 'ios' && numOfLines === undefined))
-        && this.isWordByWord()) {
-      return this.renderAndroidRowParts(navigationService, isHidden);
+    // if numOfLines is exists then the animation won't work. 
+    if (numOfLines === undefined && this.isTextAnimationExists()) {
+      return this.renderWordswithAnimation(navigationService, isHidden);
     }
 
     if (useAndroidEllipsis) {
