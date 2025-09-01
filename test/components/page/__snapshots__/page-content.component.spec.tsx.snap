@@ -5,6 +5,11 @@ exports[`Test PageContent component should render pageContent component 1`] = `
   style={
     {
       "backgroundColor": "#eeeeee",
+      "borderBottomLeftRadius": undefined,
+      "borderBottomRightRadius": undefined,
+      "borderRadius": undefined,
+      "borderTopLeftRadius": undefined,
+      "borderTopRightRadius": undefined,
       "height": "100%",
       "width": "100%",
     }
@@ -40,24 +45,20 @@ exports[`Test PageContent component should render pageContent component 1`] = `
           },
           {
             "backgroundColor": "transparent",
+            "paddingBottom": 8,
+            "paddingTop": 8,
           },
         ]
       }
-      handlerTag={3}
-      handlerType="NativeViewGestureHandler"
-      onGestureHandlerEvent={[Function]}
-      onGestureHandlerStateChange={[Function]}
-      onScroll={[Function]}
-      scrollEventThrottle={48}
+      keyboardShouldPersistTaps="never"
+      onLayout={[Function]}
+      onScroll={[MockFunction]}
+      onScrollEndDrag={[Function]}
+      overScrollMode="never"
+      removeClippedSubviews={false}
+      scrollEventThrottle={0.0001}
       showsVerticalScrollIndicator={true}
       testID="test_Navbar_page_content_scrollview"
-      waitFor={
-        [
-          {
-            "current": null,
-          },
-        ]
-      }
     >
       <View />
     </RCTScrollView>

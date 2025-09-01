@@ -1,6 +1,5 @@
 import React from 'react';
 import { Platform, View } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 
@@ -8,6 +7,7 @@ import WmFileuploadProps from './fileupload.props';
 import { DEFAULT_CLASS, WmFileuploadStyles } from './fileupload.styles';
 import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
 import { getMimeType } from '@wavemaker/app-rn-runtime/core/utils';
+import { FileUploadPluginConsumer, FileUploadPluginService } from '@wavemaker/app-rn-runtime/core/device/fileupload-service';
 
 export interface SelectFileOutput {
   mimeType: string;
@@ -34,6 +34,7 @@ const namedParameters: NamedParametersType = {
 };
 
 export default class WmFileupload extends BaseComponent<WmFileuploadProps, WmFileuploadState, WmFileuploadStyles> {
+  public fileUploadService: any = null as any;
 
   constructor(props: WmFileuploadProps) {
     super(props, DEFAULT_CLASS, new WmFileuploadProps());
@@ -41,7 +42,7 @@ export default class WmFileupload extends BaseComponent<WmFileuploadProps, WmFil
 
   onTap(props: WmFileuploadProps) {
     namedParameters.type = getMimeType(props.contenttype);
-    DocumentPicker.getDocumentAsync(namedParameters).then((response: any) => {
+    this.fileUploadService.getDocumentAsync(namedParameters).then((response: any) => {
       let selectedFile;
       if (Platform.OS !== 'web') {
         selectedFile = response.assets[0];
@@ -66,9 +67,17 @@ export default class WmFileupload extends BaseComponent<WmFileuploadProps, WmFil
       hint: props.hint,
       accessibilityrole: props.accessibilityrole,
     };
-    return <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
+    return (
+      <FileUploadPluginConsumer>
+      {(fileUploadPluginService: FileUploadPluginService) => {
+      this.fileUploadService = fileUploadPluginService;
+      return (
+      <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
       {this._background}
       <WmButton id={this.getTestId()} iconclass={props.iconclass} caption={props.caption} styles={this.styles.button} iconsize={props.iconsize} onTap={() => this.onTap.bind(this)(props)} {...accessibilityProps}></WmButton>
     </View>
+  )}}
+      </FileUploadPluginConsumer>
+    )
   }
 }
