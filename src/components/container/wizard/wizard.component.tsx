@@ -188,13 +188,15 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     const isActiveStep = index === this.state.currentStep;
     const isNumberTextLayout = this.state.props.classname === 'number-text-inline';
     const isStepperBasic = this.state.props.classname?.includes('stepper-basic');
-    const isTitlesBelow = this.state.props.classname?.includes('titles-below');
     const wizardStepCountVisibility = (index >= this.state.currentStep && !this.state.isDone) || !this.state.currentStep
     return item.state.props.show !== false ? (
       <View 
         style={[
-          this.styles.headerWrapper, isNumberTextLayout ?
-          {paddingRight: isActiveStep ? 0 : 5, paddingLeft: index === this.state.currentStep + 1 ? 0 : 5}: {}
+          this.styles.headerWrapper, 
+          isNumberTextLayout && {
+            paddingRight: isActiveStep ? 0 : 5, 
+            paddingLeft: index === this.state.currentStep + 1 ? 0 : 5
+          }
         ]} 
         key={index+1}
       >
@@ -203,14 +205,16 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
           onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep || !this.state.props.headernavigation}
           accessibilityRole='header'
         >
-            {(!this._showSkeleton && !isStepperBasic) ? (
+            {this._showSkeleton ? (
+              <WmLabel showskeleton={true} styles={{root: {...this.getStepStyle(index)[0]}}}/>
+            ) : isStepperBasic ? (
+              <View style={{width: 1, height: 1, backgroundColor: 'transparent'}} />
+            ) : (
               <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
-                { wizardStepCountVisibility &&
+                {wizardStepCountVisibility &&
                   <Text 
-                    style={
-                      isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} 
-                      {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')
-                    }
+                    style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} 
+                    {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')}
                   >
                     {index+1}
                   </Text>
@@ -220,47 +224,37 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                     id={this.getTestId('status')} 
                     styles={isActiveStep ? merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}}) : this.styles.stepIcon}
                     iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}
-                  ></WmIcon>
+                  />
                 }
               </View>
-            ) : (!this._showSkeleton && isStepperBasic) ? null : (
-              <WmLabel showskeleton={true} styles={{root: {...this.getStepStyle(index)[0]}}}/>
             )}
-            {(isActiveStep && (item.state.props.title || item.state.props.subtitle)) &&
+            {(isActiveStep) && (item.state.props.title || item.state.props.subtitle) &&
               <View style={this.styles.stepTitleWrapper}>
-                {isTitlesBelow ? (
-                  <>
-                    {item.state.props.subtitle && item.state.props.subtitle.trim() !== '' && (
-                      <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_subtitle')}>
-                        {item.state.props.subtitle}
-                      </Text>
-                    )}
-                    {item.state.props.title && item.state.props.title.trim() !== '' && (
-                      <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
-                        {item.state.props.title}
-                      </Text>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {item.state.props.title && item.state.props.title.trim() !== '' && (
-                      <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
-                        {item.state.props.title}
-                      </Text>
-                    )}
-                    {item.state.props.subtitle && item.state.props.subtitle.trim() !== '' && (
-                      <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_subtitle')}>
-                        {item.state.props.subtitle}
-                      </Text>
-                    )}
-                  </>
-                )}
+                {item.state.props.title?.trim() &&
+                  <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
+                    {item.state.props.title}
+                  </Text>
+                }
+                {item.state.props.subtitle?.trim() &&
+                  <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_subtitle')}>
+                    {item.state.props.subtitle}
+                  </Text>
+                }
               </View>
             }
             {!isStepperBasic && this.numberOfSteps > 1 && isActiveStep &&
-              <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
+              <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]} />}
         </TouchableOpacity>
-        {!isStepperBasic && this.getTotalVisibleSteps() > 1 && item.state.props.show && (
+        {isStepperBasic ? (
+          <View
+            {...this.getTestPropsForAction(`connector_${index}`)}
+            style={[
+              this.styles.stepConnector,
+              (index < this.state.currentStep || this.state.isDone) ? {backgroundColor: this.styles.doneStep.backgroundColor} :
+              (index === this.state.currentStep ? {backgroundColor: this.styles.activeStep.backgroundColor} : {})
+            ]}
+          />
+        ) : this.getTotalVisibleSteps() > 1 && item.state.props.show && (
           <View 
             {...this.getTestPropsForAction(`connector_${index}`)}
             style={[
@@ -268,19 +262,9 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
               {
                 width: this.stepConnectorWidth(isFirstStep || isLastStep, index),
                 left: Platform.OS === "web" ?
-                  (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? 
-                  '50%': '0%': isFirstStep ? '50%': '0%'
+                  (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? '50%': '0%' 
+                  : isFirstStep ? '50%': '0%'
               }
-            ]}
-          />
-        )}
-        {isStepperBasic && (
-          <View
-            {...this.getTestPropsForAction(`connector_${index}`)}
-            style={[
-              this.styles.stepConnector,
-              (index < this.state.currentStep || this.state.isDone) ? this.styles.doneConnector :
-              (index === this.state.currentStep ? this.styles.activeConnector : this.styles.pendingConnector)
             ]}
           />
         )}

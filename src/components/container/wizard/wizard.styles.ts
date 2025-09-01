@@ -30,9 +30,6 @@ export type WmWizardStyles = BaseStyles & {
   headerWrapper: AllStyle,
   stepWrapper: AllStyle,
   stepConnector: AllStyle,
-  activeConnector: AllStyle,
-  doneConnector: AllStyle,
-  pendingConnector: AllStyle,
   numberTextStepConnector: AllStyle,
   activeStepCounter: TextStyle,
   stepCounter: AllStyle,
@@ -203,9 +200,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         zIndex: 10,
         height: 2
       },
-      activeConnector: {},
-      doneConnector: {},
-      pendingConnector: {},
       numberTextStepConnector: {
        display: 'none'
       },
@@ -276,52 +270,34 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     stepConnector: {
       position: 'absolute',
-      bottom: 0,
+      top: 25,
       left: 2,
       right: 2,
       height: 5,
       borderRadius: 5,
-      top: undefined as any,
+      bottom: undefined as any,
     },
     headerWrapper: {},
-    stepTitleWrapper: {},
-    stepTitle: {},
-    stepSubTitle: {},
-    activeConnector: {
-      backgroundColor: themeVariables.primaryColor
+    stepTitleWrapper: {
+      marginTop: 35,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column'
     },
-    doneConnector: {
-      backgroundColor: themeVariables.successColor
+    stepTitle: {
+      textAlign: 'center'
     },
-    pendingConnector: {
-      backgroundColor: themeVariables.wizardStepConnectorColor
+    stepSubTitle: {
+      textAlign: 'center'
     }
   } as WmWizardStyles);
   addStyle('segment-steppe', '', {
     stepConnector: {
-      position: 'absolute',
-      bottom: 0,
       left: -2,
       right: -2,
       height: 5,
       borderRadius: 5,
-      top: undefined as any,
     },
-  } as WmWizardStyles);
-  addStyle('titles-below', '', {
-    stepWrapper: {
-      flexDirection: 'column-reverse',  
-      justifyContent: 'flex-start',
-      paddingTop: 15,                   
-    },
-    stepConnector: {
-      position: 'absolute',
-      top: 17.5,
-      bottom: undefined as any,
-      left: 2,
-      right: 2,
-      height: 5
-    }
   } as WmWizardStyles);
   addStyle('progress-circle-header', '', {
     stepWrapper: {
