@@ -207,7 +207,7 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     { transform: [{ rotate: iconDef.rotate }] }];
 
     const customIcon = this.getCustomIcon(props, style);
-    const iconSize = props.iconsize || this.styles.root.fontSize  || iconDef.size;
+    const iconSize = props.iconsize || this.styles.root.fontSize || this.styles.text.fontSize || iconDef.size;
     if (props.show && iconDef && iconDef.isFontAwesome) {
       //@ts-ignore type information is not matching
       iconJsx = (<FontAwesome name={customIcon ? '' : iconDef.type}
