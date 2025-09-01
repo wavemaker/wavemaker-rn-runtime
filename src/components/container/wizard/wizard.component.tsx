@@ -303,9 +303,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             {this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
-
-       // horizontal step connector. It can be reused to all horizontal connectors.  
-                 {this.getTotalVisibleSteps() > 1 &&
+          {this.getTotalVisibleSteps() > 1 &&
           item.state.props.show && !isDottedVertical &&
                <View 
                  style={[
@@ -320,8 +318,6 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             ]}
           ></View>
         }
-
-        // vertical step connector. It can be reused to all vertical connectors.  
         {this.getTotalVisibleSteps() > 1 &&
            item.state.props.show && isDottedVertical &&
            <View 
@@ -331,7 +327,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                 height: this.stepConnectorHeight(isFirstStep || isLastStep, index),
                 top: isFirstStep ? '50%' : '0%',
              },
-             this.getConnectorPosition().left ? {top: this.getConnectorPosition().left} : {}
+             this.getConnectorPosition().left ? {left: this.getConnectorPosition().left} : {}
                  ]}
                ></View>
          }

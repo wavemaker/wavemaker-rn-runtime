@@ -378,7 +378,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       minHeight: 56
     },
     stepTitleWrapper: {
-      marginLeft: 12
+      marginLeft: 12,
+      flex: 0,
+      justifyContent: 'flex-start',
+      flexDirection: 'column',
+      minWidth: 120,
+      flexShrink: 0
     },
     stepConnector: {
       width: 2,
