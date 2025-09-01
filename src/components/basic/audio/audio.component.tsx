@@ -2,8 +2,6 @@ import React from 'react';
 import { DimensionValue, Platform, Text, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { isString } from 'lodash-es';
-import { Audio } from 'expo-av';
-import { Sound } from 'expo-av/build/Audio';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmAudioProps from './audio.props';
 import { DEFAULT_CLASS, WmAudioStyles } from './audio.styles';
@@ -11,6 +9,7 @@ import WmIcon from '../icon/icon.component';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { createSkeleton } from '../skeleton/skeleton.component';
 import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
+import { AudioConsumer, AudioService } from '@wavemaker/app-rn-runtime/core/device/av-service';
 
 export class WmAudioState extends BaseComponentState<WmAudioProps> {
   playing = false;
@@ -19,11 +18,12 @@ export class WmAudioState extends BaseComponentState<WmAudioProps> {
 }
 
 export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, WmAudioStyles> {
-
   private loading = false;
-  private sound: Sound = null as any;
+  // private sound: Sound = null as any;
+  private sound: any = null as any;
   private timer: any;
   private offsetTime = 0;
+  private audioService: AudioService = null as any;
 
   constructor(props: WmAudioProps) {
     super(props, DEFAULT_CLASS, new WmAudioProps(), new WmAudioState());
@@ -136,10 +136,10 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
     } else {
       this.loading = true;
       const source = this.getSource();
-      source && Audio.Sound.createAsync(source, {
+      source && this.audioService.createAudio(source, {
         isMuted: this.state.props.muted
       })
-        .then((res) => {
+        .then((res: any) => {
           this.sound = res.sound;
           this.sound.playAsync();
           this.sound.getStatusAsync().then((status: any) => {
@@ -222,7 +222,10 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
   } 
   renderWidget(props: WmAudioProps) {
     return props.controls ? (
-      <View 
+      <AudioConsumer>
+      {(audioService: any) => {
+        this.audioService = audioService;
+        return <View 
         style={this.styles.root}
         onLayout={(event) => this.handleLayout(event)}
       >
@@ -270,6 +273,8 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
           iconclass="wi wi-volume-off fa-2x"
           styles={this.styles.unmuteIcon}
           onTap={() => this.unmute()}></WmIcon>)}
-      </View>) : null; 
+      </View>
+      }}
+      </AudioConsumer>) : null; 
   }
 }

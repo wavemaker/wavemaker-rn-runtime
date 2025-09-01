@@ -1,1578 +1,519 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test Tabbar component should hide the modal when an item in the extra menu is selected 1`] = `
-<View
-  style={
-    {
-      "backgroundColor": "#ffffff",
-      "elevation": 1,
-      "flexDirection": "column-reverse",
-      "justifyContent": "flex-end",
-      "shadowColor": "#000000",
-      "shadowOffset": {
-        "height": -6,
-        "width": 0,
-      },
-      "shadowOpacity": 0.3,
-      "shadowRadius": 6,
-      "width": "100%",
-      "zIndex": 1,
-    }
-  }
->
-  <View
-    style={
-      {
-        "flexDirection": "row-reverse",
-        "justifyContent": "space-around",
-        "paddingBottom": 4,
-        "paddingTop": 4,
-        "width": "100%",
-      }
-    }
-  >
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "column",
-          "justifyContent": "center",
-          "marginBottom": 16,
-          "minHeight": 32,
-          "minWidth": 64,
-          "opacity": 1,
-        }
-      }
-      testID="test_Popover_item0"
-    >
-      <View>
-        <View
-          style={
-            [
-              {},
-            ]
-          }
-        >
-          <View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "borderBottomColor": "transparent",
-                  "flexDirection": "row",
-                  "paddingBottom": 4,
-                }
-              }
-              testID="non_animatableView"
-            >
-              <View>
-                <View>
-                  <Text
-                    accessible={false}
-                    size={12}
-                    style={
-                      [
-                        {
-                          "color": undefined,
-                        },
-                        {
-                          "color": "#d8d8d8",
-                          "fontSize": 24,
-                          "paddingLeft": 0,
-                          "paddingRight": 0,
-                        },
-                        {
-                          "transform": [
-                            {
-                              "rotate": "0deg",
-                            },
-                          ],
-                        },
-                      ]
-                    }
-                    testID="undefined_icon"
-                  >
-                    settings
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-      <Text
-        numberOfLines={1}
-        style={
-          [
-            {
-              "color": "#d8d8d8",
-              "fontFamily": "Roboto",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "marginTop": 4,
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ]
-        }
-      >
-        Profile
-      </Text>
-    </View>
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "column",
-          "justifyContent": "center",
-          "marginBottom": 16,
-          "minHeight": 32,
-          "minWidth": 64,
-          "opacity": 1,
-        }
-      }
-      testID="test_Popover_item0"
-    >
-      <View>
-        <View
-          style={
-            [
-              {},
-            ]
-          }
-        >
-          <View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "borderBottomColor": "transparent",
-                  "flexDirection": "row",
-                  "paddingBottom": 4,
-                }
-              }
-              testID="non_animatableView"
-            >
-              <View>
-                <View>
-                  <Text
-                    accessible={false}
-                    size={12}
-                    style={
-                      [
-                        {
-                          "color": undefined,
-                        },
-                        {
-                          "color": "#d8d8d8",
-                          "fontSize": 24,
-                          "paddingLeft": 0,
-                          "paddingRight": 0,
-                        },
-                        {
-                          "transform": [
-                            {
-                              "rotate": "0deg",
-                            },
-                          ],
-                        },
-                      ]
-                    }
-                    testID="undefined_icon"
-                  >
-                    settings
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-      <Text
-        numberOfLines={1}
-        style={
-          [
-            {
-              "color": "#d8d8d8",
-              "fontFamily": "Roboto",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "marginTop": 4,
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ]
-        }
-      >
-        Settings
-      </Text>
-    </View>
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "column",
-          "justifyContent": "center",
-          "marginBottom": 16,
-          "minHeight": 32,
-          "minWidth": 64,
-          "opacity": 1,
-        }
-      }
-      testID="test_Popover_item0"
-    >
-      <View>
-        <View
-          style={
-            [
-              {},
-            ]
-          }
-        >
-          <View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "borderBottomColor": "transparent",
-                  "flexDirection": "row",
-                  "paddingBottom": 4,
-                }
-              }
-              testID="non_animatableView"
-            />
-          </View>
-        </View>
-      </View>
-      <Text
-        numberOfLines={1}
-        style={
-          [
-            {
-              "color": "#d8d8d8",
-              "fontFamily": "Roboto",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "marginTop": 4,
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ]
-        }
-      />
-    </View>
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "column",
-          "justifyContent": "center",
-          "marginBottom": 16,
-          "minHeight": 32,
-          "minWidth": 64,
-          "opacity": 1,
-        }
-      }
-      testID="test_Popover_item0"
-    >
-      <View>
-        <View
-          style={
-            [
-              {},
-            ]
-          }
-        >
-          <View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "borderBottomColor": "transparent",
-                  "flexDirection": "row",
-                  "paddingBottom": 4,
-                }
-              }
-              testID="non_animatableView"
-            />
-          </View>
-        </View>
-      </View>
-      <Text
-        numberOfLines={1}
-        style={
-          [
-            {
-              "color": "#d8d8d8",
-              "fontFamily": "Roboto",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "marginTop": 4,
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ]
-        }
-      />
-    </View>
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "column",
-          "justifyContent": "center",
-          "marginBottom": 16,
-          "minHeight": 32,
-          "minWidth": 64,
-          "opacity": 1,
-        }
-      }
-      testID="test_Popover_item0"
-    >
-      <View>
-        <View
-          style={
-            [
-              {},
-            ]
-          }
-        >
-          <View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "borderBottomColor": "transparent",
-                  "flexDirection": "row",
-                  "paddingBottom": 4,
-                }
-              }
-              testID="non_animatableView"
-            />
-          </View>
-        </View>
-      </View>
-      <Text
-        numberOfLines={1}
-        style={
-          [
-            {
-              "color": "#d8d8d8",
-              "fontFamily": "Roboto",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "marginTop": 4,
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ]
-        }
-      />
-    </View>
-  </View>
-</View>
-`;
-
-exports[`Test Tabbar component should hide the modal when an item in the extra menu is selected 2`] = `
-<View
-  style={
-    {
-      "backgroundColor": "#ffffff",
-      "elevation": 1,
-      "flexDirection": "column-reverse",
-      "justifyContent": "flex-end",
-      "shadowColor": "#000000",
-      "shadowOffset": {
-        "height": -6,
-        "width": 0,
-      },
-      "shadowOpacity": 0.3,
-      "shadowRadius": 6,
-      "width": "100%",
-      "zIndex": 1,
-    }
-  }
->
-  <View
-    style={
-      {
-        "flexDirection": "row-reverse",
-        "justifyContent": "space-around",
-        "paddingBottom": 4,
-        "paddingTop": 4,
-        "width": "100%",
-      }
-    }
-  >
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "column",
-          "justifyContent": "center",
-          "marginBottom": 16,
-          "minHeight": 32,
-          "minWidth": 64,
-          "opacity": 1,
-        }
-      }
-      testID="test_Popover_item0"
-    >
-      <View>
-        <View
-          style={
-            [
-              {},
-            ]
-          }
-        >
-          <View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "borderBottomColor": "transparent",
-                  "flexDirection": "row",
-                  "paddingBottom": 4,
-                }
-              }
-              testID="non_animatableView"
-            >
-              <View>
-                <View>
-                  <Text
-                    accessible={false}
-                    size={12}
-                    style={
-                      [
-                        {
-                          "color": undefined,
-                        },
-                        {
-                          "color": "#d8d8d8",
-                          "fontSize": 24,
-                          "paddingLeft": 0,
-                          "paddingRight": 0,
-                        },
-                        {
-                          "transform": [
-                            {
-                              "rotate": "0deg",
-                            },
-                          ],
-                        },
-                      ]
-                    }
-                    testID="undefined_icon"
-                  >
-                    settings
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-      <Text
-        numberOfLines={1}
-        style={
-          [
-            {
-              "color": "#d8d8d8",
-              "fontFamily": "Roboto",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "marginTop": 4,
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ]
-        }
-      >
-        Profile
-      </Text>
-    </View>
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "column",
-          "justifyContent": "center",
-          "marginBottom": 16,
-          "minHeight": 32,
-          "minWidth": 64,
-          "opacity": 1,
-        }
-      }
-      testID="test_Popover_item0"
-    >
-      <View>
-        <View
-          style={
-            [
-              {},
-            ]
-          }
-        >
-          <View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "borderBottomColor": "transparent",
-                  "flexDirection": "row",
-                  "paddingBottom": 4,
-                }
-              }
-              testID="non_animatableView"
-            >
-              <View>
-                <View>
-                  <Text
-                    accessible={false}
-                    size={12}
-                    style={
-                      [
-                        {
-                          "color": undefined,
-                        },
-                        {
-                          "color": "#d8d8d8",
-                          "fontSize": 24,
-                          "paddingLeft": 0,
-                          "paddingRight": 0,
-                        },
-                        {
-                          "transform": [
-                            {
-                              "rotate": "0deg",
-                            },
-                          ],
-                        },
-                      ]
-                    }
-                    testID="undefined_icon"
-                  >
-                    settings
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-      <Text
-        numberOfLines={1}
-        style={
-          [
-            {
-              "color": "#d8d8d8",
-              "fontFamily": "Roboto",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "marginTop": 4,
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ]
-        }
-      >
-        Settings
-      </Text>
-    </View>
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "column",
-          "justifyContent": "center",
-          "marginBottom": 16,
-          "minHeight": 32,
-          "minWidth": 64,
-          "opacity": 1,
-        }
-      }
-      testID="test_Popover_item0"
-    >
-      <View>
-        <View
-          style={
-            [
-              {},
-            ]
-          }
-        >
-          <View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "borderBottomColor": "transparent",
-                  "flexDirection": "row",
-                  "paddingBottom": 4,
-                }
-              }
-              testID="non_animatableView"
-            />
-          </View>
-        </View>
-      </View>
-      <Text
-        numberOfLines={1}
-        style={
-          [
-            {
-              "color": "#d8d8d8",
-              "fontFamily": "Roboto",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "marginTop": 4,
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ]
-        }
-      />
-    </View>
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "column",
-          "justifyContent": "center",
-          "marginBottom": 16,
-          "minHeight": 32,
-          "minWidth": 64,
-          "opacity": 1,
-        }
-      }
-      testID="test_Popover_item0"
-    >
-      <View>
-        <View
-          style={
-            [
-              {},
-            ]
-          }
-        >
-          <View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "borderBottomColor": "transparent",
-                  "flexDirection": "row",
-                  "paddingBottom": 4,
-                }
-              }
-              testID="non_animatableView"
-            />
-          </View>
-        </View>
-      </View>
-      <Text
-        numberOfLines={1}
-        style={
-          [
-            {
-              "color": "#d8d8d8",
-              "fontFamily": "Roboto",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "marginTop": 4,
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ]
-        }
-      />
-    </View>
-    <View
-      accessibilityState={
-        {
-          "busy": undefined,
-          "checked": undefined,
-          "disabled": undefined,
-          "expanded": undefined,
-          "selected": undefined,
-        }
-      }
-      accessibilityValue={
-        {
-          "max": undefined,
-          "min": undefined,
-          "now": undefined,
-          "text": undefined,
-        }
-      }
-      accessible={false}
-      collapsable={false}
-      focusable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        {
-          "alignItems": "center",
-          "flexDirection": "column",
-          "justifyContent": "center",
-          "marginBottom": 16,
-          "minHeight": 32,
-          "minWidth": 64,
-          "opacity": 1,
-        }
-      }
-      testID="test_Popover_item0"
-    >
-      <View>
-        <View
-          style={
-            [
-              {},
-            ]
-          }
-        >
-          <View>
-            <View
-              style={
-                {
-                  "alignItems": "center",
-                  "alignSelf": "center",
-                  "borderBottomColor": "transparent",
-                  "flexDirection": "row",
-                  "paddingBottom": 4,
-                }
-              }
-              testID="non_animatableView"
-            />
-          </View>
-        </View>
-      </View>
-      <Text
-        numberOfLines={1}
-        style={
-          [
-            {
-              "color": "#d8d8d8",
-              "fontFamily": "Roboto",
-              "fontSize": 12,
-              "fontWeight": "500",
-              "marginTop": 4,
-              "textAlign": "center",
-            },
-            {},
-            {},
-          ]
-        }
-      />
-    </View>
-  </View>
-</View>
-`;
-
 exports[`Test Tabbar component should render the Tabbar component 1`] = `
-[
-  <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
-    }
-  />,
-  <View
-    style={
+<View
+  onLayout={[Function]}
+  style={
+    [
       {
         "elevation": 3,
         "height": 80,
         "shadowColor": "#000000",
+      },
+      {},
+    ]
+  }
+>
+  <View
+    onLayout={[Function]}
+    style={
+      {
+        "alignItems": "flex-end",
+        "backgroundColor": "#ffffff",
+        "flexDirection": "row",
+        "height": "100%",
+        "justifyContent": "space-around",
       }
     }
   >
     <View
-      onLayout={[Function]}
-      style={
+      accessibilityState={
         {
-          "alignItems": "flex-end",
-          "backgroundColor": "#ffffff",
-          "flexDirection": "row",
-          "height": "100%",
-          "justifyContent": "space-around",
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
         }
       }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={false}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "marginBottom": 16,
+          "minHeight": 32,
+          "minWidth": 64,
+          "opacity": 1,
+        }
+      }
+      testID="test_tabbar_item0"
     >
-      <View
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
+      <View>
+        <View
+          style={
+            [
+              {},
+            ]
           }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={false}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          {
-            "alignItems": "center",
-            "flexDirection": "column",
-            "justifyContent": "center",
-            "marginBottom": 16,
-            "minHeight": 32,
-            "minWidth": 64,
-            "opacity": 1,
-          }
-        }
-        testID="test_Popover_item0"
-      >
-        <View>
+        >
           <View
-            style={
-              [
-                {},
-              ]
-            }
+            onLayout={[Function]}
           >
             <View
+              accessibilityLabel=""
+              accessible={true}
               onLayout={[Function]}
               style={
                 {
-                  "height": 0,
-                  "width": 0,
+                  "alignItems": "center",
+                  "alignSelf": "center",
+                  "borderBottomColor": "transparent",
+                  "flexDirection": "row",
+                  "paddingBottom": 4,
                 }
               }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "center",
-                    "borderBottomColor": "transparent",
-                    "flexDirection": "row",
-                    "paddingBottom": 4,
-                  }
-                }
-                testID="non_animatableView"
-              >
+              testID="non_animatableView"
+            >
+              <View>
                 <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={12}
-                      style={
-                        [
-                          {
-                            "color": undefined,
-                          },
-                          {
-                            "color": "#d8d8d8",
-                            "fontSize": 24,
-                            "paddingLeft": 0,
-                            "paddingRight": 0,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="undefined_icon"
-                    >
-                      home
-                    </Text>
-                  </View>
+                  <Text
+                    accessible={false}
+                    size={12}
+                    style={
+                      [
+                        {
+                          "color": undefined,
+                        },
+                        {
+                          "color": "#d8d8d8",
+                          "fontSize": 24,
+                          "paddingLeft": 0,
+                          "paddingRight": 0,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="undefined_icon"
+                  >
+                    home
+                  </Text>
                 </View>
               </View>
             </View>
           </View>
         </View>
-        <Text
-          numberOfLines={1}
-          style={
-            [
-              {
-                "color": "#d8d8d8",
-                "fontFamily": "Roboto",
-                "fontSize": 12,
-                "fontWeight": "500",
-                "marginTop": 4,
-                "textAlign": "center",
-              },
-              {},
-              {},
-            ]
-          }
-        >
-          Home
-        </Text>
       </View>
-      <View
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={false}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
+      <Text
+        numberOfLines={1}
         style={
-          {
-            "alignItems": "center",
-            "flexDirection": "column",
-            "justifyContent": "center",
-            "marginBottom": 16,
-            "minHeight": 32,
-            "minWidth": 64,
-            "opacity": 1,
-          }
+          [
+            {
+              "color": "#d8d8d8",
+              "fontFamily": "Roboto",
+              "fontSize": 12,
+              "fontWeight": "500",
+              "marginTop": 4,
+              "textAlign": "center",
+            },
+            {},
+            {},
+          ]
         }
-        testID="test_Popover_item1"
       >
-        <View>
-          <View
-            style={
-              [
-                {},
-              ]
-            }
-          >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "center",
-                    "borderBottomColor": "transparent",
-                    "flexDirection": "row",
-                    "paddingBottom": 4,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={12}
-                      style={
-                        [
-                          {
-                            "color": undefined,
-                          },
-                          {
-                            "color": "#d8d8d8",
-                            "fontSize": 24,
-                            "paddingLeft": 0,
-                            "paddingRight": 0,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="undefined_icon"
-                    >
-                      graph-ascend
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <Text
-          numberOfLines={1}
-          style={
-            [
-              {
-                "color": "#d8d8d8",
-                "fontFamily": "Roboto",
-                "fontSize": 12,
-                "fontWeight": "500",
-                "marginTop": 4,
-                "textAlign": "center",
-              },
-              {},
-              {},
-            ]
-          }
-        >
-          Analytics
-        </Text>
-      </View>
-      <View
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={false}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          {
-            "alignItems": "center",
-            "flexDirection": "column",
-            "justifyContent": "center",
-            "marginBottom": 16,
-            "minHeight": 32,
-            "minWidth": 64,
-            "opacity": 1,
-          }
-        }
-        testID="test_Popover_item2"
-      >
-        <View>
-          <View
-            style={
-              [
-                {},
-              ]
-            }
-          >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "center",
-                    "borderBottomColor": "transparent",
-                    "flexDirection": "row",
-                    "paddingBottom": 4,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={12}
-                      style={
-                        [
-                          {
-                            "color": undefined,
-                          },
-                          {
-                            "color": "#d8d8d8",
-                            "fontSize": 24,
-                            "paddingLeft": 0,
-                            "paddingRight": 0,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="undefined_icon"
-                    >
-                      alarm-bell
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <Text
-          numberOfLines={1}
-          style={
-            [
-              {
-                "color": "#d8d8d8",
-                "fontFamily": "Roboto",
-                "fontSize": 12,
-                "fontWeight": "500",
-                "marginTop": 4,
-                "textAlign": "center",
-              },
-              {},
-              {},
-            ]
-          }
-        >
-          Alerts
-        </Text>
-      </View>
-      <View
-        accessibilityState={
-          {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={false}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          {
-            "alignItems": "center",
-            "flexDirection": "column",
-            "justifyContent": "center",
-            "marginBottom": 16,
-            "minHeight": 32,
-            "minWidth": 64,
-            "opacity": 1,
-          }
-        }
-        testID="test_Popover_item3"
-      >
-        <View>
-          <View
-            style={
-              [
-                {},
-              ]
-            }
-          >
-            <View
-              onLayout={[Function]}
-              style={
-                {
-                  "height": 0,
-                  "width": 0,
-                }
-              }
-            />
-            <View>
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "alignSelf": "center",
-                    "borderBottomColor": "transparent",
-                    "flexDirection": "row",
-                    "paddingBottom": 4,
-                  }
-                }
-                testID="non_animatableView"
-              >
-                <View>
-                  <View>
-                    <Text
-                      accessible={false}
-                      size={12}
-                      style={
-                        [
-                          {
-                            "color": undefined,
-                          },
-                          {
-                            "color": "#d8d8d8",
-                            "fontSize": 24,
-                            "paddingLeft": 0,
-                            "paddingRight": 0,
-                          },
-                          {
-                            "transform": [
-                              {
-                                "rotate": "0deg",
-                              },
-                            ],
-                          },
-                        ]
-                      }
-                      testID="undefined_icon"
-                    >
-                      settings
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <Text
-          numberOfLines={1}
-          style={
-            [
-              {
-                "color": "#d8d8d8",
-                "fontFamily": "Roboto",
-                "fontSize": 12,
-                "fontWeight": "500",
-                "marginTop": 4,
-                "textAlign": "center",
-              },
-              {},
-              {},
-            ]
-          }
-        >
-          Settings
-        </Text>
-      </View>
+        Home
+      </Text>
     </View>
-  </View>,
-]
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={false}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "marginBottom": 16,
+          "minHeight": 32,
+          "minWidth": 64,
+          "opacity": 1,
+        }
+      }
+      testID="test_tabbar_item1"
+    >
+      <View>
+        <View
+          style={
+            [
+              {},
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              accessibilityLabel=""
+              accessible={true}
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "center",
+                  "borderBottomColor": "transparent",
+                  "flexDirection": "row",
+                  "paddingBottom": 4,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={12}
+                    style={
+                      [
+                        {
+                          "color": undefined,
+                        },
+                        {
+                          "color": "#d8d8d8",
+                          "fontSize": 24,
+                          "paddingLeft": 0,
+                          "paddingRight": 0,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="undefined_icon"
+                  >
+                    graph-ascend
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <Text
+        numberOfLines={1}
+        style={
+          [
+            {
+              "color": "#d8d8d8",
+              "fontFamily": "Roboto",
+              "fontSize": 12,
+              "fontWeight": "500",
+              "marginTop": 4,
+              "textAlign": "center",
+            },
+            {},
+            {},
+          ]
+        }
+      >
+        Analytics
+      </Text>
+    </View>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={false}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "marginBottom": 16,
+          "minHeight": 32,
+          "minWidth": 64,
+          "opacity": 1,
+        }
+      }
+      testID="test_tabbar_item2"
+    >
+      <View>
+        <View
+          style={
+            [
+              {},
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              accessibilityLabel=""
+              accessible={true}
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "center",
+                  "borderBottomColor": "transparent",
+                  "flexDirection": "row",
+                  "paddingBottom": 4,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={12}
+                    style={
+                      [
+                        {
+                          "color": undefined,
+                        },
+                        {
+                          "color": "#d8d8d8",
+                          "fontSize": 24,
+                          "paddingLeft": 0,
+                          "paddingRight": 0,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="undefined_icon"
+                  >
+                    alarm-bell
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <Text
+        numberOfLines={1}
+        style={
+          [
+            {
+              "color": "#d8d8d8",
+              "fontFamily": "Roboto",
+              "fontSize": 12,
+              "fontWeight": "500",
+              "marginTop": 4,
+              "textAlign": "center",
+            },
+            {},
+            {},
+          ]
+        }
+      >
+        Alerts
+      </Text>
+    </View>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={false}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "alignItems": "center",
+          "flexDirection": "column",
+          "justifyContent": "center",
+          "marginBottom": 16,
+          "minHeight": 32,
+          "minWidth": 64,
+          "opacity": 1,
+        }
+      }
+      testID="test_tabbar_item3"
+    >
+      <View>
+        <View
+          style={
+            [
+              {},
+            ]
+          }
+        >
+          <View
+            onLayout={[Function]}
+          >
+            <View
+              accessibilityLabel=""
+              accessible={true}
+              onLayout={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "center",
+                  "borderBottomColor": "transparent",
+                  "flexDirection": "row",
+                  "paddingBottom": 4,
+                }
+              }
+              testID="non_animatableView"
+            >
+              <View>
+                <View>
+                  <Text
+                    accessible={false}
+                    size={12}
+                    style={
+                      [
+                        {
+                          "color": undefined,
+                        },
+                        {
+                          "color": "#d8d8d8",
+                          "fontSize": 24,
+                          "paddingLeft": 0,
+                          "paddingRight": 0,
+                        },
+                        {
+                          "transform": [
+                            {
+                              "rotate": "0deg",
+                            },
+                          ],
+                        },
+                      ]
+                    }
+                    testID="undefined_icon"
+                  >
+                    settings
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+      <Text
+        numberOfLines={1}
+        style={
+          [
+            {
+              "color": "#d8d8d8",
+              "fontFamily": "Roboto",
+              "fontSize": 12,
+              "fontWeight": "500",
+              "marginTop": 4,
+              "textAlign": "center",
+            },
+            {},
+            {},
+          ]
+        }
+      >
+        Settings
+      </Text>
+    </View>
+  </View>
+</View>
 `;

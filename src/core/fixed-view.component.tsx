@@ -6,6 +6,7 @@ import { Theme, ThemeProvider } from "../styles/theme";
 const FixedViewContext = React.createContext<FixedViewContainer>(null as any);
 
 export interface FixedViewProps {
+    name?: string;
     style?: ViewStyle,
     show?: boolean;
     theme: Theme;
@@ -42,7 +43,9 @@ export class FixedView extends React.Component<FixedViewProps> {
                         <ThemeProvider value={this.props.theme} key={this.id}>
                             <WrapperView style={[
                                 {position: 'absolute'},
-                                this.props.style]}>
+                                this.props.style]}
+                                testID={`${this.props.name}-fixed-view`}
+                            >
                                 {this.props.children}
                             </WrapperView>
                         </ThemeProvider>

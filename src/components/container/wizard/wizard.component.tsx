@@ -108,6 +108,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         this.invokeEventCallback('onChange', [null, this.proxy, nextStep + 1, lastStep + 1]);
       }
     });
+    this.forceUpdate();
   }
 
   getStepStyle(index: number) {
