@@ -25,6 +25,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   private tabLayout: LayoutRectangle = null as any;
   private tabPaneHeights: number[] = [];
   private animationView: SwipeAnimation.View | null = null as any;
+  protected childComponentStyleKeys = ['tabHeader'];
   private animationHandlers = {
     bounds: (e) => {
       const activeTabIndex = this.state.selectedTabIndex,
@@ -225,9 +226,6 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
       hint: p.props.hint,
       accessibilityrole: p.props.accessibilityrole
     }));
-    const className = this.state?.props?.classname;
-    const customTabHeaderStyles = className ? this.theme.getStyle(className) : {};
-    const mergedTabHeaderStyles = this.theme.mergeStyle(this.styles.tabHeader, customTabHeaderStyles);
     const styles = this._showSkeleton ? {
       ...this.styles.root,
       ...this.styles.skeleton.root
@@ -241,7 +239,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
         <View onLayout={this.setTabLayout.bind(this)} style={{width: '100%'}}></View>
         <WmTabheader
           id={this.getTestId('headers')}
-          styles={mergedTabHeaderStyles}
+          styles={this.styles.tabHeader}
           data={headerData}
           selectedTabIndex={this.state.selectedTabIndex}
           onIndexChange={this.goToTab.bind(this)}
