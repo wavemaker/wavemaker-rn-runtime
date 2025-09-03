@@ -17,8 +17,8 @@ export default class WmChipsProps extends BaseDatasetProps {
   righticonclass: string = null as any;          
   rightbadge: string = null as any;
   // Array props for bind: expressions (pre-resolved at code-gen)
-  getLeftIconClassName?: string[];
-  getRightIconClassName?: string[];
-  getLeftBadge?: string[];
-  getRightBadge?: string[];                   
+  getLeftIconClassName?: Function;
+  getRightIconClassName?: Function;
+  getLeftBadge?: Function;
+  getRightBadge?: Function;
 }

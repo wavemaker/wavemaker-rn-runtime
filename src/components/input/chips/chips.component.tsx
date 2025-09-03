@@ -252,7 +252,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
           if (get(this.props, 'formfield')) {
             // @ts-ignore
             this.props.invokeEvent('onChipclick', [null, this, item]);
-            // @ts-ignore
+            // @ts-ignorex
             this.props.invokeEvent('onChipselect', [null, this, item]);
           } else {
             this.invokeEventCallback('onChipclick', [null, this, item]);
@@ -261,13 +261,12 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         }}>
         
         {/* Left Badge */}
-        {(this.state.props.getLeftBadge && this.state.props.getLeftBadge[index]) || this.state.props.leftbadge ? (
-          <Text 
+        {(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index)) ? (
+          <WmLabel 
             {...this.getTestPropsForAction('chip'+ index+'leftbadge')} 
-            style={[this.styles.leftBadge, isSelected ? this.styles.activeLeftBadge : null]}
-          >
-            {(this.state.props.getLeftBadge && this.state.props.getLeftBadge[index]) || this.state.props.leftbadge}
-          </Text>
+            styles={{root: [this.styles.leftBadge, isSelected ? this.styles.activeLeftBadge : null]}}
+            caption={(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index))}
+          />
         ) : null}
         
         {/* Selected Icon OR Left Icon (mutually exclusive) */}
@@ -280,10 +279,10 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
             accessible={false}
           />
         ) : (
-          (this.state.props.getLeftIconClassName && this.state.props.getLeftIconClassName[index]) || this.state.props.lefticonclass ? (
+          (this.state.props.getLeftIconClassName && this.state.props.getLeftIconClassName(index)) ? (
             <WmIcon 
               id={this.getTestId('lefticon')} 
-              iconclass={(this.state.props.getLeftIconClassName && this.state.props.getLeftIconClassName[index]) || this.state.props.lefticonclass} 
+              iconclass={this.state.props.getLeftIconClassName && this.state.props.getLeftIconClassName(index)} 
               iconsize={14} 
               styles={this.styles.leftIcon} 
               accessible={false}
@@ -315,20 +314,19 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         )}
         
         {/* Right Badge */}
-        {(this.state.props.getRightBadge && this.state.props.getRightBadge[index]) || this.state.props.rightbadge ? (
-          <Text 
+        {(this.state.props.getRightBadge && this.state.props.getRightBadge(index)) ? (
+          <WmLabel 
             {...this.getTestPropsForAction('chip'+ index+'rightbadge')} 
-            style={[this.styles.rightBadge, isSelected ? this.styles.activeRightBadge : null]}
-          >
-            {(this.state.props.getRightBadge && this.state.props.getRightBadge[index]) || this.state.props.rightbadge}
-          </Text>
+            styles={{root: [this.styles.rightBadge, isSelected ? this.styles.activeRightBadge : null]}}
+            caption={(this.state.props.getRightBadge && this.state.props.getRightBadge(index))}
+          />
         ) : null}
         
         {/* Right Icon */}
-        {(this.state.props.getRightIconClassName && this.state.props.getRightIconClassName[index]) || this.state.props.righticonclass ? (
+        {(this.state.props.getRightIconClassName && this.state.props.getRightIconClassName(index)) ? (
           <WmIcon 
             id={this.getTestId('righticon')} 
-            iconclass={(this.state.props.getRightIconClassName && this.state.props.getRightIconClassName[index]) || this.state.props.righticonclass} 
+            iconclass={(this.state.props.getRightIconClassName && this.state.props.getRightIconClassName(index))} 
             iconsize={16} 
             styles={isSelected ? this.styles.activeRightIcon : this.styles.rightIcon} 
             accessible={false}
