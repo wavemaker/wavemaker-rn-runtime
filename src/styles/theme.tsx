@@ -111,16 +111,21 @@ export class Theme {
         this.children.forEach(t => t.notify(event));
     }
 
-    private replaceVariables(val: string) {
+    private replaceVariables(val: string | number) {
         if(isString(val)) { 
             (val.match(/_*var\([^\)]*\)/g) || []).forEach((s) => {
                 const variableName = s.substring(4, s.length - 1);
-                val = val.replace(s, (ThemeVariables.INSTANCE as any)[variableName]
+                val = (val as string).replace(s, (ThemeVariables.INSTANCE as any)[variableName]
                     || (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
                     || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]);
                 val = this.replaceVariables(val);
             });
         }
+
+        if(isString(val) && val.match(/^\d+$/g)) {
+            return parseInt(val);
+        }
+
         return val; 
     }
 
