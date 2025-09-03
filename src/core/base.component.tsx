@@ -374,7 +374,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     public handleLayout(event: LayoutChangeEvent, ref: React.RefObject<View> | null = null) {
-        const key = this.getName && this.getName();
+        const key = this?.getName?.();
         if(key){
             const newLayoutPosition = {
                 [key as string]: {

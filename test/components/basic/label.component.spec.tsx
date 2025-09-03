@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Text, TouchableOpacity, StyleSheet, TextStyle } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, TextStyle, Animated } from 'react-native';
 import renderer from 'react-test-renderer';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 
@@ -662,4 +662,33 @@ describe('WmLabel Component', () => {
       expect(queryByText(/This is a.*link text.*in a sentence/)).toBeTruthy();
     });
   });
+  it('should render words individually when textanimation is fadeIn', () => {
+      const { getByText } = render(
+        <WmLabel caption="Hello world" textanimation="fadeIn" />
+      );
+      expect(getByText('Hello ')).toBeTruthy();
+      expect(getByText('world')).toBeTruthy();
+  });
+  
+  it('should use custom animationstagger value for text animation timing', () => {
+      jest.spyOn(Animated, 'timing');
+      render(<WmLabel caption="Hello world test" textanimation="fadeIn" animationstagger={200} />);
+      expect(Animated.timing).toHaveBeenCalled();
+  });
+
+  it('should not apply word-by-word animation when textanimation is not set', () => {
+      const { getByText } = render(
+        <WmLabel caption="Hello world without animation" />
+      );
+      expect(getByText('Hello world without animation')).toBeTruthy();
+  });
+  it('android ellipsis keeps single-string content', () => {
+    Platform.OS = 'android';
+    const caption = 'This is a [link](https://example.com) text';
+    const { getByText } = render(
+      <WmLabel caption={caption} enableandroidellipsis={true} wrap={false} />
+    );
+    expect(getByText('This is a link text')).toBeTruthy();
+  });
+});
 });

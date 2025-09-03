@@ -1,5 +1,5 @@
 import React from 'react';
-import { DimensionValue, LayoutChangeEvent, Text, View,Platform } from 'react-native';
+import { DimensionValue, LayoutChangeEvent, Text, View,Platform, Animated } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
@@ -44,8 +44,12 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     switch (name) {
       case "caption":
         this.updateState({
-          parts: this.parseCaption(String($new))
+          parts: this.parseCaption(String($new)),
+          animationId: Date.now()
         } as WmLabelState);
+        break;
+      case "textanimation":
+      case "wordanimationstagger":
         break;
     }
   }
@@ -175,6 +179,101 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       return numOfLines;
   }
 
+  private asBoolean(v: any): boolean {
+    return v === true || v === 'true' || v === 1 || v === '1';
+  }
+
+  // Helpers to dedupe common logic
+  private tokenizeWords(text?: string) {
+    return (text ? text.split(/(\s+)/) : [])
+      .filter(t => t !== '')
+      .map(t => ({ token: t, isSpace: /^\s+$/.test(t) }));
+  }
+
+  private isTextAnimationExists(): boolean {
+    return this.state.props.textanimation === 'fadeIn';
+  }
+
+  private getWordAnimConfig() {
+    const step = Number(this.state.props.animationspeed) || 80;
+    const fadeDuration = Math.max(120, step * 2);
+    return { step, fadeDuration };
+  }
+
+  private renderWordswithAnimation(navigationService: NavigationService, isHidden: boolean) {
+    const shouldAnimate = this.isTextAnimationExists();
+    const { step, fadeDuration } = this.getWordAnimConfig();
+    let runningIndex = 0;
+
+    const containerStyle: any = {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'flex-start',
+      opacity: isHidden ? 0 : 1,
+      width: '100%'
+    };
+
+    const getBaseStyle = (part: { link?: string; bold?: boolean }) => ([
+      this.styles.text,
+      part.link ? this.styles.link.text : null,
+      part.bold ? { fontWeight: 'bold' } : null,
+      this.state.props.isValid ? null : { color: 'red' },
+    ]);
+  
+    const onTokenPress = (part: { link?: string }) => {
+      if (part.link) {
+        if (part.link.startsWith('http:') || part.link.startsWith('https:') || part.link.startsWith('#')) {
+          navigationService.openUrl(part.link, '_blank');
+        } else if (part.link.startsWith('javascript:')) {
+          const eventName = part.link.substring(11);
+          this.invokeEventCallback(eventName, [null, this.proxy]);
+        }
+      }
+      this.invokeEventCallback('onTap', [null, this.proxy]);
+    };
+  
+    const renderToken = (part: any, t: { token: string; isSpace: boolean }, key: string) => {
+      if (t.isSpace) return <Text key={key} style={this.styles.text}>{t.token}</Text>;
+  
+      const baseStyle = getBaseStyle(part);
+      if (!shouldAnimate) {
+        return <Text key={key} style={baseStyle as any} onPress={() => onTokenPress(part)}>{t.token}</Text>;
+      }
+  
+      const opacity = new Animated.Value(0);
+      const delay = step * (runningIndex++);
+      Animated.timing(opacity, { toValue: 1, duration: fadeDuration, delay, useNativeDriver: true }).start();
+  
+      return (
+        <Animated.Text key={key} style={[baseStyle as any, { opacity }]} onPress={() => onTokenPress(part)}>
+          {t.token}
+        </Animated.Text>
+      );
+    };
+  
+    return (
+      <View style={containerStyle} {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)} {...this.getTestPropsForLabel('caption')}>
+        {this.state.parts?.flatMap((part, pIdx) => {
+          const raw = this.tokenizeWords(toString(part.text));
+          const merged: { token: string; isSpace: boolean }[] = [];
+          const leadingSpace = !!raw[0]?.isSpace;
+          let firstWordEmitted = false;
+          for (let i = 0; i < raw.length; i++) {
+            const tk = raw[i];
+            if (tk.isSpace) { continue; }
+            const nextIsSpace = !!raw[i + 1]?.isSpace;
+            const prefix = (!firstWordEmitted && leadingSpace) ? ' ' : '';
+            merged.push({ token: prefix + tk.token + (nextIsSpace ? ' ' : ''), isSpace: false });
+            firstWordEmitted = true;
+            if (nextIsSpace) { i++; }
+          }
+          return merged.map((t, i) => renderToken(part, t, `p${pIdx}_${i}`));
+        })}
+        {this.state.props.required && this.getAsterisk()}
+      </View>
+    );
+  }
+
   private renderLabelTextContent(navigationService: NavigationService, isHidden: boolean = false, hasLinearGradient: boolean = false) {
     //gradient text support for web
     const gradientTextWebStyle = {
@@ -193,6 +292,11 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
 
     // Determine if it's a single part
     const isSinglePart = this.state.parts.length <= 1;
+    // if numOfLines is exists then the animation won't work. 
+    if (numOfLines === undefined && this.isTextAnimationExists()) {
+      return this.renderWordswithAnimation(navigationService, isHidden);
+    }
+
     if (useAndroidEllipsis) {
       const androidEllipsisTextStyle: any = {
           ...baseStyle,
@@ -202,6 +306,10 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
           width: '100%',
           textAlign: baseStyle.textAlign,
       };
+      // Keep single-string content in Android ellipsis branch to ensure reliable truncation
+      const content = this.state.parts.length === 1
+        ? toString(this.state.props.caption)
+        : this.state.parts.map(part => toString(part.text)).join('');
       return (
           <Text
               style={androidEllipsisTextStyle}
@@ -210,9 +318,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
               {...(this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {})}
               {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)}
           >
-              {this.state.parts.length === 1
-                  ? toString(this.state.props.caption)
-                  : this.state.parts.map(part => toString(part.text)).join('')}
+              {content}
               {this.state.props.required && this.getAsterisk()}
           </Text>
       );
@@ -231,7 +337,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
 
 
 
-    return (
+   return (
       <Text style={combinedTextStyle}
         {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
         {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)}
