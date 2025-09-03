@@ -1,8 +1,11 @@
+import { CameraView } from 'expo-camera';
 import { Ionicons } from '@expo/vector-icons';
+import * as Application from 'expo-application';
 import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { ScanInput, ScanOutput } from '@wavemaker/app-rn-runtime/variables/device/scan/scan.operation';
 import { DisplayManager } from '@wavemaker/app-rn-runtime/core/display.manager';
+import permissionManager from '@wavemaker/app-rn-runtime/runtime/services/device/permissions';
 import appDisplayManagerService from '@wavemaker/app-rn-runtime/runtime/services/app-display-manager.service';
 
 interface objectMap {
@@ -101,15 +104,14 @@ export class ScanService {
   public scanBarcode(params: ScanInput): Promise<ScanOutput> {
     const format = params?.barcodeFormat || 'ALL';
     const barcodeFormat: string | undefined = Platform.OS === 'ios' ? undefined : barcodeFormatOptions[format];
-    const CameraView = params?.scanPluginService?.CameraView;
     return new Promise((resolve, reject) => {
-      params?.permissionService?.requestPermissions && params.permissionService.requestPermissions('camera').then(() => {
+      permissionManager.requestPermissions('camera').then(() => {
         const destroy = this.displayManager.show({
           content: (<CameraView
             barcodeScannerSettings={barcodeFormat ? {
               barcodeTypes: [BarCodeType[barcodeFormat]],
             }: undefined}
-            onBarcodeScanned={(result: any) => {
+            onBarcodeScanned={(result) => {
               destroy.call(this.displayManager);
               resolve(result);
             }}
