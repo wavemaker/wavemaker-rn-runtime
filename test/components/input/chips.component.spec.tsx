@@ -359,4 +359,134 @@ describe('WmChips', () => {
       50
     );
   });
+
+
+  it('should allow only single selection when selectionmode is standard', async () => {
+    const ref = React.createRef<WmChips>();
+    render(
+      <WmChips
+        {...defaultProps}
+        {...datasetProps}
+        searchable={false}
+        selectionmode="standard"
+        ref={ref}
+      />
+    );
+
+    const chip1 = screen.getByText('name0');
+    const chip2 = screen.getByText('name1');
+    fireEvent.press(chip1);
+    await waitFor(() => {
+      expect(ref.current?.state.dataItems[0].selected).toBe(true);
+      expect(ref.current?.state.dataItems[1].selected).toBe(false);
+    });
+    fireEvent.press(chip2);
+    await waitFor(() => {
+      expect(ref.current?.state.dataItems[0].selected).toBe(false);
+      expect(ref.current?.state.dataItems[1].selected).toBe(true);
+    });
+  });
+  it('should allow multiple selection when selectionmode is multiple', async () => {
+    const ref = React.createRef<WmChips>();
+    render(
+      <WmChips
+        {...defaultProps}
+        {...datasetProps}
+        searchable={false}
+        selectionmode="multiple"
+        ref={ref}
+      />
+    );
+    const chip1 = screen.getByText('name0');
+    const chip2 = screen.getByText('name1');
+    fireEvent.press(chip1);
+    await waitFor(() => {
+      expect(ref.current?.state.dataItems[0].selected).toBe(true);
+    });
+    fireEvent.press(chip2);
+    await waitFor(() => {
+      expect(ref.current?.state.dataItems[0].selected).toBe(true);
+      expect(ref.current?.state.dataItems[1].selected).toBe(true);
+    });
+    fireEvent.press(chip1);
+    await waitFor(() => {
+      expect(ref.current?.state.dataItems[0].selected).toBe(false);
+      expect(ref.current?.state.dataItems[1].selected).toBe(true);
+    });
+  });
+  it('should resolve per-item icons correctly with dataset field names', async () => {
+    const datasetWithIcons = [
+      { name: 'home', icon: 'wi wi-home' },
+      { name: 'settings', icon: 'wi wi-settings' },
+      { name: 'profile', icon: 'wi wi-user' }
+    ];
+    render(
+      <WmChips
+        {...defaultProps}
+        dataset={datasetWithIcons}
+        datafield="name"
+        displayfield="name"
+        searchable={false}
+        lefticonclass="icon"
+      />
+    );
+    const iconComponents = screen.UNSAFE_getAllByType(WmIcon);
+    expect(iconComponents.length).toBeGreaterThan(0);
+    const homeIcon = iconComponents.find(icon => icon.props.iconclass === 'wi wi-home');
+    const settingsIcon = iconComponents.find(icon => icon.props.iconclass === 'wi wi-settings');
+    expect(homeIcon).toBeTruthy();
+    expect(settingsIcon).toBeTruthy();
+  });
+  it('should render left and right badges correctly', async () => {
+    const datasetWithBadges = [
+      { name: 'inbox', count: '5', priority: 'high' },
+      { name: 'sent', count: '10', priority: 'low' }
+    ];
+
+    const { getByText } = render(
+      <WmChips
+        {...defaultProps}
+        dataset={datasetWithBadges}
+        datafield="name"
+        displayfield="name"
+        searchable={false}
+        leftbadge="count"
+        rightbadge="priority"
+      />
+    );
+    expect(getByText('5')).toBeTruthy();
+    expect(getByText('10')).toBeTruthy();
+    expect(getByText('high')).toBeTruthy();
+    expect(getByText('low')).toBeTruthy();
+  });
+
+
+  it('should parse binding expressions correctly using helper functions', async () => {
+    const ref = React.createRef<WmChips>();
+    render(
+      <WmChips
+        {...defaultProps}
+        {...datasetProps}
+        ref={ref}
+        searchable={false}
+      />
+    );
+    await waitFor(() => {
+      const component = ref.current;
+      if (component) {
+        component.state.dataItems = [
+          { dataObject: { icon: 'wi wi-facebook' } },
+          { dataObject: { icon: 'wi wi-star' } }
+        ];
+        const expression = 'Variables.testVar.dataSet[0].icon';
+        const result = (component as any).getIconFromExpression(expression);
+        expect(result).toBe('wi wi-facebook');
+        const expression2 = 'Variables.testVar.dataSet[1].icon';
+        const result2 = (component as any).getIconFromExpression(expression2);
+        expect(result2).toBe('wi wi-star');
+        const invalidResult = (component as any).getIconFromExpression('invalid-expression');
+        expect(invalidResult).toBeNull();
+      }
+    });
+  });
 });

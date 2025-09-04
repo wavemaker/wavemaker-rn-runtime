@@ -249,16 +249,13 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         key={index+1}
       >
         <TouchableOpacity 
-          style={[this.styles.stepWrapper]}
+          style={this.styles.stepWrapper}
           onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep || !this.state.props.headernavigation}
           accessibilityRole='header'
         >
-            {this._showSkeleton ? (
-              <WmLabel showskeleton={true} styles={{root: {...this.getStepStyle(index)[0]}}}/>
-            ) : isStepperBasic ? (
-              <View style={{width: 1, height: 1, backgroundColor: 'transparent'}} />
-            ) : (
-              <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
+            {!this._showSkeleton ? isStepperBasic ? (
+              <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}/>
+            ) : <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
                 {(isDottedVertical || isDotted) ? (
                   <>
                     {(index < this.state.currentStep || this.state.isDone) ? (
@@ -266,17 +263,19 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                         id={this.getTestId('status')} 
                         styles={isActiveStep ? merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}}) : this.styles.stepIcon}
                         iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}
-                      />
+                      ></WmIcon>
                     ) : (
                       this.renderDot(index)
                     )}
                   </>
                 ) : (
                   <>
-                    {wizardStepCountVisibility &&
+                    { wizardStepCountVisibility &&
                       <Text 
-                        style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} 
-                        {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')}
+                        style={
+                          isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} 
+                        {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')
+                        }
                       >
                         {index+1}
                       </Text>
@@ -286,65 +285,54 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                         id={this.getTestId('status')} 
                         styles={isActiveStep ? merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}}) : this.styles.stepIcon}
                         iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}
-                      />
+                      ></WmIcon>
                     }
                   </>
                 )}
-              </View>
-            )}
-            {(isActiveStep && (item.state.props.title || item.state.props.subtitle)) &&
+              </View> : 
+              <WmLabel showskeleton={true} styles={{root: {...this.getStepStyle(index)[0]}}}/>
+            }
+            {(isActiveStep) &&
               <View style={this.styles.stepTitleWrapper}>
-                {item.state.props.title && item.state.props.title.trim() !== '' && (
-                  <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
-                    {item.state.props.title}
-                  </Text>
-                )}
-                {item.state.props.subtitle && item.state.props.subtitle.trim() !== '' && (
-                  <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_subtitle')}>
-                    {item.state.props.subtitle}
-                  </Text>
-                )}
+                <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
+                  {item.state.props.title || 'Step Title'}
+                </Text> 
+                <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_subtitle')}>
+                  {item.state.props.subtitle}
+                </Text> 
               </View>
             }
             {!isStepperBasic && this.numberOfSteps > 1 && isActiveStep &&
-              <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]} />}
+              <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
-        {isStepperBasic ? (
-          <View
-            {...this.getTestPropsForAction(`connector_${index}`)}
-            style={[
-              this.styles.stepConnector,
-              (index < this.state.currentStep || this.state.isDone) ? {backgroundColor: this.styles.doneStep.backgroundColor} :
-              (index === this.state.currentStep ? {backgroundColor: this.styles.activeStep.backgroundColor} : {})
-            ]}
-          />
-        ) : !isDottedVertical && this.getTotalVisibleSteps() > 1 && item.state.props.show && (
-          <View 
-            {...this.getTestPropsForAction(`connector_${index}`)}
-            style={[
-              this.styles.stepConnector, 
-              {
-                width: this.stepConnectorWidth(isFirstStep || isLastStep, index),
-                left: Platform.OS === "web" ?
-                  (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? '50%': '0%' 
-                  : isFirstStep ? '50%': '0%'
+          {!isStepperBasic && this.getTotalVisibleSteps() > 1 &&
+          item.state.props.show && !isDottedVertical &&
+               <View 
+                 style={[
+                   this.styles.stepConnector, 
+                   {
+                       width: this.stepConnectorWidth(isFirstStep || isLastStep, index),
+                       left: Platform.OS === "web" ?
+                         (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? 
+                  '50%': '0%': isFirstStep ? '50%': '0%'
               },
               this.getConnectorPosition().top ? {top: this.getConnectorPosition().top} : {}
             ]}
-          />
-        )}
-        {!isStepperBasic && isDottedVertical && this.getTotalVisibleSteps() > 1 && item.state.props.show && (
-          <View 
-            style={[
-              this.styles.stepConnector, 
+          ></View>
+        }
+        {!isStepperBasic && this.getTotalVisibleSteps() > 1 &&
+           item.state.props.show && isDottedVertical &&
+           <View 
+           style={[
+             this.styles.stepConnector, 
               {
                 height: this.stepConnectorHeight(isFirstStep || isLastStep, index),
                 top: isFirstStep ? '50%' : '0%',
-              },
-              this.getConnectorPosition().left ? {left: this.getConnectorPosition().left} : {}
-            ]}
-          />
-        )}
+             },
+             this.getConnectorPosition().left ? {left: this.getConnectorPosition().left} : {}
+                 ]}
+               ></View>
+         }
       </View>
     ) : null;
   }
@@ -519,4 +507,3 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     );
   }
 }
-

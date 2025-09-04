@@ -261,6 +261,55 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       padding: 5
     },
   } as WmWizardStyles);
+  addStyle('stepper-basic', '', {
+    wizardHeader: {
+      justifyContent: 'center',
+      alignItems: 'stretch',
+      paddingTop: 8,
+      paddingBottom: 12
+    },
+    wizardBody: {
+      borderTopWidth: 0,
+      borderBottomWidth: 0,
+    },
+    stepWrapper: {
+      position: 'relative',
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      justifyContent: 'flex-start',
+      minHeight: 72
+    },
+    stepConnector: {
+      position: 'absolute',
+      top: 25,
+      left: 2,
+      right: 2,
+      height: 5,
+      borderRadius: 5,
+      bottom: undefined as any,
+    },
+    headerWrapper: {},
+    stepTitleWrapper: {
+      marginTop: 35,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column'
+    },
+    stepTitle: {
+      textAlign: 'center'
+    },
+    stepSubTitle: {
+      textAlign: 'center'
+    }
+  } as WmWizardStyles);
+  addStyle('segment-steppe', '', {
+    stepConnector: {
+      left: -2,
+      right: -2,
+      height: 5,
+      borderRadius: 5,
+    },
+  } as WmWizardStyles);
   addStyle('progress-circle-header', '', {
     stepWrapper: {
       paddingBottom: 4,
@@ -352,55 +401,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         color: themeVariables.primaryColor
       }
     }
-  } as WmWizardStyles);
-  addStyle('stepper-basic', '', {
-    wizardHeader: {
-      justifyContent: 'center',
-      alignItems: 'stretch',
-      paddingTop: 8,
-      paddingBottom: 12
-    },
-    wizardBody: {
-      borderTopWidth: 0,
-      borderBottomWidth: 0,
-    },
-    stepWrapper: {
-      position: 'relative',
-      flexDirection: 'column',
-      alignItems: 'stretch',
-      justifyContent: 'flex-start',
-      minHeight: 72
-    },
-    stepConnector: {
-      position: 'absolute',
-      top: 25,
-      left: 2,
-      right: 2,
-      height: 5,
-      borderRadius: 5,
-      bottom: undefined as any,
-    },
-    headerWrapper: {},
-    stepTitleWrapper: {
-      marginTop: 35,
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column'
-    },
-    stepTitle: {
-      textAlign: 'center'
-    },
-    stepSubTitle: {
-      textAlign: 'center'
-    }
-  } as WmWizardStyles);
-  addStyle('segment-steppe', '', {
-    stepConnector: {
-      left: -2,
-      right: -2,
-      height: 5,
-      borderRadius: 5,
-    },
   } as WmWizardStyles);
   addStyle('dottedstepper', '', {
     step: {
