@@ -182,21 +182,69 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     return isFirstOrLastConnector ? '50%' : '100%';
   }
 
+  stepConnectorHeight(isFirstOrLastConnector: boolean, stepIndex: number): DimensionValue {
+    if (stepIndex === this.lastStepIndex() || stepIndex === this.firstStepIndex()) {
+      return '50%';
+    }
+    return isFirstOrLastConnector ? '50%' : '100%';
+  }
+
+  getDotStyle(index: number) {
+    const style = [this.styles.stepDot];
+    if (this.state.currentStep === index) {
+      style.push(this.styles.activeStepDot);
+    }
+    return style;
+  }
+
+  renderDot(index: number) {
+    return (
+      <View style={this.getDotStyle(index)}></View>
+    );
+  }
+
+  getConnectorPosition(): { top?: number, left?: number } {
+    const stepStyles = this.styles?.step;
+    if (!stepStyles) return {};
+    const cssWidth = stepStyles.width;
+    const cssHeight = stepStyles.height;
+    const parseStyleValue = (value: any): number | null => {
+      if (typeof value === 'number') {
+        return value;
+      }
+      if (typeof value === 'string') {
+        const numValue = parseFloat(value);
+        return isNaN(numValue) ? null : numValue;
+      }
+      return null;
+    };
+    const width = parseStyleValue(cssWidth);
+    const height = parseStyleValue(cssHeight);
+    const result: { top?: number, left?: number } = {};
+    // Calculate connector positions based on actual circle dimensions
+    if (height !== null) {
+      result.top = (height / 2) - 1;
+    }
+    if (width !== null) {
+      result.left = (width / 2) - 1;
+    }
+    return result;
+  }
+
   renderWizardHeader(item: any, index: number) {
     const isLastStep = index === this.lastStepIndex();
     const isFirstStep = index === this.firstStepIndex();
     const isActiveStep = index === this.state.currentStep;
     const isNumberTextLayout = this.state.props.classname === 'number-text-inline';
+    const isDottedVertical = this.state.props.classname === 'dottedstepper-vertical';
+    const isDotted = this.state.props.classname === 'dottedstepper';
     const isStepperBasic = this.state.props.classname?.includes('stepper-basic');
     const wizardStepCountVisibility = (index >= this.state.currentStep && !this.state.isDone) || !this.state.currentStep
     return item.state.props.show !== false ? (
       <View 
         style={[
-          this.styles.headerWrapper, 
-          isNumberTextLayout && {
-            paddingRight: isActiveStep ? 0 : 5, 
-            paddingLeft: index === this.state.currentStep + 1 ? 0 : 5
-          }
+          this.styles.headerWrapper, isNumberTextLayout ?
+          {paddingRight: isActiveStep ? 0 : 5, paddingLeft: index === this.state.currentStep + 1 ? 0 : 5}: {}
         ]} 
         key={index+1}
       >
@@ -211,35 +259,51 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
               <View style={{width: 1, height: 1, backgroundColor: 'transparent'}} />
             ) : (
               <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
-                {wizardStepCountVisibility &&
-                  <Text 
-                    style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} 
-                    {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')}
-                  >
-                    {index+1}
-                  </Text>
-                }
-                {(index < this.state.currentStep || this.state.isDone) &&
-                  <WmIcon 
-                    id={this.getTestId('status')} 
-                    styles={isActiveStep ? merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}}) : this.styles.stepIcon}
-                    iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}
-                  />
-                }
+                {(isDottedVertical || isDotted) ? (
+                  <>
+                    {(index < this.state.currentStep || this.state.isDone) ? (
+                      <WmIcon 
+                        id={this.getTestId('status')} 
+                        styles={isActiveStep ? merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}}) : this.styles.stepIcon}
+                        iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}
+                      />
+                    ) : (
+                      this.renderDot(index)
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {wizardStepCountVisibility &&
+                      <Text 
+                        style={isActiveStep ? [this.styles.activeStep, this.styles.activeStepCounter] : this.styles.stepCounter} 
+                        {...this.getTestPropsForLabel('step' + (index + 1) + '_indicator')}
+                      >
+                        {index+1}
+                      </Text>
+                    }
+                    {(index < this.state.currentStep || this.state.isDone) &&
+                      <WmIcon 
+                        id={this.getTestId('status')} 
+                        styles={isActiveStep ? merge({}, this.styles.stepIcon, {icon: {color: this.styles.activeStep.color}}) : this.styles.stepIcon}
+                        iconclass={item.state.props.iconclass || 'wm-sl-l sl-check'}
+                      />
+                    }
+                  </>
+                )}
               </View>
             )}
-            {(isActiveStep) && (item.state.props.title || item.state.props.subtitle) &&
+            {(isActiveStep && (item.state.props.title || item.state.props.subtitle)) &&
               <View style={this.styles.stepTitleWrapper}>
-                {item.state.props.title?.trim() &&
+                {item.state.props.title && item.state.props.title.trim() !== '' && (
                   <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
                     {item.state.props.title}
                   </Text>
-                }
-                {item.state.props.subtitle?.trim() &&
+                )}
+                {item.state.props.subtitle && item.state.props.subtitle.trim() !== '' && (
                   <Text style={this.styles.stepSubTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_subtitle')}>
                     {item.state.props.subtitle}
                   </Text>
-                }
+                )}
               </View>
             }
             {!isStepperBasic && this.numberOfSteps > 1 && isActiveStep &&
@@ -254,7 +318,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
               (index === this.state.currentStep ? {backgroundColor: this.styles.activeStep.backgroundColor} : {})
             ]}
           />
-        ) : this.getTotalVisibleSteps() > 1 && item.state.props.show && (
+        ) : !isDottedVertical && this.getTotalVisibleSteps() > 1 && item.state.props.show && (
           <View 
             {...this.getTestPropsForAction(`connector_${index}`)}
             style={[
@@ -264,7 +328,20 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                 left: Platform.OS === "web" ?
                   (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? '50%': '0%' 
                   : isFirstStep ? '50%': '0%'
-              }
+              },
+              this.getConnectorPosition().top ? {top: this.getConnectorPosition().top} : {}
+            ]}
+          />
+        )}
+        {!isStepperBasic && isDottedVertical && this.getTotalVisibleSteps() > 1 && item.state.props.show && (
+          <View 
+            style={[
+              this.styles.stepConnector, 
+              {
+                height: this.stepConnectorHeight(isFirstStep || isLastStep, index),
+                top: isFirstStep ? '50%' : '0%',
+              },
+              this.getConnectorPosition().left ? {left: this.getConnectorPosition().left} : {}
             ]}
           />
         )}
@@ -442,3 +519,4 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     );
   }
 }
+

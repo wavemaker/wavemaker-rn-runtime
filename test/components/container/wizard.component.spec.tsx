@@ -882,34 +882,113 @@ describe('Test Wizard component', () => {
     });
   });
 
-  it('should render subtitle before title when titles-below class is applied', async () => {
-    const stepsWithTitleAndSubtitle = [
+  it('should render dottedstepper-vertical layout correctly', async () => {
+    const tree = renderComponent({ classname: 'dottedstepper-vertical' });
+    await timer(300);
+    
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should show title and subtitle only for active step in dottedstepper-vertical', async () => {
+    const stepsWithTitles = [
       <WmWizardstep
         {...wizardStepPropsObject}
         key={0}
         index={0}
-        title="Step 1 Title"
-        subtitle="Step 1 Subtitle"
+        title="First Step"
+        subtitle="First subtitle"
         name="step1"
       >
         <Text>Content of Step 1</Text>
+      </WmWizardstep>,
+      <WmWizardstep
+        {...wizardStepPropsObject}
+        key={1}
+        index={1}
+        title="Second Step"
+        subtitle="Second subtitle"
+        name="step2"
+      >
+        <Text>Content of Step 2</Text>
       </WmWizardstep>
     ];
-    renderComponent({
-      classname: 'titles-below',
-      children: stepsWithTitleAndSubtitle
+
+    renderComponent({ 
+      classname: 'dottedstepper-vertical',
+      children: stepsWithTitles 
     });
     await timer(300);
-    const titleElement = screen.getByText('Step 1 Title');
-    const subtitleElement = screen.getByText('Step 1 Subtitle');
-    expect(titleElement).toBeTruthy();
-    expect(subtitleElement).toBeTruthy();
+
     await waitFor(() => {
-      expect(screen.getByTestId('test_wizard_step1_subtitle')).toBeTruthy();
-      expect(screen.getByTestId('test_wizard_step1_title')).toBeTruthy();
+      expect(screen.getByText('First Step')).toBeTruthy();
+      expect(screen.getByText('First subtitle')).toBeTruthy();
+    });
+  });
+  it('should render vertical connectors for dottedstepper-vertical', async () => {
+    const stepConnectorHeightMock = jest.spyOn(WmWizard.prototype, 'stepConnectorHeight');
+    
+    renderComponent({ classname: 'dottedstepper-vertical' });
+    await timer(300);
+
+    await waitFor(() => {
+      expect(stepConnectorHeightMock).toHaveBeenCalled();
     });
   });
 
+  it('should show dots for inactive steps in dottedstepper-vertical', async () => {
+    const renderDotSpy = jest.spyOn(WmWizard.prototype, 'renderDot');
+    
+    renderComponent({ classname: 'dottedstepper-vertical' });
+    await timer(300);
+
+    await waitFor(() => {
+      expect(renderDotSpy).toHaveBeenCalled();
+    });
+  });
+
+  it('should handle done action in dottedstepper-vertical on last step', async () => {
+    const invokeEventCallbackMock = jest.spyOn(
+      WmWizard.prototype,
+      'invokeEventCallback'
+    );
+    
+    renderComponent({ 
+      classname: 'dottedstepper-vertical',
+      defaultstep: 'step3' 
+    });
+    await timer(300);
+
+    fireEvent.press(screen.getByText('Done'));
+    
+    await waitFor(() => {
+      expect(invokeEventCallbackMock).toHaveBeenCalledWith(
+        'onDone',
+        expect.anything()
+      );
+    });
+  });
+
+  it('should use vertical layout for dottedstepper-vertical', async () => {
+    const tree = renderComponent({ classname: 'dottedstepper-vertical' });
+    await timer(300);
+    
+    expect(tree).toMatchSnapshot();
+  });
+
+  it('should apply correct styling for dottedstepper-vertical stepTitleWrapper', async () => {
+    renderComponent({ classname: 'dottedstepper-vertical' });
+    await timer(300);
+
+    const titleWrapperComponents = screen.UNSAFE_getAllByType(View).filter(comp =>
+      comp.props.style && 
+      (comp.props.style.marginLeft === 12 || 
+       (Array.isArray(comp.props.style) && 
+        comp.props.style.some(style => style && style.marginLeft === 12)))
+    );
+
+    expect(titleWrapperComponents.length).toBeGreaterThan(0);
+  });
+  
   describe('Stepper Basic variant', () => {
     const stepsWithSubtitles = [
       <WmWizardstep

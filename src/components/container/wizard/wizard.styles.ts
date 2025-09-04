@@ -41,6 +41,8 @@ export type WmWizardStyles = BaseStyles & {
   stepMenuActiveLabel: WmLabelStyles
   stepMenuIcon: WmIconStyles,
   stepMenuActiveIcon: WmIconStyles,
+  stepDot: AllStyle,
+  activeStepDot: AllStyle,
   skeleton: WmSkeletonStyles
 };
 
@@ -221,7 +223,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       stepMenuLabel: {} as WmLabelStyles,
       stepMenuActiveLabel: {} as WmLabelStyles,
       stepMenuIcon: {} as WmIconStyles,
-      stepMenuActiveIcon: {} as WmIconStyles
+      stepMenuActiveIcon: {} as WmIconStyles,
+      stepDot: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: themeVariables.wizardStepColor
+      },
+      activeStepDot: {
+        backgroundColor: themeVariables.wizardActiveStepColor
+      }
   } as WmWizardStyles);
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
@@ -248,55 +259,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     stepTitle: {
       padding: 5
-    },
-  } as WmWizardStyles);
-  addStyle('stepper-basic', '', {
-    wizardHeader: {
-      justifyContent: 'center',
-      alignItems: 'stretch',
-      paddingTop: 8,
-      paddingBottom: 12
-    },
-    wizardBody: {
-      borderTopWidth: 0,
-      borderBottomWidth: 0,
-    },
-    stepWrapper: {
-      position: 'relative',
-      flexDirection: 'column',
-      alignItems: 'stretch',
-      justifyContent: 'flex-start',
-      minHeight: 72
-    },
-    stepConnector: {
-      position: 'absolute',
-      top: 25,
-      left: 2,
-      right: 2,
-      height: 5,
-      borderRadius: 5,
-      bottom: undefined as any,
-    },
-    headerWrapper: {},
-    stepTitleWrapper: {
-      marginTop: 35,
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column'
-    },
-    stepTitle: {
-      textAlign: 'center'
-    },
-    stepSubTitle: {
-      textAlign: 'center'
-    }
-  } as WmWizardStyles);
-  addStyle('segment-steppe', '', {
-    stepConnector: {
-      left: -2,
-      right: -2,
-      height: 5,
-      borderRadius: 5,
     },
   } as WmWizardStyles);
   addStyle('progress-circle-header', '', {
@@ -390,6 +352,95 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         color: themeVariables.primaryColor
       }
     }
+  } as WmWizardStyles);
+  addStyle('stepper-basic', '', {
+    wizardHeader: {
+      justifyContent: 'center',
+      alignItems: 'stretch',
+      paddingTop: 8,
+      paddingBottom: 12
+    },
+    wizardBody: {
+      borderTopWidth: 0,
+      borderBottomWidth: 0,
+    },
+    stepWrapper: {
+      position: 'relative',
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      justifyContent: 'flex-start',
+      minHeight: 72
+    },
+    stepConnector: {
+      position: 'absolute',
+      top: 25,
+      left: 2,
+      right: 2,
+      height: 5,
+      borderRadius: 5,
+      bottom: undefined as any,
+    },
+    headerWrapper: {},
+    stepTitleWrapper: {
+      marginTop: 35,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column'
+    },
+    stepTitle: {
+      textAlign: 'center'
+    },
+    stepSubTitle: {
+      textAlign: 'center'
+    }
+  } as WmWizardStyles);
+  addStyle('segment-steppe', '', {
+    stepConnector: {
+      left: -2,
+      right: -2,
+      height: 5,
+      borderRadius: 5,
+    },
+  } as WmWizardStyles);
+  addStyle('dottedstepper', '', {
+    step: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 37,
+      height: 37,
+      borderWidth: 2,
+      borderRadius: 18.5,
+      backgroundColor: themeVariables.wizardBackgroundColor,
+      borderColor: themeVariables.wizardStepColor
+    }
+  } as WmWizardStyles);
+  addStyle('dottedstepper-vertical', '', {
+    wizardHeader: {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start'
+    },
+    stepWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      minHeight: 56
+    },
+    stepTitleWrapper: {
+      marginLeft: 12,
+      flex: 0,
+      justifyContent: 'flex-start',
+      flexDirection: 'column',
+      minWidth: 120,
+      flexShrink: 0
+    },
+    stepConnector: {
+      width: 2,
+      borderStyle: 'dotted',
+      borderWidth: 1,
+      backgroundColor: 'transparent',
+      borderColor: themeVariables.wizardStepConnectorColor
+    },
   } as WmWizardStyles);
   addStyle(DEFAULT_CLASS + '-rtl', '', {
     wizardActions: {
