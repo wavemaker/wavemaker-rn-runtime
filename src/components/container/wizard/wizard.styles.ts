@@ -262,53 +262,42 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
   } as WmWizardStyles);
   addStyle('stepper-basic', '', {
-    wizardHeader: {
-      justifyContent: 'center',
-      alignItems: 'stretch',
-      paddingTop: 8,
-      paddingBottom: 12
+    step: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 60,
+        backgroundColor: themeVariables.wizardBackgroundColor,
+        height: 2,
+        borderWidth: 1,
+        borderRadius: 5,
+        color: themeVariables.wizardStepColor,
+        borderColor: themeVariables.wizardStepColor
+      },
+    activeStep:{
+      backgroundColor: themeVariables.wizardStepActiveColor,
+      borderColor: themeVariables.wizardStepActiveColor,
+      color: themeVariables.wizardActiveStepColor,
+      height: 2
     },
-    wizardBody: {
-      borderTopWidth: 0,
-      borderBottomWidth: 0,
-    },
-    stepWrapper: {
-      position: 'relative',
-      flexDirection: 'column',
-      alignItems: 'stretch',
-      justifyContent: 'flex-start',
-      minHeight: 72
-    },
-    stepConnector: {
-      position: 'absolute',
-      top: 25,
-      left: 2,
-      right: 2,
-      height: 5,
-      borderRadius: 5,
-      bottom: undefined as any,
-    },
-    headerWrapper: {},
-    stepTitleWrapper: {
-      marginTop: 35,
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column'
-    },
-    stepTitle: {
-      textAlign: 'center'
-    },
-    stepSubTitle: {
-      textAlign: 'center'
-    }
+     doneStep: {
+        backgroundColor: themeVariables.wizardStepDoneColor,
+        color: themeVariables.wizardDoneStepColor,
+        borderColor: themeVariables.wizardStepDoneColor,
+        height: 2
+      },
   } as WmWizardStyles);
   addStyle('segment-steppe', '', {
-    stepConnector: {
-      left: -2,
-      right: -2,
-      height: 5,
-      borderRadius: 5,
-    },
+    step: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 90,
+        backgroundColor: themeVariables.wizardBackgroundColor,
+        height: 2,
+        borderWidth: 1,
+        borderRadius: 5,
+        color: themeVariables.wizardStepColor,
+        borderColor: themeVariables.wizardStepColor
+      },
   } as WmWizardStyles);
   addStyle('progress-circle-header', '', {
     stepWrapper: {
