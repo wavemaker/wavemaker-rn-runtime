@@ -436,7 +436,6 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             const parsedValue = parseInt(blurMatch[1], 10);
             // Clamp intensity between 0 and 100
             intensity = Math.min(100, Math.max(0, parsedValue));
-            console.log("backdropFilter",intensity)
         }
     }
 
