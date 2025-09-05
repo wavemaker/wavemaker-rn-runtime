@@ -20,7 +20,7 @@ import { TextIdPrefixConsumer } from './testid.provider';
 import { isScreenReaderEnabled } from './accessibility';
 import { Tappable, TappableContext } from './tappable.component';
 import { WmComponentNode } from './wm-component-tree';
-
+import { BlurView } from 'expo-blur';
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
 export const ParentContext = React.createContext(null as any);
@@ -425,10 +425,39 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     private addAnimation(n: ReactNode) {
-        if (!this.state.animatableProps) {
+    const blurValue = (this.styles.root?.backdropFilter as any);
+    delete (this.styles.root as any)['backdropFilter'];
+
+    // Parse backdrop-filter CSS value to extract blur intensity
+    let intensity = 0;
+    if (blurValue && typeof blurValue === 'string') {
+        const blurMatch = blurValue.match(/blur\((\d+)px\)/);
+        if (blurMatch && blurMatch[1]) {
+            const parsedValue = parseInt(blurMatch[1], 10);
+            // Clamp intensity between 0 and 100
+            intensity = Math.min(100, Math.max(0, parsedValue));
+            console.log("backdropFilter",intensity)
+        }
+    }
+
+
+    const content = blurValue ? (
+        <BlurView 
+            intensity={intensity} 
+            
+            style={{
+                overflow:'hidden',
+                borderRadius: this.styles.root.borderRadius || 0,         
+            }}>
+            {n}
+        </BlurView>
+    ) : (
+        n
+    );
+    if (!this.state.animatableProps) {
             return (
                 <>
-                    {n}
+                    {content}
                 </>
             )
         }
@@ -437,8 +466,12 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 key={this.state.animationId} 
                 {...this.state.animatableProps}
             >
-                {n}
+                {content}
             </Animatable.View>);
+
+        
+
+   
     }
     
     private setBackground() {
