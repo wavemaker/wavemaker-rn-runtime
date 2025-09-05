@@ -41,6 +41,8 @@ export type WmWizardStyles = BaseStyles & {
   stepMenuActiveLabel: WmLabelStyles
   stepMenuIcon: WmIconStyles,
   stepMenuActiveIcon: WmIconStyles,
+  stepDot: AllStyle,
+  activeStepDot: AllStyle,
   skeleton: WmSkeletonStyles
 };
 
@@ -221,7 +223,16 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       stepMenuLabel: {} as WmLabelStyles,
       stepMenuActiveLabel: {} as WmLabelStyles,
       stepMenuIcon: {} as WmIconStyles,
-      stepMenuActiveIcon: {} as WmIconStyles
+      stepMenuActiveIcon: {} as WmIconStyles,
+      stepDot: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: themeVariables.wizardStepColor
+      },
+      activeStepDot: {
+        backgroundColor: themeVariables.wizardActiveStepColor
+      }
   } as WmWizardStyles);
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
@@ -249,6 +260,44 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     stepTitle: {
       padding: 5
     },
+  } as WmWizardStyles);
+  addStyle('stepper-basic', '', {
+    step: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 60,
+        backgroundColor: themeVariables.wizardBackgroundColor,
+        height: 2,
+        borderWidth: 1,
+        borderRadius: 5,
+        color: themeVariables.wizardStepColor,
+        borderColor: themeVariables.wizardStepColor
+      },
+    activeStep:{
+      backgroundColor: themeVariables.wizardStepActiveColor,
+      borderColor: themeVariables.wizardStepActiveColor,
+      color: themeVariables.wizardActiveStepColor,
+      height: 2
+    },
+     doneStep: {
+        backgroundColor: themeVariables.wizardStepDoneColor,
+        color: themeVariables.wizardDoneStepColor,
+        borderColor: themeVariables.wizardStepDoneColor,
+        height: 2
+      },
+  } as WmWizardStyles);
+  addStyle('segment-steppe', '', {
+    step: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 90,
+        backgroundColor: themeVariables.wizardBackgroundColor,
+        height: 2,
+        borderWidth: 1,
+        borderRadius: 5,
+        color: themeVariables.wizardStepColor,
+        borderColor: themeVariables.wizardStepColor
+      },
   } as WmWizardStyles);
   addStyle('progress-circle-header', '', {
     stepWrapper: {
@@ -341,6 +390,46 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         color: themeVariables.primaryColor
       }
     }
+  } as WmWizardStyles);
+  addStyle('dottedstepper', '', {
+    step: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 37,
+      height: 37,
+      borderWidth: 2,
+      borderRadius: 18.5,
+      backgroundColor: themeVariables.wizardBackgroundColor,
+      borderColor: themeVariables.wizardStepColor
+    }
+  } as WmWizardStyles);
+  addStyle('dottedstepper-vertical', '', {
+    wizardHeader: {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start'
+    },
+    stepWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      minHeight: 56
+    },
+    stepTitleWrapper: {
+      marginLeft: 12,
+      flex: 0,
+      justifyContent: 'flex-start',
+      flexDirection: 'column',
+      minWidth: 120,
+      flexShrink: 0
+    },
+    stepConnector: {
+      width: 2,
+      borderStyle: 'dotted',
+      borderWidth: 1,
+      backgroundColor: 'transparent',
+      borderColor: themeVariables.wizardStepConnectorColor
+    },
   } as WmWizardStyles);
   addStyle(DEFAULT_CLASS + '-rtl', '', {
     wizardActions: {
