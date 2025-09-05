@@ -127,8 +127,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
        * https://github.com/naoufal/react-native-accordion/pull/19/files
        */
       <View
-        style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, { backgroundColor: props.disabled ? this.styles.disabledText.backgroundColor : this.styles.root.backgroundColor}, 
-          this._showSkeleton ? { justifyContent: 'space-between' } : {}]}
+        style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid,this._showSkeleton ? { justifyContent: 'space-between' } : {}]}
         ref={(ref) => {
           this.view = ref as View;
         }}

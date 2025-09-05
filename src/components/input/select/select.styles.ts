@@ -16,7 +16,6 @@ export type WmSelectStyles = BaseStyles & {
   selectedItem: AllStyle;
   selectedItemText: AllStyle;
   dropDownContent: AllStyle;
-  disabledText: AllStyle;
   placeholderText: AllStyle;
   invalid: AllStyle;
   skeleton: WmSkeletonStyles;
@@ -53,9 +52,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         color: themeVariables.primaryColor
       }
     } as WmIconStyles,
-    disabledText: {
-      backgroundColor : themeVariables.inputDisabledBgColor
-    },
+  
     modal: {
       backgroundColor: 'rgba(0, 0, 0, 0.3)',
       height: '100%'
