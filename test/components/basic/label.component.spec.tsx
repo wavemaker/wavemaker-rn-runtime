@@ -670,9 +670,9 @@ describe('WmLabel Component', () => {
       expect(getByText('world')).toBeTruthy();
   });
   
-  it('should use custom animationstagger value for text animation timing', () => {
+  it('should use custom animationspeed value for text animation timing', () => {
       jest.spyOn(Animated, 'timing');
-      render(<WmLabel caption="Hello world test" textanimation="fadeIn" animationstagger={200} />);
+      render(<WmLabel caption="Hello world test" textanimation="fadeIn" animationspeed={200} />);
       expect(Animated.timing).toHaveBeenCalled();
   });
 
