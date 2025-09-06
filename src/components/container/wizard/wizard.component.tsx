@@ -236,7 +236,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     const isFirstStep = index === this.firstStepIndex();
     const isActiveStep = index === this.state.currentStep;
     const isNumberTextLayout = this.state.props.classname === 'number-text-inline';
-    const isDottedVertical = this.state.props.classname?.includes('vertical');
+    const isVertical = this.state.props.classname?.includes('vertical');
     const isDotted = this.state.props.classname?.includes('dottedstepper');
     const isStepperBasic = this.state.props.classname?.includes('stepper-basic');
     const wizardStepCountVisibility = (index >= this.state.currentStep && !this.state.isDone) || !this.state.currentStep
@@ -256,7 +256,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             {!this._showSkeleton ? isStepperBasic ? (
               <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}/>
             ) : <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
-                {(isDottedVertical || isDotted) ? (
+                {(isVertical || isDotted) ? (
                   <>
                     {(index < this.state.currentStep || this.state.isDone) ? (
                       <WmIcon 
@@ -306,7 +306,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
           {!isStepperBasic && this.getTotalVisibleSteps() > 1 &&
-          item.state.props.show && !isDottedVertical &&
+          item.state.props.show && !isVertical &&
                <View 
                  style={[
                    this.styles.stepConnector, 
@@ -321,7 +321,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
           ></View>
         }
         {!isStepperBasic && this.getTotalVisibleSteps() > 1 &&
-           item.state.props.show && isDottedVertical &&
+           item.state.props.show && isVertical &&
            <View 
            style={[
              this.styles.stepConnector, 
