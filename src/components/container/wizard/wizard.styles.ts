@@ -403,7 +403,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       borderColor: themeVariables.wizardStepColor
     }
   } as WmWizardStyles);
-  addStyle('dottedstepper-vertical', '', {
+  addStyle('vertical', '', {
     wizardHeader: {
       flexDirection: 'column',
       alignItems: 'flex-start',
@@ -424,8 +424,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       flexShrink: 0
     },
     stepConnector: {
-      width: 2,
-      borderStyle: 'dotted',
       borderWidth: 1,
       backgroundColor: 'transparent',
       borderColor: themeVariables.wizardStepConnectorColor

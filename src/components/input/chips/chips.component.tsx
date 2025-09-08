@@ -264,7 +264,8 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         {(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index)) ? (
           <WmLabel 
             {...this.getTestPropsForAction('chip'+ index+'leftbadge')} 
-            styles={{root: [this.styles.leftBadge, isSelected ? this.styles.activeLeftBadge : null]}}
+            classname={isSelected ? 'app-chips-active-left-badge' : 'app-chips-left-badge'}
+            styles={{text: {...this.styles.leftBadge, ...(isSelected ? this.styles.activeLeftBadge : {})}}}
             caption={(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index))}
           />
         ) : null}
@@ -317,7 +318,8 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         {(this.state.props.getRightBadge && this.state.props.getRightBadge(index)) ? (
           <WmLabel 
             {...this.getTestPropsForAction('chip'+ index+'rightbadge')} 
-            styles={{root: [this.styles.rightBadge, isSelected ? this.styles.activeRightBadge : null]}}
+            classname={isSelected ? 'app-chips-active-right-badge' : 'app-chips-right-badge'}
+            styles={{text: {...this.styles.rightBadge, ...(isSelected ? this.styles.activeRightBadge : {})}}}
             caption={(this.state.props.getRightBadge && this.state.props.getRightBadge(index))}
           />
         ) : null}
