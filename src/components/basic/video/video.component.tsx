@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Image, TouchableWithoutFeedback, Platform, Text } from 'react-native';
-import { VideoView, createVideoPlayer } from 'expo-video';
 import {
   BaseComponent,
   BaseComponentState,
@@ -14,6 +13,7 @@ import {
 import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
+import { VideoConsumer } from '@wavemaker/app-rn-runtime/core/device/av-service';
 
 export class WmVideoState extends BaseComponentState<WmVideoProps> {
   isVideoReady: boolean = false;
@@ -27,6 +27,8 @@ export default class WmVideo extends BaseComponent<
   WmVideoStyles
 > {
   private player: any;
+  private videoService: any = null as any;
+  private isPlayerInitialized: boolean = false;
 
   constructor(props: WmVideoProps) {
     super(props, DEFAULT_CLASS, new WmVideoProps(), new WmVideoState());
@@ -54,7 +56,7 @@ export default class WmVideo extends BaseComponent<
       accessibilityrole: 'image'
     }
     return (
-      <TouchableWithoutFeedback onPress={() => this.player?.play()} >
+      <TouchableWithoutFeedback onPress={() => this.player?.play()}>
         <Image
           {...this.getTestProps('video_poster')}
           style={{
@@ -91,7 +93,7 @@ export default class WmVideo extends BaseComponent<
 
   playerReadyStatusChange(statusObj: any) {
     const videoReady = statusObj.status === 'readyToPlay'
-    if (this.state.props.autoplay && videoReady) {
+    if (this.state.props.autoplay && videoReady && this.player) {
         this.player.play();
     }
     this.updateState({
@@ -100,6 +102,10 @@ export default class WmVideo extends BaseComponent<
   }
 
   initializeProps(){
+    if (!this.player) {
+      return;
+    }
+    
     const {
       loop,
       muted,
@@ -113,10 +119,17 @@ export default class WmVideo extends BaseComponent<
 
   componentDidMount(): void {
     super.componentDidMount();
-    const { mp4format, webmformat, autoplay } = this.state.props;
-    const videoSource = this.getSource(mp4format || webmformat) ;
+  }
 
-    this.player = createVideoPlayer(videoSource);
+  initializePlayer(videoService: any) {
+    if (this.isPlayerInitialized || !videoService) {
+      return; // Player already initialized or videoService not available
+    }
+
+    const { mp4format, webmformat } = this.state.props;
+    const videoSource = this.getSource(mp4format || webmformat);
+
+    this.player = videoService.createVideoPlayer(videoSource);
     this.player.addListener(
       'playingChange',
       this.playingStatusChange.bind(this)
@@ -125,21 +138,29 @@ export default class WmVideo extends BaseComponent<
       'statusChange',
       this.playerReadyStatusChange.bind(this)
     ); 
-    this.initializeProps()
+    this.initializeProps();
+    this.isPlayerInitialized = true;
   }
 
   onPlayIconTap() {
     this.updateState({
       videoPosterDismissed: true
     } as WmVideoState)
-    this.player.play()
+    if (this.player) {
+      this.player.play()
+    }
   }
 
   componentWillUnmount(): void {
     super.componentWillUnmount();
-    this.player.removeListener('playingChange', this.playingStatusChange);
-    this.player.removeListener('statusChange', this.playerReadyStatusChange);
-    this.player.release();
+    if (this.player) {
+      this.player.removeListener('playingChange', this.playingStatusChange);
+      this.player.removeListener('statusChange', this.playerReadyStatusChange);
+      this.player.release();
+    }
+    this.player = null;
+    this.videoService = null;
+    this.isPlayerInitialized = false;
   }
 
   //TASK: Overlay on video widged should be removed once upgraded to expo 53.
@@ -158,52 +179,64 @@ export default class WmVideo extends BaseComponent<
     const isPlaying = playStarted || this.state.props.autoplay;
     const showOverlay = !showdefaultvideoposter && !this.state.videoPosterDismissed
 
+    
     return (
-      <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
-        {this._background}
-        <VideoView
-          {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
-          style={{ width: '100%', height: '100%', flex: 1 }}
-          player={this.player}
-          nativeControls={props.controls}
-          contentFit={'contain'}
-          testID={this.getTestId('video')}
-          allowsPictureInPicture={allowsPictureInPicture}
-          onFullscreenEnter={onFullscreenEnter}
-          onFullscreenExit={onFullscreenExit}
-          requiresLinearPlayback={requiresLinearPlayback}
-        />
-        {Platform.OS === 'android' && !(props.controls && showOverlay ) && <Tappable onTap={() => {}} styles={{zIndex: 10, position:"absolute", width: '100%', height: '100%', flex: 1 }}>
-          <View testID={this.getTestId('video_overlay')} style={{backgroundColor:'transparent', width: '100%', height: '100%', flex: 1}}>
-          </View>
-        </Tappable>}
-
-        {!isPlaying && videoposter && showdefaultvideoposter ? (
-          this.renderVideoPoster(props)
-        ) : (
-          <></>
-        )}
-        
-        {
-          !isPlaying && !showdefaultvideoposter && !this.state.videoPosterDismissed ? (
-            <View style={this.styles.playIconContainer}>
-              <TouchableWithoutFeedback style={{width: 80, height: 80 }} onPress={this.onPlayIconTap.bind(this)}>
-                {Platform.OS === 'android' ? <Image
-                {...this.getTestProps('video_play_button')}
-                style={{
-                  width: 80, 
-                  height: 80,
-                }}
-                resizeMode={'contain'}
-                source={this.getSource('resources/images/imagelists/play.png') as any}
-              /> : <Text style={{ fontSize: 80, fontWeight: 'bold', color: 'white'}} >▶</Text> } 
-              </TouchableWithoutFeedback>
-            </View>            
-          ) : (
-            <></>
-          )
+      <VideoConsumer>
+      {(videoService: any) => {
+        // Only set videoService and initialize player once
+        if (videoService && !this.videoService) {
+          this.videoService = videoService;
+          this.initializePlayer(videoService);
         }
-      </View>
+        const VideoView = videoService?.VideoView;
+        return (
+          <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
+            {this._background}
+            <VideoView
+              {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
+              style={{ width: '100%', height: '100%', flex: 1 }}
+              player={this.player}
+              nativeControls={props.controls}
+              contentFit={'contain'}
+              testID={this.getTestId('video')}
+              allowsPictureInPicture={allowsPictureInPicture}
+              onFullscreenEnter={onFullscreenEnter}
+              onFullscreenExit={onFullscreenExit}
+              requiresLinearPlayback={requiresLinearPlayback}
+            />
+            {Platform.OS === 'android' && !(props.controls && showOverlay ) && <Tappable onTap={() => {}} styles={{zIndex: 10, position:"absolute", width: '100%', height: '100%', flex: 1 }}>
+              <View testID={this.getTestId('video_overlay')} style={{backgroundColor:'transparent', width: '100%', height: '100%', flex: 1}}>
+              </View>
+            </Tappable>}
+
+            {!isPlaying && videoposter ? (
+              this.renderVideoPoster(props)
+            ) : (
+              <></>
+            )}
+
+            {
+              !isPlaying && !showdefaultvideoposter && !this.state.videoPosterDismissed ? (
+                <View style={this.styles.playIconContainer}>
+                  <TouchableWithoutFeedback style={{width: 80, height: 80 }} onPress={this.onPlayIconTap.bind(this)}>
+                    {Platform.OS === 'android' ? <Image
+                    {...this.getTestProps('video_play_button')}
+                    style={{
+                      width: 80, 
+                      height: 80,
+                    }}
+                    resizeMode={'contain'}
+                    source={this.getSource('resources/images/imagelists/play.png') as any}
+                  /> : <Text style={{ fontSize: 80, fontWeight: 'bold', color: 'white'}} >▶</Text> } 
+                  </TouchableWithoutFeedback>
+                </View>            
+              ) : (
+                <></>
+              )
+            }
+          </View>
+        )}}
+      </VideoConsumer>
     );
   }
 }

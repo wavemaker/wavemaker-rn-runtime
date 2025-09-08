@@ -1,8 +1,11 @@
-import { ScanService } from "@wavemaker/app-rn-runtime/core/device/scan-service";
+import { ScanPluginService, ScanService } from "@wavemaker/app-rn-runtime/core/device/scan-service";
 import { Operation, Input, Output } from '../operation.provider';
+import { PermissionService } from "@wavemaker/app-rn-runtime/runtime/services/device/permission-service";
 
 export interface ScanInput extends Input {
   barcodeFormat: string;
+  scanPluginService: any;
+  permissionService: any;
 }
 
 export interface ScanOutput extends Output {
@@ -13,9 +16,9 @@ export interface ScanOutput extends Output {
 
 export class ScanOperation implements Operation {
 
-  constructor(private scan: ScanService) {}
+  constructor(private scan: ScanService, private permissionService: PermissionService, private scanPluginService: ScanPluginService) {}
 
-  public invoke(params: ScanInput): Promise<ScanOutput> {
-    return this.scan.scanBarcode(params);
+  public invoke(params: ScanInput): any {
+    return this.scan.scanBarcode({ ...params, scanPluginService: this.scanPluginService, permissionService: this.permissionService });
   }
 }
