@@ -22,10 +22,6 @@ export type WmChipsStyles = BaseStyles & {
   rightIcon: WmIconStyles;
   activeLeftIcon: WmIconStyles;
   activeRightIcon: WmIconStyles;
-  leftBadge: TextStyle;
-  rightBadge: TextStyle;
-  activeLeftBadge: TextStyle;
-  activeRightBadge: TextStyle;
 };
 
 export const DEFAULT_CLASS = 'app-chips';
@@ -127,26 +123,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           color: themeVariables.chipDefaultTextColor,
         }
       } as WmIconStyles,
-      leftBadge: {
-        fontSize: 14,
-        marginRight: 0,
-        fontFamily: themeVariables.baseFont,
-        fontWeight: '500',
-        color: themeVariables.chipDefaultTextColor,
-      },
-      rightBadge: {
-        fontSize: 14,
-        marginLeft: 0,
-        fontFamily: themeVariables.baseFont,
-        fontWeight: '500',
-        color: themeVariables.chipDefaultTextColor,
-      },
-      activeLeftBadge: {
-        color: themeVariables.chipActiveTextColor
-      },
-      activeRightBadge: {
-        color: themeVariables.chipActiveTextColor
-      },
       activeLeftIcon: {
         icon: {
           marginRight: 0,
@@ -185,4 +161,39 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       }
     }
   });
+  addStyle('app-chips-left-badge', '', {
+    text: {
+      fontSize: 14,
+      marginRight: 0,
+      marginTop: 2,
+      fontFamily: themeVariables.baseFont,
+      fontWeight: '500',
+      color: themeVariables.chipDefaultTextColor,
+    }
+  } as BaseStyles);
+
+  addStyle('app-chips-right-badge', '', {
+    text: {
+      fontSize: 14,
+      marginLeft: 0,
+      marginTop: 2,
+      fontFamily: themeVariables.baseFont,
+      fontWeight: '500',
+      color: themeVariables.chipDefaultTextColor,
+    }
+  } as BaseStyles);
+
+  addStyle('app-chips-active-left-badge', '', {
+    text: {
+      color: themeVariables.chipActiveTextColor,
+      marginTop: 2
+    }
+  } as BaseStyles);
+
+  addStyle('app-chips-active-right-badge', '', {
+    text: {
+      color: themeVariables.chipActiveTextColor,
+      marginTop: 2
+    }
+  } as BaseStyles);
 });
