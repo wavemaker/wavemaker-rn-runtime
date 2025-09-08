@@ -256,7 +256,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             {!this._showSkeleton ? isStepperBasic ? (
               <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}/>
             ) : <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
-                {(isVertical || isDotted) ? (
+                {(isDotted) ? (
                   <>
                     {(index < this.state.currentStep || this.state.isDone) ? (
                       <WmIcon 
