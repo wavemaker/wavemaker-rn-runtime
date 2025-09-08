@@ -882,14 +882,14 @@ describe('Test Wizard component', () => {
     });
   });
 
-  it('should render dottedstepper-vertical layout correctly', async () => {
-    const tree = renderComponent({ classname: 'dottedstepper-vertical' });
+  it('should render vertical layout correctly', async () => {
+    const tree = renderComponent({ classname: 'vertical' });
     await timer(300);
     
     expect(tree).toMatchSnapshot();
   });
 
-  it('should show title and subtitle only for active step in dottedstepper-vertical', async () => {
+  it('should show title and subtitle only for active step in vertical', async () => {
     const stepsWithTitles = [
       <WmWizardstep
         {...wizardStepPropsObject}
@@ -914,7 +914,7 @@ describe('Test Wizard component', () => {
     ];
 
     renderComponent({ 
-      classname: 'dottedstepper-vertical',
+      classname: 'vertical',
       children: stepsWithTitles 
     });
     await timer(300);
@@ -924,10 +924,10 @@ describe('Test Wizard component', () => {
       expect(screen.getByText('First subtitle')).toBeTruthy();
     });
   });
-  it('should render vertical connectors for dottedstepper-vertical', async () => {
+  it('should render vertical connectors for vertical', async () => {
     const stepConnectorHeightMock = jest.spyOn(WmWizard.prototype, 'stepConnectorHeight');
     
-    renderComponent({ classname: 'dottedstepper-vertical' });
+    renderComponent({ classname: 'vertical' });
     await timer(300);
 
     await waitFor(() => {
@@ -935,10 +935,10 @@ describe('Test Wizard component', () => {
     });
   });
 
-  it('should show dots for inactive steps in dottedstepper-vertical', async () => {
+  it('should show dots for inactive steps in vertical', async () => {
     const renderDotSpy = jest.spyOn(WmWizard.prototype, 'renderDot');
     
-    renderComponent({ classname: 'dottedstepper-vertical' });
+    renderComponent({ classname: 'vertical dottedstepper' });
     await timer(300);
 
     await waitFor(() => {
@@ -946,14 +946,14 @@ describe('Test Wizard component', () => {
     });
   });
 
-  it('should handle done action in dottedstepper-vertical on last step', async () => {
+  it('should handle done action in vertical on last step', async () => {
     const invokeEventCallbackMock = jest.spyOn(
       WmWizard.prototype,
       'invokeEventCallback'
     );
     
     renderComponent({ 
-      classname: 'dottedstepper-vertical',
+      classname: 'vertical',
       defaultstep: 'step3' 
     });
     await timer(300);
@@ -968,15 +968,15 @@ describe('Test Wizard component', () => {
     });
   });
 
-  it('should use vertical layout for dottedstepper-vertical', async () => {
-    const tree = renderComponent({ classname: 'dottedstepper-vertical' });
+  it('should use vertical layout for vertical', async () => {
+    const tree = renderComponent({ classname: 'vertical' });
     await timer(300);
     
     expect(tree).toMatchSnapshot();
   });
 
-  it('should apply correct styling for dottedstepper-vertical stepTitleWrapper', async () => {
-    renderComponent({ classname: 'dottedstepper-vertical' });
+  it('should apply correct styling for vertical stepTitleWrapper', async () => {
+    renderComponent({ classname: 'vertical' });
     await timer(300);
 
     const titleWrapperComponents = screen.UNSAFE_getAllByType(View).filter(comp =>
