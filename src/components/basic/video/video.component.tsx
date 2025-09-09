@@ -13,6 +13,7 @@ import {
 } from '@wavemaker/app-rn-runtime/core/accessibility';
 import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
+import { VideoConsumer } from '@wavemaker/app-rn-runtime/core/device/av-service';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 
 export class WmVideoState extends BaseComponentState<WmVideoProps> {
@@ -27,6 +28,7 @@ export default class WmVideo extends BaseComponent<
   WmVideoStyles
 > {
   private player: any;
+  private videoService: any = null as any;
 
   constructor(props: WmVideoProps) {
     super(props, DEFAULT_CLASS, new WmVideoProps(), new WmVideoState());
@@ -116,7 +118,7 @@ export default class WmVideo extends BaseComponent<
     const { mp4format, webmformat, autoplay } = this.state.props;
     const videoSource = this.getSource(mp4format || webmformat) ;
 
-    this.player = createVideoPlayer(videoSource);
+    this.player = this.videoService?.createVideoPlayer(videoSource);
     this.player.addListener(
       'playingChange',
       this.playingStatusChange.bind(this)
@@ -158,14 +160,23 @@ export default class WmVideo extends BaseComponent<
     const isPlaying = playStarted || this.state.props.autoplay;
     const showOverlay = !showdefaultvideoposter && !this.state.videoPosterDismissed
 
+    
     return (
-      <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
+      <VideoConsumer>
+      {(videoService: any) => {
+        this.videoService = videoService;
+        const VideoView = videoService?.VideoView;
+        return (
+          <View 
+        style={this.styles.root}
+        onLayout={(event) => this.handleLayout(event)}
+      >
         {this._background}
         <VideoView
           {...getAccessibilityProps(AccessibilityWidgetType.VIDEO, props)}
           style={{ width: '100%', height: '100%', flex: 1 }}
           player={this.player}
-          nativeControls={props.controls}
+          nativeControls={props.controls || showOverlay}
           contentFit={'contain'}
           testID={this.getTestId('video')}
           allowsPictureInPicture={allowsPictureInPicture}
@@ -177,13 +188,19 @@ export default class WmVideo extends BaseComponent<
           <View testID={this.getTestId('video_overlay')} style={{backgroundColor:'transparent', width: '100%', height: '100%', flex: 1}}>
           </View>
         </Tappable>}
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 3ed89a5f ("Feat: remove unused plugins ~ WMS-25658")
         {!isPlaying && videoposter && showdefaultvideoposter ? (
           this.renderVideoPoster(props)
         ) : (
           <></>
         )}
+<<<<<<< HEAD
         
+=======
+>>>>>>> parent of 3ed89a5f ("Feat: remove unused plugins ~ WMS-25658")
         {
           !isPlaying && !showdefaultvideoposter && !this.state.videoPosterDismissed ? (
             <View style={this.styles.playIconContainer}>
@@ -204,6 +221,8 @@ export default class WmVideo extends BaseComponent<
           )
         }
       </View>
+        )}}
+      </VideoConsumer>
     );
   }
 }
