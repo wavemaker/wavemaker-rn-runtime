@@ -92,7 +92,7 @@ export default class WmCheckbox extends BaseComponent<WmCheckboxProps, WmCheckbo
       >
           {this._background}
           <WmIcon iconclass="wi wi-check" styles={this.state.isChecked ? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled} id={this.getTestId('checkbox')} accessible={false}/>
-          <Text {...this.getTestPropsForLabel()} style={[this.styles.text, this.state.isChecked ? this.styles.selectedLabel: null]} importantForAccessibility='no'>{props.caption}</Text>
+          <Text {...this.getTestPropsForLabel()} style={[this.styles.text, this.state.isChecked ? {color: this.styles.checkicon.text.color} : null, this.state.isChecked ? this.styles.selectedLabel: null]} importantForAccessibility='no'>{props.caption}</Text>
       </TouchableOpacity>
     );
   }

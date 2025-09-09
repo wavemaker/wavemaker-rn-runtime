@@ -57,6 +57,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             borderColor: themeVariables.checkedBorderColor,
           },
           text: {
+            color: themeVariables.labelDefaultColor,
             fontSize: 18,
           },
           icon : {

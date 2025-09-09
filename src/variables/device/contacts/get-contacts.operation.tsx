@@ -1,7 +1,6 @@
-import React from 'react';
 import { Output, Operation } from '../operation.provider';
-import { ContactsInput, ContactsPluginConsumer, ContactsPluginService, ContactsService } from "@wavemaker/app-rn-runtime/core/device/contacts-service";
-import { PermissionConsumer, PermissionService } from "@wavemaker/app-rn-runtime/runtime/services/device/permission-service";
+import { ContactsInput, ContactsPluginService, ContactsService } from "@wavemaker/app-rn-runtime/core/device/contacts-service";
+import { PermissionService } from "@wavemaker/app-rn-runtime/runtime/services/device/permission-service";
 
 export interface PhoneNumber {
   value: string;
@@ -14,19 +13,9 @@ export interface ContactsOutput extends Output{
 }
 
 export class GetContactsOperation implements Operation {
-  constructor(private contacts: ContactsService) {}
+  constructor(private contacts: ContactsService, private permissionService: PermissionService, private contactsPluginService: ContactsPluginService) {}
 
   public invoke(params: ContactsInput): any {
-    <PermissionConsumer>
-      {(permissionService: PermissionService) => {
-        return (
-          <ContactsPluginConsumer>
-            {(contactsPluginService: ContactsPluginService) => {
-              return this.contacts.getContacts({ ...params, contactsPluginService, permissionService });
-            }}
-          </ContactsPluginConsumer>
-        )
-      }}
-    </PermissionConsumer>
+    return this.contacts.getContacts({ ...params, contactsPluginService: this.contactsPluginService, permissionService: this.permissionService });
   }
 }

@@ -13,6 +13,7 @@ export type WmCarouselStyles = BaseStyles & {
     activeSlide: AllStyle,
     nextBtn: WmIconStyles,
     dotsWrapperStyle: AllStyle,
+    dotsContainerStyle:AllStyle,
     dotStyle: AllStyle,
     activeDotStyle: AllStyle,
     skeleton: WmSkeletonStyles
@@ -91,6 +92,9 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             paddingTop: 4,
             paddingBottom: 4,
             overflow: 'hidden',
+        },
+        dotsContainerStyle:{
+            alignItems: 'center'
         },
         activeDotStyle: {
             backgroundColor: themeVariables.carouselActiveDotColor,

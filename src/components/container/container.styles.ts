@@ -13,9 +13,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmContainerStyles = defineStyles({
         root: {},
         text: {},
-        content: {
-            flexDirection: 'column'
-        },
+        content: {},
         skeleton: {
             root: {
                 borderColor: 'transparent',

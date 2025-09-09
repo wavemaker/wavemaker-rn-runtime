@@ -42,6 +42,22 @@ function writeStyleDefinition(componentName, group) {
     return styledefProvider;
 }
 
+function writeDesignToken(componentName, group) {
+    const designTokenProviderPath = `${__dirname}/../../wavemaker-rn-codegen/src/theme/components/design-token.provider.ts`;
+    const cComponentName = capitalize(camelCase(componentName));
+    const designTokenProvider = fs.readFileSync(designTokenProviderPath, 'utf-8')
+        .replace('//ADD_DESIGN_TOKEN_IMPORT', 
+            `import ${cComponentName}StyleDef from './${group}/${componentName}.styledef';\n//ADD_DESIGN_TOKEN_IMPORT`)
+        .replace('//REGISTER_DESIGN_TOKEN', 
+            `['${group}', ${cComponentName}StyleDef.getDesignTokens?.()],\n//REGISTER_DESIGN_TOKEN`);
+    const def = WIDGET_STYLE_DEF_TEMPLATE({
+        name: componentName,
+        baseStylePath: group.split('/').map((s, i) => '../').join('')
+    });
+    writeFile(designTokenProviderPath, designTokenProvider);
+    return designTokenProvider;
+}
+
 yargs(hideBin(process.argv)).command('generate',
     'generates a wavemaker widget',
     (yargs) => {
@@ -81,4 +97,5 @@ yargs(hideBin(process.argv)).command('generate',
                 `registerTransformer('wm-${info.widget.name.hyphenated}', ${info.widget.name.camelcase}Transformer);\n\t//#REGISTER_COMPONENT`);
         writeFile(registerFile, content);
         writeStyleDefinition(argv.name, argv.group);
+        writeDesignToken(argv.name, argv.group);
     }).showHelpOnFail().argv;
