@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Image, TouchableWithoutFeedback, Platform, Text } from 'react-native';
-import { VideoView, createVideoPlayer } from 'expo-video';
 import {
   BaseComponent,
   BaseComponentState,
@@ -29,6 +28,7 @@ export default class WmVideo extends BaseComponent<
 > {
   private player: any;
   private videoService: any = null as any;
+  private isPlayerInitialized: boolean = false;
 
   constructor(props: WmVideoProps) {
     super(props, DEFAULT_CLASS, new WmVideoProps(), new WmVideoState());
@@ -56,7 +56,7 @@ export default class WmVideo extends BaseComponent<
       accessibilityrole: 'image'
     }
     return (
-      <TouchableWithoutFeedback onPress={() => this.player?.play()} >
+      <TouchableWithoutFeedback onPress={() => this.player?.play()}>
         <Image
           {...this.getTestProps('video_poster')}
           style={{
@@ -93,7 +93,7 @@ export default class WmVideo extends BaseComponent<
 
   playerReadyStatusChange(statusObj: any) {
     const videoReady = statusObj.status === 'readyToPlay'
-    if (this.state.props.autoplay && videoReady) {
+    if (this.state.props.autoplay && videoReady && this.player) {
         this.player.play();
     }
     this.updateState({
@@ -102,6 +102,10 @@ export default class WmVideo extends BaseComponent<
   }
 
   initializeProps(){
+    if (!this.player) {
+      return;
+    }
+    
     const {
       loop,
       muted,
@@ -115,10 +119,17 @@ export default class WmVideo extends BaseComponent<
 
   componentDidMount(): void {
     super.componentDidMount();
-    const { mp4format, webmformat, autoplay } = this.state.props;
-    const videoSource = this.getSource(mp4format || webmformat) ;
+  }
 
-    this.player = this.videoService?.createVideoPlayer(videoSource);
+  initializePlayer(videoService: any) {
+    if (this.isPlayerInitialized || !videoService) {
+      return; // Player already initialized or videoService not available
+    }
+
+    const { mp4format, webmformat } = this.state.props;
+    const videoSource = this.getSource(mp4format || webmformat);
+
+    this.player = videoService.createVideoPlayer(videoSource);
     this.player.addListener(
       'playingChange',
       this.playingStatusChange.bind(this)
@@ -127,21 +138,29 @@ export default class WmVideo extends BaseComponent<
       'statusChange',
       this.playerReadyStatusChange.bind(this)
     ); 
-    this.initializeProps()
+    this.initializeProps();
+    this.isPlayerInitialized = true;
   }
 
   onPlayIconTap() {
     this.updateState({
       videoPosterDismissed: true
     } as WmVideoState)
-    this.player.play()
+    if (this.player) {
+      this.player.play()
+    }
   }
 
   componentWillUnmount(): void {
     super.componentWillUnmount();
-    this.player.removeListener('playingChange', this.playingStatusChange);
-    this.player.removeListener('statusChange', this.playerReadyStatusChange);
-    this.player.release();
+    if (this.player) {
+      this.player.removeListener('playingChange', this.playingStatusChange);
+      this.player.removeListener('statusChange', this.playerReadyStatusChange);
+      this.player.release();
+    }
+    this.player = null;
+    this.videoService = null;
+    this.isPlayerInitialized = false;
   }
 
   //TASK: Overlay on video widged should be removed once upgraded to expo 53.
@@ -164,7 +183,11 @@ export default class WmVideo extends BaseComponent<
     return (
       <VideoConsumer>
       {(videoService: any) => {
-        this.videoService = videoService;
+        // Only set videoService and initialize player once
+        if (videoService && !this.videoService) {
+          this.videoService = videoService;
+          this.initializePlayer(videoService);
+        }
         const VideoView = videoService?.VideoView;
         return (
           <View 
@@ -188,19 +211,11 @@ export default class WmVideo extends BaseComponent<
           <View testID={this.getTestId('video_overlay')} style={{backgroundColor:'transparent', width: '100%', height: '100%', flex: 1}}>
           </View>
         </Tappable>}
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 3ed89a5f ("Feat: remove unused plugins ~ WMS-25658")
         {!isPlaying && videoposter && showdefaultvideoposter ? (
           this.renderVideoPoster(props)
         ) : (
           <></>
         )}
-<<<<<<< HEAD
-        
-=======
->>>>>>> parent of 3ed89a5f ("Feat: remove unused plugins ~ WMS-25658")
         {
           !isPlaying && !showdefaultvideoposter && !this.state.videoPosterDismissed ? (
             <View style={this.styles.playIconContainer}>
