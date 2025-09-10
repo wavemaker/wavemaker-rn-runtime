@@ -48,9 +48,6 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
           animationId: Date.now()
         } as WmLabelState);
         break;
-      case "textanimation":
-      case "wordanimationstagger":
-        break;
     }
   }
   private getMultilineSkeleton(width: any, height: any) {
@@ -179,10 +176,6 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       return numOfLines;
   }
 
-  private asBoolean(v: any): boolean {
-    return v === true || v === 'true' || v === 1 || v === '1';
-  }
-
   // Helpers to dedupe common logic
   private tokenizeWords(text?: string) {
     return (text ? text.split(/(\s+)/) : [])
@@ -195,7 +188,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
   }
 
   private getWordAnimConfig() {
-    const step = Number(this.state.props.animationspeed) || 80;
+    const step = Number(this.state.props.animationspeed) ?? 80;
     const fadeDuration = Math.max(120, step * 2);
     return { step, fadeDuration };
   }

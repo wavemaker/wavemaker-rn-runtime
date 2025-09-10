@@ -1,5 +1,3 @@
-import * as Location from 'expo-location';
-import permissionManager from "@wavemaker/app-rn-runtime/runtime/services/device/permissions";
 import {
   GeoPositionInput,
   GeoPositionOutput
@@ -12,11 +10,11 @@ export class LocationService {
 
   public getCurrentGeoPosition(params: GeoPositionInput): Promise<GeoPositionOutput> {
     return new Promise((resolve, reject) => {
-      permissionManager.requestPermissions('location').then(() => {
+      params?.permissionService?.requestPermissions('location').then(() => {
         const options = {
           accuracy: 4
         }
-          resolve(Location.getCurrentPositionAsync(options));
+          resolve(params?.locationPluginService?.getCurrentPositionAsync(options));
         }, reject)
       });
   }

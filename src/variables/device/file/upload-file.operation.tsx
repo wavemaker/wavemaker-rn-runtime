@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { Platform } from 'react-native';
 import { endsWith } from 'lodash-es';
-import * as DocumentPicker from 'expo-document-picker';
 
 import { Operation } from '@wavemaker/app-rn-runtime/variables/device/operation.provider';
 import { FileExtensionTypesMap } from '@wavemaker/app-rn-runtime/core/file-extension-types';
+import { FileUploadPluginService } from '@wavemaker/app-rn-runtime/core/device/fileupload-service';
 
 export interface UploadFileInput {
   localFile: string;
@@ -29,15 +29,16 @@ const namedParameters = {
 };
 
 export class UploadFileOperation implements Operation {
+  constructor(private fileUploadService: FileUploadPluginService) {}
 
   public chooseFile() {
-    return DocumentPicker.getDocumentAsync(namedParameters).then((response: any) => {
+    return this.fileUploadService?.getDocumentAsync(namedParameters).then((response: any) => {
       const assets = response?.assets[0];
       return { uri: assets.uri, name: assets.name };
     });
   }
 
-  public invoke(params: UploadFileInput): Promise<UploadFileOutput> {
+  public invoke(params: UploadFileInput): any {
     params.serverUrl = endsWith(params.serverUrl, '/') ? params.serverUrl : params.serverUrl + '/';
     let serverUrl = params.serverUrl + 'services/file/uploadFile';
     if (params.remoteFolder) {
