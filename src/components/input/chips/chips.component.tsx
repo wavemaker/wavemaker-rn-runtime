@@ -276,7 +276,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
             id={this.getTestId('checkicon')} 
             iconclass={this.state.props.selectediconclass || 'wm-sl-l sl-check'} 
             iconsize={16} 
-            styles={this.styles.doneIcon} 
+            styles={merge({}, this.styles.doneIcon, {icon: {color: isSelected ? this.styles.activeChipLabel.color : null}})} 
             accessible={false}
           />
         ) : (
