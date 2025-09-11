@@ -2,6 +2,8 @@ import React from 'react';
 import { DimensionValue, Platform, Text, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { isString } from 'lodash-es';
+import { Audio } from 'expo-av';
+import { Sound } from 'expo-av/build/Audio';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmAudioProps from './audio.props';
 import { DEFAULT_CLASS, WmAudioStyles } from './audio.styles';
@@ -9,7 +11,6 @@ import WmIcon from '../icon/icon.component';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import { createSkeleton } from '../skeleton/skeleton.component';
 import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
-import { AudioConsumer, AudioService } from '@wavemaker/app-rn-runtime/core/device/av-service';
 
 export class WmAudioState extends BaseComponentState<WmAudioProps> {
   playing = false;
@@ -18,12 +19,11 @@ export class WmAudioState extends BaseComponentState<WmAudioProps> {
 }
 
 export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, WmAudioStyles> {
+
   private loading = false;
-  // private sound: Sound = null as any;
-  private sound: any = null as any;
+  private sound: Sound = null as any;
   private timer: any;
   private offsetTime = 0;
-  private audioService: AudioService = null as any;
 
   constructor(props: WmAudioProps) {
     super(props, DEFAULT_CLASS, new WmAudioProps(), new WmAudioState());
@@ -136,10 +136,10 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
     } else {
       this.loading = true;
       const source = this.getSource();
-      source && this.audioService.createAudio(source, {
+      source && Audio.Sound.createAsync(source, {
         isMuted: this.state.props.muted
       })
-        .then((res: any) => {
+        .then((res) => {
           this.sound = res.sound;
           this.sound.playAsync();
           this.sound.getStatusAsync().then((status: any) => {
@@ -222,56 +222,53 @@ export default class WmAudio extends BaseComponent<WmAudioProps, WmAudioState, W
   } 
   renderWidget(props: WmAudioProps) {
     return props.controls ? (
-      <AudioConsumer>
-      {(audioService: any) => {
-        this.audioService = audioService;
-        return <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
-          {this._background}
-          {!this.state.playing ? (<WmIcon 
-            id={this.getTestId('play')}
-            name={props.name + "_play"}
-            styles={this.styles.playIcon}
-            iconclass="wi wi-play-arrow fa-2x"
-            onTap={() => this.play()}></WmIcon>) : (
-          <WmIcon name={props.name + "_pause"}
-            id={this.getTestId('pause')}
-            iconclass="wi wi-pause fa-2x"
-            styles={this.styles.pauseIcon}
-            onTap={() => this.pause()}></WmIcon>)}
-          {
-            this._showSkeleton ? this.renderTextSkeleton() : 
-            <>
-              <Text style={this.styles.text}>
-              {`${this.formatTime(this.state.currentTime)} / ${this.formatTime(this.state.totalTime)}`}
-              </Text>
-              <Slider
-              testID={this.getTestId('slider')}
-              step={1}
-              style={{flex: 1}}
-              value={this.state.currentTime}
-              disabled={isWebPreviewMode()}
-              onValueChange={this.onSeekChange.bind(this)}
-              minimumValue={0}
-              inverted={this.isRTL && (Platform.OS=="android" || Platform.OS=="web")}
-              maximumValue={this.state.totalTime || 1}
-              thumbTintColor={this.styles.slider.thumb.backgroundColor as string}
-              minimumTrackTintColor={this.styles.slider.minimumTrack.backgroundColor as string}
-              maximumTrackTintColor={this.styles.slider.maximumTrack.backgroundColor as string}
-              />
-            </>
-          }
-          {!props.muted ? (<WmIcon name={props.name + "_mute"}
-            id={this.getTestId('mute')}
-            iconclass="wi wi-volume-up fa-2x"
-            styles={this.styles.muteIcon}
-            onTap={() => this.mute()}></WmIcon>) :
-          (<WmIcon name={props.name + "_unmute"}
-            id={this.getTestId('unmute')}
-            iconclass="wi wi-volume-off fa-2x"
-            styles={this.styles.unmuteIcon}
-            onTap={() => this.unmute()}></WmIcon>)}
-        </View>
-      }}
-      </AudioConsumer>) : null; 
+      <View style={this.styles.root}
+      onLayout={(event) => this.handleLayout(event)}
+      >
+        {this._background}
+        {!this.state.playing ? (<WmIcon 
+          id={this.getTestId('play')}
+          name={props.name + "_play"}
+          styles={this.styles.playIcon}
+          iconclass="wi wi-play-arrow fa-2x"
+          onTap={() => this.play()}></WmIcon>) : (
+        <WmIcon name={props.name + "_pause"}
+          id={this.getTestId('pause')}
+          iconclass="wi wi-pause fa-2x"
+          styles={this.styles.pauseIcon}
+          onTap={() => this.pause()}></WmIcon>)}
+        {
+          this._showSkeleton ? this.renderTextSkeleton() : 
+          <>
+            <Text style={this.styles.text}>
+            {`${this.formatTime(this.state.currentTime)} / ${this.formatTime(this.state.totalTime)}`}
+            </Text>
+            <Slider
+            testID={this.getTestId('slider')}
+            step={1}
+            style={{flex: 1}}
+            value={this.state.currentTime}
+            disabled={isWebPreviewMode()}
+            onValueChange={this.onSeekChange.bind(this)}
+            minimumValue={0}
+            inverted={this.isRTL && (Platform.OS=="android" || Platform.OS=="web")}
+            maximumValue={this.state.totalTime || 1}
+            thumbTintColor={this.styles.slider.thumb.backgroundColor as string}
+            minimumTrackTintColor={this.styles.slider.minimumTrack.backgroundColor as string}
+            maximumTrackTintColor={this.styles.slider.maximumTrack.backgroundColor as string}
+            />
+          </>
+        }
+        {!props.muted ? (<WmIcon name={props.name + "_mute"}
+          id={this.getTestId('mute')}
+          iconclass="wi wi-volume-up fa-2x"
+          styles={this.styles.muteIcon}
+          onTap={() => this.mute()}></WmIcon>) :
+        (<WmIcon name={props.name + "_unmute"}
+          id={this.getTestId('unmute')}
+          iconclass="wi wi-volume-off fa-2x"
+          styles={this.styles.unmuteIcon}
+          onTap={() => this.unmute()}></WmIcon>)}
+      </View>) : null; 
   }
 }
