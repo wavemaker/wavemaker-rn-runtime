@@ -1,6 +1,8 @@
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+
 import { Operation } from '@wavemaker/app-rn-runtime/variables/device/operation.provider';
 import { FileExtensionTypesMap } from '@wavemaker/app-rn-runtime/core/file-extension-types';
-import { OpenFilePluginService } from '@wavemaker/app-rn-runtime/core/device/openfile-service';
 
 // Supported file extensions mentioned in Wavemaker docs [https://docs.wavemaker.com/learn/app-development/variables/device-variables#openfile]
 const supportedExtensions = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx']
@@ -16,16 +18,15 @@ export interface OpenFileOutput extends OpenFileInput {
 }
 
 export class OpenFileOperation implements Operation {
-  constructor(private openFileService: OpenFilePluginService) {}
   public openInShare(data: OpenFileOutput) {
     if(!data || !data.fileLocalPath){
       return Promise.reject('unable to open the file'); 
     }
 
-    return this.openFileService.isAvailableAsync().then((response: boolean) => {
+    return Sharing.isAvailableAsync().then((response: boolean) => {
       if(response) {
         const fileName = data.filePath.split('/')[data.filePath.split('/').length - 1];
-        this.openFileService.shareAsync(data.fileLocalPath, {
+        Sharing.shareAsync(data.fileLocalPath, {
             mimeType: FileExtensionTypesMap[this.getFileExtension(fileName)]
         });
         return data;
@@ -36,7 +37,7 @@ export class OpenFileOperation implements Operation {
   }
 
   public checkIfFileExists(fileLocation: string) {
-    return this.openFileService.getInfoAsync(fileLocation).then(fileInfo => fileInfo);
+    return FileSystem.getInfoAsync(fileLocation).then(fileInfo => fileInfo);
   }
 
   public getFileExtension(fileName: string): string {
@@ -54,7 +55,7 @@ export class OpenFileOperation implements Operation {
   }
 
   public invoke(params: OpenFileInput): Promise<OpenFileOutput> {
-    if (this.openFileService.cacheDirectory === null) {
+    if (FileSystem.cacheDirectory === null) {
       return Promise.reject('Error is setting up device directory');
     }
     const fileName = params.filePath.split('/')[params.filePath.split('/').length - 1];
@@ -63,7 +64,7 @@ export class OpenFileOperation implements Operation {
         return Promise.reject('Unsupported file');
     }
     
-    const fileLocation = this.openFileService.cacheDirectory + fileName;
+    const fileLocation = FileSystem.cacheDirectory + fileName;
 
     return Promise.resolve().then(() => {
       return this.checkIfFileExists(fileLocation)
@@ -72,7 +73,7 @@ export class OpenFileOperation implements Operation {
         return { fileLocalPath: fileLocation, ...params };
       }
 
-      const downloadResumable = this.openFileService.createDownloadResumable(
+      const downloadResumable = FileSystem.createDownloadResumable(
         params.filePath,
         fileLocation,
         {
@@ -82,7 +83,7 @@ export class OpenFileOperation implements Operation {
       );
 
       return downloadResumable.downloadAsync()
-        .then((response: any) => {
+        .then((response) => {
           return { fileLocalPath: fileLocation, ...params };
         })
     }).then((response: OpenFileOutput) => {
