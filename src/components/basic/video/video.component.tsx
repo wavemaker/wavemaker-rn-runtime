@@ -28,7 +28,6 @@ export default class WmVideo extends BaseComponent<
 > {
   private player: any;
   private videoService: any = null as any;
-  private isPlayerInitialized: boolean = false;
 
   constructor(props: WmVideoProps) {
     super(props, DEFAULT_CLASS, new WmVideoProps(), new WmVideoState());
@@ -56,7 +55,7 @@ export default class WmVideo extends BaseComponent<
       accessibilityrole: 'image'
     }
     return (
-      <TouchableWithoutFeedback onPress={() => this.player?.play()}>
+      <TouchableWithoutFeedback onPress={() => this.player?.play()} >
         <Image
           {...this.getTestProps('video_poster')}
           style={{
@@ -93,7 +92,7 @@ export default class WmVideo extends BaseComponent<
 
   playerReadyStatusChange(statusObj: any) {
     const videoReady = statusObj.status === 'readyToPlay'
-    if (this.state.props.autoplay && videoReady && this.player) {
+    if (this.state.props.autoplay && videoReady) {
         this.player.play();
     }
     this.updateState({
@@ -102,10 +101,6 @@ export default class WmVideo extends BaseComponent<
   }
 
   initializeProps(){
-    if (!this.player) {
-      return;
-    }
-    
     const {
       loop,
       muted,
@@ -119,17 +114,10 @@ export default class WmVideo extends BaseComponent<
 
   componentDidMount(): void {
     super.componentDidMount();
-  }
+    const { mp4format, webmformat, autoplay } = this.state.props;
+    const videoSource = this.getSource(mp4format || webmformat) ;
 
-  initializePlayer(videoService: any) {
-    if (this.isPlayerInitialized || !videoService) {
-      return; // Player already initialized or videoService not available
-    }
-
-    const { mp4format, webmformat } = this.state.props;
-    const videoSource = this.getSource(mp4format || webmformat);
-
-    this.player = videoService.createVideoPlayer(videoSource);
+    this.player = this.videoService?.createVideoPlayer(videoSource);
     this.player.addListener(
       'playingChange',
       this.playingStatusChange.bind(this)
@@ -138,29 +126,21 @@ export default class WmVideo extends BaseComponent<
       'statusChange',
       this.playerReadyStatusChange.bind(this)
     ); 
-    this.initializeProps();
-    this.isPlayerInitialized = true;
+    this.initializeProps()
   }
 
   onPlayIconTap() {
     this.updateState({
       videoPosterDismissed: true
     } as WmVideoState)
-    if (this.player) {
-      this.player.play()
-    }
+    this.player.play()
   }
 
   componentWillUnmount(): void {
     super.componentWillUnmount();
-    if (this.player) {
-      this.player.removeListener('playingChange', this.playingStatusChange);
-      this.player.removeListener('statusChange', this.playerReadyStatusChange);
-      this.player.release();
-    }
-    this.player = null;
-    this.videoService = null;
-    this.isPlayerInitialized = false;
+    this.player.removeListener('playingChange', this.playingStatusChange);
+    this.player.removeListener('statusChange', this.playerReadyStatusChange);
+    this.player.release();
   }
 
   //TASK: Overlay on video widged should be removed once upgraded to expo 53.
@@ -183,11 +163,7 @@ export default class WmVideo extends BaseComponent<
     return (
       <VideoConsumer>
       {(videoService: any) => {
-        // Only set videoService and initialize player once
-        if (videoService && !this.videoService) {
-          this.videoService = videoService;
-          this.initializePlayer(videoService);
-        }
+        this.videoService = videoService;
         const VideoView = videoService?.VideoView;
         return (
           <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
