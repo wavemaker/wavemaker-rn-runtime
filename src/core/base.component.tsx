@@ -338,7 +338,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     protected abstract renderWidget(props: T): ReactNode;
 
     public refresh() {
-        this.forceUpdate();
+        try {
+            setTimeout(() => this.forceUpdate(), 0);
+        } catch (e) {
+            // Component not mounted, ignore
+        }
     }
 
     public cleanRefresh() {
