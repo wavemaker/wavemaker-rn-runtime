@@ -9,6 +9,7 @@ import WmSkeleton, { createSkeleton } from '@wavemaker/app-rn-runtime/components
 import { WmSkeletonStyles } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.styles';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import WmIcon from "@wavemaker/app-rn-runtime/components/basic/icon/icon.component";
+import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
 export class WmTabheaderState extends BaseComponentState<WmTabheaderProps> {
 }
@@ -131,7 +132,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
               <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key} styles={{flex: 1}} disableTouchEffect={this.state.props.disabletoucheffect}>
                 <View onLayout={this.setHeaderPositon.bind(this, i)} style={[
                   this.styles.header,
-                  isSelected ? this.styles.activeHeader : null]}>
+                  isSelected ? this.styles.activeHeader.root : null]}>
                   {
                     createSkeleton(this.theme, { root: { borderRadius: 4 }} as WmSkeletonStyles, {
                       ...this.styles.root,
@@ -160,65 +161,72 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
     const arrowIndicator = this.styles.arrowIndicator as any;
     return (
     <View>
-      <View style={this.styles.root}>
-        {this._background}
-        {props.data.map((header ,i) => {
-          const isSelected = i === props.selectedTabIndex ;
-          return (
-            <Tappable onTap={this.onTabSelection.bind(this, i)}
-              {...this.getTestPropsForAction(i +'')}
-              key={header.key}
-              disableTouchEffect={this.state.props.disabletoucheffect}
-              styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null}>
-              <View onLayout={this.setHeaderPositon.bind(this, i)}>
-                <View style={[
-                  this.styles.header,
-                  {flexGrow: undefined},
-                  isSelected ? this.styles.activeHeader : null]}>
-                  <WmIcon
-                    id={this.getTestId(i + 'icon')}
-                    styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeaderIcon : null)}
-                    iconclass={header.icon}></WmIcon>
-                  <Text numberOfLines={1} style={[
-                    this.styles.headerText,
-                    isSelected ? this.styles.activeHeaderText : null]}
-                    {...this.getTestPropsForLabel(i + '_title')}
-                  >{header.title}</Text>
+        <View style={this.styles.root}>
+          {this._background}
+          {props.data.map((header ,i) => {
+            const isSelected = i === props.selectedTabIndex ;
+            const accessibilityProps = getAccessibilityProps(AccessibilityWidgetType.TABS, {
+              selected: isSelected,
+              accessibilitylabel: props.accessibilityProps[i].accessibilitylabel,
+              hint: props.accessibilityProps[i].hint,
+              accessibilityrole: props.accessibilityProps[i].accessibilityrole,
+            });
+            return (
+              <Tappable onTap={this.onTabSelection.bind(this, i)}
+                {...this.getTestPropsForAction(i +'')}
+                key={header.key}
+                disableTouchEffect={this.state.props.disabletoucheffect}
+                styles={this.styles.header.flexGrow ? {flexGrow: this.styles.header.flexGrow} : null} accessibilityProps={accessibilityProps}>
+                <View onLayout={this.setHeaderPositon.bind(this, i)}>
+                  <View style={[
+                    this.styles.header,
+                    {flexGrow: undefined},
+                    isSelected ? this.styles.activeHeader.root : null]}>
+                    <WmIcon
+                      id={this.getTestId(i + 'icon')}
+                      styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeader.icon : null)}
+                      iconclass={header.icon}
+                      accessible={false}></WmIcon>
+                    <Text numberOfLines={1} style={[
+                      this.styles.headerText,
+                      isSelected ? this.styles.activeHeader.text : null]}
+                      {...this.getTestPropsForLabel(i + '_title')}
+                    >{header.title}</Text>
+                  </View>
                 </View>
-              </View>
-            </Tappable>
-          );
-        })}
-      </View>
-      <Animated.View style={[this.styles.activeIndicator, {
-        transform: [{
-          translateX: this.indicatorPosition
-        }, {
-          scaleX: this.indicatorWidth
-        }]
-      }]}>
-        <Animated.View style={[{
-            transform: [{
-              scaleX: this.reverseIndicatorWidth
-            }]
-          },
-          this.styles.arrowIndicator
-        ]}>
-          {
-          arrowIndicator.backgroundImage ? (
-            <BackgroundComponent
-            image={arrowIndicator.backgroundImage}
-            position={arrowIndicator.backgroundPosition}
-            size={arrowIndicator.backgroundSize}
-            repeat={arrowIndicator.backgroundRepeat}
-            resizeMode={arrowIndicator.backgroundResizeMode}
-            style={{borderRadius: this.styles.root.borderRadius}}
-            ></BackgroundComponent>
-          ) : null }
-          <View style={this.styles.arrowIndicatorDot}></View>
+              </Tappable>
+            );
+          })}
+        </View>
+        <Animated.View style={[this.styles.activeIndicator, {
+          transform: [{
+            translateX: this.indicatorPosition
+          }, {
+            scaleX: this.indicatorWidth
+          }]
+        }]}>
+          <Animated.View style={[{
+              transform: [{
+                scaleX: this.reverseIndicatorWidth
+              }]
+            },
+            this.styles.arrowIndicator
+          ]}>
+            {
+            arrowIndicator.backgroundImage ? (
+              <BackgroundComponent
+              image={arrowIndicator.backgroundImage}
+              position={arrowIndicator.backgroundPosition}
+              size={arrowIndicator.backgroundSize}
+              repeat={arrowIndicator.backgroundRepeat}
+              resizeMode={arrowIndicator.backgroundResizeMode}
+              style={{borderRadius: this.styles.root.borderRadius}}
+              ></BackgroundComponent>
+            ) : null }
+            <View style={this.styles.arrowIndicatorDot}></View>
+          </Animated.View>
         </Animated.View>
-      </Animated.View>
-      </View>)
+        </View>)
   }
   
   renderWidget(props: WmTabheaderProps) {

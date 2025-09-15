@@ -4,6 +4,7 @@ import { WmSkeletonStyles } from '../skeleton/skeleton.styles';
 
 export type WmIconStyles = BaseStyles & {
     icon?: AllStyle,
+    image?: AllStyle,
     skeleton: WmSkeletonStyles
 };
 export const DEFAULT_CLASS = 'app-icon';
@@ -21,6 +22,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         text: {
             paddingLeft: 8
         },
+        image: {
+          height: 12,
+          width: 12,
+          borderRadius: 0
+        },
         skeleton:{
             root: {
                 width: 32,
@@ -33,7 +39,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     addStyle(DEFAULT_CLASS, '', defaultStyles);
     addStyle(DEFAULT_CLASS + '-rtl', '', {
         text: {
-            paddingRight: 8        
+            paddingRight: 8
         }
     });
 });

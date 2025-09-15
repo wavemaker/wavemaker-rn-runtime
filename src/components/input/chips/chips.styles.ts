@@ -1,4 +1,4 @@
-import { TextStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmSearchStyles } from '@wavemaker/app-rn-runtime/components/basic/search/search.styles';
@@ -12,8 +12,7 @@ export type WmChipsStyles = BaseStyles & {
   chipsWrapper: AllStyle;
   search: WmSearchStyles;
   searchContainer: AllStyle;
-  activeChip: AllStyle;
-  activeChipLabel: TextStyle;
+  activeChip: BaseStyles;
   clearIcon: WmIconStyles;
   doneIcon: WmIconStyles;
   imageStyles: WmPictureStyles;
@@ -104,13 +103,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderColor: themeVariables.chipborderColor
       },
       activeChip: {
-        backgroundColor: themeVariables.chipSelectedContainerColor, 
-        borderColor: themeVariables.chipSelectedOutlineColor,
-        borderWidth: 0
-      },
-      activeChipLabel: {
-        color: themeVariables.chipActiveTextColor
-      },
+        root: {
+          backgroundColor: themeVariables.chipSelectedContainerColor,
+          borderColor: themeVariables.chipSelectedOutlineColor,
+          borderWidth: 0
+        } as ViewStyle,
+        text: {
+          color: themeVariables.chipActiveTextColor
+        } as TextStyle,
+      } as BaseStyles,
       searchContainer: {
         width: '100%',
         flexDirection: 'column'
@@ -156,7 +157,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
-  
+
   // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
   addStyle('form-chips-input-horizontal', '', {
     root: {
@@ -166,7 +167,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     text: {}
   } as BaseStyles);
-  
+
   addStyle(DEFAULT_CLASS + '-disabled', '', {
     chip: {
       opacity: 0.5

@@ -9,15 +9,12 @@ export type WmAccordionStyles = BaseStyles & {
   icon: WmIconStyles,
   rightToggleIcon: WmIconStyles,
   leftToggleIcon: WmIconStyles,
-  activeIcon: WmIconStyles,
   pane: AllStyle,
   badge: AllStyle,
-  activeBadge: AllStyle,
   firstHeader: ViewStyle,
   lastHeader: ViewStyle,
   header: AllStyle,
-  activeHeader: AllStyle,
-  activeHeaderTitle: TextStyle,
+  activeHeader: BaseStyles,
   subheading: AllStyle,
   titleIcon: WmIconStyles,
   skeleton: WmSkeletonStyles
@@ -58,14 +55,28 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderBottomRightRadius: 6
       },
       activeHeader: {
+      root: {
         borderColor: themeVariables.accordionActiveHeaderBgColor,
         backgroundColor: themeVariables.accordionActiveHeaderBgColor
       },
-      activeHeaderTitle: {
+      text: {
         color: themeVariables.accordionActiveHeaderTextColor
       },
+      icon: {
+        root: {
+          borderColor: themeVariables.accordionActiveHeaderTextColor,
+        },
+        icon: {
+          color: themeVariables.accordionActiveHeaderTextColor
+        }
+      } as WmIconStyles,
+      badge: {
+        borderColor: themeVariables.accordionActiveHeaderTextColor,
+        color: themeVariables.accordionActiveHeaderTextColor
+      }
+    },
       subheading: {
-
+        color: themeVariables.accordionTitleColor
       },
       icon: {
         root: {
@@ -89,18 +100,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       rightToggleIcon: {
         root: {}
       } as WmIconStyles,
-      activeIcon : {
-        root: {
-          borderColor: themeVariables.accordionActiveHeaderTextColor,
-        },
-        icon: {
-          color: themeVariables.accordionActiveHeaderTextColor
-        }
-      } as WmIconStyles,
-      activeBadge: {
-        borderColor: themeVariables.accordionActiveHeaderTextColor,
-        color: themeVariables.accordionActiveHeaderTextColor
-      },
       badge: {
           color: themeVariables.accordionIconColor,
           fontSize: 14,

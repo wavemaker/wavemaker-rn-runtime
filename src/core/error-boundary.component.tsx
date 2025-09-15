@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Fallback from './components/error-fallback.component';
+import Fallback from './components/error-fallback/error-fallback.component';
 import appModalService from '@wavemaker/app-rn-runtime/runtime/services/app-modal.service';
 
 interface ErrorBoundaryState {

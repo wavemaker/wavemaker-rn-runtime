@@ -2,26 +2,18 @@ import React from 'react';
 import { PanResponder, ScrollView, View, NativeSyntheticEvent,  NativeScrollEvent ,StatusBar, Platform} from 'react-native';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-
 import WmPageProps from './page.props';
 import { DEFAULT_CLASS, WmPageStyles } from './page.styles';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
-import { StickyViewContainer } from '@wavemaker/app-rn-runtime/core/sticky-container.component';
+import { StickyViewComponents } from '@wavemaker/app-rn-runtime/core/sticky-view.component';
 import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import * as NavigationBar from 'expo-navigation-bar';
 
 export class WmPageState extends BaseComponentState<WmPageProps> {}
 
-interface CustomScrollEvent {
-  scrollDirection: number;
-  scrollDelta: number;
-}
-
-
 export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPageStyles> {
-  private scrollRef: React.RefObject<any>;
-  private previousScrollPosition: number = 0;
   private appConfig = injector.get<AppConfig>('APP_CONFIG');
 
   panResponder = PanResponder.create({
@@ -31,64 +23,55 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
     },
   });
   constructor(props: WmPageProps) {
-    super(props, DEFAULT_CLASS, );
-    this.scrollRef = React.createRef();
+    super(props, DEFAULT_CLASS);
   }
 
-  private onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>)=>{
-    const scrollPosition = event.nativeEvent.contentOffset.y;
-    const scrollDelta = Math.abs(scrollPosition - this.previousScrollPosition)  
-    if(scrollPosition >=0){
-      const e = event as unknown as CustomScrollEvent;
-      if (scrollPosition > this.previousScrollPosition) {
-        e.scrollDirection = 1;
-      } else if (scrollPosition === this.previousScrollPosition) {
-        e.scrollDirection = 0;
-      } else {
-        e.scrollDirection = -1;
-      }
-      e.scrollDelta = scrollDelta;
-      this.previousScrollPosition = scrollPosition;
-      this.notify('scroll', [e]);
+  componentDidMount() {
+    this.setNavigationBarColor();
+  }
+
+  componentDidUpdate(prevProps: WmPageProps) {
+    if (prevProps.navigationbarstyle !== this.props.navigationbarstyle) {
+      this.setNavigationBarColor();
     }
   }
 
-  public scrollTo(position: {x: number, y: number}){
-    this.scrollRef?.current?.scrollTo({
-      x: position.x,
-      y: position.y,
-      Animated: true
-    });
+  setNavigationBarColor() {
+    const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
+    if (Platform.OS !== 'android' || !isEdgeToEdgeApp) return;
+    
+    const isDark = this.props.navigationbarstyle === 'dark';
+    const navbarColor = isDark ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.5)';
+      
+    const buttonStyle = isDark ? 'light' : 'dark';
+
+    NavigationBar.setBackgroundColorAsync(navbarColor);
+    NavigationBar.setButtonStyleAsync(buttonStyle);
   }
 
   renderWidget(props: WmPageProps) {
 
     const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
     return (
-      <StickyViewContainer>
+      <StickyViewComponents hasAppnavbar={props.hasappnavbar} onscroll={props.onscroll} notifier={this.notifier}>
         <FixedViewContainer>
-        {isEdgeToEdgeApp && Platform.OS ==="android" ? <StatusBar barStyle={props.barstyle}/> : null}
-        <SafeAreaInsetsContext.Consumer>
-          {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
-            return props.scrollable ? 
-            <ScrollView
-              ref={this.scrollRef}
-              {...this.panResponder.panHandlers}
-              style={[{ width:'100%', height:'100%', paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 }, this.styles.root]}
-              onScroll={this.onScroll}
-              scrollEventThrottle={16}
-            >
-              {this._background}
-              {props.children}
-            </ScrollView> : 
-            <View style={[{paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 },this.styles.root]}> 
-              {this._background}
-              {props.children}
-            </View>
-          }}
-        </SafeAreaInsetsContext.Consumer>
+        {isEdgeToEdgeApp && Platform.OS ==="android" ? <StatusBar barStyle={props.statusbarstyle}/> : null}
+          <SafeAreaInsetsContext.Consumer>
+            {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+              return (
+                <View 
+                  {...this.getTestProps()}
+                  style={[{paddingTop : !props?.hasappnavbar && isEdgeToEdgeApp ? insets?.top : 0 },this.styles.root]} 
+                  {...this.panResponder.panHandlers}
+                > 
+                  {this._background}
+                  {props.children}
+                </View> 
+              )
+            }}
+          </SafeAreaInsetsContext.Consumer>
         </FixedViewContainer>
-     </StickyViewContainer>
+      </StickyViewComponents>
     ); 
   }
 }

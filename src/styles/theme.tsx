@@ -1,7 +1,7 @@
 import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, get, reverse, isNumber } from 'lodash';
 import React from 'react';
 import { camelCase } from 'lodash-es';
-import { TextStyle, ViewStyle, ImageStyle, ImageBackground, Dimensions } from 'react-native';
+import { TextStyle, ViewStyle, ImageStyle, ImageBackground, Dimensions, Platform } from 'react-native';
 import { deepCopy, isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core/viewport';
@@ -21,7 +21,7 @@ if (typeof window !== "undefined") {
     window.matchMedia = (query: string) => new MediaQueryList(query);
 }
 
-export const DEVICE_BREAK_POINTS = {
+export const DEVICE_BREAK_POINTS: {[key: string]: string} = {
     'MIN_EXTRA_SMALL_DEVICE' : '0px',
     'MAX_EXTRA_SMALL_DEVICE' : '767px',
     'MIN_SMALL_DEVICE' : '768px',
@@ -32,17 +32,25 @@ export const DEVICE_BREAK_POINTS = {
     'MAX_LARGE_DEVICE' : '1000000px',
 };
 
-export const DEVICE_BREAK_POINTS_NATIVE_MOBILE = {
-    'MIN_EXTRA_SMALL_DEVICE': '0',      // 0-479px (phones portrait)
-    'MAX_EXTRA_SMALL_DEVICE': '479',
-    'MIN_SMALL_DEVICE': '480',          // 480-767px (phones landscape, small tablets portrait)
-    'MAX_SMALL_DEVICE': '767',
-    'MIN_MEDIUM_DEVICE': '768',         // 768-1023px (tablets portrait, small laptops)
-    'MAX_MEDIUM_DEVICE': '1023',
-    'MIN_LARGE_DEVICE': '1024',         // 1024px+ (tablets landscape, desktops)
-    'MAX_LARGE_DEVICE': '1000000',
-  };
-  
+export const DEVICE_BREAK_POINTS_NATIVE_MOBILE: {[key: string]: string} = {
+    'MIN_EXTRA_SMALL_DEVICE': '0px',      // 0-479px (phones portrait)
+    'MAX_EXTRA_SMALL_DEVICE': '479px',
+    'MIN_SMALL_DEVICE': '480px',          // 480-767px (phones landscape, small tablets portrait)
+    'MAX_SMALL_DEVICE': '767px',
+    'MIN_MEDIUM_DEVICE': '768px',         // 768-1023px (tablets portrait, small laptops)
+    'MAX_MEDIUM_DEVICE': '1023px',
+    'MIN_LARGE_DEVICE': '1024px',         // 1024px+ (tablets landscape, desktops)
+    'MAX_LARGE_DEVICE': '1000000px',
+};
+
+export const getBreakPointValue = (name: string) => {
+    if(Platform.OS === 'web') {
+        return DEVICE_BREAK_POINTS[name];
+    }
+
+    return DEVICE_BREAK_POINTS_NATIVE_MOBILE[name];
+}
+
 
 export type styleGeneratorFn<T extends NamedStyles<any>> = (
     themeVariables: ThemeVariables,
@@ -71,7 +79,7 @@ export class Theme {
     private cache: any = {};
 
     private traceEnabled = false;
-    
+
     private revertLayoutToExpo50: Boolean;
 
     private styleGenerators: styleGeneratorFn<any>[] = [];
@@ -104,25 +112,39 @@ export class Theme {
         this.children.forEach(t => t.notify(event));
     }
 
-    private replaceVariables(val: any) {
-        if(isString(val)) { 
+    private replaceVariables(val: any, baseTokens: any, classNames: any, inheritedTokens: Record<string, any> = {}) {
+        if(isString(val)) {
             (val.match(/_*var\([^\)]*\)/g) || []).forEach((s) => {
                 const content = s.substring(4, s.length - 1);
-                let [variableName, fallback] = content.split(",").map(str => str.trim()); 
-                let resolvedValue = (ThemeVariables.INSTANCE as any)[variableName] 
-                    || (ThemeVariables.INSTANCE as any)[variableName.substring(2)] 
-                    || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]
-                    || fallback;
+                let [variableName, fallback] = content.split(",").map(str => str.trim());
+                let resolvedValue;
+                let variants: any = (ThemeVariables.INSTANCE as any).variants;
+                if (variants && typeof classNames === 'string') {
+                    const classList = classNames.split(/\s+/);
+                    for (const cls of classList) {
+                        if (variants[cls] && variants[cls][variableName]) {
+                            resolvedValue = variants[cls][variableName];
+                            break;
+                        }
+                    }
+                }
+                if (!resolvedValue) {
+                    resolvedValue = inheritedTokens[variableName] ?? inheritedTokens[`--${variableName}`] ?? baseTokens[variableName]
+                      ?? (ThemeVariables.INSTANCE as any)[variableName]
+                      ?? (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
+                      ?? (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]
+                      ?? fallback;
+                }
                 val = val.replace(s, resolvedValue);
-                if (isNumber(resolvedValue) 
+                if (isNumber(resolvedValue)
                     && val.trim() === (resolvedValue + '')) {
                     val = resolvedValue;
                 } else {
-                    val = this.replaceVariables(val);
+                val = this.replaceVariables(val, baseTokens, classNames, inheritedTokens);
                 }
             });
         }
-        return val; 
+        return val;
     }
 
     clearCache() {
@@ -192,6 +214,16 @@ export class Theme {
         return result;
     }
 
+    extractTopLevelVariables(style: Record<string, any>): Record<string, any> {
+        const vars: Record<string, any> = {};
+        for (const key in style) {
+            if (key.startsWith('--')) {
+                vars[key] = style[key];
+            }
+        }
+        return vars;
+    }
+
     mergeStyle(...styles: any) {
         const style = deepCopy(...styles);
         if (this.traceEnabled) {
@@ -209,21 +241,50 @@ export class Theme {
                 }
             });
         }
-        return style;
+        const baseTokens = this.extractTopLevelVariables(style)
+        const classnames = Array.isArray(styles)
+            ? styles.filter(isString).join(' ')
+            : Object.values(styles).filter(isString).join(' ');
+
+        return this.cleanseStyleProperties(style, baseTokens, classnames)
     }
 
-    cleanseStyleProperties(style: any) {
+    cleanseStyleProperties(style: any, baseTokens: any, classnames: any, inheritedTokens: Record<string, any> = {}) {
         if (!(style && isObject(style)) || isString(style) || isArray(style)) {
             return style;
         }
         style = style as any;
         if (isObject(style) && !isArray(style)) {
-            Object.keys(style).forEach(k => {
-                let v = this.replaceVariables((style as any)[k]);
+            const resolveStyle = (v: any, inheritedTokens: Record<string, any> = {}) => {
+                v = this.replaceVariables(v, baseTokens, classnames, inheritedTokens);
                 if (isString(v) && v.startsWith("color-mix(")) {
                     v = ColorMix.valueOf(v);
                 }
-                (style as any)[k] = v;
+                return v;
+            };
+
+           const classNames = Object.keys(style);
+           const resolvedTokens = {...inheritedTokens};
+           // For inline token in obj
+           classNames.forEach(k => {
+                if (k.startsWith('--')) {
+                    let v = resolveStyle((style as any)[k], resolvedTokens);
+                    resolvedTokens[k] = v;
+                    const variableName = k.substring(2);
+                    (ThemeVariables.INSTANCE as any)[variableName] = v;
+                    (ThemeVariables.INSTANCE as any)[camelCase(variableName)] = v;
+                }
+            });
+
+           // For edge case when prop is before inline token
+           classNames.forEach(k => {
+                if (!k.startsWith('--')) {
+                    if (isObject((style as any)[k]) && !isArray((style as any)[k])) {
+                        this.cleanseStyleProperties((style as any)[k], baseTokens, classnames, resolvedTokens);
+                    } else {
+                        (style as any)[k] = resolveStyle((style as any)[k], resolvedTokens);
+                    }
+                }
             });
         }
         if (!isNil(style['shadowRadius'])) {
@@ -263,7 +324,7 @@ export class Theme {
                   }
                 }
               }
-        
+
               if (!isNil(style['marginLeft']) || !isNil(style['marginRight'])) {
                 if (!isNil(style['marginLeft']) && !isNil(style['marginRight'])) {
                   [style['marginLeft'], style['marginRight']] = [style['marginRight'], style['marginLeft']];
@@ -278,7 +339,7 @@ export class Theme {
                     delete style['marginRight'];
                   }
                 }
-              }        
+              }
         }
         let screenWidth = Dimensions.get('window').width;
         let screenHeight = Dimensions.get('window').height;
@@ -293,7 +354,6 @@ export class Theme {
                 style[k] = Number(stylePropertyValue)/100 * screenHeight
             }
         })
-        Object.keys(style).forEach((k, i) => this.cleanseStyleProperties(style[k]));
         return style;
     }
 
@@ -314,7 +374,6 @@ export class Theme {
             if (!mediaQuery || matchMedia(mediaQuery).matches) {
                 clonedStyle = cloneDeep(this.styles[name]) || {} ;
                 clonedStyle['root'] = clonedStyle['root'] || {};
-                this.cleanseStyleProperties(clonedStyle);
                 const extraTextStyles = (this.getTextStyle(clonedStyle) || {}) as any ;
                 clonedStyle['text'] = Object.assign({}, extraTextStyles, clonedStyle['text'] || {});
                 Object.keys(clonedStyle).forEach((k) => {
@@ -347,7 +406,7 @@ export class Theme {
             this.parent.children.splice(i, 1);
         }
     }
-    
+
     getTextStyle(s: any) {
         if (!s) {
             return {};
@@ -392,7 +451,7 @@ export class Theme {
                 });
             });
         } else {
-            this.styleGenerators.forEach(fn => 
+            this.styleGenerators.forEach(fn =>
                 fn(ThemeVariables.INSTANCE, this.addStyle.bind(this)));
         }
         this.notify(ThemeEvent.CHANGE);
@@ -427,10 +486,10 @@ export const ThemeConsumer = ThemeContext.Consumer;
             } as any)
         }
     };
-    addColStyles('xs', DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE);
-    addColStyles('sm',  DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE);
-    addColStyles('md',  DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE);
-    addColStyles('lg',  DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE);
+    addColStyles('xs', getBreakPointValue('MIN_EXTRA_SMALL_DEVICE'));
+    addColStyles('sm',  getBreakPointValue('MIN_SMALL_DEVICE'));
+    addColStyles('md',  getBreakPointValue('MIN_MEDIUM_DEVICE'));
+    addColStyles('lg',  getBreakPointValue('MIN_LARGE_DEVICE'));
 
     addStyle('d-none', '', {
         root: {
@@ -457,21 +516,21 @@ export const ThemeConsumer = ThemeContext.Consumer;
             }
         } as any);
     };
-    addDisplayStyles('all', 
-        DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_LARGE_DEVICE);
-    addDisplayStyles('xs', 
-        DEVICE_BREAK_POINTS.MIN_EXTRA_SMALL_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_EXTRA_SMALL_DEVICE);
-    addDisplayStyles('sm',   
-        DEVICE_BREAK_POINTS.MIN_SMALL_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_SMALL_DEVICE);
-    addDisplayStyles('md',   
-        DEVICE_BREAK_POINTS.MIN_MEDIUM_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_MEDIUM_DEVICE);
-    addDisplayStyles('lg',   
-        DEVICE_BREAK_POINTS.MIN_LARGE_DEVICE,
-        DEVICE_BREAK_POINTS.MAX_LARGE_DEVICE);
+    addDisplayStyles('all',
+        getBreakPointValue('MIN_EXTRA_SMALL_DEVICE'),
+        getBreakPointValue('MAX_LARGE_DEVICE'));
+    addDisplayStyles('xs',
+        getBreakPointValue('MIN_EXTRA_SMALL_DEVICE'),
+        getBreakPointValue('MAX_EXTRA_SMALL_DEVICE'));
+    addDisplayStyles('sm',
+        getBreakPointValue('MIN_SMALL_DEVICE'),
+        getBreakPointValue('MAX_SMALL_DEVICE'));
+    addDisplayStyles('md',
+        getBreakPointValue('MIN_MEDIUM_DEVICE'),
+        getBreakPointValue('MAX_MEDIUM_DEVICE'));
+    addDisplayStyles('lg',
+        getBreakPointValue('MIN_LARGE_DEVICE'),
+        getBreakPointValue('MAX_LARGE_DEVICE'));
 
     const addElevationClasses = () => {
         for(let i = 1; i <= 10; i++) {
@@ -514,4 +573,3 @@ export const ThemeConsumer = ThemeContext.Consumer;
     addStyle('hide-context-menu', '', { text: { userSelect: 'none' }});
     addStyle('hide-context-menu-input', '', { text: { userSelect: 'none' }});
 });
-

@@ -136,11 +136,11 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     if(this.props.skeletonheight == "0") {
       skeletonWidth = 0
     }
-    
+
     if(this.props.skeletonheight == "0") {
       skeletonHeight = 0
     }
-    
+
     return createSkeleton(this.theme, this.styles.skeleton, {
       ...this.styles.root,
       width: skeletonWidth,
@@ -156,10 +156,10 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
 
     if (iconwidth) width = iconwidth;
     else if (iconheight) width = iconheight;
-    else width = 12;
+    else width = this.styles.image?.width || 12;
     if (iconheight) height = iconheight;
     else if (iconwidth) height = iconwidth;
-    else height = 12;
+    else height = this.styles.image?.height || 12;
 
     if (isFullPathUrl(iconSrc)) {
       source = {
@@ -172,7 +172,8 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
       style={{
         margin: iconmargin ?? 0,
         height: height,
-        width: width
+        width: width,
+        borderRadius: this.styles.image?.borderRadius || 0
       }}
       source={source}/>;
     return elementToshow;
@@ -258,10 +259,10 @@ export default class WmIcon extends BaseComponent<WmIconProps, WmIconState, WmIc
     let icon = this.renderIcon(props);
     let iterationCount: any = props.iterationcount ? (props.iterationcount != 'infinite' ? parseInt(props.iterationcount): 'infinite') : undefined;
     return (
-      <Tappable 
-        target={this} 
-        rippleColor = {this.styles.root.rippleColor} 
-        {...this.getTestPropsForAction()}  
+      <Tappable
+        target={this}
+        rippleColor = {this.styles.root.rippleColor}
+        {...this.getTestPropsForAction()}
         disableTouchEffect={this.state.props.disabletoucheffect}
         onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
       >

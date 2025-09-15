@@ -229,11 +229,10 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     return (<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
         <View style={[this.styles.dotsWrapperStyle, { width: wrapperWidth }]}>
           <Animated.View
-            style={{
+            style={[{
               flexDirection: this.isRTL ? 'row-reverse' : 'row',
-              alignItems: 'center',
               transform: [{ translateX: this.wrapperPosition }],
-            }}
+            }, this.styles.dotsContainerStyle]}
           >
             {data.map((item: any, index: number) => {
               const isActive = index === activeIndex;
@@ -375,13 +374,15 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
               iconclass="wi wi-chevron-left fa-2x"
               styles={styles.prevBtn}
               onTap={this.prev}
-              accessibilitylabel='back'/>
+              accessibilitylabel='back'
+              accessibilityrole='button'/>
             <WmIcon
               id={this.getTestId('next_icon')}
               iconclass="wi wi-chevron-right fa-2x"
               styles={styles.nextBtn}
               onTap={this.next}
-              accessibilitylabel='next'/>
+              accessibilitylabel='next'
+              accessibilityrole='button'/>
           </View>): null}
           {hasDots && data ? this.renderPagination(data) : null}
       </View>);

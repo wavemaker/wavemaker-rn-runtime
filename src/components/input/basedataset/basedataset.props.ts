@@ -19,6 +19,7 @@ export default class BaseDatasetProps extends BaseProps {
   displayimagesrc: any;
   iconclass?: any;
   triggerValidation?: any;
+  accessible?: boolean = true;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
   accessibilityrole?: AccessibilityRole;

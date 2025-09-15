@@ -37,7 +37,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           fontSize: 16
         },
         icon : {
-          color: 'var(--wm-color-primary)',
+          color: themeVariables.toggleOnColor,
           padding: 0
         }
     } as WmIconStyles,
@@ -47,7 +47,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           fontSize: 16
         },
         icon : {
-          color: 'var(--wm-color-surface-container-highest)',
+          color: themeVariables.toggleOffColor,
           padding: 0
         }
     } as WmIconStyles,
@@ -94,7 +94,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         opacity:0.5
       },
       handle: {
-        backgroundColor: 'var(--wm-color-on-surface)',
+        backgroundColor: themeVariables.toggleHandleDisableColor,
         opacity:1
       }
   });

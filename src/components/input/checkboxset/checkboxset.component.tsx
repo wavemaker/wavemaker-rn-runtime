@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, DimensionValue, Platform } from 'react-native';
+import { Text, View, TouchableOpacity, DimensionValue, Platform, AccessibilityRole } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { find, forEach, isEqual,  isEmpty } from 'lodash';
 import WmCheckboxsetProps from './checkboxset.props';
@@ -53,14 +53,21 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
   renderChild(item: any, index: any,colWidth: DimensionValue) {
     const props = this.state.props;
     const displayText = item.displayexp || item.displayfield;
+    const accessibilityProps = { accessibilityLabel: displayText ,
+      accessibilityRole: 'checkbox' as AccessibilityRole,
+      accessibilityState: {
+        disabled: this.props.readonly || this.props.disabled,
+        selected: item.selected,
+      }
+    }
     return (
       <TouchableOpacity {...this.getTestPropsForAction(index + '')}
         style={[this.styles.item, item.selected ? this.styles.checkedItem : null, {width: colWidth}]}
-        onPress={this.onPress.bind(this, item)} key={item.key} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOX, {hint: props?.hint, checked: item.selected})} accessibilityRole='checkbox' accessibilityLabel={`Checkbox for ${displayText}`}>
-        <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled} id={this.getTestId('item'+index)}/>
+        onPress={this.onPress.bind(this, item)} key={item.key} {...accessibilityProps}>
+        <WmIcon iconclass="wi wi-check" styles={item.selected? this.styles.checkicon : this.styles.uncheckicon} disabled={props.readonly || props.disabled} id={this.getTestId('item'+index)} accessible={false}/>
         {!isEmpty(this.state.template) && this.props.renderitempartial ?
            this.props.renderitempartial(item.dataObject, index, this.state.template) :
-        <Text {...this.getTestPropsForLabel(index + '')} style={[this.styles.text, item.selected ? this.styles.selectedLabel: null]}>{displayText}</Text>}
+        <Text {...this.getTestPropsForLabel(index + '')} style={[this.styles.text, item.selected ? {color: this.styles.checkicon.text.color}: null,item.selected ? this.styles.selectedLabel: null]} importantForAccessibility='no'>{displayText}</Text>}
       </TouchableOpacity>)
   }
 
@@ -104,7 +111,7 @@ export default class WmCheckboxset extends BaseDatasetComponent<WmCheckboxsetPro
     const props = this.state.props;
     const noOfColumns = props.itemsperrow.xs || 1;
     const colWidth = Math.round(100/ noOfColumns) + '%' as DimensionValue;
-    return(<View style = {noOfColumns === 1 ? {} : {flexWrap: 'wrap', flexDirection: 'row'}}>
+    return(<View style = {noOfColumns === 1 ? {} : {flexWrap: 'wrap', flexDirection: 'row'}} {...getAccessibilityProps(AccessibilityWidgetType.CHECKBOXSET, props)}>
       {items && items.length
         ? items.map((item: any, index: any) => this.renderChild(item, index, colWidth))
         : null}

@@ -63,22 +63,26 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
       delay={props.animationdelay} 
       style={styles.root}
       onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}
+      accessibilityProps={{...getAccessibilityProps(AccessibilityWidgetType.MESSAGE, props)}}
     >
       {this._background}
       <WmIcon
         id={this.getTestId('icon')}
         iconclass={props.type && MESSAGE_ICONS[props.type]}
-        styles={styles.icon}></WmIcon>
+        styles={styles.icon}
+        accessible={false}></WmIcon>
       <View style={styles.message}>
-        <Text {...this.getTestPropsForLabel('title')} style={styles.title} {...getAccessibilityProps(AccessibilityWidgetType.MESSAGE, props)}>{props.title || DEFAULT_TITLE[props.type || '']}</Text>
-        <Text {...this.getTestPropsForLabel('caption')} style={styles.text} {...getAccessibilityProps(AccessibilityWidgetType.MESSAGE, props)}>{props.caption}</Text>
+        <Text {...this.getTestPropsForLabel('title')} style={styles.title} importantForAccessibility='no'>{props.title || DEFAULT_TITLE[props.type || '']}</Text>
+        <Text {...this.getTestPropsForLabel('caption')} style={styles.text} importantForAccessibility='no'>{props.caption}</Text>
       </View>
       {props.hideclose ? null : (
         <WmButton
           id={this.getTestId('close')}
           iconclass={props.closeiconclass || "wi wi-close"}
           styles={styles.closeBtn}
-          onTap={this.close}></WmButton>
+          onTap={this.close}
+          accessibilitylabel='close'
+          accessibilityrole='button'></WmButton>
       )}
     </Animatedview>);
   }
