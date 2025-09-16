@@ -292,7 +292,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
               </View> : 
               <WmLabel showskeleton={true} styles={{root: {...this.getStepStyle(index)[0]}}}/>
             }
-            {(isActiveStep) &&
+            {(isActiveStep || this.state.props.showalltitles) &&
               <View style={this.styles.stepTitleWrapper}>
                 <Text style={this.styles.stepTitle} {...this.getTestPropsForLabel('step' + (index + 1) + '_title')}>
                   {item.state.props.title || 'Step Title'}

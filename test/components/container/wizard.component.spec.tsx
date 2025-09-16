@@ -988,4 +988,34 @@ describe('Test Wizard component', () => {
 
     expect(titleWrapperComponents.length).toBeGreaterThan(0);
   });
+
+  it('should show titles for all steps when showalltitles is true', async () => {
+    const steps = [
+      <WmWizardstep {...wizardStepPropsObject} key={0} index={0} title="Step 1" subtitle="First step" name="step1" />,
+      <WmWizardstep {...wizardStepPropsObject} key={1} index={1} title="Step 2" subtitle="Second step" name="step2" />,
+      <WmWizardstep {...wizardStepPropsObject} key={2} index={2} title="Step 3" subtitle="Third step" name="step3" />
+    ];
+    renderComponent({ showalltitles: true, children: steps });
+
+    await timer(300);
+
+    expect(screen.getByText('Step 1')).toBeTruthy();
+    expect(screen.getByText('Step 2')).toBeTruthy();
+    expect(screen.getByText('Step 3')).toBeTruthy();
+  });
+
+  it('should show titles only for active step when showalltitles is false', async () => {
+    const steps = [
+      <WmWizardstep {...wizardStepPropsObject} key={0} index={0} title="Step 1" subtitle="First step" name="step1" />,
+      <WmWizardstep {...wizardStepPropsObject} key={1} index={1} title="Step 2" subtitle="Second step" name="step2" />,
+      <WmWizardstep {...wizardStepPropsObject} key={2} index={2} title="Step 3" subtitle="Third step" name="step3" />
+    ];
+    renderComponent({ showalltitles: false, children: steps });
+
+    await timer(300);
+
+    expect(screen.getByText('Step 1')).toBeTruthy();
+    expect(screen.queryByText('Step 2')).toBeNull();
+    expect(screen.queryByText('Step 3')).toBeNull();
+  });
 });
