@@ -988,4 +988,46 @@ describe('Test Wizard component', () => {
 
     expect(titleWrapperComponents.length).toBeGreaterThan(0);
   });
+
+  it('should render stepper-column class', async () => {
+    renderComponent({ classname: 'stepper-column' });
+    await timer(300);
+    
+    expect(screen.getByText('Content of Step 1')).toBeTruthy();
+  });
+
+  it('should render path-row class', async () => {
+    renderComponent({ classname: 'path-row' });
+    await timer(300);
+    
+    expect(screen.getByText('Content of Step 1')).toBeTruthy();
+  });
+
+  it('should render path-column vertical class', async () => {
+    renderComponent({ classname: 'path-column vertical' });
+    await timer(300);
+    
+    expect(screen.getByText('Content of Step 1')).toBeTruthy();
+  });
+
+  it('should render stepper-column vertical class', async () => {
+    renderComponent({ classname: 'stepper-column vertical' });
+    await timer(300);
+    
+    expect(screen.getByText('Content of Step 1')).toBeTruthy();
+  });
+
+  it('should not render connectors for new step classes', async () => {
+    renderComponent({ classname: 'stepper-column' });
+    await timer(300);
+    
+    const connectorElements = screen.UNSAFE_getAllByType(View).filter(comp =>
+      comp.props.style && 
+      (Array.isArray(comp.props.style) ? 
+        comp.props.style.some(style => style && style.backgroundColor === '#e0e0e0') :
+        comp.props.style.backgroundColor === '#e0e0e0')
+    );
+    
+    expect(connectorElements.length).toBe(0);
+  });
 });
