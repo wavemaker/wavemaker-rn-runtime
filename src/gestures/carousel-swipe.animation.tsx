@@ -79,26 +79,34 @@ export class View extends React.Component<Props, State> {
                 this.onChange(gestureState)
             },
             onPanResponderRelease: (evt, gestureState) => {
+                // Check minimum threshold 
                 if (
-                    this.props.direction === 'horizontal' && 
-                    (gestureState.dx > this.state.threshold || gestureState.dx < -this.state.threshold)
+                    Math.abs(gestureState.dy) < this.state.threshold &&
+                    Math.abs(gestureState.dx) < this.state.threshold
                 ) {
-                    this.onEnd(gestureState);
+                    if (this.props.activeIndex) {
+                        const bounds = this.props.handlers?.bounds?.(gestureState) || {};
+                        if (bounds.center !== undefined) {
+                            this.setPosition(bounds.center);
+                        }
+                    }
+                    return;
                 }
+
+                // Handle horizontal gestures
                 if (
-                    this.props.direction === 'vertical' && 
-                    (gestureState.dy > this.state.threshold || gestureState.dy < -this.state.threshold)
+                    this.props.direction === 'horizontal' &&
+                    Math.abs(gestureState.dx) > this.state.threshold
                 ) {
                     this.onEnd(gestureState);
                 }
 
+                // Handle vertical gestures
                 if (
-                    !(gestureState.dy > this.state.threshold || gestureState.dy < -this.state.threshold) && 
-                    !(gestureState.dx > this.state.threshold || gestureState.dx < -this.state.threshold)
+                    this.props.direction === 'vertical' &&
+                    Math.abs(gestureState.dy) > this.state.threshold
                 ) {
-                    if (this.props.activeIndex) {
-                        this.setPosition(this.props.slidesLayout[this.props.activeIndex])
-                    }
+                    this.onEnd(gestureState);
                 }
             }
         });
@@ -176,7 +184,6 @@ export class View extends React.Component<Props, State> {
 
     goToLower(e?: any) {
         const bounds = (this.props.handlers?.bounds && this.props.handlers?.bounds(e)) || {};
-        console.log("🚀 ~ View ~ goToLower ~ bounds:", bounds)
         this.setPosition(bounds.lower)
             .then(() => {
                 if (!isNil(bounds.lower) && bounds.center !== bounds.lower) {
