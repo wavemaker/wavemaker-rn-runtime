@@ -240,7 +240,6 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
     const isDotted = this.state.props.classname?.includes('dottedstepper');
     const isStepperBasic = this.state.props.classname?.includes('stepper-basic');
     const isColumn = this.state.props.classname?.includes('stepper-column');
-    const isPath = this.state.props.classname?.includes('path');
     const wizardStepCountVisibility = (index >= this.state.currentStep && !this.state.isDone) || !this.state.currentStep
     return item.state.props.show !== false ? (
       <View 
@@ -255,7 +254,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
           onPress={this.updateCurrentStep.bind(this, index, false)} disabled={index >= this.state.currentStep || !this.state.props.headernavigation}
           accessibilityRole='header'
         >
-              {!this._showSkeleton ? (isStepperBasic || isColumn || isPath) ? (
+              {!this._showSkeleton ? (isStepperBasic || isColumn) ? (
               <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}/>
             ) : <View style={this.getStepStyle(index)} {...this.getTestPropsForAction('step'+index)}>
                 {(isDotted) ? (
@@ -304,10 +303,10 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
                 </Text> 
               </View>
             }
-            {!isStepperBasic && !isColumn && !isPath && this.numberOfSteps > 1 && isActiveStep &&
+            {!isStepperBasic && !isColumn && this.numberOfSteps > 1 && isActiveStep &&
               <View style={[this.styles.numberTextStepConnector, {width: isLastStep ? 0 : 50}]}></View>}
         </TouchableOpacity>
-          {!isStepperBasic && !isColumn && !isPath && this.getTotalVisibleSteps() > 1 &&
+          {!isStepperBasic && !isColumn && this.getTotalVisibleSteps() > 1 &&
           item.state.props.show && !isVertical &&
                <View 
                  style={[
@@ -322,7 +321,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
             ]}
           ></View>
         }
-        {!isStepperBasic && !isColumn && !isPath && this.getTotalVisibleSteps() > 1 &&
+        {!isStepperBasic && !isColumn && this.getTotalVisibleSteps() > 1 &&
            item.state.props.show && isVertical &&
            <View 
            style={[

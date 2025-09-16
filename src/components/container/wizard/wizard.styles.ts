@@ -313,56 +313,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         width: 2
       },
   } as WmWizardStyles);
-  addStyle('path-row', '', {
-    step: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '100%' as any,
-      backgroundColor: themeVariables.wizardStepColor,
-      height: 2,
-      borderWidth: 1,
-      borderRadius: 0,
-      color: themeVariables.wizardStepColor,
-      borderColor: themeVariables.wizardStepColor,
-    },
-    activeStep:{
-      backgroundColor: themeVariables.wizardStepActiveColor,
-      borderColor: themeVariables.wizardStepActiveColor,
-      color: themeVariables.wizardActiveStepColor,
-      height: 2,
-    },
-     doneStep: {
-      backgroundColor: themeVariables.wizardStepDoneColor,
-      color: themeVariables.wizardDoneStepColor,
-      borderColor: themeVariables.wizardStepDoneColor,
-      height: 2,
-    },
-  } as WmWizardStyles);
-    addStyle('path-column', '', {
-    step: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: 2,
-      backgroundColor: themeVariables.wizardBackgroundColor,
-      height: '100%' as any,
-      borderWidth: 1,
-      borderRadius: 0,
-      color: themeVariables.wizardStepColor,
-      borderColor: themeVariables.wizardStepColor
-    },
-    activeStep:{
-      backgroundColor: themeVariables.wizardStepActiveColor,
-      borderColor: themeVariables.wizardStepActiveColor,
-      color: themeVariables.wizardActiveStepColor,
-      width: 2
-    },
-     doneStep: {
-        backgroundColor: themeVariables.wizardStepDoneColor,
-        color: themeVariables.wizardDoneStepColor,
-        borderColor: themeVariables.wizardStepDoneColor,
-        width: 2
-    },
-  } as WmWizardStyles);
   addStyle('progress-circle-header', '', {
     stepWrapper: {
       paddingBottom: 4,
