@@ -25,6 +25,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   private tabLayout: LayoutRectangle = null as any;
   private tabPaneHeights: number[] = [];
   private animationView: SwipeAnimation.View | null = null as any;
+  protected childComponentStyleKeys = ['tabHeader'];
   private animationHandlers = {
     bounds: (e) => {
       const activeTabIndex = this.state.selectedTabIndex,

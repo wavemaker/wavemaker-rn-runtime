@@ -121,6 +121,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         w?: number,
         h?: number
     } = {} as any;
+    protected childComponentStyleKeys: string[] = [];
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -692,6 +693,16 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                         text: this.styleOverrides
                 }
             );
+             // Merge child component styles from custom classes
+             if (classname && this.childComponentStyleKeys.length > 0) {
+                const customStyles = this.theme.getStyle(classname);
+                this.childComponentStyleKeys.forEach(key => {
+                    if (customStyles && this.styles[key]) {
+                        (this.styles as any)[key] = this.theme.mergeStyle(this.styles[key], customStyles);
+                    }
+                });
+            }
+            
             this.hasStyleCalcExpression = false;
 
             this.styles = this.evaluateCalcStyles(this.calcStyles);
