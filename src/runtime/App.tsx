@@ -57,6 +57,7 @@ import { BlurView } from 'expo-blur';
 import * as NavigationBar from 'expo-navigation-bar';
 import moment, { Moment } from 'moment';
 import ErrorBoundary from '../core/error-boundary.component';
+import httpService from '@wavemaker/app-rn-runtime/variables/http.service';
 
 declare const window: any;
 
@@ -186,6 +187,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   notify(event: string, ...args: any) {
     return this.eventNotifier.notify(event, args);
+  }
+
+  get httpService() {
+    return httpService;
   }
 
   get activePage() {

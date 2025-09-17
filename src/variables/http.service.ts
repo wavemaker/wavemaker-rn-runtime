@@ -71,6 +71,100 @@ export class HttpService implements HttpClientService {
     });
   }
 
+  sendDynamic(api: any, fragment?: any){
+    let headers: any = api.options.headers,
+    requestBody: any = api.options.data,
+    url: string = api.options.url;
+    
+    const methodType: string = api.methodType || 'get';
+    const isNonDataMethod: boolean = WS_CONSTANTS.NON_DATA_AXIOS_METHODS.indexOf(methodType.toUpperCase()) > -1;
+    const axiosConfig = {
+      headers: headers,
+      withCredentials: false
+    };
+    
+    return new Promise((resolve, reject) => {
+      // @ts-ignore
+      axios[methodType].apply(api, ( isNonDataMethod ? [url, axiosConfig] : [url, requestBody || {}, axiosConfig]))
+        .then((result: any) => {
+          if(api.success.action === "navigation"){
+            this.handleNavigateAction(api.success, result, fragment);
+          } 
+          else if(api.success.action === "formFieldUpdate"){
+            this.handleFormFieldUpdateAction(api.success, result, fragment);
+          }
+          else if(api.success.action === "functionCall"){
+            this.handleFunctionCallAction(api.success, result, fragment);
+          }
+          resolve(result);
+        }, (err: any) => {
+          reject(err);
+        })
+    })
+  }
+
+  private handleNavigateAction(successConfig: any, response: any, fragment: any) {
+    try {
+      if (successConfig.pageName && fragment?.App) {
+        const params = successConfig.params || {};
+        if (typeof params === 'string' && params.includes('response.')) {
+          const evaluatedParams = this.evaluateExpression(params, response);
+          fragment.App.goToPage(successConfig.pageName, evaluatedParams);
+        } else {
+          fragment.App.goToPage(successConfig.pageName, params);
+        }
+      }
+    } catch (error) {
+      console.error('Error in navigate action:', error);
+    }
+  }
+
+  private handleFormFieldUpdateAction(successConfig: any, response: any, fragment: any) {
+    try {
+      if (successConfig.fieldName && successConfig.propToChange && fragment) {
+        
+      }
+    } catch (error) {
+      console.error('Error in formFieldUpdate action:', error);
+    }
+  }
+
+  private handleFunctionCallAction(successConfig: any, response: any, fragment: any) {
+    try {
+      if (successConfig.functionName && fragment?.App) {
+        const functionName = successConfig.functionName;
+        const params = successConfig.params || [];
+        
+        const evaluatedParams = params.map((param: any) => {
+          if (typeof param === 'string' && param.includes('response.')) {
+            return this.evaluateExpression(param, response);
+          }
+          return param;
+        });
+        
+        if (fragment.App && fragment.App[functionName]) {
+          fragment.App[functionName]();
+        } else {
+          console.warn(`Function '${functionName}' not found in App.Actions`);
+        }
+      }
+    } catch (error) {
+      console.error('Error in functionCall action:', error);
+    }
+  }
+
+  private evaluateExpression(expression: string, response: any): any {
+    try {
+      const context = { response };
+      
+      const safeExpression = expression.replace(/response\./g, 'context.response.');
+      return new Function('context', `return ${safeExpression}`)(context);
+    } catch (error) {
+      console.error('Error evaluating expression:', expression, error);
+      return expression;
+    }
+  }
+
   getLocale() {
     const appConfig = injector.get<AppConfig>('APP_CONFIG');
     return appConfig.appLocale.messages;
