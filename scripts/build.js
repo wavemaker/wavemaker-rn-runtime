@@ -39,7 +39,17 @@ async function postBuild(runtimeVersion) {
     //there is this dependency already present in the dependencies. why again in devDependencies?
     // packageData['devDependencies']['@wavemaker/variables'] = runtimeVersion;
     packageData.exports = {
-      "./": "./"
+      ".": {
+        "import": "./index.js",
+        "require": "./index.js", 
+        "types": "./index.d.ts"
+      },
+      "./*": {
+        "import": "./*.js",
+        "require": "./*.js",
+        "types": "./*.d.ts"
+      },
+      "./package.json": "./package.json"
     };
     delete packageData['files'];
     fs.writeFileSync(`${projectDir}/dist/module/package.json`, JSON.stringify(packageData, null, 2))
