@@ -141,7 +141,10 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         text:{
           color: themeVariables.wizardActiveStepColor
-        }
+        },
+        icon: {
+          icon: {}
+        } as WmIconStyles
       } as WmButtonStyles,
       prevButton: {
         root: {
