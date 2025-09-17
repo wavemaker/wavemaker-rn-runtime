@@ -106,7 +106,6 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     }
 
     onFragmentReady() {
-      Alert.alert('onFragmentReady!')
       return super.onFragmentReady().then(() => {
         this.onContentReady();
         this.App.triggerPageReady(this.pageName, this.proxy as BasePage);
@@ -114,7 +113,6 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
         this.App.notify('pageReady', this);
         AppSpinnerService.hide();
         this.cleanup.push((this.props as PageProps).navigation.addListener('focus', () => {
-          Alert.alert('Focused!');
           if (this.appConfig.currentPage !== this) {
             this.appConfig.currentPage = this;
             this.onAttach();
@@ -127,7 +125,6 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
         
         this.cleanup.push((this.props as PageProps).navigation.addListener('blur', () => {
           if (this.screenCaptureContext && this.appConfig.screenCaptureProtection?.enabled) {
-            Alert.alert('disable protection');
             this.screenCaptureContext.disableProtection();
           }
         }));
