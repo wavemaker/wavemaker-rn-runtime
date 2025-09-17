@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription, Modal } from 'react-native';
+import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription, Modal, NativeEventSubscription } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
@@ -36,6 +36,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   private maxHeightRatio: number = 0;
   private keyboardDidShowListener!: EmitterSubscription;
   private keyboardDidHideListener!: EmitterSubscription;
+  private backHandlerSubscription: NativeEventSubscription | null = null;
   private topInset: number = 0;
   private iosKeyboardHeight: number = 0;
   private isIosKeyboardHeightSet: boolean = false
@@ -120,7 +121,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   componentDidMount() {
     super.componentDidMount();
     if (Platform.OS === 'android') {
-      BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+      this.backHandlerSubscription = BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardHide);
@@ -128,8 +129,9 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
 
   componentWillUnmount() {
     super.componentWillUnmount();
-    if (Platform.OS === 'android') {
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    if (this.backHandlerSubscription) {
+      this.backHandlerSubscription.remove();
+      this.backHandlerSubscription = null;
     }
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
