@@ -59,7 +59,7 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
           lineCap={styles.progressValue.buttStyle || "butt"}
           backgroundColor={styles.progressCircle.backgroundColor}
           size={this.state.radius}>
-            {(fill) => (<View style={{alignItems: 'center'}}>
+            {(fill: any) => (<View style={{alignItems: 'center'}}>
                           <Text style={styles.text} {...this.getTestPropsForLabel('title')}>{ showText ? props.title || value : '' }</Text>
                           {showText && props.subtitle ? (<Text style={styles.subTitle} {...this.getTestPropsForLabel('subtitle')}>{ props.subtitle }</Text>) : null}
                         </View>)}  
