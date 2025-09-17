@@ -22,10 +22,6 @@ export type WmChipsStyles = BaseStyles & {
   rightIcon: WmIconStyles;
   activeLeftIcon: WmIconStyles;
   activeRightIcon: WmIconStyles;
-  leftBadge: TextStyle;
-  rightBadge: TextStyle;
-  activeLeftBadge: TextStyle;
-  activeRightBadge: TextStyle;
 };
 
 export const DEFAULT_CLASS = 'app-chips';
@@ -118,6 +114,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           marginRight: 0,
           fontSize: 16,
           color: themeVariables.chipDefaultTextColor,
+          marginBottom: 3
         }
       } as WmIconStyles,
       rightIcon: {
@@ -125,39 +122,22 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           marginLeft: 0,
           fontSize: 16,
           color: themeVariables.chipDefaultTextColor,
+          marginBottom: 3
         }
       } as WmIconStyles,
-      leftBadge: {
-        fontSize: 14,
-        marginRight: 0,
-        fontFamily: themeVariables.baseFont,
-        fontWeight: '500',
-        color: themeVariables.chipDefaultTextColor,
-      },
-      rightBadge: {
-        fontSize: 14,
-        marginLeft: 0,
-        fontFamily: themeVariables.baseFont,
-        fontWeight: '500',
-        color: themeVariables.chipDefaultTextColor,
-      },
-      activeLeftBadge: {
-        color: themeVariables.chipActiveTextColor
-      },
-      activeRightBadge: {
-        color: themeVariables.chipActiveTextColor
-      },
       activeLeftIcon: {
         icon: {
           marginRight: 0,
           fontSize: 16,
           color: themeVariables.chipActiveTextColor,
+          marginBottom: 3
         }
       } as WmIconStyles,
       activeRightIcon: {
         icon: {
           marginLeft: 0,
           fontSize: 16,
+          marginBottom: 3,
           color: themeVariables.chipActiveTextColor,
         }
       } as WmIconStyles,
@@ -185,4 +165,39 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       }
     }
   });
+  addStyle('app-chips-left-badge', '', {
+    text: {
+      fontSize: 14,
+      marginRight: 0,
+      marginTop: 3,
+      fontFamily: themeVariables.baseFont,
+      fontWeight: '500',
+      color: themeVariables.chipDefaultTextColor,
+    }
+  } as BaseStyles);
+
+  addStyle('app-chips-right-badge', '', {
+    text: {
+      fontSize: 14,
+      marginLeft: 0,
+      marginTop: 3,
+      fontFamily: themeVariables.baseFont,
+      fontWeight: '500',
+      color: themeVariables.chipDefaultTextColor,
+    }
+  } as BaseStyles);
+
+  addStyle('app-chips-active-left-badge', '', {
+    text: {
+      color: themeVariables.chipActiveTextColor,
+      marginTop: 3
+    }
+  } as BaseStyles);
+
+  addStyle('app-chips-active-right-badge', '', {
+    text: {
+      color: themeVariables.chipActiveTextColor,
+      marginTop: 3
+    }
+  } as BaseStyles);
 });
