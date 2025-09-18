@@ -58,6 +58,7 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
   renderWidget(props: WmCurrencyProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
+    const foundationStyle = this.theme.getStyle('app-input');
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (<View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
       <View style={ (this._showSkeleton && !this.props.floatinglabel) ?  this.styles.skeletonLabelWrapper.root : this.styles.labelWrapper } accessible accessibilityLabel={this.state.currencySymbol}>
@@ -79,7 +80,10 @@ export default class WmCurrency extends BaseNumberComponent<WmCurrencyProps, WmC
         keyboardType="numeric"
         placeholderTextColor={this.styles.placeholderText.color as any}
         isInputFocused={ this.state.isInputFocused }
-        style={[this.styles.input, this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isInputFocused ? this.styles.focused : {}]}
+        style={[this.theme.mergeStyle(this.styles.input, foundationStyle?.root),
+           this.styles.text,
+           this.state.isValid ? {} : this.theme.mergeStyle(this.styles.invalid, foundationStyle?.invalid),
+           this.state.isInputFocused ? this.theme.mergeStyle(this.styles.focused, foundationStyle?.focused) : {}]}
         {...opts}
         floatingLabel={props.floatinglabel}
         floatingLabelStyle={this.styles.floatingLabel}
