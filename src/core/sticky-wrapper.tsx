@@ -82,8 +82,7 @@ export const StickyWrapper = ({ children, hasAppnavbar, onscroll, notifier }: St
     }
   }
 
-  const onScroll = useAnimatedScrollHandler({
-    onScroll: (event: ReanimatedEvent<ScrollEvent>): void => {
+  const handleScroll = (event: ReanimatedEvent<ScrollEvent>): void => {
       'worklet';
       const y = event.contentOffset?.y;
       const currentScrollTime = Date.now();
@@ -120,9 +119,8 @@ export const StickyWrapper = ({ children, hasAppnavbar, onscroll, notifier }: St
         runOnJS(notifyEvent)(safeEvent);
       }
     }
-  });
 
-  const onScrollEndDrag = (scrollRef: RefObject<Animated.ScrollView>): void =>{
+  const onScrollEndDrag = (scrollRef: RefObject<Animated.ScrollView>): void => {
     'worklet';
     const y = scrollY.value;
     if(scrollVelocity.value < 0.3){
@@ -133,6 +131,11 @@ export const StickyWrapper = ({ children, hasAppnavbar, onscroll, notifier }: St
       }
     }
   }
+
+  const onScroll = useAnimatedScrollHandler({
+    onScroll: handleScroll
+  });
+
 
   const contextValue = {
     scrollDirection,
