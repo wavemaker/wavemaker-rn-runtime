@@ -35,6 +35,7 @@ export default interface AppConfig {
         pageStartTime: number,
         pageReadyTime: number
     }, 
+    pageScrollTopThreshold: number;
     edgeToEdgeConfig:any;
     prefabs?: {
         partials?: any[]
