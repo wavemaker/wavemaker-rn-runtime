@@ -263,41 +263,28 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   } as WmWizardStyles);
   addStyle('stepper-basic', '', {
     step: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 60,
-        backgroundColor: themeVariables.wizardBackgroundColor,
-        height: 2,
-        borderWidth: 1,
-        borderRadius: 5,
-        color: themeVariables.wizardStepColor,
-        borderColor: themeVariables.wizardStepColor
-      },
-    activeStep:{
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 60,
+      backgroundColor: themeVariables.wizardBackgroundColor,
+      height: 2,
+      borderWidth: 1,
+      borderRadius: 5,
+      color: themeVariables.wizardStepColor,
+      borderColor: themeVariables.wizardStepColor
+    },
+    activeStep: {
       backgroundColor: themeVariables.wizardStepActiveColor,
       borderColor: themeVariables.wizardStepActiveColor,
       color: themeVariables.wizardActiveStepColor,
       height: 2
     },
-     doneStep: {
-        backgroundColor: themeVariables.wizardStepDoneColor,
-        color: themeVariables.wizardDoneStepColor,
-        borderColor: themeVariables.wizardStepDoneColor,
-        height: 2
-      },
-  } as WmWizardStyles);
-  addStyle('segment-steppe', '', {
-    step: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 90,
-        backgroundColor: themeVariables.wizardBackgroundColor,
-        height: 2,
-        borderWidth: 1,
-        borderRadius: 5,
-        color: themeVariables.wizardStepColor,
-        borderColor: themeVariables.wizardStepColor
-      },
+    doneStep: {
+      backgroundColor: themeVariables.wizardStepDoneColor,
+      color: themeVariables.wizardDoneStepColor,
+      borderColor: themeVariables.wizardStepDoneColor,
+      height: 2
+    },
   } as WmWizardStyles);
   addStyle('progress-circle-header', '', {
     stepWrapper: {
