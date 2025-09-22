@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export class StorageService {
   public target = 'GLOBAL';
 
-  private getKey(key: string) {
+  protected getKey(key: string) {
     return `${this.target}_${key}`;
   }
   

@@ -14,6 +14,7 @@ import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
+import SecureStorageService from '@wavemaker/app-rn-runtime/core/secure-storage.service';
 import ConstantService from '@wavemaker/app-rn-runtime/core/constant.service';
 import NetworkService, { NetworkState } from '@wavemaker/app-rn-runtime/core/network.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -57,6 +58,8 @@ import { BlurView } from 'expo-blur';
 import * as NavigationBar from 'expo-navigation-bar';
 import moment, { Moment } from 'moment';
 import ErrorBoundary from '../core/error-boundary.component';
+import { ScreenCaptureProtectionProvider, ScreenCaptureProtectionContextType } from '../core/screen-capture-protection.service';
+import { allowScreenCaptureAsync, preventScreenCaptureAsync } from 'expo-screen-capture';
 
 declare const window: any;
 
@@ -95,6 +98,7 @@ const SUPPORTED_SERVICES = {
   Utils: Utils,
   CONSTANTS: ConstantService,
   StorageService: StorageService,
+  SecureStorageService: SecureStorageService,
   AppDisplayManagerService: AppDisplayManagerService,
   i18nService: AppI18nService
 };
@@ -278,6 +282,33 @@ export default abstract class BaseApp extends React.Component implements Navigat
   // To support old api
   reload() { }
 
+  private enableProtection = async (): Promise<void> => {
+    try {
+      if (Platform.OS !== 'web') {
+        await preventScreenCaptureAsync();
+      }
+    } catch (error) {
+      console.error('Failed to enable screen capture protection:', error);
+    }
+  };
+
+  private disableProtection = async (): Promise<void> => {
+    try {
+      if (Platform.OS !== 'web') {
+        await allowScreenCaptureAsync();
+      }
+    } catch (error) {
+      console.error('Failed to disable screen capture protection:', error);
+    }
+  };
+
+  private getScreenCaptureContextValue(): ScreenCaptureProtectionContextType {
+    return {
+      enableProtection: this.enableProtection,
+      disableProtection: this.disableProtection
+    };
+  }
+
   bindServiceInterceptors() {
     this.axiosInterceptorIds = [
       axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
@@ -369,21 +400,23 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   getProviders(content: React.ReactNode) {
     return (
-      <NavigationServiceProvider value={this}>
-        <ToastProvider value={AppToastService}>
-          <PartialProvider value={AppPartialService}>
-            <SecurityProvider value={AppSecurityService}>
-              <CameraProvider value={CameraService}>
-                <ScanProvider value={ScanService}>
-                  <ModalProvider value={AppModalService}>
-                    {content}
-                  </ModalProvider>
-                </ScanProvider>
-              </CameraProvider>
-            </SecurityProvider>
-          </PartialProvider>
-        </ToastProvider>
-      </NavigationServiceProvider>
+      <ScreenCaptureProtectionProvider value={this.getScreenCaptureContextValue()}>
+        <NavigationServiceProvider value={this}>
+          <ToastProvider value={AppToastService}>
+            <PartialProvider value={AppPartialService}>
+              <SecurityProvider value={AppSecurityService}>
+                <CameraProvider value={CameraService}>
+                  <ScanProvider value={ScanService}>
+                    <ModalProvider value={AppModalService}>
+                      {content}
+                    </ModalProvider>
+                  </ScanProvider>
+                </CameraProvider>
+              </SecurityProvider>
+            </PartialProvider>
+          </ToastProvider>
+        </NavigationServiceProvider>
+      </ScreenCaptureProtectionProvider>
     );
   }
 
@@ -537,7 +570,6 @@ export default abstract class BaseApp extends React.Component implements Navigat
   
     if (Platform.OS === "android") {
       NavigationBar.setPositionAsync('absolute');
-      NavigationBar.setBackgroundColorAsync("transparent");
     }
   
     return (
@@ -561,7 +593,6 @@ export default abstract class BaseApp extends React.Component implements Navigat
   
     if (Platform.OS === "android") {
       NavigationBar.setPositionAsync('absolute');
-      NavigationBar.setBackgroundColorAsync("rgba(0,0,0,0.2)");
     }
   
     return (

@@ -1,5 +1,6 @@
 import { Input, Operation, Output } from "@wavemaker/app-rn-runtime/variables/device/operation.provider";
-import { LocationService } from "@wavemaker/app-rn-runtime/core/device/location-service";
+import { LocationPluginService, LocationService } from "@wavemaker/app-rn-runtime/core/device/location-service";
+import { PermissionService } from "@wavemaker/app-rn-runtime/runtime/services/device/permission-service";
 
 export interface coordsOutput {
   latitude: number | null;
@@ -20,13 +21,15 @@ export interface GeoPositionInput extends Input {
   maximumAge: number;
   timeout: number;
   enableHighAccuracy: boolean;
+  permissionService: any;
+  locationPluginService: any;
 }
 
 export class CurrentGeoPositionOperation implements Operation {
-  constructor(private location: LocationService) {
+  constructor(private location: LocationService, private permissionService: PermissionService, private locationPluginService: LocationPluginService) {
   }
 
-  public invoke(params: GeoPositionInput): Promise<GeoPositionOutput> {
-    return this.location.getCurrentGeoPosition(params);
+  public invoke(params: GeoPositionInput): any {
+    return this.location.getCurrentGeoPosition({...params, locationPluginService: this.locationPluginService, permissionService: this.permissionService});
   }
 }
