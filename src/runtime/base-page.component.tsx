@@ -138,9 +138,19 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
     async canNavigate (currentPage: string, nextPage: string) {
       let navigate = true;
-      navigate = await this.onBeforePageLeave(currentPage, nextPage);
+      //added try-catch to catch any errors in the callback fn and propogate it to global error handler.
+      try {
+        navigate = await this.onBeforePageLeave(currentPage, nextPage);
+      } catch (e) {
+        this.App.handleCallbackError(e, `Error in page-level onBeforePageLeave callback`);
+      }
+      
       if(navigate !== false){
-        navigate = await this.App.onBeforePageLeave(currentPage, nextPage);
+        try {
+          navigate = await this.App.onBeforePageLeave(currentPage, nextPage);
+        } catch (e) {
+          this.App.handleCallbackError(e, `Error in app-level onBeforePageLeave callback`);
+        }
       }
 
       if(navigate !== false) navigate = true;

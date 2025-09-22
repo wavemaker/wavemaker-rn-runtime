@@ -20,6 +20,7 @@ import { TextIdPrefixConsumer } from './testid.provider';
 import { isScreenReaderEnabled } from './accessibility';
 import { Tappable, TappableContext } from './tappable.component';
 import { WmComponentNode } from './wm-component-tree';
+import AppConfig from './AppConfig';
 
 export const WIDGET_LOGGER = ROOT_LOGGER.extend('widget');
 
@@ -316,12 +317,17 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     invokeEventCallback(eventName: string, args: any[]) {
         //@ts-ignore
         const callBack: Function = this.props[eventName];
+        const appConfig = injector.get<AppConfig>('APP_CONFIG');
+
         args = args && args.map(a => (a === this) ? this.proxy : a)
         if (callBack) {
             try {
               return callBack.apply(this.proxy, args);
             } catch(e) {
                 console.error(e);
+                if(appConfig?.preferences?.enableGlobalErrorHandler !== false){
+                    throw e; // Re-throwing error to let ErrorBoundary or Global Handler catch it
+                }
             }
         }
     }
