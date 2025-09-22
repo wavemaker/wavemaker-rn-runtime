@@ -53,7 +53,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
 
   addWizardStep(step: WmWizardstep) {
     this.steps[step.props.index] = step;
-    this.forceUpdate();
+    setTimeout(() => this.forceUpdate(), 0);
   }
 
   componentDidMount() {
@@ -108,7 +108,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         this.invokeEventCallback('onChange', [null, this.proxy, nextStep + 1, lastStep + 1]);
       }
     });
-    this.forceUpdate();
+    setTimeout(() => this.forceUpdate(), 0);
   }
 
   getStepStyle(index: number) {
