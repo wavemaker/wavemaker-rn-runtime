@@ -260,15 +260,14 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
           }
         }}>
         
-        {/* Left Badge */}
-        {(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index)) ? (
-          <WmLabel 
-            {...this.getTestPropsForAction('chip'+ index+'leftbadge')} 
-            classname={isSelected ? 'app-chips-active-left-badge' : 'app-chips-left-badge'}
-            styles={{text: {...this.styles.leftBadge, ...(isSelected ? this.styles.activeLeftBadge : {})}}}
-            caption={(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index))}
-          />
-        ) : null}
+         {/* Left Badge */}
+         {(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index)) ? (
+           <WmLabel 
+             {...this.getTestPropsForAction('chip'+ index+'leftbadge')} 
+             styles={isSelected ? this.styles.activeLeftBadge : this.styles.leftBadge}
+             caption={(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index))}
+           />
+         ) : null}
         
         {/* Selected Icon OR Left Icon (mutually exclusive) */}
         {isSelected && this.isDefaultView() ? (
@@ -314,15 +313,14 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
           </Text>
         )}
         
-        {/* Right Badge */}
-        {(this.state.props.getRightBadge && this.state.props.getRightBadge(index)) ? (
-          <WmLabel 
-            {...this.getTestPropsForAction('chip'+ index+'rightbadge')} 
-            classname={isSelected ? 'app-chips-active-right-badge' : 'app-chips-right-badge'}
-            styles={{text: {...this.styles.rightBadge, ...(isSelected ? this.styles.activeRightBadge : {})}}}
-            caption={(this.state.props.getRightBadge && this.state.props.getRightBadge(index))}
-          />
-        ) : null}
+         {/* Right Badge */}
+         {(this.state.props.getRightBadge && this.state.props.getRightBadge(index)) ? (
+           <WmLabel 
+             {...this.getTestPropsForAction('chip'+ index+'rightbadge')} 
+             styles={isSelected ? this.styles.activeRightBadge : this.styles.rightBadge}
+             caption={(this.state.props.getRightBadge && this.state.props.getRightBadge(index))}
+           />
+         ) : null}
         
         {/* Right Icon */}
         {(this.state.props.getRightIconClassName && this.state.props.getRightIconClassName(index)) ? (
