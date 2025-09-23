@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity, Dimensions } from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { getGroupedData, getNumberOfEmptyObjects, isDefined } from "@wavemaker/app-rn-runtime/core/utils";
@@ -448,9 +448,17 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       ...this.styles.skeleton.root
     } : this.styles.item as any
 
-    let containerStyle = cols ? { width: round(100 / cols) + "%", flex: null } : {};
-    if(cols > 1 ) {
-      containerStyle = {flex: 1} as any; 
+    let containerStyle={};
+    const screenWidth = Dimensions.get("window").width; 
+    const columnGap: any = this.styles?.columnWrapper?.gap ?? 0;
+
+    if (columnGap > 0) {
+      const totalGap = columnGap * (cols - 1);
+      containerStyle = {
+        width: `${Math.round(((screenWidth - totalGap) / cols) / screenWidth * 100)}%`
+      };
+    } else {
+      containerStyle = cols? { width: Math.round(100 / cols) + "%", flex: null }: {};
     }
 
     return (index < this.state.maxRecordsToShow || (isHorizontal && this.state.props.horizontalondemandenabled === false)) ?
