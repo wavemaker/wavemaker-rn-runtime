@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription, Modal } from 'react-native';
+import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription, Modal, Pressable } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
@@ -29,7 +29,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   private expandedHeight: number;
   private defaultHeight: number = 0.5;
   private expandedDefaultHeight: number = 0.8;
-  private minimumHeight: number = 0.2;
+  private minimumHeight: number = 0.01;
   private minimumExpandedHeight: number = 0.5;
   private maxHeight: number = 1.0; // Allow full screen height
   private animationDuration: number = 400
@@ -82,6 +82,61 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     if (this.state.isBottomsheetVisible) {
       this.closeSheet();
     }
+  }
+
+  isSheetExpanded = () => {
+    return this.state.isExpanded
+  }
+
+  expandBottomSheet = () => {
+    const targetHeight = Math.min(this.expandedHeight, SCREEN_HEIGHT);
+
+    // For drag and settle behavior, we need to reset translateY to 0 when expanding
+    if (this.props.enabledragsettle) {
+      Animated.parallel([
+        Animated.timing(this.state.sheetHeight, {
+          toValue: targetHeight,
+          duration: this.animationDuration,
+          useNativeDriver: false,
+        }),
+        Animated.timing(this.state.translateY, {
+          toValue: 0,
+          duration: this.animationDuration,
+          useNativeDriver: false,
+        })
+      ]).start();
+    } else {
+      // Original behavior for non drag-and-settle mode
+      Animated.timing(this.state.sheetHeight, {
+        toValue: targetHeight,
+        duration: this.animationDuration,
+        useNativeDriver: false,
+      }).start();
+    }
+    this.updateState({
+      isExpanded: true,
+      lastGestureDy: 0 // Reset to start from top when expanded
+    } as WmBottomsheetState);
+  }
+  collapseBottomSheet = () => {
+    Animated.parallel([
+      Animated.timing(this.state.translateY, {
+        toValue: 0, // Keep sheet open
+        duration: this.animationDuration,
+        useNativeDriver: false,
+      }),
+      Animated.timing(this.state.sheetHeight, {
+        //use bottom sheet minimum height if disableswipedownclose is set to true or use calcluated height
+        toValue: this.calculatedHeight,
+        duration: this.animationDuration,
+        useNativeDriver: false,
+      })
+    ]).start();
+    this.updateState({
+      isExpanded: false,
+      lastGestureDy: 0 // Reset to start from original position when collapsed
+    } as WmBottomsheetState);
+
   }
 
   constructor(props: WmBottomsheetProps) {
@@ -172,7 +227,9 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       return true;
     }
     if (this.state.isBottomsheetVisible) {
-      this.closeSheet();
+      if (!this.props.disableswipedownclose && this.props.autoclose !== 'disabled') {
+        this.closeSheet();
+      }
       return true; // Prevent default back action
     }
     return false;
@@ -221,15 +278,43 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     }
   }
 
+
+
   handleSwipeGesture = (gestureState: PanResponderGestureState) => {
-    this.updateState({
-      lastGestureDy: 0
-    } as WmBottomsheetState);
+
+    // Only reset lastGestureDy for traditional behavior, not for drag and settle
+    if (!this.props.enabledragsettle) {
+      this.updateState({
+        lastGestureDy: 0
+      } as WmBottomsheetState);
+    }
+
+    // New drag and settle behavior
+    if (this.props.enabledragsettle && gestureState.dy > 0) {
+      // Get current translateY value and settle the sheet at this position
+      const currentTranslateY = (this.state.translateY as any)._value || 0;
+      // If dragged too far down, close the sheet
+      if (gestureState.vy > 0.5 && !this.props.disableswipedownclose) {
+        this.closeSheet();
+        return;
+      }
+      // Settle at the current position without changing the sheet height
+      // The sheet height should remain constant to maintain proper positioning
+      this.state.translateY.setValue(currentTranslateY);
+      // This ensures subsequent drags start from the current position
+      this.updateState({
+        isExpanded: false,
+        lastGestureDy: currentTranslateY
+      } as WmBottomsheetState);
+      return;
+    }
+
     if (gestureState.dy > 0) {
-      if (this.state.isExpanded) {
+      if (this.state.isExpanded || this.props.disableswipedownclose) {
         // Expand the bottom sheet threshold is  25% of the fully expanded height
         // If the user swipe distance is below the threshold, revert to the original sheet height
-        if (gestureState.dy < this.expandedHeight / 4) {
+        if (gestureState.dy < this.expandedHeight / 4 || this.props.disableswipedownclose) {
+          let sheetMinimumHeight = this.props.bottomsheetminimumheight || 0.1
           Animated.parallel([
             Animated.timing(this.state.translateY, {
               toValue: 0, // Keep sheet open
@@ -237,7 +322,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
               useNativeDriver: false,
             }),
             Animated.timing(this.state.sheetHeight, {
-              toValue: this.calculatedHeight, // Back to original height
+              //use bottom sheet minimum height if disableswipedownclose is set to true or use calcluated height
+              toValue: this.props.disableswipedownclose ? sheetMinimumHeight * SCREEN_HEIGHT : this.calculatedHeight,
               duration: this.animationDuration,
               useNativeDriver: false,
             })
@@ -246,12 +332,16 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
             isExpanded: false
           } as WmBottomsheetState);
         }
-        else if (gestureState.dy > this.expandedHeight / 4 || gestureState.vy > 0.5) {
+        else if ((gestureState.dy > this.expandedHeight / 4 || gestureState.vy > 0.5) && !this.props.disableswipedownclose) {
           this.closeSheet();
         }
       }
       else {
-        if (gestureState.dy > 100 || gestureState.vy > 0.5) {
+        if (this.props.disableswipedownclose) {
+          this.openSheet();
+          return;
+        }
+        if ((gestureState.dy > 100 || gestureState.vy > 0.5) &&  !this.props.disableswipedownclose) {
           this.closeSheet();
         } else {
           this.openSheet();
@@ -300,15 +390,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       } else if (gestureState.dy < 0 && this.props.expand && this.props.bottomsheetheightratio !== 1) {
         // Handle upward drag - expand to full height
         // Allow expansion to full screen height
-        const targetHeight = Math.min(this.expandedHeight, SCREEN_HEIGHT);
-        Animated.timing(this.state.sheetHeight, {
-          toValue: targetHeight,
-          duration: this.animationDuration,
-          useNativeDriver: false,
-        }).start();
-        this.updateState({
-          isExpanded: true
-        } as WmBottomsheetState);
+        this.expandBottomSheet()
       }
     },
     onPanResponderRelease: (_, gestureState) => {
@@ -428,7 +510,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
               {...this.getTestProps('keyboardview')}>
 
               {this._background}
-              <TouchableWithoutFeedback onPress={this.closeSheet}>
+              <TouchableWithoutFeedback onPress={() => props.autoclose !== 'disabled' ? this.closeSheet() : null}>
                 <Animated.View style={[this.styles.backdrop, { opacity: this.state.backdropOpacity }]}
                   {...this.getTestProps('backdrop')}
                   {...getAccessibilityProps(AccessibilityWidgetType.BOTTOMSHEET, props)}
@@ -449,15 +531,17 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
 
               >
                 <View style={this.styles.dragHandleContainer} {...this.dragHandlePanResponder.panHandlers}>
-                  <TouchableWithoutFeedback onPress={this.closeSheet}>
+                  <Pressable onPress={() => this.invokeEventCallback('onDraghandleiconclick', [null, this])}>
                     <View style={this.styles.dragIconHandle}
                       {...this.getTestProps('draghandle')} />
-                  </TouchableWithoutFeedback>
+                  </Pressable>
                 </View>
                 <ScrollView
                   ref={this.state.scrollViewRef}
                   style={this.styles.sheetContentContainer}
-                  contentContainerStyle={this.styles.sheetScrollContent}
+                  contentContainerStyle={[this.styles.sheetScrollContent, props.enabledragsettle && this.state.lastGestureDy > 0 && {
+                    paddingBottom: this.state.lastGestureDy
+                  }]}
                   alwaysBounceVertical={false}
                   alwaysBounceHorizontal={false}
                   bounces={false}
@@ -515,7 +599,11 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
           visible={this.state.isBottomsheetVisible}
           transparent={true}
           animationType="none"
-          onRequestClose={this.closeSheet}
+          onRequestClose={() => {
+            if (!this.props.disableswipedownclose && this.props.autoclose !== 'disabled') {
+              this.closeSheet();
+            }
+          }}
           statusBarTranslucent={true}
         >
           <KeyboardAvoidingView

@@ -56,7 +56,6 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             borderColor: ThemeVariables.INSTANCE.bottomSheetBgColor,
             width: '100%',
             maxHeight: '100%', // Allow full screen height
-            minHeight: 100, // Minimum height to prevent too small sheets
         },
         dragHandleContainer: {
             paddingVertical: 16,
