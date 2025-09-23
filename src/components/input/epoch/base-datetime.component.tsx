@@ -224,11 +224,6 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       this.validate(date);
       this.invokeEventCallback('onChange', [null, this, newDate, prevDate]);
       
-      if (Platform.OS === 'web' && this.state.props.iswheelpicker && this.state.props.mode === 'datetime' && this.modes[0] === 'time') {
-        this.updateState({
-          showTimePickerModal: true
-        } as BaseDatetimeState);
-      }
     });
   }
 
