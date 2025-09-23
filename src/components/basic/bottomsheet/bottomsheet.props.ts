@@ -10,5 +10,5 @@ export default class WmBottomsheetProps extends BaseProps {
     onOpened?: Function = null as any;
     onClose?: Function = null as any;
     modal?: boolean = true;
-    hasdropdown?: boolean = true;
+    enablemodalsupport?: boolean = true;
 }

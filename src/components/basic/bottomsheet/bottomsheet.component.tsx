@@ -470,7 +470,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
                   {...this.getTestProps('scorllview')}
                 >
                   {/* Provide a local ModalProvider for dropdowns only when enabled */}
-                  {props.hasdropdown ? (
+                  {props.enablemodalsupport ? (
                     <ModalProvider value={this.sheetModalService}>
                       {props.children}
                     </ModalProvider>
@@ -482,7 +482,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
               </Animated.View>
 
               {/* Render locally opened modals above the sheet content when dropdowns are enabled */}
-              {props.hasdropdown && this.state.localModalsOpened && this.state.localModalsOpened.map((o, i) => (
+              {props.enablemodalsupport && this.state.localModalsOpened && this.state.localModalsOpened.map((o, i) => (
                 <View key={(o.name || '') + i}
                   onStartShouldSetResponder={() => true}
                   onResponderEnd={() => o.isModal && this.sheetModalService.hideModal(o)}
