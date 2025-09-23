@@ -49,7 +49,8 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         },
         container: {
             flexDirection: 'row',
-            alignItems: 'center'
+            alignItems: 'center',
+            gap:10
         },
         text: {
             fontSize: 16,
