@@ -263,7 +263,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         {/* Left Badge */}
         {(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index)) ? (
           <WmLabel 
-            {...this.getTestPropsForAction('chip'+ index+'leftbadge')} 
+            id={this.getTestId('chip'+ index+'leftbadge')} 
             classname={isSelected ? 'app-chips-active-left-badge' : 'app-chips-left-badge'}
             styles={{text: {...this.styles.leftBadge, ...(isSelected ? this.styles.activeLeftBadge : {})}}}
             caption={(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index))}
@@ -282,7 +282,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         ) : (
           (this.state.props.getLeftIconClassName && this.state.props.getLeftIconClassName(index)) ? (
             <WmIcon 
-              id={this.getTestId('lefticon')} 
+              id={this.getTestId('chip'+index+'lefticon')} 
               iconclass={this.state.props.getLeftIconClassName && this.state.props.getLeftIconClassName(index)} 
               iconsize={14} 
               styles={this.styles.leftIcon} 
@@ -317,7 +317,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         {/* Right Badge */}
         {(this.state.props.getRightBadge && this.state.props.getRightBadge(index)) ? (
           <WmLabel 
-            {...this.getTestPropsForAction('chip'+ index+'rightbadge')} 
+            id={this.getTestId('chip'+ index+'rightbadge')} 
             classname={isSelected ? 'app-chips-active-right-badge' : 'app-chips-right-badge'}
             styles={{text: {...this.styles.rightBadge, ...(isSelected ? this.styles.activeRightBadge : {})}}}
             caption={(this.state.props.getRightBadge && this.state.props.getRightBadge(index))}
@@ -327,7 +327,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         {/* Right Icon */}
         {(this.state.props.getRightIconClassName && this.state.props.getRightIconClassName(index)) ? (
           <WmIcon 
-            id={this.getTestId('righticon')} 
+            id={this.getTestId('chip'+index+'righticon')} 
             iconclass={(this.state.props.getRightIconClassName && this.state.props.getRightIconClassName(index))} 
             iconsize={16} 
             styles={isSelected ? this.styles.activeRightIcon : this.styles.rightIcon} 
