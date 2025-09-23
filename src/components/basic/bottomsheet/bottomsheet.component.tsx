@@ -6,6 +6,7 @@ import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
 import { createSkeleton } from '../skeleton/skeleton.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
+import { ModalProvider, ModalService, ModalOptions } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('screen');
@@ -20,6 +21,7 @@ export class WmBottomsheetState extends BaseComponentState<WmBottomsheetProps> {
   isExpanded = false;
   isBottomsheetVisible = false;
   keyboardHeight = 0;
+  localModalsOpened: ModalOptions[] = [];
 }
 
 export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmBottomsheetState, WmBottomsheetStyles> {
@@ -39,6 +41,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   private topInset: number = 0;
   private iosKeyboardHeight: number = 0;
   private isIosKeyboardHeightSet: boolean = false
+  private sheetModalService: ModalService;
 
   private calculateSheetHeight(bottomsheetheightratio: number): number {
     // Use default height if ratio not provided, but ensure it's not below minimum
@@ -115,6 +118,32 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     } else {
       this.closeSheetImmediate();
     }
+
+    // Local ModalService for content rendered inside Bottomsheet
+    this.sheetModalService = {
+      refresh: () => this.forceUpdate(),
+      showModal: (options: ModalOptions) => {
+        const exists = this.state.localModalsOpened.find(o => o === options);
+        if (!exists) {
+          // ensure high z-index within sheet
+          (options as any).elevationIndex = 9999 + this.state.localModalsOpened.length + 1;
+          const list = [...this.state.localModalsOpened, options];
+          this.updateState({ localModalsOpened: list } as WmBottomsheetState, () => {
+            setTimeout(() => options.onOpen && options.onOpen(), 0);
+          });
+        }
+      },
+      hideModal: (options?: ModalOptions) => {
+        const list = [...this.state.localModalsOpened];
+        const idx = options ? list.findIndex(o => o === options) : (list.length - 1);
+        if (idx >= 0) {
+          const o = list[idx];
+          o && o.onClose && o.onClose();
+          list.splice(idx, 1);
+          this.updateState({ localModalsOpened: list } as WmBottomsheetState);
+        }
+      }
+    };
   }
 
   componentDidMount() {
@@ -136,6 +165,12 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   }
 
   private handleBackPress = () => {
+    // Close top-most local modal first, if any
+    if (this.state.localModalsOpened && this.state.localModalsOpened.length > 0) {
+      const top = this.state.localModalsOpened[this.state.localModalsOpened.length - 1];
+      this.sheetModalService.hideModal(top);
+      return true;
+    }
     if (this.state.isBottomsheetVisible) {
       this.closeSheet();
       return true; // Prevent default back action
@@ -334,7 +369,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
       requestAnimationFrame(() => {
         this.state.sheetHeight.setValue(this.calculatedHeight);
         this.updateState({
-          isExpanded: false
+          isExpanded: false,
+          localModalsOpened: [] as ModalOptions[]
         } as WmBottomsheetState);
         this.handleClose();
       });
@@ -347,7 +383,8 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     this.updateState({
       lastGestureDy: 0,
       isExpanded: false,
-      isBottomsheetVisible: false
+      isBottomsheetVisible: false,
+      localModalsOpened: [] as ModalOptions[]
     } as WmBottomsheetState);
     requestAnimationFrame(() => {
       this.state.sheetHeight.setValue(this.calculatedHeight);
@@ -387,7 +424,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
           this.topInset = insets?.top || 0;
           return (
-            <View style={this.styles.root}
+          <View style={this.styles.root}
               {...this.getTestProps('keyboardview')}>
 
               {this._background}
@@ -431,10 +468,36 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
                   scrollEnabled={true}
                   {...this.getTestProps('scorllview')}
                 >
-                  {props.children}
+                  {/* Provide a local ModalProvider for dropdowns only when enabled */}
+                  {props.enablemodalsupport ? (
+                    <ModalProvider value={this.sheetModalService}>
+                      {props.children}
+                    </ModalProvider>
+                  ) : (
+                    props.children
+                  )}
                 </ScrollView>
 
               </Animated.View>
+
+              {/* Render locally opened modals above the sheet content when dropdowns are enabled */}
+              {props.enablemodalsupport && this.state.localModalsOpened && this.state.localModalsOpened.map((o, i) => (
+                <View key={(o.name || '') + i}
+                  onStartShouldSetResponder={() => true}
+                  onResponderEnd={() => o.isModal && this.sheetModalService.hideModal(o)}
+                  style={[
+                    this.styles.modalOverlay,
+                    (o as any).centered ? this.styles.centeredOverlay : null,
+                    { zIndex: (o as any).elevationIndex || 9999, elevation: (o as any).elevationIndex || 9999 },
+                    (o.modalStyle || {})
+                  ]}>
+                  <View style={[ (o.contentStyle || {}) ]}
+                    onStartShouldSetResponder={() => true}
+                    onResponderEnd={(e) => e.stopPropagation()}>
+                    {o.content}
+                  </View>
+                </View>
+              ))}
 
             </View>
           )

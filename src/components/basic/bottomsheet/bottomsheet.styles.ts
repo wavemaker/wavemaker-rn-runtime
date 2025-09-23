@@ -11,6 +11,8 @@ export type WmBottomsheetStyles = BaseStyles & {
   dragIconHandle: ViewStyle;
   sheetContentContainer: ViewStyle;
   sheetScrollContent: ViewStyle;
+  modalOverlay: ViewStyle;
+  centeredOverlay: ViewStyle;
   skeleton: WmSkeletonStyles
 };
 
@@ -79,6 +81,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             paddingHorizontal: 20,
             paddingBottom: 20,
             flexGrow: 1,
+        },
+        modalOverlay: {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+        },
+        centeredOverlay: {
+            justifyContent: 'center',
+            alignItems: 'center'
         },
         skeleton: {
         root: {
