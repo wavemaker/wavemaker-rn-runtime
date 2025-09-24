@@ -27,10 +27,12 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   }
 
   componentDidMount() {
+    super.componentDidMount();
     this.setNavigationBarColor();
   }
 
-  componentDidUpdate(prevProps: WmPageProps) {
+  componentDidUpdate(prevProps: WmPageProps, prevState: WmPageState) {
+    super.componentDidUpdate(prevProps, prevState)
     if (prevProps.navigationbarstyle !== this.props.navigationbarstyle) {
       this.setNavigationBarColor();
     }
