@@ -15,6 +15,7 @@ import WmOfflineBanner from '@wavemaker/app-rn-runtime/components/advanced/offli
 
 export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
   navHeightForRender = 0;
+  bottomTabHeightForRender = 0;
 }
 export default class WmPageContent extends BaseComponent<WmPageContentProps, WmPageContentState, WmPageContentStyles> {
   private scrollRef: RefObject<any>;
@@ -29,6 +30,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     this.state = {
       ...this.state,
       navHeightForRender: 0,
+      bottomTabHeightForRender: 0,
     };
 
     this.subscribe('scrollToPosition', (args: any) => {
@@ -50,6 +52,16 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
     });
     if (this.context && (this.context as StickyWrapperContextType).navHeight) {
       this.setState({ navHeightForRender: (this.context as StickyWrapperContextType).navHeight.value });
+    }
+
+    this._unsubscribeNavHeight = this.subscribe('updateBottomTabHeight', (bottomTabHeightValue: number) => {
+      if (this.state.bottomTabHeightForRender !== bottomTabHeightValue) {
+        this.setState({ bottomTabHeightForRender: bottomTabHeightValue });
+      }
+      return null;
+    });
+    if (this.context && (this.context as StickyWrapperContextType).bottomTabHeight) {
+      this.setState({ bottomTabHeightForRender: (this.context as StickyWrapperContextType).bottomTabHeight.value });
     }
   }
 
@@ -130,6 +142,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
             const paddingTopVal = isNumber(paddingTop) ? paddingTop : 0;
             const paddingBottomVal = isNumber(paddingBottom) ? paddingBottom : 0;
             const navHeightVal = (this.props.onscroll == 'topnav' || this.props.onscroll == 'topnav-bottomnav') ? this.state.navHeightForRender : 0;
+            const bottomTabHeightVal = this.props.onscroll == 'topnav-bottomnav' ? this.state.bottomTabHeightForRender : 0;
             return (
               <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -142,9 +155,7 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
                     contentContainerStyle={[
                       this.styles.root, {backgroundColor: 'transparent', 
                         paddingTop: navHeightVal + paddingTopVal, 
-                        paddingBottom: this.context && (this.context as StickyWrapperContextType).bottomTabHeight ? 
-                          (this.context as StickyWrapperContextType).bottomTabHeight.value + paddingBottomVal
-                          : paddingBottomVal
+                        paddingBottom: bottomTabHeightVal + paddingBottomVal
                       }
                     ]}
                     onLayout={this.handleScrollViewLayout}

@@ -67,16 +67,17 @@ export default class WmFileupload extends BaseComponent<WmFileuploadProps, WmFil
       hint: props.hint,
       accessibilityrole: props.accessibilityrole,
     };
+
     return (
       <FileUploadPluginConsumer>
       {(fileUploadPluginService: FileUploadPluginService) => {
       this.fileUploadService = fileUploadPluginService;
       return (
-      <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
-      {this._background}
-      <WmButton id={this.getTestId()} iconclass={props.iconclass} caption={props.caption} styles={this.styles.button} iconsize={props.iconsize} onTap={() => this.onTap.bind(this)(props)} {...accessibilityProps}></WmButton>
-    </View>
-  )}}
+        <View style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
+          {this._background}
+          <WmButton id={this.getTestId()} iconclass={props.iconclass} caption={props.caption} styles={this.styles.button} iconsize={props.iconsize} onTap={() => this.onTap.bind(this)(props)} {...accessibilityProps}></WmButton>
+        </View>
+      )}}
       </FileUploadPluginConsumer>
     )
   }
