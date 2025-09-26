@@ -113,17 +113,33 @@ export class Theme {
 
     private replaceVariables(val: string) {
         if(isString(val)) { 
-            (val.match(/_*var\([^\)]*\)/g) || []).forEach((s) => {
-                const variableName = s.substring(4, s.length - 1);
-                val = val.replace(s, (ThemeVariables.INSTANCE as any)[variableName]
+            const match = val.match(/_*var\([^\)]*\)/);
+            if (match) {
+                const varPattern = match[0];
+                const variableName = varPattern.substring(4, varPattern.length - 1);
+                const replacement = (ThemeVariables.INSTANCE as any)[variableName]
                     || (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
-                    || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]);
-                val = this.replaceVariables(val);
-            });
+                    || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))];
+                if (replacement) {
+                    // Only add space if replacement is NOT another variable AND doesn't already end with space/comma
+                    if (replacement.includes('var(')) {
+                        val = val.replace(varPattern, replacement);
+                    } else {
+                        const varIndex = val.indexOf(varPattern);
+                        const afterVar = val.substring(varIndex + varPattern.length);
+                        const needsSpace = afterVar && !afterVar.match(/^[\s,;]/);
+                        val = val.replace(varPattern, replacement + (needsSpace ? ' ' : ''));
+                    }
+                    // Recursively process if there are still variables
+                    if (val.includes('var(')) {
+                        val = this.replaceVariables(val);
+                    }
+                }
+            }
         }
         return val; 
     }
-
+    
     clearCache() {
         this.cache = {};
         this.children.forEach((t) => t.clearCache());
