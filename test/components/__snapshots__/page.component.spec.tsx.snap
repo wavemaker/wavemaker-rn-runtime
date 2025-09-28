@@ -3,15 +3,7 @@
 exports[`Test Page component should render page component 1`] = `
 [
   <View
-    onLayout={[Function]}
-    style={
-      {
-        "height": 0,
-        "width": 0,
-      }
-    }
-  />,
-  <View
+    accessible={false}
     onMoveShouldSetResponder={[Function]}
     onMoveShouldSetResponderCapture={[Function]}
     onResponderEnd={[Function]}
@@ -25,13 +17,101 @@ exports[`Test Page component should render page component 1`] = `
     onStartShouldSetResponder={[Function]}
     onStartShouldSetResponderCapture={[Function]}
     style={
+      [
+        {
+          "paddingTop": 0,
+        },
+        {
+          "bottom": 0,
+          "flexDirection": "column",
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+      ]
+    }
+    testID="test_Page"
+  />,
+  <View
+    collapsable={false}
+    jestAnimatedStyle={
       {
-        "bottom": 0,
-        "flexDirection": "column",
-        "left": 0,
+        "value": {},
+      }
+    }
+    jestInlineStyle={
+      {
         "position": "absolute",
-        "right": 0,
-        "top": 0,
+        "width": "100%",
+        "zIndex": 10,
+      }
+    }
+    pointerEvents="box-none"
+    style={
+      {
+        "position": "absolute",
+        "width": "100%",
+        "zIndex": 10,
+      }
+    }
+  />,
+]
+`;
+
+exports[`Test Page component should render page component with root styles 1`] = `
+[
+  <View
+    accessible={false}
+    onMoveShouldSetResponder={[Function]}
+    onMoveShouldSetResponderCapture={[Function]}
+    onResponderEnd={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderReject={[Function]}
+    onResponderRelease={[Function]}
+    onResponderStart={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onStartShouldSetResponderCapture={[Function]}
+    style={
+      [
+        {
+          "paddingTop": 0,
+        },
+        {
+          "bottom": 0,
+          "flexDirection": "column",
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+      ]
+    }
+    testID="test_Page"
+  />,
+  <View
+    collapsable={false}
+    jestAnimatedStyle={
+      {
+        "value": {},
+      }
+    }
+    jestInlineStyle={
+      {
+        "position": "absolute",
+        "width": "100%",
+        "zIndex": 10,
+      }
+    }
+    pointerEvents="box-none"
+    style={
+      {
+        "position": "absolute",
+        "width": "100%",
+        "zIndex": 10,
       }
     }
   />,

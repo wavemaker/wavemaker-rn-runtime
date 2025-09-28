@@ -14,6 +14,7 @@ import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import { ThemeProvider } from '@wavemaker/app-rn-runtime/styles/theme';
 import AppConfig, { Drawer } from '@wavemaker/app-rn-runtime/core/AppConfig';
 import StorageService from '@wavemaker/app-rn-runtime/core/storage.service';
+import SecureStorageService from '@wavemaker/app-rn-runtime/core/secure-storage.service';
 import ConstantService from '@wavemaker/app-rn-runtime/core/constant.service';
 import NetworkService, { NetworkState } from '@wavemaker/app-rn-runtime/core/network.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -57,6 +58,10 @@ import { BlurView } from 'expo-blur';
 import * as NavigationBar from 'expo-navigation-bar';
 import moment, { Moment } from 'moment';
 import ErrorBoundary from '../core/error-boundary.component';
+import { ScreenCaptureProtectionProvider, ScreenCaptureProtectionContextType } from '../core/screen-capture-protection.service';
+import { allowScreenCaptureAsync, preventScreenCaptureAsync } from 'expo-screen-capture';
+import { setupGlobalErrorHandler, GlobalErrorState } from '../core/global-error-handler.service';
+import Fallback from '../core/components/error-fallback/error-fallback.component';
 
 declare const window: any;
 
@@ -95,6 +100,7 @@ const SUPPORTED_SERVICES = {
   Utils: Utils,
   CONSTANTS: ConstantService,
   StorageService: StorageService,
+  SecureStorageService: SecureStorageService,
   AppDisplayManagerService: AppDisplayManagerService,
   i18nService: AppI18nService
 };
@@ -134,6 +140,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   public networkStatus = {} as NetworkState;
   public statusbarInsets: any;
+  public globalError: GlobalErrorState | null = null;
+  private globalErrorHandlerCleanup: (() => void) | null = null;
 
   constructor(props: any) {
     super(props);
@@ -141,6 +149,9 @@ export default abstract class BaseApp extends React.Component implements Navigat
     setTimeout(() => SplashScreen.hideAsync(), 10000);
     this.appConfig.app = this;
     this.appConfig.drawer = new DrawerImpl(() => this.refresh());
+    
+    // Register app instance in injector for Error Boundary access
+    injector.set('APP_INSTANCE', this);
     AppSpinnerService.setDefaultOptions({
       spinner: this.appConfig.spinner
     });
@@ -246,12 +257,56 @@ export default abstract class BaseApp extends React.Component implements Navigat
     try {
       this.onPageReady(activePageName, activePageScope);
     } catch (e) {
-      console.error(e);
+      this.handleCallbackError(e, `Error in onPageReady callback`);
     }
   }
 
   onPageReady(activePageName: string, activePageScope: BasePage) {
 
+  }
+
+  triggerOnError(error: Error, errorInfo: any, errorType: 'render' | 'javascript') {
+    try {
+      this.onError(error, errorInfo, errorType);
+    } catch (e) {
+      console.error('Error in onError callback:', e);
+    }
+  }
+
+  onError(error: Error, errorInfo: any, errorType: 'render' | 'javascript') {
+    // Empty implementation - user can override in app.js
+    // errorType: 'render' for React component errors, 'javascript' for other JS errors
+  }
+
+  public handleCallbackError(error: unknown, context: string) {
+    console.error(error);
+    const errorObj = error instanceof Error ? error : new Error(String(error));
+    
+    // Immediately hide all overlays to ensure error fallback is visible
+    try {
+      // Hide Expo SplashScreen
+      SplashScreen.hideAsync();
+      
+      // Hide App Spinner (force hide regardless of count)
+      AppSpinnerService.hide();
+    } catch (hideError) {
+      console.warn('Error hiding overlays:', hideError);
+    }
+    
+    // Trigger user callback
+    this.triggerOnError(errorObj, context, 'javascript');
+    
+    // Also set global error state to show fallback screen
+    this.globalError = {
+      error: errorObj,
+      errorInfo: context,
+      errorType: 'javascript',
+      isFatal: false
+    };
+    
+    // Set isStarted to true so app template will render the error screen
+    this.isStarted = true;
+    this.forceUpdate(); // Show fallback screen
   }
 
   setTimezone(timezone: any) {
@@ -278,6 +333,33 @@ export default abstract class BaseApp extends React.Component implements Navigat
   // To support old api
   reload() { }
 
+  private enableProtection = async (): Promise<void> => {
+    try {
+      if (Platform.OS !== 'web') {
+        await preventScreenCaptureAsync();
+      }
+    } catch (error) {
+      console.error('Failed to enable screen capture protection:', error);
+    }
+  };
+
+  private disableProtection = async (): Promise<void> => {
+    try {
+      if (Platform.OS !== 'web') {
+        await allowScreenCaptureAsync();
+      }
+    } catch (error) {
+      console.error('Failed to disable screen capture protection:', error);
+    }
+  };
+
+  private getScreenCaptureContextValue(): ScreenCaptureProtectionContextType {
+    return {
+      enableProtection: this.enableProtection,
+      disableProtection: this.disableProtection
+    };
+  }
+
   bindServiceInterceptors() {
     this.axiosInterceptorIds = [
       axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
@@ -289,11 +371,20 @@ export default abstract class BaseApp extends React.Component implements Navigat
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
         console.log('onBeforeService call invoked on ' + config.url);
         this.notify('beforeServiceCall', config);
-        return this.onBeforeServiceCall(config);
+        try {
+          return this.onBeforeServiceCall(config);
+        } catch (e) {
+          this.handleCallbackError(e, `Error in onBeforeServiceCall callback`);
+          return config; // Return original config as fallback
+        }
       }),
       axios.interceptors.response.use(
         (response: AxiosResponse) => {
-          this.onServiceSuccess(response.data, response);
+          try {
+            this.onServiceSuccess(response.data, response);
+          } catch (e) {
+            this.handleCallbackError(e, `Error in onServiceSuccess callback`);
+          }
           this.notify('afterServiceCall', response.config, response);
           return response;
         }, (error: AxiosError<any>) => {
@@ -306,7 +397,11 @@ export default abstract class BaseApp extends React.Component implements Navigat
           }
           error.message = errMsg;
           console.error(`Error ${errMsg} recieved from ${error.response?.config?.url}`);
-          this.onServiceError(error.message, error);
+          try {
+            this.onServiceError(error.message, error);
+          } catch (e) {
+            this.handleCallbackError(e, `Error in onServiceError callback`);
+          }
           if (error.response?.config.url?.startsWith(this.appConfig.url) && !error.response?.config.url?.includes('/services/') && error.response?.status === 401) {
             this.appConfig.currentPage?.pageName !== 'Login' && this.appConfig.currentPage?.goToPage('Login');
           }
@@ -334,6 +429,25 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   componentDidMount() {
+    // Setup global error handler
+    if (this.appConfig?.preferences?.enableGlobalErrorHandler !== false) {
+      this.globalErrorHandlerCleanup = setupGlobalErrorHandler(
+        (error, isFatal, errorInfo) => {
+          // Trigger user error callback
+          this.triggerOnError(error, errorInfo, 'javascript');
+          
+          this.globalError = {
+            error,
+            errorInfo,
+            errorType: 'javascript',
+            isFatal
+          };
+          this.forceUpdate(); // Trigger re-render to show error fallback
+        },
+        true // suppressDefaultErrorScreen = true when global error handler is enabled
+      );
+    }
+
     AppSpinnerService.show({
       spinner: this.appConfig.spinner
     });
@@ -350,7 +464,12 @@ export default abstract class BaseApp extends React.Component implements Navigat
     this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
     return this.triggerStartUpVariables()
       .then(() => {
-        this.onAppVariablesReady();
+        try {
+          this.onAppVariablesReady();
+        } catch (e) {
+          this.handleCallbackError(e, `Error in onAppVariablesReady callback`);
+          return; // Early return to prevent subsequent code from executing
+        }
         this.isStarted = true;
         this.forceUpdate();
       }, () => { });
@@ -361,6 +480,11 @@ export default abstract class BaseApp extends React.Component implements Navigat
       axios.interceptors.request.eject(id);
     });
     this.cleanup.forEach(fn => fn());
+    
+    // Cleanup global error handler
+    if (this.globalErrorHandlerCleanup) {
+      this.globalErrorHandlerCleanup();
+    }
   }
 
   refresh() {
@@ -369,21 +493,23 @@ export default abstract class BaseApp extends React.Component implements Navigat
 
   getProviders(content: React.ReactNode) {
     return (
-      <NavigationServiceProvider value={this}>
-        <ToastProvider value={AppToastService}>
-          <PartialProvider value={AppPartialService}>
-            <SecurityProvider value={AppSecurityService}>
-              <CameraProvider value={CameraService}>
-                <ScanProvider value={ScanService}>
-                  <ModalProvider value={AppModalService}>
-                    {content}
-                  </ModalProvider>
-                </ScanProvider>
-              </CameraProvider>
-            </SecurityProvider>
-          </PartialProvider>
-        </ToastProvider>
-      </NavigationServiceProvider>
+      <ScreenCaptureProtectionProvider value={this.getScreenCaptureContextValue()}>
+        <NavigationServiceProvider value={this}>
+          <ToastProvider value={AppToastService}>
+            <PartialProvider value={AppPartialService}>
+              <SecurityProvider value={AppSecurityService}>
+                <CameraProvider value={CameraService}>
+                  <ScanProvider value={ScanService}>
+                    <ModalProvider value={AppModalService}>
+                      {content}
+                    </ModalProvider>
+                  </ScanProvider>
+                </CameraProvider>
+              </SecurityProvider>
+            </PartialProvider>
+          </ToastProvider>
+        </NavigationServiceProvider>
+      </ScreenCaptureProtectionProvider>
     );
   }
 
@@ -585,6 +711,35 @@ export default abstract class BaseApp extends React.Component implements Navigat
   }
 
   renderApp(commonPartial: React.ReactNode) {
+    // Check for global error first
+    if (this.globalError) {
+      return (
+        <SafeAreaProvider>
+          <SafeAreaInsetsContext.Consumer>
+            {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
+              return (
+                <PaperProvider theme={this.paperTheme}>
+                  {this.getProviders(
+                    <ThemeProvider value={this.appConfig.theme}>
+                      <Fallback 
+                        error={this.globalError!.error}
+                        info={{ errorInfo: this.globalError!.errorInfo }}
+                        errorType={this.globalError!.errorType}
+                        resetErrorBoundary={() => {
+                          this.globalError = null;
+                          this.forceUpdate();
+                        }}
+                      />
+                    </ThemeProvider>
+                  )}
+                </PaperProvider>
+              );
+            }}
+          </SafeAreaInsetsContext.Consumer>
+        </SafeAreaProvider>
+      );
+    }
+
     this.autoUpdateVariables.forEach(value => this.Variables[value]?.invokeOnParamChange());
     const edgeToEdgeConfig = this.appConfig?.edgeToEdgeConfig;
     const statusbarConfig = this.appConfig?.edgeToEdgeConfig?.statusbarConfig;
@@ -606,7 +761,7 @@ export default abstract class BaseApp extends React.Component implements Navigat
                       translucent={isEdgeToEdgeApp}
                     />
                     <ThemeProvider value={this.appConfig.theme}>
-                      <ErrorBoundary currentPage={this.appConfig.currentPage}>
+                      <ErrorBoundary currentPage={this.appConfig.currentPage} app={this}>
                       {this.renderIosStatusbarInsetsView(isEdgeToEdgeApp, insets)}
                       <View style={{ flex: 1 }}>
                           <View style={styles.container}>

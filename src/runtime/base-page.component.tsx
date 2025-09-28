@@ -12,6 +12,8 @@ import AppSpinnerService from './services/app-spinner.service';
 import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.component';
 import { Watcher } from './watcher';
 import { setCurrentPageInAppLayout } from '../core/utils';
+import { ScreenCaptureProtectionConsumer, ScreenCaptureProtectionContextType } from '../core/screen-capture-protection.service';
+import { Alert } from 'react-native';
 
 declare const window: any;
 
@@ -21,7 +23,8 @@ export interface PageProps extends FragmentProps {
   destroyMe: Function;
 }
 
-export interface PageState extends FragmentState<PageProps> {}
+export interface PageState extends FragmentState<PageProps> {
+}
 
 export default abstract class BasePage extends BaseFragment<PageProps, PageState> implements NavigationService {
     private pageName = null as unknown as string;
@@ -30,6 +33,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     private hasTabbar = false;
     private drawerContent = null as React.ReactNode;
     private drawerType = '';
+    private screenCaptureContext: ScreenCaptureProtectionContextType | null = null;
 
     constructor(props: PageProps) {
       super(props);
@@ -42,6 +46,8 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       this.appConfig.drawer?.setContent(null);
       this.serviceDefinitions = this.App.serviceDefinitions;
       this.watcher = Watcher.ROOT.create();
+      
+      
       AppSecurityService.canUserAccessPage(this.pageName)
         .then(flag => {
           if (!flag) {
@@ -112,6 +118,15 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
             this.onAttach();
             this.appConfig.refresh();
           }
+          if (this.screenCaptureContext && this.appConfig.screenCaptureProtection?.enabled) {
+            this.screenCaptureContext.enableProtection();
+          }
+        }));
+        
+        this.cleanup.push((this.props as PageProps).navigation.addListener('blur', () => {
+          if (this.screenCaptureContext && this.appConfig.screenCaptureProtection?.enabled) {
+            this.screenCaptureContext.disableProtection();
+          }
         }));
       });
     }
@@ -123,9 +138,19 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
     async canNavigate (currentPage: string, nextPage: string) {
       let navigate = true;
-      navigate = await this.onBeforePageLeave(currentPage, nextPage);
+      //added try-catch to catch any errors in the callback fn and propogate it to global error handler.
+      try {
+        navigate = await this.onBeforePageLeave(currentPage, nextPage);
+      } catch (e) {
+        this.App.handleCallbackError(e, `Error in page-level onBeforePageLeave callback`);
+      }
+      
       if(navigate !== false){
-        navigate = await this.App.onBeforePageLeave(currentPage, nextPage);
+        try {
+          navigate = await this.App.onBeforePageLeave(currentPage, nextPage);
+        } catch (e) {
+          this.App.handleCallbackError(e, `Error in app-level onBeforePageLeave callback`);
+        }
       }
 
       if(navigate !== false) navigate = true;
@@ -234,6 +259,14 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     abstract renderPage(): ReactNode;
 
     renderWidget(props: PageProps) {
-      return this.renderPage();
+      return (
+        <ScreenCaptureProtectionConsumer>
+          {(context: ScreenCaptureProtectionContextType | null) => {
+            if (!context) return this.renderPage();
+            this.screenCaptureContext = context;
+            return this.renderPage();
+          }}
+        </ScreenCaptureProtectionConsumer>
+      );
     }
 }

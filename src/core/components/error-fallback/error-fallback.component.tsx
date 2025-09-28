@@ -16,19 +16,48 @@ import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.c
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 
-const Fallback = (props: any) => {
-  const { error, info, resetErrorBoundary } = props;
+interface FallbackProps {
+  error: Error;
+  info?: any;
+  resetErrorBoundary?: () => void;
+  errorType?: 'render' | 'javascript';
+}
+
+const Fallback = (props: FallbackProps) => {
+  const { error, info, resetErrorBoundary, errorType = 'render' } = props;
   const [showStack, setShowStack] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const appConfig = injector.get<AppConfig>('APP_CONFIG');
   const insets = useSafeAreaInsets();
 
+  // Dynamic titles based on error type
+  const getErrorTitle = () => {
+    if (errorType === 'javascript') {
+      return 'Something went wrong.';
+    }
+    return 'Something went wrong.'; // Same for now, can be customized
+  };
+
+  const getErrorSubtitle = () => {
+    if (errorType === 'javascript') {
+      return 'An unexpected error occurred in the application.';
+    }
+    return 'Please try again.';
+  };
+
   const copyErrorToClipboard = async () => {
-    const errorDetails = `
+    let errorDetails = `
+Error Type: ${errorType}
 Error: ${error?.message || 'Unknown error'}
-Stack: ${error?.stack || 'No stack available'}
-Component Stack: ${info?.componentStack || 'No component stack available'}
-    `.trim();
+Stack: ${error?.stack || 'No stack available'}`;
+
+    // Add component stack for render errors
+    if (errorType === 'render' && info?.componentStack) {
+      errorDetails += `
+Component Stack: ${info.componentStack}`;
+    }
+
+    errorDetails = errorDetails.trim();
 
     await Clipboard.setStringAsync(errorDetails);
     setIsCopied(true);
@@ -79,15 +108,15 @@ Component Stack: ${info?.componentStack || 'No component stack available'}
               </View>
 
               <WmLabel
-                caption={'Something went wrong.'}
+                caption={getErrorTitle()}
                 classname="error-fallback-title"
               />
               <WmLabel
-                caption={'Please try again.'}
+                caption={getErrorSubtitle()}
                 classname="error-fallback-subtitle"
               />
 
-              <View style={errorFallbackStyles.errorCard}>
+              {__DEV__ && (<View style={errorFallbackStyles.errorCard}>
                 <View style={errorFallbackStyles.errorCardRow}>
                   <WmIcon
                     id={'error-icon'}
@@ -102,10 +131,12 @@ Component Stack: ${info?.componentStack || 'No component stack available'}
                 <WmLabel
                   caption={error?.message || 'An unexpected error occurred'}
                   classname="error-fallback-error-message"
+                  nooflines={1}
+                  enableandroidellipsis={true}
                 />
-              </View>
+              </View>)}
 
-              <TouchableOpacity
+              {__DEV__ && (<TouchableOpacity
                 style={errorFallbackStyles.toggleButton}
                 onPress={() => setShowStack(!showStack)}
               >
@@ -128,9 +159,9 @@ Component Stack: ${info?.componentStack || 'No component stack available'}
                     ></WmIcon>
                   )}
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity>)}
 
-              {showStack && (
+              {(showStack && __DEV__) && (
                 <View style={errorFallbackStyles.stackCard}>
                   <View style={errorFallbackStyles.stackHeader}>
                     <WmLabel
@@ -157,7 +188,7 @@ Component Stack: ${info?.componentStack || 'No component stack available'}
                       caption={error?.stack || 'No stack trace available'}
                       classname="error-fallback-stacktext"
                     />
-                    {info?.componentStack && (
+                    {errorType === 'render' && info?.componentStack && (
                       <>
                         <WmLabel
                           caption="Component Stack:"

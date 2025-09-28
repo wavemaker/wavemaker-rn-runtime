@@ -210,6 +210,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     text: defaultStyles.errorLabel,
   });
   addStyle('error-fallback-error-message', '', {
+    root:{width:"100%"},
     text: defaultStyles.errorMessage,
   });
   addStyle('error-fallback-toggle-heading', '', {

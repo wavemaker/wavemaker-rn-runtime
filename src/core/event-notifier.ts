@@ -28,7 +28,7 @@ export default class EventNotifier {
             });
         }
         if (propagate) {
-            if (emitToParent) {
+            if (this.parent && !!this.parent?.children?.length && emitToParent) {
                 this.parent?.notify(event, args, true);
             } else {
                 this.children.forEach((c) => {

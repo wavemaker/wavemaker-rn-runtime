@@ -19,6 +19,7 @@ import { FixedView } from '@wavemaker/app-rn-runtime/core/fixed-view.component';
 import { EdgeInsets, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
+import { StickyWrapperContext, StickyWrapperContextType } from '@wavemaker/app-rn-runtime/core/sticky-wrapper';
 
 interface TabDataItem extends NavigationDataItem {
   floating: boolean;
@@ -47,6 +48,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   private insets: EdgeInsets | null = null;
   private appConfig = injector.get<AppConfig>('APP_CONFIG');
   private tabbarHeightWithInsets: number = 0;
+  static contextType = StickyWrapperContext;
 
   constructor(props: WmTabbarProps) {
     super(props, DEFAULT_CLASS, new WmTabbarProps(), new WmTabbarState());
@@ -139,19 +141,19 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       const scrollPosition = contentOffset.y ;
       this.tabbarHeightWithInsets = this.tabbarHeightWithInsets ? this.tabbarHeightWithInsets : this.getLayout()?.height ;
       const visibleContentHeight = layoutMeasurement.height ;
-      const endReached = (scrollPosition + visibleContentHeight + this.tabbarHeightWithInsets) >= contentSize.height ;
+      const endReached = (scrollPosition + visibleContentHeight + this.tabbarHeightWithInsets) + 8 >= contentSize.height ;
       const bottomInsets = this.insets?.bottom || 0
-      const e = event as unknown as CustomScrollEvent;
-      if(e.scrollDelta >= 2){
-        if(e.scrollDirection < 0){
+      const e = event.nativeEvent as any as CustomScrollEvent;
+      if(Math.abs(e?.scrollDelta) >= 2){
+        if(e?.scrollDirection > 0){
           this.animateWithTiming(0, 100)
-        }else if(e.scrollDirection > 0) {
+        }else if(e?.scrollDirection < 0) {
           this.animateWithTiming(this.tabbarHeightWithInsets + bottomInsets, 100)
         }
       }
-        if(endReached){
-          this.animateWithTiming(0, 0)
-        }
+      if(endReached){
+        this.animateWithTiming(0, 0)
+      }
     })
   }
 
@@ -163,6 +165,7 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
     let max = 5;
     const tabItems = this.state.dataItems;
     const tabItemsLength = tabItems.length;
+    let bottomTabHeightValue;
     const isClippedTabbar = ((props.classname || '').indexOf('clipped-tabbar') >= 0) && (tabItemsLength % 2 !== 0);
     if (isClippedTabbar && tabItemsLength % 2 !== 0) {
       const middleIndex = Math.floor(tabItemsLength / 2);
@@ -196,7 +199,14 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
       {(navigationService) =>(
         <View style={[this.styles.root, stylesWithFs]} 
           ref={(ref)=> {this.baseView = ref as any}}
-          onLayout={(event: LayoutChangeEvent) => this.handleLayout(event)}  
+          onLayout={(event: LayoutChangeEvent) => {
+            if(this.context && (this.context as StickyWrapperContextType).bottomTabHeight && props.hideonscroll) {
+              bottomTabHeightValue = event.nativeEvent.layout.height || 0;
+              (this.context as StickyWrapperContextType).bottomTabHeight.value = bottomTabHeightValue;
+              this.notify('updateBottomTabHeight', [bottomTabHeightValue], true);
+            }
+            this.handleLayout(event);
+          }}
         >
       {isClippedTabbar ? (
         <Svg width={this.maxWidth} height={scale(this.styles.root.height as number)} style={{zIndex: -1,position: 'absolute',backgroundColor: ThemeVariables.INSTANCE.transparent}}>
@@ -222,7 +232,9 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
               return null;
             }}
           </ModalConsumer>
-          <View style={this.styles.menu}
+          <View 
+            testID="test_tabbar-menu"
+            style={this.styles.menu}
             onLayout={e => { this.tabbarHeight = e.nativeEvent.layout.height}}> 
             {tabItems.filter((item, i) => i < max)
               .map((item, i) => this.renderTabItem(item, i + '', props, () => this.onItemSelect(item, navigationService), item.floating))}
@@ -245,17 +257,15 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
   renderWidget(props: WmTabbarProps) {
     this.isFixed = true;
     const animateStyle = props.hideonscroll ? {transform: [{translateY: this.translateY}]} : {};
-    return <>
+    return props.hideonscroll ? (
         <FixedView 
-          style={{...{bottom: 0, width:'100%'}, ...animateStyle}} 
+          name={this.props.name}
+          style={{...{bottom: 0, width:'100%', zIndex: 11}, ...animateStyle}} 
           theme={this.theme}
           animated={props.hideonscroll || false}>
           {this._background}
           {this.renderContent(props)}
         </FixedView>
-        <View style={{ opacity: 0}}>
-          {this.renderContent(props)}
-        </View>
-    </>
+      ) : this.renderContent(props)
   }
 }

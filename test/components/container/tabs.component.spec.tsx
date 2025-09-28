@@ -9,6 +9,7 @@ import {
 import WmTabs from '@wavemaker/app-rn-runtime/components/container/tabs/tabs.component';
 import WmTabpane from '@wavemaker/app-rn-runtime/components/container/tabs/tabpane/tabpane.component';
 import WmTabheader from '@wavemaker/app-rn-runtime/components/container/tabs/tabheader/tabheader.component';
+import BASE_THEME from '@wavemaker/app-rn-runtime/styles/theme';
 
 const getBasicTabs = () => {
   const tabs = createRef<WmTabs>();
@@ -300,4 +301,25 @@ describe('Test Tabs component', () => {
   //   await timer(1000);
   //   expect(tabs.current?.selectedTabPane === tab2.current?.proxy).toBeTruthy();
   // });
+
+  test('should merge custom class styles into tab header styles', () => {
+    BASE_THEME.registerStyle((vars, addStyle) => {
+      addStyle('primary-tabs', '', {
+        header: { backgroundColor: 'rgb(250, 250, 250)' },
+        headerText: { color: 'rgb(1, 2, 3)' },
+        activeIndicator: { backgroundColor: 'rgb(10, 20, 30)' }
+      });
+    });
+
+    const tree = render(
+      <WmTabs name="test_tabs" classname="primary-tabs">
+        <WmTabpane name="tab1" title="Ravindra"></WmTabpane>
+        <WmTabpane name="tab2" title="Ganesh"></WmTabpane>
+      </WmTabs>
+    );
+
+    const header = tree.UNSAFE_getByType(WmTabheader);
+    expect(header.props.styles.headerText.color).toBe('rgb(1, 2, 3)');
+    expect(header.props.styles.activeIndicator.backgroundColor).toBe('rgb(10, 20, 30)');
+  });
 });

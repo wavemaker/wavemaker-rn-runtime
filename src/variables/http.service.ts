@@ -25,16 +25,6 @@ export class HttpService implements HttpClientService {
       });
       requestBody = formData;
     }
-    
-    if ((variable?.serviceInfo?.consumes||[])[0] === 'application/x-www-form-urlencoded') {
-      headers['Content-Type'] = 'application/x-www-form-urlencoded';
-      
-      const data = (variable.serviceInfo.parameters||[])
-        .map((item: any) => `${encodeURIComponent(item.name) + "=" + encodeURIComponent(variable.params[item.name])}`)
-        .join("&");
-      requestBody = data;
-    }
-
     if (!isWebPreviewMode()
       && variable.category === 'wm.LiveVariable'
       && !(url.startsWith('http://') || url.startsWith("https://"))) {
