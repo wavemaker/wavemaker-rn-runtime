@@ -99,7 +99,9 @@
     "expo-navigation-bar": "4.0.8",
     "expo-sharing": "13.0.1",
     "expo-file-system": "18.0.4",
-    "expo-clipboard": "7.0.1"
+    "expo-clipboard": "7.0.1",
+    "expo-screen-capture": "~7.0.1",
+    "expo-secure-store": "14.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.25.2",
