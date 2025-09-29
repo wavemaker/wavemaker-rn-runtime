@@ -1,7 +1,8 @@
 import React from 'react';
-import { Dimensions, LayoutChangeEvent, StatusBar, Text, View } from 'react-native';
+import { Dimensions, Platform, StatusBar, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { find, isEmpty, isString } from 'lodash';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import WmSelectProps from './select.props';
 import { DEFAULT_CLASS, WmSelectStyles } from './select.styles';
@@ -26,6 +27,7 @@ export class WmSelectState extends BaseDatasetState<WmSelectProps> {
   selectedValue: any = '';
   position={} as PopoverPosition;
   selectWidth:number = 0;
+  positionReady:boolean = false;
 }
 
 export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSelectState, WmSelectStyles> {
@@ -35,13 +37,29 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   view: View = null as any;
   public widgetRef: Text | null = null;
   private isDefaultValue: boolean = true;
+  private safeAreaInsets = { top: 0, bottom: 0, left: 0, right: 0 };
+  private isMounted: boolean = true;
+  private isComputing: boolean = false;
 
-  onPress(event: any) {
+  componentWillUnmount() {
+    this.isMounted = false;
+    super.componentWillUnmount?.();
+  }
+  private setSafeAreaInsets(insets: any) {
+    this.safeAreaInsets = insets;
+  }
+
+  async onPress(event: any) {
     if (this.state.props.disabled) {
       return;
     }
-    if (!this.state.isOpened) {
-      this.showPopover();
+    if (!this.state.isOpened && !this.isComputing) {
+      this.isComputing = true;
+      try {
+        await this.showPopover();
+      } finally {
+        this.isComputing = false;
+      }
     }
     this.invokeEventCallback('onFocus', [event, this.proxy]);
   }
@@ -60,24 +78,45 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
       }
   }
 
-  private computePosition = (e: LayoutChangeEvent) => {
-    const position = {} as PopoverPosition;
-      const windowDimensions = Dimensions.get('window');
-      this.view.measure((x, y, width, height, px, py) => {
-        let popoverwidth = this.state.selectWidth as any;
-        if (popoverwidth && isString(popoverwidth)) { 
-          popoverwidth = parseInt(popoverwidth);
-        }
-        this.isRTL ? position.right = px : position.left = px
+  private computePosition = (): Promise<void> => {
+    return new Promise((resolve) => {
+      const checkMounted = () => !this.view || !this.isMounted ? (resolve(), false) : true;
+  
+      if (!checkMounted()) return;
+  
+      requestAnimationFrame(() => {
+        if (!checkMounted()) return;
         
-        if (px + popoverwidth > windowDimensions.width) {
-          this.isRTL
-          ? (position.right = px + width - popoverwidth)
-          : (position.left = px + width - popoverwidth);
-        }
-        position.top = py + height;
-        this.updateState({position: position} as WmSelectState);
+        this.view.measureInWindow((px, py, width, height) => {
+          if (!checkMounted()) return;
+          
+          const isDropdown = this.state.props.classname?.includes('select-dropdown');
+          const windowDimensions = Dimensions.get('window');
+          const position = {} as PopoverPosition;
+          
+          if (this.isRTL) {
+            position.right = windowDimensions.width - px - width;
+          } else {
+            position.left = px;
+          }
+          // Adjust if overflows
+          if (px + width > windowDimensions.width) {
+            if (this.isRTL) {
+              position.right = windowDimensions.width - px - width;
+            } else {
+              position.left = px + width - width;
+            }
+          }
+          position.top = py + height - (Platform.OS === 'ios' && isDropdown ? this.safeAreaInsets.top : 0);
+          
+          this.updateState({
+            position,
+            positionReady: true,
+            selectWidth: width
+          } as WmSelectState, resolve);
+        });
       });
+    });
   };
 
   prepareModalOptions(content: React.ReactNode, styles: WmSelectStyles, modalService: ModalService) {
@@ -96,13 +135,18 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
         }, 0);
       }
       this.invokeEventCallback('onBlur', [{}, this.proxy]);
-      this.setState({ isOpened: false, modalOptions: {} as ModalOptions } as WmSelectState);
+      this.setState({ 
+        isOpened: false, 
+        positionReady: false,
+        modalOptions: {} as ModalOptions 
+      } as WmSelectState);
     };
     this.hide = () => modalService.hideModal(this.state.modalOptions);
     return o;
   }
 
-  public showPopover = () => {
+  public showPopover = async () => {
+      await this.computePosition();
       this.updateState({ isOpened: true } as WmSelectState);
   };
 
@@ -225,17 +269,26 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     if (isDropdown && this.state.selectWidth) {
         styles.modalContent.width = this.styles.dropdown.width || this.state.selectWidth;
     }
+
+    const SafeAreaWrapper = () => {
+      const insets = useSafeAreaInsets();
+      this.setSafeAreaInsets(insets);
+      return null;
+    };
+
     return (
-      <View 
-        onLayout={(event) => {
-          isDropdown ? this.computePosition(event) : ()=>{}
-          this.handleLayout(event)
-        }}
-        style={[this.styles.rootWrapper]}
-      >
-        {this._background}
-        {this.renderSelect()}
-        {this.state.isOpened ? (
+      <>
+        <SafeAreaWrapper />
+        <View 
+          onLayout={(event) => {
+            const width = event.nativeEvent.layout.width;
+            this.updateState({ selectWidth: width } as WmSelectState);
+            this.handleLayout(event);
+          }}
+          style={[this.styles.rootWrapper]}>
+          {this._background}
+          {this.renderSelect()}
+          {this.state.isOpened && this.state.positionReady ? (
           <ModalConsumer>
             {(modalService: ModalService) => {
               const items = this.state.dataItems;
@@ -263,6 +316,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
           </ModalConsumer>
         ) : null}
       </View>
+      </>
     );
   }
 }
