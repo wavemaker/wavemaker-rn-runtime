@@ -104,7 +104,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   }
 
   goToTab(index = this.state.selectedTabIndex) {
-    if (index < 0 || index >= this.tabPanes.length) {
+    if (index < 0 || index >= this.tabPanes?.length) {
       return;
     }
     const position = -1 * index * (this.tabLayout?.width || 0);
@@ -125,18 +125,17 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   }
 
   onChange(newIndex: number) {
-    if (newIndex < 0 || newIndex >= this.tabPanes.length) {
+   if (!this.tabPanes || newIndex < 0 || (this.tabPanes.length && newIndex >= this.tabPanes.length)) {
       return;
     }
     const oldIndex = this.state.selectedTabIndex;
-    const deselectedTab = this.tabPanes[this.state.selectedTabIndex];
-    this.newIndex = newIndex;
+    const deselectedTab = (this.tabPanes && this.tabPanes.length > 0 && this.state.selectedTabIndex >= 0) ? this.tabPanes[this.state.selectedTabIndex] : null;
     deselectedTab?._onDeselect();
     this.updateState({
       selectedTabIndex: newIndex
     } as WmTabsState, () => {
       this.setTabShown(newIndex, () => {
-        const selectedTab = this.tabPanes[newIndex];
+        const selectedTab = (this.tabPanes && this.tabPanes.length > 0 && newIndex >= 0) ? this.tabPanes[newIndex] : null;
         selectedTab?._onSelect();
         this.invokeEventCallback('onChange', [{}, this.proxy, newIndex, oldIndex]);
       });
@@ -202,12 +201,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
     switch(name) {
       case "defaultpaneindex":
         const selectedIndex = $new || 0;
-        const tabsShown: boolean[] = [];
-        tabsShown[selectedIndex] = true;
-        this.updateState({
-          selectedTabIndex: selectedIndex,
-          tabsShown: tabsShown
-        } as WmTabsState);
+        this.setTabShown(selectedIndex, () => this.goToTab(selectedIndex));
     }
   }
 
