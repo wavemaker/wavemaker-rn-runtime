@@ -18,6 +18,10 @@ import { AssetProvider } from '@wavemaker/app-rn-runtime/core/asset.provider';
 import { ModalProvider } from '@wavemaker/app-rn-runtime/core/modal.service';
 import { create } from 'lodash-es';
 
+jest.mock('react-native-safe-area-context', () => ({
+  useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+}));
+
 const dataItems = [
   {
     name: 'name0',
@@ -133,6 +137,7 @@ describe('WmSelect', () => {
     const select = tree.getByText('Select an option');
 
     fireEvent.press(select);
+    await timer(100);
 
     expect(onFocusMock).toHaveBeenCalled();
 

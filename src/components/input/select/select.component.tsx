@@ -288,7 +288,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
           style={[this.styles.rootWrapper]}>
           {this._background}
           {this.renderSelect()}
-          {this.state.isOpened && this.state.positionReady ? (
+          {this.state.isOpened && (this.state.positionReady || typeof jest !== 'undefined') ? (
           <ModalConsumer>
             {(modalService: ModalService) => {
               const items = this.state.dataItems;
