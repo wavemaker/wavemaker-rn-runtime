@@ -317,7 +317,8 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
           <TextInput style={ this.state.props.type === 'autocomplete' ? 
             [foundationStyle?.root ?? {}, this.theme.mergeStyle(this.styles.text, foundationStyle?.text),
             this.state.isValid ? {} : this.theme.mergeStyle(this.styles.invalid, foundationStyle?.invalid),
-            this.isFocused ? this.theme.mergeStyle(this.styles.focusedText, foundationStyle?.focused) : {}] : 
+            this.isFocused ? this.theme.mergeStyle(this.styles.focusedText, foundationStyle?.focused) : {},
+            this.state.props.disabled ? this.theme.mergeStyle(foundationStyle?.disabled) : {}] : 
             [this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isOpened && this.state.dataItems?.length > 0? this.styles.focusedText : null]}
            ref={ref => {this.widgetRef = ref;
              // @ts-ignore
