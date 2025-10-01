@@ -15,6 +15,10 @@ export interface ToastOptions {
     showclosebutton?: boolean;
     closeiconclass?: string;
     closeToast?: () => void;
+    showanchor?: boolean;
+    anchortext?: string;
+    anchorhyperlink?: string;
+    messageiconclass?: string;
 }
 
 export interface ToastService {

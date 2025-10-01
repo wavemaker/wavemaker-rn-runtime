@@ -14,4 +14,8 @@ export default class WmMessageProps extends BaseProps {
   accessibilityrole?: AccessibilityRole = 'alert';
   onClose?: () => void;
   closeiconclass?: string = 'wi wi-close';
+  showanchor?: boolean = false;
+  anchortext?: string = '';
+  anchorhyperlink?: string = '';
+  messageiconclass?: string = '';
 }

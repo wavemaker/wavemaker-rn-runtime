@@ -6,6 +6,7 @@ import WmMessageProps from './message.props';
 import { DEFAULT_CLASS, WmMessageStyles } from './message.styles';
 import WmIcon from '../icon/icon.component';
 import WmButton from '../button/button.component';
+import WmAnchor from '../anchor/anchor.component';
 import { Animatedview } from '@wavemaker/app-rn-runtime/components/basic/animatedview.component';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility';
 
@@ -68,21 +69,32 @@ export default class WmMessage extends BaseComponent<WmMessageProps, WmMessageSt
       {this._background}
       <WmIcon
         id={this.getTestId('icon')}
-        iconclass={props.type && MESSAGE_ICONS[props.type]}
+        iconclass={props.messageiconclass || (props.type && MESSAGE_ICONS[props.type])}
         styles={styles.icon}
         accessible={false}></WmIcon>
       <View style={styles.message}>
         <Text {...this.getTestPropsForLabel('title')} style={styles.title} importantForAccessibility='no'>{props.title || DEFAULT_TITLE[props.type || '']}</Text>
         <Text {...this.getTestPropsForLabel('caption')} style={styles.text} importantForAccessibility='no'>{props.caption}</Text>
       </View>
-      {props.hideclose ? null : (
-        <WmButton
-          id={this.getTestId('close')}
-          iconclass={props.closeiconclass || "wi wi-close"}
+      {props.showanchor ? (
+        <WmAnchor
+          id={this.getTestId('anchor')}
+          caption={props.anchortext}
+          hyperlink={props.anchorhyperlink}
+          target="_blank"
           styles={styles.closeBtn}
-          onTap={this.close}
-          accessibilitylabel='close'
-          accessibilityrole='button'></WmButton>
+          accessibilitylabel={props.anchortext}
+          accessibilityrole='link'></WmAnchor>
+      ) : (
+        props.hideclose ? null : (
+          <WmButton
+            id={this.getTestId('close')}
+            iconclass={props.closeiconclass || "wi wi-close"}
+            styles={styles.closeBtn}
+            onTap={this.close}
+            accessibilitylabel='close'
+            accessibilityrole='button'></WmButton>
+        )
       )}
     </Animatedview>);
   }

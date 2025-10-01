@@ -33,6 +33,10 @@ export class NotificationAction extends BaseAction<NotificationActionConfig> {
         o.hideOnClick = !params.showclosebutton && (options.hideOnClick || true);
         o.showclosebutton = params.showclosebutton;
         o.closeiconclass = params.closeiconclass || 'wi wi-close';
+        o.showanchor = params.showanchor;
+        o.anchortext = params.anchortext;
+        o.anchorhyperlink = params.anchorhyperlink;
+        o.messageiconclass = params.messageiconclass;
         const toasterPosition = options.position || params.toasterPosition || 'bottom right';
         const placement = toasterPosition.split(' ')[0];
         switch(placement) {
