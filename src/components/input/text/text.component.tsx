@@ -76,7 +76,8 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           style={[this.theme.mergeStyle(this.styles.root, foundationStyle?.root), 
             this.theme.mergeStyle(this.styles.text, foundationStyle?.text), 
             this.state.isValid ? {} : this.theme.mergeStyle(this.styles.invalid, foundationStyle?.invalid), 
-            this.state.isInputFocused ? this.theme.mergeStyle(this.styles.focused, foundationStyle?.focused) : {}]}
+            this.state.isInputFocused ? this.theme.mergeStyle(this.styles.focused, foundationStyle?.focused) : {},
+            this.state.props.disabled ? this.theme.mergeStyle(foundationStyle?.disabled) : {}]}
           keyboardType={this.state.keyboardType}
           autoComplete={props.autocomplete === "true" ? "username" : props.autocomplete === "false" ? "off" : props.autocomplete}
           autoFocus={props.autofocus}

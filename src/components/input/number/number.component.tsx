@@ -63,7 +63,8 @@ export default class WmNumber extends BaseNumberComponent<WmNumberProps, WmNumbe
       style={[
         this.theme.mergeStyle(this.styles.root, foundationStyle?.root),
         this.state.isValid ? {} : this.theme.mergeStyle(this.styles.invalid, foundationStyle?.invalid),
-        this.state.isInputFocused ? this.theme.mergeStyle(this.styles.focused, foundationStyle?.focused) : {}
+        this.state.isInputFocused ? this.theme.mergeStyle(this.styles.focused, foundationStyle?.focused) : {},
+        this.state.props.disabled ? this.theme.mergeStyle(foundationStyle?.disabled) : {},
       ]}
       keyboardType="numeric"
       background={this._background}
