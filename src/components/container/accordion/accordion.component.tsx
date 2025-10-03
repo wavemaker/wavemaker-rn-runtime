@@ -90,6 +90,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     const isExpanded = this.state.isExpanded[index];
     const titleIconStyles = this.theme.mergeStyle(this.styles.icon, this.styles.titleIcon)
+    const subheading = isDefined(item.props.subheading) ? item.props.subheading : item.props.description;
     return item.props.show != false ? (
       <View 
         style={this.styles.pane || null} 
