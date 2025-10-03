@@ -384,6 +384,35 @@ describe('WmAccordion Component', () => {
     renderSkeletonMock.mockRestore();
   });
 
+  test('uses subheading when both subheading and description are set', () => {
+    const children = (() => {
+      const panes = Array.from(generateAccordionPane(1));
+      const pane = React.cloneElement(panes[0] as any, {
+        subheading: 'SH',
+        description: 'DESC',
+      });
+      return [pane];
+    })();
+
+    const { getByText, queryByText } = renderComponent({ children });
+    expect(getByText('SH')).toBeTruthy();
+    expect(queryByText('DESC')).toBeNull();
+  });
+
+  test('falls back to description when subheading is undefined', () => {
+    const children = (() => {
+      const panes = Array.from(generateAccordionPane(1));
+      const pane = React.cloneElement(panes[0] as any, {
+        subheading: undefined,
+        description: 'DESC_ONLY',
+      });
+      return [pane];
+    })();
+
+    const { getByText } = renderComponent({ children });
+    expect(getByText('DESC_ONLY')).toBeTruthy();
+  });
+
   xit('check for partial inside accorionpane', async () => {
     const onLoadMock = jest.fn();
     const tree = renderComponent(CompWithPartial);

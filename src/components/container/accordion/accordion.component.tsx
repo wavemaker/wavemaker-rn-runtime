@@ -90,6 +90,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     const isExpanded = this.state.isExpanded[index];
     const titleIconStyles = this.theme.mergeStyle(this.styles.icon, this.styles.titleIcon)
+    const subheading = isDefined(item.props.subheading) ? item.props.subheading : item.props.description;
     return item.props.show != false ? (
       <View 
         style={this.styles.pane} 
@@ -125,15 +126,15 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                   accessibilityRole='header'>
                     {isDefined(item.props.title) ? item.props.title : 'Title'}
             </Text>} 
-            {item.props.description ? 
+            {subheading ? 
               (this._showSkeleton ? 
               <WmLabel 
                 styles={{root: this.styles.subheading}} 
                 showskeleton={true} 
-                caption={item.props.description} /> : 
+                caption={subheading} /> : 
               <Text style={this.styles.subheading}
                 {...this.getTestPropsForAction(`header${index}_description`)}>
-                  {item.props.description}
+                  {subheading}
                </Text>) : null }
           </View>
           {this.expandCollapseIcon(item, index, true, !showIconOnLeft, true, isExpanded)}
