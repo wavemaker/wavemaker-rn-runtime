@@ -5,5 +5,7 @@ export default class WmAccordionProps extends BaseProps {
   children: any;
   defaultpaneindex: number = 0;
   closeothers = true;
+  expandediconclass?: string;
+  collapsediconclass?: string;
 }
 
