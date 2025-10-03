@@ -70,10 +70,18 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
         {widgetProps.badgevalue}
       </Badge>): null;
     let iconclass = null;
-    if (useChevron) {
-      iconclass = isExpanded ? 'wi wi-chevron-down' : 'wi wi-chevron-up';
+    const expandedIconOverride = this.state.props.expandediconclass;
+    const collapsedIconOverride = this.state.props.collapsediconclass;
+    if (expandedIconOverride || collapsedIconOverride) {
+      const expandedIcon = expandedIconOverride || (useChevron ? 'wi wi-chevron-down' : 'wi wi-minus');
+      const collapsedIcon = collapsedIconOverride || (useChevron ? 'wi wi-chevron-up' : 'wi wi-plus');
+      iconclass = isExpanded ? expandedIcon : collapsedIcon;
     } else {
-      iconclass = isExpanded ? 'wi wi-minus' : 'wi wi-plus';
+      if (useChevron) {
+        iconclass = isExpanded ? 'wi wi-chevron-down' : 'wi wi-chevron-up';
+      } else {
+        iconclass = isExpanded ? 'wi wi-minus' : 'wi wi-plus';
+      }
     }
     return (<View style={{flexDirection: 'row'}}>
             {badge}
