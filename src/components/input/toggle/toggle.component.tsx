@@ -54,21 +54,28 @@ export default class WmToggle extends BaseComponent<WmToggleProps, WmToggleState
     this.validate(value);
     this.updateState({ isSwitchOn: value } as WmToggleState);
     const dataValue = value === true ? this.state.props.checkedvalue : this.state.props.uncheckedvalue;
+    
+    const finalScale = value ? (this.state.props.handlesizeon ?? 1.5) : (this.state.props.handlesizeoff ?? 1);
+    
+    const bounceScale = this.state.props.handlesizebounce ?? 1.6;
+    const bounceDuration = this.state.props.bounceduration ?? 300;
+    const slideDuration = this.state.props.slideduration ?? 300;
+    
     Animated.sequence([
       Animated.timing(this.scaleValue, {
-        toValue: 1.6,
-        duration: 300,
+        toValue: bounceScale,
+        duration: bounceDuration,
         useNativeDriver: true,
       }),
       Animated.timing(this.animationValue, {
         toValue: value ? 1 : 0,
-        duration: 300,
+        duration: slideDuration,
         easing: Easing.linear,
         useNativeDriver: true,
       }),
     ]).start(() => {
       Animated.timing(this.scaleValue, {
-        toValue: value ? 1.5 : 1,
+        toValue: finalScale,
         duration: 0,
         useNativeDriver: true,
       }).start();
