@@ -133,6 +133,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         icon: {
           marginRight: 0,
           fontSize: 16,
+          paddingLeft: 8,
           color: themeVariables.chipActiveTextColor,
           marginBottom: 3
         }
