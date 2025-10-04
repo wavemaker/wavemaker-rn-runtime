@@ -270,7 +270,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
          ) : null}
         
         {/* Selected Icon OR Left Icon (mutually exclusive) */}
-        {isSelected && this.isDefaultView() ? (
+        {isSelected && this.isDefaultView() && !this.state.props.getLeftIconClassName ? (
           <WmIcon 
             id={this.getTestId('checkicon')} 
             iconclass={this.state.props.selectediconclass || 'wm-sl-l sl-check'} 
@@ -284,7 +284,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
               id={this.getTestId('chip'+index+'lefticon')} 
               iconclass={this.state.props.getLeftIconClassName && this.state.props.getLeftIconClassName(index)} 
               iconsize={14} 
-              styles={this.styles.leftIcon} 
+              styles={isSelected ? this.styles.activeLeftIcon : this.styles.leftIcon} 
               accessible={false}
             />
           ) : null
