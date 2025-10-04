@@ -341,6 +341,80 @@ describe('Test Toggle component', () => {
     expect(root.props.style.height).toBe(32);
     expect(root.props.style.borderRadius).toBe(18);
   })
+
+  describe('Animation properties validation', () => {
+    test('should render without crashing when handlesizeon is 0', () => {
+      const props = { ...baseProps, handlesizeon: 0 };
+      const tree = render(<WmToggle {...props} />);
+      expect(tree.getByTestId('wm-toggle_a')).toBeDefined();
+    });
+
+    test('should render without crashing when handlesizeon is negative', () => {
+      const props = { ...baseProps, handlesizeon: -1 };
+      const tree = render(<WmToggle {...props} />);
+      expect(tree.getByTestId('wm-toggle_a')).toBeDefined();
+    });
+
+    test('should render without crashing when handlesizeon is positive', () => {
+      const props = { ...baseProps, handlesizeon: 2.5 };
+      const tree = render(<WmToggle {...props} />);
+      expect(tree.getByTestId('wm-toggle_a')).toBeDefined();
+    });
+
+    test('should render without crashing when handlesizeoff is 0', () => {
+      const props = { ...baseProps, handlesizeoff: 0 };
+      const tree = render(<WmToggle {...props} />);
+      expect(tree.getByTestId('wm-toggle_a')).toBeDefined();
+    });
+
+    test('should render without crashing when handlesizebounce is negative', () => {
+      const props = { ...baseProps, handlesizebounce: -2 };
+      const tree = render(<WmToggle {...props} />);
+      expect(tree.getByTestId('wm-toggle_a')).toBeDefined();
+    });
+
+    test('should render without crashing when duration is 0 for instant animation', () => {
+      const props = { ...baseProps, slideduration: 0, bounceduration: 0 };
+      const tree = render(<WmToggle {...props} />);
+      expect(tree.getByTestId('wm-toggle_a')).toBeDefined();
+    });
+
+    test('should render without crashing when slideduration is negative', () => {
+      const props = { ...baseProps, slideduration: -500 };
+      const tree = render(<WmToggle {...props} />);
+      expect(tree.getByTestId('wm-toggle_a')).toBeDefined();
+    });
+
+    test('should render without crashing when bounceduration is negative', () => {
+      const props = { ...baseProps, bounceduration: -100 };
+      const tree = render(<WmToggle {...props} />);
+      expect(tree.getByTestId('wm-toggle_a')).toBeDefined();
+    });
+
+    test('should render without crashing when bounceduration is positive', () => {
+      const props = { ...baseProps, bounceduration: 600 };
+      const tree = render(<WmToggle {...props} />);
+      expect(tree.getByTestId('wm-toggle_a')).toBeDefined();
+    });
+
+    test('should render without crashing with default animation properties', () => {
+      const tree = render(<WmToggle {...baseProps} />);
+      expect(tree.getByTestId('wm-toggle_a')).toBeDefined();
+    });
+
+    test('should render without crashing with multiple invalid animation properties', () => {
+      const props = { 
+        ...baseProps, 
+        handlesizeon: -1, 
+        handlesizeoff: 0,
+        handlesizebounce: -5,
+        slideduration: -200,
+        bounceduration: -300
+      };
+      const tree = render(<WmToggle {...props} />);
+      expect(tree.getByTestId('wm-toggle_a')).toBeDefined();
+    });
+  });
   
   // test('should apply animations correctly', async () => {
   //   jest.useFakeTimers();
