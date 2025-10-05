@@ -89,6 +89,25 @@ describe('WmSelect', () => {
     jest
       .spyOn(AccessibilityConfig, 'isScreenReaderEnabled')
       .mockReturnValue(false);
+    
+    // Mock onPress to automatically set positionReady to true
+    jest.spyOn(WmSelect.prototype, 'onPress').mockImplementation(function(this: WmSelect, event: any) {
+      if (this.state.props.disabled) {
+        return;
+      }
+      if (!this.state.isOpened) {
+        // Defer state update to avoid "Cannot update during an existing state transition" warning
+        setTimeout(() => {
+          this.updateState({
+            position: { left: 0, top: 50 },
+            positionReady: true,
+            selectWidth: 100,
+            isOpened: true
+          } as any);
+        }, 0);
+      }
+      this.invokeEventCallback('onFocus', [event, this.proxy]);
+    });
   });
 
   afterEach(() => {
