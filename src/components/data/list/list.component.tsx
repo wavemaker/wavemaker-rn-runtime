@@ -50,7 +50,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     } as WmListState);
 
     // Subscribe to viewport changes to re-render when screen size changes
-    this.cleanup.push(_viewPort.subscribe(ViewPortEvents.SIZE_CHANGE, () => {
+    this.cleanup.push(_viewPort.subscribe(ViewPortEvents.ORIENTATION_CHANGE, () => {
       this.forceUpdate();
     }));
   }
@@ -623,7 +623,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
             <FlatList
               ref={(ref) => { this.flatListRefs[v.key || 'main'] = ref; }}
               testID={this.getTestId('flat_list')}
-              key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs}
+              key={props.name + '_' + (isHorizontal ? 'H' : 'V') + props.itemsperrow.xs + `number-of-col-${this.getNoOfColumns()}`}
               keyExtractor={(item, i) => this.generateItemKey(item, i, props)}
               scrollEnabled={isHorizontal}
               horizontal={isHorizontal}
