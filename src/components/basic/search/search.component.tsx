@@ -306,6 +306,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.props.query || '';
+    const foundationStyle = this.theme.getStyle('app-input');
     return(
       /*
        * onLayout function is required.
@@ -313,7 +314,11 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
        */
       <View style={this.styles.root} ref={ref => {this.view = ref as View}} onLayout={() => {}}>
         <View style={this.styles.searchInputWrapper}>
-          <TextInput style={[this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isOpened && this.state.dataItems?.length > 0? this.styles.focusedText : null]}
+          <TextInput style={ this.state.props.type === 'autocomplete' ? 
+            [foundationStyle?.root ?? {}, this.theme.mergeStyle(this.styles.text, foundationStyle?.text),
+            this.state.isValid ? {} : this.theme.mergeStyle(this.styles.invalid, foundationStyle?.invalid),
+            this.isFocused ? this.theme.mergeStyle(this.styles.focusedText, foundationStyle?.focused) : {}] : 
+            [this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isOpened && this.state.dataItems?.length > 0? this.styles.focusedText : null]}
            ref={ref => {this.widgetRef = ref;
              // @ts-ignore
              if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {

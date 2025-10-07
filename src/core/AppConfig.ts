@@ -38,5 +38,8 @@ export default interface AppConfig {
     edgeToEdgeConfig:any;
     prefabs?: {
         partials?: any[]
+    },
+    screenCaptureProtection: {
+        enabled: boolean
     }
 }
