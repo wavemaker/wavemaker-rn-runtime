@@ -96,7 +96,6 @@ describe('WmSelect', () => {
         return;
       }
       if (!this.state.isOpened) {
-        // Defer state update to avoid "Cannot update during an existing state transition" warning
         setTimeout(() => {
           this.updateState({
             position: { left: 0, top: 50 },
@@ -156,7 +155,6 @@ describe('WmSelect', () => {
     const select = tree.getByText('Select an option');
 
     fireEvent.press(select);
-    await timer(100);
 
     expect(onFocusMock).toHaveBeenCalled();
 
