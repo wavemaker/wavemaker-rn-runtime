@@ -49,14 +49,14 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     this.safeAreaInsets = insets;
   }
 
-  async onPress(event: any) {
+  onPress(event: any) {
     if (this.state.props.disabled) {
       return;
     }
     if (!this.state.isOpened && !this.isComputing) {
       this.isComputing = true;
       try {
-        await this.showPopover();
+        this.showPopover();
       } finally {
         this.isComputing = false;
       }
@@ -78,44 +78,29 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
       }
   }
 
-  private computePosition = (): Promise<void> => {
-    return new Promise((resolve) => {
-      const checkMounted = () => !this.view || !this.isMounted ? (resolve(), false) : true;
-  
-      if (!checkMounted()) return;
-  
-      requestAnimationFrame(() => {
-        if (!checkMounted()) return;
-        
-        this.view.measureInWindow((px, py, width, height) => {
-          if (!checkMounted()) return;
-          
-          const isDropdown = this.state.props.classname?.includes('select-dropdown');
-          const windowDimensions = Dimensions.get('window');
-          const position = {} as PopoverPosition;
-          
-          if (this.isRTL) {
-            position.right = windowDimensions.width - px - width;
-          } else {
-            position.left = px;
-          }
-          // Adjust if overflows
-          if (px + width > windowDimensions.width) {
-            if (this.isRTL) {
-              position.right = windowDimensions.width - px - width;
-            } else {
-              position.left = px + width - width;
-            }
-          }
-          position.top = py + height - (Platform.OS === 'ios' && isDropdown ? this.safeAreaInsets.top : 0);
-          
-          this.updateState({
-            position,
-            positionReady: true,
-            selectWidth: width
-          } as WmSelectState, resolve);
-        });
-      });
+  private computePosition = () => {
+    if (!this.view || !this.isMounted) return;
+    
+    this.view.measureInWindow((px, py, width, height) => {
+      if (!this.isMounted) return;
+      
+      const isDropdown = this.state.props.classname?.includes('select-dropdown');
+      const windowDimensions = Dimensions.get('window');
+      const position = {} as PopoverPosition;
+      
+      if (this.isRTL) {
+        position.right = windowDimensions.width - px - width;
+      } else {
+        position.left = px;
+      }
+      
+      position.top = py + height - (Platform.OS === 'ios' && isDropdown ? this.safeAreaInsets.top : 0);
+      
+      this.updateState({
+        position,
+        positionReady: true,
+        selectWidth: width
+      } as WmSelectState);
     });
   };
 
@@ -145,8 +130,8 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
     return o;
   }
 
-  public showPopover = async () => {
-      await this.computePosition();
+  public showPopover = () => {
+      this.computePosition();
       this.updateState({ isOpened: true } as WmSelectState);
   };
 
