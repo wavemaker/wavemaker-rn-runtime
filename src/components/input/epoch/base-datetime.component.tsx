@@ -244,22 +244,12 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       }
       this.updateState({showDatePicker: true, isFocused: true} as BaseDatetimeState);
       
-      if (Platform.OS === 'web' && this.state.props.iswheelpicker) {
+      if (Platform.OS === 'web' && this.state.props.iswheelpicker || Platform.OS === 'android' || Platform.OS === 'ios') {
         if (this.state.props.mode === 'date' || this.state.props.mode === 'datetime') {
           this.updateState({showDatePickerModal: true} as BaseDatetimeState);
         }
         if (this.state.props.mode === 'time') {
           this.updateState({showTimePickerModal: true} as BaseDatetimeState);
-        }
-      } else {
-        if (this.state.props.mode === 'date') {
-          this.updateState({showDatePickerModal: true} as BaseDatetimeState);
-        }
-        if (this.state.props.mode === 'time') {
-          this.updateState({showTimePickerModal: true} as BaseDatetimeState);
-        }
-        if (this.state.props.mode === 'datetime') {
-          this.updateState({showDatePickerModal: true} as BaseDatetimeState);
         }
       }
       
@@ -570,12 +560,8 @@ private renderTime(props: WmDatetimeProps, is24Hour: boolean) {
           {(Platform.OS !== 'web' && props.iswheelpicker && this.state.showDatePickerModal) && (
             this.renderDate(props)
           )}
-          {(Platform.OS === 'web' && props.iswheelpicker && this.state.showTimePickerModal) && (
+          {(Platform.OS === 'web' && props.iswheelpicker && this.state.showTimePickerModal || Platform.OS == 'android' || Platform.OS == 'ios') && (
             this.renderTime(props, is24Hour as any)
-          )}
-          {
-            (Platform.OS !== 'web' && props.iswheelpicker && this.state.showTimePickerModal) && (
-             this.renderTime(props, is24Hour as any)
           )}
         </View>
         ), this.styles.rootWrapper , this.handleLayout)
