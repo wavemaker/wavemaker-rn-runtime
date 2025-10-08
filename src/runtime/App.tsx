@@ -622,8 +622,8 @@ export default abstract class BaseApp extends React.Component implements Navigat
     const edgeToEdgeConfig = this.appConfig?.edgeToEdgeConfig;
     const statusbarConfig = this.appConfig?.edgeToEdgeConfig?.statusbarConfig;
     const isEdgeToEdgeApp = !!edgeToEdgeConfig?.isEdgeToEdgeApp;
-
     const Wrapper = isEdgeToEdgeApp ? View : SafeAreaView;
+    const hasModalOpen = AppModalService.modalsOpened.length > 0;
     return (
       <SafeAreaProvider>
         <SafeAreaInsetsContext.Consumer>
@@ -642,7 +642,10 @@ export default abstract class BaseApp extends React.Component implements Navigat
                       <ErrorBoundary currentPage={this.appConfig.currentPage}>
                       {this.renderIosStatusbarInsetsView(isEdgeToEdgeApp, insets)}
                       <View style={{ flex: 1 }}>
-                          <View style={styles.container}>
+                          <View style={styles.container}
+                              accessibilityElementsHidden={hasModalOpen}
+                              importantForAccessibility={hasModalOpen ? 'no-hide-descendants' : 'auto'}
+                            >
                             <GestureHandlerRootView style={styles.container}>
                               <AppNavigator
                                 app={this}
