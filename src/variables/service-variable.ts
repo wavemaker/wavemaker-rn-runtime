@@ -5,6 +5,9 @@ import { deepCopy } from '@wavemaker/app-rn-runtime/core/utils';
 import { ServiceVariable as _ServiceVariable } from '@wavemaker/variables/src/model/variable/service-variable';
 import httpService from '@wavemaker/app-rn-runtime/variables/http.service';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
+import { interceptService } from '@wavemaker/variables/src/interceptor';
+import { ServiceVariableContext } from './interceptor/intercept-context.impl';
+import { addPassThroughInterceptor, addServiceVariableInterceptor } from './interceptor/interceptor.factory';
 
 export interface ServiceVariableConfig extends VariableConfig {
   baseUrl: string;
@@ -26,7 +29,6 @@ enum _ServiceVariableEvents {
 export type ServiceVariableEvents = _ServiceVariableEvents | VariableEvents;
 
 export class ServiceVariable extends _ServiceVariable {
-  private cancelTokenSource: any;
   params: any = {};
   public appConfig = injector.get<AppConfig>('APP_CONFIG');
 
@@ -123,6 +125,15 @@ export class ServiceVariable extends _ServiceVariable {
       // service definitions data depends on whether user logged in or not
     // Try to get the latest definition
     this.serviceInfo = this.config.getServiceInfo();
+    if (this.serviceInfo?.httpMethod?.toUpperCase() === 'GET') {
+      const url = this.serviceInfo.directPath || this.serviceInfo.relativePath;
+      addPassThroughInterceptor({
+        url: url,
+        cache: {
+          timeout: 5 * 60 * 1000
+        }
+      });
+    }
     if (!this.serviceInfo) {
       console.error(`Service Info is missing for (${this.name}) variable.`)
     }
@@ -159,4 +170,49 @@ export class ServiceVariable extends _ServiceVariable {
   //   this.params = merge({}, this.config.paramProvider(), _setInput(this.params, key, val, options));
   //    return this.params;
   // }
+
+  private generateStr(o: any) {
+    if (typeof o === 'string' || typeof o !== 'object' ) {
+      return JSON.stringify(o);
+    }
+    let str = '';
+    Object.keys(o || {}).sort().forEach((key, i) => {
+      if (i > 0) {
+        str += '&';
+      }
+      str += key + '=' + this.generateStr(o[key]);
+    });
+    return str;
+  }
+
+
+  makeHttpCall(requestParams: any, inputFields: any, successHandler: Function, errorHandler: Function) {
+    let madeHttpCall = false;
+    const serviceInfo = this.serviceInfo;
+    const url = serviceInfo.directPath ||  serviceInfo.relativePath;
+    const keyPrefix = 'API_INTERCEPTOR_CACHE.' + url + '?' + this.generateStr(inputFields);
+    const context = new ServiceVariableContext(this, inputFields, {
+      keyPrefix: keyPrefix,
+      proceed: async () => {
+        madeHttpCall = true;
+        await this.httpService.sendCall(requestParams, this).then((successHandler)).catch(errorHandler);
+        return this.dataSet;
+      }
+    });
+    return interceptService.intercept(context).then(() => {
+      if (madeHttpCall) {
+        return;
+      }
+      this.config.onResult && this.config.onResult(this, this.dataSet);
+      this.config.onSuccess && this.config.onSuccess(this, this.dataSet);
+      return this.dataSet;
+    }, (err: any) => {
+      if (madeHttpCall) {
+        return;
+      }
+      this.config.onResult && this.config.onResult(this, this.dataSet);
+      this.config.onError && this.config.onError(this, this.dataSet);
+      return Promise.reject(err);
+    });
+  }
 }
