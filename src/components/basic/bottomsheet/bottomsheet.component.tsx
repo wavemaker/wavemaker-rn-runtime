@@ -248,24 +248,28 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
     // Leave some buffer space for the drag handle and safe area
     const bufferSpace = (Platform.OS === 'ios' ? this.topInset : this.statusBarHeight) + 20;
     const adjustedHeight = availableHeight - bufferSpace;
-    // Animate the sheet height adjustment
-    Animated.timing(this.state.sheetHeight, {
-      toValue: adjustedHeight,
-      duration: 100,
-      useNativeDriver: false,
-    }).start();
+    // Animate the sheet height adjustment (only for android)
+    if (Platform.OS == 'android' && this.props.modal) {
+      Animated.timing(this.state.sheetHeight, {
+        toValue: adjustedHeight,
+        duration: 100,
+        useNativeDriver: false,
+      }).start();
+    }
     this.updateState({
       keyboardHeight: keyboardHeight,
     } as WmBottomsheetState);
   };
 
   private onKeyboardHide = () => {
-    // Restore the original sheet height when keyboard hides
-    Animated.timing(this.state.sheetHeight, {
-      toValue: this.state.isExpanded ? this.expandedHeight : this.calculatedHeight,
-      duration: 100,
-      useNativeDriver: false,
-    }).start();
+    // Restore the original sheet height when keyboard hides (only for android)
+    if (Platform.OS == 'android' && this.props.modal) {
+      Animated.timing(this.state.sheetHeight, {
+        toValue: this.state.isExpanded ? this.expandedHeight : this.calculatedHeight,
+        duration: 100,
+        useNativeDriver: false,
+      }).start();
+    }
     this.updateState({
       keyboardHeight: 0,
     } as WmBottomsheetState);
@@ -506,7 +510,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
           this.topInset = insets?.top || 0;
           return (
-          <View style={this.styles.root}
+            <View style={this.styles.root}
               {...this.getTestProps('keyboardview')}>
 
               {this._background}
