@@ -443,6 +443,12 @@ invokeHandleSubmitCallbackFromProps(formData: any) {
     } as WmFormState)
   }
 
+  clearMessage() {
+    this.setState({
+      showInlineMsg: false
+    } as WmFormState)
+  }
+
   renderWidget(props: WmFormProps) {
     return (
       <ToastConsumer>
@@ -461,7 +467,7 @@ invokeHandleSubmitCallbackFromProps(formData: any) {
                 </View>
               </View>
             ) : null}
-            {this.state.showInlineMsg ? <WmMessage type={this.state.type} caption={this.state.message} hideclose={false} onClose={this.onMsgClose.bind(this)}></WmMessage> : null
+            {this.state.showInlineMsg ? <WmMessage type={this.state.type} caption={this.state.message} hideclose={false} onClose={() => { this.onMsgClose(); this.clearMessage(); }}></WmMessage> : null
             }
             { props.metadata && this.state.dynamicForm }
             { props.children}

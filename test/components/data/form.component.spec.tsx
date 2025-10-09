@@ -495,6 +495,16 @@ describe('WmForm', () => {
     })
   })
 
+  it('clearMessage updates showInlineMsg', async () => {
+    const { instance } = render(<WmForm {...defaultProps}/>).UNSAFE_getAllByProps(WmForm)[0]
+
+    instance.clearMessage();
+
+    await waitFor(() => {
+      expect(instance.state.showInlineMsg).toBeFalsy()
+    })
+  })
+
   it('toggleMessage updates the type and message when messagelayout is Inline', async () => {
     const props = {
       ...defaultProps,
