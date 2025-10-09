@@ -49,8 +49,8 @@ export class ViewPort extends EventNotifier {
                 if(getCurrentOrientation(event.orientationInfo.orientation) !== this.orientation) {
                     const screenDim = Dimensions.get('screen');
                     const {width: sWidth, height: sHeight} = screenDim;
-                    screenDim.width = sWidth;
-                    screenDim.height = sHeight;
+                    screenDim.width = sHeight;
+                    screenDim.height = sWidth;
                     
                     const {width, height} = dim;
                     dim.width = height;
