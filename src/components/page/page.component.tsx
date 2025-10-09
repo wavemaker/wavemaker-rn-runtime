@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useCallback} from 'react';
 import { PanResponder, ScrollView, View, NativeSyntheticEvent,  NativeScrollEvent ,StatusBar, Platform} from 'react-native';
 
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
@@ -10,6 +10,9 @@ import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.co
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import * as NavigationBar from 'expo-navigation-bar';
+import { useFocusEffect } from '@react-navigation/native';
+import { determineNavigationBarButtonStyle, hexWithAlpha } from '@wavemaker/app-rn-runtime/core/utils';
+
 
 export class WmPageState extends BaseComponentState<WmPageProps> {}
 
@@ -26,38 +29,22 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
     super(props, DEFAULT_CLASS);
   }
 
-  componentDidMount() {
-    super.componentDidMount();
-    this.setNavigationBarColor();
-  }
-
-  componentDidUpdate(prevProps: WmPageProps, prevState: WmPageState) {
-    super.componentDidUpdate(prevProps, prevState)
-    if (prevProps.navigationbarstyle !== this.props.navigationbarstyle) {
-      this.setNavigationBarColor();
-    }
-  }
-
-  setNavigationBarColor() {
-    const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
-    if (Platform.OS !== 'android' || !isEdgeToEdgeApp) return;
-    
-    const isDark = this.props.navigationbarstyle === 'dark';
-    const navbarColor = isDark ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.5)';
-      
-    const buttonStyle = isDark ? 'light' : 'dark';
-
-    NavigationBar.setBackgroundColorAsync(navbarColor);
-    NavigationBar.setButtonStyleAsync(buttonStyle);
-  }
-
   renderWidget(props: WmPageProps) {
-
     const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
     return (
       <StickyViewComponents hasAppnavbar={props.hasappnavbar} onscroll={props.onscroll} notifier={this.notifier}>
         <FixedViewContainer>
-        {isEdgeToEdgeApp && Platform.OS ==="android" ? <StatusBar barStyle={props.statusbarstyle}/> : null}
+        {isEdgeToEdgeApp && Platform.OS === "android" && (
+          <>
+            <StatusBar barStyle={props.statusbarstyle} />
+            <CustomNavigationBar
+                style={props?.navigationbarstyle || 'light'}
+                color={props?.navigationbarcolor || '#000000'}
+                opacity={props?.navigationbaropacity || 0.1}
+              />
+          </>
+         )
+        }
           <SafeAreaInsetsContext.Consumer>
             {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
               return (
@@ -77,3 +64,43 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
     ); 
   }
 }
+
+type CustomNavigationBarProps = {
+  style: 'dark' | 'light' | 'custom';
+  color: string;
+  opacity: number;
+};
+
+const CustomNavigationBar = (props:CustomNavigationBarProps) => {
+  const {style,opacity,color} = props;
+
+  useFocusEffect(
+    useCallback(() => {
+      let navbarColor: string;
+      let buttonStyle: 'light' | 'dark';
+
+      switch (style) {
+        case 'custom':
+          navbarColor = hexWithAlpha(color, opacity);
+          // Determine button style based on color brightness
+          buttonStyle = determineNavigationBarButtonStyle(color) ? 'light' : 'dark';
+          break;
+        
+        case 'dark':
+          navbarColor = '#0000001A'; // rgba(0,0,0,0.1) in hex
+          buttonStyle = 'light';
+          break;
+        
+        case 'light':
+        default:
+          navbarColor = '#FFFFFF80'; // rgba(255,255,255,0.5) in hex
+          buttonStyle = 'dark';
+          break;
+      }
+      NavigationBar.setBackgroundColorAsync(navbarColor);
+      NavigationBar.setButtonStyleAsync(buttonStyle);
+    }, [style, color, opacity])
+  );
+
+  return null;
+};

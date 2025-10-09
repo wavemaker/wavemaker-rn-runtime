@@ -919,3 +919,39 @@ export const replace = (target: string, value: any): string => {
     return val !== undefined ? val : match;
   });
 }
+
+// Helper function to determine if light buttons should be used based on color brightness
+export const determineNavigationBarButtonStyle = (hex: string): boolean => {
+  const cleanHex = hex.replace('#', '').slice(0, 6);
+  const bigint = parseInt(cleanHex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  
+  // Calculate relative luminance (perceived brightness)
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  
+  // Use light buttons on dark backgrounds
+  return luminance < 0.5;
+};
+
+ // Convert hex color to 8-digit hex with alpha channel
+export const hexWithAlpha = (hex: string, alpha: number): string => {
+    let cleanHex = hex.replace('#', '');
+    
+    // Expand 3-digit hex to 6-digit (e.g., #FFF -> #FFFFFF)
+    if (cleanHex.length === 3) {
+      cleanHex = cleanHex.split('').map(c => c + c).join('');
+    }
+    
+    // Take only first 6 characters (ignore existing alpha if present)
+    cleanHex = cleanHex.slice(0, 6);
+    
+    // Convert opacity (0-1) to hex (00-FF)
+    const alphaHex = Math.round(alpha * 255)
+      .toString(16)
+      .padStart(2, '0')
+      .toUpperCase();
+    
+    return `#${cleanHex}${alphaHex}`;
+  };
