@@ -11,7 +11,6 @@ import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 import Animated from 'react-native-reanimated';
 import { StickyWrapperContextType, StickyWrapperContext } from '@wavemaker/app-rn-runtime/core/sticky-wrapper';
 import { isNumber } from 'lodash-es';
-import WmOfflineBanner from '@wavemaker/app-rn-runtime/components/advanced/offline-banner/offline-banner.component';
 
 export class WmPageContentState extends BaseComponentState<WmPageContentProps> {
   navHeightForRender = 0;
@@ -109,15 +108,6 @@ export default class WmPageContent extends BaseComponent<WmPageContentProps, WmP
   }
 
   renderWidget(props: WmPageContentProps) {
-    // Show offline banner when not connected (skip in web preview)
-    if (!isWebPreviewMode() && !props.isconnected) {
-      return (
-        <WmOfflineBanner onRetry={() => {
-          this.notify('retry', []);
-        }} />
-      );
-    }
-
     const showScrollbar = (this.styles.root as any).scrollbarColor != 'transparent';
     const borderRadiusStyles = {
       borderRadius: this.styles.root.borderRadius,

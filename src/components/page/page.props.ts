@@ -5,4 +5,5 @@ export default class WmPageProps extends BaseProps{
   onscroll: string = ''; // none, topnav, topnav-bottomnav
   statusbarstyle:'default'|'dark-content'|'light-content' = 'default';
   navigationbarstyle:'dark'|'light' = "light";
+  showOfflineBanner:boolean = false;
 }
