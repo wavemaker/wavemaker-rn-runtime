@@ -133,7 +133,7 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
       forEach(this.state.dataItems, (item) => {
         item.selected = (item.key === chipItem.key);
       });
-    } 
+    }
     else {
       // Multiple selection: original working logic
       if (!chipItem.selected && this.state.props.maxsize > 0 && (this.state.chipsList.length === this.state.props.maxsize)) {
@@ -145,14 +145,14 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
         selectedItem.selected = chipItem.selected;
       }
     }
-    
+
     const newChipList: any = [];
     forEach(this.state.dataItems, (item) => {
       if (item.selected) {
         newChipList.push(item);
       }
     });
-    
+
     this.updateState({
       chipsList: newChipList
     } as WmChipsState);
@@ -282,98 +282,93 @@ export default class WmChips extends BaseDatasetComponent<WmChipsProps, WmChipsS
           {
             this.state.props.classname?.includes('template') || this.state.props.classname?.includes('clear-btn') ? this.rendertemplate(item,index) :
           <>
-          {isSelected && this.isDefaultView() ? <WmIcon id={this.getTestId('checkicon')} iconclass={'wm-sl-l sl-check'} iconsize={16} styles={merge({}, this.styles.doneIcon, {icon: {color: isSelected ? this.styles.doneIcon.icon?.color : null}})} accessible={false}></WmIcon> : null}
-          { this._showSkeleton ? null : <WmPicture id={this.getTestId('chip'+ index + 'picture')} styles={this.styles.imageStyles} picturesource={item.imgSrc} shape='circle' accessible={false}></WmPicture>}
-          { this._showSkeleton ? <WmLabel styles={{root: {width: 50}}}/> :  <Text {...this.getTestPropsForAction('chip'+ index+'label')}style={[this.styles.chipLabel, isSelected ? this.styles.activeChip.text : null]}>{item.displayexp || item.displayfield}</Text>}
-          {!this.isDefaultView() && !(this.state.props.disabled||this.state.props.readonly) ? <WmIcon id={this.getTestId('clearbtn')} iconclass={'wi wi-clear'} iconsize={16} styles={this.styles.clearIcon} onTap={() => this.removeItem(item, index)} accessibilitylabel='clear' accessibilityrole='button'></WmIcon> : null}
-          </>
-          }
-
          {/* Left Badge */}
          {(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index)) ? (
-           <WmLabel 
-             id={this.getTestId('chip'+ index+'leftbadge')} 
+           <WmLabel
+             id={this.getTestId('chip'+ index+'leftbadge')}
              styles={isSelected ? this.styles.activeLeftBadge : this.styles.leftBadge}
              caption={(this.state.props.getLeftBadge && this.state.props.getLeftBadge(index))}
            />
          ) : null}
-        
+
         {/* Selected Icon OR Left Icon (mutually exclusive) */}
         {isSelected && this.isDefaultView() ? (
-          <WmIcon 
-            id={this.getTestId('checkicon')} 
-            iconclass={this.state.props.selectediconclass || 'wm-sl-l sl-check'} 
-            iconsize={16} 
-            styles={merge({}, this.styles.doneIcon, {icon: {color: isSelected ? this.styles.activeChipLabel.color : null}})} 
+          <WmIcon
+            id={this.getTestId('checkicon')}
+            iconclass={this.state.props.selectediconclass || 'wm-sl-l sl-check'}
+            iconsize={16}
+            styles={merge({}, this.styles.doneIcon, {icon: {color: isSelected ? this.styles.activeChip.text.color : null}})}
             accessible={false}
           />
         ) : (
           (this.state.props.getLeftIconClassName && this.state.props.getLeftIconClassName(index)) ? (
-            <WmIcon 
-              id={this.getTestId('chip'+index+'lefticon')} 
-              iconclass={this.state.props.getLeftIconClassName && this.state.props.getLeftIconClassName(index)} 
-              iconsize={14} 
-              styles={this.styles.leftIcon} 
+            <WmIcon
+              id={this.getTestId('chip'+index+'lefticon')}
+              iconclass={this.state.props.getLeftIconClassName && this.state.props.getLeftIconClassName(index)}
+              iconsize={14}
+              styles={this.styles.leftIcon}
               accessible={false}
             />
           ) : null
         )}
-        
+
         {/* Picture */}
         {this._showSkeleton ? null : (
-          <WmPicture 
-            id={this.getTestId('chip'+ index + 'picture')} 
-            styles={this.styles.imageStyles} 
-            picturesource={item.imgSrc} 
-            shape='circle' 
+          <WmPicture
+            id={this.getTestId('chip'+ index + 'picture')}
+            styles={this.styles.imageStyles}
+            picturesource={item.imgSrc}
+            shape='circle'
             accessible={false}
           />
         )}
-        
+
         {/* Label */}
         {this._showSkeleton ? (
           <WmLabel styles={{root: {width: 50}}}/>
         ) : (
-          <Text 
+          <Text
             {...this.getTestPropsForAction('chip'+ index+'label')}
             style={[this.styles.chipLabel, isSelected ? this.styles.activeChipLabel : null]}
           >
             {item.displayexp || item.displayfield}
           </Text>
         )}
-        
+
          {/* Right Badge */}
          {(this.state.props.getRightBadge && this.state.props.getRightBadge(index)) ? (
-           <WmLabel 
-             id={this.getTestId('chip'+ index+'rightbadge')} 
+           <WmLabel
+             id={this.getTestId('chip'+ index+'rightbadge')}
              styles={isSelected ? this.styles.activeRightBadge : this.styles.rightBadge}
              caption={(this.state.props.getRightBadge && this.state.props.getRightBadge(index))}
            />
          ) : null}
-        
+
         {/* Right Icon */}
         {(this.state.props.getRightIconClassName && this.state.props.getRightIconClassName(index)) ? (
-          <WmIcon 
-            id={this.getTestId('chip'+index+'righticon')} 
-            iconclass={(this.state.props.getRightIconClassName && this.state.props.getRightIconClassName(index))} 
-            iconsize={16} 
-            styles={isSelected ? this.styles.activeRightIcon : this.styles.rightIcon} 
+          <WmIcon
+            id={this.getTestId('chip'+index+'righticon')}
+            iconclass={(this.state.props.getRightIconClassName && this.state.props.getRightIconClassName(index))}
+            iconsize={16}
+            styles={isSelected ? this.styles.activeRightIcon : this.styles.rightIcon}
             accessible={false}
           />
         ) : null}
-        
+
         {/* Clear Button (only in non-default view) */}
         {!this.isDefaultView() && !(this.state.props.disabled || this.state.props.readonly) ? (
-          <WmIcon 
-            id={this.getTestId('clearbtn')} 
-            iconclass={'wi wi-clear'} 
-            iconsize={16} 
-            styles={this.styles.clearIcon} 
-            onTap={() => this.removeItem(item, index)} 
-            accessibilitylabel='clear' 
+          <WmIcon
+            id={this.getTestId('clearbtn')}
+            iconclass={'wi wi-clear'}
+            iconsize={16}
+            styles={this.styles.clearIcon}
+            onTap={() => this.removeItem(item, index)}
+            accessibilitylabel='clear'
             accessibilityrole='button'
           />
         ) : null}
+      </>
+      }
       </TouchableOpacity>
     )
   }
