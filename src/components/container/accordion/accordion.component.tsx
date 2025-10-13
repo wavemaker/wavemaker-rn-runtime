@@ -130,16 +130,17 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                   {...this.getTestPropsForAction(`header${index}_title`)}
                   accessibilityRole='header'>
                     {isDefined(item.props.title) ? item.props.title : 'Title'}
-            </Text>} 
-            {item.props.description ? 
+            </Text>
+            } 
+            {subheading ? 
               (this._showSkeleton ? 
               <WmLabel 
                 styles={{root: this.styles.subheading}} 
                 showskeleton={true} 
-                caption={item.props.description} /> : 
+                caption={subheading} /> : 
               <Text style={this.styles.subheading}
                 {...this.getTestPropsForAction(`header${index}_description`)}>
-                  {item.props.description}
+                  {subheading}
                </Text>) : null }
           </View>
           {this.expandCollapseIcon(item, index, true, !showIconOnLeft, true, isExpanded)}
