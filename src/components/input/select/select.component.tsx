@@ -121,14 +121,17 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   renderSelect() {
     const props = this.state.props;
     const select = this.styles.root as any;
+    const foundationStyle = this.theme.getStyle('app-input');
     return (
       /*
        * onLayout function is required.
        * https://github.com/naoufal/react-native-accordion/pull/19/files
        */
       <View
-        style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, { backgroundColor: props.disabled ? this.styles.disabledText.backgroundColor : this.styles.root.backgroundColor}, 
-          this._showSkeleton ? { justifyContent: 'space-between' } : {}]}
+        style={[this.styles.root, this.state.isValid ? {} : this.styles.invalid, 
+          { backgroundColor: props.disabled ? this.styles.disabledText.backgroundColor : this.styles.root.backgroundColor}, 
+          this._showSkeleton ? { justifyContent: 'space-between' } : {},
+          props.disabled ? this.theme.mergeStyle(foundationStyle?.disabled) : {}]}
         ref={(ref) => {
           this.view = ref as View;
         }}

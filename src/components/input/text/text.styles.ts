@@ -99,4 +99,17 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
       color: themeVariables.activeFloatingLabelColor,
     }
   });
+    addStyle('app-input', '', {
+    root: {},
+    text: {},
+    invalid: {
+    },
+    focused: {},
+    placeholderText: {},
+    floatingLabel: {},
+    activeFloatingLabel: {},
+    skeleton: {
+      root: {}
+    } as any as WmSkeletonStyles
+  });
 });

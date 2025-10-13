@@ -14,6 +14,7 @@ export type WmCurrencyStyles = BaseStyles & {
   skeletonLabel: WmSkeletonStyles;
   skeletonTextInputWrapper:  WmSkeletonStyles;
   skeletonLabelWrapper:  WmSkeletonStyles;
+  inputNoLeftRadius: AllStyle;
 };
 
 export const DEFAULT_CLASS = 'app-currency';
@@ -21,7 +22,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   const defaultStyles: WmCurrencyStyles = defineStyles({
       root: {
         minHeight: 42,
-        borderWidth: 1,
+        borderWidth: 0,
         borderStyle: 'solid',
         borderColor: themeVariables.inputBorderColor,
         backgroundColor: themeVariables.inputBackgroundColor,
@@ -111,7 +112,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         }
       } as any as WmSkeletonStyles,
       floatingLabel: {},
-      activeFloatingLabel: {}
+      activeFloatingLabel: {},
+      inputNoLeftRadius: {
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
+          borderLeftWidth:0
+      }
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

@@ -52,6 +52,7 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
   renderWidget(props: WmTextareaProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
+    const foundationStyle = this.theme.getStyle('app-input');
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return ( 
       <>
@@ -69,7 +70,9 @@ export default class WmTextarea extends BaseInputComponent<WmTextareaProps, WmTe
         }}}
       placeholderTextColor={this.styles.placeholderText.color as any}
       isInputFocused={ this.state.isInputFocused }
-      style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isInputFocused ? this.styles.focused : {}]}
+      style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isInputFocused ? this.styles.focused : {},
+        this.state.props.disabled ? this.theme.mergeStyle(foundationStyle?.disabled) : {}
+      ]}
       multiline={true}
       numberOfLines={4}
       background={this._background}
