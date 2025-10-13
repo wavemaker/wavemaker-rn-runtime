@@ -10,11 +10,19 @@ import { FixedViewContainer } from '@wavemaker/app-rn-runtime/core/fixed-view.co
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import * as NavigationBar from 'expo-navigation-bar';
+import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
+import WmOfflineBanner from '@wavemaker/app-rn-runtime/components/advanced/offline-banner/offline-banner.component';
+import BasePage from '@wavemaker/app-rn-runtime/runtime/base-page.component';
+import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
-export class WmPageState extends BaseComponentState<WmPageProps> {}
+export class WmPageState extends BaseComponentState<WmPageProps> {
+  isConnected?: boolean;
+}
 
 export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPageStyles> {
   private appConfig = injector.get<AppConfig>('APP_CONFIG');
+  private _unsubscribeNetworkState: any;
+  private _unsubscribeNetworkError: any;
 
   panResponder = PanResponder.create({
     onStartShouldSetPanResponderCapture: (e) => {
@@ -24,11 +32,19 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
   });
   constructor(props: WmPageProps) {
     super(props, DEFAULT_CLASS);
+    this.state = {
+            ...this.state,
+            isConnected: true
+        } as WmPageState;
+  
   }
 
   componentDidMount() {
     super.componentDidMount();
     this.setNavigationBarColor();
+    if(this.props.showOfflineBanner) {
+      this.setupNetworkMonitoring();
+    }
   }
 
   componentDidUpdate(prevProps: WmPageProps, prevState: WmPageState) {
@@ -37,6 +53,20 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
       this.setNavigationBarColor();
     }
   }
+
+  private setupNetworkMonitoring(): void {
+    this.cleanup.push(NetworkService.notifier.subscribe('onNetworkStateChange', (networkState: any) => {
+      const connected = networkState.isConnected && networkState.isNetworkAvailable;
+      if (this.state.isConnected !== connected) {
+          this.setState({ ...this.state, isConnected: connected } as WmPageState);
+      }
+   })); 
+    const currentState = NetworkService.getState();
+    if (currentState) {
+        const connected = currentState.isConnected && currentState.isNetworkAvailable;
+        this.setState({ ...this.state, isConnected: connected } as WmPageState);
+    }
+}
 
   setNavigationBarColor() {
     const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
@@ -51,7 +81,27 @@ export default class WmPage extends BaseComponent<WmPageProps, WmPageState, WmPa
     NavigationBar.setButtonStyleAsync(buttonStyle);
   }
 
+  onNetworkRetry() {
+    if(!NetworkService.isConnected()) {
+      return;
+    }
+    this.setState({ ...this.state, isConnected: true } as WmPageState);
+  }
+
+  private renderOfflineBanner() {
+    return (
+      <WmOfflineBanner onRetry={() => {
+        this.onNetworkRetry();
+        (this.props.listener as BasePage).onNetworkRetry();
+      }} />
+    );
+  }
+
   renderWidget(props: WmPageProps) {
+
+    if (!isWebPreviewMode() && props.showOfflineBanner && !this.state.isConnected) {
+      return this.renderOfflineBanner();
+    }
 
     const isEdgeToEdgeApp = !!this.appConfig?.edgeToEdgeConfig?.isEdgeToEdgeApp;
     return (

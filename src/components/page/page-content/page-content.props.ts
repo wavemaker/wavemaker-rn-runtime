@@ -10,6 +10,5 @@ export default class WmPageContentProps extends SkeletonAnimationProps {
     keyboardpersisttaps: 'never'| 'always' | 'handled' = 'never';
     consumenotch: boolean = true;
     onscroll: string = '';
-    /** Network connectivity state passed from parent fragment */
     isconnected?: boolean = true;
 }

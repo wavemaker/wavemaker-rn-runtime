@@ -6,9 +6,6 @@ import { BaseComponent } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import WmPage from '@wavemaker/app-rn-runtime/components/page/page.component';
 import NavigationService, { NavigationServiceProvider } from '@wavemaker/app-rn-runtime/core/navigation.service';
-import NetworkService from '@wavemaker/app-rn-runtime/core/network.service';
-import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
-import { BaseVariable } from '@wavemaker/app-rn-runtime/variables/base-variable';
 
 import AppSecurityService from './services/app-security.service';
 import AppSpinnerService from './services/app-spinner.service';
@@ -16,8 +13,6 @@ import BaseFragment, { FragmentProps, FragmentState } from './base-fragment.comp
 import { Watcher } from './watcher';
 import { setCurrentPageInAppLayout } from '../core/utils';
 import { ScreenCaptureProtectionConsumer, ScreenCaptureProtectionContextType } from '../core/screen-capture-protection.service';
-import { Alert } from 'react-native';
-
 declare const window: any;
 
 export interface PageProps extends FragmentProps {
@@ -36,16 +31,7 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     private hasTabbar = false;
     private drawerContent = null as React.ReactNode;
     private drawerType = '';
-    
-    // Network monitoring properties
-    private _unsubscribeNetworkState: any;
-    private _unsubscribeNetworkError: any;
-    private _hasHttpVariables: boolean = false;
-    
-    private static readonly HTTP_SERVICE_TYPES = [
-        'JavaService', 'SoapService', 'FeedService', 'RestService', 
-        'SecurityServiceType', 'DataService', 'WebSocketService', 'OpenAPIService'
-    ];
+        
     private screenCaptureContext: ScreenCaptureProtectionContextType | null = null;
 
     constructor(props: PageProps) {
@@ -74,11 +60,6 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
       setCurrentPageInAppLayout(props.route.name);
       
-      // Initialize network state - default to connected
-      this.state = {
-          ...this.state,
-          isConnected: true
-      } as PageState;
     }
 
     onComponentInit(w: BaseComponent<any, any, any>) {
@@ -89,66 +70,8 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
         this.cache = !(props.cache === false);
         this.refreshdataonattach = !(props.refreshdataonattach === false);
       }
-    }
-
-    private hasHttpBasedVariables(): boolean {
-        
-        const isHttpVariable = (variable: any) => {
-            if (variable?.config?.serviceType && 
-                BasePage.HTTP_SERVICE_TYPES.includes(variable.config.serviceType)) {
-                return true;
-            }
-            if (variable?.category === 'wm.LiveVariable') {
-                return true;
-            }
-            
-            return false;
-        }
-        if (Object.values(this.startUpVariables).some(isHttpVariable)) {
-            return true;
-        }
-        for (const fragmentKey in this.fragments) {
-            const fragment = this.fragments[fragmentKey];
-            
-            if (fragment) {
-                if (Object.values(fragment.startUpVariables).some(isHttpVariable)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-   
-    private setupNetworkMonitoring(): void {
-        if (isWebPreviewMode() || !this._hasHttpVariables) {
-            return;
-        }
-        this._unsubscribeNetworkState = NetworkService.notifier.subscribe('onNetworkStateChange', (networkState: any) => {
-            const connected = networkState.isConnected && networkState.isNetworkAvailable;
-            if (this.state.isConnected !== connected) {
-                this.setState({ ...this.state, isConnected: connected } as PageState);
-            }
-        });
-        const currentState = NetworkService.getState();
-        if (currentState) {
-            const connected = currentState.isConnected && currentState.isNetworkAvailable;
-            this.setState({ ...this.state, isConnected: connected } as PageState);
-        }
-    }
-
-    private cleanupNetworkMonitoring(): void {
-        if (this._unsubscribeNetworkState) {
-            this._unsubscribeNetworkState();
-            this._unsubscribeNetworkState = null;
-        }
-    }
+    }   
     
-    handleChildFragmentCriticalFailure(): void {
-      if(this.state.isConnected) {
-        this.setState({ ...this.state, isConnected: false } as PageState);
-      }
-    }
-
     toggleDrawer() {
       (this.props as PageProps).navigation.toggleDrawer();
     }
@@ -183,10 +106,8 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
     }
 
     onFragmentReady() {
+
       return super.onFragmentReady().then(() => {
-        this._hasHttpVariables = this.hasHttpBasedVariables();
-        this.setupNetworkMonitoring();
-        
         this.onContentReady();
         this.App.triggerPageReady(this.pageName, this.proxy as BasePage);
         this.App.appConfig.diagnostics.pageReadyTime = Date.now(); 
@@ -213,7 +134,6 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      this.cleanupNetworkMonitoring();
       this.App.notify('pageDestroyed', this);
     }
 
@@ -325,6 +245,12 @@ export default abstract class BasePage extends BaseFragment<PageProps, PageState
       const pageName = this.pageName;
       const possibleLinks = [pageName, '#' + pageName, '#/' + pageName];
       return links && links.find(l => possibleLinks.includes(l));
+    }
+
+    async onNetworkRetry() {
+      if(this.startUpVariablesError) {
+        this.invokeStartUpVariablesAndActions();
+      } 
     }
 
     abstract renderPage(): ReactNode;
