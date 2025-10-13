@@ -58,6 +58,12 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     this.toggle(i + 1, false);
   }
 
+  private getExpandCollapseIconClass(isExpanded: boolean, useChevron: boolean, expandedIcon?: string, collapsedIcon?: string): string {
+    const expandedIconClass = expandedIcon || (useChevron ? 'wi wi-chevron-down' : 'wi wi-minus');
+    const collapsedIconClass = collapsedIcon || (useChevron ? 'wi wi-chevron-up' : 'wi wi-plus');
+    return isExpanded ? expandedIconClass : collapsedIconClass;
+  }
+
   expandCollapseIcon(item: any, index: number, showBadge = true, showIcon = true, useChevron = true, isExpanded = false) {
     const widgetProps = item.props;
     //@ts-ignore
@@ -69,20 +75,11 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
         {...this.getTestProps('badge'+index)}>
         {widgetProps.badgevalue}
       </Badge>): null;
-    let iconclass = null;
+      
     const expandedIconOverride = this.state.props.expandediconclass;
     const collapsedIconOverride = this.state.props.collapsediconclass;
-    if (expandedIconOverride || collapsedIconOverride) {
-      const expandedIcon = expandedIconOverride || (useChevron ? 'wi wi-chevron-down' : 'wi wi-minus');
-      const collapsedIcon = collapsedIconOverride || (useChevron ? 'wi wi-chevron-up' : 'wi wi-plus');
-      iconclass = isExpanded ? expandedIcon : collapsedIcon;
-    } else {
-      if (useChevron) {
-        iconclass = isExpanded ? 'wi wi-chevron-down' : 'wi wi-chevron-up';
-      } else {
-        iconclass = isExpanded ? 'wi wi-minus' : 'wi wi-plus';
-      }
-    }
+    const iconclass = this.getExpandCollapseIconClass(isExpanded, useChevron, expandedIconOverride, collapsedIconOverride);
+    
     return (<View style={{flexDirection: 'row'}}>
             {badge}
             {showIcon ? (
@@ -98,7 +95,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     const isExpanded = this.state.isExpanded[index];
     const titleIconStyles = this.theme.mergeStyle(this.styles.icon, this.styles.titleIcon)
-    const subheading = isDefined(item.props.subheading) ? item.props.subheading : item.props.description;
+    const subheading = item.props.subheading ?? item.props.description;
     return item.props.show != false ? (
       <View 
         style={this.styles.pane} 
