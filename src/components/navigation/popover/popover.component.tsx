@@ -13,6 +13,8 @@ import WmContainer from '@wavemaker/app-rn-runtime/components/container/containe
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { ScrollView, GestureHandlerRootView } from 'react-native-gesture-handler';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
+import { SafeAreaInsetsContext, EdgeInsets } from 'react-native-safe-area-context';
+
 
 export class WmPopoverState extends BaseComponentState<WmPopoverProps> {
   isOpened: boolean = false;
@@ -32,6 +34,9 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
 
   view: View = null as any;
   dragY = new Animated.Value(0);
+  insets: EdgeInsets | null = {
+    top: 0, bottom: 0, left: 0, right: 0
+  };
 
   constructor(props: WmPopoverProps) {
     super(props, DEFAULT_CLASS, new WmPopoverProps(), new WmPopoverState());
@@ -88,7 +93,8 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
             ? (position.right = x + width - popoverwidth)
             : (position.left = x);
         }
-        position.top = y + height;
+        const yOffset = this?.insets?.top || 0;
+        position.top = y + height - yOffset;
         this.updateState({position: position} as WmPopoverState, callback);
       });
     } else if (callback) {
@@ -177,36 +183,44 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
       }
     }
     return (
-    <View style={styles.root} onLayout={(e)=>this.handleLayout(e)} ref={ref => {this.view = ref as View}} {...getAccessibilityProps(AccessibilityWidgetType.POVOVER, props)}>
-        {this._background}
-        <WmAnchor
-          id={this.getTestId('trigger')}
-          animation={props.animation}
-          caption={props.caption}
-          badgevalue={props.badgevalue}
-          iconclass={props.iconclass}
-          iconposition={props.iconposition}
-          iconheight={props.iconheight}
-          iconwidth={props.iconwidth}
-          iconmargin={props.iconmargin}
-          iconurl={props.iconurl}
-          styles={styles.link}
-          onTap={this.showPopover}
-          accessible={false}/>
-        {this.state.isOpened ? (
-          <ModalConsumer>
-            {(modalService: ModalService) => {
-              modalService.showModal(this.prepareModalOptions(props.type === 'action-sheet' ?  (
-                <Animated.View style= {[styles.popover,{ height: this.dragY }]} {...this.panResponder.panHandlers}>
-                  <GestureHandlerRootView>
-                              {this.state.props.draghandle ? <WmIcon iconclass="wi wi-minus" styles={this.styles.draghandleicon}/> : null}
-                 {this.renderPopoverContent(props, styles, dimensions)}
-                 </GestureHandlerRootView>
-                  </Animated.View>
-              ): (this.renderPopoverContent(props, styles, dimensions)), styles, modalService));
-              return null;
-            }}
-          </ModalConsumer>) : null}
-      </View>);
+      <SafeAreaInsetsContext.Consumer>
+      {(insets = {top: 0, bottom: 0, left: 0, right: 0})=>{
+        this.insets = insets;
+        return (
+        <View style={styles.root} onLayout={(e: LayoutChangeEvent)=>this.handleLayout(e)} ref={ref => {this.view = ref as View}} {...getAccessibilityProps(AccessibilityWidgetType.POVOVER, props)}>
+          {this._background}
+          <WmAnchor
+            id={this.getTestId('trigger')}
+            animation={props.animation}
+            caption={props.caption}
+            badgevalue={props.badgevalue}
+            iconclass={props.iconclass}
+            iconposition={props.iconposition}
+            iconheight={props.iconheight}
+            iconwidth={props.iconwidth}
+            iconmargin={props.iconmargin}
+            iconurl={props.iconurl}
+            styles={styles.link}
+            onTap={this.showPopover}
+            accessible={false}/>
+          {this.state.isOpened ? (
+            <ModalConsumer>
+              {(modalService: ModalService) => {
+                modalService.showModal(this.prepareModalOptions(props.type === 'action-sheet' ?  (
+                  <Animated.View style= {[styles.popover,{ height: this.dragY }]} {...this.panResponder.panHandlers}>
+                    <GestureHandlerRootView>
+                                {this.state.props.draghandle ? <WmIcon iconclass="wi wi-minus" styles={this.styles.draghandleicon}/> : null}
+                  {this.renderPopoverContent(props, styles, dimensions)}
+                  </GestureHandlerRootView>
+                    </Animated.View>
+                ): (this.renderPopoverContent(props, styles, dimensions)), styles, modalService));
+                return null;
+              }}
+            </ModalConsumer>) : null}
+        </View>
+        )
+      }}
+      </SafeAreaInsetsContext.Consumer>
+    );
   }
 }
