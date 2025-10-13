@@ -1,59 +1,55 @@
 import React from 'react';
-import { View } from 'react-native';
-import { ThemeConsumer } from '@wavemaker/app-rn-runtime/styles/theme';
-import { DEFAULT_CLASS, WmOfflineBannerStyles } from './offline-banner.styles';
+import {  Alert, View } from 'react-native';
 import WmPicture from '@wavemaker/app-rn-runtime/components/basic/picture/picture.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
-import WmButton from '../../basic/button/button.component';
+import WmButton from '@wavemaker/app-rn-runtime/components/basic/button/button.component';
+import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
+import WmOfflineBannerProps from './offline-banner.props';
+import { DEFAULT_CLASS, WmOfflineBannerStyles } from './offline-banner.styles';
 
-interface OfflineBannerProps {
-  onRetry: () => void;
-}
+class WMOfflineBannerState extends BaseComponentState<WmOfflineBannerProps> {}
 
-const OfflineBanner: React.FC<OfflineBannerProps> = (props: OfflineBannerProps) => {
+class OfflineBanner extends BaseComponent<WmOfflineBannerProps, WMOfflineBannerState, WmOfflineBannerStyles> {
+  constructor(props: WmOfflineBannerProps) {
+    super(props, DEFAULT_CLASS, new WmOfflineBannerProps(), new WMOfflineBannerState());
+  }
 
-  const appConfig = injector.get<AppConfig>('APP_CONFIG');
-  const appLocale = appConfig?.appLocale?.messages || {};
+  renderWidget(props: WmOfflineBannerProps) {
 
-  return (
-    <ThemeConsumer>
-      {(theme) => {
-        const styles = theme.getStyle(DEFAULT_CLASS) as WmOfflineBannerStyles;
+    const appConfig = injector.get<AppConfig>('APP_CONFIG');
+    const appLocale = appConfig?.appLocale?.messages || {};
 
-        return (
-          <View style={styles.root}>
-            <View style={styles.imageContainer}>
-              <WmPicture
-                 picturesource={appConfig?.preferences?.offlineImage}
-                 resizemode="contain"
-                 name="offline_picture"
-                 styles={{root: styles.offlineImage}}
-                 />
-            </View>
-            <View style={styles.textContainer}>
-              <WmLabel
-                caption={appLocale.LABEL_OFFLINE_TITLE || appConfig?.preferences?.offlineTitle || 'Offline'}
-                styles={{root: styles.message}}
-                />
-              <WmLabel
-                caption={appLocale.MESSAGE_OFFLINE_DESCRIPTION || appConfig?.preferences?.offlineMessage || 'You are currently offline. Please check your internet connection.'}
-                styles={{root: styles.subtitle}}
-                />
-            </View>
-            <WmButton
-              caption={appLocale.LABEL_OFFLINE_RETRY || appConfig?.preferences?.offlineRetry || 'Retry'}
-              styles={{root: styles.retryButton}}
-              onTap={() => {
-                props.onRetry();
-              }}
-            />
-          </View>
-        );
+    return  <View style={this.styles.root}>
+    <View style={this.styles.imageContainer}>
+      <WmPicture
+         picturesource={appConfig?.preferences?.offlineImage}
+         resizemode="contain"
+         name="offline_picture"
+         styles={this.styles.picture}
+         />
+    </View>
+    <View style={this.styles.textContainer}>
+      <WmLabel
+        caption={appLocale.LABEL_OFFLINE_TITLE || appConfig?.preferences?.offlineTitle || 'No Internet connection'}
+        styles={this.styles.message}
+        />
+      <WmLabel
+        caption={appLocale.MESSAGE_OFFLINE_DESCRIPTION || appConfig?.preferences?.offlineMessage || 'You appear to be offline. Please check your internet connection.'}
+        styles={this.styles.subtitle}
+        />
+    </View>
+    <WmButton
+      caption={appLocale.LABEL_OFFLINE_RETRY || appConfig?.preferences?.offlineRetry || 'Try Again'}
+      styles={this.styles.retryButton}
+      onTap={() => {
+        props.onRetry();
       }}
-    </ThemeConsumer>
-  );
+    />
+  </View>
+     
+  }
 };
 
 export default OfflineBanner;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import {  Text } from 'react-native';
 import { get, filter, isNil } from 'lodash';
 
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
@@ -34,7 +34,7 @@ export class SkeletonAnimationProps extends BaseProps {
 export class FragmentProps extends SkeletonAnimationProps {}
 
 export interface FragmentState<T extends FragmentProps> extends BaseComponentState<T> {
-  isConnected?: boolean;
+  
 }
 
 export type FragmentStyles = BaseStyles & {
@@ -52,6 +52,7 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
     public appLocale: any = injector.get<AppConfig>('APP_CONFIG')?.appLocale?.messages ? injector.get<AppConfig>('APP_CONFIG').appLocale.messages : {};
     public startUpVariables: string[] = [];
     protected startUpVariablesLoaded = false;
+    protected startUpVariablesError = false;
     private startUpActions: string[] = [];
     private autoUpdateVariables: string[] = [];
     private cleanUpVariablesandActions: BaseVariable<any>[] = [];
@@ -116,51 +117,6 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
       this.appConfig.refresh();
       this.targetWidget && this.targetWidget.invokeEventCallback('onLoad', [null, this.proxy]);
       this.onContentReady = () => {};
-    }
-
-    /**
-     * Check for critical startup variable failures and update connection state
-     * If the current component is page then set isConnected to false
-     * If the current component is prefab or partial then notify the parent page component 
-     */
-    private checkCriticalStartupFailures(): void {
-      let hasCriticalFailure = false;
-      
-      this.startUpVariables.forEach(variableName => {
-        const variable = this.Variables[variableName];
-        if (variable?.isCritical && variable?.networkError) {
-          hasCriticalFailure = true;
-        }
-      });
-      
-      if (hasCriticalFailure) {
-        this instanceof BasePage ?  
-          this.handleChildFragmentCriticalFailure() : 
-          this.notifyParentPageOfCriticalFailure();
-      }
-    }
-
-    private notifyParentPageOfCriticalFailure(): void {
-      const parentPage = this.findParentPageComponent();
-      if (parentPage) {
-        parentPage.handleChildFragmentCriticalFailure();
-      } else {
-        console.warn('Could not find parent page component to notify of critical failure');
-      }
-    }
-
-    private findParentPageComponent(): BasePage | null {
-      const currentPage = this.appConfig.currentPage;
-      if (currentPage && currentPage instanceof BasePage) {
-        if (this.belongsToPage(currentPage)) {
-          return currentPage;
-        }
-      }      
-      return null;
-    }
-
-    private belongsToPage(page: BasePage): boolean {
-      return Object.values(page.fragments).includes(this);
     }
 
     onComponentChange(w: BaseComponent<any, any, any>) {
@@ -395,19 +351,20 @@ export default abstract class BaseFragment<P extends FragmentProps, S extends Fr
           this.App.notify(VariableEvents.AFTER_INVOKE, v);
         });
       });
-      this.initVariableSpinner();
       this.cleanUpVariablesandActions.push(...Object.values({...this.fragmentVariables, ...this.fragmentActions} as BaseVariable<any>));
-      
+      return this.invokeStartUpVariablesAndActions();
+    }
+
+    invokeStartUpVariablesAndActions() {
+      this.initVariableSpinner();
       this.startUpActions.map(a => this.Actions[a] && this.Actions[a].invoke());
       return Promise.all(this.startUpVariables.map(s => this.Variables[s] && this.Variables[s].invoke()))
       .catch((error) => {
         // catch errors and show content
-        console.error(error);
+        console.error(error);   
+        this.startUpVariablesError = true;
       })
-      .then(() => {
-        // Check for critical startup variable failures
-        this.checkCriticalStartupFailures();
-        
+      .then(() => {        
         this.startUpVariablesLoaded = true;
         this.showContent = true;
         this.appConfig.refresh();
