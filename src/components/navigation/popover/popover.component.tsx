@@ -70,28 +70,30 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
     return this.theme.getStyle(`${this.defaultClass} ${isActionSheet ? 'app-popover-action-sheet' : ''}`);
   }
 
-  private computePosition = (e: LayoutChangeEvent) => {
+  private computePosition = (callback?: () => void) => {
     const position = {} as PopoverPosition;
     if (this.state.props.type === 'dropdown') {
       const windowDimensions = Dimensions.get('window');
-      this.view.measure((x, y, width, height, px, py) => {
+      this.view.measureInWindow((x, y, width, height) => {
         let popoverwidth = this.state.props.popoverwidth as any;
         if (popoverwidth && isString(popoverwidth)) {
           popoverwidth = parseInt(popoverwidth);
         }
-        this.isRTL ? position.right = px : position.left = px
         
-        if (px + popoverwidth > windowDimensions.width) {
+        this.isRTL ? position.right = x : position.left = x;
+        
+        if (x + popoverwidth > windowDimensions.width) {
           this.isRTL
-            ? (position.right = px + width - popoverwidth)
-            : (position.left = px + width - popoverwidth);
+            ? (position.right = x + width - popoverwidth)
+            : (position.left = x);
         }
-        position.top = py + height;
-        this.updateState({position: position} as WmPopoverState);
+        position.top = y + height;
+        this.updateState({position: position} as WmPopoverState, callback);
       });
+    } else if (callback) {
+      callback();
     }
 
-    this.handleLayout(e)
   };
 
   public renderPopoverContent (props : WmPopoverProps , styles : WmPopoverStyles, dimensions: any) {
@@ -121,8 +123,10 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
     )}
 
   public showPopover = (e?: SyntheticEvent) => {
-    this.updateState({ isOpened: true } as WmPopoverState);
-    this.invokeEventCallback('onShow', [e, this]);
+    this.computePosition(() => {
+      this.updateState({ isOpened: true } as WmPopoverState);
+      this.invokeEventCallback('onShow', [e, this]);
+    });
     e?.stopPropagation();
   };
 
@@ -172,7 +176,7 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
       }
     }
     return (
-      <View style={styles.root} onLayout={this.computePosition} ref={ref => {this.view = ref as View}} {...getAccessibilityProps(AccessibilityWidgetType.POVOVER, props)}>
+    <View style={styles.root} onLayout={(e)=>this.handleLayout(e)} ref={ref => {this.view = ref as View}} {...getAccessibilityProps(AccessibilityWidgetType.POVOVER, props)}>
         {this._background}
         <WmAnchor
           id={this.getTestId('trigger')}
