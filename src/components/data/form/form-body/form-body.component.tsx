@@ -14,9 +14,10 @@ export default class WmFormBody extends BaseComponent<WmFormBodyProps, WmFormBod
   }
 
   renderWidget(props: WmFormBodyProps) {
+      const foundationStyle = this.theme.getStyle('app-form');
     return (
       <View 
-        style={this.styles.root}
+        style={this.theme.mergeStyle(this.styles.root, foundationStyle?.body)} 
         onLayout={(event) => this.handleLayout(event)}
       >
         {this._background}

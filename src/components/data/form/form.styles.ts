@@ -8,7 +8,8 @@ export type WmFormStyles = BaseStyles & {
   heading: AllStyle,
   title: WmLabelStyles,
   listIcon: WmIconStyles,
-  subheading: WmLabelStyles
+  subheading: WmLabelStyles,
+  footer: BaseStyles & {},
 };
 
 export const DEFAULT_CLASS = 'app-form';
@@ -45,6 +46,14 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         marginRight: 8
       }
     } as WmIconStyles,
+    footer:{
+      root:{},
+      text:{}
+    },
+    body:{
+        root: {},
+        text: {}
+    }
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);

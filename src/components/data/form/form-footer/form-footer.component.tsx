@@ -14,9 +14,10 @@ export default class WmFormFooter extends BaseComponent<WmFormFooterProps, WmFor
   }
 
   renderWidget(props: WmFormFooterProps) {
+    const foundationStyle = this.theme.getStyle('app-form');
     return (
       <View 
-        style={this.styles.root}
+        style={this.theme.mergeStyle(this.styles.root, foundationStyle?.footer)} 
         onLayout={(event) => this.handleLayout(event)}
       >
         {this._background}
