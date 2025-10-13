@@ -1,11 +1,20 @@
 import { AccessibilityInfo } from 'react-native';
 import { isAndroid, isWebPreviewMode, removeUndefinedKeys } from './utils';
-
+import RNRestart from 'react-native-restart';
 let _isScreenReaderEnabled = false;
 
+
+
+const restartIfNeeded = (flag: boolean) => {
+  //when accessibility is enabled in the page
+  if (flag && !_isScreenReaderEnabled) {
+    RNRestart && RNRestart.Restart();
+  }
+};
 AccessibilityInfo.addEventListener(
   'screenReaderChanged',
   flag => {
+      restartIfNeeded(flag);
     _isScreenReaderEnabled = flag;
   },
 );
