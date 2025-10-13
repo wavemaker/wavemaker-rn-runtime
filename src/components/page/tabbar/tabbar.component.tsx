@@ -92,14 +92,14 @@ export default class WmTabbar extends BaseNavComponent<WmTabbarProps, WmTabbarSt
         key={`${item.label}_${testId}`}
         onPress={() => onSelect && onSelect()}>
         <View key={item.key}>
-          <View style={[isActive && !floating  ? this.styles.activeTabItem : {}]}>
+          <View style={[isActive && !floating  ? this.styles.activeTabItem.root : {}]}>
             <WmIcon
-              styles={this.theme.mergeStyle({}, this.styles.tabIcon, floating? this.styles.centerHubIcon: {}, isActive ? this.styles.activeTabIcon : {})}
+              styles={this.theme.mergeStyle({}, this.styles.tabIcon, floating? this.styles.centerHubIcon: {}, isActive ? this.styles.activeTabItem.icon : {})}
               iconclass={item.icon}
             ></WmIcon>
           </View>
         </View>
-        <Text style={[this.styles.tabLabel, floating? this.styles.centerHubLabel: {},  isActive ? this.styles.activeTabLabel : {}]} numberOfLines={1}>
+        <Text style={[this.styles.tabLabel, floating? this.styles.centerHubLabel: {},  isActive ? this.styles.activeTabItem.text : {}]} numberOfLines={1}>
           {getDisplayLabel(item.label)}
         </Text>
       </TouchableOpacity>
