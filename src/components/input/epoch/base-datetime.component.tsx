@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Platform, TouchableOpacity, ViewStyle, DimensionValue, LayoutChangeEvent } from 'react-native';
 import moment from 'moment';
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 
@@ -199,7 +199,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }
   }
 
-  onDateChange($event: DateTimePickerEvent, date?: Date) {
+  onDateChange($event: any, date?: Date) {
     const prevDate = this.format(this.state.dateValue,  this.momentPattern(this.state.props.outputformat as String) as string) || undefined;
     this.modes.shift();
     const newDate = this.format(date,  this.momentPattern(this.state.props.outputformat as String) as string);
@@ -292,7 +292,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       value={this.state.dateValue || new Date()}
       is24Hour={true}
       display='default'
-      onChange={(event: DateTimePickerEvent, date?: Date) => {
+      onChange={(event: any, date?: Date) => {
         if (date && this.state.props.mode === 'datetime' && this.modes[0] === 'time') {
           const dateSelected = this.state.dateValue;
           date = moment(date)
@@ -321,7 +321,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
         value={this.state.dateValue || new Date()}
         is24Hour={true}
         display='spinner'
-        onChange={(event: DateTimePickerEvent, date?: Date) => {
+        onChange={(event: any, date?: Date) => {
           if (date && this.state.props.mode === 'datetime' && this.modes[0] === 'time') {
             const dateSelected = this.state.dateValue;
             date = moment(date)
