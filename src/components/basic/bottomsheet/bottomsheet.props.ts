@@ -15,5 +15,6 @@ export default class WmBottomsheetProps extends BaseProps {
     disableswipedownclose?:boolean = false;
     bottomsheetminimumheight?:number =  0.1;
     enabledragsettle?: boolean = false;
-    disableinternalscroll?: boolean = false;
+    disablescrollonrest?: boolean = false;
+    issticky: boolean = false;
 }
