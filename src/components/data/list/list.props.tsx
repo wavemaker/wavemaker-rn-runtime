@@ -48,4 +48,5 @@ export default class WmListProps extends BaseProps {
     disableitemselect: boolean = false;
     responsive: boolean = false;
     fallback: boolean = false;
+    horizontalscrolltoitem: boolean = true;
 }

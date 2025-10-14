@@ -109,7 +109,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           props: { selecteditem: selectedItem },
           selectedindex: $index
         } as WmListState, () => {
-          if (props.direction === 'horizontal') {
+          if (props.direction === 'horizontal' && props.horizontalscrolltoitem) {
             this.scrollToItem(groupKey, $index as number);
           }
           this.invokeEventCallback(eventName, [this.proxy, $item]);
@@ -589,7 +589,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       this.flatListRefs[refKey].scrollToIndex({
         index: itemIndex,
         animated: true,
-        viewPosition: 0.5,
       });
     }
   };

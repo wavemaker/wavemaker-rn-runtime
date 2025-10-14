@@ -1,6 +1,6 @@
 import React from 'react';
 import { isString } from 'lodash-es';
-import { LayoutChangeEvent, TouchableOpacity, Text, View, Dimensions, Animated, PanResponder } from 'react-native';
+import { LayoutChangeEvent, TouchableOpacity, Text, View, Dimensions, Animated, PanResponder, Platform } from 'react-native';
 import { BaseComponent, BaseComponentState, BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 
 import { SyntheticEvent } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -93,8 +93,8 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
             ? (position.right = x + width - popoverwidth)
             : (position.left = x);
         }
-        const yOffset = this?.insets?.top || 0;
-        position.top = y + height - yOffset;
+        const yOffset = Platform.OS == 'ios' ? 0 : (this?.insets?.top || 0);
+        position.top = y + height + yOffset;
         this.updateState({position: position} as WmPopoverState, callback);
       });
     } else if (callback) {
