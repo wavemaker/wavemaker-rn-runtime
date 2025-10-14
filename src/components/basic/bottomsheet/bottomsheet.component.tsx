@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription, Modal, Pressable } from 'react-native';
+import { View, Animated, PanResponder, Dimensions, TouchableWithoutFeedback, Platform, PanResponderGestureState, StatusBar, BackHandler, DimensionValue, KeyboardAvoidingView, Keyboard, EmitterSubscription, Modal, NativeEventSubscription, Pressable } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import WmBottomsheetProps from './bottomsheet.props';
 import { DEFAULT_CLASS, WmBottomsheetStyles } from './bottomsheet.styles';
@@ -38,6 +38,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   private maxHeightRatio: number = 0;
   private keyboardDidShowListener!: EmitterSubscription;
   private keyboardDidHideListener!: EmitterSubscription;
+  private backHandlerSubscription: NativeEventSubscription | null = null;
   private topInset: number = 0;
   private iosKeyboardHeight: number = 0;
   private isIosKeyboardHeightSet: boolean = false
@@ -104,14 +105,18 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
           duration: this.animationDuration,
           useNativeDriver: false,
         })
-      ]).start();
+      ]).start(() => {
+        this.invokeEventCallback('onExpand', [null, this]);
+      });
     } else {
       // Original behavior for non drag-and-settle mode
       Animated.timing(this.state.sheetHeight, {
         toValue: targetHeight,
         duration: this.animationDuration,
         useNativeDriver: false,
-      }).start();
+      }).start(() => {
+        this.invokeEventCallback('onExpand', [null, this]);
+      });
     }
     this.updateState({
       isExpanded: true,
@@ -131,7 +136,9 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
         duration: this.animationDuration,
         useNativeDriver: false,
       })
-    ]).start();
+    ]).start(() => {
+      this.invokeEventCallback('onCollapse', [null, this]);
+    });
     this.updateState({
       isExpanded: false,
       lastGestureDy: 0 // Reset to start from original position when collapsed
@@ -204,7 +211,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
   componentDidMount() {
     super.componentDidMount();
     if (Platform.OS === 'android') {
-      BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+      this.backHandlerSubscription = BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     }
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardHide);
@@ -212,8 +219,9 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
 
   componentWillUnmount() {
     super.componentWillUnmount();
-    if (Platform.OS === 'android') {
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    if (this.backHandlerSubscription) {
+      this.backHandlerSubscription.remove();
+      this.backHandlerSubscription = null;
     }
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
@@ -327,7 +335,9 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
               duration: this.animationDuration,
               useNativeDriver: false,
             })
-          ]).start();
+          ]).start(() => {
+            this.invokeEventCallback('onCollapse', [null, this]);
+          });
           this.updateState({
             isExpanded: false
           } as WmBottomsheetState);
@@ -506,7 +516,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
         {(insets = { top: 0, bottom: 0, left: 0, right: 0 }) => {
           this.topInset = insets?.top || 0;
           return (
-          <View style={this.styles.root}
+            <View style={this.styles.root}
               {...this.getTestProps('keyboardview')}>
 
               {this._background}
@@ -549,7 +559,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
                   scrollEventThrottle={16}
                   onScroll={this.handleScroll}
                   nestedScrollEnabled={true}
-                  scrollEnabled={true}
+                  scrollEnabled={ !props.issticky && (!props.disablescrollonrest || this.state.isExpanded) }
                   {...this.getTestProps('scorllview')}
                 >
                   {/* Provide a local ModalProvider for dropdowns only when enabled */}

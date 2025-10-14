@@ -10,6 +10,7 @@ import {
 import WmAccordion from '@wavemaker/app-rn-runtime/components/container/accordion/accordion.component';
 import WmAccordionpane from '@wavemaker/app-rn-runtime/components/container/accordion/accordionpane/accordionpane.component';
 import WmLabel from '@wavemaker/app-rn-runtime/components/basic/label/label.component';
+import WmIcon from '@wavemaker/app-rn-runtime/components/basic/icon/icon.component';
 import WmAccordionProps from '../../../../src/components/container/accordion/accordion.props';
 import { Platform } from 'react-native';
 
@@ -382,6 +383,76 @@ describe('WmAccordion Component', () => {
     const viewElement = tree.root.props.children[0];
     expect(viewElement.props.style).toContainEqual({ opacity: 0 });
     renderSkeletonMock.mockRestore();
+  });
+
+  test('uses subheading when both subheading and description are set', () => {
+    const children = (() => {
+      const panes = Array.from(generateAccordionPane(1));
+      const pane = React.cloneElement(panes[0] as any, {
+        subheading: 'SH',
+        description: 'DESC',
+      });
+      return [pane];
+    })();
+
+    const { getByText, queryByText } = renderComponent({ children });
+    expect(getByText('SH')).toBeTruthy();
+    expect(queryByText('DESC')).toBeNull();
+  });
+
+  test('falls back to description when subheading is undefined', () => {
+    const children = (() => {
+      const panes = Array.from(generateAccordionPane(1));
+      const pane = React.cloneElement(panes[0] as any, {
+        subheading: undefined,
+        description: 'DESC_ONLY',
+      });
+      return [pane];
+    })();
+
+    const { getByText } = renderComponent({ children });
+    expect(getByText('DESC_ONLY')).toBeTruthy();
+  });
+
+  test('uses custom expanded/collapsed icon classes when provided', async () => {
+    const tree = renderComponent({
+      ...CompWithChildrens,
+      expandediconclass: 'wi wi-android',
+      collapsediconclass: 'wi wi-close',
+      defaultpaneindex: -1,
+    });
+
+    const getToggleIcon = () => {
+      const icons = tree.UNSAFE_getAllByType(WmIcon) as any[];
+      return icons.find(i => i.props.name === 'expand_collapse_icon');
+    };
+
+    expect(getToggleIcon().props.iconclass).toBe('wi wi-close');
+
+    fireEvent.press(tree.getByText('Title1'));
+    await waitFor(() => {
+      expect(getToggleIcon().props.iconclass).toBe('wi wi-android');
+    });
+  });
+
+  test('falls back to default collapsed icon when only expandediconclass is set', async () => {
+    const tree = renderComponent({
+      ...CompWithChildrens,
+      expandediconclass: 'wi wi-android',
+      defaultpaneindex: -1,
+    });
+
+    const getToggleIcon = () => {
+      const icons = tree.UNSAFE_getAllByType(WmIcon) as any[];
+      return icons.find(i => i.props.name === 'expand_collapse_icon');
+    };
+
+    expect(getToggleIcon().props.iconclass).toBe('wi wi-chevron-up');
+
+    fireEvent.press(tree.getByText('Title1'));
+    await waitFor(() => {
+      expect(getToggleIcon().props.iconclass).toBe('wi wi-android');
+    });
   });
 
   xit('check for partial inside accorionpane', async () => {
