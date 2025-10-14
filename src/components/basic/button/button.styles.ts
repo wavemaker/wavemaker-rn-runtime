@@ -20,6 +20,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           paddingBottom: 12,
           paddingLeft: 24,
           paddingRight: 24,
+          alignSelf: 'flex-start',
           rippleColor: themeVariables.rippleColor
       },
       content: {
