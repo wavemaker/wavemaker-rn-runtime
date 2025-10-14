@@ -559,7 +559,7 @@ export default class WmBottomsheet extends BaseComponent<WmBottomsheetProps, WmB
                   scrollEventThrottle={16}
                   onScroll={this.handleScroll}
                   nestedScrollEnabled={true}
-                  scrollEnabled={!props.disableinternalscroll}
+                  scrollEnabled={ !props.issticky && (!props.disablescrollonrest || this.state.isExpanded) }
                   {...this.getTestProps('scorllview')}
                 >
                   {/* Provide a local ModalProvider for dropdowns only when enabled */}
