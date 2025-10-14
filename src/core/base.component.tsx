@@ -624,7 +624,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             if (classname && this.childComponentStyleKeys.length > 0) {
                 const customStyles = this.theme.getStyle(classname);
                 this.childComponentStyleKeys.forEach(key => {
-                    if (customStyles && this.styles[key]) {
+                    if (customStyles && this.styles && this.styles[key]) {
                         (this.styles as any)[key] = this.theme.mergeStyle(this.styles[key], customStyles);
                     }
                 });
