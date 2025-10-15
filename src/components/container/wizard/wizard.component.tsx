@@ -480,7 +480,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
         <View style={[this.styles.wizardFooter,
           {flexDirection: props.actionsalignment === 'right' ? 'row-reverse': 'row'}]}>
           {(this.state.currentStep) === this.lastStepIndex() && activeStep.state.props.showdone &&
-            <WmButton iconclass={'wm-sl-l sl-check'} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.doneButton)}
+            <WmButton iconclass={this.props.donebtniconclass} styles={merge({}, this.styles.wizardActions, this.theme.getStyle('btn-default'), this.styles.doneButton)}
               id = {this.getTestId('donebtn')} caption={props.donebtnlabel} onTap={this.done.bind(this)} disabled={activeStep.state.props.disabledone}></WmButton>
           }
           {(this.state.currentStep) < this.lastStepIndex() && activeStep.state.props.shownext &&
