@@ -19,5 +19,6 @@ export default class WmWizardProps extends BaseProps {
   skipdefaultdone: boolean = false;
   skipdefaultskip: boolean = false; 
   skipdefaultcancel: boolean = false;
+  donebtniconclass: string = 'wm-sl-l sl-check';
 }
 
