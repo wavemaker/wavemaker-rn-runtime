@@ -89,8 +89,8 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
       dimensionStyle.flexGrow = 0;
       dimensionStyle.height = undefined;
     } else if (height) {
-      const num = parseFloat(height);
-      dimensionStyle.height = (isNaN(num) ? height : num) as DimensionValue;
+      const num = (typeof height === 'string' && height.endsWith('%')) ? height : parseFloat(height);
+      dimensionStyle.height = (isNaN(num as number) ? height : num) as DimensionValue;
     }
 
     if (width === 'fill') {
@@ -99,8 +99,8 @@ export default class WmContainer extends PartialHost<WmContainerProps, WmContain
     } else if (width === 'hug') {
       dimensionStyle.width = undefined;
     } else if (width) {
-      const num = parseFloat(width);
-      dimensionStyle.width = (isNaN(num) ? width : num) as DimensionValue;
+      const num = (typeof width === 'string' && width.endsWith('%')) ? width : parseFloat(width);
+      dimensionStyle.width = (isNaN(num as number) ? width : num) as DimensionValue;
     }
 
     const styleWithResize = {
