@@ -64,7 +64,7 @@
     "@react-navigation/native": "7.1.18",
     "@react-navigation/stack": "7.4.8",
     "@wavemaker/variables": "file:.yalc/@wavemaker/variables",
-    "axios": "1.8.3",
+    "axios": "1.8.2",
     "color": "4.2.3",
     "cross-env": "7.0.3",
     "css-mediaquery": "0.1.2",
