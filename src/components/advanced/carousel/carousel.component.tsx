@@ -51,10 +51,18 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     },
     onUpper: (e) => {
       if(this.noOfSlides < this.state.activeIndex + 1){
-        this.onSlideChange(1);
-        this.animationView?.setPosition(0);
-      }
-      else{
+        if (this.state.props.stopatlast) {
+          const currentSlideIndex = this.state.activeIndex - 1;
+          const currentPosition = this.slidesLayout
+            .filter((l, i) => i < currentSlideIndex)
+            .reduce((s, l) => s + l.width, 0);
+          this.animationView?.setPosition(-1 * currentPosition);
+          return;
+        } else {
+          this.onSlideChange(1);
+          this.animationView?.setPosition(0);
+        }
+      } else {
         this.onSlideChange(this.state.activeIndex + 1);
       }
     }
@@ -89,6 +97,9 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     this.stopPlay && this.stopPlay();
     if (props.animation === 'auto' && props.animationinterval) {
       const intervalId = setInterval(() => {
+        if (props.stopatlast && this.state.activeIndex >= this.noOfSlides) {
+          return; 
+        }
         this.next();
       }, props.animationinterval * 1000);
       this.stopPlay = () => clearInterval(intervalId);
@@ -185,8 +196,12 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     const props = this.state.props;
     const data = props.type === 'dynamic' ? props.dataset : props.children;
     if (this.state.activeIndex >= data?.length || 0) {
-      this.onSlideChange(1);
-      this.animationView?.setPosition(0);
+      if (props.stopatlast) {
+        return; 
+      } else {
+        this.onSlideChange(1);
+        this.animationView?.setPosition(0);
+      }
     } else {
       this.animationView?.goToUpper();
     }
@@ -360,13 +375,15 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
               iconclass="wi wi-chevron-left fa-2x"
               styles={styles.prevBtn}
               onTap={this.prev}
-              accessibilitylabel='back'/>
+              accessibilitylabel='back'
+              accessibilityrole='button'/>
             <WmIcon
               id={this.getTestId('next_icon')}
               iconclass="wi wi-chevron-right fa-2x"
               styles={styles.nextBtn}
               onTap={this.next}
-              accessibilitylabel='next'/>
+              accessibilitylabel='next'
+              accessibilityrole='button'/>
           </View>): null}
           {hasDots && data ? this.renderPagination(data) : null}
       </View>);

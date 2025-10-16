@@ -16,6 +16,11 @@ const renderComponent = (props = {}) => {
   return render(<WmContainer name="test_Container" {...props} />);
 };
 
+const timer = (time = 100) =>
+  new Promise((resolve: any, reject) => {
+    setTimeout(() => resolve(), time);
+});
+
 describe('Test Container component', () => {
   const defaultProps: WmContainerProps = {
     onLoad: jest.fn(),
@@ -200,7 +205,7 @@ describe('Test Container component', () => {
       'renderSkeleton'
     );
 
-    const tree = render(
+    const { getByTestId } = render(
       <WmContainer
         name="test_Container"
         {...{
@@ -213,7 +218,15 @@ describe('Test Container component', () => {
     );
     expect(screen).toMatchSnapshot();
     expect(renderSkeletonMock).toHaveBeenCalled();
-    expect(screen.root.children[0].props.style[1].opacity).toBe(0);
+    const skeletonView = getByTestId('non_animatableView');
+    expect(skeletonView).toBeTruthy();
+    expect(skeletonView.props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          opacity: 0
+        })
+      ])
+    );
     renderSkeletonMock.mockRestore();
   });
 
@@ -251,4 +264,6 @@ describe('Test Container component', () => {
     const viewEle = screen.UNSAFE_queryByType(ScrollView);
     expect(viewEle).toBeNull();
   });
+
+  // TODO: test sticky container
 });

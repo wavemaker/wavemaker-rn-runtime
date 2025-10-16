@@ -1,7 +1,10 @@
 import React from 'react';
 import { LayoutChangeEvent, LayoutRectangle, View } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
-import * as SwipeAnimation from '@wavemaker/app-rn-runtime/gestures/swipe.animation';
+
+// TODO: Change the logic of gesture handler in swipe.animation file, as its interfering with scroll animation
+// for now Pan responder is being used instead of Gesture handler. 
+import * as SwipeAnimation from '@wavemaker/app-rn-runtime/gestures/carousel-swipe.animation';
 import { isWebPreviewMode } from '@wavemaker/app-rn-runtime/core/utils';
 
 import WmTabsProps from './tabs.props';
@@ -22,6 +25,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
   private tabLayout: LayoutRectangle = null as any;
   private tabPaneHeights: number[] = [];
   private animationView: SwipeAnimation.View | null = null as any;
+  protected childComponentStyleKeys = ['tabHeader'];
   private animationHandlers = {
     bounds: (e) => {
       const activeTabIndex = this.state.selectedTabIndex,
@@ -217,6 +221,11 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
       .filter((item: any, index: number) => item.props.show != false);
     const headerData = tabPanes.map((p: any, i: number) =>
       ({title: p.props.title,  icon: p.props.paneicon || '', key:  `tab-${i}`}));
+    const accessibilityData = tabPanes.map((p: any, i: number) =>({
+      accessibilitylabel: p.props.accessibilitylabel || p.props.title,
+      hint: p.props.hint,
+      accessibilityrole: p.props.accessibilityrole
+    }));
     const styles = this._showSkeleton ? {
       ...this.styles.root,
       ...this.styles.skeleton.root
@@ -236,6 +245,7 @@ export default class WmTabs extends BaseComponent<WmTabsProps, WmTabsState, WmTa
           onIndexChange={this.goToTab.bind(this)}
           shouldScroll={props.enablescroll}
           disabletoucheffect = {this.state.props.disabletoucheffect}
+          accessibilityProps={accessibilityData}
         ></WmTabheader>
         <View
           style={[{

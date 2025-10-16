@@ -80,13 +80,16 @@ class Scale {
     return this.ticks[index].markValue; 
   }
 
-  public transform(min: number, max: number) {
+  public transform(min: number, max: number, markerRadius: number) {
+      const MARKER_RADIUS = markerRadius;
+      const adjustedMin = min + MARKER_RADIUS;
+      const adjustedMax = max - MARKER_RADIUS;
       const thisMin = (this.ticks ? this.ticks[0]?.markValue : 0) || 0;
       const thisMax = last(this.ticks)?.markValue;
-      const factor = thisMax ? (max - min)/(thisMax - thisMin) : 1;
+      const factor = thisMax ? (adjustedMax - adjustedMin)/(thisMax - thisMin) : 1;
       const ticks = [] as Tick[];
       this.ticks.forEach((v, i) => {
-        const markValue = Math.round(min + (v.markValue - this.ticks[0].markValue) * factor)
+        const markValue = Math.round(adjustedMin + (v.markValue - this.ticks[0].markValue) * factor)
         ticks[i] = {
           displayfield: '' + markValue,
           markValue: markValue,
@@ -109,6 +112,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
   private uiScale: Scale = null as any;
   private positionRefMaksudai: any = React.createRef();
   private tempPosition: any = React.createRef();
+  private readonly MARKER_WIDTH = 10; 
 
   constructor(props: WmSliderProps) {
     super(props, DEFAULT_CLASS, new WmSliderProps());
@@ -119,6 +123,40 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     this.positionRefMaksudai.current = 0;
   }
 
+  private constrainValueToRange(value: any): any {
+    const minValue = this.state.props.minvalue;
+    const maxValue = this.state.props.maxvalue;
+    if (!isDefined(minValue) || !isDefined(maxValue)) {
+      return value;
+    }
+        
+    if (isArray(value)) {
+      return value.map((val: any) => {
+        if (val < minValue) return minValue;
+        if (val > maxValue) return maxValue;
+        return val;
+      });
+    } else if (!isNil(value)) {
+      if (value < minValue) return minValue;
+      if (value > maxValue) return maxValue;
+    }
+    
+    return value;
+  }
+  private getMarkerWidthFromStyles(): number {
+    const cssWidth = this.styles?.markerStyle?.width;
+    return (typeof cssWidth === 'number' && cssWidth > 0) ? cssWidth : this.MARKER_WIDTH;
+  }
+  private getMarkerRadius(): number {
+    const markerWidth = this.getMarkerWidthFromStyles();
+    const markerHeight = this.styles?.markerStyle?.height as number || markerWidth;
+    const trackHeight = this.state.track?.height || 2;
+    
+    const baseRadius = markerWidth / 2;
+    const extraPadding = Math.max(0, (trackHeight - markerHeight) / 2);
+    
+    return baseRadius + extraPadding;
+}
   getValueFromGesture(positionX: number) {
     return this.scale?.ticks[this.uiScale.getTickIndex(positionX)].markValue || 0;
   }
@@ -155,9 +193,13 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
 
   getScaledDataValue() {
     let dataValue = this.state.props.datavalue || this.getDataValue();
+     dataValue = this.constrainValueToRange(dataValue);
     if (dataValue && this.scale) {
       dataValue = isArray(dataValue) ? dataValue: [dataValue];
-      return dataValue.map((d: any) => this.scale?.ticks.find(t => t.datafield === d)?.markValue);
+      return dataValue.map((d: any) => {
+      const parsedValue = isString(d) ? parseInt(d) : d;
+      return this.scale?.ticks.find(t => t.datafield === parsedValue)?.markValue || parsedValue;
+    });
     }
     return dataValue;
   }
@@ -171,6 +213,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
         this.scale.ticks[mid]?.datafield || 100]
         : [];
     }
+    dataValue = this.constrainValueToRange(dataValue);
     dataValue = isArray(dataValue) ? dataValue: [dataValue];
     return dataValue.map((d: any) => this.scale.getTick(d)?.datafield);
   }
@@ -206,8 +249,16 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
           this.initNumericSlider();
         }
       case 'datavalue':
-        if (!isEqual($new, $old)) {
-          this.invokeEventCallback('onChange', [null, this, $new, $old]);
+      if (!isEqual($new, $old)) {
+        const clampedValue = this.constrainValueToRange($new);
+        if (!isEqual(clampedValue, $new)) {
+          this.updateState({
+            props: {
+              datavalue: clampedValue
+            }
+          } as WmSliderState); 
+        }
+        this.invokeEventCallback('onChange', [null, this, clampedValue, $old]);
         }
         break;
     }
@@ -260,7 +311,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     this.props.onFieldChange &&
       this.props.onFieldChange('datavalue', thumbDataValue, oldThumbValue);
   }, 200);
-
+  
   initScale() {
     const props = this.state.props;
     const state = this.state;
@@ -273,7 +324,8 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
       }))
     );
     const width = state.track?.width || 0;
-    this.uiScale = this.scale.transform(0, width);
+    const markerRadius = this.getMarkerRadius();
+    this.uiScale = this.scale.transform(0, width, markerRadius);
   }
 
   computePosition(from: number, gestureType: SliderGestureType) {
@@ -305,17 +357,25 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
   }
 
   getTooltipLabel(value: any, initialValue: any, type: 'lowThumb' | 'highThumb') {
+    const maxValue = this.state.props.maxvalue;
+    const minValue = this.state.props.minvalue;
+    const minTick = this.scale.getMinTick();
+    const maxTick = this.scale.getMaxTick();
     const props = this.props;
     let tooltipValue = initialValue;
     const updatedPositionInPx = Number(JSON.stringify(value));
-
-    if (updatedPositionInPx) {
-      tooltipValue = this.scale.ticks[this.uiScale.getTickIndex(updatedPositionInPx)].markValue;
-    }
     const tick = this.scale?.getTick(tooltipValue);
     // * getting custom tooltip label
     if (tick && props.getToolTipExpression && this.initialized) {
-      return props.getToolTipExpression(tick.dataitem?.dataObject);
+      if (tick.datafield <= minValue && minTick?.dataitem?.dataObject) {
+        return props.getToolTipExpression(minTick.dataitem.dataObject);
+      }
+      if (tick.datafield >= maxValue && maxTick?.dataitem?.dataObject) {
+        return props.getToolTipExpression(maxTick.dataitem.dataObject);
+      }
+      if (tick.dataitem?.dataObject) {
+        return props.getToolTipExpression(tick.dataitem.dataObject);
+      }
     }
     return tick?.displayfield;
   }
@@ -511,7 +571,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
     return (<View style={{ flexDirection: 'row' }}>
       <View>
         {width ? this.scale.ticks.map((t, i) => {
-          const markWidth = 10;
+          const markWidth = this.getMarkerWidthFromStyles();
           const stepwiseLeft = this.getPositionFromValue(t.markValue);
           const labelText = this.getLabel(markerlabeltext, t.displayfield, i);
           const marketLabelPosition = this.getLabelPosition(markerlabeltext, i);
@@ -606,8 +666,7 @@ export default class WmSlider extends BaseDatasetComponent<WmSliderProps, WmSlid
                   },
                 ],
               },
-              this.styles.activeTrackStyle,
-              {backgroundColor: 'rgb(162, 162, 162)'}
+              this.styles.activeTrackStyle
             ]}
           ></Animated.View>
           {isRangeSlider && this.highPosition ? (

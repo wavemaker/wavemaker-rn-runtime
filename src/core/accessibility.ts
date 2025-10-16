@@ -29,6 +29,7 @@ export enum AccessibilityWidgetType {
   CURRENCY = 'currency',
   RADIOSET = 'radioset',
   CHECKBOX = 'checkbox',
+  CHECKBOXSET = 'checkboxset',
   TOGGLE = 'toggle',
   SWITCH = 'switch',
   DATE = 'date',
@@ -45,6 +46,8 @@ export enum AccessibilityWidgetType {
   WEBVIEW = 'webview',
   LINECHART = 'linechart',
   SLIDER = 'slider',
+  BOTTOMSHEET='bottomsheet',
+  TABS = 'tab'
 };
 
   
@@ -53,7 +56,7 @@ export type AccessibilityPropsType = {
   accessibilityLabel?: string;
   accessibilityLabelledBy?: string;
   accessibilityHint?: string;
-  accessibilityRole?: 'button' | 'link' | 'header' | 'search' | 'image' | 'imagebutton' | 'none' | 'summary' | 'text' | 'progressbar' | 'grid' | 'alert';
+  accessibilityRole?: 'button' | 'checkbox' | 'combobox' | 'link' | 'header' | 'search' | 'image' | 'imagebutton' | 'none' | 'summary' | 'text' | 'progressbar' | 'grid' | 'alert' | 'tab';
   accessibilityState?: {
     disabled?: boolean;
     selected?: boolean;
@@ -78,6 +81,9 @@ export type AccessibilityPropsType = {
   
 
 export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, accessibilityProps: AccessibilityPropsType | any) => {
+  if(accessibilityProps.accessible === false){
+    return {accessible: false, importantForAccessibility: "no"}
+  }
   let props: AccessibilityPropsType = {accessible: true};
   if (!_isScreenReaderEnabled || isWebPreviewMode()) {
     return {};
@@ -87,18 +93,16 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.TEXT:
     case AccessibilityWidgetType.NUMBER:
     case AccessibilityWidgetType.TEXTAREA:
-    case AccessibilityWidgetType.SELECT:
     case AccessibilityWidgetType.CURRENCY:
     case AccessibilityWidgetType.TOGGLE:
     case AccessibilityWidgetType.DATE:
     case AccessibilityWidgetType.LABEL:
-    case AccessibilityWidgetType.ANCHOR:
     case AccessibilityWidgetType.MESSAGE:    
     case AccessibilityWidgetType.SEARCH: 
-    case AccessibilityWidgetType.PICTURE: 
     case AccessibilityWidgetType.ICON:
     case AccessibilityWidgetType.NAV:
     case AccessibilityWidgetType.POVOVER:
+    case AccessibilityWidgetType.BOTTOMSHEET:
     case AccessibilityWidgetType.WEBVIEW:
     case AccessibilityWidgetType.LINECHART:
     case AccessibilityWidgetType.SLIDER:
@@ -112,7 +116,6 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
         widgetType === AccessibilityWidgetType.TEXT ||
         widgetType === AccessibilityWidgetType.NUMBER ||
         widgetType === AccessibilityWidgetType.TEXTAREA ||
-        widgetType === AccessibilityWidgetType.SELECT ||
         widgetType === AccessibilityWidgetType.TOGGLE ||
         widgetType === AccessibilityWidgetType.DATE
       ) {
@@ -122,7 +125,6 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
         (widgetType === AccessibilityWidgetType.TEXT ||
           widgetType === AccessibilityWidgetType.NUMBER ||
           widgetType === AccessibilityWidgetType.TEXTAREA ||
-          widgetType === AccessibilityWidgetType.SELECT ||
           widgetType === AccessibilityWidgetType.CURRENCY ||
           widgetType === AccessibilityWidgetType.TOGGLE) &&
         isAndroid()
@@ -139,42 +141,37 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
           max: accessibilityProps.maxvalue,
         };
       }
-      if (widgetType === AccessibilityWidgetType.SELECT) {
-        props.accessibilityState = {
-          ...props.accessibilityState,
-          expanded: accessibilityProps.expanded,
-        };
-      }
       if (widgetType === AccessibilityWidgetType.TOGGLE) {
         props.accessibilityState = {
           ...props.accessibilityState,
-          selected: accessibilityProps.selected,
+          checked: accessibilityProps.selected,
         };
       }
       break;
     }
 
-    case AccessibilityWidgetType.CHIPS: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
+    case AccessibilityWidgetType.TABS: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.title;
       props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole || 'tab';
       props.accessibilityState = {
-        disabled: accessibilityProps.disabled,
+        ...props.accessibilityState,
         selected: accessibilityProps.selected,
       };
       break;
     }
 
-    case AccessibilityWidgetType.RADIOSET: {
-      props.accessibilityState = {
-        disabled: accessibilityProps.readonly || accessibilityProps.disabled,
-        selected: accessibilityProps.selected,
-      };
+    case AccessibilityWidgetType.ANCHOR: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || (accessibilityProps.badgevalue ? `${accessibilityProps.caption} ${accessibilityProps.badgevalue}` : accessibilityProps.caption);
+      props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole
       break;
     }
 
     case AccessibilityWidgetType.CHECKBOX: {
       props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
       props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole || 'checkbox'
       props.accessibilityState = {
         disabled: accessibilityProps.readonly ||  accessibilityProps.disabled,
         checked: accessibilityProps.checked,
@@ -182,9 +179,39 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
       break;
     }
 
-    case AccessibilityWidgetType.SWITCH: {
-      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
+    case AccessibilityWidgetType.SELECT: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.displayValue || "Select an option"
+      props.accessibilityHint = accessibilityProps.hint
+      props.accessibilityRole = accessibilityProps.accessibilityrole || 'button',
+      props.accessibilityState = {
+        disabled: accessibilityProps.readonly ||  accessibilityProps.disabled,
+        expanded: accessibilityProps.expanded,
+      };
+      if(isAndroid()) {
+        props.accessibilityLabelledBy =
+          accessibilityProps.accessibilitylabelledby;
+      }
+      break;
+    }
+
+    case AccessibilityWidgetType.RADIOSET: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || 'Select your preferred option';
       props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole || 'radiogroup'
+      break;
+    }
+
+    case AccessibilityWidgetType.CHECKBOXSET: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || 'Select your preferred options';
+      props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole || 'combobox'
+      break;
+    }
+
+    case AccessibilityWidgetType.SWITCH: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || "Select an option";
+      props.accessibilityHint = accessibilityProps.hint;
+      props.accessibilityRole = accessibilityProps.accessibilityrole
       props.accessibilityState = {
         disabled: accessibilityProps.disabled,
         selected: accessibilityProps.selected,
@@ -194,6 +221,12 @@ export const getAccessibilityProps = (widgetType: AccessibilityWidgetType, acces
     case AccessibilityWidgetType.PROGRESSBAR:
     case AccessibilityWidgetType.PROGRESSCIRCLE: {
       props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.caption?.toString();
+      props.accessibilityRole = accessibilityProps.accessibilityrole;
+      break;
+    }
+    case AccessibilityWidgetType.PICTURE: {
+      props.accessibilityLabel = accessibilityProps.accessibilitylabel || accessibilityProps.alttext || 'Image';
+      props.accessibilityHint = accessibilityProps.hint;
       props.accessibilityRole = accessibilityProps.accessibilityrole;
       break;
     }

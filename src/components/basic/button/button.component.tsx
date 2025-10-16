@@ -43,6 +43,7 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
           iconheight={iconheight}
           iconmargin={iconmargin}
           iconwidth={iconwidth}
+          accessible={false}
         />): null;
   }
 
@@ -89,10 +90,6 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
           },
           this.styles.root.height == "100%" ? {flex: 1}:{}
         ]}
-        // accessibilityProps={{...getAccessibilityProps(
-        //   AccessibilityWidgetType.BUTTON,
-        //   props
-        // )}}
         >
         {this._background}
         <Tappable
@@ -125,7 +122,6 @@ export default class WmButton extends BaseComponent<WmButtonProps, WmButtonState
                 style={this.styles.text}
                 {...this.getTestPropsForLabel('caption')}
                 importantForAccessibility={'no'}
-                // accessibilityLabel={`${props.caption}`}
               >
                 {props.caption}
               </Text>

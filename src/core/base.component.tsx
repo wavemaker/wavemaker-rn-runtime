@@ -94,7 +94,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public _showSkeleton = false;
     public isFixed = false;
     public isSticky = false;
-    private notifier = new EventNotifier();
+    public notifier = new EventNotifier();
     private parentListenerDestroyers = [] as Function[];
     public _background = <></>;
     private styleOverrides = {} as any;
@@ -108,6 +108,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         x: 0, y:0, width:0, height:0, px:0, py:0
     };
     public baseView: any = View;
+    protected childComponentStyleKeys: string[] = [];
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
         super(markupProps);
@@ -373,7 +374,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     }
 
     public handleLayout(event: LayoutChangeEvent, ref: React.RefObject<View> | null = null) {
-        const key = this.getName && this.getName();
+        const key = this?.getName?.();
         if(key){
             const newLayoutPosition = {
                 [key as string]: {
@@ -549,7 +550,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
     public hideSkeletonInPageContentWhenDisabledInPage = () => {
        const isPageContentWidget = this.defaultClass && this.defaultClass === 'app-page-content'
        const isCurrentParentIsContent = this.parent && this.parent.defaultClass && this.parent.defaultClass === 'app-content'
-       const showSkeletonInPageContent = this.parent.state?.props?.showskeleton === false
+       const showSkeletonInPageContent = this.parent && this.parent.state?.props?.showskeleton === false
     
        if(isPageContentWidget && isCurrentParentIsContent && showSkeletonInPageContent) {
         return false;
@@ -611,12 +612,23 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 props.disabled ? this.theme.getStyle(this.defaultClass + '-disabled') : null,
                 this.isRTL ? this.theme.getStyle(this.defaultClass + '-rtl') : null,
                 classname && this.theme.getStyle(classname),
+                this.isRTL && classname ? this.theme.getStyle(classname + '-rtl') : null,
                 props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
                 this.theme.cleanseStyleProperties(this.props.styles),
                 this.theme.cleanseStyleProperties({
                     root: this.styleOverrides,
                     text: this.styleOverrides
                 }));
+            
+            // Merge child component styles from custom classes
+            if (classname && this.childComponentStyleKeys.length > 0) {
+                const customStyles = this.theme.getStyle(classname);
+                this.childComponentStyleKeys.forEach(key => {
+                    if (customStyles && this.styles[key]) {
+                        (this.styles as any)[key] = this.theme.mergeStyle(this.styles[key], customStyles);
+                    }
+                });
+            }
             if (this.styles.root.hasOwnProperty('_background')) {
                 delete this.styles.root.backgroundColor;
             }

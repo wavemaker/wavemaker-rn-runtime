@@ -11,8 +11,12 @@ export default class WmLabelProps extends BaseProps {
     skeletonheight?: string = null as any;
     skeletonwidth?: string = null as any;
     multilineskeleton?: boolean = false;
+    accessible?: boolean = true;
     accessibilitylabel?: string = undefined;
     hint?: string = undefined;
     accessibilityrole?: AccessibilityRole = 'text';
     onTap?: Function = null as any;
+    enableandroidellipsis?: boolean = false;
+    textanimation?: string = undefined as any;
+    animationspeed?: number = 0;
 }

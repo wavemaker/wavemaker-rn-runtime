@@ -1,7 +1,6 @@
 import { Platform } from 'react-native';
 import moment from "moment";
-import * as FileSystem from "expo-file-system";
-import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber } from 'lodash';
+import { isFunction, includes, isUndefined, isNull, orderBy, groupBy, toLower, get, forEach, sortBy, cloneDeep, keys, values, isArray, isString, isNumber} from 'lodash';
 import * as mime from 'react-native-mime-types';
 import ThemeVariables from '../styles/theme.variables';
 
@@ -274,6 +273,27 @@ export const getAbortableDefer = () => {
   return _defer;
 };
 
+//Adding the below function to split borderColor, as there is a known bug in reactnative where borderBottomColor does not override borderColor on Android (https://github.com/facebook/react-native/issues/38335)
+export function splitBorderColorInPlace(rootStyles: any): any {
+  const updatedRootStyles = cloneDeep(rootStyles);
+  
+  const color = updatedRootStyles.borderColor;
+  
+  if (!color) return updatedRootStyles;
+
+  const sides = ["Top", "Right", "Bottom", "Left"];
+  for (const side of sides) {
+    const key = `border${side}Color`;
+    if (!updatedRootStyles[key]) {
+      updatedRootStyles[key] = color;
+    }
+  }
+  delete updatedRootStyles.borderColor;
+  return updatedRootStyles;
+}
+
+  
+
 export const validateField = (props: any, value: any) => {
   let requiredCheck = true, regexCheck = true;
   if (props.required) {
@@ -357,11 +377,7 @@ export const formatCompactNumber = (number: number) => {
   return (isNegative ? '-' : '') + formattedNumber;
 }
 
-export const toBase64 = function (path: string) {
-  return FileSystem.readAsStringAsync(path, { encoding: 'base64' });
-};
-
-const DATASET_WIDGETS = new Set(['select', 'checkboxset', 'radioset', 'switch', 'autocomplete', 'chips', 'typeahead', 'rating']);
+const DATASET_WIDGETS = new Set([ 'select', 'checkboxset', 'radioset', 'switch', 'autocomplete', 'chips', 'typeahead', 'rating']);
 export const isDataSetWidget = (widget: any) => {
   return DATASET_WIDGETS.has(widget);
 };
@@ -729,7 +745,28 @@ export const getGradientColors = (gradientString: string): string[] => {
   });
 };
 
+export const isNativeStyle = (key: string, context: 'property' | 'path' = 'property', traceEnabled: boolean = true): boolean => {
+  const nativeStyleProperties = [
+    'shadowOffset', 'shadowRadius', 'shadowColor', 'shadowOpacity', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
+    'marginTop', 'marginRight', 'marginBottom', 'marginLeft', 'borderRadius', 'borderTopColor', 'borderRightColor', 
+    'borderBottomColor','borderLeftColor','backgroundColor', 'width', 'height', 'flex', 'flexDirection', 'textShadowOffset', 
+    'transform', 'decomposedMatrix','transformMatrix', 'boxShadow', 'filter', 'fontVariant','margin', 'padding', 
+    'backgroundPosition', 'borderColor', 'backgroundImage','backgroundSize', 'backgroundRepeat', 'backgroundResizeMode',
+   'aspectRatio', 'gap', 'columnGap', 'rowGap','content', 'matrix','strokeDasharray', 'strokeLinecap', 'strokeLinejoin'
+  ];
 
+  if (!traceEnabled) return true;
+
+  if (context === 'path') {
+    // For flattened paths like "item.shadowOffset"
+    const parts = key.split('.');
+    const property = parts[parts.length - 1];
+    return nativeStyleProperties.includes(property);
+  } else {
+    // For direct property names like "shadowOffset"
+    return nativeStyleProperties.includes(key);
+  }
+};
 
 export const parseLinearGradient = (gradient: string)   => {
   // Check if this is a valid linear gradient
@@ -870,4 +907,15 @@ export const getPosition = (key: string): { x: number, y: number } => {
 export const setCurrentPageInAppLayout = (pageName: string): void => {
   AppLayoutPosition.currentPage = pageName;
   AppLayoutPosition.data[pageName] = {};
+}
+
+export const replace = (target: string, value: any): string => {
+  if (!target || !target.includes('${')) {
+    return target;
+  }
+
+  return target.replace(/\${([^}]+)}/g, (match, key) => {
+    const val = value[key];
+    return val !== undefined ? val : match;
+  });
 }

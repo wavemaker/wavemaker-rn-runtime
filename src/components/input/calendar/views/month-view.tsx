@@ -10,11 +10,22 @@ import {
   FlatList,
   TouchableOpacity,
   ViewStyle,
-  TextStyle
+  TextStyle,
+  AccessibilityInfo
 } from 'react-native';
 import moment, { Moment } from 'moment';
 import styles from './month-view.styles'
 import _ from 'lodash';
+
+let _isScreenReaderEnabled = false;
+
+AccessibilityInfo.addEventListener('screenReaderChanged', (enabled) => {
+  _isScreenReaderEnabled = enabled;
+});
+
+AccessibilityInfo.isScreenReaderEnabled().then((enabled) => {
+  _isScreenReaderEnabled = enabled;
+});
 
 export class MonthViewProps {
   testID?: string = null as any;
@@ -98,7 +109,7 @@ export class MonthView extends Component<MonthViewProps, MonthViewState> {
     return (
       <TouchableOpacity 
         testID={this.props.testID + '_' + day.format('yyyy_mm_dd')}
-        accessibilityLabel={this.props.testID + '_' + day.format('yyyy_mm_dd')}
+        accessibilityLabel={!_isScreenReaderEnabled ? this.props.testID + '_' + day.format('yyyy_mm_dd') : undefined}
         onPress={() => this.selectDate(day)}
         style={[styles.warpDay, warpDayStyle,
           isCurrent ? currentDayStyle : {},

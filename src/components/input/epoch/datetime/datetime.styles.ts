@@ -122,6 +122,38 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     }) as any as WmDatetimeStyles;
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);
+    
+    // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+    addStyle('form-datetime-input-horizontal', '', {
+      root: {
+        flex: 1,
+        minWidth: 0, // Allow shrinking below intrinsic content size if needed
+        maxWidth: '100%'  
+      },
+      text: {}
+    } as BaseStyles);
+    
+    // Timestamp widgets use the datetime component but have their own widget type
+    addStyle('form-timestamp-input-horizontal', '', {
+      root: {
+        width: '100%'
+      },
+      rootWrapper: {
+        width: '70%'
+      },
+      text: {}
+    } as BaseStyles);
+
+    addStyle('form-datetime-input-horizontal', '', {
+        root: {
+        width: '100%'
+        },
+        rootWrapper: {
+        width: '70%'
+        },
+        text: {}
+    } as BaseStyles);
+    
     addStyle(DEFAULT_CLASS + '-disabled', '', {
         root : {
         backgroundColor: themeVariables.inputDisabledBgColor

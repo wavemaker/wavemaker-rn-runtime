@@ -18,6 +18,14 @@ export type WmChipsStyles = BaseStyles & {
   doneIcon: WmIconStyles;
   imageStyles: WmPictureStyles;
   skeleton: WmSkeletonStyles;
+  leftIcon: WmIconStyles;
+  rightIcon: WmIconStyles;
+  activeLeftIcon: WmIconStyles;
+  activeRightIcon: WmIconStyles;
+  leftBadge: BaseStyles;
+  rightBadge: BaseStyles;
+  activeLeftBadge: BaseStyles;
+  activeRightBadge: BaseStyles;
 };
 
 export const DEFAULT_CLASS = 'app-chips';
@@ -105,9 +113,84 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
           minHeight: 32,
         }
       } as any as WmSkeletonStyles,
+      leftIcon: {
+        icon: {
+          marginRight: 0,
+          fontSize: 16,
+          color: themeVariables.chipDefaultTextColor,
+          marginBottom: 3
+        }
+      } as WmIconStyles,
+      rightIcon: {
+        icon: {
+          marginLeft: 0,
+          fontSize: 16,
+          color: themeVariables.chipDefaultTextColor,
+          marginBottom: 3
+        }
+      } as WmIconStyles,
+      activeLeftIcon: {
+        icon: {
+          marginRight: 0,
+          fontSize: 16,
+          color: themeVariables.chipActiveTextColor,
+          marginBottom: 3
+        }
+      } as WmIconStyles,
+      activeRightIcon: {
+        icon: {
+          marginLeft: 0,
+          fontSize: 16,
+          marginBottom: 3,
+          color: themeVariables.chipActiveTextColor,
+        }
+      } as WmIconStyles,
+      leftBadge: {
+        text: {
+          fontSize: 14,
+          marginRight: 0,
+          marginTop: 3,
+          fontFamily: themeVariables.baseFont,
+          fontWeight: '500',
+          color: themeVariables.chipDefaultTextColor,
+        }
+      } as BaseStyles,
+      rightBadge: {
+        text: {
+          fontSize: 14,
+          marginLeft: 0,
+          marginTop: 3,
+          fontFamily: themeVariables.baseFont,
+          fontWeight: '500',
+          color: themeVariables.chipDefaultTextColor,
+        }
+      } as BaseStyles,
+      activeLeftBadge: {
+        text: {
+          color: themeVariables.chipActiveTextColor,
+          marginTop: 3
+        }
+      } as BaseStyles,
+      activeRightBadge: {
+        text: {
+          color: themeVariables.chipActiveTextColor,
+          marginTop: 3
+        }
+      } as BaseStyles,
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
+  
+  // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+  addStyle('form-chips-input-horizontal', '', {
+    root: {
+      flex: 1,
+      minWidth: 0, // Allow shrinking below intrinsic content size if needed
+      maxWidth: '100%' // Prevent overflow
+    },
+    text: {}
+  } as BaseStyles);
+  
   addStyle(DEFAULT_CLASS + '-disabled', '', {
     chip: {
       opacity: 0.5

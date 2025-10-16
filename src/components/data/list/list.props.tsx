@@ -1,6 +1,7 @@
 import React from 'react';
 import { BaseProps } from '@wavemaker/app-rn-runtime/core/base.component';
 import { View } from 'react-native';
+import { ResponsiveConfig } from '@wavemaker/app-rn-runtime/core/responsive.utils';
 
 export default class WmListProps extends BaseProps {
     formRef: any;
@@ -32,7 +33,7 @@ export default class WmListProps extends BaseProps {
     itemclass: ($item: any, $index: any) => string = null as any;
     getNextPageData: ($event: any, $list: any, page: number) => Promise<any> = null as any;
     pagesize = 20;
-    itemsperrow = {
+    itemsperrow: ResponsiveConfig<number> = {
         xs: 1,
         sm: 1,
         md: 1,
@@ -44,4 +45,7 @@ export default class WmListProps extends BaseProps {
     horizontalondemandenabled:boolean = false;
     triggeronrenderwhenhidden?: boolean = true;
     selecteditemicon: string = null as any;
+    disableitemselect: boolean = false;
+    responsive: boolean = false;
+    fallback: boolean = false;
 }

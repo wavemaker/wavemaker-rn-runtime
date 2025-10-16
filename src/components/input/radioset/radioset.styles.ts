@@ -94,12 +94,22 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   } as WmIconStyles
 });
 
+  addStyle(DEFAULT_CLASS, '', defaultStyles);
+  
+  // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
+  addStyle('form-radioset-input-horizontal', '', {
+    root: {
+      flex: 1, // Take remaining space after label
+      minWidth: 0, // Allow shrinking below intrinsic content size if needed
+      maxWidth: '100%' // Prevent overflow
+    },
+    text: {}
+  } as BaseStyles);
+  
   addStyle(DEFAULT_CLASS + '-disabled', '', {
     root : {
       color: themeVariables.checkedDisabledColor,
       opacity: 0.8
     }
   });
-
-  addStyle(DEFAULT_CLASS, '', defaultStyles);
 });

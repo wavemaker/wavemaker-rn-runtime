@@ -1,5 +1,5 @@
 import React from 'react';
-import { DimensionValue, LayoutChangeEvent, Text, View,Platform } from 'react-native';
+import { DimensionValue, LayoutChangeEvent, Text, View,Platform, Animated } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import NavigationService, { NavigationServiceConsumer } from '@wavemaker/app-rn-runtime/core/navigation.service';
@@ -18,6 +18,7 @@ import { parseLinearGradient } from '@wavemaker/app-rn-runtime/core/utils';
 type PartType = {
   text?: string,
   link?: string,
+  bold?: boolean;
 };
 
 export class WmLabelState extends BaseComponentState<WmLabelProps> {
@@ -28,6 +29,9 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
 
   constructor(props: WmLabelProps) {
     super(props, DEFAULT_CLASS, new WmLabelProps(), new WmLabelState());
+    this.updateState({
+      parts: this.parseCaption(props.caption || '')
+    } as WmLabelState);
   }
 
   private getAsterisk() {
@@ -40,7 +44,8 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     switch (name) {
       case "caption":
         this.updateState({
-          parts: this.parseCaption(String($new))
+          parts: this.parseCaption(String($new)),
+          animationId: Date.now()
         } as WmLabelState);
         break;
     }
@@ -65,28 +70,62 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     caption += '';
     caption = caption.replace(/\s*\(\s*\$event,\s*\$widget\s*\)\s*/, '');
     caption = caption.replace(/\(\s*\)/, '(#/__EMPTY__)');
-    const pattern = /\[([^\]]+)\]\(([^)]*)\)/g;
-    const linkRegex = /^(((http|https):\/\/)|javascript:|#).+$/;
-    const captionSplit = caption.split(pattern);
-
-    let parts = [];
-
-    for (let i = 0; i < captionSplit.length; i++) {
-      const isLink = linkRegex.test(captionSplit[i]);
-      let part: PartType = {};
-
-      const isNextTextALink = linkRegex.test(captionSplit[i + 1]);
-      if (isLink) {
-        part.text = captionSplit[i - 1] ?? '';
-        part.link = captionSplit[i] === '#/__EMPTY__' ? '' : captionSplit[i];
-      } else {
-        part.text = isNextTextALink ? "" : captionSplit[i];
-      };
-      if (part.text || part.link) {
-        parts.push(part);
+  
+    let parts: PartType[] = [];
+    let lastIndex = 0;
+    let match;
+  
+    // Updated pattern to handle asterisks properly - using lazy matching and proper boundaries
+    const pattern = /\*\*(.*?)\*\*|\[([^\]]+)\]\(([^)]*)\)/g;
+  
+    while ((match = pattern.exec(caption)) !== null) {
+      // Add any text before the match
+      if (match.index > lastIndex) {
+        parts.push({ text: caption.substring(lastIndex, match.index) });
       }
+  
+      if (match[1] !== undefined) {
+        // This is a bold section (first capture group)
+        const boldContent = match[1];
+        
+        // Check if the bold content contains a link
+        const linkPattern = /\[([^\]]+)\]\(([^)]*)\)/;
+        const linkMatch = boldContent.match(linkPattern);
+        
+        if (linkMatch) {
+          // If there's text before the link
+          const beforeLink = boldContent.substring(0, linkMatch.index);
+          if (beforeLink) {
+            parts.push({ text: beforeLink, bold: true });
+          }
+          
+          // Add the link part
+          parts.push({ text: linkMatch[1], link: linkMatch[2], bold: true });
+          
+          // If there's text after the link
+          if(linkMatch.index !== undefined) {
+            const afterLink = boldContent.substring(linkMatch.index + linkMatch[0].length);
+            if (afterLink) {
+              parts.push({ text: afterLink, bold: true });
+            }  
+          }
+        } else {
+          // If no link, just add the entire content as bold
+          parts.push({ text: boldContent, bold: true });
+        }
+      } else if (match[2] !== undefined && match[3] !== undefined) {
+        // This is a standalone link (second and third capture groups)
+        parts.push({ text: match[2], link: match[3] });
+      }
+  
+      lastIndex = pattern.lastIndex;
     }
-
+  
+    // Add any remaining text after the last match
+    if (lastIndex < caption.length) {
+      parts.push({ text: caption.substring(lastIndex) });
+    }
+  
     return parts;
   }
 
@@ -122,6 +161,111 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       });
     }
   }
+  private shouldUseAndroidEllipsis(props: WmLabelProps): boolean {
+    return Platform.OS === 'android' && props.enableandroidellipsis !== false;
+  }
+
+  // Helper to get the proper number of lines
+  private getNumberOfLines(props: WmLabelProps): number | undefined {
+      let numOfLines: number | undefined = undefined;
+      if (props.wrap === false) {
+          numOfLines = 1;
+      } else if (typeof props.nooflines === 'number' && props.nooflines > 0) {
+          numOfLines = props.nooflines;
+      }
+      return numOfLines;
+  }
+
+  // Helpers to dedupe common logic
+  private tokenizeWords(text?: string) {
+    return (text ? text.split(/(\s+)/) : [])
+      .filter(t => t !== '')
+      .map(t => ({ token: t, isSpace: /^\s+$/.test(t) }));
+  }
+
+  private isTextAnimationExists(): boolean {
+    return this.state.props.textanimation === 'fadeIn';
+  }
+
+  private getWordAnimConfig() {
+    const step = Number(this.state.props.animationspeed) ?? 80;
+    const fadeDuration = Math.max(120, step * 2);
+    return { step, fadeDuration };
+  }
+
+  private renderWordswithAnimation(navigationService: NavigationService, isHidden: boolean) {
+    const shouldAnimate = this.isTextAnimationExists();
+    const { step, fadeDuration } = this.getWordAnimConfig();
+    let runningIndex = 0;
+
+    const containerStyle: any = {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'flex-start',
+      opacity: isHidden ? 0 : 1,
+      width: '100%'
+    };
+
+    const getBaseStyle = (part: { link?: string; bold?: boolean }) => ([
+      this.styles.text,
+      part.link ? this.styles.link.text : null,
+      part.bold ? { fontWeight: 'bold' } : null,
+      this.state.props.isValid ? null : { color: 'red' },
+    ]);
+  
+    const onTokenPress = (part: { link?: string }) => {
+      if (part.link) {
+        if (part.link.startsWith('http:') || part.link.startsWith('https:') || part.link.startsWith('#')) {
+          navigationService.openUrl(part.link, '_blank');
+        } else if (part.link.startsWith('javascript:')) {
+          const eventName = part.link.substring(11);
+          this.invokeEventCallback(eventName, [null, this.proxy]);
+        }
+      }
+      this.invokeEventCallback('onTap', [null, this.proxy]);
+    };
+  
+    const renderToken = (part: any, t: { token: string; isSpace: boolean }, key: string) => {
+      if (t.isSpace) return <Text key={key} style={this.styles.text}>{t.token}</Text>;
+  
+      const baseStyle = getBaseStyle(part);
+      if (!shouldAnimate) {
+        return <Text key={key} style={baseStyle as any} onPress={() => onTokenPress(part)}>{t.token}</Text>;
+      }
+  
+      const opacity = new Animated.Value(0);
+      const delay = step * (runningIndex++);
+      Animated.timing(opacity, { toValue: 1, duration: fadeDuration, delay, useNativeDriver: true }).start();
+  
+      return (
+        <Animated.Text key={key} style={[baseStyle as any, { opacity }]} onPress={() => onTokenPress(part)}>
+          {t.token}
+        </Animated.Text>
+      );
+    };
+  
+    return (
+      <View style={containerStyle} {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)} {...this.getTestPropsForLabel('caption')}>
+        {this.state.parts?.flatMap((part, pIdx) => {
+          const raw = this.tokenizeWords(toString(part.text));
+          const merged: { token: string; isSpace: boolean }[] = [];
+          const leadingSpace = !!raw[0]?.isSpace;
+          let firstWordEmitted = false;
+          for (let i = 0; i < raw.length; i++) {
+            const tk = raw[i];
+            if (tk.isSpace) { continue; }
+            const nextIsSpace = !!raw[i + 1]?.isSpace;
+            const prefix = (!firstWordEmitted && leadingSpace) ? ' ' : '';
+            merged.push({ token: prefix + tk.token + (nextIsSpace ? ' ' : ''), isSpace: false });
+            firstWordEmitted = true;
+            if (nextIsSpace) { i++; }
+          }
+          return merged.map((t, i) => renderToken(part, t, `p${pIdx}_${i}`));
+        })}
+        {this.state.props.required && this.getAsterisk()}
+      </View>
+    );
+  }
 
   private renderLabelTextContent(navigationService: NavigationService, isHidden: boolean = false, hasLinearGradient: boolean = false) {
     //gradient text support for web
@@ -131,6 +275,8 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
       backgroundClip: 'text',
     }
     const showWebTextGradient = (hasLinearGradient && Platform.OS === 'web');
+    const numOfLines = this.getNumberOfLines(this.state.props);
+    const useAndroidEllipsis = this.shouldUseAndroidEllipsis(this.state.props);
 
     // Shared styles
     const baseStyle = this.styles.text;
@@ -139,6 +285,38 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
 
     // Determine if it's a single part
     const isSinglePart = this.state.parts.length <= 1;
+    // if numOfLines is exists then the animation won't work. 
+    if (numOfLines === undefined && this.isTextAnimationExists()) {
+      return this.renderWordswithAnimation(navigationService, isHidden);
+    }
+
+    if (useAndroidEllipsis) {
+      const androidEllipsisTextStyle: any = {
+          ...baseStyle,
+          ...hiddenStyle,
+          ...gradientStyle,
+          userSelect: 'none',
+          width: '100%',
+          textAlign: baseStyle.textAlign,
+      };
+      // Keep single-string content in Android ellipsis branch to ensure reliable truncation
+      const content = this.state.parts.length === 1
+        ? toString(this.state.props.caption)
+        : this.state.parts.map(part => toString(part.text)).join('');
+      return (
+          <Text
+              style={androidEllipsisTextStyle}
+              numberOfLines={numOfLines}
+              ellipsizeMode="tail"
+              {...(this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {})}
+              {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)}
+          >
+              {content}
+              {this.state.props.required && this.getAsterisk()}
+          </Text>
+      );
+    }  
+
 
     // Compose final style
     const combinedTextStyle = isSinglePart
@@ -152,12 +330,12 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
 
 
 
-    return (
+   return (
       <Text style={combinedTextStyle}
         {...this.state.parts.length <= 1 ? this.getTestPropsForLabel('caption') : {}}
         {...getAccessibilityProps(AccessibilityWidgetType.LABEL, this.state.props)}
-        numberOfLines={this.state.props.nooflines} ellipsizeMode="tail">
-        {(this.state.parts?.length === 1 && !(this.state.parts[0].link && this.state.parts[0].text )) ? toString(this.state.props.caption) : this.state.parts?.map((part, index) => {
+        numberOfLines={numOfLines} ellipsizeMode="tail">
+        {(this.state.parts?.length === 1 && !this.state.parts[0].link && !this.state.parts[0].bold) ? toString(this.state.props.caption) : this.state.parts?.map((part, index) => {
           const isLink = !isNil(part.link);
           return (
             <Text
@@ -165,6 +343,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
               style={[
                 this.styles.text,
                 isLink ? this.styles.link.text : null,
+                part.bold ? { fontWeight: 'bold'} : null, 
                 this.state.props.isValid ? null : { color: 'red' }
               ]}
               {...this.getTestPropsForLabel(isLink ? `link_${index}` : `caption_${index}`)}
@@ -197,9 +376,6 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
     const linkStyles = this.theme.mergeStyle({ text: this.styles.text }, this.styles.link);
     const { hasLinearGradient, start, end, gradientColors,colorStops } = parseLinearGradient((this.styles?.text.color) as string);
     
-    
-
-
     return !isNil(props.caption) ? (
       <Animatedview
         entryanimation={props.animation}

@@ -114,15 +114,6 @@ exports[`Test Tabs component should render skeleton loader when showskeleton is 
             onLayout={[Function]}
             style={
               {
-                "height": 0,
-                "width": 0,
-              }
-            }
-          />
-          <View
-            onLayout={[Function]}
-            style={
-              {
                 "backgroundColor": "#eeeeee",
                 "borderRadius": 4,
                 "height": 16,
@@ -197,15 +188,6 @@ exports[`Test Tabs component should render skeleton loader when showskeleton is 
             onLayout={[Function]}
             style={
               {
-                "height": 0,
-                "width": 0,
-              }
-            }
-          />
-          <View
-            onLayout={[Function]}
-            style={
-              {
                 "backgroundColor": "#eeeeee",
                 "borderRadius": 4,
                 "height": 16,
@@ -262,21 +244,13 @@ exports[`Test Tabs component should render skeleton loader when showskeleton is 
           }
         }
       >
-        <View
-          onLayout={[Function]}
-          style={
-            {
-              "height": 0,
-              "width": 0,
-            }
-          }
-        />
         <RCTScrollView
           collapsable={false}
-          handlerTag={24}
+          handlerTag={18}
           handlerType="NativeViewGestureHandler"
           onGestureHandlerEvent={[Function]}
           onGestureHandlerStateChange={[Function]}
+          onLayout={[Function]}
           onScroll={[Function]}
           style={
             {
@@ -303,21 +277,13 @@ exports[`Test Tabs component should render skeleton loader when showskeleton is 
           }
         }
       >
-        <View
-          onLayout={[Function]}
-          style={
-            {
-              "height": 0,
-              "width": 0,
-            }
-          }
-        />
         <RCTScrollView
           collapsable={false}
-          handlerTag={25}
+          handlerTag={19}
           handlerType="NativeViewGestureHandler"
           onGestureHandlerEvent={[Function]}
           onGestureHandlerStateChange={[Function]}
+          onLayout={[Function]}
           onScroll={[Function]}
           style={
             {
@@ -345,465 +311,465 @@ exports[`Test Tabs component should render skeleton loader when showskeleton is 
 `;
 
 exports[`Test Tabs component should render the Tabs component 1`] = `
-[
+<View
+  onLayout={[Function]}
+  style={
+    {
+      "borderBottomWidth": 1,
+      "borderColor": "#cccccc",
+      "borderStyle": "solid",
+      "elevation": 0,
+      "minHeight": 240,
+    }
+  }
+>
   <View
     onLayout={[Function]}
     style={
       {
-        "height": 0,
-        "width": 0,
+        "width": "100%",
       }
     }
-  />,
+  />
   <View
+    accessible={false}
+    onLayout={[Function]}
     style={
       {
-        "borderBottomWidth": 1,
-        "borderColor": "#cccccc",
-        "borderStyle": "solid",
-        "elevation": 0,
-        "minHeight": 240,
+        "overflow": "hidden",
+        "zIndex": 16,
       }
     }
+    testID="test_tabs_headers_tabheader"
   >
-    <View
+    <RCTScrollView
+      horizontal={true}
       onLayout={[Function]}
-      style={
-        {
-          "width": "100%",
-        }
-      }
-    />
-    <View
-      onLayout={[Function]}
-      style={
-        {
-          "height": 0,
-          "width": 0,
-        }
-      }
-    />
-    <View
-      accessible={false}
-      style={
-        {
-          "overflow": "hidden",
-          "zIndex": 16,
-        }
-      }
-      testID="test_tabs_headers_tabheader"
+      scrollEnabled={false}
+      showsHorizontalScrollIndicator={false}
     >
-      <RCTScrollView
-        horizontal={true}
-        onLayout={[Function]}
-        scrollEnabled={false}
-        showsHorizontalScrollIndicator={false}
-      >
+      <View>
         <View>
-          <View>
+          <View
+            style={
+              {
+                "backgroundColor": "#ffffff",
+                "flexDirection": "row",
+                "minWidth": "100%",
+                "overflow": "visible",
+              }
+            }
+          >
             <View
-              style={
+              accessibilityLabel="Red"
+              accessibilityRole="tab"
+              accessibilityState={
                 {
-                  "backgroundColor": "#ffffff",
-                  "flexDirection": "row",
-                  "minWidth": "100%",
-                  "overflow": "visible",
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": false,
+                  "expanded": undefined,
+                  "selected": true,
                 }
               }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                [
+                  {
+                    "overflow": "hidden",
+                  },
+                  {
+                    "flexGrow": 1,
+                  },
+                ]
+              }
+              testID="test_tabs_headers_0"
             >
               <View
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": false,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  [
-                    {
-                      "overflow": "hidden",
-                    },
-                    {
-                      "flexGrow": 1,
-                    },
-                  ]
-                }
-                testID="test_tabs_headers_0"
+                onLayout={[Function]}
               >
                 <View
-                  onLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "backgroundColor": "#ffffff",
+                        "flexDirection": "row",
+                        "flexGrow": 1,
+                        "justifyContent": "center",
+                        "minHeight": 48,
+                        "minWidth": 80,
+                        "paddingBottom": 16,
+                        "paddingTop": 16,
+                        "paddingVertical": 12,
+                      },
+                      {
+                        "flexGrow": undefined,
+                      },
+                      {
+                        "backgroundColor": "#ffffff",
+                      },
+                    ]
+                  }
                 >
                   <View
-                    style={
-                      [
-                        {
-                          "backgroundColor": "#ffffff",
-                          "flexDirection": "row",
-                          "flexGrow": 1,
-                          "justifyContent": "center",
-                          "minHeight": 48,
-                          "minWidth": 80,
-                          "paddingBottom": 16,
-                          "paddingTop": 16,
-                          "paddingVertical": 12,
-                        },
-                        {
-                          "flexGrow": undefined,
-                        },
-                        {
-                          "backgroundColor": "#ffffff",
-                        },
-                      ]
-                    }
+                    onLayout={[Function]}
                   >
                     <View
                       onLayout={[Function]}
                       style={
                         {
-                          "height": 0,
-                          "width": 0,
+                          "alignItems": "center",
+                          "alignSelf": "flex-start",
+                          "flexDirection": "row",
                         }
                       }
+                      testID="non_animatableView"
                     />
-                    <View>
-                      <View
-                        style={
-                          {
-                            "alignItems": "center",
-                            "alignSelf": "flex-start",
-                            "flexDirection": "row",
-                          }
-                        }
-                        testID="non_animatableView"
-                      />
-                    </View>
-                    <Text
-                      accessible={false}
-                      numberOfLines={1}
-                      style={
-                        [
-                          {
-                            "color": "#aaaaaa",
-                            "fontFamily": "Roboto",
-                            "fontSize": 14,
-                            "fontWeight": "500",
-                            "overflow": "visible",
-                          },
-                          {
-                            "color": "#4263eb",
-                          },
-                        ]
-                      }
-                      testID="test_tabs_headers_0_title"
-                    >
-                      Red
-                    </Text>
                   </View>
-                </View>
-              </View>
-              <View
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": false,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  [
-                    {
-                      "overflow": "hidden",
-                    },
-                    {
-                      "flexGrow": 1,
-                    },
-                  ]
-                }
-                testID="test_tabs_headers_1"
-              >
-                <View
-                  onLayout={[Function]}
-                >
-                  <View
+                  <Text
+                    accessible={false}
+                    numberOfLines={1}
                     style={
                       [
                         {
-                          "backgroundColor": "#ffffff",
-                          "flexDirection": "row",
-                          "flexGrow": 1,
-                          "justifyContent": "center",
-                          "minHeight": 48,
-                          "minWidth": 80,
-                          "paddingBottom": 16,
-                          "paddingTop": 16,
-                          "paddingVertical": 12,
+                          "color": "#aaaaaa",
+                          "fontFamily": "Roboto",
+                          "fontSize": 14,
+                          "fontWeight": "500",
+                          "overflow": "visible",
                         },
                         {
-                          "flexGrow": undefined,
+                          "color": "#4263eb",
                         },
-                        null,
                       ]
                     }
+                    testID="test_tabs_headers_0_title"
                   >
-                    <View
-                      onLayout={[Function]}
-                      style={
-                        {
-                          "height": 0,
-                          "width": 0,
-                        }
-                      }
-                    />
-                    <View>
-                      <View
-                        style={
-                          {
-                            "alignItems": "center",
-                            "alignSelf": "flex-start",
-                            "flexDirection": "row",
-                          }
-                        }
-                        testID="non_animatableView"
-                      />
-                    </View>
-                    <Text
-                      accessible={false}
-                      numberOfLines={1}
-                      style={
-                        [
-                          {
-                            "color": "#aaaaaa",
-                            "fontFamily": "Roboto",
-                            "fontSize": 14,
-                            "fontWeight": "500",
-                            "overflow": "visible",
-                          },
-                          null,
-                        ]
-                      }
-                      testID="test_tabs_headers_1_title"
-                    >
-                      Green
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View
-                accessibilityState={
-                  {
-                    "busy": undefined,
-                    "checked": undefined,
-                    "disabled": false,
-                    "expanded": undefined,
-                    "selected": undefined,
-                  }
-                }
-                accessibilityValue={
-                  {
-                    "max": undefined,
-                    "min": undefined,
-                    "now": undefined,
-                    "text": undefined,
-                  }
-                }
-                accessible={true}
-                collapsable={false}
-                focusable={true}
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onResponderGrant={[Function]}
-                onResponderMove={[Function]}
-                onResponderRelease={[Function]}
-                onResponderTerminate={[Function]}
-                onResponderTerminationRequest={[Function]}
-                onStartShouldSetResponder={[Function]}
-                style={
-                  [
-                    {
-                      "overflow": "hidden",
-                    },
-                    {
-                      "flexGrow": 1,
-                    },
-                  ]
-                }
-                testID="test_tabs_headers_2"
-              >
-                <View
-                  onLayout={[Function]}
-                >
-                  <View
-                    style={
-                      [
-                        {
-                          "backgroundColor": "#ffffff",
-                          "flexDirection": "row",
-                          "flexGrow": 1,
-                          "justifyContent": "center",
-                          "minHeight": 48,
-                          "minWidth": 80,
-                          "paddingBottom": 16,
-                          "paddingTop": 16,
-                          "paddingVertical": 12,
-                        },
-                        {
-                          "flexGrow": undefined,
-                        },
-                        null,
-                      ]
-                    }
-                  >
-                    <View
-                      onLayout={[Function]}
-                      style={
-                        {
-                          "height": 0,
-                          "width": 0,
-                        }
-                      }
-                    />
-                    <View>
-                      <View
-                        style={
-                          {
-                            "alignItems": "center",
-                            "alignSelf": "flex-start",
-                            "flexDirection": "row",
-                          }
-                        }
-                        testID="non_animatableView"
-                      />
-                    </View>
-                    <Text
-                      accessible={false}
-                      numberOfLines={1}
-                      style={
-                        [
-                          {
-                            "color": "#aaaaaa",
-                            "fontFamily": "Roboto",
-                            "fontSize": 14,
-                            "fontWeight": "500",
-                            "overflow": "visible",
-                          },
-                          null,
-                        ]
-                      }
-                      testID="test_tabs_headers_2_title"
-                    >
-                      Blue
-                    </Text>
-                  </View>
+                    Red
+                  </Text>
                 </View>
               </View>
             </View>
+            <View
+              accessibilityLabel="Green"
+              accessibilityRole="tab"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": false,
+                  "expanded": undefined,
+                  "selected": false,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                [
+                  {
+                    "overflow": "hidden",
+                  },
+                  {
+                    "flexGrow": 1,
+                  },
+                ]
+              }
+              testID="test_tabs_headers_1"
+            >
+              <View
+                onLayout={[Function]}
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "backgroundColor": "#ffffff",
+                        "flexDirection": "row",
+                        "flexGrow": 1,
+                        "justifyContent": "center",
+                        "minHeight": 48,
+                        "minWidth": 80,
+                        "paddingBottom": 16,
+                        "paddingTop": 16,
+                        "paddingVertical": 12,
+                      },
+                      {
+                        "flexGrow": undefined,
+                      },
+                      null,
+                    ]
+                  }
+                >
+                  <View
+                    onLayout={[Function]}
+                  >
+                    <View
+                      onLayout={[Function]}
+                      style={
+                        {
+                          "alignItems": "center",
+                          "alignSelf": "flex-start",
+                          "flexDirection": "row",
+                        }
+                      }
+                      testID="non_animatableView"
+                    />
+                  </View>
+                  <Text
+                    accessible={false}
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "color": "#aaaaaa",
+                          "fontFamily": "Roboto",
+                          "fontSize": 14,
+                          "fontWeight": "500",
+                          "overflow": "visible",
+                        },
+                        null,
+                      ]
+                    }
+                    testID="test_tabs_headers_1_title"
+                  >
+                    Green
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              accessibilityLabel="Blue"
+              accessibilityRole="tab"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": false,
+                  "expanded": undefined,
+                  "selected": false,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                [
+                  {
+                    "overflow": "hidden",
+                  },
+                  {
+                    "flexGrow": 1,
+                  },
+                ]
+              }
+              testID="test_tabs_headers_2"
+            >
+              <View
+                onLayout={[Function]}
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "backgroundColor": "#ffffff",
+                        "flexDirection": "row",
+                        "flexGrow": 1,
+                        "justifyContent": "center",
+                        "minHeight": 48,
+                        "minWidth": 80,
+                        "paddingBottom": 16,
+                        "paddingTop": 16,
+                        "paddingVertical": 12,
+                      },
+                      {
+                        "flexGrow": undefined,
+                      },
+                      null,
+                    ]
+                  }
+                >
+                  <View
+                    onLayout={[Function]}
+                  >
+                    <View
+                      onLayout={[Function]}
+                      style={
+                        {
+                          "alignItems": "center",
+                          "alignSelf": "flex-start",
+                          "flexDirection": "row",
+                        }
+                      }
+                      testID="non_animatableView"
+                    />
+                  </View>
+                  <Text
+                    accessible={false}
+                    numberOfLines={1}
+                    style={
+                      [
+                        {
+                          "color": "#aaaaaa",
+                          "fontFamily": "Roboto",
+                          "fontSize": 14,
+                          "fontWeight": "500",
+                          "overflow": "visible",
+                        },
+                        null,
+                      ]
+                    }
+                    testID="test_tabs_headers_2_title"
+                  >
+                    Blue
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            collapsable={false}
+            style={
+              {
+                "backgroundColor": "#4263eb",
+                "height": 2,
+                "marginTop": -2,
+                "transform": [
+                  {
+                    "translateX": 0,
+                  },
+                  {
+                    "scaleX": 0,
+                  },
+                ],
+                "width": 100,
+              }
+            }
+          >
             <View
               collapsable={false}
               style={
                 {
-                  "backgroundColor": "#4263eb",
-                  "height": 2,
-                  "marginTop": -2,
+                  "backgroundImage": "",
+                  "backgroundPosition": "center",
+                  "backgroundRepeat": "no-repeat",
+                  "backgroundSize": "100% 100%",
+                  "display": "none",
                   "transform": [
-                    {
-                      "translateX": 0,
-                    },
                     {
                       "scaleX": 0,
                     },
                   ],
-                  "width": 100,
                 }
               }
             >
               <View
-                collapsable={false}
                 style={
                   {
-                    "backgroundImage": "",
-                    "backgroundPosition": "center",
-                    "backgroundRepeat": "no-repeat",
-                    "backgroundSize": "100% 100%",
                     "display": "none",
-                    "transform": [
-                      {
-                        "scaleX": 0,
-                      },
-                    ],
                   }
                 }
-              >
-                <View
-                  style={
-                    {
-                      "display": "none",
-                    }
-                  }
-                />
-              </View>
+              />
             </View>
           </View>
         </View>
-      </RCTScrollView>
-    </View>
+      </View>
+    </RCTScrollView>
+  </View>
+  <View
+    style={
+      [
+        {
+          "flex": 1,
+          "width": "100%",
+        },
+        {
+          "maxHeight": undefined,
+          "overflow": "hidden",
+        },
+        {},
+      ]
+    }
+  >
     <View
+      onLayout={[Function]}
+      onMoveShouldSetResponder={[Function]}
+      onMoveShouldSetResponderCapture={[Function]}
+      onResponderEnd={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderReject={[Function]}
+      onResponderRelease={[Function]}
+      onResponderStart={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onStartShouldSetResponderCapture={[Function]}
       style={
         [
           {
-            "flex": 1,
-            "width": "100%",
+            "alignItems": "center",
+            "flexDirection": "row",
+            "flexWrap": "nowrap",
           },
           {
-            "maxHeight": undefined,
-            "overflow": "hidden",
+            "alignItems": "flex-start",
+            "flexDirection": "row",
+            "flexWrap": "nowrap",
           },
-          {},
         ]
       }
     >
@@ -812,208 +778,176 @@ exports[`Test Tabs component should render the Tabs component 1`] = `
         onLayout={[Function]}
         style={
           {
-            "alignItems": "flex-start",
-            "flexDirection": "row",
-            "flexWrap": "nowrap",
             "transform": [
               {
                 "translateX": 0,
               },
             ],
+            "width": "100%",
           }
         }
       >
         <View
-          onLayout={[Function]}
           style={
-            [
-              {
-                "width": "100%",
-              },
-              null,
-            ]
+            {
+              "alignSelf": "flex-start",
+              "height": 1000000,
+              "width": "100%",
+            }
           }
         >
           <View
+            onLayout={[Function]}
             style={
               {
                 "alignSelf": "flex-start",
-                "height": 1000000,
                 "width": "100%",
               }
             }
           >
-            <View
+            <RCTScrollView
+              collapsable={false}
+              handlerTag={1}
+              handlerType="NativeViewGestureHandler"
+              onGestureHandlerEvent={[Function]}
+              onGestureHandlerStateChange={[Function]}
               onLayout={[Function]}
+              onScroll={[Function]}
               style={
                 {
-                  "alignSelf": "flex-start",
-                  "width": "100%",
+                  "backgroundColor": "#ffffff",
                 }
               }
+              waitFor={
+                [
+                  {
+                    "current": null,
+                  },
+                ]
+              }
             >
-              <View
-                onLayout={[Function]}
-                style={
-                  {
-                    "height": 0,
-                    "width": 0,
-                  }
-                }
-              />
-              <RCTScrollView
-                collapsable={false}
-                handlerTag={2}
-                handlerType="NativeViewGestureHandler"
-                onGestureHandlerEvent={[Function]}
-                onGestureHandlerStateChange={[Function]}
-                onScroll={[Function]}
-                style={
-                  {
-                    "backgroundColor": "#ffffff",
-                  }
-                }
-                waitFor={
-                  [
-                    {
-                      "current": null,
-                    },
-                  ]
-                }
-              >
-                <View />
-              </RCTScrollView>
-            </View>
+              <View />
+            </RCTScrollView>
           </View>
         </View>
-        <View
-          onLayout={[Function]}
-          style={
-            [
+      </View>
+      <View
+        collapsable={false}
+        onLayout={[Function]}
+        style={
+          {
+            "transform": [
               {
-                "width": "100%",
+                "translateX": 0,
               },
-              null,
-            ]
+            ],
+            "width": "100%",
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "alignSelf": "flex-start",
+              "height": 1000000,
+              "width": "100%",
+            }
           }
         >
           <View
+            onLayout={[Function]}
             style={
               {
                 "alignSelf": "flex-start",
-                "height": 1000000,
                 "width": "100%",
               }
             }
           >
-            <View
+            <RCTScrollView
+              collapsable={false}
+              handlerTag={2}
+              handlerType="NativeViewGestureHandler"
+              onGestureHandlerEvent={[Function]}
+              onGestureHandlerStateChange={[Function]}
               onLayout={[Function]}
+              onScroll={[Function]}
               style={
                 {
-                  "alignSelf": "flex-start",
-                  "width": "100%",
+                  "backgroundColor": "#ffffff",
                 }
               }
+              waitFor={
+                [
+                  {
+                    "current": null,
+                  },
+                ]
+              }
             >
-              <View
-                onLayout={[Function]}
-                style={
-                  {
-                    "height": 0,
-                    "width": 0,
-                  }
-                }
-              />
-              <RCTScrollView
-                collapsable={false}
-                handlerTag={3}
-                handlerType="NativeViewGestureHandler"
-                onGestureHandlerEvent={[Function]}
-                onGestureHandlerStateChange={[Function]}
-                onScroll={[Function]}
-                style={
-                  {
-                    "backgroundColor": "#ffffff",
-                  }
-                }
-                waitFor={
-                  [
-                    {
-                      "current": null,
-                    },
-                  ]
-                }
-              >
-                <View />
-              </RCTScrollView>
-            </View>
+              <View />
+            </RCTScrollView>
           </View>
         </View>
-        <View
-          onLayout={[Function]}
-          style={
-            [
+      </View>
+      <View
+        collapsable={false}
+        onLayout={[Function]}
+        style={
+          {
+            "transform": [
               {
-                "width": "100%",
+                "translateX": 0,
               },
-              null,
-            ]
+            ],
+            "width": "100%",
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "alignSelf": "flex-start",
+              "height": 1000000,
+              "width": "100%",
+            }
           }
         >
           <View
+            onLayout={[Function]}
             style={
               {
                 "alignSelf": "flex-start",
-                "height": 1000000,
                 "width": "100%",
               }
             }
           >
-            <View
+            <RCTScrollView
+              collapsable={false}
+              handlerTag={3}
+              handlerType="NativeViewGestureHandler"
+              onGestureHandlerEvent={[Function]}
+              onGestureHandlerStateChange={[Function]}
               onLayout={[Function]}
+              onScroll={[Function]}
               style={
                 {
-                  "alignSelf": "flex-start",
-                  "width": "100%",
+                  "backgroundColor": "#ffffff",
                 }
               }
+              waitFor={
+                [
+                  {
+                    "current": null,
+                  },
+                ]
+              }
             >
-              <View
-                onLayout={[Function]}
-                style={
-                  {
-                    "height": 0,
-                    "width": 0,
-                  }
-                }
-              />
-              <RCTScrollView
-                collapsable={false}
-                handlerTag={4}
-                handlerType="NativeViewGestureHandler"
-                onGestureHandlerEvent={[Function]}
-                onGestureHandlerStateChange={[Function]}
-                onScroll={[Function]}
-                style={
-                  {
-                    "backgroundColor": "#ffffff",
-                  }
-                }
-                waitFor={
-                  [
-                    {
-                      "current": null,
-                    },
-                  ]
-                }
-              >
-                <View />
-              </RCTScrollView>
-            </View>
+              <View />
+            </RCTScrollView>
           </View>
         </View>
       </View>
     </View>
-  </View>,
-]
+  </View>
+</View>
 `;
