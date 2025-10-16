@@ -3,7 +3,7 @@ stages:
         - jira_next_release
         - jira_hotfix_release
         - jira_verification_merge
-
+        - security_check
 jira_feature_dev:
   stage: jira_feature_dev
   tags:
@@ -46,4 +46,23 @@ jira_verification_merge:
     - echo "$CI_COMMIT_MESSAGE" "$CI_COMMIT_BRANCH" "$JIRA_MSG" "$TOKEN" "$CI_PROJECT_ID" "$GITLAB_TOKEN" "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" "$NEXT_HOT_FIX_VERSION"
     - python3 /home/gitlab-runner/jira-ci-scripts/verify_tickets_in_commits.py "$TOKEN" "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME" "$CI_PROJECT_ID" "$GITLAB_TOKEN"
 
+security_vulnerability_check: 
+  stage: security_check
+  tags:
+    - npm
+  only:
+    refs: ['merge_requests']
+    changes: ['package.json']
+  script:
+    - echo "🔍 Running security vulnerability checks..."
+    # Check root package.json
+    - echo "📦 Checking root package.json"
+    - npm audit --audit-level=moderate || ROOT_AUDIT_FAILED=1
+    - |
+      if [ -n "$ROOT_AUDIT_FAILED" ]; then
+        echo "❌ Security vulnerability found in package.json"
+        exit 1
+      fi
+      echo "✅ No security vulnerabilities found"
+  allow_failure: false
 
