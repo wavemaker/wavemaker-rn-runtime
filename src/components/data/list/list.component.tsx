@@ -39,20 +39,24 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private flatListRefs: any = {};
   private selectedItems = [] as any[];
   private scrolledToEnd: boolean = false;
-
+  private screenWidth = Dimensions.get("window").width;
 
  
 
   constructor(props: WmListProps) {
+
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
     this.updateState({
       maxRecordsToShow: this.state.props.pagesize
     } as WmListState);
 
     // Subscribe to viewport changes to re-render when screen size changes
-    this.cleanup.push(_viewPort.subscribe(ViewPortEvents.SIZE_CHANGE, () => {
+    this.cleanup.push(_viewPort.subscribe(ViewPortEvents.SIZE_CHANGE, (newDim: { width: number}) => {
+      this.screenWidth = newDim.width;
       this.forceUpdate();
     }));
+
+    
   }
 
   private isSelected($item: any) {
@@ -449,15 +453,23 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
     } : this.styles.item as any
 
     let containerStyle={};
-    const screenWidth = Dimensions.get("window").width; 
     const columnGap: any = this.styles?.columnWrapper?.gap ?? 0;
 
-    if (columnGap > 0) {
+    if(!cols || isNaN(cols) || cols <= 0){
+      containerStyle = {};
+    }
+    else if (columnGap > 0) {
       const totalGap = columnGap * (cols - 1);
-      containerStyle = {
-        width: `${Math.round(((screenWidth - totalGap) / cols) / screenWidth * 100)}%`
-      };
-    } else {
+      const availableWidth = this.screenWidth - totalGap;
+      if (availableWidth <= 0) {
+        containerStyle = { width: "100%" };
+      } else {
+        containerStyle = {
+         width: `${Math.round((availableWidth / (cols * this.screenWidth)) * 100)}%`
+        };
+      }
+    } 
+    else {
       containerStyle = cols? { width: Math.round(100 / cols) + "%", flex: null }: {};
     }
 
