@@ -12,7 +12,6 @@ import {
 } from '@wavemaker/app-rn-runtime/core/accessibility';
 import { isFullPathUrl } from '@wavemaker/app-rn-runtime/core/utils';
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
-import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
 import { VideoConsumer } from '@wavemaker/app-rn-runtime/core/device/av-service';
 
 export class WmVideoState extends BaseComponentState<WmVideoProps> {
@@ -204,10 +203,6 @@ export default class WmVideo extends BaseComponent<
               onFullscreenExit={onFullscreenExit}
               requiresLinearPlayback={requiresLinearPlayback}
             />
-            {Platform.OS === 'android' && !(props.controls && showOverlay ) && <Tappable onTap={() => {}} styles={{zIndex: 10, position:"absolute", width: '100%', height: '100%', flex: 1 }}>
-              <View testID={this.getTestId('video_overlay')} style={{backgroundColor:'transparent', width: '100%', height: '100%', flex: 1}}>
-              </View>
-            </Tappable>}
 
             {!isPlaying && videoposter ? (
               this.renderVideoPoster(props)
