@@ -955,3 +955,29 @@ export const hexWithAlpha = (hex: string, alpha: number): string => {
     
     return `#${cleanHex}${alphaHex}`;
   };
+
+  /**
+ * Normalize displayformat for IMask:
+ * - Handles optional "ext." patterns automatically
+ * - Converts ? into IMask optional blocks as our platform uses ? for optional blocks in web projects
+ */
+export function normalizeMask(displayformat?: string): string | undefined {
+  if (!displayformat) return undefined;
+
+  let mask = displayformat.trim();
+
+  // Detect optional "ext." section like: "ext. ?9?9?9"
+  const extRegex = /(ext\.\s*(\?9)+)/i;
+  const extMatch = mask.match(extRegex);
+
+  if (extMatch) {
+    // Replace the whole optional "ext. ..." with a single optional block
+    mask = mask.replace(extRegex, '[ext. 999]'); 
+    // Using 999 inside the block as a placeholder for digits
+  }
+
+  // Convert any remaining ? placeholders into optional blocks [9], [A], etc.
+  mask = mask.replace(/\?([9Aa*])/g, '[$1]');
+
+  return mask;
+}

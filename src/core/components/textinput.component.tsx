@@ -3,6 +3,7 @@ import { Animated, Platform, Text, TextInput, TextInputProps, TextStyle, View, V
 import { isArray } from 'lodash';
 import IMask from 'imask';
 import { FloatingLabel } from './floatinglabel.component';
+import { normalizeMask } from '../utils';
 
 interface SelectRange {
     start: number,
@@ -46,6 +47,7 @@ const WmCursor = React.memo((props: {
 export const WMTextInput = React.forwardRef((props: (TextInputProps & 
   {allowContentSelection: boolean,
     displayformat: string,
+    lazyformat?: boolean,
     maskchar: string,
     floatingLabel: string
     floatingLabelStyle:  TextStyle & ViewStyle,
@@ -67,10 +69,11 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
     const element = useRef(null as any);
     // iMask initialization
     useEffect(() => {
+      const normalisedMask = normalizeMask(props.displayformat)
       const iMask: any = props.displayformat ? new IMask.MaskedPattern({
-        mask: props.displayformat,
+        mask: normalisedMask,
         skipInvalid: true,
-        lazy: false,
+        lazy: props.lazyformat ?? false,
         definitions: {
             '9': /\d/,
             'A': /[a-zA-Z]/,
@@ -79,11 +82,11 @@ export const WMTextInput = React.forwardRef((props: (TextInputProps &
         }
       }) : null;
       if (iMask) {
-        iMask.typedValue = value;
+        iMask.typedValue = value.current;
         setDisplayValue(iMask.displayValue)
         setIMask(iMask);
       }
-    },[props.displayformat]);
+    },[props.displayformat, props.lazyformat]);
     // set default value
     useEffect(() => {
       const defaultValue = props.defaultValue || props.value || '';

@@ -24,4 +24,5 @@ export default class BaseInputProps extends BaseProps {
   maskchar: string = null as any;
   displayformat: string = null as any;
   skipscripteventtrigger: boolean = false;
+  showdisplayformaton: 'always'|'keypress' = 'always';
 }

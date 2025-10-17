@@ -9,6 +9,17 @@ import { isNull } from 'lodash';
 import { AccessibilityWidgetType, getAccessibilityProps } from '@wavemaker/app-rn-runtime/core/accessibility'; 
 import { createSkeleton } from '@wavemaker/app-rn-runtime/components/basic/skeleton/skeleton.component';
 
+/**
+ * Calculate the maximum number of characters allowed based on the IMask pattern
+ * Counts the number of definition characters (9, A, a, *) in the pattern
+ */
+const getMaxLengthFromPattern = (pattern: string): number | undefined => {
+  if (!pattern) return undefined;
+  // Count the number of '9', 'A', 'a', '*' characters in the pattern
+  const matches = pattern.match(/[9Aa*]/g);
+  return matches ? matches.length : undefined;
+};
+
 export class WmTextState extends BaseInputState<WmTextProps> {
 }
 
@@ -53,6 +64,11 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.textValue?.toString() || '';
+    // Calculate maxLength based on displayformat pattern, fallback to maxchars prop
+    const calculatedMaxLength = props.displayformat 
+      ? getMaxLengthFromPattern(props.displayformat) 
+      : props.maxchars;
+    
     return (
         <WMTextInput
           {...this.getTestPropsForInput()}
@@ -79,9 +95,10 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           editable={props.disabled || props.readonly ? false : true}
           secureTextEntry={props.type === 'password' && !props.maskchar ? true : false}
           displayformat={props.displayformat}
+          lazyformat={props.showdisplayformaton === "keypress"}
           background={this._background}
           maskchar={props.maskchar}
-          maxLength={props.maxchars}
+          maxLength={calculatedMaxLength}
           placeholder={props.placeholder}
           onBlur={this.onBlur.bind(this)}
           onFocus={this.onFocus.bind(this)}
