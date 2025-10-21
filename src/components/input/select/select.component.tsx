@@ -131,7 +131,10 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
   }
 
   public showPopover = () => {
-      this.computePosition();
+      const isDropdown = this.state.props.classname?.includes('select-dropdown');
+      if (isDropdown) {
+        this.computePosition();
+      }
       this.updateState({ isOpened: true } as WmSelectState);
   };
 
@@ -273,7 +276,7 @@ export default class WmSelect extends BaseDatasetComponent<WmSelectProps, WmSele
           style={[this.styles.rootWrapper]}>
           {this._background}
           {this.renderSelect()}
-          {this.state.isOpened && this.state.positionReady ? (
+          {this.state.isOpened && (isDropdown ? this.state.positionReady : true) ? (
           <ModalConsumer>
             {(modalService: ModalService) => {
               const items = this.state.dataItems;
