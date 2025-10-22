@@ -309,14 +309,14 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
           item.state.props.show && !isVertical &&
                <View 
                  style={[
-                   this.styles.stepConnector, 
                    {
                        width: this.stepConnectorWidth(isFirstStep || isLastStep, index),
                        left: Platform.OS === "web" ?
                          (!this.isRTL && isFirstStep) || (this.isRTL && isLastStep) ? 
                   '50%': '0%': isFirstStep ? '50%': '0%'
               },
-              this.getConnectorPosition().top ? {top: this.getConnectorPosition().top} : {}
+              this.getConnectorPosition().top ? {top: this.getConnectorPosition().top} : {},
+              this.styles.stepConnector
             ]}
           ></View>
         }
@@ -324,12 +324,12 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
            item.state.props.show && isVertical &&
            <View 
            style={[
-             this.styles.stepConnector, 
               {
                 height: this.stepConnectorHeight(isFirstStep || isLastStep, index),
                 top: isFirstStep ? '50%' : '0%',
              },
-             this.getConnectorPosition().left ? {left: this.getConnectorPosition().left} : {}
+             this.getConnectorPosition().left ? {left: this.getConnectorPosition().left} : {},
+             this.styles.stepConnector,
                  ]}
                ></View>
          }
