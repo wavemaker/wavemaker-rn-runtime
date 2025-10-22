@@ -23,7 +23,7 @@ export default class WmLinearlayoutitem extends BaseComponent<WmLinearlayoutitem
         ...this.styles.root,
         flexGrow: props.flexgrow,
         flexShrink: isNil(props.flexshrink) ? Platform.OS == "web" ? props.flexgrow : 0 : props.flexshrink,
-        flexBasis:  (props.flexgrow && (direction === 'row' || direction === 'row-reverse') ? 0 : 'auto')   
+        flexBasis:  (props.flexgrow && (direction === 'row' || direction === 'row-reverse') && Platform.OS !== 'android' ? 0 : 'auto')   
       } as any}
       onLayout={(event) => this.handleLayout(event)}
     >{this._background}{props.children}</View>); 
