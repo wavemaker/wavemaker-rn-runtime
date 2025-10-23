@@ -72,13 +72,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             position: 'absolute',
             bottom: 0,
             width: '100%',
-            ...BASE_THEME.getStyle('elevate1').root,
-            shadowOffset: {
-                width: 0,
-                height: 0
-            },
-            shadowOpacity: 0.6,
-            shadowRadius: 10,
+            boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.6)',
             justifyContent: 'flex-end'
         }
     } as any as WmPopoverStyles);
@@ -92,8 +86,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         modalContent: {
             borderRadius: 6,
             position: 'absolute',
-            ...BASE_THEME.getStyle('elevate4').root,
-            shadowRadius: 8
+            boxShadow: `4px 4px 16px rgba(0, 0, 0, 0.27)`,
         }
     } as WmPopoverStyles);
 });
