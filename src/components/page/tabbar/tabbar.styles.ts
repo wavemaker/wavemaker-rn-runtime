@@ -22,9 +22,7 @@ export const DEFAULT_CLASS = 'app-tabbar';
     BASE_THEME.registerStyle((themeVariables, addStyle) => {
     const defaultStyles: WmTabbarStyles = defineStyles<WmTabbarStyles>({
         root: {
-            height: 80,
-            elevation: 3,
-            shadowColor : themeVariables.tabShadowColor
+            height: 80
         },
         text: {},
         menu: {
