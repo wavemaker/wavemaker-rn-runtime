@@ -165,7 +165,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     modalContent: {
         borderRadius: 6,
-        boxShadow: `4px 4px 16px rgba(0, 0, 0, 0.27)`
+        boxShadow: `4px 4px 8px rgba(0, 0, 0, 0.27)`
     }
 });
   addStyle(DEFAULT_CLASS + '-rtl', '', Platform.OS=="web"?{

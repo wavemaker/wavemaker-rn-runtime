@@ -39,7 +39,7 @@ export const DEFAULT_CLASS = 'app-tabbar';
             justifyContent: 'flex-end',
             backgroundColor: themeVariables.tabbarBackgroundColor,
             ...BASE_THEME.getStyle('elevate1').root,
-            boxShadow: '0px -6px 12px rgba(0, 0, 0, 0.3)'
+            boxShadow: '0px -6px 6px rgba(0, 0, 0, 0.3)'
         },
         moreMenuRow: {
             flexDirection: 'row-reverse',

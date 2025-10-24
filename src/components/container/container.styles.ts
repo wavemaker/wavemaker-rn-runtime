@@ -42,7 +42,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     } as WmContainerStyles);
     addStyle('app-elevated-container', '', {
         root: {
-            boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)',
+            boxShadow: '2px 2px 2px rgba(0, 0, 0, 0.2)',
             borderRadius: 8
         }
     } as WmContainerStyles);

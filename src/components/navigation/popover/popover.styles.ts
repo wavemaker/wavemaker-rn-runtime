@@ -72,7 +72,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             position: 'absolute',
             bottom: 0,
             width: '100%',
-            boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.6)',
+            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.6)',
             justifyContent: 'flex-end'
         }
     } as any as WmPopoverStyles);
@@ -86,7 +86,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         modalContent: {
             borderRadius: 6,
             position: 'absolute',
-            boxShadow: `4px 4px 16px rgba(0, 0, 0, 0.27)`,
+            boxShadow: `4px 4px 8px rgba(0, 0, 0, 0.27)`,
         }
     } as WmPopoverStyles);
 });

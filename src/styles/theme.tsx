@@ -457,7 +457,7 @@ export const ThemeConsumer = ThemeContext.Consumer;
         for(let i = 1; i <= 10; i++) {
             addStyle(`elevate${i}`, '', {
                 root : {
-                    boxShadow: `${i}px ${i}px ${i * 2}px rgba(0, 0, 0, 0.27)`,
+                    boxShadow: `${i}px ${i}px ${i}px rgba(0, 0, 0, 0.27)`,
                     zIndex: 1
                 }
             });
