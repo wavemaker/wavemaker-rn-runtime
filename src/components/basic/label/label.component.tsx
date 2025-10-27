@@ -390,7 +390,7 @@ export default class WmLabel extends BaseComponent<WmLabelProps, WmLabelState, W
               {hasLinearGradient ? <MaskedView
                 maskElement={this.renderLabelTextContent(navigationService, false, hasLinearGradient)}
               >
-                <LinearGradient colors={gradientColors} start={start} end={end}  locations={colorStops.length > 0 ? colorStops : undefined}>
+                <LinearGradient colors={gradientColors as any} start={start} end={end}  locations={colorStops.length > 0 ? colorStops as any : undefined}>
                   {this.renderLabelTextContent(navigationService, true)}
                 </LinearGradient>
               </MaskedView> : this.renderLabelTextContent(navigationService)}

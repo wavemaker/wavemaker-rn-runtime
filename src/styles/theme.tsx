@@ -457,14 +457,7 @@ export const ThemeConsumer = ThemeContext.Consumer;
         for(let i = 1; i <= 10; i++) {
             addStyle(`elevate${i}`, '', {
                 root : {
-                    shadowColor: "#000000",
-                    shadowOffset: {
-                        width: i,
-                        height: i,
-                    },
-                    shadowOpacity: 0.27,
-                    shadowRadius: i,
-                    elevation: i,
+                    boxShadow: `${i}px ${i}px ${i}px rgba(0, 0, 0, 0.27)`,
                     zIndex: 1
                 }
             });

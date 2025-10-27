@@ -21,7 +21,7 @@ class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, a
     return (<Drawer.Navigator
       initialRouteName="pages"
       drawerContent={this.props.content}
-      useLegacyImplementation={false}
+      // useLegacyImplementation={false}
       screenOptions={({navigation})=> {
         const widthStyle = (this.props.drawerWidth && getDrawerStatusFromState(navigation.getState()) === 'open' ? {width: this.props.drawerWidth, maxWidth: null} : {})
         return {

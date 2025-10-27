@@ -65,7 +65,7 @@ const SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 
 export abstract class BaseChartComponent<T extends BaseChartComponentProps, S extends BaseChartComponentState<T>, L extends BaseChartComponentStyles> extends BaseComponent<T, S, L> {
   protected screenWidth: number = screenWidth;
-  protected viewRef: React.RefObject<View>;
+  protected viewRef: React.RefObject<View | null>;
   constructor(props: T, public defaultClass: string = DEFAULT_CLASS, defaultProps?: T, defaultState?: S) {
     super(props, defaultClass, defaultProps, defaultState);
     this.viewRef = React.createRef();
