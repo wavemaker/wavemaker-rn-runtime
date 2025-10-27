@@ -122,8 +122,8 @@ export class Theme {
             });
         }
 
-        if(isString(val) && val.match(/^\d+$/g)) {
-            return parseInt(val);
+        if(isString(val) && val.match(/^-?\d+(\.\d+)?$/)) {
+            return parseFloat(val);
         }
 
         return val; 
