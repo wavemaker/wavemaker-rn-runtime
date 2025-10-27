@@ -85,7 +85,6 @@ export default class WmPopover extends BaseComponent<WmPopoverProps, WmPopoverSt
         if (popoverwidth && isString(popoverwidth)) {
           popoverwidth = parseInt(popoverwidth);
         }
-        this.isRTL ? position.right = px : position.left = x;
         
         this.isRTL ? position.right = x : position.left = x;
         
