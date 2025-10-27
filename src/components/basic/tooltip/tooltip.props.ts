@@ -3,6 +3,7 @@ import { ReactElement } from "react";
 import { TextStyle, ViewStyle } from "react-native";
 
 export type TooltipDirection = 'up' | 'down' | 'left' | 'right';
+export type TooltipMode = 'horizontal' | 'vertical';
 
 export default class WmTooltipProps extends BaseProps {
   showTooltip?: boolean = false;
@@ -11,5 +12,6 @@ export default class WmTooltipProps extends BaseProps {
   tooltipLabelStyle?: TextStyle | TextStyle[];
   tooltipTriangleStyle?: ViewStyle | ViewStyle[];
   direction?: TooltipDirection = "up";
+  mode?: TooltipMode = "horizontal";
   children?: ReactElement;
 };

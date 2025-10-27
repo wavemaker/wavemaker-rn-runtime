@@ -53,4 +53,11 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     addStyle('app-info-progress-bar', '', getStyle(themeVariables.progressBarInfoColor));
     addStyle('app-danger-progress-bar', '', getStyle(themeVariables.progressBarDangerColor));
     addStyle('app-warning-progress-bar', '', getStyle(themeVariables.progressBarWarningColor));
+    addStyle('vertical', '', {
+        root: {},
+        progressBar: {
+            width: 4,
+            height: 100
+        }
+    } as WmProgressBarStyles);
 });

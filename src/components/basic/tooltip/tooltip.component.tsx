@@ -12,6 +12,13 @@ const directionConfig = {
   right: { rotate: '-90deg', styles: {right: -40}, triangleStyles: {left: -10} },
 };
 
+const verticaldirectionConfig = {
+  up: { rotate: '180deg', styles: {top: -35}, triangleStyles: {bottom: -10} },
+  down: { rotate: '0deg', styles: {bottom: -35}, triangleStyles: {top: -10} },
+  left: { rotate: '90deg', styles: {left: -70}, triangleStyles: {right: -10} },
+  right: { rotate: '-90deg', styles: {left: undefined, right: -70}, triangleStyles: {left: -10} },
+};
+
 export class WmTooltipState extends BaseComponentState<WmTooltipProps> {}
 
 export default class WmTooltip extends BaseComponent<WmTooltipProps, WmTooltipState, WmTooltipStyles> {
@@ -20,6 +27,18 @@ export default class WmTooltip extends BaseComponent<WmTooltipProps, WmTooltipSt
   }
   
   renderWidget(props: WmTooltipProps) {
+    const config = props.mode === 'vertical' ? verticaldirectionConfig : directionConfig;
+    
+    const getRotation = () => {
+      if (props.direction === 'left') {
+        return this.isRTL ? '-90deg' : '90deg';
+      } else if (props.direction === 'right') {
+        return this.isRTL ? '90deg' : '-90deg';
+      } else {
+        return config[props.direction || 'up'].rotate;
+      }
+    };
+    
     return (
       <View 
         style={this.styles.root}
@@ -30,7 +49,7 @@ export default class WmTooltip extends BaseComponent<WmTooltipProps, WmTooltipSt
           style={[
             this.styles.tooltip,
             props.direction
-              ? { ...directionConfig[props.direction].styles }
+              ? { ...config[props.direction].styles }
               : { top: -60 },
             props.tooltipStyle,
           ]}
@@ -42,14 +61,12 @@ export default class WmTooltip extends BaseComponent<WmTooltipProps, WmTooltipSt
               {
                 transform: [
                   {
-                    rotate: props.direction
-                      ? directionConfig[props.direction].rotate
-                      : '180deg',
+                    rotate: getRotation(),
                   },
                 ],
               },
               props.direction
-                ? { ...directionConfig[props.direction].triangleStyles }
+                ? { ...config[props.direction].triangleStyles }
                 : { bottom: -10 },
               { borderBottomColor: props.tooltipStyle?.backgroundColor || this.styles.tooltip.backgroundColor },
               props.tooltipTriangleStyle,

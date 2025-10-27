@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { LinearGradient as ExpoLinearGradient } from 'expo-linear-gradient';
 import { Tappable } from '@wavemaker/app-rn-runtime/core/tappable.component';
@@ -40,13 +40,74 @@ export default class WmProgressBar extends BaseComponent<WmProgressBarProps, WmP
 
   renderWidget(props: WmProgressBarProps) {
     let value = (props.datavalue - props.minvalue) / (props.maxvalue - props.minvalue);
-    const styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
+    let styles = this.theme.mergeStyle(this.theme.getStyle(`app-${props.type}-progress-bar`), this.styles);
+    const isVertical = props.classname?.includes('vertical');
+    if (isVertical) {
+      styles = this.theme.mergeStyle(styles, this.theme.getStyle('vertical'));
+    }
     const {hasLinearGradient, color1, color2, start, end} = parseProgressBarLinearGradient(styles?.root?.progressBar?.backgroundColor as string);
     const gradientColors: [string, string, ...string[]] = [color1, color2];
     const valuePercent = `${Math.round(value * 100)}%`;
     const percentage = Math.round(value * 100);
     const progressValue = Math.min(Math.max(value, 0), 1); // Ensure value is between 0 and 1
     const progressWidth = progressValue * 100;
+    const tooltipHeight = styles.tooltip?.height || 25;
+    const tooltipOffset = (tooltipHeight / 2);
+    const barWidth = typeof styles.progressBar?.width === 'number' ? styles.progressBar.width : 
+                     typeof styles.root?.width === 'number' ? styles.root.width : 4;
+    const horizontalCenter = barWidth / 2;
+
+    if (isVertical) {
+      return (
+        <View 
+          style={styles.root} 
+          onLayout={(event) => this.handleLayout(event)}
+        >
+          {this._background}
+          <Tappable target={this} styles={{root:{width: '100%', height: '100%'}}} disableTouchEffect={this.state.props.disabletoucheffect}>
+            <View 
+              style={[styles.progressBar, {
+                width: styles.root.width || styles.progressBar.width,
+                overflow: 'hidden',
+                position: 'relative',
+              }]}
+              {...this.getTestPropsForAction('progressbar')}
+              {...getAccessibilityProps(AccessibilityWidgetType.PROGRESSBAR, props)}
+            >
+              {hasLinearGradient ? (
+                <ExpoLinearGradient colors={gradientColors} start={start} end={end}
+                  style={{width: '100%', height: valuePercent as any, position: 'absolute', bottom: 0, borderRadius: styles?.progressBar?.borderRadius || 0}} />
+              ) : (
+                <View style={{width: '100%', height: valuePercent as any, backgroundColor: styles.progressValue.color, position: 'absolute', bottom: 0, borderRadius: styles?.progressBar?.borderRadius || 0}} />
+              )}
+            </View>
+            {props.showtooltip ?
+          (
+            <View
+              style={{
+                position: 'absolute',
+                ...(props.tooltipposition === 'up' ? { top: 0, left: horizontalCenter } : 
+                    props.tooltipposition === 'down' ? { bottom: 0, left: horizontalCenter } : 
+                    props.tooltipposition === 'left' ? { bottom: `${progressWidth}%`, marginBottom: tooltipOffset, left: 0 } :
+                    { bottom: `${progressWidth}%`, marginBottom: tooltipOffset, right: 0 }),
+                zIndex: 10,
+              }}
+            >
+                <WmTooltip
+                  showTooltip={props.showtooltip}
+                  text={this.onTooltiptext(props.minvalue, props.maxvalue, percentage)}
+                  direction={props.tooltipposition}
+                  mode="vertical"
+                  tooltipStyle={styles.tooltip}
+                  tooltipLabelStyle={styles.tooltipLabel}
+                  tooltipTriangleStyle={styles.tooltipTriangle}
+                />
+              </View>
+          ) : <></>}
+          </Tappable>
+        </View>
+      );
+    }
 
     return (
     <View 
