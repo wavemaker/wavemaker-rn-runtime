@@ -58,6 +58,12 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     this.toggle(i + 1, false);
   }
 
+  private getExpandCollapseIconClass(isExpanded: boolean, useChevron: boolean, expandedIcon?: string, collapsedIcon?: string): string {
+    const expandedIconClass = expandedIcon || (useChevron ? 'wi wi-chevron-down' : 'wi wi-minus');
+    const collapsedIconClass = collapsedIcon || (useChevron ? 'wi wi-chevron-up' : 'wi wi-plus');
+    return isExpanded ? expandedIconClass : collapsedIconClass;
+  }
+
   expandCollapseIcon(item: any, index: number, showBadge = true, showIcon = true, useChevron = true, isExpanded = false) {
     const widgetProps = item.props;
     //@ts-ignore
@@ -69,12 +75,11 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
         {...this.getTestProps('badge'+index)}>
         {widgetProps.badgevalue}
       </Badge>): null;
-    let iconclass = null;
-    if (useChevron) {
-      iconclass = isExpanded ? 'wi wi-chevron-down' : 'wi wi-chevron-up';
-    } else {
-      iconclass = isExpanded ? 'wi wi-minus' : 'wi wi-plus';
-    }
+      
+    const expandedIconOverride = this.state.props.expandediconclass;
+    const collapsedIconOverride = this.state.props.collapsediconclass;
+    const iconclass = this.getExpandCollapseIconClass(isExpanded, useChevron, expandedIconOverride, collapsedIconOverride);
+    
     return (<View style={{flexDirection: 'row'}}>
             {badge}
             {showIcon ? (
@@ -90,6 +95,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const showIconOnLeft = this.styles.leftToggleIcon.root.width !== undefined;
     const isExpanded = this.state.isExpanded[index];
     const titleIconStyles = this.theme.mergeStyle(this.styles.icon, this.styles.titleIcon)
+    const subheading = item.props.subheading ?? item.props.description;
     return item.props.show != false ? (
       <View 
         style={this.styles.pane || null} 
@@ -126,15 +132,15 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                     {isDefined(item.props.title) ? item.props.title : 'Title'}
             </Text>
             } 
-            {item.props.subheading ? 
+            {subheading ? 
               (this._showSkeleton ? 
               <WmLabel 
                 styles={{root: this.styles.subheading}} 
                 showskeleton={true} 
-                caption={item.props.subheading} /> : 
+                caption={subheading} /> : 
               <Text style={this.styles.subheading}
                 {...this.getTestPropsForAction(`header${index}_description`)}>
-                  {item.props.subheading}
+                  {subheading}
                </Text>) : null }
           </View>
           {this.expandCollapseIcon(item, index, true, !showIconOnLeft, true, isExpanded)}

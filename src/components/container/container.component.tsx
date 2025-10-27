@@ -47,7 +47,7 @@ export class WmContainerState extends PartialHostState<WmContainerProps> {
 
 export default class WmContainer extends PartialHost<WmContainerProps, WmContainerState, WmContainerStyles> {
   static contextType = StickyWrapperContext;
-  private containerRef: React.RefObject<View>;
+  private containerRef: React.RefObject<View | null>;
   private stickyContainerOpacity: Animated.Value;
   private appConfig = injector.get<AppConfig>('APP_CONFIG');
   insets: EdgeInsets | null = {

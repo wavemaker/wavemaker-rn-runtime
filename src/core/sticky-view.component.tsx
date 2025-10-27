@@ -57,10 +57,10 @@ export class StickyViewComponents extends React.Component<StickyViewComponentsPr
           {(this.props as any).children}
           <Animated.View style={{ position: 'absolute', width: '100%', zIndex: 10 }} pointerEvents={'box-none'}>
             {Array.from(this.children.entries()).map(([view, node]) => {
-              const element = node as React.ReactElement;
+              const element = node as React.ReactElement<any>;
               return React.cloneElement(element, { 
                 key: `sticky-${view.id}`,
-                style: element.props.style
+                style: element.props?.style
               });
             })}
           </Animated.View>
