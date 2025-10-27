@@ -200,7 +200,7 @@ describe('WmForm', () => {
     expect(mockSetReadOnlyState).toHaveBeenCalledTimes(3)
 
   })
-
+  
   it('registerFormFields registers form fields and sets readonly fields', () => {
     const {  UNSAFE_getByType } = render(<WmForm {...defaultProps} parentForm="parentForm" />);
     const instance = UNSAFE_getByType(WmForm).instance;
@@ -553,7 +553,6 @@ describe('WmForm', () => {
       expect(instanceParent.updateDataOutput).toHaveBeenCalled()
     })
   })
-
   it('onResultCb should invoke callback with respective params', () => {
     const { instance } = render(<WmForm {...defaultProps}/>).UNSAFE_getAllByType(WmForm)[0]
     const mockInvokeEventCallback = jest.fn();
@@ -636,6 +635,84 @@ describe('WmForm', () => {
     expect(instance.dataoutput).toEqual('some data output') 
   })
 
+  it('handleSubmit calls event.preventDefault if event is passed', () => {
+    const { UNSAFE_getByType } = render(<WmForm {...defaultProps} />);
+    const instance = UNSAFE_getByType(WmForm).instance;
+    const mockEvent = { preventDefault: jest.fn() };
+    instance.validateFieldsOnSubmit = jest.fn(() => false); // prevent further logic
+    instance.handleSubmit(mockEvent);
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+  });
 
+  it('handleSubmit calls getFormDataOutput and passes formData to invokeHandleSubmitCallbackFromProps when validation passes and no onBeforesubmit', () => {
+    const { UNSAFE_getByType } = render(<WmForm {...defaultProps} />);
+    const instance = UNSAFE_getByType(WmForm).instance;
+    const mockFormData = { foo: 'bar' };
+    instance.validateFieldsOnSubmit = jest.fn(() => true);
+    instance.getFormDataOutput = jest.fn(() => mockFormData);
+    instance.invokeHandleSubmitCallbackFromProps = jest.fn();
+    instance.handleSubmit();
+    expect(instance.getFormDataOutput).toHaveBeenCalled();
+    expect(instance.invokeHandleSubmitCallbackFromProps).toHaveBeenCalledWith(mockFormData);
+  });
 
+  it('handleSubmit calls onBeforesubmit and then invokeHandleSubmitCallbackFromProps if no asyncResult', () => {
+    const onBeforesubmitMock = jest.fn();
+    const props = { ...defaultProps, onBeforesubmit: onBeforesubmitMock };
+    const { UNSAFE_getByType } = render(<WmForm {...props} />);
+    const instance = UNSAFE_getByType(WmForm).instance;
+    const mockFormData = { foo: 'bar' };
+    instance.validateFieldsOnSubmit = jest.fn(() => true);
+    instance.getFormDataOutput = jest.fn(() => mockFormData);
+    instance.invokeEventCallback = jest.fn();
+    instance.invokeHandleSubmitCallbackFromProps = jest.fn();
+    instance.proxy = {}; // no asyncResult
+    instance.handleSubmit();
+    expect(instance.invokeEventCallback).toHaveBeenCalledWith('onBeforesubmit', [undefined, instance.proxy, mockFormData]);
+    expect(instance.invokeHandleSubmitCallbackFromProps).toHaveBeenCalledWith(mockFormData);
+  });
+
+  it('handleSubmit handles asyncResult promise from onBeforesubmit and calls invokeHandleSubmitCallbackFromProps after resolve', () => {
+    const onBeforesubmitMock = jest.fn();
+    const props = { ...defaultProps, onBeforesubmit: onBeforesubmitMock };
+    const { UNSAFE_getByType } = render(<WmForm {...props} />);
+    const instance = UNSAFE_getByType(WmForm).instance;
+    const mockFormData = { foo: 'bar' };
+    const updatedFormData = { foo: 'baz' };
+    instance.validateFieldsOnSubmit = jest.fn(() => true);
+    instance.getFormDataOutput = jest
+      .fn()
+      .mockReturnValueOnce(mockFormData)
+      .mockReturnValueOnce(updatedFormData);
+    instance.invokeEventCallback = jest.fn();
+    instance.invokeHandleSubmitCallbackFromProps = jest.fn();
+
+    const mockPromise = {
+      then: jest.fn((callback) => {
+        callback('resolved');
+        return mockPromise;
+      }),
+      catch: jest.fn()
+    };
+    instance.proxy = { asyncResult: mockPromise };
+    instance.handleSubmit();
+
+    expect(instance.invokeEventCallback).toHaveBeenCalledWith('onBeforesubmit', [undefined, instance.proxy, mockFormData]);
+    expect(mockPromise.then).toHaveBeenCalled();
+    expect(instance.invokeHandleSubmitCallbackFromProps).toHaveBeenCalledWith(updatedFormData);
+  });
+
+  it('handleSubmit returns false and does not call any callbacks if validation fails', () => {
+    const { UNSAFE_getByType } = render(<WmForm {...defaultProps} />);
+    const instance = UNSAFE_getByType(WmForm).instance;
+    instance.validateFieldsOnSubmit = jest.fn(() => false);
+    instance.getFormDataOutput = jest.fn();
+    instance.invokeEventCallback = jest.fn();
+    instance.invokeHandleSubmitCallbackFromProps = jest.fn();
+    const result = instance.handleSubmit();
+    expect(result).toBe(false);
+    expect(instance.getFormDataOutput).not.toHaveBeenCalled();
+    expect(instance.invokeEventCallback).not.toHaveBeenCalled();
+    expect(instance.invokeHandleSubmitCallbackFromProps).not.toHaveBeenCalled();
+  });
 });

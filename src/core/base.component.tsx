@@ -360,7 +360,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             }
         }
     }
-
+    
     showView() {
         return this.isVisible();
     }

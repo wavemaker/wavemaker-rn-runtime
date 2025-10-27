@@ -86,7 +86,12 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
   }
 
   delete() { }
-
+  
+  public setFieldValue(key: string, val: any): void {
+    if (key) {
+        this.updateDataOutput(key, val);
+    }
+}
   registerFormFields(
     formFields: Array<WmFormField>,
     formWidgets: { [key: string]: BaseComponent<any, any, any> }
@@ -330,30 +335,59 @@ export default class WmForm extends BaseComponent<WmFormProps, WmFormState, WmFo
     return isValid;
   }
 
-  // @ts-ignore
-  handleSubmit(event?: any) {
-    event?.preventDefault();
-    const formData = cloneDeep(this.state.props.dataoutput || this.formdataoutput);
-
-    if (!this.validateFieldsOnSubmit()) {
-      return false;
-    }
-    if (this.props.onBeforesubmit) {
-      this.invokeEventCallback('onBeforesubmit', [ null, this.proxy, formData ]);
-    }
-    if (this.props.formSubmit) {
-      this.props.formSubmit(formData, ((data: any) => {
-        this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
-        this.onResultCb(get(data, 'params'), 'success');
-      }), ((error: any) => {
-        this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
-        this.onResultCb(error, '');
-      }));
-    } else {
-      this.invokeEventCallback('onSubmit', [ null, this.proxy, formData ]);
-    }
+  getFormDataOutput() {
+    return cloneDeep(this.state.props.dataoutput || this.formdataoutput);
   }
 
+  // @ts-ignore
+ handleSubmit(event?: any) {
+    event?.preventDefault();
+
+    if (!this.validateFieldsOnSubmit()) {
+        return false;
+    }
+    
+    if (this.props.onBeforesubmit) {
+        try {
+            const formData = this.getFormDataOutput();
+            
+            this.invokeEventCallback('onBeforesubmit', [event, this.proxy, formData]);
+            
+            if ((this.proxy as any).promise) {
+                const promise = (this.proxy as any).promise;
+                delete (this.proxy as any).promise;
+              
+                promise.then((res: any) => {
+                    const updatedFormData = this.getFormDataOutput();
+                    this.invokeHandleSubmitCallbackFromProps(updatedFormData);
+                }).catch((error: any) => {
+                    console.error('Promise rejected:', error);
+                });
+              return;
+            } else {
+                this.invokeHandleSubmitCallbackFromProps(formData);
+            }
+        } catch (error) {
+            console.error('handleSubmit error:', error);
+        }
+    } else {
+        this.invokeHandleSubmitCallbackFromProps(this.getFormDataOutput());
+    }
+}
+invokeHandleSubmitCallbackFromProps(formData: any) {
+    if (this.props.formSubmit) {
+        this.props.formSubmit(formData, ((data: any) => {
+            this.invokeEventCallback('onSubmit', [null, this.proxy, formData]);
+            this.onResultCb(get(data, 'params'), 'success');
+        }), ((error: any) => {
+            this.invokeEventCallback('onSubmit', [null, this.proxy, formData]);
+            this.onResultCb(error, '');
+        }));
+    } else {
+        this.invokeEventCallback('onSubmit', [null, this.proxy, formData]);
+    }
+}
+   
   onResultCb(response: any, status: string, event?: any) {
     this.invokeEventCallback('onResult', [ null, this.proxy, response ]);
     if (status) {
