@@ -1,4 +1,4 @@
-import { TextStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 import BASE_THEME, { AllStyle } from '@wavemaker/app-rn-runtime/styles/theme';
 import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.component';
 import { WmSearchStyles } from '@wavemaker/app-rn-runtime/components/basic/search/search.styles';
@@ -12,12 +12,16 @@ export type WmChipsStyles = BaseStyles & {
   chipsWrapper: AllStyle;
   search: WmSearchStyles;
   searchContainer: AllStyle;
-  activeChip: AllStyle;
-  activeChipLabel: TextStyle;
+  activeChip: BaseStyles;
   clearIcon: WmIconStyles;
   doneIcon: WmIconStyles;
   imageStyles: WmPictureStyles;
   skeleton: WmSkeletonStyles;
+  leadingIcon:WmIconStyles;
+  assistchipLabel:TextStyle;
+  inputchipclear: WmIconStyles;
+  inputchipLabelwithicon:TextStyle;
+  inputchipLabelwithclear:TextStyle;
   leftIcon: WmIconStyles;
   rightIcon: WmIconStyles;
   activeLeftIcon: WmIconStyles;
@@ -54,6 +58,49 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderColor: themeVariables.chipborderColor,
         elevation: 1
       },
+      assistchip : {
+        paddingTop:0,
+        paddingBottom:0,
+        paddingLeft:8,
+        paddingRight:16,
+      },
+      leadingIcon: {
+        icon: {
+          paddingLeft: 0,
+          paddingRight:0,
+          fontSize: 18,
+          color: 'var(--wm-color-primary)'
+          // themeVariables.chipIconColor,
+        }
+      } as WmIconStyles,
+      assistchipLabel : {
+        paddingRight: 0,
+      },
+      inputchipwithicon :{
+        paddingTop:0,
+        paddingBottom:0,
+        paddingLeft:4,
+        paddingRight:8
+      },
+      inputchipclear:{
+        icon: {
+          paddingRight: 0
+        }
+      } as WmIconStyles,
+      inputchipLabelwithicon:{
+        paddingLeft:8,
+        paddingRight:8
+      },
+      inputchipwithclearicon :{
+        paddingTop:0,
+        paddingBottom:0,
+        paddingLeft:12,
+        paddingRight:8
+      },
+      inputchipLabelwithclear:{
+        paddingLeft:0,
+        paddingRight:8
+      },
       chipLabel : {
         fontSize: 14,
         paddingLeft: 8,
@@ -64,13 +111,15 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         borderColor: themeVariables.chipborderColor
       },
       activeChip: {
-        backgroundColor: themeVariables.chipSelectedContainerColor, 
-        borderColor: themeVariables.chipSelectedOutlineColor,
-        borderWidth: 0
-      },
-      activeChipLabel: {
-        color: themeVariables.chipActiveTextColor
-      },
+        root: {
+          backgroundColor: themeVariables.chipSelectedContainerColor,
+          borderColor: themeVariables.chipSelectedOutlineColor,
+          borderWidth: 0
+        } as ViewStyle,
+        text: {
+          color: themeVariables.chipActiveTextColor
+        } as TextStyle,
+      } as BaseStyles,
       searchContainer: {
         width: '100%',
         flexDirection: 'column'
@@ -180,7 +229,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
   });
 
   addStyle(DEFAULT_CLASS, '', defaultStyles);
-  
+
   // Add horizontal form input styles for horizontal form field layouts - positioned early to avoid overriding more specific styles
   addStyle('form-chips-input-horizontal', '', {
     root: {
@@ -190,7 +239,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
     },
     text: {}
   } as BaseStyles);
-  
+
   addStyle(DEFAULT_CLASS + '-disabled', '', {
     chip: {
       opacity: 0.5

@@ -25,7 +25,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             paddingLeft: 8,
             paddingRight: 8,
             color: themeVariables.linkDefaultColor,
-            fontSize: 18, 
+            fontSize: 18,
             textDecorationLine: 'underline',
         },
         badge: {
@@ -44,7 +44,12 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
                 fontSize: 16,
                 paddingRight: themeVariables.anchorTextPadding,
                 color: themeVariables.linkDefaultColor
-            }
+            },
+          image: {
+            height: 12,
+            width: 12,
+            borderRadius: 0
+          }
         } as WmIconStyles,
         skeleton: {
             root: {

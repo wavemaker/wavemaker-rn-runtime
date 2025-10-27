@@ -202,7 +202,17 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
   onDateChange($event: any, date?: Date) {
     const prevDate = this.format(this.state.dateValue,  this.momentPattern(this.state.props.outputformat as String) as string) || undefined;
     this.modes.shift();
-    const newDate = this.format(date,  this.momentPattern(this.state.props.outputformat as String) as string)
+    const newDate = this.format(date,  this.momentPattern(this.state.props.outputformat as String) as string);
+    
+    if (Platform.OS === 'web' && this.state.props.iswheelpicker && this.state.props.mode === 'datetime' && this.modes[0] === 'time') {
+      this.updateState({
+        dateValue: date,
+        showDatePickerModal: false,
+        showTimePickerModal: true
+      } as BaseDatetimeState);
+      return;
+    }
+
     this.updateState({
       isFocused: false,
       showDatePicker: !!this.modes.length,
@@ -212,7 +222,8 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
       }
     } as BaseDatetimeState, () => {
       this.validate(date);
-      this.invokeEventCallback('onChange', [null, this, newDate, prevDate])
+      this.invokeEventCallback('onChange', [null, this, newDate, prevDate]);
+      
     });
   }
 
@@ -226,21 +237,22 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
 
   onFocus() {
     if (!this.state.props.readonly) {
-      if (Platform.OS !== 'web' && this.state.props.mode === 'datetime') {
+      if (this.state.props.mode === 'datetime') {
         this.modes = ['date', 'time'];
       } else {
         this.modes = [this.state.props.mode];
       }
       this.updateState({showDatePicker: true, isFocused: true} as BaseDatetimeState);
-      if (this.state.props.mode === 'date') {
-        this.updateState({showDatePickerModal: true} as BaseDatetimeState);
+      
+      if (Platform.OS === 'web' && this.state.props.iswheelpicker || Platform.OS === 'android' || Platform.OS === 'ios') {
+        if (this.state.props.mode === 'date' || this.state.props.mode === 'datetime') {
+          this.updateState({showDatePickerModal: true} as BaseDatetimeState);
+        }
+        if (this.state.props.mode === 'time') {
+          this.updateState({showTimePickerModal: true} as BaseDatetimeState);
+        }
       }
-      if (this.state.props.mode === 'time') {
-        this.updateState({showTimePickerModal: true} as BaseDatetimeState);
-      }
-      if (this.state.props.mode === 'datetime') {
-        this.updateState({showDatePickerModal: true} as BaseDatetimeState);
-      }
+      
       this.invokeEventCallback('onFocus', [null, this]);
     }
   }
@@ -356,6 +368,88 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     }}</ModalConsumer>);
   }
 
+renderDate(props: WmDatetimeProps) {
+  return (
+    <WmDatePickerModal
+      isVisible={true}
+      onClose={() =>
+        this.updateState({ showDatePickerModal: false } as BaseDatetimeState)
+      }
+      minDate={props.mindate}
+      maxDate={props.maxdate}
+      selectedDate={this.state.dateValue || new Date()}
+      onSelect={(date: Date) => {
+        this.onDateChange(null as any, date);
+        this.updateState(
+          {
+            isFocused: false,
+            showDatePickerModal: false,
+          } as BaseDatetimeState,
+          () => this.onBlur()
+        );
+      }}
+      onCancel={() => {
+        this.updateState(
+          {
+            isFocused: false,
+            showDatePickerModal: false,
+          } as BaseDatetimeState,
+          () => this.onBlur()
+        );
+      }}
+      dateheadertitle={props.dateheadertitle}
+      dateconfirmationtitle={props.dateconfirmationtitle}
+      datecanceltitle={props.datecanceltitle}
+    />
+  );
+}
+
+
+private renderTime(props: WmDatetimeProps, is24Hour: boolean) {
+  return (
+    <WmTimePickerModal
+      selectedDateTime={this.state.dateValue}
+      is24Hour={is24Hour}
+      isVisible={this.state.showTimePickerModal}
+      onClose={() =>
+        this.updateState({
+          isFocused: false,
+          showTimePickerModal: false,
+        } as BaseDatetimeState)
+      }
+      onSelect={(time: Date) => {
+        this.onDateChange(null as any, time);
+        this.updateState(
+          {
+            isFocused: false,
+            showTimePickerModal: false,
+          } as BaseDatetimeState,
+          () => {
+            setTimeout(() => {
+              this.onBlur();
+            }, 10);
+          }
+        );
+      }}
+      onCancel={() => {
+        this.updateState(
+          {
+            isFocused: false,
+            showTimePickerModal: false,
+          } as BaseDatetimeState,
+          () => {
+            this.onBlur();
+            this.modes.shift();
+          }
+        );
+      }}
+      timeheadertitle={props.timeheadertitle}
+      timeconfirmationtitle={props.timeconfirmationtitle}
+      timecanceltitle={props.timecanceltitle}
+    />
+  );
+}
+
   renderNativeWidgetWithModal(props: WmDatetimeProps) {
     return (<ModalConsumer>{(modalService: ModalService) => {
       this.nativeModalOptions.content = (<>
@@ -414,7 +508,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
     let updatedRootStyles = splitBorderColorInPlace(rootStyles);
     return ( 
         this.addTouchableOpacity(props, (
-        <View style={[updatedRootStyles, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null]} accessible={props.accessible} accessibilityLabel={props.accessibilitylabel || `Select ${props?.mode}`} accessibilityRole={props.accessibilityrole || 'button'} accessibilityHint={props.hint}>
+        <View style={[updatedRootStyles, this.state.isValid ? {} : this.styles.invalid, this.state.isFocused ? this.styles.focused : null, {width:'100%'}]} accessible={props.accessible} accessibilityLabel={props.accessibilitylabel || `Select ${props?.mode}`} accessibilityRole={props.accessibilityrole || 'button'} accessibilityHint={props.hint}>
           {this._background}
             {props.floatinglabel ? (
             <FloatingLabel
@@ -426,7 +520,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
               }}
               />
           ) : null}
-            <View style={this.styles.container}>
+            <View style={[this.styles.container,{width:'100%'}]}>
               {this.addTouchableOpacity(props, (
                 <Text style={[
                   this.styles.text,
@@ -436,7 +530,7 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
                   {this.state.displayValue 
                     || (props.floatinglabel ? ''  : this.state.props.placeholder)}
                 </Text>
-              ), [{ flex: 1}, this.isRTL?{flexDirection:'row', textAlign:'right'}:{}] )}
+              ), [this.isRTL?{flexDirection:'row', textAlign:'right'}:{}] )}
               {(!props.readonly && props.datavalue &&
                 (<WmIcon iconclass="wi wi-clear"
                 styles={{color: this.styles.text.color, ...this.styles.clearIcon}}
@@ -451,79 +545,23 @@ export default abstract class BaseDatetime extends BaseComponent<WmDatetimeProps
               ))}
             </View>
           {
-            this.state.showDatePicker
-            && ((Platform.OS === 'web' && this.renderWebWidget(props))
-              || (!props.iswheelpicker && Platform.OS === 'android' && this.renderNativeWidget(props))
+            this.state.showDatePicker && (
+              Platform.OS === 'web' ? (
+                props.iswheelpicker ? (
+                  this.state.showDatePickerModal && (
+                     this.renderDate(props)
+                  )
+                ) : (
+                  this.renderWebWidget(props)
+                )
+              ) : (!props.iswheelpicker && Platform.OS === 'android' && this.renderNativeWidget(props))
               || (!props.iswheelpicker && Platform.OS === 'ios' && this.renderNativeIOSWidgetWithModal(props)))
           }
           {(Platform.OS !== 'web' && props.iswheelpicker && this.state.showDatePickerModal) && (
-            <WmDatePickerModal
-              isVisible={this.state.showDatePickerModal}
-              onClose={() => this.updateState({showDatePickerModal: false} as BaseDatetimeState)}
-              minDate={props.mindate}
-              maxDate={props.maxdate}
-              selectedDate={this.state.dateValue}
-              onSelect={(date: Date) => {
-                this.onDateChange(null as any, date);
-                this.updateState({
-                  isFocused: false,
-                  showDatePickerModal: false
-                } as BaseDatetimeState, () => {
-                  setTimeout(() => {
-                    this.onBlur();
-                  }, 10);
-                  
-                  // * showing time picker after selecting date in datetime mode
-                  if (this.state.props.mode === "datetime") {
-                    this.setState({
-                      showTimePickerModal: true,
-                    })
-                  }
-                });
-              }}
-              onCancel={() => {
-                // this.onDateChange(null as any, this.state.dateValue || undefined);
-                this.updateState({
-                  isFocused: false,
-                  showDatePickerModal: false
-                } as BaseDatetimeState, () => this.onBlur());
-              }}
-              dateheadertitle={props.dateheadertitle}
-              dateconfirmationtitle={props.dateconfirmationtitle}
-              datecanceltitle={props.datecanceltitle}
-            />
+            this.renderDate(props)
           )}
-          {(Platform.OS !== 'web' && props.iswheelpicker && this.state.showTimePickerModal) && (
-            <WmTimePickerModal
-              selectedDateTime={this.state.dateValue}
-              is24Hour={is24Hour}
-              isVisible={this.state.showTimePickerModal}
-              onClose={() => this.updateState({isFocused: false, showTimePickerModal: false} as BaseDatetimeState)}
-              onSelect={(time: Date) => {
-                this.onDateChange(null as any, time);
-                this.updateState({
-                  isFocused: false,
-                  showTimePickerModal: false
-                } as BaseDatetimeState, () =>   {
-                  setTimeout(() => {
-                    this.onBlur()
-                  }, 10);  
-                });
-              }}
-              onCancel={() => {
-                // this.onDateChange(null as any, this.state.dateValue || undefined);
-                this.updateState({
-                  isFocused: false,
-                  showTimePickerModal: false
-                } as BaseDatetimeState, () => {
-                  this.onBlur();
-                  this.modes.shift();
-                });
-              }}
-              timeheadertitle={props.timeheadertitle}
-              timeconfirmationtitle={props.timeconfirmationtitle}
-              timecanceltitle={props.timecanceltitle}
-            />
+          {(Platform.OS === 'web' && props.iswheelpicker && this.state.showTimePickerModal || Platform.OS == 'android' || Platform.OS == 'ios') && (
+            this.renderTime(props, is24Hour as any)
           )}
         </View>
         ), this.styles.rootWrapper , this.handleLayout)

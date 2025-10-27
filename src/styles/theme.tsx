@@ -1,4 +1,4 @@
-import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, isFunction, get, reverse } from 'lodash';
+import { cloneDeep, isNil, forEach, flatten, isArray, isEmpty, isObject, isString, get, reverse, isNumber } from 'lodash';
 import React from 'react';
 import { camelCase } from 'lodash-es';
 import { TextStyle, ViewStyle, ImageStyle, ImageBackground, Dimensions, Platform } from 'react-native';
@@ -7,6 +7,7 @@ import EventNotifier from '@wavemaker/app-rn-runtime/core/event-notifier';
 import ViewPort, {EVENTS as ViewPortEvents} from '@wavemaker/app-rn-runtime/core/viewport';
 import MediaQueryList from './MediaQueryList';
 import ThemeVariables from './theme.variables';
+import ColorMix from './color-mix';
 import { getErrorMessage, getStyleReference, isValidStyleProp } from './style-prop.validator';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
 import AppConfig from '@wavemaker/app-rn-runtime/core/AppConfig';
@@ -49,8 +50,8 @@ export const getBreakPointValue = (name: string) => {
 
     return DEVICE_BREAK_POINTS_NATIVE_MOBILE[name];
 }
-    
-    
+
+
 export type styleGeneratorFn<T extends NamedStyles<any>> = (
     themeVariables: ThemeVariables,
     addStyle: (name: string, extend: string, style: T) => void) => void
@@ -78,7 +79,7 @@ export class Theme {
     private cache: any = {};
 
     private traceEnabled = false;
-    
+
     private revertLayoutToExpo50: Boolean;
 
     private styleGenerators: styleGeneratorFn<any>[] = [];
@@ -111,17 +112,39 @@ export class Theme {
         this.children.forEach(t => t.notify(event));
     }
 
-    private replaceVariables(val: string) {
-        if(isString(val)) { 
+    private replaceVariables(val: any, baseTokens: any, classNames: any, inheritedTokens: Record<string, any> = {}) {
+        if(isString(val)) {
             (val.match(/_*var\([^\)]*\)/g) || []).forEach((s) => {
-                const variableName = s.substring(4, s.length - 1);
-                val = val.replace(s, (ThemeVariables.INSTANCE as any)[variableName]
-                    || (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
-                    || (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]);
-                val = this.replaceVariables(val);
+                const content = s.substring(4, s.length - 1);
+                let [variableName, fallback] = content.split(",").map(str => str.trim());
+                let resolvedValue;
+                let variants: any = (ThemeVariables.INSTANCE as any).variants;
+                if (variants && typeof classNames === 'string') {
+                    const classList = classNames.split(/\s+/);
+                    for (const cls of classList) {
+                        if (variants[cls] && variants[cls][variableName]) {
+                            resolvedValue = variants[cls][variableName];
+                            break;
+                        }
+                    }
+                }
+                if (!resolvedValue) {
+                    resolvedValue = inheritedTokens[variableName] ?? inheritedTokens[`--${variableName}`] ?? baseTokens[variableName]
+                      ?? (ThemeVariables.INSTANCE as any)[variableName]
+                      ?? (ThemeVariables.INSTANCE as any)[variableName.substring(2)]
+                      ?? (ThemeVariables.INSTANCE as any)[camelCase(variableName.substring(2))]
+                      ?? fallback;
+                }
+                val = val.replace(s, resolvedValue);
+                if (isNumber(resolvedValue)
+                    && val.trim() === (resolvedValue + '')) {
+                    val = resolvedValue;
+                } else {
+                val = this.replaceVariables(val, baseTokens, classNames, inheritedTokens);
+                }
             });
         }
-        return val; 
+        return val;
     }
 
     clearCache() {
@@ -137,7 +160,7 @@ export class Theme {
     checkStyleProperties(name: string, value : any) {
         if (isObject(value)) {
             Object.keys(value).map((k) => this.checkStyleProperties(k, (value as any)[k]));
-        } else if(name && !isValidStyleProp(name, value)) {
+        } else if(name && !(isString(value) && value.startsWith('calc(')) && !isValidStyleProp(name, value)) {
             console.log(
                 `%cInvalid Style property in ${this.name}: ${getErrorMessage(name, value)}`,
                 'background-color: #FF0000;font-weight: bold; color: #fff'
@@ -191,6 +214,16 @@ export class Theme {
         return result;
     }
 
+    extractTopLevelVariables(style: Record<string, any>): Record<string, any> {
+        const vars: Record<string, any> = {};
+        for (const key in style) {
+            if (key.startsWith('--')) {
+                vars[key] = style[key];
+            }
+        }
+        return vars;
+    }
+
     mergeStyle(...styles: any) {
         const style = deepCopy(...styles);
         if (this.traceEnabled) {
@@ -208,17 +241,50 @@ export class Theme {
                 }
             });
         }
-        return style;
+        const baseTokens = this.extractTopLevelVariables(style)
+        const classnames = Array.isArray(styles)
+            ? styles.filter(isString).join(' ')
+            : Object.values(styles).filter(isString).join(' ');
+
+        return this.cleanseStyleProperties(style, baseTokens, classnames)
     }
 
-    cleanseStyleProperties(style: any) {
+    cleanseStyleProperties(style: any, baseTokens: any, classnames: any, inheritedTokens: Record<string, any> = {}) {
         if (!(style && isObject(style)) || isString(style) || isArray(style)) {
             return style;
         }
         style = style as any;
         if (isObject(style) && !isArray(style)) {
-            Object.keys(style).forEach(k => {
-                (style as any)[k] = this.replaceVariables((style as any)[k]);
+            const resolveStyle = (v: any, inheritedTokens: Record<string, any> = {}) => {
+                v = this.replaceVariables(v, baseTokens, classnames, inheritedTokens);
+                if (isString(v) && v.startsWith("color-mix(")) {
+                    v = ColorMix.valueOf(v);
+                }
+                return v;
+            };
+
+           const classNames = Object.keys(style);
+           const resolvedTokens = {...inheritedTokens};
+           // For inline token in obj
+           classNames.forEach(k => {
+                if (k.startsWith('--')) {
+                    let v = resolveStyle((style as any)[k], resolvedTokens);
+                    resolvedTokens[k] = v;
+                    const variableName = k.substring(2);
+                    (ThemeVariables.INSTANCE as any)[variableName] = v;
+                    (ThemeVariables.INSTANCE as any)[camelCase(variableName)] = v;
+                }
+            });
+
+           // For edge case when prop is before inline token
+           classNames.forEach(k => {
+                if (!k.startsWith('--')) {
+                    if (isObject((style as any)[k]) && !isArray((style as any)[k])) {
+                        this.cleanseStyleProperties((style as any)[k], baseTokens, classnames, resolvedTokens);
+                    } else {
+                        (style as any)[k] = resolveStyle((style as any)[k], resolvedTokens);
+                    }
+                }
             });
         }
         if (!isNil(style['shadowRadius'])) {
@@ -258,7 +324,7 @@ export class Theme {
                   }
                 }
               }
-        
+
               if (!isNil(style['marginLeft']) || !isNil(style['marginRight'])) {
                 if (!isNil(style['marginLeft']) && !isNil(style['marginRight'])) {
                   [style['marginLeft'], style['marginRight']] = [style['marginRight'], style['marginLeft']];
@@ -273,7 +339,7 @@ export class Theme {
                     delete style['marginRight'];
                   }
                 }
-              }        
+              }
         }
         let screenWidth = Dimensions.get('window').width;
         let screenHeight = Dimensions.get('window').height;
@@ -288,7 +354,6 @@ export class Theme {
                 style[k] = Number(stylePropertyValue)/100 * screenHeight
             }
         })
-        Object.keys(style).forEach((k, i) => this.cleanseStyleProperties(style[k]));
         return style;
     }
 
@@ -305,10 +370,18 @@ export class Theme {
         } else {
             const parentStyle = this.parent && this.parent.getStyle(name);
             const mediaQuery = (this.styles[name] || {})['@media'];
-            let clonedStyle = {};
+            let clonedStyle: Record<string, any> = { root: {} }
             if (!mediaQuery || matchMedia(mediaQuery).matches) {
-                clonedStyle = cloneDeep(this.styles[name]);
-                this.cleanseStyleProperties(clonedStyle);
+                clonedStyle = cloneDeep(this.styles[name]) || {} ;
+                clonedStyle['root'] = clonedStyle['root'] || {};
+                const extraTextStyles = (this.getTextStyle(clonedStyle) || {}) as any ;
+                clonedStyle['text'] = Object.assign({}, extraTextStyles, clonedStyle['text'] || {});
+                Object.keys(clonedStyle).forEach((k) => {
+                    const isValObject = isObject(clonedStyle[k]);
+                    if (!extraTextStyles[k] && (!isValObject || (k === 'shadowOffset'))) {
+                      clonedStyle['root'][k] = clonedStyle['root'][k] || clonedStyle[k]
+                    }
+                  });
             }
             if (this !== Theme.BASE && isWebPreviewMode()) {
                 this.checkStyleProperties('', clonedStyle);
@@ -333,12 +406,12 @@ export class Theme {
             this.parent.children.splice(i, 1);
         }
     }
-    
+
     getTextStyle(s: any) {
         if (!s) {
             return {};
         }
-        return {
+        const textStyle = {
             color: s.color,
             fontFamily: s.fontFamily,
             fontSize: s.fontSize,
@@ -360,6 +433,12 @@ export class Theme {
             writingDirection: s.writingDirection,
             userSelect: s.userSelect,
         } as TextStyle;
+        Object.keys(textStyle).forEach((k)=> {
+            if(!(textStyle as any)[k]){
+                delete (textStyle as any)[k];
+            }
+        })
+           return textStyle;
     }
 
     reset(styles?: NamedStyles<any>) {
@@ -372,7 +451,7 @@ export class Theme {
                 });
             });
         } else {
-            this.styleGenerators.forEach(fn => 
+            this.styleGenerators.forEach(fn =>
                 fn(ThemeVariables.INSTANCE, this.addStyle.bind(this)));
         }
         this.notify(ThemeEvent.CHANGE);
@@ -437,19 +516,19 @@ export const ThemeConsumer = ThemeContext.Consumer;
             }
         } as any);
     };
-    addDisplayStyles('all', 
+    addDisplayStyles('all',
         getBreakPointValue('MIN_EXTRA_SMALL_DEVICE'),
         getBreakPointValue('MAX_LARGE_DEVICE'));
-    addDisplayStyles('xs', 
+    addDisplayStyles('xs',
         getBreakPointValue('MIN_EXTRA_SMALL_DEVICE'),
         getBreakPointValue('MAX_EXTRA_SMALL_DEVICE'));
-    addDisplayStyles('sm',   
+    addDisplayStyles('sm',
         getBreakPointValue('MIN_SMALL_DEVICE'),
         getBreakPointValue('MAX_SMALL_DEVICE'));
-    addDisplayStyles('md',   
+    addDisplayStyles('md',
         getBreakPointValue('MIN_MEDIUM_DEVICE'),
         getBreakPointValue('MAX_MEDIUM_DEVICE'));
-    addDisplayStyles('lg',   
+    addDisplayStyles('lg',
         getBreakPointValue('MIN_LARGE_DEVICE'),
         getBreakPointValue('MAX_LARGE_DEVICE'));
 
@@ -487,4 +566,3 @@ export const ThemeConsumer = ThemeContext.Consumer;
     addStyle('hide-context-menu', '', { text: { userSelect: 'none' }});
     addStyle('hide-context-menu-input', '', { text: { userSelect: 'none' }});
 });
-

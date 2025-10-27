@@ -132,7 +132,7 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
               <Tappable onTap={this.onTabSelection.bind(this, i)} key={header.key} styles={{flex: 1}} disableTouchEffect={this.state.props.disabletoucheffect}>
                 <View onLayout={this.setHeaderPositon.bind(this, i)} style={[
                   this.styles.header,
-                  isSelected ? this.styles.activeHeader : null]}>
+                  isSelected ? this.styles.activeHeader.root : null]}>
                   {
                     createSkeleton(this.theme, { root: { borderRadius: 4 }} as WmSkeletonStyles, {
                       ...this.styles.root,
@@ -157,23 +157,10 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
     )
   }
 
-  renderWidget(props: WmTabheaderProps) {
-    this.setPosition();
+  public renderHeaderContent(props: WmTabheaderProps){
     const arrowIndicator = this.styles.arrowIndicator as any;
     return (
-      <View 
-        style={{overflow: 'hidden', zIndex: 16}}
-        {...this.getTestProps('tabheader')}
-        onLayout={(event) => this.handleLayout(event)}
-      >
-      <ScrollView
-        ref={this.listRef}
-        horizontal={true}
-        onLayout={this.setHeaderPanelPositon.bind(this)}
-        showsHorizontalScrollIndicator={false}
-        scrollEnabled={props.shouldScroll}
-      >
-      <View>
+    <View>
         <View style={this.styles.root}>
           {this._background}
           {props.data.map((header ,i) => {
@@ -194,15 +181,15 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
                   <View style={[
                     this.styles.header,
                     {flexGrow: undefined},
-                    isSelected ? this.styles.activeHeader : null]}>
+                    isSelected ? this.styles.activeHeader.root : null]}>
                     <WmIcon
                       id={this.getTestId(i + 'icon')}
-                      styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeaderIcon : null)}
+                      styles={this.theme.mergeStyle({}, this.styles.headerIcon, isSelected ? this.styles.activeHeader.icon : null)}
                       iconclass={header.icon}
                       accessible={false}></WmIcon>
                     <Text numberOfLines={1} style={[
                       this.styles.headerText,
-                      isSelected ? this.styles.activeHeaderText : null]}
+                      isSelected ? this.styles.activeHeader.text : null]}
                       {...this.getTestPropsForLabel(i + '_title')}
                     >{header.title}</Text>
                   </View>
@@ -239,8 +226,31 @@ export default class WmTabheader extends BaseComponent<WmTabheaderProps, WmTabhe
             <View style={this.styles.arrowIndicatorDot}></View>
           </Animated.View>
         </Animated.View>
-        </View>
-      </ScrollView>
+        </View>)
+  }
+  
+  renderWidget(props: WmTabheaderProps) {
+    this.setPosition();
+    return (
+      <View 
+        style={{overflow: 'hidden', zIndex: 16}}
+        {...this.getTestProps('tabheader')}
+        onLayout={(event) => this.handleLayout(event)}
+      >
+     {props.shouldScroll ?
+      <ScrollView
+        ref={this.listRef}
+        horizontal={true}
+        onLayout={this.setHeaderPanelPositon.bind(this)}
+        contentContainerStyle={{width: '100%'}}
+        showsHorizontalScrollIndicator={false}
+        scrollEnabled={props.shouldScroll}
+      >
+     {this.renderHeaderContent(props)}
+      </ScrollView> : <>
+      {this.renderHeaderContent(props)}
+      </>
+      }
       </View>
     );
   }

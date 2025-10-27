@@ -52,6 +52,7 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
   renderWidget(props: WmTextProps) {
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
+    const foundationStyle = this.theme.getStyle('app-input');
     opts[valueExpr] = this.state.textValue?.toString() || '';
     return (
         <WMTextInput
@@ -72,7 +73,11 @@ export default class WmText extends BaseInputComponent<WmTextProps, WmTextState,
           activeFloatingLabelStyle={this.styles.activeFloatingLabel}
           placeholderTextColor={this.styles.placeholderText.color as any}
           isInputFocused={ this.state.isInputFocused }
-          style={[this.styles.root, this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isInputFocused ? this.styles.focused : {}]}
+          style={[this.theme.mergeStyle(this.styles.root, foundationStyle?.root), 
+            this.theme.mergeStyle(this.styles.text, foundationStyle?.text), 
+            this.state.isValid ? {} : this.theme.mergeStyle(this.styles.invalid, foundationStyle?.invalid), 
+            this.state.isInputFocused ? this.theme.mergeStyle(this.styles.focused, foundationStyle?.focused) : {},
+            this.state.props.disabled ? this.theme.mergeStyle(foundationStyle?.disabled) : {}]}
           keyboardType={this.state.keyboardType}
           autoComplete={props.autocomplete === "true" ? "username" : props.autocomplete === "false" ? "off" : props.autocomplete}
           autoFocus={props.autofocus}

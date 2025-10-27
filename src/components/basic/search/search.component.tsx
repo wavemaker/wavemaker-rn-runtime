@@ -69,7 +69,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
       const position = {} as DropdownPosition;
       this.view.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
         position.left = px;
-        position.top = py + height;
+        Platform.OS === 'ios' ? position.top = py : position.top = py+ height;
         this.updateState({ position: position } as WmSearchState, resolve);
       });
     });
@@ -306,6 +306,7 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
     let opts: any = {};
     const valueExpr = Platform.OS === 'web' ? 'value' : 'defaultValue';
     opts[valueExpr] = this.state.props.query || '';
+    const foundationStyle = this.theme.getStyle('app-input');
     return(
       /*
        * onLayout function is required.
@@ -313,7 +314,12 @@ export default class WmSearch extends BaseDatasetComponent<WmSearchProps, WmSear
        */
       <View style={this.styles.root} ref={ref => {this.view = ref as View}} onLayout={() => {}}>
         <View style={this.styles.searchInputWrapper}>
-          <TextInput style={[this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isOpened && this.state.dataItems?.length > 0? this.styles.focusedText : null]}
+          <TextInput style={ this.state.props.type === 'autocomplete' ? 
+            [foundationStyle?.root ?? {}, this.theme.mergeStyle(this.styles.text, foundationStyle?.text),
+            this.state.isValid ? {} : this.theme.mergeStyle(this.styles.invalid, foundationStyle?.invalid),
+            this.isFocused ? this.theme.mergeStyle(this.styles.focusedText, foundationStyle?.focused) : {},
+            this.state.props.disabled ? this.theme.mergeStyle(foundationStyle?.disabled) : {}] : 
+            [this.styles.text, this.state.isValid ? {} : this.styles.invalid, this.state.isOpened && this.state.dataItems?.length > 0? this.styles.focusedText : null]}
            ref={ref => {this.widgetRef = ref;
              // @ts-ignore
              if (ref && !isNull(ref.selectionStart) && !isNull(ref.selectionEnd)) {

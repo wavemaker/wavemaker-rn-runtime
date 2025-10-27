@@ -3,6 +3,7 @@ import { BaseStyles, defineStyles } from '@wavemaker/app-rn-runtime/core/base.co
 import { WmAnchorStyles } from '@wavemaker/app-rn-runtime/components/basic/anchor/anchor.styles';
 import { WmContainerStyles } from '@wavemaker/app-rn-runtime/components/container/container.styles';
 import { Dimensions } from 'react-native';
+import { WmIconStyles } from '../../basic/icon/icon.styles';
 
 export type WmPopoverStyles = BaseStyles & {
     link: WmAnchorStyles,
@@ -10,7 +11,8 @@ export type WmPopoverStyles = BaseStyles & {
     popoverContent : WmContainerStyles,
     modal: AllStyle,
     modalContent: AllStyle,
-    title: AllStyle
+    title: AllStyle,
+    draghandleicon:WmIconStyles
 };
 
 export const DEFAULT_CLASS = 'app-popover';
@@ -50,7 +52,18 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         modalContent: {
             borderTopLeftRadius: 28,
             borderTopRightRadius: 28
-        }
+        },
+        draghandleicon : {
+            root: {alignSelf:'center',},
+            text: {
+            fontSize: 32
+            },
+            icon : {
+                color: 'var(--wm-color-surface-variant-black)',
+                padding: 0,
+                opacity:0.4
+            }
+            } as WmIconStyles,
     });
 
     addStyle(DEFAULT_CLASS, '', defaultStyles);

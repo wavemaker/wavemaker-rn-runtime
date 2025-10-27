@@ -1,9 +1,10 @@
-import { assign, isUndefined, isNil } from 'lodash';
+import { assign, isUndefined, isNil, isObject, isArray, isString, isEqual } from 'lodash';
 import React, { ReactNode } from 'react';
-import { AccessibilityInfo, LayoutChangeEvent, Platform, StyleSheet, TextStyle, View, ViewStyle, InteractionManager } from 'react-native';
+import { AccessibilityInfo, Dimensions, InteractionManager, LayoutChangeEvent, LayoutRectangle, Platform, StyleSheet, TextStyle, View, ViewStyle } from 'react-native';
 import { AnimatableProps } from 'react-native-animatable';
 import * as Animatable from 'react-native-animatable';
 import ThemeVariables from '@wavemaker/app-rn-runtime/styles/theme.variables';
+import { CalcExpression } from '@wavemaker/app-rn-runtime/styles/calc';
 import { StyleProps, getStyleName } from '@wavemaker/app-rn-runtime/styles/style-props';
 import { BackgroundComponent } from '@wavemaker/app-rn-runtime/styles/background.component';
 import injector from '@wavemaker/app-rn-runtime/core/injector';
@@ -80,6 +81,7 @@ export class BaseProps extends StyleProps {
 }
 
 export abstract class BaseComponent<T extends BaseProps, S extends BaseComponentState<T>, L extends BaseStyles> extends React.Component<T, S> {
+    private calcStyles: L = null as any;
     public styles: L = null as any;
     public hideMode = HideMode.ADD_TO_DOM;
     private propertyProvider: PropsProvider<T>;
@@ -108,6 +110,17 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         x: 0, y:0, width:0, height:0, px:0, py:0
     };
     public baseView: any = View;
+    private vw = Dimensions.get('window').width;
+    private vh = Dimensions.get('window').height;
+    private hasStyleCalcExpression = false;
+    private dimensions: {
+        vw?: number,
+        vh?: number,
+        pw?: number,
+        ph?: number,
+        w?: number,
+        h?: number
+    } = {} as any;
     protected childComponentStyleKeys: string[] = [];
 
     constructor(markupProps: T, public defaultClass: string, defaultProps?: T, defaultState?: S) {
@@ -173,6 +186,11 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.updateStateTimeouts.forEach(v => clearTimeout(v));
         });
         this.cleanup.push(this.theme.subscribe(ThemeEvent.CHANGE, () => {
+            this.vw = Dimensions.get('window').width;
+            this.vh = Dimensions.get('window').height;
+            if (this.reestimateDimensions) {
+                this.reestimateDimensions();
+            }
             this.forceUpdate();
         }));
         this.cleanup.push(AccessibilityInfo.addEventListener('screenReaderChanged',
@@ -185,6 +203,23 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
         this.cleanup.push(() => {
             this.destroyParentListeners();
         });
+    }
+    
+    public reestimateDimensions() {
+        const d = {
+            vw: this.vw,
+            vh: this.vh,
+            pw: this.parent?.layout?.width,
+            ph: this.parent?.layout?.height,
+            w: this.layout?.width,
+            h: this.layout?.height
+        }
+        if (!isEqual(this.dimensions, d)) {
+            this.dimensions = d;
+            this.notify('layoutChange', []);
+            return true;
+        }
+        return false;
     }
 
     public subscribe(event: string, fn: Function) {
@@ -358,9 +393,16 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             this.parent = parent;
             this.parent.componentNode.add(this.componentNode);
             this.notifier.setParent(parent.notifier);
+            this.destroyParentListeners();
             this.parentListenerDestroyers = [
                 this.parent.subscribe('forceUpdate', () => {
                     this.forceUpdate();
+                }),
+                this.parent.subscribe('layoutChange', () => {
+                    if (this.reestimateDimensions && this.reestimateDimensions() && this.hasStyleCalcExpression) {
+                        this.forceUpdate();
+                    }
+                    return false;
                 }),
                 this.parent.subscribe('destroy', () => {
                     this.destroyParentListeners();
@@ -389,12 +431,20 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 const updateLayout = ()=>{
                     componentRef.measure((x = 0, y = 0, width = 0, height = 0, px = 0, py = 0) => {
                         this.layout = { x, y, width, height, px, py }
+                        if (this.reestimateDimensions && this.reestimateDimensions() && this.hasStyleCalcExpression) {
+                            this.forceUpdate();
+                        }
                     }); 
                 }
                 updateLayout();
                 InteractionManager.runAfterInteractions(() => {
                     requestAnimationFrame(updateLayout); 
                 })
+            }
+        } else {
+            this.layout = event.nativeEvent?.layout as any;
+            if (this.reestimateDimensions && this.reestimateDimensions() && this.hasStyleCalcExpression) {
+                this.forceUpdate();
             }
         }
     }
@@ -557,6 +607,29 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
        }
        return undefined;
     }
+
+    private evaluateCalcStyles(styles: any) {
+        const result = {} as any;
+        Object.keys(styles).forEach(k => {
+            const value = styles[k];
+            if (isArray(value)) {
+                result[k] = value.map((v, i) => {
+                    return this.evaluateCalcStyles(v);
+                });
+            } else if (isObject(value)) {
+                result[k] = this.evaluateCalcStyles(value);
+            } else if (isString(value) && value.startsWith('calc(')) {
+                result[k] = new CalcExpression(value, {
+                    vw: this.dimensions.vw || 0,
+                    vh: this.dimensions.vh || 0,
+                    p: (k === 'height' ? this.dimensions.ph : this.dimensions.pw) || 0,
+                }).evaluate();
+            } else {
+                result[k] = value;
+            }
+        });
+        return result;
+    }
  
     private getDependenciesFromContext(fn: () => ReactNode) {
         return (
@@ -605,7 +678,7 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
             }
             this.isFixed = false;
             const classname = this.getStyleClassName();
-            this.styles =  this.theme.mergeStyle(
+            this.calcStyles =  this.theme.mergeStyle(
                 this.getDefaultStyles(),
                 {text: this.theme.getStyle('app-' + selectedLocale)},
                 {text: this.theme.getStyle(this.defaultClass + '-' + selectedLocale)},
@@ -614,14 +687,14 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                 classname && this.theme.getStyle(classname),
                 this.isRTL && classname ? this.theme.getStyle(classname + '-rtl') : null,
                 props.showindevice && this.theme.getStyle('d-all-none ' + props.showindevice.map(d => `d-${d}-flex`).join(' ')),
-                this.theme.cleanseStyleProperties(this.props.styles),
-                this.theme.cleanseStyleProperties({
-                    root: this.styleOverrides,
-                    text: this.styleOverrides
-                }));
-            
-            // Merge child component styles from custom classes
-            if (classname && this.childComponentStyleKeys.length > 0) {
+                this.props.styles,
+                {
+                        root: this.styleOverrides,
+                        text: this.styleOverrides
+                }
+            );
+             // Merge child component styles from custom classes
+             if (classname && this.childComponentStyleKeys.length > 0) {
                 const customStyles = this.theme.getStyle(classname);
                 this.childComponentStyleKeys.forEach(key => {
                     if (customStyles && this.styles && this.styles[key]) {
@@ -629,6 +702,10 @@ export abstract class BaseComponent<T extends BaseProps, S extends BaseComponent
                     }
                 });
             }
+            
+            this.hasStyleCalcExpression = false;
+
+            this.styles = this.evaluateCalcStyles(this.calcStyles);
             if (this.styles.root.hasOwnProperty('_background')) {
                 delete this.styles.root.backgroundColor;
             }

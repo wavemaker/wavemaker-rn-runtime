@@ -70,7 +70,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const badge = showBadge && widgetProps.badgevalue != undefined ? (
       <Badge style={[
         this.styles.badge,
-        isExpanded ? this.styles.activeBadge: null,
+        isExpanded ? this.styles.activeHeader.badge: null,
         this.styles[widgetProps.badgetype || 'default']]}
         {...this.getTestProps('badge'+index)}>
         {widgetProps.badgevalue}
@@ -85,7 +85,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
             {showIcon ? (
               <WmIcon
               id={this.getTestId('icon' + index)}
-              styles={this.theme.mergeStyle({}, this.styles.icon, isExpanded ? this.styles.activeIcon : null)}
+              styles={this.theme.mergeStyle({}, this.styles.icon, isExpanded ? this.styles.activeHeader.icon : null)}
               name={'expand_collapse_icon'}
               iconclass={iconclass}></WmIcon>): null}
           </View>);
@@ -98,7 +98,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
     const subheading = item.props.subheading ?? item.props.description;
     return item.props.show != false ? (
       <View 
-        style={this.styles.pane} 
+        style={this.styles.pane || null} 
         key={item.props.title}
         onLayout={(event) => this.handleLayout(event)}
       >
@@ -107,7 +107,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
               style={[this.styles.header,
                 index === 0 ? this.styles.firstHeader: null,
                 index === accordionpanes.length - 1 && !isExpanded ? this.styles.lastHeader: null,
-                isExpanded ? this.styles.activeHeader : {}]}
+                isExpanded ? this.styles.activeHeader.root : {}]}
                 onPress={this.toggle.bind(this, index + 1, !isExpanded)}>
           {this.expandCollapseIcon(item, index, false, showIconOnLeft, true, isExpanded)}
           {item.props.iconclass ? <WmIcon id={this.getTestId('icon')} styles={titleIconStyles} name={item.props.name + '_icon'} iconclass={item.props.iconclass}></WmIcon>: null}
@@ -118,7 +118,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                styles={{
                 root: [
                   this.styles.text,
-                  this.styles.heading
+                  this.styles.header
                 ]
               }} 
               caption={isDefined(item.props.title) ? item.props.title : 'Title'}/> :  
@@ -126,7 +126,7 @@ export default class WmAccordion extends BaseComponent<WmAccordionProps, WmAccor
                 style={[
                   this.styles.text,
                   this.styles.heading,
-                  isExpanded ? this.styles.activeHeaderTitle : {}]}
+                  isExpanded ? this.styles.activeHeader.text : {}]}
                   {...this.getTestPropsForAction(`header${index}_title`)}
                   accessibilityRole='header'>
                     {isDefined(item.props.title) ? item.props.title : 'Title'}

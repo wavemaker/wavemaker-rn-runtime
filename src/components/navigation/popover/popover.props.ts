@@ -24,5 +24,6 @@ export default class WmPopoverProps extends BaseProps {
   accessible?: boolean = true;
   accessibilitylabel?: string = undefined;
   hint?: string = undefined;
+  draghandle?: boolean = false;
   accessibilityrole?: AccessibilityRole = 'button';
 }

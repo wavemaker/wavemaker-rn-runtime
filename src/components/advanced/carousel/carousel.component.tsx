@@ -229,11 +229,10 @@ export default class WmCarousel extends BaseComponent<WmCarouselProps, WmCarouse
     return (<View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
         <View style={[this.styles.dotsWrapperStyle, { width: wrapperWidth }]}>
           <Animated.View
-            style={{
+            style={[{
               flexDirection: this.isRTL ? 'row-reverse' : 'row',
-              alignItems: 'center',
               transform: [{ translateX: this.wrapperPosition }],
-            }}
+            }, this.styles.dotsContainerStyle]}
           >
             {data.map((item: any, index: number) => {
               const isActive = index === activeIndex;
