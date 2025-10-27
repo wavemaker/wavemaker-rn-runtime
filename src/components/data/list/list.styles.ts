@@ -99,8 +99,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
             marginBottom: 16,
         },
         item: {
-            ...BASE_THEME.getStyle('elevate1').root,
-            shadowColor: 'rgba(0, 0, 0, 0.3)',
+            boxShadow: '1px 1px 1px rgba(0, 0, 0, 0.08)',
             paddingLeft: 4,
             paddingRight: 4,
             flex: 1,

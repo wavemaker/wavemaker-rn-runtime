@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, SectionList, Text, View, FlatList, LayoutChangeEvent, TouchableOpacity, Dimensions } from 'react-native';
 import { isArray, isEmpty, isNil, isNumber, round } from 'lodash-es';
 import { BaseComponent, BaseComponentState } from '@wavemaker/app-rn-runtime/core/base.component';
 import { getGroupedData, getNumberOfEmptyObjects, isDefined } from "@wavemaker/app-rn-runtime/core/utils";
@@ -39,20 +39,24 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
   private flatListRefs: any = {};
   private selectedItems = [] as any[];
   private scrolledToEnd: boolean = false;
-
+  private screenWidth = Dimensions.get("window").width;
 
  
 
   constructor(props: WmListProps) {
+
     super(props, DEFAULT_CLASS, new WmListProps(), new WmListState());
     this.updateState({
       maxRecordsToShow: this.state.props.pagesize
     } as WmListState);
 
     // Subscribe to viewport changes to re-render when screen size changes
-    this.cleanup.push(_viewPort.subscribe(ViewPortEvents.SIZE_CHANGE, () => {
+    this.cleanup.push(_viewPort.subscribe(ViewPortEvents.SIZE_CHANGE, (newDim: { width: number}) => {
+      this.screenWidth = newDim.width;
       this.forceUpdate();
     }));
+
+    
   }
 
   private isSelected($item: any) {
@@ -109,7 +113,7 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
           props: { selecteditem: selectedItem },
           selectedindex: $index
         } as WmListState, () => {
-          if (props.direction === 'horizontal') {
+          if (props.direction === 'horizontal' && props.horizontalscrolltoitem) {
             this.scrollToItem(groupKey, $index as number);
           }
           this.invokeEventCallback(eventName, [this.proxy, $item]);
@@ -448,9 +452,25 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       ...this.styles.skeleton.root
     } : this.styles.item as any
 
-    let containerStyle = cols ? { width: round(100 / cols) + "%", flex: null } : {};
-    if(cols > 1 ) {
-      containerStyle = {flex: 1} as any; 
+    let containerStyle={};
+    const columnGap: any = this.styles?.columnWrapper?.gap ?? 0;
+
+    if(!cols || isNaN(cols) || cols <= 0){
+      containerStyle = {};
+    }
+    else if (columnGap > 0) {
+      const totalGap = columnGap * (cols - 1);
+      const availableWidth = this.screenWidth - totalGap;
+      if (availableWidth <= 0) {
+        containerStyle = { width: "100%" };
+      } else {
+        containerStyle = {
+         width: `${Math.round((availableWidth / (cols * this.screenWidth)) * 100)}%`
+        };
+      }
+    } 
+    else {
+      containerStyle = cols? { width: Math.round(100 / cols) + "%", flex: null }: {};
     }
 
     return (index < this.state.maxRecordsToShow || (isHorizontal && this.state.props.horizontalondemandenabled === false)) ?
@@ -589,7 +609,6 @@ export default class WmList extends BaseComponent<WmListProps, WmListState, WmLi
       this.flatListRefs[refKey].scrollToIndex({
         index: itemIndex,
         animated: true,
-        viewPosition: 0.5,
       });
     }
   };
