@@ -72,7 +72,7 @@ export default class WmWizard extends BaseComponent<WmWizardProps, WmWizardState
   }
 
   showActiveStep() {
-    this.steps[this.state.currentStep]?.setActive();
+    this.steps[this.state.currentStep]?.setActive(this.state.currentStep);
   }
 
   updateCurrentStep(index: number, isDone = false) {

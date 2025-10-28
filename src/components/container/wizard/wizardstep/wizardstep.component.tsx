@@ -52,12 +52,12 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
     }
   }
 
-  setActive() {
+  setActive(index: number) {
     this.updateState({
       active: true
     } as WmWizardstepState, () => {
       if(this.state.showContent) {
-        this.invokeEventCallback('onLoad', [this]);
+        this.invokeEventCallback('onLoad', [this, index]);
       }
     });
   }
@@ -86,7 +86,7 @@ export default class WmWizardstep extends BaseComponent<WmWizardstepProps, WmWiz
   renderWidget(props: WmWizardstepProps) {
     if(!this.state.showContent && this.isVisible()){
       this.updateState({showContent: true} as WmWizardstepState, ()=>{
-        this.invokeEventCallback('onLoad', [this]);
+        this.invokeEventCallback('onLoad', [this, props.index]);
       });
     }
     return this.state.showContent && (
