@@ -8,9 +8,11 @@ export type WmTabbarStyles = BaseStyles & {
     moreMenu: AllStyle,
     moreMenuRow: AllStyle,
     tabItem: AllStyle,
-    activeTabItem: BaseStyles,
+    activeTabItem: AllStyle,
     tabIcon: WmIconStyles,
+    activeTabIcon: WmIconStyles,
     tabLabel: AllStyle,
+    activeTabLabel: AllStyle,
     centerHubItem: AllStyle,
     centerHubIcon: WmIconStyles,
     centerHubLabel: AllStyle
@@ -63,23 +65,12 @@ export const DEFAULT_CLASS = 'app-tabbar';
             marginBottom: 16
         },
         activeTabItem: {
-            root: {
-                opacity: 1,
-                height: 32,
-                width: 64,
-                borderRadius: 50,
-                marginBottom: -2,
-                backgroundColor: themeVariables.tabActiveBackgroundColor
-            },
-            text: {
-                fontWeight: '700',
-                fontSize: 12,
-                fontFamily: themeVariables.baseFont,
-                color: themeVariables.tabLabelTextColor,
-            },
-            icon: {
-                    color: themeVariables.tabActiveHeaderIconColor
-            }
+            opacity: 1,
+            height: 32,
+            width: 64,
+            borderRadius: 50,
+            marginBottom: -2,
+            backgroundColor: themeVariables.tabActiveBackgroundColor
         },
         tabIcon: {
             root: {
@@ -93,6 +84,13 @@ export const DEFAULT_CLASS = 'app-tabbar';
                 color:  themeVariables.tabbarIconColor
             }
         } as WmIconStyles,
+        activeTabIcon: {
+            root: {
+            },
+            icon:{
+                color: themeVariables.tabActiveIconColor,
+            }
+        } as WmIconStyles,
         tabLabel: {
             fontSize: 12,
             marginTop: 4,
@@ -100,6 +98,12 @@ export const DEFAULT_CLASS = 'app-tabbar';
             fontFamily: themeVariables.baseFont,
             color:  themeVariables.tabbarTextColor,
             textAlign: 'center',
+        },
+        activeTabLabel: {
+            fontWeight: '700',
+            fontSize: 12,
+            fontFamily: themeVariables.baseFont,
+            color:  themeVariables.tabLabelTextColor,
         },
         centerHubItem: {},
         centerHubIcon: {} as WmIconStyles, 
@@ -120,10 +124,8 @@ export const DEFAULT_CLASS = 'app-tabbar';
             justifyContent: 'space-between' 
         },
         activeTabItem: {
-            root: {
-                borderTopWidth: 4,
-                borderTopColor: themeVariables.tabbarIconColor
-            }
+            borderTopWidth: 4,
+            borderTopColor: themeVariables.tabbarIconColor
         },
         tabIcon: {
             root: {
