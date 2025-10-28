@@ -202,9 +202,7 @@ BASE_THEME.registerStyle((themeVariables, addStyle) => {
         zIndex: 10,
         height: 2
       },
-      numberTextStepConnector: {
-       display: 'none'
-      },
+      numberTextStepConnector: {},
       activeStepCounter: {
         color: themeVariables.wizardActiveStepColor
       },
