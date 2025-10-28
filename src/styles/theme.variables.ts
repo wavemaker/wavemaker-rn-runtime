@@ -53,12 +53,14 @@ export default class ThemeVariables {
     maxModalHeight = Dimensions.get('window').height - 64 - (StatusBar.currentHeight || 0);
     maxWidth = Dimensions.get("window").width; 
     skeletonBackgroundColor = "#F4F5F8";
+    overlayColor = 'rgba(128, 128, 128, 1)';
     
      //rippleColor
      rippleColor = this.transparent
 
     // page
     pageContentBgColor = this.defaultColorE;
+    leftPanelOverlayColor = this.overlayColor;
 
     // common widget color
     widgetHeaderBgColor = this.defaultColorF;

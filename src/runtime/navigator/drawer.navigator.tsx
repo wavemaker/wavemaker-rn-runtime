@@ -27,6 +27,7 @@ class AppDrawerNavigator extends React.Component<AppDrawerNavigatorProps, any, a
         return {
           drawerType: this.props.type,
           headerShown: false,
+          overlayColor: ThemeVariables.INSTANCE.leftPanelOverlayColor,
           gestureHandlerProps: { enabled: !this.props.hide },
           drawerStyle: { backgroundColor:  ThemeVariables.INSTANCE.pageContentBgColor, ...widthStyle}}
       }}>
