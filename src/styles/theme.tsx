@@ -275,6 +275,9 @@ export class Theme {
                 }
               }        
         }
+        if (!isNil(style['color']) && style['color'] === 'transparent') {
+            style['color'] = 'rgba(255, 255, 255, 0)'
+        }
         let screenWidth = Dimensions.get('window').width;
         let screenHeight = Dimensions.get('window').height;
         Object.keys(style).forEach((k, i) => {
