@@ -53,11 +53,21 @@ export default class WmPanel extends BaseComponent<WmPanelProps, WmPanelState, W
     this.invokeEventCallback(eventName, [null, this.proxy]);
   }
 
+  private getExpandCollapseIconClass(isExpanded: boolean, expandedIconClass?: string, collapsedIconClass?: string): string {
+    const expandedIcon = expandedIconClass || 'wi wi-chevron-up';
+    const collapsedIcon = collapsedIconClass || 'wi wi-chevron-down';
+    return isExpanded ? expandedIcon : collapsedIcon;
+  }
+
   expandCollapseIcon(isExpanded: boolean) {
     const widgetProps = this.state.props;
     //@ts-ignore
     const badge = widgetProps.badgevalue != undefined ? (<Badge style={[this.styles.badge, this.styles[widgetProps.badgetype || 'default']]} {...this.getTestProps('badge')}>{widgetProps.badgevalue}</Badge>): null;
-    const iconclass = isExpanded ? 'wi wi-chevron-up' : 'wi wi-chevron-down';
+    
+    const expandedIconOverride = widgetProps.expandediconclass;
+    const collapsedIconOverride = widgetProps.collapsediconclass;
+    const iconclass = this.getExpandCollapseIconClass(isExpanded, expandedIconOverride, collapsedIconOverride);
+    
     const expandCollapseIcon = widgetProps.collapsible ? (<WmIcon id={this.getTestId('collapseicon')} name={'expand_collapse_icon'} styles={this.styles.toggleIcon} iconclass={iconclass}></WmIcon>) : null;
     return (<View style={{flexDirection: 'row', alignItems: 'center'}}>{badge}{expandCollapseIcon}</View>);
   }
