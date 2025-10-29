@@ -136,7 +136,7 @@ export class Tappable extends React.Component<TappableProps, any> {
                 accessibilityLabel: this.props.testID,
                 testID: this.props.testID
             }: {
-                // accessible: false,
+                accessible: false,
                 testID: this.props.testID
             },
             ...this.props.accessibilityProps,

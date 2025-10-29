@@ -60,7 +60,7 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
       <TouchableOpacity style={[
         itemStyle,
          item.selected ? this.styles.selectedItem : null]}
-         onPress={this.onPress.bind(this, item)} key={item.key} {...this.getTestPropsForAction("radio"+index)} {...accessibilityProps}>
+         onPress={this.onPress.bind(this, item)} key={item.key} {...accessibilityProps} {...this.getTestPropsForAction("radio"+index)}>
           <WmIcon id={this.getTestId('radiobutton' + index)} iconclass="wi wi-fiber-manual-record" styles={item.selected ? this.styles.checkedRadio : this.styles.uncheckedRadio} disabled={this.state.props.readonly || this.state.props.disabled} accessible={false}></WmIcon>
           {!isEmpty(this.state.template) && this.props.renderitempartial ?
           this.props.renderitempartial(item.dataObject, index, this.state.template) : <Text style={[this.styles.radioLabel, item.selected ? this.styles.selectedLabel : null]} {...this.getTestPropsForLabel('caption'+index)}>{displayText}</Text>}
@@ -121,11 +121,12 @@ export default class WmRadioset extends BaseDatasetComponent<WmRadiosetProps, Wm
   renderWidget(props: WmRadiosetProps) {
     const items = this.state.dataItems;
     return props.radiosetscroll ? (
-      <ScrollView style={this.styles.root} onLayout={(event) => this.handleLayout(event)}>
+      <ScrollView style={this.styles.root} onLayout={(event) => this.handleLayout(event)} accessible={false}>
         <ScrollView horizontal={true}
           style={this.isRTL && Platform.OS == 'android' ? { transform: [{ scaleX: -1 }] } : {}}
           contentContainerStyle={this.isRTL && Platform.OS == 'android' ? { transform: [{ scaleX: -1 }] } : {}}
           {...getAccessibilityProps(AccessibilityWidgetType.RADIOSET, this.props)}
+          accessible={false}
         >
           {props.groupby && this.renderGroupby()}
           {!props.groupby && this.renderRadioButtons(items)}
