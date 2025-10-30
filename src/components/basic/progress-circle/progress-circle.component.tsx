@@ -25,11 +25,11 @@ export default class WmProgressCircle extends BaseComponent<WmProgressCircleProp
     const height = e.nativeEvent.layout.height;
     let radius = this.state.radius;
     if (!width) {
-      radius = height;
+      radius = Math.floor(height);
     } else if (!height) {
-      radius = width;
+      radius = Math.floor(width);
     } else {
-      radius = Math.min(width, height);
+      radius = Math.floor(Math.min(width, height));
     }
     
     this.handleLayout(e)
